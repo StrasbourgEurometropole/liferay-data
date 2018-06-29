@@ -13,11 +13,25 @@
 	<div class="wi-wrapper">
         <div id="districts-configuration">
             <h1>Mon quartier</h1>
-            <p>
-                L'adresse renseign&eacute;e dans votre profil ne correspond pas &agrave; un quartier de Strasbourg.
-                <br>Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.
-                <br>
-            </p>
+            <c:if test="${empty dc.address}">
+            		<p class="no-interests">${dc.getNoAddressText()}</p><br />
+					<div align="center">
+						<a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
+							<span class="flexbox">
+								<span class="btn-text"><liferay-ui:message key="modify-account" /></span>
+								<span class="btn-arrow"></span>
+							</span>
+						</a>
+					</div>
+	                <p style="margin-top: 40px">Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.</p>
+            </c:if>
+            <c:if test="${not empty dc.address}">
+	            <p>
+	                L'adresse renseign&eacute;e dans votre profil ne correspond pas &agrave; un quartier de Strasbourg.
+	                <br>Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.
+	                <br>
+	            </p>
+	        </c:if>
             <ul style="list-style: disc; margin-top: 20px;">
                 <li><a href="${homeURL}mon-quartier?district=SQ_01">Centre - R&eacute;publique</a></li>
                 <li><a href="${homeURL}mon-quartier?district=SQ_02">Bourse - Esplanade - Krutenau</a></li>
@@ -35,23 +49,6 @@
 </c:if>
 <c:if test="${not empty dc.district}">
 	<div id="district">
-		<c:if test="${empty dc.address}">
-			<div class="wi-wrapper">
-				<section id="districts-configuration">
-					<h1><liferay-ui:message key="my-district" /></h1>
-					<p class="no-interests">${dc.getNoAddressText()}</p><br />
-					<div align="center">
-						<a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
-							<span class="flexbox">
-								<span class="btn-text"><liferay-ui:message key="modify-account" /></span>
-								<span class="btn-arrow"></span>
-							</span>
-						</a>
-					</div>
-				</section>
-			</div>
-		</c:if>
-		<c:if test="${not empty dc.address}">
 		<c:set var="official" value="${dc.official}"/>
 		<c:if test="${not empty official}">
 			<div class="wi-wrapper">
@@ -448,7 +445,6 @@
 			</c:if>
 			<c:if test="${empty dc.events}">
 			<p><liferay-ui:message key="no-event" /></p>
-			</c:if>
 			</c:if>
 	</div>
 </c:if>

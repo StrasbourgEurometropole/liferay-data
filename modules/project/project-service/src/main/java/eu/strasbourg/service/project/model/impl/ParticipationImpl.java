@@ -200,9 +200,9 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		StringBuilder result = new StringBuilder();
 		List<AssetCategory> districts = getDistrictCategories();
 		if (districts==null || districts.isEmpty()){
-			result.append("aucun quartier");
+			result.append("Aucun quartier");
 		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
-			result.append("tous les quartiers");
+			result.append("Tous les quartiers");
 		} else {
 		    result.append(districts.stream()
                     .map(district -> district.getTitle(locale))
