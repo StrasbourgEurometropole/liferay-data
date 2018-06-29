@@ -23,6 +23,20 @@
         margin-bottom: 40px;
     }
 
+    h2{
+        @extend %text-h2;
+        color: #31455d;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    h3{
+        @extend %text-section-title-hp;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
     p, ul {
         font-family: $opensans;
         font-size: 1.8rem;
@@ -33,13 +47,6 @@
 
     ul {
         list-style: disc;
-    }
-
-    h3{
-        @extend %text-section-title-hp;
-        font-size: 2rem;
-        font-weight: 600;
-        margin-bottom: 10px;
     }
 
     .lead{
