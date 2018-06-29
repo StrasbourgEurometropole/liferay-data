@@ -43,20 +43,26 @@ public class AdictServiceImpl implements AdictService {
 		try {
 
 			String adictBaseURL = StrasbourgPropsUtil.getAdictBaseURL();
+			// TODO Angel : NE PAS UBLIE DE L'ENLEVER
+			adictBaseURL = "http://adict-preprod.strasbourg.eu/addok/search?limit=15&q=";
 			JSONObject wsResponse = JSONHelper.readJsonFromURL(adictBaseURL + query);
 			JSONArray features = wsResponse.getJSONArray("features");
 			for (int i = 0; i < features.length(); i++) {
 				JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
 				if (properties.getString("type").equals("housenumber")) {
 					String id = properties.getString("id");
+					String houseNumber = properties.getString("housenumber");
+					Double score = properties.getDouble("score");
+					int zipCode = properties.getInt("code_postal");
 					String label = properties.getString("label");
+					String name = properties.getString("name");
 					String city = properties.getString("city");
 					String x = features.getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates")
 							.getString(0);
 					String y = features.getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates")
 							.getString(1);
 
-					Street street = new Street(id, label, city, x, y);
+					Street street = new Street(id, houseNumber, score, zipCode, label, name, city, x, y);
 					streets.add(street);
 				}
 			}

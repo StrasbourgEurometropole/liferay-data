@@ -1,0 +1,5 @@
+Bundle-Name: validation-address-web
+Bundle-SymbolicName: eu.strasbourg.portlet.validation_address
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.validation_address.constants
+Web-ContextPath: /validation-address

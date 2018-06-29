@@ -1,19 +1,25 @@
 package eu.strasbourg.utils;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -62,6 +68,72 @@ public class JSONHelper {
 			return json;
 		} finally {
 			is.close();
+		}
+	}
+
+	public static void readJsonFromURLPatch(String URL, String address, String zipCode, String city,
+			String basicAuthUser, String basicAuthPassword) throws IOException, JSONException {
+		JSONHelper.allowMethods("PATCH");
+		HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(URL).openConnection();
+		try {
+			httpURLConnection.setDoOutput(true);
+			// httpConn.setDoInput(true);
+			httpURLConnection.setRequestMethod("PATCH");
+			if (basicAuthUser != null && basicAuthPassword != null) {
+				String encoded = Base64.getEncoder()
+						.encodeToString((basicAuthUser + ":" + basicAuthPassword).getBytes(Charset.forName("UTF-8")));
+				httpURLConnection.setRequestProperty("Authorization", "Basic " + encoded);
+			}
+			httpURLConnection.setRequestProperty("Accept", "application/json");
+			httpURLConnection.setRequestProperty("Content-Type", "application/json");
+
+			httpURLConnection.connect();
+
+			String jsonAddress = " {'address':'" + address + "', 'zipcode':'"
+					+ zipCode + "', 'city':'" + city + "'}";
+
+			DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+			wr.write(jsonAddress.getBytes());
+			wr.flush();
+			// byte[] opB = jsonAddress.getBytes("UTF-8");
+			// OutputStream os = httpURLConnection.getOutputStream();
+			// os.write(opB);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((httpURLConnection.getInputStream())));
+			StringBuffer bfr = new StringBuffer();
+			String output = "";
+			while ((output = br.readLine()) != null) {
+				bfr.append(output);
+			}
+			if (httpURLConnection.getResponseCode() >= HttpURLConnection.HTTP_BAD_REQUEST) {
+				/* error from server */
+				throw new IOException();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			httpURLConnection.disconnect();
+		}
+	}
+
+	private static void allowMethods(String... methods) {
+		try {
+			Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+
+			Field modifiersField = Field.class.getDeclaredField("modifiers");
+			modifiersField.setAccessible(true);
+			modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+
+			methodsField.setAccessible(true);
+
+			String[] oldMethods = (String[]) methodsField.get(null);
+			Set<String> methodsSet = new LinkedHashSet<>(Arrays.asList(oldMethods));
+			methodsSet.addAll(Arrays.asList(methods));
+			String[] newMethods = methodsSet.toArray(new String[0]);
+
+			methodsField.set(null/* static field */, newMethods);
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			throw new IllegalStateException(e);
 		}
 	}
 

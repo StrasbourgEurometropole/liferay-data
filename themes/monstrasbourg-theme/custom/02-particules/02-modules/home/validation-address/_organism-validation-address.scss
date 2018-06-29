@@ -1,0 +1,31 @@
+%organism-validation-address{    
+    @extend %molecule-home-section;
+    margin-bottom: 40px;
+
+    p{
+        font-size: 1.8rem;
+        color: #5c5c5c;
+        margin-bottom: 10px;
+    }
+
+    @extend %skin-form-validation;
+    .webform-layout-box{
+        display: flex;
+        justify-content: space-between;
+        
+        @include RWD(mobile){
+            display: block;
+        }
+    }
+    .form-group{
+        margin-bottom: 15px;
+        width: 100%;
+
+        @include RWD(tablet_only){
+            flex: 1;
+            & + .form-group{
+                margin-left: 30px;
+            }
+        }
+    }
+}
