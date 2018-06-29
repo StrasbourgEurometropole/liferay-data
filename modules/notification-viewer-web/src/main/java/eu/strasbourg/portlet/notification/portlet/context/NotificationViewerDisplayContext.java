@@ -71,9 +71,9 @@ public class NotificationViewerDisplayContext {
 			}
 			
 			// Si l'on est dans le menu, il ne faut que les notifications non lues
-			if (!template.equals("notification-viewer-all")) {
-				notifications.removeIf(c -> c.isRead());
-			}
+//			if (!template.equals("notification-viewer-all")) {
+//				notifications.removeIf(c -> c.isRead());
+//			}
 			
 			this.usrNotifStatus = notifications;
 		}
