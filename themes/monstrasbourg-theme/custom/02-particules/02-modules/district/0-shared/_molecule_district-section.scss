@@ -35,6 +35,12 @@
         list-style: disc;
     }
 
+    h2{
+        @extend %text-h2;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
     h3{
         @extend %text-section-title-hp;
         font-size: 2rem;
