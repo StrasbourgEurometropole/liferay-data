@@ -12,7 +12,7 @@
 <c:if test="${empty dc.district}">
 	<div class="wi-wrapper">
         <div id="districts-configuration">
-            <h1>Mon quartier</h1>
+            <h1><liferay-ui:message key="my-district" /></h1>
             <c:if test="${empty dc.address}">
             		<p class="no-interests">${dc.getNoAddressText()}</p><br />
 					<div align="center">
