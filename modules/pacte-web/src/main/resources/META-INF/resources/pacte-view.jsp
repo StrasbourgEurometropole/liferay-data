@@ -31,7 +31,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 pro-signature-pacte">
-				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'ÃÂÃÂÃÂÃÂ©tat dÃÂÃÂÃÂÃÂ©sactivÃÂÃÂÃÂÃÂ© du bouton -->
+				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'etat desactive du bouton -->
 				<a href="#" onclick="callServeResource();" <c:if test="${hasUserSigned}">class="active"</c:if>><!-- class="pro-disabled" -->
 					<div class="pro-svg">
 						<svg xmlns="http://www.w3.org/2000/svg" width="236.125"
@@ -105,24 +105,25 @@ function callServeResource() {
 					on: {
 		                success: function(e) {
 		                	var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
-		                	    e.preventDefault();
-		                	    $(selector).toggleClass('active');
-		                	    if($(selector).hasClass('active')){
-		                	        $('h3',selector).text('<liferay-ui:message key="pacte-adhere" />');
-		                	        $('span',selector).css('display','none');
-		                	        if($(selector).hasClass('pro-disabled')){
-		                	            $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
-		                	            $('span',selector).css('display','block');
-		                	        }
-		                	    }
-		                	    else if($(selector).hasClass('pro-disabled')){
-		                	        $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
-		                	        $('span',selector).css('display','block');
-		                	    }
-		                	    else{
-		                	        $('h3',selector).text('Signer');
-		                	        $('span',selector).css('display','block');
-		                	    }
+	                	    e.preventDefault();
+	                	    $(selector).toggleClass('active');
+	                	    if($(selector).hasClass('active')){
+	                	        $('h3',selector).text('<liferay-ui:message key="pacte-adhere" />');
+	                	        $('span',selector).css('display','none');
+	                	        if($(selector).hasClass('pro-disabled')){
+	                	            $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
+	                	            $('span',selector).css('display','block');
+	                	        }
+	                	    }
+	                	    else if($(selector).hasClass('pro-disabled')){
+	                	        $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
+	                	        $('span',selector).css('display','block');
+	                	    }
+	                	    else{
+	                	        $('h3',selector).text('Signer');
+	                	        $('span',selector).css('display','block');
+	                	    }
+	                	    window.location.replace(document.referrer);
 					 	}
 					 }
 				});
