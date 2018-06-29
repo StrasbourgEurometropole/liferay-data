@@ -38,6 +38,10 @@
         }
     
     }
+
+    h2{
+        @extend %atom-h2-rte
+    }
     #banner h1{
         &:before{  
             background-image: none; 
