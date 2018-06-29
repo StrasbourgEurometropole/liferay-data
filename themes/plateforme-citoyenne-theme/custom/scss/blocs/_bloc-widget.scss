@@ -86,6 +86,22 @@
 					font-size: 1em;
 					margin-right: 10px;
 				}
+				&.pro-comments-right{
+					float: right;
+					width: auto;
+				}
+			}
+
+			.pro-citoyen-petition{
+				float: left;
+				width: 80%;
+				@include ft($f_txt, $s_small, 400, $c_txt, 1.2em);
+			}
+
+			.pro-citoyen-initiative{
+				float: left;
+				width: 55%;
+				@include ft($f_txt, $s_small, 400, $c_txt, 1.2em);
 			}
 
 			.pro-avis {

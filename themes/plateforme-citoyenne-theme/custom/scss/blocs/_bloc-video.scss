@@ -215,6 +215,7 @@
 	float: right;
 	margin: 0;
 	z-index: 100;
+	width: 100%;
 	&:after {
 		content: "\e90a";
 		@include font();

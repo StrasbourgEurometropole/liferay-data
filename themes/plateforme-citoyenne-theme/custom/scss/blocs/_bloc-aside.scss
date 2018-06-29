@@ -9,6 +9,50 @@ aside {
 		width: 100%;
 		height: 200px;
 	}
+
+
+	.pro-progress-bar{
+		padding: 5px 0;
+		.pro-progress-container{
+			position: relative;
+			width: 100%;
+			height: 10px;
+			border-radius: 6px;
+			border: 1px solid $c_dark;
+			background: #504f47;
+			box-shadow: inset 4px 4px 5px 0px rgba(0,0,0,0.35);
+			margin-bottom: 5px;
+			> div{
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				background: $c_main;
+				border-radius: 6px;
+			}
+		}
+		p.pro-txt-progress{
+			@include ft($f_txt, 0.75em, 700, $c_white, normal);
+			margin-bottom: 15px;
+			text-align: left;
+			span{
+				color: $c_rouge;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+
+	.pro-wrapper-links-petition{
+		> * {
+			margin-bottom: 10px;
+			&:last-child{
+				margin-bottom: 15px;
+			}
+		}
+	}
+
+
 	.pro-compteur {
 		border-bottom: 1px solid #666666;
 		padding: 25px 40px;

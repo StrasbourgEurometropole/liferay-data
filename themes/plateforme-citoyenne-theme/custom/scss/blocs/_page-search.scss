@@ -294,6 +294,62 @@
 
 				}
 
+
+				.pro-bloc-card-initiative{
+					&:hover, &:focus{
+						transform: none;
+					}
+
+					> figure, .fit-cover {
+						width: 130px !important;
+						@include mobile {
+							height: 150px;
+							width: 100% !important;
+						}
+						& + div {
+							width: calc(100% - 130px);
+							left: 130px;
+							@include mobile {
+								width: 100%;
+								left: 0;
+							}
+						}
+					}
+
+					.pro-footer-initiative{
+						height: 70px;
+						.pro-avis{
+							line-height: 70px;
+							p{
+								line-height: 70px;
+							}
+						}
+						p{
+							line-height: 70px;
+							margin-bottom: 0;
+						}
+					}
+				}
+
+
+				.pro-bloc-card-petition {
+					color: red;
+					&:hover, &:focus {
+						transform: none;
+					}
+					.pro-header-petition{
+						margin-bottom: 5px;
+					}
+					.pro-content-petition{
+						h3{
+							margin-bottom: 5px;
+						}
+					}
+					.pro-footer-petition{
+						height: 70px;
+					}
+				}
+
 			}
 		}
 	}

@@ -32,7 +32,7 @@
 	}
 }
 
-.gm-style-thuria {
+.gm-style-iw.gm-style-thuria {
 	overflow: visible;
 	//max-width: 280px;
 
@@ -56,6 +56,35 @@
 			border-radius: 0;
 			overflow: hidden !important;
 			background: #FFF;
+		}
+	}
+
+
+	.pro-bloc-card-petition{
+		&:hover{
+			transform: none;
+			box-shadow: none;
+		}
+		.pro-content-petition{
+			h3{
+				line-height: 1.5em;
+				margin-bottom: 0;
+			}
+		}
+	}
+
+
+	.pro-bloc-card-initiative{
+		&:hover{
+			transform: none;
+			box-shadow: none;
+		}
+		.pro-content-initiative{
+			h3{
+				clear: both;
+				margin-top: 20px;
+				padding-top: 10px;
+			}
 		}
 	}
 }

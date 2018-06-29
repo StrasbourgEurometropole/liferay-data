@@ -4,7 +4,7 @@ function isTouchDevice() {
 
 var Ww = $(window).width();
 
-if (isTouchDevice() || Ww < 1280) {
+if (isTouchDevice() && Ww < 1280) {
    	$('body').addClass('no-hover');
 }
 
@@ -12,3 +12,11 @@ if (isTouchDevice()) {
     $('.lang > .sub-menu').addClass('sub-lang-mobile');
     $('#lang-mobile').addClass('is-display');
 };
+
+
+var isiPad = navigator.userAgent.match(/iPad/i) != null;
+
+
+if (isiPad) {
+    $('body').addClass('on-ipad');
+}

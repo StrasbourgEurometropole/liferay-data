@@ -293,8 +293,7 @@ figcaption {
 
 	}
 
-
-	fieldset{
+	fieldset {
 		&.pro-checkbox {
 			> * {
 				padding: 3px 15px;
@@ -369,7 +368,7 @@ figcaption {
 		}
 	}
 
-	&.open ul,  &.open fieldset{
+	&.open ul, &.open fieldset {
 		opacity: 1;
 		display: block;
 	}
@@ -633,6 +632,14 @@ main {
 	}
 }
 
+.pro-wrapper-tuiles {
+	> * {
+		&:nth-child(odd) {
+			background: #edf0f2;
+		}
+	}
+}
+
 .pro-line {
 	border-bottom: 10px solid $c_main;
 	text-align: right;
@@ -649,5 +656,66 @@ main {
 			font-size: 0.7em;
 			margin-right: 10px;
 		}
+	}
+}
+
+.pro-bookmark {
+	position: absolute;
+	top: 0;
+	right: 30px;
+	width: 120px;
+	height: 170px;
+	background: $c_main;
+
+	&:after{
+		content: '';
+		position: absolute;
+		bottom: -44px;
+		left: 0;
+		right: 0;
+		height: 84px;
+		width: 120px;
+		background-size: 12px;
+		background: url(../images/background/bookmark.png) no-repeat center center /contain;
+	}
+	> div{
+		position: relative;
+		&:before {
+			content: "";
+			position: absolute;
+			border: 1px solid rgba($c_dark,0.1);
+			border-bottom: none;
+			top: 2px;
+			left: 2px;
+			right: 2px;
+			bottom: 2px;
+		}
+	}
+	span {
+		position: relative;
+		padding: 20px 0;
+		display: block;
+		color: $c_dark;
+		text-align: center;
+		font-size: 45px;
+		&:after{
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 70px;
+			height: 1px;
+			background: rgba($c_dark,0.1);
+			margin: auto;
+		}
+	}
+	p{
+		@include ft($f_txt, 0.688em, 700, $c_txt, 1.5em);
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+		padding: 20px 10px;
+		text-align: center;
 	}
 }

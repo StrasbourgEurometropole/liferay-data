@@ -9,6 +9,9 @@
 		height: 100%;
 		width: 1px;
 		background: #CECECE;
+		@include tablet_portrait{
+			content: none;
+		}
 	}
 	#breadcrumb {
 		padding: 10px 0;
@@ -41,6 +44,29 @@
 				&:first-child {
 					padding-left: 0;
 				}
+			}
+		}
+
+		.pro-btn-yellow{
+			width: auto;
+			padding: 0 40px;
+			position: absolute;
+			right: 0;
+			bottom: 30px;
+			&:hover, &:focus{
+				background: $c_dark;
+				border-color: $c_dark;
+			}
+			@media screen and (max-width: 1200px){
+				position: relative;
+				display: inline-block;
+				bottom: 0;
+				margin-top: 20px;
+				float: left;
+			}
+			@include mobile{
+				float: none;
+				display: block;
 			}
 		}
 

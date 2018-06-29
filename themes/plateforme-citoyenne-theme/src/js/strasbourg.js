@@ -11591,6 +11591,8 @@ function callbackCarteInteractive(macarte){
     marker3 = th_maps.createMarker(macarte,{lat:48.5791137,lng:7.7314801},'map','projet');
     marker4 = th_maps.createMarker(macarte,{lat:48.5775591,lng:7.7606211},'map','projet');
     marker5 = th_maps.createMarker(macarte,{lat:48.5922362,lng:7.7282629},'map','projet');
+    marker6 = th_maps.createMarker(macarte,{lat:48.6022362,lng:7.7382629},'map','petition');
+    marker7 = th_maps.createMarker(macarte,{lat:48.5822362,lng:7.7682629},'map','initiative');
 
 
     contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
@@ -11638,12 +11640,31 @@ function callbackCarteInteractive(macarte){
         '</div></a></div>',marker5,247);
 
 
+    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
+        '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
+        '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
+        '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
+        '</div></div></a></div>',marker6,247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
+        '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
+        '<div class="pro-content-initiative">' +
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '</div></div> ' +
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens soutiennent cette initiative</p>' +
+        '</div></a></div>',marker7,247);
+
+
 
     bounds.extend(marker1.position);
     bounds.extend(marker2.position);
     bounds.extend(marker3.position);
     bounds.extend(marker4.position);
     bounds.extend(marker5.position);
+    bounds.extend(marker6.position);
+    bounds.extend(marker7.position);
     macarte.fitBounds(bounds);
 }
 
@@ -11938,7 +11959,7 @@ function opacifyOffSlide($el) {
 
 $('.owl-cards').each(function () {
 
-    if($('.owl-cards .item').length > 0){
+    if ($('.owl-cards .item').length > 0) {
         var _self = $(this);
 
         var options = {
@@ -11961,17 +11982,15 @@ $('.owl-cards').each(function () {
             }
 
         });
-        _self.on('initialized.owl.carousel', function(event){
+        _self.on('initialized.owl.carousel', function (event) {
             // Do something
-            $('.owl-stage',_self).attr('data-anim','top-stack');
+            $('.owl-stage', _self).attr('data-anim', 'top-stack');
         });
 
         _self.owlCarousel(options);
     }
 
 });
-
-
 
 
 $('.owl-slider').each(function () {
@@ -12000,12 +12019,78 @@ $('.owl-slider').each(function () {
 
     });
 
-    _self.on('initialized.owl.carousel', function(event){
+    _self.on('initialized.owl.carousel', function (event) {
         // Do something
-        $('.owl-stage',_self).attr('data-anim','top-stack');
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
     });
 
     _self.owlCarousel(options);
+
+});
+
+
+$('.owl-timeline').each(function () {
+
+    var _self = $(this);
+
+
+    var options = {
+            items: 5,
+            loop: false,
+            margin: 0,
+            startPosition: 2,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+                1300: {
+                    items: 5
+                }
+            },
+            nav: true,
+            dots: false,
+            center: true,
+            mouseDrag: false,
+            touchDrag: false,
+            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],
+            autoplay: false,
+            autoplayTimeout: 4000
+        }
+        ;
+
+    var data = _self.data();
+
+    $.each(data, function (key, data) {
+
+        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+            options[key] = data;
+        }
+
+    });
+
+    _self.on('initialized.owl.carousel', function (event) {
+        // Do something
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
+    });
+
+    _self.on('changed.owl.carousel', function (event) {
+        rangerSliderValue = event.item.index + 1;
+        if (rangerSliderValue < 1) {
+
+            rangerSliderValue = 1;
+        }
+        $('#myRange').val(rangerSliderValue);
+    });
+
+    _self.owlCarousel(options);
+
+    $('#myRange').on('change', function () {
+        _self.trigger('to.owl.carousel', (parseInt($('#myRange').val()) - 1));
+    });
+
 
 });
 function isTouchDevice() {
@@ -12014,7 +12099,7 @@ function isTouchDevice() {
 
 var Ww = $(window).width();
 
-if (isTouchDevice() || Ww < 1280) {
+if (isTouchDevice() && Ww < 1280) {
    	$('body').addClass('no-hover');
 }
 
@@ -12022,3 +12107,11 @@ if (isTouchDevice()) {
     $('.lang > .sub-menu').addClass('sub-lang-mobile');
     $('#lang-mobile').addClass('is-display');
 };
+
+
+var isiPad = navigator.userAgent.match(/iPad/i) != null;
+
+
+if (isiPad) {
+    $('body').addClass('on-ipad');
+}

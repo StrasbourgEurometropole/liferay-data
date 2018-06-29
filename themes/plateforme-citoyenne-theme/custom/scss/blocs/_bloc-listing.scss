@@ -87,3 +87,118 @@
 		}
 	}
 }
+
+.pro-wrapper-listing-general {
+	position: relative;
+	padding: 10px 0;
+	@include tablet_landscape {
+		padding-top: 0;
+	}
+	@include mobile {
+		padding: 15px 0;
+	}
+
+	.pro-bloc-card-initiative {
+		margin: 20px 0;
+		&:first-child {
+			@include tablet_landscape {
+				margin-top: 0;
+			}
+		}
+
+		&:hover, &:focus {
+			transform: none;
+		}
+
+		> figure, .fit-cover {
+			width: 240px !important;
+			@include mobile {
+				width: 100% !important;
+				height: 150px;
+			}
+			& + div {
+				width: calc(100% - 240px);
+				left: 240px;
+				@include mobile {
+					width: 100%;
+					left: 0;
+				}
+			}
+		}
+
+		.pro-header-initiative {
+			margin-bottom: 15px;
+			padding: 25px 25px 0 25px;
+		}
+
+		.pro-content-initiative {
+			padding: 0 25px 15px 25px;
+
+			.pro-meta {
+				margin-bottom: 15px;
+			}
+
+			h3 {
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
+				margin-bottom: 15px;
+				height: 68px;
+				overflow: hidden;
+			}
+
+			.pro-time {
+				@include ft($f_txt, 0.875em, 400, $c_txt, normal);
+				margin-bottom: 10px;
+			}
+		}
+	}
+}
+
+
+
+
+.pro-wrapper-listing-participation{
+	.pro-bloc-card-petition {
+		margin: 20px 0;
+		&:first-child {
+			@include tablet_landscape {
+				margin-top: 0;
+			}
+		}
+
+		&:hover, &:focus {
+			transform: none;
+		}
+
+		.pro-header-petition {
+			margin-bottom: 15px;
+			padding: 20px 30px 0 30px;
+			@include mobile{
+				padding: 20px 20px 0 20px;
+			}
+		}
+
+		.pro-content-petition {
+			padding: 0 30px 10px 30px;
+			@include mobile{
+				padding: 0 20px 10px 20px;
+			}
+			h3 {
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
+				margin-bottom: 15px;
+				height: 68px;
+				overflow: hidden;
+			}
+
+			.pro-time {
+				@include ft($f_txt, 0.875em, 400, $c_txt, normal);
+				margin-bottom: 10px;
+			}
+		}
+		.pro-footer-petition{
+			padding: 0 30px;
+			@include mobile{
+				padding: 0 20px;
+			}
+		}
+	}
+}

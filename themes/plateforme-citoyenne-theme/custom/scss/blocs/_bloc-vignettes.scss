@@ -275,23 +275,23 @@
 				@include addTransitionCurve();
 			}
 
-			.pro-wrap-thematique{
+			.pro-wrap-thematique {
 				margin-top: 10px;
-				&:after{
+				&:after {
 					content: '';
 					display: block;
 					clear: both;
 				}
-				> span{
+				> span {
 					float: left;
 					@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
 					margin-bottom: 5px;
-					&:after{
+					&:after {
 						content: ',';
 						margin-right: 3px;
 					}
-					&:last-child{
-						&:after{
+					&:last-child {
+						&:after {
 							content: none;
 						}
 					}
@@ -926,10 +926,10 @@
 				right: 0;
 				margin-top: 20px;
 				margin-bottom: -10px;
-				width:100%;
+				width: 100%;
 				text-align: left;
 			}
-			
+
 			span {
 				position: relative;
 				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
@@ -1322,6 +1322,457 @@
 		&:focus {
 			h3 {
 				color: $c_main;
+			}
+		}
+	}
+}
+
+// CARD BLOC INITIATIVE
+// ==========================================================================
+.pro-bloc-card-initiative {
+	position: relative;
+	display: block;
+	z-index: 100;
+	@include addTransition();
+
+	&:hover {
+		cursor: pointer;
+		box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+		transform: translateY(-20px);
+		transform: translate3d(0,-20px,0);
+		.no-hover & {
+			box-shadow: none;
+			transform: none;
+		}
+	}
+
+	> * {
+		background: $c_white;
+		position: relative;
+		display: block;
+		border: 1px solid rgba($c_dark, 0.25);
+		@include addTransition();
+	}
+
+	.wrapper-card-initiative {
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+		border-bottom: none;
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		> * {
+			float: left;
+		}
+		> div {
+			width: 100%;
+		}
+		> figure, .fit-cover {
+			width: 155px !important;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			@include mobile {
+				position: relative;
+				width: 100% !important;
+				height: 150px;
+			}
+			> img {
+				height: 100%;
+			}
+			& + div {
+				width: calc(100% - 155px);
+				position: relative;
+				left: 155px;
+				@include mobile {
+					width: 100%;
+					left: 0;
+				}
+			}
+		}
+	}
+
+	.pro-header-initiative {
+		margin-bottom: 5px;
+		padding: 15px 15px 0 15px;
+		figure {
+			float: left;
+			width: 40px;
+			height: 40px;
+			overflow: hidden;
+			border-radius: 50%;
+			margin-right: 15px;
+		}
+		p {
+			@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+			display: inline-block;
+			width: calc(100% - 70px);
+			margin-bottom: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+
+	.pro-content-initiative {
+		padding: 0 15px 15px 15px;
+		position: relative;
+
+		.pro-wrapper-meta {
+			&:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			> * {
+				float: left;
+			}
+		}
+
+		.pro-meta {
+			margin-bottom: 0;
+			> span {
+				&:first-child {
+					padding-left: 0;
+				}
+				position: relative;
+				font-size: 0.875em;
+				line-height: 2em;
+				text-align: left;
+				&:after {
+					height: 13px;
+					right: -1px;
+				}
+			}
+		}
+
+		.pro-statut {
+			float: left;
+			margin-right: 8px;
+			margin-bottom: 10px;
+			span {
+				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
+				background: $c_main;
+				border-radius: 4px;
+				text-transform: uppercase;
+				display: block;
+				padding: 3px 10px;
+			}
+		}
+
+		.pro-time {
+			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			display: block;
+			margin-bottom: 3px;
+			background: none;
+			padding: 0;
+			.pro-duree {
+				font-weight: bold;
+				color: #f00425;
+				letter-spacing: 0px;
+			}
+		}
+		h3 {
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
+			text-transform: uppercase;
+			margin: 0 0 5px 0;
+			height: 50px;
+			overflow: hidden;
+		}
+
+		a {
+			&:focus {
+				h3 {
+					color: $c_main !important;
+				}
+			}
+		}
+	}
+
+	.pro-footer-initiative {
+		padding: 0 20px;
+		background: #edf0f2;
+		height: 80px;
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		border-top: none;
+		@include mobile{
+			height: 100%;
+			padding: 10px 20px;
+		}
+		.pro-avis {
+			float: left;
+			line-height: 80px;
+			@include mobile{
+				float: none;
+				line-height: 30px;
+				margin-bottom: 5px;
+			}
+			span {
+				@include ft($f_txt, 1em, 700, $c_txt, 1.7em);
+				background: $c_main;
+				padding: 0 10px;
+				border-radius: 4px;
+				display: inline-block;
+				margin-right: 10px;
+				&:before {
+					content: "\e913";
+					@include font();
+					margin-right: 8px;
+					position: relative;
+					top: -2px;
+				}
+			}
+		}
+		> p {
+			@include ft($f_txt, $s_small, 400, $c_txt, 80px);
+			float: left;
+			margin-bottom: 0;
+			@include mobile{
+				float: none;
+				line-height: 20px;
+			}
+		}
+	}
+
+}
+
+
+
+
+
+
+// CARD BLOC PETITION
+// ==========================================================================
+.pro-bloc-card-petition {
+	position: relative;
+	display: block;
+	z-index: 100;
+	border: 1px solid rgba($c_dark, 0.25);
+	border-radius: 4px;
+	background: $c_white;
+	@include addTransition();
+
+	&:hover {
+		cursor: pointer;
+		box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+		transform: translateY(-20px);
+		transform: translate3d(0,-20px,0);
+		.no-hover & {
+			box-shadow: none;
+			transform: none;
+		}
+	}
+
+	.pro-header-petition {
+		margin-bottom: 15px;
+		padding: 15px 20px 0 20px;
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+
+		.pro-number-comm {
+			position: absolute;
+			top: 25px;
+			right: 30px;
+			width: 200px;
+			text-align: right;
+			@include mobile {
+				position: relative;
+				top: 0;
+				right: 0;
+				margin-top: 15px;
+				margin-bottom: 20px;
+				width: 100%;
+				text-align: left;
+			}
+
+			span {
+				position: relative;
+				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
+				padding: 1px 9px;
+				border-radius: 5px;
+				background: $c_dark;
+				margin-right: 7px;
+				z-index: 100;
+				&:after {
+					content: '';
+					position: absolute;
+					right: 4px;
+					bottom: -7px;
+					z-index: -1;
+					width: 0;
+					height: 0;
+					border-style: solid;
+					border-width: 15px 0px 0 16px;
+					border-color: #000000 transparent transparent transparent;
+				}
+			}
+			p {
+				@include ft($f_hx, 0.938em, 400, $c_txt, 1.867em);
+				text-transform: uppercase;
+				width: auto;
+				overflow: visible;
+				white-space: normal;
+			}
+		}
+
+
+		figure {
+			float: left;
+			width: 40px;
+			height: 40px;
+			overflow: hidden;
+			border-radius: 50%;
+			margin-right: 15px;
+		}
+		p {
+			@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+			display: inline-block;
+			width: calc(100% - 70px);
+			margin-bottom: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+
+	.pro-content-petition {
+		padding: 0 20px 15px 20px;
+		position: relative;
+
+		.pro-wrapper-meta {
+			margin-bottom: 13px;
+			&:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			> * {
+				float: left;
+			}
+		}
+
+		.pro-meta {
+			margin-bottom: 0;
+			> span {
+				&:first-child {
+					padding-left: 0;
+				}
+				position: relative;
+				font-size: 0.875em;
+				line-height: 2em;
+				&:after {
+					height: 13px;
+					right: -1px;
+				}
+			}
+		}
+
+		.pro-statut {
+			float: left;
+			margin-right: 8px;
+			span {
+				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
+				background: $c_main;
+				border-radius: 4px;
+				text-transform: uppercase;
+				display: block;
+				padding: 3px 10px;
+			}
+		}
+
+		.pro-time {
+			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			display: block;
+			margin-bottom: 3px;
+			background: none;
+			padding: 0;
+			.pro-duree {
+				font-weight: bold;
+				color: #f00425;
+				letter-spacing: 0px;
+			}
+		}
+		h3 {
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
+			text-transform: uppercase;
+			margin: 0 0 8px 0;
+			height: 50px;
+			overflow: hidden;
+		}
+
+		p{
+			@include ft($f_txt, 0.813em, 400, $c_txt, normal);
+			margin-bottom: 8px;
+		}
+
+		a {
+			&:focus {
+				h3 {
+					color: $c_main !important;
+				}
+			}
+		}
+	}
+
+	.pro-footer-petition {
+		padding: 0 25px;
+		background: $c_dark;
+		height: 86px;
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		border-top: none;
+		@include mobile{
+			padding: 10px 20px;
+		}
+
+		.pro-progress-bar{
+			padding: 5px 0;
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			transform: translate3d(0,-50%,0);
+			.pro-progress-container{
+				position: relative;
+				width: 100%;
+				height: 6px;
+				border-radius: 6px;
+				background: #504f47;
+				box-shadow: inset 4px 4px 5px 0px rgba(0,0,0,0.35);
+				margin-bottom: 8px;
+				> div{
+					position: absolute;
+					left: 0;
+					top: -1px;
+					bottom: -1px;
+					background: $c_main;
+					border-radius: 6px;
+				}
+			}
+			p.pro-txt-progress{
+				@include ft($f_txt, 0.875em, 400, $c_white, normal);
+				text-align: left;
+				margin: 0;
+			}
+
+			& + .pro-btn-yellow{
+				margin-bottom: 15px;
+			}
+		}
+
+		> p {
+			@include ft($f_txt, $s_small, 400, $c_txt, 80px);
+			float: left;
+			margin-bottom: 0;
+			@include mobile{
+				float: none;
+				line-height: 20px;
 			}
 		}
 	}
