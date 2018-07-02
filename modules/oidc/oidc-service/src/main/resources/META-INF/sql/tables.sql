@@ -10,5 +10,7 @@ create table publik_PublikUser (
 	email VARCHAR(75) null,
 	mapConfig VARCHAR(1000) null,
 	displayConfig VARCHAR(1000) null,
-	pactSignature DATE null
+	pactSignature DATE null,
+	banishDate DATE null,
+	banishDescription TEXT null
 );

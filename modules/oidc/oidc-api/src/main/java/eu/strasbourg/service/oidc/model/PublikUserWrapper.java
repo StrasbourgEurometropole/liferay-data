@@ -69,6 +69,8 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("mapConfig", getMapConfig());
 		attributes.put("displayConfig", getDisplayConfig());
 		attributes.put("pactSignature", getPactSignature());
+		attributes.put("banishDate", getBanishDate());
+		attributes.put("banishDescription", getBanishDescription());
 
 		return attributes;
 	}
@@ -146,6 +148,18 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		if (pactSignature != null) {
 			setPactSignature(pactSignature);
 		}
+
+		Date banishDate = (Date)attributes.get("banishDate");
+
+		if (banishDate != null) {
+			setBanishDate(banishDate);
+		}
+
+		String banishDescription = (String)attributes.get("banishDescription");
+
+		if (banishDescription != null) {
+			setBanishDescription(banishDescription);
+		}
 	}
 
 	@Override
@@ -211,6 +225,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public java.lang.String getAccessToken() {
 		return _publikUser.getAccessToken();
+	}
+
+	/**
+	* Returns the banish description of this publik user.
+	*
+	* @return the banish description of this publik user
+	*/
+	@Override
+	public java.lang.String getBanishDescription() {
+		return _publikUser.getBanishDescription();
 	}
 
 	/**
@@ -294,6 +318,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	* Returns the banish date of this publik user.
+	*
+	* @return the banish date of this publik user
+	*/
+	@Override
+	public Date getBanishDate() {
+		return _publikUser.getBanishDate();
+	}
+
+	/**
 	* Returns the create date of this publik user.
 	*
 	* @return the create date of this publik user
@@ -356,6 +390,26 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setAccessToken(java.lang.String accessToken) {
 		_publikUser.setAccessToken(accessToken);
+	}
+
+	/**
+	* Sets the banish date of this publik user.
+	*
+	* @param banishDate the banish date of this publik user
+	*/
+	@Override
+	public void setBanishDate(Date banishDate) {
+		_publikUser.setBanishDate(banishDate);
+	}
+
+	/**
+	* Sets the banish description of this publik user.
+	*
+	* @param banishDescription the banish description of this publik user
+	*/
+	@Override
+	public void setBanishDescription(java.lang.String banishDescription) {
+		_publikUser.setBanishDescription(banishDescription);
 	}
 
 	@Override

@@ -45,6 +45,8 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setMapConfig(model.getMapConfig());
 		soapModel.setDisplayConfig(model.getDisplayConfig());
 		soapModel.setPactSignature(model.getPactSignature());
+		soapModel.setBanishDate(model.getBanishDate());
+		soapModel.setBanishDescription(model.getBanishDescription());
 
 		return soapModel;
 	}
@@ -193,6 +195,22 @@ public class PublikUserSoap implements Serializable {
 		_pactSignature = pactSignature;
 	}
 
+	public Date getBanishDate() {
+		return _banishDate;
+	}
+
+	public void setBanishDate(Date banishDate) {
+		_banishDate = banishDate;
+	}
+
+	public String getBanishDescription() {
+		return _banishDescription;
+	}
+
+	public void setBanishDescription(String banishDescription) {
+		_banishDescription = banishDescription;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
@@ -205,4 +223,6 @@ public class PublikUserSoap implements Serializable {
 	private String _mapConfig;
 	private String _displayConfig;
 	private Date _pactSignature;
+	private Date _banishDate;
+	private String _banishDescription;
 }

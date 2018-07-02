@@ -66,7 +66,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -92,6 +92,10 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		sb.append(displayConfig);
 		sb.append(", pactSignature=");
 		sb.append(pactSignature);
+		sb.append(", banishDate=");
+		sb.append(banishDate);
+		sb.append(", banishDescription=");
+		sb.append(banishDescription);
 		sb.append("}");
 
 		return sb.toString();
@@ -180,6 +184,20 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 			publikUserImpl.setPactSignature(new Date(pactSignature));
 		}
 
+		if (banishDate == Long.MIN_VALUE) {
+			publikUserImpl.setBanishDate(null);
+		}
+		else {
+			publikUserImpl.setBanishDate(new Date(banishDate));
+		}
+
+		if (banishDescription == null) {
+			publikUserImpl.setBanishDescription(StringPool.BLANK);
+		}
+		else {
+			publikUserImpl.setBanishDescription(banishDescription);
+		}
+
 		publikUserImpl.resetOriginalValues();
 
 		return publikUserImpl;
@@ -200,6 +218,8 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		mapConfig = objectInput.readUTF();
 		displayConfig = objectInput.readUTF();
 		pactSignature = objectInput.readLong();
+		banishDate = objectInput.readLong();
+		banishDescription = objectInput.readUTF();
 	}
 
 	@Override
@@ -266,6 +286,14 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		}
 
 		objectOutput.writeLong(pactSignature);
+		objectOutput.writeLong(banishDate);
+
+		if (banishDescription == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(banishDescription);
+		}
 	}
 
 	public String uuid;
@@ -280,4 +308,6 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	public String mapConfig;
 	public String displayConfig;
 	public long pactSignature;
+	public long banishDate;
+	public String banishDescription;
 }

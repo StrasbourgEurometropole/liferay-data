@@ -18,5 +18,7 @@
 		<property name="mapConfig" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="displayConfig" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="pactSignature" type="org.hibernate.type.TimestampType" />
+		<property name="banishDate" type="org.hibernate.type.TimestampType" />
+		<property name="banishDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 	</class>
 </hibernate-mapping>

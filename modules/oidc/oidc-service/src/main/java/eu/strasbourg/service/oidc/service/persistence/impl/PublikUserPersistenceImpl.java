@@ -1233,6 +1233,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		publikUserImpl.setMapConfig(publikUser.getMapConfig());
 		publikUserImpl.setDisplayConfig(publikUser.getDisplayConfig());
 		publikUserImpl.setPactSignature(publikUser.getPactSignature());
+		publikUserImpl.setBanishDate(publikUser.getBanishDate());
+		publikUserImpl.setBanishDescription(publikUser.getBanishDescription());
 
 		return publikUserImpl;
 	}

@@ -20,6 +20,8 @@
 		<column name="mapConfig" type="String" />
 		<column name="displayConfig" type="String" />
 		<column name="pactSignature" type="Date" />
+		<column name="banishDate" type="Date" />
+		<column name="banishDescription" type="String" />
 
 	    <finder name="PublikId" return-type="PublikUser" unique="true" db-index="true">
 	      <finder-column name="publikId" />

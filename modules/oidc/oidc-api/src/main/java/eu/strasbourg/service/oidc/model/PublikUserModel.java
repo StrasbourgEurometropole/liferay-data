@@ -238,6 +238,35 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setPactSignature(Date pactSignature);
 
+	/**
+	 * Returns the banish date of this publik user.
+	 *
+	 * @return the banish date of this publik user
+	 */
+	public Date getBanishDate();
+
+	/**
+	 * Sets the banish date of this publik user.
+	 *
+	 * @param banishDate the banish date of this publik user
+	 */
+	public void setBanishDate(Date banishDate);
+
+	/**
+	 * Returns the banish description of this publik user.
+	 *
+	 * @return the banish description of this publik user
+	 */
+	@AutoEscape
+	public String getBanishDescription();
+
+	/**
+	 * Sets the banish description of this publik user.
+	 *
+	 * @param banishDescription the banish description of this publik user
+	 */
+	public void setBanishDescription(String banishDescription);
+
 	@Override
 	public boolean isNew();
 
