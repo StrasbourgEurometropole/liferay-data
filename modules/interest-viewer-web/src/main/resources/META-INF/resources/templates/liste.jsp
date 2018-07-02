@@ -18,9 +18,7 @@
 	<div class="seu-container">
 		<div class="seu-wi seu-wi-agenda"> 
 			<div class="seu-container"> 
-				<h2 class="seu-section-title"> 
-					<span class="seu-title"><liferay-ui:message key="news" /></span> 
-				</h2> 
+				<h2 class="seu-section-title seu-title"><liferay-ui:message key="news" /></h2> 
 				<div class="seu-wi-content"> 
 					<div class="seu-wi-grid unstyled seu-visible">
 	        			<c:forEach var="curEntry" items="${dc.actusAndWebmags}">
@@ -60,9 +58,7 @@
 <c:if test="${not empty dc.events}">
 	<div class="seu-wi seu-wi-agenda"> 
 		<div class="seu-container"> 
-			<h2 class="seu-section-title"> 
-				<span class="seu-title"><liferay-ui:message key="agenda" /></span> 
-			</h2> 
+			<h2 class="seu-section-title seu-title"><liferay-ui:message key="agenda" /></h2> 
 			<div class="seu-wi-content"> 
 				<div class="seu-wi-grid"> 
         			<c:forEach var="curEntry" items="${dc.events}" varStatus="loopStatus">

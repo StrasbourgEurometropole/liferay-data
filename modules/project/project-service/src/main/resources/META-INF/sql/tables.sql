@@ -64,6 +64,7 @@ create table project_Project (
 create table project_ProjectTimeline (
 	projectTimelineId LONG not null primary key,
 	startDay INTEGER,
+	spacing INTEGER,
 	date_ DATE null,
 	title VARCHAR(400) null,
 	link VARCHAR(400) null,

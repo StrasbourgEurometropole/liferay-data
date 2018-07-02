@@ -41,7 +41,7 @@
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
                     <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
-                    <a href="${homeURL}/contact" class="mns-contact-link" title="Contact">
+                    <a href="${homeURL}contact" class="mns-contact-link" title="Contact">
                       <span class="mns-contact">
                         <span class="mns-picto-contact"></span>
                         <span class="mns-text">Contact</span>

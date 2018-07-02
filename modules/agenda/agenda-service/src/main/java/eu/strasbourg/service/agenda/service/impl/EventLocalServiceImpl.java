@@ -127,21 +127,24 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		event.setStatusByUserId(sc.getUserId());
 		event.setStatusByUserName(user.getFullName());
 		event.setStatusDate(sc.getModifiedDate());
-
-		if(event.getImageId() == null || event.getImageId() == 0) {
+		event.setImageHeight(0);
+		event.setImageWidth(0);
+		
+	/*	if(event.getImageId() == null || event.getImageId() == 0) {
 			URL url = new URL(event.getExternalImageURL());
 	        final BufferedImage bi = ImageIO.read(url);
 			event.setImageHeight(bi.getHeight());
 			event.setImageWidth(bi.getWidth());
 		}
 		else {
-			String imageURL = FileEntryHelper.getFileEntryURL(event.getImageId()); 
+			String imageURL = FileEntryHelper.getFileEntryURL(event.getImageId());
+			
 			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
 			URL url = new URL(completeImageURL);
 	        final BufferedImage bi = ImageIO.read(url);
 			event.setImageHeight(bi.getHeight());
 			event.setImageWidth(bi.getWidth());
-		}
+		}*/
 		
 		// On classe les périodes par date de début, ce qui va nous
 		// permettre

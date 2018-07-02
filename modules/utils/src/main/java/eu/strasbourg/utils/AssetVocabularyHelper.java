@@ -2,6 +2,8 @@ package eu.strasbourg.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -23,6 +25,7 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * Classe Helper pour tout ce qui concerne les vocabulaires
@@ -92,6 +95,28 @@ public class AssetVocabularyHelper {
 		}
 		return null;
 	}
+
+	public static boolean isAllDistrict(int listDistrictSizeToCompare){
+        AssetVocabulary territoryVocabulary = null;
+        try {
+            territoryVocabulary = getGlobalVocabulary(VocabularyNames.TERRITORY);
+        } catch (PortalException ignored) {
+        }
+        assert territoryVocabulary != null;
+        List<AssetCategory> territories = territoryVocabulary.getCategories();
+	    int index = 0;
+	    if (territories!=null&&!territories.isEmpty()){
+            for (AssetCategory territory :territories) {
+                try {
+                    if (territory.getAncestors().size()==2){
+                        index++;
+                    }
+                } catch (PortalException ignored){
+                }
+            }
+        }
+        return index == listDistrictSizeToCompare;
+    }
 
 	/**
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
@@ -411,7 +436,7 @@ public class AssetVocabularyHelper {
 	 * @throws PortalException
 	 */
 	public static Boolean isMairie(AssetCategory category) throws PortalException {
-		// TODO mairie de quartier et sentre administratif uniquement ou mairie de l'eurométropole également ?
+		// TODO mairie de quartier et centre administratif uniquement ou mairie de l'eurométropole également ?
 		if (category.getName().contains("Mairies")) {
 			return true;
 		}
@@ -503,5 +528,20 @@ public class AssetVocabularyHelper {
 		return json;
 	}
 
-	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
+
+	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
+		StringBuilder result = new StringBuilder();
+		if (assetCategories == null || assetCategories.isEmpty()) {
+			result.append("aucun quartier");
+		} else if (AssetVocabularyHelper.isAllDistrict(assetCategories.size())) {
+			result.append("tout les quartiers");
+		} else {
+			result.append(assetCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
+
+		private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }

@@ -112,7 +112,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
 		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<AssetCategory>();
+		List<AssetCategory> districts = new ArrayList<>();
 		for (AssetCategory territory : territories) {
 			try {
 				if (territory.getAncestors().size() == 2) {
@@ -130,14 +130,28 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 */
 	@Override
 	public String getDistrictCategories(Locale locale) {
-		String districts = "";
-		for (AssetCategory type : this.getDistrictCategories()) {
-			if (districts.length() > 0) {
-				districts += " - ";
-			}
-			districts += type.getTitle(locale);
+		List<AssetCategory> districts = getDistrictCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale,districts);
+	}
+	
+	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers du projet
+	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	 */
+	@Override
+	public String getDistrictLabel(Locale locale) {
+		StringBuilder result = new StringBuilder();
+		List<AssetCategory> districts = this.getDistrictCategories();
+		if (districts==null || districts.isEmpty()){
+			result.append("Aucun quartier");
+		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
+			result.append("Tous les quartiers");
+		} else {
+		    result.append(districts.stream()
+                    .map(district -> district.getTitle(locale))
+                    .collect(Collectors.joining(" - ")));
 		}
-		return districts;
+		return result.toString();
 	}
 	
 	/**
@@ -213,12 +227,12 @@ public class ProjectImpl extends ProjectBaseImpl {
 	@Override
 	public List<AssetEntry> getParticipations() {
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
-		
+
 		if(getProjectCategory() != null)
 			result = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
-			.filter(cat -> cat.getClassName().equals(Participation.class.getName()))
+			.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
 		return result;
@@ -235,7 +249,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 			result = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
-			.filter(cat -> cat.getClassName().equals(Event.class.getName()))
+			.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
 		return result;

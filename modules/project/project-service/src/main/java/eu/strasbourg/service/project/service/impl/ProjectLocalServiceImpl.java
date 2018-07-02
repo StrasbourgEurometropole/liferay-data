@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -100,25 +101,27 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	public Project updateProject(Project project, ServiceContext sc)
 			throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
-
+		
 		project.setStatusByUserId(sc.getUserId());
 		project.setStatusByUserName(user.getFullName());
 		project.setStatusDate(sc.getModifiedDate());
+		
+		// Recuperation des timelines du projet par ordre decroissant
+		// (voir "order" du service.xml)
 		List<ProjectTimeline> projectTimelines = project.getProjectTimelines();
-		if (projectTimelines !=null&&!projectTimelines.isEmpty()){
-			ProjectTimeline firstMilestone = projectTimelines.get(0);
-			log.info("firstMilestone : " + firstMilestone);
-			LocalDate dateStatusTemp = null;
-			if (null == firstMilestone.getLink()||firstMilestone.getLink().isEmpty()){
-				dateStatusTemp = firstMilestone.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			} else {
-				log.error("la date du premier jalon est null et ca c'est pas bon !");
-				dateStatusTemp = LocalDate.now();
-			}
-			LocalDate firstMilestoneDate = dateStatusTemp;
+		
+		// Verifie l'existance d'au moins une timeline
+		if (projectTimelines != null && projectTimelines.size() > 1) {
+			
+			// Garder la premiere timeline en reference
+			ProjectTimeline firstTimeline = projectTimelines.get(0);
+			
+			// Parcourir et calculer
 			projectTimelines.forEach(projectTimeline -> {
-				LocalDate dateStatus = projectTimeline.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				projectTimeline.setStartDay(Period.between(firstMilestoneDate,dateStatus).getDays());
+				long diff = projectTimeline.getDate().getTime() - firstTimeline.getDate().getTime();
+			    int dayDiff =((int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+			    
+			    projectTimeline.setStartDay(dayDiff);
 			});
 		}
 

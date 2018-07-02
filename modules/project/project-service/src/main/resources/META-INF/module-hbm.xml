@@ -75,6 +75,7 @@
 			<generator class="assigned" />
 		</id>
 		<property name="startDay" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="spacing" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />

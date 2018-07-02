@@ -41,7 +41,7 @@
     }
 
     h2{
-        @extend %atom-h2-rte
+        @extend %atom-h2-rte;
     }
     #banner h1{
         &:before{  
