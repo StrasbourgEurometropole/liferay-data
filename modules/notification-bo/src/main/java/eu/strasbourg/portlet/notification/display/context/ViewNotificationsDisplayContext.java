@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.notification.display.context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -28,20 +29,9 @@ public class ViewNotificationsDisplayContext extends ViewListBaseDisplayContext<
 
 	public List<Notification> getNotifications() throws PortalException {
 		if (this._notifications == null) {
-			Hits hits = getHits(this._themeDisplay.getCompanyId());
-
-			// Création de la liste d'objet
-			List<Notification> results = new ArrayList<Notification>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					Notification Notification = NotificationLocalServiceUtil.fetchNotification(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (Notification != null) {
-						results.add(Notification);
-					}
-				}
-			}
-			this._notifications = results;
+			this._notifications = NotificationLocalServiceUtil.getNotifications(-1, -1).stream()
+                    .filter(n -> !n.isSingleUser())
+                    .collect(Collectors.toList());
 		}
 		return this._notifications;
 	}
