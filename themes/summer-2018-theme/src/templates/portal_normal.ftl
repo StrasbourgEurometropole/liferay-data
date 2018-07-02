@@ -91,5 +91,17 @@
     </script>
 
 
+    <#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script> [^]
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-16973980-1');
+        </script>
+    </#if>
+
   </body>
 </html>
