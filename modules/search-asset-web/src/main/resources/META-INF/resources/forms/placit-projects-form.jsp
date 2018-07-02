@@ -1,5 +1,25 @@
 <%@ include file="/search-asset-init.jsp"%>
 
+<!-- Recherche par mots-clefs -->
+<div class="pro-group">
+    <div class="pro-header">
+        <h4><liferay-ui:message key="keywords" /></h4>
+        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+    </div>
+    <fieldset class="pro-text">
+        <legend aria-hidden="true" class="hide">Effectuer une recherche</legend>
+        <div>
+            <input type="text" 
+            	name="<portlet:namespace />keywords"
+            	id="name"
+            	placeholder="<liferay-ui:message key="please-enter-keyword" />"
+            	value="${dc.keywords}">
+            <label for="name" class="hide"><liferay-ui:message key="keywords" /></label>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Recherche par dates -->
 <div class="pro-group">
 	<div class="pro-header">
 		<h4>
@@ -31,6 +51,7 @@
 </div>
 <br />
 
+<!-- Recherche par dates -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.districts" /></h4>
