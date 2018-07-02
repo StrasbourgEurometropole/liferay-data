@@ -243,3 +243,27 @@
 	}
 
 }
+
+
+
+.pro-contact-petition{
+	background: #fafbfb;
+	border: 1px solid rgba($c_dark,0.2);
+	padding: 30px 45px;
+	border-radius: 20px;
+	margin: 30px 0 40px 0;
+	@include mobile{
+		padding: 20px 25px;
+	}
+	.title{
+		display: block;
+		@include ft($f_txt, 1.125em, 700, $c_txt, 1.333em);
+		margin-bottom: 15px;
+		text-transform: uppercase;
+	}
+	div{
+		p{
+			margin: 0;
+		}
+	}
+}

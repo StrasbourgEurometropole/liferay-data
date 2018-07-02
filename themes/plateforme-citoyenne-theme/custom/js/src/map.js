@@ -265,6 +265,8 @@ function callbackCarteInteractive(macarte){
     marker3 = th_maps.createMarker(macarte,{lat:48.5791137,lng:7.7314801},'map','projet');
     marker4 = th_maps.createMarker(macarte,{lat:48.5775591,lng:7.7606211},'map','projet');
     marker5 = th_maps.createMarker(macarte,{lat:48.5922362,lng:7.7282629},'map','projet');
+    marker6 = th_maps.createMarker(macarte,{lat:48.6022362,lng:7.7382629},'map','petition');
+    marker7 = th_maps.createMarker(macarte,{lat:48.5822362,lng:7.7682629},'map','initiative');
 
 
     contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
@@ -312,12 +314,31 @@ function callbackCarteInteractive(macarte){
         '</div></a></div>',marker5,247);
 
 
+    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
+        '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
+        '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
+        '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
+        '</div></div></a></div>',marker6,247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
+        '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
+        '<div class="pro-content-initiative">' +
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '</div></div> ' +
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens soutiennent cette initiative</p>' +
+        '</div></a></div>',marker7,247);
+
+
 
     bounds.extend(marker1.position);
     bounds.extend(marker2.position);
     bounds.extend(marker3.position);
     bounds.extend(marker4.position);
     bounds.extend(marker5.position);
+    bounds.extend(marker6.position);
+    bounds.extend(marker7.position);
     macarte.fitBounds(bounds);
 }
 

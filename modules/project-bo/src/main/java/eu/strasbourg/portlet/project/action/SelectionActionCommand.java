@@ -15,7 +15,9 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -45,17 +47,28 @@ public class SelectionActionCommand implements MVCActionCommand {
 					if (tab.equals("projects")) {
 						_projectLocalService.removeProject(entryId);
 					}
+					if (tab.equals("participations")) {
+						_participationLocalService.removeParticipation(entryId);
+					}
 					break;
 				case "publish":
 					if (tab.equals("projects")) {
 						Project project = _projectLocalService.getProject(entryId);
 						_projectLocalService.updateStatus(project, WorkflowConstants.STATUS_APPROVED);
 					}
+					if (tab.equals("participations")) {
+						Participation participation = _participationLocalService.getParticipation(entryId);
+						_participationLocalService.updateStatus(participation, WorkflowConstants.STATUS_APPROVED);
+					}
 					break;
 				case "unpublish":
 					if (tab.equals("projects")) {
 						Project project = _projectLocalService.getProject(entryId);
 						_projectLocalService.updateStatus(project, WorkflowConstants.STATUS_DRAFT);
+					}
+					if (tab.equals("participations")) {
+						Participation participation = _participationLocalService.getParticipation(entryId);
+						_participationLocalService.updateStatus(participation, WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}
@@ -66,14 +79,19 @@ public class SelectionActionCommand implements MVCActionCommand {
 		return false;
 	}
 	
-	
-
 	@Reference(unbind = "-")
 	protected void setProjectLocalService(ProjectLocalService projectLocalService) {
 		_projectLocalService = projectLocalService;
 	}
 	
+	@Reference(unbind = "-")
+	protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
+		_participationLocalService = participationLocalService;
+	}
+	
 	private ProjectLocalService _projectLocalService;
+	
+	private ParticipationLocalService _participationLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 

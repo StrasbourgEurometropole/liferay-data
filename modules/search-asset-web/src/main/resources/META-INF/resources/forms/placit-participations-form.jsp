@@ -2,6 +2,26 @@
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
 
+<!-- Recherche par mots-clefs -->
+<div class="pro-group">
+    <div class="pro-header">
+        <h4><liferay-ui:message key="keywords" /></h4>
+        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+    </div>
+    <fieldset class="pro-text">
+        <legend aria-hidden="true" class="hide">Effectuer une recherche</legend>
+        <div>
+            <input type="text" 
+            	name="<portlet:namespace />keywords"
+            	id="name"
+            	placeholder="<liferay-ui:message key="please-enter-keyword" />"
+            	value="${dc.keywords}">
+            <label for="name" class="hide"><liferay-ui:message key="keywords" /></label>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Recherche par dates -->
 <c:if test="${dc.dateField}">
 	<div class="pro-group">
 	    <div class="pro-header">
@@ -34,6 +54,7 @@
 	</div>
 </c:if>
 
+<!-- Recherche par dates -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.state" /></h4>
@@ -106,10 +127,34 @@
 </div>
 
 <div class="pro-group">
+    <div class="pro-header">
+        <h4><liferay-ui:message key="eu.participation.types" /></h4>
+        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+    </div>
+    <fieldset class="pro-checkbox">
+        <legend aria-hidden="true" class="hide">Choix par type de participation</legend>
+		
+		<c:set var="participationTypesVocabulary" value="${vocabularyAccessor.getParticipationTypes(groupID)}" />
+		<c:forEach
+			items="${dc.getDropdownRootCategories(participationTypesVocabulary)}"
+			var="category"
+			varStatus="catStatus">
+			<aui:input type="checkbox" name="vocabulary_3"
+				value="${category.categoryId}"
+				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
+				id="vocabulary_3_${catStatus.index}"
+				label="${category.getTitle(locale)}"
+				cssClass="move-to-grand-parent" />
+		</c:forEach>
+		
+    </fieldset>
+</div>
+
+<div class="pro-group">
     <input type="submit" name="rechercher" value="Rechercher" />
 </div>
 
-<aui:input type="hidden" name="vocabulariesCount" value="3" />
+<aui:input type="hidden" name="vocabulariesCount" value="4" />
 
 <script>
 	$(document).ready(function() {
