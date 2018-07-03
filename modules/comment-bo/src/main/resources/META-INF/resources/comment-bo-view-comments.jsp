@@ -68,12 +68,12 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.comment.model.Comment" modelVar="comment"
-				keyProperty="projectId" rowIdProperty="projectId">
+				keyProperty="commentId" rowIdProperty="commentId">
 				
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editCommentURL">
 					<portlet:param name="cmd" value="editComment" />
-					<portlet:param name="commentId" value="${comment.projectId}" />
+					<portlet:param name="commentId" value="${comment.commentId}" />
 					<portlet:param name="returnURL" value="${commentsURL}" />
 					<portlet:param name="mvcPath" value="/comment-bo-edit-comment.jsp" />
 				</liferay-portlet:renderURL>
@@ -81,7 +81,7 @@
 				<%-- Colonne : Titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editCommentURL}" name="title" truncate="true" orderable="true"
-					value="${comment.title}" />
+					value="${comment.userName}" />
 				
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${comment.modifiedDate}"
@@ -111,7 +111,7 @@
 						<liferay-portlet:actionURL name="deleteComment" var="deleteCommentURL">
 							<portlet:param name="cmd" value="deleteComment" />
 							<portlet:param name="tab" value="comments" />
-							<portlet:param name="commentId" value="${comment.projectId}" />
+							<portlet:param name="commentId" value="${comment.commentId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteCommentsURL}" />
