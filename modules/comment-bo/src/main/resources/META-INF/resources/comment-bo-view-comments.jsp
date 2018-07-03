@@ -78,9 +78,9 @@
 					<portlet:param name="mvcPath" value="/comment-bo-edit-comment.jsp" />
 				</liferay-portlet:renderURL>
 
-				<%-- Colonne : Titre --%>
+				<%-- Colonne : userName --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editCommentURL}" name="title" truncate="true" orderable="true"
+					href="${editCommentURL}" name="userName" truncate="true" orderable="true"
 					value="${comment.userName}" />
 				
 				<%-- Colonne : Date de modification --%>
@@ -89,6 +89,12 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
+
+				<liferay-ui:search-container-column-text cssClass="content-column"
+														 name="commentaire"
+														 truncate="true"
+														 orderable="true"
+														 value="${comment.comment}"/>
 				
 				<%-- Colonne : Createur --%>
 				<liferay-ui:search-container-column-text name="user">
