@@ -61,6 +61,8 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("publikUserLiferayId", getPublikUserLiferayId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
 		attributes.put("publikId", getPublikId());
 		attributes.put("accessToken", getAccessToken());
 		attributes.put("firstName", getFirstName());
@@ -99,6 +101,18 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -298,6 +312,26 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	* Returns the user name of this publik user.
+	*
+	* @return the user name of this publik user
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _publikUser.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this publik user.
+	*
+	* @return the user uuid of this publik user
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _publikUser.getUserUuid();
+	}
+
+	/**
 	* Returns the uuid of this publik user.
 	*
 	* @return the uuid of this publik user
@@ -375,6 +409,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public long getPublikUserLiferayId() {
 		return _publikUser.getPublikUserLiferayId();
+	}
+
+	/**
+	* Returns the user ID of this publik user.
+	*
+	* @return the user ID of this publik user
+	*/
+	@Override
+	public long getUserId() {
+		return _publikUser.getUserId();
 	}
 
 	@Override
@@ -551,6 +595,36 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setPublikUserLiferayId(long publikUserLiferayId) {
 		_publikUser.setPublikUserLiferayId(publikUserLiferayId);
+	}
+
+	/**
+	* Sets the user ID of this publik user.
+	*
+	* @param userId the user ID of this publik user
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_publikUser.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this publik user.
+	*
+	* @param userName the user name of this publik user
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_publikUser.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this publik user.
+	*
+	* @param userUuid the user uuid of this publik user
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_publikUser.setUserUuid(userUuid);
 	}
 
 	/**

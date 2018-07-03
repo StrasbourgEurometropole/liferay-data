@@ -1,5 +1,8 @@
-package eu.strasbourg.portlet.project;
+package eu.strasbourg.portlet.oidc;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -7,10 +10,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
-import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
+import eu.strasbourg.portlet.oidc.display.context.EditPublikUserDisplayContext;
+import eu.strasbourg.portlet.oidc.display.context.ViewPublikUsersDisplayContext;
 
 import java.io.IOException;
 
@@ -28,17 +29,17 @@ import org.osgi.service.component.annotations.Component;
 	immediate = true,
 	property = {
 		"com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.footer-portlet-javascript=/js/project-bo-main.js",
-		"com.liferay.portlet.header-portlet-css=/css/project-bo-main.css",
+		"com.liferay.portlet.footer-portlet-javascript=/js/oidc-bo-main.js",
+		"com.liferay.portlet.header-portlet-css=/css/oidc-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/project-bo-view.jsp",
+		"javax.portlet.init-param.view-template=/oidc-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
 	service = Portlet.class
 )
-public class ProjectBOPortlet extends MVCPortlet {
+public class OIDCBOPortlet extends MVCPortlet {
 	
 	@Override
 	public void render(RenderRequest renderRequest,
@@ -50,7 +51,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
 		
-		renderResponse.setTitle("Projets");
+		renderResponse.setTitle("Utilisateurs Publik");
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
@@ -61,18 +62,17 @@ public class ProjectBOPortlet extends MVCPortlet {
 		}
 		
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editProject")) {
-			EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
+		if (cmd.equals("editPublikUser")) {
+			EditPublikUserDisplayContext dc = new EditPublikUserDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);		
-		} else if (cmd.equals("editParticipation")) {
-			EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);		
-		} else if (tab.equals("participations")) {
-			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
-			renderRequest.setAttribute("dc", dc);
-		} else { // Else, we are on the projects list page
-			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse); 
-			renderRequest.setAttribute("dc", dc);
+		} else { // Else, we are on the publik users list page
+			ViewPublikUsersDisplayContext dc;
+			try {
+				dc = new ViewPublikUsersDisplayContext(renderRequest, renderResponse);
+				renderRequest.setAttribute("dc", dc);
+			} catch (PortalException e) {
+				_log.error(e);
+			} 
 		}
 		
 		// Admin ou pas
@@ -80,5 +80,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		
 		super.render(renderRequest, renderResponse);
 	}
-
+	
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+	
 }

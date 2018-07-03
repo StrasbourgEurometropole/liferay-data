@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -151,6 +152,14 @@ public interface PublikUserLocalService extends BaseLocalService,
 	public PublikUser updatePublikUser(PublikUser publikUser);
 
 	/**
+	* Met à jour un projet et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
+		throws PortalException;
+
+	/**
 	* Returns the number of publik users.
 	*
 	* @return the number of publik users
@@ -203,6 +212,9 @@ public interface PublikUserLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PublikUser> getAllPublikUsers();
 
 	/**
 	* Returns a range of all the publik users.

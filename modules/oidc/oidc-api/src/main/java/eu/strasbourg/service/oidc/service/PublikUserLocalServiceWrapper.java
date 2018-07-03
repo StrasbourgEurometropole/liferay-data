@@ -168,6 +168,19 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 	}
 
 	/**
+	* Met à jour un projet et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser updatePublikUser(
+		eu.strasbourg.service.oidc.model.PublikUser publikUser,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _publikUserLocalService.updatePublikUser(publikUser, sc);
+	}
+
+	/**
 	* Returns the number of publik users.
 	*
 	* @return the number of publik users
@@ -238,6 +251,11 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _publikUserLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getAllPublikUsers() {
+		return _publikUserLocalService.getAllPublikUsers();
 	}
 
 	/**

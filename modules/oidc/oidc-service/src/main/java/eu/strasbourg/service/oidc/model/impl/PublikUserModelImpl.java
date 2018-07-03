@@ -20,9 +20,12 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -66,6 +69,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			{ "publikUserLiferayId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
 			{ "publikId", Types.VARCHAR },
 			{ "accessToken", Types.VARCHAR },
 			{ "firstName", Types.VARCHAR },
@@ -84,6 +89,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		TABLE_COLUMNS_MAP.put("publikUserLiferayId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("accessToken", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstName", Types.VARCHAR);
@@ -96,7 +103,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		TABLE_COLUMNS_MAP.put("banishDescription", Types.CLOB);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(1000) null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(1000) null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.publikUserLiferayId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.publikUserLiferayId ASC";
@@ -159,6 +166,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		attributes.put("publikUserLiferayId", getPublikUserLiferayId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
 		attributes.put("publikId", getPublikId());
 		attributes.put("accessToken", getAccessToken());
 		attributes.put("firstName", getFirstName());
@@ -200,6 +209,18 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -320,6 +341,47 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		_setModifiedDate = true;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
 	}
 
 	@Override
@@ -507,6 +569,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		publikUserImpl.setPublikUserLiferayId(getPublikUserLiferayId());
 		publikUserImpl.setCreateDate(getCreateDate());
 		publikUserImpl.setModifiedDate(getModifiedDate());
+		publikUserImpl.setUserId(getUserId());
+		publikUserImpl.setUserName(getUserName());
 		publikUserImpl.setPublikId(getPublikId());
 		publikUserImpl.setAccessToken(getAccessToken());
 		publikUserImpl.setFirstName(getFirstName());
@@ -620,6 +684,16 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			publikUserCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		publikUserCacheModel.userId = getUserId();
+
+		publikUserCacheModel.userName = getUserName();
+
+		String userName = publikUserCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			publikUserCacheModel.userName = null;
+		}
+
 		publikUserCacheModel.publikId = getPublikId();
 
 		String publikId = publikUserCacheModel.publikId;
@@ -707,7 +781,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -717,6 +791,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
 		sb.append(", accessToken=");
@@ -744,7 +822,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(52);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.oidc.model.PublikUser");
@@ -765,6 +843,14 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(
 			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
 		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publikId</column-name><column-value><![CDATA[");
@@ -822,6 +908,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private long _userId;
+	private String _userName;
 	private String _publikId;
 	private String _originalPublikId;
 	private String _accessToken;

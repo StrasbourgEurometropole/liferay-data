@@ -14,7 +14,13 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
+import java.io.IOException;
 import java.util.List;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
@@ -55,10 +61,32 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 		long pk = this.counterLocalService.increment();
 		return this.createPublikUser(pk);
 	}
+	
+	/**
+	 * Met à jour un projet et l'enregistre en base de données
+	 * @throws IOException
+	 */
+	@Override
+	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
+			throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		
+		publikUser.setUserName(user.getFullName());
+		publikUser.setUserId(sc.getUserId());
+		
+		publikUser = this.publikUserLocalService.updatePublikUser(publikUser);
+		
+		return publikUser;
+	}
 
 	@Override
 	public PublikUser getByPublikUserId(String publikUserId) {
 		return this.publikUserPersistence.fetchByPublikId(publikUserId);
+	}
+	
+	@Override
+	public List<PublikUser> getAllPublikUsers() {
+		return this.publikUserPersistence.findAll();
 	}
 
 	/**

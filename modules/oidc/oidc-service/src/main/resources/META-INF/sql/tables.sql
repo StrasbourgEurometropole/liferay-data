@@ -3,6 +3,8 @@ create table publik_PublikUser (
 	publikUserLiferayId LONG not null primary key,
 	createDate DATE null,
 	modifiedDate DATE null,
+	userId LONG,
+	userName VARCHAR(75) null,
 	publikId VARCHAR(200) null,
 	accessToken VARCHAR(200) null,
 	firstName VARCHAR(200) null,

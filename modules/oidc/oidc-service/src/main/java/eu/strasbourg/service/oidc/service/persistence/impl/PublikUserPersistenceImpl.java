@@ -1225,6 +1225,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		publikUserImpl.setPublikUserLiferayId(publikUser.getPublikUserLiferayId());
 		publikUserImpl.setCreateDate(publikUser.getCreateDate());
 		publikUserImpl.setModifiedDate(publikUser.getModifiedDate());
+		publikUserImpl.setUserId(publikUser.getUserId());
+		publikUserImpl.setUserName(publikUser.getUserName());
 		publikUserImpl.setPublikId(publikUser.getPublikId());
 		publikUserImpl.setAccessToken(publikUser.getAccessToken());
 		publikUserImpl.setFirstName(publikUser.getFirstName());

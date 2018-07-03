@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.project.panel;
+package eu.strasbourg.portlet.oidc.panel;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -13,10 +13,10 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(
 	immediate = true,
 	property = {
-		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO
+		"javax.portlet.name=" + StrasbourgPortletKeys.OIDC_BO
 	},
 	service = ControlPanelEntry.class
 )
-public class ProjectBOControlPanelEntry extends BaseControlPanelEntry {
-	
+public class OIDCBOControlPanelEntry extends BaseControlPanelEntry {
+
 }

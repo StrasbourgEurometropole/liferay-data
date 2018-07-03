@@ -120,6 +120,49 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the user ID of this publik user.
+	 *
+	 * @return the user ID of this publik user
+	 */
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this publik user.
+	 *
+	 * @param userId the user ID of this publik user
+	 */
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this publik user.
+	 *
+	 * @return the user uuid of this publik user
+	 */
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this publik user.
+	 *
+	 * @param userUuid the user uuid of this publik user
+	 */
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this publik user.
+	 *
+	 * @return the user name of this publik user
+	 */
+	@AutoEscape
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this publik user.
+	 *
+	 * @param userName the user name of this publik user
+	 */
+	public void setUserName(String userName);
+
+	/**
 	 * Returns the publik ID of this publik user.
 	 *
 	 * @return the publik ID of this publik user

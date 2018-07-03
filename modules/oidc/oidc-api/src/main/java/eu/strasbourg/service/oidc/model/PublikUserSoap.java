@@ -37,6 +37,8 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setPublikUserLiferayId(model.getPublikUserLiferayId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setUserId(model.getUserId());
+		soapModel.setUserName(model.getUserName());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setAccessToken(model.getAccessToken());
 		soapModel.setFirstName(model.getFirstName());
@@ -131,6 +133,22 @@ public class PublikUserSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
+	public long getUserId() {
+		return _userId;
+	}
+
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	public String getUserName() {
+		return _userName;
+	}
+
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
 	public String getPublikId() {
 		return _publikId;
 	}
@@ -215,6 +233,8 @@ public class PublikUserSoap implements Serializable {
 	private long _publikUserLiferayId;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private long _userId;
+	private String _userName;
 	private String _publikId;
 	private String _accessToken;
 	private String _firstName;

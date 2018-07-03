@@ -237,22 +237,6 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			SessionErrors.add(request, "image-error");
 			isValid = false;
 		}
-		
-		// TODO : vérifier la raison de la mauvaise redirection lors d'un controle 
-		// du copyright
-		/**
-		// Copyright de l'image
-		String imageCopyright = ParamUtil.getString(request,
-			"externalImageCopyright");
-		boolean internalImageWithoutCopyright = imageId > 0 && Validator
-			.isNull(FileEntryHelper.getImageCopyright(imageId, Locale.FRANCE));
-		boolean externalImageWithoutCopyright = Validator.isNotNull(imageURL)
-			&& Validator.isNull(imageCopyright);
-		if (internalImageWithoutCopyright || externalImageWithoutCopyright) {
-			SessionErrors.add(request, "image-copyright-error");
-			isValid = false;
-		}
-		*/
 
 		return isValid;
 	}

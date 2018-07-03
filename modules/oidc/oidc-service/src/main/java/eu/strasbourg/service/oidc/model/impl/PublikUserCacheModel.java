@@ -66,7 +66,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -76,6 +76,10 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
 		sb.append(", publikId=");
 		sb.append(publikId);
 		sb.append(", accessToken=");
@@ -126,6 +130,15 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		}
 		else {
 			publikUserImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
+		publikUserImpl.setUserId(userId);
+
+		if (userName == null) {
+			publikUserImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			publikUserImpl.setUserName(userName);
 		}
 
 		if (publikId == null) {
@@ -210,6 +223,9 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		publikUserLiferayId = objectInput.readLong();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
 		publikId = objectInput.readUTF();
 		accessToken = objectInput.readUTF();
 		firstName = objectInput.readUTF();
@@ -235,6 +251,15 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		objectOutput.writeLong(publikUserLiferayId);
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
 
 		if (publikId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -300,6 +325,8 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	public long publikUserLiferayId;
 	public long createDate;
 	public long modifiedDate;
+	public long userId;
+	public String userName;
 	public String publikId;
 	public String accessToken;
 	public String firstName;
