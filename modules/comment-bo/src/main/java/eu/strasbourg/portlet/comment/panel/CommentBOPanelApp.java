@@ -17,6 +17,6 @@ import org.osgi.service.component.annotations.Component;
 public class CommentBOPanelApp extends BasePanelApp {
     @Override
     public String getPortletId() {
-        return StrasbourgPortletKeys.PROJECT_BO;
+        return StrasbourgPortletKeys.COMMENT_BO;
     }
 }
