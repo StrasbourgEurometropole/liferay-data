@@ -8,16 +8,19 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
+/**
+ * @author alexandre.quere
+ */
+
 @Component(
         immediate = true,
-        property = {
-        "javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_BO,
-        "mvc.command.name=saveComment"
+        properties = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_BO,
+                "mvc.command.name=selectionAction"
         },
         service = MVCActionCommand.class
-        )
-public class SaveCommentActionCommand implements MVCActionCommand{
-
+)
+public class SelectionActionCommand implements MVCActionCommand{
     @Override
     public boolean processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException {
         return false;
