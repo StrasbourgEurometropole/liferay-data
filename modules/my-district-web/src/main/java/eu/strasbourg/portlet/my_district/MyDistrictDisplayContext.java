@@ -91,6 +91,11 @@ public class MyDistrictDisplayContext {
 		return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
 	}
 
+	public String getVirtualStrasbourgHostName() {
+		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
+		return group.getPublicLayoutSet().getVirtualHostname();
+	}
+
 	// Récupération de l'id utilisateur
 	private String getPublikID(PortletRequest resourceRequest) {
 

@@ -8,6 +8,13 @@
 <c:if test="${not empty virtualHostName}">
 	<c:set var="homeURL" value="https://${virtualHostName}/"/>
 </c:if>
+<c:set var="virtualStrasbourgHostName" value="${dc.getVirtualStrasbourgHostName()}"/>
+<c:if test="${empty virtualStrasbourgHostName}">
+	<c:set var="homeStrasbourgURL" value="/web/strasbourg.eu/"/>
+</c:if>
+<c:if test="${not empty virtualStrasbourgHostName}">
+	<c:set var="homeStrasbourgURL" value="https://${virtualStrasbourgHostName}/"/>
+</c:if>
 
 <c:if test="${empty dc.district}">
 	<div class="wi-wrapper">
@@ -59,7 +66,7 @@
 						<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${official.firstName} ${official.lastName}</div>
 						<div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${official.getName(official.fonctionCity,locale)}</div>
 					</div>
-					<a href="${homeURL}elu/-/entity/id/${official.officialId}" class="btn-square--bordered--core" title="${official.firstName} ${official.lastName}">
+					<a href="${homeStrasbourgURL}elu/-/entity/id/${official.officialId}" class="btn-square--bordered--core" title="${official.firstName} ${official.lastName}">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="know-more" /></span>
 								<span class="btn-arrow"></span>
@@ -103,7 +110,7 @@
 							<a href="#" class="add-favorites"
 							   data-type="1"
 							   data-title="${townHall.getAlias(locale)}"
-							   data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${townHall.getSIGid()}"
+							   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${townHall.getSIGid()}"
 							   data-id="${townHall.placeId}">
 								<span><liferay-ui:message key="eu.add-to-favorite" /></span>
 							</a>
@@ -138,7 +145,7 @@
 							</c:if>
 						</div>
 					</div>
-					<a href="${homeURL}lieu/-/entity/sig/${townHall.SIGid}" class="btn-square--bordered--core" title="${townHall.getAlias(locale)}">
+					<a href="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.SIGid}" class="btn-square--bordered--core" title="${townHall.getAlias(locale)}">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
 								<span class="btn-arrow"></span>
@@ -182,13 +189,13 @@
 							<a href="#" class="add-favorites"
 							   data-type="1"
 							   data-title="${territoryDirection.getAlias(locale)}"
-							   data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${territoryDirection.getSIGid()}"
+							   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.getSIGid()}"
 							   data-id="${territoryDirection.placeId}">
 								<span><liferay-ui:message key="eu.add-to-favorite" /></span>
 							</a>
 						</div>
 					</div>
-					<a href="${homeURL}lieu/-/entity/sig/${territoryDirection.SIGid}" class="btn-square--bordered--core" title="${territoryDirection.getAlias(locale)}">
+					<a href="${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.SIGid}" class="btn-square--bordered--core" title="${territoryDirection.getAlias(locale)}">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
 								<span class="btn-arrow"></span>
@@ -224,11 +231,11 @@
 								<a href="#" class="add-favorites"
 								   data-type="1"
 								   data-title="${school.getAlias(locale)}"
-								   data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${school.getSIGid()}"
+								   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
 								   data-id="${school.placeId}">
 									<span><liferay-ui:message key="eu.add-to-favorite" /></span>
 								</a>
-								<a href="${homeURL}lieu/-/entity/sig/${school.SIGid}" class="btn-square--bordered--core" title="${school.getAlias(locale)}">
+								<a href="${homeStrasbourgURL}lieu/-/entity/sig/${school.SIGid}" class="btn-square--bordered--core" title="${school.getAlias(locale)}">
 										<span class="flexbox">
 											<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
 											<span class="btn-arrow"></span>
@@ -344,7 +351,7 @@
 		            </div>
 		        </div>
 				<div class="seu-btn-line"> 	
-					<a href="${homeURL}actualite" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-news" />">
+					<a href="${homeStrasbourgURL}actualite" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-news" />">
 						<span class="flexbox">
 							<span class="btn-text"><liferay-ui:message key="eu.all-news" /></span>
 							<span class="btn-arrow"></span>
@@ -366,7 +373,7 @@
 			                category: 'agenda',
 			                title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
 			                lead: '${dc.getJSONEncodedString(dc.DeleteTag(event.getDescription(locale)))}',
-			                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
+			                link: '${homeStrasbourgURL}evenement/-/entity/id/${event.eventId}',
 			                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
 			                id: '${event.eventId}',
 			                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
@@ -435,7 +442,7 @@
 		            </div>
 		        </div> 
 				<div class="seu-btn-line"> 	
-					<a href="${homeURL}agenda" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-events" />">
+					<a href="${homeStrasbourgURL}agenda" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-events" />">
 						<span class="flexbox">
 							<span class="btn-text"><liferay-ui:message key="eu.all-events" /></span>
 							<span class="btn-arrow"></span>
