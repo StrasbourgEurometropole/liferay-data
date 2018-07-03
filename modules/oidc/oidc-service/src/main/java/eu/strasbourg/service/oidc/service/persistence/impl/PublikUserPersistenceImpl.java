@@ -104,7 +104,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] { String.class.getName() },
-			PublikUserModelImpl.UUID_COLUMN_BITMASK);
+			PublikUserModelImpl.UUID_COLUMN_BITMASK |
+			PublikUserModelImpl.LASTNAME_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",

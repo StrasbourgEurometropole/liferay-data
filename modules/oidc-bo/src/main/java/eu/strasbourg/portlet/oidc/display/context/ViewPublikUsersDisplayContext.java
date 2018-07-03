@@ -1,11 +1,16 @@
 package eu.strasbourg.portlet.oidc.display.context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -22,6 +27,16 @@ public class ViewPublikUsersDisplayContext extends ViewListBaseDisplayContext<Pu
 	}
 	
 	public List<PublikUser> getPublikUsers() throws PortalException {
+		if (this._publikUsers == null) {
+			this._publikUsers = PublikUserLocalServiceUtil.getAllPublikUsers();
+		}
+		return this._publikUsers;
+	}
+	
+	/**
+	 * Retourne la liste des événements correspondant à la recherche lancée en ignorant la pagination
+	 */
+	private List<PublikUser> getAllPublikUsers() throws PortalException {
 		if (this._publikUsers == null) {
 			this._publikUsers = PublikUserLocalServiceUtil.getAllPublikUsers();
 		}

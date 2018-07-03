@@ -21,12 +21,15 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
 
 /**
@@ -87,6 +90,23 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	@Override
 	public List<PublikUser> getAllPublikUsers() {
 		return this.publikUserPersistence.findAll();
+	}
+	
+	/**
+	@Override
+	public List<PublikUser> getPublikUsers(int start, int end, String sortField, boolean isSortDesc) {
+		List <PublikUser> results = this.publikUserPersistence.findWithDynamicQuery(dynamicQuery, start, end, orderByComparator)
+		
+		return results;
+	}
+	*/
+
+	@Override
+	public List<PublikUser> getPublikUsers(int start, int end, String sortField, boolean isSortDesc) {
+		OrderByComparator orderByComparator = OrderByComparatorFactoryUtil.create(PublikUserImpl.TABLE_NAME, sortField, true);
+		List <PublikUser> results = this.publikUserPersistence.findAll(start, end, orderByComparator);
+		
+		return results;
 	}
 
 	/**

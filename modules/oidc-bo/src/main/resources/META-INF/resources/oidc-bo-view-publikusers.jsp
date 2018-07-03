@@ -13,22 +13,22 @@
 <%-- Composant : barre de filtres et de gestion des entite --%>
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="publikUsersSearchContainer">
 
-		<%-- Composant : partie filtres et selection --%>
-		<liferay-frontend:management-bar-filters>
-			<c:if test="${fn:length(dc.vocabularies) > 0}">
-				<li><a>Filtrer par :</a></li>
-			</c:if>
-			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-				<liferay-frontend:management-bar-filter 
-					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
-					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-			</c:forEach>
+	<%-- Composant : partie filtres et selection --%>
+	<liferay-frontend:management-bar-filters>
+		<c:if test="${fn:length(dc.vocabularies) > 0}">
+			<li><a>Filtrer par :</a></li>
+		</c:if>
+		<c:forEach var="vocabulary" items="${dc.vocabularies}">
+			<liferay-frontend:management-bar-filter 
+				managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
+				value="${dc.getVocabularyFilterLabel(vocabulary)}" />
+		</c:forEach>
 
-			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"lastName", "firstName", "email", "banish-date"} %>'
-				portletURL="${publikUsersURL}" />
-		</liferay-frontend:management-bar-filters>
+		<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
+			orderByType="${dc.orderByType}"
+			orderColumns='<%= new String[] {"last-name", "first-name", "email", "banish-date"} %>'
+			portletURL="${publikUsersURL}" />
+	</liferay-frontend:management-bar-filters>
 		
 </liferay-frontend:management-bar>
 
@@ -54,12 +54,12 @@
 
 				<%-- Colonne : Nom --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editPublikUserURL}" name="lastName" truncate="true" orderable="true"
+					href="${editPublikUserURL}" name="last-name" truncate="true" orderable="true"
 					value="${publikUser.lastName}" />
 				
 				<%-- Colonne : Prenom --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editPublikUserURL}" name="firstName" truncate="true" orderable="true"
+					href="${editPublikUserURL}" name="first-name" truncate="true" orderable="true"
 					value="${publikUser.firstName}" />
 				
 				<%-- Colonne : Email --%>

@@ -105,8 +105,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(1000) null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
-	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.publikUserLiferayId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.publikUserLiferayId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.lastName ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.lastName ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -121,7 +121,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			true);
 	public static final long PUBLIKID_COLUMN_BITMASK = 1L;
 	public static final long UUID_COLUMN_BITMASK = 2L;
-	public static final long PUBLIKUSERLIFERAYID_COLUMN_BITMASK = 4L;
+	public static final long LASTNAME_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.oidc.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.oidc.model.PublikUser"));
 
@@ -451,6 +451,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public void setLastName(String lastName) {
+		_columnBitmask = -1L;
+
 		_lastName = lastName;
 	}
 
@@ -589,17 +591,15 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public int compareTo(PublikUser publikUser) {
-		long primaryKey = publikUser.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = getLastName().compareTo(publikUser.getLastName());
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override
