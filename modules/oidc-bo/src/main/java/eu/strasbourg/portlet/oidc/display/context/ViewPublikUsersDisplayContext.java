@@ -1,16 +1,11 @@
 package eu.strasbourg.portlet.oidc.display.context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -27,9 +22,15 @@ public class ViewPublikUsersDisplayContext extends ViewListBaseDisplayContext<Pu
 	}
 	
 	public List<PublikUser> getPublikUsers() throws PortalException {
-		if (this._publikUsers == null) {
-			this._publikUsers = PublikUserLocalServiceUtil.getAllPublikUsers();
+		if (this._publikUsers == null) {	
+			
+			this._publikUsers = PublikUserLocalServiceUtil.getPublikUsers(
+				this.getSearchContainer().getStart(),
+				this.getSearchContainer().getEnd(),
+				this.getOrderByColSearchField(),
+				"desc".equals(this.getOrderByType()));
 		}
+		this.getSearchContainer().setTotal(PublikUserLocalServiceUtil.getAllPublikUsers().size());
 		return this._publikUsers;
 	}
 	
@@ -56,6 +57,25 @@ public class ViewPublikUsersDisplayContext extends ViewListBaseDisplayContext<Pu
 			publikUserIds += publikUser.getPublikUserLiferayId();
 		}
 		return publikUserIds;
+	}
+	
+	/**
+	 * Renvoie le nom de la colonne sur laquelle on fait le tri pour PublikUser
+	 * 
+	 * @return
+	 * @throws PortalException 
+	 */
+	public String getOrderByColSearchField() {
+		switch (this.getOrderByCol()) {
+			case "first-name":
+				return "firstName";
+			case "email":
+				return "email";
+			case "banish-date":
+				return "banishDate";
+			default:
+				return "lastName";
+		}
 	}
 	
 	/**

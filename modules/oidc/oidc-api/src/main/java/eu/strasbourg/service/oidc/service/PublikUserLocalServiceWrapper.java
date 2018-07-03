@@ -276,6 +276,19 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 	}
 
 	/**
+	* @Override public List<PublikUser> getPublikUsers(int start, int end, String sortField, boolean isSortDesc) {
+	List <PublikUser> results = this.publikUserPersistence.findWithDynamicQuery(dynamicQuery, start, end, orderByComparator)
+	return results;
+	}
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getPublikUsers(
+		int start, int end, java.lang.String sortField, boolean isSortDesc) {
+		return _publikUserLocalService.getPublikUsers(start, end, sortField,
+			isSortDesc);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
