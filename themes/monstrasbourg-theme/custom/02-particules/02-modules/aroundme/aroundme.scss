@@ -566,6 +566,9 @@
             &.green{
                 background-color: $crowded-green;
             }
+            &.black{
+                background-color: $crowded-black;
+            }
             &.grey,&.white{
                 background-color: $crowded-grey;
             }
@@ -756,6 +759,9 @@
                 */
                 &.red{
                     background-color: $crowded-red;
+                }
+                &.black{
+                    background-color: $crowded-black;
                 }
             }
             .crowded-label{
