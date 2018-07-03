@@ -7,14 +7,13 @@ import org.osgi.service.component.annotations.Component;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-
 /**
  * @author alexandre.quere
  */
 
 @Component(
         immediate = true,
-        properties = {
+        property = {
                 "javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_BO,
                 "mvc.command.name=selectionAction"
         },
