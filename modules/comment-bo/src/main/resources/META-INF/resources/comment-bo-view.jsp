@@ -1,6 +1,6 @@
-<%@ include file="/init.jsp"%>
+<%@ include file="/META-INF/resources/comment-bo-init.jsp"%>
 
-<c:set var="tab" value="${not empty param.tab ? param.tab : 'projects' }" />
+<c:set var="tab" value="${not empty param.tab ? param.tab : 'commentaires' }" />
 
 <!-- Declaration des URL de listing des entites -->
 <liferay-portlet:renderURL var="commentsURL">
@@ -21,8 +21,8 @@
 
 	<!-- Liste des onglet -->
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${commentsURL}" label="projects"
-			selected="${tab eq 'projects'}" />
+		<aui:nav-item href="${commentsURL}" label="comments"
+			selected="${tab eq 'comments'}" />
 	</aui:nav>
 
 	<aui:nav-bar-search>
