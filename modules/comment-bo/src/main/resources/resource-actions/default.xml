@@ -13,9 +13,6 @@
                 <action-key>EDIT_COMMENT</action-key>
             </supports>
             <site-member-defaults>
-            </site-member-defaults>
-            <guest-defaults/>
-            <guest-unsupported>
                 <action-key>ADD_TO_PAGE</action-key>
                 <action-key>ACCESS_IN_CONTROL_PANEL</action-key>
                 <action-key>CONFIGURATION</action-key>
@@ -23,6 +20,9 @@
                 <action-key>ADD_COMMENT</action-key>
                 <action-key>DELETE_COMMENT</action-key>
                 <action-key>EDIT_COMMENT</action-key>
+            </site-member-defaults>
+            <guest-defaults/>
+            <guest-unsupported>
             </guest-unsupported>
         </permissions>
     </portlet-resource>
@@ -35,12 +35,13 @@
         <permissions>
             <supports>
                 <action-key>VIEW</action-key>
+                <action-key>ADD_COMMENT</action-key>
+                <action-key>DELETE_COMMENT</action-key>
+                <action-key>EDIT_COMMENT</action-key>
             </supports>
             <site-member-defaults>
-                <action-key>VIEW</action-key>
             </site-member-defaults>
             <guest-defaults>
-                <action-key>VIEW</action-key>
             </guest-defaults>
             <guest-unsupported/>
         </permissions>
