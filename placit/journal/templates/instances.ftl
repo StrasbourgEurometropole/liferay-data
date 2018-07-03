@@ -1,6 +1,6 @@
 <!-- BLOCLES INSTANCES -->
 
-<section class="pro-bloc-large">
+<section class="pro-bloc-large" style="margin-bottom : 80px">
     <figure class="fit-cover">
         <img src="${image.getData()}" width="1600" height="580" alt="${image.getAttribute("alt")}"/>
     </figure>
