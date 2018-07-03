@@ -253,7 +253,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
                         rtType = "3";
 						// System.out.println("Type 3");
 					} else { // Parkings
-                        rtType = "3";
+                        rtType = "2";
 						// System.out.println("Type 2");
 					}
 				}
@@ -318,6 +318,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
         place.setRTAvailable(available);
         place.setRTCapacity(capacity);
         place.setRTStatus(status);
+        place.setRTType(type);
         this.updatePlace(place);
 
         AssetEntry entry = this.assetEntryLocalService
