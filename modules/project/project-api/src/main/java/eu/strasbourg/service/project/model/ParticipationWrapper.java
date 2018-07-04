@@ -88,7 +88,6 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("eventsIds", getEventsIds());
-		attributes.put("placesIds", getPlacesIds());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -265,12 +264,6 @@ public class ParticipationWrapper implements Participation,
 
 		if (eventsIds != null) {
 			setEventsIds(eventsIds);
-		}
-
-		String placesIds = (String)attributes.get("placesIds");
-
-		if (placesIds != null) {
-			setPlacesIds(placesIds);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -659,16 +652,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getParticipationStatus() {
 		return _participation.getParticipationStatus();
-	}
-
-	/**
-	* Returns the places IDs of this participation.
-	*
-	* @return the places IDs of this participation
-	*/
-	@Override
-	public java.lang.String getPlacesIds() {
-		return _participation.getPlacesIds();
 	}
 
 	/**
@@ -1171,16 +1154,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setParticipationId(long participationId) {
 		_participation.setParticipationId(participationId);
-	}
-
-	/**
-	* Sets the places IDs of this participation.
-	*
-	* @param placesIds the places IDs of this participation
-	*/
-	@Override
-	public void setPlacesIds(java.lang.String placesIds) {
-		_participation.setPlacesIds(placesIds);
 	}
 
 	/**

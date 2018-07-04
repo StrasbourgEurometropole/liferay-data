@@ -94,6 +94,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	@Override
 	public List<Place> getPlaces() {
+		/**
 		List<Place> places = new ArrayList<Place>();
 		for (String placeIdsStr : this.getPlacesIds().split(",")) {
 			Long placeId = GetterUtil.getLong(placeIdsStr);
@@ -103,6 +104,8 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			}
 		}
 		return places;
+		*/
+		return new ArrayList<Place>();
 	}
 
 	/**

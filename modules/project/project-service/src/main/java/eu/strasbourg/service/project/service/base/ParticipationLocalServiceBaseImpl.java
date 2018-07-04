@@ -63,6 +63,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
+import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 
@@ -510,6 +511,44 @@ public abstract class ParticipationLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the placit place local service.
+	 *
+	 * @return the placit place local service
+	 */
+	public eu.strasbourg.service.project.service.PlacitPlaceLocalService getPlacitPlaceLocalService() {
+		return placitPlaceLocalService;
+	}
+
+	/**
+	 * Sets the placit place local service.
+	 *
+	 * @param placitPlaceLocalService the placit place local service
+	 */
+	public void setPlacitPlaceLocalService(
+		eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService) {
+		this.placitPlaceLocalService = placitPlaceLocalService;
+	}
+
+	/**
+	 * Returns the placit place persistence.
+	 *
+	 * @return the placit place persistence
+	 */
+	public PlacitPlacePersistence getPlacitPlacePersistence() {
+		return placitPlacePersistence;
+	}
+
+	/**
+	 * Sets the placit place persistence.
+	 *
+	 * @param placitPlacePersistence the placit place persistence
+	 */
+	public void setPlacitPlacePersistence(
+		PlacitPlacePersistence placitPlacePersistence) {
+		this.placitPlacePersistence = placitPlacePersistence;
+	}
+
+	/**
 	 * Returns the project local service.
 	 *
 	 * @return the project local service
@@ -866,6 +905,10 @@ public abstract class ParticipationLocalServiceBaseImpl
 	protected ParticipationLocalService participationLocalService;
 	@BeanReference(type = ParticipationPersistence.class)
 	protected ParticipationPersistence participationPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.PlacitPlaceLocalService.class)
+	protected eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService;
+	@BeanReference(type = PlacitPlacePersistence.class)
+	protected PlacitPlacePersistence placitPlacePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.ProjectLocalService.class)
 	protected eu.strasbourg.service.project.service.ProjectLocalService projectLocalService;
 	@BeanReference(type = ProjectPersistence.class)

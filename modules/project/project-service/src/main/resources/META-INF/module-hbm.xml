@@ -3,6 +3,7 @@
 
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="eu.strasbourg.service.project.model.Participation" />
+	<import class="eu.strasbourg.service.project.model.PlacitPlace" />
 	<import class="eu.strasbourg.service.project.model.Project" />
 	<import class="eu.strasbourg.service.project.model.ProjectTimeline" />
 	<class name="eu.strasbourg.service.project.model.impl.ParticipationImpl" table="project_Participation">
@@ -36,9 +37,29 @@
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="eventsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="placesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.PlacitPlaceImpl" table="project_PlacitPlace">
+		<id name="placitPlaceId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="placeName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeStreetNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeStreetName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeZipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeCityId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="participationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="placeSIGId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ProjectImpl" table="project_Project">
 		<id name="projectId" type="long">
