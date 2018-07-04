@@ -168,8 +168,9 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 	}
 
 	/**
-	* Met à jour un projet et l'enregistre en base de données
+	* Met à jour un utilisateur Publik et l'enregistre en base
 	*
+	* @return L'utilisateur Publik modifié
 	* @throws IOException
 	*/
 	@Override
@@ -253,6 +254,12 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 			orderByComparator);
 	}
 
+	/**
+	* Rechercher tous les utilisateurs Publik directement via l'outil de persistance
+	* sans critere
+	*
+	* @return Liste de tous les utilisateurs Publik
+	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getAllPublikUsers() {
 		return _publikUserLocalService.getAllPublikUsers();
@@ -276,16 +283,74 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 	}
 
 	/**
-	* @Override public List<PublikUser> getPublikUsers(int start, int end, String sortField, boolean isSortDesc) {
-	List <PublikUser> results = this.publikUserPersistence.findWithDynamicQuery(dynamicQuery, start, end, orderByComparator)
-	return results;
+	* Rechercher des utilisateurs Publik directement via l'outil de persistance
+	* avec recherche et pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getPublikUsers(
+		int start, int end, java.lang.String keywords,
+		java.lang.String sortField, boolean isSortDesc) {
+		return _publikUserLocalService.getPublikUsers(start, end, keywords,
+			sortField, isSortDesc);
 	}
+
+	/**
+	* Rechercher des utilisateurs Publik directement via l'outil de persistance
+	* avec pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getPublikUsers(
 		int start, int end, java.lang.String sortField, boolean isSortDesc) {
 		return _publikUserLocalService.getPublikUsers(start, end, sortField,
 			isSortDesc);
+	}
+
+	/**
+	* Rechercher tous les utilisateurs Publik directement via l'outil de persistance
+	* avec recherche mais sans pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getPublikUsers(
+		java.lang.String keywords, java.lang.String sortField,
+		boolean isSortDesc) {
+		return _publikUserLocalService.getPublikUsers(keywords, sortField,
+			isSortDesc);
+	}
+
+	/**
+	* Rechercher des utilisateurs Publik directement via l'outil de persistance
+	* sans pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getPublikUsers(
+		java.lang.String sortField, boolean isSortDesc) {
+		return _publikUserLocalService.getPublikUsers(sortField, isSortDesc);
 	}
 
 	/**

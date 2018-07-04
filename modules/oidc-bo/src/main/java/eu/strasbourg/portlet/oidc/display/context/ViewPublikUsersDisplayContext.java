@@ -22,15 +22,24 @@ public class ViewPublikUsersDisplayContext extends ViewListBaseDisplayContext<Pu
 	}
 	
 	public List<PublikUser> getPublikUsers() throws PortalException {
+		
+		int countResults = 0;
+		
 		if (this._publikUsers == null) {	
 			
 			this._publikUsers = PublikUserLocalServiceUtil.getPublikUsers(
 				this.getSearchContainer().getStart(),
 				this.getSearchContainer().getEnd(),
+				this.getKeywords(),
 				this.getOrderByColSearchField(),
 				"desc".equals(this.getOrderByType()));
+			
+			countResults = PublikUserLocalServiceUtil.getPublikUsers(
+					this.getKeywords(),
+					this.getOrderByColSearchField(),
+					"desc".equals(this.getOrderByType())).size();
 		}
-		this.getSearchContainer().setTotal(PublikUserLocalServiceUtil.getAllPublikUsers().size());
+		this.getSearchContainer().setTotal(countResults);
 		return this._publikUsers;
 	}
 	

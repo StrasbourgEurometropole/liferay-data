@@ -152,8 +152,9 @@ public interface PublikUserLocalService extends BaseLocalService,
 	public PublikUser updatePublikUser(PublikUser publikUser);
 
 	/**
-	* Met à jour un projet et l'enregistre en base de données
+	* Met à jour un utilisateur Publik et l'enregistre en base
 	*
+	* @return L'utilisateur Publik modifié
 	* @throws IOException
 	*/
 	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
@@ -213,6 +214,12 @@ public interface PublikUserLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	/**
+	* Rechercher tous les utilisateurs Publik directement via l'outil de persistance
+	* sans critere
+	*
+	* @return Liste de tous les utilisateurs Publik
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<PublikUser> getAllPublikUsers();
 
@@ -231,14 +238,63 @@ public interface PublikUserLocalService extends BaseLocalService,
 	public List<PublikUser> getPublikUsers(int start, int end);
 
 	/**
-	* @Override public List<PublikUser> getPublikUsers(int start, int end, String sortField, boolean isSortDesc) {
-	List <PublikUser> results = this.publikUserPersistence.findWithDynamicQuery(dynamicQuery, start, end, orderByComparator)
-	return results;
-	}
+	* Rechercher des utilisateurs Publik directement via l'outil de persistance
+	* avec recherche et pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PublikUser> getPublikUsers(int start, int end,
+		java.lang.String keywords, java.lang.String sortField,
+		boolean isSortDesc);
+
+	/**
+	* Rechercher des utilisateurs Publik directement via l'outil de persistance
+	* avec pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<PublikUser> getPublikUsers(int start, int end,
 		java.lang.String sortField, boolean isSortDesc);
+
+	/**
+	* Rechercher tous les utilisateurs Publik directement via l'outil de persistance
+	* avec recherche mais sans pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PublikUser> getPublikUsers(java.lang.String keywords,
+		java.lang.String sortField, boolean isSortDesc);
+
+	/**
+	* Rechercher des utilisateurs Publik directement via l'outil de persistance
+	* sans pagination
+	*
+	* @param start Debut de l'index de recherche pour la pagination
+	* @param end Fin de l'index de recherche pour la pagination
+	* @param sortField Champ de tri utilisé
+	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
+	* @return Liste des utilisateurs trouvés
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PublikUser> getPublikUsers(java.lang.String sortField,
+		boolean isSortDesc);
 
 	/**
 	* Returns the number of rows matching the dynamic query.
