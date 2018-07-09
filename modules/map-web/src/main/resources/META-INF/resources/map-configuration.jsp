@@ -27,9 +27,15 @@
 				<!-- Lieux -->
 				<aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
 					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
+				
 				<!-- Evénements -->
 				<aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
 					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" ></aui:input>
+			
+				<!-- Carto normale et page autour de moi -->
+				<div class="eventExplanation">
+					<aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
+				</div>
 			
 			</aui:fieldset>
 			
@@ -56,11 +62,6 @@
 				<!-- Choix de l'ouverture d'un lien dans un nouvel onglet ou pas  -->
 				<div>
 					<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
-				</div>
-			
-				<!-- Carto normale et page autour de moi -->
-				<div class="eventExplanation">
-					<aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
 				</div>
 			</aui:fieldset>
 			
