@@ -147,6 +147,10 @@ L.Control.ListMarkers = L.Control.extend({
 		    a.insertAdjacentHTML('afterend', lienFavori);
 		}
 
+		if (layer.feature.properties.listeTypes) {
+		    a.insertAdjacentHTML('afterend', '<p class="types">' + layer.feature.properties.listeTypes + '</p>');
+		}
+
 		return div;
 	},
 

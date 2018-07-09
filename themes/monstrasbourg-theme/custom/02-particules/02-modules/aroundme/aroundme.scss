@@ -274,6 +274,16 @@
                 justify-content: center;
             }
 
+            .types{
+                font-family: $main-font;
+                font-size: 1.5rem;
+                font-weight: 300;
+                color: #505050;
+                background-color: #FFFFFF;
+                padding: 0px 10px 10px 10px;
+                text-align: left;
+            }
+
             &__visuel{
                 padding-bottom: 70%;
                 background-size: cover;

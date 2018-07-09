@@ -434,6 +434,14 @@ public class PoiServiceImpl implements PoiService {
 
 			// gestion des doublons
 			properties.put("sigId", place.getSIGid());
+			String types = "";
+			for (AssetCategory type : place.getTypes()) {
+				if (types.length() > 0) {
+					types += ", ";
+				}
+				types += type.getTitle(Locale.FRANCE);
+			}
+			properties.put("listeTypes", types);
 
 			// bouton favoris
 			properties.put("type", FavoriteLocalServiceUtil.getFavoriteTypeByClass(place.getModelClassName()));
@@ -584,6 +592,14 @@ public class PoiServiceImpl implements PoiService {
 				properties.put("url", url);
 			}
 			properties.put("sigId", event.getPlaceSIGId() + "_" + event.getEventId());
+			String types = "";
+			for (AssetCategory type : event.getTypes()) {
+				if (types.length() > 0) {
+					types += ", ";
+				}
+				types += type.getTitle(Locale.FRANCE);
+			}
+			properties.put("listeTypes", types);
 
 			// pour les favoris
 			properties.put("type", FavoriteLocalServiceUtil.getFavoriteTypeByClass(event.getModelClassName()));
