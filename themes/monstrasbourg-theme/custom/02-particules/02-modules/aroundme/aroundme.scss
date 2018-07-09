@@ -1,6 +1,11 @@
 #aroundme{
     overflow: hidden;
     position: relative;
+    
+    .add-favorites{
+        color: $core-color !important;
+        font-size: 1.3rem !important;
+    }
 
     $panel_trigger_size: 35;
 
@@ -256,6 +261,10 @@
             }
         }
         &__item{
+            .add-favorites{
+                border-top: solid 1px #dddddd;
+                justify-content: center;
+            }
 
             &__visuel{
                 padding-bottom: 70%;
@@ -271,16 +280,17 @@
                 display: block;
                 position: relative;
                 font-family: "MontSerrat", arial;
-                font-size: 1.4rem;
+                font-size: 1.5rem;
                 line-height: 1.2em;
-                font-weight: 400;
+                font-weight: 700;
                 cursor: pointer;
                 letter-spacing: 1px;
-                color: #707070;
+                color: #505050;
                 font-weight: 700;
                 background-color: #FFFFFF;
                 padding: 10px 10px;
                 width: 100%;
+
             }
 
             [type="checkbox"]{
@@ -689,12 +699,12 @@
         }
         &__middle{
             border-top: solid 1px #dddddd;
-            border-bottom: solid 1px #dddddd;
             padding-top: 10px;
             padding-bottom: 10px;
             display: flex;
         }
         &__bottom{
+            border-top: solid 1px #dddddd;
             padding-top: 20px;
             padding-bottom: 10px;
             display: flex;
