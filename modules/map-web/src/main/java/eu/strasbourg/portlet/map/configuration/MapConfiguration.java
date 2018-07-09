@@ -28,6 +28,9 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "typesContenu", required = false)
 	public String typesContenu();
+
+	@Meta.AD(name = "eventExplanationXML", deflt = "", required = false)
+	public String eventExplanationXML();
 	
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();

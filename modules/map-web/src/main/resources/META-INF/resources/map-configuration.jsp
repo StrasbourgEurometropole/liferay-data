@@ -33,6 +33,37 @@
 			
 			</aui:fieldset>
 			
+			<!-- Affichage -->
+			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
+
+				<!-- Choix de l'affichage de la zone de configuration -->
+				<div>
+					<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+				</div>
+				
+				<!-- Choix de l'affichage de la liste -->
+				<div>
+					<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
+				</div>
+			
+				<!-- Choix du site pour la cible des lien -->
+				<aui:select name="groupId" label="detail-target-site">
+					<c:forEach var="site" items="${sites}">
+						<aui:option value="${site.groupId}" selected="${site.groupId eq selectedGroupId}">${site.name}</aui:option>
+					</c:forEach>
+				</aui:select>
+				
+				<!-- Choix de l'ouverture d'un lien dans un nouvel onglet ou pas  -->
+				<div>
+					<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
+				</div>
+			
+				<!-- Carto normale et page autour de moi -->
+				<div class="eventExplanation">
+					<aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
+				</div>
+			</aui:fieldset>
+			
 			<!-- Carto normale -->
 			<aui:fieldset collapsed="true" collapsible="true"
 					label="filters-and-prefilters" cssClass="normalMode">
@@ -76,33 +107,6 @@
 				<div>
 					<aui:input type="checkbox" name="districtUser" value="${districtUser}" label="district-user" />
 				</div>
-			</aui:fieldset>
-			
-			<!-- Affichage -->
-			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
-
-				<!-- Choix de l'affichage de la zone de configuration -->
-				<div>
-					<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
-				</div>
-				
-				<!-- Choix de l'affichage de la liste -->
-				<div>
-					<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
-				</div>
-			
-				<!-- Choix du site pour la cible des lien -->
-				<aui:select name="groupId" label="detail-target-site">
-					<c:forEach var="site" items="${sites}">
-						<aui:option value="${site.groupId}" selected="${site.groupId eq selectedGroupId}">${site.name}</aui:option>
-					</c:forEach>
-				</aui:select>
-				
-				<!-- Choix de l'ouverture d'un lien dans un nouvel onglet ou pas  -->
-				<div>
-					<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
-				</div>
-				
 			</aui:fieldset>
 			
 			<!-- MonStrabourg -->
@@ -182,16 +186,19 @@
                             $('.widgetMode').show();
                             $('.aroundMeMode').hide();
                             $('.normalMode').hide();
+                            $('.eventExplanation').hide();
                         } else if (mode == 'aroundme') {
                             $('.monStrasbourgMode').show();
                             $('.widgetMode').hide();
                             $('.aroundMeMode').show();
                             $('.normalMode').hide();
+                            $('.eventExplanation').show();
                         } else {
                             $('.monStrasbourgMode').hide();
                             $('.widgetMode').hide();
                             $('.aroundMeMode').hide();
                             $('.normalMode').show();
+                            $('.eventExplanation').show();
                         }
 					}
 					$('.modeSelection input[type=radio]').on('change', function() {

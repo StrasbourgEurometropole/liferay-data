@@ -1,6 +1,7 @@
 package eu.strasbourg.service.poi.impl;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -29,6 +30,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
@@ -54,7 +56,8 @@ public class PoiServiceImpl implements PoiService {
 		return getPois(idInterests, "", "", groupId, Place.class.getName());
 	}
 
-	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId, String classNames) {
+	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId,
+			String classNames) {
 		JSONObject geoJson = null;
 
 		long globalGroupId = -1;
@@ -117,7 +120,7 @@ public class PoiServiceImpl implements PoiService {
 		long startTime = 0, endTime = 0, duration = 0;
 		List<Place> places = new ArrayList<Place>();
 		if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
-			// récupère les lieux des centres d'intérêt
+			// récupère les lieux des catégories et centres d'intérêt
 			startTime = System.nanoTime();
 			places = getPlaces(filterCategoryIds, prefiltersCategoryIds, globalGroupId);
 			endTime = System.nanoTime();
@@ -127,7 +130,7 @@ public class PoiServiceImpl implements PoiService {
 
 		List<Event> events = new ArrayList<Event>();
 		if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
-			// récupère les évènements des centres d'intérêt
+			// récupère les évènements des catégories et centres d'intérêt
 			startTime = System.nanoTime();
 			events = getEvents(filterCategoryIds, prefiltersCategoryIds, globalGroupId);
 			endTime = System.nanoTime();
@@ -184,7 +187,6 @@ public class PoiServiceImpl implements PoiService {
 		}
 		query.setAnyCategoryIds(categories.stream().mapToLong(c -> c.getCategoryId()).toArray());
 
-
 		List<AssetEntry> entriesForFiltersAndPrefilters = AssetEntryLocalServiceUtil.getEntries(query);
 
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
@@ -192,7 +194,14 @@ public class PoiServiceImpl implements PoiService {
 		for (AssetEntry entry : entriesForFiltersAndPrefilters) {
 			if (entry.getVisible() && entry.getListable()
 					&& (classNames.contains(entry.getClassName()) || classNames.equals("all"))) {
-				entries.add(entry);
+				if (entry.getClassName().equals(Event.class.getName())) {
+					Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
+					if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
+						entries.add(entry);
+					}
+				} else {
+					entries.add(entry);
+				}
 			}
 		}
 		return entries.size();
@@ -200,40 +209,46 @@ public class PoiServiceImpl implements PoiService {
 
 	public int getPoisInterestCount(long idInterest, long groupId, String classNames) {
 
-        Interest interest = InterestLocalServiceUtil.fetchInterest(idInterest);
-        List<AssetCategory> interestCategories = interest.getCategories();
-        // récupère les catégories ainsi que les catégories enfants des
-        // catégories
-        long globalGroupId = -1;
-        List<AssetCategory> categories = new ArrayList<AssetCategory>();
-        for (AssetCategory interestCategory : interestCategories) {
-            categories.add(interestCategory);
-            // récupère les catégories enfants
-            List<AssetCategory> childCategories = AssetCategoryLocalServiceUtil
-                    .getChildCategories(interestCategory.getCategoryId());
-            if (!childCategories.isEmpty()) {
-                categories.addAll(childCategories);
-            }
-            if (globalGroupId == -1) {
-                globalGroupId = interestCategory.getGroupId();
-            }
-        }
+		Interest interest = InterestLocalServiceUtil.fetchInterest(idInterest);
+		List<AssetCategory> interestCategories = interest.getCategories();
+		// récupère les catégories ainsi que les catégories enfants des
+		// catégories
+		long globalGroupId = -1;
+		List<AssetCategory> categories = new ArrayList<AssetCategory>();
+		for (AssetCategory interestCategory : interestCategories) {
+			categories.add(interestCategory);
+			// récupère les catégories enfants
+			List<AssetCategory> childCategories = AssetCategoryLocalServiceUtil
+					.getChildCategories(interestCategory.getCategoryId());
+			if (!childCategories.isEmpty()) {
+				categories.addAll(childCategories);
+			}
+			if (globalGroupId == -1) {
+				globalGroupId = interestCategory.getGroupId();
+			}
+		}
 
-        AssetEntryQuery query = new AssetEntryQuery();
-        query.setAnyCategoryIds(categories.stream().mapToLong(c -> c.getCategoryId()).toArray());
+		AssetEntryQuery query = new AssetEntryQuery();
+		query.setAnyCategoryIds(categories.stream().mapToLong(c -> c.getCategoryId()).toArray());
 
+		List<AssetEntry> entriesForFilters = AssetEntryLocalServiceUtil.getEntries(query);
 
-        List<AssetEntry> entriesForFilters = AssetEntryLocalServiceUtil.getEntries(query);
+		List<AssetEntry> entries = new ArrayList<>();
 
-        List<AssetEntry> entries = new ArrayList<>();
-
-        for (AssetEntry entry : entriesForFilters) {
-            if (entry.getVisible() && entry.getListable()
-                    && (classNames.contains(entry.getClassName()) || classNames.equals("all"))) {
-                entries.add(entry);
-            }
-        }
-        return entries.size();
+		for (AssetEntry entry : entriesForFilters) {
+			if (entry.getVisible() && entry.getListable()
+					&& (classNames.contains(entry.getClassName()) || classNames.equals("all"))) {
+				if (entry.getClassName().equals(Event.class.getName())) {
+					Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
+					if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
+						entries.add(entry);
+					}
+				} else {
+					entries.add(entry);
+				}
+			}
+		}
+		return entries.size();
 	}
 
 	private List<Place> getPlaces(Long[] categoryIds, Long[] prefilters, long globalGroupId) {
@@ -251,8 +266,8 @@ public class PoiServiceImpl implements PoiService {
 			}
 
 			entries = entries.stream()
-					.filter(e -> entriesFromPrefilters.stream()
-							.anyMatch(p -> p.getEntryId() == e.getEntryId())).collect(Collectors.toList());
+					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getEntryId() == e.getEntryId()))
+					.collect(Collectors.toList());
 		}
 
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).distinct().collect(Collectors.toList());
@@ -270,7 +285,7 @@ public class PoiServiceImpl implements PoiService {
 
 		List<AssetEntry> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-				entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+			entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
 		}
 		List<AssetEntry> entries = new ArrayList(entriesFromFilters);
 
@@ -281,8 +296,8 @@ public class PoiServiceImpl implements PoiService {
 			}
 
 			entries = entriesFromFilters.stream()
-					.filter(e -> entriesFromPrefilters.stream()
-							.anyMatch(p -> p.getEntryId() == e.getEntryId())).collect(Collectors.toList());
+					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getEntryId() == e.getEntryId()))
+					.collect(Collectors.toList());
 		}
 
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
@@ -291,6 +306,9 @@ public class PoiServiceImpl implements PoiService {
 			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
 			List<Event> events = EventLocalServiceUtil.dynamicQuery(eventQuery);
+			// on ne garde que les évènements du jour
+			events = events.stream().filter(e -> e.getNextOpenDate().isEqual(LocalDate.now()))
+					.collect(Collectors.toList());
 
 			return events;
 		} else {
@@ -328,7 +346,8 @@ public class PoiServiceImpl implements PoiService {
 				if (eventFavorites != null) {
 					for (Favorite favorite : eventFavorites.collect(Collectors.toList())) {
 						Event event = EventLocalServiceUtil.fetchEvent(favorite.getEntityId());
-						if (event != null) {
+						if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
+							// on ne garde que les évènements du jour
 							events.add(event);
 						}
 					}
@@ -350,15 +369,33 @@ public class PoiServiceImpl implements PoiService {
 
 		// récupère les favoris de l'uilisateur
 		List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
-		if (classNames.equals("all"))
-			return favorites.size();
-		else {
+		if (classNames.equals("all")){
+			count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId())
+					.collect(Collectors.toList()).size();
+			List<Favorite> eventsfavorites = favorites.stream()
+					.filter(f -> f.getTypeId() == FavoriteType.EVENT.getId()).collect(Collectors.toList());
+			for (Favorite favorite : eventsfavorites) {
+				Event event = EventLocalServiceUtil.fetchEvent(favorite.getEntityId());
+				if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
+					count++;
+					;
+				}
+			}
+		}else {
 			if (classNames.contains(Place.class.getName()))
 				count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId())
 						.collect(Collectors.toList()).size();
-			if (classNames.contains(Event.class.getName()))
-				count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.EVENT.getId())
-						.collect(Collectors.toList()).size();
+			if (classNames.contains(Event.class.getName())) {
+				List<Favorite> eventsfavorites = favorites.stream()
+						.filter(f -> f.getTypeId() == FavoriteType.EVENT.getId()).collect(Collectors.toList());
+				for (Favorite favorite : eventsfavorites) {
+					Event event = EventLocalServiceUtil.fetchEvent(favorite.getEntityId());
+					if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
+						count++;
+						;
+					}
+				}
+			}
 		}
 		return count;
 	}
@@ -553,19 +590,27 @@ public class PoiServiceImpl implements PoiService {
 			properties.put("id", event.getEventId());
 
 			// Prochaine date
-			if (event.getFirstStartDate() != null) {
+			if (!event.getCurrentAndFuturePeriods().isEmpty()) {
 				String opened = "Prochaines dates";
 				String schedule = "";
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				if (event.getFirstStartDate().equals(event.getLastEndDate())) {
-					schedule = "Le " + sdf.format(event.getFirstStartDate());
-				} else {
-					if (event.getFirstStartDate().compareTo(new Date()) <= 0) {
-						schedule = "Du " + sdf.format(event.getFirstStartDate()) + " au "
-								+ sdf.format(event.getLastEndDate());
+				List<EventPeriod> currentAndFuturePeriods = event.getCurrentAndFuturePeriods();
+				if (!currentAndFuturePeriods.isEmpty()) {
+					EventPeriod period = currentAndFuturePeriods.get(0);
+					// Si ça n'est pas ue période mais un jour, afficher la période suivante
+//					if (period.getStartDate().equals(period.getEndDate())
+//							&& period.getStartDate().compareTo(new Date()) == 0 && currentAndFuturePeriods.size() > 1) {
+//						period = currentAndFuturePeriods.get(1);
+//					}
+					if (period.getStartDate().equals(period.getEndDate())) {
+						schedule = "Le " + sdf.format(period.getStartDate());
 					} else {
-						schedule = "Du " + sdf.format(event.getFirstStartDate()) + " au "
-								+ sdf.format(event.getLastEndDate());
+//						if (period.getStartDate().compareTo(new Date()) <= 0) {
+//							schedule = "Du " + sdf.format(LocalDate.now()) + " au " + sdf.format(period.getEndDate());
+//						} else {
+							schedule = "Du " + sdf.format(period.getStartDate()) + " au "
+									+ sdf.format(period.getEndDate());
+//						}
 					}
 				}
 				properties.put("opened", opened);

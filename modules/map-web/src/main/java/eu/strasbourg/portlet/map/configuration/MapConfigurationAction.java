@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.map.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
@@ -26,8 +28,10 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -108,6 +112,17 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 			setPreference(request, "typesContenu", typesContenuString);
 			json.put("typesContenu", jsonArrayTypeContenu);
+			
+			// texte explicatif sur les évènements
+			Map<Locale, String> eventExplanationMap = LocalizationUtil
+				.getLocalizationMap(request, "eventExplanationMap");
+			LocalizedValuesMap mapEventExplanation = new LocalizedValuesMap();
+			for (Map.Entry<Locale, String> e : eventExplanationMap.entrySet()) {
+				mapEventExplanation.put(e.getKey(), e.getValue());
+			}
+			String eventExplanationXML = LocalizationUtil.getXml(mapEventExplanation, "eventExplanation");
+			setPreference(request, "eventExplanationXML", eventExplanationXML);
+			json.put("eventExplanationXML", eventExplanationXML);
 
 			// Préfiltre catégories
 			String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
@@ -318,6 +333,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Choix "nouvel onglet, onglet courant"
 			request.setAttribute("openInNewTab", configuration.openInNewTab());
+
+			// texte explicatif sur les évènements
+			request.setAttribute("eventExplanation", configuration.eventExplanationXML());
 
 			// Types de contenu
 			String[] typesContenu = ParamUtil.getStringValues(request, "typesContenu");

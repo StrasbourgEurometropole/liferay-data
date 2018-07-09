@@ -38,6 +38,8 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -115,6 +117,8 @@ public class MapPortlet extends MVCPortlet {
 			boolean showFavorites = false; // Affichage des favoris par défaut
 			boolean showConfig = true; // Affichage de la zone de configuration
 			boolean showList = true; // Affichage de la liste à droite
+			
+			String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
 			List<AssetCategory> categories = null; // Les catégories actives
 			List<Interest> interests = null; // Les intérêts actifs
 
@@ -152,6 +156,17 @@ public class MapPortlet extends MVCPortlet {
 					hasConfig = true;
 					groupId = configuration.groupId();
 					openInNewTab = configuration.openInNewTab();
+
+					Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.eventExplanationXML());
+					for (Map.Entry<Locale, String> map : mapText.entrySet()) {
+						if (themeDisplay.getLocale().toString().equals(map.getKey().toString())) {
+							eventExplanationText = HtmlUtil.unescape(map.getValue());
+							break;
+						}
+					}
+					if (Validator.isNull(eventExplanationText)) {
+						eventExplanationText = "No configuration";
+					}
 					districtUser = configuration.districtUser();
 					if (districtUser) {
                         if (Validator.isNotNull(address)) {
@@ -388,6 +403,7 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("showFavorites", showFavorites);
 			request.setAttribute("showConfig", showConfig);
 			request.setAttribute("showList", showList);
+			request.setAttribute("eventExplanationText", eventExplanationText);
 			request.setAttribute("address", address);
 			request.setAttribute("defaultConfig", configuration.defaultConfig());
 			request.setAttribute("internalId", internalId);

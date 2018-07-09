@@ -39,6 +39,7 @@
 		        <button class="top__trigger top__trigger--pull opened"></button>
 		        <div class="top__overflow">
 		            <aui:form method="POST" action="#" name="addItemForm" id="addItemForm" cssClass="filtres filtres--category">
+    					<p>${eventExplanationText}</p>
 		                <div class="filtres__list" id="poin">
 	                        <button type="button" class="top__trigger top__trigger--close mobile-only"></button>
 		                    <c:set var="checkboxNamesCategories" value="" />

@@ -493,7 +493,7 @@ public class EventImpl extends EventBaseImpl {
 			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && endDate.isBefore(today) || today.isEqual(startDate)) {
+			if (today.isAfter(startDate) && today.isBefore(endDate) || today.isEqual(startDate)) {
 				return true;
 			}
 		}
