@@ -148,9 +148,8 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	@Override
 	public String getProjectCategoryColor() {
-		long categoryId = this.getProjectCategory().getCategoryId();
-		String colorHexa = AssetVocabularyHelper.getCategoryProperty(categoryId, "code_color");
-		return "#" + colorHexa;
+		long categoryId = this.getTypeCategory().getCategoryId();
+		return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
 	}
 	
 	/**
