@@ -53,7 +53,7 @@ public class AdictServiceImpl implements AdictService {
 					String id = properties.getString("id");
 					String houseNumber = properties.getString("housenumber");
 					Double score = properties.getDouble("score");
-					int zipCode = properties.getInt("code_postal");
+					int zipCode = properties.getInt("postcode");
 					String label = properties.getString("label");
 					String name = properties.getString("name");
 					String city = properties.getString("city");
