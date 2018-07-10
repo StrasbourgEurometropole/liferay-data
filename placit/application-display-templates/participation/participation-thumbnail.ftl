@@ -35,26 +35,8 @@
 <!-- Recuperation du type de la participation (information, concertation, etc.) -->
 <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
-<#switch participationType>
-    <#case "Information">
-        <#assign cssParticipationType = "pro-theme-information" />
-        <#break>
-    <#case "Consultation">
-        <#assign cssParticipationType = "pro-theme-consultation" />
-        <#break>
-    <#case "Co-construction">
-        <#assign cssParticipationType = "pro-theme-co-construire" />
-        <#break>
-    <#case "Concertation">
-        <#assign cssParticipationType = "pro-theme-concertation" />
-        <#break>
-    <#case "Enquête publique">
-        <#assign cssParticipationType = "pro-theme-enquete-publique" />
-        <#break>
-    <#default>
-        <#assign cssParticipationType = "" />
-        <#break>
-</#switch>
+<!-- Recuperation de la couleur hexa correspondant au type de la participation -->
+<#assign participationColor = entry.getProjectCategoryColor() />
 
 <!-- Recuperation des thématiques de la participation -->
 <#if entry.getThematicCategories()??>
@@ -66,7 +48,7 @@
     <#assign participationProject = entry.getProjectCategory() />
 </#if>
 
-<div class="item pro-bloc-card-participation ${cssParticipationType}" data-linkall="a">
+<div class="item pro-bloc-card-participation type-color-hexa-${participationColor}" data-linkall="a">
     <div>
         <div class="pro-header-participation">
             <figure role="group">
@@ -86,10 +68,10 @@
         </div>
         <div class="pro-content-participation">
             <div class="pro-meta">
-
+                
                 <!-- Liste des quartiers de la participation -->
                 <span>${entry.getDistrictLabel(locale)}</span>
-
+                
                 <!-- Liste des thématiques de la participation -->
                 <#if participationThematics?? >
                     <#list participationThematics as participationThematic >
@@ -136,3 +118,12 @@
 
     </div>
 </div>
+
+<!-- Cree le style de couleur hexa a la volee pour l'application de la couleur !-->
+<#if participationColor?has_content>
+    <style style="display: none" >
+        .type-color-hexa-${participationColor}>*:before {
+            background:#${participationColor};
+        }
+    </style>
+</#if>

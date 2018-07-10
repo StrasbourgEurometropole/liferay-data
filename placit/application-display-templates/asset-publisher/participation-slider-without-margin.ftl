@@ -1,4 +1,4 @@
-<!-- SLIDER DE PARTICIPATIONS -->
+<!-- SLIDER DE PARTICIPATIONS SANS MARGE -->
 
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
@@ -42,28 +42,10 @@
                     <!-- Recuperation du type de la participation (information, concertation, etc.) -->
                     <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
-                    <#switch participationType>
-                        <#case "Information">
-                            <#assign cssParticipationType = "pro-theme-information" />
-                            <#break>
-                        <#case "Consultation">
-                            <#assign cssParticipationType = "pro-theme-consultation" />
-                            <#break>
-                        <#case "Co-construction">
-                            <#assign cssParticipationType = "pro-theme-co-construire" />
-                            <#break>
-                        <#case "Concertation">
-                            <#assign cssParticipationType = "pro-theme-concertation" />
-                            <#break>
-                        <#case "Enquête publique">
-                            <#assign cssParticipationType = "pro-theme-brun" />
-                            <#break>
-                        <#default>
-                            <#assign cssParticipationType = "" />
-                            <#break>
-                    </#switch>
+                    <!-- Recuperation de la couleur hexa correspondant au type de la participation -->
+                    <#assign participationColor = entry.getProjectCategoryColor() />
 
-                    <div class="item pro-bloc-card-participation ${cssParticipationType}" data-linkall="a">
+                    <div class="item pro-bloc-card-participation type-color-hexa-${participationColor}" data-linkall="a">
                         <div>
                             <div class="pro-header-participation">
                                 <figure role="group">
@@ -102,6 +84,16 @@
                                 </div>
                             </#if>
                         </div>
+
+                        <!-- Cree le style de couleur hexa a la volee pour l'application de la couleur !-->
+                        <#if participationColor?has_content>
+                            <style style="display: none" >
+                                .type-color-hexa-${participationColor}>*:before {
+                                    background:#${participationColor};
+                                }
+                            </style>
+                        </#if>
+
                     </div>
 
                 </#list>
