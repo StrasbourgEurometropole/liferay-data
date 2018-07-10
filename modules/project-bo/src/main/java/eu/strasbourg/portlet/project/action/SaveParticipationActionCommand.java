@@ -28,7 +28,9 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -61,8 +63,9 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 				PortletURL returnURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
-
+				
 				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("cmd", "editParticipation");
 				response.setRenderParameter("mvcPath","/project-bo-edit-participation.jsp");
 				return false;
 			}
@@ -156,7 +159,7 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setDescriptionBody(descriptionBody);
 			
 			// ---------------------------------------------------------------
-			// -------------------------- Lieux de consultations -------------
+			// -------------------------- LIEUX DE CONSULTATIONS -------------
 			// ---------------------------------------------------------------
 			
 			// Corps de la description des lieux de consultation
@@ -164,8 +167,65 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setConsultationPlacesBody(consultationPlacesBody);
 			
 			// Lieux
-			String placesIds = ParamUtil.getString(request, "placesIds");
-			participation.setPlacesIds(placesIds);
+			for (PlacitPlace placitPlace : participation.getPlacitPlaces()) {
+				// On supprime d'abord les lieux existants
+				_placitPlaceLocalService.removePlacitPlace(placitPlace.getPlacitPlaceId());
+			}
+			// Puis on crée les nouveaux
+			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
+			for (String placitPlacesIndexe : placitPlacesIndexesString.split(",")) {
+				
+				// Recupere les valeurs de test pour savoir si il existe des lieux placit
+				String placeSIGId = ParamUtil.getString(request, "placeSIGId" + placitPlacesIndexe);
+				String placeName = ParamUtil.getString(request, "placeName" + placitPlacesIndexe);
+				long placeCityId = ParamUtil.getLong(request, "placeCityId" + placitPlacesIndexe);
+				
+				// Si il existe au moins un lieu SIG ou manuel
+				if (Validator.isNotNull(placitPlacesIndexe) 
+						&& (Validator.isNotNull(placeSIGId) 
+						|| (Validator.isNotNull(placeName) 
+						&& Validator.isNotNull(placeCityId)))) {
+					// Initialisation de l'entité
+					PlacitPlace placitPlace = _placitPlaceLocalService.createPlacitPlace(sc);				
+					
+					if (Validator.isNotNull(placeSIGId)) {
+						// Lieu SIG
+						placitPlace.setPlaceSIGId(placeSIGId);
+					} else {
+						// Nom du lieu
+						placitPlace.setPlaceName(placeName);
+
+						// Numéro de rue
+						String placeStreetNumber = ParamUtil.getString(request,
+							"placeStreetNumber" + placitPlacesIndexe);
+						placitPlace.setPlaceStreetNumber(placeStreetNumber);
+
+						// Nom de la rue
+						String placeStreetName = ParamUtil.getString(request,
+							"placeStreetName" + placitPlacesIndexe);
+						placitPlace.setPlaceStreetName(placeStreetName);
+
+						// Code postal
+						String placeZipCode = ParamUtil.getString(request,
+							"placeZipCode" + placitPlacesIndexe);
+						placitPlace.setPlaceZipCode(placeZipCode);
+
+						// Ville
+						placitPlace.setPlaceCityId(placeCityId);
+						
+						// Image du lieu
+						long placeImageId = ParamUtil.getLong(request,
+							"placeImageId" + placitPlacesIndexe);
+						placitPlace.setImageId(placeImageId);
+					}
+
+					// Rattachement a la participation
+					placitPlace.setParticipationId(participation.getParticipationId());
+
+					// Mise à jour en base
+					_placitPlaceLocalService.updatePlacitPlace(placitPlace, sc);
+				}
+			}
 			
 			// ---------------------------------------------------------------
 			// -------------------------- DOCUMENTS --------------------------
@@ -244,7 +304,14 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 		_participationLocalService = participationLocalService;
 	}
 	
+	@Reference(unbind = "-")
+	protected void setPlacitPlaceLocalService(PlacitPlaceLocalService placitPlaceLocalService) {
+		_placitPlaceLocalService = placitPlaceLocalService;
+	}
+	
 	private ParticipationLocalService _participationLocalService;
+	
+	private PlacitPlaceLocalService _placitPlaceLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 

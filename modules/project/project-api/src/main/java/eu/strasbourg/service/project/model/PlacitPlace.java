@@ -84,4 +84,36 @@ public interface PlacitPlace extends PlacitPlaceModel, PersistedModel {
 	* Retourne le nom du lieu SIG ou "manuel"
 	*/
 	public java.lang.String getPlaceAlias(java.util.Locale locale);
+
+	/**
+	* Retourne l'adresse (num + rue) du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getAddress();
+
+	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getCompleteAddress(java.util.Locale locale);
+
+	/**
+	* Retourne le code postal du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getZipCode();
+
+	/**
+	* Retourne la ville du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getCity(java.util.Locale locale);
+
+	/**
+	* Retourne l'ID de l'image du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getImageURL();
+
+	/**
+	* Renvoie si le lieu placit est SIG ou manuel
+	*
+	* @return True : lieu SIG ; False : lieu manuel
+	*/
+	public boolean isSIG();
 }

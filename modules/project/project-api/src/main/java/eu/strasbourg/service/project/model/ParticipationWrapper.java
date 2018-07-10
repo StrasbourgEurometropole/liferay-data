@@ -830,11 +830,29 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne la liste des lieux liés à la participation
+	* Retourne les noms des lieux placit de la participation
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces() {
-		return _participation.getPlaces();
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale) {
+		return _participation.getPlaceNames(locale);
+	}
+
+	/**
+	* Retourne les ids SIG des lieux placit de la participation
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale) {
+		return _participation.getPlaceSIGIds(locale);
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à la participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+		return _participation.getPlacitPlaces();
 	}
 
 	/**

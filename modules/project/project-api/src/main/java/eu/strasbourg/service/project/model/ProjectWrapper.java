@@ -723,6 +723,32 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Retourne les noms des lieux placit au projet
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale) {
+		return _project.getPlaceNames(locale);
+	}
+
+	/**
+	* Retourne les ids SIG des lieux placit au projet
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale) {
+		return _project.getPlaceSIGIds(locale);
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés au projet
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+		return _project.getPlacitPlaces();
+	}
+
+	/**
 	* Retourne la liste des entrées timelines du projet
 	*/
 	@Override

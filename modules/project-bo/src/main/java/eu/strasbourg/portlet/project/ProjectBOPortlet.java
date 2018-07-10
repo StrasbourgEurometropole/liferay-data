@@ -1,9 +1,12 @@
 package eu.strasbourg.portlet.project;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -49,8 +52,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 		
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
-		
-		renderResponse.setTitle("Projets");
+		Boolean fromAjaxProject = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxProject"));
+		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
+		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
@@ -61,24 +65,31 @@ public class ProjectBOPortlet extends MVCPortlet {
 		}
 		
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editProject")) {
+		if (cmd.equals("editProject") || fromAjaxProject) {
 			EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);		
-		} else if (cmd.equals("editParticipation")) {
+			renderRequest.setAttribute("dc", dc);	
+			title = "projects";
+		} else if (cmd.equals("editParticipation") || fromAjaxParticipation) {
 			EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);		
+			renderRequest.setAttribute("dc", dc);
+			title = "participations";
 		} else if (tab.equals("participations")) {
 			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
 			renderRequest.setAttribute("dc", dc);
+			title = "participations";
 		} else { // Else, we are on the projects list page
 			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse); 
 			renderRequest.setAttribute("dc", dc);
+			title = "projects";
 		}
 		
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 		
 		super.render(renderRequest, renderResponse);
+		
+		title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
+		renderResponse.setTitle(title);
 	}
 
 }

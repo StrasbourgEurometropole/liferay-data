@@ -202,6 +202,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	}
 
 	/**
+	* Renvoie si le lieu placit est SIG ou manuel
+	*
+	* @return True : lieu SIG ; False : lieu manuel
+	*/
+	@Override
+	public boolean isSIG() {
+		return _placitPlace.isSIG();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché à cette entité
 	*/
 	@Override
@@ -266,9 +276,41 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		return new PlacitPlaceWrapper((PlacitPlace)_placitPlace.clone());
 	}
 
+	/**
+	* Retourne l'adresse (num + rue) du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getAddress() {
+		return _placitPlace.getAddress();
+	}
+
+	/**
+	* Retourne la ville du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getCity(java.util.Locale locale) {
+		return _placitPlace.getCity(locale);
+	}
+
+	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getCompleteAddress(java.util.Locale locale) {
+		return _placitPlace.getCompleteAddress(locale);
+	}
+
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _placitPlace.getDefaultLanguageId();
+	}
+
+	/**
+	* Retourne l'ID de l'image du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _placitPlace.getImageURL();
 	}
 
 	/**
@@ -423,6 +465,14 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public java.lang.String getUuid() {
 		return _placitPlace.getUuid();
+	}
+
+	/**
+	* Retourne le code postal du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getZipCode() {
+		return _placitPlace.getZipCode();
 	}
 
 	@Override

@@ -29,6 +29,7 @@ import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 
 /**
  * The extended model implementation for the PlacitPlace service. Represents a row in the &quot;project_PlacitPlace&quot; database table, with each column mapped to a property of this class.
@@ -118,4 +119,93 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 			return this.getPlaceName(locale);
 		}
 	}
+	
+	/**
+	 * Retourne l'adresse (num + rue) du lieu SIG ou "manuel"
+	 */
+	@Override
+	public String getAddress() {
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
+		if (place != null) {
+			return place.getAddressStreet();
+		} else {
+			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName();
+		}
+	}
+	
+	/**
+	 * Retourne l'adresse complete du lieu SIG ou "manuel"
+	 */
+	@Override
+	public String getCompleteAddress(Locale locale) {
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
+		if (place != null && !place.getAddressStreet().isEmpty() && place.getAddressStreet() != "") {
+			return place.getAddressStreet() + 
+					", " + place.getAddressZipCode() + 
+					" " + place.getCity(locale);
+		} else if (!this.getPlaceStreetName().isEmpty() && this.getPlaceStreetName() != "") {
+			return this.getPlaceStreetNumber() + 
+					" " + this.getPlaceStreetName() + 
+					", " + this.getZipCode() +
+					" " + this.getCity(locale);
+		}
+		return "";
+	}
+	
+	/**
+	 * Retourne le code postal du lieu SIG ou "manuel"
+	 */
+	@Override
+	public String getZipCode() {
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
+		if (place != null) {
+			return place.getAddressZipCode();
+		} else {
+			return this.getPlaceZipCode();
+		}
+	}
+	
+	/**
+	 * Retourne la ville du lieu SIG ou "manuel"
+	 */
+	@Override
+	public String getCity(Locale locale) {
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
+		if (place != null) {
+			return place.getCity(locale);
+		} else {
+			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName();
+		}
+	}
+	
+	/**
+	 * Retourne l'ID de l'image du lieu SIG ou "manuel"
+	 */
+	@Override
+	public String getImageURL() {
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
+		if (place != null) {
+			return FileEntryHelper.getFileEntryURL(place.getImageId());
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
+	}
+	
+	/**
+	 * Renvoie si le lieu placit est SIG ou manuel
+	 * @return True : lieu SIG ; False : lieu manuel
+	 */
+	@Override
+	public boolean isSIG() {
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
+		return place != null ? true : false;
+	}
+	
+	
 }

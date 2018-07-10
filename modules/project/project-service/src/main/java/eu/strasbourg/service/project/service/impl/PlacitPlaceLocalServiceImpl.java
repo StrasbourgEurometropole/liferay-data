@@ -74,7 +74,7 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 	 */
 	@Override
 	public List<PlacitPlace> getByParticipation(long participationId) {
-		return this.placitPlacePersistence.findByProject(participationId);
+		return this.placitPlacePersistence.findByParticipation(participationId);
 	}
 	
 	/**

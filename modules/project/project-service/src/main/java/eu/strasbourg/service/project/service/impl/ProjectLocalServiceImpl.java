@@ -16,9 +16,6 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.LongStream;
@@ -45,6 +42,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
@@ -253,6 +251,14 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 					.getByProjectId(projectId);
 			for (ProjectTimeline projectTimeline : projectTimelines) {
 				ProjectTimelineLocalServiceUtil.deleteProjectTimeline(projectTimeline);
+			}
+			
+			// Supprime les lieux
+			List<PlacitPlace> placitPlaces = this.placitPlaceLocalService
+				.getByProject(projectId);
+			for (PlacitPlace placitPlace : placitPlaces) {
+				this.placitPlaceLocalService.removePlacitPlace(
+						placitPlace.getPlacitPlaceId());
 			}
 
 		}

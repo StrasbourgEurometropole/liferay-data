@@ -34,9 +34,9 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -53,7 +53,6 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 @ProviderType
 public class ParticipationImpl extends ParticipationBaseImpl {
 
-    private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 	private static final long serialVersionUID = 1311330918138728472L;
 
 	/*
@@ -90,22 +89,29 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
-	 * Retourne la liste des lieux liés à la participation
+	 * Retourne la liste des lieux placit liés à la participation
 	 */
 	@Override
-	public List<Place> getPlaces() {
-		/**
-		List<Place> places = new ArrayList<Place>();
-		for (String placeIdsStr : this.getPlacesIds().split(",")) {
-			Long placeId = GetterUtil.getLong(placeIdsStr);
-			Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
-			if (place != null) {
-				places.add(place);
-			}
-		}
-		return places;
-		*/
-		return new ArrayList<Place>();
+	public List<PlacitPlace> getPlacitPlaces() {
+		return PlacitPlaceLocalServiceUtil.getByParticipation(this.getParticipationId());
+	}
+
+	/**
+	 * Retourne les noms des lieux placit de la participation
+	 */
+	@Override
+	public List<String> getPlaceNames(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceAlias(locale)).distinct().collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les ids SIG des lieux placit de la participation
+	 */
+	@Override
+	public List<String> getPlaceSIGIds(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceSIGId()).distinct().collect(Collectors.toList());
 	}
 
 	/**
@@ -341,5 +347,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 		}
 	}
+	
+	private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 	
 }
