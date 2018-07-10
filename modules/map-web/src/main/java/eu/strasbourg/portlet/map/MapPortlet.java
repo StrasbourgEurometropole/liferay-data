@@ -293,7 +293,7 @@ public class MapPortlet extends MVCPortlet {
 			// Si l'utilisateur est connecté et qu'il a configuré le portlet
 			// autour de moi
 			PublikUser user = null;
-			String userConfigString = null;
+			String userConfigString = "";
 			if (Validator.isNotNull(internalId)) {
 				user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
 				userConfigString = user.getMapConfig();
