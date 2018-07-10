@@ -143,6 +143,17 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
+	 * Retourne la couleur hexa du type de la participation contenu dans la propriete
+	 * 'code_color' de la categorie associee
+	 */
+	@Override
+	public String getProjectCategoryColor() {
+		long categoryId = this.getProjectCategory().getCategoryId();
+		String colorHexa = AssetVocabularyHelper.getCategoryProperty(categoryId, "code_color");
+		return "#" + colorHexa;
+	}
+	
+	/**
 	 * Retourne les thematiques de la participation (
 	 */
 	@Override

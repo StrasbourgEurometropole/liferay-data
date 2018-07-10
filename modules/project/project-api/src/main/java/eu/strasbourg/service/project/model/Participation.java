@@ -98,6 +98,12 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
 	/**
+	* Retourne la couleur hexa du type de la participation contenu dans la propriete
+	* 'code_color' de la categorie associee
+	*/
+	public java.lang.String getProjectCategoryColor();
+
+	/**
 	* Retourne les thematiques de la participation (
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();

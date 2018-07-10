@@ -655,6 +655,15 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne la couleur hexa du type de la participation contenu dans la propriete
+	* 'code_color' de la categorie associee
+	*/
+	@Override
+	public java.lang.String getProjectCategoryColor() {
+		return _participation.getProjectCategoryColor();
+	}
+
+	/**
 	* Returns the status by user name of this participation.
 	*
 	* @return the status by user name of this participation
