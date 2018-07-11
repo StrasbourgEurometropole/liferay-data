@@ -121,6 +121,8 @@ create table agenda_Event (
 	websiteName STRING null,
 	free INTEGER,
 	price TEXT null,
+	bookingDescription TEXT null,
+	bookingURL VARCHAR(75) null,
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
 	publicationDate DATE null,

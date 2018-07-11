@@ -122,6 +122,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "websiteName", Types.VARCHAR },
 			{ "free", Types.INTEGER },
 			{ "price", Types.CLOB },
+			{ "bookingDescription", Types.CLOB },
+			{ "bookingURL", Types.VARCHAR },
 			{ "source", Types.VARCHAR },
 			{ "idSource", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
@@ -173,6 +175,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("websiteName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("free", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("bookingDescription", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("bookingURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("idSource", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
@@ -181,7 +185,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(75) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -264,6 +268,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setWebsiteName(soapModel.getWebsiteName());
 		model.setFree(soapModel.getFree());
 		model.setPrice(soapModel.getPrice());
+		model.setBookingDescription(soapModel.getBookingDescription());
+		model.setBookingURL(soapModel.getBookingURL());
 		model.setSource(soapModel.getSource());
 		model.setIdSource(soapModel.getIdSource());
 		model.setPublicationDate(soapModel.getPublicationDate());
@@ -388,6 +394,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("websiteName", getWebsiteName());
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
+		attributes.put("bookingDescription", getBookingDescription());
+		attributes.put("bookingURL", getBookingURL());
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
@@ -650,6 +658,18 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		if (price != null) {
 			setPrice(price);
+		}
+
+		String bookingDescription = (String)attributes.get("bookingDescription");
+
+		if (bookingDescription != null) {
+			setBookingDescription(bookingDescription);
+		}
+
+		String bookingURL = (String)attributes.get("bookingURL");
+
+		if (bookingURL != null) {
+			setBookingURL(bookingURL);
 		}
 
 		String source = (String)attributes.get("source");
@@ -2142,6 +2162,129 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@JSON
 	@Override
+	public String getBookingDescription() {
+		if (_bookingDescription == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _bookingDescription;
+		}
+	}
+
+	@Override
+	public String getBookingDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBookingDescription(languageId);
+	}
+
+	@Override
+	public String getBookingDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBookingDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingDescription(String languageId) {
+		return LocalizationUtil.getLocalization(getBookingDescription(),
+			languageId);
+	}
+
+	@Override
+	public String getBookingDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getBookingDescription(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingDescriptionCurrentLanguageId() {
+		return _bookingDescriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getBookingDescriptionCurrentValue() {
+		Locale locale = getLocale(_bookingDescriptionCurrentLanguageId);
+
+		return getBookingDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getBookingDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getBookingDescription());
+	}
+
+	@Override
+	public void setBookingDescription(String bookingDescription) {
+		_bookingDescription = bookingDescription;
+	}
+
+	@Override
+	public void setBookingDescription(String bookingDescription, Locale locale) {
+		setBookingDescription(bookingDescription, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setBookingDescription(String bookingDescription, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(bookingDescription)) {
+			setBookingDescription(LocalizationUtil.updateLocalization(
+					getBookingDescription(), "BookingDescription",
+					bookingDescription, languageId, defaultLanguageId));
+		}
+		else {
+			setBookingDescription(LocalizationUtil.removeLocalization(
+					getBookingDescription(), "BookingDescription", languageId));
+		}
+	}
+
+	@Override
+	public void setBookingDescriptionCurrentLanguageId(String languageId) {
+		_bookingDescriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setBookingDescriptionMap(
+		Map<Locale, String> bookingDescriptionMap) {
+		setBookingDescriptionMap(bookingDescriptionMap,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setBookingDescriptionMap(
+		Map<Locale, String> bookingDescriptionMap, Locale defaultLocale) {
+		if (bookingDescriptionMap == null) {
+			return;
+		}
+
+		setBookingDescription(LocalizationUtil.updateLocalization(
+				bookingDescriptionMap, getBookingDescription(),
+				"BookingDescription", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getBookingURL() {
+		if (_bookingURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _bookingURL;
+		}
+	}
+
+	@Override
+	public void setBookingURL(String bookingURL) {
+		_bookingURL = bookingURL;
+	}
+
+	@JSON
+	@Override
 	public String getSource() {
 		if (_source == null) {
 			return StringPool.BLANK;
@@ -2462,6 +2605,17 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			}
 		}
 
+		Map<Locale, String> bookingDescriptionMap = getBookingDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : bookingDescriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -2584,6 +2738,17 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		else {
 			setPrice(getPrice(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String bookingDescription = getBookingDescription(defaultLocale);
+
+		if (Validator.isNull(bookingDescription)) {
+			setBookingDescription(getBookingDescription(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setBookingDescription(getBookingDescription(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -2641,6 +2806,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setWebsiteName(getWebsiteName());
 		eventImpl.setFree(getFree());
 		eventImpl.setPrice(getPrice());
+		eventImpl.setBookingDescription(getBookingDescription());
+		eventImpl.setBookingURL(getBookingURL());
 		eventImpl.setSource(getSource());
 		eventImpl.setIdSource(getIdSource());
 		eventImpl.setPublicationDate(getPublicationDate());
@@ -2995,6 +3162,22 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.price = null;
 		}
 
+		eventCacheModel.bookingDescription = getBookingDescription();
+
+		String bookingDescription = eventCacheModel.bookingDescription;
+
+		if ((bookingDescription != null) && (bookingDescription.length() == 0)) {
+			eventCacheModel.bookingDescription = null;
+		}
+
+		eventCacheModel.bookingURL = getBookingURL();
+
+		String bookingURL = eventCacheModel.bookingURL;
+
+		if ((bookingURL != null) && (bookingURL.length() == 0)) {
+			eventCacheModel.bookingURL = null;
+		}
+
 		eventCacheModel.source = getSource();
 
 		String source = eventCacheModel.source;
@@ -3045,7 +3228,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(95);
+		StringBundler sb = new StringBundler(99);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3129,6 +3312,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getFree());
 		sb.append(", price=");
 		sb.append(getPrice());
+		sb.append(", bookingDescription=");
+		sb.append(getBookingDescription());
+		sb.append(", bookingURL=");
+		sb.append(getBookingURL());
 		sb.append(", source=");
 		sb.append(getSource());
 		sb.append(", idSource=");
@@ -3148,7 +3335,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(145);
+		StringBundler sb = new StringBundler(151);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Event");
@@ -3319,6 +3506,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getPrice());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>bookingDescription</column-name><column-value><![CDATA[");
+		sb.append(getBookingDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>bookingURL</column-name><column-value><![CDATA[");
+		sb.append(getBookingURL());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>source</column-name><column-value><![CDATA[");
 		sb.append(getSource());
 		sb.append("]]></column-value></column>");
@@ -3413,6 +3608,9 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private Integer _free;
 	private String _price;
 	private String _priceCurrentLanguageId;
+	private String _bookingDescription;
+	private String _bookingDescriptionCurrentLanguageId;
+	private String _bookingURL;
 	private String _source;
 	private String _originalSource;
 	private String _idSource;

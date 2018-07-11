@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(95);
+		StringBundler sb = new StringBundler(99);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -149,6 +149,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(free);
 		sb.append(", price=");
 		sb.append(price);
+		sb.append(", bookingDescription=");
+		sb.append(bookingDescription);
+		sb.append(", bookingURL=");
+		sb.append(bookingURL);
 		sb.append(", source=");
 		sb.append(source);
 		sb.append(", idSource=");
@@ -378,6 +382,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setPrice(price);
 		}
 
+		if (bookingDescription == null) {
+			eventImpl.setBookingDescription(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setBookingDescription(bookingDescription);
+		}
+
+		if (bookingURL == null) {
+			eventImpl.setBookingURL(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setBookingURL(bookingURL);
+		}
+
 		if (source == null) {
 			eventImpl.setSource(StringPool.BLANK);
 		}
@@ -477,6 +495,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 		free = objectInput.readInt();
 		price = objectInput.readUTF();
+		bookingDescription = objectInput.readUTF();
+		bookingURL = objectInput.readUTF();
 		source = objectInput.readUTF();
 		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
@@ -684,6 +704,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(price);
 		}
 
+		if (bookingDescription == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(bookingDescription);
+		}
+
+		if (bookingURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(bookingURL);
+		}
+
 		if (source == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -746,6 +780,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String websiteName;
 	public int free;
 	public String price;
+	public String bookingDescription;
+	public String bookingURL;
 	public String source;
 	public String idSource;
 	public long publicationDate;

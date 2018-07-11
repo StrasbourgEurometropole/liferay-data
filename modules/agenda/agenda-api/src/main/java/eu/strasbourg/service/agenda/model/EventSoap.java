@@ -75,6 +75,8 @@ public class EventSoap implements Serializable {
 		soapModel.setWebsiteName(model.getWebsiteName());
 		soapModel.setFree(model.getFree());
 		soapModel.setPrice(model.getPrice());
+		soapModel.setBookingDescription(model.getBookingDescription());
+		soapModel.setBookingURL(model.getBookingURL());
 		soapModel.setSource(model.getSource());
 		soapModel.setIdSource(model.getIdSource());
 		soapModel.setPublicationDate(model.getPublicationDate());
@@ -461,6 +463,22 @@ public class EventSoap implements Serializable {
 		_price = price;
 	}
 
+	public String getBookingDescription() {
+		return _bookingDescription;
+	}
+
+	public void setBookingDescription(String bookingDescription) {
+		_bookingDescription = bookingDescription;
+	}
+
+	public String getBookingURL() {
+		return _bookingURL;
+	}
+
+	public void setBookingURL(String bookingURL) {
+		_bookingURL = bookingURL;
+	}
+
 	public String getSource() {
 		return _source;
 	}
@@ -550,6 +568,8 @@ public class EventSoap implements Serializable {
 	private String _websiteName;
 	private Integer _free;
 	private String _price;
+	private String _bookingDescription;
+	private String _bookingURL;
 	private String _source;
 	private String _idSource;
 	private Date _publicationDate;

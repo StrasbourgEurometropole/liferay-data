@@ -153,6 +153,10 @@
 		<field localized="true" name="price" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field localized="true" name="bookingDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="bookingURL" type="String" />
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />

@@ -65,6 +65,10 @@
 		<column name="free" type="Integer" />
 		<column name="price" type="String" localized="true" />
 		
+		<!-- Reservation billeterie -->
+		<column name="bookingDescription" type="String" localized="true" />
+		<column name="bookingURL" type="String" />
+		
 		<!-- Infos de gestion -->
         <column name="source" type="String" />
         <column name="idSource" type="String" />

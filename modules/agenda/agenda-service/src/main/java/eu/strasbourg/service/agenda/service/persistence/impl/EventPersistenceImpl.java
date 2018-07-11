@@ -6425,6 +6425,8 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		eventImpl.setWebsiteName(event.getWebsiteName());
 		eventImpl.setFree(event.getFree());
 		eventImpl.setPrice(event.getPrice());
+		eventImpl.setBookingDescription(event.getBookingDescription());
+		eventImpl.setBookingURL(event.getBookingURL());
 		eventImpl.setSource(event.getSource());
 		eventImpl.setIdSource(event.getIdSource());
 		eventImpl.setPublicationDate(event.getPublicationDate());
