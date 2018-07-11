@@ -369,11 +369,11 @@ public class PoiServiceImpl implements PoiService {
 
 		// récupère les favoris de l'uilisateur
 		List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
-		if (classNames.equals("all")){
+		if (classNames.equals("all")) {
 			count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId())
 					.collect(Collectors.toList()).size();
-			List<Favorite> eventsfavorites = favorites.stream()
-					.filter(f -> f.getTypeId() == FavoriteType.EVENT.getId()).collect(Collectors.toList());
+			List<Favorite> eventsfavorites = favorites.stream().filter(f -> f.getTypeId() == FavoriteType.EVENT.getId())
+					.collect(Collectors.toList());
 			for (Favorite favorite : eventsfavorites) {
 				Event event = EventLocalServiceUtil.fetchEvent(favorite.getEntityId());
 				if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
@@ -381,7 +381,7 @@ public class PoiServiceImpl implements PoiService {
 					;
 				}
 			}
-		}else {
+		} else {
 			if (classNames.contains(Place.class.getName()))
 				count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId())
 						.collect(Collectors.toList()).size();
@@ -501,27 +501,27 @@ public class PoiServiceImpl implements PoiService {
 				}
 			}
 
-			// Icône (on le prend dans la catégorie type de lieu)
-			AssetCategory category = null;
-			List<AssetCategory> categories = place.getTypes();
-			if (!categories.isEmpty()) {
-				category = categories.get(0);
-			}
-
-			String[] icons = null;
-			if (category != null) {
-				icons = category.getDescription(Locale.FRANCE).split(";");
-			}
+			// Icône (on prend le premier icon que l'on trouve dans une des catégories de
+			// type de lieu)
 			String icon = "";
-			// vérifi si le lieu dispose d'un horaire et s'il est fermé
-			if (place.hasScheduleTable() && !place.isOpenNow() && icons.length > 1) {
-				icon = icons[1];
-			} else {
-				if (icons.length > 0) {
-					icon = icons[0];
+			List<AssetCategory> categories = place.getTypes();
+			String[] icons = null;
+			for (AssetCategory category : categories) {
+				if (!category.getDescription(Locale.FRANCE).isEmpty()) {
+					icons = category.getDescription(Locale.FRANCE).split(";");
+					// vérifi si le lieu dispose d'un horaire et s'il est fermé
+					if (icons.length > 1 && place.hasScheduleTable() && !place.isOpenNow()) {
+						icon = icons[1];
+					} else {
+						if (icons.length > 0) {
+							icon = icons[0];
 
+						}
+					}
+					break;
 				}
 			}
+
 			properties.put("icon", icon);
 
 			// Temps réel
@@ -614,19 +614,20 @@ public class PoiServiceImpl implements PoiService {
 				if (!currentAndFuturePeriods.isEmpty()) {
 					EventPeriod period = currentAndFuturePeriods.get(0);
 					// Si ça n'est pas ue période mais un jour, afficher la période suivante
-//					if (period.getStartDate().equals(period.getEndDate())
-//							&& period.getStartDate().compareTo(new Date()) == 0 && currentAndFuturePeriods.size() > 1) {
-//						period = currentAndFuturePeriods.get(1);
-//					}
+					// if (period.getStartDate().equals(period.getEndDate())
+					// && period.getStartDate().compareTo(new Date()) == 0 &&
+					// currentAndFuturePeriods.size() > 1) {
+					// period = currentAndFuturePeriods.get(1);
+					// }
 					if (period.getStartDate().equals(period.getEndDate())) {
 						schedule = "Le " + sdf.format(period.getStartDate());
 					} else {
-//						if (period.getStartDate().compareTo(new Date()) <= 0) {
-//							schedule = "Du " + sdf.format(LocalDate.now()) + " au " + sdf.format(period.getEndDate());
-//						} else {
-							schedule = "Du " + sdf.format(period.getStartDate()) + " au "
-									+ sdf.format(period.getEndDate());
-//						}
+						// if (period.getStartDate().compareTo(new Date()) <= 0) {
+						// schedule = "Du " + sdf.format(LocalDate.now()) + " au " +
+						// sdf.format(period.getEndDate());
+						// } else {
+						schedule = "Du " + sdf.format(period.getStartDate()) + " au " + sdf.format(period.getEndDate());
+						// }
 					}
 				}
 				properties.put("opened", opened);
