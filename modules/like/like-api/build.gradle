@@ -1,0 +1,13 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
+	compileOnly group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.0.0"
+	compileOnly group: "org.osgi", name: "org.osgi.core", version: "6.0.0"
+	compileOnly project(":modules:place:place-api")
+	compileOnly project(":modules:agenda:agenda-api")
+	compileOnly project(":modules:edition:edition-api")
+	compileOnly project(":modules:video:video-api")
+	compileOnly project(":modules:activity:activity-api")
+	compileOnly project(":modules:project:project-api")
+	compileOnly project(":modules:comment:comment-api")
+}

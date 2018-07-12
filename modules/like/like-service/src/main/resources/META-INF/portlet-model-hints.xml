@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.like.model.Like">
+		<field name="likeId" type="long" />
+		<field name="publikUserId" type="String" />
+		<field name="title" type="String" />
+		<field name="isDislike" type="boolean" />
+		<field name="typeId" type="long" />
+		<field name="entityId" type="long" />
+		<field name="entityGroupId" type="long" />
+	</model>
+</model-hints>

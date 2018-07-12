@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.like">
+	<author>Cedric Henry</author>
+	<namespace>like</namespace>
+	
+	<entity local-service="true" cache-enabled="true" name="Like" remote-service="true" uuid="false">
+
+		<!-- PK fields -->
+		<column name="likeId" primary="true" type="long" />
+		
+		<!-- Other fields -->
+		<column name="publikUserId" type="String" />
+		<column name="title" type="String" />
+		<column name="isDislike" type="boolean" />
+		<column name="typeId" type="long" />
+        <column name="entityId" type="long" />
+        <column name="entityGroupId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="PublikUserIdAndIsDislike" return-type="Collection" >
+			<finder-column name="publikUserId" />
+			<finder-column name="isDislike" />
+		</finder>
+		<finder name="AllAttributes" return-type="Favorite"  >
+			<finder-column name="publikUserId" />
+			<finder-column name="title" />
+			<finder-column name="isDislike" />
+			<finder-column name="typeId" />
+			<finder-column name="entityId" />
+		</finder>
+		<finder name="EntityIdAndTypeId" return-type="Collection"  >
+			<finder-column name="entityId" />
+			<finder-column name="typeId" />	
+		</finder>
+		<finder name="EntityIdAndTypeIdAndIsDislike" return-type="Collection"  >
+			<finder-column name="entityId" />	
+			<finder-column name="typeId" />
+			<finder-column name="isDislike" />
+		</finder>
+
+	</entity>
+</service-builder>
