@@ -43,8 +43,10 @@ public class ResidWebPortlet extends MVCPortlet {
 		String template = "";
 
 		// si l'utilisateur a activé son lien				
-		if(Validator.isNull(dossierResponse) || dossierResponse.dossiers.isEmpty()) {
-			template = "etape1";
+		if(Validator.isNull(dossierResponse)) {
+			template = "etape0";
+		}else if(dossierResponse.dossiers.isEmpty()) {
+				template = "etape1";
 		}else {
 			template = "etape2";
 			if(dossierResponse.getCodeRetour() != 0) {
