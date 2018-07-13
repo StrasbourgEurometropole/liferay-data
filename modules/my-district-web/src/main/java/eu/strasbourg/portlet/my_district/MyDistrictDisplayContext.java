@@ -152,8 +152,8 @@ public class MyDistrictDisplayContext {
 			String districtId = ParamUtil.getString(originalRequest, "district");
 			if (Validator.isNotNull(districtId)) {
 				try {
-					AssetVocabulary territoryVocabulary =
-                            AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+					AssetVocabulary territoryVocabulary = AssetVocabularyHelper
+							.getGlobalVocabulary(VocabularyNames.TERRITORY);
 					district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
 				} catch (PortalException e) {
 					e.printStackTrace();
@@ -263,16 +263,14 @@ public class MyDistrictDisplayContext {
 	// récupération des écoles du secteur
 	public List<Place> getSectorSchools() {
 		List<Place> sectorSchools = new ArrayList<Place>();
-		if (Validator.isNotNull(getDistrict())) {
-			String[] sectorTypes = {"secteur_elementaire","secteur_maternelle"};
-			JSONArray coordinates = adictService.getCoordinateForAddress(address);
-			List<String> sigIds = adictService.getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(), coordinates.get(1).toString(),
-					sectorTypes);
-			for (String sigId : sigIds) {
-				Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
-				if (place != null) {
-					sectorSchools.add(place);
-				}
+		String[] sectorTypes = { "secteur_elementaire", "secteur_maternelle" };
+		JSONArray coordinates = adictService.getCoordinateForAddress(address);
+		List<String> sigIds = adictService.getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(),
+				coordinates.get(1).toString(), sectorTypes);
+		for (String sigId : sigIds) {
+			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
+			if (place != null) {
+				sectorSchools.add(place);
 			}
 		}
 		return sectorSchools;
