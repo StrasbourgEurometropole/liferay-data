@@ -85,7 +85,7 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 		TABLE_COLUMNS_MAP.put("entityGroupId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table like_Like (likeId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(75) null,isDislike BOOLEAN,typeId LONG,entityId LONG,entityGroupId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table like_Like (likeId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,isDislike BOOLEAN,typeId LONG,entityId LONG,entityGroupId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table like_Like";
 	public static final String ORDER_BY_JPQL = " ORDER BY like_.likeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY like_Like.likeId ASC";

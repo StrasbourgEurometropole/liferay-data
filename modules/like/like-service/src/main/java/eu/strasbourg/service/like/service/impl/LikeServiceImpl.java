@@ -151,14 +151,26 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 		    String id = SessionParamUtil.getString(request, "publik_internal_id");
 		    
 		    Like likeExist = null;
+		    boolean mindChanged = false;
+		    
 		    try {
-		    	likeExist = this.likePersistence.findByAllAttributes(id, title, isDislike, typeId, entityId);
+		    	likeExist = this.likePersistence.findByAllAttributesExceptIsDislike(id, title, typeId, entityId);
 			} catch (NoSuchLikeException e) {
 				// C'est ce qu'on espere
 			}
+		    // Si il n'est pas nul, on le supprime
 		    if(likeExist != null) {
-		    	// Dans le cas ou plusieurs onglets ouverts et deja ajoute sur l'un d'eux
-		    	return success("like added");
+		    	System.out.println(likeExist);
+		    	this.likeLocalService.deleteLike(likeExist);
+		    	
+		    	// Si le type du like est le même, c'est une suppression de like
+			    if (isDislike == likeExist.getIsDislike()) {
+			    	return isDislike ? success("dislike deleted") : success("like deleted");
+			    }
+			    // Sinon c'est un changement d'avis
+			    else {
+			    	mindChanged = true;
+			    }
 		    }
 		    
 			// Création de l'objet
@@ -172,7 +184,12 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 			
 			this.likeLocalService.updateLike(like);
 			
-			return success("like added");
+			if (mindChanged) {
+				return isDislike ? success("dislike mind changed added") : success("like mind changed added");
+			} else {
+				return isDislike ? success("dislike added") : success("like added");
+			}
+			
 		} else {
 			return error("notConnected");
 		}

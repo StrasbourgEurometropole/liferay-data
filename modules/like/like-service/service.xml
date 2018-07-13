@@ -33,6 +33,12 @@
 			<finder-column name="typeId" />
 			<finder-column name="entityId" />
 		</finder>
+		<finder name="AllAttributesExceptIsDislike" return-type="Favorite"  >
+			<finder-column name="publikUserId" />
+			<finder-column name="title" />
+			<finder-column name="typeId" />
+			<finder-column name="entityId" />
+		</finder>
 		<finder name="EntityIdAndTypeId" return-type="Collection"  >
 			<finder-column name="entityId" />
 			<finder-column name="typeId" />	

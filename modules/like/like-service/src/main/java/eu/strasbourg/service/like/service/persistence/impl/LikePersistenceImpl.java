@@ -1609,6 +1609,365 @@ public class LikePersistenceImpl extends BasePersistenceImpl<Like>
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_ISDISLIKE_2 = "like_.isDislike = ? AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2 = "like_.typeId = ? AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2 = "like_.entityId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE =
+		new FinderPath(LikeModelImpl.ENTITY_CACHE_ENABLED,
+			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByAllAttributesExceptIsDislike",
+			new String[] {
+				String.class.getName(), String.class.getName(),
+				Long.class.getName(), Long.class.getName()
+			},
+			LikeModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
+			LikeModelImpl.TITLE_COLUMN_BITMASK |
+			LikeModelImpl.TYPEID_COLUMN_BITMASK |
+			LikeModelImpl.ENTITYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ALLATTRIBUTESEXCEPTISDISLIKE =
+		new FinderPath(LikeModelImpl.ENTITY_CACHE_ENABLED,
+			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAllAttributesExceptIsDislike",
+			new String[] {
+				String.class.getName(), String.class.getName(),
+				Long.class.getName(), Long.class.getName()
+			});
+
+	/**
+	 * Returns the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchLikeException} if it could not be found.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param title the title
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @return the matching like
+	 * @throws NoSuchLikeException if a matching like could not be found
+	 */
+	@Override
+	public Like findByAllAttributesExceptIsDislike(String publikUserId,
+		String title, long typeId, long entityId) throws NoSuchLikeException {
+		Like like = fetchByAllAttributesExceptIsDislike(publikUserId, title,
+				typeId, entityId);
+
+		if (like == null) {
+			StringBundler msg = new StringBundler(10);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("publikUserId=");
+			msg.append(publikUserId);
+
+			msg.append(", title=");
+			msg.append(title);
+
+			msg.append(", typeId=");
+			msg.append(typeId);
+
+			msg.append(", entityId=");
+			msg.append(entityId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchLikeException(msg.toString());
+		}
+
+		return like;
+	}
+
+	/**
+	 * Returns the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param title the title
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @return the matching like, or <code>null</code> if a matching like could not be found
+	 */
+	@Override
+	public Like fetchByAllAttributesExceptIsDislike(String publikUserId,
+		String title, long typeId, long entityId) {
+		return fetchByAllAttributesExceptIsDislike(publikUserId, title, typeId,
+			entityId, true);
+	}
+
+	/**
+	 * Returns the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param title the title
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching like, or <code>null</code> if a matching like could not be found
+	 */
+	@Override
+	public Like fetchByAllAttributesExceptIsDislike(String publikUserId,
+		String title, long typeId, long entityId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { publikUserId, title, typeId, entityId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+					finderArgs, this);
+		}
+
+		if (result instanceof Like) {
+			Like like = (Like)result;
+
+			if (!Objects.equals(publikUserId, like.getPublikUserId()) ||
+					!Objects.equals(title, like.getTitle()) ||
+					(typeId != like.getTypeId()) ||
+					(entityId != like.getEntityId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(6);
+
+			query.append(_SQL_SELECT_LIKE__WHERE);
+
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_2);
+			}
+
+			boolean bindTitle = false;
+
+			if (title == null) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_1);
+			}
+			else if (title.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_3);
+			}
+			else {
+				bindTitle = true;
+
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_2);
+			}
+
+			query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TYPEID_2);
+
+			query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_ENTITYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
+
+				if (bindTitle) {
+					qPos.add(title);
+				}
+
+				qPos.add(typeId);
+
+				qPos.add(entityId);
+
+				List<Like> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"LikePersistenceImpl.fetchByAllAttributesExceptIsDislike(String, String, long, long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Like like = list.get(0);
+
+					result = like;
+
+					cacheResult(like);
+
+					if ((like.getPublikUserId() == null) ||
+							!like.getPublikUserId().equals(publikUserId) ||
+							(like.getTitle() == null) ||
+							!like.getTitle().equals(title) ||
+							(like.getTypeId() != typeId) ||
+							(like.getEntityId() != entityId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+							finderArgs, like);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Like)result;
+		}
+	}
+
+	/**
+	 * Removes the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; from the database.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param title the title
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @return the like that was removed
+	 */
+	@Override
+	public Like removeByAllAttributesExceptIsDislike(String publikUserId,
+		String title, long typeId, long entityId) throws NoSuchLikeException {
+		Like like = findByAllAttributesExceptIsDislike(publikUserId, title,
+				typeId, entityId);
+
+		return remove(like);
+	}
+
+	/**
+	 * Returns the number of likes where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param title the title
+	 * @param typeId the type ID
+	 * @param entityId the entity ID
+	 * @return the number of matching likes
+	 */
+	@Override
+	public int countByAllAttributesExceptIsDislike(String publikUserId,
+		String title, long typeId, long entityId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ALLATTRIBUTESEXCEPTISDISLIKE;
+
+		Object[] finderArgs = new Object[] { publikUserId, title, typeId, entityId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_COUNT_LIKE__WHERE);
+
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_2);
+			}
+
+			boolean bindTitle = false;
+
+			if (title == null) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_1);
+			}
+			else if (title.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_3);
+			}
+			else {
+				bindTitle = true;
+
+				query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_2);
+			}
+
+			query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TYPEID_2);
+
+			query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_ENTITYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
+
+				if (bindTitle) {
+					qPos.add(title);
+				}
+
+				qPos.add(typeId);
+
+				qPos.add(entityId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_1 =
+		"like_.publikUserId IS NULL AND ";
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_2 =
+		"like_.publikUserId = ? AND ";
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_3 =
+		"(like_.publikUserId IS NULL OR like_.publikUserId = '') AND ";
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_1 =
+		"like_.title IS NULL AND ";
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_2 =
+		"like_.title = ? AND ";
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_3 =
+		"(like_.title IS NULL OR like_.title = '') AND ";
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TYPEID_2 =
+		"like_.typeId = ? AND ";
+	private static final String _FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_ENTITYID_2 =
+		"like_.entityId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ENTITYIDANDTYPEID =
 		new FinderPath(LikeModelImpl.ENTITY_CACHE_ENABLED,
 			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
@@ -2771,6 +3130,12 @@ public class LikePersistenceImpl extends BasePersistenceImpl<Like>
 				like.getTypeId(), like.getEntityId()
 			}, like);
 
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+			new Object[] {
+				like.getPublikUserId(), like.getTitle(), like.getTypeId(),
+				like.getEntityId()
+			}, like);
+
 		like.resetOriginalValues();
 	}
 
@@ -2850,6 +3215,16 @@ public class LikePersistenceImpl extends BasePersistenceImpl<Like>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTES, args,
 			likeModelImpl, false);
+
+		args = new Object[] {
+				likeModelImpl.getPublikUserId(), likeModelImpl.getTitle(),
+				likeModelImpl.getTypeId(), likeModelImpl.getEntityId()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+			args, Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+			args, likeModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(LikeModelImpl likeModelImpl,
@@ -2877,6 +3252,33 @@ public class LikePersistenceImpl extends BasePersistenceImpl<Like>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_ALLATTRIBUTES, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTES, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					likeModelImpl.getPublikUserId(), likeModelImpl.getTitle(),
+					likeModelImpl.getTypeId(), likeModelImpl.getEntityId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+				args);
+		}
+
+		if ((likeModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] {
+					likeModelImpl.getOriginalPublikUserId(),
+					likeModelImpl.getOriginalTitle(),
+					likeModelImpl.getOriginalTypeId(),
+					likeModelImpl.getOriginalEntityId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTESEXCEPTISDISLIKE,
+				args);
 		}
 	}
 

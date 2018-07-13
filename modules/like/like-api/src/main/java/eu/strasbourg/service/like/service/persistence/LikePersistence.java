@@ -395,6 +395,73 @@ public interface LikePersistence extends BasePersistence<Like> {
 		java.lang.String title, boolean isDislike, long typeId, long entityId);
 
 	/**
+	* Returns the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchLikeException} if it could not be found.
+	*
+	* @param publikUserId the publik user ID
+	* @param title the title
+	* @param typeId the type ID
+	* @param entityId the entity ID
+	* @return the matching like
+	* @throws NoSuchLikeException if a matching like could not be found
+	*/
+	public Like findByAllAttributesExceptIsDislike(
+		java.lang.String publikUserId, java.lang.String title, long typeId,
+		long entityId) throws NoSuchLikeException;
+
+	/**
+	* Returns the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param publikUserId the publik user ID
+	* @param title the title
+	* @param typeId the type ID
+	* @param entityId the entity ID
+	* @return the matching like, or <code>null</code> if a matching like could not be found
+	*/
+	public Like fetchByAllAttributesExceptIsDislike(
+		java.lang.String publikUserId, java.lang.String title, long typeId,
+		long entityId);
+
+	/**
+	* Returns the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param publikUserId the publik user ID
+	* @param title the title
+	* @param typeId the type ID
+	* @param entityId the entity ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching like, or <code>null</code> if a matching like could not be found
+	*/
+	public Like fetchByAllAttributesExceptIsDislike(
+		java.lang.String publikUserId, java.lang.String title, long typeId,
+		long entityId, boolean retrieveFromCache);
+
+	/**
+	* Removes the like where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; from the database.
+	*
+	* @param publikUserId the publik user ID
+	* @param title the title
+	* @param typeId the type ID
+	* @param entityId the entity ID
+	* @return the like that was removed
+	*/
+	public Like removeByAllAttributesExceptIsDislike(
+		java.lang.String publikUserId, java.lang.String title, long typeId,
+		long entityId) throws NoSuchLikeException;
+
+	/**
+	* Returns the number of likes where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63;.
+	*
+	* @param publikUserId the publik user ID
+	* @param title the title
+	* @param typeId the type ID
+	* @param entityId the entity ID
+	* @return the number of matching likes
+	*/
+	public int countByAllAttributesExceptIsDislike(
+		java.lang.String publikUserId, java.lang.String title, long typeId,
+		long entityId);
+
+	/**
 	* Returns all the likes where entityId = &#63; and typeId = &#63;.
 	*
 	* @param entityId the entity ID
