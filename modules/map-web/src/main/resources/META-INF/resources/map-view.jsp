@@ -128,7 +128,7 @@
 		                    <a href="${resetUserConfiguration}" class="filtres__btn filtres__btn--reset">
 		                        <span class="flexbox">
 		                            <span class="btn-arrow"></span>
-		                            <span class="btn-text">Effacer mes filtres</span>
+		                            <span class="btn-text">R&eacute;initialiser mes filtres</span>
 		                        </span>
 		                    </a>
 						    <portlet:resourceURL id="toggleInterestPoint" var="interestPointURL">

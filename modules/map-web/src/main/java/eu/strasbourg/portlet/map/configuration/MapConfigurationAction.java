@@ -68,7 +68,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			JSONArray jsonArrayFilter = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonArrayDefault = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonArrayUncheckedInterests = JSONFactoryUtil.createJSONArray();
-			JSONArray jsonArrayCheckedInterests = JSONFactoryUtil.createJSONArray();
 
 			setPreference(request, "hasConfig", "true");
 
@@ -249,37 +248,22 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Centres d'intérêts affichés non cochés
 			String interestsIdsString = "";
-			// Centres d'intérêts affichés cochés
-			String interestsDefaultsIdsString = "";
 
 			List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
 					.filter(i -> i.isApproved()).collect(Collectors.toList());
 			for (Interest interest : interests) {
 				String interestStatus = ParamUtil.getString(request, "interestStatus" + interest.getInterestId());
-				switch (interestStatus) {
-					case "checked":
-						if (interestsDefaultsIdsString.length() > 0) {
-							interestsDefaultsIdsString += ",";
-						}
-						interestsDefaultsIdsString += interest.getInterestId();
-						jsonArrayCheckedInterests.put(interest.getInterestId());
-						break;
-					case "unchecked":
-						if (interestsIdsString.length() > 0) {
-							interestsIdsString += ",";
-						}
-						interestsIdsString += interest.getInterestId();
-						jsonArrayUncheckedInterests.put(interest.getInterestId());
-						break;
-					default:
-						break;
+				if (interestStatus.equals("unchecked")) {
+					if (interestsIdsString.length() > 0) {
+						interestsIdsString += ",";
+					}
+					interestsIdsString += interest.getInterestId();
+					jsonArrayUncheckedInterests.put(interest.getInterestId());
 				}
 			}
 
 			setPreference(request, "interestsIds", interestsIdsString);
 			json.put("interestsIds", jsonArrayUncheckedInterests);
-			setPreference(request, "interestsDefaultsIds", interestsDefaultsIdsString);
-			json.put("interestsDefaultsIds", jsonArrayCheckedInterests);
 
 			// Si la case est cochée on écrase (Si elle existe) la précédente
 			// configuration globale
@@ -386,16 +370,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				interestsIdsString = configuration.interestsIds();
 			}
 			request.setAttribute("interestsIds", interestsIdsString);
-
-			// Centre d'intérêts affichés cochés
-			long[] interestsDefaultsIds = ParamUtil.getLongValues(request, "interestsDefaultsIds");
-			String interestsDefaultsIdsString;
-			if (interestsDefaultsIds.length > 0) {
-				interestsDefaultsIdsString = StringUtil.merge(interestsDefaultsIds);
-			} else {
-				interestsDefaultsIdsString = configuration.interestsDefaultsIds();
-			}
-			request.setAttribute("interestsDefaultsIds", interestsDefaultsIdsString);
 
 			request.setAttribute("groupId", "-1");
 

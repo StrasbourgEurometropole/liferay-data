@@ -141,7 +141,6 @@
 							<tr style="border-bottom: solid 3px;">
 								<td width="100px"><liferay-ui:message key="interest-choice-disabled-help"/></td>
 								<td width="100px"><liferay-ui:message key="interest-choice-help"/></td>
-								<td width="100px"><liferay-ui:message key="interest-choice-default-help" /></td>
 								<td></td>
 							</tr>
 							<c:forEach var="interest" items="${interests}" varStatus="intStatus">
@@ -153,15 +152,11 @@
 								</c:if>
 								<td style="padding-top: 10px">
 									<aui:input type="radio" name="interestStatus${interest.interestId}" value="disabled" label=""
-											   checked="${!fn:contains(interestsIds, interest.interestId) || !fn:contains(interestsDefaultsIds, interest.interestId) || !hasConfig}" ></aui:input>
+											   checked="${!fn:contains(interestsIds, interest.interestId) || !hasConfig}" ></aui:input>
 								</td>
 								<td style="padding-top: 10px">
 									<aui:input type="radio" name="interestStatus${interest.interestId}" value="unchecked" label=""
 											   checked="${fn:contains(interestsIds, interest.interestId)}" ></aui:input>
-								</td>
-								<td style="padding-top: 10px">
-									<aui:input type="radio" name="interestStatus${interest.interestId}" value="checked" label=""
-											   checked="${fn:contains(interestsDefaultsIds, interest.interestId)}" ></aui:input>
 								</td>
 								<td style="text-align: left">${interest.getTitle(locale)}</td>
 								</tr>

@@ -58,8 +58,5 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "interestsIds", required = false)
 	public String interestsIds();
-	
-	@Meta.AD(name = "interestsDefaultsIds", required = false)
-	public String interestsDefaultsIds();
 
 }

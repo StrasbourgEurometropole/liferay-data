@@ -110,10 +110,8 @@ public class MapPortlet extends MVCPortlet {
 			boolean districtUser = false; // Affichage de la map du quartier de
 			// l'utilisateur
 			AssetCategory district = null;
-			String interestsIdsString = ""; // Les id des intérêts affichés non
-											// cochés
-			String interestsDefaultsIdsString = ""; // Les intérêts affichés
-													// cochés
+			String interestsIdsString = ""; // Les id des intérêts affichés
+			String interestsDefaultsIdsString = ""; // Les intérêts cochés
 			boolean showFavorites = false; // Affichage des favoris par défaut
 			boolean showConfig = true; // Affichage de la zone de configuration
 			boolean showList = true; // Affichage de la liste à droite
@@ -124,10 +122,10 @@ public class MapPortlet extends MVCPortlet {
 
 			// Est-ce que la config du portlet est défini ?
 			if (configuration.hasConfig()) {
+				hasConfig = true;
 				// Chargement de la configuration globale pour le mode widget
 				if (configuration.widgetMod()) {
 					ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
-					hasConfig = true;
 					widgetMod = true;
 					try {
 						String globalConfig = GetterUtil.getString(ed.getAttribute("map_global_config"));
@@ -142,8 +140,6 @@ public class MapPortlet extends MVCPortlet {
 						prefilterCategoriesIdsString = jsonArrayPrefilterCategories.join(",");
 						JSONArray jsonArrayInterests = json.getJSONArray("interestsIds");
 						interestsIdsString = jsonArrayInterests.join(",");
-						JSONArray jsonArrayInterestsDefault = json.getJSONArray("interestsDefaultsIds");
-						interestsDefaultsIdsString = jsonArrayInterestsDefault.join(",");
 						showFavorites = json.getBoolean("showFavorites");
 						showConfig = json.getBoolean("showConfig");
 						showList = json.getBoolean("showList");
@@ -153,7 +149,6 @@ public class MapPortlet extends MVCPortlet {
 				}
 				// Chargement de la configuration du portlet sinon
 				else {
-					hasConfig = true;
 					groupId = configuration.groupId();
 					openInNewTab = configuration.openInNewTab();
 
@@ -193,7 +188,6 @@ public class MapPortlet extends MVCPortlet {
 					categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
 					prefilterCategoriesIdsString = configuration.prefilterCategoriesIds();
 					interestsIdsString = configuration.interestsIds();
-					interestsDefaultsIdsString = configuration.interestsDefaultsIds();
 					showFavorites = configuration.showFavorites();
 					showConfig = configuration.showConfig();
 					showList = configuration.showList();
@@ -238,24 +232,13 @@ public class MapPortlet extends MVCPortlet {
 					interestIds = Arrays.stream(interestsIdsString.split(","))
 							.map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
 				else
-					// Si jamais aucun intérêt affiché et non cochée n'est coché
-					// intentionnellement...
+					// Si jamais aucun intérêt affiché n'est coché intentionnellement...
 					interestIds = new ArrayList<Long>();
-
-				List<Long> interestsDefaultsIds;
-				if (!interestsDefaultsIdsString.equals(""))
-					interestsDefaultsIds = Arrays.stream(interestsDefaultsIdsString.split(","))
-							.map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
-				else
-					// Si jamais aucun intérêt affiché et coché n'est coché
-					// intentionnellement...
-					interestsDefaultsIds = new ArrayList<Long>();
 
 				// Récupération de tous les centres d'intérêts affiché avec le
 				// statut publié
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-						.filter(i -> i.getStatus() == 0 && (interestIds.contains(i.getInterestId())
-								|| interestsDefaultsIds.contains(i.getInterestId())))
+						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId()))
 						.sorted(Comparator.comparing(i2 -> i2.getType().getTitle(Locale.FRANCE)))
 						.collect(Collectors.toList());
 
@@ -283,8 +266,7 @@ public class MapPortlet extends MVCPortlet {
 					}
 					interests.removeIf(i -> i.getType().getName().equals("Quartier"));
 				}
-			} // Si pas de config on récupère toutes les catégories et tous les
-				// intérêts
+			} // Si pas de config on ne récupère aucunes catégories ni intérêts
 			else {
 				categories = new ArrayList<>();
 				interests = new ArrayList<>();
@@ -292,16 +274,18 @@ public class MapPortlet extends MVCPortlet {
 
 			// Si l'utilisateur est connecté et qu'il a configuré le portlet
 			// autour de moi
+			boolean hasUserConfig = false;
+			boolean hasUserConfigForPortlet = false;
 			PublikUser user = null;
 			String userConfigString = "";
 			if (Validator.isNotNull(internalId)) {
 				user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
 				userConfigString = user.getMapConfig();
 				if (Validator.isNotNull(userConfigString)) {
-					hasConfig = true;
+					hasUserConfig = true;
 				}
 			}
-			if (hasConfig) {
+			if (hasUserConfig) {
 				JSONObject userPortletConfig = null;
 				// Une config par portlet (nouvelle façon de faire)
 				if (userConfigString.startsWith("[")) {
@@ -312,6 +296,7 @@ public class MapPortlet extends MVCPortlet {
 						JSONObject config = userConfigs.getJSONObject(i);
 						if (config.getString("configId").equals(configId)) {
 							userPortletConfig = config;
+							hasUserConfigForPortlet = true;
 							break;
 						}
 					}
@@ -330,28 +315,18 @@ public class MapPortlet extends MVCPortlet {
                         interestsDefaultsIdsString = jsonArrayInterests.join(",");
                     }
 
-                    showFavorites = userPortletConfig.getBoolean("showFavorites");
+                    showFavorites = userPortletConfig.getBoolean("showFavorites"); 
                 }
-			} else // Sinon on prend par defaut les catégories de l'utilisateur
-					// s'il en a
-			{
+			} 
+			
+			// Si l'utilisateur n'a pas de config pour ce portlet on prend ses centres d'intérêts (s'il en a)
+			if (!hasUserConfigForPortlet) { 
 				if (Validator.isNotNull(internalId)) {
-					hasConfig = true;
 					String userDefautPOI = StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId)
 							.stream().map(i -> i.getInterestId()).collect(Collectors.toList()), ",");
 					if (Validator.isNotNull(userDefautPOI)) {
-						if (Validator.isNotNull(interestsDefaultsIdsString)) {
-							interestsDefaultsIdsString += ",";
-						}
 						interestsDefaultsIdsString += userDefautPOI;
 					}
-					// String userDefautCategories =
-					// StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId)
-					// .stream().map(i ->
-					// i.getInterestId()).collect(Collectors.toList()), ",");
-					// if (Validator.isNotNull(userDefautCategories)) {
-					// categoriesDefaultsIdsString += userDefautCategories;
-					// }
 				}
 			}
 
@@ -533,7 +508,7 @@ public class MapPortlet extends MVCPortlet {
     private String configId;
 
     /**
-     * Retiure la configuration du portlet en cours à partir de la configuration userConfig
+     * Retire la configuration du portlet en cours à partir de la configuration userConfig
      */
     private JSONArray getUserConfigWithoutCurrentPortlet(JSONArray userConfig, String configId) {
 	    JSONArray userConfigWithoutCurrentPortlet = JSONFactoryUtil.createJSONArray();
