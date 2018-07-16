@@ -22,7 +22,7 @@
 			
 			<!-- Type de contenu -->
 			<aui:fieldset collapsed="true" collapsible="true"
-					label="type-contenu">
+					label="type-contenu" class="noWidgetMode" >
 				
 				<!-- Lieux -->
 				<aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
@@ -30,7 +30,7 @@
 				
 				<!-- Evénements -->
 				<aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
-					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" ></aui:input>
+					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" class="typeEvent"></aui:input>
 			
 				<!-- Carto normale et page autour de moi -->
 				<div class="eventExplanation">
@@ -42,14 +42,16 @@
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
 
-				<!-- Choix de l'affichage de la zone de configuration -->
-				<div>
-					<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
-				</div>
-				
-				<!-- Choix de l'affichage de la liste -->
-				<div>
-					<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
+				<div class="noWidgetMode">
+					<!-- Choix de l'affichage de la zone de configuration -->
+					<div>
+						<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+					</div>
+					
+					<!-- Choix de l'affichage de la liste -->
+					<div>
+						<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
+					</div>
 				</div>
 			
 				<!-- Choix du site pour la cible des lien -->
@@ -177,7 +179,7 @@
 			
 			<!-- Info trafic -->
 			<aui:fieldset collapsed="true" collapsible="true"
-					label="traffic" cssClass="infoTrafic">
+					label="traffic" cssClass="noWidgetMode">
 
 				<p>
 					<!-- Affichage de l'info trafic -->
@@ -236,27 +238,27 @@
                             $('.widgetMode').show();
                             $('.aroundMeMode').hide();
                             $('.normalMode').hide();
+                            $('.noWidgetMode').hide();
                             $('.eventExplanation').hide();
-                            $('.infoTrafic').hide();
                         } else if (mode == 'aroundme') {
                             $('.monStrasbourgMode').show();
                             $('.widgetMode').hide();
                             $('.aroundMeMode').show();
                             $('.normalMode').hide();
+                            $('.noWidgetMode').show();
                             $('.eventExplanation').show();
-                            $('.infoTrafic').show();
                         } else {
                             $('.monStrasbourgMode').hide();
                             $('.widgetMode').hide();
                             $('.aroundMeMode').hide();
                             $('.normalMode').show();
+                            $('.noWidgetMode').show();
                             $('.eventExplanation').show();
-                            $('.infoTrafic').show();
                         }
 					}
 					
 					var refreshConfigTrafficDisplay = function() {
-		                   if ($('.infoTrafic input[type=checkbox]').is(":checked")) {
+		                   if ($('.noWidgetMode input[type=checkbox]').is(":checked")) {
 		                       $('.infoTrafficChecked').show();
 		                   } else {
 		                       $('.infoTrafficChecked').hide();
@@ -265,7 +267,7 @@
 					$('.modeSelection input[type=radio]').on('change', function() {
                         refreshConfigDisplay();
 					})
-					$('.infoTrafic input[type=checkbox]').on('change', function() {
+					$('.noWidgetMode input[type=checkbox]').on('change', function() {
 						refreshConfigTrafficDisplay();
 					})
 					$(function() {

@@ -10,7 +10,6 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import eu.strasbourg.utils.PortletHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONArray;
@@ -25,8 +24,8 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.demarches.configuration.DemarchesConfiguration;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.PublikApiClient;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -77,6 +76,9 @@ public class DemarchesWebPortlet extends MVCPortlet {
 					.getPortletInstanceConfiguration(DemarchesConfiguration.class);
 			String url = configuration.url();
 			renderRequest.setAttribute("toutesLesDemarches", url);
+			
+			// titre personnalisable
+			renderRequest.setAttribute("title", PortletHelper.getPortletTitle("follow-up-request", renderRequest));
 
 			// Affichage ou non de la croix de masquage du module
 			renderRequest.setAttribute("showDeleteButton",
