@@ -123,11 +123,6 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	@Override
-	public boolean hasAssetEntry() {
-		return _like.hasAssetEntry();
-	}
-
-	@Override
 	public boolean isCachedModel() {
 		return _like.isCachedModel();
 	}
@@ -150,11 +145,6 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	@Override
 	public boolean isNew() {
 		return _like.isNew();
-	}
-
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _like.getAssetEntry();
 	}
 
 	@Override

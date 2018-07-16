@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.like.model.impl;
 
-import java.util.Locale;
-
-import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
@@ -42,17 +38,6 @@ public class LikeImpl extends LikeBaseImpl {
 	 */
 	public LikeImpl() {
 	}
-	
-	@Override
-	public boolean hasAssetEntry() {
-		return !this.getLikeType().getLikeClass().equals(String.class);
-	}
-
-	@Override
-	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(this.getLikeType().getLikeClass().getName(),
-				this.getEntityId());
-	}
 
 	@Override
 	public LikeType getLikeType() {
@@ -71,9 +56,6 @@ public class LikeImpl extends LikeBaseImpl {
 		result.put("isDislike", this.getIsDislike());
 		result.put("typeId", this.getTypeId());
 		result.put("entityId", this.getEntityId());
-		if (this.getAssetEntry() != null) {
-			result.put("entityTitle", this.getAssetEntry().getTitle(Locale.FRANCE));
-		}
 		result.put("entityGroupId", this.getEntityGroupId());
 
 		return result;

@@ -152,12 +152,6 @@ public interface LikeLocalService extends BaseLocalService,
 	public int getLikesCount();
 
 	/**
-	* Retourne le type du like/dislike de l'element
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.lang.Long getLikeTypeByClass(java.lang.String likeClass);
-
-	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier
@@ -202,6 +196,19 @@ public interface LikeLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Retourne la liste des like/dislike d'une entité
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Like> getByEntityIdAndTypeId(long entityId, long typeId);
+
+	/**
+	* Retourne la liste des like/dislike d'une entité selon le type de like (like/dislike)
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Like> getByEntityIdAndTypeIdAndIsDislike(long entityId,
+		long typeId, boolean isDislike);
 
 	/**
 	* Retourne la liste des likes/dislikes d'un utilisateur

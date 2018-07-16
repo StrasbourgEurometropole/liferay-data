@@ -60,6 +60,48 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes();
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes();
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikesDislikes();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
+
+	/**
 	* Retourne la liste des événements liés à la participation
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();

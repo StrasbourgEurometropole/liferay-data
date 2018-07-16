@@ -54,10 +54,6 @@ public interface Like extends LikeModel, PersistedModel {
 			}
 		};
 
-	public boolean hasAssetEntry();
-
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
-
 	public eu.strasbourg.service.like.model.LikeType getLikeType();
 
 	/**

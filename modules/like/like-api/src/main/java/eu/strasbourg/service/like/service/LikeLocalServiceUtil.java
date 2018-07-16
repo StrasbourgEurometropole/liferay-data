@@ -156,13 +156,6 @@ public class LikeLocalServiceUtil {
 	}
 
 	/**
-	* Retourne le type du like/dislike de l'element
-	*/
-	public static java.lang.Long getLikeTypeByClass(java.lang.String likeClass) {
-		return getService().getLikeTypeByClass(likeClass);
-	}
-
-	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier
@@ -219,6 +212,24 @@ public class LikeLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne la liste des like/dislike d'une entité
+	*/
+	public static java.util.List<eu.strasbourg.service.like.model.Like> getByEntityIdAndTypeId(
+		long entityId, long typeId) {
+		return getService().getByEntityIdAndTypeId(entityId, typeId);
+	}
+
+	/**
+	* Retourne la liste des like/dislike d'une entité selon le type de like (like/dislike)
+	*/
+	public static java.util.List<eu.strasbourg.service.like.model.Like> getByEntityIdAndTypeIdAndIsDislike(
+		long entityId, long typeId, boolean isDislike) {
+		return getService()
+				   .getByEntityIdAndTypeIdAndIsDislike(entityId, typeId,
+			isDislike);
 	}
 
 	/**

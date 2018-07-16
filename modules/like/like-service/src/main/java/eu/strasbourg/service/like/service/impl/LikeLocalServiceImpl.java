@@ -60,6 +60,22 @@ public class LikeLocalServiceImpl extends LikeLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Retourne la liste des like/dislike d'une entité
+	 */
+	@Override
+	public List<Like> getByEntityIdAndTypeId(long entityId, long typeId){
+		return this.likePersistence.findByEntityIdAndTypeId(entityId, typeId);
+	}
+	
+	/**
+	 * Retourne la liste des like/dislike d'une entité selon le type de like (like/dislike)
+	 */
+	@Override
+	public List<Like> getByEntityIdAndTypeIdAndIsDislike(long entityId, long typeId, boolean isDislike){
+		return this.likePersistence.findByEntityIdAndTypeIdAndIsDislike(entityId, typeId, isDislike);
+	}
+	
+	/**
 	 * Supprime les likes/dislike d'une entité
 	 */
 	@Override
@@ -82,22 +98,5 @@ public class LikeLocalServiceImpl extends LikeLocalServiceBaseImpl {
 			this.likePersistence.remove(like);
 		}
 	}
-	
-	/**
-	 * Retourne le type du like/dislike de l'element
-	 */
-	@Override
-	public Long getLikeTypeByClass(String likeClass) {
-		Long type = null;
-		List<LikeType> allLikeType = LikeType.getAll();
-		List<LikeType> likeTypes = allLikeType.stream().filter(f -> f.getLikeClass().getName().equals(likeClass)).collect(Collectors.toList());
-		if (!likeTypes.isEmpty()) {
-			LikeType likeType = likeTypes.get(0);
-			type = likeType.getId();
-		}
-		return type;
-	}
-	
-	
 	
 }

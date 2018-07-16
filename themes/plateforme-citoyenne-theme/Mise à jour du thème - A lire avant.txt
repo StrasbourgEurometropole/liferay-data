@@ -11,26 +11,40 @@ Le point d'entré sass strasbourg.scss -> écraser le fichier mais recopier la der
 
 
 Le fichier js/src-1/bloc-prefooter.js :
+    le code suivant a été enlevé, déplacé et adapté dans le fichier pacte-view.jsp du module pacte-web
 
-le code suivant a été enlevé, déplacé et adapté dans le fichier pacte-view.jsp du module pacte-web
-
-$('.pro-bloc-prefooter .pro-signature-pacte > a').on('click',function(e){
-    e.preventDefault();
-    $(this).toggleClass('active');
-    if($(this).hasClass('active')){
-        $('h3',this).text('Vous avez adhéré au pacte');
-        $('span',this).css('display','none');
-        if($(this).hasClass('pro-disabled')){
+    $('.pro-bloc-prefooter .pro-signature-pacte > a').on('click',function(e){
+        e.preventDefault();
+        $(this).toggleClass('active');
+        if($(this).hasClass('active')){
+            $('h3',this).text('Vous avez adhéré au pacte');
+            $('span',this).css('display','none');
+            if($(this).hasClass('pro-disabled')){
+                $('h3',this).text('Signer');
+                $('span',this).css('display','block');
+            }
+        }
+        else if($(this).hasClass('pro-disabled')){
             $('h3',this).text('Signer');
             $('span',this).css('display','block');
         }
-    }
-    else if($(this).hasClass('pro-disabled')){
-        $('h3',this).text('Signer');
-        $('span',this).css('display','block');
-    }
-    else{
-        $('h3',this).text('Signer');
-        $('span',this).css('display','block');
-    }
-});
+        else{
+            $('h3',this).text('Signer');
+            $('span',this).css('display','block');
+        }
+    });
+
+Le fichier js/src-1/bloc-vignette.js :
+    Le code suivant a été commenté afin de gérer individuellement les likes/dislikes dans le fichier custom/overide.js
+
+    $("[href$='like-pro']").on('click',function(e){
+        e.preventDefault();
+        $(this).text(+parseInt($(this).text()) + 1);
+        $(this).toggleClass('active');
+    });
+    
+    $("[href$='-approuv']").on('click',function(e){
+        e.preventDefault();
+        $(this).find('strong').text(+parseInt($(this).text()) + 1);
+        $(this).toggleClass('active');
+    });

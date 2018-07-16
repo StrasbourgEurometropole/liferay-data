@@ -453,6 +453,36 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _participation.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _participation.getNbLikes();
+	}
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikesDislikes() {
+		return _participation.getNbLikesDislikes();
+	}
+
+	/**
 	* Returns the status of this participation.
 	*
 	* @return the status of this participation
@@ -813,6 +843,16 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
+		return _participation.getDislikes();
+	}
+
+	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
 	*
 	* @return : null si vide, sinon la liste des catégories
@@ -836,6 +876,26 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.util.List<java.lang.String> getFilesURLs() {
 		return _participation.getFilesURLs();
+	}
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _participation.getLikes();
+	}
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes() {
+		return _participation.getLikesDislikes();
 	}
 
 	/**

@@ -8,6 +8,7 @@ dependencies {
 	compile project(":modules:project:project-api")
 	compile project(":modules:agenda:agenda-api")
 	compile project(":modules:place:place-api")
+	compile project(":modules:like:like-api")
 	compile project (':modules:utils')
 }
 

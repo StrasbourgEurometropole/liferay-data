@@ -129,12 +129,6 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 		like.setPublikUserId(userId);
 		like.setEntityId(entityId);
 		
-
-		// Vérification de l'identifiant de l'entité (plus pratique après initialisation de l'objet)
-		if (type != LikeType.PROCEDURE && like.getAssetEntry() == null) {
-			return error("entity does not exist");
-		}
-		
 		this.likeLocalService.updateLike(like);
 		
 		return success("like added");
