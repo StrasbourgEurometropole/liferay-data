@@ -351,6 +351,11 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		return new CommentWrapper((Comment)_comment.clone());
 	}
 
+	@Override
+	public java.lang.String getAssetEntryTitle() {
+		return _comment.getAssetEntryTitle();
+	}
+
 	/**
 	* Returns the comment of this comment.
 	*
@@ -394,6 +399,11 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _comment.getStatusByUserUuid();
+	}
+
+	@Override
+	public java.lang.String getTypeAssetEntry() {
+		return _comment.getTypeAssetEntry();
 	}
 
 	/**

@@ -87,48 +87,34 @@
 														 href="${editCommentURL}" name="Commentaire" truncate="true" orderable="true"
 														 value="${comment.comment}" />
 				
-				<%-- Colonne : Date de modification
+				<%-- Colonne : Date de modification--%>
 				<fmt:formatDate value="${comment.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 
-				<liferay-ui:search-container-column-text cssClass="content-column"
-														 name="commentaire"
-														 truncate="true"
-														 orderable="true"
-														 value="${comment.comment}"/>
-			 --%>
-				<%-- Colonne : Createur
-				<liferay-ui:search-container-column-text name="user">
-					${comment.statusByUserName}
-				</liferay-ui:search-container-column-text>
---%>
-				<%-- Colonne : Statut
+				<%-- Colonne : Statut--%>
 				<liferay-ui:search-container-column-text name="status">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${comment.status}" />
 				</liferay-ui:search-container-column-text>
---%>
-				<%-- Colonne : Actions possibles
-				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editCommentURL}" />
-						</c:if>
 
-						<liferay-portlet:actionURL name="deleteComment" var="deleteCommentURL">
-							<portlet:param name="cmd" value="deleteComment" />
-							<portlet:param name="tab" value="comments" />
-							<portlet:param name="commentId" value="${comment.commentId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteCommentsURL}" />
-						</c:if>
-					</liferay-ui:icon-menu>
-				</liferay-ui:search-container-column-text>
---%>
+				<%-- Colonne : Type de l'entité--%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+                    name="Type de l'entite" truncate="true" orderable="true"
+                    value="${comment.getTypeAssetEntry()}" />
+
+				<%-- Colonne : nom de l'entité--%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+                    name="Nom de l'entite" truncate="true" orderable="true"
+                    value="${comment.getAssetEntryTitle()}" />
+
+				<%-- Colonne : lien vers la page--%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+                    name="lien" truncate="true" orderable="true"
+                    value="${comment.urlProjectCommentaire}" />
+
 			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>

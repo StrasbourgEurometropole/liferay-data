@@ -19,6 +19,7 @@ import java.util.List;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
@@ -54,6 +55,31 @@ public class CommentImpl extends CommentBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
 			this.getCommentId());
 	}
+
+    @Override
+    public String getTypeAssetEntry(){
+	    String result="";
+        try {
+            AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+            String temp = entry.getClassName();
+            result = temp.substring(temp.lastIndexOf(".")+1);
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public String getAssetEntryTitle(){
+        String result="";
+        try {
+            AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+            result = entry.getTitle();
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
