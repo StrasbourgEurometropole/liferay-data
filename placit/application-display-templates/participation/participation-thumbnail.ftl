@@ -1,7 +1,9 @@
 <!-- VIGNETTE PARTICIPATION -->
 
+<!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
+<!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -68,10 +70,10 @@
         </div>
         <div class="pro-content-participation">
             <div class="pro-meta">
-                
+
                 <!-- Liste des quartiers de la participation -->
                 <span>${entry.getDistrictLabel(locale)}</span>
-                
+
                 <!-- Liste des thématiques de la participation -->
                 <#if participationThematics?? >
                     <#list participationThematics as participationThematic >

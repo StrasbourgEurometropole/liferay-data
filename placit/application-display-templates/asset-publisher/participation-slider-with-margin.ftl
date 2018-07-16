@@ -23,7 +23,7 @@
 
                 <!-- Parcours des entites de l'asset publisher -->
                 <#list entries as curEntry>
-
+                    
                     <!-- Recuperation de l'entite -->
                     <#assign entry = curEntry.getAssetRenderer().getParticipation() />
 

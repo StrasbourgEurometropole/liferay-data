@@ -197,6 +197,33 @@
 
 
                     <aside class="col-sm-4">
+                        <div class="pro-push-avis">
+                            <a href="#" class="pro-like"
+                                data-typeid="15" 
+                                data-isdislike="false"
+                                data-title="${entry.getTitle()}" 
+                                data-entityid="${entry.participationId}"
+                                data-entitygroupid="${entry.groupId}"
+                                title="Cliquez pour approuver">
+                                <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                            </a>
+                            <a href="#" class="pro-dislike"
+                                data-typeid="15" 
+                                data-isdislike="true"
+                                data-title="${entry.getTitle()}" 
+                                data-entityid="${entry.participationId}"
+                                data-entitygroupid="${entry.groupId}"
+                                title="Cliquez pour désapprouver">
+                                <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                            </a>
+                        </div>
+                        <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
+                             data-zoom="12" data-filter-options="filterMapDetail"></div>
+                        <div class="pro-compteur">
+                            <span class="pro-compt">00000</span>
+                            <p>Citoyens(nes) ont réagi</p>
+                            <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
+                        </div>
                         <div class="pro-event-comming">
                             <a href="#pro-link-evenement" target="Evenement à venir">
                                 <strong><#if participationEvents?has_content>${participationEvents?size}</#if></strong> Évènement(s) à venir
