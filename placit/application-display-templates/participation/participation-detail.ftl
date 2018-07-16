@@ -198,7 +198,7 @@
 
                     <aside class="col-sm-4">
                         <div class="pro-push-avis">
-                            <a href="#" class="pro-like"
+                            <a href="#pro-approuv" class="pro-like"
                                 data-typeid="15" 
                                 data-isdislike="false"
                                 data-title="${entry.getTitle()}" 
@@ -207,7 +207,7 @@
                                 title="Cliquez pour approuver">
                                 <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                             </a>
-                            <a href="#" class="pro-dislike"
+                            <a href="#pro-not-approuv" class="pro-dislike"
                                 data-typeid="15" 
                                 data-isdislike="true"
                                 data-title="${entry.getTitle()}" 

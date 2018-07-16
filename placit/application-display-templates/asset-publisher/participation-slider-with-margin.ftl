@@ -68,6 +68,10 @@
                             
                             <#if participationStatus == "soon_arrived"> 
                                 <div class="pro-footer-participation pro-participation-soon">
+                                    <div class="pro-avis">
+                                        <span class="pro-like">${entry.nbLikes}</span>
+                                        <span class="pro-dislike">${entry.nbDislikes}</span>
+                                    </div>
                                     <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                                         Bientôt disponible
                                     </a>
@@ -80,6 +84,10 @@
                                 </div>
                             <#elseif participationStatus == "finished" >
                                 <div class="pro-footer-participation pro-participation-deadline">
+                                    <div class="pro-avis">
+                                        <span class="pro-like">${entry.nbLikes}</span>
+                                        <span class="pro-dislike">${entry.nbDislikes}</span>
+                                    </div>
                                     <p>Participation terminée</p>
                                 </div>
                             </#if>
