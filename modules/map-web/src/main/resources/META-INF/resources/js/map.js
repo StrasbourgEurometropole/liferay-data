@@ -220,7 +220,9 @@
             var popupAlerteElement = $.parseHTML(popupAlerteMarkup);
             var onEachFeatureAlerte = function(feature, layer) {
                 if (feature.properties) {
-           	    	formated_info = '<img src="/o/mapweb/images/travaux.png" align="left" style="margin-right: 25px;"><div class="infowindow__name">' + feature.properties.type + '</div>';
+                    var icone = feature.properties.type;
+                    icone = icone.replace(new RegExp(' '.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'),'g'), '_').toLowerCase();
+           	    	formated_info = '<img src="/o/mapweb/images/' + icone + '.png" align="left" style="margin-right: 25px;"><div class="infowindow__name">' + feature.properties.type + '</div>';
        	    		//formated_info = '<img src="' + feature.properties.url + '" align="left" style="margin-right: 25px;"><div class="infowindow__name">' + feature.properties.type + '</div>';
            	    	// On rempli les champs dans l'infowindow
                     $(popupAlerteElement).find('.infowindow__visual').html(formated_info);  
@@ -296,10 +298,10 @@
             }
             
             var pointAlertToLayer = function(feature, latlng) {
+            	var icone = feature.properties.type;
                 var markerIcon = new L.Icon({
-                    iconUrl: '/o/mapweb/images/travaux.png',
-                    // iconUrl: feature.properties.url,
-                    iconSize: [35,49],
+                    iconUrl: '/o/mapweb/images/' + icone.replace(new RegExp(' '.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'),'g'), '_').toLowerCase() + '.png',
+                    iconSize: [35,35],
                     iconAnchor: [17, 49],
                     popupAnchor: [1, -49]
                 });
