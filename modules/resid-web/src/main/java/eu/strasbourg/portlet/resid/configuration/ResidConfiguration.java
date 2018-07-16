@@ -12,10 +12,9 @@ public interface ResidConfiguration {
 	public String liaisonURL();
 
 	@Meta.AD(name="residURL",deflt="",required=false)
-
 	public String residURL();
 
-	@Meta.AD(name = "zoneURL", deflt = "", required = false)
-	public String zoneURL();
+	@Meta.AD(name = "zones", deflt = "", required = false)
+	public String[] zones();
 
 }

@@ -126,10 +126,11 @@
                 '    </div>' +
                 '    <div class="infowindow__url"></div>' +
                 '</div>';
-            var popupElement = $.parseHTML(popupMarkup);
-            
             var onEachFeature = function(feature, layer) {
+                var popupElement = $.parseHTML(popupMarkup);
                 if (feature.properties) {
+                    var hasOpened = false;
+                    var hasAmount = false;
                     poi_infos_to_display.forEach(function(info_to_display) { // Pour chaque infos qu'on est censé avoir dans le poi
                         $(popupElement).find('.infowindow__' + info_to_display).html(''); // On reset le champ dans l'infowindow
                         if (info_to_display in feature.properties && feature.properties[info_to_display] !== '') { // Si cette info est bien renseignée
@@ -143,6 +144,8 @@
                                 }
                                 frequentation += '</div>';
                                 formated_info = frequentation;
+                                hasOpened = true;
+                                hasAmount = true;
                             } else if (info_to_display == "url") {
                                 var newTabAttribute = '';
                                 if (window.newTab) {
@@ -182,12 +185,20 @@
                     			}
                     			lienFavori += '</a>';
                     			formated_info = lienFavori;
+                            } else if (info_to_display == "opened"){
+                                formated_info = feature.properties[info_to_display];
+                                hasOpened = true;
                             } else if (info_to_display !="visual") {
                                 formated_info = feature.properties[info_to_display];
-                            } 
+                            }
                             $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
                         }
                     });
+                    if(!hasOpened){
+                    	$(popupElement).find('.infowindow__middle').remove(); // On cache le champ dans l'infowindow
+                    }else if(!hasAmount){
+                    	$(popupElement).find('.infowindow__right').remove(); // On cache le champ dans l'infowindow
+                    }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     // Titre dans la liste des markers
                     layer.options['title'] = feature.properties.name;

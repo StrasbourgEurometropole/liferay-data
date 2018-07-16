@@ -17,11 +17,8 @@ public interface MapConfiguration {
 	@Meta.AD(name = "widgetMod", required = false)
 	public boolean widgetMod();
 	
-	@Meta.AD(name = "widgetIntro", required = false)
-	public String widgetIntro();
-
-	@Meta.AD(name = "widgetLink", required = false)
-	public String widgetLink();
+	@Meta.AD(name = "defaultConfig", required = false)
+	public boolean defaultConfig();
 	
 	@Meta.AD(name = "groupId", required = false)
 	public long groupId();
@@ -31,6 +28,21 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "typesContenu", required = false)
 	public String typesContenu();
+
+	@Meta.AD(name = "eventExplanationXML", deflt = "", required = false)
+	public String eventExplanationXML();
+	
+	@Meta.AD(name = "showConfig", required = false)
+	public boolean showConfig();
+	
+	@Meta.AD(name = "showList", required = false)
+	public boolean showList();
+	
+	@Meta.AD(name = "widgetIntro", required = false)
+	public String widgetIntro();
+
+	@Meta.AD(name = "widgetLink", required = false)
+	public String widgetLink();
 	
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();
@@ -40,6 +52,12 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "categoriesDefaultsIds", required = false)
 	public String categoriesDefaultsIds();
+	
+	@Meta.AD(name = "districtUser", required = false)
+	public boolean districtUser();
+	
+	@Meta.AD(name = "interestsIds", required = false)
+	public String interestsIds();
 	
 	@Meta.AD(name = "showFavorites", required = false)
 	public boolean showFavorites();
@@ -55,23 +73,5 @@ public interface MapConfiguration {
 
 	@Meta.AD(name = "linkInterestId", deflt = "", required = false)
 	public String linkInterestId();
-	
-	@Meta.AD(name = "showConfig", required = false)
-	public boolean showConfig();
-	
-	@Meta.AD(name = "showList", required = false)
-	public boolean showList();
-	
-	@Meta.AD(name = "defaultConfig", required = false)
-	public boolean defaultConfig();
-	
-	@Meta.AD(name = "districtUser", required = false)
-	public boolean districtUser();
-	
-	@Meta.AD(name = "interestsIds", required = false)
-	public String interestsIds();
-	
-	@Meta.AD(name = "interestsDefaultsIds", required = false)
-	public String interestsDefaultsIds();
 
 }

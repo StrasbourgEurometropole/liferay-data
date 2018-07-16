@@ -225,7 +225,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	@Override
 	public void updateRealTime() throws PortalException {
         // System.out.println("Start import of places real time data");
-        System.out.println("RT import started");
+        // System.out.println("RT import started");
 
         // Récupère tous les lieux ayant un externalId
         List<Place> places = this.getPlaces(-1, -1);
@@ -253,7 +253,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
                         rtType = "3";
 						// System.out.println("Type 3");
 					} else { // Parkings
-                        rtType = "3";
+                        rtType = "2";
 						// System.out.println("Type 2");
 					}
 				}
@@ -305,7 +305,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
         indexer.reindex(placesWithRT);
         Event event = EventLocalServiceUtil.getEvent(848044);
         EventLocalServiceUtil.updateStatus(event, WorkflowConstants.STATUS_APPROVED);
-        System.out.println("RT import finished");
+        // System.out.println("RT import finished");
     }
 
 	@Override
@@ -318,6 +318,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
         place.setRTAvailable(available);
         place.setRTCapacity(capacity);
         place.setRTStatus(status);
+        place.setRTType(type);
         this.updatePlace(place);
 
         AssetEntry entry = this.assetEntryLocalService

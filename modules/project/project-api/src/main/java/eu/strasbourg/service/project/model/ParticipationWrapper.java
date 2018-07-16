@@ -581,6 +581,16 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la participation
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	@Override
+	public java.lang.String getDistrictLabel(java.util.Locale locale) {
+		return _participation.getDistrictLabel(locale);
+	}
+
+	/**
 	* Returns the events IDs of this participation.
 	*
 	* @return the events IDs of this participation

@@ -23,10 +23,10 @@
 	    <h1><liferay-ui:message key="auround-me" /></h1>
 	</c:if>
 	<c:if test="${districtUser}">
-	    <h1 class="aroundme--title">
+	    <h2 class="aroundme--title">
 	    	<liferay-ui:message key="my-district" /><br />
 	    	${district.getTitle(locale)}
-	    </h1>
+	    </h2>
 	</c:if>
 	<section id="wi-aroundme">
 		<div id="aroundme">
@@ -39,6 +39,9 @@
 		        <button class="top__trigger top__trigger--pull opened"></button>
 		        <div class="top__overflow">
 		            <aui:form method="POST" action="#" name="addItemForm" id="addItemForm" cssClass="filtres filtres--category">
+						<c:if test="${typesContenu.contains('eu.strasbourg.service.agenda.model.Event')}">
+	    					<p>${eventExplanationText}</p>
+						</c:if>
 		                <div class="filtres__list" id="poin">
 	                        <button type="button" class="top__trigger top__trigger--close mobile-only"></button>
 		                    <c:set var="checkboxNamesCategories" value="" />
@@ -125,7 +128,7 @@
 		                    <a href="${resetUserConfiguration}" class="filtres__btn filtres__btn--reset">
 		                        <span class="flexbox">
 		                            <span class="btn-arrow"></span>
-		                            <span class="btn-text">Effacer mes filtres</span>
+		                            <span class="btn-text">R&eacute;initialiser mes filtres</span>
 		                        </span>
 		                    </a>
 						    <portlet:resourceURL id="toggleInterestPoint" var="interestPointURL">

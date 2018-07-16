@@ -5,6 +5,10 @@
 			<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
 		</c:if>
         <h2><liferay-ui:message key="follow-up-request" /></h2>
+	   	<c:if test="${not empty error}">
+			<div class="error"><liferay-ui:message key="eu.webservice-indispo" /></div>
+	   	</c:if>
+	   	<c:if test="${empty error}">
 			<c:if test="${not empty demarches}">
 				<ul class="demandes-list unstyled">
 		            <c:forEach var="demarche" items="${demarches}">
@@ -19,10 +23,11 @@
 			<c:if test="${empty demarches}">
 	            <span class="text-noelt"><liferay-ui:message key="no-step" /></span><br>
 	        </c:if>
+	   	</c:if>
 	       
-		    <a href="<c:if test='${not empty toutesLesDemarches}'>${toutesLesDemarches}</c:if><c:if test='${empty toutesLesDemarches}'>#</c:if>" class="btn-square--filled--core">
-		    	<span class="flexbox"><span class="btn-text"><liferay-ui:message key="all-steps" /></span><span class="btn-arrow"></span></span>
-		    </a>
+	    <a href="<c:if test='${not empty toutesLesDemarches}'>${toutesLesDemarches}</c:if><c:if test='${empty toutesLesDemarches}'>#</c:if>" class="btn-square--filled--core">
+	    	<span class="flexbox"><span class="btn-text"><liferay-ui:message key="all-steps" /></span><span class="btn-arrow"></span></span>
+	    </a>
     </section>
 </div>
 

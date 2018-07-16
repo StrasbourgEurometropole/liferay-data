@@ -105,6 +105,30 @@
         }
     }
     &.seu-event{}
+    &.seu-actu.seu-mag{
+        @extend %atom-slider-une-vignette;
+
+        .seu-link{
+            display: block;
+        }
+
+        .seu-mag-logo .seu-mag-text{
+            line-height: 54px;
+        }
+
+        .seu-text{
+            @include RWD(mobile){
+                padding: 30px 20px 60px 20px;
+            }
+        }
+
+        &.seu-wi-item .seu-picture {
+            margin-top: 0px;
+            @include RWD(mobile){
+                padding-bottom: 65%;
+            }
+        }
+    }
     &.seu-actu{
         .seu-link{
             display: flex;

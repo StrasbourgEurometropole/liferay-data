@@ -459,14 +459,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getTerritoryLabel(Locale locale) {
-		String territories = "";
-		for (AssetCategory territory : this.getTerritories()) {
-			if (territories.length() > 0) {
-				territories += " - ";
-			}
-			territories += territory.getTitle(locale);
-		}
-		return territories;
+		List<AssetCategory> districts = getTerritories();
+		return AssetVocabularyHelper.getDistrictTitle(locale,districts);
 	}
 
 	/**
@@ -499,7 +493,7 @@ public class EventImpl extends EventBaseImpl {
 			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && endDate.isBefore(today) || today.isEqual(startDate)) {
+			if (today.isAfter(startDate) && today.isBefore(endDate) || today.isEqual(startDate)) {
 				return true;
 			}
 		}

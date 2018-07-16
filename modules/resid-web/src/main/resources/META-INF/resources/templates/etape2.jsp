@@ -89,9 +89,13 @@
 							<label><liferay-ui:message key="zone" /></label>
 						</div>
 						<div class="content">
-							<a href="${dc.zoneURL}" target="_blank" title="<liferay-ui:message key="zone-text-x" arguments="${zone.code}" /> - ${zone.intitule}(<liferay-ui:message key="eu.new-window"/>)" >
-								${zone.intitule}
-							</a>
+							<c:if test="${not empty dc.getZoneURL(zone.code)}">
+								<a href="${dc.getZoneURL(zone.code)}" target="_blank" title="${zone.intitule}(<liferay-ui:message key="eu.new-window"/>)" >
+							</c:if>
+							${zone.intitule}
+							<c:if test="${not empty dc.getZoneURL(zone.code)}">
+								</a>
+							</c:if>
 						</div>
 						<!-- fin de validité du titre -->
 						<div class="title">

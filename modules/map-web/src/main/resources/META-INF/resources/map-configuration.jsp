@@ -27,10 +27,42 @@
 				<!-- Lieux -->
 				<aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
 					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
+				
 				<!-- Evénements -->
 				<aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
 					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" ></aui:input>
 			
+				<!-- Carto normale et page autour de moi -->
+				<div class="eventExplanation">
+					<aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
+				</div>
+			
+			</aui:fieldset>
+			
+			<!-- Affichage -->
+			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
+
+				<!-- Choix de l'affichage de la zone de configuration -->
+				<div>
+					<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+				</div>
+				
+				<!-- Choix de l'affichage de la liste -->
+				<div>
+					<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
+				</div>
+			
+				<!-- Choix du site pour la cible des lien -->
+				<aui:select name="groupId" label="detail-target-site">
+					<c:forEach var="site" items="${sites}">
+						<aui:option value="${site.groupId}" selected="${site.groupId eq selectedGroupId}">${site.name}</aui:option>
+					</c:forEach>
+				</aui:select>
+				
+				<!-- Choix de l'ouverture d'un lien dans un nouvel onglet ou pas  -->
+				<div>
+					<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
+				</div>
 			</aui:fieldset>
 			
 			<!-- Carto normale -->
@@ -78,33 +110,6 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- Affichage -->
-			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
-
-				<!-- Choix de l'affichage de la zone de configuration -->
-				<div>
-					<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
-				</div>
-				
-				<!-- Choix de l'affichage de la liste -->
-				<div>
-					<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
-				</div>
-			
-				<!-- Choix du site pour la cible des lien -->
-				<aui:select name="groupId" label="detail-target-site">
-					<c:forEach var="site" items="${sites}">
-						<aui:option value="${site.groupId}" selected="${site.groupId eq selectedGroupId}">${site.name}</aui:option>
-					</c:forEach>
-				</aui:select>
-				
-				<!-- Choix de l'ouverture d'un lien dans un nouvel onglet ou pas  -->
-				<div>
-					<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
-				</div>
-				
-			</aui:fieldset>
-			
 			<!-- MonStrabourg -->
 			<aui:fieldset collapsed="true" collapsible="true"
 					label="mon-strasbourg" cssClass="monStrasbourgMode">
@@ -136,7 +141,6 @@
 							<tr style="border-bottom: solid 3px;">
 								<td width="100px"><liferay-ui:message key="interest-choice-disabled-help"/></td>
 								<td width="100px"><liferay-ui:message key="interest-choice-help"/></td>
-								<td width="100px"><liferay-ui:message key="interest-choice-default-help" /></td>
 								<td></td>
 							</tr>
 							<c:forEach var="interest" items="${interests}" varStatus="intStatus">
@@ -148,15 +152,11 @@
 								</c:if>
 								<td style="padding-top: 10px">
 									<aui:input type="radio" name="interestStatus${interest.interestId}" value="disabled" label=""
-											   checked="${!fn:contains(interestsIds, interest.interestId) || !fn:contains(interestsDefaultsIds, interest.interestId) || !hasConfig}" ></aui:input>
+											   checked="${!fn:contains(interestsIds, interest.interestId) || !hasConfig}" ></aui:input>
 								</td>
 								<td style="padding-top: 10px">
 									<aui:input type="radio" name="interestStatus${interest.interestId}" value="unchecked" label=""
 											   checked="${fn:contains(interestsIds, interest.interestId)}" ></aui:input>
-								</td>
-								<td style="padding-top: 10px">
-									<aui:input type="radio" name="interestStatus${interest.interestId}" value="checked" label=""
-											   checked="${fn:contains(interestsDefaultsIds, interest.interestId)}" ></aui:input>
 								</td>
 								<td style="text-align: left">${interest.getTitle(locale)}</td>
 								</tr>
@@ -227,52 +227,56 @@
 					
 					</div>
 				</div>
+
+				<script>
+					var refreshConfigDisplay = function() {
+                        var mode = $('.modeSelection input[type=radio]:checked').val();
+                        if (mode === 'widget') {
+                            $('.monStrasbourgMode').show();
+                            $('.widgetMode').show();
+                            $('.aroundMeMode').hide();
+                            $('.normalMode').hide();
+                            $('.eventExplanation').hide();
+                            $('.infoTrafic').hide();
+                        } else if (mode == 'aroundme') {
+                            $('.monStrasbourgMode').show();
+                            $('.widgetMode').hide();
+                            $('.aroundMeMode').show();
+                            $('.normalMode').hide();
+                            $('.eventExplanation').show();
+                            $('.infoTrafic').show();
+                        } else {
+                            $('.monStrasbourgMode').hide();
+                            $('.widgetMode').hide();
+                            $('.aroundMeMode').hide();
+                            $('.normalMode').show();
+                            $('.eventExplanation').show();
+                            $('.infoTrafic').show();
+                        }
+					}
+					
+					var refreshConfigTrafficDisplay = function() {
+		                   if ($('.infoTrafic input[type=checkbox]').is(":checked")) {
+		                       $('.infoTrafficChecked').show();
+		                   } else {
+		                       $('.infoTrafficChecked').hide();
+		                   }
+					}
+					$('.modeSelection input[type=radio]').on('change', function() {
+                        refreshConfigDisplay();
+					})
+					$('.infoTrafic input[type=checkbox]').on('change', function() {
+						refreshConfigTrafficDisplay();
+					})
+					$(function() {
+                        refreshConfigDisplay();
+                        refreshConfigTrafficDisplay();
+					})
+				</script>
 			</aui:fieldset>		
 
 		</aui:fieldset-group>
 
-		<script>
-			var refreshConfigDisplay = function() {
-                   var mode = $('.modeSelection input[type=radio]:checked').val();
-                   if (mode === 'widget') {
-                       $('.monStrasbourgMode').show();
-                       $('.widgetMode').show();
-                       $('.aroundMeMode').hide();
-                       $('.normalMode').hide();
-                       $('.infoTrafic').hide();
-                   } else if (mode == 'aroundme') {
-                       $('.monStrasbourgMode').show();
-                       $('.widgetMode').hide();
-                       $('.aroundMeMode').show();
-                       $('.normalMode').hide();
-                       $('.infoTrafic').show();
-                   } else {
-                       $('.monStrasbourgMode').hide();
-                       $('.widgetMode').hide();
-                       $('.aroundMeMode').hide();
-                       $('.normalMode').show();
-                       $('.infoTrafic').show();
-                   }
-			}
-			var refreshConfigTrafficDisplay = function() {
-                   if ($('.infoTrafic input[type=checkbox]').is(":checked")) {
-                       $('.infoTrafficChecked').show();
-                   } else {
-                       $('.infoTrafficChecked').hide();
-                   }
-			}
-			$('.modeSelection input[type=radio]').on('change', function() {
-                      refreshConfigDisplay();
-			})
-			$('.infoTrafic input[type=checkbox]').on('change', function() {
-				refreshConfigTrafficDisplay();
-			})
-			$(function() {
-                      refreshConfigDisplay();
-                      refreshConfigTrafficDisplay();
-			})
-		</script>
-		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 		</aui:button-row>

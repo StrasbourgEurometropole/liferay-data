@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.map.configuration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
@@ -29,8 +30,10 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -67,7 +70,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			JSONArray jsonArrayFilter = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonArrayDefault = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonArrayUncheckedInterests = JSONFactoryUtil.createJSONArray();
-			JSONArray jsonArrayCheckedInterests = JSONFactoryUtil.createJSONArray();
 
 			setPreference(request, "hasConfig", "true");
 
@@ -110,6 +112,17 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 			setPreference(request, "typesContenu", typesContenuString);
 			json.put("typesContenu", jsonArrayTypeContenu);
+			
+			// texte explicatif sur les évènements
+			Map<Locale, String> eventExplanationMap = LocalizationUtil
+				.getLocalizationMap(request, "eventExplanationMap");
+			LocalizedValuesMap mapEventExplanation = new LocalizedValuesMap();
+			for (Map.Entry<Locale, String> e : eventExplanationMap.entrySet()) {
+				mapEventExplanation.put(e.getKey(), e.getValue());
+			}
+			String eventExplanationXML = LocalizationUtil.getXml(mapEventExplanation, "eventExplanation");
+			setPreference(request, "eventExplanationXML", eventExplanationXML);
+			json.put("eventExplanationXML", eventExplanationXML);
 			
 			// Choix afficher la zone de config
 			String showConfig = ParamUtil.getString(request, "showConfig");
@@ -248,37 +261,21 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			if(mode.equals("aroundme")) {
 				// Centres d'intérêts affichés non cochés
 				String interestsIdsString = "";
-				// Centres d'intérêts affichés cochés
-				String interestsDefaultsIdsString = "";
 
 				List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
 						.filter(i -> i.isApproved()).collect(Collectors.toList());
 				for (Interest interest : interests) {
 					String interestStatus = ParamUtil.getString(request, "interestStatus" + interest.getInterestId());
-					switch (interestStatus) {
-					case "checked":
-						if (interestsDefaultsIdsString.length() > 0) {
-							interestsDefaultsIdsString += ",";
-						}
-						interestsDefaultsIdsString += interest.getInterestId();
-						jsonArrayCheckedInterests.put(interest.getInterestId());
-						break;
-					case "unchecked":
+					if (interestStatus.equals("unchecked")) {
 						if (interestsIdsString.length() > 0) {
 							interestsIdsString += ",";
 						}
 						interestsIdsString += interest.getInterestId();
 						jsonArrayUncheckedInterests.put(interest.getInterestId());
-						break;
-					default:
-						break;
 					}
 				}
-
 				setPreference(request, "interestsIds", interestsIdsString);
 				json.put("interestsIds", jsonArrayUncheckedInterests);
-				setPreference(request, "interestsDefaultsIds", interestsDefaultsIdsString);
-				json.put("interestsDefaultsIds", jsonArrayCheckedInterests);
 				
 				// Choix afficher les favoris
 				String showFavorites = ParamUtil.getString(request, "showFavorites");
@@ -286,7 +283,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				json.put("showFavorites", showFavorites);
 			}else {
 				setPreference(request, "interestsIds", "");
-				setPreference(request, "interestsDefaultsIds", "");
 				setPreference(request, "showFavorites", "");
 			}
 
@@ -365,16 +361,15 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Widget mod du portlet
 			request.setAttribute("widgetMod", configuration.widgetMod());
 
-			// Texte intro mode widget
-			request.setAttribute("widgetIntro", configuration.widgetIntro());
-
-			// URL bouton mode widget
-			request.setAttribute("widgetLink", configuration.widgetLink());
+			// Config par défaut
+			request.setAttribute("defaultConfig", configuration.defaultConfig());
 
 			// Choix du site vers lequel les liens redirigent
 			List<Group> sites = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), 0, true);
 			request.setAttribute("sites", sites);
 			request.setAttribute("selectedGroupId", configuration.groupId());
+
+			request.setAttribute("groupId", "-1");
 
 			// Choix "nouvel onglet, onglet courant"
 			request.setAttribute("openInNewTab", configuration.openInNewTab());
@@ -389,6 +384,21 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 			request.setAttribute("typesContenu", typesContenuString);
 
+			// texte explicatif sur les évènements
+			request.setAttribute("eventExplanation", configuration.eventExplanationXML());
+
+			// Choix afficher la zone de config
+			request.setAttribute("showConfig", configuration.showConfig());
+
+			// Choix afficher la liste à droite
+			request.setAttribute("showList", configuration.showList());
+
+			// Texte intro mode widget
+			request.setAttribute("widgetIntro", configuration.widgetIntro());
+
+			// URL bouton mode widget
+			request.setAttribute("widgetLink", configuration.widgetLink());
+
 			// Préfiltres catégories
 			String prefilterCategoriesIds = configuration.prefilterCategoriesIds().replace(";", ",");
 			request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIds);
@@ -398,6 +408,22 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("categoriesIds", categoriesIds);
 			String categoriesDefaultsIds = configuration.categoriesDefaultsIds().replace(";", ",");
 			request.setAttribute("categoriesDefaultsIds", categoriesDefaultsIds);
+
+			// Préfiltre sur le quartier utilisateur
+			request.setAttribute("districtUser", configuration.districtUser());
+
+			// Centre d'intérêts
+			List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
+					.filter(i -> i.getStatus() == 0).collect(Collectors.toList());
+			request.setAttribute("interests", interests);
+			long[] interestsIds = ParamUtil.getLongValues(request, "interestsIds");
+			String interestsIdsString;
+			if (interestsIds.length > 0) {
+				interestsIdsString = StringUtil.merge(interestsIds);
+			} else {
+				interestsIdsString = configuration.interestsIds();
+			}
+			request.setAttribute("interestsIds", interestsIdsString);
 
 			// Choix afficher les favoris
 			request.setAttribute("showFavorites", configuration.showFavorites());
@@ -423,45 +449,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Liaison de l'info trafic à un CI
 			request.setAttribute("linkInterestId", configuration.linkInterestId());
-
-			// Choix afficher la zone de config
-			request.setAttribute("showConfig", configuration.showConfig());
-
-			// Choix afficher la liste à droite
-			request.setAttribute("showList", configuration.showList());
-
-			// Config par défaut
-			request.setAttribute("defaultConfig", configuration.defaultConfig());
-
-			// Préfiltre sur le quartier utilisateur
-			request.setAttribute("districtUser", configuration.districtUser());
-
-			// Centre d'intérêts
-			List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-					.filter(i -> i.getStatus() == 0).collect(Collectors.toList());
-			request.setAttribute("interests", interests);
-
-			// Centre d'intérêts affichés non coché
-			long[] interestsIds = ParamUtil.getLongValues(request, "interestsIds");
-			String interestsIdsString;
-			if (interestsIds.length > 0) {
-				interestsIdsString = StringUtil.merge(interestsIds);
-			} else {
-				interestsIdsString = configuration.interestsIds();
-			}
-			request.setAttribute("interestsIds", interestsIdsString);
-
-			// Centre d'intérêts affichés cochés
-			long[] interestsDefaultsIds = ParamUtil.getLongValues(request, "interestsDefaultsIds");
-			String interestsDefaultsIdsString;
-			if (interestsDefaultsIds.length > 0) {
-				interestsDefaultsIdsString = StringUtil.merge(interestsDefaultsIds);
-			} else {
-				interestsDefaultsIdsString = configuration.interestsDefaultsIds();
-			}
-			request.setAttribute("interestsDefaultsIds", interestsDefaultsIdsString);
-
-			request.setAttribute("groupId", "-1");
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

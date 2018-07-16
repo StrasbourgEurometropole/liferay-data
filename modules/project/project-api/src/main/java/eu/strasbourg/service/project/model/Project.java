@@ -90,6 +90,13 @@ public interface Project extends ProjectModel, PersistedModel {
 	public java.lang.String getDistrictCategories(java.util.Locale locale);
 
 	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers du projet
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	public java.lang.String getDistrictLabel(java.util.Locale locale);
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();

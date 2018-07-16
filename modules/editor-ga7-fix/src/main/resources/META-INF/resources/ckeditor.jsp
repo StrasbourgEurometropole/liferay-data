@@ -418,27 +418,18 @@ name = HtmlUtil.escapeJS(name);
 		}
 
 		function initData() {
-			<c:if test="<%= Validator.isNotNull(initMethod) && !(inlineEdit && Validator.isNotNull(inlineEditSaveURL)) %>">
-				if (!ckEditorContent) {
-					<c:choose>
-						<c:when test="<%= contents != null %>">
-							ckEditorContent = '<%= HtmlUtil.escapeJS(contents) %>';
-						</c:when>
-						<c:otherwise>
-							ckEditorContent = window['<%= HtmlUtil.escapeJS(namespace + initMethod) %>']();
-						</c:otherwise>
-					</c:choose>
+			if (!ckEditorContent) {
+				ckEditorContent = getInitialContent();
+			}
+
+			ckEditor.setData(
+				ckEditorContent,
+				function() {
+					ckEditor.resetDirty();
+
+					ckEditorContent = '';
 				}
-
-				ckEditor.setData(
-					ckEditorContent,
-					function() {
-						ckEditor.resetDirty();
-
-						ckEditorContent = '';
-					}
-				);
-			</c:if>
+			);
 
 			window['<%= name %>']._setStyles();
 
@@ -447,6 +438,7 @@ name = HtmlUtil.escapeJS(name);
 			</c:if>
 
 			window['<%= name %>'].instanceReady = true;
+
 
 			//Liferay.component('<%= name %>', window['<%= name %>']);
 		}

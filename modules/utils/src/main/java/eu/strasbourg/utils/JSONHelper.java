@@ -38,6 +38,8 @@ public class JSONHelper {
 	public static JSONObject readJsonFromURL(String URL, String basicAuthUser, String basicAuthPassword)
 			throws IOException, JSONException {
 		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
+		httpConn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+		httpConn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
 		if (basicAuthUser != null && basicAuthPassword != null) {
 			String encoded = Base64.getEncoder()
 					.encodeToString((basicAuthUser + ":" + basicAuthPassword).getBytes(Charset.forName("UTF-8")));
@@ -70,7 +72,21 @@ public class JSONHelper {
 	}
 
 	public static JSONArray readJsonArrayFromURL(String URL) throws IOException, JSONException {
-		InputStream is = new URL(URL).openStream();
+		URL url = new URL(URL);
+		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+		httpConn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+		httpConn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+		InputStream is;
+		if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+			is = httpConn.getInputStream();
+		} else {
+			/* error from server */
+			is = httpConn.getErrorStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			String errorText = readAll(rd);
+			LogFactoryUtil.getLog(JSONHelper.class).error(errorText);
+			throw new IOException();
+		}
 		try {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 			String jsonText = readAll(rd);

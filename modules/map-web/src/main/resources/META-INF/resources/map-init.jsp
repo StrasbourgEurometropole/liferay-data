@@ -15,7 +15,6 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
 <jsp:useBean id="strasbourgPropsUtil" class="eu.strasbourg.utils.StrasbourgPropsUtil"/>
 
-
 <liferay-util:body-top>
     <aui:script>
         window.userAddress = '${fn:escapeXml(address)}';

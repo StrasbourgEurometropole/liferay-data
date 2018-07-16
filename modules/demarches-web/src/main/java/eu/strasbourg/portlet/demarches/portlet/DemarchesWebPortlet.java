@@ -54,15 +54,19 @@ public class DemarchesWebPortlet extends MVCPortlet {
 			// récupération des démarches
 			List<Demarche> demarches = new ArrayList<Demarche>();
 			JSONObject userForms = PublikApiClient.getUserForms(idUser, true);
-			JSONArray forms = userForms.getJSONArray("data");
-			if(forms != null){
-				for (int  i=0; i<forms.length(); i++) {
-					JSONObject form = forms.getJSONObject(i);
-					if(form.getString("form_status_is_endpoint").equals("false")){
-						Demarche demarche = new Demarche(form.getString("form_name"), form.getString("form_status"), form.getString("url"));
-						demarches.add(demarche);
+			if (userForms.toString().equals("{}")) {
+				renderRequest.setAttribute("error", "publik");
+			} else {
+				JSONArray forms = userForms.getJSONArray("data");
+				if(forms != null){
+					for (int  i=0; i<forms.length(); i++) {
+						JSONObject form = forms.getJSONObject(i);
+						if(form.getString("form_status_is_endpoint").equals("false")){
+							Demarche demarche = new Demarche(form.getString("form_name"), form.getString("form_status"), form.getString("url"));
+							demarches.add(demarche);
+						}
+						if(demarches.size() == 3) break;
 					}
-					if(demarches.size() == 3) break;
 				}
 			}
 			renderRequest.setAttribute("demarches", demarches);
