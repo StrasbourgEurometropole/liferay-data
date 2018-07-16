@@ -20,6 +20,8 @@
     </div>
 </header>
 <script>
+    var height = $(window).height();
+    var width = $(window).width();
     $('.navbar.mns-nav').addClass('mns-nav-no-header');
     $('.navbar-brand').addClass('hidden');
 
@@ -35,6 +37,10 @@
         $('#layer').addClass('mns-nav-scroll-layer')
     }
 
+    if( width > 767 || height < width) {
+        $('.mns-nav').css('margin-top','40px');
+    }
+
     // Il faut rajouter un margin quand on est en haut de page et l'enlever quand on scroll
     $(window).scroll(function(){
         if ($(window).scrollTop() == 0) {
@@ -44,7 +50,9 @@
                  $('.mns-nav').css('margin-top','105px');
             }
             else {
-                $('.mns-nav').css('margin-top','40px');
+                if( width > 767 || height < width) {
+                    $('.mns-nav').css('margin-top','40px');
+                }
                 $('.mns-nav-scroll-layer').css('top','211px');
             }
         }
