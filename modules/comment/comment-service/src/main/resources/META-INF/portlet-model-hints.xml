@@ -14,7 +14,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="urlProjectCommentaire" type="String" />
+		<field name="urlProjectCommentaire" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 		<field name="comment" type="String">
 			<hint name="max-length">4000</hint>
 		</field>

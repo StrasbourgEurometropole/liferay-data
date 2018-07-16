@@ -68,10 +68,10 @@
                 <%-- Champ : status --%>
                 <aui:input name="status"/>
 
-                <%-- Champ : liste des signalements --%>
-                <aui:input name="status"/>
-
                 <%-- Champ : lien vers la page du commentaire --%>
+                <aui:input href="${comment.urlProjectCommentaire}" name="urlProjectCommentaire"/>
+
+                <%-- Champ : liste des signalements --%>
                 <aui:input name="status"/>
 
                 <%-- Champ : Commentaire --%>

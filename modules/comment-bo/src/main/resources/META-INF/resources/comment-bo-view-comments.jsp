@@ -112,7 +112,7 @@
 
 				<%-- Colonne : lien vers la page--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="lien" truncate="true" orderable="true"
+                    href="${comment.urlProjectCommentaire}" name="lien" truncate="true" orderable="true"
                     value="${comment.urlProjectCommentaire}" />
 
 			</liferay-ui:search-container-row>

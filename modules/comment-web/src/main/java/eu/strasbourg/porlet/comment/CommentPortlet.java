@@ -128,28 +128,32 @@ public class CommentPortlet extends MVCPortlet {
 
 	public void postComment(ActionRequest request, ActionResponse response) throws Exception,SystemException {
 		try {
-			
+
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+
 			String userPublikId = getPublikID(request);
 			//Si l'utilisateur n'est pas connecté, on ne fait rien
 				if (Validator.isNotNull(userPublikId)) {
-				
+
 				ServiceContext sc = ServiceContextFactory.getInstance(request);
-	
+
 				Comment comment = CommentLocalServiceUtil.createComment(sc);
-	
+
 				String message = ParamUtil.getString(request, "message");
+                    String urlTemp = themeDisplay.getURLPortal();
+                    String urlSuite = themeDisplay.getURLCurrent();
+                    StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
 				long entryID = ParamUtil.getLong(request, "entryID");
-				
+
 				if(message.length() > 0) {
 					comment.setComment(message);
 					comment.setAssetEntryId(entryID);
+					comment.setUrlProjectCommentaire(url.toString());
 					comment.setPublikId(userPublikId);
-					
 					CommentLocalServiceUtil.addComment(comment);
 				}
 				// Redirection (évite double
 				// requête POST si l'utilisateur actualise sa page)
-				ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 				PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
