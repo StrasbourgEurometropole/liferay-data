@@ -11,6 +11,7 @@ create table comment_Comment (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
+	urlProjectCommentaire VARCHAR(75) null,
 	comment_ STRING null,
 	assetEntryId LONG,
 	publikId VARCHAR(75) null,

@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.comment.display.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -17,6 +19,8 @@ import java.util.List;
 
 public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Comment> {
 
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
     private List<Comment> _comments;
 
     public ViewCommentDisplayContext(RenderRequest request, RenderResponse response) {
@@ -27,10 +31,13 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
     public List<Comment> getComments() throws PortalException {
 
         if (this._comments == null) {
+            _log.info("debut getComments");
+            this._comments = CommentLocalServiceUtil.getByGroupId(this._themeDisplay.getScopeGroupId());
+/*
             Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
             //Création de la liste d'objet
             this._comments = populateComments(hits);
+            */
         }
         return this._comments;
     }
@@ -59,6 +66,7 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
                     hits.getDocs()) {
                 Comment comment = CommentLocalServiceUtil.fetchComment(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
                 if (comment != null) {
+
                     results.add(comment);
                 }
             }

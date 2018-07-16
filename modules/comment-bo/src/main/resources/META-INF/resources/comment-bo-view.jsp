@@ -4,7 +4,7 @@
 
 <!-- Declaration des URL de listing des entites -->
 <liferay-portlet:renderURL var="commentsURL">
-	<portlet:param name="tab" value="commentaires" />
+	<portlet:param name="tab" value="comments" />
 </liferay-portlet:renderURL>
 
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
@@ -33,5 +33,9 @@
 </aui:nav-bar>
 
 <!-- Corps de la page et selection du listing a afficher -->
-<liferay-util:include page="/comment-bo-view-comments.jsp" servletContext="<%=application %>">
-</liferay-util:include>
+<c:choose>
+    <c:when test="${tab eq 'comments'}">
+        <liferay-util:include page="/comment-bo-view-comments.jsp" servletContext="<%=application %>">
+        </liferay-util:include>
+    </c:when>
+</c:choose>

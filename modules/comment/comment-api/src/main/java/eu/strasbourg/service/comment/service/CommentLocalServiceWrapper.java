@@ -201,6 +201,32 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	}
 
 	/**
+	* Met à jour un commentaire et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.comment.model.Comment updateComment(
+		eu.strasbourg.service.comment.model.Comment comment,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _commentLocalService.updateComment(comment, sc);
+	}
+
+	/**
+	* Met à jour le statut du projet par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.comment.model.Comment updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _commentLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
+	}
+
+	/**
 	* Returns the number of comments.
 	*
 	* @return the number of comments
@@ -218,6 +244,17 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _commentLocalService.getOSGiServiceIdentifier();
+	}
+
+	/**
+	* méthode permettant d'obtenir une partie du commentaire.
+	*
+	* @param comment le commentaire en entier.
+	* @return le résultat du commentaire.
+	*/
+	@Override
+	public java.lang.String getSummary(java.lang.String comment) {
+		return _commentLocalService.getSummary(comment);
 	}
 
 	/**
@@ -271,6 +308,24 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _commentLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _commentLocalService.findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à un projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _commentLocalService.getAttachedVocabularies(groupId);
 	}
 
 	/**
@@ -364,6 +419,24 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _commentLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _commentLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut du projet "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.comment.model.Comment comment, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_commentLocalService.updateStatus(comment, status);
 	}
 
 	@Override

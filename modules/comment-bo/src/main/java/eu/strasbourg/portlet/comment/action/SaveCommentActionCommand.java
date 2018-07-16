@@ -6,15 +6,19 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import java.util.Date;
 
 @Component(
         immediate = true,
@@ -45,10 +49,49 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             comment.setUserName(userName);
             String commentaire = ParamUtil.getString(actionRequest,"commentaire");
             comment.setComment(commentaire);
+            comment.setCreateDate(new Date());
+            _commentLocalService.updateComment(comment);
 
         } catch (PortalException e) {
             _log.error(e);
         }
-        return false;
+        return true;
+    }
+
+    /**
+     * Validation des champs obligatoires
+     */
+    private boolean validate(ActionRequest request) {
+        boolean isValid;
+
+        // userName
+        isValid = isValid(request, "userName", "userName-error");
+
+        // Description
+        if (isValid){
+            isValid = isValid(request, "commentaire", "commentaire-error");
+        }
+        return isValid;
+    }
+
+    /**
+     * méthode permettant la véridication des champs.
+     * @param request la requete
+     * @param field le champ à vérifier.
+     * @param sessionError la session error.
+     * @return le boolean.
+     */
+    private boolean isValid(ActionRequest request, String field, String sessionError) {
+        boolean result = true;
+        if (Validator.isNull(ParamUtil.getString(request, field))) {
+            SessionErrors.add(request, sessionError);
+            result = false;
+        }
+        return result;
+    }
+
+    @Reference(unbind = "-")
+    protected void setCommentLocalService(CommentLocalService commentLocalService){
+        _commentLocalService = commentLocalService;
     }
 }

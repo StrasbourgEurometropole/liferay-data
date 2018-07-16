@@ -48,17 +48,24 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=false", "javax.portlet.display-name=Commentaires",
-		"javax.portlet.init-param.add-process-action-success-action=false", "javax.portlet.init-param.template-path=/",
+@Component(immediate = true, property = {
+		"com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=false",
+		"javax.portlet.display-name=Commentaires",
+		"javax.portlet.init-param.add-process-action-success-action=false",
+		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/comments-view.jsp",
-		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB, "javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB,
+		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
-		}, service = Portlet.class)
+		},
+		service = Portlet.class
+)
 public class CommentPortlet extends MVCPortlet {
 
 	@Override
-	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+	public void render(RenderRequest request,
+					   RenderResponse response) throws IOException, PortletException {
 		
 		String userPublikId = getPublikID(request);
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -119,7 +126,7 @@ public class CommentPortlet extends MVCPortlet {
 		}
 	}
 
-	public void postComment(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
+	public void postComment(ActionRequest request, ActionResponse response) throws Exception,SystemException {
 		try {
 			
 			String userPublikId = getPublikID(request);

@@ -65,7 +65,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -91,6 +91,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
+		sb.append(", urlProjectCommentaire=");
+		sb.append(urlProjectCommentaire);
 		sb.append(", comment=");
 		sb.append(comment);
 		sb.append(", assetEntryId=");
@@ -160,6 +162,13 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setStatusDate(new Date(statusDate));
 		}
 
+		if (urlProjectCommentaire == null) {
+			commentImpl.setUrlProjectCommentaire(StringPool.BLANK);
+		}
+		else {
+			commentImpl.setUrlProjectCommentaire(urlProjectCommentaire);
+		}
+
 		if (comment == null) {
 			commentImpl.setComment(StringPool.BLANK);
 		}
@@ -204,6 +213,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
+		urlProjectCommentaire = objectInput.readUTF();
 		comment = objectInput.readUTF();
 
 		assetEntryId = objectInput.readLong();
@@ -255,6 +265,13 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 		objectOutput.writeLong(statusDate);
 
+		if (urlProjectCommentaire == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(urlProjectCommentaire);
+		}
+
 		if (comment == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -288,6 +305,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+	public String urlProjectCommentaire;
 	public String comment;
 	public long assetEntryId;
 	public String publikId;

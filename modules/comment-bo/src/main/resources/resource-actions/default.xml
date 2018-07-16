@@ -37,10 +37,15 @@
             </supports>
             <site-member-defaults>
                 <action-key>VIEW</action-key>
+                <action-key>ADD_COMMENT</action-key>
                 <action-key>DELETE_COMMENT</action-key>
                 <action-key>EDIT_COMMENT</action-key>
             </site-member-defaults>
             <guest-defaults>
+                <action-key>VIEW</action-key>
+                <action-key>ADD_COMMENT</action-key>
+                <action-key>DELETE_COMMENT</action-key>
+                <action-key>EDIT_COMMENT</action-key>
             </guest-defaults>
             <guest-unsupported/>
         </permissions>

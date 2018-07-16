@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.comment.display.context;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;

@@ -33,7 +33,7 @@
 
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"title", "modified-date"} %>'
+				orderColumns='<%= new String[] {"userName", "modified-date"} %>'
 				portletURL="${commentsURL}" />
 		</liferay-frontend:management-bar-filters>
 
@@ -82,8 +82,12 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editCommentURL}" name="userName" truncate="true" orderable="true"
 					value="${comment.userName}" />
+
+				<liferay-ui:search-container-column-text cssClass="content-column"
+														 href="${editCommentURL}" name="Commentaire" truncate="true" orderable="true"
+														 value="${comment.comment}" />
 				
-				<%-- Colonne : Date de modification --%>
+				<%-- Colonne : Date de modification
 				<fmt:formatDate value="${comment.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
@@ -95,19 +99,19 @@
 														 truncate="true"
 														 orderable="true"
 														 value="${comment.comment}"/>
-				
-				<%-- Colonne : Createur --%>
+			 --%>
+				<%-- Colonne : Createur
 				<liferay-ui:search-container-column-text name="user">
 					${comment.statusByUserName}
 				</liferay-ui:search-container-column-text>
-
-				<%-- Colonne : Statut --%>
+--%>
+				<%-- Colonne : Statut
 				<liferay-ui:search-container-column-text name="status">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${comment.status}" />
 				</liferay-ui:search-container-column-text>
-
-				<%-- Colonne : Actions possibles --%>
+--%>
+				<%-- Colonne : Actions possibles
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
 						<c:if test="${dc.hasPermission('EDIT_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -124,7 +128,7 @@
 						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
-
+--%>
 			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>
@@ -137,7 +141,7 @@
 <%-- Composant : bouton d'ajout d'entite --%>
 <liferay-frontend:add-menu>
 	<c:if test="${dc.hasPermission('ADD_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-		<liferay-frontend:add-menu-item title="Ajouter un comment" url="${addCommentURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter un commentaire" url="${addCommentURL}" />
 	</c:if>
 </liferay-frontend:add-menu>
 
@@ -207,5 +211,9 @@
 
 			submitForm(form, '${unpublishSelectionURL}');
 		}
+	}
+
+	function <portlet:namespace/>formatComment(commentaire){
+		return (comment.length()<20)?comment: comment.substring(0, 15) + "...";
 	}
 </aui:script>

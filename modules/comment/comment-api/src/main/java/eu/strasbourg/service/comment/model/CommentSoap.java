@@ -46,6 +46,7 @@ public class CommentSoap implements Serializable {
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
+		soapModel.setUrlProjectCommentaire(model.getUrlProjectCommentaire());
 		soapModel.setComment(model.getComment());
 		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
@@ -199,6 +200,14 @@ public class CommentSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
+	public String getUrlProjectCommentaire() {
+		return _urlProjectCommentaire;
+	}
+
+	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
+		_urlProjectCommentaire = urlProjectCommentaire;
+	}
+
 	public String getComment() {
 		return _comment;
 	}
@@ -251,6 +260,7 @@ public class CommentSoap implements Serializable {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private String _urlProjectCommentaire;
 	private String _comment;
 	private long _assetEntryId;
 	private String _publikId;
