@@ -74,7 +74,7 @@
                 <%-- Champ : lien vers la page du commentaire --%>
                 <aui:input name="status"/>
 
-                <%-- Champ : Description --%>
+                <%-- Champ : Commentaire --%>
                 <aui:input name="comment"/>
 
             </aui:fieldset>

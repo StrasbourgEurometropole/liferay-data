@@ -3,21 +3,23 @@ package eu.strasbourg.portlet.comment.action;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
+import javax.portlet.*;
 import java.util.Date;
 
 @Component(
@@ -37,19 +39,39 @@ public class SaveCommentActionCommand implements MVCActionCommand{
     public boolean processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException {
         try {
             ServiceContext sc = ServiceContextFactory.getInstance(actionRequest);
+            boolean isValid = validate(actionRequest);
+            if (!isValid){
 
+                // Si pas valide : on reste sur la page d'édition
+                PortalUtil.copyRequestParameters(actionRequest, actionResponse);
+
+                ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
+                        .getAttribute(WebKeys.THEME_DISPLAY);
+                String portletName = (String) actionRequest
+                        .getAttribute(WebKeys.PORTLET_ID);
+                PortletURL returnURL = PortletURLFactoryUtil.create(actionRequest,
+                        portletName, themeDisplay.getPlid(),
+                        PortletRequest.RENDER_PHASE);
+
+                actionResponse.setRenderParameter("returnURL", returnURL.toString());
+                actionResponse.setRenderParameter("cmd","editComment");
+                actionResponse.setRenderParameter("mvcPath","/comment-bo-edit-comment.jsp");
+                return false;
+            }
             long commentId = ParamUtil.getLong(actionRequest,"commentId");
             Comment comment;
             if (commentId==0){
                 comment = _commentLocalService.createComment(sc);
+                comment.setCreateDate(new Date());
             } else {
                 comment = _commentLocalService.getComment(commentId);
+                comment.setModifiedDate(new Date());
             }
             String userName = ParamUtil.getString(actionRequest,"userName");
             comment.setUserName(userName);
-            String commentaire = ParamUtil.getString(actionRequest,"commentaire");
+            String commentaire = ParamUtil.getString(actionRequest,"comment");
+            _log.info("nouveau commentaire : "+commentaire);
             comment.setComment(commentaire);
-            comment.setCreateDate(new Date());
             _commentLocalService.updateComment(comment);
 
         } catch (PortalException e) {
@@ -69,7 +91,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
 
         // Description
         if (isValid){
-            isValid = isValid(request, "commentaire", "commentaire-error");
+            isValid = isValid(request, "comment", "commentaire-error");
         }
         return isValid;
     }
