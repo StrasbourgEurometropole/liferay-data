@@ -32,12 +32,10 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
 
         if (this._comments == null) {
             _log.info("debut getComments");
-            this._comments = CommentLocalServiceUtil.getByGroupId(this._themeDisplay.getScopeGroupId());
-/*
+//            this._comments = CommentLocalServiceUtil.getByGroupId(this._themeDisplay.getScopeGroupId());
             Hits hits = getHits(this._themeDisplay.getScopeGroupId());
             //Création de la liste d'objet
             this._comments = populateComments(hits);
-            */
         }
         return this._comments;
     }

@@ -20,6 +20,8 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
@@ -39,6 +41,8 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
  */
 @ProviderType
 public class CommentImpl extends CommentBaseImpl {
+
+	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -52,8 +56,16 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
-			this.getCommentId());
+		//FIXME vérifier pourquoi la méthode fetchEntry renvoie null lors de l'enregistrement d'un commentaire.
+		AssetEntry result = AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
+				this.getCommentId());
+		AssetEntry entry = null;
+		try {
+			entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+		} catch (PortalException e) {
+			_log.error("Erreur lors de l'enregistrement d'un commentaire : ",e);
+		}
+		return result==null?entry:result;
 	}
 
     @Override
@@ -87,8 +99,9 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
+        AssetEntry param = this.getAssetEntry();
 		return AssetVocabularyHelper
-			.getAssetEntryCategories(this.getAssetEntry());
+			.getAssetEntryCategories(param);
 	}
 	
 	@Override

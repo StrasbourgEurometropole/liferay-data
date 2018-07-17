@@ -96,7 +96,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 		comment.setUserName(user.getFullName());
 		comment.setUserId(sc.getUserId());		
 		comment.setStatus(WorkflowConstants.STATUS_APPROVED);
-        this.reindex(comment, false);
 		return comment;
 	}
 
