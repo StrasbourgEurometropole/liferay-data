@@ -54,6 +54,7 @@ import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -119,6 +120,8 @@ public class MapPortlet extends MVCPortlet {
 			if (configuration.hasConfig()) {
 				hasConfig = true;
 				mode = configuration.mode();
+				groupId = configuration.groupId();
+				openInNewTab = configuration.openInNewTab();
 				// Chargement de la configuration globale pour le mode widget
 				if (configuration.widgetMod()) {
 					ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
@@ -128,19 +131,15 @@ public class MapPortlet extends MVCPortlet {
 						JSONObject json = JSONFactoryUtil.createJSONObject(globalConfig);
 						JSONArray jsonArray = json.getJSONArray("typesContenu");
 						typesContenu = jsonArray.join(",").replace("\"", "");
-						showConfig = json.getBoolean("showConfig");
-						showList = json.getBoolean("showList");
 						JSONArray jsonArrayInterests = json.getJSONArray("interestsIds");
 						interestsIdsString = jsonArrayInterests.join(",");
-						showFavorites = false;
+						showFavorites = json.getBoolean("showFavorites");
 					} catch (Exception ex) {
 						_log.error("Missing expando field : map_global_config");
 					}
 				}
 				// Chargement de la configuration du portlet sinon
 				else {
-					groupId = configuration.groupId();
-					openInNewTab = configuration.openInNewTab();
 					typesContenu = configuration.typesContenu();
 					Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.eventExplanationXML());
 					for (Map.Entry<Locale, String> map : mapText.entrySet()) {
@@ -378,6 +377,10 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("linkInterestId", linkInterestId);
 			request.setAttribute("address", address);
 			request.setAttribute("internalId", internalId);
+			
+			// titre personnalisable
+			request.setAttribute("title", PortletHelper.getPortletTitle("auround-me", request));
+			
 			MapDisplayContext dc = new MapDisplayContext(themeDisplay);
 			request.setAttribute("dc", dc);
 			if (widgetMod) {

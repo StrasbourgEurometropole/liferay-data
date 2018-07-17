@@ -22,7 +22,7 @@
 			
 			<!-- Type de contenu -->
 			<aui:fieldset collapsed="true" collapsible="true"
-					label="type-contenu" class="noWidgetMode" >
+					label="type-contenu" cssClass="noWidgetMode" >
 				
 				<!-- Lieux -->
 				<aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
@@ -30,7 +30,7 @@
 				
 				<!-- Evénements -->
 				<aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
-					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" class="typeEvent"></aui:input>
+					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" cssClass="typeEvent"></aui:input>
 			
 				<!-- Carto normale et page autour de moi -->
 				<div class="eventExplanation">
@@ -179,7 +179,7 @@
 			
 			<!-- Info trafic -->
 			<aui:fieldset collapsed="true" collapsible="true"
-					label="traffic" cssClass="noWidgetMode">
+					label="traffic" cssClass="noWidgetMode infoTraffic">
 
 				<p>
 					<!-- Affichage de l'info trafic -->
@@ -232,33 +232,35 @@
 
 				<script>
 					var refreshConfigDisplay = function() {
-                        var mode = $('.modeSelection input[type=radio]:checked').val();
-                        if (mode === 'widget') {
-                            $('.monStrasbourgMode').show();
-                            $('.widgetMode').show();
-                            $('.aroundMeMode').hide();
-                            $('.normalMode').hide();
-                            $('.noWidgetMode').hide();
-                            $('.eventExplanation').hide();
-                        } else if (mode == 'aroundme') {
-                            $('.monStrasbourgMode').show();
-                            $('.widgetMode').hide();
-                            $('.aroundMeMode').show();
-                            $('.normalMode').hide();
-                            $('.noWidgetMode').show();
-                            $('.eventExplanation').show();
-                        } else {
-                            $('.monStrasbourgMode').hide();
-                            $('.widgetMode').hide();
-                            $('.aroundMeMode').hide();
-                            $('.normalMode').show();
-                            $('.noWidgetMode').show();
-                            $('.eventExplanation').show();
-                        }
+		               var mode = $('.modeSelection input[type=radio]:checked').val();
+		               if (mode === 'widget') {
+		                   $('.monStrasbourgMode').show();
+		                   $('.widgetMode').show();
+		                   $('.aroundMeMode').hide();
+		                   $('.normalMode').hide();
+		                   $('.noWidgetMode').hide();
+		               } else if (mode == 'aroundme') {
+		                   $('.monStrasbourgMode').show();
+		                   $('.widgetMode').hide();
+		                   $('.aroundMeMode').show();
+		                   $('.normalMode').hide();
+		                   $('.noWidgetMode').show();
+		               } else {
+		                   $('.monStrasbourgMode').hide();
+		                   $('.widgetMode').hide();
+		                   $('.aroundMeMode').hide();
+		                   $('.normalMode').show();
+		                   $('.noWidgetMode').show();
+		               }
+	                   if ($('.typeEvent').is(":checked")) {
+	                       $('.eventExplanation').show();
+	                   } else {
+	                       $('.eventExplanation').hide();
+	                   }
 					}
 					
 					var refreshConfigTrafficDisplay = function() {
-		                   if ($('.noWidgetMode input[type=checkbox]').is(":checked")) {
+		                   if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
 		                       $('.infoTrafficChecked').show();
 		                   } else {
 		                       $('.infoTrafficChecked').hide();
@@ -267,7 +269,14 @@
 					$('.modeSelection input[type=radio]').on('change', function() {
                         refreshConfigDisplay();
 					})
-					$('.noWidgetMode input[type=checkbox]').on('change', function() {
+					$('.typeEvent').on('change', function() {
+		                   if ($(this).is(":checked")) {
+		                       $('.eventExplanation').show();
+		                   } else {
+		                       $('.eventExplanation').hide();
+		                   }
+					})
+					$('.infoTraffic input[type=checkbox]').on('change', function() {
 						refreshConfigTrafficDisplay();
 					})
 					$(function() {

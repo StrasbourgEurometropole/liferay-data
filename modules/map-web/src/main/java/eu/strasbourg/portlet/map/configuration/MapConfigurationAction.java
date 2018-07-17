@@ -76,11 +76,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// mode
 			String mode = ParamUtil.getString(request, "mode");
 			setPreference(request, "mode", mode);
-			json.put("mode", mode);
+			System.out.println("MODE : " + mode);
 
 			// Widget mod
 			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
-			json.put("widgetMod", mode.equals("widget"));
 			
 			// Config par défaut
 			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
@@ -88,51 +87,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Choix du site vers lequel les liens redirigent
 			String groupId = ParamUtil.getString(request, "groupId");
 			setPreference(request, "groupId", groupId);
-			json.put("groupId", groupId);
 
 			// Choix "nouvel onglet, onglet courant"
 			String openInNewTab = ParamUtil.getString(request, "openInNewTab");
 			setPreference(request, "openInNewTab", openInNewTab);
-			json.put("openInNewTab", openInNewTab);
-
-			// Types de contenu (Type de POI)
-			String typesContenuString = "";
-			String[] typesContenu = ParamUtil.getStringValues(request, "typeContenu");
-			for (int i = 0; i < typesContenu.length; i++) {
-				String typeContenuString = typesContenu[i];
-				boolean typeContenuSelected = Validator.isNotNull(typeContenuString)
-						&& !typeContenuString.equals("false");
-				if (typeContenuSelected) {
-					if (typesContenuString.length() > 0) {
-						typesContenuString += ",";
-					}
-					typesContenuString += typeContenuString;
-					jsonArrayTypeContenu.put(typeContenuString);
-				}
-			}
-			setPreference(request, "typesContenu", typesContenuString);
-			json.put("typesContenu", jsonArrayTypeContenu);
-			
-			// texte explicatif sur les évènements
-			Map<Locale, String> eventExplanationMap = LocalizationUtil
-				.getLocalizationMap(request, "eventExplanationMap");
-			LocalizedValuesMap mapEventExplanation = new LocalizedValuesMap();
-			for (Map.Entry<Locale, String> e : eventExplanationMap.entrySet()) {
-				mapEventExplanation.put(e.getKey(), e.getValue());
-			}
-			String eventExplanationXML = LocalizationUtil.getXml(mapEventExplanation, "eventExplanation");
-			setPreference(request, "eventExplanationXML", eventExplanationXML);
-			json.put("eventExplanationXML", eventExplanationXML);
-			
-			// Choix afficher la zone de config
-			String showConfig = ParamUtil.getString(request, "showConfig");
-			setPreference(request, "showConfig", showConfig);
-			json.put("showConfig", showConfig);
-
-			// Choix afficher la liste à droite
-			String showList = ParamUtil.getString(request, "showList");
-			setPreference(request, "showList", showList);
-			json.put("showList", showList);
 			
 			if(mode.equals("widget")) {
 				// Texte introduction en mode widget
@@ -142,9 +100,78 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				// URL lien bouton mode widget
 				String widgetLink = ParamUtil.getString(request, "widgetLink");
 				setPreference(request, "widgetLink", widgetLink);
+
+				// Pas utilisé en mode widget
+				setPreference(request, "typesContenu", "");
+				setPreference(request, "eventExplanationXML", "");
+				setPreference(request, "showConfig", "");
+				setPreference(request, "showList", "");
+				setPreference(request, "showTraffic", "");
+				setPreference(request, "linkCategoryId", "");
+				setPreference(request, "categoryTitle", "");
+				setPreference(request, "linkInterestId", "");
 			}else {
 				setPreference(request, "widgetIntro", "");
 				setPreference(request, "widgetLink", "");
+
+				// Types de contenu (Type de POI)
+				String typesContenuString = "";
+				String[] typesContenu = ParamUtil.getStringValues(request, "typeContenu");
+				for (int i = 0; i < typesContenu.length; i++) {
+					String typeContenuString = typesContenu[i];
+					boolean typeContenuSelected = Validator.isNotNull(typeContenuString)
+							&& !typeContenuString.equals("false");
+					if (typeContenuSelected) {
+						if (typesContenuString.length() > 0) {
+							typesContenuString += ",";
+						}
+						typesContenuString += typeContenuString;
+						jsonArrayTypeContenu.put(typeContenuString);
+					}
+				}
+				setPreference(request, "typesContenu", typesContenuString);
+				json.put("typesContenu", jsonArrayTypeContenu);
+				
+				// texte explicatif sur les évènements
+				Map<Locale, String> eventExplanationMap = LocalizationUtil
+					.getLocalizationMap(request, "eventExplanationMap");
+				LocalizedValuesMap mapEventExplanation = new LocalizedValuesMap();
+				for (Map.Entry<Locale, String> e : eventExplanationMap.entrySet()) {
+					mapEventExplanation.put(e.getKey(), e.getValue());
+				}
+				String eventExplanationXML = LocalizationUtil.getXml(mapEventExplanation, "eventExplanation");
+				setPreference(request, "eventExplanationXML", eventExplanationXML);
+				
+				// Choix afficher la zone de config
+				String showConfig = ParamUtil.getString(request, "showConfig");
+				setPreference(request, "showConfig", showConfig);
+
+				// Choix afficher la liste à droite
+				String showList = ParamUtil.getString(request, "showList");
+				setPreference(request, "showList", showList);
+				
+				// Choix afficher l'info trafic
+				String showTraffic = ParamUtil.getString(request, "showTraffic");
+				setPreference(request, "showTraffic", showTraffic);
+				if(mode.equals("normal")) {
+					// Liaison de l'info trafic à une catégorie
+					String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
+					setPreference(request, "linkCategoryId", linkCategoryId);
+					// récupère le nom de la catégorie
+					String categoryTitle = "";
+					if (Validator.isNotNull(linkCategoryId)) {
+						AssetCategory category = AssetCategoryLocalServiceUtil
+								.fetchAssetCategory(Long.parseLong(linkCategoryId));
+						if (Validator.isNotNull(category)) {
+							categoryTitle = category.getTitle(Locale.FRANCE);
+						}
+					}
+					setPreference(request, "categoryTitle", categoryTitle);
+				}else {
+					// Liaison de l'info trafic à un CI
+					String linkInterestId = ParamUtil.getString(request, "linkInterestId");
+					setPreference(request, "linkInterestId", linkInterestId);
+				}
 			}
 
 			if(mode.equals("normal")) {
@@ -179,7 +206,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					}
 				}
 				setPreference(request, "prefilterCategoriesIds", sortedPrefilterCategoriesIds);
-				json.put("prefilterCategoriesIds", jsonArrayPrefilter);
 
 				// Filtre catégories
 				String categoriesIds = ParamUtil.getString(request, "categoriesIds");
@@ -212,7 +238,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					}
 				}
 				setPreference(request, "categoriesIds", sortedCategoriesIds);
-				json.put("categoriesIds", jsonArrayFilter);
 
 				// Filtre catégories par défaut
 				String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
@@ -245,12 +270,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					}
 				}
 				setPreference(request, "categoriesDefaultsIds", sortedCategoriesDefaultsIds);
-				json.put("categoriesDefaultsIds", jsonArrayDefault);
 
 				// Filtre sur le quartier de l'utilisateur
 				String districtUser = ParamUtil.getString(request, "districtUser");
 				setPreference(request, "districtUser", districtUser);
-				json.put("districtUser", districtUser);
 			}else {
 				setPreference(request, "prefilterCategoriesIds", "");
 				setPreference(request, "categoriesIds", "");
@@ -281,48 +304,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				String showFavorites = ParamUtil.getString(request, "showFavorites");
 				setPreference(request, "showFavorites", showFavorites);
 				json.put("showFavorites", showFavorites);
-			}else {
-				setPreference(request, "interestsIds", "");
-				setPreference(request, "showFavorites", "");
-			}
 
-			if(mode.equals("normal") || mode.equals("aroundme")) {
-				// Choix afficher l'info trafic
-				String showTraffic = ParamUtil.getString(request, "showTraffic");
-				setPreference(request, "showTraffic", showTraffic);
-				json.put("showTraffic", showTraffic);
-				if(mode.equals("normal")) {
-					// Liaison de l'info trafic à une catégorie
-					String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
-					setPreference(request, "linkCategoryId", linkCategoryId);
-					json.put("linkCategoryId", linkCategoryId);
-					// récupère le nom de la catégorie
-					String categoryTitle = "";
-					if (Validator.isNotNull(linkCategoryId)) {
-						AssetCategory category = AssetCategoryLocalServiceUtil
-								.fetchAssetCategory(Long.parseLong(linkCategoryId));
-						if (Validator.isNotNull(category)) {
-							categoryTitle = category.getTitle(Locale.FRANCE);
-						}
-					}
-					setPreference(request, "categoryTitle", categoryTitle);
-				}else {
-					// Liaison de l'info trafic à un CI
-					String linkInterestId = ParamUtil.getString(request, "linkInterestId");
-					setPreference(request, "linkInterestId", linkInterestId);
-					json.put("linkInterestId", linkInterestId);
-				}
-			}else {
-				setPreference(request, "showTraffic", "");
-				setPreference(request, "linkCategoryId", "");
-				setPreference(request, "categoryTitle", "");
-				setPreference(request, "linkInterestId", "");
-			}
-
-			// Si on est en mode autour de moi, on écrase (Si elle existe) la précédente
-			// configuration globale
-			System.out.println("MODE : " + mode);
-			if (mode.equals("aroundme")) {
+				// Si on est en mode autour de moi, on écrase (Si elle existe) la précédente
+				// configuration globale
 				ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
 
 				try {
@@ -332,6 +316,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				} catch (Exception ex) {
 					_log.error("Missing expando field : map_global_config");
 				}
+			}else {
+				setPreference(request, "interestsIds", "");
+				setPreference(request, "showFavorites", "");
 			}
 		}
 		super.processAction(portletConfig, request, response);
