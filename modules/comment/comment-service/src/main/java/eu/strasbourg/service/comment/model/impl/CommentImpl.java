@@ -60,7 +60,7 @@ public class CommentImpl extends CommentBaseImpl {
 		AssetEntry result = AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
 				this.getCommentId());
 		if (result==null){
-			_log.warn("Attention, oulala, la methode fetch renvoie un asset null");
+			_log.warn("FIXME: la methode fetch renvoie un asset null");
 			try {
 				result = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
 				if (result == null){
