@@ -154,7 +154,6 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 			}
 		    // Si il n'est pas nul, on le supprime
 		    if(likeExist != null) {
-		    	System.out.println(likeExist);
 		    	this.likeLocalService.deleteLike(likeExist);
 		    	
 		    	// Si le type du like est le même, c'est une suppression de like

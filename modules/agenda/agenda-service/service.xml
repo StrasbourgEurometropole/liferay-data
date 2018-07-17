@@ -408,4 +408,31 @@
 		</finder> 
 	</entity>
 	
+	<entity local-service="true" cache-enabled="true" name="EventParticipation" remote-service="true" uuid="false">
+		
+		<!-- PK fields -->
+		<column name="eventParticipationId" primary="true" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="publikUserId" type="String" />
+        <column name="eventId" type="long" />
+        <column name="groupId" type="long" />
+		
+		<!-- Finder methods -->
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="EventId" return-type="Collection" db-index="true" >
+			<finder-column name="eventId" />
+		</finder>
+		<finder name="PublikUserIdAndEventId" return-type="EventParticipation"  >
+			<finder-column name="publikUserId" />
+			<finder-column name="eventId" />
+		</finder>
+
+	</entity>
+	
 </service-builder>

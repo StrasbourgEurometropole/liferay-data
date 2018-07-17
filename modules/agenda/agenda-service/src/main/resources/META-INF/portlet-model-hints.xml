@@ -164,6 +164,13 @@
 		<field name="lastEndDate" type="Date" />
 		<field name="imageId" type="Long" />
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.EventParticipation">
+		<field name="eventParticipationId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="publikUserId" type="String" />
+		<field name="eventId" type="long" />
+		<field name="groupId" type="long" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventPeriod">
 		<field name="uuid" type="String" />
 		<field name="eventPeriodId" type="long" />

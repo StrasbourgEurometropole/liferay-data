@@ -15,10 +15,8 @@
 package eu.strasbourg.service.like.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import eu.strasbourg.service.like.model.Like;
-import eu.strasbourg.service.like.model.LikeType;
 import eu.strasbourg.service.like.service.base.LikeLocalServiceBaseImpl;
 
 /**

@@ -21,6 +21,9 @@ create index IX_E1A6B3DB on agenda_Event (title[$COLUMN_LENGTH:400$]);
 create index IX_24E39F41 on agenda_Event (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_519D0203 on agenda_Event (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_B2EF1E05 on agenda_EventParticipation (eventId);
+create index IX_CA18BE1A on agenda_EventParticipation (publikUserId[$COLUMN_LENGTH:75$], eventId);
+
 create index IX_355794E7 on agenda_EventPeriod (campaignEventId);
 create index IX_91BE1417 on agenda_EventPeriod (eventId);
 create index IX_7830DF06 on agenda_EventPeriod (uuid_[$COLUMN_LENGTH:75$]);

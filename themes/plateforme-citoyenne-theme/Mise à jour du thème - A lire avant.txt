@@ -6,6 +6,7 @@ Les librairies js suivantes :
 - js/libs/pikaday.js
 - js/libs/owlcarousel2-a11ylayer.js
 - js/src-1/bloc-pickaday.js
+- custom/overide.js
 
 Le point d'entré sass strasbourg.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
 

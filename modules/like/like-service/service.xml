@@ -26,14 +26,14 @@
 			<finder-column name="publikUserId" />
 			<finder-column name="isDislike" />
 		</finder>
-		<finder name="AllAttributes" return-type="Favorite"  >
+		<finder name="AllAttributes" return-type="Like"  >
 			<finder-column name="publikUserId" />
 			<finder-column name="title" />
 			<finder-column name="isDislike" />
 			<finder-column name="typeId" />
 			<finder-column name="entityId" />
 		</finder>
-		<finder name="AllAttributesExceptIsDislike" return-type="Favorite"  >
+		<finder name="AllAttributesExceptIsDislike" return-type="Like"  >
 			<finder-column name="publikUserId" />
 			<finder-column name="title" />
 			<finder-column name="typeId" />

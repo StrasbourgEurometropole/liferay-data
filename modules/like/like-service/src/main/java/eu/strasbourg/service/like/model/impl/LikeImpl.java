@@ -45,7 +45,7 @@ public class LikeImpl extends LikeBaseImpl {
 	}
 
 	/**
-	 * Retourne la version JSON d'un favoris
+	 * Retourne la version JSON d'un like/dislike
 	 */
 	@Override
 	public JSONObject toJSON() {

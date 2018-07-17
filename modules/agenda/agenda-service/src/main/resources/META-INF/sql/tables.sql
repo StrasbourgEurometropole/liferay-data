@@ -131,6 +131,14 @@ create table agenda_Event (
 	imageId LONG
 );
 
+create table agenda_EventParticipation (
+	eventParticipationId LONG not null primary key,
+	createDate DATE null,
+	publikUserId VARCHAR(75) null,
+	eventId LONG,
+	groupId LONG
+);
+
 create table agenda_EventPeriod (
 	uuid_ VARCHAR(75) null,
 	eventPeriodId LONG not null primary key,
