@@ -12,7 +12,7 @@ create table comment_Comment (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	urlProjectCommentaire STRING null,
-	comment_ STRING null,
+	comment_ TEXT null,
 	assetEntryId LONG,
 	publikId VARCHAR(75) null,
 	like_ LONG,

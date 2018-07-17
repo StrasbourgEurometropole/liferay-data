@@ -110,11 +110,15 @@
                     name="Nom de l'entite" truncate="true" orderable="true"
                     value="${comment.getAssetEntryTitle()}" />
 
-				<%-- Colonne : lien vers la page--%>
+				<%-- Colonne : lien vers la page
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     href="${comment.urlProjectCommentaire}" name="lien" truncate="true" orderable="true"
                     value="${comment.urlProjectCommentaire}" />
-
+--%>
+				<%-- Colonne : lien vers la page--%>
+				<liferay-ui:search-container-column-text cssClass="content-column" name="localisation du commentaire" >
+				    <aui:button href="${comment.urlProjectCommentaire}" value="lien vers le commentaire"/>
+				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>

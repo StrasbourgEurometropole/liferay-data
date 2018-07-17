@@ -50,26 +50,27 @@
             <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 
                 <%-- Champ : Titre --%>
-                <aui:input name="userName" required="true" />
+                <aui:input name="userName" disabled="true" value="userName"/>
 
                 <%-- Champ : adresse mail --%>
                 <div class="form-group input-int-wrapper">
                     <label class="control-label"> email </label>
-                    <input class="field form-control lfr-input-text" id="_eu_strasbourg_portlet_comment_CommentBOPortlet_email" name="_eu_strasbourg_portlet_comment_CommentBOPortlet_email"
+                    <input class="field disabled form-control lfr-input-text" disabled="disabled" id="_eu_strasbourg_portlet_comment_CommentBOPortlet_email" name="_eu_strasbourg_portlet_comment_CommentBOPortlet_email"
                            style="" type="text" value="${dc.comment.publikUser.email}" maxlength="75" aria-describedby="">
                 </div>
 
                 <%-- Champ : date de création --%>
-                <aui:input name="createDate" />
+                <aui:input name="createDate" disabled="true" />
 
                 <%-- Champ : date de modification --%>
-                <aui:input name="modifiedDate"/>
+                <aui:input name="modifiedDate" disabled="true" />
 
                 <%-- Champ : status --%>
-                <aui:input name="status"/>
+                <aui:input name="status" label="Statut approuve" type="toggle-switch" value="${dc.comment.status==0?true:false}"/>
 
                 <%-- Champ : lien vers la page du commentaire --%>
-                <aui:input href="${comment.urlProjectCommentaire}" name="urlProjectCommentaire"/>
+                <aui:button href="${comment.urlProjectCommentaire}" name="urlProjectCommentaire"
+                value="lien vers la page du commentaire"/>
 
                 <%-- Champ : liste des signalements --%>
                 <aui:input name="status"/>

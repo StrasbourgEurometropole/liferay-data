@@ -31,8 +31,6 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
     public List<Comment> getComments() throws PortalException {
 
         if (this._comments == null) {
-            _log.info("debut getComments");
-//            this._comments = CommentLocalServiceUtil.getByGroupId(this._themeDisplay.getScopeGroupId());
             Hits hits = getHits(this._themeDisplay.getScopeGroupId());
             //Création de la liste d'objet
             this._comments = populateComments(hits);

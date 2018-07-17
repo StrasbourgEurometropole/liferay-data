@@ -68,7 +68,9 @@ public class SaveCommentActionCommand implements MVCActionCommand{
                 comment.setModifiedDate(new Date());
             }
             String userName = ParamUtil.getString(actionRequest,"userName");
-            comment.setUserName(userName);
+            if (userName!=null&&!userName.isEmpty()){
+                comment.setUserName(userName);
+            }
             String commentaire = ParamUtil.getString(actionRequest,"comment");
             _log.info("nouveau commentaire : "+commentaire);
             comment.setComment(commentaire);
@@ -84,16 +86,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
      * Validation des champs obligatoires
      */
     private boolean validate(ActionRequest request) {
-        boolean isValid;
-
-        // userName
-        isValid = isValid(request, "userName", "userName-error");
-
-        // Description
-        if (isValid){
-            isValid = isValid(request, "comment", "commentaire-error");
-        }
-        return isValid;
+        return isValid(request, "comment", "commentaire-error");
     }
 
     /**

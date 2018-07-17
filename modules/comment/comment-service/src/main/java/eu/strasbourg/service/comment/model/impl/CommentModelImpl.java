@@ -88,7 +88,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "urlProjectCommentaire", Types.VARCHAR },
-			{ "comment_", Types.VARCHAR },
+			{ "comment_", Types.CLOB },
 			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
 			{ "like_", Types.BIGINT },
@@ -110,14 +110,14 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("like_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("dislike", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,urlProjectCommentaire STRING null,comment_ STRING null,assetEntryId LONG,publikId VARCHAR(75) null,like_ LONG,dislike LONG)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,urlProjectCommentaire STRING null,comment_ TEXT null,assetEntryId LONG,publikId VARCHAR(75) null,like_ LONG,dislike LONG)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
