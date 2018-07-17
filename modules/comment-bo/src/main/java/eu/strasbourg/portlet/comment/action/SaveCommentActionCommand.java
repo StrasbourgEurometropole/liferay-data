@@ -71,6 +71,8 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             if (userName!=null&&!userName.isEmpty()){
                 comment.setUserName(userName);
             }
+            boolean approved = ParamUtil.getBoolean(actionRequest,"status");
+            comment.setStatus(approved ? 0 : 1);
             String commentaire = ParamUtil.getString(actionRequest,"comment");
             _log.info("nouveau commentaire : "+commentaire);
             comment.setComment(commentaire);

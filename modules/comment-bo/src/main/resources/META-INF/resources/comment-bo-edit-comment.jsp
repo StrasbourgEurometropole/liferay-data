@@ -93,14 +93,8 @@
                     <aui:button cssClass="btn-lg" type="submit" value="save" />
                 </c:if>
                 <c:if test="${not dc.workflowEnabled}">
-                    <aui:button cssClass="btn-lg" type="submit" name="publish" value="eu.publish" />
-                    <aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft" value="save-as-draft" />
+                    <aui:button cssClass="btn-lg" type="submit" name="publish" value="save" />
                 </c:if>
-            </c:if>
-
-            <%-- Test : Verification des droits de supression --%>
-            <c:if test="${not empty dc.comment && dc.hasPermission('DELETE_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
             </c:if>
 
             <%-- Composant : bouton de retour a la liste des entites --%>

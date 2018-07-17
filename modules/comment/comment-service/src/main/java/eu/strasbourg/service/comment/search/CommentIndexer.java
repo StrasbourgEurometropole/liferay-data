@@ -27,7 +27,6 @@ public static final String CLASS_NAME = Comment.class.getName();
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	public CommentIndexer() {
-		_log.info("CommentIndexer");
 		setFilterSearch(true);
 		setPermissionAware(true);
 	}
@@ -46,7 +45,6 @@ public static final String CLASS_NAME = Comment.class.getName();
 	protected Summary doGetSummary(Document document, Locale locale,
 		String snippet, PortletRequest portletRequest,
 		PortletResponse portletResponse) throws Exception {
-		_log.info("doGetSummary");
 		return createSummary(document, Field.USER_NAME, Field.URL);
 	}
 
@@ -97,7 +95,6 @@ public static final String CLASS_NAME = Comment.class.getName();
 
 	@Override
 	protected Document doGetDocument(Comment comment) {
-		_log.info("doGetDocument");
 		Document document = getBaseModelDocument(CLASS_NAME, comment);
 		long[] assetCategorIds = AssetVocabularyHelper.getFullHierarchyCategoriesIds(comment.getCategories());
 		List<AssetCategory> assetCategories = AssetVocabularyHelper.getFullHierarchyCategories(comment.getCategories());
