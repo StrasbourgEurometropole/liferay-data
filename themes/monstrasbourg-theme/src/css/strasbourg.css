@@ -10683,7 +10683,10 @@ a {
     font-size: 1.8rem;
     color: #5c5c5c;
     margin-bottom: 10px; }
-  /* line 12, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
+  /* line 11, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
+  #validation-address .list-address {
+    margin: 50px 20px; }
+  /* line 16, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
   #validation-address .webform-layout-box {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -10692,20 +10695,20 @@ a {
         -ms-flex-pack: justify;
             justify-content: space-between; }
     @media only screen and (max-width: 767px) {
-      /* line 12, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
+      /* line 16, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
       #validation-address .webform-layout-box {
         display: block; } }
-  /* line 20, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
+  /* line 24, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
   #validation-address .form-group {
     margin-bottom: 15px;
     width: 100%; }
     @media only screen and (min-width: 767px) and (max-width: 1279px) {
-      /* line 20, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
+      /* line 24, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
       #validation-address .form-group {
         -webkit-box-flex: 1;
             -ms-flex: 1;
                 flex: 1; }
-        /* line 26, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
+        /* line 30, custom/02-particules/02-modules/home/validation-address/_organism-validation-address.scss */
         #validation-address .form-group + .form-group {
           margin-left: 30px; } }
 

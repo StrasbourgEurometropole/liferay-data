@@ -109,11 +109,11 @@ public class PublikApiClient {
 	 *            ville de l'utilisateur
 	 * @return Objet JSON content les informations de l'utilisateur
 	 */
-	public static boolean setUserDetails(String userId, String address, String zipCode, String city) {
+	public static boolean setUserDetails(String userId, String lastName, String address, String zipCode, String city) {
 		String baseUrl = StrasbourgPropsUtil.getPublikIssuer();
 		String endpoint = "api/users/";
 		try {
-			JSONHelper.readJsonFromURLPatch(baseUrl + endpoint + userId + "/", address, zipCode, city,
+			JSONHelper.put(baseUrl + endpoint + userId + "/", lastName, address, zipCode, city,
 					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret());
 			return true;
 		} catch (Exception ex) {

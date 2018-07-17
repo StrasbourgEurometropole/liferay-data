@@ -24,8 +24,9 @@ public class ValidationAddressDisplayContext {
 	private ThemeDisplay themeDisplay;
 	private PortletRequest request;
 	private AdictService adictService;
-	private String zipCode;
 	private String address;
+	private String zipCode;
+	private String lastName;
 
 	public ValidationAddressDisplayContext(ThemeDisplay themeDisplay, PortletRequest request, AdictService adict) {
 		this.themeDisplay = themeDisplay;
@@ -50,14 +51,33 @@ public class ValidationAddressDisplayContext {
 			String internalId = getPublikID();
 			if (Validator.isNotNull(internalId)) {
 				JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
-				if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("city"))) {
-					address = userDetail.get("address") + " " + userDetail.get("city");
+				if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
+						&& Validator.isNotNull(userDetail.get("city"))) {
+					address = userDetail.get("address") + " " + userDetail.getString("zipcode") + " "
+							+ userDetail.get("city");
 					zipCode = userDetail.getString("zipcode");
 				}
 			}
 		}
 
 		return address;
+	}
+
+	// retourne le nom de l'utilisateur
+	public String getLastName() {
+		if (lastName == null) {
+
+			// Récupération du publik ID avec la session
+			String internalId = getPublikID();
+			if (Validator.isNotNull(internalId)) {
+				JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
+				if (Validator.isNotNull(userDetail.get("last_name"))) {
+					lastName = userDetail.getString("last_name");
+				}
+			}
+		}
+
+		return this.lastName;
 	}
 
 	// vérifie si l'adresse possède un CP dans l'EMS
@@ -73,8 +93,8 @@ public class ValidationAddressDisplayContext {
 	// récupère l/les adresse(s) dans adict
 	public List<Street> getAddressList() {
 		List<Street> streets = adictService.searchStreetNumbers(getAddress());
-		streets = streets.stream().filter(s -> s.getZipCode() == Integer.parseInt(zipCode)).sorted((s1, s2) -> s2.getScore().compareTo(s1.getScore()))
-				.collect(Collectors.toList());
+		streets = streets.stream().filter(s -> s.getZipCode() == Integer.parseInt(zipCode))
+				.sorted((s1, s2) -> s2.getScore().compareTo(s1.getScore())).collect(Collectors.toList());
 		return streets;
 	}
 }

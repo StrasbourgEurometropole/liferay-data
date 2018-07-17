@@ -8,6 +8,10 @@
         margin-bottom: 10px;
     }
 
+    .list-address{
+        margin: 20px 50px;
+    }
+
     @extend %skin-form-validation;
     .webform-layout-box{
         display: flex;

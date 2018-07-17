@@ -15,12 +15,13 @@
 	</div>
 </aui:form>
 	
-<!-- Résultats -->
+<!-- RÃ©sultats -->
 <aui:form name="fmChoice" action="${recordURL}" style="display: none;">
 	<aui:input type="hidden" name="address"  />
 	<aui:input type="hidden" name="zipCode"  />
 	<aui:input type="hidden	" name="city"  />
-    <div class="webform-layout-box" style="margin: 20px 0px;">
+	<aui:input type="hidden" name="lastName" value="${dc.lastName}" />
+    <div class="webform-layout-box" style="margin: 20px 50px;">
         <div class="form-group">
 			<div class="title">
 			</div>

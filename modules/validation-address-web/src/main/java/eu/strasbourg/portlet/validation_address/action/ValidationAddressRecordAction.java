@@ -43,8 +43,9 @@ public class ValidationAddressRecordAction implements MVCActionCommand {
 		String address = ParamUtil.getString(request, "address");
 		String zipCode = ParamUtil.getString(request, "zipCode");
 		String city = ParamUtil.getString(request, "city");
+		String lastName = ParamUtil.getString(request, "lastName");
 		
-		return PublikApiClient.setUserDetails(dc.getPublikID(), address, zipCode, city);
+		return PublikApiClient.setUserDetails(dc.getPublikID(), lastName, address, zipCode, city);
 	}
 
 }
