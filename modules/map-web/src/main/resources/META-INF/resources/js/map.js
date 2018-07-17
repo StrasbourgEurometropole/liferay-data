@@ -205,6 +205,34 @@
                 }
             }
 
+
+            // Création de la popup pour chaque Alerte
+            var popupAlerteMarkup =
+                '<div class="aroundme__infowindow infowindow">' +
+                '     <button class="infowindow__close"></button>' +
+                '     <div class="infowindow__content">' +
+                '         <div class="infowindow__visual"></div>'+
+                '         <div class="infowindow__top" style="clear: both; padding-top:15px; padding-bottom: 30px;">' +
+                '             <div class="infowindow__address"></div>' +
+                '         </div>' +
+                '    </div>' +
+                '</div>';
+            var popupAlerteElement = $.parseHTML(popupAlerteMarkup);
+            var onEachFeatureAlerte = function(feature, layer) {
+                if (feature.properties) {
+                    var icone = feature.properties.type;
+                    icone = icone.replace(new RegExp(' '.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'),'g'), '_').toLowerCase();
+           	    	formated_info = '<img src="/o/mapweb/images/' + icone + '.png" align="left" style="margin-right: 25px;"><div class="infowindow__name">' + feature.properties.type + '</div>';
+       	    		//formated_info = '<img src="' + feature.properties.url + '" align="left" style="margin-right: 25px;"><div class="infowindow__name">' + feature.properties.type + '</div>';
+           	    	// On rempli les champs dans l'infowindow
+                    $(popupAlerteElement).find('.infowindow__visual').html(formated_info);  
+                    $(popupAlerteElement).find('.infowindow__address').html(feature.properties.texte); 
+                    layer.bindPopup($(popupAlerteElement).html(), {closeButton: false});
+                    // Titre dans la liste des markers
+                    layer.options['title'] = feature.properties.lieu;
+                }
+            }
+
             // Supprime les doublons parmis les markers
             var removeDuplicates = function(markers) {
                 var layers = markers.getLayers();
@@ -220,7 +248,7 @@
                     i++;
                 }
             }
-
+            
             // Retourne l'objet marker pour un POI donné
             var pointToLayer = function(feature, latlng) {
                 if (feature.properties.icon) {
@@ -267,6 +295,17 @@
 						}                		
                 	}
                 }
+            }
+            
+            var pointAlertToLayer = function(feature, latlng) {
+            	var icone = feature.properties.type;
+                var markerIcon = new L.Icon({
+                    iconUrl: '/o/mapweb/images/' + icone.replace(new RegExp(' '.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'),'g'), '_').toLowerCase() + '.png',
+                    iconSize: [35,35],
+                    iconAnchor: [17, 49],
+                    popupAnchor: [1, -49]
+                });
+                return L.marker(latlng, { icon: markerIcon })
             }
 
             // Retient le nombre de requêtes en cours pour l'icône de chargement
@@ -315,6 +354,48 @@
                         });
                         markers.addLayers(poisData);
                         removeDuplicates(markers);
+                        requestsInProgress--;
+                        maybeHideLoadingIcon();
+                    }
+                );
+            }
+
+            // Ajoute le traffic à la carte
+            var addTraffic = function(markers) {
+                requestsInProgress++;
+                showLoadingIcon();
+                Liferay.Service(
+                    '/strasbourg.strasbourg/get-traffic', {
+                    },
+                    function(data) {
+                        // Convertion des données JSON en liner
+                        var trafficData = L.geoJson(data, {
+                            style: function (feature) {
+                            	var color = feature.properties.color.replace('0x','#');
+                                return {color: color};
+                            }
+                        });
+                        markers.addLayers(trafficData);
+                        requestsInProgress--;
+                        maybeHideLoadingIcon();
+                    }
+                );
+            }
+
+            // Ajoute les alertes à la carte
+            var addAlerts = function(markers) {
+                requestsInProgress++;
+                showLoadingIcon();
+                Liferay.Service(
+                    '/strasbourg.strasbourg/get-alerts', {
+                    },
+                    function(data) {
+                        // Convertion des données geoJSON en marker
+                        var alertesData = L.geoJson(data, {
+                            pointToLayer: pointAlertToLayer,
+                            onEachFeature: onEachFeatureAlerte
+                        });
+                        markers.addLayers(alertesData);
                         requestsInProgress--;
                         maybeHideLoadingIcon();
                     }
@@ -373,6 +454,33 @@
                 if ((window.isWidgetMode && window.showFavoritesByDefault) 
                     || (ame.$showFavoritesFilter.length && ame.$showFavoritesFilter.is(':checked'))) {
                     addFavoriteMarkers(markers);
+                }
+
+                // Récupération des données concernant le trafic et les alertes
+                // uniquement si choisi en configuration
+                if (window.showTraffic) {
+                	if(window.mode == "normal" ){
+                        for (i = 0; i < ame.$filters_categories.length; i++) {
+                            var filter = $(ame.$filters_categories[i]);
+                            // et si la catégorie choisie est cochée en mode normal ou mon quartier
+                            if (filter.attr('value') == window.linkCategoryId && filter.is(':checked')) {
+                        		addTraffic(markers);
+                        		addAlerts(markers);
+                        		break;
+                            }
+                        }
+                	}
+                	if(window.mode == "aroundme" ){
+                        for (i = 0; i < ame.$filters_interests.length; i++) {
+                            var filter = $(ame.$filters_interests[i]);
+                            // et si le centre d'intérêt choisi est coché en mode autour de moi
+                            if (filter.attr('value') == window.linkInterestId && filter.is(':checked')) {
+                        		addTraffic(markers);
+                        		addAlerts(markers);
+                        		break;
+                            }
+                        }
+                	}
                 }
 
                 // Ajout à la map

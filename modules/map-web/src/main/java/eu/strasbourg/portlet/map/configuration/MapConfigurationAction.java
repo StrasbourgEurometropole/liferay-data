@@ -16,7 +16,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -46,9 +48,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class MapConfigurationAction extends DefaultConfigurationAction {
 
 	/**
-	 * Action : Sauvegarde de la configuration si on a validé le formulaire ou
-	 * envoi de la JSP des sélecteurs si on a changé la liste déroulante des
-	 * types d'entité
+	 * Action : Sauvegarde de la configuration si on a validé le formulaire ou envoi
+	 * de la JSP des sélecteurs si on a changé la liste déroulante des types
+	 * d'entité
 	 */
 	@Override
 	public void processAction(PortletConfig portletConfig, ActionRequest request, ActionResponse response)
@@ -71,204 +73,240 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			setPreference(request, "hasConfig", "true");
 
-			// Widget mod
+			// mode
 			String mode = ParamUtil.getString(request, "mode");
+			setPreference(request, "mode", mode);
+			System.out.println("MODE : " + mode);
+
+			// Widget mod
 			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
-			json.put("widgetMod", mode.equals("widget"));
-
-			// Texte introduction en mode widget
-			String widgetIntro = ParamUtil.getString(request, "widgetIntro");
-			setPreference(request, "widgetIntro", widgetIntro);
-
-			// URL lien bouton mode widget
-			String widgetLink = ParamUtil.getString(request, "widgetLink");
-			setPreference(request, "widgetLink", widgetLink);
+			
+			// Config par défaut
+			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
 
 			// Choix du site vers lequel les liens redirigent
 			String groupId = ParamUtil.getString(request, "groupId");
 			setPreference(request, "groupId", groupId);
-			json.put("groupId", groupId);
 
 			// Choix "nouvel onglet, onglet courant"
 			String openInNewTab = ParamUtil.getString(request, "openInNewTab");
 			setPreference(request, "openInNewTab", openInNewTab);
-			json.put("openInNewTab", openInNewTab);
-
-			// Types de contenu (Type de POI)
-			String typesContenuString = "";
-			String[] typesContenu = ParamUtil.getStringValues(request, "typeContenu");
-			for (int i = 0; i < typesContenu.length; i++) {
-				String typeContenuString = typesContenu[i];
-				boolean typeContenuSelected = Validator.isNotNull(typeContenuString)
-						&& !typeContenuString.equals("false");
-				if (typeContenuSelected) {
-					if (typesContenuString.length() > 0) {
-						typesContenuString += ",";
-					}
-					typesContenuString += typeContenuString;
-					jsonArrayTypeContenu.put(typeContenuString);
-				}
-			}
-			setPreference(request, "typesContenu", typesContenuString);
-			json.put("typesContenu", jsonArrayTypeContenu);
 			
-			// texte explicatif sur les évènements
-			Map<Locale, String> eventExplanationMap = LocalizationUtil
-				.getLocalizationMap(request, "eventExplanationMap");
-			LocalizedValuesMap mapEventExplanation = new LocalizedValuesMap();
-			for (Map.Entry<Locale, String> e : eventExplanationMap.entrySet()) {
-				mapEventExplanation.put(e.getKey(), e.getValue());
-			}
-			String eventExplanationXML = LocalizationUtil.getXml(mapEventExplanation, "eventExplanation");
-			setPreference(request, "eventExplanationXML", eventExplanationXML);
-			json.put("eventExplanationXML", eventExplanationXML);
+			if(mode.equals("widget")) {
+				// Texte introduction en mode widget
+				String widgetIntro = ParamUtil.getString(request, "widgetIntro");
+				setPreference(request, "widgetIntro", widgetIntro);
 
-			// Préfiltre catégories
-			String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
-			// On enregistre les ids des catégories sous forme de String
-			// On sépare les catégories par des virgules
-			List<Long> vocabulariesIds = new ArrayList<Long>();
-			for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
-				Long categoryId = GetterUtil.getLong(categoryIdStr);
-				if (categoryId > 0) {
-					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-					if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
-						vocabulariesIds.add(category.getVocabularyId());
+				// URL lien bouton mode widget
+				String widgetLink = ParamUtil.getString(request, "widgetLink");
+				setPreference(request, "widgetLink", widgetLink);
+
+				// Pas utilisé en mode widget
+				setPreference(request, "typesContenu", "");
+				setPreference(request, "eventExplanationXML", "");
+				setPreference(request, "showConfig", "");
+				setPreference(request, "showList", "");
+				setPreference(request, "showTraffic", "");
+				setPreference(request, "linkCategoryId", "");
+				setPreference(request, "categoryTitle", "");
+				setPreference(request, "linkInterestId", "");
+			}else {
+				setPreference(request, "widgetIntro", "");
+				setPreference(request, "widgetLink", "");
+
+				// Types de contenu (Type de POI)
+				String typesContenuString = "";
+				String[] typesContenu = ParamUtil.getStringValues(request, "typeContenu");
+				for (int i = 0; i < typesContenu.length; i++) {
+					String typeContenuString = typesContenu[i];
+					boolean typeContenuSelected = Validator.isNotNull(typeContenuString)
+							&& !typeContenuString.equals("false");
+					if (typeContenuSelected) {
+						if (typesContenuString.length() > 0) {
+							typesContenuString += ",";
+						}
+						typesContenuString += typeContenuString;
+						jsonArrayTypeContenu.put(typeContenuString);
 					}
 				}
+				setPreference(request, "typesContenu", typesContenuString);
+				json.put("typesContenu", jsonArrayTypeContenu);
+				
+				// texte explicatif sur les évènements
+				Map<Locale, String> eventExplanationMap = LocalizationUtil
+					.getLocalizationMap(request, "eventExplanationMap");
+				LocalizedValuesMap mapEventExplanation = new LocalizedValuesMap();
+				for (Map.Entry<Locale, String> e : eventExplanationMap.entrySet()) {
+					mapEventExplanation.put(e.getKey(), e.getValue());
+				}
+				String eventExplanationXML = LocalizationUtil.getXml(mapEventExplanation, "eventExplanation");
+				setPreference(request, "eventExplanationXML", eventExplanationXML);
+				
+				// Choix afficher la zone de config
+				String showConfig = ParamUtil.getString(request, "showConfig");
+				setPreference(request, "showConfig", showConfig);
+
+				// Choix afficher la liste à droite
+				String showList = ParamUtil.getString(request, "showList");
+				setPreference(request, "showList", showList);
+				
+				// Choix afficher l'info trafic
+				String showTraffic = ParamUtil.getString(request, "showTraffic");
+				setPreference(request, "showTraffic", showTraffic);
+				if(mode.equals("normal")) {
+					// Liaison de l'info trafic à une catégorie
+					String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
+					setPreference(request, "linkCategoryId", linkCategoryId);
+					// récupère le nom de la catégorie
+					String categoryTitle = "";
+					if (Validator.isNotNull(linkCategoryId)) {
+						AssetCategory category = AssetCategoryLocalServiceUtil
+								.fetchAssetCategory(Long.parseLong(linkCategoryId));
+						if (Validator.isNotNull(category)) {
+							categoryTitle = category.getTitle(Locale.FRANCE);
+						}
+					}
+					setPreference(request, "categoryTitle", categoryTitle);
+				}else {
+					// Liaison de l'info trafic à un CI
+					String linkInterestId = ParamUtil.getString(request, "linkInterestId");
+					setPreference(request, "linkInterestId", linkInterestId);
+				}
 			}
-			String sortedPrefilterCategoriesIds = "";
-			for (Long vocabularyId : vocabulariesIds) {
+
+			if(mode.equals("normal")) {
+				// Préfiltre catégories
+				String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
+				// On enregistre les ids des catégories sous forme de String
+				// On sépare les catégories par des virgules
+				List<Long> vocabulariesIds = new ArrayList<Long>();
 				for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
 					if (categoryId > 0) {
 						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-						if (category != null && vocabularyId == category.getVocabularyId()) {
-							if (sortedPrefilterCategoriesIds.length() > 0) {
-								sortedPrefilterCategoriesIds += ",";
-							}
-							sortedPrefilterCategoriesIds += categoryId;
-							jsonArrayPrefilter.put(Long.parseLong(categoryId.toString()));
+						if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
+							vocabulariesIds.add(category.getVocabularyId());
 						}
 					}
 				}
-			}
-			setPreference(request, "prefilterCategoriesIds", sortedPrefilterCategoriesIds);
-			json.put("prefilterCategoriesIds", jsonArrayPrefilter);
-
-			// Filtre catégories
-			String categoriesIds = ParamUtil.getString(request, "categoriesIds");
-			// On enregistre les ids des catégories sous forme de String
-			// On sépare les catégories par des virgules
-			vocabulariesIds = new ArrayList<Long>();
-			for (String categoryIdStr : categoriesIds.split(",")) {
-				Long categoryId = GetterUtil.getLong(categoryIdStr);
-				if (categoryId > 0) {
-					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-					if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
-						vocabulariesIds.add(category.getVocabularyId());
+				String sortedPrefilterCategoriesIds = "";
+				for (Long vocabularyId : vocabulariesIds) {
+					for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
+						Long categoryId = GetterUtil.getLong(categoryIdStr);
+						if (categoryId > 0) {
+							AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+							if (category != null && vocabularyId == category.getVocabularyId()) {
+								if (sortedPrefilterCategoriesIds.length() > 0) {
+									sortedPrefilterCategoriesIds += ",";
+								}
+								sortedPrefilterCategoriesIds += categoryId;
+								jsonArrayPrefilter.put(Long.parseLong(categoryId.toString()));
+							}
+						}
 					}
 				}
-			}
-			String sortedCategoriesIds = "";
-			for (Long vocabularyId : vocabulariesIds) {
+				setPreference(request, "prefilterCategoriesIds", sortedPrefilterCategoriesIds);
+
+				// Filtre catégories
+				String categoriesIds = ParamUtil.getString(request, "categoriesIds");
+				// On enregistre les ids des catégories sous forme de String
+				// On sépare les catégories par des virgules
+				vocabulariesIds = new ArrayList<Long>();
 				for (String categoryIdStr : categoriesIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
 					if (categoryId > 0) {
 						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-						if (category != null && vocabularyId == category.getVocabularyId()) {
-							if (sortedCategoriesIds.length() > 0) {
-								sortedCategoriesIds += ",";
-							}
-							sortedCategoriesIds += categoryId;
-							jsonArrayFilter.put(Long.parseLong(categoryId.toString()));
+						if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
+							vocabulariesIds.add(category.getVocabularyId());
 						}
 					}
 				}
-			}
-			setPreference(request, "categoriesIds", sortedCategoriesIds);
-			json.put("categoriesIds", jsonArrayFilter);
-
-			// Filtre catégories par défaut
-			String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
-			// On enregistre les ids des catégories sous forme de String
-			// On sépare les catégories par des virgules
-			vocabulariesIds = new ArrayList<Long>();
-			for (String categoryIdStr : categoriesDefaultsIds.split(",")) {
-				Long categoryId = GetterUtil.getLong(categoryIdStr);
-				if (categoryId > 0) {
-					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-					if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
-						vocabulariesIds.add(category.getVocabularyId());
+				String sortedCategoriesIds = "";
+				for (Long vocabularyId : vocabulariesIds) {
+					for (String categoryIdStr : categoriesIds.split(",")) {
+						Long categoryId = GetterUtil.getLong(categoryIdStr);
+						if (categoryId > 0) {
+							AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+							if (category != null && vocabularyId == category.getVocabularyId()) {
+								if (sortedCategoriesIds.length() > 0) {
+									sortedCategoriesIds += ",";
+								}
+								sortedCategoriesIds += categoryId;
+								jsonArrayFilter.put(Long.parseLong(categoryId.toString()));
+							}
+						}
 					}
 				}
-			}
-			String sortedCategoriesDefaultsIds = "";
-			for (Long vocabularyId : vocabulariesIds) {
+				setPreference(request, "categoriesIds", sortedCategoriesIds);
+
+				// Filtre catégories par défaut
+				String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
+				// On enregistre les ids des catégories sous forme de String
+				// On sépare les catégories par des virgules
+				vocabulariesIds = new ArrayList<Long>();
 				for (String categoryIdStr : categoriesDefaultsIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
 					if (categoryId > 0) {
 						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-						if (category != null && vocabularyId == category.getVocabularyId()) {
-							if (sortedCategoriesDefaultsIds.length() > 0) {
-								sortedCategoriesDefaultsIds += ",";
-							}
-							sortedCategoriesDefaultsIds += categoryId;
-							jsonArrayDefault.put(Long.parseLong(categoryId.toString()));
+						if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
+							vocabulariesIds.add(category.getVocabularyId());
 						}
 					}
 				}
-			}
-			setPreference(request, "categoriesDefaultsIds", sortedCategoriesDefaultsIds);
-			json.put("categoriesDefaultsIds", jsonArrayDefault);
-
-			// Choix afficher les favoris
-			String showFavorites = ParamUtil.getString(request, "showFavorites");
-			setPreference(request, "showFavorites", showFavorites);
-			json.put("showFavorites", showFavorites);
-
-			// Choix afficher la zone de config
-			String showConfig = ParamUtil.getString(request, "showConfig");
-			setPreference(request, "showConfig", showConfig);
-			json.put("showConfig", showConfig);
-
-			// Choix afficher la liste à droite
-			String showList = ParamUtil.getString(request, "showList");
-			setPreference(request, "showList", showList);
-			json.put("showList", showList);
-
-			// Config par défaut
-
-			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
-
-			// Filtre sur le quartier de l'utilisateur
-			String districtUser = ParamUtil.getString(request, "districtUser");
-			setPreference(request, "districtUser", districtUser);
-			json.put("districtUser", districtUser);
-
-			// Centres d'intérêts affichés non cochés
-			String interestsIdsString = "";
-
-			List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-					.filter(i -> i.isApproved()).collect(Collectors.toList());
-			for (Interest interest : interests) {
-				String interestStatus = ParamUtil.getString(request, "interestStatus" + interest.getInterestId());
-				if (interestStatus.equals("unchecked")) {
-					if (interestsIdsString.length() > 0) {
-						interestsIdsString += ",";
+				String sortedCategoriesDefaultsIds = "";
+				for (Long vocabularyId : vocabulariesIds) {
+					for (String categoryIdStr : categoriesDefaultsIds.split(",")) {
+						Long categoryId = GetterUtil.getLong(categoryIdStr);
+						if (categoryId > 0) {
+							AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+							if (category != null && vocabularyId == category.getVocabularyId()) {
+								if (sortedCategoriesDefaultsIds.length() > 0) {
+									sortedCategoriesDefaultsIds += ",";
+								}
+								sortedCategoriesDefaultsIds += categoryId;
+								jsonArrayDefault.put(Long.parseLong(categoryId.toString()));
+							}
+						}
 					}
-					interestsIdsString += interest.getInterestId();
-					jsonArrayUncheckedInterests.put(interest.getInterestId());
 				}
+				setPreference(request, "categoriesDefaultsIds", sortedCategoriesDefaultsIds);
+
+				// Filtre sur le quartier de l'utilisateur
+				String districtUser = ParamUtil.getString(request, "districtUser");
+				setPreference(request, "districtUser", districtUser);
+			}else {
+				setPreference(request, "prefilterCategoriesIds", "");
+				setPreference(request, "categoriesIds", "");
+				setPreference(request, "categoriesDefaultsIds", "");
+				setPreference(request, "districtUser", "");
 			}
+			
+			if(mode.equals("aroundme")) {
+				// Centres d'intérêts affichés non cochés
+				String interestsIdsString = "";
 
-			setPreference(request, "interestsIds", interestsIdsString);
-			json.put("interestsIds", jsonArrayUncheckedInterests);
+				List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
+						.filter(i -> i.isApproved()).collect(Collectors.toList());
+				for (Interest interest : interests) {
+					String interestStatus = ParamUtil.getString(request, "interestStatus" + interest.getInterestId());
+					if (interestStatus.equals("unchecked")) {
+						if (interestsIdsString.length() > 0) {
+							interestsIdsString += ",";
+						}
+						interestsIdsString += interest.getInterestId();
+						jsonArrayUncheckedInterests.put(interest.getInterestId());
+					}
+				}
+				setPreference(request, "interestsIds", interestsIdsString);
+				json.put("interestsIds", jsonArrayUncheckedInterests);
+				
+				// Choix afficher les favoris
+				String showFavorites = ParamUtil.getString(request, "showFavorites");
+				setPreference(request, "showFavorites", showFavorites);
+				json.put("showFavorites", showFavorites);
 
-			// Si la case est cochée on écrase (Si elle existe) la précédente
-			// configuration globale
-			System.out.println("MODE : " + mode);
-			if (mode.equals("aroundme")) {
+				// Si on est en mode autour de moi, on écrase (Si elle existe) la précédente
+				// configuration globale
 				ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
 
 				try {
@@ -278,6 +316,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				} catch (Exception ex) {
 					_log.error("Missing expando field : map_global_config");
 				}
+			}else {
+				setPreference(request, "interestsIds", "");
+				setPreference(request, "showFavorites", "");
 			}
 		}
 		super.processAction(portletConfig, request, response);
@@ -301,25 +342,24 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Utile pour cocher les centres d'intéret par défaut
 			request.setAttribute("hasConfig", configuration.hasConfig());
 
+			// mode du portlet
+			request.setAttribute("mode", configuration.mode());
+
 			// Widget mod du portlet
 			request.setAttribute("widgetMod", configuration.widgetMod());
 
-			// Texte intro mode widget
-			request.setAttribute("widgetIntro", configuration.widgetIntro());
-
-			// URL bouton mode widget
-			request.setAttribute("widgetLink", configuration.widgetLink());
+			// Config par défaut
+			request.setAttribute("defaultConfig", configuration.defaultConfig());
 
 			// Choix du site vers lequel les liens redirigent
 			List<Group> sites = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), 0, true);
 			request.setAttribute("sites", sites);
 			request.setAttribute("selectedGroupId", configuration.groupId());
 
+			request.setAttribute("groupId", "-1");
+
 			// Choix "nouvel onglet, onglet courant"
 			request.setAttribute("openInNewTab", configuration.openInNewTab());
-
-			// texte explicatif sur les évènements
-			request.setAttribute("eventExplanation", configuration.eventExplanationXML());
 
 			// Types de contenu
 			String[] typesContenu = ParamUtil.getStringValues(request, "typesContenu");
@@ -331,6 +371,21 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 			request.setAttribute("typesContenu", typesContenuString);
 
+			// texte explicatif sur les évènements
+			request.setAttribute("eventExplanation", configuration.eventExplanationXML());
+
+			// Choix afficher la zone de config
+			request.setAttribute("showConfig", configuration.showConfig());
+
+			// Choix afficher la liste à droite
+			request.setAttribute("showList", configuration.showList());
+
+			// Texte intro mode widget
+			request.setAttribute("widgetIntro", configuration.widgetIntro());
+
+			// URL bouton mode widget
+			request.setAttribute("widgetLink", configuration.widgetLink());
+
 			// Préfiltres catégories
 			String prefilterCategoriesIds = configuration.prefilterCategoriesIds().replace(";", ",");
 			request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIds);
@@ -341,18 +396,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			String categoriesDefaultsIds = configuration.categoriesDefaultsIds().replace(";", ",");
 			request.setAttribute("categoriesDefaultsIds", categoriesDefaultsIds);
 
-			// Choix afficher les favoris
-			request.setAttribute("showFavorites", configuration.showFavorites());
-
-			// Choix afficher la zone de config
-			request.setAttribute("showConfig", configuration.showConfig());
-
-			// Choix afficher la liste à droite
-			request.setAttribute("showList", configuration.showList());
-
-			// Config par défaut
-			request.setAttribute("defaultConfig", configuration.defaultConfig());
-
 			// Préfiltre sur le quartier utilisateur
 			request.setAttribute("districtUser", configuration.districtUser());
 
@@ -360,8 +403,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
 					.filter(i -> i.getStatus() == 0).collect(Collectors.toList());
 			request.setAttribute("interests", interests);
-
-			// Centre d'intérêts affichés non coché
 			long[] interestsIds = ParamUtil.getLongValues(request, "interestsIds");
 			String interestsIdsString;
 			if (interestsIds.length > 0) {
@@ -371,7 +412,30 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 			request.setAttribute("interestsIds", interestsIdsString);
 
-			request.setAttribute("groupId", "-1");
+			// Choix afficher les favoris
+			request.setAttribute("showFavorites", configuration.showFavorites());
+
+			// Choix afficher l'info traffic
+			request.setAttribute("showTraffic", configuration.showTraffic());
+
+			// liaison de la catégorie à l'info trafic
+			// Vocabulaires
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1);
+			vocabularies = vocabularies.stream().filter(v -> v.getGroupId() == themeDisplay.getCompanyGroupId())
+					.collect(Collectors.toList());
+			String vocabulariesStr = "";
+			for (AssetVocabulary assetVocabulary : vocabularies) {
+				if(!vocabulariesStr.equals("")) {
+					vocabulariesStr += ",";
+				}
+				vocabulariesStr += assetVocabulary.getVocabularyId();
+			}
+			request.setAttribute("vocabularies", vocabulariesStr);
+			request.setAttribute("linkCategoryId", configuration.linkCategoryId());
+			request.setAttribute("categoryTitle", configuration.categoryTitle());
+
+			// Liaison de l'info trafic à un CI
+			request.setAttribute("linkInterestId", configuration.linkInterestId());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

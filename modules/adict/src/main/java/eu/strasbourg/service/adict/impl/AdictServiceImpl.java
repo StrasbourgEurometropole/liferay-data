@@ -218,4 +218,38 @@ public class AdictServiceImpl implements AdictService {
 		return json;
 	}
 
+	/**
+	 * Retourne les segments d'info-trafic
+	 */
+	@Override
+	public JSONObject getTraffic() {
+		JSONObject trafficJSON = null;
+		try {
+			String adictTrafficURL = StrasbourgPropsUtil.getAdictTrafficURL();
+			trafficJSON = JSONHelper.readJsonFromURL(
+					"http://adict-preprod.strasbourg.eu/api/v1.0/traffic?srid=4326&token=aa72a01e643db472f3e7843ac1f3e48c");
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		return trafficJSON;
+	}
+
+	/**
+	 * Retourne les coordonnées des alertes
+	 */
+	@Override
+	public JSONObject getAlerts() {
+		JSONObject alertsJSON = null;
+		try {
+			String adictTrafficURL = StrasbourgPropsUtil.getAdictAlertsURL();
+			alertsJSON = JSONHelper.readJsonFromURL(
+					adictTrafficURL);
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		return alertsJSON;
+	}
+
 }

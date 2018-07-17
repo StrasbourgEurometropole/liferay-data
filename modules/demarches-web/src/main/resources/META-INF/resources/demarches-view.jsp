@@ -4,7 +4,7 @@
 		<c:if test="${showDeleteButton}">
 			<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
 		</c:if>
-        <h2><liferay-ui:message key="follow-up-request" /></h2>
+        <h2>${title}</h2>
 	   	<c:if test="${not empty error}">
 			<div class="error"><liferay-ui:message key="eu.webservice-indispo" /></div>
 	   	</c:if>
