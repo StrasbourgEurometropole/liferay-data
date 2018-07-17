@@ -59,13 +59,18 @@ public class CommentImpl extends CommentBaseImpl {
 		//FIXME vérifier pourquoi la méthode fetchEntry renvoie null lors de l'enregistrement d'un commentaire.
 		AssetEntry result = AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
 				this.getCommentId());
-		AssetEntry entry = null;
-		try {
-			entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
-		} catch (PortalException e) {
-			_log.error("Erreur lors de l'enregistrement d'un commentaire : ",e);
+		if (result==null){
+			_log.warn("Attention, oulala, la methode fetch renvoie un asset null");
+			try {
+				result = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+				if (result == null){
+					_log.error("Erreur lors de l'enregistrement d'un commentaire : l'asset est null");
+				}
+			} catch (PortalException e) {
+				_log.error("Erreur lors de l'enregistrement d'un commentaire : ",e);
+			}
 		}
-		return result==null?entry:result;
+		return result;
 	}
 
     @Override
@@ -76,7 +81,7 @@ public class CommentImpl extends CommentBaseImpl {
             String temp = entry.getClassName();
             result = temp.substring(temp.lastIndexOf(".")+1);
         } catch (PortalException e) {
-            e.printStackTrace();
+			_log.error("Erreur lors de la récupération du type : ",e);
         }
         return result;
     }
@@ -88,7 +93,7 @@ public class CommentImpl extends CommentBaseImpl {
             AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
             result = entry.getTitle();
         } catch (PortalException e) {
-            e.printStackTrace();
+			_log.error("Erreur lors de la récupération du nom : ",e);
         }
         return result;
     }
