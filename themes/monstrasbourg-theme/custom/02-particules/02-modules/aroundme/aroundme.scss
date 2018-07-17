@@ -616,6 +616,9 @@
     }
     .leaflet-popup-content {
         margin: 0;
+        @include RWD(mobile){
+            width: 272px !important;
+        }
     }
     .leaflet-popup-tip {
         background: #31455d;
@@ -674,6 +677,9 @@
         &__content{
             padding: 30px;
             padding-bottom: 0px;
+            @include RWD(mobile){
+                padding: 20px;
+            }
         }
         &__top{
             padding-bottom: 10px;
