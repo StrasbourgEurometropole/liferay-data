@@ -17,8 +17,7 @@
     <div class="container">
         <div class="pro-intro">
             <h2>S’informer</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip</p>
+            <p>L'actualité de la participation citoyenne à strasbourg et dans l'Eurométropole.</p>
             <a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Voir Toutes les actus</a>
         </div>
 
