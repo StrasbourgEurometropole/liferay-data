@@ -196,8 +196,18 @@ public class StrasbourgPropsUtil {
 	public static String getResidantURL(){
 		return PropsUtil.get("eu.strasbourg.resid.url");
 	}
+<<<<<<< HEAD
 	
 	public static int getWebServiceDefaultTimeout() {
 		return Integer.parseInt(PropsUtil.get("eu.strasbourg.webservice.default.timeout"));
+=======
+
+	public static String getRecordAddressURL(){
+		return PropsUtil.get("eu.strasbourg.publik.url.record.address");
+	}
+	
+	public static String getEMSZipCode(){
+		return PropsUtil.get("eu.strasbourg.ems.zip_code");
+>>>>>>> feature/adresse
 	}
 }
