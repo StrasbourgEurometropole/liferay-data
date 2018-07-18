@@ -408,7 +408,7 @@
 		</finder> 
 	</entity>
 	
-	<entity local-service="true" cache-enabled="true" name="EventParticipation" remote-service="true" uuid="false">
+	<entity local-service="true" name="EventParticipation" remote-service="true" uuid="false">
 		
 		<!-- PK fields -->
 		<column name="eventParticipationId" primary="true" type="long" />

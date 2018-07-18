@@ -117,5 +117,22 @@ public class EventParticipationServiceSoap {
 		}
 	}
 
+	/**
+	* Verifie si l'utilisateur courant participe a l'evenement
+	*/
+	public static java.lang.String isUserParticipates(long eventId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventParticipationServiceUtil.isUserParticipates(eventId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(EventParticipationServiceSoap.class);
 }

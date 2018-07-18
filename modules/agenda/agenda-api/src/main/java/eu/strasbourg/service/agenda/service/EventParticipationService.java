@@ -69,6 +69,12 @@ public interface EventParticipationService extends BaseService {
 	public JSONObject getUserEventParticipations(java.lang.String userId);
 
 	/**
+	* Verifie si l'utilisateur courant participe a l'evenement
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject isUserParticipates(long eventId);
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

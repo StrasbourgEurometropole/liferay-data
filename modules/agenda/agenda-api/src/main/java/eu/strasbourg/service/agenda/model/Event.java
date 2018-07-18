@@ -158,6 +158,21 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getMercatorY();
 
 	/**
+	* Retourne la liste des participations de l'evenement
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation> getEventParticipations();
+
+	/**
+	* Retourne le nombre de participation a l'evenement
+	*/
+	public int getNbEventParticipations();
+
+	/**
+	* Retourne le label de 5 digits du nombre de participation a l'evenement
+	*/
+	public java.lang.String getNbEventParticipationsLabel();
+
+	/**
 	* Retourne true si l'événement est accessible pour au moins un type de
 	* handicap
 	*/

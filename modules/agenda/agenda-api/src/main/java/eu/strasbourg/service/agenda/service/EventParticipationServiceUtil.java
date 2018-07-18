@@ -67,6 +67,14 @@ public class EventParticipationServiceUtil {
 	}
 
 	/**
+	* Verifie si l'utilisateur courant participe a l'evenement
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject isUserParticipates(
+		long eventId) {
+		return getService().isUserParticipates(eventId);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

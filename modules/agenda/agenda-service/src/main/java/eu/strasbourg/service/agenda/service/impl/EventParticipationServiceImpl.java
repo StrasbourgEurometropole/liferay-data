@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,6 +103,7 @@ public class EventParticipationServiceImpl
 		    
 			// Création de l'objet
 			EventParticipation eventParticipation = this.eventParticipationLocalService.createEventParticipation();
+			eventParticipation.setCreateDate(new Date());
 			eventParticipation.setPublikUserId(id);
 			eventParticipation.setEventId(eventId);
 			eventParticipation.setGroupId(groupId);
@@ -131,7 +133,7 @@ public class EventParticipationServiceImpl
 				eventParticipation = this.eventParticipationPersistence.findByPublikUserIdAndEventId(id, eventId);
 			} catch (NoSuchEventParticipationException e) {
 				// Possiblement plusieurs onglets d'ouvert et déjà supprimé sur l'un d'eux
-				return success("event participation deleted");
+				return success("participation deleted");
 			}
 			
 			try {
@@ -140,7 +142,31 @@ public class EventParticipationServiceImpl
 				return error("unknown error");
 			}
 			
-			return success("event participation deleted");
+			return success("participation deleted");
+		} else {
+			return error("notConnected");
+		}
+	}
+	
+	/**
+	 * Verifie si l'utilisateur courant participe a l'evenement
+	 */
+	@Override
+	public JSONObject isUserParticipates(long eventId) {		
+		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		if (isLoggedIn) {
+		    String id = SessionParamUtil.getString(request, "publik_internal_id");
+		    
+			try {
+				this.eventParticipationPersistence.findByPublikUserIdAndEventId(id, eventId);
+			} catch (NoSuchEventParticipationException e) {
+				// Non trouve, l'utilisateur ne participe pas
+				return success("false");
+			}
+			// Element trouve, l'utilisateur participe
+		    return success("true");
+			
 		} else {
 			return error("notConnected");
 		}

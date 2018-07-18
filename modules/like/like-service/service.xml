@@ -5,7 +5,7 @@
 	<author>Cedric Henry</author>
 	<namespace>like</namespace>
 	
-	<entity local-service="true" cache-enabled="true" name="Like" remote-service="true" uuid="false">
+	<entity local-service="true" name="Like" remote-service="true" uuid="false">
 
 		<!-- PK fields -->
 		<column name="likeId" primary="true" type="long" />

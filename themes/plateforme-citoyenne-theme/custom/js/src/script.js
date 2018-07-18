@@ -45,11 +45,13 @@ $('.pro-bloc-card-event').on('click',function(){
 
 
 // Call To Action -- Ajout de la Classe Active
+/**
 $('.pro-btn-action').on('click',function(e){
     e.preventDefault();
     e.stopPropagation();
     $(this).toggleClass('active');
 });
+*/
 
 
 // Dans les cards expérience, on coupe les lettres du mot découvrir pour créer un effet d'animation

@@ -137,6 +137,32 @@ public class EventParticipationServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject isUserParticipates(
+		HttpPrincipal httpPrincipal, long eventId) {
+		try {
+			MethodKey methodKey = new MethodKey(EventParticipationServiceUtil.class,
+					"isUserParticipates", _isUserParticipatesParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, eventId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(EventParticipationServiceHttp.class);
 	private static final Class<?>[] _getUserEventParticipationsParameterTypes0 = new Class[] {
 			java.lang.String.class
@@ -146,4 +172,7 @@ public class EventParticipationServiceHttp {
 		};
 	private static final Class<?>[] _deleteEventParticipationLinkParameterTypes2 =
 		new Class[] { long.class };
+	private static final Class<?>[] _isUserParticipatesParameterTypes3 = new Class[] {
+			long.class
+		};
 }

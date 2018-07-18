@@ -1,7 +1,8 @@
-/*
-* Gestion des likes/dislikes
-*/
 $(function() {
+
+    /*
+    * Gestion des likes/dislikes
+    */
     $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
 
         e.preventDefault();
@@ -105,4 +106,75 @@ $(function() {
         );
 
     });
+
+    /*
+    * Gestion des participation à un événement
+    */
+    $(function() {
+        $(document).on("click", "[href='#Participe']", function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Sauvegarde de l'élément
+            var element = $(this);
+            var counter = $('.pro-compt');
+            var counterNum = $('.pro-compt').text();
+            console.log(counter.text());
+
+            // Récupération des attributs du like
+            var eventid = $(this).data("eventid");
+            var groupid = $(this).data("groupid") ? $(this).data("groupid") : 0;
+
+            // Met à jour le compteur de participant
+            function updateCounter(num) {
+                var stringNum = num.toString();
+                var nbDigits = stringNum.length;
+                stringNum = "0".repeat(5 - nbDigits) + stringNum;
+                console.log(stringNum);
+                for (i = 1; i <= 5; i++) {
+                    $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
+                }
+            }
+
+            // Appel au service remote Liferay
+            Liferay.Service(
+                '/agenda.eventparticipation/add-event-participation-link',
+                {
+                    eventId: eventid,
+                    groupId: groupid
+                },
+                function(obj) {
+                    // En cas de succès, on effectue la modification des éléments visuels
+                    // selon la réponse et le type de l'élément
+                    if (obj.hasOwnProperty('success')) {
+                        switch(obj['success']) {
+                            case "participation added":
+                                updateCounter(parseInt(counter.text()) + 1);
+                                element.toggleClass('active');
+                                break;
+                            case "participation deleted":
+                                //counter.text(+parseInt(counter.text()) - 1);
+                                updateCounter(parseInt(counter.text()) - 1);
+                                element.toggleClass('active');
+                                break;
+                        }
+                    }
+
+                    // Sinon on affiche un message d'erreur
+                    else if (obj.hasOwnProperty('error')) {
+                        if (obj['error'] == 'notConnected') {
+                            // Si l'utilisateur n'est pas connecté
+                            e.preventDefault();
+                            $("#myModal").modal();
+                        } else {
+                            // Autre erreur
+                            alert('Une erreur est survenue.');
+                        }
+                    }
+                }
+            );
+        });
+    });
+
 });

@@ -57,7 +57,7 @@ public interface Like extends LikeModel, PersistedModel {
 	public eu.strasbourg.service.like.model.LikeType getLikeType();
 
 	/**
-	* Retourne la version JSON d'un favoris
+	* Retourne la version JSON d'un like/dislike
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

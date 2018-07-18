@@ -40,9 +40,11 @@ import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
@@ -312,7 +314,38 @@ public class EventImpl extends EventBaseImpl {
 	public String getMercatorY() {
 		return this.getPlace() == null ? "" : this.getPlace().getMercatorY();
 	}
-
+	
+	/**
+	 * Retourne la liste des participations de l'evenement
+	 */
+	@Override
+	public List<EventParticipation> getEventParticipations() {
+		return EventParticipationLocalServiceUtil.getByEventId(this.getEventId());
+	}
+	
+	/**
+	 * Retourne le nombre de participation a l'evenement
+	 */
+	@Override
+	public int getNbEventParticipations() {
+		return EventParticipationLocalServiceUtil.getByEventId(this.getEventId()).size();
+	}
+	
+	/**
+	 * Retourne le label de 5 digits du nombre de participation a l'evenement 
+	 */
+	@Override
+	public String getNbEventParticipationsLabel() {
+		// Transforme le numero en chaine de caractere
+		String stringNum = Integer.toString(this.getNbEventParticipations());
+		// Recupere le nombre de chiffre
+		int nbDigits = stringNum.length();
+		// Ajoute les zeros manquants avant la chaine
+		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
+		
+		return stringNum;
+	}
+	
 	/**
 	 * Retourne l'accès
 	 */

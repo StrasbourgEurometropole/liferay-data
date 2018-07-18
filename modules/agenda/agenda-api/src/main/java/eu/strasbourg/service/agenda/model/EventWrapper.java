@@ -566,6 +566,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne le nombre de participation a l'evenement
+	*/
+	@Override
+	public int getNbEventParticipations() {
+		return _event.getNbEventParticipations();
+	}
+
+	/**
 	* Returns the status of this event.
 	*
 	* @return the status of this event
@@ -1065,6 +1073,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getMercatorY() {
 		return _event.getMercatorY();
+	}
+
+	/**
+	* Retourne le label de 5 digits du nombre de participation a l'evenement
+	*/
+	@Override
+	public java.lang.String getNbEventParticipationsLabel() {
+		return _event.getNbEventParticipationsLabel();
 	}
 
 	/**
@@ -1793,6 +1809,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getCurrentAndFuturePeriods() {
 		return _event.getCurrentAndFuturePeriods();
+	}
+
+	/**
+	* Retourne la liste des participations de l'evenement
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation> getEventParticipations() {
+		return _event.getEventParticipations();
 	}
 
 	/**

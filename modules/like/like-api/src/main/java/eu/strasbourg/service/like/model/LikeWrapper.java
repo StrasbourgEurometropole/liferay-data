@@ -153,7 +153,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	/**
-	* Retourne la version JSON d'un favoris
+	* Retourne la version JSON d'un like/dislike
 	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
