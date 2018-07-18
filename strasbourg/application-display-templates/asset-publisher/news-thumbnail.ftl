@@ -34,7 +34,12 @@
 <div class="wi-search-result wi-edition-thumbnail">
     <div class="seu-result-left seu-result-thumbnail">
         <a href="${detailURLFilter}" title="${title}">
-            <div class="thumbnail-background" style="background-image: url(${thumbnail});"></div>
+            <div style="background-image: url(${thumbnail});" class="thumbnail-background" >
+                <#if asset.tagNames?seq_contains("euromag") || asset.tagNames?seq_contains("villemag") || asset.tagNames?seq_contains("webmag")>
+                    <div class="mag">MAG'</div>
+                    <div class="bg-mag"></div>
+                </#if>
+            </div>
         </a>
     </div>
     <div class="seu-result-right">
