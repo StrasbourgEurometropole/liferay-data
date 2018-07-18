@@ -1,7 +1,7 @@
 <%@ include file="/mediatheque-init.jsp" %>
 
 <section id="mediatheque">
-    <h2><liferay-ui:message key="account-mediatheque" /></h2>
+    <h2>${title}</h2>
 		<!-- Etape 4 -->
         <div class="webform-layout-box">
 			<!-- Numéro de carte -->

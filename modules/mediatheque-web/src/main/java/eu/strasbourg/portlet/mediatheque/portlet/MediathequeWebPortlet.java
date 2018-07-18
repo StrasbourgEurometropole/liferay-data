@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerWebService;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -106,6 +107,9 @@ public class MediathequeWebPortlet extends MVCPortlet {
 			}
 		}
 		request.setAttribute("dc", dc);
+		
+		// titre personnalisable
+		request.setAttribute("title", PortletHelper.getPortletTitle("account-mediatheque", request));
 
 		include("/templates/" + template + ".jsp", request, response);
 	}

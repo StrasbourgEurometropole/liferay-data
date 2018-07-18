@@ -1,7 +1,7 @@
 <%@ include file="/mediatheque-init.jsp" %>
 
 <section id="mediatheque">
-    <h2><liferay-ui:message key="account-mediatheque" /></h2>
+    <h2>${title}</h2>
 	<!-- Etape 1 -->
 	<c:if test="${not empty dissociation and dissociation == 'ok'}">
 		<!-- Message d'information -->

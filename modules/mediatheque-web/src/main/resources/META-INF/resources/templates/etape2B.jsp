@@ -1,8 +1,8 @@
 <%@ include file="/mediatheque-init.jsp" %>
 
 <section id="mediatheque">
-    <h2><liferay-ui:message key="account-mediatheque" /></h2>
-		<!-- Etape 2 Pas d'email renseignÃÂ© -->
+    <h2>${title}</h2>
+		<!-- Etape 2 Pas d'email renseigné -->
 		<p align="center">
 			<liferay-ui:message key="email-text" />
 		</p>
