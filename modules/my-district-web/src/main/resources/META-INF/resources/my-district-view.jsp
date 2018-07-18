@@ -264,25 +264,82 @@
 			</c:if>
 		</section>
 		
-		<c:set var="official" value="${dc.official}"/>
-		<c:if test="${not empty official}">
-			<div class="wi-wrapper">
-				<section id="elu">
-					<h2><c:if test="${official.gender == 1}"><liferay-ui:message key="neighborhood-assistant" /></c:if><c:if test="${official.gender == 2}"><liferay-ui:message key="neighborhood-assistante" /></c:if></h2>
-					<img title="${official.firstName} ${official.lastName}" src="${official.imageURL}">
-					<div class="seu-text">
-						<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${official.firstName} ${official.lastName}</div>
-						<div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${official.getName(official.fonctionCity,locale)}</div>
-					</div>
-					<a href="${homeStrasbourgURL}elu/-/entity/id/${official.officialId}" class="btn-square--bordered--core" title="${official.firstName} ${official.lastName}">
-							<span class="flexbox">
-								<span class="btn-text"><liferay-ui:message key="know-more" /></span>
-								<span class="btn-arrow"></span>
-							</span>
-					</a>
-				</section>
+		<section id="elu-direction">
+			<div class="flexbox">
+				<div class="container-left">
+					<c:set var="official" value="${dc.official}"/>
+					<c:if test="${not empty official}">
+						<div class="wi-wrapper">
+							<section id="elu">
+								<h2><c:if test="${official.gender == 1}"><liferay-ui:message key="neighborhood-assistant" /></c:if><c:if test="${official.gender == 2}"><liferay-ui:message key="neighborhood-assistante" /></c:if></h2>
+								<img title="${official.firstName} ${official.lastName}" src="${official.imageURL}">
+								<div class="seu-text">
+									<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${official.firstName} ${official.lastName}</div>
+									<div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${official.getName(official.fonctionCity,locale)}</div>
+								</div>
+								<a href="${homeStrasbourgURL}elu/-/entity/id/${official.officialId}" class="btn-square--bordered--core" title="${official.firstName} ${official.lastName}">
+										<span class="flexbox">
+											<span class="btn-text"><liferay-ui:message key="know-more" /></span>
+											<span class="btn-arrow"></span>
+										</span>
+								</a>
+							</section>
+						</div>
+					</c:if>
+				</div>
+				<div class="container-right">
+					<c:set var="territoryDirection" value="${dc.territoryDirection}"/>
+					<c:if test="${not empty territoryDirection}">
+						<div class="wi-wrapper">
+							<section id="direction">
+								<h2><liferay-ui:message key="territory-direction" /></h2>
+								<p>${dc.territoryDirectionText}</p>
+								<div class="flexbox">
+									<div class="container-left">
+										<h3><liferay-ui:message key="eu.place.address-details" /></h3>
+										<div class="rte">
+											<p style="margin-bottom: 0px;">
+												<c:if test="${not empty territoryDirection.alias}">
+													${territoryDirection.alias} <br />
+												</c:if>
+												<c:if test="${not empty territoryDirection.addressStreet}">
+													${territoryDirection.addressStreet} <br />
+												</c:if>
+												<c:if test="${not empty territoryDirection.addressComplement}">
+													${territoryDirection.addressComplement} <br />
+												</c:if>
+												<c:if test="${not empty territoryDirection.addressDistribution}">
+													${territoryDirection.addressDistribution} <br />
+												</c:if>
+													${territoryDirection.addressZipCode} ${territoryDirection.getCity(locale)}
+											</p>
+											<c:if test="${not empty territoryDirection.phone}">
+												<p>
+													<liferay-ui:message key="phone" /> : ${territoryDirection.phone}
+												</p>
+											</c:if>
+										</div>
+										<a href="#" class="add-favorites"
+										   data-type="1"
+										   data-title="${territoryDirection.getAlias(locale)}"
+										   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.getSIGid()}"
+										   data-id="${territoryDirection.placeId}">
+											<span><liferay-ui:message key="eu.add-to-favorite" /></span>
+										</a>
+									</div>
+								</div>
+								<a href="${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.SIGid}" class="btn-square--bordered--core" title="${territoryDirection.getAlias(locale)}">
+										<span class="flexbox">
+											<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
+											<span class="btn-arrow"></span>
+										</span>
+								</a>
+							</section>
+						</div>
+					</c:if>
+				</div>
 			</div>
-		</c:if>
+		</section>
 
 		<c:set var="townHall" value="${dc.townHall}"/>
 		<c:if test="${not empty townHall}">
@@ -354,56 +411,6 @@
 						</div>
 					</div>
 					<a href="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.SIGid}" class="btn-square--bordered--core" title="${townHall.getAlias(locale)}">
-							<span class="flexbox">
-								<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
-								<span class="btn-arrow"></span>
-							</span>
-					</a>
-				</section>
-			</div>
-		</c:if>
-
-		<c:set var="territoryDirection" value="${dc.territoryDirection}"/>
-		<c:if test="${not empty territoryDirection}">
-			<div class="wi-wrapper">
-				<section id="direction">
-					<h2><liferay-ui:message key="territory-direction" /></h2>
-					<p>${dc.territoryDirectionText}</p>
-					<div class="flexbox">
-						<div class="container-left">
-							<h3><liferay-ui:message key="eu.place.address-details" /></h3>
-							<div class="rte">
-								<p style="margin-bottom: 0px;">
-									<c:if test="${not empty territoryDirection.alias}">
-										${territoryDirection.alias} <br />
-									</c:if>
-									<c:if test="${not empty territoryDirection.addressStreet}">
-										${territoryDirection.addressStreet} <br />
-									</c:if>
-									<c:if test="${not empty territoryDirection.addressComplement}">
-										${territoryDirection.addressComplement} <br />
-									</c:if>
-									<c:if test="${not empty territoryDirection.addressDistribution}">
-										${territoryDirection.addressDistribution} <br />
-									</c:if>
-										${territoryDirection.addressZipCode} ${territoryDirection.getCity(locale)}
-								</p>
-								<c:if test="${not empty territoryDirection.phone}">
-									<p>
-										<liferay-ui:message key="phone" /> : ${territoryDirection.phone}
-									</p>
-								</c:if>
-							</div>
-							<a href="#" class="add-favorites"
-							   data-type="1"
-							   data-title="${territoryDirection.getAlias(locale)}"
-							   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.getSIGid()}"
-							   data-id="${territoryDirection.placeId}">
-								<span><liferay-ui:message key="eu.add-to-favorite" /></span>
-							</a>
-						</div>
-					</div>
-					<a href="${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.SIGid}" class="btn-square--bordered--core" title="${territoryDirection.getAlias(locale)}">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
 								<span class="btn-arrow"></span>
