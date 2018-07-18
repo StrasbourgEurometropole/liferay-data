@@ -106,9 +106,9 @@
     	<#assign videos = videos + "{" />
     	<#assign videos = videos + "'source': '${video.getSource(locale)}'," />
     	<#assign videos = videos + "'player': '${video.getPlayer(locale)}'," />
-    	<#assign videos = videos + "'title': '${video.getTitle(locale)}'," />
+    	<#assign videos = videos + "'title': '${video.getTitle(locale)?js_string}'," />
     	<#assign videos = videos + "'publicationDate': '${video.getPublicationDate()?string(\"dd/MM/yyyy\")}'," />
-    	<#assign videos = videos + "'channels': '${video.getChannelsLabel(locale)}'," />
+    	<#assign videos = videos + "'channels': '${video.getChannelsLabel(locale)?js_string}'," />
     	<#assign videos = videos + "'provider': '${video.getProvidersLabel(locale)}'" />
     	<#assign videos = videos + "}" />
     </#list>
