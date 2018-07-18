@@ -22,9 +22,7 @@
             <h3>${entry.getTitle(locale)}</h3>
         </div>
         <div class="pro-footer-event">
-            <!--
-            <span class="pro-number"><strong>37</strong> Participant(s)</span>
-            -->
+            <span class="pro-number"><strong>${entry.getNbEventParticipations()}</strong> Participant(s)</span>
         </div>
     </div>
 </a>

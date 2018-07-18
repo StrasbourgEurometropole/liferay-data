@@ -19,26 +19,8 @@
 <!-- Recuperation du type de la participation (information, concertation, etc.) -->
 <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
-<#switch participationType>
-    <#case "Information">
-        <#assign cssParticipationType = "pro-theme-information" />
-        <#break>
-    <#case "Consultation">
-        <#assign cssParticipationType = "pro-theme-consultation" />
-        <#break>
-    <#case "Co-construction">
-        <#assign cssParticipationType = "pro-theme-co-construire" />
-        <#break>
-    <#case "Concertation">
-        <#assign cssParticipationType = "pro-theme-concertation" />
-        <#break>
-    <#case "Enquête publique">
-        <#assign cssParticipationType = "pro-theme-brun" />
-        <#break>
-    <#default>
-        <#assign cssParticipationType = "" />
-        <#break>
-</#switch>
+<!-- Recuperation de la couleur hexa correspondant au type de la participation -->
+<#assign participationColor = entry.getProjectCategoryColor() />
 
 <!-- Recuperation des thématiques de la participation -->
 <#if entry.getThematicCategories()??>
@@ -49,7 +31,7 @@
 <#assign participationEvents = entry.getEvents() />
 
 <!-- Recuperation des evenements lies a la participation -->
-<#assign participationPlaces = entry.getPlaces() />
+<#assign participationPlaces = entry.getPlacitPlaces() />
 
 <div class="pro-page-detail pro-page-detail-participation">
 
@@ -59,7 +41,7 @@
 
             <article>
                 <header>
-                    <div class="pro-header-participation ${cssParticipationType}">
+                    <div class="pro-header-participation">
                         <h1>${entry.title}</h1>
                         <div class="pro-meta">
 
@@ -166,9 +148,9 @@
                                                             <#if place.getImageURL()?has_content><img src=" ${place.getImageURL()} " width="200" height="140" alt="Image du quartier"/></#if>
                                                         </figure>
                                                         <div>
-                                                            <span class="pro-name">${place.getDistrict(locale)}</span>
+                                                            <span class="pro-name">${place.getCompleteAddress(locale)}</span>
                                                             <h3>
-                                                                ${place.getAlias(locale)}
+                                                                ${place.getPlaceAlias(locale)}
                                                             </h3>
                                                             <!--
                                                             <span class="pro-link">En savoir plus</span>
@@ -215,6 +197,33 @@
 
 
                     <aside class="col-sm-4">
+                        <div class="pro-push-avis">
+                            <a href="#pro-approuv" class="pro-like"
+                                data-typeid="15" 
+                                data-isdislike="false"
+                                data-title="${entry.getTitle()}" 
+                                data-entityid="${entry.participationId}"
+                                data-entitygroupid="${entry.groupId}"
+                                title="Cliquez pour approuver">
+                                <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                            </a>
+                            <a href="#pro-not-approuv" class="pro-dislike"
+                                data-typeid="15" 
+                                data-isdislike="true"
+                                data-title="${entry.getTitle()}" 
+                                data-entityid="${entry.participationId}"
+                                data-entitygroupid="${entry.groupId}"
+                                title="Cliquez pour désapprouver">
+                                <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                            </a>
+                        </div>
+                        <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
+                             data-zoom="12" data-filter-options="filterMapDetail"></div>
+                        <div class="pro-compteur">
+                            <span class="pro-compt">00000</span>
+                            <p>Citoyens(nes) ont réagi</p>
+                            <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
+                        </div>
                         <div class="pro-event-comming">
                             <a href="#pro-link-evenement" target="Evenement à venir">
                                 <strong><#if participationEvents?has_content>${participationEvents?size}</#if></strong> Évènement(s) à venir
@@ -301,3 +310,12 @@
         </div>
     </div>
 </section>
+
+<!-- Cree le style de couleur hexa a la volee pour l'application de la couleur !-->
+<#if participationColor?has_content>
+    <style style="display: none" >
+        .pro-page-detail-participation article header .pro-header-participation:before {
+            background:#${participationColor};
+        }
+    </style>
+</#if>

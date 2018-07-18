@@ -1,4 +1,4 @@
-<!-- SLIDER DE PARTICIPATIONS -->
+<!-- SLIDER DE PARTICIPATIONS AVEC MARGE -->
 
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
@@ -23,7 +23,7 @@
 
                 <!-- Parcours des entites de l'asset publisher -->
                 <#list entries as curEntry>
-
+                    
                     <!-- Recuperation de l'entite -->
                     <#assign entry = curEntry.getAssetRenderer().getParticipation() />
 
@@ -42,28 +42,10 @@
                     <!-- Recuperation du type de la participation (information, concertation, etc.) -->
                     <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
-                    <#switch participationType>
-                        <#case "Information">
-                            <#assign cssParticipationType = "pro-theme-information" />
-                            <#break>
-                        <#case "Consultation">
-                            <#assign cssParticipationType = "pro-theme-consultation" />
-                            <#break>
-                        <#case "Co-construction">
-                            <#assign cssParticipationType = "pro-theme-co-construire" />
-                            <#break>
-                        <#case "Concertation">
-                            <#assign cssParticipationType = "pro-theme-concertation" />
-                            <#break>
-                        <#case "Enquête publique">
-                            <#assign cssParticipationType = "pro-theme-brun" />
-                            <#break>
-                        <#default>
-                            <#assign cssParticipationType = "" />
-                            <#break>
-                    </#switch>
+                    <!-- Recuperation de la couleur hexa correspondant au type de la participation -->
+                    <#assign participationColor = entry.getProjectCategoryColor() />
 
-                    <div class="item pro-bloc-card-participation ${cssParticipationType}" data-linkall="a">
+                    <div class="item pro-bloc-card-participation type-color-hexa-${participationColor}" data-linkall="a">
                         <div>
                             <div class="pro-header-participation">
                                 <figure role="group">
@@ -83,9 +65,13 @@
                                     Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
                                 </span>
                             </div>
-                            <!-- Selection du type de template selon le status de la participation -->
-                            <#if participationStatus == "soon_arrived">
+                            
+                            <#if participationStatus == "soon_arrived"> 
                                 <div class="pro-footer-participation pro-participation-soon">
+                                    <div class="pro-avis">
+                                        <span class="pro-like">${entry.nbLikes}</span>
+                                        <span class="pro-dislike">${entry.nbDislikes}</span>
+                                    </div>
                                     <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                                         Bientôt disponible
                                     </a>
@@ -98,10 +84,24 @@
                                 </div>
                             <#elseif participationStatus == "finished" >
                                 <div class="pro-footer-participation pro-participation-deadline">
+                                    <div class="pro-avis">
+                                        <span class="pro-like">${entry.nbLikes}</span>
+                                        <span class="pro-dislike">${entry.nbDislikes}</span>
+                                    </div>
                                     <p>Participation terminée</p>
                                 </div>
                             </#if>
                         </div>
+
+                        <!-- Cree le style de couleur hexa a la volee pour l'application de la couleur !-->
+                        <#if participationColor?has_content>
+                            <style style="display: none" >
+                                .type-color-hexa-${participationColor}>*:before {
+                                    background:#${participationColor};
+                                }
+                            </style>
+                        </#if>
+
                     </div>
 
                 </#list>
@@ -113,6 +113,6 @@
 </section>
 <style>
     .pro-bloc-slider.pro-slider-participation {
-             margin-top: 0px;
+        margin-top: 0px;
     }
 </style>

@@ -9,7 +9,7 @@
             </figure>
             <div class="mns-info-pratiques mns-info-test">
                 <div class="mns-sec-info">
-                    <h3 class="mns-title-info">Infos et contact</h3>
+                    <h3 class="mns-title-info"><@liferay_ui.message key="eu.infos-and-contact" /></h3>
                     <p>${entry.getPlaceAlias(locale)} 
                         <br> 
                         <#if entry.getPlaceAddress(locale)?has_content>
