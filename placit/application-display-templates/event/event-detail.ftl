@@ -99,9 +99,14 @@
                              data-markericon="event" data-zoom="12" data-filter-options="filterMapDetail"></div>
                         </#if>
                         <div class="pro-compteur">
-                            <span class="pro-compt">00000</span>
+                            <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
-                            <a href="#Participe" class="pro-btn-action" title="Je partcipe">Je participe</a>
+                            <a href="#Participe" class="pro-btn-action" 
+                                data-eventid="${entry.eventId}" 
+                                data-groupid="${entry.groupId}"
+                                title="Je participe">
+                                Je participe
+                            </a>
                         </div>
                         <div class="pro-contact">
                             <h4>Contact</h4>
@@ -134,7 +139,27 @@
 <script>
     $(document).ready(function() {
         $('.pro-slider-event>.container>div').each(function() {
-          $(this).addClass("col-lg-10 col-lg-offset-1");
+            $(this).addClass("col-lg-10 col-lg-offset-1");
         });
+
+        var eventid = ${entry.eventId};
+
+        // Recherche si l'utilisateur participe a l'evenement
+        Liferay.Service(
+            '/agenda.eventparticipation/is-user-participates',
+            {
+                eventId: eventid
+            },
+            function(obj) {
+                // En cas de succès, on effectue la modification des éléments visuels
+                // selon la réponse et le type de l'élément
+                if (obj.hasOwnProperty('success')) {
+                    if (obj['success'] == 'true') {
+                        $("[href='#Participe']").toggleClass('active');
+                    }
+                }
+            }
+        );
+
     });
 </script>

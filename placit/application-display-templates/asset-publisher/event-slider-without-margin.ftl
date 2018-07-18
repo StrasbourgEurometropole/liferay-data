@@ -10,6 +10,9 @@
     <#assign homeURL = "/" />
 </#if>
 
+<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+<#assign instanceId = themeDisplay.getPortletDisplay().getId()>
+
 <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
     <div class="container">
 
@@ -38,6 +41,13 @@
                             </h3>
                         </div>
                         <div class="pro-footer-event">
+                            <span class="pro-btn-action"
+                                name="#Participe-${instanceId}"
+                                data-eventid="${entry.eventId}" 
+                                data-groupid="${entry.groupId}">
+                                Je participe
+                            </span>
+                            <span class="pro-number"><strong>${entry.getNbEventParticipations()}</strong> Participant(s)</span>
                         </div>
                     </div>
                 </a>
@@ -48,3 +58,34 @@
 
     </div>
 </section>
+
+<script>
+    $(document).ready(function() {
+        $("span[name='#Participe-${instanceId}']").each(function() {
+
+            // Sauvegarde de l'élément
+            var element = $(this);
+            
+            // Récupération des attributs du like
+            var eventid = $(this).data("eventid");
+
+            // Recherche si l'utilisateur participe a l'evenement
+            Liferay.Service(
+                '/agenda.eventparticipation/is-user-participates',
+                {
+                    eventId: eventid
+                },
+                function(obj) {
+                    // En cas de succès, on effectue la modification des éléments visuels
+                    // selon la réponse et le type de l'élément
+                    if (obj.hasOwnProperty('success')) {
+                        if (obj['success'] == 'true') {
+                            element.toggleClass('active');
+                        }
+                    }
+                }
+            );
+
+        });
+    });
+</script>
