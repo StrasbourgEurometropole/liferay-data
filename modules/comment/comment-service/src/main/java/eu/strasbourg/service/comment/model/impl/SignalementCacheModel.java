@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
-import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -31,27 +31,28 @@ import java.io.ObjectOutput;
 import java.util.Date;
 
 /**
- * The cache model class for representing Comment in entity cache.
+ * The cache model class for representing Signalement in entity cache.
  *
  * @author Romain Vergnais
- * @see Comment
+ * @see Signalement
  * @generated
  */
 @ProviderType
-public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
+public class SignalementCacheModel implements CacheModel<Signalement>,
+	Externalizable {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
 
-		if (!(obj instanceof CommentCacheModel)) {
+		if (!(obj instanceof SignalementCacheModel)) {
 			return false;
 		}
 
-		CommentCacheModel commentCacheModel = (CommentCacheModel)obj;
+		SignalementCacheModel signalementCacheModel = (SignalementCacheModel)obj;
 
-		if (commentId == commentCacheModel.commentId) {
+		if (signalementId == signalementCacheModel.signalementId) {
 			return true;
 		}
 
@@ -60,17 +61,17 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, commentId);
+		return HashUtil.hash(0, signalementId);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", commentId=");
-		sb.append(commentId);
+		sb.append(", signalementId=");
+		sb.append(signalementId);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", companyId=");
@@ -91,113 +92,79 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
-		sb.append(", comment=");
-		sb.append(comment);
-		sb.append(", assetEntryId=");
-		sb.append(assetEntryId);
-		sb.append(", publikId=");
-		sb.append(publikId);
-		sb.append(", urlProjectCommentaire=");
-		sb.append(urlProjectCommentaire);
-		sb.append(", like=");
-		sb.append(like);
-		sb.append(", dislike=");
-		sb.append(dislike);
+		sb.append(", commentId=");
+		sb.append(commentId);
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	@Override
-	public Comment toEntityModel() {
-		CommentImpl commentImpl = new CommentImpl();
+	public Signalement toEntityModel() {
+		SignalementImpl signalementImpl = new SignalementImpl();
 
 		if (uuid == null) {
-			commentImpl.setUuid(StringPool.BLANK);
+			signalementImpl.setUuid(StringPool.BLANK);
 		}
 		else {
-			commentImpl.setUuid(uuid);
+			signalementImpl.setUuid(uuid);
 		}
 
-		commentImpl.setCommentId(commentId);
-		commentImpl.setGroupId(groupId);
-		commentImpl.setCompanyId(companyId);
-		commentImpl.setUserId(userId);
+		signalementImpl.setSignalementId(signalementId);
+		signalementImpl.setGroupId(groupId);
+		signalementImpl.setCompanyId(companyId);
+		signalementImpl.setUserId(userId);
 
 		if (userName == null) {
-			commentImpl.setUserName(StringPool.BLANK);
+			signalementImpl.setUserName(StringPool.BLANK);
 		}
 		else {
-			commentImpl.setUserName(userName);
+			signalementImpl.setUserName(userName);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
-			commentImpl.setCreateDate(null);
+			signalementImpl.setCreateDate(null);
 		}
 		else {
-			commentImpl.setCreateDate(new Date(createDate));
+			signalementImpl.setCreateDate(new Date(createDate));
 		}
 
 		if (modifiedDate == Long.MIN_VALUE) {
-			commentImpl.setModifiedDate(null);
+			signalementImpl.setModifiedDate(null);
 		}
 		else {
-			commentImpl.setModifiedDate(new Date(modifiedDate));
+			signalementImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		commentImpl.setStatus(status);
-		commentImpl.setStatusByUserId(statusByUserId);
+		signalementImpl.setStatus(status);
+		signalementImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			commentImpl.setStatusByUserName(StringPool.BLANK);
+			signalementImpl.setStatusByUserName(StringPool.BLANK);
 		}
 		else {
-			commentImpl.setStatusByUserName(statusByUserName);
+			signalementImpl.setStatusByUserName(statusByUserName);
 		}
 
 		if (statusDate == Long.MIN_VALUE) {
-			commentImpl.setStatusDate(null);
+			signalementImpl.setStatusDate(null);
 		}
 		else {
-			commentImpl.setStatusDate(new Date(statusDate));
+			signalementImpl.setStatusDate(new Date(statusDate));
 		}
 
-		if (comment == null) {
-			commentImpl.setComment(StringPool.BLANK);
-		}
-		else {
-			commentImpl.setComment(comment);
-		}
+		signalementImpl.setCommentId(commentId);
 
-		commentImpl.setAssetEntryId(assetEntryId);
+		signalementImpl.resetOriginalValues();
 
-		if (publikId == null) {
-			commentImpl.setPublikId(StringPool.BLANK);
-		}
-		else {
-			commentImpl.setPublikId(publikId);
-		}
-
-		if (urlProjectCommentaire == null) {
-			commentImpl.setUrlProjectCommentaire(StringPool.BLANK);
-		}
-		else {
-			commentImpl.setUrlProjectCommentaire(urlProjectCommentaire);
-		}
-
-		commentImpl.setLike(like);
-		commentImpl.setDislike(dislike);
-
-		commentImpl.resetOriginalValues();
-
-		return commentImpl;
+		return signalementImpl;
 	}
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		commentId = objectInput.readLong();
+		signalementId = objectInput.readLong();
 
 		groupId = objectInput.readLong();
 
@@ -213,15 +180,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
-		comment = objectInput.readUTF();
 
-		assetEntryId = objectInput.readLong();
-		publikId = objectInput.readUTF();
-		urlProjectCommentaire = objectInput.readUTF();
-
-		like = objectInput.readLong();
-
-		dislike = objectInput.readLong();
+		commentId = objectInput.readLong();
 	}
 
 	@Override
@@ -234,7 +194,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(commentId);
+		objectOutput.writeLong(signalementId);
 
 		objectOutput.writeLong(groupId);
 
@@ -265,36 +225,11 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 		objectOutput.writeLong(statusDate);
 
-		if (comment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(comment);
-		}
-
-		objectOutput.writeLong(assetEntryId);
-
-		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(publikId);
-		}
-
-		if (urlProjectCommentaire == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(urlProjectCommentaire);
-		}
-
-		objectOutput.writeLong(like);
-
-		objectOutput.writeLong(dislike);
+		objectOutput.writeLong(commentId);
 	}
 
 	public String uuid;
-	public long commentId;
+	public long signalementId;
 	public long groupId;
 	public long companyId;
 	public long userId;
@@ -305,10 +240,5 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
-	public String comment;
-	public long assetEntryId;
-	public String publikId;
-	public String urlProjectCommentaire;
-	public long like;
-	public long dislike;
+	public long commentId;
 }

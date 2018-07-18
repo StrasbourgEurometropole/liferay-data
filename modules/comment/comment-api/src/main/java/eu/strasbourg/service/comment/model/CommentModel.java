@@ -293,21 +293,6 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setStatusDate(Date statusDate);
 
 	/**
-	 * Returns the url project commentaire of this comment.
-	 *
-	 * @return the url project commentaire of this comment
-	 */
-	@AutoEscape
-	public String getUrlProjectCommentaire();
-
-	/**
-	 * Sets the url project commentaire of this comment.
-	 *
-	 * @param urlProjectCommentaire the url project commentaire of this comment
-	 */
-	public void setUrlProjectCommentaire(String urlProjectCommentaire);
-
-	/**
 	 * Returns the comment of this comment.
 	 *
 	 * @return the comment of this comment
@@ -350,6 +335,21 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	 * @param publikId the publik ID of this comment
 	 */
 	public void setPublikId(String publikId);
+
+	/**
+	 * Returns the url project commentaire of this comment.
+	 *
+	 * @return the url project commentaire of this comment
+	 */
+	@AutoEscape
+	public String getUrlProjectCommentaire();
+
+	/**
+	 * Sets the url project commentaire of this comment.
+	 *
+	 * @param urlProjectCommentaire the url project commentaire of this comment
+	 */
+	public void setUrlProjectCommentaire(String urlProjectCommentaire);
 
 	/**
 	 * Returns the like of this comment.

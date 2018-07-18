@@ -71,10 +71,10 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
-		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 		attributes.put("comment", getComment());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
+		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 		attributes.put("like", getLike());
 		attributes.put("dislike", getDislike());
 
@@ -155,13 +155,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 			setStatusDate(statusDate);
 		}
 
-		String urlProjectCommentaire = (String)attributes.get(
-				"urlProjectCommentaire");
-
-		if (urlProjectCommentaire != null) {
-			setUrlProjectCommentaire(urlProjectCommentaire);
-		}
-
 		String comment = (String)attributes.get("comment");
 
 		if (comment != null) {
@@ -178,6 +171,13 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 
 		if (publikId != null) {
 			setPublikId(publikId);
+		}
+
+		String urlProjectCommentaire = (String)attributes.get(
+				"urlProjectCommentaire");
+
+		if (urlProjectCommentaire != null) {
+			setUrlProjectCommentaire(urlProjectCommentaire);
 		}
 
 		Long like = (Long)attributes.get("like");
