@@ -84,6 +84,18 @@ public class SignalementLocalServiceUtil {
 		return getService().addSignalement(signalement);
 	}
 
+	public static eu.strasbourg.service.comment.model.Signalement createSignalement(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createSignalement(sc);
+	}
+
+	public static eu.strasbourg.service.comment.model.Signalement createSignalement(
+		com.liferay.portal.kernel.service.ServiceContext sc, long commentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createSignalement(sc, commentId);
+	}
+
 	/**
 	* Creates a new signalement with the primary key. Does not add the signalement to the database.
 	*

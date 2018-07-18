@@ -22,7 +22,11 @@
 				<portlet:resourceURL id="like" var="likeURL">
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:resourceURL>
-				
+
+				<portlet:resourceURL id="signaler" var="signalerURL">
+					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
+				</portlet:resourceURL>
+
 				<div class="pro-item">
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span> <span
@@ -36,15 +40,14 @@
 							<p>${comment.comment}</p>
 							<c:if test="${isAdmin}">
 								<div class="pro-interactions">
-									<!-- 
 									<a href="#pro-avis-like-pro" class="pro-like"
-										title="Mettre j'aime Ã  cette vidÃ©o" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
+										title="Mettre j'aime &agrave; cette vid&eacute;o" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
 										href="#pro-avis-dislike-pro" class="pro-dislike active" onclick="callServeResource('${likeURL}','dislike');"
-										title="Mettre je n'aime pas Ã  cette vidÃ©o">${comment.dislike}</a>
-									-->
+										title="Mettre je n'aime pas &agrave; cette vid&eacute;o">${comment.dislike}</a>
 									<div>
-										<a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
-									</div>
+                                        <a href="#Repondre" class="pro-reponse" title="R&eacute;pondre au commentaire">R&eacute;pondre</a>
+                                        <a href="#Signaler" title="Signaler le commentaire" onclick="callServeResource('${signalerURL}','signaler');">Signaler</a>
+                                    </div>
 								</div>
 								 
 							</c:if>

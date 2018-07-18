@@ -63,29 +63,19 @@
 				className="eu.strasbourg.service.signalement.model.Signalement" modelVar="signalement"
 				keyProperty="signalementId" rowIdProperty="signalementId">
 
-				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
-				<liferay-portlet:renderURL varImpl="editSignalementURL">
-					<portlet:param name="cmd" value="editSignalement" />
-					<portlet:param name="signalementId" value="${signalement.signalementId}" />
-					<portlet:param name="returnURL" value="${signalementsURL}" />
-					<portlet:param name="mvcPath" value="/signalement-bo-edit-signalement.jsp" />
-				</liferay-portlet:renderURL>
-
 				<%-- Colonne : userName --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editSignalementURL}" name="userName" truncate="true" orderable="true"
-					value="${signalement.userName}" />
+					name="userName" truncate="true" orderable="true" value="${signalement.userName}" />
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
-														 href="${editSignalementURL}" name="Signalementaire" truncate="true" orderable="true"
-														 value="${signalement.signalement}" />
+                     name="Commentaire" truncate="true" value="${signalement.getCommentaire()}" />
 
 				<%-- Colonne : Date de modification--%>
-				<fmt:formatDate value="${signalement.modifiedDate}"
-					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<fmt:formatDate value="${signalement.createDate}"
+					var="formattedCreatedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
-					value="${formattedModifiedDate}" />
+					name="created-date" truncate="true" orderable="true"
+					value="${formattedCreatedDate}" />
 
 				<%-- Colonne : Statut--%>
 				<liferay-ui:search-container-column-text name="status">
@@ -93,26 +83,15 @@
 						showLabel="false" status="${signalement.status}" />
 				</liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Type de l'entité--%>
+				<%-- Colonne : Type de signalement--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="Type de l'entite" truncate="true" orderable="true"
-                    value="${signalement.getTypeAssetEntry()}" />
+                    name="Type de signalement" truncate="true" orderable="true"
+                    value="${signalement.type}" />
 
 				<%-- Colonne : nom de l'entité--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     name="Nom de l'entite" truncate="true" orderable="true"
                     value="${signalement.getAssetEntryTitle()}" />
-
-				<%-- Colonne : lien vers la page
-				<liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${signalement.urlProjectSignalementaire}" name="lien" truncate="true" orderable="true"
-                    value="${signalement.urlProjectSignalementaire}" />
---%>
-				<%-- Colonne : lien vers la page--%>
-				<liferay-ui:search-container-column-text cssClass="content-column" name="localisation du signalementaire" >
-				    <aui:button href="${signalement.urlProjectSignalementaire}" value="lien vers le signalementaire"/>
-				</liferay-ui:search-container-column-text>
-			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>
 			<liferay-ui:search-iterator paginate="true" displayStyle="list"

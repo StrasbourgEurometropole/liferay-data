@@ -83,6 +83,20 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 		return _signalementLocalService.addSignalement(signalement);
 	}
 
+	@Override
+	public eu.strasbourg.service.comment.model.Signalement createSignalement(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _signalementLocalService.createSignalement(sc);
+	}
+
+	@Override
+	public eu.strasbourg.service.comment.model.Signalement createSignalement(
+		com.liferay.portal.kernel.service.ServiceContext sc, long commentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _signalementLocalService.createSignalement(sc, commentId);
+	}
+
 	/**
 	* Creates a new signalement with the primary key. Does not add the signalement to the database.
 	*

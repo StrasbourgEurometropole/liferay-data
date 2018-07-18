@@ -14,7 +14,18 @@
 
 package eu.strasbourg.service.comment.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.base.SignalementLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the signalement local service.
@@ -36,4 +47,82 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.comment.service.SignalementLocalServiceUtil} to access the signalement local service.
 	 */
+
+	public List<Signalement> getByGroupId(long groupId){
+	    return signalementPersistence.findByGroupId(groupId);
+    }
+
+    /**
+	 * Méthode qui permet de creer un signalement sans le persister.
+	 * @param sc le serviceContext
+	 * @return le signalement généré.
+	 * @throws PortalException l'exception.
+	 */
+	@Override
+	public Signalement createSignalement(ServiceContext sc) throws PortalException{
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		long pk = counterLocalService.increment();
+		Signalement signalement = signalementLocalService.createSignalement(pk);
+		signalement.setGroupId(sc.getScopeGroupId());
+		signalement.setUserName(user.getFullName());
+		signalement.setUserId(user.getUserId());
+		signalement.setStatus(WorkflowConstants.STATUS_PENDING);
+		return signalement;
+	}
+
+	/**
+	 * Méthode qui permet de creer un signalement sans le persister.
+	 * @param sc le serviceContext
+	 * @param commentId l'identifiant du commentaire lié au signalement.
+	 * @return le signalement.
+	 * @throws PortalException l'exception.
+	 */
+	@Override
+	public Signalement createSignalement(ServiceContext sc, long commentId) throws PortalException{
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		long pk = counterLocalService.increment();
+		Signalement signalement = signalementLocalService.createSignalement(pk);
+		signalement.setGroupId(sc.getScopeGroupId());
+		signalement.setUserName(user.getFullName());
+		signalement.setUserId(user.getUserId());
+		signalement.setStatus(WorkflowConstants.STATUS_PENDING);
+		signalement.setCommentId(commentId);
+		return signalement;
+	}
+
+	public Signalement updateSignalement(Signalement signalement, ServiceContext sc)
+            throws PortalException{
+	    User user = UserLocalServiceUtil.getUser(sc.getUserId());
+	    signalement.setStatusByUserId(sc.getUserId());
+        signalement.setUserName(user.getFullName());
+        signalement.setUserId(user.getUserId());
+        signalement.setStatusDate(sc.getModifiedDate());
+        if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
+            signalement.setStatus(WorkflowConstants.STATUS_APPROVED);
+        }else {
+            signalement.setStatus(WorkflowConstants.STATUS_DRAFT);
+        }
+	    signalement = signalementLocalService.updateSignalement(signalement);
+        reindex(signalement, false);
+        return signalement;
+    }
+
+    Signalement removeSignalement(long signalementId) throws PortalException{
+        return signalementPersistence.remove(signalementId);
+    }
+
+
+    /**
+     * Reindex le projet dans le moteur de recherche
+     */
+    private void reindex(Signalement signalement, boolean delete) throws SearchException {
+        Indexer<Signalement> indexer = IndexerRegistryUtil
+                .nullSafeGetIndexer(Signalement.class);
+        if (delete) {
+            indexer.delete(signalement);
+        } else {
+            indexer.reindex(signalement);
+        }
+    }
+
 }
