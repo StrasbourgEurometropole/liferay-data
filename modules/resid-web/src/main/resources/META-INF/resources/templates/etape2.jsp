@@ -46,7 +46,7 @@
 							<label><liferay-ui:message key="name" /></label>
 						</div>
 						<div class="content">
-							<p>${contractant.prenom} ${contratant.nom}</p>
+							<p>${contractant.prenom} ${contractant.nom}</p>
 						</div>
 						<!-- Adresse -->
 						<c:set var="adresse" value="${contractant.adresse}" />
