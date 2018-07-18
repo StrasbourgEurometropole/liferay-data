@@ -5,69 +5,50 @@
 		url: 'http://www.dailymotion.com',
 		ended: false,
 		play: function () {
-			this.player.contentWindow.postMessage('play', this.url);
+			this.player.play();
 		},
 		pause: function () {
-			this.player.contentWindow.postMessage('pause', this.url);
+			this.player.pause();
 		},
 		mute: function () {
 			var self = this;
-			self.player.contentWindow.postMessage('volume=0', self.url);
-			self.player.contentWindow.postMessage('muted=1', self.url);
+			self.player.setMuted(true);;
 		},
 		unmute: function () {
-			this.player.contentWindow.postMessage('muted=0', this.url);
-			this.player.contentWindow.postMessage('volume=0.5', this.url);
+			this.player.setMuted(false);;
 		},
 		rewind: function () {
-			this.player.contentWindow.postMessage('seek=0', this.url);
-		},
-		onPlay: function (callback) {
-			var self = this;
-			var onPlay = function (event) {
-				if (event.data === 'event=play' && event.origin === self.url) {
-					callback();
-					window.removeEventListener('message', onPlay);
-				}
-			}
-			window.addEventListener('message', onPlay, false);
+			this.player.seek(0);;
 		},
 		onPause: function (callback) {
 			var self = this;
-			window.addEventListener('message', function (event) {
-				if (event.data === 'event=pause' && event.origin === self.url) {
+			self.player.addEventListener('pause', function (event) {
 					callback();
-				}
 			}, false);
 		},
 		onEnded: function (callback) {
 			var self = this;
-			window.addEventListener('message', function (event) {
-				if (event.data === 'event=ended' && event.origin === self.url) {
-					if (!self.ended) {
-						self.ended = true;
+			self.player.addEventListener('video_end', function (event) {
 						callback();
-					}
-				}
+
 			}, false);
 		},
 		onReady: function (callback) {
 			var self = this;
-			this.player = $('iframe[src^="//www.dailymotion.com"]')[0];
-			$('iframe[src^="//www.dailymotion.com"]').attr("allow","autoplay");
-			var onReady = function (event) {
-				if ((event.data === 'event=apiready' || event.data === 'event=canplay') && event.origin === self.url) {
-					self.ended = false;
-					callback();
-				}
-				if (event.data.indexOf('volumechange') > -1) {
-					window.removeEventListener('message', onReady);
-				}
-			}
-			window.addEventListener('message', onReady, false);	
+
+			DM.init({
+			    apiKey: '973c0ddf1cb43b9ca584',
+			    status: true, // check login status
+			    cookie: true // enable cookies to allow the server to access the session
+			  });
+
+			self.player = DM.player(document.getElementById('player'), {video: $('#player').attr("data-video-id"), params: {
+		      autoplay: true,
+		      mute: true
+		    }});
+			self.player.addEventListener('apiready', callback);
 		}
 	};
-
 
 	var firstLoad = true;
 	exports.youtube = {

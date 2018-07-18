@@ -90,6 +90,7 @@
 		#page { display: none; }
 	</style>
 <!-- <![endif]-->
+	<script src="https://api.dmcdn.net/all.js"></script>
 	<script src="${javascript_folder}/mobile-menu.js"></script>
 	<script src="${javascript_folder}/responsive-grid.js"></script>
 	<script src="${javascript_folder}/players-api.js"></script>
