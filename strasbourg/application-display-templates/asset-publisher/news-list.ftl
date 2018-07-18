@@ -22,15 +22,29 @@
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                         <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
-                        <div class="seu-wi-item seu-actu seu-has-picture">
+                        <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
+                            <div class="seu-wi-item seu-actu seu-mag seu-has-picture">
+                        <#else>
+                            <div class="seu-wi-item seu-actu seu-has-picture">
+                        </#if>
                             <a href="${viewURL}" class="seu-link" title="${title}">
+                                <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
+                                    <div class="seu-picture" style="background-image: url(${thumbnail})">
+                                    </div>
+                                    <div class="seu-mag-logo">
+                                        <div class="seu-mag-text">Mag'</div>
+                                        <div class="seu-mag-picto"></div>
+                                    </div>
+                                </#if>
                                 <div class="seu-text">
                                     <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${title}</div>
                                     <div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${chapo}</div>
                                 </div>
-                                <div>
-                                    <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
-                                </div>
+                                <#if !(curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag"))>
+                                    <div>
+                                        <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
+                                    </div>
+                                </#if>
                             </a>
                              <a href="#" class="seu-add-favorites" 
                                  data-type="6" 

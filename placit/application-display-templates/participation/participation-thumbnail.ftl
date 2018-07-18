@@ -1,7 +1,9 @@
 <!-- VIGNETTE PARTICIPATION -->
 
+<!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
+<!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -68,10 +70,10 @@
         </div>
         <div class="pro-content-participation">
             <div class="pro-meta">
-                
+
                 <!-- Liste des quartiers de la participation -->
                 <span>${entry.getDistrictLabel(locale)}</span>
-                
+
                 <!-- Liste des thématiques de la participation -->
                 <#if participationThematics?? >
                     <#list participationThematics as participationThematic >
@@ -100,18 +102,44 @@
         <!-- Selection du type de template selon le status de la participation -->
         <#if participationStatus == "À venir">
             <div class="pro-footer-participation pro-participation-soon">
+                <div class="pro-avis">
+                    <span class="pro-like">${entry.nbLikes}</span>
+                    <span class="pro-dislike">${entry.nbDislikes}</span>
+                </div>
                 <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                     Bientôt disponible
                 </a>
             </div>
         <#elseif participationStatus == "Nouvelle" || participationStatus == "En cours" || participationStatus == "Bientôt terminée" >
-            <div class="pro-footer-participation">
+            <div class="pro-footer-participation pro-participation-in-progress">
+                <div class="pro-avis">
+                    <a href="#pro-avis-like-pro" class="pro-like"
+                        data-typeid="15" 
+                        data-isdislike="false"
+                        data-title="${entry.getTitle()}" 
+                        data-entityid="${entry.participationId}"
+                        data-entitygroupid="${entry.groupId}">
+                        ${entry.nbLikes}
+                    </a>
+                    <a href="#pro-avis-dislike-pro" class="pro-dislike"
+                        data-typeid="15" 
+                        data-isdislike="true"
+                        data-title="${entry.getTitle()}" 
+                        data-entityid="${entry.participationId}"
+                        data-entitygroupid="${entry.groupId}">
+                        ${entry.nbDislikes}
+                    </a>
+                </div>
                 <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                     Réagissez...
                 </a>
             </div>
         <#elseif participationStatus == "Terminée" >
             <div class="pro-footer-participation pro-participation-deadline">
+                <div class="pro-avis">
+                    <span class="pro-like">${entry.nbLikes}</span>
+                    <span class="pro-dislike">${entry.nbDislikes}</span>
+                </div>
                 <p>Participation terminée</p>
             </div>
         </#if>

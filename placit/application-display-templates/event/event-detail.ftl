@@ -1,5 +1,9 @@
+<!-- DETAIL D'UN EVENEMENT -->
+
+<!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
+<!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -94,13 +98,16 @@
                             <div class="bloc-iframe maps" data-theme="default" data-lat="${entry.getMercatorY()}" data-lng="${entry.getMercatorX()}" data-marker="true"
                              data-markericon="event" data-zoom="12" data-filter-options="filterMapDetail"></div>
                         </#if>
-                        <!--
                         <div class="pro-compteur">
-                            <span class="pro-compt">00089</span>
+                            <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
-                            <a href="#Participe" class="pro-btn-action" title="Je partcipe">Je participe</a>
+                            <a href="#Participe" class="pro-btn-action" 
+                                data-eventid="${entry.eventId}" 
+                                data-groupid="${entry.groupId}"
+                                title="Je participe">
+                                Je participe
+                            </a>
                         </div>
-                        -->
                         <div class="pro-contact">
                             <h4>Contact</h4>
                             <p>
@@ -110,12 +117,12 @@
                             </p>
                             <a href="tel:${entry.phone}" title="Numéro de téléphone : ${entry.phone}">${entry.phone}</a>
                         </div>
-                        <!--
-                        <div class="pro-ticket">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            <a href="#Reserv" class="pro-btn-ticket" title="Réservation d'un billet">Reserver un billet</a>
-                        </div>
-                        -->
+                        <#if entry.bookingURL?has_content>
+                            <div class="pro-ticket">
+                                <#if entry.getBookingDescription(locale)?has_content>${entry.getBookingDescription(locale)}</#if>
+                                <a href="${entry.bookingURL}" target="_blank" class="pro-btn-ticket" title="Réservation d'un billet">Reserver un billet</a>
+                            </div>
+                        </#if>
                     </aside>
                 </div>
             </article>
@@ -132,7 +139,27 @@
 <script>
     $(document).ready(function() {
         $('.pro-slider-event>.container>div').each(function() {
-          $(this).addClass("col-lg-10 col-lg-offset-1");
+            $(this).addClass("col-lg-10 col-lg-offset-1");
         });
+
+        var eventid = ${entry.eventId};
+
+        // Recherche si l'utilisateur participe a l'evenement
+        Liferay.Service(
+            '/agenda.eventparticipation/is-user-participates',
+            {
+                eventId: eventid
+            },
+            function(obj) {
+                // En cas de succès, on effectue la modification des éléments visuels
+                // selon la réponse et le type de l'élément
+                if (obj.hasOwnProperty('success')) {
+                    if (obj['success'] == 'true') {
+                        $("[href='#Participe']").toggleClass('active');
+                    }
+                }
+            }
+        );
+
     });
 </script>

@@ -1,6 +1,7 @@
 <#if entries?has_content>
     <section id="alert-slider">
-        <h2>Alerte</h2>
+        <#assign PortletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+        <h2>${PortletHelper.getPortletTitle('Alerte', renderRequest)}</h2>
         <ul class="unstyled alert-list">
             <#list entries as curEntry>
                 <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
