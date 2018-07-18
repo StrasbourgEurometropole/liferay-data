@@ -13,7 +13,7 @@
 	<c:set var="address" value="${dc.address}" />
 	<c:if test="${empty address}">
 		<section id="validation-address">
-		   	<h2><liferay-ui:message key="validation-address" /></h2>
+		   	<h2>${title}</h2>
 			<!-- affichage du formulaire de recherche d'adresse -->
 			<liferay-util:include page="/includes/search-address.jsp" servletContext="<%=application %>" />
 		</section>

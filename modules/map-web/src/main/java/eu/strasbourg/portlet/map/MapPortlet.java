@@ -378,7 +378,7 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("address", address);
 			request.setAttribute("internalId", internalId);
 			
-			// titre personnalisable
+			// titre personnalisable en mode widget
 			request.setAttribute("title", PortletHelper.getPortletTitle("auround-me", request));
 			
 			MapDisplayContext dc = new MapDisplayContext(themeDisplay);

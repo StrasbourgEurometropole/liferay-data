@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.adict.AdictService;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -36,6 +37,9 @@ public class ValidationAddressWebPortlet extends MVCPortlet {
 		ValidationAddressDisplayContext dc = new ValidationAddressDisplayContext(themeDisplay, request,adictService);
 		
 		request.setAttribute("dc", dc);
+		
+		// titre personnalisable
+		request.setAttribute("title", PortletHelper.getPortletTitle("validation-address", request));
 		super.render(request, response);
 	}
 

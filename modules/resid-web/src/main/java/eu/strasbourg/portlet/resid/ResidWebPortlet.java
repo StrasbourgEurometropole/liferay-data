@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.resid.dossier.DossiersResponse;
 import eu.strasbourg.portlet.resid.dossier.DossiersWebService;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -55,6 +56,9 @@ public class ResidWebPortlet extends MVCPortlet {
 			}
 		}
 		request.setAttribute("dc", dc);
+		
+		// titre personnalisable
+		request.setAttribute("title", PortletHelper.getPortletTitle("account-resid", request));
 
 		include("/templates/" + template + ".jsp", request, response);
 	}

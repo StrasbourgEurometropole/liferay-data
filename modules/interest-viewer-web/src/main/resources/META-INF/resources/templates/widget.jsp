@@ -17,7 +17,7 @@
     <c:if test="${dc.showDeleteButton()}">
 	    <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
     </c:if>
-	<h2><liferay-ui:message key="actu-agenda" /></h2> 
+	<h2>${title}</h2> 
 	<c:if test="${not dc.hasInterest()}">
 		<p>${dc.getNoInterestText()}</p>
 		<div align="center">
