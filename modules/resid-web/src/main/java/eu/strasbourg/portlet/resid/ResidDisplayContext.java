@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.portlet.resid.configuration.ResidConfiguration;
 import eu.strasbourg.portlet.resid.dossier.DossiersResponse;
+import eu.strasbourg.utils.PortletHelper;
 
 public class ResidDisplayContext {
 
@@ -74,5 +75,9 @@ public class ResidDisplayContext {
 
 	public LocalDate getToday() {
 		return LocalDate.now();
+	}
+
+	public boolean showDeleteButton() {
+		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
 }

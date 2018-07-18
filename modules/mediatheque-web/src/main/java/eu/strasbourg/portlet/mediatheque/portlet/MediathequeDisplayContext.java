@@ -29,6 +29,7 @@ import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.configuration.MediathequeConfiguration;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateResponse;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateWebService;
+import eu.strasbourg.utils.PortletHelper;
 
 public class MediathequeDisplayContext {
 
@@ -222,5 +223,9 @@ public class MediathequeDisplayContext {
 		}
 
 		return this.publikId;
+	}
+
+	public boolean showDeleteButton() {
+		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
 }
