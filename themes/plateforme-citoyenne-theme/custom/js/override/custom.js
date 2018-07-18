@@ -111,16 +111,14 @@ $(function() {
     * Gestion des participation à un événement
     */
     $(function() {
-        $(document).on("click", "[href='#Participe']", function(e) {
+        $(document).on("click", "[href='#Participe'], span[name^='#Participe']", function(e) {
 
             e.preventDefault();
             e.stopPropagation();
 
             // Sauvegarde de l'élément
             var element = $(this);
-            var counter = $('.pro-compt');
-            var counterNum = $('.pro-compt').text();
-            console.log(counter.text());
+            var elementType = $(this).attr('href') === '#Participe' ? 'a' : 'span';
 
             // Récupération des attributs du like
             var eventid = $(this).data("eventid");
@@ -131,7 +129,6 @@ $(function() {
                 var stringNum = num.toString();
                 var nbDigits = stringNum.length;
                 stringNum = "0".repeat(5 - nbDigits) + stringNum;
-                console.log(stringNum);
                 for (i = 1; i <= 5; i++) {
                     $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
                 }
@@ -150,13 +147,18 @@ $(function() {
                     if (obj.hasOwnProperty('success')) {
                         switch(obj['success']) {
                             case "participation added":
-                                updateCounter(parseInt(counter.text()) + 1);
                                 element.toggleClass('active');
+                                if (elementType === "a")
+                                    updateCounter(parseInt($('.pro-compt').text()) + 1);
+                                else
+                                    element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) + 1);
                                 break;
-                            case "participation deleted":
-                                //counter.text(+parseInt(counter.text()) - 1);
-                                updateCounter(parseInt(counter.text()) - 1);
+                            case "participation deleted":                                
                                 element.toggleClass('active');
+                                if (elementType === "a")
+                                    updateCounter(parseInt($('.pro-compt').text()) - 1);
+                                else
+                                    element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
                                 break;
                         }
                     }

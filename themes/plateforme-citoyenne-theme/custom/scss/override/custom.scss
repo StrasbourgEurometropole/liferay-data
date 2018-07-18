@@ -148,3 +148,14 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 .pro-page-pacte .pro-wrapper-content .pro-preambule:before  {
 	background: url(/o/plateforme-citoyenne-theme/images/background/bg-yellow.png);
 }
+
+// Vignette evenement : Correction du selecteur pour l'affichage du compteur
+.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event span {
+    display: block;
+    text-align: right;
+    float: none;
+}
+
+.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event>span.pro-number{
+    line-height: inherit;
+}
