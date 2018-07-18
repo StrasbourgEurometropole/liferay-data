@@ -1,9 +1,6 @@
 package eu.strasbourg.portlet.resid.dossier;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
-
-import com.liferay.portal.kernel.json.JSONException;
 
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -16,8 +13,10 @@ public class DossiersWebService {
 			// On récupère le JSON
 			String url = StrasbourgPropsUtil.getResidantURL() + identifiantOpenId;
 			HttpURLConnection httpConn = PasserelleHelper.readFromURL(url);
-			dossiersResponse = new DossiersResponse(PasserelleHelper.readJson(httpConn));
-		} catch (IOException | JSONException ex) {
+			if(httpConn.getContentType().contains("application/json")) {
+				dossiersResponse = new DossiersResponse(PasserelleHelper.readJson(httpConn));
+			}
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 

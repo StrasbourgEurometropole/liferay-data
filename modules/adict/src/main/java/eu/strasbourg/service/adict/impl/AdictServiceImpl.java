@@ -37,16 +37,17 @@ public class AdictServiceImpl implements AdictService {
 	 */
 	@Override
 	public List<Street> searchStreetNumbers(String query) {
-		List<Street> streets = new ArrayList<Street>();
+		List<Street> streets = null;
 
 		query = HtmlUtil.escapeURL(query);
 		try {
 
 			String adictBaseURL = StrasbourgPropsUtil.getAdictBaseURL();
-			// TODO Angel : NE PAS UBLIE DE L'ENLEVER
+			// TODO Angel : NE PAS OUBLIE DE L'ENLEVER
 			adictBaseURL = "http://adict-preprod.strasbourg.eu/addok/search?limit=15&q=";
 			JSONObject wsResponse = JSONHelper.readJsonFromURL(adictBaseURL + query);
 			JSONArray features = wsResponse.getJSONArray("features");
+			streets = new ArrayList<Street>();
 			for (int i = 0; i < features.length(); i++) {
 				JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
 				if (properties.getString("type").equals("housenumber")) {

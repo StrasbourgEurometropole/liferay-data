@@ -1,10 +1,10 @@
 package eu.strasbourg.portlet.validation_address;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.json.JSONObject;
@@ -24,9 +24,10 @@ public class ValidationAddressDisplayContext {
 	private ThemeDisplay themeDisplay;
 	private PortletRequest request;
 	private AdictService adictService;
-	private String address;
-	private String zipCode;
+	private Boolean hasError;
 	private String lastName;
+	private String address;
+	private List<Street> streets;
 
 	public ValidationAddressDisplayContext(ThemeDisplay themeDisplay, PortletRequest request, AdictService adict) {
 		this.themeDisplay = themeDisplay;
@@ -43,58 +44,66 @@ public class ValidationAddressDisplayContext {
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
 
-	// récupération de l'adresse de l'utilisateur
-	public String getAddress() {
-		if (address == null) {
+	// récupération des informations de l'utilisateur
+	public void getUserInfo() {
+		// Récupération du publik ID avec la session
+		String internalId = getPublikID();
+		if (Validator.isNotNull(internalId)) {
+			JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
+			if (userDetail.toString().equals("{}")) {
+				hasError = true;
+			} else {
+				hasError = false;
+				if (Validator.isNotNull(userDetail.get("last_name"))) {
+					lastName = userDetail.getString("last_name");
 
-			// Récupération du publik ID avec la session
-			String internalId = getPublikID();
-			if (Validator.isNotNull(internalId)) {
-				JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
-				if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
-						&& Validator.isNotNull(userDetail.get("city"))) {
-					address = userDetail.get("address") + " " + userDetail.getString("zipcode") + " "
-							+ userDetail.get("city");
-					zipCode = userDetail.getString("zipcode");
+					if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
+							&& Validator.isNotNull(userDetail.get("city"))) {
+						address = userDetail.get("address") + " " + userDetail.getString("zipcode") + " "
+								+ userDetail.get("city");
+						String zipCode = userDetail.getString("zipcode");
+						if (Validator.isNotNull(address) && StrasbourgPropsUtil.getEMSZipCode().contains(zipCode)) {
+							streets = adictService.searchStreetNumbers(address);
+							if(Validator.isNull(streets)) {
+								hasError = true;
+							} else {
+								hasError = false;
+								if(streets.stream().anyMatch(s -> s.getScore() > 0.9)) {
+									streets = null;
+								}else {
+									if(!streets.stream().anyMatch(s -> s.getHouseNumber() != null)) {
+										streets = new ArrayList<Street>();
+									}else {
+										streets = streets.stream().filter(s -> s.getZipCode() == Integer.parseInt(zipCode))
+												.sorted((s1, s2) -> s2.getScore().compareTo(s1.getScore())).collect(Collectors.toList());
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
+	}
 
+	// vérifi si il y a eu une erreur au niveau d'un webService
+	public Boolean hasError() {
+		getUserInfo();
+		return hasError;
+	}
+
+	// récupération de l'adresse de l'utilisateur
+	public String getAddress() {
 		return address;
 	}
 
 	// retourne le nom de l'utilisateur
 	public String getLastName() {
-		if (lastName == null) {
-
-			// Récupération du publik ID avec la session
-			String internalId = getPublikID();
-			if (Validator.isNotNull(internalId)) {
-				JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
-				if (Validator.isNotNull(userDetail.get("last_name"))) {
-					lastName = userDetail.getString("last_name");
-				}
-			}
-		}
-
-		return this.lastName;
-	}
-
-	// vérifie si l'adresse possède un CP dans l'EMS
-	public Boolean isEMSZipCode() {
-		getAddress();
-		if (StrasbourgPropsUtil.getEMSZipCode().contains(zipCode)) {
-			return true;
-		}
-
-		return false;
+		return lastName;
 	}
 
 	// récupère l/les adresse(s) dans adict
 	public List<Street> getAddressList() {
-		List<Street> streets = adictService.searchStreetNumbers(getAddress());
-		streets = streets.stream().filter(s -> s.getZipCode() == Integer.parseInt(zipCode))
-				.sorted((s1, s2) -> s2.getScore().compareTo(s1.getScore())).collect(Collectors.toList());
 		return streets;
 	}
 }
