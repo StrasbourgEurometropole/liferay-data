@@ -7,7 +7,7 @@
 </script>
 
 <section id="bills">
-    <h2><@liferay.language key="pay-my-bills" /></h2>
+    <h2>${title.getData()}</h2>
     <form id="formFactures" action="#bills" class="generic-form toValidate">
         <p>${text.getData()}</p> 
         <p class="errors"></p>      
