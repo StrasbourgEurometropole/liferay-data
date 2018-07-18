@@ -11,10 +11,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -29,6 +27,7 @@ import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.configuration.MediathequeConfiguration;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateResponse;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateWebService;
+import eu.strasbourg.portlet.mediatheque.mapping.MediathequeMapping;
 
 public class MediathequeDisplayContext {
 
@@ -222,5 +221,14 @@ public class MediathequeDisplayContext {
 		}
 
 		return this.publikId;
+	}
+
+	// récupère le type de document
+	public String getType(String type) {
+		MediathequeMapping typeDoc;
+		typeDoc = MediathequeMapping.get(type);
+		if (typeDoc != null)
+			return typeDoc.getName();
+		return null;
 	}
 }
