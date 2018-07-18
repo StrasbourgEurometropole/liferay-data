@@ -1,14 +1,57 @@
-.lfr-form-row {
+.row-timeline {
     width: 40%;
     display: inline-block;
     margin: 20px;
     border: 1px solid #ccc;
 }
-.lfr-form-row:hover {
+.row-timeline:hover {
     border: 1px solid #B2FF3A;
     padding-top: 1px;
 }
 
 .row-fields {
 	padding: 20px;
+}
+
+ /* Autocomplete */
+.place-autocomplete-input-wrapper {
+	position: relative;
+}
+.autocomplete-suggestions {
+	margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}
+
+/* Lieux */
+#wrapper #place-fields > .main-content-card {
+    padding: 0 20px 25px 20px;
+    padding-bottom: 25px;
+    background: #ECEFF1;
+    border: none;
+}
+
+.main-content-card > h3 {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    padding: 10px 15px;
+    position: relative;
+    background: #37474F;
+    margin: 0 -21px;
+    margin-bottom: 20px;
+}
+
+#wrapper #place-fields .main-content-card {
+	margin-bottom: 50px;
+	min-height: 0;
 }

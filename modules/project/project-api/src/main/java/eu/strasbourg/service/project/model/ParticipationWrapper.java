@@ -88,7 +88,6 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("eventsIds", getEventsIds());
-		attributes.put("placesIds", getPlacesIds());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -265,12 +264,6 @@ public class ParticipationWrapper implements Participation,
 
 		if (eventsIds != null) {
 			setEventsIds(eventsIds);
-		}
-
-		String placesIds = (String)attributes.get("placesIds");
-
-		if (placesIds != null) {
-			setPlacesIds(placesIds);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -457,6 +450,36 @@ public class ParticipationWrapper implements Participation,
 	public int compareTo(
 		eu.strasbourg.service.project.model.Participation participation) {
 		return _participation.compareTo(participation);
+	}
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _participation.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _participation.getNbLikes();
+	}
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikesDislikes() {
+		return _participation.getNbLikesDislikes();
 	}
 
 	/**
@@ -662,13 +685,12 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Returns the places IDs of this participation.
-	*
-	* @return the places IDs of this participation
+	* Retourne la couleur hexa du type de la participation contenu dans la propriete
+	* 'code_color' de la categorie associee
 	*/
 	@Override
-	public java.lang.String getPlacesIds() {
-		return _participation.getPlacesIds();
+	public java.lang.String getProjectCategoryColor() {
+		return _participation.getProjectCategoryColor();
 	}
 
 	/**
@@ -821,6 +843,16 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
+		return _participation.getDislikes();
+	}
+
+	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
 	*
 	* @return : null si vide, sinon la liste des catégories
@@ -847,11 +879,49 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne la liste des lieux liés à la participation
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces() {
-		return _participation.getPlaces();
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _participation.getLikes();
+	}
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes() {
+		return _participation.getLikesDislikes();
+	}
+
+	/**
+	* Retourne les noms des lieux placit de la participation
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale) {
+		return _participation.getPlaceNames(locale);
+	}
+
+	/**
+	* Retourne les ids SIG des lieux placit de la participation
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale) {
+		return _participation.getPlaceSIGIds(locale);
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à la participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+		return _participation.getPlacitPlaces();
 	}
 
 	/**
@@ -1171,16 +1241,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setParticipationId(long participationId) {
 		_participation.setParticipationId(participationId);
-	}
-
-	/**
-	* Sets the places IDs of this participation.
-	*
-	* @param placesIds the places IDs of this participation
-	*/
-	@Override
-	public void setPlacesIds(java.lang.String placesIds) {
-		_participation.setPlacesIds(placesIds);
 	}
 
 	/**

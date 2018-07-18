@@ -538,21 +538,6 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setEventsIds(String eventsIds);
 
 	/**
-	 * Returns the places IDs of this participation.
-	 *
-	 * @return the places IDs of this participation
-	 */
-	@AutoEscape
-	public String getPlacesIds();
-
-	/**
-	 * Sets the places IDs of this participation.
-	 *
-	 * @param placesIds the places IDs of this participation
-	 */
-	public void setPlacesIds(String placesIds);
-
-	/**
 	 * Returns the publication date of this participation.
 	 *
 	 * @return the publication date of this participation

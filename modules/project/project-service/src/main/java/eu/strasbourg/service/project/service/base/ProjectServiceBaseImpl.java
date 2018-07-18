@@ -34,6 +34,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ProjectService;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
+import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 
@@ -114,6 +115,63 @@ public abstract class ProjectServiceBaseImpl extends BaseServiceImpl
 	public void setParticipationPersistence(
 		ParticipationPersistence participationPersistence) {
 		this.participationPersistence = participationPersistence;
+	}
+
+	/**
+	 * Returns the placit place local service.
+	 *
+	 * @return the placit place local service
+	 */
+	public eu.strasbourg.service.project.service.PlacitPlaceLocalService getPlacitPlaceLocalService() {
+		return placitPlaceLocalService;
+	}
+
+	/**
+	 * Sets the placit place local service.
+	 *
+	 * @param placitPlaceLocalService the placit place local service
+	 */
+	public void setPlacitPlaceLocalService(
+		eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService) {
+		this.placitPlaceLocalService = placitPlaceLocalService;
+	}
+
+	/**
+	 * Returns the placit place remote service.
+	 *
+	 * @return the placit place remote service
+	 */
+	public eu.strasbourg.service.project.service.PlacitPlaceService getPlacitPlaceService() {
+		return placitPlaceService;
+	}
+
+	/**
+	 * Sets the placit place remote service.
+	 *
+	 * @param placitPlaceService the placit place remote service
+	 */
+	public void setPlacitPlaceService(
+		eu.strasbourg.service.project.service.PlacitPlaceService placitPlaceService) {
+		this.placitPlaceService = placitPlaceService;
+	}
+
+	/**
+	 * Returns the placit place persistence.
+	 *
+	 * @return the placit place persistence
+	 */
+	public PlacitPlacePersistence getPlacitPlacePersistence() {
+		return placitPlacePersistence;
+	}
+
+	/**
+	 * Sets the placit place persistence.
+	 *
+	 * @param placitPlacePersistence the placit place persistence
+	 */
+	public void setPlacitPlacePersistence(
+		PlacitPlacePersistence placitPlacePersistence) {
+		this.placitPlacePersistence = placitPlacePersistence;
 	}
 
 	/**
@@ -584,6 +642,12 @@ public abstract class ProjectServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.project.service.ParticipationService participationService;
 	@BeanReference(type = ParticipationPersistence.class)
 	protected ParticipationPersistence participationPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.PlacitPlaceLocalService.class)
+	protected eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.PlacitPlaceService.class)
+	protected eu.strasbourg.service.project.service.PlacitPlaceService placitPlaceService;
+	@BeanReference(type = PlacitPlacePersistence.class)
+	protected PlacitPlacePersistence placitPlacePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.ProjectLocalService.class)
 	protected eu.strasbourg.service.project.service.ProjectLocalService projectLocalService;
 	@BeanReference(type = ProjectService.class)

@@ -1,0 +1,4 @@
+Bundle-Name: oidc-bo
+Bundle-SymbolicName: oidc.bo
+Bundle-Version: 1.0.0
+Web-ContextPath: /oidcbo

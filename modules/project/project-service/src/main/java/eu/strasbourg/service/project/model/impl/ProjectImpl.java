@@ -28,8 +28,10 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -64,6 +66,32 @@ public class ProjectImpl extends ProjectBaseImpl {
 	public AssetEntry getAssetEntry() {
 		return AssetEntryLocalServiceUtil.fetchEntry(Project.class.getName(),
 			this.getProjectId());
+	}
+	
+	/**
+	 * Retourne la liste des lieux placit liés au projet
+	 */
+	@Override
+	public List<PlacitPlace> getPlacitPlaces() {
+		return PlacitPlaceLocalServiceUtil.getByProject(this.getProjectId());
+	}
+
+	/**
+	 * Retourne les noms des lieux placit au projet
+	 */
+	@Override
+	public List<String> getPlaceNames(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceAlias(locale)).distinct().collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les ids SIG des lieux placit au projet
+	 */
+	@Override
+	public List<String> getPlaceSIGIds(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceSIGId()).distinct().collect(Collectors.toList());
 	}
 
 	/**

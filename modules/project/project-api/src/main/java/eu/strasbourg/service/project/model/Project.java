@@ -60,6 +60,23 @@ public interface Project extends ProjectModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
+	* Retourne la liste des lieux placit liés au projet
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
+
+	/**
+	* Retourne les noms des lieux placit au projet
+	*/
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale);
+
+	/**
+	* Retourne les ids SIG des lieux placit au projet
+	*/
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale);
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/

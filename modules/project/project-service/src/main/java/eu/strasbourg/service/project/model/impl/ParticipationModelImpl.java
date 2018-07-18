@@ -102,7 +102,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			{ "imageId", Types.BIGINT },
 			{ "filesIds", Types.VARCHAR },
 			{ "eventsIds", Types.VARCHAR },
-			{ "placesIds", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP }
 		};
@@ -137,12 +136,11 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eventsIds", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("placesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,imageId LONG,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,placesIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,imageId LONG,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Participation";
 	public static final String ORDER_BY_JPQL = " ORDER BY participation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Participation.title ASC";
@@ -204,7 +202,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
 		model.setEventsIds(soapModel.getEventsIds());
-		model.setPlacesIds(soapModel.getPlacesIds());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
 
@@ -299,7 +296,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("eventsIds", getEventsIds());
-		attributes.put("placesIds", getPlacesIds());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -479,12 +475,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 		if (eventsIds != null) {
 			setEventsIds(eventsIds);
-		}
-
-		String placesIds = (String)attributes.get("placesIds");
-
-		if (placesIds != null) {
-			setPlacesIds(placesIds);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -973,22 +963,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@JSON
 	@Override
-	public String getPlacesIds() {
-		if (_placesIds == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _placesIds;
-		}
-	}
-
-	@Override
-	public void setPlacesIds(String placesIds) {
-		_placesIds = placesIds;
-	}
-
-	@JSON
-	@Override
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -1154,7 +1128,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		participationImpl.setImageId(getImageId());
 		participationImpl.setFilesIds(getFilesIds());
 		participationImpl.setEventsIds(getEventsIds());
-		participationImpl.setPlacesIds(getPlacesIds());
 		participationImpl.setPublicationDate(getPublicationDate());
 		participationImpl.setExpirationDate(getExpirationDate());
 
@@ -1417,14 +1390,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			participationCacheModel.eventsIds = null;
 		}
 
-		participationCacheModel.placesIds = getPlacesIds();
-
-		String placesIds = participationCacheModel.placesIds;
-
-		if ((placesIds != null) && (placesIds.length() == 0)) {
-			participationCacheModel.placesIds = null;
-		}
-
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -1448,7 +1413,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(63);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1506,8 +1471,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getFilesIds());
 		sb.append(", eventsIds=");
 		sb.append(getEventsIds());
-		sb.append(", placesIds=");
-		sb.append(getPlacesIds());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append(", expirationDate=");
@@ -1519,7 +1482,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(97);
+		StringBundler sb = new StringBundler(94);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Participation");
@@ -1638,10 +1601,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getEventsIds());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>placesIds</column-name><column-value><![CDATA[");
-		sb.append(getPlacesIds());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
@@ -1693,7 +1652,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 	private long _imageId;
 	private String _filesIds;
 	private String _eventsIds;
-	private String _placesIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _columnBitmask;

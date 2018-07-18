@@ -62,7 +62,6 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
 		soapModel.setEventsIds(model.getEventsIds());
-		soapModel.setPlacesIds(model.getPlacesIds());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 
@@ -345,14 +344,6 @@ public class ParticipationSoap implements Serializable {
 		_eventsIds = eventsIds;
 	}
 
-	public String getPlacesIds() {
-		return _placesIds;
-	}
-
-	public void setPlacesIds(String placesIds) {
-		_placesIds = placesIds;
-	}
-
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -397,7 +388,6 @@ public class ParticipationSoap implements Serializable {
 	private long _imageId;
 	private String _filesIds;
 	private String _eventsIds;
-	private String _placesIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
 }

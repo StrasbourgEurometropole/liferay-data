@@ -4,6 +4,9 @@
 	<bean class="eu.strasbourg.service.project.service.impl.ParticipationLocalServiceImpl" id="eu.strasbourg.service.project.service.ParticipationLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.ParticipationServiceImpl" id="eu.strasbourg.service.project.service.ParticipationService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.ParticipationPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ParticipationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.impl.PlacitPlaceLocalServiceImpl" id="eu.strasbourg.service.project.service.PlacitPlaceLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.PlacitPlaceServiceImpl" id="eu.strasbourg.service.project.service.PlacitPlaceService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.PlacitPlacePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectLocalServiceImpl" id="eu.strasbourg.service.project.service.ProjectLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectServiceImpl" id="eu.strasbourg.service.project.service.ProjectService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectPersistence" parent="basePersistence" />

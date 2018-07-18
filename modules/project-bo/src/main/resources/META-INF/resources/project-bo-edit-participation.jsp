@@ -19,9 +19,18 @@
 	<portlet:param name="tab" value="participations" />
 </liferay-portlet:actionURL>
 
-<%-- Composant : formulaire de saisie de l'entite --%>
+<%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
-	<aui:form action="${saveParticipationURL}" method="post" name="fm">
+
+	<%-- Composant : definit la liste des messages d'erreur 
+	(voir methode "validate" dans le saveAction de l'entite) --%>
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="place-error" message="place-error" />
+
+	<%-- Composant : formulaire de saisie de l'entite --%>
+	<aui:form action="${saveParticipationURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.participation}" model="<%=Participation.class %>" />
@@ -110,8 +119,30 @@
 				<aui:input name="consultationPlacesBody" required="false" />
 				
 				<%-- Champ : Lieux --%>
-				<strasbourg-picker:entity type="eu.strasbourg.service.place.model.Place" label="eu.places" name="placesIds"
-					required="false" multiple="true" value="${dc.participation.placesIds}" />
+				<div id="place-fields">
+					<c:if test="${empty dc.participation.getPlacitPlaces()}">
+						<div class="lfr-form-row lfr-form-row-inline main-content-card row-place">
+							<h3><liferay-ui:message key="place" /></h3>
+							<div class="row-fields">
+								<liferay-util:include page="/includes/placit-place-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="0" />
+								</liferay-util:include>
+							</div>
+						</div>
+					</c:if>
+					<c:forEach items="${dc.participation.getPlacitPlaces()}" var="placitPlace" varStatus="status">
+						<c:set var="placitPlace" value="${placitPlace}" scope="request"/>
+						<div class="lfr-form-row lfr-form-row-inline main-content-card row-place">
+							<h3><liferay-ui:message key="place" /></h3>
+							<div class="row-fields">
+								<liferay-util:include page="/includes/placit-place-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="${status.index}" />
+								</liferay-util:include>
+							</div>
+						</div>
+					</c:forEach>
+					<aui:input type="hidden" name="placeIndexes" value="${dc.defaultPlaceIndexes}" />
+				</div>
 				
 			</aui:fieldset>
 			
@@ -200,9 +231,29 @@
 		</aui:button-row>
 
 	</aui:form>
+	
 </div>
 
+<liferay-portlet:actionURL name="getParticipationPlaceRow" var="placeRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/placit-place-row.jsp" />
+</liferay-portlet:actionURL>
+
+<liferay-util:html-top>
+	<script>
+		var editParticipation = true;
+		var getParticipationPlaceRowURL = '${placeRowURL}';
+	</script>
+</liferay-util:html-top>
+
 <liferay-util:html-bottom>
+	<aui:script>
+		define._amd = define.amd;
+		define.amd = false;
+	</aui:script>
+	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
+	<script>
+		define.amd = define._amd;
+	</script>
 	<script src="/o/projectbo/js/project-bo-edit-participation.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 

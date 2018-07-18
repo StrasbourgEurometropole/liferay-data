@@ -34,9 +34,11 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -53,7 +55,6 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 @ProviderType
 public class ParticipationImpl extends ParticipationBaseImpl {
 
-    private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 	private static final long serialVersionUID = 1311330918138728472L;
 
 	/*
@@ -71,6 +72,76 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	public AssetEntry getAssetEntry() {
 		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(),
 			this.getParticipationId());
+	}
+	
+	/**
+	 * Retourne la liste des like/dislike de l'entité
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getLikesDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
+				this.getParticipationId(), 
+				15);
+	}
+	
+	/**
+	 * Retourne la liste des likes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getLikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				false);
+	}
+	
+	/**
+	 * Retourne la liste des dislikes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				true);
+	}
+	
+	/**
+	 * Retourne le nombre de likes/dislikes de l'entité
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikesDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
+				this.getParticipationId(), 
+				15).size();
+	}
+	
+	/**
+	 * Retourne le nombre de likes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				false).size();
+	}
+	
+	/**
+	 * Retourne le nombre de dislikes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				true).size();
 	}
 
 	/**
@@ -90,19 +161,29 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
-	 * Retourne la liste des lieux liés à la participation
+	 * Retourne la liste des lieux placit liés à la participation
 	 */
 	@Override
-	public List<Place> getPlaces() {
-		List<Place> places = new ArrayList<Place>();
-		for (String placeIdsStr : this.getPlacesIds().split(",")) {
-			Long placeId = GetterUtil.getLong(placeIdsStr);
-			Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
-			if (place != null) {
-				places.add(place);
-			}
-		}
-		return places;
+	public List<PlacitPlace> getPlacitPlaces() {
+		return PlacitPlaceLocalServiceUtil.getByParticipation(this.getParticipationId());
+	}
+
+	/**
+	 * Retourne les noms des lieux placit de la participation
+	 */
+	@Override
+	public List<String> getPlaceNames(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceAlias(locale)).distinct().collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les ids SIG des lieux placit de la participation
+	 */
+	@Override
+	public List<String> getPlaceSIGIds(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceSIGId()).distinct().collect(Collectors.toList());
 	}
 
 	/**
@@ -131,6 +212,16 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	public AssetCategory getProjectCategory() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.PROJECT).get(0);
+	}
+	
+	/**
+	 * Retourne la couleur hexa du type de la participation contenu dans la propriete
+	 * 'code_color' de la categorie associee
+	 */
+	@Override
+	public String getProjectCategoryColor() {
+		long categoryId = this.getTypeCategory().getCategoryId();
+		return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
 	}
 	
 	/**
@@ -338,5 +429,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 		}
 	}
+	
+	private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 	
 }

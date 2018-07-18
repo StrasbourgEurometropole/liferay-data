@@ -61,6 +61,8 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("publikUserLiferayId", getPublikUserLiferayId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
 		attributes.put("publikId", getPublikId());
 		attributes.put("accessToken", getAccessToken());
 		attributes.put("firstName", getFirstName());
@@ -69,6 +71,8 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("mapConfig", getMapConfig());
 		attributes.put("displayConfig", getDisplayConfig());
 		attributes.put("pactSignature", getPactSignature());
+		attributes.put("banishDate", getBanishDate());
+		attributes.put("banishDescription", getBanishDescription());
 
 		return attributes;
 	}
@@ -97,6 +101,18 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -145,6 +161,18 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (pactSignature != null) {
 			setPactSignature(pactSignature);
+		}
+
+		Date banishDate = (Date)attributes.get("banishDate");
+
+		if (banishDate != null) {
+			setBanishDate(banishDate);
+		}
+
+		String banishDescription = (String)attributes.get("banishDescription");
+
+		if (banishDescription != null) {
+			setBanishDescription(banishDescription);
 		}
 	}
 
@@ -214,6 +242,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	* Returns the banish description of this publik user.
+	*
+	* @return the banish description of this publik user
+	*/
+	@Override
+	public java.lang.String getBanishDescription() {
+		return _publikUser.getBanishDescription();
+	}
+
+	/**
 	* Returns the display config of this publik user.
 	*
 	* @return the display config of this publik user
@@ -274,6 +312,26 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	* Returns the user name of this publik user.
+	*
+	* @return the user name of this publik user
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _publikUser.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this publik user.
+	*
+	* @return the user uuid of this publik user
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _publikUser.getUserUuid();
+	}
+
+	/**
 	* Returns the uuid of this publik user.
 	*
 	* @return the uuid of this publik user
@@ -291,6 +349,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _publikUser.toXmlString();
+	}
+
+	/**
+	* Returns the banish date of this publik user.
+	*
+	* @return the banish date of this publik user
+	*/
+	@Override
+	public Date getBanishDate() {
+		return _publikUser.getBanishDate();
 	}
 
 	/**
@@ -343,6 +411,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		return _publikUser.getPublikUserLiferayId();
 	}
 
+	/**
+	* Returns the user ID of this publik user.
+	*
+	* @return the user ID of this publik user
+	*/
+	@Override
+	public long getUserId() {
+		return _publikUser.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_publikUser.persist();
@@ -356,6 +434,26 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setAccessToken(java.lang.String accessToken) {
 		_publikUser.setAccessToken(accessToken);
+	}
+
+	/**
+	* Sets the banish date of this publik user.
+	*
+	* @param banishDate the banish date of this publik user
+	*/
+	@Override
+	public void setBanishDate(Date banishDate) {
+		_publikUser.setBanishDate(banishDate);
+	}
+
+	/**
+	* Sets the banish description of this publik user.
+	*
+	* @param banishDescription the banish description of this publik user
+	*/
+	@Override
+	public void setBanishDescription(java.lang.String banishDescription) {
+		_publikUser.setBanishDescription(banishDescription);
 	}
 
 	@Override
@@ -497,6 +595,36 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setPublikUserLiferayId(long publikUserLiferayId) {
 		_publikUser.setPublikUserLiferayId(publikUserLiferayId);
+	}
+
+	/**
+	* Sets the user ID of this publik user.
+	*
+	* @param userId the user ID of this publik user
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_publikUser.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this publik user.
+	*
+	* @param userName the user name of this publik user
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_publikUser.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this publik user.
+	*
+	* @param userUuid the user uuid of this publik user
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_publikUser.setUserUuid(userUuid);
 	}
 
 	/**

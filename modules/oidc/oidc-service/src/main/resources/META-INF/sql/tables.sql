@@ -3,6 +3,8 @@ create table publik_PublikUser (
 	publikUserLiferayId LONG not null primary key,
 	createDate DATE null,
 	modifiedDate DATE null,
+	userId LONG,
+	userName VARCHAR(75) null,
 	publikId VARCHAR(200) null,
 	accessToken VARCHAR(200) null,
 	firstName VARCHAR(200) null,
@@ -10,5 +12,7 @@ create table publik_PublikUser (
 	email VARCHAR(75) null,
 	mapConfig VARCHAR(1000) null,
 	displayConfig VARCHAR(1000) null,
-	pactSignature DATE null
+	pactSignature DATE null,
+	banishDate DATE null,
+	banishDescription TEXT null
 );

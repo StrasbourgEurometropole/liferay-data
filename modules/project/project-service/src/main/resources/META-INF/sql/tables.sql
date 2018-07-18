@@ -27,9 +27,28 @@ create table project_Participation (
 	imageId LONG,
 	filesIds VARCHAR(75) null,
 	eventsIds VARCHAR(75) null,
-	placesIds VARCHAR(75) null,
 	publicationDate DATE null,
 	expirationDate DATE null
+);
+
+create table project_PlacitPlace (
+	uuid_ VARCHAR(75) null,
+	placitPlaceId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	placeName STRING null,
+	placeStreetNumber VARCHAR(75) null,
+	placeStreetName VARCHAR(75) null,
+	placeZipCode VARCHAR(75) null,
+	placeCityId LONG,
+	imageId LONG,
+	projectId LONG,
+	participationId LONG,
+	placeSIGId VARCHAR(75) null
 );
 
 create table project_Project (

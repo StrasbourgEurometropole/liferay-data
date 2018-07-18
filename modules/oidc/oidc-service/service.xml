@@ -6,10 +6,14 @@
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
 	<entity local-service="true" name="PublikUser" remote-service="false" uuid="true">
 
+		<!-- PK fields -->
 		<column name="publikUserLiferayId" primary="true" type="long" />
-
+		
+		<!-- Audit fields -->
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
 
 		<!-- Other fields -->
 		<column name="publikId" type="String" />
@@ -20,9 +24,18 @@
 		<column name="mapConfig" type="String" />
 		<column name="displayConfig" type="String" />
 		<column name="pactSignature" type="Date" />
+		<column name="banishDate" type="Date" />
+		<column name="banishDescription" type="String" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="lastName" />
+		</order>
 
+		<!-- Finder methods -->
 	    <finder name="PublikId" return-type="PublikUser" unique="true" db-index="true">
 	      <finder-column name="publikId" />
 	    </finder>
+	    
 	</entity>
 </service-builder>

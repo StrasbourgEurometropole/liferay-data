@@ -58,6 +58,7 @@ public class StrasbourgPortletKeys {
 	public static final String TIPI_CALLBACK_WEB = "eu_strasbourg_portlet_tipi_TipiCallbackPortlet";
 	
 	public static final String OIDC_WEB = "eu_strasbourg_portlet_oidc_OIDCPortlet";
+	public static final String OIDC_BO = "eu_strasbourg_portlet_oidc_OIDCBOPortlet";
 	
 	public static final String CONTACT_FORM_WEB = "eu_strasbourg_portlet_contact_ContactFormPortlet";
 	

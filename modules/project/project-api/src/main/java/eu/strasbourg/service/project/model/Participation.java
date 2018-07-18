@@ -60,14 +60,68 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes();
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes();
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikesDislikes();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
+
+	/**
 	* Retourne la liste des événements liés à la participation
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
 
 	/**
-	* Retourne la liste des lieux liés à la participation
+	* Retourne la liste des lieux placit liés à la participation
 	*/
-	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces();
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
+
+	/**
+	* Retourne les noms des lieux placit de la participation
+	*/
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale);
+
+	/**
+	* Retourne les ids SIG des lieux placit de la participation
+	*/
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale);
 
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
@@ -84,6 +138,12 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne le projet de la participation (
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	* Retourne la couleur hexa du type de la participation contenu dans la propriete
+	* 'code_color' de la categorie associee
+	*/
+	public java.lang.String getProjectCategoryColor();
 
 	/**
 	* Retourne les thematiques de la participation (
