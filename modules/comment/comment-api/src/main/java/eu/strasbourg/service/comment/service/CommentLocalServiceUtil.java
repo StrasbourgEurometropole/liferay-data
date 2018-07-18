@@ -193,6 +193,30 @@ public class CommentLocalServiceUtil {
 	}
 
 	/**
+	* Met à jour un commentaire et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.comment.model.Comment updateComment(
+		eu.strasbourg.service.comment.model.Comment comment,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateComment(comment, sc);
+	}
+
+	/**
+	* Met à jour le statut du projet par le framework workflow
+	*/
+	public static eu.strasbourg.service.comment.model.Comment updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
+	}
+
+	/**
 	* Returns the number of comments.
 	*
 	* @return the number of comments
@@ -208,6 +232,16 @@ public class CommentLocalServiceUtil {
 	*/
 	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	/**
+	* méthode permettant d'obtenir une partie du commentaire.
+	*
+	* @param comment le commentaire en entier.
+	* @return le résultat du commentaire.
+	*/
+	public static java.lang.String getSummary(java.lang.String comment) {
+		return getService().getSummary(comment);
 	}
 
 	/**
@@ -258,6 +292,22 @@ public class CommentLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Recherche par mot clés
+	*/
+	public static java.util.List<eu.strasbourg.service.comment.model.Comment> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à un projet
+	*/
+	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return getService().getAttachedVocabularies(groupId);
 	}
 
 	/**
@@ -344,6 +394,22 @@ public class CommentLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut du projet "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.comment.model.Comment comment, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(comment, status);
 	}
 
 	public static CommentLocalService getService() {

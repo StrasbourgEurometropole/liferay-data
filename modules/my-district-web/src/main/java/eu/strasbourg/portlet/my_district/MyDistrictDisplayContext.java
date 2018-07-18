@@ -88,8 +88,7 @@ public class MyDistrictDisplayContext {
 	}
 
 	public String getVirtualHostName() {
-		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-		return group.getPublicLayoutSet().getVirtualHostname();
+		return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
 	}
 
 	// Récupération de l'id utilisateur

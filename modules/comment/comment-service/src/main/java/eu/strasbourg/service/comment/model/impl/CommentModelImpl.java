@@ -87,7 +87,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
-			{ "comment_", Types.VARCHAR },
+			{ "urlProjectCommentaire", Types.VARCHAR },
+			{ "comment_", Types.CLOB },
 			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
 			{ "like_", Types.BIGINT },
@@ -108,14 +109,15 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("like_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("dislike", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ STRING null,assetEntryId LONG,publikId VARCHAR(75) null,like_ LONG,dislike LONG)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,urlProjectCommentaire STRING null,comment_ TEXT null,assetEntryId LONG,publikId VARCHAR(75) null,like_ LONG,dislike LONG)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
@@ -163,6 +165,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		model.setStatusByUserId(soapModel.getStatusByUserId());
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
+		model.setUrlProjectCommentaire(soapModel.getUrlProjectCommentaire());
 		model.setComment(soapModel.getComment());
 		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
@@ -244,6 +247,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 		attributes.put("comment", getComment());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
@@ -328,6 +332,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		if (statusDate != null) {
 			setStatusDate(statusDate);
+		}
+
+		String urlProjectCommentaire = (String)attributes.get(
+				"urlProjectCommentaire");
+
+		if (urlProjectCommentaire != null) {
+			setUrlProjectCommentaire(urlProjectCommentaire);
 		}
 
 		String comment = (String)attributes.get("comment");
@@ -594,6 +605,22 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@JSON
 	@Override
+	public String getUrlProjectCommentaire() {
+		if (_urlProjectCommentaire == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _urlProjectCommentaire;
+		}
+	}
+
+	@Override
+	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
+		_urlProjectCommentaire = urlProjectCommentaire;
+	}
+
+	@JSON
+	@Override
 	public String getComment() {
 		if (_comment == null) {
 			return StringPool.BLANK;
@@ -798,6 +825,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentImpl.setStatusByUserId(getStatusByUserId());
 		commentImpl.setStatusByUserName(getStatusByUserName());
 		commentImpl.setStatusDate(getStatusDate());
+		commentImpl.setUrlProjectCommentaire(getUrlProjectCommentaire());
 		commentImpl.setComment(getComment());
 		commentImpl.setAssetEntryId(getAssetEntryId());
 		commentImpl.setPublikId(getPublikId());
@@ -953,6 +981,15 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.statusDate = Long.MIN_VALUE;
 		}
 
+		commentCacheModel.urlProjectCommentaire = getUrlProjectCommentaire();
+
+		String urlProjectCommentaire = commentCacheModel.urlProjectCommentaire;
+
+		if ((urlProjectCommentaire != null) &&
+				(urlProjectCommentaire.length() == 0)) {
+			commentCacheModel.urlProjectCommentaire = null;
+		}
+
 		commentCacheModel.comment = getComment();
 
 		String comment = commentCacheModel.comment;
@@ -980,7 +1017,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1006,6 +1043,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getStatusByUserName());
 		sb.append(", statusDate=");
 		sb.append(getStatusDate());
+		sb.append(", urlProjectCommentaire=");
+		sb.append(getUrlProjectCommentaire());
 		sb.append(", comment=");
 		sb.append(getComment());
 		sb.append(", assetEntryId=");
@@ -1023,7 +1062,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.comment.model.Comment");
@@ -1078,6 +1117,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getStatusDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>urlProjectCommentaire</column-name><column-value><![CDATA[");
+		sb.append(getUrlProjectCommentaire());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>comment</column-name><column-value><![CDATA[");
 		sb.append(getComment());
 		sb.append("]]></column-value></column>");
@@ -1127,6 +1170,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private String _urlProjectCommentaire;
 	private String _comment;
 	private long _assetEntryId;
 	private long _originalAssetEntryId;

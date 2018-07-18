@@ -16,6 +16,8 @@ package eu.strasbourg.service.comment.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -41,6 +43,7 @@ import eu.strasbourg.service.comment.model.Comment;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Comment. Methods of this
@@ -180,6 +183,21 @@ public interface CommentLocalService extends BaseLocalService,
 	public Comment updateComment(Comment comment);
 
 	/**
+	* Met à jour un commentaire et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Comment updateComment(Comment comment, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut du projet par le framework workflow
+	*/
+	public Comment updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
+
+	/**
 	* Returns the number of comments.
 	*
 	* @return the number of comments
@@ -193,6 +211,15 @@ public interface CommentLocalService extends BaseLocalService,
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
+
+	/**
+	* méthode permettant d'obtenir une partie du commentaire.
+	*
+	* @param comment le commentaire en entier.
+	* @return le résultat du commentaire.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getSummary(java.lang.String comment);
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
@@ -232,6 +259,18 @@ public interface CommentLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Recherche par mot clés
+	*/
+	public List<Comment> findByKeyword(java.lang.String keyword, long groupId,
+		int start, int end);
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à un projet
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
 	/**
 	* Retourne tous les commentaires d'un asset entry
@@ -302,4 +341,15 @@ public interface CommentLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Met à jour le statut du projet "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Comment comment, int status)
+		throws PortalException;
 }

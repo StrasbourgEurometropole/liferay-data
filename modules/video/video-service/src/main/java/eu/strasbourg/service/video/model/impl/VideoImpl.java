@@ -178,7 +178,7 @@ public class VideoImpl extends VideoBaseImpl {
 			String videoId = videoUrlParts[videoUrlParts.length - 1];
 			player = "<iframe src=\"//www.dailymotion.com/embed/video/"
 					+ videoId
-					+ "?api=postMessage&quality=1080&wmode=opaque\" width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen></iframe>";
+					+ "?api=postMessage&autoplay=1&quality=1080&wmode=opaque&muted=1\" width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen></iframe>";
 		} else if (videoUrl.contains("youtube.")) {
 			String[] videoUrlParts = videoUrl.split("v=");
 			String videoId = videoUrlParts[videoUrlParts.length - 1];

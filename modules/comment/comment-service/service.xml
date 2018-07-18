@@ -25,6 +25,7 @@
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
 		<column name="statusDate" type="Date" />
+		<column name="urlProjectCommentaire" type="String"/>
 
 		<!-- main fields -->
 		<column name="comment" type="String" />

@@ -41,7 +41,7 @@
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
                     <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
-                    <a href="${homeURL}/contact" class="mns-contact-link" title="Contact">
+                    <a href="${homeURL}contact" class="mns-contact-link" title="Contact">
                       <span class="mns-contact">
                         <span class="mns-picto-contact"></span>
                         <span class="mns-text">Contact</span>
@@ -90,6 +90,18 @@
       }
     </script>
 
+
+    <#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script> [^]
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-16973980-1');
+        </script>
+    </#if>
 
   </body>
 </html>
