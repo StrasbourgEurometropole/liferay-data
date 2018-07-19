@@ -91,8 +91,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
-		sb.append(", urlProjectCommentaire=");
-		sb.append(urlProjectCommentaire);
 		sb.append(", comment=");
 		sb.append(comment);
 		sb.append(", level=");
@@ -103,15 +101,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(publikId);
 		sb.append(", parentCommentId=");
 		sb.append(parentCommentId);
-<<<<<<< Updated upstream
 		sb.append(", urlProjectCommentaire=");
 		sb.append(urlProjectCommentaire);
-=======
-					   
-				  
-						  
-					 
->>>>>>> Stashed changes
 		sb.append("}");
 
 		return sb.toString();
@@ -171,13 +162,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setStatusDate(new Date(statusDate));
 		}
 
-		if (urlProjectCommentaire == null) {
-			commentImpl.setUrlProjectCommentaire(StringPool.BLANK);
-		}
-		else {
-			commentImpl.setUrlProjectCommentaire(urlProjectCommentaire);
-		}
-
 		if (comment == null) {
 			commentImpl.setComment(StringPool.BLANK);
 		}
@@ -195,7 +179,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setPublikId(publikId);
 		}
 
-<<<<<<< Updated upstream
 		commentImpl.setParentCommentId(parentCommentId);
 
 		if (urlProjectCommentaire == null) {
@@ -205,18 +188,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setUrlProjectCommentaire(urlProjectCommentaire);
 		}
 
-=======
-									  
-														  
-   
-		
-															   
-   
-
-		commentImpl.setParentCommentId(parentCommentId);
-								  
-
->>>>>>> Stashed changes
 		commentImpl.resetOriginalValues();
 
 		return commentImpl;
@@ -242,19 +213,12 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
-		urlProjectCommentaire = objectInput.readUTF();
 		comment = objectInput.readUTF();
 
 		level = objectInput.readInt();
 
 		assetEntryId = objectInput.readLong();
 		publikId = objectInput.readUTF();
-<<<<<<< Updated upstream
-=======
-												
-
-								
->>>>>>> Stashed changes
 
 		parentCommentId = objectInput.readLong();
 		urlProjectCommentaire = objectInput.readUTF();
@@ -301,13 +265,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 		objectOutput.writeLong(statusDate);
 
-		if (urlProjectCommentaire == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(urlProjectCommentaire);
-		}
-
 		if (comment == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -326,7 +283,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			objectOutput.writeUTF(publikId);
 		}
 
-<<<<<<< Updated upstream
 		objectOutput.writeLong(parentCommentId);
 
 		if (urlProjectCommentaire == null) {
@@ -335,18 +291,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		else {
 			objectOutput.writeUTF(urlProjectCommentaire);
 		}
-=======
-									  
-										   
-   
-		
-												
-   
-
-							   
-
-		objectOutput.writeLong(parentCommentId);
->>>>>>> Stashed changes
 	}
 
 	public String uuid;
@@ -361,16 +305,10 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
-	public String urlProjectCommentaire;
 	public String comment;
 	public int level;
 	public long assetEntryId;
 	public String publikId;
 	public long parentCommentId;
-<<<<<<< Updated upstream
 	public String urlProjectCommentaire;
-=======
-				  
-					 
->>>>>>> Stashed changes
 }
