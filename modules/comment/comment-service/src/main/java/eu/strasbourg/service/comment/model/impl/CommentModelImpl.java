@@ -117,7 +117,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ VARCHAR(75) null,level INTEGER,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ VARCHAR(75) null,level INTEGER,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";

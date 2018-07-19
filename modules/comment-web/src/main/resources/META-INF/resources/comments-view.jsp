@@ -66,8 +66,10 @@
 										</a>
 									</div>
 									<div>
-                                        <a href="#Repondre" class="pro-reponse" title="R&eacute;pondre au commentaire">R&eacute;pondre</a>
                                         <a href="#Signaler" title="Signaler le commentaire" onclick="callServeResource('${signalerURL}','signaler');">Signaler</a>
+                                        <c:if test="${userPublikId eq comment.publikId}">
+                                        	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
+                                        </c:if>
                                     </div>
 								</div>
 								 
@@ -162,4 +164,10 @@
 		
 		$(document).scrollTop($("#pro-link-commentaire").offset().top); 
 	});
+	
+	function deleteMessage(commentId){
+		if (confirm('êtes-vous sûr de vouloir supprimer votre message ?')) {
+			//
+		}
+	}
 </aui:script>

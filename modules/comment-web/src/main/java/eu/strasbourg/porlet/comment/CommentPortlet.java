@@ -114,12 +114,14 @@ public class CommentPortlet extends MVCPortlet {
 			request.setAttribute("comments", comments);
 			request.setAttribute("isAdmin", isAdmin);
 			request.setAttribute("entryID", entryID);
+			request.setAttribute("userPublikId", userPublikId);
 
 			super.render(request, response);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
 	}
+	
 
 	public void postComment(ActionRequest request, ActionResponse response) throws Exception, SystemException {
 		try {

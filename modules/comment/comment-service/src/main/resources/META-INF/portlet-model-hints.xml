@@ -26,7 +26,9 @@
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
 		<field name="parentCommentId" type="long" />
-		<field name="urlProjectCommentaire" type="String" />
+		<field name="urlProjectCommentaire" type="String">
+			<hint name="max-length">4000</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.comment.model.Signalement">
 		<field name="uuid" type="String" />
