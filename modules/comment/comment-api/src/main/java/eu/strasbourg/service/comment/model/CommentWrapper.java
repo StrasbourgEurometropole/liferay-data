@@ -486,6 +486,11 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		return _comment.getStatusDate();
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements() {
+		return _comment.findSignalements();
+	}
+
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)

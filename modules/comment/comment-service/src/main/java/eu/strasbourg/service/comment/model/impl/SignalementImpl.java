@@ -15,6 +15,9 @@
 package eu.strasbourg.service.comment.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.comment.model.Signalement;
+
+import java.util.List;
 
 /**
  * The extended model implementation for the Signalement service. Represents a row in the &quot;comment_Signalement&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +37,5 @@ public class SignalementImpl extends SignalementBaseImpl {
 	 */
 	public SignalementImpl() {
 	}
+
 }

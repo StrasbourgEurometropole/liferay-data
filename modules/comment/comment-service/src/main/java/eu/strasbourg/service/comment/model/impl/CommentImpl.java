@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -26,6 +27,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.persistence.SignalementUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -60,7 +63,6 @@ public class CommentImpl extends CommentBaseImpl {
 		AssetEntry result = AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
 				this.getCommentId());
 		if (result==null){
-			_log.warn("FIXME: la methode fetch renvoie un asset null");
 			try {
 				result = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
 				if (result == null){
@@ -120,5 +122,9 @@ public class CommentImpl extends CommentBaseImpl {
 		return StringUtil.upperCaseFirstLetter(getPublikUser().getFirstName()) 
 				+ " " 
 				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
+	}
+
+	public List<Signalement> findSignalements(){
+		return SignalementUtil.findByCommentId(getCommentId());
 	}
 }

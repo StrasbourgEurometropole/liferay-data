@@ -66,20 +66,24 @@
                 <aui:input name="modifiedDate" disabled="true" />
 
                 <%-- Champ : status --%>
-                <aui:input name="status" label="Statut approuve" type="toggle-switch" value="${dc.comment.status==0?true:false}"/>
+                <aui:input name="status" label="approvedStatus" type="toggle-switch" value="${dc.comment.status==0?true:false}"/>
+
+                <%-- Champ : liste des signalements --%>
+                <aui:input name="signalementList"/>
+
+                <aui:input name="signalementCheckBox" type="checkbox" label="signalementCheckBoxTitle"/>
 
                 <%-- Champ : lien vers la page du commentaire --%>
                 <aui:button href="${comment.urlProjectCommentaire}" name="urlProjectCommentaire"
                 value="lien vers la page du commentaire"/>
 
-                <%-- Champ : liste des signalements --%>
-                <aui:input name="status"/>
+            </aui:fieldset>
+            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="Contenu">
 
                 <%-- Champ : Commentaire --%>
                 <aui:input name="comment"/>
 
             </aui:fieldset>
-
         </aui:fieldset-group>
 
         <%-- Composant : Menu de gestion de l'entite --%>

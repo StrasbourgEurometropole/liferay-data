@@ -83,6 +83,13 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 		return _signalementLocalService.addSignalement(signalement);
 	}
 
+	/**
+	* Méthode qui permet de creer un signalement sans le persister.
+	*
+	* @param sc le serviceContext
+	* @return le signalement généré.
+	* @throws PortalException l'exception.
+	*/
 	@Override
 	public eu.strasbourg.service.comment.model.Signalement createSignalement(
 		com.liferay.portal.kernel.service.ServiceContext sc)
@@ -90,6 +97,14 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 		return _signalementLocalService.createSignalement(sc);
 	}
 
+	/**
+	* Méthode qui permet de creer un signalement sans le persister.
+	*
+	* @param sc le serviceContext
+	* @param commentId l'identifiant du commentaire lié au signalement.
+	* @return le signalement.
+	* @throws PortalException l'exception.
+	*/
 	@Override
 	public eu.strasbourg.service.comment.model.Signalement createSignalement(
 		com.liferay.portal.kernel.service.ServiceContext sc, long commentId)
@@ -197,6 +212,14 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 		return _signalementLocalService.updateSignalement(signalement);
 	}
 
+	@Override
+	public eu.strasbourg.service.comment.model.Signalement updateSignalement(
+		eu.strasbourg.service.comment.model.Signalement signalement,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _signalementLocalService.updateSignalement(signalement, sc);
+	}
+
 	/**
 	* Returns the number of signalements.
 	*
@@ -268,6 +291,12 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _signalementLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement> getByGroupId(
+		long groupId) {
+		return _signalementLocalService.getByGroupId(groupId);
 	}
 
 	/**

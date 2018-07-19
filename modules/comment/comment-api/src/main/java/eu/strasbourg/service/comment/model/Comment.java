@@ -72,4 +72,6 @@ public interface Comment extends CommentModel, PersistedModel {
 	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser();
 
 	public java.lang.String getPublikUserName();
+
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements();
 }

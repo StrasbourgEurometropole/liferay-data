@@ -89,6 +89,9 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
+		<finder name="CommentId" return-type="Collection">
+			<finder-column name="commentId" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />

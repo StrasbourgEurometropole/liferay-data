@@ -97,9 +97,24 @@ public interface SignalementLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Signalement addSignalement(Signalement signalement);
 
+	/**
+	* Méthode qui permet de creer un signalement sans le persister.
+	*
+	* @param sc le serviceContext
+	* @return le signalement généré.
+	* @throws PortalException l'exception.
+	*/
 	public Signalement createSignalement(ServiceContext sc)
 		throws PortalException;
 
+	/**
+	* Méthode qui permet de creer un signalement sans le persister.
+	*
+	* @param sc le serviceContext
+	* @param commentId l'identifiant du commentaire lié au signalement.
+	* @return le signalement.
+	* @throws PortalException l'exception.
+	*/
 	public Signalement createSignalement(ServiceContext sc, long commentId)
 		throws PortalException;
 
@@ -177,6 +192,9 @@ public interface SignalementLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Signalement updateSignalement(Signalement signalement);
 
+	public Signalement updateSignalement(Signalement signalement,
+		ServiceContext sc) throws PortalException;
+
 	/**
 	* Returns the number of signalements.
 	*
@@ -230,6 +248,9 @@ public interface SignalementLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Signalement> getByGroupId(long groupId);
 
 	/**
 	* Returns a range of all the signalements.

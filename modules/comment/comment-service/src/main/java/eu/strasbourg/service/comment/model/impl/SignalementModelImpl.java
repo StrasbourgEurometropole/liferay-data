@@ -123,10 +123,11 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.comment.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.comment.model.Signalement"),
 			true);
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+	public static final long COMMENTID_COLUMN_BITMASK = 1L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -546,7 +547,19 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 
 	@Override
 	public void setCommentId(long commentId) {
+		_columnBitmask |= COMMENTID_COLUMN_BITMASK;
+
+		if (!_setOriginalCommentId) {
+			_setOriginalCommentId = true;
+
+			_originalCommentId = _commentId;
+		}
+
 		_commentId = commentId;
+	}
+
+	public long getOriginalCommentId() {
+		return _originalCommentId;
 	}
 
 	@Override
@@ -751,6 +764,10 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 
 		signalementModelImpl._setModifiedDate = false;
 
+		signalementModelImpl._originalCommentId = signalementModelImpl._commentId;
+
+		signalementModelImpl._setOriginalCommentId = false;
+
 		signalementModelImpl._columnBitmask = 0;
 	}
 
@@ -950,6 +967,8 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _commentId;
+	private long _originalCommentId;
+	private boolean _setOriginalCommentId;
 	private long _columnBitmask;
 	private Signalement _escapedModel;
 }

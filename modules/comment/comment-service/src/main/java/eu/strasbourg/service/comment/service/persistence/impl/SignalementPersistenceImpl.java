@@ -1980,6 +1980,512 @@ public class SignalementPersistenceImpl extends BasePersistenceImpl<Signalement>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "signalement.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMMENTID =
+		new FinderPath(SignalementModelImpl.ENTITY_CACHE_ENABLED,
+			SignalementModelImpl.FINDER_CACHE_ENABLED, SignalementImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCommentId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMMENTID =
+		new FinderPath(SignalementModelImpl.ENTITY_CACHE_ENABLED,
+			SignalementModelImpl.FINDER_CACHE_ENABLED, SignalementImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCommentId",
+			new String[] { Long.class.getName() },
+			SignalementModelImpl.COMMENTID_COLUMN_BITMASK |
+			SignalementModelImpl.CREATEDATE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COMMENTID = new FinderPath(SignalementModelImpl.ENTITY_CACHE_ENABLED,
+			SignalementModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCommentId",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the signalements where commentId = &#63;.
+	 *
+	 * @param commentId the comment ID
+	 * @return the matching signalements
+	 */
+	@Override
+	public List<Signalement> findByCommentId(long commentId) {
+		return findByCommentId(commentId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the signalements where commentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param commentId the comment ID
+	 * @param start the lower bound of the range of signalements
+	 * @param end the upper bound of the range of signalements (not inclusive)
+	 * @return the range of matching signalements
+	 */
+	@Override
+	public List<Signalement> findByCommentId(long commentId, int start, int end) {
+		return findByCommentId(commentId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the signalements where commentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param commentId the comment ID
+	 * @param start the lower bound of the range of signalements
+	 * @param end the upper bound of the range of signalements (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching signalements
+	 */
+	@Override
+	public List<Signalement> findByCommentId(long commentId, int start,
+		int end, OrderByComparator<Signalement> orderByComparator) {
+		return findByCommentId(commentId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the signalements where commentId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param commentId the comment ID
+	 * @param start the lower bound of the range of signalements
+	 * @param end the upper bound of the range of signalements (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching signalements
+	 */
+	@Override
+	public List<Signalement> findByCommentId(long commentId, int start,
+		int end, OrderByComparator<Signalement> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMMENTID;
+			finderArgs = new Object[] { commentId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMMENTID;
+			finderArgs = new Object[] { commentId, start, end, orderByComparator };
+		}
+
+		List<Signalement> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Signalement>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Signalement signalement : list) {
+					if ((commentId != signalement.getCommentId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_SIGNALEMENT_WHERE);
+
+			query.append(_FINDER_COLUMN_COMMENTID_COMMENTID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(SignalementModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(commentId);
+
+				if (!pagination) {
+					list = (List<Signalement>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Signalement>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first signalement in the ordered set where commentId = &#63;.
+	 *
+	 * @param commentId the comment ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching signalement
+	 * @throws NoSuchSignalementException if a matching signalement could not be found
+	 */
+	@Override
+	public Signalement findByCommentId_First(long commentId,
+		OrderByComparator<Signalement> orderByComparator)
+		throws NoSuchSignalementException {
+		Signalement signalement = fetchByCommentId_First(commentId,
+				orderByComparator);
+
+		if (signalement != null) {
+			return signalement;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("commentId=");
+		msg.append(commentId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchSignalementException(msg.toString());
+	}
+
+	/**
+	 * Returns the first signalement in the ordered set where commentId = &#63;.
+	 *
+	 * @param commentId the comment ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching signalement, or <code>null</code> if a matching signalement could not be found
+	 */
+	@Override
+	public Signalement fetchByCommentId_First(long commentId,
+		OrderByComparator<Signalement> orderByComparator) {
+		List<Signalement> list = findByCommentId(commentId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last signalement in the ordered set where commentId = &#63;.
+	 *
+	 * @param commentId the comment ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching signalement
+	 * @throws NoSuchSignalementException if a matching signalement could not be found
+	 */
+	@Override
+	public Signalement findByCommentId_Last(long commentId,
+		OrderByComparator<Signalement> orderByComparator)
+		throws NoSuchSignalementException {
+		Signalement signalement = fetchByCommentId_Last(commentId,
+				orderByComparator);
+
+		if (signalement != null) {
+			return signalement;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("commentId=");
+		msg.append(commentId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchSignalementException(msg.toString());
+	}
+
+	/**
+	 * Returns the last signalement in the ordered set where commentId = &#63;.
+	 *
+	 * @param commentId the comment ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching signalement, or <code>null</code> if a matching signalement could not be found
+	 */
+	@Override
+	public Signalement fetchByCommentId_Last(long commentId,
+		OrderByComparator<Signalement> orderByComparator) {
+		int count = countByCommentId(commentId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Signalement> list = findByCommentId(commentId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the signalements before and after the current signalement in the ordered set where commentId = &#63;.
+	 *
+	 * @param signalementId the primary key of the current signalement
+	 * @param commentId the comment ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next signalement
+	 * @throws NoSuchSignalementException if a signalement with the primary key could not be found
+	 */
+	@Override
+	public Signalement[] findByCommentId_PrevAndNext(long signalementId,
+		long commentId, OrderByComparator<Signalement> orderByComparator)
+		throws NoSuchSignalementException {
+		Signalement signalement = findByPrimaryKey(signalementId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Signalement[] array = new SignalementImpl[3];
+
+			array[0] = getByCommentId_PrevAndNext(session, signalement,
+					commentId, orderByComparator, true);
+
+			array[1] = signalement;
+
+			array[2] = getByCommentId_PrevAndNext(session, signalement,
+					commentId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Signalement getByCommentId_PrevAndNext(Session session,
+		Signalement signalement, long commentId,
+		OrderByComparator<Signalement> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_SIGNALEMENT_WHERE);
+
+		query.append(_FINDER_COLUMN_COMMENTID_COMMENTID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(SignalementModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(commentId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(signalement);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Signalement> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the signalements where commentId = &#63; from the database.
+	 *
+	 * @param commentId the comment ID
+	 */
+	@Override
+	public void removeByCommentId(long commentId) {
+		for (Signalement signalement : findByCommentId(commentId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(signalement);
+		}
+	}
+
+	/**
+	 * Returns the number of signalements where commentId = &#63;.
+	 *
+	 * @param commentId the comment ID
+	 * @return the number of matching signalements
+	 */
+	@Override
+	public int countByCommentId(long commentId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMMENTID;
+
+		Object[] finderArgs = new Object[] { commentId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_SIGNALEMENT_WHERE);
+
+			query.append(_FINDER_COLUMN_COMMENTID_COMMENTID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(commentId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_COMMENTID_COMMENTID_2 = "signalement.commentId = ?";
 
 	public SignalementPersistenceImpl() {
 		setModelClass(Signalement.class);
@@ -2313,6 +2819,12 @@ public class SignalementPersistenceImpl extends BasePersistenceImpl<Signalement>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
 				args);
 
+			args = new Object[] { signalementModelImpl.getCommentId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMMENTID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMMENTID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -2371,6 +2883,23 @@ public class SignalementPersistenceImpl extends BasePersistenceImpl<Signalement>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
+			}
+
+			if ((signalementModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMMENTID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						signalementModelImpl.getOriginalCommentId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMMENTID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMMENTID,
+					args);
+
+				args = new Object[] { signalementModelImpl.getCommentId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMMENTID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMMENTID,
 					args);
 			}
 		}
