@@ -130,8 +130,7 @@ public class CommentImpl extends CommentBaseImpl {
 	 * @return la liste des signalements
 	 */
 	public List<Signalement> findSignalements(){
-		List<Signalement> result = SignalementLocalServiceUtil.findByCommentId(getCommentId());
-		return result;
+		return SignalementLocalServiceUtil.findByCommentId(getCommentId());
 	}
 
 	/**

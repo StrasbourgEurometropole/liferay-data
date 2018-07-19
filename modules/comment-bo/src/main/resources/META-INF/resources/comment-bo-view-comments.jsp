@@ -102,7 +102,7 @@
 
 				<%-- Colonne : le nombre de signalement--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="reportings" truncate="true" orderable="true"
+                    name="reportings" truncate="true" orderable="true" align="center"
                     value="${comment.getCountSignalements()}" />
 
 				<%-- Colonne : Type de l'entité--%>
