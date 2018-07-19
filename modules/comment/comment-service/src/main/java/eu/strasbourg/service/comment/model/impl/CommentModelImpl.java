@@ -89,8 +89,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "urlProjectCommentaire", Types.VARCHAR },
 			{ "comment_", Types.CLOB },
+			{ "level", Types.INTEGER },
 			{ "assetEntryId", Types.BIGINT },
-			{ "publikId", Types.VARCHAR }
+			{ "publikId", Types.VARCHAR },
+			{ "parentCommentId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -109,11 +111,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("level", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("parentCommentId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,urlProjectCommentaire STRING null,comment_ TEXT null,assetEntryId LONG,publikId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,urlProjectCommentaire STRING null,comment_ TEXT null,level INTEGER,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
@@ -132,9 +136,11 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	public static final long ASSETENTRYID_COLUMN_BITMASK = 1L;
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long STATUS_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+	public static final long LEVEL_COLUMN_BITMASK = 8L;
+	public static final long PARENTCOMMENTID_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -163,8 +169,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setUrlProjectCommentaire(soapModel.getUrlProjectCommentaire());
 		model.setComment(soapModel.getComment());
+		model.setLevel(soapModel.getLevel());
 		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
+		model.setParentCommentId(soapModel.getParentCommentId());
 
 		return model;
 	}
@@ -243,8 +251,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 		attributes.put("comment", getComment());
+		attributes.put("level", getLevel());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
+		attributes.put("parentCommentId", getParentCommentId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -339,6 +349,12 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			setComment(comment);
 		}
 
+		Integer level = (Integer)attributes.get("level");
+
+		if (level != null) {
+			setLevel(level);
+		}
+
 		Long assetEntryId = (Long)attributes.get("assetEntryId");
 
 		if (assetEntryId != null) {
@@ -349,6 +365,12 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		if (publikId != null) {
 			setPublikId(publikId);
+		}
+
+		Long parentCommentId = (Long)attributes.get("parentCommentId");
+
+		if (parentCommentId != null) {
+			setParentCommentId(parentCommentId);
 		}
 	}
 
@@ -617,6 +639,29 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@JSON
 	@Override
+	public int getLevel() {
+		return _level;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		_columnBitmask |= LEVEL_COLUMN_BITMASK;
+
+		if (!_setOriginalLevel) {
+			_setOriginalLevel = true;
+
+			_originalLevel = _level;
+		}
+
+		_level = level;
+	}
+
+	public int getOriginalLevel() {
+		return _originalLevel;
+	}
+
+	@JSON
+	@Override
 	public long getAssetEntryId() {
 		return _assetEntryId;
 	}
@@ -652,6 +697,29 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	@Override
 	public void setPublikId(String publikId) {
 		_publikId = publikId;
+	}
+
+	@JSON
+	@Override
+	public long getParentCommentId() {
+		return _parentCommentId;
+	}
+
+	@Override
+	public void setParentCommentId(long parentCommentId) {
+		_columnBitmask |= PARENTCOMMENTID_COLUMN_BITMASK;
+
+		if (!_setOriginalParentCommentId) {
+			_setOriginalParentCommentId = true;
+
+			_originalParentCommentId = _parentCommentId;
+		}
+
+		_parentCommentId = parentCommentId;
+	}
+
+	public long getOriginalParentCommentId() {
+		return _originalParentCommentId;
 	}
 
 	@Override
@@ -785,8 +853,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentImpl.setStatusDate(getStatusDate());
 		commentImpl.setUrlProjectCommentaire(getUrlProjectCommentaire());
 		commentImpl.setComment(getComment());
+		commentImpl.setLevel(getLevel());
 		commentImpl.setAssetEntryId(getAssetEntryId());
 		commentImpl.setPublikId(getPublikId());
+		commentImpl.setParentCommentId(getParentCommentId());
 
 		commentImpl.resetOriginalValues();
 
@@ -863,9 +933,17 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		commentModelImpl._setOriginalStatus = false;
 
+		commentModelImpl._originalLevel = commentModelImpl._level;
+
+		commentModelImpl._setOriginalLevel = false;
+
 		commentModelImpl._originalAssetEntryId = commentModelImpl._assetEntryId;
 
 		commentModelImpl._setOriginalAssetEntryId = false;
+
+		commentModelImpl._originalParentCommentId = commentModelImpl._parentCommentId;
+
+		commentModelImpl._setOriginalParentCommentId = false;
 
 		commentModelImpl._columnBitmask = 0;
 	}
@@ -954,6 +1032,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.comment = null;
 		}
 
+		commentCacheModel.level = getLevel();
+
 		commentCacheModel.assetEntryId = getAssetEntryId();
 
 		commentCacheModel.publikId = getPublikId();
@@ -964,12 +1044,14 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.publikId = null;
 		}
 
+		commentCacheModel.parentCommentId = getParentCommentId();
+
 		return commentCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -999,10 +1081,14 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getUrlProjectCommentaire());
 		sb.append(", comment=");
 		sb.append(getComment());
+		sb.append(", level=");
+		sb.append(getLevel());
 		sb.append(", assetEntryId=");
 		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
+		sb.append(", parentCommentId=");
+		sb.append(getParentCommentId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1010,7 +1096,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.comment.model.Comment");
@@ -1073,12 +1159,20 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getComment());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>level</column-name><column-value><![CDATA[");
+		sb.append(getLevel());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
 		sb.append(getAssetEntryId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publikId</column-name><column-value><![CDATA[");
 		sb.append(getPublikId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>parentCommentId</column-name><column-value><![CDATA[");
+		sb.append(getParentCommentId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1112,10 +1206,16 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private Date _statusDate;
 	private String _urlProjectCommentaire;
 	private String _comment;
+	private int _level;
+	private int _originalLevel;
+	private boolean _setOriginalLevel;
 	private long _assetEntryId;
 	private long _originalAssetEntryId;
 	private boolean _setOriginalAssetEntryId;
 	private String _publikId;
+	private long _parentCommentId;
+	private long _originalParentCommentId;
+	private boolean _setOriginalParentCommentId;
 	private long _columnBitmask;
 	private Comment _escapedModel;
 }

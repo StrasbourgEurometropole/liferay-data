@@ -65,7 +65,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -95,10 +95,14 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(urlProjectCommentaire);
 		sb.append(", comment=");
 		sb.append(comment);
+		sb.append(", level=");
+		sb.append(level);
 		sb.append(", assetEntryId=");
 		sb.append(assetEntryId);
 		sb.append(", publikId=");
 		sb.append(publikId);
+		sb.append(", parentCommentId=");
+		sb.append(parentCommentId);
 		sb.append("}");
 
 		return sb.toString();
@@ -172,6 +176,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setComment(comment);
 		}
 
+		commentImpl.setLevel(level);
 		commentImpl.setAssetEntryId(assetEntryId);
 
 		if (publikId == null) {
@@ -180,6 +185,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		else {
 			commentImpl.setPublikId(publikId);
 		}
+
+		commentImpl.setParentCommentId(parentCommentId);
 
 		commentImpl.resetOriginalValues();
 
@@ -209,8 +216,12 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		urlProjectCommentaire = objectInput.readUTF();
 		comment = objectInput.readUTF();
 
+		level = objectInput.readInt();
+
 		assetEntryId = objectInput.readLong();
 		publikId = objectInput.readUTF();
+
+		parentCommentId = objectInput.readLong();
 	}
 
 	@Override
@@ -268,6 +279,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			objectOutput.writeUTF(comment);
 		}
 
+		objectOutput.writeInt(level);
+
 		objectOutput.writeLong(assetEntryId);
 
 		if (publikId == null) {
@@ -276,6 +289,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		else {
 			objectOutput.writeUTF(publikId);
 		}
+
+		objectOutput.writeLong(parentCommentId);
 	}
 
 	public String uuid;
@@ -292,6 +307,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public long statusDate;
 	public String urlProjectCommentaire;
 	public String comment;
+	public int level;
 	public long assetEntryId;
 	public String publikId;
+	public long parentCommentId;
 }

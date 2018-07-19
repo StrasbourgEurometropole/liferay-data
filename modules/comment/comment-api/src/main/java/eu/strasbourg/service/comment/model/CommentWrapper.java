@@ -73,8 +73,10 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 		attributes.put("comment", getComment());
+		attributes.put("level", getLevel());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
+		attributes.put("parentCommentId", getParentCommentId());
 
 		return attributes;
 	}
@@ -166,6 +168,12 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 			setComment(comment);
 		}
 
+		Integer level = (Integer)attributes.get("level");
+
+		if (level != null) {
+			setLevel(level);
+		}
+
 		Long assetEntryId = (Long)attributes.get("assetEntryId");
 
 		if (assetEntryId != null) {
@@ -176,6 +184,12 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 
 		if (publikId != null) {
 			setPublikId(publikId);
+		}
+
+		Long parentCommentId = (Long)attributes.get("parentCommentId");
+
+		if (parentCommentId != null) {
+			setParentCommentId(parentCommentId);
 		}
 	}
 
@@ -310,6 +324,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public int compareTo(eu.strasbourg.service.comment.model.Comment comment) {
 		return _comment.compareTo(comment);
+	}
+
+	/**
+	* Returns the level of this comment.
+	*
+	* @return the level of this comment
+	*/
+	@Override
+	public int getLevel() {
+		return _comment.getLevel();
 	}
 
 	/**
@@ -503,6 +527,14 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Retourne la liste des commentaires enfants de l'item
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments() {
+		return _comment.getApprovedChildComments();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
@@ -579,6 +611,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public long getGroupId() {
 		return _comment.getGroupId();
+	}
+
+	/**
+	* Returns the parent comment ID of this comment.
+	*
+	* @return the parent comment ID of this comment
+	*/
+	@Override
+	public long getParentCommentId() {
+		return _comment.getParentCommentId();
 	}
 
 	/**
@@ -698,6 +740,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Sets the level of this comment.
+	*
+	* @param level the level of this comment
+	*/
+	@Override
+	public void setLevel(int level) {
+		_comment.setLevel(level);
+	}
+
+	/**
 	* Sets the modified date of this comment.
 	*
 	* @param modifiedDate the modified date of this comment
@@ -710,6 +762,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setNew(boolean n) {
 		_comment.setNew(n);
+	}
+
+	/**
+	* Sets the parent comment ID of this comment.
+	*
+	* @param parentCommentId the parent comment ID of this comment
+	*/
+	@Override
+	public void setParentCommentId(long parentCommentId) {
+		_comment.setParentCommentId(parentCommentId);
 	}
 
 	/**

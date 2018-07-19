@@ -27,7 +27,9 @@
 		<field name="comment" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="level" type="int" />
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
+		<field name="parentCommentId" type="long" />
 	</model>
 </model-hints>

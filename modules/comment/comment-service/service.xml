@@ -29,8 +29,12 @@
 
 		<!-- main fields -->
 		<column name="comment" type="String" />
+		<column name="level" type="int" />
+		
+		<!-- Links with other entities -->
 		<column name="assetEntryId" type="long" />
 		<column name="publikId" type="String" />
+		<column name="parentCommentId" type="long" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -41,10 +45,17 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
-		
-		<!-- Finder methods -->
 		<finder name="AssetEntryId" return-type="Collection">
 			<finder-column name="assetEntryId" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="AssetEntryIdAndLevel" return-type="Collection">
+			<finder-column name="assetEntryId" />
+			<finder-column name="level" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="ParentCommentId" return-type="Collection">
+			<finder-column name="parentCommentId" />
 			<finder-column name="status" />
 		</finder>
 

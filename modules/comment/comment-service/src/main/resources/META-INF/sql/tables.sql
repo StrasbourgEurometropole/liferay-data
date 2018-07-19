@@ -13,6 +13,8 @@ create table comment_Comment (
 	statusDate DATE null,
 	urlProjectCommentaire STRING null,
 	comment_ TEXT null,
+	level INTEGER,
 	assetEntryId LONG,
-	publikId VARCHAR(75) null
+	publikId VARCHAR(75) null,
+	parentCommentId LONG
 );

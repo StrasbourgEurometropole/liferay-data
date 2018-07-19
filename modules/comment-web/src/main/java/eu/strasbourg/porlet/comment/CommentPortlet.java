@@ -78,7 +78,7 @@ public class CommentPortlet extends MVCPortlet {
 				orderBy = "asc";
 			}
 			
-			// récupération de l'asset entry Id qui partagé par le portlet détail entité sur la même page.
+			// récupération de l'asset entry Id qui est partagé par le portlet détail entité sur la même page.
 			long entryID = 0;
 			PortletSession portletSession = request.getPortletSession();
 			if (portletSession.getAttribute("LIFERAY_SHARED_assetEntryID", PortletSession.APPLICATION_SCOPE) != null)
@@ -102,8 +102,8 @@ public class CommentPortlet extends MVCPortlet {
 			
 			//Ici on filtre les commentaires qui ne sont pas au status approved car 
 			//un administrateur peut désapprouver un commentaire
-			List<Comment> comments = CommentLocalServiceUtil.getByAssetEntry(entryID,
-					WorkflowConstants.STATUS_APPROVED);
+			List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entryID,
+					1, WorkflowConstants.STATUS_APPROVED);
 			
 			//Tri des commentaires sur la date de création
 			if(orderBy.equals("desc"))
@@ -129,25 +129,43 @@ public class CommentPortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 			String userPublikId = getPublikID(request);
-			//Si l'utilisateur n'est pas connecté, on ne fait rien
+			//Si l'utilisateur n'est pas connecte, on ne fait rien
 				if (Validator.isNotNull(userPublikId)) {
 
 				ServiceContext sc = ServiceContextFactory.getInstance(request);
 
 				Comment comment = CommentLocalServiceUtil.createComment(sc);
 
+				// Recuperation du message du commentaire
 				String message = ParamUtil.getString(request, "message");
-                    String urlTemp = themeDisplay.getURLPortal();
-                    String urlSuite = themeDisplay.getURLCurrent();
-                    StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
+				
+				// Recuperation du potentiel id du commentaire parent
+				Long parentCommentId = ParamUtil.getLong(request, "parentCommentId");
+				
+				// Construction de l'URL du commentaire
+                String urlTemp = themeDisplay.getURLPortal();
+                String urlSuite = themeDisplay.getURLCurrent();
+                StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
+                    
+                // Recuperation de l'ID de l'AssetEntry commente
 				long entryID = ParamUtil.getLong(request, "entryID");
 
+				// Si le message possede un contenant contenu
 				if(message.length() > 0) {
 					comment.setComment(message);
 					comment.setAssetEntryId(entryID);
 					comment.setUrlProjectCommentaire(url.toString());
 					comment.setPublikId(userPublikId);
-					CommentLocalServiceUtil.addComment(comment);
+					
+					// Si le message est une reponse 
+					if (parentCommentId != null && parentCommentId != 0) {
+						comment.setParentCommentId(parentCommentId);
+						comment.setLevel(2);
+					} else {
+						comment.setLevel(1);
+					}
+					
+					CommentLocalServiceUtil.addComment(comment);					
 				}
 				// Redirection (évite double
 				// requête POST si l'utilisateur actualise sa page)

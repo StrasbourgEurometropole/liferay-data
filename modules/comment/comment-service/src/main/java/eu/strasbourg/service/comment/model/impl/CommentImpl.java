@@ -23,9 +23,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -44,6 +46,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 @ProviderType
 public class CommentImpl extends CommentBaseImpl {
 
+	private static final long serialVersionUID = 6922508470027188080L;
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -192,6 +195,16 @@ public class CommentImpl extends CommentBaseImpl {
 				this.getCommentId(), 
 				16, 
 				true).size();
+	}
+	
+	/**
+	 * Retourne la liste des commentaires enfants de l'item
+	 */
+	@Override
+	public List<Comment> getApprovedChildComments() {
+		return CommentLocalServiceUtil.getByParentCommentId(
+				this.getCommentId(),
+				WorkflowConstants.STATUS_APPROVED);
 	}
 	
 }

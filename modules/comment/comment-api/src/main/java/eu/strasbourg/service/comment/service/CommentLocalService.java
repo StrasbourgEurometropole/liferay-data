@@ -267,7 +267,7 @@ public interface CommentLocalService extends BaseLocalService,
 		int start, int end);
 
 	/**
-	* Renvoie la liste des vocabulaires rattachés à un projet
+	* Renvoie la liste des vocabulaires rattachés à un commentaire
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
@@ -279,10 +279,23 @@ public interface CommentLocalService extends BaseLocalService,
 	public List<Comment> getByAssetEntry(long assetEntryId, int status);
 
 	/**
+	* Retourne tous les commentaires d'un asset entry
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Comment> getByAssetEntryAndLevel(long assetEntryId, int level,
+		int status);
+
+	/**
 	* Retourne tous les commentaires d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Comment> getByGroupId(long groupId);
+
+	/**
+	* Retourne tous les commentaires d'un commentaire parent
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Comment> getByParentCommentId(long parentCommentId, int status);
 
 	/**
 	* Returns a range of all the comments.

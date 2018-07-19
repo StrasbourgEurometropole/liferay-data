@@ -323,6 +323,20 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setComment(String comment);
 
 	/**
+	 * Returns the level of this comment.
+	 *
+	 * @return the level of this comment
+	 */
+	public int getLevel();
+
+	/**
+	 * Sets the level of this comment.
+	 *
+	 * @param level the level of this comment
+	 */
+	public void setLevel(int level);
+
+	/**
 	 * Returns the asset entry ID of this comment.
 	 *
 	 * @return the asset entry ID of this comment
@@ -350,6 +364,20 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	 * @param publikId the publik ID of this comment
 	 */
 	public void setPublikId(String publikId);
+
+	/**
+	 * Returns the parent comment ID of this comment.
+	 *
+	 * @return the parent comment ID of this comment
+	 */
+	public long getParentCommentId();
+
+	/**
+	 * Sets the parent comment ID of this comment.
+	 *
+	 * @param parentCommentId the parent comment ID of this comment
+	 */
+	public void setParentCommentId(long parentCommentId);
 
 	/**
 	 * Returns <code>true</code> if this comment is approved.

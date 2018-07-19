@@ -51,12 +51,37 @@
                                     	${comment.nbDislikes}
                                     </a>
 									<div>
-										<a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
+										<a href="#Repondre" class="pro-reponse"
+											data-commentid="${comment.commentId}"
+											data-username="${comment.getPublikUserName()}"
+											title="Répondre au commentaire">
+											<liferay-ui:message key='comment-answer'/>
+										</a>
+										<a href="${hideComment}" title="Masquer le commentaire">
+											<liferay-ui:message key='comment-hide'/>
+										</a>
 									</div>
 								</div>
 								 
 							</c:if>
 						</div>
+						
+						<div class="pro-comment-response" style="padding-left: 50px">
+							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
+								<div>
+									<p style="margin-bottom: 7px">
+										<strong>${commentAnswer.getPublikUserName()}</strong>
+										<liferay-ui:message key="comment-answered" /> 
+										<time datetime="${commentAnswer.createDate}">
+										<fmt:formatDate type="date" 
+											value="${commentAnswer.createDate}"
+											pattern="dd MMM yyyy" />
+									</p>
+									<p>${commentAnswer.comment}</p>
+								</div>
+							</c:forEach>
+						</div>
+						
 					</div>
 				</div>
 
@@ -69,8 +94,7 @@
 						class="pro-user-connected">
 						
 						<div class="pro-textearea">
-							<label for="message"><liferay-ui:message
-									key="comment-your-comment" /></label>
+							<label for="message"><liferay-ui:message key="comment-your-comment" /></label>
 							<textarea id="message" name="<portlet:namespace />message"
 								<c:choose>
 								  <c:when test="${!isUserloggedIn}">
@@ -82,8 +106,10 @@
 								  <c:otherwise>
 								    placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
 								  </c:otherwise>
-								</c:choose>></textarea>
+								</c:choose>>
+							</textarea>
 						</div>
+						<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
 						<input type="submit" class="pro-btn-yellow" value="Envoyer" />
 					</form>
 				</div>
@@ -118,5 +144,14 @@
 	    }
 	});
 	
+	$("[href='#Repondre']").click(function(e){
+		var OPName=$(this).data('username');
+		var parentId=$(this).data('commentid');
 		
+		$("input[id='parentCommentId']").val(parentId);
+ 		$(".pro-reagir .pro-textearea>label").text('<liferay-ui:message key="comment-parent-answer" /> ' + OPName + ' :');
+		$(".pro-reagir .pro-user-connected>.pro-btn-yellow").val('<liferay-ui:message key="comment-answer"/>');
+		
+		$(document).scrollTop($("#pro-link-commentaire").offset().top); 
+	});
 </aui:script>

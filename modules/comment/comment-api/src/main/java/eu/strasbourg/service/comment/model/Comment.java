@@ -114,4 +114,9 @@ public interface Comment extends CommentModel, PersistedModel {
 	* @see eu.strasbourg.service.like.model.LikeType
 	*/
 	public int getNbDislikes();
+
+	/**
+	* Retourne la liste des commentaires enfants de l'item
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments();
 }

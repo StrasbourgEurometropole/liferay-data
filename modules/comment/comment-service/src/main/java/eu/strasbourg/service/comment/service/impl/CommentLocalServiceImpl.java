@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -43,6 +42,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 
 /**
  * The implementation of the comment local service.
@@ -79,6 +79,22 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 	@Override
 	public List<Comment> getByAssetEntry(long assetEntryId, int status) {
 		return this.commentPersistence.findByAssetEntryId(assetEntryId, status);
+	}
+	
+	/**
+	 * Retourne tous les commentaires d'un asset entry
+	 */
+	@Override
+	public List<Comment> getByAssetEntryAndLevel(long assetEntryId, int level, int status) {
+		return this.commentPersistence.findByAssetEntryIdAndLevel(assetEntryId, level, status);
+	}
+	
+	/**
+	 * Retourne tous les commentaires d'un commentaire parent
+	 */
+	@Override 
+	public List<Comment> getByParentCommentId(long parentCommentId, int status) {
+		return this.commentPersistence.findByParentCommentId(parentCommentId, status);
 	}
 	
 	/**
@@ -259,13 +275,20 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 		// Supprime le lien
 		Comment comment = this.commentPersistence.remove(commentId);
 
-
+		// Supprime les reponses
+		List<Comment> childComments = comment.getApprovedChildComments();
+		for (Comment childComment : childComments) {
+			this.removeComment(childComment.getCommentId());
+		}
+		
+		LikeLocalServiceUtil.deleteLikeByEntityIdAndType(comment.getCommentId(), 16);
+		
 		return comment;
 	}
 
 
     /**
-     * Renvoie la liste des vocabulaires rattachés à un projet
+     * Renvoie la liste des vocabulaires rattachés à un commentaire
      */
     @Override
     public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
@@ -301,10 +324,10 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
             dynamicQuery
                     .add(PropertyFactoryUtil.forName("groupId").eq(groupId));
         }
-
+        
         return commentPersistence.findWithDynamicQuery(dynamicQuery, start, end);
     }
-
+    
     /**
      * Recherche par mot clés (compte)
      */

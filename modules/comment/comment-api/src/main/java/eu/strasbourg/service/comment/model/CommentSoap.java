@@ -48,8 +48,10 @@ public class CommentSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setUrlProjectCommentaire(model.getUrlProjectCommentaire());
 		soapModel.setComment(model.getComment());
+		soapModel.setLevel(model.getLevel());
 		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
+		soapModel.setParentCommentId(model.getParentCommentId());
 
 		return soapModel;
 	}
@@ -214,6 +216,14 @@ public class CommentSoap implements Serializable {
 		_comment = comment;
 	}
 
+	public int getLevel() {
+		return _level;
+	}
+
+	public void setLevel(int level) {
+		_level = level;
+	}
+
 	public long getAssetEntryId() {
 		return _assetEntryId;
 	}
@@ -230,6 +240,14 @@ public class CommentSoap implements Serializable {
 		_publikId = publikId;
 	}
 
+	public long getParentCommentId() {
+		return _parentCommentId;
+	}
+
+	public void setParentCommentId(long parentCommentId) {
+		_parentCommentId = parentCommentId;
+	}
+
 	private String _uuid;
 	private long _commentId;
 	private long _groupId;
@@ -244,6 +262,8 @@ public class CommentSoap implements Serializable {
 	private Date _statusDate;
 	private String _urlProjectCommentaire;
 	private String _comment;
+	private int _level;
 	private long _assetEntryId;
 	private String _publikId;
+	private long _parentCommentId;
 }

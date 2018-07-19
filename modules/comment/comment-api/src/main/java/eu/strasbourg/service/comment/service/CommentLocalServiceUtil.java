@@ -303,7 +303,7 @@ public class CommentLocalServiceUtil {
 	}
 
 	/**
-	* Renvoie la liste des vocabulaires rattachés à un projet
+	* Renvoie la liste des vocabulaires rattachés à un commentaire
 	*/
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
@@ -319,11 +319,27 @@ public class CommentLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les commentaires d'un asset entry
+	*/
+	public static java.util.List<eu.strasbourg.service.comment.model.Comment> getByAssetEntryAndLevel(
+		long assetEntryId, int level, int status) {
+		return getService().getByAssetEntryAndLevel(assetEntryId, level, status);
+	}
+
+	/**
 	* Retourne tous les commentaires d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.comment.model.Comment> getByGroupId(
 		long groupId) {
 		return getService().getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne tous les commentaires d'un commentaire parent
+	*/
+	public static java.util.List<eu.strasbourg.service.comment.model.Comment> getByParentCommentId(
+		long parentCommentId, int status) {
+		return getService().getByParentCommentId(parentCommentId, status);
 	}
 
 	/**
