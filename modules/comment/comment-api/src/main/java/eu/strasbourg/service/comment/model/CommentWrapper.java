@@ -75,13 +75,8 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("level", getLevel());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
-<<<<<<< HEAD
 		attributes.put("parentCommentId", getParentCommentId());
-=======
 		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
-		attributes.put("like", getLike());
-		attributes.put("dislike", getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		return attributes;
 	}
@@ -184,21 +179,17 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 			setPublikId(publikId);
 		}
 
-<<<<<<< HEAD
 		Long parentCommentId = (Long)attributes.get("parentCommentId");
-=======
+
+		if (parentCommentId != null) {
+			setParentCommentId(parentCommentId);
+		}
+
 		String urlProjectCommentaire = (String)attributes.get(
 				"urlProjectCommentaire");
 
 		if (urlProjectCommentaire != null) {
 			setUrlProjectCommentaire(urlProjectCommentaire);
-		}
-
-		Long like = (Long)attributes.get("like");
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
-
-		if (parentCommentId != null) {
-			setParentCommentId(parentCommentId);
 		}
 	}
 
@@ -336,7 +327,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-<<<<<<< HEAD
+	* méthode qui renvoie le nombre de signalement pour un commentaire.
+	*
+	* @return le nombre de signalement en int.
+	*/
+	@Override
+	public int getCountSignalements() {
+		return _comment.getCountSignalements();
+	}
+
+	/**
 	* Returns the level of this comment.
 	*
 	* @return the level of this comment
@@ -374,15 +374,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public int getNbLikesDislikes() {
 		return _comment.getNbLikesDislikes();
-=======
-	* méthode qui renvoie le nombre de signalement pour un commentaire.
-	*
-	* @return le nombre de signalement en int.
-	*/
-	@Override
-	public int getCountSignalements() {
-		return _comment.getCountSignalements();
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 	}
 
 	/**
@@ -546,13 +537,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-<<<<<<< HEAD
-	* Retourne la liste des commentaires enfants de l'item
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments() {
-		return _comment.getApprovedChildComments();
-=======
 	* méthode qui renvoie la liste des signalements d'un commentaire.
 	*
 	* @return la liste des signalements
@@ -560,7 +544,14 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements() {
 		return _comment.findSignalements();
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
+	}
+
+	/**
+	* Retourne la liste des commentaires enfants de l'item
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments() {
+		return _comment.getApprovedChildComments();
 	}
 
 	/**

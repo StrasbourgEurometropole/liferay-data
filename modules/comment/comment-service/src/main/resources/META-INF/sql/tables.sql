@@ -11,16 +11,12 @@ create table comment_Comment (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	comment_ TEXT null,
+	comment_ VARCHAR(75) null,
 	level INTEGER,
 	assetEntryId LONG,
 	publikId VARCHAR(75) null,
-<<<<<<< HEAD
-	parentCommentId LONG
-=======
-	urlProjectCommentaire STRING null,
-	like_ LONG,
-	dislike LONG
+	parentCommentId LONG,
+	urlProjectCommentaire VARCHAR(75) null
 );
 
 create table comment_Signalement (
@@ -37,5 +33,4 @@ create table comment_Signalement (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	commentId LONG
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 );

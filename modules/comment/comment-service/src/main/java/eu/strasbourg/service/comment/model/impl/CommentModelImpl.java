@@ -87,17 +87,12 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
-			{ "comment_", Types.CLOB },
+			{ "comment_", Types.VARCHAR },
 			{ "level", Types.INTEGER },
 			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
-<<<<<<< HEAD
-			{ "parentCommentId", Types.BIGINT }
-=======
-			{ "urlProjectCommentaire", Types.VARCHAR },
-			{ "like_", Types.BIGINT },
-			{ "dislike", Types.BIGINT }
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
+			{ "parentCommentId", Types.BIGINT },
+			{ "urlProjectCommentaire", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -114,23 +109,15 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("level", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
-<<<<<<< HEAD
 		TABLE_COLUMNS_MAP.put("parentCommentId", Types.BIGINT);
-	}
-
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,urlProjectCommentaire STRING null,comment_ TEXT null,level INTEGER,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG)";
-=======
 		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("like_", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("dislike", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ TEXT null,assetEntryId LONG,publikId VARCHAR(75) null,urlProjectCommentaire STRING null,like_ LONG,dislike LONG)";
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ VARCHAR(75) null,level INTEGER,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
@@ -184,13 +171,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		model.setLevel(soapModel.getLevel());
 		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
-<<<<<<< HEAD
 		model.setParentCommentId(soapModel.getParentCommentId());
-=======
 		model.setUrlProjectCommentaire(soapModel.getUrlProjectCommentaire());
-		model.setLike(soapModel.getLike());
-		model.setDislike(soapModel.getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		return model;
 	}
@@ -271,13 +253,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		attributes.put("level", getLevel());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
-<<<<<<< HEAD
 		attributes.put("parentCommentId", getParentCommentId());
-=======
 		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
-		attributes.put("like", getLike());
-		attributes.put("dislike", getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -383,21 +360,17 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			setPublikId(publikId);
 		}
 
-<<<<<<< HEAD
 		Long parentCommentId = (Long)attributes.get("parentCommentId");
-=======
+
+		if (parentCommentId != null) {
+			setParentCommentId(parentCommentId);
+		}
+
 		String urlProjectCommentaire = (String)attributes.get(
 				"urlProjectCommentaire");
 
 		if (urlProjectCommentaire != null) {
 			setUrlProjectCommentaire(urlProjectCommentaire);
-		}
-
-		Long like = (Long)attributes.get("like");
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
-
-		if (parentCommentId != null) {
-			setParentCommentId(parentCommentId);
 		}
 	}
 
@@ -712,29 +685,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@JSON
 	@Override
-<<<<<<< HEAD
 	public long getParentCommentId() {
 		return _parentCommentId;
-=======
-	public String getUrlProjectCommentaire() {
-		if (_urlProjectCommentaire == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _urlProjectCommentaire;
-		}
-	}
-
-	@Override
-	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
-		_urlProjectCommentaire = urlProjectCommentaire;
-	}
-
-	@JSON
-	@Override
-	public long getLike() {
-		return _like;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 	}
 
 	@Override
@@ -752,6 +704,22 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	public long getOriginalParentCommentId() {
 		return _originalParentCommentId;
+	}
+
+	@JSON
+	@Override
+	public String getUrlProjectCommentaire() {
+		if (_urlProjectCommentaire == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _urlProjectCommentaire;
+		}
+	}
+
+	@Override
+	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
+		_urlProjectCommentaire = urlProjectCommentaire;
 	}
 
 	@Override
@@ -887,13 +855,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentImpl.setLevel(getLevel());
 		commentImpl.setAssetEntryId(getAssetEntryId());
 		commentImpl.setPublikId(getPublikId());
-<<<<<<< HEAD
 		commentImpl.setParentCommentId(getParentCommentId());
-=======
 		commentImpl.setUrlProjectCommentaire(getUrlProjectCommentaire());
-		commentImpl.setLike(getLike());
-		commentImpl.setDislike(getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		commentImpl.resetOriginalValues();
 
@@ -1072,9 +1035,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.publikId = null;
 		}
 
-<<<<<<< HEAD
 		commentCacheModel.parentCommentId = getParentCommentId();
-=======
+
 		commentCacheModel.urlProjectCommentaire = getUrlProjectCommentaire();
 
 		String urlProjectCommentaire = commentCacheModel.urlProjectCommentaire;
@@ -1083,11 +1045,6 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 				(urlProjectCommentaire.length() == 0)) {
 			commentCacheModel.urlProjectCommentaire = null;
 		}
-
-		commentCacheModel.like = getLike();
-
-		commentCacheModel.dislike = getDislike();
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		return commentCacheModel;
 	}
@@ -1128,17 +1085,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
-<<<<<<< HEAD
 		sb.append(", parentCommentId=");
 		sb.append(getParentCommentId());
-=======
 		sb.append(", urlProjectCommentaire=");
 		sb.append(getUrlProjectCommentaire());
-		sb.append(", like=");
-		sb.append(getLike());
-		sb.append(", dislike=");
-		sb.append(getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 		sb.append("}");
 
 		return sb.toString();
@@ -1217,21 +1167,12 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getPublikId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-<<<<<<< HEAD
 			"<column><column-name>parentCommentId</column-name><column-value><![CDATA[");
 		sb.append(getParentCommentId());
-=======
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>urlProjectCommentaire</column-name><column-value><![CDATA[");
 		sb.append(getUrlProjectCommentaire());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>like</column-name><column-value><![CDATA[");
-		sb.append(getLike());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>dislike</column-name><column-value><![CDATA[");
-		sb.append(getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1271,15 +1212,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private long _originalAssetEntryId;
 	private boolean _setOriginalAssetEntryId;
 	private String _publikId;
-<<<<<<< HEAD
 	private long _parentCommentId;
 	private long _originalParentCommentId;
 	private boolean _setOriginalParentCommentId;
-=======
 	private String _urlProjectCommentaire;
-	private long _like;
-	private long _dislike;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 	private long _columnBitmask;
 	private Comment _escapedModel;
 }

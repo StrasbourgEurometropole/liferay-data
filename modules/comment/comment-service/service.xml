@@ -33,13 +33,8 @@
 		<!-- Links with other entities -->
 		<column name="assetEntryId" type="long" />
 		<column name="publikId" type="String" />
-<<<<<<< HEAD
 		<column name="parentCommentId" type="long" />
-=======
 		<column name="urlProjectCommentaire" type="String"/>
-		<column name="like" type="long" />
-		<column name="dislike" type="long" />
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		<!-- Order -->
 		<order by="asc">

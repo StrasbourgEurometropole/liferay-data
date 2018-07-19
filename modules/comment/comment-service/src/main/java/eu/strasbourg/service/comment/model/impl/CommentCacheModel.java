@@ -99,17 +99,10 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(assetEntryId);
 		sb.append(", publikId=");
 		sb.append(publikId);
-<<<<<<< HEAD
 		sb.append(", parentCommentId=");
 		sb.append(parentCommentId);
-=======
 		sb.append(", urlProjectCommentaire=");
 		sb.append(urlProjectCommentaire);
-		sb.append(", like=");
-		sb.append(like);
-		sb.append(", dislike=");
-		sb.append(dislike);
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 		sb.append("}");
 
 		return sb.toString();
@@ -186,19 +179,14 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setPublikId(publikId);
 		}
 
-<<<<<<< HEAD
 		commentImpl.setParentCommentId(parentCommentId);
-=======
+
 		if (urlProjectCommentaire == null) {
 			commentImpl.setUrlProjectCommentaire(StringPool.BLANK);
 		}
 		else {
 			commentImpl.setUrlProjectCommentaire(urlProjectCommentaire);
 		}
-
-		commentImpl.setLike(like);
-		commentImpl.setDislike(dislike);
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		commentImpl.resetOriginalValues();
 
@@ -231,9 +219,9 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 		assetEntryId = objectInput.readLong();
 		publikId = objectInput.readUTF();
-		urlProjectCommentaire = objectInput.readUTF();
 
 		parentCommentId = objectInput.readLong();
+		urlProjectCommentaire = objectInput.readUTF();
 	}
 
 	@Override
@@ -295,20 +283,14 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			objectOutput.writeUTF(publikId);
 		}
 
-<<<<<<< HEAD
 		objectOutput.writeLong(parentCommentId);
-=======
+
 		if (urlProjectCommentaire == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(urlProjectCommentaire);
 		}
-
-		objectOutput.writeLong(like);
-
-		objectOutput.writeLong(dislike);
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 	}
 
 	public String uuid;
@@ -327,11 +309,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public int level;
 	public long assetEntryId;
 	public String publikId;
-<<<<<<< HEAD
 	public long parentCommentId;
-=======
 	public String urlProjectCommentaire;
-	public long like;
-	public long dislike;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 }

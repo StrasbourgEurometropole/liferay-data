@@ -4180,13 +4180,8 @@ public class CommentPersistenceImpl extends BasePersistenceImpl<Comment>
 		commentImpl.setLevel(comment.getLevel());
 		commentImpl.setAssetEntryId(comment.getAssetEntryId());
 		commentImpl.setPublikId(comment.getPublikId());
-<<<<<<< HEAD
 		commentImpl.setParentCommentId(comment.getParentCommentId());
-=======
 		commentImpl.setUrlProjectCommentaire(comment.getUrlProjectCommentaire());
-		commentImpl.setLike(comment.getLike());
-		commentImpl.setDislike(comment.getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		return commentImpl;
 	}

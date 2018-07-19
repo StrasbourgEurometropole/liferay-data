@@ -28,15 +28,15 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
-<<<<<<< HEAD
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
-=======
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.persistence.SignalementUtil;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
+import eu.strasbourg.service.comment.service.persistence.SignalementUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -132,7 +132,7 @@ public class CommentImpl extends CommentBaseImpl {
 				+ " " 
 				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
 	}
-<<<<<<< HEAD
+
 	
 	/**
 	 * Retourne la liste des like/dislike de l'entité
@@ -214,7 +214,6 @@ public class CommentImpl extends CommentBaseImpl {
 				WorkflowConstants.STATUS_APPROVED);
 	}
 	
-=======
 
 	/**
 	 * méthode qui renvoie la liste des signalements d'un commentaire.
@@ -231,5 +230,4 @@ public class CommentImpl extends CommentBaseImpl {
 	public int getCountSignalements(){
 		return findSignalements().size();
 	}
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 }

@@ -74,7 +74,6 @@ public interface Comment extends CommentModel, PersistedModel {
 	public java.lang.String getPublikUserName();
 
 	/**
-<<<<<<< HEAD
 	* Retourne la liste des like/dislike de l'entité
 	*
 	* @see eu.strasbourg.service.like.model.LikeType
@@ -120,7 +119,8 @@ public interface Comment extends CommentModel, PersistedModel {
 	* Retourne la liste des commentaires enfants de l'item
 	*/
 	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments();
-=======
+
+	/**
 	* méthode qui renvoie la liste des signalements d'un commentaire.
 	*
 	* @return la liste des signalements
@@ -133,5 +133,4 @@ public interface Comment extends CommentModel, PersistedModel {
 	* @return le nombre de signalement en int.
 	*/
 	public int getCountSignalements();
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 }

@@ -19,17 +19,12 @@
 		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
-		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="level" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="assetEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-<<<<<<< HEAD
 		<property name="parentCommentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-=======
 		<property name="urlProjectCommentaire" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="like_" name="like" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="dislike" type="com.liferay.portal.dao.orm.hibernate.LongType" />
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 	</class>
 	<class name="eu.strasbourg.service.comment.model.impl.SignalementImpl" table="comment_Signalement">
 		<id name="signalementId" type="long">

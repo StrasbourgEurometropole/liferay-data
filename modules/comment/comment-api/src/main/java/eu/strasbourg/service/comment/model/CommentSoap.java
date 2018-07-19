@@ -50,13 +50,8 @@ public class CommentSoap implements Serializable {
 		soapModel.setLevel(model.getLevel());
 		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
-<<<<<<< HEAD
 		soapModel.setParentCommentId(model.getParentCommentId());
-=======
 		soapModel.setUrlProjectCommentaire(model.getUrlProjectCommentaire());
-		soapModel.setLike(model.getLike());
-		soapModel.setDislike(model.getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		return soapModel;
 	}
@@ -237,33 +232,20 @@ public class CommentSoap implements Serializable {
 		_publikId = publikId;
 	}
 
-<<<<<<< HEAD
 	public long getParentCommentId() {
 		return _parentCommentId;
-=======
+	}
+
+	public void setParentCommentId(long parentCommentId) {
+		_parentCommentId = parentCommentId;
+	}
+
 	public String getUrlProjectCommentaire() {
 		return _urlProjectCommentaire;
 	}
 
 	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
 		_urlProjectCommentaire = urlProjectCommentaire;
-	}
-
-	public long getLike() {
-		return _like;
-	}
-
-	public void setLike(long like) {
-		_like = like;
-	}
-
-	public long getDislike() {
-		return _dislike;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
-	}
-
-	public void setParentCommentId(long parentCommentId) {
-		_parentCommentId = parentCommentId;
 	}
 
 	private String _uuid;
@@ -282,11 +264,6 @@ public class CommentSoap implements Serializable {
 	private int _level;
 	private long _assetEntryId;
 	private String _publikId;
-<<<<<<< HEAD
 	private long _parentCommentId;
-=======
 	private String _urlProjectCommentaire;
-	private long _like;
-	private long _dislike;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 }

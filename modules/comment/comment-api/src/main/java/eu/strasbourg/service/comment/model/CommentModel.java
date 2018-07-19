@@ -351,9 +351,20 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setPublikId(String publikId);
 
 	/**
-<<<<<<< HEAD
 	 * Returns the parent comment ID of this comment.
-=======
+	 *
+	 * @return the parent comment ID of this comment
+	 */
+	public long getParentCommentId();
+
+	/**
+	 * Sets the parent comment ID of this comment.
+	 *
+	 * @param parentCommentId the parent comment ID of this comment
+	 */
+	public void setParentCommentId(long parentCommentId);
+
+	/**
 	 * Returns the url project commentaire of this comment.
 	 *
 	 * @return the url project commentaire of this comment
@@ -367,35 +378,6 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	 * @param urlProjectCommentaire the url project commentaire of this comment
 	 */
 	public void setUrlProjectCommentaire(String urlProjectCommentaire);
-
-	/**
-	 * Returns the like of this comment.
-	 *
-	 * @return the like of this comment
-	 */
-	public long getLike();
-
-	/**
-	 * Sets the like of this comment.
-	 *
-	 * @param like the like of this comment
-	 */
-	public void setLike(long like);
-
-	/**
-	 * Returns the dislike of this comment.
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
-	 *
-	 * @return the parent comment ID of this comment
-	 */
-	public long getParentCommentId();
-
-	/**
-	 * Sets the parent comment ID of this comment.
-	 *
-	 * @param parentCommentId the parent comment ID of this comment
-	 */
-	public void setParentCommentId(long parentCommentId);
 
 	/**
 	 * Returns <code>true</code> if this comment is approved.
