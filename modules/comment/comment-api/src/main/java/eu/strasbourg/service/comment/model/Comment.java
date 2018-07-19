@@ -73,5 +73,17 @@ public interface Comment extends CommentModel, PersistedModel {
 
 	public java.lang.String getPublikUserName();
 
+	/**
+	* méthode qui renvoie la liste des signalements d'un commentaire.
+	*
+	* @return la liste des signalements
+	*/
 	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements();
+
+	/**
+	* méthode qui renvoie le nombre de signalement pour un commentaire.
+	*
+	* @return le nombre de signalement en int.
+	*/
+	public int getCountSignalements();
 }

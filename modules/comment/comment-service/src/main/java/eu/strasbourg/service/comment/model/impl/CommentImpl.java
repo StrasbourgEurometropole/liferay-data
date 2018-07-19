@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.persistence.SignalementUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -124,7 +125,20 @@ public class CommentImpl extends CommentBaseImpl {
 				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
 	}
 
+	/**
+	 * méthode qui renvoie la liste des signalements d'un commentaire.
+	 * @return la liste des signalements
+	 */
 	public List<Signalement> findSignalements(){
-		return SignalementUtil.findByCommentId(getCommentId());
+		List<Signalement> result = SignalementLocalServiceUtil.findByCommentId(getCommentId());
+		return result;
+	}
+
+	/**
+	 * méthode qui renvoie le nombre de signalement pour un commentaire.
+	 * @return le nombre de signalement en int.
+	 */
+	public int getCountSignalements(){
+		return findSignalements().size();
 	}
 }

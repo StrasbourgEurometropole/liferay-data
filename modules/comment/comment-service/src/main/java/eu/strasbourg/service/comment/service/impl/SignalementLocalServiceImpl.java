@@ -111,6 +111,9 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
         return signalementPersistence.remove(signalementId);
     }
 
+	public List<Signalement> findByCommentId(long commentId){
+		return signalementPersistence.findByCommentId(commentId);
+	}
 
     /**
      * Reindex le projet dans le moteur de recherche

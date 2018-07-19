@@ -276,6 +276,11 @@ public class SignalementLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<eu.strasbourg.service.comment.model.Signalement> findByCommentId(
+		long commentId) {
+		return getService().findByCommentId(commentId);
+	}
+
 	public static java.util.List<eu.strasbourg.service.comment.model.Signalement> getByGroupId(
 		long groupId) {
 		return getService().getByGroupId(groupId);

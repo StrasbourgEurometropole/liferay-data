@@ -327,6 +327,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* méthode qui renvoie le nombre de signalement pour un commentaire.
+	*
+	* @return le nombre de signalement en int.
+	*/
+	@Override
+	public int getCountSignalements() {
+		return _comment.getCountSignalements();
+	}
+
+	/**
 	* Returns the status of this comment.
 	*
 	* @return the status of this comment
@@ -486,6 +496,11 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		return _comment.getStatusDate();
 	}
 
+	/**
+	* méthode qui renvoie la liste des signalements d'un commentaire.
+	*
+	* @return la liste des signalements
+	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements() {
 		return _comment.findSignalements();

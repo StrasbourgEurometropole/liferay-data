@@ -294,6 +294,12 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 	}
 
 	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findByCommentId(
+		long commentId) {
+		return _signalementLocalService.findByCommentId(commentId);
+	}
+
+	@Override
 	public java.util.List<eu.strasbourg.service.comment.model.Signalement> getByGroupId(
 		long groupId) {
 		return _signalementLocalService.getByGroupId(groupId);

@@ -249,6 +249,8 @@ public interface SignalementLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	public List<Signalement> findByCommentId(long commentId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Signalement> getByGroupId(long groupId);
 

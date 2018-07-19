@@ -100,6 +100,11 @@
 						showLabel="false" status="${comment.status}" />
 				</liferay-ui:search-container-column-text>
 
+				<%-- Colonne : le nombre de signalement--%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+                    name="reportings" truncate="true" orderable="true"
+                    value="${comment.getCountSignalements()}" />
+
 				<%-- Colonne : Type de l'entité--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     name="entityType" truncate="true" orderable="true"
