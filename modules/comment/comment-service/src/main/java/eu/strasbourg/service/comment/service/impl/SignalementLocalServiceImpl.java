@@ -85,7 +85,7 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
 		signalement.setGroupId(sc.getScopeGroupId());
 		signalement.setUserName(user.getFullName());
 		signalement.setUserId(user.getUserId());
-		signalement.setStatus(WorkflowConstants.STATUS_PENDING);
+		signalement.setStatus(WorkflowConstants.STATUS_APPROVED);
 		signalement.setCommentId(commentId);
 		return signalement;
 	}
