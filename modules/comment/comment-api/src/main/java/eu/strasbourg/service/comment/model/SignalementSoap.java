@@ -23,19 +23,19 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.comment.service.http.CommentServiceSoap}.
+ * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.comment.service.http.SignalementServiceSoap}.
  *
  * @author Romain Vergnais
- * @see eu.strasbourg.service.comment.service.http.CommentServiceSoap
+ * @see eu.strasbourg.service.comment.service.http.SignalementServiceSoap
  * @generated
  */
 @ProviderType
-public class CommentSoap implements Serializable {
-	public static CommentSoap toSoapModel(Comment model) {
-		CommentSoap soapModel = new CommentSoap();
+public class SignalementSoap implements Serializable {
+	public static SignalementSoap toSoapModel(Signalement model) {
+		SignalementSoap soapModel = new SignalementSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setCommentId(model.getCommentId());
+		soapModel.setSignalementId(model.getSignalementId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -46,23 +46,13 @@ public class CommentSoap implements Serializable {
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
-		soapModel.setComment(model.getComment());
-		soapModel.setLevel(model.getLevel());
-		soapModel.setAssetEntryId(model.getAssetEntryId());
-		soapModel.setPublikId(model.getPublikId());
-<<<<<<< HEAD
-		soapModel.setParentCommentId(model.getParentCommentId());
-=======
-		soapModel.setUrlProjectCommentaire(model.getUrlProjectCommentaire());
-		soapModel.setLike(model.getLike());
-		soapModel.setDislike(model.getDislike());
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
+		soapModel.setCommentId(model.getCommentId());
 
 		return soapModel;
 	}
 
-	public static CommentSoap[] toSoapModels(Comment[] models) {
-		CommentSoap[] soapModels = new CommentSoap[models.length];
+	public static SignalementSoap[] toSoapModels(Signalement[] models) {
+		SignalementSoap[] soapModels = new SignalementSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -71,14 +61,14 @@ public class CommentSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CommentSoap[][] toSoapModels(Comment[][] models) {
-		CommentSoap[][] soapModels = null;
+	public static SignalementSoap[][] toSoapModels(Signalement[][] models) {
+		SignalementSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new CommentSoap[models.length][models[0].length];
+			soapModels = new SignalementSoap[models.length][models[0].length];
 		}
 		else {
-			soapModels = new CommentSoap[0][0];
+			soapModels = new SignalementSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -88,25 +78,25 @@ public class CommentSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CommentSoap[] toSoapModels(List<Comment> models) {
-		List<CommentSoap> soapModels = new ArrayList<CommentSoap>(models.size());
+	public static SignalementSoap[] toSoapModels(List<Signalement> models) {
+		List<SignalementSoap> soapModels = new ArrayList<SignalementSoap>(models.size());
 
-		for (Comment model : models) {
+		for (Signalement model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new CommentSoap[soapModels.size()]);
+		return soapModels.toArray(new SignalementSoap[soapModels.size()]);
 	}
 
-	public CommentSoap() {
+	public SignalementSoap() {
 	}
 
 	public long getPrimaryKey() {
-		return _commentId;
+		return _signalementId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setCommentId(pk);
+		setSignalementId(pk);
 	}
 
 	public String getUuid() {
@@ -117,12 +107,12 @@ public class CommentSoap implements Serializable {
 		_uuid = uuid;
 	}
 
-	public long getCommentId() {
-		return _commentId;
+	public long getSignalementId() {
+		return _signalementId;
 	}
 
-	public void setCommentId(long commentId) {
-		_commentId = commentId;
+	public void setSignalementId(long signalementId) {
+		_signalementId = signalementId;
 	}
 
 	public long getGroupId() {
@@ -205,69 +195,16 @@ public class CommentSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
-	public String getComment() {
-		return _comment;
+	public long getCommentId() {
+		return _commentId;
 	}
 
-	public void setComment(String comment) {
-		_comment = comment;
-	}
-
-	public int getLevel() {
-		return _level;
-	}
-
-	public void setLevel(int level) {
-		_level = level;
-	}
-
-	public long getAssetEntryId() {
-		return _assetEntryId;
-	}
-
-	public void setAssetEntryId(long assetEntryId) {
-		_assetEntryId = assetEntryId;
-	}
-
-	public String getPublikId() {
-		return _publikId;
-	}
-
-	public void setPublikId(String publikId) {
-		_publikId = publikId;
-	}
-
-<<<<<<< HEAD
-	public long getParentCommentId() {
-		return _parentCommentId;
-=======
-	public String getUrlProjectCommentaire() {
-		return _urlProjectCommentaire;
-	}
-
-	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
-		_urlProjectCommentaire = urlProjectCommentaire;
-	}
-
-	public long getLike() {
-		return _like;
-	}
-
-	public void setLike(long like) {
-		_like = like;
-	}
-
-	public long getDislike() {
-		return _dislike;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
-	}
-
-	public void setParentCommentId(long parentCommentId) {
-		_parentCommentId = parentCommentId;
+	public void setCommentId(long commentId) {
+		_commentId = commentId;
 	}
 
 	private String _uuid;
-	private long _commentId;
+	private long _signalementId;
 	private long _groupId;
 	private long _companyId;
 	private long _userId;
@@ -278,15 +215,5 @@ public class CommentSoap implements Serializable {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private String _comment;
-	private int _level;
-	private long _assetEntryId;
-	private String _publikId;
-<<<<<<< HEAD
-	private long _parentCommentId;
-=======
-	private String _urlProjectCommentaire;
-	private long _like;
-	private long _dislike;
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
+	private long _commentId;
 }

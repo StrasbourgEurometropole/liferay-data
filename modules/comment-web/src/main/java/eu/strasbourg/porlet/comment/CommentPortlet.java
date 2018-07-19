@@ -15,6 +15,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -138,6 +140,7 @@ public class CommentPortlet extends MVCPortlet {
 
 				// Recuperation du message du commentaire
 				String message = ParamUtil.getString(request, "message");
+<<<<<<< HEAD
 				
 				// Recuperation du potentiel id du commentaire parent
 				Long parentCommentId = ParamUtil.getLong(request, "parentCommentId");
@@ -148,6 +151,11 @@ public class CommentPortlet extends MVCPortlet {
                 StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
                     
                 // Recuperation de l'ID de l'AssetEntry commente
+=======
+                String urlTemp = themeDisplay.getURLPortal();
+                String urlSuite = themeDisplay.getURLCurrent();
+                StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
+>>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 				long entryID = ParamUtil.getLong(request, "entryID");
 
 				// Si le message possede un contenant contenu
@@ -200,6 +208,52 @@ public class CommentPortlet extends MVCPortlet {
 
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
+<<<<<<< HEAD
+=======
+	
+	@Override
+	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			throws IOException, PortletException {
+		try {
+			String resourceID = resourceRequest.getResourceID();
+			String publikUserID = getPublikID(resourceRequest);
+			Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(resourceRequest, "commentId"));
+
+			if (resourceID.equals("like")) {
+
+				if (Validator.isNotNull(publikUserID)) {
+
+					//Dislike ou Like ?
+					String action = ParamUtil.getString(resourceRequest, "action");
+
+					switch(action)
+					{
+						case "like" :
+							comment.setLike(comment.getLike() + 1);
+							break;
+						case "dislike" : 
+							comment.setDislike(comment.getDislike() + 1);
+							break;
+					}
+					
+					CommentLocalServiceUtil.updateComment(comment);
+				}
+			}
+			else if (resourceID.equals("signaler")){
+				if (Validator.isNotNull(publikUserID)) {
+					ServiceContext sc = ServiceContextFactory.getInstance(resourceRequest);
+					Signalement signalement = SignalementLocalServiceUtil
+							.createSignalement(sc, comment.getCommentId());
+					SignalementLocalServiceUtil.addSignalement(signalement);
+				}
+			}
+		} catch (Exception e) {
+			_log.error(e);
+		}
+
+		super.serveResource(resourceRequest, resourceResponse);
+	}
+>>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

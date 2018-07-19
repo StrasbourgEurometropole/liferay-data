@@ -21,15 +21,35 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="urlProjectCommentaire" type="String">
-			<hint-collection name="URL" />
-		</field>
 		<field name="comment" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="level" type="int" />
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
+<<<<<<< HEAD
 		<field name="parentCommentId" type="long" />
+=======
+		<field name="urlProjectCommentaire" type="String">
+			<hint-collection name="URL" />
+		</field>
+		<field name="like" type="long" />
+		<field name="dislike" type="long" />
+>>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
+	</model>
+	<model name="eu.strasbourg.service.comment.model.Signalement">
+		<field name="uuid" type="String" />
+		<field name="signalementId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="commentId" type="long" />
 	</model>
 </model-hints>

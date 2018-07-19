@@ -4176,12 +4176,17 @@ public class CommentPersistenceImpl extends BasePersistenceImpl<Comment>
 		commentImpl.setStatusByUserId(comment.getStatusByUserId());
 		commentImpl.setStatusByUserName(comment.getStatusByUserName());
 		commentImpl.setStatusDate(comment.getStatusDate());
-		commentImpl.setUrlProjectCommentaire(comment.getUrlProjectCommentaire());
 		commentImpl.setComment(comment.getComment());
 		commentImpl.setLevel(comment.getLevel());
 		commentImpl.setAssetEntryId(comment.getAssetEntryId());
 		commentImpl.setPublikId(comment.getPublikId());
+<<<<<<< HEAD
 		commentImpl.setParentCommentId(comment.getParentCommentId());
+=======
+		commentImpl.setUrlProjectCommentaire(comment.getUrlProjectCommentaire());
+		commentImpl.setLike(comment.getLike());
+		commentImpl.setDislike(comment.getDislike());
+>>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 
 		return commentImpl;
 	}

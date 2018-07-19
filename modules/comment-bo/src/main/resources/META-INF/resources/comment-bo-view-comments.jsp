@@ -33,7 +33,7 @@
 
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"userName", "modified-date"} %>'
+				orderColumns='<%= new String[] {"userName", "modified-date","status","entityType","entityName"} %>'
 				portletURL="${commentsURL}" />
 		</liferay-frontend:management-bar-filters>
 
@@ -84,7 +84,7 @@
 					value="${comment.userName}" />
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
-														 href="${editCommentURL}" name="Commentaire" truncate="true" orderable="true"
+														 href="${editCommentURL}" name="comment" truncate="true" orderable="true"
 														 value="${comment.comment}" />
 				
 				<%-- Colonne : Date de modification--%>
@@ -95,29 +95,29 @@
 					value="${formattedModifiedDate}" />
 
 				<%-- Colonne : Statut--%>
-				<liferay-ui:search-container-column-text name="status">
+				<liferay-ui:search-container-column-text name="status" orderable="true">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${comment.status}" />
 				</liferay-ui:search-container-column-text>
 
+				<%-- Colonne : le nombre de signalement--%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+                    name="reportings" truncate="true" orderable="true" align="center"
+                    value="${comment.getCountSignalements()}" />
+
 				<%-- Colonne : Type de l'entité--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="Type de l'entite" truncate="true" orderable="true"
+                    name="entityType" truncate="true" orderable="true"
                     value="${comment.getTypeAssetEntry()}" />
 
 				<%-- Colonne : nom de l'entité--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="Nom de l'entite" truncate="true" orderable="true"
+                    name="entityName" truncate="true" orderable="true"
                     value="${comment.getAssetEntryTitle()}" />
 
-				<%-- Colonne : lien vers la page
-				<liferay-ui:search-container-column-text cssClass="content-column"
-                    href="${comment.urlProjectCommentaire}" name="lien" truncate="true" orderable="true"
-                    value="${comment.urlProjectCommentaire}" />
---%>
 				<%-- Colonne : lien vers la page--%>
-				<liferay-ui:search-container-column-text cssClass="content-column" name="localisation du commentaire" >
-				    <aui:button href="${comment.urlProjectCommentaire}" value="lien vers le commentaire"/>
+				<liferay-ui:search-container-column-text cssClass="content-column" name="linkTitle" >
+				    <aui:button href="${comment.urlProjectCommentaire}" value="link"/>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 
