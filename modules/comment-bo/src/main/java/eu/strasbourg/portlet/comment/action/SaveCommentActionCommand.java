@@ -71,6 +71,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             if (userName!=null&&!userName.isEmpty()){
                 comment.setUserName(userName);
             }
+            boolean deleteAllSignalements = ParamUtil.getBoolean(actionRequest,"signalementCheckBox");
             boolean approved = ParamUtil.getBoolean(actionRequest,"status");
             comment.setStatus(approved ? 0 : 1);
             String commentaire = ParamUtil.getString(actionRequest,"comment");

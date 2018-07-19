@@ -68,9 +68,6 @@
                 <%-- Champ : status --%>
                 <aui:input name="status" label="approvedStatus" type="toggle-switch" value="${dc.comment.status==0?true:false}"/>
 
-                <%-- Champ : liste des signalements --%>
-                <aui:input name="signalementList"/>
-
                 <aui:input name="signalementCheckBox" type="checkbox" label="signalementCheckBoxTitle"/>
 
                 <%-- Champ : lien vers la page du commentaire --%>
@@ -78,11 +75,15 @@
                 value="lien vers la page du commentaire"/>
 
             </aui:fieldset>
-            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="Contenu">
 
+             <%-- Champ : liste des signalements --%>
+            <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="signalementList">
+                <aui:input name="dc.comment.findSignalements()"/>
+            </aui:fieldset>
+
+            <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="Contenu">
                 <%-- Champ : Commentaire --%>
                 <aui:input name="comment"/>
-
             </aui:fieldset>
         </aui:fieldset-group>
 

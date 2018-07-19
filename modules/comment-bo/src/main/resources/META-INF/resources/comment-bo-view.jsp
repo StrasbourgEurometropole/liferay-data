@@ -8,7 +8,7 @@
 </liferay-portlet:renderURL>
 
 <liferay-portlet:renderURL var="signalementsURL">
-	<portlet:param name="tab" value="signalements" />
+	<portlet:param name="tab" value="reportings" />
 </liferay-portlet:renderURL>
 
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
@@ -27,8 +27,8 @@
 	<aui:nav cssClass="navbar-nav">
 		<aui:nav-item href="${commentsURL}" label="comments"
 			selected="${tab eq 'comments'}" />
-        <aui:nav-item href="${signalementsURL}" label="signalements"
-            selected="${tab eq 'signalements'}" />
+        <aui:nav-item href="${signalementsURL}" label="reportings"
+            selected="${tab eq 'reportings'}" />
 	</aui:nav>
 
 	<aui:nav-bar-search>
@@ -44,7 +44,7 @@
         <liferay-util:include page="/comment-bo-view-comments.jsp" servletContext="<%=application %>">
         </liferay-util:include>
     </c:when>
-    <c:when test="${tab eq 'signalements'}">
+    <c:when test="${tab eq 'reportings'}">
         <liferay-util:include page="/comment-bo-view-signalements.jsp" servletContext="<%=application %>">
         </liferay-util:include>
     </c:when>

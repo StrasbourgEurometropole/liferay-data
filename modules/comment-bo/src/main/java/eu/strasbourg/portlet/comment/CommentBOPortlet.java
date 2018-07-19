@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.comment.display.context.EditCommentDisplayContext;
 import eu.strasbourg.portlet.comment.display.context.ViewCommentDisplayContext;
+import eu.strasbourg.portlet.comment.display.context.ViewSignalementDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -43,7 +44,7 @@ public class CommentBOPortlet extends MVCPortlet{
 
         String cmd = ParamUtil.getString(renderRequest, "cmd");
         String tab = ParamUtil.getString(renderRequest,"tab");
-        String mvcPath = ParamUtil.getString(renderRequest,"mvcPath");
+
         renderResponse.setTitle("Commentaires");
 
         //si on est sur la page d'ajout, on affiche bien évidemment un lien de retour
@@ -58,7 +59,11 @@ public class CommentBOPortlet extends MVCPortlet{
         if (cmd.equals("editComment")){
             EditCommentDisplayContext dc = new EditCommentDisplayContext(renderRequest,renderResponse);
             renderRequest.setAttribute("dc",dc);
-        }else {
+        } else if (tab.equals("reportings")){
+            ViewSignalementDisplayContext dc = new ViewSignalementDisplayContext(renderRequest, renderResponse);
+            renderRequest.setAttribute("dc", dc);
+        }
+        else {
             ViewCommentDisplayContext dc = new ViewCommentDisplayContext(renderRequest,renderResponse);
             renderRequest.setAttribute("dc",dc);
         }

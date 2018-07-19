@@ -1,8 +1,8 @@
-<%@ include file="/signalement-bo-init.jsp"%>
+<%@ include file="/comment-bo-init.jsp"%>
 
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="signalementsURL">
-	<portlet:param name="tab" value="signalements" />
+	<portlet:param name="tab" value="reportings" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
@@ -30,10 +30,11 @@
 				portletURL="${signalementsURL}" />
 		</liferay-frontend:management-bar-filters>
 
-		<%-- Composant : partie gestion (affichee apres une selection) --%>
+
+		<%-- Composant : partie gestion (affichee apres une selection)
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<c:if test="${dc.hasPermission('EDIT_SIGNALEMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
@@ -42,13 +43,13 @@
 						icon="times" label="unpublish" />
 				</c:if>
 			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${dc.hasPermission('DELETE_SIGNALEMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 			<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
 			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
-
+--%>
 </liferay-frontend:management-bar>
 
 <%-- Composant : tableau de visualisation des entites --%>
@@ -60,15 +61,12 @@
 			<liferay-ui:search-container-results results="${dc.signalements}" />
 
 			<liferay-ui:search-container-row
-				className="eu.strasbourg.service.signalement.model.Signalement" modelVar="signalement"
+				className="eu.strasbourg.service.comment.model.Signalement" modelVar="signalement"
 				keyProperty="signalementId" rowIdProperty="signalementId">
 
 				<%-- Colonne : userName --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="userName" truncate="true" orderable="true" value="${signalement.userName}" />
-
-				<liferay-ui:search-container-column-text cssClass="content-column"
-                     name="Commentaire" truncate="true" value="${signalement.getCommentaire()}" />
 
 				<%-- Colonne : Date de modification--%>
 				<fmt:formatDate value="${signalement.createDate}"
@@ -83,15 +81,12 @@
 						showLabel="false" status="${signalement.status}" />
 				</liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Type de signalement--%>
+				<%-- Colonne : Type de signalement
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     name="Type de signalement" truncate="true" orderable="true"
                     value="${signalement.type}" />
-
-				<%-- Colonne : nom de l'entité--%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="Nom de l'entite" truncate="true" orderable="true"
-                    value="${signalement.getAssetEntryTitle()}" />
+                    --%>
+			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>
 			<liferay-ui:search-iterator paginate="true" displayStyle="list"

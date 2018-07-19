@@ -11,6 +11,9 @@
                 <action-key>ADD_COMMENT</action-key>
                 <action-key>DELETE_COMMENT</action-key>
                 <action-key>EDIT_COMMENT</action-key>
+                <action-key>ADD_SIGNALEMENT</action-key>
+                <action-key>DELETE_SIGNALEMENT</action-key>
+                <action-key>EDIT_SIGNALEMENT</action-key>
             </supports>
             <site-member-defaults>
             </site-member-defaults>
@@ -23,6 +26,9 @@
                 <action-key>ADD_COMMENT</action-key>
                 <action-key>DELETE_COMMENT</action-key>
                 <action-key>EDIT_COMMENT</action-key>
+                <action-key>ADD_SIGNALEMENT</action-key>
+                <action-key>DELETE_SIGNALEMENT</action-key>
+                <action-key>EDIT_SIGNALEMENT</action-key>
             </guest-unsupported>
         </permissions>
     </portlet-resource>
@@ -40,12 +46,18 @@
                 <action-key>ADD_COMMENT</action-key>
                 <action-key>DELETE_COMMENT</action-key>
                 <action-key>EDIT_COMMENT</action-key>
+                <action-key>ADD_SIGNALEMENT</action-key>
+                <action-key>DELETE_SIGNALEMENT</action-key>
+                <action-key>EDIT_SIGNALEMENT</action-key>
             </site-member-defaults>
             <guest-defaults>
                 <action-key>VIEW</action-key>
                 <action-key>ADD_COMMENT</action-key>
                 <action-key>DELETE_COMMENT</action-key>
                 <action-key>EDIT_COMMENT</action-key>
+                <action-key>ADD_SIGNALEMENT</action-key>
+                <action-key>DELETE_SIGNALEMENT</action-key>
+                <action-key>EDIT_SIGNALEMENT</action-key>
             </guest-defaults>
             <guest-unsupported/>
         </permissions>
