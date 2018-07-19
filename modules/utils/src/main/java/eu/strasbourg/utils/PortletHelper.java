@@ -81,7 +81,7 @@ public class PortletHelper {
 				} else if (hiddenPortlets.contains(portletId)) {
 					return false;
 				} else {
-					return Validator.isNull(adminStatus) || adminStatus.equals("on");
+					return Validator.isNull(adminStatus) || adminStatus.startsWith("on");
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
