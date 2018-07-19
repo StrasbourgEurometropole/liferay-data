@@ -101,34 +101,10 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
 			if (Validator.isNotNull(periodsIndexes)) {
 				for (String periodIndex : periodsIndexes.split(",")) {
-					if (Validator.isNotNull(periodIndex)
-							&& Validator.isNotNull(ParamUtil.getString(request, "namePeriod" + periodIndex))) {
+					if (Validator.isNotNull(periodIndex)) {
+						
 						long periodId = ParamUtil.getLong(request, "periodId" + periodIndex);
-						Map<Locale, String> namePeriod = LocalizationUtil.getLocalizationMap(request,
-								"namePeriod" + periodIndex);
-						Map<Locale, String> periodLabel = LocalizationUtil.getLocalizationMap(request,
-								"periodLabel" + periodIndex);
-						Map<Locale, String> periodURL = LocalizationUtil.getLocalizationMap(request,
-								"periodURL" + periodIndex);
-						boolean defaultPeriod = ParamUtil.getBoolean(request, "defaultPeriod" + periodIndex);
-						Date startDatePeriod = ParamUtil.getDate(request, "startDatePeriod" + periodIndex,
-								new SimpleDateFormat("yyyy-MM-dd"));
-						Date endDatePeriod = ParamUtil.getDate(request, "endDatePeriod" + periodIndex,
-								new SimpleDateFormat("yyyy-MM-dd"));
-						boolean alwaysOpen = ParamUtil.getBoolean(request, "alwaysOpen" + periodIndex);
-
 						Period period = _periodLocalService.fetchPeriod(periodId);
-						period.setNameMap(namePeriod);
-						period.setLinkLabelMap(periodLabel);
-						period.setLinkURLMap(periodURL);
-						period.setDefaultPeriod(defaultPeriod);
-						if (!period.getDefaultPeriod()) {
-							period.setStartDate(startDatePeriod);
-							period.setEndDate(endDatePeriod);
-						}
-						period.setAlwaysOpen(alwaysOpen);
-						period.setPlaceId(subPlace.getPlaceId());
-						this._periodLocalService.updatePeriod(period);
 
 						if (!period.getAlwaysOpen()) {
 							// Ajout des slots liées à la période

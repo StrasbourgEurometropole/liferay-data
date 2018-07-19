@@ -19,6 +19,9 @@ import java.util.List;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
@@ -38,6 +41,8 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
  */
 @ProviderType
 public class CommentImpl extends CommentBaseImpl {
+
+	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -51,9 +56,47 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
-			this.getCommentId());
+		//FIXME vérifier pourquoi la méthode fetchEntry renvoie null lors de l'enregistrement d'un commentaire.
+		AssetEntry result = AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
+				this.getCommentId());
+		if (result==null){
+			_log.warn("FIXME: la methode fetch renvoie un asset null");
+			try {
+				result = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+				if (result == null){
+					_log.error("Erreur lors de l'enregistrement d'un commentaire : l'asset est null");
+				}
+			} catch (PortalException e) {
+				_log.error("Erreur lors de l'enregistrement d'un commentaire : ",e);
+			}
+		}
+		return result;
 	}
+
+    @Override
+    public String getTypeAssetEntry(){
+	    String result="";
+        try {
+            AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+            String temp = entry.getClassName();
+            result = temp.substring(temp.lastIndexOf(".")+1);
+        } catch (PortalException e) {
+			_log.error("Erreur lors de la récupération du type : ",e);
+        }
+        return result;
+    }
+
+    @Override
+    public String getAssetEntryTitle(){
+        String result="";
+        try {
+            AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+            result = entry.getTitle();
+        } catch (PortalException e) {
+			_log.error("Erreur lors de la récupération du nom : ",e);
+        }
+        return result;
+    }
 
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
@@ -61,8 +104,9 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
+        AssetEntry param = this.getAssetEntry();
 		return AssetVocabularyHelper
-			.getAssetEntryCategories(this.getAssetEntry());
+			.getAssetEntryCategories(param);
 	}
 	
 	@Override

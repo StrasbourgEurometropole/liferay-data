@@ -18,7 +18,8 @@
 		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
-		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="urlProjectCommentaire" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="assetEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="like_" name="like" type="com.liferay.portal.dao.orm.hibernate.LongType" />

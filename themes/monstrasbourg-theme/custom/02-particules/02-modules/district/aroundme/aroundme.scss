@@ -17,12 +17,8 @@
     }
 
     color: white;
-    padding-top: 40px;
+    padding: 40px 0px;
     background-color: #31455d;
-
-    @include RWD(mobile){
-        padding-bottom: 30px;
-    }
 }
 
 #aroundme{

@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<hint-collection name="URL">
+		<hint name="max-length">4000</hint>
+	</hint-collection>
+	<hint-collection name="EDITOR">
+		<hint name="editor">true</hint>
+		<hint name="max-length">2000000</hint>
+	</hint-collection>
 	<model name="eu.strasbourg.service.comment.model.Comment">
 		<field name="uuid" type="String" />
 		<field name="commentId" type="long" />
@@ -14,8 +21,11 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
+		<field name="urlProjectCommentaire" type="String">
+			<hint-collection name="URL" />
+		</field>
 		<field name="comment" type="String">
-			<hint name="max-length">4000</hint>
+			<hint-collection name="EDITOR" />
 		</field>
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />

@@ -59,6 +59,10 @@ public interface Comment extends CommentModel, PersistedModel {
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
+	public java.lang.String getTypeAssetEntry();
+
+	public java.lang.String getAssetEntryTitle();
+
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)

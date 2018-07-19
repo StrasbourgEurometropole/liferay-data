@@ -2969,6 +2969,7 @@ public class CommentPersistenceImpl extends BasePersistenceImpl<Comment>
 		commentImpl.setStatusByUserId(comment.getStatusByUserId());
 		commentImpl.setStatusByUserName(comment.getStatusByUserName());
 		commentImpl.setStatusDate(comment.getStatusDate());
+		commentImpl.setUrlProjectCommentaire(comment.getUrlProjectCommentaire());
 		commentImpl.setComment(comment.getComment());
 		commentImpl.setAssetEntryId(comment.getAssetEntryId());
 		commentImpl.setPublikId(comment.getPublikId());

@@ -71,6 +71,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 		attributes.put("comment", getComment());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
@@ -152,6 +153,13 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 
 		if (statusDate != null) {
 			setStatusDate(statusDate);
+		}
+
+		String urlProjectCommentaire = (String)attributes.get(
+				"urlProjectCommentaire");
+
+		if (urlProjectCommentaire != null) {
+			setUrlProjectCommentaire(urlProjectCommentaire);
 		}
 
 		String comment = (String)attributes.get("comment");
@@ -343,6 +351,11 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		return new CommentWrapper((Comment)_comment.clone());
 	}
 
+	@Override
+	public java.lang.String getAssetEntryTitle() {
+		return _comment.getAssetEntryTitle();
+	}
+
 	/**
 	* Returns the comment of this comment.
 	*
@@ -386,6 +399,21 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _comment.getStatusByUserUuid();
+	}
+
+	@Override
+	public java.lang.String getTypeAssetEntry() {
+		return _comment.getTypeAssetEntry();
+	}
+
+	/**
+	* Returns the url project commentaire of this comment.
+	*
+	* @return the url project commentaire of this comment
+	*/
+	@Override
+	public java.lang.String getUrlProjectCommentaire() {
+		return _comment.getUrlProjectCommentaire();
 	}
 
 	/**
@@ -751,6 +779,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_comment.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the url project commentaire of this comment.
+	*
+	* @param urlProjectCommentaire the url project commentaire of this comment
+	*/
+	@Override
+	public void setUrlProjectCommentaire(java.lang.String urlProjectCommentaire) {
+		_comment.setUrlProjectCommentaire(urlProjectCommentaire);
 	}
 
 	/**
