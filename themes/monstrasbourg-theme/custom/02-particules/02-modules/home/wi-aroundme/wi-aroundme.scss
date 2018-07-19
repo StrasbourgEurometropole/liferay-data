@@ -1,10 +1,11 @@
 #wi-aroundme{
     @extend %molecule-home-section;
+    box-shadow: none;
     margin-bottom: 40px;
     padding: 0;
     z-index: 5;
     h2:before{
-        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+        display: none;
     }
     #aroundme{
         z-index: 10;

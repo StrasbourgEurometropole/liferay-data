@@ -58,7 +58,14 @@ public class UserDisplayConfigurationDisplayContext {
             portletTitles = new ArrayList<>();
             for (String portletId : this.getPortletIds()) {
                 Portlet portlet = PortletLocalServiceUtil.getPortletById(portletId);
-                portletTitles.add(portlet.getDisplayName());
+                String portletDisplayName = portlet.getDisplayName();
+                if (portlet.getDisplayName().equals("Asset Publisher")) {
+                    portletDisplayName = "Agr&eacute;gateur de contenus";
+                }
+                if (portlet.getDisplayName().equals("Web Content Display")) {
+                    portletDisplayName = "Afficheur de contenu web";
+                }
+                portletTitles.add(portletDisplayName);
             }
         }
         return portletTitles;

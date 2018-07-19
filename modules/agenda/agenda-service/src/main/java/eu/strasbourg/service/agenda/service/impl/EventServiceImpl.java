@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
@@ -218,9 +219,12 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 			return error("not authorized");
 		}
 		
-		List<Event> events =  this.eventLocalService.findByPlaceSIGId(placeSIGId);
-
-		return this.getApprovedJSONEvents(events);
+		if (Validator.isNotNull(placeSIGId)) {
+			List<Event> events =  this.eventLocalService.findByPlaceSIGId(placeSIGId);
+			return this.getApprovedJSONEvents(events);
+		} else {
+			return error("place-sig-id parameter is empty");
+		}		
 	}
 
 	@Override

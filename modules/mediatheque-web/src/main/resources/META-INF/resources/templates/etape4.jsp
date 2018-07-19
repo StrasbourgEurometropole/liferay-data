@@ -1,7 +1,10 @@
 <%@ include file="/mediatheque-init.jsp" %>
 
 <section id="mediatheque">
-    <h2><liferay-ui:message key="account-mediatheque" /></h2>
+	<c:if test="${dc.showDeleteButton()}">
+		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+	</c:if>
+    <h2>${title}</h2>
 		<!-- Etape 4 -->
         <div class="webform-layout-box">
 			<!-- Numéro de carte -->
@@ -33,7 +36,7 @@
 		<c:if test="${dc.borrower.expireDate != null}">
 	        <c:set var="today" value="${dc.today}" />
 	        <c:if test="${today.isAfter(dc.borrower.expireDate)}">
-	        	<div class="information">
+	        	<div class="warning">
 	        		<strong><liferay-ui:message key="warning" /></strong><br>
 	        		<liferay-ui:message key="warning-text" />
 	        	</div>
@@ -67,7 +70,9 @@
 							<label>${media.name}</label>
 						</div>
 						<p>
-							${media.type}<br>
+		        			<c:if test="${not empty dc.getType(media.type)}">
+								${dc.getType(media.type)}<br>
+							</c:if>
 							<c:if test="${media.returnDate != null}">
 			        			<c:if test="${today.isAfter(media.returnDate)}">
 			        				<liferay-ui:message key="return-date-passed" />
