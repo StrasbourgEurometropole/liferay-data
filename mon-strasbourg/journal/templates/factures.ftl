@@ -7,6 +7,10 @@
 </script>
 
 <section id="bills">
+    <#assign PortletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+    <#if PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.portletDisplay.id)>
+        <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+    </#if>
     <h2>${title.getData()}</h2>
     <form id="formFactures" action="#bills" class="generic-form toValidate">
         <p>${text.getData()}</p> 
