@@ -14,7 +14,5 @@ create table comment_Comment (
 	urlProjectCommentaire STRING null,
 	comment_ TEXT null,
 	assetEntryId LONG,
-	publikId VARCHAR(75) null,
-	like_ LONG,
-	dislike LONG
+	publikId VARCHAR(75) null
 );

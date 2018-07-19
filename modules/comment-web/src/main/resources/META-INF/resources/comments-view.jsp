@@ -18,10 +18,6 @@
 					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
-					
-				<portlet:resourceURL id="like" var="likeURL">
-					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
-				</portlet:resourceURL>
 				
 				<div class="pro-item">
 					<div class="pro-txt">
@@ -36,12 +32,24 @@
 							<p>${comment.comment}</p>
 							<c:if test="${isAdmin}">
 								<div class="pro-interactions">
-									<!-- 
 									<a href="#pro-avis-like-pro" class="pro-like"
-										title="Mettre j'aime Ã  cette vidÃ©o" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
-										href="#pro-avis-dislike-pro" class="pro-dislike active" onclick="callServeResource('${likeURL}','dislike');"
-										title="Mettre je n'aime pas Ã  cette vidÃ©o">${comment.dislike}</a>
-									-->
+										data-typeid="16" 
+		                                data-isdislike="false"
+		                                data-title="Comment of ${comment.getPublikUserName()}" 
+		                                data-entityid="${comment.commentId}"
+		                                data-entitygroupid="${comment.groupId}"
+										title="Aimer ce commentaire">
+										${comment.nbLikes}
+									</a>
+                                    <a href="#pro-avis-dislike-pro" class="pro-dislike" 
+                                    	data-typeid="16" 
+		                                data-isdislike="true"
+		                                data-title="Comment of ${comment.getPublikUserName()}" 
+		                                data-entityid="${comment.commentId}"
+		                                data-entitygroupid="${comment.groupId}"
+                                    	title="Ne pas aimer ce commentaire">
+                                    	${comment.nbDislikes}
+                                    </a>
 									<div>
 										<a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
 									</div>
@@ -59,7 +67,7 @@
 				<div>
 					<form id="form-comments" method="post" action="${postComment}"
 						class="pro-user-connected">
-
+						
 						<div class="pro-textearea">
 							<label for="message"><liferay-ui:message
 									key="comment-your-comment" /></label>
@@ -110,16 +118,5 @@
 	    }
 	});
 	
-	function callServeResource(portletURL, likedislike) {
-			AUI().use('aui-io-request', function(A) {
-			A.io.request(portletURL, {
-				method : 'post',
-				data : {
-					<portlet:namespace/>action : likedislike
-				}
-			});
-		});
-	}
-			
 		
 </aui:script>

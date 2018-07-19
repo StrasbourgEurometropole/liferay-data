@@ -75,8 +75,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("comment", getComment());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
-		attributes.put("like", getLike());
-		attributes.put("dislike", getDislike());
 
 		return attributes;
 	}
@@ -178,18 +176,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 
 		if (publikId != null) {
 			setPublikId(publikId);
-		}
-
-		Long like = (Long)attributes.get("like");
-
-		if (like != null) {
-			setLike(like);
-		}
-
-		Long dislike = (Long)attributes.get("dislike");
-
-		if (dislike != null) {
-			setDislike(dislike);
 		}
 	}
 
@@ -324,6 +310,36 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public int compareTo(eu.strasbourg.service.comment.model.Comment comment) {
 		return _comment.compareTo(comment);
+	}
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _comment.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _comment.getNbLikes();
+	}
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikesDislikes() {
+		return _comment.getNbLikesDislikes();
 	}
 
 	/**
@@ -496,6 +512,36 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
+		return _comment.getDislikes();
+	}
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _comment.getLikes();
+	}
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes() {
+		return _comment.getLikesDislikes();
+	}
+
+	/**
 	* Returns the asset entry ID of this comment.
 	*
 	* @return the asset entry ID of this comment
@@ -526,16 +572,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Returns the dislike of this comment.
-	*
-	* @return the dislike of this comment
-	*/
-	@Override
-	public long getDislike() {
-		return _comment.getDislike();
-	}
-
-	/**
 	* Returns the group ID of this comment.
 	*
 	* @return the group ID of this comment
@@ -543,16 +579,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public long getGroupId() {
 		return _comment.getGroupId();
-	}
-
-	/**
-	* Returns the like of this comment.
-	*
-	* @return the like of this comment
-	*/
-	@Override
-	public long getLike() {
-		return _comment.getLike();
 	}
 
 	/**
@@ -645,16 +671,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		_comment.setCreateDate(createDate);
 	}
 
-	/**
-	* Sets the dislike of this comment.
-	*
-	* @param dislike the dislike of this comment
-	*/
-	@Override
-	public void setDislike(long dislike) {
-		_comment.setDislike(dislike);
-	}
-
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_comment.setExpandoBridgeAttributes(expandoBridge);
@@ -679,16 +695,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setGroupId(long groupId) {
 		_comment.setGroupId(groupId);
-	}
-
-	/**
-	* Sets the like of this comment.
-	*
-	* @param like the like of this comment
-	*/
-	@Override
-	public void setLike(long like) {
-		_comment.setLike(like);
 	}
 
 	/**

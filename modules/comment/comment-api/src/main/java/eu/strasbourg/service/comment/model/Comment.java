@@ -72,4 +72,46 @@ public interface Comment extends CommentModel, PersistedModel {
 	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser();
 
 	public java.lang.String getPublikUserName();
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes();
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes();
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikesDislikes();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
 }

@@ -15,4 +15,5 @@ dependencies {
   	
 	compile project (':modules:place:place-api')
 	compile project (':modules:agenda:agenda-api')
+	compile project (':modules:oidc:oidc-api')
 }

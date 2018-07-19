@@ -50,8 +50,6 @@ public class CommentSoap implements Serializable {
 		soapModel.setComment(model.getComment());
 		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
-		soapModel.setLike(model.getLike());
-		soapModel.setDislike(model.getDislike());
 
 		return soapModel;
 	}
@@ -232,22 +230,6 @@ public class CommentSoap implements Serializable {
 		_publikId = publikId;
 	}
 
-	public long getLike() {
-		return _like;
-	}
-
-	public void setLike(long like) {
-		_like = like;
-	}
-
-	public long getDislike() {
-		return _dislike;
-	}
-
-	public void setDislike(long dislike) {
-		_dislike = dislike;
-	}
-
 	private String _uuid;
 	private long _commentId;
 	private long _groupId;
@@ -264,6 +246,4 @@ public class CommentSoap implements Serializable {
 	private String _comment;
 	private long _assetEntryId;
 	private String _publikId;
-	private long _like;
-	private long _dislike;
 }

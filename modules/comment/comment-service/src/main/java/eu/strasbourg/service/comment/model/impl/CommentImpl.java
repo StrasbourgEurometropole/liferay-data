@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -121,4 +123,75 @@ public class CommentImpl extends CommentBaseImpl {
 				+ " " 
 				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
 	}
+	
+	/**
+	 * Retourne la liste des like/dislike de l'entité
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getLikesDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
+				this.getCommentId(), 
+				16);
+	}
+	
+	/**
+	 * Retourne la liste des likes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getLikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getCommentId(), 
+				16, 
+				false);
+	}
+	
+	/**
+	 * Retourne la liste des dislikes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getCommentId(), 
+				16, 
+				true);
+	}
+	
+	/**
+	 * Retourne le nombre de likes/dislikes de l'entité
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikesDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
+				this.getCommentId(), 
+				16).size();
+	}
+	
+	/**
+	 * Retourne le nombre de likes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getCommentId(), 
+				16, 
+				false).size();
+	}
+	
+	/**
+	 * Retourne le nombre de dislikes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getCommentId(), 
+				16, 
+				true).size();
+	}
+	
 }

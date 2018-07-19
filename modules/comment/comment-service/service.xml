@@ -31,8 +31,6 @@
 		<column name="comment" type="String" />
 		<column name="assetEntryId" type="long" />
 		<column name="publikId" type="String" />
-		<column name="like" type="long" />
-		<column name="dislike" type="long" />
 
 		<!-- Order -->
 		<order by="asc">

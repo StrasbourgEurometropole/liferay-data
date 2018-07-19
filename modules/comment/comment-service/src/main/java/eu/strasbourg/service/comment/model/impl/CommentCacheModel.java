@@ -65,7 +65,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,10 +99,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(assetEntryId);
 		sb.append(", publikId=");
 		sb.append(publikId);
-		sb.append(", like=");
-		sb.append(like);
-		sb.append(", dislike=");
-		sb.append(dislike);
 		sb.append("}");
 
 		return sb.toString();
@@ -185,9 +181,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setPublikId(publikId);
 		}
 
-		commentImpl.setLike(like);
-		commentImpl.setDislike(dislike);
-
 		commentImpl.resetOriginalValues();
 
 		return commentImpl;
@@ -218,10 +211,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 		assetEntryId = objectInput.readLong();
 		publikId = objectInput.readUTF();
-
-		like = objectInput.readLong();
-
-		dislike = objectInput.readLong();
 	}
 
 	@Override
@@ -287,10 +276,6 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		else {
 			objectOutput.writeUTF(publikId);
 		}
-
-		objectOutput.writeLong(like);
-
-		objectOutput.writeLong(dislike);
 	}
 
 	public String uuid;
@@ -309,6 +294,4 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public String comment;
 	public long assetEntryId;
 	public String publikId;
-	public long like;
-	public long dislike;
 }
