@@ -18,19 +18,11 @@
 					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
-<<<<<<< HEAD
-				
-=======
-					
-				<portlet:resourceURL id="like" var="likeURL">
-					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
-				</portlet:resourceURL>
 
 				<portlet:resourceURL id="signaler" var="signalerURL">
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:resourceURL>
 
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 				<div class="pro-item">
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span> <span
@@ -45,7 +37,6 @@
 							<c:if test="${isAdmin}">
 								<div class="pro-interactions">
 									<a href="#pro-avis-like-pro" class="pro-like"
-<<<<<<< HEAD
 										data-typeid="16" 
 		                                data-isdislike="false"
 		                                data-title="Comment of ${comment.getPublikUserName()}" 
@@ -74,15 +65,10 @@
 											<liferay-ui:message key='comment-hide'/>
 										</a>
 									</div>
-=======
-										title="Mettre j'aime &agrave; cette vid&eacute;o" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
-										href="#pro-avis-dislike-pro" class="pro-dislike active" onclick="callServeResource('${likeURL}','dislike');"
-										title="Mettre je n'aime pas &agrave; cette vid&eacute;o">${comment.dislike}</a>
 									<div>
                                         <a href="#Repondre" class="pro-reponse" title="R&eacute;pondre au commentaire">R&eacute;pondre</a>
                                         <a href="#Signaler" title="Signaler le commentaire" onclick="callServeResource('${signalerURL}','signaler');">Signaler</a>
                                     </div>
->>>>>>> 275f1d6a9e647c62843a36553e9957c0bfd6b477
 								</div>
 								 
 							</c:if>
