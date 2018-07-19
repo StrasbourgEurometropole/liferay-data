@@ -83,8 +83,7 @@ public class PortletHelper {
 					return true;
 					// TODO ANGEL à remettre : return false;
 				} else {
-					return true;
-					// TODO ANGEL à remettre :return adminStatus.equals("on");
+					return Validator.isNull(adminStatus) || adminStatus.startsWith("on");
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
