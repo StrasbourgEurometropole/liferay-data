@@ -22,6 +22,9 @@
 			@include mobile{
 				display: none;
 			}
+			@include tablet_portrait {
+				margin-top: 30px !important;
+			}
 			.mns-affiner{
 				text-align: left;
 				border-bottom: 0;
@@ -184,6 +187,12 @@
 		}
 
 		.mns-z-list-agenda{
+			@include mobile{
+				margin-top: 30px !important;
+			}
+			@include tablet_portrait {
+				margin-top: 30px !important;
+			}
 			> div > div{
 				margin-bottom: 0;
 				&:nth-child(-n+3){
@@ -193,6 +202,8 @@
 				.cover{
 					max-width: 100%;
 				}
+
+				
 			}
 			> div{
 				@include mobile{

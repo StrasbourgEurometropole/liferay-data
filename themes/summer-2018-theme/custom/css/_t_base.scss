@@ -461,6 +461,36 @@ body{
 				color: $c_txt;
 			}
 		}
+		&.mns-bread-image{
+			@include mobile {
+				margin-top: 90px !important;
+
+				a{
+					color: $c_txt;
+					text-decoration: none;
+					&:after{
+						background: $c_txt;
+					}
+				}
+				span{
+					color: $c_txt;
+				}
+			}
+			@include tablet_portrait {
+				margin-top: 90px !important;
+
+				a{
+					color: $c_txt;
+					text-decoration: none;
+					&:after{
+						background: $c_txt;
+					}
+				}
+				span{
+					color: $c_txt;
+				}
+			}
+		}
 		a{
 			@include ft($f_ms, 13px, 400, $c_white, normal);
 			position: relative;
