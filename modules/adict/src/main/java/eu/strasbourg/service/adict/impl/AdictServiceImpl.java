@@ -43,8 +43,6 @@ public class AdictServiceImpl implements AdictService {
 		try {
 
 			String adictBaseURL = StrasbourgPropsUtil.getAdictBaseURL();
-			// TODO Angel : NE PAS OUBLIE DE L'ENLEVER
-			adictBaseURL = "http://adict-preprod.strasbourg.eu/addok/search?limit=15&q=";
 			JSONObject wsResponse = JSONHelper.readJsonFromURL(adictBaseURL + query);
 			JSONArray features = wsResponse.getJSONArray("features");
 			streets = new ArrayList<Street>();
