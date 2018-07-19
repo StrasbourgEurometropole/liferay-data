@@ -1,6 +1,6 @@
 <%@ include file="/META-INF/resources/comment-bo-init.jsp"%>
 
-<c:set var="tab" value="${not empty param.tab ? param.tab : 'commentaires' }" />
+<c:set var="tab" value="${not empty param.tab ? param.tab : 'comments' }" />
 
 <!-- Declaration des URL de listing des entites -->
 <liferay-portlet:renderURL var="commentsURL">
