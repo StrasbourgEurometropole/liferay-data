@@ -45,12 +45,16 @@ public class ResidDisplayContext {
 		return residURL;
 	}
 
-	public String getZoneURL() {
-		String zoneURL = configuration.zoneURL();
-		if (Validator.isNull(zoneURL)) {
-			zoneURL = "#";
+	// Récupération de l'url de la zone
+	public String getZoneURL(String code) {
+		String[] zones = configuration.zones();
+		for (String zone : zones) {
+			String[] zoneValue = zone.split(";");
+			if(zoneValue[0].equals(code)) {
+				return zoneValue[1];
+			}
 		}
-		return zoneURL;
+		return "";
 	}
 
 	// Récupération de l'id utilisateur

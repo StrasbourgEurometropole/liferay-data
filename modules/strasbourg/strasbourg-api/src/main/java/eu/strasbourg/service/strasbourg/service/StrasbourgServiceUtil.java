@@ -46,6 +46,10 @@ public class StrasbourgServiceUtil {
 		return getService().getCoordinateForAddress(address);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getAlerts() {
+		return getService().getAlerts();
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getCopyright(
 		long groupId, java.lang.String uuid, java.lang.String language) {
 		return getService().getCopyright(groupId, uuid, language);
@@ -77,6 +81,10 @@ public class StrasbourgServiceUtil {
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
 		java.lang.String interests, long groupId) {
 		return getService().getPois(interests, groupId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getTraffic() {
+		return getService().getTraffic();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject searchStreets(

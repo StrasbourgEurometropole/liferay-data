@@ -1,6 +1,11 @@
 #aroundme{
     overflow: hidden;
     position: relative;
+    
+    .add-favorites{
+        color: $core-color !important;
+        font-size: 1.3rem !important;
+    }
 
     $panel_trigger_size: 35;
 
@@ -50,6 +55,14 @@
         position: relative;
         form{
             overflow: hidden;
+            p{
+                color: #ffffff;
+                font-family: "MontSerrat", arial;
+                font-size: 1.4rem;
+                line-height: 1.2em;
+                font-weight: 400;
+                text-align: center;
+            }
         }
     }
 
@@ -256,6 +269,20 @@
             }
         }
         &__item{
+            .add-favorites{
+                border-top: solid 1px #dddddd;
+                justify-content: center;
+            }
+
+            .types{
+                font-family: $main-font;
+                font-size: 1.5rem;
+                font-weight: 300;
+                color: #505050;
+                background-color: #FFFFFF;
+                padding: 0px 10px 10px 10px;
+                text-align: left;
+            }
 
             &__visuel{
                 padding-bottom: 70%;
@@ -271,16 +298,17 @@
                 display: block;
                 position: relative;
                 font-family: "MontSerrat", arial;
-                font-size: 1.4rem;
+                font-size: 1.5rem;
                 line-height: 1.2em;
-                font-weight: 400;
+                font-weight: 700;
                 cursor: pointer;
                 letter-spacing: 1px;
-                color: #707070;
+                color: #505050;
                 font-weight: 700;
                 background-color: #FFFFFF;
                 padding: 10px 10px;
                 width: 100%;
+
             }
 
             [type="checkbox"]{
@@ -566,6 +594,9 @@
             &.green{
                 background-color: $crowded-green;
             }
+            &.black{
+                background-color: $crowded-black;
+            }
             &.grey,&.white{
                 background-color: $crowded-grey;
             }
@@ -585,6 +616,9 @@
     }
     .leaflet-popup-content {
         margin: 0;
+        @include RWD(mobile){
+            width: 272px !important;
+        }
     }
     .leaflet-popup-tip {
         background: #31455d;
@@ -643,6 +677,9 @@
         &__content{
             padding: 30px;
             padding-bottom: 0px;
+            @include RWD(mobile){
+                padding: 20px;
+            }
         }
         &__top{
             padding-bottom: 10px;
@@ -686,12 +723,12 @@
         }
         &__middle{
             border-top: solid 1px #dddddd;
-            border-bottom: solid 1px #dddddd;
             padding-top: 10px;
             padding-bottom: 10px;
             display: flex;
         }
         &__bottom{
+            border-top: solid 1px #dddddd;
             padding-top: 20px;
             padding-bottom: 10px;
             display: flex;
@@ -756,6 +793,9 @@
                 */
                 &.red{
                     background-color: $crowded-red;
+                }
+                &.black{
+                    background-color: $crowded-black;
                 }
             }
             .crowded-label{

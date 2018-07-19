@@ -161,6 +161,14 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.adict.sector.types.url");
 	}
 
+	public static String getAdictTrafficURL() {
+		return PropsUtil.get("eu.strasbourg.adict.traffic.url");
+	}
+
+	public static String getAdictAlertsURL() {
+		return PropsUtil.get("eu.strasbourg.adict.alerts.url");
+	}
+
 	public static String getPublikProfileURL(){
 		return PropsUtil.get("eu.strasbourg.publik.url.profile");
 	}
@@ -195,5 +203,17 @@ public class StrasbourgPropsUtil {
 
 	public static String getResidantURL(){
 		return PropsUtil.get("eu.strasbourg.resid.url");
+	}
+	
+	public static int getWebServiceDefaultTimeout() {
+		return Integer.parseInt(PropsUtil.get("eu.strasbourg.webservice.default.timeout"));
+	}
+
+	public static String getRecordAddressURL(){
+		return PropsUtil.get("eu.strasbourg.publik.url.record.address");
+	}
+	
+	public static String getEMSZipCode(){
+		return PropsUtil.get("eu.strasbourg.ems.zip_code");
 	}
 }

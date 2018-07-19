@@ -28,12 +28,52 @@
         width: 240px;
         flex-shrink: 0;
         margin-right: 30px;
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
         .thumbnail-background {
             width: 100%;
-            padding-bottom: 75%;
-            background-size: contain;
+            padding-bottom: 64%;
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .mag{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: $montserrat;
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-transform: uppercase;
+
+            &:after{ 
+                content: '';
+                display: block;
+                height: 15px;
+                background-size: 50px; 
+                background-position: center;
+                background-repeat: no-repeat; 
+                background-image: url( svg-bg-uri($svg-wave,  #ffffff) ); 
+                margin-bottom: 15px;
+
+                @include RWD(mobile){
+                    margin-bottom: 10px;
+                    background-size: 35px;
+                }
+            }
+        }
+        
+        .bg-mag{
+            position: absolute;
+            height: 17%;
+            background: #46cfc0;
+            width: 100%;
+            bottom: 0px;
         }
     }
     .seu-result-icon {

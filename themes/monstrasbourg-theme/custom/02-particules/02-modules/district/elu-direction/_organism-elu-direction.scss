@@ -1,0 +1,43 @@
+%organism-elu-direction{    
+
+    .flexbox{
+        display: flex; 
+        width: 100%;
+
+        @include RWD(tablet){
+            flex-direction: column;
+        } 
+
+        .container-left{
+            width: 50%;
+            flex: 1;
+            @include RWD(tablet){
+                order: 2;
+                flex: auto;
+            }
+
+            .wi-wrapper{
+                height: calc(100% - 40px);
+            }
+        }
+
+        .container-right{
+            @include RWD(desktop){
+                width: 50%;            
+            }
+            @include RWD(tablet){
+                order: 1;
+            }
+            @include RWD(tablet_only){
+                padding: 20px;
+                display: flex;
+                background-color: $second-color;
+            }
+            flex-shrink: 0;
+
+            .wi-wrapper{
+                height: calc(100% - 40px);
+            }
+        }
+    }
+}

@@ -79,7 +79,7 @@ jQuery('.magnific-popup').magnificPopup({
 	closeOnContentClick: true,
 	closeBtnInside: true,
 	fixedContentPos: true,
-	mainClass: 'mfp-no-margins mfp-with-zoom mfp-image', // class to remove default margin from left and right side
+	mainClass: 'mfp-original mfp-no-margins mfp-with-zoom mfp-image', // class to remove default margin from left and right side
 	image: {
 		verticalFit: true
 	},

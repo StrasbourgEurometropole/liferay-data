@@ -37,26 +37,33 @@ public class AdictServiceImpl implements AdictService {
 	 */
 	@Override
 	public List<Street> searchStreetNumbers(String query) {
-		List<Street> streets = new ArrayList<Street>();
+		List<Street> streets = null;
 
 		query = HtmlUtil.escapeURL(query);
 		try {
 
 			String adictBaseURL = StrasbourgPropsUtil.getAdictBaseURL();
+			// TODO Angel : NE PAS OUBLIE DE L'ENLEVER
+			adictBaseURL = "http://adict-preprod.strasbourg.eu/addok/search?limit=15&q=";
 			JSONObject wsResponse = JSONHelper.readJsonFromURL(adictBaseURL + query);
 			JSONArray features = wsResponse.getJSONArray("features");
+			streets = new ArrayList<Street>();
 			for (int i = 0; i < features.length(); i++) {
 				JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
 				if (properties.getString("type").equals("housenumber")) {
 					String id = properties.getString("id");
+					String houseNumber = properties.getString("housenumber");
+					Double score = properties.getDouble("score");
+					int zipCode = properties.getInt("postcode");
 					String label = properties.getString("label");
+					String name = properties.getString("name");
 					String city = properties.getString("city");
 					String x = features.getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates")
 							.getString(0);
 					String y = features.getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates")
 							.getString(1);
 
-					Street street = new Street(id, label, city, x, y);
+					Street street = new Street(id, houseNumber, score, zipCode, label, name, city, x, y);
 					streets.add(street);
 				}
 			}
@@ -210,6 +217,40 @@ public class AdictServiceImpl implements AdictService {
 		}
 
 		return json;
+	}
+
+	/**
+	 * Retourne les segments d'info-trafic
+	 */
+	@Override
+	public JSONObject getTraffic() {
+		JSONObject trafficJSON = null;
+		try {
+			String adictTrafficURL = StrasbourgPropsUtil.getAdictTrafficURL();
+			trafficJSON = JSONHelper.readJsonFromURL(
+					"http://adict-preprod.strasbourg.eu/api/v1.0/traffic?srid=4326&token=aa72a01e643db472f3e7843ac1f3e48c");
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		return trafficJSON;
+	}
+
+	/**
+	 * Retourne les coordonnées des alertes
+	 */
+	@Override
+	public JSONObject getAlerts() {
+		JSONObject alertsJSON = null;
+		try {
+			String adictTrafficURL = StrasbourgPropsUtil.getAdictAlertsURL();
+			alertsJSON = JSONHelper.readJsonFromURL(
+					adictTrafficURL);
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		return alertsJSON;
 	}
 
 }

@@ -4,7 +4,7 @@
 	<c:if test="${dc.showDeleteButton()}">
 		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
 	</c:if>
-    <h2><liferay-ui:message key="account-mediatheque" /></h2>
+    <h2>${title}</h2>
 		<!-- Etape 2 attente d'activation -->
 		<p align="center">
 			<liferay-ui:message key="activate-text-x" arguments="${dc.transformEmail}" />
