@@ -30,10 +30,13 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
@@ -143,7 +146,42 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 				15, 
 				true).size();
 	}
-
+	
+	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+	
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED).size();
+	}
+	
+	/**
+	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
+	 */
+	@Override
+	public String getNbApprovedCommentsLabel() {
+		// Transforme le numero en chaine de caractere
+		String stringNum = Integer.toString(this.getNbApprovedComments());
+		// Recupere le nombre de chiffre
+		int nbDigits = stringNum.length();
+		// Ajoute les zeros manquants avant la chaine
+		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
+		
+		return stringNum;
+	}
+	
 	/**
 	 * Retourne la liste des événements liés à la participation
 	 */

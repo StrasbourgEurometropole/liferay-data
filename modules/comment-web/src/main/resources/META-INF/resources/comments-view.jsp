@@ -171,7 +171,7 @@
  		$(".pro-reagir .pro-textearea>label").text('<liferay-ui:message key="comment-parent-answer" /> ' + OPName + ' :');
 		$(".pro-reagir .pro-user-connected>.pro-btn-yellow").val('<liferay-ui:message key="comment-answer"/>');
 		
-		$(document).scrollTop($("#pro-link-commentaire").offset().top); 
+		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
 	
 	$("[href='#Modifier']").click(function(e){

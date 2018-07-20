@@ -102,6 +102,21 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public int getNbDislikes();
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	/**
+	* Retourne le label de 5 digits du nombre de commentaires de l'entité
+	*/
+	public java.lang.String getNbApprovedCommentsLabel();
+
+	/**
 	* Retourne la liste des événements liés à la participation
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();

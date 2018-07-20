@@ -24,9 +24,12 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
@@ -291,5 +294,25 @@ public class ProjectImpl extends ProjectBaseImpl {
 	public List<AssetCategory> getThematicCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.THEMATIC);
+	}
+	
+	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+	
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED).size();
 	}
 }

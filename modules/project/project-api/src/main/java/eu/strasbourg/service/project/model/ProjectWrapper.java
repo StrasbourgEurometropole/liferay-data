@@ -386,6 +386,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _project.getNbApprovedComments();
+	}
+
+	/**
 	* Returns the status of this project.
 	*
 	* @return the status of this project
@@ -675,6 +683,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getAllStatus() {
 		return _project.getAllStatus();
+	}
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _project.getApprovedComments();
 	}
 
 	/**

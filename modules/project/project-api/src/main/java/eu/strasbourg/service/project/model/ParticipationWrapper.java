@@ -453,6 +453,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _participation.getNbApprovedComments();
+	}
+
+	/**
 	* Retourne le nombre de dislikes de l'entité
 	*
 	* @see eu.strasbourg.service.like.model.LikeType
@@ -670,6 +678,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le label de 5 digits du nombre de commentaires de l'entité
+	*/
+	@Override
+	public java.lang.String getNbApprovedCommentsLabel() {
+		return _participation.getNbApprovedCommentsLabel();
+	}
+
+	/**
 	* Retourne le status de la participation selon la temporalité actuelle
 	*
 	* @return le status suivant l'ordre :
@@ -821,6 +837,14 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public Date getStatusDate() {
 		return _participation.getStatusDate();
+	}
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _participation.getApprovedComments();
 	}
 
 	/**
