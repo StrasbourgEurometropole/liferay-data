@@ -301,7 +301,7 @@
             	var icone = feature.properties.type;
                 var markerIcon = new L.Icon({
                     iconUrl: '/o/mapweb/images/' + icone.replace(new RegExp(' '.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'),'g'), '_').toLowerCase() + '.png',
-                    iconSize: [35,35],
+                    iconSize: [43,'auto'],
                     iconAnchor: [17, 49],
                     popupAnchor: [1, -49]
                 });
