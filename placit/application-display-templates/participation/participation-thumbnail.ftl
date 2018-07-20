@@ -62,10 +62,8 @@
             <p>Participation publiée par :</p>
             <p><strong>${entry.getAuthor()}</strong></p>
             <div class="pro-number-comm">
-                <!--
-                <span>37</span>
+                <span>${entry.nbApprovedComments}</span>
                 <p>Commentaire(s)</p>
-                -->
             </div>
         </div>
         <div class="pro-content-participation">

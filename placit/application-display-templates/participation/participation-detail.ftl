@@ -220,7 +220,7 @@
                         <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
                              data-zoom="12" data-filter-options="filterMapDetail"></div>
                         <div class="pro-compteur">
-                            <span class="pro-compt">00000</span>
+                            <span class="pro-compt">${entry.nbApprovedCommentsLabel}</span>
                             <p>Citoyens(nes) ont réagi</p>
                             <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                         </div>
