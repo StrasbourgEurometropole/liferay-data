@@ -49,12 +49,17 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=false", "javax.portlet.display-name=Commentaires",
-		"javax.portlet.init-param.add-process-action-success-action=false", "javax.portlet.init-param.template-path=/",
+@Component(immediate = true, property = {
+        "com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=false",
+        "javax.portlet.display-name=Commentaires",
+		"javax.portlet.init-param.add-process-action-success-action=false",
+        "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/comments-view.jsp",
-		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB, "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB,
+        "javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user" },
+        service = Portlet.class)
 public class CommentPortlet extends MVCPortlet {
 
 	@Override
@@ -192,24 +197,18 @@ public class CommentPortlet extends MVCPortlet {
 		}
 	}
 
+	public void reportComment(ActionRequest request, ActionResponse response) throws PortalException {
+
+        Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(request, "commentId"));
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
+        SignalementLocalServiceUtil.addSignalement(signalement);
+
+    }
+
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
-		try {
-			String resourceID = resourceRequest.getResourceID();
-			String publikUserID = getPublikID(resourceRequest);
-			Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(resourceRequest, "commentId"));
-
-			if (resourceID.equals("signaler")) {
-				if (Validator.isNotNull(publikUserID)) {
-					ServiceContext sc = ServiceContextFactory.getInstance(resourceRequest);
-					Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
-					SignalementLocalServiceUtil.addSignalement(signalement);
-				}
-			}
-		} catch (Exception e) {
-			_log.error(e);
-		}
 
 		super.serveResource(resourceRequest, resourceResponse);
 	}

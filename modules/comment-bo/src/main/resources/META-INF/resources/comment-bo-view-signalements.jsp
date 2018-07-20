@@ -68,11 +68,15 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="userName" truncate="true" orderable="true" value="${signalement.userName}" />
 
+				<%-- Colonne : début du commentaire --%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="comment" truncate="true" orderable="true" value="${signalement.getCommentContent()}" />
+
 				<%-- Colonne : Date de modification--%>
 				<fmt:formatDate value="${signalement.createDate}"
 					var="formattedCreatedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="created-date" truncate="true" orderable="true"
+					name="reporting-date" truncate="true" orderable="true"
 					value="${formattedCreatedDate}" />
 
 				<%-- Colonne : Statut--%>
@@ -81,11 +85,10 @@
 						showLabel="false" status="${signalement.status}" />
 				</liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Type de signalement
+				<%-- Colonne : Type de signalement--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     name="Type de signalement" truncate="true" orderable="true"
-                    value="${signalement.type}" />
-                    --%>
+                    value="type" />
 			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>

@@ -53,4 +53,18 @@ public interface Signalement extends SignalementModel, PersistedModel {
 				return Signalement.class;
 			}
 		};
+
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	public eu.strasbourg.service.comment.model.Comment getComment();
+
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	public java.lang.String getCommentContent();
 }

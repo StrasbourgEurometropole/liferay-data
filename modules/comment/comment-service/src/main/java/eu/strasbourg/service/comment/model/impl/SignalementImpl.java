@@ -15,7 +15,13 @@
 package eu.strasbourg.service.comment.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.CommentLocalService;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 
 import java.util.List;
 
@@ -30,6 +36,9 @@ import java.util.List;
  */
 @ProviderType
 public class SignalementImpl extends SignalementBaseImpl {
+
+
+	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -37,5 +46,35 @@ public class SignalementImpl extends SignalementBaseImpl {
 	 */
 	public SignalementImpl() {
 	}
+
+	/**
+	 * méthode qui permet de récupérer le commmentaire lié au signalement.
+	 * @return le commentaire.
+	 */
+	public Comment getComment(){
+		Comment result = null;
+		try {
+			result = CommentLocalServiceUtil.getComment(this.getCommentId());
+		} catch (PortalException e) {
+			_log.error("Erreur dans la récupération du commentaire : ",e);
+		}
+		return result;
+	}
+
+    /**
+     * méthode qui permet de récupérer le commmentaire lié au signalement.
+     * @return le commentaire.
+     */
+    public String getCommentContent(){
+        String result = "";
+        try {
+            Comment comment = CommentLocalServiceUtil.getComment(this.getCommentId());
+            result = comment.getComment();
+        } catch (PortalException e) {
+            _log.error("Erreur dans la récupération du commentaire : ",e);
+        }
+        return result;
+    }
+
 
 }

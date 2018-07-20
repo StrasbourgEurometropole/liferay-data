@@ -19,9 +19,10 @@
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
 
-				<portlet:resourceURL id="signaler" var="signalerURL">
+				<portlet:actionURL name="reportComment" var="reportComment">
+					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
-				</portlet:resourceURL>
+				</portlet:actionURL>
 
 				<div class="pro-item">
 					<div class="pro-txt">
@@ -66,7 +67,7 @@
 										</a>
 									</div>
 									<div>
-                                        <a href="#Signaler" title="Signaler le commentaire" onclick="callServeResource('${signalerURL}','signaler');">Signaler</a>
+                                        <a href="${reportComment}" title="Signaler le commentaire">Signaler</a>
                                         <c:if test="${userPublikId eq comment.publikId}">
                                         	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
                                         </c:if>
@@ -166,7 +167,7 @@
 	});
 	
 	function deleteMessage(commentId){
-		if (confirm('êtes-vous sûr de vouloir supprimer votre message ?')) {
+		if (confirm('ï¿½tes-vous sï¿½r de vouloir supprimer votre message ?')) {
 			//
 		}
 	}

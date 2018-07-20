@@ -263,6 +263,16 @@ public class SignalementWrapper implements Signalement,
 		return _signalement.toCacheModel();
 	}
 
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	@Override
+	public eu.strasbourg.service.comment.model.Comment getComment() {
+		return _signalement.getComment();
+	}
+
 	@Override
 	public eu.strasbourg.service.comment.model.Signalement toEscapedModel() {
 		return new SignalementWrapper(_signalement.toEscapedModel());
@@ -302,6 +312,16 @@ public class SignalementWrapper implements Signalement,
 	@Override
 	public java.lang.Object clone() {
 		return new SignalementWrapper((Signalement)_signalement.clone());
+	}
+
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	@Override
+	public java.lang.String getCommentContent() {
+		return _signalement.getCommentContent();
 	}
 
 	/**

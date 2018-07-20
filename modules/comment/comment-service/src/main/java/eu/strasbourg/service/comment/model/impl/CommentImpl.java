@@ -62,7 +62,7 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	public CommentImpl() {
 	}
-	
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -84,30 +84,30 @@ public class CommentImpl extends CommentBaseImpl {
 		return result;
 	}
 
-    @Override
-    public String getTypeAssetEntry(){
-	    String result="";
-        try {
-            AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
-            String temp = entry.getClassName();
-            result = temp.substring(temp.lastIndexOf(".")+1);
-        } catch (PortalException e) {
+	@Override
+	public String getTypeAssetEntry(){
+		String result="";
+		try {
+			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+			String temp = entry.getClassName();
+			result = temp.substring(temp.lastIndexOf(".")+1);
+		} catch (PortalException e) {
 			_log.error("Erreur lors de la récupération du type : ",e);
-        }
-        return result;
-    }
+		}
+		return result;
+	}
 
-    @Override
-    public String getAssetEntryTitle(){
-        String result="";
-        try {
-            AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
-            result = entry.getTitle();
-        } catch (PortalException e) {
+	@Override
+	public String getAssetEntryTitle(){
+		String result="";
+		try {
+			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+			result = entry.getTitle();
+		} catch (PortalException e) {
 			_log.error("Erreur lors de la récupération du nom : ",e);
-        }
-        return result;
-    }
+		}
+		return result;
+	}
 
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
@@ -115,25 +115,25 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
-        AssetEntry param = this.getAssetEntry();
+		AssetEntry param = this.getAssetEntry();
 		return AssetVocabularyHelper
-			.getAssetEntryCategories(param);
+				.getAssetEntryCategories(param);
 	}
-	
+
 	@Override
 	public PublikUser getPublikUser() {
 		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
 	}
-	
+
 	//Le nom de l'utilisateur formaté : Vincent L.
 	@Override
 	public String getPublikUserName() {
-		return StringUtil.upperCaseFirstLetter(getPublikUser().getFirstName()) 
-				+ " " 
+		return StringUtil.upperCaseFirstLetter(getPublikUser().getFirstName())
+				+ " "
 				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
 	}
 
-	
+
 	/**
 	 * Retourne la liste des like/dislike de l'entité
 	 * @see eu.strasbourg.service.like.model.LikeType
@@ -141,10 +141,10 @@ public class CommentImpl extends CommentBaseImpl {
 	@Override
 	public List<Like> getLikesDislikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
-				this.getCommentId(), 
+				this.getCommentId(),
 				16);
 	}
-	
+
 	/**
 	 * Retourne la liste des likes de l'entité
 	 *  @see eu.strasbourg.service.like.model.LikeType
@@ -152,11 +152,11 @@ public class CommentImpl extends CommentBaseImpl {
 	@Override
 	public List<Like> getLikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getCommentId(), 
-				16, 
+				this.getCommentId(),
+				16,
 				false);
 	}
-	
+
 	/**
 	 * Retourne la liste des dislikes de l'entité
 	 *  @see eu.strasbourg.service.like.model.LikeType
@@ -164,11 +164,11 @@ public class CommentImpl extends CommentBaseImpl {
 	@Override
 	public List<Like> getDislikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getCommentId(), 
-				16, 
+				this.getCommentId(),
+				16,
 				true);
 	}
-	
+
 	/**
 	 * Retourne le nombre de likes/dislikes de l'entité
 	 * @see eu.strasbourg.service.like.model.LikeType
@@ -176,10 +176,10 @@ public class CommentImpl extends CommentBaseImpl {
 	@Override
 	public int getNbLikesDislikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
-				this.getCommentId(), 
+				this.getCommentId(),
 				16).size();
 	}
-	
+
 	/**
 	 * Retourne le nombre de likes de l'entité
 	 *  @see eu.strasbourg.service.like.model.LikeType
@@ -187,11 +187,11 @@ public class CommentImpl extends CommentBaseImpl {
 	@Override
 	public int getNbLikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getCommentId(), 
-				16, 
+				this.getCommentId(),
+				16,
 				false).size();
 	}
-	
+
 	/**
 	 * Retourne le nombre de dislikes de l'entité
 	 *  @see eu.strasbourg.service.like.model.LikeType
@@ -199,11 +199,11 @@ public class CommentImpl extends CommentBaseImpl {
 	@Override
 	public int getNbDislikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getCommentId(), 
-				16, 
+				this.getCommentId(),
+				16,
 				true).size();
 	}
-	
+
 	/**
 	 * Retourne la liste des commentaires enfants de l'item
 	 */
@@ -213,7 +213,7 @@ public class CommentImpl extends CommentBaseImpl {
 				this.getCommentId(),
 				WorkflowConstants.STATUS_APPROVED);
 	}
-	
+
 
 	/**
 	 * méthode qui renvoie la liste des signalements d'un commentaire.
