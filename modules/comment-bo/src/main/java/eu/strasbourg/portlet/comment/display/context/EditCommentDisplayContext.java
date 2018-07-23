@@ -58,9 +58,10 @@ public class EditCommentDisplayContext {
      * @return True si le framework workflow est actif pour ce type d'entité
      */
     public boolean isWorkflowEnabled() {
-        return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+        boolean result = WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
                 _themeDisplay.getCompanyId(), _themeDisplay.getCompanyGroupId(),
                 Comment.class.getName());
+        return result;
     }
 
     public boolean hasPermission(String actionId) {
