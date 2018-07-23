@@ -202,14 +202,17 @@ public class CommentPortlet extends MVCPortlet {
      * @param response
      * @throws PortalException
      */
-	public void reportComment(ActionRequest request, ActionResponse response) throws PortalException {
-
-        Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(request, "commentId"));
+	public void reportComment(ActionRequest request, ActionResponse response) throws PortalException, IOException {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	    long result = ParamUtil.getLong(request, "commentId");
+        Comment comment = CommentLocalServiceUtil.getComment(result);
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
         SignalementLocalServiceUtil.addSignalement(signalement);
-        comment.setStatus(WorkflowConstants.STATUS_PENDING);
-        CommentLocalServiceUtil.updateComment(comment);
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+                PortletRequest.RENDER_PHASE);
+        response.sendRedirect(renderUrl.toString());
     }
 
 	@Override

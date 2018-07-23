@@ -67,4 +67,15 @@ public interface Signalement extends SignalementModel, PersistedModel {
 	* @return le commentaire.
 	*/
 	public java.lang.String getCommentContent();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 }

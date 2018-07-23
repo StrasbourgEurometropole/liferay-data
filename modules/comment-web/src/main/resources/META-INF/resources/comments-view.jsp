@@ -1,4 +1,5 @@
 <%@ include file="/comments-init.jsp"%>
+<%@ include file="/report-modal.jsp"%>
 
 <portlet:actionURL var="postComment" name="postComment">
 	<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
@@ -67,11 +68,14 @@
 										</a>
 									</div>
 									<div>
-                                        <a href="${reportComment}" title="Signaler le commentaire">Signaler</a>
+                                        <a href="#report" title="Signaler le commentaire"
+                                        data-commentid="${comment.commentId}"
+                                        >Signaler</a>
                                         <c:if test="${userPublikId eq comment.publikId}">
                                         	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
                                         </c:if>
                                     </div>
+
 								</div>
 								 
 							</c:if>
@@ -128,7 +132,14 @@
 		</div>
 	</div>
 </section>
+
 <aui:script>
+    $("a[href='#report']").click(function(e){
+        var commentId=$(this).data('commentid');
+        $("input[id='commentId']").val(commentId);
+        e.preventDefault();
+        $("#signalementModal").modal();
+    });
 	$("#form-comments").submit(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();

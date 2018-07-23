@@ -253,6 +253,14 @@ public class SignalementWrapper implements Signalement,
 		return _signalement.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _signalement.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _signalement.getExpandoBridge();
@@ -412,6 +420,15 @@ public class SignalementWrapper implements Signalement,
 	@Override
 	public Date getStatusDate() {
 		return _signalement.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _signalement.getCategories();
 	}
 
 	/**

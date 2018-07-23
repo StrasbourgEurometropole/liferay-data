@@ -15,6 +15,9 @@
 package eu.strasbourg.service.comment.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,6 +25,7 @@ import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
 
@@ -76,5 +80,22 @@ public class SignalementImpl extends SignalementBaseImpl {
         return result;
     }
 
+    /**
+     * Renvoie la liste des AssetCategory rattachées à cet item (via
+     * l'assetEntry)
+     */
+    @Override
+    public List<AssetCategory> getCategories() {
+        return AssetVocabularyHelper
+                .getAssetEntryCategories(this.getAssetEntry());
+    }
+
+    /**
+     * Retourne l'AssetEntry rattaché cet item
+     */
+    @Override
+    public AssetEntry getAssetEntry() {
+        return AssetEntryLocalServiceUtil.fetchEntry(Signalement.class.getName(),this.getSignalementId());
+    }
 
 }
