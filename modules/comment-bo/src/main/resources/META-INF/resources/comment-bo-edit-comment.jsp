@@ -124,6 +124,12 @@
                                     name="reporting-date" truncate="true" orderable="true"
                                     value="${formattedCreatedDate}" />
 
+                                <%-- Colonne : Statut--%>
+                                <liferay-ui:search-container-column-text name="status">
+                                    <aui:workflow-status markupView="lexicon" showIcon="false"
+                                        showLabel="false" status="${reporting.status}" />
+                                </liferay-ui:search-container-column-text>
+
                             </liferay-ui:search-container-row>
 
             			<%-- Iterateur --%>

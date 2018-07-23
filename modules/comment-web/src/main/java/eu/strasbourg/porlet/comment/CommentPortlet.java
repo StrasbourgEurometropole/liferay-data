@@ -138,7 +138,6 @@ public class CommentPortlet extends MVCPortlet {
 			if (Validator.isNotNull(userPublikId)) {
 
 				ServiceContext sc = ServiceContextFactory.getInstance(request);
-
 				Comment comment = CommentLocalServiceUtil.createComment(sc);
 
 				// Recuperation du message du commentaire
@@ -197,28 +196,32 @@ public class CommentPortlet extends MVCPortlet {
 		}
 	}
 
+    /**
+     * Méthode permettant de signaler un commentaire.
+     * @param request
+     * @param response
+     * @throws PortalException
+     */
 	public void reportComment(ActionRequest request, ActionResponse response) throws PortalException {
 
         Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(request, "commentId"));
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
         SignalementLocalServiceUtil.addSignalement(signalement);
-
+        comment.setStatus(WorkflowConstants.STATUS_PENDING);
+        CommentLocalServiceUtil.updateComment(comment);
     }
 
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
-
 		super.serveResource(resourceRequest, resourceResponse);
 	}
 
 	// Récupération du publik ID avec la session
 	private String getPublikID(PortletRequest request) {
-
 		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
 		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
 
