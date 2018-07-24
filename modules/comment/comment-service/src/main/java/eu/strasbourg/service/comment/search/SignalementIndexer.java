@@ -1,4 +1,4 @@
-package eu.strasbourg.service.signalement.search;
+package eu.strasbourg.service.comment.search;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
