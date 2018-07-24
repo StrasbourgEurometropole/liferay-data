@@ -23,7 +23,7 @@ import java.util.Map;
 @Component(immediate = true, service = Indexer.class)
 public class CommentIndexer extends BaseIndexer<Comment> {
 
-public static final String CLASS_NAME = Comment.class.getName();
+	public static final String CLASS_NAME = Comment.class.getName();
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	public CommentIndexer() {
