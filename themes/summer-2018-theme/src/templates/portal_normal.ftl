@@ -99,7 +99,7 @@
 
     <#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script> [^]
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
