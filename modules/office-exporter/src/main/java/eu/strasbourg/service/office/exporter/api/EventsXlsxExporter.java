@@ -12,4 +12,5 @@ public interface EventsXlsxExporter {
 	public void exportEvents(OutputStream stream, String eventIdStr);
 	
 	public void exportEvents(OutputStream stream, List<Event> events);
+	
 }
