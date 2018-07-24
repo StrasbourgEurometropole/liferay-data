@@ -1,26 +1,7 @@
 package eu.strasbourg.porlet.comment;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
-import org.osgi.service.component.annotations.Component;
-
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -38,13 +19,32 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.portlet.comment.configuration.CommentConfiguration;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletSession;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author romain.vergnais
@@ -67,6 +67,7 @@ public class CommentPortlet extends MVCPortlet {
 
 		String userPublikId = getPublikID(request);
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
 
 		try {
 			// Récupération de la configuration du portlet
@@ -106,16 +107,19 @@ public class CommentPortlet extends MVCPortlet {
 			// un administrateur peut désapprouver un commentaire
 			List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entryID, 1,
 					WorkflowConstants.STATUS_APPROVED);
-
+			long groupId = themeDisplay.getLayout().getGroupId();
 			// Tri des commentaires sur la date de création
 			if (orderBy.equals("desc"))
-				comments = comments.stream().sorted((c1, c2) -> {
-					return c2.getCreateDate().compareTo(c1.getCreateDate());
-				}).collect(Collectors.toList());
+				comments = comments.stream().sorted((c1, c2) -> c2.getCreateDate()
+                        .compareTo(c1.getCreateDate()))
+                        .collect(Collectors.toList());
 
+			//récupération des catégories
+            List<AssetCategory> assetCategories = assetVocabularyAccessor.getCategoriesSignalement(groupId).getCategories();
 			// Donne le droit à une administrateur de cacher un commentaire
 			boolean isAdmin = themeDisplay.getPermissionChecker().isOmniadmin();
 
+			request.setAttribute("categories",assetCategories);
 			request.setAttribute("comments", comments);
 			request.setAttribute("isAdmin", isAdmin);
 			request.setAttribute("entryID", entryID);
@@ -204,10 +208,12 @@ public class CommentPortlet extends MVCPortlet {
      */
 	public void reportComment(ActionRequest request, ActionResponse response) throws PortalException, IOException {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-	    long result = ParamUtil.getLong(request, "commentId");
+        long result = ParamUtil.getLong(request, "commentId");
+        long categoryId = ParamUtil.getLong(request, "categorie");
         Comment comment = CommentLocalServiceUtil.getComment(result);
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
+        AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
         SignalementLocalServiceUtil.addSignalement(signalement);
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
         PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),

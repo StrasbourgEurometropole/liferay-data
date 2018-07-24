@@ -109,6 +109,11 @@
                                     showLabel="false" status="${reporting.status}" />
                             </liferay-ui:search-container-column-text>
 
+                            <%-- Colonne : Type--%>
+                            <liferay-ui:search-container-column-text cssClass="content-column"
+                                name="Type" truncate="true" orderable="true" value="${reporting.getCategorieName()}" />
+
+
                         </liferay-ui:search-container-row>
 
                     <%-- Iterateur --%>

@@ -17,17 +17,18 @@ package eu.strasbourg.service.comment.model.impl;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Signalement service. Represents a row in the &quot;comment_Signalement&quot; database table, with each column mapped to a property of this class.
@@ -40,7 +41,6 @@ import java.util.List;
  */
 @ProviderType
 public class SignalementImpl extends SignalementBaseImpl {
-
 
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	/*
@@ -85,11 +85,23 @@ public class SignalementImpl extends SignalementBaseImpl {
      * l'assetEntry)
      */
     @Override
-    public List<AssetCategory> getCategories() {
-        return AssetVocabularyHelper
-                .getAssetEntryCategories(this.getAssetEntry());
+    public List<AssetCategory> getCategoriesByAssetEntry() {
+        return AssetCategoryLocalServiceUtil
+                .getAssetEntryAssetCategories(this.getSignalementId());
     }
 
+    public String getCategorieName(){
+        String result = "";
+        try {
+            List<AssetCategory> assetCategories = getCategoriesByAssetEntry();
+            result = assetCategories.stream()
+                    .map(assetCategory -> assetCategory.getTitle(Locale.FRANCE))
+                    .collect(Collectors.joining(" - "));
+        }catch (NullPointerException e){
+            _log.error("pas de categories pour le signalement : "+this.getSignalementId());
+        }
+        return result;
+    }
     /**
      * Retourne l'AssetEntry rattaché cet item
      */

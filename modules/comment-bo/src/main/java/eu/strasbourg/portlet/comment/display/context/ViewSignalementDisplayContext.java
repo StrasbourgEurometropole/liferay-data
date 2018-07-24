@@ -30,6 +30,7 @@ public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Si
         if (_signalements==null){
             _signalements = SignalementLocalServiceUtil.getByGroupId(this._themeDisplay.getScopeGroupId());
         }
+
         return _signalements;
     }
 

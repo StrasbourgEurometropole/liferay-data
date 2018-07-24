@@ -1,4 +1,4 @@
-<%@ include file="/comments-init.jsp"%>
+
 
 <portlet:actionURL var="reportComment" name="reportComment">
 	<portlet:param name="mvcPath" value="/report-modal.jsp"></portlet:param>
@@ -20,8 +20,14 @@
                                 <div>
                                     <h3>Type de signalement</h3>
                                     <p>Veuillez selectionner le type de signalement correspondant :</p>
+                                    <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
                                     <form id="form-signalements" method="post" action="${reportComment}"
                                         class="pro-user-connected">
+                                        <select name="<portlet:namespace />categorie">
+                                            <c:forEach var="categorie" items="${categories}">
+                                                <option value="${categorie.categoryId}">${categorie.name}</option>
+                                            </c:forEach>
+                                        </select>
                                         <input type="hidden" id="commentId" name="<portlet:namespace />commentId"/>
                                         <input type="submit" class="pro-btn-yellow" value="Signaler" />
                                         <!--<a href="#" class="pro-btn-yellow" title="Signaler le commentaire">Signaler</a>-->

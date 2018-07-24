@@ -322,6 +322,11 @@ public class SignalementWrapper implements Signalement,
 		return new SignalementWrapper((Signalement)_signalement.clone());
 	}
 
+	@Override
+	public java.lang.String getCategorieName() {
+		return _signalement.getCategorieName();
+	}
+
 	/**
 	* méthode qui permet de récupérer le commmentaire lié au signalement.
 	*
@@ -427,8 +432,8 @@ public class SignalementWrapper implements Signalement,
 	* l'assetEntry)
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
-		return _signalement.getCategories();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry() {
+		return _signalement.getCategoriesByAssetEntry();
 	}
 
 	/**
