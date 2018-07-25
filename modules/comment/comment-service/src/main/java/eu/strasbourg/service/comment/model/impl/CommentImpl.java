@@ -16,6 +16,8 @@ package eu.strasbourg.service.comment.model.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -228,6 +230,8 @@ public class CommentImpl extends CommentBaseImpl {
 	 * @return le nombre de signalement en int.
 	 */
 	public int getCountSignalements(){
-		return findSignalements().size();
+		List<Signalement> signalements = findSignalements();
+		List<Signalement> resultList = signalements.stream().filter(signalement -> signalement.getStatus()==0).collect(Collectors.toList());
+		return resultList.size();
 	}
 }
