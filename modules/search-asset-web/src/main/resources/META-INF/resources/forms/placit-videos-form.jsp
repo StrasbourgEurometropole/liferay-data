@@ -21,6 +21,7 @@
     </fieldset>
 </div>
 
+
 <!-- Recherche par dates -->
 <c:if test="${dc.dateField}">
 	<div class="pro-group">
@@ -54,27 +55,31 @@
 	</div>
 </c:if>
 
-<!-- Recherche par états -->
+<!-- Recherche par projet -->
 <div class="pro-group">
     <div class="pro-header">
-        <h4><liferay-ui:message key="eu.state" /></h4>
+        <h4><liferay-ui:message key="eu.projects" /></h4>
         <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
-        
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getParticipationStatus(groupID)}" />
-		<c:forEach
-			items="${dc.getDropdownRootCategories(statusVocabulary)}"
-			var="category"
-			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_0"
-				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_0_${catStatus.index}"
-				label="${category.getTitle(locale)}"
-				cssClass="move-to-grand-parent" />
-		</c:forEach>
+    <fieldset>
+        <legend aria-hidden="true" class="hide">Choix par nom de projet</legend>
+        <div>
+            <select class="" id="projet"
+				name="<portlet:namespace />vocabulary_0">
+				<option><liferay-ui:message key="eu.project-choose" /></option>
+				<c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
+				<c:set var="projectStatusVocabulary"
+					value="${vocabularyAccessor.getProjects(groupID)}" />
+				<c:forEach
+					items="${dc.getDropdownRootCategories(projectStatusVocabulary)}"
+					var="category">
+					<c:set var="category" value="${category}" scope="request" />
+					<c:set var="dc" value="${dc}" scope="request" />
+					<c:set var="level" value="1" scope="request" />
+					<jsp:include page="/forms/category-option.jsp" />
+				</c:forEach>
+			</select>
+        </div>
     </fieldset>
 </div>
 
@@ -128,36 +133,11 @@
     </fieldset>
 </div>
 
-<!-- Recherche par types -->
-<div class="pro-group">
-    <div class="pro-header">
-        <h4><liferay-ui:message key="eu.participation.types" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
-    </div>
-    <fieldset class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par type de participation</legend>
-		
-		<c:set var="participationTypesVocabulary" value="${vocabularyAccessor.getParticipationTypes(groupID)}" />
-		<c:forEach
-			items="${dc.getDropdownRootCategories(participationTypesVocabulary)}"
-			var="category"
-			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_3"
-				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_3_${catStatus.index}"
-				label="${category.getTitle(locale)}"
-				cssClass="move-to-grand-parent" />
-		</c:forEach>
-		
-    </fieldset>
-</div>
-
 <div class="pro-group">
     <input type="submit" name="rechercher" value="Rechercher" />
 </div>
 
-<aui:input type="hidden" name="vocabulariesCount" value="4" />
+<aui:input type="hidden" name="vocabulariesCount" value="3" />
 
 <script>
 	$(document).ready(function() {

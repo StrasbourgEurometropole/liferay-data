@@ -14,14 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -30,10 +23,11 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
@@ -42,6 +36,10 @@ import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Participation service. Represents a row in the &quot;project_Participation&quot; database table, with each column mapped to a property of this class.
@@ -143,7 +141,42 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 				15, 
 				true).size();
 	}
-
+	
+	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+	
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED).size();
+	}
+	
+	/**
+	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
+	 */
+	@Override
+	public String getNbApprovedCommentsLabel() {
+		// Transforme le numero en chaine de caractere
+		String stringNum = Integer.toString(this.getNbApprovedComments());
+		// Recupere le nombre de chiffre
+		int nbDigits = stringNum.length();
+		// Ajoute les zeros manquants avant la chaine
+		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
+		
+		return stringNum;
+	}
+	
 	/**
 	 * Retourne la liste des événements liés à la participation
 	 */

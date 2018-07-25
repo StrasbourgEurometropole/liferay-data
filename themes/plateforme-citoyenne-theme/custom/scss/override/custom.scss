@@ -131,7 +131,12 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 
 // Ajout de la marge des icons des datepiker Pikaday
 .pro-bloc-facette form .pro-group fieldset>* .pro-facette-date input {
-	margin-right : 10px;
+	margin-right : 12px;
+}
+
+// Ajout de la marge des icons des datepiker Pikaday
+form .pro-facette-date input {
+	margin-right : 12px;
 }
 
 // Suppression des surcharges de couleur sur le panneau d'ajout de contenu de Liferay

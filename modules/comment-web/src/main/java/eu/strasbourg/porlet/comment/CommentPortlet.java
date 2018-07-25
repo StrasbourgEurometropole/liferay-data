@@ -1,5 +1,27 @@
 package eu.strasbourg.porlet.comment;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletSession;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -12,6 +34,7 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -22,7 +45,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.comment.configuration.CommentConfiguration;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -49,17 +72,12 @@ import java.util.stream.Collectors;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = {
-        "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=false",
-        "javax.portlet.display-name=Commentaires",
-		"javax.portlet.init-param.add-process-action-success-action=false",
-        "javax.portlet.init-param.template-path=/",
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=false", "javax.portlet.display-name=Commentaires",
+		"javax.portlet.init-param.add-process-action-success-action=false", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/comments-view.jsp",
-		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB,
-        "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
-        service = Portlet.class)
+		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB, "javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class CommentPortlet extends MVCPortlet {
 
 	@Override
@@ -105,7 +123,7 @@ public class CommentPortlet extends MVCPortlet {
 
 			// Ici on filtre les commentaires qui ne sont pas au status approved car
 			// un administrateur peut désapprouver un commentaire
-			List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entryID, 1,
+			List<Comment> comments = _commentLocalService.getByAssetEntryAndLevel(entryID, 1,
 					WorkflowConstants.STATUS_APPROVED);
 			long groupId = themeDisplay.getLayout().getGroupId();
 			// Tri des commentaires sur la date de création
@@ -116,7 +134,7 @@ public class CommentPortlet extends MVCPortlet {
 
 			//récupération des catégories
             List<AssetCategory> assetCategories = assetVocabularyAccessor.getCategoriesSignalement(groupId).getCategories();
-			// Donne le droit à une administrateur de cacher un commentaire
+			// Donne le droit à un administrateur de cacher un commentaire
 			boolean isAdmin = themeDisplay.getPermissionChecker().isOmniadmin();
 
 			request.setAttribute("categories",assetCategories);
@@ -131,56 +149,81 @@ public class CommentPortlet extends MVCPortlet {
 		}
 	}
 	
-
+	/**
+	 * Action d'ajout/edition d'un commentaire
+	 */
 	public void postComment(ActionRequest request, ActionResponse response) throws Exception, SystemException {
 		try {
 
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 			String userPublikId = getPublikID(request);
+
+			boolean isValid = validate(request);
+
 			// Si l'utilisateur n'est pas connecte, on ne fait rien
-			if (Validator.isNotNull(userPublikId)) {
+			if (Validator.isNotNull(userPublikId) && isValid) {
 
 				ServiceContext sc = ServiceContextFactory.getInstance(request);
+
+				// Recuperation du potentiel id du commentaire parent
+				Long parentCommentId = ParamUtil.getLong(request, "parentCommentId");
+
+				// Recuperation du potentiel id du commentaire a editer
+				Long editCommentId = ParamUtil.getLong(request, "editCommentId");
+
 				Comment comment = CommentLocalServiceUtil.createComment(sc);
 
 				// Recuperation du message du commentaire
 				String message = ParamUtil.getString(request, "message");
 
-				// Recuperation du potentiel id du commentaire parent
-				Long parentCommentId = ParamUtil.getLong(request, "parentCommentId");
+				Comment comment;
 
-				// Construction de l'URL du commentaire
-				String urlTemp = themeDisplay.getURLPortal();
-				String urlSuite = themeDisplay.getURLCurrent();
-				StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
+				if (editCommentId <= 0) { // Creation d'un nouveau commentaire
+					comment = _commentLocalService.createComment(sc);
 
-				//insertion du lien vers le commentaire
+					// Construction de l'URL du commentaire
+					String urlTemp = themeDisplay.getURLPortal();
+					String urlSuite = themeDisplay.getURLCurrent();
+					StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
+
+					//insertion du lien vers le commentaire
 				url.append("#");
 				url.append(comment.getCommentId());
 
 				// Recuperation de l'ID de l'AssetEntry commente
-				long entryID = ParamUtil.getLong(request, "entryID");
+					long entryID = ParamUtil.getLong(request, "entryID");
 
-				// Si le message possede un contenant contenu
-				if (message.length() > 0) {
-					comment.setComment(message);
+					// Edition des attributs
 					comment.setAssetEntryId(entryID);
 					comment.setUrlProjectCommentaire(url.toString());
 					comment.setPublikId(userPublikId);
+					comment.setComment(message);
 
 					// Si le message est une reponse
-					if (parentCommentId != null && parentCommentId != 0) {
+					if (parentCommentId != 0) {
 						comment.setParentCommentId(parentCommentId);
 						comment.setLevel(2);
 					} else {
 						comment.setLevel(1);
 					}
 
-					CommentLocalServiceUtil.addComment(comment);
+					_commentLocalService.addComment(comment);
+
+				} else { // Modification d'un commentaire
+					comment = _commentLocalService.getComment(editCommentId);
+
+					// Verifie si c'est bien le posteur original
+					if (comment.getPublikId().equals(userPublikId)) {
+						comment.setComment(message);
+						_commentLocalService.updateComment(comment, sc);
+					} else {
+						SessionErrors.add(request, "unauthorized");
+					}
+
 				}
-				// Redirection (évite double
-				// requête POST si l'utilisateur actualise sa page)
+
+				// Redirection (évite double requête POST si l'utilisateur actualise sa page)
 				String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 				PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
@@ -191,12 +234,15 @@ public class CommentPortlet extends MVCPortlet {
 		}
 	}
 
-	// Méthode qui permet à l'administrateur de cacher un commentaire
+	/**
+	 *  Méthode qui permet à l'administrateur de cacher un commentaire
+	 */
 	public void hideComment(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
 		try {
-			Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(request, "commentId"));
+			Comment comment = _commentLocalService.getComment(ParamUtil.getLong(request, "commentId"));
 			comment.setStatus(WorkflowConstants.STATUS_DENIED);
-			CommentLocalServiceUtil.updateComment(comment);
+
+			_commentLocalService.updateComment(comment);
 		} catch (Exception e) {
 			_log.error(e);
 		}
@@ -226,15 +272,54 @@ public class CommentPortlet extends MVCPortlet {
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
+		try {
+			String resourceID = resourceRequest.getResourceID();
+			String publikUserID = getPublikID(resourceRequest);
+			Comment comment = _commentLocalService.getComment(ParamUtil.getLong(resourceRequest, "commentId"));
+
+			if (resourceID.equals("signaler")) {
+				if (Validator.isNotNull(publikUserID)) {
+					ServiceContext sc = ServiceContextFactory.getInstance(resourceRequest);
+					Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
+					SignalementLocalServiceUtil.addSignalement(signalement);
+				}
+			}
+		} catch (Exception e) {
+			_log.error(e);
+		}
+
 		super.serveResource(resourceRequest, resourceResponse);
 	}
 
-	// Récupération du publik ID avec la session
+	/**
+	 * Récupération du publik ID avec la session
+	 */
 	private String getPublikID(PortletRequest request) {
 		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
 		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
+
+	/**
+	 * Validation des champs obligatoires
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+
+		if (Validator.isNull(ParamUtil.getString(request, "message"))) {
+			SessionErrors.add(request, "message");
+			isValid = false;
+		}
+
+		return isValid;
+	}
+
+	@Reference(unbind = "-")
+	protected void setCommentLocalService(CommentLocalService commentLocalService) {
+		_commentLocalService = commentLocalService;
+	}
+
+	private CommentLocalService _commentLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

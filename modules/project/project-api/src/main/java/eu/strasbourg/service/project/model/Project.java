@@ -154,4 +154,14 @@ public interface Project extends ProjectModel, PersistedModel {
 	* Retourne les thematiques du projet
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
 }

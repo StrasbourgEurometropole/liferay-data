@@ -35,50 +35,56 @@
 									pattern="dd MMM yyyy" />
 							</time></span>
 						<div class="pro-comment">
-							<p>${comment.comment}</p>
-							<c:if test="${isAdmin}">
-								<div class="pro-interactions">
-									<a href="#pro-avis-like-pro" class="pro-like"
-										data-typeid="16" 
-		                                data-isdislike="false"
-		                                data-title="Comment of ${comment.getPublikUserName()}" 
-		                                data-entityid="${comment.commentId}"
-		                                data-entitygroupid="${comment.groupId}"
-										title="Aimer ce commentaire">
-										${comment.nbLikes}
+							<p id="comment-${comment.commentId}">${comment.comment}</p>
+							<div class="pro-interactions">
+								<a href="#pro-avis-like-pro" class="pro-like"
+									data-typeid="16"
+	                                data-isdislike="false"
+	                                data-title="Comment of ${comment.getPublikUserName()}"
+	                                data-entityid="${comment.commentId}"
+	                                data-entitygroupid="${comment.groupId}"
+									title="Aimer ce commentaire">
+									${comment.nbLikes}
+								</a>
+                                   <a href="#pro-avis-dislike-pro" class="pro-dislike"
+                                   	data-typeid="16"
+	                                data-isdislike="true"
+	                                data-title="Comment of ${comment.getPublikUserName()}"
+	                                data-entityid="${comment.commentId}"
+	                                data-entitygroupid="${comment.groupId}"
+                                   	title="Ne pas aimer ce commentaire">
+                                   	${comment.nbDislikes}
+                                   </a>
+								<div>
+									<a href="#Repondre" class="pro-reponse"
+										data-commentid="${comment.commentId}"
+										data-username="${comment.getPublikUserName()}"
+										title="Repondre au commentaire">
+										<liferay-ui:message key='comment-answer'/>
 									</a>
-                                    <a href="#pro-avis-dislike-pro" class="pro-dislike" 
-                                    	data-typeid="16" 
-		                                data-isdislike="true"
-		                                data-title="Comment of ${comment.getPublikUserName()}" 
-		                                data-entityid="${comment.commentId}"
-		                                data-entitygroupid="${comment.groupId}"
-                                    	title="Ne pas aimer ce commentaire">
-                                    	${comment.nbDislikes}
-                                    </a>
-									<div>
-										<a href="#Repondre" class="pro-reponse"
+									<c:if test="${comment.publikId == userPublikId}">
+										<a href="#Modifier"
 											data-commentid="${comment.commentId}"
-											data-username="${comment.getPublikUserName()}"
-											title="Répondre au commentaire">
-											<liferay-ui:message key='comment-answer'/>
+											title="Repondre au commentaire">
+											<liferay-ui:message key='comment-edit'/>
 										</a>
+									</c:if>
+										<c:if test="${isAdmin}">
 										<a href="${hideComment}" title="Masquer le commentaire">
 											<liferay-ui:message key='comment-hide'/>
 										</a>
-									</div>
-									<div>
-                                        <a href="#report" title="Signaler le commentaire"
+									</c:if>
+								</div>
+								<div>
+                                    <a href="#report" title="Signaler le commentaire"
                                         data-commentid="${comment.commentId}"
                                         >Signaler</a>
-                                        <c:if test="${userPublikId eq comment.publikId}">
-                                        	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
-                                        </c:if>
-                                    </div>
+                                    <c:if test="${userPublikId eq comment.publikId}">
+                                    	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
+                                    </c:if>
+                                </div>
 
-								</div>
-								 
-							</c:if>
+							</div>
 						</div>
 						
 						<div class="pro-comment-response" style="padding-left: 50px">
@@ -121,10 +127,11 @@
 								  <c:otherwise>
 								    placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
 								  </c:otherwise>
-								</c:choose>>
-							</textarea>
+								</c:choose>
+							></textarea>
 						</div>
 						<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
+						<input type="hidden" id="editCommentId" name="<portlet:namespace />editCommentId"/>
 						<input type="submit" class="pro-btn-yellow" value="Envoyer" />
 					</form>
 				</div>
@@ -167,18 +174,33 @@
 	});
 	
 	$("[href='#Repondre']").click(function(e){
-		var OPName=$(this).data('username');
-		var parentId=$(this).data('commentid');
+		var OPName = $(this).data('username');
+		var parentId = $(this).data('commentid');
 		
 		$("input[id='parentCommentId']").val(parentId);
+		$("input[id='editCommentId']").val(0);
+		$(".pro-reagir .pro-textearea>textarea").text("");
  		$(".pro-reagir .pro-textearea>label").text('<liferay-ui:message key="comment-parent-answer" /> ' + OPName + ' :');
 		$(".pro-reagir .pro-user-connected>.pro-btn-yellow").val('<liferay-ui:message key="comment-answer"/>');
 		
-		$(document).scrollTop($("#pro-link-commentaire").offset().top); 
+		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
 	
+	$("[href='#Modifier']").click(function(e){
+		var commentId = $(this).data('commentid');
+		var baseMsg = $("p[id=comment-" + commentId + "]").text();
+
+		$("input[id='editCommentId']").val(commentId);
+		$("input[id='parentCommentId']").val(0);
+		$(".pro-reagir .pro-textearea>textarea").text(baseMsg);
+		$(".pro-reagir .pro-textearea>label").text('<liferay-ui:message key="comment-edit-comment" />');
+		$(".pro-reagir .pro-user-connected>.pro-btn-yellow").val('<liferay-ui:message key="comment-edit"/>');
+
+		$(document).scrollTop($("#pro-link-commentaire").offset().top);
+	});
+
 	function deleteMessage(commentId){
-		if (confirm('�tes-vous s�r de vouloir supprimer votre message ?')) {
+		if (confirm('êtes-vous sûr de vouloir supprimer votre message ?')) {
 			//
 		}
 	}
