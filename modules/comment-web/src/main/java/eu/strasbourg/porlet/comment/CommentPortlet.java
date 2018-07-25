@@ -155,6 +155,10 @@ public class CommentPortlet extends MVCPortlet {
 				String urlSuite = themeDisplay.getURLCurrent();
 				StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
 
+				//insertion du lien vers le commentaire
+				url.append("#");
+				url.append(comment.getCommentId());
+
 				// Recuperation de l'ID de l'AssetEntry commente
 				long entryID = ParamUtil.getLong(request, "entryID");
 
