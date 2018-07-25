@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -39,12 +40,30 @@ public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Si
 
         return _signalements;
     }
+
+    private List<Signalement> getAllSignalement() throws PortalException{
+        Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
+        return populateSignalements(hits);
+    }
+
+    @Override
+    public String getOrderByCol() {
+        return ParamUtil.getString(this._request, "orderByCol",
+                "reporting-date");
+    }
+
+    /**
+     * Méthode permettant la création de liste d'objets.
+     * @param hits les hits d'elastic search
+     * @return la liste d'objet.
+     */
     private List<Signalement> populateSignalements(Hits hits) {
         List<Signalement> results = new ArrayList<>();
         if (hits != null) {
             for (Document document :
                     hits.getDocs()) {
-                Signalement signalement = SignalementLocalServiceUtil.fetchSignalement(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                long id = GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK));
+                Signalement signalement = SignalementLocalServiceUtil.fetchSignalement(id);
                 if (signalement != null) {
 
                     results.add(signalement);
@@ -52,6 +71,27 @@ public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Si
             }
         }
         return results;
+    }
+
+    @Override
+    public String getOrderByColSearchField() {
+        String param = this.getOrderByCol();
+        String result;
+        switch (param) {
+            case "userName":
+                result="localized_title_fr_FR_sortable";
+                break;
+            case "reporting-date":
+                result= "modified_sortable";
+                break;
+            case "reportType":
+                result= "status_sortable";
+                break;
+            default:
+                result= super.getOrderByColSearchField();
+                break;
+        }
+        return result;
     }
 
     public boolean hasPermission(String actionId) throws PortalException {
