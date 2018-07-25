@@ -190,10 +190,8 @@ public class CommentPortlet extends MVCPortlet {
 	// Méthode qui permet à l'administrateur de cacher un commentaire
 	public void hideComment(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
 		try {
-
 			Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(request, "commentId"));
 			comment.setStatus(WorkflowConstants.STATUS_DENIED);
-
 			CommentLocalServiceUtil.updateComment(comment);
 		} catch (Exception e) {
 			_log.error(e);
@@ -214,7 +212,7 @@ public class CommentPortlet extends MVCPortlet {
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
         AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
-        SignalementLocalServiceUtil.addSignalement(signalement);
+        SignalementLocalServiceUtil.updateSignalement(signalement,sc);
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
         PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                 PortletRequest.RENDER_PHASE);

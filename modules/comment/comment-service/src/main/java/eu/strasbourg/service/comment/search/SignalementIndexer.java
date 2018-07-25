@@ -10,11 +10,13 @@ import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -26,6 +28,7 @@ import java.util.Map;
 /**
  * @author alexandre.quere
  */
+@Component(immediate = true, service = Indexer.class)
 public class SignalementIndexer extends BaseIndexer<Signalement> {
     private static final String CLASS_NAME = Signalement.class.getName();
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

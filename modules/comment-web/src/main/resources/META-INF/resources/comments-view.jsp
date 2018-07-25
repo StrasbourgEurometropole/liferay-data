@@ -25,7 +25,7 @@
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
 
-				<div class="pro-item">
+				<div id="${comment.commentId}" class="pro-item">
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span> <span
 							class="pro-comment-time"><liferay-ui:message
