@@ -54,6 +54,29 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
         return projectIds.toString();
     }
 
+    @Override
+    public String getOrderByColSearchField() {
+        String param = this.getOrderByCol();
+        String result;
+        switch (param) {
+            case "userName":
+                result="localized_title_fr_FR_sortable";
+                break;
+            case "reportings":
+                result= "status_sortable";
+                break;
+            case "entityType":
+                result= "localized_title_fr_FR_sortable";
+                break;
+            case "entityName":
+                result= "localized_title_fr_FR_sortable";
+                break;
+            default:
+                result= super.getOrderByColSearchField();
+                break;
+        }
+        return result;
+    }
 
     private List<Comment> populateComments(Hits hits) {
         List<Comment> results = new ArrayList<>();

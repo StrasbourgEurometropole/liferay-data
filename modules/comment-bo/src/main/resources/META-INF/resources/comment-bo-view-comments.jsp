@@ -33,7 +33,7 @@
 
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"userName", "modified-date","status","entityType","entityName"} %>'
+				orderColumns='<%= new String[] {"userName", "modified-date","status","reportings","entityType","entityName"} %>'
 				portletURL="${commentsURL}" />
 		</liferay-frontend:management-bar-filters>
 

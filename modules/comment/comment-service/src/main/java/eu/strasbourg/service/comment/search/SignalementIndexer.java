@@ -111,11 +111,6 @@ public class SignalementIndexer extends BaseIndexer<Signalement> {
         addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
         Map<Locale,String> userNameFieldMap = new HashMap<>();
         userNameFieldMap.put(Locale.FRANCE, signalement.getUserName());
-        /*
-        Map<Locale,String> reportTypeFieldMap = new HashMap<>();
-        reportTypeFieldMap.put(Locale.FRANCE, signalement.getCategorieName());
-        document.addLocalizedText("reportType",reportTypeFieldMap);
-        */
         document.addText("reportType",signalement.getCategorieName());
         document.addLocalizedText(Field.USER_NAME,userNameFieldMap);
         document.addNumber(Field.STATUS, signalement.getStatus());

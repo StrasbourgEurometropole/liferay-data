@@ -102,11 +102,11 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 		addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
 		Map<Locale,String> userNameFieldMap = new HashMap<>();
 		userNameFieldMap.put(Locale.FRANCE, comment.getUserName());
-		Map<Locale,String> commentaireMap = new HashMap<>();
-		commentaireMap.put(Locale.FRANCE,comment.getComment());
-		document.addLocalizedText(Field.TITLE,userNameFieldMap);
-		document.addLocalizedText(Field.DESCRIPTION,commentaireMap);
+		document.addLocalizedText(Field.USER_NAME,userNameFieldMap);
 		document.addNumber(Field.STATUS, comment.getStatus());
+		document.addNumber("reportings", comment.getCountSignalements());
+		document.addText("entityType",comment.getTypeAssetEntry());
+		document.addText("entityName",comment.getAssetEntryTitle());
 		return document;
 	}
 }
