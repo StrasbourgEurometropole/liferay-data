@@ -302,6 +302,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne le projet de la video
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _video.getProjectCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry correspondant à cet item
 	*/
 	@Override
@@ -348,6 +356,36 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public int compareTo(eu.strasbourg.service.video.model.Video video) {
 		return _video.compareTo(video);
+	}
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _video.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _video.getNbLikes();
+	}
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikesDislikes() {
+		return _video.getNbLikesDislikes();
 	}
 
 	/**
@@ -555,11 +593,31 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne le code embed de la vidéo si le champ "source" est un lien
+	* vers une vidéo Dailymotion, YouTube ou Vimeo, retourne le contenu du
+	* champ source sinon
+	*/
+	@Override
+	public java.lang.String getEmbedURL(java.lang.String site,
+		java.lang.String videoUrl) {
+		return _video.getEmbedURL(site, videoUrl);
+	}
+
+	/**
 	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
 	public java.lang.String getImageURL() {
 		return _video.getImageURL();
+	}
+
+	/**
+	* Retourne le nombre de vues d'une vidéo
+	*/
+	@Override
+	public java.lang.String getNbViews(java.lang.String site,
+		java.lang.String videoId) {
+		return _video.getNbViews(site, videoId);
 	}
 
 	/**
@@ -578,6 +636,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public java.lang.String getProvidersLabel(java.util.Locale locale) {
 		return _video.getProvidersLabel(locale);
+	}
+
+	/**
+	* Retourne le site cible de la vidéo
+	*/
+	@Override
+	public java.lang.String getSiteVideo(java.lang.String videoUrl) {
+		return _video.getSiteVideo(videoUrl);
 	}
 
 	/**
@@ -781,6 +847,15 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getVideoGalleriesIds();
 	}
 
+	/**
+	* Retourne l'id de la vidéo
+	*/
+	@Override
+	public java.lang.String getVideoId(java.lang.String site,
+		java.lang.String videoUrl) {
+		return _video.getVideoId(site, videoUrl);
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _video.toString();
@@ -864,6 +939,46 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
+		return _video.getDislikes();
+	}
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la vidéo
+	*
+	* @return : la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _video.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _video.getLikes();
+	}
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes() {
+		return _video.getLikesDislikes();
+	}
+
+	/**
 	* Retourne les fournisseurs de la vidéo
 	*/
 	@Override
@@ -888,6 +1003,25 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(
 		java.util.Locale locale) {
 		return _video.getSuggestions(locale);
+	}
+
+	/**
+	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(
+		java.util.Locale locale, int nbSuggestions) {
+		return _video.getSuggestions(locale, nbSuggestions);
+	}
+
+	/**
+	* Retourne les thematiques de la vidéo
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _video.getThematicCategories();
 	}
 
 	/**

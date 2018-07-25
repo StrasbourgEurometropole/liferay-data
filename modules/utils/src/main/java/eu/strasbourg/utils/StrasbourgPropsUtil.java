@@ -196,4 +196,12 @@ public class StrasbourgPropsUtil {
 	public static String getResidantURL(){
 		return PropsUtil.get("eu.strasbourg.resid.url");
 	}
+
+	public static String getDailymotionApiUrl() {
+		return PropsUtil.get("eu.strasbourg.dailymotion.api.url");
+	}
+
+	public static String getYoutubeApiUrl() {
+		return PropsUtil.get("eu.strasbourg.youtube.api.url");
+	}
 }
