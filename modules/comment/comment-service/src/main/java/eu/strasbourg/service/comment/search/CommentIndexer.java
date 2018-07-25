@@ -50,21 +50,18 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 
 	@Override
 	protected void doReindex(String className, long classPK) throws Exception {
-		_log.info("doReindex");
 		Comment entry = CommentLocalServiceUtil.getComment(classPK);
 		doReindex(entry);
 	}
 
 	@Override
 	protected void doReindex(String[] ids) throws Exception {
-		_log.info("doReindex2");
 		long companyId = GetterUtil.getLong(ids[0]);
 		reindexEntries(companyId);
 	}
 	
 	@Override
 	protected void doReindex(Comment comment) throws Exception {
-		_log.info("doReindex3");
 		Document document = getDocument(comment);
 
 		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
@@ -73,7 +70,6 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 	}
 	
 	protected void reindexEntries(long companyId) throws PortalException {
-		_log.info("reindexEntries");
 		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = CommentLocalServiceUtil
 			.getIndexableActionableDynamicQuery();
 		indexableActionableDynamicQuery.setAddCriteriaMethod(dynamicQuery -> {});

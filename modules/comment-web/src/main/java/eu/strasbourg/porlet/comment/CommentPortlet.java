@@ -18,6 +18,7 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -172,7 +173,6 @@ public class CommentPortlet extends MVCPortlet {
 				// Recuperation du potentiel id du commentaire a editer
 				Long editCommentId = ParamUtil.getLong(request, "editCommentId");
 
-				Comment comment = CommentLocalServiceUtil.createComment(sc);
 
 				// Recuperation du message du commentaire
 				String message = ParamUtil.getString(request, "message");
@@ -188,8 +188,8 @@ public class CommentPortlet extends MVCPortlet {
 					StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
 
 					//insertion du lien vers le commentaire
-				url.append("#");
-				url.append(comment.getCommentId());
+				    url.append("#");
+				    url.append(comment.getCommentId());
 
 				// Recuperation de l'ID de l'AssetEntry commente
 					long entryID = ParamUtil.getLong(request, "entryID");
