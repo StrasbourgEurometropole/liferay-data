@@ -137,7 +137,7 @@
     <input type="submit" name="rechercher" value="Rechercher" />
 </div>
 
-<aui:input type="hidden" name="vocabulariesCount" value="4" />
+<aui:input type="hidden" name="vocabulariesCount" value="3" />
 
 <script>
 	$(document).ready(function() {
