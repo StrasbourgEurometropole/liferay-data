@@ -278,8 +278,7 @@ public class ObjtpImporter {
 		FoundObject object = FoundObjectLocalServiceUtil.createFoundObject(objectNumero);		
 		object.setCategoryCode(codeCategory);
 		
-		SimpleDateFormat recievingFormat = new SimpleDateFormat("yyyymmdd");
-		SimpleDateFormat outFormat = new SimpleDateFormat("dd/mm/yyyy");
+		SimpleDateFormat recievingFormat = new SimpleDateFormat("yyyyMMdd");
 		
 		Date dateDepot = recievingFormat.parse(depotDate);
 		
