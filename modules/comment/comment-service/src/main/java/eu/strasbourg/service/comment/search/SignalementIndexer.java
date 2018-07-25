@@ -57,21 +57,18 @@ public class SignalementIndexer extends BaseIndexer<Signalement> {
 
     @Override
     protected void doReindex(String className, long classPK) throws Exception {
-        _log.info("doReindex");
         Signalement entry = SignalementLocalServiceUtil.getSignalement(classPK);
         doReindex(entry);
     }
 
     @Override
     protected void doReindex(String[] ids) throws Exception {
-        _log.info("doReindex2");
         long companyId = GetterUtil.getLong(ids[0]);
         reindexEntries(companyId);
     }
 
     @Override
     protected void doReindex(Signalement signalement) throws Exception {
-        _log.info("doReindex3");
         Document document = getDocument(signalement);
 
         IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
@@ -80,7 +77,6 @@ public class SignalementIndexer extends BaseIndexer<Signalement> {
     }
 
     protected void reindexEntries(long companyId) throws PortalException {
-        _log.info("reindexEntries");
         final IndexableActionableDynamicQuery indexableActionableDynamicQuery = SignalementLocalServiceUtil
                 .getIndexableActionableDynamicQuery();
         indexableActionableDynamicQuery.setAddCriteriaMethod(dynamicQuery -> {});
@@ -109,10 +105,8 @@ public class SignalementIndexer extends BaseIndexer<Signalement> {
                 .getFullHierarchyCategories(signalement.getCategoriesByAssetEntry());
         document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
         addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
-        Map<Locale,String> userNameFieldMap = new HashMap<>();
-        userNameFieldMap.put(Locale.FRANCE, signalement.getUserName());
-        document.addText("reportType",signalement.getCategorieName());
-        document.addLocalizedText(Field.USER_NAME,userNameFieldMap);
+        document.addTextSortable("reportType",signalement.getCategorieName());
+        document.addTextSortable(Field.USER_NAME,signalement.getUserName());
         document.addNumber(Field.STATUS, signalement.getStatus());
         return document;
     }

@@ -79,13 +79,13 @@ public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Si
         String result;
         switch (param) {
             case "userName":
-                result="localized_title_fr_FR_sortable";
+                result="userName_String_sortable";
                 break;
             case "reporting-date":
                 result= "modified_sortable";
                 break;
             case "reportType":
-                result= "status_sortable";
+                result= "reportType_String_sortable";
                 break;
             default:
                 result= super.getOrderByColSearchField();
@@ -94,7 +94,7 @@ public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Si
         return result;
     }
 
-    public boolean hasPermission(String actionId) throws PortalException {
+    public boolean hasPermission(String actionId) {
         return _themeDisplay.getPermissionChecker().hasPermission(
                 this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.COMMENT_BO,

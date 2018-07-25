@@ -60,16 +60,16 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
         String result;
         switch (param) {
             case "userName":
-                result="localized_title_fr_FR_sortable";
+                result="userName_String_sortable";
                 break;
             case "reportings":
-                result= "status_sortable";
+                result= "reportings";
                 break;
             case "entityType":
-                result= "localized_title_fr_FR_sortable";
+                result= "entityType_String_sortable";
                 break;
             case "entityName":
-                result= "localized_title_fr_FR_sortable";
+                result= "entityName_String_sortable";
                 break;
             default:
                 result= super.getOrderByColSearchField();
@@ -93,7 +93,7 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
         return results;
     }
 
-    public boolean hasPermission(String actionId) throws PortalException {
+    public boolean hasPermission(String actionId) {
         return _themeDisplay.getPermissionChecker().hasPermission(
                 this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.COMMENT_BO,

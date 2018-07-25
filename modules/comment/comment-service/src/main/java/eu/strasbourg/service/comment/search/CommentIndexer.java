@@ -100,13 +100,11 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper.getFullHierarchyCategories(comment.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
 		addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
-		Map<Locale,String> userNameFieldMap = new HashMap<>();
-		userNameFieldMap.put(Locale.FRANCE, comment.getUserName());
-		document.addLocalizedText(Field.USER_NAME,userNameFieldMap);
 		document.addNumber(Field.STATUS, comment.getStatus());
 		document.addNumber("reportings", comment.getCountSignalements());
-		document.addText("entityType",comment.getTypeAssetEntry());
-		document.addText("entityName",comment.getAssetEntryTitle());
+		document.addTextSortable(Field.USER_NAME,comment.getUserName());
+		document.addTextSortable("entityType",comment.getTypeAssetEntry());
+		document.addTextSortable("entityName",comment.getAssetEntryTitle());
 		return document;
 	}
 }
