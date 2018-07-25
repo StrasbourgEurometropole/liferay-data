@@ -360,6 +360,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	@Override
+	public boolean isJudgeable() {
+		return _participation.isJudgeable();
+	}
+
+	/**
 	* Returns <code>true</code> if this participation is media choice.
 	*
 	* @return <code>true</code> if this participation is media choice; <code>false</code> otherwise

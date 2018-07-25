@@ -102,6 +102,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public int getNbDislikes();
 
 	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	public boolean isJudgeable();
+
+	/**
 	* Retourne les commentaires de l'entité
 	*/
 	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();

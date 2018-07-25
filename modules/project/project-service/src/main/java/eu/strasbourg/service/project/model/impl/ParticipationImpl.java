@@ -148,6 +148,24 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
+	 * Peut apporter une reaction (commenter, liker, participer) a l'entite
+	 */
+	@Override
+	public boolean isJudgeable() {
+		AssetCategory status = this.getParticipationStatusCategory();
+		
+		if (status == null) {
+			return false;
+		} else if (status.getTitle(Locale.FRENCH).equals("À venir")) {
+			return false;
+		} else if (status.getTitle(Locale.FRENCH).equals("Terminée")) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Retourne les commentaires de l'entité
 	 */
 	@Override
