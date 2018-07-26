@@ -83,7 +83,9 @@ public class EventParticipationServiceImpl
 	public JSONObject addEventParticipationLink(long eventId, long groupId) {		
 		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-		if (isLoggedIn) {
+		boolean isNotBanish = SessionParamUtil.getBoolean(request, "is_banish");
+		
+		if (isLoggedIn && !isNotBanish) {
 		    String id = SessionParamUtil.getString(request, "publik_internal_id");
 		    
 		    EventParticipation eventParticipationExist = null;
@@ -113,7 +115,7 @@ public class EventParticipationServiceImpl
 			return success("participation added");
 			
 		} else {
-			return error("notConnected");
+			return isLoggedIn ? error("isBanned") : error("notConnected") ;
 		}
 	}
 	
@@ -124,7 +126,9 @@ public class EventParticipationServiceImpl
 	public JSONObject deleteEventParticipationLink(long eventId) {		
 		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-		if (isLoggedIn) {
+		boolean isNotBanish = SessionParamUtil.getBoolean(request, "is_banish");
+		
+		if (isLoggedIn && !isNotBanish) {
 		    String id = SessionParamUtil.getString(request, "publik_internal_id");
 		    
 		    EventParticipation eventParticipation = null;
@@ -144,7 +148,7 @@ public class EventParticipationServiceImpl
 			
 			return success("participation deleted");
 		} else {
-			return error("notConnected");
+			return isLoggedIn ? error("isBanned") : error("notConnected") ;
 		}
 	}
 	
