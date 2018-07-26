@@ -127,6 +127,16 @@
                 <%-- Champ : Commentaire --%>
                 <aui:input name="comment"/>
             </aui:fieldset>
+
+			<%-- Groupe de champs : Bannissement --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="banishment">
+				<%-- Champ : Date de fin bannissement --%>
+				<aui:input name="banishDate" required="false" helpMessage="help-banish-date"/>
+				<%-- Champ : Description / Motifs du bannissement --%>
+				<aui:input name="banishDescription" required="false" />
+
+			</aui:fieldset>
+
         </aui:fieldset-group>
 
         <%-- Composant : Menu de gestion de l'entite --%>

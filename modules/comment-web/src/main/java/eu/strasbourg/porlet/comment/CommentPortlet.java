@@ -347,7 +347,7 @@ public class CommentPortlet extends MVCPortlet {
 		
 		// GroupId des sites utilisant les commentaires
 		long placitGroupId =  GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL).getGroupId();
-		
+
 		if (groupId == placitGroupId) {/// RESTRICTIONS : PLATEFORME-CITOYENNE
 			
 			// Initialise l'attribut de signature du pacte
@@ -366,9 +366,8 @@ public class CommentPortlet extends MVCPortlet {
 				if (participation == null || !participation.isJudgeable()) {
 					request.setAttribute("isAssetCommentable", false);
 				}
-			} 
+			}
 		}
-
 	}
 	
 	/**
