@@ -168,6 +168,11 @@ public interface Event extends EventModel, PersistedModel {
 	public int getNbEventParticipations();
 
 	/**
+	* L'evenement est-il terminee ?
+	*/
+	public boolean isFinished();
+
+	/**
 	* Retourne le label de 5 digits du nombre de participation a l'evenement
 	*/
 	public java.lang.String getNbEventParticipationsLabel();

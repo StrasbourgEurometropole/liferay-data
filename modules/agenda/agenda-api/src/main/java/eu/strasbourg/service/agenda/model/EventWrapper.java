@@ -472,6 +472,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* L'evenement est-il terminee ?
+	*/
+	@Override
+	public boolean isFinished() {
+		return _event.isFinished();
+	}
+
+	/**
 	* Returns <code>true</code> if this event is inactive.
 	*
 	* @return <code>true</code> if this event is inactive; <code>false</code> otherwise

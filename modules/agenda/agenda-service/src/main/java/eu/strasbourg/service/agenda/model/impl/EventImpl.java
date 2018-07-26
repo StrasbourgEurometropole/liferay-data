@@ -332,6 +332,21 @@ public class EventImpl extends EventBaseImpl {
 	}
 	
 	/**
+	 * L'evenement est-il terminee ?
+	 */
+	@Override
+	public boolean isFinished() {
+		Date now = new Date();
+		
+		if (this.getLastEndDate() != null) {
+			if (this.getLastEndDate().compareTo(now) > 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Retourne le label de 5 digits du nombre de participation a l'evenement 
 	 */
 	@Override
