@@ -46,11 +46,15 @@ public class OIDCFilter extends BaseFilter {
 	private String givenNameAttribute = "publik_given_name";
 	private String familyNameAttribute = "publik_family_name";
 	private String emailAttribute = "publik_email";
+	private String hasPactSignedAttribute = "has_pact_signed";
+	private String isBanishAttribute = "is_banish";
 	private String familyName;
 	private String givenName;
 	private String internalId;
 	private String accessToken;
 	private String email;
+	private boolean hasPactSigned;
+	private boolean isBanish;
 
 	@Override
 	protected Log getLog() {
@@ -146,6 +150,13 @@ public class OIDCFilter extends BaseFilter {
 							StrasbourgPropsUtil.getPublikIssuer());
 					email = JWTUtils.getJWTClaim(jwt, "email", StrasbourgPropsUtil.getPublikClientSecret(),
 							StrasbourgPropsUtil.getPublikIssuer());
+					
+					// Recuperation des donnees inherantes a la plateforme participative
+					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(this.internalId);
+					if (user != null) {
+						hasPactSigned = user.getPactSignature() != null ? true : false;
+						isBanish = user.isBanned();
+					}
 
 					// On crée un nouveau jwt signé internalement pour y mettre
 					// l'id utilisateur
@@ -181,7 +192,9 @@ public class OIDCFilter extends BaseFilter {
 						givenName = user.getFirstName();
 						familyName = user.getLastName();
 						email = user.getEmail();
-
+						hasPactSigned = user.getPactSignature() != null ? true : false;
+						isBanish = user.isBanned();
+						
 						// On les met dans la session
 						putUserInfoInSession(request);
 					}
@@ -273,6 +286,8 @@ public class OIDCFilter extends BaseFilter {
 		request.getSession().setAttribute(givenNameAttribute, givenName);
 		request.getSession().setAttribute(internalIdAttribute, internalId);
 		request.getSession().setAttribute(emailAttribute, email);
+		request.getSession().setAttribute(hasPactSignedAttribute, hasPactSigned);
+		request.getSession().setAttribute(isBanishAttribute, isBanish);
 	}
 
 	/**
@@ -286,6 +301,8 @@ public class OIDCFilter extends BaseFilter {
 		request.getSession().setAttribute(givenNameAttribute, null);
 		request.getSession().setAttribute(internalIdAttribute, null);
 		request.getSession().setAttribute(emailAttribute, null);
+		request.getSession().setAttribute(hasPactSignedAttribute, null);
+		request.getSession().setAttribute(isBanishAttribute, null);
 		
 		response.setHeader("Cache-Control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
