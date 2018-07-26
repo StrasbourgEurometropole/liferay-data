@@ -198,24 +198,40 @@
 
                     <aside class="col-sm-4">
                         <div class="pro-push-avis">
-                            <a href="#pro-approuv" class="pro-like"
-                                data-typeid="15" 
-                                data-isdislike="false"
-                                data-title="${entry.getTitle()}" 
-                                data-entityid="${entry.participationId}"
-                                data-entitygroupid="${entry.groupId}"
-                                title="Cliquez pour approuver">
-                                <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
-                            </a>
-                            <a href="#pro-not-approuv" class="pro-dislike"
-                                data-typeid="15" 
-                                data-isdislike="true"
-                                data-title="${entry.getTitle()}" 
-                                data-entityid="${entry.participationId}"
-                                data-entitygroupid="${entry.groupId}"
-                                title="Cliquez pour désapprouver">
-                                <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
-                            </a>
+                            <#if entry.isJudgeable() && request.session.getAttribute("has_pact_signed")!false>
+                                <a href="#pro-approuv" class="pro-like"
+                                    data-typeid="15" 
+                                    data-isdislike="false"
+                                    data-title="${entry.getTitle()}" 
+                                    data-entityid="${entry.participationId}"
+                                    data-entitygroupid="${entry.groupId}"
+                                    title="Cliquez pour approuver">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                                </a>
+                                <a href="#pro-not-approuv" class="pro-dislike"
+                                    data-typeid="15" 
+                                    data-isdislike="true"
+                                    data-title="${entry.getTitle()}" 
+                                    data-entityid="${entry.participationId}"
+                                    data-entitygroupid="${entry.groupId}"
+                                    title="Cliquez pour désapprouver">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                                </a>
+                            <#elseif request.session.getAttribute("has_pact_signed")!true>
+                                <a class="pro-like" name="#Pact-sign">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                                </a>
+                                <a class="pro-dislike" name="#Pact-sign">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                                </a>
+                            <#else>
+                                <a class="pro-like">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                                </a>
+                                <a class="pro-dislike">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                                </a>
+                            </#if>
                         </div>
                         <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
                              data-zoom="12" data-filter-options="filterMapDetail"></div>

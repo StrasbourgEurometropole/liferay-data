@@ -11,7 +11,7 @@
 </#if>
 
 <!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
-<#assign instanceId = themeDisplay.getPortletDisplay().getId()>
+<#assign instanceId = themeDisplay.getPortletDisplay().getId() />
 
 <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
     <div class="container">
@@ -41,12 +41,22 @@
                             </h3>
                         </div>
                         <div class="pro-footer-event">
-                            <span class="pro-btn-action"
-                                name="#Participe-${instanceId}"
-                                data-eventid="${entry.eventId}" 
-                                data-groupid="${entry.groupId}">
-                                Je participe
-                            </span>
+                            <#if entry.isFinished() >
+                                <span class="pro-btn-action">
+                                    Événement terminé
+                                </span>
+                            <#elseif request.session.getAttribute("has_pact_signed")!false >
+                                <span class="pro-btn-action"
+                                    name="#Participe-${instanceId}"
+                                    data-eventid="${entry.eventId}"
+                                    data-groupid="${entry.groupId}">
+                                    Je participe
+                                </span>
+                            <#else>
+                                <span class="pro-btn-action" name="#Pact-sign">
+                                    Je participe
+                                </span>
+                            </#if>
                             <span class="pro-number"><strong>${entry.getNbEventParticipations()}</strong> Participant(s)</span>
                         </div>
                     </div>

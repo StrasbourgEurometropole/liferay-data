@@ -101,12 +101,22 @@
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
-                            <a href="#Participe" class="pro-btn-action" 
-                                data-eventid="${entry.eventId}" 
-                                data-groupid="${entry.groupId}"
-                                title="Je participe">
-                                Je participe
-                            </a>
+                            <#if entry.isFinished() >
+                                <a class="pro-btn-action">
+                                    Événement terminé
+                                </a>
+                            <#elseif request.session.getAttribute("has_pact_signed")!false >
+                                <a href="#Participe" class="pro-btn-action"
+                                    data-eventid="${entry.eventId}"
+                                    data-groupid="${entry.groupId}"
+                                    title="Je participe">
+                                    Je participe
+                                </a>
+                            <#else>
+                                <a class="pro-btn-action" name="#Pact-sign">
+                                    Je participe
+                                </a>
+                            </#if>
                         </div>
                         <div class="pro-contact">
                             <h4>Contact</h4>
