@@ -1,5 +1,6 @@
 <%@ include file="/comments-init.jsp"%>
-<%@ include file="/report-modal.jsp"%>
+<%@ include file="/modal/report-modal.jsp"%>
+<%@ include file="/modal/delete-modal.jsp"%>
 
 <portlet:actionURL var="postComment" name="postComment">
 	<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
@@ -222,9 +223,8 @@
 		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
 
-	function deleteMessage(commentId){
-		if (confirm('Ãªtes-vous sÃ»r de vouloir supprimer votre message ?')) {
-			//
-		}
-	}
+	 $("a[href='#Supprimer']").click(function(e){
+            e.preventDefault();
+            $("#deleteModal").modal();
+     });
 </aui:script>
