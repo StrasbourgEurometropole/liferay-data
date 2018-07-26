@@ -141,6 +141,7 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 	public JSONObject addLikeLink(String title, boolean isDislike, long typeId, long entityId, long entityGroupId) {		
 		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		
 		if (isLoggedIn) {
 		    String id = SessionParamUtil.getString(request, "publik_internal_id");
 		    

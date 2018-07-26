@@ -35,50 +35,58 @@
 						<div class="pro-comment">
 							<p id="comment-${comment.commentId}">${comment.comment}</p>
 							<div class="pro-interactions">
-								<a href="#pro-avis-like-pro" class="pro-like"
-									data-typeid="16" 
-	                                data-isdislike="false"
-	                                data-title="Comment of ${comment.getPublikUserName()}" 
-	                                data-entityid="${comment.commentId}"
-	                                data-entitygroupid="${comment.groupId}"
-									title="Aimer ce commentaire">
-									${comment.nbLikes}
-								</a>
-                                   <a href="#pro-avis-dislike-pro" class="pro-dislike" 
-                                   	data-typeid="16" 
-	                                data-isdislike="true"
-	                                data-title="Comment of ${comment.getPublikUserName()}" 
-	                                data-entityid="${comment.commentId}"
-	                                data-entitygroupid="${comment.groupId}"
-                                   	title="Ne pas aimer ce commentaire">
-                                   	${comment.nbDislikes}
-                                   </a>
-								<div>
-									<a href="#Repondre" class="pro-reponse"
-										data-commentid="${comment.commentId}"
-										data-username="${comment.getPublikUserName()}"
-										title="Repondre au commentaire">
-										<liferay-ui:message key='comment-answer'/>
-									</a>
-									<c:if test="${comment.publikId == userPublikId}">
-										<a href="#Modifier"
-											data-commentid="${comment.commentId}"
-											title="Repondre au commentaire">
-											<liferay-ui:message key='comment-edit'/>
+								<c:choose>
+									<c:when test="${!isUserBanned && hasUserSigned}">
+										<a href="#pro-avis-like-pro" class="pro-like"
+											data-typeid="16" 
+			                                data-isdislike="false"
+			                                data-title="Comment of ${comment.getPublikUserName()}" 
+			                                data-entityid="${comment.commentId}"
+			                                data-entitygroupid="${comment.groupId}"
+											title="Aimer ce commentaire">
+											${comment.nbLikes}
 										</a>
-									</c:if>
-										<c:if test="${isAdmin}">
-										<a href="${hideComment}" title="Masquer le commentaire">
-											<liferay-ui:message key='comment-hide'/>
-										</a>
-									</c:if>
-								</div>
-								<div>
-                                    <a href="#Signaler" title="Signaler le commentaire" onclick="callServeResource('${signalerURL}','signaler');">Signaler</a>
-                                    <c:if test="${userPublikId eq comment.publikId}">
-                                    	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
-                                    </c:if>
-                                </div>
+		                                   <a href="#pro-avis-dislike-pro" class="pro-dislike" 
+		                                   	data-typeid="16" 
+			                                data-isdislike="true"
+			                                data-title="Comment of ${comment.getPublikUserName()}" 
+			                                data-entityid="${comment.commentId}"
+			                                data-entitygroupid="${comment.groupId}"
+		                                   	title="Ne pas aimer ce commentaire">
+		                                   	${comment.nbDislikes}
+		                                </a>
+										<div>
+											<a href="#Repondre" class="pro-reponse"
+												data-commentid="${comment.commentId}"
+												data-username="${comment.getPublikUserName()}"
+												title="Repondre au commentaire">
+												<liferay-ui:message key='comment-answer'/>
+											</a>
+											<c:if test="${comment.publikId == userPublikId}">
+												<a href="#Modifier"
+													data-commentid="${comment.commentId}"
+													title="Repondre au commentaire">
+													<liferay-ui:message key='comment-edit'/>
+												</a>
+											</c:if>
+											<c:if test="${isAdmin}">
+												<a href="${hideComment}" title="Masquer le commentaire">
+													<liferay-ui:message key='comment-hide'/>
+												</a>
+											</c:if>
+										</div>
+										<div>
+		                                    <a href="#Signaler" title="Signaler le commentaire" onclick="callServeResource('${signalerURL}','signaler');">Signaler</a>
+		                                    <c:if test="${userPublikId eq comment.publikId}">
+		                                    	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
+		                                    </c:if>
+		                                </div>
+		                            </c:when>
+		                            <c:otherwise>
+		                            	<a class="pro-like">${comment.nbLikes}</a>
+		                                <a class="pro-dislike">${comment.nbDislikes}</a>
+		                       		</c:otherwise>
+	                        	</c:choose>
 							</div>							
 						</div>
 						
@@ -103,35 +111,53 @@
 
 			</c:forEach>
 		</div>
-		<div class="col-md-4">
-			<div class="pro-reagir">
-				<div>
-					<form id="form-comments" method="post" action="${postComment}"
-						class="pro-user-connected">
-						
-						<div class="pro-textearea">
-							<label for="message"><liferay-ui:message key="comment-your-comment" /></label>
-							<textarea id="message" name="<portlet:namespace />message"
-								<c:choose>
-								  <c:when test="${!isUserloggedIn}">
-								   	placeholder="<liferay-ui:message key='comment-please-connect'/>"
-								  </c:when>
-								  <c:when test="${!hasUserSigned}">
-								    placeholder="<liferay-ui:message key='comment-please-sign'/>"
-								  </c:when>
-								  <c:otherwise>
-								    placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
-								  </c:otherwise>
-								</c:choose>
-							></textarea>
+		
+		<c:choose>
+			<c:when test="${!isUserBanned && isAssetCommentable}">
+				<div class="col-md-4">
+					<div class="pro-reagir">
+						<div>
+							<form id="form-comments" method="post" action="${postComment}"
+								class="pro-user-connected">
+								
+								<div class="pro-textearea">
+									<label for="message"><liferay-ui:message key="comment-your-comment" /></label>
+									<textarea id="message" name="<portlet:namespace />message"
+										<c:choose>
+										  <c:when test="${!isUserloggedIn}">
+										   	placeholder="<liferay-ui:message key='comment-please-connect'/>"
+										  </c:when>
+										  <c:when test="${!hasUserSigned}">
+										    placeholder="<liferay-ui:message key='comment-please-sign'/>"
+										  </c:when>
+										  <c:otherwise>
+										    placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
+										  </c:otherwise>
+										</c:choose>
+									></textarea>
+								</div>
+								<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
+								<input type="hidden" id="editCommentId" name="<portlet:namespace />editCommentId"/>
+								<input type="submit" class="pro-btn-yellow" value="Envoyer" />
+							</form>
 						</div>
-						<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
-						<input type="hidden" id="editCommentId" name="<portlet:namespace />editCommentId"/>
-						<input type="submit" class="pro-btn-yellow" value="Envoyer" />
-					</form>
+					</div>
 				</div>
-			</div>
-		</div>
+			</c:when>
+		    <c:otherwise>
+		    	<div class="col-md-4">
+					<div class="pro-reagir">
+						<div>
+							<form>
+								<div class="pro-textearea">
+									<label><liferay-ui:message key='comment-uncommentable'/></label>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+		    </c:otherwise>
+		</c:choose>
 	</div>
 </section>
 <aui:script>
@@ -188,7 +214,7 @@
 	});
 	
 	function deleteMessage(commentId){
-		if (confirm('êtes-vous sûr de vouloir supprimer votre message ?')) {
+		if (confirm('Ãªtes-vous sÃ»r de vouloir supprimer votre message ?')) {
 			//
 		}
 	}

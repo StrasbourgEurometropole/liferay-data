@@ -22,6 +22,8 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -30,6 +32,7 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -46,6 +49,9 @@ import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -77,33 +83,27 @@ public class CommentPortlet extends MVCPortlet {
 			CommentConfiguration configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(CommentConfiguration.class);
 
-			// récupération du paramètre de tri des commentaires
+			// Récupération du paramètre de tri des commentaires
 			String orderBy = configuration.orderBy();
 			if (Validator.isNull(orderBy)) {
 				orderBy = "asc";
 			}
 
-			// récupération de l'asset entry Id qui est partagé par le portlet détail
+			// Récupération de l'asset entry Id qui est partagé par le portlet détail
 			// entité sur la même page.
-			long entryID = 0;
-			PortletSession portletSession = request.getPortletSession();
-			if (portletSession.getAttribute("LIFERAY_SHARED_assetEntryID", PortletSession.APPLICATION_SCOPE) != null)
-				entryID = (long) portletSession.getAttribute("LIFERAY_SHARED_assetEntryID",
-						PortletSession.APPLICATION_SCOPE);
-			else
+			long entryID = this.getPortletAssetEntryId(request);
+			
+			// Si on ne récupère rien --> return (On affiche rien)
+			if (entryID == -1)
 				return; // Si on ne récupère rien --> return (On affiche rien)
 
 			// Récupération du publik User pour savoir s'il est connecté et s'il a signé
 			// le pacte
 			// Deux conditions pour pouvoir poster un commentaire
 			if (Validator.isNotNull(userPublikId)) {
-				PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(userPublikId);
-
-				request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()) ? true : false);
 				request.setAttribute("isUserloggedIn", true);
 			} else {
 				request.setAttribute("isUserloggedIn", false);
-				request.setAttribute("hasUserSigned", false);
 			}
 
 			// Ici on filtre les commentaires qui ne sont pas au status approved car
@@ -119,14 +119,18 @@ public class CommentPortlet extends MVCPortlet {
 
 			// Donne le droit à un administrateur de cacher un commentaire
 			boolean isAdmin = themeDisplay.getPermissionChecker().isOmniadmin();
-
+			
 			request.setAttribute("comments", comments);
 			request.setAttribute("isAdmin", isAdmin);
 			request.setAttribute("entryID", entryID);
 			request.setAttribute("userPublikId", userPublikId);
+			
+			this.initGroupAttributes(request);
 
 			super.render(request, response);
 		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		} catch (PortalException e) {
 			e.printStackTrace();
 		}
 	}
@@ -136,18 +140,18 @@ public class CommentPortlet extends MVCPortlet {
 	 */
 	public void postComment(ActionRequest request, ActionResponse response) throws Exception, SystemException {
 		try {
-			
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 			String userPublikId = getPublikID(request);
 			
 			boolean isValid = validate(request);
+			boolean isValidInGroup = validateGroupCondition(request);
 			
 			// Si l'utilisateur n'est pas connecte, on ne fait rien
-			if (Validator.isNotNull(userPublikId) && isValid) {
+			if (Validator.isNotNull(userPublikId) && isValid && isValidInGroup) {
 
 				ServiceContext sc = ServiceContextFactory.getInstance(request);
-
+				
 				// Recuperation du potentiel id du commentaire parent
 				Long parentCommentId = ParamUtil.getLong(request, "parentCommentId");
 				
@@ -204,6 +208,7 @@ public class CommentPortlet extends MVCPortlet {
 				PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
 				response.sendRedirect(renderUrl.toString());
+				
 			}
 		} catch (Exception e) {
 			_log.error(e);
@@ -259,6 +264,69 @@ public class CommentPortlet extends MVCPortlet {
 	}
 	
 	/**
+	 * Recupere l'ID de l'assetEntry du detail de la page
+	 */
+	private long getPortletAssetEntryId(PortletRequest request) {
+		PortletSession portletSession = request.getPortletSession();
+		
+		if (portletSession.getAttribute("LIFERAY_SHARED_assetEntryID", PortletSession.APPLICATION_SCOPE) != null) {
+			return (long) portletSession.getAttribute("LIFERAY_SHARED_assetEntryID",
+					PortletSession.APPLICATION_SCOPE);
+		} else { 
+			return -1;
+		}
+	}
+	
+	/**
+	 * Initialise les attributs du contexte selon le site
+	 * @throws PortalException 
+	 */
+	private void initGroupAttributes(RenderRequest request) throws PortalException {
+		
+		// Recuperation de la friendly URL du site
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		long companyId = themeDisplay.getCompanyId();
+		long groupId = new Long(themeDisplay.getLayout().getGroupId());
+		
+		// Recuperation des informations de l'utilisateur
+		String publikUserId =  this.getPublikID(request);
+		PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserId);
+		
+		// Recuperation des informations de l'assetEntry
+		long entryId = this.getPortletAssetEntryId(request);
+		AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryId);
+		String assetType = assetEntry.getClassName();
+		
+		// Par defaut l'asset est "commentable" 
+		request.setAttribute("isAssetCommentable", true);
+		
+		// GroupId des sites utilisant les commentaires
+		long placitGroupId =  GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL).getGroupId();
+		
+		if (groupId == placitGroupId) {/// RESTRICTIONS : PLATEFORME-CITOYENNE
+			
+			// Initialise l'attribut de signature du pacte
+			if (Validator.isNotNull(publikUserId)) {
+				request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()) ? true : false);
+				request.setAttribute("isUserBanned", user.isBanned());
+			} else {
+				request.setAttribute("hasUserSigned", false);
+				request.setAttribute("isUserBanned", false);
+			}
+			
+			// Verification d'une participation ou l'on peut reagir
+			if (assetType.equals("eu.strasbourg.service.project.model.Participation")) {
+				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
+				
+				if (participation == null || !participation.isJudgeable()) {
+					request.setAttribute("isAssetCommentable", false);
+				}
+			} 
+		}
+
+	}
+	
+	/**
 	 * Validation des champs obligatoires
 	 */
 	private boolean validate(ActionRequest request) {
@@ -270,6 +338,52 @@ public class CommentPortlet extends MVCPortlet {
 		}
 		
 		return isValid;
+	}
+	
+	/**
+	 * Validation des conditions selon le site
+	 * (ex: les participations sur placit ne peuvent etre commenteesbque si 
+	 * l'utilisateur signe le pacte et que l'entite est en status 'en cours')
+	 * @throws PortalException 
+	 */
+	private boolean validateGroupCondition(ActionRequest request) throws PortalException {
+		
+		// Recuperation de la friendly URL du site
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		long companyId = themeDisplay.getCompanyId();
+		long groupId = new Long(themeDisplay.getLayout().getGroupId());
+		
+		// Recuperation des informations de l'asset
+		long entryId = ParamUtil.getLong(request, "entryID");
+		AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryId);
+		String assetType = assetEntry.getClassName();
+		
+		//Recuperation des informations de l'utilisateur
+		String publikUserId =  this.getPublikID(request);
+		PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserId);
+		
+		// groupId des sites utilisant les commentaires
+		long placitGroupId =  GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL).getGroupId();
+		
+		if (groupId == placitGroupId) {/// RESTRICTIONS : PLATEFORME-CITOYENNE
+
+			// Verification de la signature du pacte et de la sainteté de l'utilisateur 
+			if (user.getPactSignature() == null || user.isBanned()) {
+				return false;
+			}
+			
+			// Verification d'une participation ou l'on peut reagir
+			if (assetType.equals("eu.strasbourg.service.project.model.Participation")) {
+				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
+				
+				if (participation == null || !participation.isJudgeable()) {
+					return false;
+				}
+			}
+		
+		}
+		
+		return true;
 	}
 	
 	@Reference(unbind = "-")
