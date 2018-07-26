@@ -176,6 +176,14 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		}
 	}
 
+	/**
+	* L'utilisateur est-il en perdiode de bannissement ?
+	*/
+	@Override
+	public boolean isBanned() {
+		return _publikUser.isBanned();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _publikUser.isCachedModel();

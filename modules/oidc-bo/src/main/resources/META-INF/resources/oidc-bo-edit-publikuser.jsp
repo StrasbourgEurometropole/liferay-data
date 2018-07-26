@@ -31,7 +31,7 @@
 				<%-- Champ : Nom --%>
 				<aui:input name="lastName" required="true" disabled="true" />
 				
-				<%-- Champ : Prénom --%>
+				<%-- Champ : Prenom --%>
 				<aui:input name="firstName" required="true" disabled="true" />
 				
 				<%-- Champ : Email --%>
@@ -57,7 +57,7 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="banishment">
 				
 				<%-- Champ : Date de fin bannissement --%>
-				<aui:input name="banishDate" nullable="true"  placeholder="dd/mm/yyyy" required="false" helpMessage="help-banish-date"/>
+				<aui:input name="banishDate" required="false" helpMessage="help-banish-date"/>
 
 				<%-- Champ : Description / Motifs du bannissement --%>
 				<aui:input name="banishDescription" required="false" />

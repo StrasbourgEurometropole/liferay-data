@@ -77,7 +77,7 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			// Definir le format de recuperation de date
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			
 			// Date de bannissement
 			Date banishDate = ParamUtil.getDate(request, "banishDate", dateFormat);
