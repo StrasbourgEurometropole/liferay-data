@@ -17,4 +17,5 @@ dependencies {
 	
 	compile project (':modules:utils')
 	compile project (':modules:comment:comment-api')
+	compile project (':modules:office-exporter')
 }
