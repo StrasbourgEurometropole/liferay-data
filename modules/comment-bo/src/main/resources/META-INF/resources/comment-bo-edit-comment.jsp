@@ -78,7 +78,49 @@
 
              <%-- Champ : liste des signalements --%>
             <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="signalementList">
-                <aui:input name="dc.comment.findSignalements()"/>
+
+            <div class="container-fluid-1280 main-content-body">
+            <aui:input type="hidden" name="selectionIds" />
+                <liferay-ui:search-container id="commentsSearchContainer">
+                    <liferay-ui:search-container-results results="${dc.comment.findSignalements()}" />
+
+                        <liferay-ui:search-container-row
+                        className="eu.strasbourg.service.comment.model.Signalement" modelVar="reporting"
+                        keyProperty="reportingId" rowIdProperty="reportingId">
+
+                            <%-- Colonne : userName --%>
+                            <liferay-ui:search-container-column-text cssClass="content-column"
+                            name="userName" truncate="true" orderable="true" value="${reporting.userName}" />
+
+                            <%-- Colonne : début du commentaire --%>
+                            <liferay-ui:search-container-column-text cssClass="content-column"
+                                name="comment" truncate="true" orderable="true" value="${reporting.getCommentContent()}" />
+
+                            <%-- Colonne : Date de modification--%>
+                            <fmt:formatDate value="${reporting.createDate}"
+                                var="formattedCreatedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+                            <liferay-ui:search-container-column-text cssClass="content-column"
+                                name="reporting-date" truncate="true" orderable="true"
+                                value="${formattedCreatedDate}" />
+
+                            <%-- Colonne : Statut--%>
+                            <liferay-ui:search-container-column-text name="status">
+                                <aui:workflow-status markupView="lexicon" showIcon="false"
+                                    showLabel="false" status="${reporting.status}" />
+                            </liferay-ui:search-container-column-text>
+
+                            <%-- Colonne : Type--%>
+                            <liferay-ui:search-container-column-text cssClass="content-column"
+                                name="Type" truncate="true" orderable="true" value="${reporting.getCategorieName()}" />
+
+
+                        </liferay-ui:search-container-row>
+
+                    <%-- Iterateur --%>
+                    <liferay-ui:search-iterator paginate="true" displayStyle="list" markupView="lexicon" />
+
+                </liferay-ui:search-container>
+            </div>
             </aui:fieldset>
 
             <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="Contenu">
@@ -117,10 +159,6 @@
     </liferay-util:html-top>
 
 </div>
-
-<liferay-util:html-bottom>
-    <script src="/o/commentbo/js/comment-bo-edit-comment.js" type="text/javascript"></script>
-</liferay-util:html-bottom>
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>

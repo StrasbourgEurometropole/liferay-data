@@ -53,4 +53,31 @@ public interface Signalement extends SignalementModel, PersistedModel {
 				return Signalement.class;
 			}
 		};
+
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	public eu.strasbourg.service.comment.model.Comment getComment();
+
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	public java.lang.String getCommentContent();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry();
+
+	public java.lang.String getCategorieName();
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 }

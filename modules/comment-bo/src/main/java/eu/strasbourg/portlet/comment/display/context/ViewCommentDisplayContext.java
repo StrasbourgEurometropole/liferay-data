@@ -65,6 +65,29 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
         return projectIds.toString();
     }
 
+    @Override
+    public String getOrderByColSearchField() {
+        String param = this.getOrderByCol();
+        String result;
+        switch (param) {
+            case "userName":
+                result="userName_String_sortable";
+                break;
+            case "reportings":
+                result= "reportings";
+                break;
+            case "entityType":
+                result= "entityType_String_sortable";
+                break;
+            case "entityName":
+                result= "entityName_String_sortable";
+                break;
+            default:
+                result= super.getOrderByColSearchField();
+                break;
+        }
+        return result;
+    }
 
     private List<Comment> populateComments(Hits hits) {
         List<Comment> results = new ArrayList<>();
@@ -81,7 +104,7 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
         return results;
     }
 
-    public boolean hasPermission(String actionId) throws PortalException {
+    public boolean hasPermission(String actionId) {
         return _themeDisplay.getPermissionChecker().hasPermission(
                 this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.COMMENT_BO,

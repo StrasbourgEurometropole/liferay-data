@@ -26,7 +26,7 @@
 
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"userName", "modified-date"} %>'
+				orderColumns='<%= new String[] {"userName", "reporting-date","reportType"} %>'
 				portletURL="${signalementsURL}" />
 		</liferay-frontend:management-bar-filters>
 
@@ -68,11 +68,15 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="userName" truncate="true" orderable="true" value="${signalement.userName}" />
 
+				<%-- Colonne : début du commentaire --%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="comment" truncate="true" value="${signalement.getCommentContent()}" />
+
 				<%-- Colonne : Date de modification--%>
 				<fmt:formatDate value="${signalement.createDate}"
 					var="formattedCreatedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="created-date" truncate="true" orderable="true"
+					name="reporting-date" truncate="true" orderable="true"
 					value="${formattedCreatedDate}" />
 
 				<%-- Colonne : Statut--%>
@@ -81,11 +85,10 @@
 						showLabel="false" status="${signalement.status}" />
 				</liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Type de signalement
+				<%-- Colonne : Type de signalement--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="Type de signalement" truncate="true" orderable="true"
-                    value="${signalement.type}" />
-                    --%>
+                    name="reportType" truncate="true" orderable="true"
+                    value="${signalement.getCategorieName()}" />
 			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>

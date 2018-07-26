@@ -82,10 +82,6 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 		long pk = counterLocalService.increment();
 		Signalement signalement = signalementLocalService.createSignalement(pk);
-		signalement.setGroupId(sc.getScopeGroupId());
-		signalement.setUserName(user.getFullName());
-		signalement.setUserId(user.getUserId());
-		signalement.setStatus(WorkflowConstants.STATUS_APPROVED);
 		signalement.setCommentId(commentId);
 		return signalement;
 	}
@@ -93,6 +89,7 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
 	public Signalement updateSignalement(Signalement signalement, ServiceContext sc)
             throws PortalException{
 	    User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		signalement.setGroupId(sc.getScopeGroupId());
 	    signalement.setStatusByUserId(sc.getUserId());
         signalement.setUserName(user.getFullName());
         signalement.setUserId(user.getUserId());

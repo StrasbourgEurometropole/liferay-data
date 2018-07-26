@@ -13,14 +13,18 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalService;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
 import java.util.Date;
+import java.util.List;
 
 @Component(
         immediate = true,
@@ -36,7 +40,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
     private CommentLocalService _commentLocalService;
 
     @Override
-    public boolean processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException {
+    public boolean processAction(ActionRequest actionRequest, ActionResponse actionResponse) {
         try {
             ServiceContext sc = ServiceContextFactory.getInstance(actionRequest);
             boolean isValid = validate(actionRequest);
@@ -71,7 +75,15 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             if (userName!=null&&!userName.isEmpty()){
                 comment.setUserName(userName);
             }
+
             boolean deleteAllSignalements = ParamUtil.getBoolean(actionRequest,"signalementCheckBox");
+            if (deleteAllSignalements){
+                List<Signalement> signalements = SignalementLocalServiceUtil.findByCommentId(commentId);
+                signalements.forEach(signalement -> {
+                    signalement.setStatus(WorkflowConstants.STATUS_DENIED);
+                    SignalementLocalServiceUtil.updateSignalement(signalement);
+                });
+            }
             boolean approved = ParamUtil.getBoolean(actionRequest,"status");
             comment.setStatus(approved ? 0 : 1);
             String commentaire = ParamUtil.getString(actionRequest,"comment");

@@ -253,6 +253,14 @@ public class SignalementWrapper implements Signalement,
 		return _signalement.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _signalement.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _signalement.getExpandoBridge();
@@ -261,6 +269,16 @@ public class SignalementWrapper implements Signalement,
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.comment.model.Signalement> toCacheModel() {
 		return _signalement.toCacheModel();
+	}
+
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	@Override
+	public eu.strasbourg.service.comment.model.Comment getComment() {
+		return _signalement.getComment();
 	}
 
 	@Override
@@ -302,6 +320,21 @@ public class SignalementWrapper implements Signalement,
 	@Override
 	public java.lang.Object clone() {
 		return new SignalementWrapper((Signalement)_signalement.clone());
+	}
+
+	@Override
+	public java.lang.String getCategorieName() {
+		return _signalement.getCategorieName();
+	}
+
+	/**
+	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	*
+	* @return le commentaire.
+	*/
+	@Override
+	public java.lang.String getCommentContent() {
+		return _signalement.getCommentContent();
 	}
 
 	/**
@@ -392,6 +425,15 @@ public class SignalementWrapper implements Signalement,
 	@Override
 	public Date getStatusDate() {
 		return _signalement.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry() {
+		return _signalement.getCategoriesByAssetEntry();
 	}
 
 	/**

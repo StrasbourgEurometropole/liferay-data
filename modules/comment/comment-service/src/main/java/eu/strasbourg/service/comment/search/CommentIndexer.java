@@ -23,7 +23,7 @@ import java.util.Map;
 @Component(immediate = true, service = Indexer.class)
 public class CommentIndexer extends BaseIndexer<Comment> {
 
-public static final String CLASS_NAME = Comment.class.getName();
+	public static final String CLASS_NAME = Comment.class.getName();
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	public CommentIndexer() {
@@ -50,21 +50,18 @@ public static final String CLASS_NAME = Comment.class.getName();
 
 	@Override
 	protected void doReindex(String className, long classPK) throws Exception {
-		_log.info("doReindex");
 		Comment entry = CommentLocalServiceUtil.getComment(classPK);
 		doReindex(entry);
 	}
 
 	@Override
 	protected void doReindex(String[] ids) throws Exception {
-		_log.info("doReindex2");
 		long companyId = GetterUtil.getLong(ids[0]);
 		reindexEntries(companyId);
 	}
 	
 	@Override
 	protected void doReindex(Comment comment) throws Exception {
-		_log.info("doReindex3");
 		Document document = getDocument(comment);
 
 		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
@@ -73,7 +70,6 @@ public static final String CLASS_NAME = Comment.class.getName();
 	}
 	
 	protected void reindexEntries(long companyId) throws PortalException {
-		_log.info("reindexEntries");
 		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = CommentLocalServiceUtil
 			.getIndexableActionableDynamicQuery();
 		indexableActionableDynamicQuery.setAddCriteriaMethod(dynamicQuery -> {});
@@ -100,13 +96,11 @@ public static final String CLASS_NAME = Comment.class.getName();
 		List<AssetCategory> assetCategories = AssetVocabularyHelper.getFullHierarchyCategories(comment.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
 		addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
-		Map<Locale,String> userNameFieldMap = new HashMap<>();
-		userNameFieldMap.put(Locale.FRANCE, comment.getUserName());
-		Map<Locale,String> commentaireMap = new HashMap<>();
-		commentaireMap.put(Locale.FRANCE,comment.getComment());
-		document.addLocalizedText(Field.TITLE,userNameFieldMap);
-		document.addLocalizedText(Field.DESCRIPTION,commentaireMap);
 		document.addNumber(Field.STATUS, comment.getStatus());
+		document.addNumber("reportings", comment.getCountSignalements());
+		document.addTextSortable(Field.USER_NAME,comment.getUserName());
+		document.addTextSortable("entityType",comment.getTypeAssetEntry());
+		document.addTextSortable("entityName",comment.getAssetEntryTitle());
 		return document;
 	}
 }
