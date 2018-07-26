@@ -132,7 +132,8 @@
 
     <@liferay_portlet["runtime"]
     portletProviderAction=portletProviderAction.VIEW
-    portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet" />
+    portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet" 
+    instanceId="event${entry.eventId}"/>
 
 </div>
 
