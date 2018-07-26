@@ -126,6 +126,16 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<liferay-portlet:resourceURL var="exportCommentsXlsxURL" id="exportCommentsXlsx">
+	</liferay-portlet:resourceURL>
+	<form method="POST" action="${exportCommentsXlsxURL}">
+		<aui:input type="hidden" name="commentIds" value="${dc.allCommentIds}" />
+		<aui:button-row>
+			<aui:button cssClass="btn-lg" type="submit"
+				value="export-comments-xlsx" />
+		</aui:button-row>
+	</form>
 </div>
 
 <%-- Composant : bouton d'ajout d'entite --%>
