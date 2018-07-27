@@ -24,19 +24,28 @@
 					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
-
+				
 				<div id="${comment.commentId}" class="pro-item">
 					<div class="pro-txt">
-						<span class="pro-name">${comment.getPublikUserName()}</span> <span
-							class="pro-comment-time"><liferay-ui:message
-								key="comment-published" /> <time
-								datetime="${comment.createDate}">
-								<fmt:formatDate type="date" value="${comment.createDate}"
-									pattern="dd MMM yyyy" />
-							</time></span>
+						<span class="pro-name">${comment.getPublikUserName()}</span>
+						<c:if test="${comment.userQuality != null and comment.userQuality != ''}">
+							<span> 
+								<liferay-ui:message key='comment-in-quality-of' /> <strong><i>"${comment.userQuality}"</i></strong>
+							</span>
+						</c:if>
+						<span class="pro-comment-time">
+							<liferay-ui:message key='comment-published' /> 
+							<time datetime="${comment.createDate}">
+								<fmt:formatDate type="date" value="${comment.createDate}" pattern="dd MMM yyyy" />
+							</time>
+						</span>
 						<div class="pro-comment">
 							<p id="comment-${comment.commentId}">${comment.comment}</p>
 							<div class="pro-interactions">
+								<c:if test="${comment.modifiedByUserDate != null}">
+									(<liferay-ui:message key='comment-edited-on' />
+									<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="dd/mm/yyyy" />)
+								</c:if>
 								<c:choose>
 									<c:when test="${!isUserBanned && hasUserSigned}">
 										<a href="#pro-avis-like-pro" class="pro-like"
@@ -137,9 +146,15 @@
 										  </c:otherwise>
 										</c:choose>
 									></textarea>
+									<label for="inQualityOf"><liferay-ui:message key="comment-your-quality" /></label>
+									<input type="text" id="inQualityOf" 
+										name="<portlet:namespace />inQualityOf" 
+										placeholder="<liferay-ui:message key='comment-write-your-quality-here'/>"
+									/>
 								</div>
 								<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
 								<input type="hidden" id="editCommentId" name="<portlet:namespace />editCommentId"/>
+								
 								<input type="submit" class="pro-btn-yellow" value="Envoyer" />
 							</form>
 						</div>
@@ -164,12 +179,15 @@
 </section>
 
 <aui:script>
+	// Gestion de l'affichage et du controle de l'action de signalement
     $("a[href='#report']").click(function(e){
         var commentId=$(this).data('commentid');
         $("input[id='commentId']").val(commentId);
         e.preventDefault();
         $("#signalementModal").modal();
     });
+    
+	// Gestion de l'affichage et du contrôle de l'action de post du commentaire
 	$("#form-comments").submit(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();
@@ -185,6 +203,7 @@
     	}
 	});
 	
+	// Gestion du contrôle de la saisie du commentaire
 	$("#message").click(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();
@@ -196,6 +215,7 @@
 	    }
 	});
 	
+	// Gestion de l'affichage de la réponse
 	$("[href='#Repondre']").click(function(e){
 		var OPName = $(this).data('username');
 		var parentId = $(this).data('commentid');
@@ -203,12 +223,15 @@
 		$("input[id='parentCommentId']").val(parentId);
 		$("input[id='editCommentId']").val(0);
 		$(".pro-reagir .pro-textearea>textarea").text("");
- 		$(".pro-reagir .pro-textearea>label").text('<liferay-ui:message key="comment-parent-answer" /> ' + OPName + ' :');
+		$(".pro-reagir .pro-textearea>input").show();
+		$("label[for='inQualityOf']").show();
+ 		$("label[for='message']").text('<liferay-ui:message key="comment-parent-answer" /> ' + OPName + ' :');
 		$(".pro-reagir .pro-user-connected>.pro-btn-yellow").val('<liferay-ui:message key="comment-answer"/>');
 		
 		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
 	
+	// Gestion de l'affichage de la modification
 	$("[href='#Modifier']").click(function(e){
 		var commentId = $(this).data('commentid');
 		var baseMsg = $("p[id=comment-" + commentId + "]").text();
@@ -216,14 +239,16 @@
 		$("input[id='editCommentId']").val(commentId);
 		$("input[id='parentCommentId']").val(0);
 		$(".pro-reagir .pro-textearea>textarea").text(baseMsg);
-		$(".pro-reagir .pro-textearea>label").text('<liferay-ui:message key="comment-edit-comment" />');
+		$(".pro-reagir .pro-textearea>input").hide();
+		$("label[for='inQualityOf']").hide();
+		$("label[for='message']").text('<liferay-ui:message key="comment-edit-comment" />');
 		$(".pro-reagir .pro-user-connected>.pro-btn-yellow").val('<liferay-ui:message key="comment-edit"/>');
 
 		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
 
 	function deleteMessage(commentId){
-		if (confirm('Ãªtes-vous sÃ»r de vouloir supprimer votre message ?')) {
+		if (confirm('ÃÂªtes-vous sÃÂ»r de vouloir supprimer votre message ?')) {
 			//
 		}
 	}

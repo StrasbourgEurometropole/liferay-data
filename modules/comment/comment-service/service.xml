@@ -29,6 +29,8 @@
 		<!-- main fields -->
 		<column name="comment" type="String" />
 		<column name="level" type="int" />
+		<column name="userQuality" type="String" />
+		<column name="modifiedByUserDate" type="Date" />
 		
 		<!-- Links with other entities -->
 		<column name="assetEntryId" type="long" />
@@ -106,5 +108,6 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		
 	</entity>
 </service-builder>

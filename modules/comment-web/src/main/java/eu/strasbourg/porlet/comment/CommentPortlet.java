@@ -1,6 +1,7 @@
 package eu.strasbourg.porlet.comment;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,9 +50,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.comment.configuration.CommentConfiguration;
 import eu.strasbourg.service.comment.model.Comment;
-import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalService;
-import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
@@ -60,23 +59,6 @@ import eu.strasbourg.utils.constants.FriendlyURLs;
 
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author romain.vergnais
@@ -180,9 +162,11 @@ public class CommentPortlet extends MVCPortlet {
 				// Recuperation du potentiel id du commentaire a editer
 				Long editCommentId = ParamUtil.getLong(request, "editCommentId");
 
-
 				// Recuperation du message du commentaire
 				String message = ParamUtil.getString(request, "message");
+				
+				// Recuperation de la qualité de l'utilisateur
+				String userQuality = ParamUtil.getString(request, "inQualityOf");
 
 				Comment comment;
 
@@ -198,7 +182,7 @@ public class CommentPortlet extends MVCPortlet {
 				    url.append("#");
 				    url.append(comment.getCommentId());
 
-				// Recuperation de l'ID de l'AssetEntry commente
+				    // Recuperation de l'ID de l'AssetEntry commente
 					long entryID = ParamUtil.getLong(request, "entryID");
 
 					// Edition des attributs
@@ -206,7 +190,8 @@ public class CommentPortlet extends MVCPortlet {
 					comment.setUrlProjectCommentaire(url.toString());
 					comment.setPublikId(userPublikId);
 					comment.setComment(message);
-
+					comment.setUserQuality(userQuality);
+					
 					// Si le message est une reponse
 					if (parentCommentId != 0) {
 						comment.setParentCommentId(parentCommentId);
@@ -223,6 +208,7 @@ public class CommentPortlet extends MVCPortlet {
 					// Verifie si c'est bien le posteur original
 					if (comment.getPublikId().equals(userPublikId)) {
 						comment.setComment(message);
+						comment.setModifiedByUserDate(new Date());
 						_commentLocalService.updateComment(comment, sc);
 					} else {
 						SessionErrors.add(request, "unauthorized");

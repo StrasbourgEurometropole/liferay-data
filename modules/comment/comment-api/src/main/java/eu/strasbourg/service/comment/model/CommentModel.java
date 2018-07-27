@@ -322,6 +322,35 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setLevel(int level);
 
 	/**
+	 * Returns the user quality of this comment.
+	 *
+	 * @return the user quality of this comment
+	 */
+	@AutoEscape
+	public String getUserQuality();
+
+	/**
+	 * Sets the user quality of this comment.
+	 *
+	 * @param userQuality the user quality of this comment
+	 */
+	public void setUserQuality(String userQuality);
+
+	/**
+	 * Returns the modified by user date of this comment.
+	 *
+	 * @return the modified by user date of this comment
+	 */
+	public Date getModifiedByUserDate();
+
+	/**
+	 * Sets the modified by user date of this comment.
+	 *
+	 * @param modifiedByUserDate the modified by user date of this comment
+	 */
+	public void setModifiedByUserDate(Date modifiedByUserDate);
+
+	/**
 	 * Returns the asset entry ID of this comment.
 	 *
 	 * @return the asset entry ID of this comment
