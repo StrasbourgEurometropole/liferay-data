@@ -42,8 +42,10 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
+import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 
 /**
@@ -279,16 +281,24 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 
 		// Supprime les reponses
 		List<Comment> childComments = comment.getApprovedChildComments();
-		for (Comment childComment : childComments) {
-			this.removeComment(childComment.getCommentId());
-		}
+		if (childComments!=null&&!childComments.isEmpty()){
+            for (Comment childComment : childComments) {
+                this.removeComment(childComment.getCommentId());
+            }
+        }
 
 		//Supprime les signalements
-		List<Signalement> signalements = SignalementLocalServiceUtil.findByCommentId(commentId);
-		signalements.forEach(SignalementLocalServiceUtil::deleteSignalement);
-		
-		LikeLocalServiceUtil.deleteLikeByEntityIdAndType(comment.getCommentId(), 16);
-		
+        List<Signalement> signalements = SignalementLocalServiceUtil.findByCommentId(commentId);
+        if (signalements!=null&&!signalements.isEmpty()){
+            signalements.forEach(SignalementLocalServiceUtil::deleteSignalement);
+        }
+
+		//supprime les likes
+        List<Like> likes = comment.getLikes();
+        if (likes!=null&&!likes.isEmpty()){
+            likes.forEach(LikeLocalServiceUtil::deleteLike);
+        }
+
 		return comment;
 	}
 
