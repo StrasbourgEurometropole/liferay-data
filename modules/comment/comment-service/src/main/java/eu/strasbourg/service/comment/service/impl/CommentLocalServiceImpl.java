@@ -14,14 +14,6 @@
 
 package eu.strasbourg.service.comment.service.impl;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -39,14 +31,20 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the comment local service.
