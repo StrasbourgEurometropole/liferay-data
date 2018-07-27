@@ -123,7 +123,6 @@ function callServeResource() {
 	                	        $('h3',selector).text('Signer');
 	                	        $('span',selector).css('display','block');
 	                	    }
-	                	    window.location.replace(document.referrer);
 					 	}
 					 }
 				});

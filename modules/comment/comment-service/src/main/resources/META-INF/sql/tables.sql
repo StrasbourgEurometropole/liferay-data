@@ -13,6 +13,8 @@ create table comment_Comment (
 	statusDate DATE null,
 	comment_ TEXT null,
 	level INTEGER,
+	userQuality VARCHAR(75) null,
+	modifiedByUserDate DATE null,
 	assetEntryId LONG,
 	publikId VARCHAR(75) null,
 	parentCommentId LONG,

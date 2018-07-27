@@ -166,7 +166,7 @@ public class OIDCFilter extends BaseFilter {
 
 					// On met les infos de l'utilisateur dans la session
 					putUserInfoInSession(request);
-
+					
 					// Et on update la base
 					updateUserInfoInDatabase();
 				}

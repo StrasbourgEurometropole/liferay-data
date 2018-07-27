@@ -73,6 +73,8 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("comment", getComment());
 		attributes.put("level", getLevel());
+		attributes.put("userQuality", getUserQuality());
+		attributes.put("modifiedByUserDate", getModifiedByUserDate());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("parentCommentId", getParentCommentId());
@@ -165,6 +167,18 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 
 		if (level != null) {
 			setLevel(level);
+		}
+
+		String userQuality = (String)attributes.get("userQuality");
+
+		if (userQuality != null) {
+			setUserQuality(userQuality);
+		}
+
+		Date modifiedByUserDate = (Date)attributes.get("modifiedByUserDate");
+
+		if (modifiedByUserDate != null) {
+			setModifiedByUserDate(modifiedByUserDate);
 		}
 
 		Long assetEntryId = (Long)attributes.get("assetEntryId");
@@ -477,6 +491,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Returns the user quality of this comment.
+	*
+	* @return the user quality of this comment
+	*/
+	@Override
+	public java.lang.String getUserQuality() {
+		return _comment.getUserQuality();
+	}
+
+	/**
 	* Returns the user uuid of this comment.
 	*
 	* @return the user uuid of this comment
@@ -514,6 +538,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public Date getCreateDate() {
 		return _comment.getCreateDate();
+	}
+
+	/**
+	* Returns the modified by user date of this comment.
+	*
+	* @return the modified by user date of this comment
+	*/
+	@Override
+	public Date getModifiedByUserDate() {
+		return _comment.getModifiedByUserDate();
 	}
 
 	/**
@@ -770,6 +804,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Sets the modified by user date of this comment.
+	*
+	* @param modifiedByUserDate the modified by user date of this comment
+	*/
+	@Override
+	public void setModifiedByUserDate(Date modifiedByUserDate) {
+		_comment.setModifiedByUserDate(modifiedByUserDate);
+	}
+
+	/**
 	* Sets the modified date of this comment.
 	*
 	* @param modifiedDate the modified date of this comment
@@ -897,6 +941,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setUserName(java.lang.String userName) {
 		_comment.setUserName(userName);
+	}
+
+	/**
+	* Sets the user quality of this comment.
+	*
+	* @param userQuality the user quality of this comment
+	*/
+	@Override
+	public void setUserQuality(java.lang.String userQuality) {
+		_comment.setUserQuality(userQuality);
 	}
 
 	/**

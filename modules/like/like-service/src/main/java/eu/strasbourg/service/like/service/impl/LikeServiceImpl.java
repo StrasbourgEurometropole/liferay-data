@@ -141,8 +141,9 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 	public JSONObject addLikeLink(String title, boolean isDislike, long typeId, long entityId, long entityGroupId) {		
 		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		boolean isNotBanish = SessionParamUtil.getBoolean(request, "is_banish");
 		
-		if (isLoggedIn) {
+		if (isLoggedIn && !isNotBanish) {
 		    String id = SessionParamUtil.getString(request, "publik_internal_id");
 		    
 		    Like likeExist = null;
@@ -185,7 +186,7 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 			}
 			
 		} else {
-			return error("notConnected");
+			return isLoggedIn ? error("isBanned") : error("notConnected") ;
 		}
 	}
 	
@@ -221,7 +222,8 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 	public JSONObject deleteLikeLink(String title, String url, boolean isDislike, long typeId, long entityId) {		
 		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
-		if (isLoggedIn) {
+		boolean isNotBanish = SessionParamUtil.getBoolean(request, "is_banish");
+		if (isLoggedIn && !isNotBanish) {
 		    String id = SessionParamUtil.getString(request, "publik_internal_id");
 		    
 		    Like like = null;
@@ -241,7 +243,7 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 			
 			return success("like deleted");
 		} else {
-			return error("notConnected");
+			return isLoggedIn ? error("isBanned") : error("notConnected") ;
 		}
 	}
 	
