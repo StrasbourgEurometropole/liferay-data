@@ -129,7 +129,7 @@
             </aui:fieldset>
 
 			<%-- Groupe de champs : Bannissement --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="banishment">
+			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="banishment">
 				<%-- Champ : Date de fin bannissement --%>
 				<aui:input name="banishDate" required="false" helpMessage="help-banish-date"/>
 				<%-- Champ : Description / Motifs du bannissement --%>
