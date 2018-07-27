@@ -31,10 +31,6 @@
 		<field name="urlProjectCommentaire" type="String">
 			<hint-collection name="URL" />
 		</field>
-		<field name="banishDate" type="Date" />
-		<field name="banishDescription" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
 	</model>
 	<model name="eu.strasbourg.service.comment.model.Signalement">
 		<field name="uuid" type="String" />

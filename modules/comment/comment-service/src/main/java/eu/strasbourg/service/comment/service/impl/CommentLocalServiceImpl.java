@@ -41,6 +41,8 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 
@@ -280,6 +282,10 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 		for (Comment childComment : childComments) {
 			this.removeComment(childComment.getCommentId());
 		}
+
+		//Supprime les signalements
+		List<Signalement> signalements = SignalementLocalServiceUtil.findByCommentId(commentId);
+		signalements.forEach(SignalementLocalServiceUtil::deleteSignalement);
 		
 		LikeLocalServiceUtil.deleteLikeByEntityIdAndType(comment.getCommentId(), 16);
 		

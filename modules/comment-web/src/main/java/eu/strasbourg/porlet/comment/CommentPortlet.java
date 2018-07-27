@@ -225,14 +225,11 @@ public class CommentPortlet extends MVCPortlet {
 	 *  Méthode qui permet à l'administrateur de cacher un commentaire
 	 */
 	public void hideComment(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
-		try {
-			Comment comment = _commentLocalService.getComment(ParamUtil.getLong(request, "commentId"));
-			comment.setStatus(WorkflowConstants.STATUS_DENIED);
-
-			_commentLocalService.updateComment(comment);
-		} catch (Exception e) {
-			_log.error(e);
-		}
+        Comment comment = _commentLocalService.getComment(ParamUtil.getLong(request, "commentId"));
+        if (isSameUser(request,comment)){
+            comment.setStatus(WorkflowConstants.STATUS_DENIED);
+            _commentLocalService.updateComment(comment);
+        }
 	}
 
     /**
@@ -265,29 +262,27 @@ public class CommentPortlet extends MVCPortlet {
 	 */
     public void deleteComment(ActionRequest request, ActionResponse response) throws PortalException, IOException {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		long result = ParamUtil.getLong(request,"commentId");
-		Comment comment = CommentLocalServiceUtil.removeComment(result);
-		_log.info(comment);
+		long commentId = ParamUtil.getLong(request,"commentId");
+        if (isSameUser(request,CommentLocalServiceUtil.getComment(commentId))){
+            CommentLocalServiceUtil.removeComment(commentId);
+        }
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
         PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                 PortletRequest.RENDER_PHASE);
         response.sendRedirect(renderUrl.toString());
 	}
 
-	@Override
-	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-			throws IOException, PortletException {
-		try {
-			String resourceID = resourceRequest.getResourceID();
-			String publikUserID = getPublikID(resourceRequest);
-			Comment comment = _commentLocalService.getComment(ParamUtil.getLong(resourceRequest, "commentId"));
-
-		} catch (Exception e) {
-			_log.error(e);
-		}
-
-		super.serveResource(resourceRequest, resourceResponse);
-	}
+    /**
+     * méthode de vérification de l'utilisateur.
+     * @param request la request
+     * @param comment le commentaire
+     * @return le boolean.
+     */
+    private boolean isSameUser(ActionRequest request, Comment comment) {
+        String publikUserTemp = comment.getPublikUser().getPublikId();
+        String publikUser = getPublikID(request);
+        return publikUser.equals(publikUserTemp);
+    }
 
 	/**
 	 * Récupération du publik ID avec la session
