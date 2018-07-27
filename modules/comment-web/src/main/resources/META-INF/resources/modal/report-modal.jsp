@@ -1,9 +1,7 @@
 <portlet:actionURL var="reportComment" name="reportComment">
-	<portlet:param name="mvcPath" value="/report-modal.jsp"></portlet:param>
-	<portlet:param name="entryID" value="${entryID}"></portlet:param>
 </portlet:actionURL>
 
-<nav class="modal_connexion">
+<nav id="reportModalNav" class="modal_connexion">
     <!-- HTML pour la modal de signalement -->
     <div class="pro-modal fade" id="signalementModal" tabindex="-1" role="dialog" aria-labelledby="signalementModal">
         <div class="modal-dialog" role="document">

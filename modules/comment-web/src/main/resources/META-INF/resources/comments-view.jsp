@@ -21,11 +21,6 @@
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
 
-				<portlet:actionURL name="reportComment" var="reportComment">
-					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
-					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
-				</portlet:actionURL>
-
 				<div id="${comment.commentId}" class="pro-item">
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span> <span
@@ -81,7 +76,7 @@
 										<div>
 											<a href="#report" title="Signaler le commentaire" data-commentid="${comment.commentId}">Signaler</a>
 		                                    <c:if test="${userPublikId eq comment.publikId}">
-		                                    	<a href="#Supprimer" title="Supprimer mon commentaire" onclick="deleteMessage('${comment.commentId}');">Supprimer</a>
+		                                    	<a href="#Supprimer" title="Supprimer mon commentaire" data-commentid="${comment.commentId}">Supprimer</a>
 		                                    </c:if>
 		                                </div>
 		                            </c:when>
@@ -167,10 +162,22 @@
 <aui:script>
     $("a[href='#report']").click(function(e){
         var commentId=$(this).data('commentid');
+        $("#deleteModalNav").hide();
+        $("#reportModalNav").show();
         $("input[id='commentId']").val(commentId);
         e.preventDefault();
         $("#signalementModal").modal();
     });
+
+	 $("a[href='#Supprimer']").click(function(e){
+        var commentId=$(this).data('commentid');
+        $("#reportModalNav").hide();
+        $("#deleteModalNav").show();
+        $("input[id='commentId']").val(commentId);
+        e.preventDefault();
+        $("#deleteModal").modal();
+     });
+
 	$("#form-comments").submit(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();
@@ -223,8 +230,4 @@
 		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
 
-	 $("a[href='#Supprimer']").click(function(e){
-            e.preventDefault();
-            $("#deleteModal").modal();
-     });
 </aui:script>
