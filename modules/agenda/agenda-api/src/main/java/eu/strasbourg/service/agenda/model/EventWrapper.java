@@ -574,6 +574,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _event.getNbApprovedComments();
+	}
+
+	/**
 	* Retourne le nombre de participation a l'evenement
 	*/
 	@Override
@@ -1799,6 +1807,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Date getStatusDate() {
 		return _event.getStatusDate();
+	}
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _event.getApprovedComments();
 	}
 
 	/**
