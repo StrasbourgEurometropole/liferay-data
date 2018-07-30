@@ -57,11 +57,23 @@
             overflow: hidden;
             p{
                 color: #ffffff;
-                font-family: "MontSerrat", arial;
-                font-size: 1.4rem;
+                font-family: $opensans;
+                font-size: 1.5rem;
                 line-height: 1.2em;
-                font-weight: 400;
+                font-weight: 300;
                 text-align: center;
+            }
+            a {
+                color: #ffffff;
+                font-family: $opensans;
+                font-size: 1.5rem;
+                line-height: 1.2em;
+                font-weight: 300;
+                text-align: center;
+                text-decoration: underline;;
+                &:hover {
+                    text-decoration: none;
+                }
             }
         }
     }
@@ -250,6 +262,7 @@
         @include RWD(mobile){
             padding: 20px;
         }
+
 
         &__title{
             font-family: $fancy-font;
