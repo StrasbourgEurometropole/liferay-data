@@ -12,6 +12,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Set;
 
@@ -22,11 +23,31 @@ public class EditCommentDisplayContext {
 
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
+    private LocalDateTime date;
+    private int _year;
+    private int _month;
+    private int _day;
 
     public EditCommentDisplayContext(RenderRequest request, RenderResponse response){
+        this.date = LocalDateTime.now();
         this._request = request;
         this._themeDisplay = (ThemeDisplay) request
                 .getAttribute(WebKeys.THEME_DISPLAY);
+    }
+
+    public int getYear(){
+        _year = date.getYear();
+        return _year;
+    }
+
+    public int getMonth(){
+        _month = date.getMonthValue();
+        return _month;
+    }
+
+    public int getDay(){
+        _day = date.getDayOfMonth();
+        return _day;
     }
 
     public Comment getComment(){

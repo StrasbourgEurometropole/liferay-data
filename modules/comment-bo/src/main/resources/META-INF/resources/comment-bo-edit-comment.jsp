@@ -130,11 +130,18 @@
 
 			<%-- Groupe de champs : Bannissement --%>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="banishment">
-				<%-- Champ : Date de fin bannissement --%>
-				<aui:input name="banishDate" required="false" helpMessage="help-banish-date"/>
-				<%-- Champ : Description / Motifs du bannissement --%>
-				<aui:input name="banishDescription" required="false" />
+				<%-- Champ : Date de fin bannissement--%>
+                <div class="form-group input-Date-wrapper">
+                    <label class="control-label" for="_eu_strasbourg_portlet_comment_CommentBOPortlet_createDate">Date de Bannissement</label>
+                    <liferay-ui:input-date name="banishDate" cssClass="content-column" autoFocus="true" yearValue="${dc.year}" dayValue="${dc.day}" monthValue="${dc.month}"/>
+                </div >
 
+
+				<%-- Champ : Description / Motifs du bannissement --%>
+                <div class="form-group input-Date-wrapper">
+                    <label class="control-label">Description / Motifs du bannissement</label>
+				    <liferay-ui:input-editor name="banishDescription" toolbarSet="liferay-article" initMethod="initEditor" width="200" />
+                </div >
 			</aui:fieldset>
 
         </aui:fieldset-group>
