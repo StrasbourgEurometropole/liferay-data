@@ -15,7 +15,6 @@
 <%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
 
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
-<%@ page import="java.util.Date" %>
 
 <liferay-theme:defineObjects />
 

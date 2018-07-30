@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.comment;
 
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -10,14 +11,11 @@ import eu.strasbourg.portlet.comment.display.context.ViewCommentDisplayContext;
 import eu.strasbourg.portlet.comment.display.context.ViewSignalementDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 /**
  * @author alexandre.quere
@@ -42,8 +40,6 @@ public class CommentBOPortlet extends MVCPortlet{
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
         PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-
-        //date du jour
 
         String cmd = ParamUtil.getString(renderRequest, "cmd");
         String tab = ParamUtil.getString(renderRequest,"tab");
