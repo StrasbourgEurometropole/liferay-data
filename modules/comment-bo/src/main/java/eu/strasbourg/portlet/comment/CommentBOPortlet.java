@@ -17,6 +17,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * @author alexandre.quere
@@ -41,6 +42,8 @@ public class CommentBOPortlet extends MVCPortlet{
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
         PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+
+        //date du jour
 
         String cmd = ParamUtil.getString(renderRequest, "cmd");
         String tab = ParamUtil.getString(renderRequest,"tab");
