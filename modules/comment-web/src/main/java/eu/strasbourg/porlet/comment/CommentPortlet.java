@@ -3,6 +3,8 @@ package eu.strasbourg.porlet.comment;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
@@ -14,8 +16,6 @@ import javax.portlet.PortletSession;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.strasbourg.service.comment.model.Signalement;
@@ -27,10 +27,10 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -52,8 +52,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.comment.configuration.CommentConfiguration;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
-import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
@@ -61,24 +59,6 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author romain.vergnais
@@ -95,7 +75,11 @@ import java.util.stream.Collectors;
 		"javax.portlet.security-role-ref=power-user,user" },
         service = Portlet.class)
 public class CommentPortlet extends MVCPortlet {
-
+	
+	private static final String JOURNAL_URL_PATTERN = "/-/(.*?)";
+	private static final String ENTITY_URL_PATTERN = "/-/entity/id/(.*?)";
+	private static final String PARTICIPATION_CLASSNAME = "eu.strasbourg.service.project.model.Participation";
+	
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 
@@ -325,9 +309,30 @@ public class CommentPortlet extends MVCPortlet {
 
 	/**
 	 * Recupere l'ID de l'assetEntry du detail de la page
+	 * @throws PortalException 
 	 */
-	private long getPortletAssetEntryId(PortletRequest request) {
+	private long getPortletAssetEntryId(PortletRequest request) throws PortalException {
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		PortletSession portletSession = request.getPortletSession();
+		long groupId = new Long(themeDisplay.getLayout().getGroupId());
+		String currentUrl = themeDisplay.getURLCurrent();
+		
+		Pattern pattern = Pattern.compile("");
+		Matcher matcher = pattern.matcher(currentUrl);
+		
+		if (matcher.find()) {
+			JournalArticle journalArticle = JournalArticleLocalServiceUtil.getDisplayArticleByUrlTitle(groupId, matcher.group(1));
+			
+			if (journalArticle != null) {
+				//AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(className, classPK)
+			} else {
+				return -1;
+			}
+			
+		}
+		
+		
 		
 		if (portletSession.getAttribute("LIFERAY_SHARED_assetEntryID", PortletSession.APPLICATION_SCOPE) != null) {
 			return (long) portletSession.getAttribute("LIFERAY_SHARED_assetEntryID",
@@ -375,7 +380,7 @@ public class CommentPortlet extends MVCPortlet {
 			}
 			
 			// Verification d'une participation ou l'on peut reagir
-			if (assetType.equals("eu.strasbourg.service.project.model.Participation")) {
+			if (assetType.equals(this.PARTICIPATION_CLASSNAME)) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
 				
 				if (participation == null || !participation.isJudgeable()) {
@@ -432,7 +437,7 @@ public class CommentPortlet extends MVCPortlet {
 			}
 			
 			// Verification d'une participation ou l'on peut reagir
-			if (assetType.equals("eu.strasbourg.service.project.model.Participation")) {
+			if (assetType.equals(this.PARTICIPATION_CLASSNAME)) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
 				
 				if (participation == null || !participation.isJudgeable()) {
