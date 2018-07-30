@@ -25,7 +25,7 @@
 						<span class="pro-name">${comment.getPublikUserName()}</span>
 						<c:if test="${comment.userQuality != null and comment.userQuality != ''}">
 							<span>
-								<liferay-ui:message key='comment-in-quality-of' /> <strong><i>"${comment.userQuality}"</i></strong>
+								<liferay-ui:message key='comment-in-quality-of' /> <strong><i>"${comment.userQuality}"</i></strong>,
 							</span>
 						</c:if>
 						<span class="pro-comment-time">
@@ -38,15 +38,19 @@
 							<p id="comment-${comment.commentId}">${comment.comment}</p>
 							<div class="pro-interactions">
 								<c:if test="${comment.modifiedByUserDate != null}">
-									(<liferay-ui:message key='comment-edited-on' />
-									<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="dd/mm/yyyy" />)
+									<div>
+										<a>
+											(<liferay-ui:message key='comment-edited-on' />
+											<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="dd/mm/yyyy" />)
+										</a>
+									</div>
 								</c:if>
 								<c:choose>
 									<c:when test="${!isUserBanned && hasUserSigned}">
 										<a href="#pro-avis-like-pro" class="pro-like"
 											data-typeid="16" 
 			                                data-isdislike="false"
-			                                data-title="Comment of ${comment.getPublikUserName()}" 
+			                                data-title="Comment of ${comment.getPublikUserName()}"
 			                                data-entityid="${comment.commentId}"
 			                                data-entitygroupid="${comment.groupId}"
 											title="Aimer ce commentaire">
@@ -193,7 +197,7 @@
         $("#deleteModal").modal();
      });
 
-	// Gestion de l'affichage et du contrôle de l'action de post du commentaire
+	// Gestion de l'affichage et du contrÃ´le de l'action de post du commentaire
 	$("#form-comments").submit(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();
@@ -209,7 +213,7 @@
     	}
 	});
 	
-	// Gestion du contrôle de la saisie du commentaire
+	// Gestion du contrÃ´le de la saisie du commentaire
 	$("#message").click(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();
@@ -221,7 +225,7 @@
 	    }
 	});
 	
-	// Gestion de l'affichage de la réponse
+	// Gestion de l'affichage de la rÃ©ponse
 	$("[href='#Repondre']").click(function(e){
 		var OPName = $(this).data('username');
 		var parentId = $(this).data('commentid');
