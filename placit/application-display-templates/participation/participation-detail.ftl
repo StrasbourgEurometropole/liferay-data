@@ -33,6 +33,9 @@
 <!-- Recuperation des evenements lies a la participation -->
 <#assign participationPlaces = entry.getPlacitPlaces() />
 
+<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+<#assign instanceId = themeDisplay.getPortletDisplay().getId() />
+
 <div class="pro-page-detail pro-page-detail-participation">
 
 	<div class="container">
@@ -269,61 +272,63 @@
 
 </div>
 
+
 <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
     <div class="container">
+
         <div class="col-lg-10 col-lg-offset-1">
-            <h2>L'agenda</h2>
-            <a href="${homeURL}agenda" class="pro-btn">Voir Tout l’agenda</a>
+            <h2>L’agenda</h2>
+            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
         </div>
 
         <div class="col-lg-10 col-lg-offset-1">
             <div class="owl-carousel owl-opacify owl-theme owl-cards">
-
-
+            
+                <!-- Parcours des entites de l'asset publisher -->
                 <#if participationEvents?has_content>
                     <#list participationEvents as event >
-
-                        <!-- Separation du titre de l'evenement  en deux parties -->
-                        <#assign eventTitle = event.getTitle(locale) >
-                        <#if eventTitle?length gt 15 && eventTitle?index_of(" ", 15) != -1 >
-                            <#assign breakIndex = eventTitle?index_of(" ", 15) >
-                            <#assign eventTitleFirstPart = eventTitle?substring(0, breakIndex) />
-                            <#assign eventTitleSecondPart = eventTitle?substring(breakIndex, eventTitle?length) />
-                        <#else>
-                            <#assign eventTitleFirstPart = eventTitle />
-                        </#if>
-
+                        
                         <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
                             <div>
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
-                                    <span class="pro-time">
-                                        <#if event.firstStartDate?has_content>
-                                            Le <time datetime="2018-01-10">${event.firstStartDate?string("dd MMMM yyyy")}</time>
-                                        </#if>
-                                    </span>
-                                    <p>À : ${event.getPlaceAlias(locale)}<br></p>
-                                    <h3>
-                                        ${eventTitleFirstPart}
-                                        <br>
-                                        <#if eventTitleSecondPart?has_content>${eventTitleSecondPart}</#if>
+                                    <span class="pro-time"><#if event.firstStartDate?has_content>Le ${event.firstStartDate?string("dd MMMM yyyy")}</#if></span>
+                                    <p>À : ${event.getPlaceAlias(locale)}</p>
+                                    <h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+                                        overflow: hidden;text-overflow: ellipsis;height: 53px">
+                                        ${event.getTitle(locale)}
                                     </h3>
                                 </div>
                                 <div class="pro-footer-event">
-                                    <!--
-                                    <span class="pro-btn-action active">Je participe</span>
-                                    <span class="pro-number"><strong>4537</strong> Participant(s)</span>
-                                    -->
+                                    <#if event.isFinished() >
+                                        <span class="pro-btn-action">
+                                            Événement terminé
+                                        </span>
+                                    <#elseif request.session.getAttribute("has_pact_signed")!false >
+                                        <span class="pro-btn-action"
+                                            name="#Participe-${instanceId}"
+                                            data-eventid="${event.eventId}"
+                                            data-groupid="${event.groupId}">
+                                            Je participe
+                                        </span>
+                                    <#else>
+                                        <span class="pro-btn-action" name="#Pact-sign">
+                                            Je participe
+                                        </span>
+                                    </#if>
+                                    <span class="pro-number"><strong>${event.getNbEventParticipations()}</strong> Participant(s)</span>
                                 </div>
                             </div>
                         </a>
-                    </#list>
+                    
+                        </#list>
                 <#else>
                     Aucun événement associé pour le moment
                 </#if>
 
             </div>
         </div>
+
     </div>
 </section>
 
@@ -335,3 +340,34 @@
         }
     </style>
 </#if>
+
+<script>
+    $(document).ready(function() {
+        $("span[name='#Participe-${instanceId}']").each(function() {
+
+            // Sauvegarde de l'élément
+            var element = $(this);
+            
+            // Récupération des attributs du like
+            var eventid = $(this).data("eventid");
+
+            // Recherche si l'utilisateur participe a l'evenement
+            Liferay.Service(
+                '/agenda.eventparticipation/is-user-participates',
+                {
+                    eventId: eventid
+                },
+                function(obj) {
+                    // En cas de succès, on effectue la modification des éléments visuels
+                    // selon la réponse et le type de l'élément
+                    if (obj.hasOwnProperty('success')) {
+                        if (obj['success'] == 'true') {
+                            element.toggleClass('active');
+                        }
+                    }
+                }
+            );
+
+        });
+    });
+</script>
