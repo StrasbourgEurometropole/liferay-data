@@ -35,7 +35,7 @@
                         <#if entry.getThemeLabel(locale)?has_content>
                             <span>${entry.getThemeLabel(locale)}</span>
                         </#if>
-                        <span>? commentaires</span>
+                        <span>${entry.getNbApprovedComments()} commentaire(s)</span>
                     </div>
 
                     <div id="breadcrumb">
