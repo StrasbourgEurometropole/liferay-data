@@ -85,6 +85,8 @@ public class PactePortlet extends MVCPortlet {
 					if(isClausesChecked) {
 						if(user.getPactSignature() != null) {
 							user.setPactSignature(null);
+							HttpServletRequest request = PortalUtil.getHttpServletRequest(resourceRequest);
+							request.getSession().setAttribute(HAS_PACT_SIGNED_ATTRIBUTE, false);
 						} else {
 							user.setPactSignature(new Date());
 							HttpServletRequest request = PortalUtil.getHttpServletRequest(resourceRequest);
