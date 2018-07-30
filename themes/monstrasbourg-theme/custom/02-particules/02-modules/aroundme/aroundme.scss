@@ -459,10 +459,10 @@
                 }
                 &__list{
                     @include RWD(desktop){
-                        @include grid-distribution(3, 20, grid-item);
+                        @include grid-distribution(3, 30, grid-item);
                     }
                     @include RWD(tablet_only){
-                        @include grid-distribution(3, 20, grid-item);
+                        @include grid-distribution(3, 30, grid-item);
                     }
                     @include RWD(mobile){
                         @include grid-distribution(1, 0, grid-item);
