@@ -70,9 +70,8 @@
                 // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
                 center: [48.573, 7.752],
                 maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-                minZoom: 13,
                 zoom: 13,
-                minZoom: 12,
+                minZoom: 10,
                 zoomControl: false,
                 attributionControl: false
             });
