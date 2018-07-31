@@ -4,6 +4,7 @@
 
 <portlet:actionURL var="postComment" name="postComment">
 	<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
+	<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
 	<portlet:param name="entryID" value="${entryID}"></portlet:param>
 </portlet:actionURL>
 
