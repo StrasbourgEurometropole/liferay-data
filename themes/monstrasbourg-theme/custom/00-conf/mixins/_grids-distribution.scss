@@ -33,17 +33,17 @@
             }
         }
         @else if $number == 3 {
-            &:nth-child(3n) {
+            &:nth-child(3n+1) {
                 margin-right: #{($number - 1) * $margin / $number}px;
                 margin-left: 0;
             }
 
-            &:nth-child(3n+1) {
+            &:nth-child(3n+2) {
                 margin-left: #{$margin / $number}px;
                 margin-right: #{$margin / $number}px;
             }
 
-            &:nth-child(3n+2) {
+            &:nth-child(3n) {
                 margin-left: #{($number - 1) * $margin / $number}px;
                 margin-right: 0;
             }
