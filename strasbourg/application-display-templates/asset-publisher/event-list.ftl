@@ -39,7 +39,8 @@
                             <div class="seu-ville">
                                 ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}
                             </div>
-                            <div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${entry.getDescription(locale)?replace("<[^>]*>", "", "r")}</div>
+                            <div class="item-categories" data-dot="3" style="word-wrap: break-word;">${entry.getTypeLabel(locale)}</div>
+                            
                         </a>
                         <a href="#" class="seu-add-favorites" 
                             data-type="2" 
