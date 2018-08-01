@@ -62,5 +62,7 @@
 .portlet-body > div > div.h2 {
     display: none;
 }
-
+.pro-header-small {
+    display: none !important;
+}
 </style>
