@@ -103,7 +103,7 @@
 						
 						<div class="pro-comment-response" style="padding-left: 50px">
 							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
-								<div>
+								<div id="${commentAnswer.commentId}">
 									<p style="margin-bottom: 7px">
 										<strong>${commentAnswer.getPublikUserName()}</strong>
 										<liferay-ui:message key="comment-answered" /> 

@@ -71,8 +71,7 @@
                 <aui:input name="signalementCheckBox" type="checkbox" label="signalementCheckBoxTitle"/>
 
                 <%-- Champ : lien vers la page du commentaire --%>
-                <aui:button href="${comment.urlProjectCommentaire}" name="urlProjectCommentaire"
-                value="lien vers la page du commentaire"/>
+                <aui:button href="${dc.comment.urlProjectCommentaire}" value="link"/>
 
             </aui:fieldset>
 
