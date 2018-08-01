@@ -42,7 +42,7 @@
 									<div>
 										<a>
 											(<liferay-ui:message key='comment-edited-on' />
-											<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="dd/mm/yyyy" />)
+											<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="dd/MM/yyyy" />)
 										</a>
 									</div>
 								</c:if>
