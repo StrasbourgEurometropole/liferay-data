@@ -8,14 +8,15 @@
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"screenshot": "",
-		"rubySass": false,
+		"rubySass": true,
 		"templateLanguage": "ftl",
 		"version": "7.0"
 	},
 	"devDependencies": {
 		"gulp": "^3.8.10",
-		"liferay-theme-tasks": "^1.4.2",
-		"liferay-theme-deps-7.0": "~1.2.1"
+		"gulp-ruby-sass": "^3.0.0",
+		"liferay-theme-deps-7.0": "~1.2.1",
+		"liferay-theme-tasks": "^1.4.2"
 	},
 	"publishConfig": {
 		"tag": "7_0_x"
