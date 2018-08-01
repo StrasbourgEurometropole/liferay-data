@@ -336,33 +336,25 @@ public class CommentPortlet extends MVCPortlet {
 		if (indexFirstParam != -1)
 			currentUrl = currentUrl.substring(0, indexFirstParam);
 		
-		// Test d'un detail utilisant le module entity-detail
-		if (entityMatcher.find()) { 
-			if (portletSession.getAttribute(SHARED_ASSET_ID, PortletSession.APPLICATION_SCOPE) != null) {
-				return (long) portletSession.getAttribute(SHARED_ASSET_ID,
-						PortletSession.APPLICATION_SCOPE);
-			} else { 
-				return -1;
-			}
-			
-		}
 		// Test d'un detail Journal utilisant la mecanique d'assetpuplisher par default
-		else if (journalMatcher.find()) { 
+		if (journalMatcher.find() && !entityMatcher.find()) { 
 			JournalArticle journalArticle = JournalArticleLocalServiceUtil.getDisplayArticleByUrlTitle(groupId, journalMatcher.group(1));
 			
 			if (journalArticle != null) {
 				AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
 				
 				return assetEntry != null ? assetEntry.getEntryId() : -1;
-					
-			} else {
-				return -1;
 			}
-			
 		}
-		else {
-			return -1;
+		// Test d'un detail utilisant le module entity-detail
+		else { 
+			if (portletSession.getAttribute(SHARED_ASSET_ID, PortletSession.APPLICATION_SCOPE) != null) {
+				return (long) portletSession.getAttribute(SHARED_ASSET_ID,
+						PortletSession.APPLICATION_SCOPE);
+			}
 		}
+		
+		return -1;
 	}
 	
 	/**
