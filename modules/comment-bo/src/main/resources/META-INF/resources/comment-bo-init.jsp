@@ -16,7 +16,6 @@
 
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

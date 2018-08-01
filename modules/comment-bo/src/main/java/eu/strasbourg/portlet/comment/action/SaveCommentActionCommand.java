@@ -121,7 +121,9 @@ public class SaveCommentActionCommand implements MVCActionCommand{
 
             // Description du bannissement
             String banishDescription = ParamUtil.getString(actionRequest, "banishDescription");
-            publikUser.setBanishDescription(banishDescription);
+            if (banishDescription==null||banishDescription.isEmpty()){
+                publikUser.setBanishDescription(banishDescription);
+            }else banishDescription="";
             PublikUserLocalServiceUtil.updatePublikUser(publikUser);
             _commentLocalService.updateComment(comment);
 

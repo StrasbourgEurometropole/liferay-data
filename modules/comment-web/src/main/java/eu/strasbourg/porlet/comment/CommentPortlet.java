@@ -3,6 +3,8 @@ package eu.strasbourg.porlet.comment;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
@@ -14,8 +16,6 @@ import javax.portlet.PortletSession;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.strasbourg.service.comment.model.Signalement;
@@ -27,10 +27,10 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -52,8 +52,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.comment.configuration.CommentConfiguration;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
-import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
@@ -61,29 +59,13 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = {
+@Component(
+	immediate = true,
+	property = {
         "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
         "javax.portlet.display-name=Commentaires",
@@ -92,10 +74,18 @@ import java.util.stream.Collectors;
 		"javax.portlet.init-param.view-template=/comments-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB,
         "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
-        service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user"
+	},
+    service = Portlet.class
+)
 public class CommentPortlet extends MVCPortlet {
-
+	
+	private static final String JOURNAL_URL_PATTERN = "/-/(.*)";
+	private static final String ENTITY_URL_PATTER = "/-/entity/id/(.*)";
+	private static final String ESCAPE_PARAM_URL_PARTTERN = "(\\?|#)";
+	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
+	private static final String PARTICIPATION_CLASSNAME = "eu.strasbourg.service.project.model.Participation";
+	
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 
@@ -142,11 +132,15 @@ public class CommentPortlet extends MVCPortlet {
                         .compareTo(c1.getCreateDate()))
                         .collect(Collectors.toList());
 
-			//récupération des catégories
+			// Récupération des catégories
             List<AssetCategory> assetCategories = assetVocabularyAccessor.getCategoriesSignalement(groupId).getCategories();
 			// Donne le droit à un administrateur de cacher un commentaire
 			boolean isAdmin = themeDisplay.getPermissionChecker().isOmniadmin();
-		
+			
+			// URL de redirection pour le POST evitant les soumissions multiples
+			String redirectURL =  themeDisplay.getURLPortal() + themeDisplay.getURLCurrent();
+			
+			request.setAttribute("redirectURL", redirectURL);
 			request.setAttribute("categories",assetCategories);
 			request.setAttribute("comments", comments);
 			request.setAttribute("isAdmin", isAdmin);
@@ -166,12 +160,10 @@ public class CommentPortlet extends MVCPortlet {
 	 */
 	public void postComment(ActionRequest request, ActionResponse response) throws Exception, SystemException {
 		try {
-			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 			String userPublikId = getPublikID(request);
 
 			boolean isValid = validate(request);
-
 			boolean isValidInGroup = validateGroupCondition(request);
 			
 			// Si l'utilisateur n'est pas connecte, on ne fait rien
@@ -190,16 +182,17 @@ public class CommentPortlet extends MVCPortlet {
 
 				// Recuperation de la qualité de l'utilisateur
 				String userQuality = ParamUtil.getString(request, "inQualityOf");
+				
+				// Recuperation de l'URL de redirection
+				String redirectURL = ParamUtil.getString(request, "redirectURL");
 
 				Comment comment;
 
 				if (editCommentId <= 0) { // Creation d'un nouveau commentaire
 					comment = _commentLocalService.createComment(sc);
 
-					// Construction de l'URL du commentaire
-					String urlTemp = themeDisplay.getURLPortal();
-					String urlSuite = themeDisplay.getURLCurrent();
-					StringBuilder url = new StringBuilder(urlTemp).append(urlSuite);
+					// Initialisation de l'URL du commentaire
+					StringBuilder url = new StringBuilder(redirectURL);
 
 					//insertion du lien vers le commentaire
 				    url.append("#");
@@ -227,7 +220,7 @@ public class CommentPortlet extends MVCPortlet {
 
 				} else { // Modification d'un commentaire
 					comment = _commentLocalService.getComment(editCommentId);
-
+					
 					// Verifie si c'est bien le posteur original
 					if (comment.getPublikId().equals(userPublikId)) {
 						comment.setComment(message);
@@ -238,12 +231,9 @@ public class CommentPortlet extends MVCPortlet {
 					}
 
 				}
-
+				
 				// Redirection (évite double requête POST si l'utilisateur actualise sa page)
-				String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-						PortletRequest.RENDER_PHASE);
-				response.sendRedirect(renderUrl.toString());
+		        response.sendRedirect(redirectURL);
 				
 			}
 		} catch (Exception e) {
@@ -325,14 +315,52 @@ public class CommentPortlet extends MVCPortlet {
 
 	/**
 	 * Recupere l'ID de l'assetEntry du detail de la page
+	 * @throws PortalException 
 	 */
-	private long getPortletAssetEntryId(PortletRequest request) {
-		PortletSession portletSession = request.getPortletSession();
+	private long getPortletAssetEntryId(PortletRequest request) throws PortalException {
 		
-		if (portletSession.getAttribute("LIFERAY_SHARED_assetEntryID", PortletSession.APPLICATION_SCOPE) != null) {
-			return (long) portletSession.getAttribute("LIFERAY_SHARED_assetEntryID",
-					PortletSession.APPLICATION_SCOPE);
-		} else { 
+		// Recupertation des informations de la requete
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		PortletSession portletSession = request.getPortletSession();
+		long groupId = new Long(themeDisplay.getLayout().getGroupId());
+		String currentUrl = themeDisplay.getURLCurrent();
+		
+		// Initialisation des Pattern et Matcher permettant la recherche d'artefact dans l'URL
+		Pattern entityPattern = Pattern.compile(ENTITY_URL_PATTER);
+		Matcher entityMatcher = entityPattern.matcher(currentUrl);
+		Pattern journalPattern = Pattern.compile(JOURNAL_URL_PATTERN);
+		Matcher journalMatcher = journalPattern.matcher(currentUrl);
+		
+		// Supression d'une eventuelle ancre ou parametre dans l'URL
+		int indexFirstParam = currentUrl.indexOf(ESCAPE_PARAM_URL_PARTTERN);
+		if (indexFirstParam != -1)
+			currentUrl = currentUrl.substring(0, indexFirstParam);
+		
+		// Test d'un detail utilisant le module entity-detail
+		if (entityMatcher.find()) { 
+			if (portletSession.getAttribute(SHARED_ASSET_ID, PortletSession.APPLICATION_SCOPE) != null) {
+				return (long) portletSession.getAttribute(SHARED_ASSET_ID,
+						PortletSession.APPLICATION_SCOPE);
+			} else { 
+				return -1;
+			}
+			
+		}
+		// Test d'un detail Journal utilisant la mecanique d'assetpuplisher par default
+		else if (journalMatcher.find()) { 
+			JournalArticle journalArticle = JournalArticleLocalServiceUtil.getDisplayArticleByUrlTitle(groupId, journalMatcher.group(1));
+			
+			if (journalArticle != null) {
+				AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+				
+				return assetEntry != null ? assetEntry.getEntryId() : -1;
+					
+			} else {
+				return -1;
+			}
+			
+		}
+		else {
 			return -1;
 		}
 	}
@@ -375,7 +403,7 @@ public class CommentPortlet extends MVCPortlet {
 			}
 			
 			// Verification d'une participation ou l'on peut reagir
-			if (assetType.equals("eu.strasbourg.service.project.model.Participation")) {
+			if (assetType.equals(PARTICIPATION_CLASSNAME)) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
 				
 				if (participation == null || !participation.isJudgeable()) {
@@ -391,6 +419,7 @@ public class CommentPortlet extends MVCPortlet {
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
 
+		// Validation du champ message
 		if (Validator.isNull(ParamUtil.getString(request, "message"))) {
 			SessionErrors.add(request, "message");
 			isValid = false;
@@ -432,7 +461,7 @@ public class CommentPortlet extends MVCPortlet {
 			}
 			
 			// Verification d'une participation ou l'on peut reagir
-			if (assetType.equals("eu.strasbourg.service.project.model.Participation")) {
+			if (assetType.equals(PARTICIPATION_CLASSNAME)) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
 				
 				if (participation == null || !participation.isJudgeable()) {

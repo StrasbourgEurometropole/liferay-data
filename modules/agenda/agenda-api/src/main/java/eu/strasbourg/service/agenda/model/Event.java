@@ -168,6 +168,16 @@ public interface Event extends EventModel, PersistedModel {
 	public int getNbEventParticipations();
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	/**
 	* L'evenement est-il terminee ?
 	*/
 	public boolean isFinished();
