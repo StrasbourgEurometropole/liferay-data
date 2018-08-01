@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.petition">
+	<author>Alexandre QUERE</author>
+	<namespace>petition</namespace>
+	<entity local-service="true" name="Petition" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="petitionId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- main fields -->
+		<column name="title" type="String" />
+		<column name="videoURL" type="String" />
+		<column name="pictureURL" type="String" />
+		<column name="isVideo" type="boolean" />
+		<column name="description" type="String" />
+		<column name="placeTextArea" type="String" />
+		<column name="filesDownload" type="String" />
+		<column name="publicationDate" type="Date" />
+		<column name="expirationDate" type="Date" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+</service-builder>
