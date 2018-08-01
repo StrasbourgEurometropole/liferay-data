@@ -189,7 +189,7 @@ public class CommentPortlet extends MVCPortlet {
 				Comment comment;
 
 				if (editCommentId <= 0) { // Creation d'un nouveau commentaire
-					comment = _commentLocalService.createComment(sc);
+					comment = _commentLocalService.createComment(userPublikId,sc);
 
 					// Initialisation de l'URL du commentaire
 					StringBuilder url = new StringBuilder(redirectURL);
@@ -204,7 +204,7 @@ public class CommentPortlet extends MVCPortlet {
 					// Edition des attributs
 					comment.setAssetEntryId(entryID);
 					comment.setUrlProjectCommentaire(url.toString());
-					comment.setPublikId(userPublikId);
+					comment.setUserName(comment.getPublikUserName());
 					comment.setComment(message);
 					comment.setUserQuality(userQuality);
 

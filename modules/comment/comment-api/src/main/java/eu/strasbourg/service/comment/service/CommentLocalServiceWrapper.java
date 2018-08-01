@@ -87,9 +87,10 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	*/
 	@Override
 	public eu.strasbourg.service.comment.model.Comment createComment(
+		java.lang.String userPublikId,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _commentLocalService.createComment(sc);
+		return _commentLocalService.createComment(userPublikId, sc);
 	}
 
 	/**
