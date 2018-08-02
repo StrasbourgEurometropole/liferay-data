@@ -274,6 +274,9 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 		// Supprime le lien
 		Comment comment = this.commentPersistence.remove(commentId);
 
+		//supprime son indexation
+		this.reindex(comment,true);
+
 		// Supprime les reponses
 		List<Comment> childComments = comment.getApprovedChildComments();
 		if (childComments!=null&&!childComments.isEmpty()){
