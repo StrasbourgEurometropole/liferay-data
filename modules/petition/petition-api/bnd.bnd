@@ -1,9 +1,9 @@
-Bundle-Name: petition-api
-Bundle-SymbolicName: eu.strasbourg.service.api
+Bundle-Name: Petition-api
+Bundle-SymbolicName: eu.strasbourg.service.petition.api
 Bundle-Version: 1.0.0
 Export-Package:\
-	eu.strasbourg.service.exception,\
-	eu.strasbourg.service.model,\
-	eu.strasbourg.service.service,\
-	eu.strasbourg.service.service.persistence
+	eu.strasbourg.service.petition.exception,\
+	eu.strasbourg.service.petition.model,\
+	eu.strasbourg.service.petition.service,\
+	eu.strasbourg.service.petition.service.persistence
 -includeresource: META-INF/service.xml=../petition-service/service.xml
