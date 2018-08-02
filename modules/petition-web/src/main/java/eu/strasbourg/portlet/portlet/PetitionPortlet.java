@@ -1,6 +1,6 @@
 package eu.strasbourg.portlet.portlet;
 
-import eu.strasbourg.portlet.constants.PetitionBOPortletKeys;
+import eu.strasbourg.portlet.constants.PetitionPortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
@@ -18,11 +18,11 @@ import org.osgi.service.component.annotations.Component;
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.name=" + PetitionBOPortletKeys.Petition,
+		"javax.portlet.name=" + PetitionPortletKeys.Petition,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
 	service = Portlet.class
 )
-public class PetitionBOPortlet extends MVCPortlet {
+public class PetitionPortlet extends MVCPortlet {
 }
