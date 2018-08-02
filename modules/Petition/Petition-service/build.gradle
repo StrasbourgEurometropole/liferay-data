@@ -5,14 +5,14 @@ dependencies {
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
     compile group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "2.0.0"
 
-	compile project(":modules:Petition:Petition-api")
+	compile project(":modules:petition:petition-api")
 	compile project(":modules:agenda:agenda-api")
 	compile project(":modules:place:place-api")
 	compile project (':modules:utils')
 }
 
 buildService {
-	apiDir = "../Petition-api/src/main/java"
+	apiDir = "../petition-api/src/main/java"
 	osgiModule = true
 }
 
