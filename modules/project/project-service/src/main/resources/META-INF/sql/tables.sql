@@ -31,6 +31,30 @@ create table project_Participation (
 	expirationDate DATE null
 );
 
+create table project_Petition (
+	uuid_ VARCHAR(75) null,
+	petitionId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	title VARCHAR(75) null,
+	videoURL VARCHAR(75) null,
+	pictureURL VARCHAR(75) null,
+	isVideo BOOLEAN,
+	description VARCHAR(75) null,
+	placeTextArea VARCHAR(75) null,
+	filesDownload VARCHAR(75) null,
+	publicationDate DATE null,
+	expirationDate DATE null
+);
+
 create table project_PlacitPlace (
 	uuid_ VARCHAR(75) null,
 	placitPlaceId LONG not null primary key,
