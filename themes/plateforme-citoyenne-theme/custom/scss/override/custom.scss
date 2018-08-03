@@ -161,6 +161,12 @@ form .pro-facette-date input {
     float: none;
 }
 
-.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event>span.pro-number{
+.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event>span.pro-number {
     line-height: inherit;
+}
+
+// Taille de la map sur les détails entité
+aside .leaflet-map {
+	width: 100%;
+    height: 200px;
 }
