@@ -46,7 +46,7 @@
 				<aui:input name="title" required="true" />
 				
 				<%-- Champ : Auteur --%>
-				<aui:input name="author" required="true" />
+				<aui:input name="userName" required="true" />
 
 			</aui:fieldset>
 

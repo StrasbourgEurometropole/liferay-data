@@ -79,7 +79,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		} else if (cmd.equals("editPetition") || fromAjaxPetition) {
 			EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-			title = "participations";
+			title = "Petitions";
 		} else if (tab.equals("participations")) {
 			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
 			renderRequest.setAttribute("dc", dc);

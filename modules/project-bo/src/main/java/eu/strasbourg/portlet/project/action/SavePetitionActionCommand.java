@@ -93,17 +93,9 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			petition.setTitle(title);
 
 			// Auteur
-			String author = ParamUtil.getString(request, "author");
+			String author = ParamUtil.getString(request, "userName");
 			petition.setUserName(author);
-
-			// Choix de la vidéo ou de l'image
-			Boolean mediaChoice = ParamUtil.getBoolean(request, "mediaChoice");
-			petition.setMediaChoice(mediaChoice);
-			
-			// URL de la vidéo
-			String videoUrl = ParamUtil.getString(request, "videoUrl");
-			petition.setVideoUrl(videoUrl);
-
+			_petitionLocalService.updatePetition(petition);
 		} catch (PortalException e) {
 			_log.error(e);
 		}
@@ -127,7 +119,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 		}
 
 		// Auteur
-		if (Validator.isNull(ParamUtil.getString(request, "author"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "userName"))) {
 			SessionErrors.add(request, "author-error");
 			isValid = false;
 		}
