@@ -927,6 +927,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getCity(locale);
 	}
 
+	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getCompleteAddress(java.util.Locale locale) {
+		return _event.getCompleteAddress(locale);
+	}
+
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _event.getDefaultLanguageId();
@@ -1858,6 +1866,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getManifestations() {
 		return _event.getManifestations();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return "" si vide sinon "mercatorX;mercatorY"
+	*/
+	@Override
+	public java.util.List<java.lang.String> getMercators() {
+		return _event.getMercators();
 	}
 
 	/**
