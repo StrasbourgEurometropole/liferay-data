@@ -65,7 +65,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -93,12 +93,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
-		sb.append(", videoURL=");
-		sb.append(videoURL);
-		sb.append(", pictureURL=");
-		sb.append(pictureURL);
-		sb.append(", isVideo=");
-		sb.append(isVideo);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", placeTextArea=");
@@ -109,6 +103,14 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
 		sb.append(expirationDate);
+		sb.append(", videoUrl=");
+		sb.append(videoUrl);
+		sb.append(", externalImageURL=");
+		sb.append(externalImageURL);
+		sb.append(", externalImageCopyright=");
+		sb.append(externalImageCopyright);
+		sb.append(", mediaChoice=");
+		sb.append(mediaChoice);
 		sb.append("}");
 
 		return sb.toString();
@@ -175,22 +177,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setTitle(title);
 		}
 
-		if (videoURL == null) {
-			petitionImpl.setVideoURL(StringPool.BLANK);
-		}
-		else {
-			petitionImpl.setVideoURL(videoURL);
-		}
-
-		if (pictureURL == null) {
-			petitionImpl.setPictureURL(StringPool.BLANK);
-		}
-		else {
-			petitionImpl.setPictureURL(pictureURL);
-		}
-
-		petitionImpl.setIsVideo(isVideo);
-
 		if (description == null) {
 			petitionImpl.setDescription(StringPool.BLANK);
 		}
@@ -226,6 +212,29 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setExpirationDate(new Date(expirationDate));
 		}
 
+		if (videoUrl == null) {
+			petitionImpl.setVideoUrl(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setVideoUrl(videoUrl);
+		}
+
+		if (externalImageURL == null) {
+			petitionImpl.setExternalImageURL(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setExternalImageURL(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			petitionImpl.setExternalImageCopyright(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setExternalImageCopyright(externalImageCopyright);
+		}
+
+		petitionImpl.setMediaChoice(mediaChoice);
+
 		petitionImpl.resetOriginalValues();
 
 		return petitionImpl;
@@ -252,15 +261,16 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		videoURL = objectInput.readUTF();
-		pictureURL = objectInput.readUTF();
-
-		isVideo = objectInput.readBoolean();
 		description = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
 		filesDownload = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
+		videoUrl = objectInput.readUTF();
+		externalImageURL = objectInput.readUTF();
+		externalImageCopyright = objectInput.readUTF();
+
+		mediaChoice = objectInput.readBoolean();
 	}
 
 	@Override
@@ -311,22 +321,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			objectOutput.writeUTF(title);
 		}
 
-		if (videoURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(videoURL);
-		}
-
-		if (pictureURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(pictureURL);
-		}
-
-		objectOutput.writeBoolean(isVideo);
-
 		if (description == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -350,6 +344,29 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
+
+		if (videoUrl == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(videoUrl);
+		}
+
+		if (externalImageURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageCopyright);
+		}
+
+		objectOutput.writeBoolean(mediaChoice);
 	}
 
 	public String uuid;
@@ -365,12 +382,13 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
-	public String videoURL;
-	public String pictureURL;
-	public boolean isVideo;
 	public String description;
 	public String placeTextArea;
 	public String filesDownload;
 	public long publicationDate;
 	public long expirationDate;
+	public String videoUrl;
+	public String externalImageURL;
+	public String externalImageCopyright;
+	public boolean mediaChoice;
 }

@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
@@ -55,6 +56,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		String tab = ParamUtil.getString(renderRequest, "tab");
 		Boolean fromAjaxProject = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxProject"));
 		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
+		Boolean fromAjaxPetition = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxPetition"));
 		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
@@ -72,6 +74,10 @@ public class ProjectBOPortlet extends MVCPortlet {
 			title = "projects";
 		} else if (cmd.equals("editParticipation") || fromAjaxParticipation) {
 			EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "participations";
+		} else if (cmd.equals("editPetition") || fromAjaxPetition) {
+			EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "participations";
 		} else if (tab.equals("participations")) {

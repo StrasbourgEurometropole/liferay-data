@@ -57,14 +57,15 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="videoURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="pictureURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="isVideo" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="filesDownload" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
+		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.PlacitPlaceImpl" table="project_PlacitPlace">
 		<id name="placitPlaceId" type="long">
@@ -85,6 +86,7 @@
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="participationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="petitionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="placeSIGId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ProjectImpl" table="project_Project">

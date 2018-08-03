@@ -84,4 +84,9 @@ public interface Petition extends PetitionModel, PersistedModel {
 	* Retourne le status de la petition
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory();
+
+	/**
+	* Retourne la liste des lieux placit liés à la participation
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 }

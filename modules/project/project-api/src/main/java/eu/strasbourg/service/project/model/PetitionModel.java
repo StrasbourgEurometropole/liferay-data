@@ -308,57 +308,6 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setTitle(String title);
 
 	/**
-	 * Returns the video url of this petition.
-	 *
-	 * @return the video url of this petition
-	 */
-	@AutoEscape
-	public String getVideoURL();
-
-	/**
-	 * Sets the video url of this petition.
-	 *
-	 * @param videoURL the video url of this petition
-	 */
-	public void setVideoURL(String videoURL);
-
-	/**
-	 * Returns the picture url of this petition.
-	 *
-	 * @return the picture url of this petition
-	 */
-	@AutoEscape
-	public String getPictureURL();
-
-	/**
-	 * Sets the picture url of this petition.
-	 *
-	 * @param pictureURL the picture url of this petition
-	 */
-	public void setPictureURL(String pictureURL);
-
-	/**
-	 * Returns the is video of this petition.
-	 *
-	 * @return the is video of this petition
-	 */
-	public boolean getIsVideo();
-
-	/**
-	 * Returns <code>true</code> if this petition is is video.
-	 *
-	 * @return <code>true</code> if this petition is is video; <code>false</code> otherwise
-	 */
-	public boolean isIsVideo();
-
-	/**
-	 * Sets whether this petition is is video.
-	 *
-	 * @param isVideo the is video of this petition
-	 */
-	public void setIsVideo(boolean isVideo);
-
-	/**
 	 * Returns the description of this petition.
 	 *
 	 * @return the description of this petition
@@ -430,6 +379,72 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	 * @param expirationDate the expiration date of this petition
 	 */
 	public void setExpirationDate(Date expirationDate);
+
+	/**
+	 * Returns the video url of this petition.
+	 *
+	 * @return the video url of this petition
+	 */
+	@AutoEscape
+	public String getVideoUrl();
+
+	/**
+	 * Sets the video url of this petition.
+	 *
+	 * @param videoUrl the video url of this petition
+	 */
+	public void setVideoUrl(String videoUrl);
+
+	/**
+	 * Returns the external image url of this petition.
+	 *
+	 * @return the external image url of this petition
+	 */
+	@AutoEscape
+	public String getExternalImageURL();
+
+	/**
+	 * Sets the external image url of this petition.
+	 *
+	 * @param externalImageURL the external image url of this petition
+	 */
+	public void setExternalImageURL(String externalImageURL);
+
+	/**
+	 * Returns the external image copyright of this petition.
+	 *
+	 * @return the external image copyright of this petition
+	 */
+	@AutoEscape
+	public String getExternalImageCopyright();
+
+	/**
+	 * Sets the external image copyright of this petition.
+	 *
+	 * @param externalImageCopyright the external image copyright of this petition
+	 */
+	public void setExternalImageCopyright(String externalImageCopyright);
+
+	/**
+	 * Returns the media choice of this petition.
+	 *
+	 * @return the media choice of this petition
+	 */
+	public boolean getMediaChoice();
+
+	/**
+	 * Returns <code>true</code> if this petition is media choice.
+	 *
+	 * @return <code>true</code> if this petition is media choice; <code>false</code> otherwise
+	 */
+	public boolean isMediaChoice();
+
+	/**
+	 * Sets whether this petition is media choice.
+	 *
+	 * @param mediaChoice the media choice of this petition
+	 */
+	public void setMediaChoice(boolean mediaChoice);
 
 	/**
 	 * Returns <code>true</code> if this petition is approved.

@@ -65,14 +65,15 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
-		<field name="videoURL" type="String" />
-		<field name="pictureURL" type="String" />
-		<field name="isVideo" type="boolean" />
 		<field name="description" type="String" />
 		<field name="placeTextArea" type="String" />
 		<field name="filesDownload" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
+		<field name="videoUrl" type="String" />
+		<field name="externalImageURL" type="String" />
+		<field name="externalImageCopyright" type="String" />
+		<field name="mediaChoice" type="boolean" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.PlacitPlace">
 		<field name="uuid" type="String" />
@@ -93,6 +94,7 @@
 		<field name="imageId" type="long" />
 		<field name="projectId" type="long" />
 		<field name="participationId" type="long" />
+		<field name="petitionId" type="long" />
 		<field name="placeSIGId" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Project">

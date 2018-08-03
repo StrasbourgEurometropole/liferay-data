@@ -1,13 +1,5 @@
 package eu.strasbourg.portlet.project.display.context;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -17,42 +9,49 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-public class EditParticipationDisplayContext {
-	
-	private Participation _participation;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class EditPetitionDisplayContext {
+
+	private Petition _petition;
 	private List<AssetCategory> _cities;
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
 	
-	public EditParticipationDisplayContext(RenderRequest request,
-		RenderResponse response) {
+	public EditPetitionDisplayContext(RenderRequest request,
+                                      RenderResponse response) {
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
-	public Participation getParticipation() {
-		long participationId = ParamUtil.getLong(_request, "participationId");
-		if (_participation == null && participationId > 0) {
-			_participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
+	public Petition getPetition() {
+		long petitionId = ParamUtil.getLong(_request, "petitionId");
+		if (_petition == null && petitionId > 0) {
+			_petition = PetitionLocalServiceUtil.fetchPetition(petitionId);
 		}
-		return _participation;
+		return _petition;
 	}
 	
 	/**
 	 * Renvoie les indexes des lieux par défaut
 	 */
 	public String getDefaultPlaceIndexes() throws PortalException {
-		if (this.getParticipation() != null) {
-			List<PlacitPlace> places = this.getParticipation().getPlacitPlaces();
+		if (this.getPetition() != null) {
+			List<PlacitPlace> places = this.getPetition().getPlacitPlaces();
 			String indexes = "0";
 			for (int i = 1; i <= places.size(); i++) {
 				indexes += "," + i;
@@ -61,7 +60,7 @@ public class EditParticipationDisplayContext {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Retourne la liste des villes
 	 */
@@ -95,7 +94,7 @@ public class EditParticipationDisplayContext {
 	public boolean isWorkflowEnabled() {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getCompanyGroupId(),
-			Participation.class.getName());
+			Petition.class.getName());
 	}
 		
 	/**

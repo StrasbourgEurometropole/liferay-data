@@ -87,14 +87,15 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
-			{ "videoURL", Types.VARCHAR },
-			{ "pictureURL", Types.VARCHAR },
-			{ "isVideo", Types.BOOLEAN },
 			{ "description", Types.VARCHAR },
 			{ "placeTextArea", Types.VARCHAR },
 			{ "filesDownload", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
-			{ "expirationDate", Types.TIMESTAMP }
+			{ "expirationDate", Types.TIMESTAMP },
+			{ "videoUrl", Types.VARCHAR },
+			{ "externalImageURL", Types.VARCHAR },
+			{ "externalImageCopyright", Types.VARCHAR },
+			{ "mediaChoice", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -112,17 +113,18 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("videoURL", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("pictureURL", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("isVideo", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("filesDownload", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,videoURL VARCHAR(75) null,pictureURL VARCHAR(75) null,isVideo BOOLEAN,description VARCHAR(75) null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -169,14 +171,15 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
-		model.setVideoURL(soapModel.getVideoURL());
-		model.setPictureURL(soapModel.getPictureURL());
-		model.setIsVideo(soapModel.getIsVideo());
 		model.setDescription(soapModel.getDescription());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setFilesDownload(soapModel.getFilesDownload());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
+		model.setVideoUrl(soapModel.getVideoUrl());
+		model.setExternalImageURL(soapModel.getExternalImageURL());
+		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
+		model.setMediaChoice(soapModel.getMediaChoice());
 
 		return model;
 	}
@@ -254,14 +257,15 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("videoURL", getVideoURL());
-		attributes.put("pictureURL", getPictureURL());
-		attributes.put("isVideo", getIsVideo());
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
+		attributes.put("videoUrl", getVideoUrl());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("mediaChoice", getMediaChoice());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -349,24 +353,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			setTitle(title);
 		}
 
-		String videoURL = (String)attributes.get("videoURL");
-
-		if (videoURL != null) {
-			setVideoURL(videoURL);
-		}
-
-		String pictureURL = (String)attributes.get("pictureURL");
-
-		if (pictureURL != null) {
-			setPictureURL(pictureURL);
-		}
-
-		Boolean isVideo = (Boolean)attributes.get("isVideo");
-
-		if (isVideo != null) {
-			setIsVideo(isVideo);
-		}
-
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
@@ -395,6 +381,31 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		if (expirationDate != null) {
 			setExpirationDate(expirationDate);
+		}
+
+		String videoUrl = (String)attributes.get("videoUrl");
+
+		if (videoUrl != null) {
+			setVideoUrl(videoUrl);
+		}
+
+		String externalImageURL = (String)attributes.get("externalImageURL");
+
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
+
+		if (mediaChoice != null) {
+			setMediaChoice(mediaChoice);
 		}
 	}
 
@@ -635,55 +646,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
-	public String getVideoURL() {
-		if (_videoURL == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _videoURL;
-		}
-	}
-
-	@Override
-	public void setVideoURL(String videoURL) {
-		_videoURL = videoURL;
-	}
-
-	@JSON
-	@Override
-	public String getPictureURL() {
-		if (_pictureURL == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _pictureURL;
-		}
-	}
-
-	@Override
-	public void setPictureURL(String pictureURL) {
-		_pictureURL = pictureURL;
-	}
-
-	@JSON
-	@Override
-	public boolean getIsVideo() {
-		return _isVideo;
-	}
-
-	@JSON
-	@Override
-	public boolean isIsVideo() {
-		return _isVideo;
-	}
-
-	@Override
-	public void setIsVideo(boolean isVideo) {
-		_isVideo = isVideo;
-	}
-
-	@JSON
-	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return StringPool.BLANK;
@@ -750,6 +712,71 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	@Override
 	public void setExpirationDate(Date expirationDate) {
 		_expirationDate = expirationDate;
+	}
+
+	@JSON
+	@Override
+	public String getVideoUrl() {
+		if (_videoUrl == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _videoUrl;
+		}
+	}
+
+	@Override
+	public void setVideoUrl(String videoUrl) {
+		_videoUrl = videoUrl;
+	}
+
+	@JSON
+	@Override
+	public String getExternalImageURL() {
+		if (_externalImageURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _externalImageURL;
+		}
+	}
+
+	@Override
+	public void setExternalImageURL(String externalImageURL) {
+		_externalImageURL = externalImageURL;
+	}
+
+	@JSON
+	@Override
+	public String getExternalImageCopyright() {
+		if (_externalImageCopyright == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _externalImageCopyright;
+		}
+	}
+
+	@Override
+	public void setExternalImageCopyright(String externalImageCopyright) {
+		_externalImageCopyright = externalImageCopyright;
+	}
+
+	@JSON
+	@Override
+	public boolean getMediaChoice() {
+		return _mediaChoice;
+	}
+
+	@JSON
+	@Override
+	public boolean isMediaChoice() {
+		return _mediaChoice;
+	}
+
+	@Override
+	public void setMediaChoice(boolean mediaChoice) {
+		_mediaChoice = mediaChoice;
 	}
 
 	@Override
@@ -882,14 +909,15 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setStatusByUserName(getStatusByUserName());
 		petitionImpl.setStatusDate(getStatusDate());
 		petitionImpl.setTitle(getTitle());
-		petitionImpl.setVideoURL(getVideoURL());
-		petitionImpl.setPictureURL(getPictureURL());
-		petitionImpl.setIsVideo(getIsVideo());
 		petitionImpl.setDescription(getDescription());
 		petitionImpl.setPlaceTextArea(getPlaceTextArea());
 		petitionImpl.setFilesDownload(getFilesDownload());
 		petitionImpl.setPublicationDate(getPublicationDate());
 		petitionImpl.setExpirationDate(getExpirationDate());
+		petitionImpl.setVideoUrl(getVideoUrl());
+		petitionImpl.setExternalImageURL(getExternalImageURL());
+		petitionImpl.setExternalImageCopyright(getExternalImageCopyright());
+		petitionImpl.setMediaChoice(getMediaChoice());
 
 		petitionImpl.resetOriginalValues();
 
@@ -1040,24 +1068,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.title = null;
 		}
 
-		petitionCacheModel.videoURL = getVideoURL();
-
-		String videoURL = petitionCacheModel.videoURL;
-
-		if ((videoURL != null) && (videoURL.length() == 0)) {
-			petitionCacheModel.videoURL = null;
-		}
-
-		petitionCacheModel.pictureURL = getPictureURL();
-
-		String pictureURL = petitionCacheModel.pictureURL;
-
-		if ((pictureURL != null) && (pictureURL.length() == 0)) {
-			petitionCacheModel.pictureURL = null;
-		}
-
-		petitionCacheModel.isVideo = getIsVideo();
-
 		petitionCacheModel.description = getDescription();
 
 		String description = petitionCacheModel.description;
@@ -1100,12 +1110,39 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.expirationDate = Long.MIN_VALUE;
 		}
 
+		petitionCacheModel.videoUrl = getVideoUrl();
+
+		String videoUrl = petitionCacheModel.videoUrl;
+
+		if ((videoUrl != null) && (videoUrl.length() == 0)) {
+			petitionCacheModel.videoUrl = null;
+		}
+
+		petitionCacheModel.externalImageURL = getExternalImageURL();
+
+		String externalImageURL = petitionCacheModel.externalImageURL;
+
+		if ((externalImageURL != null) && (externalImageURL.length() == 0)) {
+			petitionCacheModel.externalImageURL = null;
+		}
+
+		petitionCacheModel.externalImageCopyright = getExternalImageCopyright();
+
+		String externalImageCopyright = petitionCacheModel.externalImageCopyright;
+
+		if ((externalImageCopyright != null) &&
+				(externalImageCopyright.length() == 0)) {
+			petitionCacheModel.externalImageCopyright = null;
+		}
+
+		petitionCacheModel.mediaChoice = getMediaChoice();
+
 		return petitionCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1133,12 +1170,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getStatusDate());
 		sb.append(", title=");
 		sb.append(getTitle());
-		sb.append(", videoURL=");
-		sb.append(getVideoURL());
-		sb.append(", pictureURL=");
-		sb.append(getPictureURL());
-		sb.append(", isVideo=");
-		sb.append(getIsVideo());
 		sb.append(", description=");
 		sb.append(getDescription());
 		sb.append(", placeTextArea=");
@@ -1149,6 +1180,14 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getPublicationDate());
 		sb.append(", expirationDate=");
 		sb.append(getExpirationDate());
+		sb.append(", videoUrl=");
+		sb.append(getVideoUrl());
+		sb.append(", externalImageURL=");
+		sb.append(getExternalImageURL());
+		sb.append(", externalImageCopyright=");
+		sb.append(getExternalImageCopyright());
+		sb.append(", mediaChoice=");
+		sb.append(getMediaChoice());
 		sb.append("}");
 
 		return sb.toString();
@@ -1156,7 +1195,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(70);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1215,18 +1254,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>videoURL</column-name><column-value><![CDATA[");
-		sb.append(getVideoURL());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>pictureURL</column-name><column-value><![CDATA[");
-		sb.append(getPictureURL());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>isVideo</column-name><column-value><![CDATA[");
-		sb.append(getIsVideo());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
@@ -1245,6 +1272,22 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(
 			"<column><column-name>expirationDate</column-name><column-value><![CDATA[");
 		sb.append(getExpirationDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>videoUrl</column-name><column-value><![CDATA[");
+		sb.append(getVideoUrl());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>externalImageURL</column-name><column-value><![CDATA[");
+		sb.append(getExternalImageURL());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>externalImageCopyright</column-name><column-value><![CDATA[");
+		sb.append(getExternalImageCopyright());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>mediaChoice</column-name><column-value><![CDATA[");
+		sb.append(getMediaChoice());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1275,14 +1318,15 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _videoURL;
-	private String _pictureURL;
-	private boolean _isVideo;
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
 	private Date _publicationDate;
 	private Date _expirationDate;
+	private String _videoUrl;
+	private String _externalImageURL;
+	private String _externalImageCopyright;
+	private boolean _mediaChoice;
 	private long _columnBitmask;
 	private Petition _escapedModel;
 }

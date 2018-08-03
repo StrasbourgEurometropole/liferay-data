@@ -185,7 +185,8 @@
 	    <!-- Links with other entities -->
 	    <column name="imageId" type="long" />
 	    <column name="projectId" type="long" />
-	    <column name="participationId" type="long" />
+		<column name="participationId" type="long" />
+		<column name="petitionId" type="long" />
 	    <column name="placeSIGId" type="String" />
 	    
 	    <!-- Finder methods -->
@@ -195,9 +196,12 @@
 	    <finder name="Project" return-type="Collection">
 	      <finder-column name="projectId" />
 	    </finder>
-	    <finder name="Participation" return-type="Collection">
-	      <finder-column name="participationId" />
-	    </finder>
+		<finder name="Participation" return-type="Collection">
+			<finder-column name="participationId" />
+		</finder>
+		<finder name="Petition" return-type="Collection">
+			<finder-column name="petitionId" />
+		</finder>
 	    <finder name="SigId" return-type="Collection">
 	      <finder-column name="placeSIGId" />
 	    </finder>
@@ -231,17 +235,19 @@
 
 		<!-- main fields -->
 		<column name="title" type="String" />
-		<column name="videoURL" type="String" />
-		<column name="pictureURL" type="String" />
-		<column name="isVideo" type="boolean" />
 		<column name="description" type="String" />
 		<column name="placeTextArea" type="String" />
 		<column name="filesDownload" type="String" />
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date" />
 
-		<!-- Order -->
+		<!-- Medias -->
+		<column name="videoUrl" type="String" />
+		<column name="externalImageURL" type="String" />
+		<column name="externalImageCopyright" type="String" />
+		<column name="mediaChoice" type="boolean" />
 
+		<!-- Order -->
 		<order by="asc">
 			<order-column name="title" />
 		</order>

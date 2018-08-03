@@ -85,6 +85,15 @@ public class PetitionLocalServiceUtil {
 	}
 
 	/**
+	* Crée une participation vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.project.model.Petition createPetition(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createPetition(sc);
+	}
+
+	/**
 	* Creates a new petition with the primary key. Does not add the petition to the database.
 	*
 	* @param petitionId the primary key for the new petition

@@ -17,8 +17,13 @@ package eu.strasbourg.service.project.service.impl;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
 
@@ -70,6 +75,27 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return petitionPersistence.findWithDynamicQuery(dynamicQuery,start,end);
 	}
 
+	/**
+	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Petition createPetition(ServiceContext sc)
+			throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = counterLocalService.increment();
+
+		Petition petition = this.petitionLocalService
+				.createPetition(pk);
+
+		petition.setGroupId(sc.getScopeGroupId());
+		petition.setUserName(user.getFullName());
+		petition.setUserId(sc.getUserId());
+
+		petition.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return petition;
+	}
 
 	/**
 	 * Recherche par mot clés (compte)

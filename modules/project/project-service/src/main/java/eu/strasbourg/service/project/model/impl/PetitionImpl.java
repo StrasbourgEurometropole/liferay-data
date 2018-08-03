@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -109,5 +111,13 @@ public class PetitionImpl extends PetitionBaseImpl {
                 VocabularyNames.PETITION_STATUS);
         return listStatus.size() > 0 ? listStatus.get(0) : null;
     }
+
+	/**
+	 * Retourne la liste des lieux placit liés à la participation
+	 */
+	@Override
+	public List<PlacitPlace> getPlacitPlaces() {
+		return PlacitPlaceLocalServiceUtil.getByPetition(this.getPetitionId());
+	}
 
 }

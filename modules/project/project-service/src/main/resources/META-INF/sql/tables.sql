@@ -45,14 +45,15 @@ create table project_Petition (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(75) null,
-	videoURL VARCHAR(75) null,
-	pictureURL VARCHAR(75) null,
-	isVideo BOOLEAN,
 	description VARCHAR(75) null,
 	placeTextArea VARCHAR(75) null,
 	filesDownload VARCHAR(75) null,
 	publicationDate DATE null,
-	expirationDate DATE null
+	expirationDate DATE null,
+	videoUrl VARCHAR(75) null,
+	externalImageURL VARCHAR(75) null,
+	externalImageCopyright VARCHAR(75) null,
+	mediaChoice BOOLEAN
 );
 
 create table project_PlacitPlace (
@@ -72,6 +73,7 @@ create table project_PlacitPlace (
 	imageId LONG,
 	projectId LONG,
 	participationId LONG,
+	petitionId LONG,
 	placeSIGId VARCHAR(75) null
 );
 

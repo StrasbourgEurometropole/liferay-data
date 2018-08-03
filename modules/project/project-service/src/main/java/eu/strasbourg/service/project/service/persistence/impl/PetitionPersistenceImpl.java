@@ -2397,14 +2397,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setStatusByUserName(petition.getStatusByUserName());
 		petitionImpl.setStatusDate(petition.getStatusDate());
 		petitionImpl.setTitle(petition.getTitle());
-		petitionImpl.setVideoURL(petition.getVideoURL());
-		petitionImpl.setPictureURL(petition.getPictureURL());
-		petitionImpl.setIsVideo(petition.isIsVideo());
 		petitionImpl.setDescription(petition.getDescription());
 		petitionImpl.setPlaceTextArea(petition.getPlaceTextArea());
 		petitionImpl.setFilesDownload(petition.getFilesDownload());
 		petitionImpl.setPublicationDate(petition.getPublicationDate());
 		petitionImpl.setExpirationDate(petition.getExpirationDate());
+		petitionImpl.setVideoUrl(petition.getVideoUrl());
+		petitionImpl.setExternalImageURL(petition.getExternalImageURL());
+		petitionImpl.setExternalImageCopyright(petition.getExternalImageCopyright());
+		petitionImpl.setMediaChoice(petition.isMediaChoice());
 
 		return petitionImpl;
 	}

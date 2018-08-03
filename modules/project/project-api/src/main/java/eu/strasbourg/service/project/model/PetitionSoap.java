@@ -47,14 +47,15 @@ public class PetitionSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
-		soapModel.setVideoURL(model.getVideoURL());
-		soapModel.setPictureURL(model.getPictureURL());
-		soapModel.setIsVideo(model.getIsVideo());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setFilesDownload(model.getFilesDownload());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
+		soapModel.setVideoUrl(model.getVideoUrl());
+		soapModel.setExternalImageURL(model.getExternalImageURL());
+		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
+		soapModel.setMediaChoice(model.getMediaChoice());
 
 		return soapModel;
 	}
@@ -211,34 +212,6 @@ public class PetitionSoap implements Serializable {
 		_title = title;
 	}
 
-	public String getVideoURL() {
-		return _videoURL;
-	}
-
-	public void setVideoURL(String videoURL) {
-		_videoURL = videoURL;
-	}
-
-	public String getPictureURL() {
-		return _pictureURL;
-	}
-
-	public void setPictureURL(String pictureURL) {
-		_pictureURL = pictureURL;
-	}
-
-	public boolean getIsVideo() {
-		return _isVideo;
-	}
-
-	public boolean isIsVideo() {
-		return _isVideo;
-	}
-
-	public void setIsVideo(boolean isVideo) {
-		_isVideo = isVideo;
-	}
-
 	public String getDescription() {
 		return _description;
 	}
@@ -279,6 +252,42 @@ public class PetitionSoap implements Serializable {
 		_expirationDate = expirationDate;
 	}
 
+	public String getVideoUrl() {
+		return _videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		_videoUrl = videoUrl;
+	}
+
+	public String getExternalImageURL() {
+		return _externalImageURL;
+	}
+
+	public void setExternalImageURL(String externalImageURL) {
+		_externalImageURL = externalImageURL;
+	}
+
+	public String getExternalImageCopyright() {
+		return _externalImageCopyright;
+	}
+
+	public void setExternalImageCopyright(String externalImageCopyright) {
+		_externalImageCopyright = externalImageCopyright;
+	}
+
+	public boolean getMediaChoice() {
+		return _mediaChoice;
+	}
+
+	public boolean isMediaChoice() {
+		return _mediaChoice;
+	}
+
+	public void setMediaChoice(boolean mediaChoice) {
+		_mediaChoice = mediaChoice;
+	}
+
 	private String _uuid;
 	private long _petitionId;
 	private long _groupId;
@@ -292,12 +301,13 @@ public class PetitionSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _videoURL;
-	private String _pictureURL;
-	private boolean _isVideo;
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
 	private Date _publicationDate;
 	private Date _expirationDate;
+	private String _videoUrl;
+	private String _externalImageURL;
+	private String _externalImageCopyright;
+	private boolean _mediaChoice;
 }

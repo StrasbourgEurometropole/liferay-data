@@ -72,14 +72,15 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("videoURL", getVideoURL());
-		attributes.put("pictureURL", getPictureURL());
-		attributes.put("isVideo", getIsVideo());
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
+		attributes.put("videoUrl", getVideoUrl());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("mediaChoice", getMediaChoice());
 
 		return attributes;
 	}
@@ -164,24 +165,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setTitle(title);
 		}
 
-		String videoURL = (String)attributes.get("videoURL");
-
-		if (videoURL != null) {
-			setVideoURL(videoURL);
-		}
-
-		String pictureURL = (String)attributes.get("pictureURL");
-
-		if (pictureURL != null) {
-			setPictureURL(pictureURL);
-		}
-
-		Boolean isVideo = (Boolean)attributes.get("isVideo");
-
-		if (isVideo != null) {
-			setIsVideo(isVideo);
-		}
-
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
@@ -211,16 +194,41 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		if (expirationDate != null) {
 			setExpirationDate(expirationDate);
 		}
+
+		String videoUrl = (String)attributes.get("videoUrl");
+
+		if (videoUrl != null) {
+			setVideoUrl(videoUrl);
+		}
+
+		String externalImageURL = (String)attributes.get("externalImageURL");
+
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
+
+		if (mediaChoice != null) {
+			setMediaChoice(mediaChoice);
+		}
 	}
 
 	/**
-	* Returns the is video of this petition.
+	* Returns the media choice of this petition.
 	*
-	* @return the is video of this petition
+	* @return the media choice of this petition
 	*/
 	@Override
-	public boolean getIsVideo() {
-		return _petition.getIsVideo();
+	public boolean getMediaChoice() {
+		return _petition.getMediaChoice();
 	}
 
 	/**
@@ -294,13 +302,13 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Returns <code>true</code> if this petition is is video.
+	* Returns <code>true</code> if this petition is media choice.
 	*
-	* @return <code>true</code> if this petition is is video; <code>false</code> otherwise
+	* @return <code>true</code> if this petition is media choice; <code>false</code> otherwise
 	*/
 	@Override
-	public boolean isIsVideo() {
-		return _petition.isIsVideo();
+	public boolean isMediaChoice() {
+		return _petition.isMediaChoice();
 	}
 
 	@Override
@@ -413,6 +421,26 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the external image copyright of this petition.
+	*
+	* @return the external image copyright of this petition
+	*/
+	@Override
+	public java.lang.String getExternalImageCopyright() {
+		return _petition.getExternalImageCopyright();
+	}
+
+	/**
+	* Returns the external image url of this petition.
+	*
+	* @return the external image url of this petition
+	*/
+	@Override
+	public java.lang.String getExternalImageURL() {
+		return _petition.getExternalImageURL();
+	}
+
+	/**
 	* Returns the files download of this petition.
 	*
 	* @return the files download of this petition
@@ -428,16 +456,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getNbApprovedCommentsLabel() {
 		return _petition.getNbApprovedCommentsLabel();
-	}
-
-	/**
-	* Returns the picture url of this petition.
-	*
-	* @return the picture url of this petition
-	*/
-	@Override
-	public java.lang.String getPictureURL() {
-		return _petition.getPictureURL();
 	}
 
 	/**
@@ -516,8 +534,8 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	* @return the video url of this petition
 	*/
 	@Override
-	public java.lang.String getVideoURL() {
-		return _petition.getVideoURL();
+	public java.lang.String getVideoUrl() {
+		return _petition.getVideoUrl();
 	}
 
 	@Override
@@ -595,6 +613,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _petition.getCategories();
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à la participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+		return _petition.getPlacitPlaces();
 	}
 
 	/**
@@ -724,6 +750,27 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Sets the external image copyright of this petition.
+	*
+	* @param externalImageCopyright the external image copyright of this petition
+	*/
+	@Override
+	public void setExternalImageCopyright(
+		java.lang.String externalImageCopyright) {
+		_petition.setExternalImageCopyright(externalImageCopyright);
+	}
+
+	/**
+	* Sets the external image url of this petition.
+	*
+	* @param externalImageURL the external image url of this petition
+	*/
+	@Override
+	public void setExternalImageURL(java.lang.String externalImageURL) {
+		_petition.setExternalImageURL(externalImageURL);
+	}
+
+	/**
 	* Sets the files download of this petition.
 	*
 	* @param filesDownload the files download of this petition
@@ -744,13 +791,13 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Sets whether this petition is is video.
+	* Sets whether this petition is media choice.
 	*
-	* @param isVideo the is video of this petition
+	* @param mediaChoice the media choice of this petition
 	*/
 	@Override
-	public void setIsVideo(boolean isVideo) {
-		_petition.setIsVideo(isVideo);
+	public void setMediaChoice(boolean mediaChoice) {
+		_petition.setMediaChoice(mediaChoice);
 	}
 
 	/**
@@ -776,16 +823,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setPetitionId(long petitionId) {
 		_petition.setPetitionId(petitionId);
-	}
-
-	/**
-	* Sets the picture url of this petition.
-	*
-	* @param pictureURL the picture url of this petition
-	*/
-	@Override
-	public void setPictureURL(java.lang.String pictureURL) {
-		_petition.setPictureURL(pictureURL);
 	}
 
 	/**
@@ -926,11 +963,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	/**
 	* Sets the video url of this petition.
 	*
-	* @param videoURL the video url of this petition
+	* @param videoUrl the video url of this petition
 	*/
 	@Override
-	public void setVideoURL(java.lang.String videoURL) {
-		_petition.setVideoURL(videoURL);
+	public void setVideoUrl(java.lang.String videoUrl) {
+		_petition.setVideoUrl(videoUrl);
 	}
 
 	@Override
