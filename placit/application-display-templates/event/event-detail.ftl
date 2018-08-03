@@ -10,7 +10,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des coordonnees GPS -->
+<!-- Recuperation des coordonnées GPS -->
 <#assign eventPlaceMercatorX = 0 />
 <#assign eventPlaceMercatorY = 0 />
 
@@ -104,10 +104,16 @@
                         </div>
 
                     </div>
+
+                    <!-- Fiche de l'entité -->
                     <aside class="col-sm-4">
+
+                        <!-- Bloc : map -->
                         <#if eventPlaceMercators?size == 2 >
                             <div class="bloc-iframe leaflet-map" id="mapid" ></div>
                         </#if>
+
+                        <!-- Bloc : compteur de participants -->
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
@@ -128,6 +134,8 @@
                                 </a>
                             </#if>
                         </div>
+
+                        <!-- Bloc : contact -->
                         <div class="pro-contact">
                             <h4>Contact</h4>
                             <p>
@@ -137,12 +145,15 @@
                             </p>
                             <a href="tel:${entry.phone}" title="Numéro de téléphone : ${entry.phone}">${entry.phone}</a>
                         </div>
+
+                        <!-- Bloc : reservation -->
                         <#if entry.bookingURL?has_content>
                             <div class="pro-ticket">
                                 <#if entry.getBookingDescription(locale)?has_content>${entry.getBookingDescription(locale)}</#if>
                                 <a href="${entry.bookingURL}" target="_blank" class="pro-btn-ticket" title="Réservation d'un billet">Reserver un billet</a>
                             </div>
                         </#if>
+
                     </aside>
                 </div>
             </article>
@@ -162,36 +173,37 @@
     var eventMercatorX = ${eventPlaceMercatorX};
     var eventMercatorY = ${eventPlaceMercatorY};
 
-    // Gestion de la carte interactive
     $(document).ready(function() {
 
-        //Création de la carte au centre de strasbourg
-        var leafletMap = L.map('mapid', {
-            // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-            center: [48.573, 7.752],
-            maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-            minZoom: 13,
-            zoom: 13,
-            minZoom: 12,
-            zoomControl: false,
-            attributionControl: false
-        });
-
-        // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-        var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-            layers: 'gct_fond_de_carte_couleur'
-        }).addTo(leafletMap);
-
-        // Définition des marqueurs
-        var markerIcon = new L.Icon({
-            iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-map-inte-2x-v2.png',
-            iconSize: [35,49],
-            iconAnchor: [17, 49],
-            popupAnchor: [1, -49]
-        });
-
-        // Ajout du marqueur sur la map si il existe des coordonnées
+        // Gestion de la carte interactive
         if (eventMercatorX && eventMercatorX.length != 0) {
+
+            //Création de la carte au centre de strasbourg
+            var leafletMap = L.map('mapid', {
+                // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
+                center: [eventMercatorY,  eventMercatorX],
+                maxBounds: [[48.42, 7.52], [48.72, 7.94]],
+                minZoom: 13,
+                zoom: 13,
+                minZoom: 12,
+                zoomControl: false,
+                attributionControl: false
+            });
+
+            // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
+            var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
+                layers: 'gct_fond_de_carte_couleur'
+            }).addTo(leafletMap);
+
+            // Définition des marqueurs
+            var markerIcon = new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
+
+            // Ajout du marqueur sur la map
             var marker = L.marker([eventMercatorY, eventMercatorX], {icon: markerIcon}).addTo(leafletMap);
         }
 

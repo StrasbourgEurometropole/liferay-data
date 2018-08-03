@@ -30,11 +30,15 @@
 <!-- Recuperation des evenements lies a la participation -->
 <#assign participationEvents = entry.getEvents() />
 
-<!-- Recuperation des evenements lies a la participation -->
+<!-- Recuperation des lieux lies a la participation -->
 <#assign participationPlaces = entry.getPlacitPlaces() />
 
 <!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
 <#assign instanceId = themeDisplay.getPortletDisplay().getId() />
+
+<!-- Initialisation des conteneurs de coordonnees GPS -->
+<#assign participationPlaceMercators = [] />
+<#assign eventPlaceMercators = [] />
 
 <div class="pro-page-detail pro-page-detail-participation">
 
@@ -145,6 +149,8 @@
                                         <#if participationPlaces?has_content>
                                             <#list participationPlaces as place >
 
+                                                <#assign participationPlaceMercators = participationPlaceMercators + [place.getMercators()] />
+
                                                 <div class="col-md-4 col-sm-6">
                                                     <a>
                                                         <figure class="fit-cover">
@@ -198,8 +204,10 @@
 
                     </div>
 
-
+                    <!-- Fiche de l'entité -->
                     <aside class="col-sm-4">
+
+                        <!-- Bloc : avis -->
                         <div class="pro-push-avis">
                             <#if entry.isJudgeable() && request.session.getAttribute("has_pact_signed")!false>
                                 <a href="#pro-approuv" class="pro-like"
@@ -236,18 +244,25 @@
                                 </a>
                             </#if>
                         </div>
-                        <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
-                             data-zoom="12" data-filter-options="filterMapDetail"></div>
+
+                        <!-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
+
+                        <!-- Bloc : compteur commentaires -->
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.nbApprovedCommentsLabel}</span>
                             <p>Citoyens(nes) ont réagi</p>
                             <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                         </div>
+
+                        <!-- Bloc : à venir -->
                         <div class="pro-event-comming">
                             <a href="#pro-link-evenement" target="Evenement à venir">
                                 <strong><#if participationEvents?has_content>${participationEvents?size}</#if></strong> Évènement(s) à venir
                             </a>
                         </div>
+
+                        <!-- Bloc : contact -->
                         <div class="pro-contact">
                             <h4>Contact</h4>
                             <p>
@@ -263,9 +278,11 @@
                             	<a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
                             </#if>
                         </div>
+
                     </aside>
                 </div>
             </article>
+
 
         </div>
     </div>
@@ -287,6 +304,8 @@
                 <!-- Parcours des entites de l'asset publisher -->
                 <#if participationEvents?has_content>
                     <#list participationEvents as event >
+
+                        <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
                         
                         <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
                             <div>
@@ -342,6 +361,75 @@
 </#if>
 
 <script>
+    var participationPlaceMercators = [
+        <#list participationPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
+    var eventPlaceMercators = [
+        <#list eventPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
+    $(document).ready(function() {
+
+        // Gestion de la carte interactive
+
+        //Création de la carte au centre de strasbourg
+        var leafletMap = L.map('mapid', {
+            // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
+            center: [48.573, 7.752],
+            maxBounds: [[48.42, 7.52], [48.72, 7.94]],
+            minZoom: 13,
+            zoom: 13,
+            minZoom: 12,
+            zoomControl: false,
+            attributionControl: false
+        });
+
+        // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
+        var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
+            layers: 'gct_fond_de_carte_couleur'
+        }).addTo(leafletMap);
+
+        // Définition des marqueurs
+        var participationMarkerIcon = new L.Icon({
+            iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-participation.png',
+            iconSize: [75, 95],
+            iconAnchor: [37, 78],
+            popupAnchor: [1, -78]
+        });
+        var eventMarkerIcon = new L.Icon({
+            iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
+            iconSize: [75, 95],
+            iconAnchor: [37, 78],
+            popupAnchor: [1, -78]
+        });
+
+
+        // Ajout des marqueurs sur la map
+        var participationMarkers = [];
+        var eventMarkers = [];
+
+        for(var i= 0; i < participationPlaceMercators.length; i++) {
+            participationMarkers.push(
+                L.marker(participationPlaceMercators[i], {icon: participationMarkerIcon}).addTo(leafletMap)
+            );
+        }
+        for(var i= 0; i < eventPlaceMercators.length; i++) {
+            eventMarkers.push(
+                L.marker(eventPlaceMercators[i], {icon: eventMarkerIcon}).addTo(leafletMap)
+            );
+        }
+
+    });
+
     $(document).ready(function() {
         $("span[name='#Participe-${instanceId}']").each(function() {
 
