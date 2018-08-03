@@ -630,6 +630,9 @@ public class EventImpl extends EventBaseImpl {
 		return false;
 	}
 	
+	/**
+	 * Recupere le service du module Adict sans passer par reference
+	 */
 	private AdictService getAdictService() {
 		if (adictService == null) {
 			adictServiceTracker = new AdictServiceTracker(this);
