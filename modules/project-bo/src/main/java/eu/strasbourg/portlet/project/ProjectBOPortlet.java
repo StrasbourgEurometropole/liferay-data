@@ -9,22 +9,19 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
-
-import java.io.IOException;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
+import java.io.IOException;
 
 /**
  * @author cedric.henry
@@ -63,6 +60,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
+
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL.toString());
 		}
