@@ -254,6 +254,12 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 			orderByComparator);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _petitionLocalService.findByKeyword(keyword, groupId, start, end);
+	}
+
 	/**
 	* Returns a range of all the petitions.
 	*
@@ -327,6 +333,14 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _petitionLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _petitionLocalService.findByKeywordCount(keyword, groupId);
 	}
 
 	@Override

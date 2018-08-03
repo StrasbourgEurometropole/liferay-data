@@ -222,6 +222,9 @@ public interface PetitionLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	public List<Petition> findByKeyword(java.lang.String keyword, long groupId,
+		int start, int end);
+
 	/**
 	* Returns a range of all the petitions.
 	*
@@ -279,4 +282,9 @@ public interface PetitionLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
 }
