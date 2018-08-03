@@ -53,4 +53,35 @@ public interface Petition extends PetitionModel, PersistedModel {
 				return Petition.class;
 			}
 		};
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Retourne le label de 5 digits du nombre de commentaires de l'entité
+	*/
+	public java.lang.String getNbApprovedCommentsLabel();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne le status de la petition
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory();
 }

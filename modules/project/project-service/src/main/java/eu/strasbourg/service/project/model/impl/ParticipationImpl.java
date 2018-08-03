@@ -191,7 +191,6 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		int nbDigits = stringNum.length();
 		// Ajoute les zeros manquants avant la chaine
 		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
-		
 		return stringNum;
 	}
 	

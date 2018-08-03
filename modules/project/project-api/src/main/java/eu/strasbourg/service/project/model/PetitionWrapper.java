@@ -328,6 +328,22 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.isScheduled();
 	}
 
+	/**
+	* Retourne le status de la petition
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory() {
+		return _petition.getPetitionStatusCategory();
+	}
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _petition.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _petition.getExpandoBridge();
@@ -351,6 +367,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public int compareTo(eu.strasbourg.service.project.model.Petition petition) {
 		return _petition.compareTo(petition);
+	}
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _petition.getNbApprovedComments();
 	}
 
 	/**
@@ -396,6 +420,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getFilesDownload() {
 		return _petition.getFilesDownload();
+	}
+
+	/**
+	* Retourne le label de 5 digits du nombre de commentaires de l'entité
+	*/
+	@Override
+	public java.lang.String getNbApprovedCommentsLabel() {
+		return _petition.getNbApprovedCommentsLabel();
 	}
 
 	/**
@@ -546,6 +578,23 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public Date getStatusDate() {
 		return _petition.getStatusDate();
+	}
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _petition.getApprovedComments();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _petition.getCategories();
 	}
 
 	/**
