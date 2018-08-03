@@ -11,6 +11,10 @@
 	<portlet:param name="tab" value="participations" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL var="petitionsURL">
+	<portlet:param name="tab" value="petitions" />
+</liferay-portlet:renderURL>
+
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
 <liferay-portlet:renderURL varImpl="searchURL">
 	<portlet:param name="cmd" value="search" />
@@ -32,6 +36,10 @@
 		<aui:nav-item href="${participationsURL}" label="participations"
 			selected="${tab eq 'participations'}" />
 	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${petitionsURL}" label="petitions"
+			selected="${tab eq 'petitions'}" />
+	</aui:nav>
 
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">
@@ -48,6 +56,10 @@
     </c:when>
     <c:when test="${tab eq 'participations'}">
 		<liferay-util:include page="/project-bo-view-participations.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'petitions'}">
+		<liferay-util:include page="/project-bo-view-petitions.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
 
 import java.io.IOException;
@@ -77,8 +78,12 @@ public class ProjectBOPortlet extends MVCPortlet {
 			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
 			renderRequest.setAttribute("dc", dc);
 			title = "participations";
-		} else { // Else, we are on the projects list page
-			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse); 
+		} else if (tab.equals("petitions")){
+			ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "petitions";
+		}else { // Else, we are on the projects list page
+			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "projects";
 		}
