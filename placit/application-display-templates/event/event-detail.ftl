@@ -10,6 +10,17 @@
     <#assign homeURL = "/" />
 </#if>
 
+<!-- Recuperation des coordonnees GPS -->
+<#assign eventPlaceMercatorX = 0 />
+<#assign eventPlaceMercatorY = 0 />
+
+<#assign eventPlaceMercators = entry.getMercators() />
+
+<#if eventPlaceMercators?size == 2 >
+    <#assign eventPlaceMercatorX = eventPlaceMercators[0] />
+    <#assign eventPlaceMercatorY = eventPlaceMercators[1] />
+</#if>
+
 <div class="pro-page-detail">
 
     <div class="container">
@@ -94,9 +105,8 @@
 
                     </div>
                     <aside class="col-sm-4">
-                        <#if entry.getMercatorY()?has_content >
-                            <div class="bloc-iframe maps" data-theme="default" data-lat="${entry.getMercatorY()}" data-lng="${entry.getMercatorX()}" data-marker="true"
-                             data-markericon="event" data-zoom="12" data-filter-options="filterMapDetail"></div>
+                        <#if eventPlaceMercators?size == 2 >
+                            <div class="bloc-iframe leaflet-map" id="mapid" ></div>
                         </#if>
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
@@ -148,6 +158,46 @@
 </div>
 
 <script>
+
+    var eventMercatorX = ${eventPlaceMercatorX};
+    var eventMercatorY = ${eventPlaceMercatorY};
+
+    // Gestion de la carte interactive
+    $(document).ready(function() {
+
+        //Création de la carte au centre de strasbourg
+        var leafletMap = L.map('mapid', {
+            // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
+            center: [48.573, 7.752],
+            maxBounds: [[48.42, 7.52], [48.72, 7.94]],
+            minZoom: 13,
+            zoom: 13,
+            minZoom: 12,
+            zoomControl: false,
+            attributionControl: false
+        });
+
+        // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
+        var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
+            layers: 'gct_fond_de_carte_couleur'
+        }).addTo(leafletMap);
+
+        // Définition des marqueurs
+        var markerIcon = new L.Icon({
+            iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-map-inte-2x-v2.png',
+            iconSize: [35,49],
+            iconAnchor: [17, 49],
+            popupAnchor: [1, -49]
+        });
+
+        // Ajout du marqueur sur la map si il existe des coordonnées
+        if (eventMercatorX && eventMercatorX.length != 0) {
+            var marker = L.marker([eventMercatorY, eventMercatorX], {icon: markerIcon}).addTo(leafletMap);
+        }
+
+    });
+
+    // Gestion de la participation ou non d'un utilisateur à un événement
     $(document).ready(function() {
         $('.pro-slider-event>.container>div').each(function() {
             $(this).addClass("col-lg-10 col-lg-offset-1");
@@ -173,4 +223,5 @@
         );
 
     });
+
 </script>
