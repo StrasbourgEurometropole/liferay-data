@@ -28,12 +28,14 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -256,34 +258,44 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 * Retourne la liste des participations du projet
 	 */
 	@Override
-	public List<AssetEntry> getParticipations() {
-		List<AssetEntry> result = new ArrayList<AssetEntry>();
+	public List<Participation> getParticipations() {
+		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
+		List<Participation> participationResults = new ArrayList<Participation>();
 
 		if(getProjectCategory() != null)
-			result = AssetEntryLocalServiceUtil
+			assetResults = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
 			.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
-		return result;
+		for (AssetEntry assetEntry : assetResults) {
+			participationResults.add(ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK()));
+		}
+		
+		return participationResults;
 	}
 	
 	/**
 	 * Retourne la liste des évènements du projet
 	 */
 	@Override
-	public List<AssetEntry> getEvents() {
-		List<AssetEntry> result = new ArrayList<AssetEntry>();
+	public List<Event> getEvents() {
+		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
+		List<Event> eventResults = new ArrayList<Event>();
 		
 		if(getProjectCategory() != null)
-			result = AssetEntryLocalServiceUtil
+			assetResults = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
 			.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
-		return result;
+			for (AssetEntry assetEntry : assetResults) {
+				eventResults.add(EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK()));
+			}
+		
+		return eventResults;
 	}
 
 	
@@ -315,4 +327,5 @@ public class ProjectImpl extends ProjectBaseImpl {
 				this.getAssetEntry().getEntryId(),
 				WorkflowConstants.STATUS_APPROVED).size();
 	}
+	
 }

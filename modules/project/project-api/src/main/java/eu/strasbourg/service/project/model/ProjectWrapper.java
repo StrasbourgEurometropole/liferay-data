@@ -726,7 +726,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* Retourne la liste des évènements du projet
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getEvents() {
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents() {
 		return _project.getEvents();
 	}
 
@@ -734,7 +734,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* Retourne la liste des participations du projet
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getParticipations() {
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getParticipations() {
 		return _project.getParticipations();
 	}
 
