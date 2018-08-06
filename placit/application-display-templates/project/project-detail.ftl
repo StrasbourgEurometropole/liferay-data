@@ -7,24 +7,33 @@
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des lieux lies au projet -->
+<!-- Recuperation des entités lies au projet -->
 <#assign projectPlaces = entry.getPlacitPlaces() />
-
-<!-- Recuperation des lieux lies au projet -->
-<#assign participations = entry.getPlacitPlaces() />
+<#assign projectEvents = entry.getEvents() />
+<#assign projectParticipations = entry.getParticipations() />
 
 <!-- Initialisation des conteneurs de coordonnees GPS -->
 <#assign projectPlaceMercators = [] />
-<#assign participationPlaceMercators = [] />
 <#assign eventPlaceMercators = [] />
+<#assign participationPlaceMercators = [] />
 
 <!-- Recuperation des coordonnées de chaque entité liées -->
-<#if projectPlaces?has_content>
-    <#list projectPlaces as place >
-        <#assign projectPlaceMercators = projectPlaceMercators + [place.getMercators()] />
-    </#list>
-</#if>
+<#list projectPlaces as place >
+    <#assign projectPlaceMercators = projectPlaceMercators + [place.getMercators()] />
+</#list>
 
+<#list projectEvents as event >
+    <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+</#list>
+
+<#list projectParticipations as participation >
+    <#list participation.getPlacitPlaces() as place >
+        <#assign participationPlaceMercators = participationPlaceMercators + [place.getMercators()] />
+    </#list>
+    <#list participation.getEvents() as event >
+        <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+    </#list>
+</#list>
 
 
 <div id="breadcrumb">
@@ -63,8 +72,8 @@
 
     <!-- Bloc : entités liées -->
     <div class="pro-event-comming">
-        <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${entry.getParticipations()?size}</strong> Participation(s) en cours</a>
-        <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${entry.getEvents()?size}</strong> Évènement(s) à venir</a>
+        <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${projectParticipations?size}</strong> Participation(s) en cours</a>
+        <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${projectEvents?size}</strong> Évènement(s) à venir</a>
     </div>
 
     <!-- Bloc : contact -->
