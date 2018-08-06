@@ -288,7 +288,7 @@ public class ObjtpImporter {
 		JSONObject json = null;
 		
 		try {
-			json = JSONHelper.readJsonFromURL(url);
+			json = JSONHelper.readJsonFromURL(url, 120000);
 		} catch (IOException e) { 
 			// Erreur de lecture URL
 			_log.error(e);
@@ -301,93 +301,94 @@ public class ObjtpImporter {
 			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 		}
 		
-		JSONArray imageArray = json.getJSONArray("result");
-		
-		if(imageArray == null || imageArray.length() ==0){
-			reportLine.error(LanguageUtil.get(bundle, "no-image-for-object"));
-			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
-		}
-		else {			
-			JSONObject image = imageArray.getJSONObject(0);
-			String imageBase64 = image.getString("image");
+		if(json != null) {
+			JSONArray imageArray = json.getJSONArray("result");
 			
-			// On convertit l'image base64 en série de Bytes
-			byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(imageBase64);
-			
-			// Récupère les différents ID nécessaires aux manipulations de dossiers
-			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
-			long companyId = defaultCompany.getCompanyId();
-			long globalGroupId = defaultCompany.getGroup().getGroupId();
-			
-			Role adminRole;
-			try {
-				// On récupère les droits d'admin pour les donner au thread, pour pouvoir manipuler Documents et Medias
-				adminRole = RoleLocalServiceUtil.getRole(defaultCompany.getCompanyId(),"Administrator");
-			    List<User> adminUsers = UserLocalServiceUtil.getRoleUsers(adminRole.getRoleId());
-			    PrincipalThreadLocal.setName(adminUsers.get(0).getUserId());
-			    PermissionChecker permissionChecker =PermissionCheckerFactoryUtil.create(adminUsers.get(0));
-			    PermissionThreadLocal.setPermissionChecker(permissionChecker);
-			} catch (Exception e) {
-				// Dans le cas où ça plante sur la récupération des droits d'admin
-				reportLine.error("Erreur récupération de droit d'admin");
-				_log.error(e);
-				return reportLine;
+			if(imageArray == null || imageArray.length() ==0){
+				reportLine.error(LanguageUtil.get(bundle, "no-image-for-object"));
+				reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 			}
-
-		    long repositoryId = DLFolderConstants.getDataRepositoryId(globalGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
-
-		    // serviceContext nécessaire à la création du dossier et de l'enregistrement de l'image dans le dossier
-		    ServiceContext serviceContext = new ServiceContext();
-		    serviceContext.setAddGroupPermissions(true);
-		    serviceContext.setAddGuestPermissions(true);
-		    
-		    Folder objtpFolder = null;
-		    try {
-			// on récupère le dossier "Objets trouves" présent dans Global
-			objtpFolder = DLAppServiceUtil.getFolder(repositoryId,0,"Objets trouves");
-		    }
-			catch(PortalException e) {
-				// Il lance une erreur s'il ne trouve rien
-				// Or la première fois, on veut créer le dossier, donc ça plantera forcément
-			}
-			// S'il n'existe pas, on le crée
-			if(objtpFolder == null) {
-				objtpFolder = DLAppServiceUtil.addFolder(
-			             repositoryId
-			             ,DLFolderConstants.DEFAULT_PARENT_FOLDER_ID
-			             , "Objets trouves"
-			            , "Objets trouves"
-			            , serviceContext);;
-			}
-			
-			
-			 FileEntry existingObjectImage = null;
-			 try {
-			 existingObjectImage =  DLAppServiceUtil.getFileEntry(globalGroupId, objtpFolder.getFolderId(), object.getNumber());
-			 }
+			else {			
+				JSONObject image = imageArray.getJSONObject(0);
+				String imageBase64 = image.getString("image");
+				
+				// On convertit l'image base64 en série de Bytes
+				byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(imageBase64);
+				
+				// Récupère les différents ID nécessaires aux manipulations de dossiers
+				Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+				long companyId = defaultCompany.getCompanyId();
+				long globalGroupId = defaultCompany.getGroup().getGroupId();
+				
+				Role adminRole;
+				try {
+					// On récupère les droits d'admin pour les donner au thread, pour pouvoir manipuler Documents et Medias
+					adminRole = RoleLocalServiceUtil.getRole(defaultCompany.getCompanyId(),"Administrator");
+				    List<User> adminUsers = UserLocalServiceUtil.getRoleUsers(adminRole.getRoleId());
+				    PrincipalThreadLocal.setName(adminUsers.get(0).getUserId());
+				    PermissionChecker permissionChecker =PermissionCheckerFactoryUtil.create(adminUsers.get(0));
+				    PermissionThreadLocal.setPermissionChecker(permissionChecker);
+				} catch (Exception e) {
+					// Dans le cas où ça plante sur la récupération des droits d'admin
+					reportLine.error("Erreur récupération de droit d'admin");
+					_log.error(e);
+					return reportLine;
+				}
+	
+			    long repositoryId = DLFolderConstants.getDataRepositoryId(globalGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+	
+			    // serviceContext nécessaire à la création du dossier et de l'enregistrement de l'image dans le dossier
+			    ServiceContext serviceContext = new ServiceContext();
+			    serviceContext.setAddGroupPermissions(true);
+			    serviceContext.setAddGuestPermissions(true);
+			    
+			    Folder objtpFolder = null;
+			    try {
+				// on récupère le dossier "Objets trouves" présent dans Global
+				objtpFolder = DLAppServiceUtil.getFolder(repositoryId,0,"Objets trouves");
+			    }
 				catch(PortalException e) {
 					// Il lance une erreur s'il ne trouve rien
-					// Or ça peut très largement arrivé qu'il ne trouve rien pour des nouveauxs objets trouvés
+					// Or la première fois, on veut créer le dossier, donc ça plantera forcément
 				}
-			if(existingObjectImage != null) {
-				DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, objtpFolder.getFolderId(), object.getNumber());
+				// S'il n'existe pas, on le crée
+				if(objtpFolder == null) {
+					objtpFolder = DLAppServiceUtil.addFolder(
+				             repositoryId
+				             ,DLFolderConstants.DEFAULT_PARENT_FOLDER_ID
+				             , "Objets trouves"
+				            , "Objets trouves"
+				            , serviceContext);;
+				}
+				
+				
+				 FileEntry existingObjectImage = null;
+				 try {
+				 existingObjectImage =  DLAppServiceUtil.getFileEntry(globalGroupId, objtpFolder.getFolderId(), object.getNumber());
+				 }
+					catch(PortalException e) {
+						// Il lance une erreur s'il ne trouve rien
+						// Or ça peut très largement arrivé qu'il ne trouve rien pour des nouveauxs objets trouvés
+					}
+				if(existingObjectImage != null) {
+					DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, objtpFolder.getFolderId(), object.getNumber());
+				}
+				
+				// on ajoute l'image au dossier
+				FileEntry objectImage = DLAppServiceUtil.addFileEntry(
+		                repositoryId,
+		                objtpFolder.getFolderId(),
+		                object.getNumber(),
+		                "image/jpeg",
+		                object.getNumber(),
+		                null,
+		                null,
+		                imageBytes,
+		                serviceContext);
+				String imageUrl = FileEntryHelper.getFileEntryURL(objectImage.getFileEntryId());
+				object.setImageUrl(imageUrl);
 			}
-			
-			// on ajoute l'image au dossier
-			FileEntry objectImage = DLAppServiceUtil.addFileEntry(
-	                repositoryId,
-	                objtpFolder.getFolderId(),
-	                object.getNumber(),
-	                "image/jpeg",
-	                object.getNumber(),
-	                null,
-	                null,
-	                imageBytes,
-	                serviceContext);
-			String imageUrl = FileEntryHelper.getFileEntryURL(objectImage.getFileEntryId());
-			object.setImageUrl(imageUrl);
-		}
-			
+		}	
 		
 		FoundObjectLocalServiceUtil.updateFoundObject(object);
 	
