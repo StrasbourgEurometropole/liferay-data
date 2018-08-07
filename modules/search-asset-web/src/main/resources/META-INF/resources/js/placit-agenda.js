@@ -2,6 +2,7 @@
 var leafletMap = null;
 eventMarkers = []
 
+// Mettre à jour 
 function updateLeafletMap () {
 	$('.pro-bloc-listing-event > form > a').each(function () {
 		var mercators = [$(this).data('lat'), $(this).data('lng')];
