@@ -82,6 +82,7 @@ public class StrasbourgPortletKeys {
 
 
 	public static final String OBJTP_WEB = "eu_strasbourg_portlet_objtp_web_ObjtpWebPortlet";
+	public static final String OBJTP_BO = "eu_strasbourg_portlet_objtp_ObjtpBOPortlet";
 
 	public static final String MY_DISTRICT_WEB = "eu_strasbourg_portlet_my_district_MyDistrictWebPortlet";
 
