@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.participation.display.context.EditParticipationDisplayContext;
 import eu.strasbourg.portlet.participation.display.context.ViewParticipationsDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import java.io.IOException;
 
