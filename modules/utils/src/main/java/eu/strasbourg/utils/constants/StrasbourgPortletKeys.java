@@ -103,4 +103,6 @@ public class StrasbourgPortletKeys {
 	public static final String ZONE_WEB = "eu_strasbourg_portlet_zone_ZonedWebPortlet";
 
 	public static final String PACTE_WEB = "eu_strasbourg_portlet_pacte_PacteWebPortlet";
+	
+    public static final String MAP_SEARCH_ASSET_WEB = "eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet";
 }

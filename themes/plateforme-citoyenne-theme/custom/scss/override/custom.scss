@@ -175,3 +175,15 @@ aside .leaflet-map {
 .leaflet-map {
 	z-index: 10;
 }
+
+// Correction du lien de l'image de la facette présent sur la carte intéractive
+.pro-wrapper-facette-carte form .pro-affiner:before {
+	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
+}
+
+.pro-page-carte .pro-wrapper-map.leaflet-map {
+    position: relative;
+    height: -webkit-calc(100vh - 167px);
+    height: -moz-calc(100vh - 167px);
+    height: calc(100vh - 167px);
+}
