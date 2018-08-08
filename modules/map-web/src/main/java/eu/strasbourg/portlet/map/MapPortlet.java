@@ -79,7 +79,7 @@ public class MapPortlet extends MVCPortlet {
 			// Récupération de la configuration
 			MapConfiguration configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(MapConfiguration.class);
-
+			
 			// Récupération du publik ID avec la session
 			String internalId = getPublikID(request);
 

@@ -321,6 +321,22 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	}
 
 	/**
+	* Retourne les coordonnees mercator en axe X (longitude)
+	*/
+	@Override
+	public java.lang.String getMercatorX() {
+		return _placitPlace.getMercatorX();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe Y (latitude)
+	*/
+	@Override
+	public java.lang.String getMercatorY() {
+		return _placitPlace.getMercatorY();
+	}
+
+	/**
 	* Retourne le nom du lieu SIG ou "manuel"
 	*/
 	@Override
@@ -524,6 +540,17 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _placitPlace.getCategories();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
+	*/
+	@Override
+	public java.util.List<java.lang.String> getMercators() {
+		return _placitPlace.getMercators();
 	}
 
 	/**

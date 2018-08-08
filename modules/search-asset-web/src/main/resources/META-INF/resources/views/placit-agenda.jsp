@@ -73,8 +73,7 @@
         <div class="col-md-4">
             <div class="pro-listing-map">
                 <div class="pro-fixed-map">
-                    <div class="wrapper-map maps" data-theme="default" data-callback="callbackMapListingEvent" data-filter-options="filterMapListing">
-                    </div>
+                    <div class="wrapper-map leaflet-map" id="mapid"></div>
                 </div>
             </div>
         </div>
@@ -187,6 +186,10 @@
         </div>
     </div>
 </div>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetweb/js/placit-agenda.js"></script>
+</liferay-util:html-bottom>
 
 <script>
 	// Change la valeur du selecteur de page par la valeur courante  
