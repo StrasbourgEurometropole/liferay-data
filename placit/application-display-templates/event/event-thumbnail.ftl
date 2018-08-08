@@ -8,11 +8,20 @@
   <#assign homeURL = "/" />
 </#if>
 
+<!-- Recuperation des coordonnées GPS -->
+<#assign eventPlaceMercatorX = 0 />
+<#assign eventPlaceMercatorY = 0 />
+
+<#assign eventPlaceMercators = entry.getMercators() />
+
+<#if eventPlaceMercators?size == 2 >
+    <#assign eventPlaceMercatorX = eventPlaceMercators[0] />
+    <#assign eventPlaceMercatorY = eventPlaceMercators[1] />
+</#if>
+
 <a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event"
-    <#if entry.getMercatorY()?has_content >
-        data-lat="${entry.getMercatorY()}" 
-        data-lng="${entry.getMercatorX()}"
-    </#if>
+        data-lat="${eventPlaceMercatorY}" 
+        data-lng="${eventPlaceMercatorX}"
     >
     <div>
         <div class="pro-header-event">
