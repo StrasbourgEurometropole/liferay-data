@@ -31,7 +31,7 @@ import org.osgi.service.component.annotations.Component;
 	},
 	service = Portlet.class
 )
-public class ObjtpBoPortlet extends MVCPortlet {
+public class ObjtpBOPortlet extends MVCPortlet {
 	
 	@Override
 	public void render(RenderRequest renderRequest,
