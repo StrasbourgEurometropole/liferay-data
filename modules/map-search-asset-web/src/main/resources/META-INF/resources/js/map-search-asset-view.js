@@ -12,9 +12,13 @@ $(document).ready(function() {
         attributionControl: false
     });
     
- // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
+    // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
     var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
         layers: 'gct_fond_de_carte_couleur'
     }).addTo(leafletMap);
 
+});
+
+$('#map-search-asset-form').change(function() {
+	alert("work");
 });

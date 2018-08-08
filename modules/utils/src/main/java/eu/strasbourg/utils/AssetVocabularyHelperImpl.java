@@ -20,6 +20,7 @@ import eu.strasbourg.utils.api.AssetVocabularyHelperService;
 	property = {},
 	service = AssetVocabularyHelperService.class)
 public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
+	
 	@Override
 	public List<AssetVocabulary> getVocabulariesForAssetType(long groupId,
 		long classNameId) {

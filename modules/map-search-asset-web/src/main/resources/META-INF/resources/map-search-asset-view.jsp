@@ -1,10 +1,13 @@
 <%@ include file="/map-search-asset-init.jsp" %>
 
+<portlet:resourceURL id="changeDistrict" var="changeDistrictURL">
+</portlet:resourceURL>
+
 <div class="pro-page-carte">
 
 	<!-- Vignette de formulaire -->
 	<div class="pro-wrapper-facette-carte">
-	    <form action="page-carte.html" method="get">
+	    <form id="map-search-asset-form" action="page-carte.html"  method="get">
 	        <div class="pro-overflow">
 	            <span class="pro-affiner"><liferay-ui:message key="refine-your-search" /></span>
 	        </div>
@@ -15,12 +18,11 @@
 	            	<!-- Selecteur de quartiers -->
 	                <div>
 	                    <label for="quartiers"  aria-hidden="true" class="hide"><liferay-ui:message key="districts" /></label>
-	                    <select id="quartiers">
-	                        <option>Quartiers</option>
-	                        <option>Krutenau</option>
-	                        <option>Wacken</option>
-	                        <option>Neudorf</option>
-	                        <option>Centre ville</option>
+	                    <select id="<portlet:namespace />quartiers">
+	                        <option value="-1"><liferay-ui:message key="all-districts" /></option>
+	                        <c:forEach items="${districtCategories}" var="districtCategory"  >
+	                        	<option value="${districtCategory.getCategoryId()}">${districtCategory.getTitle(locale)}</option>
+	                        </c:forEach>
 	                    </select>
 	                </div>
 	
@@ -146,6 +148,13 @@
 	    display: none;
 	}
 </style>
+
+<liferay-util:html-top>
+	<script>
+		var changeDistrictURL = '${changeDistrictURL}';
+		var porletNamespace = '<portlet:namespace/>';
+	</script>
+</liferay-util:html-top>
 
 <liferay-util:html-bottom>
 	<script src="/o/mapsearchassetweb/js/map-search-asset-view.js"></script>
