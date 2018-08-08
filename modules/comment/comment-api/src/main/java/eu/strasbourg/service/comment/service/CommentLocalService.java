@@ -103,7 +103,8 @@ public interface CommentLocalService extends BaseLocalService,
 	/**
 	* Crée un commentaire vide avec une PK, non ajouté à la base de donnée
 	*/
-	public Comment createComment(ServiceContext sc) throws PortalException;
+	public Comment createComment(java.lang.String userPublikId,
+		ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new comment with the primary key. Does not add the comment to the database.

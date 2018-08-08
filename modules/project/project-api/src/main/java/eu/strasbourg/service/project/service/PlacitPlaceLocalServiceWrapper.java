@@ -344,6 +344,15 @@ public class PlacitPlaceLocalServiceWrapper implements PlacitPlaceLocalService,
 	}
 
 	/**
+	* Retourne les lieux d'une participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByPetition(
+		long petitionId) {
+		return _placitPlaceLocalService.getByPetition(petitionId);
+	}
+
+	/**
 	* Retourne les lieux d'un projet
 	*/
 	@Override

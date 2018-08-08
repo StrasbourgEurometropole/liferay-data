@@ -93,6 +93,11 @@ public class CommentImpl extends CommentBaseImpl {
 			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
 			String temp = entry.getClassName();
 			result = temp.substring(temp.lastIndexOf(".")+1);
+			if ("Project".equals(result)){
+			    result = "Projet";
+            }else if ("JournalArticle".equals(result)){
+			    result = "Actualit&eacute;";
+            }
 		} catch (PortalException e) {
 			_log.error("Erreur lors de la récupération du type : ",e);
 		}
@@ -101,10 +106,16 @@ public class CommentImpl extends CommentBaseImpl {
 
 	@Override
 	public String getAssetEntryTitle(){
-		String result="";
+		String result="N/A";
 		try {
 			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
-			result = entry.getTitle();
+			String temp = entry.getTitle();
+			if (temp!=null&&!temp.isEmpty()){
+				if (temp.length()>50){
+					temp = entry.getTitle(this.getLocale("FR"));
+				}
+				result = temp;
+			}
 		} catch (PortalException e) {
 			_log.error("Erreur lors de la récupération du nom : ",e);
 		}

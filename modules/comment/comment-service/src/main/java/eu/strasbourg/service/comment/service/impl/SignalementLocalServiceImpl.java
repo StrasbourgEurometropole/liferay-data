@@ -100,12 +100,18 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
             signalement.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
 	    signalement = signalementLocalService.updateSignalement(signalement);
-        reindex(signalement, false);
+        if (signalement.isApproved()){
+			reindex(signalement, false);
+		} else {
+        	reindex(signalement,true);
+		}
         return signalement;
     }
 
     Signalement removeSignalement(long signalementId) throws PortalException{
-        return signalementPersistence.remove(signalementId);
+		Signalement signalement =  signalementPersistence.remove(signalementId);
+		reindex(signalement,true);
+        return signalement;
     }
 
 	public List<Signalement> findByCommentId(long commentId){

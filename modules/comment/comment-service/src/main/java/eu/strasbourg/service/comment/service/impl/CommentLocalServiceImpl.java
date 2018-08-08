@@ -103,16 +103,13 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 	 * Crée un commentaire vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
-	public Comment createComment(ServiceContext sc) throws PortalException {
-		User user = UserLocalServiceUtil.getUser(sc.getUserId());
-
+	public Comment createComment(String userPublikId,ServiceContext sc) throws PortalException {
 		long pk = counterLocalService.increment();
 
 		Comment comment = this.commentLocalService.createComment(pk);
-
+		comment.setPublikId(userPublikId);
 		comment.setGroupId(sc.getScopeGroupId());
-		comment.setUserName(user.getFullName());
-		comment.setUserId(sc.getUserId());		
+		comment.setUserId(sc.getUserId());
 		comment.setStatus(WorkflowConstants.STATUS_APPROVED);
 		return comment;
 	}
@@ -126,7 +123,7 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 			throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 		comment.setStatusByUserId(sc.getUserId());
-		comment.setStatusByUserName(user.getFullName());
+		comment.setStatusByUserName(comment.getPublikUserName());
 		comment.setStatusDate(sc.getModifiedDate());
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			comment.setStatus(WorkflowConstants.STATUS_APPROVED);
@@ -276,6 +273,9 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 
 		// Supprime le lien
 		Comment comment = this.commentPersistence.remove(commentId);
+
+		//supprime son indexation
+		this.reindex(comment,true);
 
 		// Supprime les reponses
 		List<Comment> childComments = comment.getApprovedChildComments();

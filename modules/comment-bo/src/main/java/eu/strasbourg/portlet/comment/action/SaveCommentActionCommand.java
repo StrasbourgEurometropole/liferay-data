@@ -70,7 +70,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             long commentId = ParamUtil.getLong(actionRequest,"commentId");
             Comment comment;
             if (commentId==0){
-                comment = _commentLocalService.createComment(sc);
+                comment = _commentLocalService.createComment("",sc);
                 comment.setCreateDate(new Date());
             } else {
                 comment = _commentLocalService.getComment(commentId);

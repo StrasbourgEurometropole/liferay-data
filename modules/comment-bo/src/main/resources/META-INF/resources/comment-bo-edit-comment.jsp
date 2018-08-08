@@ -54,7 +54,7 @@
 
                 <%-- Champ : adresse mail --%>
                 <div class="form-group input-int-wrapper">
-                    <label class="control-label"> email </label>
+                    <label class="control-label"> Email </label>
                     <input class="field disabled form-control lfr-input-text" disabled="disabled" id="_eu_strasbourg_portlet_comment_CommentBOPortlet_email" name="_eu_strasbourg_portlet_comment_CommentBOPortlet_email"
                            style="" type="text" value="${dc.comment.publikUser.email}" maxlength="75" aria-describedby="">
                 </div>
@@ -111,7 +111,6 @@
                             <%-- Colonne : Type--%>
                             <liferay-ui:search-container-column-text cssClass="content-column"
                                 name="Type" truncate="true" orderable="true" value="${reporting.getCategorieName()}" />
-
 
                         </liferay-ui:search-container-row>
 

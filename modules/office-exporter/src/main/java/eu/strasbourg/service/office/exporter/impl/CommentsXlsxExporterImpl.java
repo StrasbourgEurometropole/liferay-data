@@ -55,8 +55,8 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("comments");
 
-        Object[][] commentData = {{LanguageUtil.get(bundle, "types"), LanguageUtil.get(bundle, "title"),
-                LanguageUtil.get(bundle, "date"), LanguageUtil.get(bundle, "level"),
+        Object[][] commentData = {{LanguageUtil.get(bundle, "type"), LanguageUtil.get(bundle, "title"),
+                LanguageUtil.get(bundle, "modification-date"), LanguageUtil.get(bundle, "comment-level"),
                 LanguageUtil.get(bundle, "comment")}};
 
         for (Comment comment : comments) {

@@ -185,7 +185,8 @@
 	    <!-- Links with other entities -->
 	    <column name="imageId" type="long" />
 	    <column name="projectId" type="long" />
-	    <column name="participationId" type="long" />
+		<column name="participationId" type="long" />
+		<column name="petitionId" type="long" />
 	    <column name="placeSIGId" type="String" />
 	    
 	    <!-- Finder methods -->
@@ -195,9 +196,12 @@
 	    <finder name="Project" return-type="Collection">
 	      <finder-column name="projectId" />
 	    </finder>
-	    <finder name="Participation" return-type="Collection">
-	      <finder-column name="participationId" />
-	    </finder>
+		<finder name="Participation" return-type="Collection">
+			<finder-column name="participationId" />
+		</finder>
+		<finder name="Petition" return-type="Collection">
+			<finder-column name="petitionId" />
+		</finder>
 	    <finder name="SigId" return-type="Collection">
 	      <finder-column name="placeSIGId" />
 	    </finder>
@@ -208,5 +212,55 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 		
 	</entity>
-	
+	<entity local-service="true" name="Petition" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="petitionId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- main fields -->
+		<column name="title" type="String" />
+		<column name="description" type="String" />
+		<column name="placeTextArea" type="String" />
+		<column name="filesDownload" type="String" />
+		<column name="publicationDate" type="Date" />
+		<column name="expirationDate" type="Date" />
+
+		<!-- Medias -->
+		<column name="videoUrl" type="String" />
+		<column name="externalImageURL" type="String" />
+		<column name="externalImageCopyright" type="String" />
+		<column name="mediaChoice" type="boolean" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
 </service-builder>

@@ -320,6 +320,14 @@ public class PlacitPlaceLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les lieux d'une participation
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByPetition(
+		long petitionId) {
+		return getService().getByPetition(petitionId);
+	}
+
+	/**
 	* Retourne les lieux d'un projet
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByProject(

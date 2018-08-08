@@ -88,9 +88,10 @@ public class CommentLocalServiceUtil {
 	* Crée un commentaire vide avec une PK, non ajouté à la base de donnée
 	*/
 	public static eu.strasbourg.service.comment.model.Comment createComment(
+		java.lang.String userPublikId,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().createComment(sc);
+		return getService().createComment(userPublikId, sc);
 	}
 
 	/**
