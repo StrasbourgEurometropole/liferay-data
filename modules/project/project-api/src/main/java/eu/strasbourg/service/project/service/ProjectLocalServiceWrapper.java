@@ -385,6 +385,15 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	}
 
 	/**
+	* Retourne tous les projets publiés d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> getPublishedByGroupId(
+		long groupId) {
+		return _projectLocalService.getPublishedByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

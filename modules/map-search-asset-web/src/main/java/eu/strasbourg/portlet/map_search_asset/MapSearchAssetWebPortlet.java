@@ -81,7 +81,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		request.setAttribute("districtCategories", this.districtCategories);
 		
 		// Recuperation et attribution des projets
-		this.projects = ProjectLocalServiceUtil.getByGroupId(groupId);
+		this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
 		request.setAttribute("projects", this.projects);
 		
 		super.render(request, response);
@@ -100,13 +100,13 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			String resourceID = request.getResourceID();
 
 			if (resourceID.equals("changeDistrict")) {
-				long paramSelectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrict");
+				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrict");
 				
-				if (paramSelectedDistrictCategoryId > 0) {
-					this.projects = ProjectLocalServiceUtil.findByCategoryIds(new long[] {paramSelectedDistrictCategoryId});
+				if (this.selectedDistrictCategoryId > 0) {
+					this.projects = ProjectLocalServiceUtil.findByCategoryIds(new long[] {this.selectedDistrictCategoryId});
 					
 				} else {
-					this.projects = ProjectLocalServiceUtil.getByGroupId(groupId);
+					this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
 				}
 				
 			}
