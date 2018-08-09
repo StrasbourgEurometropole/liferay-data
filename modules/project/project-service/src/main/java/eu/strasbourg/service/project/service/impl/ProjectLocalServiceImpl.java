@@ -25,6 +25,7 @@ import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -42,6 +43,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.project.exception.NoSuchProjectException;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
@@ -339,6 +341,46 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 
 	/**
+	 * Recherche par ID de catégorie
+	 */
+	@Override
+	public List<Project> findByCategoryIds(long[] categoryIds) {
+		
+		// Initialisation des variables tempons et resutantes
+		Project matchingProject = null;
+		List<Project> projects = new ArrayList<Project>();
+		
+		// Creation de la requete d'assetEntry correspondant a notre definition
+		AssetEntryQuery assetEntryQueryForCategory = new AssetEntryQuery();
+		assetEntryQueryForCategory.setAllCategoryIds(categoryIds);
+		assetEntryQueryForCategory.setClassName(Project.class.getName());
+		assetEntryQueryForCategory.setOrderByCol1("title");
+		assetEntryQueryForCategory.setOrderByType1("ASC");
+		assetEntryQueryForCategory.setVisible(true);
+
+		// Recherche en elle-meme
+		List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil.getEntries(assetEntryQueryForCategory);
+		
+		// Parcours des resultats et ajout des projets correspondants dans la liste finale
+		for (AssetEntry assetEntry : assetEntries) {
+			try {
+				matchingProject = this.projectPersistence.findByPrimaryKey(assetEntry.getClassPK());
+				
+				if (matchingProject != null) {
+					projects.add(matchingProject);
+				}
+			} catch (NoSuchProjectException e) {
+				_log.error("Project '"+ assetEntry.getClassPK() + "' doesn't exist anymore " + 
+					" but the corresponding AssetEntry '" + assetEntry.getEntryId() + 
+					"' is always in the movie ...\n" + e);
+				continue;
+			}
+		}
+		
+		return projects;
+	}
+
+	/**
 	 * Recherche par mot clés (compte)
 	 */
 	@Override
@@ -355,4 +397,6 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 
 		return projectPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+	
+	private Log _log = LogFactoryUtil.getLog(this.getClass());
 }

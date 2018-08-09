@@ -253,6 +253,11 @@ public interface ProjectLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par ID de catégorie
+	*/
+	public List<Project> findByCategoryIds(long[] categoryIds);
+
+	/**
 	* Recherche par mot clés
 	*/
 	public List<Project> findByKeyword(java.lang.String keyword, long groupId,

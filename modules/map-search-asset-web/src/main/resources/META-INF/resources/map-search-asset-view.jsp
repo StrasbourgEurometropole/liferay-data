@@ -18,14 +18,14 @@
 	            	<!-- Selecteur de quartiers -->
 	                <div>
 	                    <label for="quartiers"  aria-hidden="true" class="hide"><liferay-ui:message key="districts" /></label>
-	                    <select id="<portlet:namespace />quartiers">
+	                    <select id="district">
 	                        <option value="-1"><liferay-ui:message key="all-districts" /></option>
 	                        <c:forEach items="${districtCategories}" var="districtCategory"  >
 	                        	<option value="${districtCategory.getCategoryId()}">${districtCategory.getTitle(locale)}</option>
 	                        </c:forEach>
 	                    </select>
 	                </div>
-	
+					
 					<!-- Selecteur de projets -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
@@ -33,24 +33,14 @@
 	                        <input type="checkbox" id="Projets"/>
 	                        <div class="pro-switch pro-round"></div>
 	
-	                        <fieldset class="pro-wrapper-chk">
+	                        <fieldset class="pro-wrapper-chk" >
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="projects" /></legend>
-	                            <div>
-	                                <input type="checkbox" id="cat_1" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_1">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_2" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_2">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_3" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_3">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_4" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_4">Nom de l'item</label>
-	                            </div>
+	    						<c:forEach items="${projects}" var="project" varStatus="loop" >
+		                            <div>
+		                                <input type="checkbox" id="cat_${loop.index}" class="hide-checkbox" name="type_val[]" value="${project.getProjectId()}">
+		                                <label for="cat_${loop.index}">${project.getTitle()}</label>
+		                            </div>
+		                        </c:forEach>
 	                        </fieldset>
 	                    </div>
 	                </div>

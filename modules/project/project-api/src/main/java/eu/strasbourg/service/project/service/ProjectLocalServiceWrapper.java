@@ -300,6 +300,15 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	}
 
 	/**
+	* Recherche par ID de catégorie
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> findByCategoryIds(
+		long[] categoryIds) {
+		return _projectLocalService.findByCategoryIds(categoryIds);
+	}
+
+	/**
 	* Recherche par mot clés
 	*/
 	@Override

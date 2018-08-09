@@ -123,5 +123,6 @@ jQuery(function() {
 //Soumission du formulaire
 function submitForm(event) {
 	placeAutoFields.save(event.target);
+	timelineAutoFields.save(event.target);
 	return true;
 }

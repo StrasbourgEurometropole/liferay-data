@@ -285,6 +285,14 @@ public class ProjectLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par ID de catégorie
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Project> findByCategoryIds(
+		long[] categoryIds) {
+		return getService().findByCategoryIds(categoryIds);
+	}
+
+	/**
 	* Recherche par mot clés
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.Project> findByKeyword(

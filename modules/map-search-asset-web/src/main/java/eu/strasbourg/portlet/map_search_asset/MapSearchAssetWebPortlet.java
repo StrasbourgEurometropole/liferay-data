@@ -5,12 +5,16 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -49,22 +53,36 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	
 	private static final String CITY_NAME = "Strasbourg";
 	
-	private long _selectedDistrictCategoryId;
-	private List<Project> _projects;
-	private List<Participation> _participations;
-	private List<Event> _events;
+	private long selectedDistrictCategoryId;
+	private List<Long> selectedProjectIds;
+	private List<Long> selectedParticipationIds;
+	private List<Long> selectedEventIds;
+	
+	private List<AssetCategory> districtCategories;
+	private List<Project> projects;
+	private List<Participation> participations;
+	private List<Event> events;
 	
 	/**
 	 * Initialisation de la vue
 	 */
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+		// Recuperation du contexte de la requete
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = new Long(themeDisplay.getLayout().getGroupId());
 		
+		//Recuperation et attribution des informations de l'utilisateur
 		String publikUserId = getPublikID(request);
+		request.setAttribute("publikUserId", publikUserId);
 		
 		// Recuperation et attribution des quartiers
-		List<AssetCategory> districtCategories = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-		request.setAttribute("districtCategories", districtCategories);
+		this.districtCategories = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+		request.setAttribute("districtCategories", this.districtCategories);
+		
+		// Recuperation et attribution des projets
+		this.projects = ProjectLocalServiceUtil.getByGroupId(groupId);
+		request.setAttribute("projects", this.projects);
 		
 		super.render(request, response);
 	}
@@ -73,27 +91,40 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 * Méthode exécutée lors d'un appel AJAX
 	 */
 	@Override
-	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+	public void serveResource(ResourceRequest request, ResourceResponse response)
 			throws IOException, PortletException {
 		try {
-			String resourceID = resourceRequest.getResourceID();
+			// Recuperation du contexte de la requete
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			long groupId = new Long(themeDisplay.getLayout().getGroupId());
+			String resourceID = request.getResourceID();
 
 			if (resourceID.equals("changeDistrict")) {
+				long paramSelectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrict");
+				
+				if (paramSelectedDistrictCategoryId > 0) {
+					this.projects = ProjectLocalServiceUtil.findByCategoryIds(new long[] {paramSelectedDistrictCategoryId});
+					
+				} else {
+					this.projects = ProjectLocalServiceUtil.getByGroupId(groupId);
+				}
 				
 			}
+			
 			
 		} catch (Exception e) {
 			_log.error(e);
 		}
+		super.serveResource(request, response);
 	}
 	
 	/**
 	 * Récupération du publik ID avec la session
 	 * @return L'id publik de l'utilisateur courant
 	 */
-	private String getPublikID(PortletRequest resourceRequest) {
+	private String getPublikID(PortletRequest request) {
 		
-		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
+		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
 		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
 		
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
