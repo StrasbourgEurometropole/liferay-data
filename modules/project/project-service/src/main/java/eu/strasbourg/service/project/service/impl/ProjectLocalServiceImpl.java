@@ -319,6 +319,14 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	public List<Project> getByGroupId(long groupId) {
 		return this.projectPersistence.findByGroupId(groupId);
 	}
+	
+	/**
+	 * Retourne tous les projets publiés d'un groupe
+	 */
+	@Override
+	public List<Project> getPublishedByGroupId(long groupId) {
+		return this.projectPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	}
 
 	/**
 	 * Recherche par mot clés

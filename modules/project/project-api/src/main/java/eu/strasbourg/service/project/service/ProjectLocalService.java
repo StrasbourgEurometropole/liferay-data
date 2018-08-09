@@ -316,6 +316,12 @@ public interface ProjectLocalService extends BaseLocalService,
 		OrderByComparator<Project> orderByComparator);
 
 	/**
+	* Retourne tous les projets publiés d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Project> getPublishedByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

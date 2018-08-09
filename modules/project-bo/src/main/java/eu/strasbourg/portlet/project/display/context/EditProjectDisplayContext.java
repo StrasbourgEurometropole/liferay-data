@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -47,15 +48,16 @@ public class EditProjectDisplayContext {
 		return _project;
 	}
 		
-	public String getDefaultIndexes(int length) {
-		String indexes = "";
-		for (int i = 1; i <= length; i++) {
-			if (Validator.isNotNull(indexes)) {
-				indexes += ",";
+	public String getDefaultTimelineIndexes() throws PortalException {
+		if (this.getProject() != null) {
+			List<ProjectTimeline> timelines = this.getProject().getProjectTimelines();
+			String indexes = "0";
+			for (int i = 1; i <= timelines.size(); i++) {
+				indexes += "," + i;
 			}
-			indexes += i;
+			return indexes;
 		}
-		return indexes;
+		return "";
 	}
 	
 	/**

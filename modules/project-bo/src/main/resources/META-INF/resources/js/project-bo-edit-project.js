@@ -37,10 +37,11 @@ jQuery(function() {
 		});
 	}
 	
-	// Lieux répétables
+	// Autofield sur les champs répétables
 	AUI().use('liferay-auto-fields', function(Y) {
+		
 		if (!!document.getElementById('place-fields')) {
-			// Création de l'autofield
+			// Création de l'autofield sur les lieux
 			placeAutoFields = new Liferay.AutoFields({
 				contentBox : '#place-fields',
 				fieldIndexes : namespace + 'placeIndexes',
@@ -48,19 +49,17 @@ jQuery(function() {
 				url: getProjectPlaceRowURL
 			}).render();
 		}
-	});
-	
-	// Timeline répétable
-	AUI().use('liferay-auto-fields', function(Y) {
-		if (!!document.getElementById('date-fields')) {
-			// Création de l'autofield
+		
+		if (!!document.getElementById('timeline-fields')) {
+			// Création de l'autofield sur les timelines
 			timelineAutoFields = new Liferay.AutoFields({
-				contentBox : '#date-fields',
+				contentBox : '#timeline-fields',
 				fieldIndexes : namespace + 'projectTimelineIndexes',
 				namespace : namespace,
 				url : getProjectTimelineRowJSPURL
 			}).render();
 		}
+		
 	});
 	
 	//Autocomplete des lieux
