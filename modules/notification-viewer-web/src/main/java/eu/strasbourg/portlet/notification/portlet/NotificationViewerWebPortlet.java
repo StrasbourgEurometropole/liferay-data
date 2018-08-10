@@ -85,8 +85,7 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 				if(themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()) {
 					portalURL="/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
 				}
-				//actionRequest.getPortletSession().setAttribute("notificationId", notificationId);
-				actionResponse.sendRedirect(portalURL + "/notification?notificationDetailId=" + notificationId);
+				actionResponse.sendRedirect(portalURL + "/notification?notificationId=" + notificationId);
 			}
 
 		} catch (Exception e) {
@@ -100,8 +99,9 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 		NotificationViewerDisplayContext dc = new NotificationViewerDisplayContext(renderRequest, renderResponse);
 		renderRequest.setAttribute("dc", dc);
 		
+		//Récupération de 'Id de notif pour l'affichage sur la page de détail
 		HttpServletRequest httpReq = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest)); 
-		String notifID = httpReq.getParameter("notificationDetailId");
+		String notifID = httpReq.getParameter("notificationId");
 		if(notifID != null) {
 			Long notificationId = Long.parseLong(notifID);
 			if(!notificationId.equals((long)0)) {
