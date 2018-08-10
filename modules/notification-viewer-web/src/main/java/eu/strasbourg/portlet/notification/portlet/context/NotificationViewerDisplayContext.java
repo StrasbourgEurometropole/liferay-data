@@ -91,6 +91,8 @@ public class NotificationViewerDisplayContext {
 			for (UserNotificationStatus un : this.getListNotifications()) {
 				NotificationDisplay nd = new NotificationDisplay();
 				nd.setTitle(un.getNotification().getTitle(request.getLocale()));
+				nd.setDescription(un.getNotification().getDescription(request.getLocale()));
+				nd.setURL(un.getNotification().getUrl());
 				nd.setRead(un.isRead());
 				nd.setDate(un.getNotification().getPublicationDate());
 				nd.setNotificationId(un.getNotificationId());

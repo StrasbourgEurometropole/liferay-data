@@ -56,9 +56,9 @@ public interface NotificationService extends BaseService {
 	* Envoie une notification à un utilisateur
 	*/
 	public JSONObject addNotification(java.lang.String userId,
-		boolean isGlobal, java.lang.String title, java.lang.String url,
-		java.lang.String publicationDate, java.lang.String expirationDate,
-		java.lang.String typeId);
+		boolean isGlobal, java.lang.String title, java.lang.String description,
+		java.lang.String url, java.lang.String publicationDate,
+		java.lang.String expirationDate, java.lang.String typeId);
 
 	/**
 	* Retourne la liste des canaux de notifications

@@ -1,9 +1,6 @@
 package eu.strasbourg.portlet.notification.portlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -33,8 +30,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.notification.configuration.NotificationConfiguration;
-import eu.strasbourg.portlet.notification.model.display.NotificationDisplay;
 import eu.strasbourg.portlet.notification.portlet.context.NotificationViewerDisplayContext;
+import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
@@ -66,6 +63,8 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 		String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
 		Long notificationId = ParamUtil.getLong(actionRequest, "notificationId");
 
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		
 		try {
 			// Récupération de la notification pour la passer à 'Lu'
 			UserNotificationStatus notif = UserNotificationStatusLocalServiceUtil
@@ -80,6 +79,15 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			if (!notif.getNotification().getUrl().isEmpty()) {
 				actionResponse.sendRedirect(notif.getNotification().getUrl());
 			}
+			// Redirection vers une page de détail de notif
+			else if(notif.getNotification().getUrl().isEmpty() && !notif.getNotification().getDescription().isEmpty()){
+				String portalURL ="";
+				if(themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()) {
+					portalURL="/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
+				}
+				//actionRequest.getPortletSession().setAttribute("notificationId", notificationId);
+				actionResponse.sendRedirect(portalURL + "/notification?notificationDetailId=" + notificationId);
+			}
 
 		} catch (Exception e) {
 			SessionErrors.add(actionRequest, e.getClass().getName());
@@ -91,7 +99,28 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		NotificationViewerDisplayContext dc = new NotificationViewerDisplayContext(renderRequest, renderResponse);
 		renderRequest.setAttribute("dc", dc);
-
+		
+		HttpServletRequest httpReq = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest)); 
+		String notifID = httpReq.getParameter("notificationDetailId");
+		if(notifID != null) {
+			Long notificationId = Long.parseLong(notifID);
+			if(!notificationId.equals((long)0)) {
+				LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(renderRequest);
+				HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+				String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
+				try {
+					UserNotificationStatus notif = UserNotificationStatusLocalServiceUtil
+						.getUserNotificationStatus(new UserNotificationStatusPK(notificationId, internalId));
+					
+					Notification notification =notif.getNotification();
+					renderRequest.setAttribute("notification", notification);
+					
+				} catch (Exception e) {
+					SessionErrors.add(renderRequest, e.getClass().getName());
+				}
+			}
+		}
+		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		NotificationConfiguration configuration;
 		try {
