@@ -99,18 +99,19 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			long groupId = new Long(themeDisplay.getLayout().getGroupId());
 			String resourceID = request.getResourceID();
 
-			if (resourceID.equals("changeDistrict")) {
+			if (resourceID.equals("changeMapSelection")) {
 				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrict");
 				
 				if (this.selectedDistrictCategoryId > 0) {
 					this.projects = ProjectLocalServiceUtil.findByCategoryIds(new long[] {this.selectedDistrictCategoryId});
+					
+					
 					
 				} else {
 					this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
 				}
 				
 			}
-			
 			
 		} catch (Exception e) {
 			_log.error(e);

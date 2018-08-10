@@ -1,6 +1,6 @@
 <%@ include file="/map-search-asset-init.jsp" %>
 
-<portlet:resourceURL id="changeDistrict" var="changeDistrictURL">
+<portlet:resourceURL id="changeMapSelection" var="changeMapSelectionURL">
 </portlet:resourceURL>
 
 <div class="pro-page-carte">

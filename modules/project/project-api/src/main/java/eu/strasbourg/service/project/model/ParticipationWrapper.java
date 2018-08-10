@@ -439,6 +439,14 @@ public class ParticipationWrapper implements Participation,
 		return _participation.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _participation.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Participation> toCacheModel() {
 		return _participation.toCacheModel();
@@ -735,6 +743,14 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _participation.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	@Override
+	public java.lang.String getThematicsLabel(java.util.Locale locale) {
+		return _participation.getThematicsLabel(locale);
 	}
 
 	/**

@@ -19,8 +19,12 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -32,11 +36,13 @@ import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.text.DateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -352,6 +358,21 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		}
 		return result.toString();
 	}
+	
+	/**
+	 * Retourne une chaine des 'Thematics' sépararée d'un '-'
+	 */
+	@Override
+	public String getThematicsLabel(Locale locale) {
+		StringBuilder result = new StringBuilder();
+		List<AssetCategory> thematics = this.getThematicCategories();
+
+	    result.append(thematics.stream()
+                .map(thematic -> thematic.getTitle(locale))
+                .collect(Collectors.joining(" - ")));
+
+		return result.toString();
+	}
 
 	/**
 	 * Retourne le status de la participation
@@ -479,6 +500,84 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		} else {
 			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 		}
+	}
+	
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		JSONObject jsonPlacitPlace;
+		
+		// Champs de gestion
+		jsonParticipation.put("id", this.getParticipationId());
+		jsonParticipation.put("createDate", this.getCreateDate());
+		
+		// Champs : Header
+		jsonParticipation.put("title", this.getTitle());
+		jsonParticipation.put("author", this.getAuthor());
+		
+		// Champs : Contact
+		jsonParticipation.put("contactName", this.getContactName());
+		jsonParticipation.put("contactLine1", this.getContactLine1());
+		jsonParticipation.put("contactLine2", this.getContactLine2());
+		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
+		
+		// Champs : Médias
+		jsonParticipation.put("videoUrl", this.getVideoUrl());
+		jsonParticipation.put("imageURL", this.getImageURL());
+		jsonParticipation.put("mediaChoice", this.getMediaChoice());
+		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
+		
+		// Champs : Description
+		jsonParticipation.put("descriptionChapeau", this.getDescriptionChapeau());
+		jsonParticipation.put("descriptionBody", this.getDescriptionBody());
+		
+		// Champs : Description
+		jsonParticipation.put("consultationPlacesBody", this.getConsultationPlacesBody());
+		
+		// Champs : Dates
+		jsonParticipation.put("publicationDate", this.getPublicationDate());
+		jsonParticipation.put("expirationDate", this.getExpirationDate());
+		
+		// Champs : Intéractivités
+		jsonParticipation.put("nbApprovedComments", this.getNbApprovedComments());
+		jsonParticipation.put("nbLikes", this.getNbLikes());
+		jsonParticipation.put("nbDislikes", this.getNbDislikes());
+		
+		// Label des vocabulaires
+		AssetCategory projectCategory = this.getProjectCategory();
+		AssetCategory statusCategory = this.getProjectCategory();
+		
+		jsonParticipation.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
+		jsonParticipation.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
+		jsonParticipation.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("statusId", statusCategory != null ? statusCategory.getCategoryId() : "");
+		jsonParticipation.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
+		
+		// Lieux placit
+		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+			jsonPlacitPlaces.put(placitPlace.toJSON());
+		}
+		jsonParticipation.put("placitPlaces", jsonPlacitPlaces);
+		
+		// Liste des Ids des catégories Territoire
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
+		if (jsonTerritories.length() > 0) {
+			jsonParticipation.put("territories", jsonTerritories);
+		}
+		
+		// Liste des Ids des catégories Thématiques
+		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
+		if (jsonThematics.length() > 0) {
+			jsonParticipation.put("thematics", jsonThematics);
+		}
+		
+		return jsonParticipation;
 	}
 	
 	private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);

@@ -164,4 +164,9 @@ public interface Project extends ProjectModel, PersistedModel {
 	* Retourne le nombre de commentaires de l'entité
 	*/
 	public int getNbApprovedComments();
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

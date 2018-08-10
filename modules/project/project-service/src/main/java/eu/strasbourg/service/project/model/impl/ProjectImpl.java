@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +24,10 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -326,6 +331,76 @@ public class ProjectImpl extends ProjectBaseImpl {
 		return CommentLocalServiceUtil.getByAssetEntry(
 				this.getAssetEntry().getEntryId(),
 				WorkflowConstants.STATUS_APPROVED).size();
+	}
+	
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		JSONObject jsonPlacitPlace;
+		JSONArray jsonProjectTimelines = JSONFactoryUtil.createJSONArray();
+		JSONObject jsonProjectTimeline;
+		
+		// Champs de gestion
+		jsonProject.put("id", this.getProjectId());
+		
+		// Champs : Header
+		jsonProject.put("title", this.getTitle());
+		jsonProject.put("imageURL", this.getImageURL());
+		jsonProject.put("description", this.getDescription());
+		jsonProject.put("detailURL", this.getDetailURL());
+		
+		// Champs : En bref
+		jsonProject.put("budget", this.getBudget());
+		jsonProject.put("label", this.getLabel());
+		jsonProject.put("duration", this.getDuration());
+		jsonProject.put("partners", this.getPartners());
+		
+		// Champs : Contact
+		jsonProject.put("contactName", this.getContactName());
+		jsonProject.put("contactLine1", this.getContactLine1());
+		jsonProject.put("contactLine2", this.getContactLine2());
+		jsonProject.put("contactPhoneNumber", this.getContactPhoneNumber());
+		
+		// Champs : Autres
+		jsonProject.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
+		
+		// Lieux placit
+		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+			jsonPlacitPlaces.put(placitPlace.toJSON());
+		}
+		jsonProject.put("placitPlaces", jsonPlacitPlaces);
+		
+		// Timeline
+		for (ProjectTimeline projectTimeline : this.getProjectTimelines()) {
+			jsonProjectTimelines.put(projectTimeline.toJSON());
+		}
+		jsonProject.put("projectTimelines", jsonProjectTimelines);
+		
+		// Liste des Ids des catégories Territoire
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
+		if (jsonTerritories.length() > 0) {
+			jsonProject.put("territories", jsonTerritories);
+		}
+		
+		// Liste des Ids des catégories Status
+		JSONArray jsonStatus = AssetVocabularyHelper.getExternalIdsJSONArray(this.getAllStatus());
+		if (jsonStatus.length() > 0) {
+			jsonProject.put("status", jsonStatus);
+		}
+		
+		// Liste des Ids des catégories Thématiques
+		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
+		if (jsonThematics.length() > 0) {
+			jsonProject.put("thematics", jsonTerritories);
+		}
+		
+		return jsonProject;
 	}
 	
 }
