@@ -1,7 +1,7 @@
 <portlet:actionURL var="deleteComment" name="deleteComment">
 </portlet:actionURL>
 
-<nav id="deleteModalNav" class="modal_connexion">
+<nav id="deleteModalNav">
     <!-- HTML pour la modal de suppression -->
     <div class="pro-modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal">
         <div class="modal-dialog" role="document">

@@ -1,7 +1,7 @@
 <portlet:actionURL var="reportComment" name="reportComment">
 </portlet:actionURL>
 
-<nav id="reportModalNav" class="modal_connexion">
+<nav id="reportModalNav">
     <!-- HTML pour la modal de signalement -->
     <div class="pro-modal fade" id="signalementModal" tabindex="-1" role="dialog" aria-labelledby="signalementModal">
         <div class="modal-dialog" role="document">
