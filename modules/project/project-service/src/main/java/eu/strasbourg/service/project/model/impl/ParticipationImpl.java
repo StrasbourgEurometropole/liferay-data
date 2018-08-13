@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -36,13 +35,11 @@ import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.text.DateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -509,9 +506,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	public JSONObject toJSON() {
 		// Initialisation des variables tempons et résultantes
 		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
-		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
-		JSONObject jsonPlacitPlace;
 		
 		// Champs de gestion
 		jsonParticipation.put("id", this.getParticipationId());

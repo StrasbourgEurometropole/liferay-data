@@ -11,19 +11,19 @@ $(document).ready(function() {
 // Soumission du formulaire de la facette
 $('#district').change(function() {
 	
-	alert('select');
-	
 	var selectedDistrict = this.value;
 	
 	AUI().use('aui-io-request', function(A) {
-		A.io.request(changeDistrictURL, {
+		A.io.request(changeMapSelectionURL, {
 			method : 'post',
+			dataType: 'json',
 			data : {
 				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedDistrict : selectedDistrict
 			},
 			on: {
                 success: function(e) {
-                	alert('success');
+                	var data = this.get('responseData');
+                	console.log(data.projects);
 			 	}
 			 }
 		});

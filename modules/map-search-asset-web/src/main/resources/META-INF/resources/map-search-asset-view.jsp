@@ -141,7 +141,7 @@
 
 <liferay-util:html-top>
 	<script>
-		var changeDistrictURL = '${changeDistrictURL}';
+		var changeMapSelectionURL = '${changeMapSelectionURL}';
 		var porletNamespace = '<portlet:namespace/>';
 	</script>
 </liferay-util:html-top>
