@@ -11,6 +11,7 @@
 			<generator class="assigned" />
 		</id>
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="automatic" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="singleUser" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />

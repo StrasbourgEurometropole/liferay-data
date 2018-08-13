@@ -49,7 +49,7 @@ public class MediathequeWebPortlet extends MVCPortlet {
 			dc.setBorrower(borrower);
 
 			// si l'utilisateur a activé son lien
-			if (Validator.isNull(borrower.getCode_erreur()) && borrower.getErr().equals("0")) {
+			if (Validator.isNull(borrower.getCode_erreur()) && (Validator.isNull(borrower.getErr()) || borrower.getErr().equals("0"))) {
 				template = "etape4";
 			} else {
 				if (Validator.isNull(borrower.getCode_erreur())) {

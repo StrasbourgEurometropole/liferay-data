@@ -248,9 +248,11 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 										Map<Locale, String> titres = selectCategory
 												.getTitleMap();
 										titres.replace(locale, nom);
+										Map<Locale, String> description = selectCategory
+												.getDescriptionMap();
 										_assetCategoryService.updateCategory(
 												selectCategory.getCategoryId(),
-												idParent, titres, null,
+												idParent, titres, description,
 												vocabulary.getVocabularyId(),
 												categoryProperties, sc);
 

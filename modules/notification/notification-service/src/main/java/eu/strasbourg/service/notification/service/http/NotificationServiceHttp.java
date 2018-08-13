@@ -194,16 +194,16 @@ public class NotificationServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject addNotification(
 		HttpPrincipal httpPrincipal, java.lang.String userId, boolean isGlobal,
-		java.lang.String title, java.lang.String url,
-		java.lang.String publicationDate, java.lang.String expirationDate,
-		java.lang.String typeId) {
+		java.lang.String title, java.lang.String description,
+		java.lang.String url, java.lang.String publicationDate,
+		java.lang.String expirationDate, java.lang.String typeId) {
 		try {
 			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
 					"addNotification", _addNotificationParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					isGlobal, title, url, publicationDate, expirationDate,
-					typeId);
+					isGlobal, title, description, url, publicationDate,
+					expirationDate, typeId);
 
 			Object returnObj = null;
 
@@ -239,6 +239,7 @@ public class NotificationServiceHttp {
 	private static final Class<?>[] _addNotificationParameterTypes5 = new Class[] {
 			java.lang.String.class, boolean.class, java.lang.String.class,
 			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class, java.lang.String.class
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class
 		};
 }

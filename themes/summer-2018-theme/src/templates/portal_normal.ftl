@@ -47,9 +47,15 @@
                         <span class="mns-text">Contact</span>
                       </span>    
                     </a>
-                    <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
-                    <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
-                    <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
+                    <#if homeURL != "/">
+                        <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
+                        <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
+                        <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
+                    <#else>
+                        <a href="/fr${layout.friendlyURL}">FR</a>
+                        <a href="/de${layout.friendlyURL}" title="Deutsch">DE</a>
+                        <a href="/en${layout.friendlyURL}" title="English">EN</a>
+                    </#if>
                 </div>
             </div>
             <#include "${full_templates_path}/navigation.ftl" />
@@ -93,7 +99,7 @@
 
     <#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script> [^]
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}

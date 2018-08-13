@@ -70,7 +70,7 @@ public class FamilySpaceConfigurationAction
 			FamilySpaceConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						FamilySpaceConfiguration.class);
-			request.setAttribute("familySpaceURLL", configuration.familySpaceURL());
+			request.setAttribute("familySpaceURL", configuration.familySpaceURL());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);
