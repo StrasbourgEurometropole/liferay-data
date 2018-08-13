@@ -10485,6 +10485,29 @@ setTimeout(egalizeAll,750);
 setTimeout(egalizeAll,1500);
 
 $(window).on('resize',egalizeAll);
+$('.pro-to-expand').each(function(){
+    var $link = $('a[href="#expand"]', this).first();
+    if($link.length == 0){
+        $link = $('a[href="#expand"]',$(this).parent()).first();
+    }
+    var $wrapper = $(this);
+
+    var wrapperHeight = 0;
+    $wrapper.attr('style','height:auto!important;max-height:445px!important;');
+    wrapperHeight = $wrapper.height();
+    $wrapper.removeAttr('style').css('height',wrapperHeight+'px');
+
+    $(window).on('resize',function(){
+        $wrapper.attr('style','height:auto!important;');
+        wrapperHeight = $wrapper.height();
+        $wrapper.removeAttr('style').css('height',wrapperHeight+'px');
+    });
+
+    $link.on('click',function(){
+        $(this).addClass('pro-fadeout');
+        $wrapper.addClass('pro-expand');
+    });
+});
 function th_linkAll(el){
     if(!el){
         el = document;
@@ -11202,11 +11225,52 @@ $(".selectric-input").each(function(){
 
 
 
+$('.pro-wrapper-search-top .icon-ico-close').on('click',function(){
+    $('#pro-header').removeClass('pro-wrapper-search-open');
+    $('body').css('overflow','auto');
+    $('#pro-shadow-bg').removeClass('pro-display-block');
+});
+
+
 // Quand on click sur l'îcone de recherche dans le menu, on ouvre la search bar
-$('a[href$="rechercher"]').on('click',function(){
+$('a[href$="rechercher"]').on('click',function(e){
+    e.preventDefault();
     $('#pro-header').toggleClass('pro-wrapper-search-open');
+    $('body').css('overflow','hidden');
     $('.pro-wrapper-search form input').focus();
     $('#pro-shadow-bg').addClass('pro-display-block');
+});
+
+
+
+function bs_input_file() {
+    $(".input-file").before(
+        function() {
+            if ( ! $(this).prev().hasClass('input-ghost') ) {
+                var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+                element.attr("name",$(this).attr("name"));
+                element.change(function(){
+                    element.next(element).find('input').val((element.val()).split('\\').pop());
+                });
+                $(this).find("button.btn-choose").click(function(){
+                    element.click();
+                });
+                $(this).find("button.btn-reset").click(function(){
+                    element.val(null);
+                    $(this).parents(".input-file").find('input').val('');
+                });
+                $(this).find('input').css("cursor","pointer");
+                $(this).find('input').mousedown(function() {
+                    $(this).parents('.input-file').prev().click();
+                    return false;
+                });
+                return element;
+            }
+        }
+    );
+}
+$(function() {
+    bs_input_file();
 });
 // défini la hauteur a la hauteur de la fenêtre - la hauteur du header - 20px de marge
 $('.bloc-iframe iframe').height(
@@ -11317,18 +11381,426 @@ $('.pro-bloc-video').each(function() {
 	}
 
 });
-//$("[href$='like-pro']").on('click',function(e){
-//    e.preventDefault();
-//    $(this).text(+parseInt($(this).text()) + 1);
-//    $(this).toggleClass('active');
-//});
-//
-//
-//$("[href$='-approuv']").on('click',function(e){
-//    e.preventDefault();
-//    $(this).find('strong').text(+parseInt($(this).text()) + 1);
-//    $(this).toggleClass('active');
-//});
+/*$("[href$='like-pro']").on('click',function(e){
+    e.preventDefault();
+    // $(this).text(+parseInt($(this).text()) + 1);
+    $(this).toggleClass('active');
+});
+
+
+$("[href$='-approuv']").on('click',function(e){
+    e.preventDefault();
+    // $(this).find('strong').text(+parseInt($(this).text()) + 1);
+    $(this).toggleClass('active');
+});*/
+/*
+* Gestion des likes/dislikes
+*/
+$(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Sauvegarde de l'élément
+    var element = $(this);
+
+    // L'élément a t-il un affiche du compteur en texte ou en span ?
+    var counterType = $(this).attr('href').endsWith('-approuv') ? "span" : "text" ;
+
+    // Récupération des attributs du like
+    var title = $(this).data("title");
+    var isdislike = $(this).data("isdislike");
+    var typeid = $(this).data("typeid");
+    var entityid = $(this).data("entityid");
+    var entitygroupid = $(this).data("entitygroupid") ? $(this).data("entitygroupid") : 0;
+
+    // Appel au service remote Liferay
+    Liferay.Service(
+        '/like.like/add-like-link',
+        {
+            title: title,
+            isDislike: isdislike,
+            typeId: typeid,
+            entityId: entityid,
+            entityGroupId: entitygroupid
+        },
+        function(obj) {
+            // En cas de succès, on effectue la modification des éléments visuels
+            // selon la réponse et le type de l'élément
+            if (obj.hasOwnProperty('success')) {
+                switch(obj['success']) {
+                    case "like added":
+                        element.toggleClass('active');
+                        if (counterType === "span") {
+                            element.find('strong').text(+parseInt(element.text()) + 1);
+                        } else {
+                            element.text(+parseInt(element.text()) + 1);
+                        }
+                        break;
+                    case "dislike added":
+                        element.toggleClass('active');
+                        if (counterType === "span") {
+                            element.find('strong').text(+parseInt(element.text()) + 1);
+                        } else {
+                            element.text(+parseInt(element.text()) + 1);
+                        }
+                        break;
+                    case "like mind changed added":
+                        element.toggleClass('active');
+                        if (counterType === "span") {
+                            element.find('strong').text(+parseInt(element.text()) + 1);
+                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
+                        } else {
+                            element.text(+parseInt(element.text()) + 1);
+                            element.siblings().first().text(+parseInt(element.siblings().first().text()) - 1);
+                        }
+                        break;
+                    case "dislike mind changed added":
+                        element.toggleClass('active');
+                        if (counterType === "span") {
+                            element.find('strong').text(+parseInt(element.text()) + 1);
+                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
+                        } else {
+                            element.text(+parseInt(element.text()) + 1);
+                            element.siblings().first().text(+parseInt(element.siblings().first().text()) - 1);
+                        }
+                        break;
+                    case "like deleted":
+                        element.toggleClass('active');
+                        if (counterType === "span") {
+                            element.find('strong').text(+parseInt(element.text()) - 1);
+                        } else {
+                            element.text(+parseInt(element.text()) - 1);
+                        }
+                        break;
+                    case "dislike deleted":
+                        element.toggleClass('active');
+                        if (counterType === "span") {
+                            element.find('strong').text(+parseInt(element.text()) - 1);
+                        } else {
+                            element.text(+parseInt(element.text()) - 1);
+                        }
+                        break;
+                }
+
+            }
+            // Sinon on affiche un message d'erreur
+            else if (obj.hasOwnProperty('error')) {
+                if (obj['error'] == 'notConnected') {
+                    // Si l'utilisateur n'est pas connecté
+                    e.preventDefault();
+                    $("#myModal").modal();
+                } else if (obj['error'] == 'isBanned') {
+                    // Si l'utilisateur est banni
+                    alert("Vous ne pouvez plus juger, veuillez contacter l'administrateur du site.");
+                } else {
+                    // Autre erreur
+                    alert('Une erreur est survenue.');
+                }
+            }
+        }
+    );
+
+});
+
+/*
+* Gestion des participation à un événement
+*/
+$(document).on("click", "[href='#Participe'], span[name^='#Participe']", function(e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Sauvegarde de l'élément
+    var element = $(this);
+    var elementType = $(this).attr('href') === '#Participe' ? 'a' : 'span';
+
+    // Récupération des attributs du like
+    var eventid = $(this).data("eventid");
+    var groupid = $(this).data("groupid") ? $(this).data("groupid") : 0;
+
+    // Met à jour le compteur de participant
+    function updateCounter(num) {
+        var stringNum = num.toString();
+        var nbDigits = stringNum.length;
+        stringNum = "0".repeat(5 - nbDigits) + stringNum;
+        for (i = 1; i <= 5; i++) {
+            $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
+        }
+    }
+
+    // Appel au service remote Liferay
+    Liferay.Service(
+        '/agenda.eventparticipation/add-event-participation-link',
+        {
+            eventId: eventid,
+            groupId: groupid
+        },
+        function(obj) {
+            // En cas de succès, on effectue la modification des éléments visuels
+            // selon la réponse et le type de l'élément
+            if (obj.hasOwnProperty('success')) {
+                switch(obj['success']) {
+                    case "participation added":
+                        element.toggleClass('active');
+                        if (elementType === "a")
+                            updateCounter(parseInt($('.pro-compt').text()) + 1);
+                        else
+                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) + 1);
+                        break;
+                    case "participation deleted":                                
+                        element.toggleClass('active');
+                        if (elementType === "a")
+                            updateCounter(parseInt($('.pro-compt').text()) - 1);
+                        else
+                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
+                        break;
+                }
+            }
+
+            // Sinon on affiche un message d'erreur
+            else if (obj.hasOwnProperty('error')) {
+                if (obj['error'] == 'notConnected') {
+                    // Si l'utilisateur n'est pas connecté
+                    e.preventDefault();
+                    $("#myModal").modal();
+                } else if (obj['error'] == 'isBanned') {
+                    // Si l'utilisateur est banni
+                    alert("Vous ne pouvez plus participer, veuillez contacter l'administrateur du site.");
+                } else {
+                    // Autre erreur
+                    alert('Une erreur est survenue.');
+                }
+            }
+        }
+    );
+});
+
+
+/*
+* Demande de signature du pacte
+*/
+$(document).on("click", "[name='#Pact-sign']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#myModal").modal();
+});
+
+/**
+* Retourne une map Leaflet configurée pour la plateforme citoyenne
+*/
+function getLeafletMap() {
+
+    //Création de la carte au centre de strasbourg
+    var leafletMap = L.map('mapid', {
+        // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
+        center: [48.573, 7.752],
+        maxBounds: [[48.42, 7.52], [48.72, 7.94]],
+        minZoom: 13,
+        zoom: 13,
+        minZoom: 12,
+        zoomControl: false,
+        attributionControl: false
+    });
+
+    // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
+    var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
+        layers: 'gct_fond_de_carte_couleur'
+    }).addTo(leafletMap);
+
+    return leafletMap;
+}
+
+
+/**
+* Retourne l'icone de marqueur selon le type de l'entité 
+*/
+function getMarkerIcon(entityType = "default") {
+
+    switch (entityType) {
+        case 'project':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-projet.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
+        case 'participation':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-participation.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
+        case 'event':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
+        case 'petition':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-petition.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
+        case 'initiative':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-initiative.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
+        default:
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-map-inte-2x-v2.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
+    }
+
+    return 
+
+}
+
+
+/**
+* Retourne le marqueurs de leaflet sur le listing des événements
+*/
+function getEventListingMarker(mercators, link, publishDate, place, title) {
+    var eventMarkerIcon = getMarkerIcon("event");
+    var marker = L.marker(mercators, {icon: eventMarkerIcon})
+
+    marker.bindPopup(
+        '<a target="_blank" href="' + link + '" id="map-inte-container">' +
+            '<div class="map-inte-content">' +
+                '<div class="map-inte-header">' +
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' + 
+                    '<p>' + place + '</p>' + 
+                '</div>' +
+                '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
+                    '<span class="pro-btn-yellow">En savoir plus</span>' +
+                '</div>' + 
+            '</div> ' + 
+        '</a>'
+    );
+
+    return marker;
+}
+
+/**
+* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+*/
+function getEventMarker(mercators, link, publishDate, place, title, isUserPart, nbPart) {
+    var eventMarkerIcon = getMarkerIcon("event");
+    var marker = L.marker(mercators, {icon: eventMarkerIcon})
+
+    var activePart = isUserPart ? "active" : "";
+
+    marker.bindPopup(
+        '<div class="pro-vignette-map-inte">' + 
+            '<a href="' + link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
+                '<div class="pro-header-event">' +
+                    '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
+                    '<p>À : ' + place + '</p>' +
+                    '<h3>' + title + '</h3>' +
+                '</div>' +
+                '<div class="pro-footer-event">' +
+                    '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
+                    '<span class="pro-number"><strong>' + nbPart + '</strong> Participant(s)</span>' +
+                '</div>' +
+            '</div></a>' +
+        '</div>'
+    );
+
+    return marker;
+}
+
+/**
+* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+*/
+function getProjectMarker(link) {
+
+    var projectMarkerIcon = getMarkerIcon("project");
+
+    return '';
+
+}
+
+/**
+* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+*/
+function getParticipationPopUp(link) {
+
+    var participationMarkerIcon = getMarkerIcon("participation");
+
+    return '';
+
+}
+
+/**
+* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+*/
+function getInitiativePopUp(link) {
+
+    var initiativeMarkerIcon = getMarkerIcon("initiative");
+
+    return '';
+
+}
+
+/**
+* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+*/
+function getPetitionPopUp(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+
+    var petitionMarkerIcon = getMarkerIcon("petition");
+    var marker = L.marker(mercators, {icon: petitionMarkerIcon})
+
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' + 
+            '<div class="pro-header-petition">' +
+                '<figure role="group"></figure> ' +
+                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' + 
+            '</div>' +
+            '<div class="pro-content-petition">' + 
+                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' + 
+                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
+                '<span class="pro-duree">' + durationLabel + '</span></span>' + 
+            '</div> ' +
+            '<div class="pro-footer-petition">' +
+                '<div class="pro-progress-bar">' +
+                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' + 
+                '</div>' + 
+                '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
+            '</div>' +
+        '</div></a></div>'
+    );
+
+    return marker;
+
+}
+
+if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
+
+    var footer = $('footer').offset().top;
+    var windowH = $(window).height();
+    var barreFixed = $('.pro-bloc-prefooter');
+
+    $(window).on('scroll',function(){
+        console.log(footer);
+        if (window.pageYOffset-90 <= footer-windowH) {
+            barreFixed.addClass('pro-sticky-bar');
+        } else {
+            barreFixed.removeClass('pro-sticky-bar');
+        }
+    });
+
+}
 var bounds;
 var map;
 
@@ -11539,16 +12011,18 @@ function callbackMapListingEvent(macarte) {
 
     $('.pro-bloc-listing-event > a').each(function () {
         var geo = {lat: $(this).data('lat'), lng: $(this).data('lng')};
-        marker = th_maps.createMarker(macarte, geo, 'event');
+        marker = th_maps.createMarker(macarte, geo, 'participation', 'projet');
         bounds.extend(geo);
 
-        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container">' +
+        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container" class="pro-bloc-card-map-event">' +
             '<div class="map-inte-content">' +
             '<div class="map-inte-header"><span class="pro-time">Publiée le <time datetime="2018-01-10">' + $('time', this).text() + '</time></span><p>' + $('p', this).text() + '</p></div>' +
             '<div class="map-inte-content-text"><h3>' + $('h3', this).text() + '</h3>' +
             '<span class="pro-btn-yellow">En savoir plus</span>' +
-            '</div></div></a>', marker, 260);
+            '</div></div></a>', marker, 250);
     });
+
+    macarte.fitBounds(bounds);
 
     th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.RIGHT_TOP;
     th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
@@ -11556,10 +12030,8 @@ function callbackMapListingEvent(macarte) {
 }
 
 
-
-
 /* MAP POUR LES PAGES STANDARDS ET PROJET */
-function callbackCartePage(macarte){
+function callbackCartePage(macarte) {
     // ---------  Google map Zoom Button  --------- //
     google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
         e.preventDefault();
@@ -11573,10 +12045,8 @@ function callbackCartePage(macarte){
 }
 
 
-
-
 /* MAP POUR LA CARTE INTERACTIVE */
-function callbackCarteInteractive(macarte){
+function callbackCarteInteractive(macarte) {
 
     var bounds = new google.maps.LatLngBounds();
 
@@ -11591,106 +12061,126 @@ function callbackCarteInteractive(macarte){
         macarte.setZoom(macarte.getZoom() - 1);
     });
 
-    marker1 = th_maps.createMarker(macarte,{lat:48.5891137,lng:7.7514801},'map','projet');
-    marker2 = th_maps.createMarker(macarte,{lat:48.5991137,lng:7.7414801},'map','projet');
-    marker3 = th_maps.createMarker(macarte,{lat:48.5791137,lng:7.7314801},'map','projet');
-    marker4 = th_maps.createMarker(macarte,{lat:48.5775591,lng:7.7606211},'map','projet');
-    marker5 = th_maps.createMarker(macarte,{lat:48.5922362,lng:7.7282629},'map','projet');
-    marker6 = th_maps.createMarker(macarte,{lat:48.6022362,lng:7.7382629},'map','petition');
-    marker7 = th_maps.createMarker(macarte,{lat:48.5822362,lng:7.7682629},'map','initiative');
+    markerParticipation = th_maps.createMarker(macarte, {lat: 48.5891137, lng: 7.7514801}, 'participation', 'marker');
+    markerEvent = th_maps.createMarker(macarte, {lat: 48.5991137, lng: 7.7414801}, 'event', 'marker');
+    markerParticipation2 = th_maps.createMarker(macarte, {lat: 48.5775591, lng: 7.7606211}, 'participation', 'marker');
+    markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
+    markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
+    markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
 
 
-    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
+    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" title="lien de la page" class="pro-bloc-card-participation' +
         ' pro-theme-concertation"><div>' +
         '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p></div>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
         '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
-        '<h3>Titre de l’Évènement<br>Sur deux lignes</h3>' +
+        '<h3>Titre de la participation terminée<br>Sur deux lignes</h3>' +
         '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
         '<div class="pro-footer-participation pro-participation-deadline"><div class="pro-avis"><span class="pro-like">1808</span>' +
         '<span class="pro-dislike">404</span></div><p>Participation terminée, merci de votre participation</p>' +
-        '</div></div></a></div>',marker1,247);
+        '</div></div></a></div>', markerParticipation, 247);
 
 
-    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="page.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
-        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Publiée le <time datetime="2018-01-10">10 janvier' +
-        ' 2018</time></span>' +
+    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.html" title="lien de la page" class="pro-bloc-card-event"><div>' +
+        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>' +
         '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
-        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participant(s)</span></div>' +
-        '</div></a></div>',marker2,247);
+        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participants-es</span></div>' +
+        '</div></a></div>', markerEvent, 247);
 
 
-    contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
-        '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
-        '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
-        ' class="link">Lire la suite</span></div>' +
-        '</a></div>',marker3,247);
+    // contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
+    //     '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
+    //     '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
+    //     ' class="link">Lire la suite</span></div>' +
+    //     '</a></div>',marker3,247);
 
 
-    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
+    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" class="item pro-bloc-card-participation pro-theme-information"' +
         ' data-linkall="a">' +
         '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Concertation publiée par :</p><p><strong>Ville de Strasbourg</strong></p></div>' +
-        '<div class="pro-content-participation"><h3>Titre de l’Évènement<br>Sur deux lignes</h3><span class="pro-time">Publiée le' +
-        ' <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
+        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
+        '<h3>Titre de la participation<br>Sur deux lignes</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
         '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>' +
-        '</div></a></div>',marker4,247);
+        '</div></a></div>', markerParticipation2, 247);
 
 
-    contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
-        '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
-        ' class="icon-ico-lecteur"></span></div>' +
-        '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
-        '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
-        '</div></a></div>',marker5,247);
+    // contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
+    //     '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
+    //     ' class="icon-ico-lecteur"></span></div>' +
+    //     '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
+    //     '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
+    //     '</div></a></div>',marker5,247);
 
 
-    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
+    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.html"><div class="pro-header-petition">' +
         '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
         '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
         '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
-        '</div></div></a></div>',marker6,247);
+        '</div></div></a></div>', markerPetition, 247);
 
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.html"><div class="wrapper-card-initiative"><div> ' +
         '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
         '<div class="pro-content-initiative">' +
         '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
         '</div></div> ' +
-        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens soutiennent cette initiative</p>' +
-        '</div></a></div>',marker7,247);
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
+        '</div></a></div>', markerInitiative, 247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-vignette-projet"><a href="detail-projet.html"><div>' +
+        '<div class="pro-content-vignette-projet">' +
+        '<div><span class="location">Nom du quartier</span></div>' +
+        '<h3>Titre du projet<br>Sur deux lignes</h3>' +
+        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div>'+
+        '</div> ' +
+        '</a></div>', markerProjet, 247);
 
 
-
-    bounds.extend(marker1.position);
-    bounds.extend(marker2.position);
-    bounds.extend(marker3.position);
-    bounds.extend(marker4.position);
-    bounds.extend(marker5.position);
-    bounds.extend(marker6.position);
-    bounds.extend(marker7.position);
+    bounds.extend(markerParticipation.position);
+    bounds.extend(markerEvent.position);
+    bounds.extend(markerParticipation2.position);
+    bounds.extend(markerPetition.position);
+    bounds.extend(markerInitiative.position);
+    bounds.extend(markerProjet.position);
     macarte.fitBounds(bounds);
 }
 
 
 th_maps.onLoad(function () {
 
-
-    th_maps.addMarkerIcon('event', {
-        url: ''+document.location.origin+'./assets/images/logos/ico-marker-agenda-2x.png',
-        scaledSize: new google.maps.Size(30, 36)
+    th_maps.addMarkerIcon('participation', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-participation.png',
+        scaledSize: new google.maps.Size(75, 95)
     });
 
-    th_maps.addMarkerIcon('map', {
-        url: ''+document.location.origin+'./assets/images/logos/ico-marker-map-inte-2x.png',
-        scaledSize: new google.maps.Size(30, 36)
+    th_maps.addMarkerIcon('initiative', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-initiative.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('projet', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-projet.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('petition', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-petition.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('event', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        scaledSize: new google.maps.Size(75, 95)
     });
 
     th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.LEFT_CENTER;
     th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
 });
-
 
 
 /* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LES PAGES DE LISTING */
@@ -11699,7 +12189,7 @@ function filterMapListing(options) {
     options.streetViewControl = false;
     options.zoomControl = true;
 
-    options.zoomControlOptions = {position:google.maps.ControlPosition.LEFT_TOP};
+    options.zoomControlOptions = {position: google.maps.ControlPosition.LEFT_TOP};
     options.mapTypeId = google.maps.MapTypeId.ROADMAP;
 
     return options;
@@ -11856,22 +12346,27 @@ document.addEventListener('scroll',function(){
 });
 
 
-$('.pro-bloc-card-event').on('click',function(){
+
+/*$('.pro-bloc-card-event').on('click',function(e){
+    e.preventDefault();
    $(this).find('pro-btn-action').toggleClass('active');
+});
+
+$('.pro-btn-signer').on('click',function(e){
+    e.preventDefault();
+   $(this).toggleClass('active');
 });
 
 
 // Call To Action -- Ajout de la Classe Active
-/**
 $('.pro-btn-action').on('click',function(e){
     e.preventDefault();
     e.stopPropagation();
     $(this).toggleClass('active');
-});
-*/
+});*/
 
 
-// Dans les cards expérience, on coupe les lettres du mot découvrir pour créer un effet d'animation
+// Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
 var textDiscoverWrapped = '';
 for (var i = 0; i != textDiscover.length; i++) {
@@ -12121,393 +12616,4 @@ var isiPad = navigator.userAgent.match(/iPad/i) != null;
 
 if (isiPad) {
     $('body').addClass('on-ipad');
-}
-/*
-* Gestion des likes/dislikes
-*/
-$(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Sauvegarde de l'élément
-    var element = $(this);
-
-    // L'élément a t-il un affiche du compteur en texte ou en span ?
-    var counterType = $(this).attr('href').endsWith('-approuv') ? "span" : "text" ;
-
-    // Récupération des attributs du like
-    var title = $(this).data("title");
-    var isdislike = $(this).data("isdislike");
-    var typeid = $(this).data("typeid");
-    var entityid = $(this).data("entityid");
-    var entitygroupid = $(this).data("entitygroupid") ? $(this).data("entitygroupid") : 0;
-
-    // Appel au service remote Liferay
-    Liferay.Service(
-        '/like.like/add-like-link',
-        {
-            title: title,
-            isDislike: isdislike,
-            typeId: typeid,
-            entityId: entityid,
-            entityGroupId: entitygroupid
-        },
-        function(obj) {
-            // En cas de succès, on effectue la modification des éléments visuels
-            // selon la réponse et le type de l'élément
-            if (obj.hasOwnProperty('success')) {
-                switch(obj['success']) {
-                    case "like added":
-                        element.toggleClass('active');
-                        if (counterType === "span") {
-                            element.find('strong').text(+parseInt(element.text()) + 1);
-                        } else {
-                            element.text(+parseInt(element.text()) + 1);
-                        }
-                        break;
-                    case "dislike added":
-                        element.toggleClass('active');
-                        if (counterType === "span") {
-                            element.find('strong').text(+parseInt(element.text()) + 1);
-                        } else {
-                            element.text(+parseInt(element.text()) + 1);
-                        }
-                        break;
-                    case "like mind changed added":
-                        element.toggleClass('active');
-                        if (counterType === "span") {
-                            element.find('strong').text(+parseInt(element.text()) + 1);
-                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
-                        } else {
-                            element.text(+parseInt(element.text()) + 1);
-                            element.siblings().first().text(+parseInt(element.siblings().first().text()) - 1);
-                        }
-                        break;
-                    case "dislike mind changed added":
-                        element.toggleClass('active');
-                        if (counterType === "span") {
-                            element.find('strong').text(+parseInt(element.text()) + 1);
-                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
-                        } else {
-                            element.text(+parseInt(element.text()) + 1);
-                            element.siblings().first().text(+parseInt(element.siblings().first().text()) - 1);
-                        }
-                        break;
-                    case "like deleted":
-                        element.toggleClass('active');
-                        if (counterType === "span") {
-                            element.find('strong').text(+parseInt(element.text()) - 1);
-                        } else {
-                            element.text(+parseInt(element.text()) - 1);
-                        }
-                        break;
-                    case "dislike deleted":
-                        element.toggleClass('active');
-                        if (counterType === "span") {
-                            element.find('strong').text(+parseInt(element.text()) - 1);
-                        } else {
-                            element.text(+parseInt(element.text()) - 1);
-                        }
-                        break;
-                }
-
-            }
-            // Sinon on affiche un message d'erreur
-            else if (obj.hasOwnProperty('error')) {
-                if (obj['error'] == 'notConnected') {
-                    // Si l'utilisateur n'est pas connecté
-                    e.preventDefault();
-                    $("#myModal").modal();
-                } else if (obj['error'] == 'isBanned') {
-                    // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus juger, veuillez contacter l'administrateur du site.");
-                } else {
-                    // Autre erreur
-                    alert('Une erreur est survenue.');
-                }
-            }
-        }
-    );
-
-});
-
-/*
-* Gestion des participation à un événement
-*/
-$(document).on("click", "[href='#Participe'], span[name^='#Participe']", function(e) {
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Sauvegarde de l'élément
-    var element = $(this);
-    var elementType = $(this).attr('href') === '#Participe' ? 'a' : 'span';
-
-    // Récupération des attributs du like
-    var eventid = $(this).data("eventid");
-    var groupid = $(this).data("groupid") ? $(this).data("groupid") : 0;
-
-    // Met à jour le compteur de participant
-    function updateCounter(num) {
-        var stringNum = num.toString();
-        var nbDigits = stringNum.length;
-        stringNum = "0".repeat(5 - nbDigits) + stringNum;
-        for (i = 1; i <= 5; i++) {
-            $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
-        }
-    }
-
-    // Appel au service remote Liferay
-    Liferay.Service(
-        '/agenda.eventparticipation/add-event-participation-link',
-        {
-            eventId: eventid,
-            groupId: groupid
-        },
-        function(obj) {
-            // En cas de succès, on effectue la modification des éléments visuels
-            // selon la réponse et le type de l'élément
-            if (obj.hasOwnProperty('success')) {
-                switch(obj['success']) {
-                    case "participation added":
-                        element.toggleClass('active');
-                        if (elementType === "a")
-                            updateCounter(parseInt($('.pro-compt').text()) + 1);
-                        else
-                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) + 1);
-                        break;
-                    case "participation deleted":                                
-                        element.toggleClass('active');
-                        if (elementType === "a")
-                            updateCounter(parseInt($('.pro-compt').text()) - 1);
-                        else
-                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
-                        break;
-                }
-            }
-
-            // Sinon on affiche un message d'erreur
-            else if (obj.hasOwnProperty('error')) {
-                if (obj['error'] == 'notConnected') {
-                    // Si l'utilisateur n'est pas connecté
-                    e.preventDefault();
-                    $("#myModal").modal();
-                } else if (obj['error'] == 'isBanned') {
-                    // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus participer, veuillez contacter l'administrateur du site.");
-                } else {
-                    // Autre erreur
-                    alert('Une erreur est survenue.');
-                }
-            }
-        }
-    );
-});
-
-
-/*
-* Demande de signature du pacte
-*/
-$(document).on("click", "[name='#Pact-sign']", function(e) {
-    $("#myModal").modal();
-});
-
-/**
-* Retourne une map Leaflet configurée pour la plateforme citoyenne
-*/
-function getLeafletMap() {
-
-    //Création de la carte au centre de strasbourg
-    var leafletMap = L.map('mapid', {
-        // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-        center: [48.573, 7.752],
-        maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-        minZoom: 13,
-        zoom: 13,
-        minZoom: 12,
-        zoomControl: false,
-        attributionControl: false
-    });
-
-    // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-    var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-        layers: 'gct_fond_de_carte_couleur'
-    }).addTo(leafletMap);
-
-    return leafletMap;
-}
-
-
-/**
-* Retourne l'icone de marqueur selon le type de l'entité 
-*/
-function getMarkerIcon(entityType = "default") {
-
-    switch (entityType) {
-        case 'project':
-            return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-projet.png',
-                iconSize: [75, 95],
-                iconAnchor: [37, 78],
-                popupAnchor: [1, -78]
-            });
-        case 'participation':
-            return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-participation.png',
-                iconSize: [75, 95],
-                iconAnchor: [37, 78],
-                popupAnchor: [1, -78]
-            });
-        case 'event':
-            return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
-                iconSize: [75, 95],
-                iconAnchor: [37, 78],
-                popupAnchor: [1, -78]
-            });
-        case 'petition':
-            return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-petition.png',
-                iconSize: [75, 95],
-                iconAnchor: [37, 78],
-                popupAnchor: [1, -78]
-            });
-        case 'initiative':
-            return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-initiative.png',
-                iconSize: [75, 95],
-                iconAnchor: [37, 78],
-                popupAnchor: [1, -78]
-            });
-        default:
-            return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-map-inte-2x-v2.png',
-                iconSize: [75, 95],
-                iconAnchor: [37, 78],
-                popupAnchor: [1, -78]
-            });
-    }
-
-    return 
-
-}
-
-
-/**
-* Retourne le marqueurs de leaflet sur le listing des événements
-*/
-function getEventListingMarker(mercators, link, publishDate, place, title) {
-    var eventMarkerIcon = getMarkerIcon("event");
-    var marker = L.marker(mercators, {icon: eventMarkerIcon})
-
-    marker.bindPopup(
-        '<a target="_blank" href="' + link + '" id="map-inte-container">' +
-            '<div class="map-inte-content">' +
-                '<div class="map-inte-header">' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' + 
-                    '<p>' + place + '</p>' + 
-                '</div>' +
-                '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
-                    '<span class="pro-btn-yellow">En savoir plus</span>' +
-                '</div>' + 
-            '</div> ' + 
-        '</a>'
-    );
-
-    return marker;
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getEventMarker(mercators, link, publishDate, place, title, isUserPart, nbPart) {
-    var eventMarkerIcon = getMarkerIcon("event");
-    var marker = L.marker(mercators, {icon: eventMarkerIcon})
-
-    var activePart = isUserPart ? "active" : "";
-
-    marker.bindPopup(
-        '<div class="pro-vignette-map-inte">' + 
-            '<a href="' + link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
-                '<div class="pro-header-event">' +
-                    '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
-                    '<p>À : ' + place + '</p>' +
-                    '<h3>' + title + '</h3>' +
-                '</div>' +
-                '<div class="pro-footer-event">' +
-                    '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
-                    '<span class="pro-number"><strong>' + nbPart + '</strong> Participant(s)</span>' +
-                '</div>' +
-            '</div></a>' +
-        '</div>'
-    );
-
-    return marker;
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getProjectMarker(link) {
-
-    var projectMarkerIcon = getMarkerIcon("project");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getParticipationPopUp(link) {
-
-    var participationMarkerIcon = getMarkerIcon("participation");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getInitiativePopUp(link) {
-
-    var initiativeMarkerIcon = getMarkerIcon("initiative");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getPetitionPopUp(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
-
-    var petitionMarkerIcon = getMarkerIcon("petition");
-    var marker = L.marker(mercators, {icon: petitionMarkerIcon})
-
-    marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' + 
-            '<div class="pro-header-petition">' +
-                '<figure role="group"></figure> ' +
-                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' + 
-            '</div>' +
-            '<div class="pro-content-petition">' + 
-                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' + 
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
-                '<span class="pro-duree">' + durationLabel + '</span></span>' + 
-            '</div> ' +
-            '<div class="pro-footer-petition">' +
-                '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' + 
-                '</div>' + 
-                '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
-            '</div>' +
-        '</div></a></div>'
-    );
-
-    return marker;
-
 }

@@ -49,3 +49,25 @@ Le fichier js/src-1/bloc-vignette.js :
         $(this).find('strong').text(+parseInt($(this).text()) + 1);
         $(this).toggleClass('active');
     });
+
+Le fichier js/src/scipt.js
+    Le code suivant a été commenté afin de gérer individuellement les actions sur les boutons d'intéraction
+
+    $('.pro-bloc-card-event').on('click',function(e){
+        e.preventDefault();
+       $(this).find('pro-btn-action').toggleClass('active');
+    });
+
+    $('.pro-btn-signer').on('click',function(e){
+        e.preventDefault();
+       $(this).toggleClass('active');
+    });
+
+
+    // Call To Action -- Ajout de la Classe Active
+    $('.pro-btn-action').on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).toggleClass('active');
+    });
+

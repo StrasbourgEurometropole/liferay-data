@@ -187,3 +187,9 @@ aside .leaflet-map {
     height: -moz-calc(100vh - 167px);
     height: calc(100vh - 167px);
 }
+
+// Correction du chemin d'image pour les bloc large (ex: les instances)
+.pro-bloc-large:before {
+    content: '';
+    background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
+}
