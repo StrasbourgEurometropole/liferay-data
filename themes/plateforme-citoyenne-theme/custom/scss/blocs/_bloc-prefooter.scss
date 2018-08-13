@@ -1,17 +1,60 @@
 .pro-bloc-prefooter {
 	background: $c_dark;
-	//margin-bottom: -20px;
+	min-height: 90px;
+	&.pro-sticky-bar{
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 130;
+		@include mobile{
+			position: relative;
+		}
+	}
 
+	&.pro-prefooter-std{
+		.row{
+			> * {
+				position: relative;
+				> * {
+					width: 330px;
+					@include mobile{
+						width: 100%;
+					}
+					p{
+						width: 80%;
+					}
+				}
+				&:first-child{
+					p{
+						margin-right: 20%;
+					}
+				}
+				&:last-child{
+					&:before{
+						content: '';
+						position: absolute;
+						top: 50%;
+						left: 0;
+						transform: translateY(-50%);
+						width: 1px;
+						height: 80px;
+						background: #4d4d4d;
+					}
+					> * {
+						text-align: right;
+						p{
+							margin-left: 20%;
+						}
+					}
+				}
+			}
+		}
+	}
 	.row {
 		padding: 30px 0;
 
 		> * {
-			> * {
-				width: 280px;
-				@include mobile {
-					width: 100%;
-				}
-			}
 			&:first-child {
 				> * {
 					float: right;
@@ -26,7 +69,6 @@
 			}
 			&:last-child {
 				> * {
-					text-align: right;
 					.pro-ico {
 						float: right;
 						margin-left: 15px;
@@ -36,18 +78,29 @@
 			}
 		}
 
+
+
+		.pro-bloc-pcs-form{
+			float: left;
+			@include tablet_portrait{
+				margin-bottom: 20px;
+			}
+			.pro-optin{
+				padding: 0;
+				label{
+					max-width: 420px;
+				}
+			}
+		}
+
+
 		&.pro-pencil {
-			padding: 15px 0;
+			padding: 20px 0;
 			> * {
-				text-align: center;
+				text-align: right;
 				> * {
 					display: inline-block;
-					float: none;
-					text-align: left;
-					@include mobile {
-						text-align: center;
-						margin: 0;
-					}
+					vertical-align: middle;
 					.pro-ico {
 						float: left;
 						margin-right: 15px;
@@ -81,18 +134,46 @@
 							}
 						}
 					}
-					> p {
-						margin-top: 12px;
-					}
 				}
 			}
 		}
 
 	}
 
+
+	.pro-wrapper-btn{
+		padding: 22px 0;
+		@include mobile{
+			height: 100%;
+		}
+		> a{
+			display: inline-block;
+			vertical-align: middle;
+			width: 310px;
+			margin: 0 4px;
+			@include mobile{
+				width: 100%;
+				margin: 0;
+			}
+			&:first-child{
+				@include mobile{
+					margin-bottom: 15px;
+				}
+			}
+		}
+	}
+
 	p {
 		@include ft($f_txt, $s_small, 400, $c_white, normal);
 		margin-bottom: 5px;
+		a{
+			color: $c_white;
+			text-decoration: underline;
+			@include addTransition();
+			&:hover, &:focus{
+				color: $c_main;
+			}
+		}
 	}
 	.pro-you {
 		@include ft($f_hx, 1.125em, 700, $c_main, 1.444em);

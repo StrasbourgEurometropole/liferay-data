@@ -1,6 +1,6 @@
 .pro-bloc-select {
 	position: relative;
-	padding: 110px 0 60px 0;
+	padding: 90px 0 60px 0;
 	overflow: hidden;
 	@include mobile {
 		padding: 20px 0 0 0;
@@ -32,7 +32,7 @@
 		vertical-align: middle;
 		margin-bottom: 0;
 		font-size: 2.500em;
-		line-height: 1.5em;
+		line-height: 1em;
 		@include mobile {
 			font-size: 1.500em;
 			line-height: 1.5em;

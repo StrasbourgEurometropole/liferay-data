@@ -16,7 +16,7 @@ main{
 		opacity: 0;
 		transition: opacity 1.5s ease-out;
 		transition-delay: 0.1s;
-		width: 0px;
+		width: 0;
 	}
 
 	#pro-header {
@@ -26,9 +26,9 @@ main{
 		left: 0;
 		right: 0;
 		z-index: 150;
-		transform: translateY(-80px);
-		transform: translate3d(0,-80px,0);
-		margin-bottom: -80px;
+		//transform: translateY(-80px);
+		//transform: translate3d(0,-80px,0);
+		//margin-bottom: -80px;
 		@include addTransitionCurve();
 
 		&.menu-no-header{
@@ -48,35 +48,122 @@ main{
 		&.pro-wrapper-search-open{
 			transform: none !important;
 			margin-bottom: 0;
+			.pro-wrapper-search-top{
+				display: block;
+			}
 		}
 
 
 		.is-scrolled & {
-			transform: translateY(-125px);
-			transform: translate3d(0,-125px,0);
-			box-shadow: 0px 0px 30px 4px rgba(0,0,0,0.15);
+			transform: translateY(-48px);
+			transform: translate3d(0,-48px,0);
+			box-shadow: 0 0 30px 4px rgba(0,0,0,0.15);
 			@include tablet_portrait{
-				transform: translateY(-80px);
-				transform: translate3d(0,-80px,0);
+				transform: none;
 			}
+			//@include tablet_portrait{
+			//	transform: translateY(-80px);
+			//	transform: translate3d(0,-80px,0);
+			//}
 		}
 
 		.is-scrolled.scrolldir-top & {
-			transform: translateY(-80px);
-			transform: translate3d(0,-80px,0);
+			transform: none;
 		}
 
 		// BARRE DE RECHERCHE
 		// ==========================================================================
-		.pro-wrapper-search {
-			z-index: 200;
-			position: relative;
-			background: #F2F2F2;
+		.pro-wrapper-search-top {
+			z-index: 210;
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			overflow: auto;
+			-webkit-overflow-scrolling: touch;
+
+			.pro-box-search{
+				position: absolute;
+				left: 0;
+				right: 0;
+
+				.pro-wrapper-title-search{
+					position: relative;
+					padding-top: 100px;
+				}
+				.pro-rechercher{
+					position: relative;
+					display: block;
+					@include ft($f_hx, 5em, 700, $c_white, 1em);
+					margin-bottom: 30px;
+					text-transform: uppercase;
+					@include mobile{
+						font-size: 2em;
+					}
+				}
+				.icon-ico-close{
+					font-size: 30px;
+					position: absolute;
+					top: 125px;
+					right: 0;
+					color: $c_white;
+					@include addTransition();
+					&:hover{
+						cursor: pointer;
+						color: $c_main;
+					}
+					@include mobile{
+						font-size: 20px;
+						top: 105px;
+					}
+				}
+			}
+			.pro-wrapper-top-listing{
+				> div{
+					&:first-child{
+						padding-left: 0;
+						> ul{
+							left: 0;
+						}
+					}
+					> a{
+						color: $c_white;
+						&:before{
+							content: none;
+						}
+					}
+					> ul{
+						left: 15px;
+						z-index: 2000;
+						&:before{
+							top: -5px;
+							left: 23px;
+						}
+						li{
+							a{
+								@include mobile{
+									color: $c_white;
+									background: none;
+									&:before{
+										content: none;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.pro-wrapper-search{
+				padding-bottom: 80px;
+			}
 			form {
 				position: relative;
 				height: auto;
 				line-height: normal;
-				padding: 20px 0;
+				background: $c_white;
 				&.input-is-focus{
 					&:before{
 						content: none;
@@ -87,10 +174,10 @@ main{
 					@include font();
 					float: left;
 					display: block;
-					line-height: 80px;
+					line-height: 70px;
 					position: absolute;
 					top: 0;
-					left: 0;
+					left: 20px;
 					font-size: 2em;
 					animation: blink 1s infinite steps(1);
 					@include mobile {
@@ -101,27 +188,27 @@ main{
 					-webkit-appearance: none;
 					@include ft($f_hx, 1.750em, 400, $c_txt, normal);
 					text-transform: uppercase;
-					width: calc(100% - 40px);
-					height: 40px;
+					width: calc(100% - 70px);
+					height: 70px;
 					border: none;
 					box-shadow: none;
 					background: none;
 					outline: none;
-					padding: 0 20px;
+					padding: 0 40px;
 					@include mobile {
-						padding: 0;
+						padding: 0 20px;
 						font-size: 1em;
 					}
 				}
 
 				button {
 					position: absolute;
-					height: 40px;
-					line-height: 40px;
+					width: 70px;
+					height: 70px;
+					line-height: 70px;
 					right: 0;
 					top: 50%;
 					transform: translateY(-50%);
-					transform: translate3d(0, -50%, 0);
 					padding: 0;
 					-webkit-appearance: none;
 					border: none;
@@ -129,13 +216,16 @@ main{
 					outline: none;
 					font-size: 1.5em;
 					background: none;
+					background: $c_main;
+					@include addTransition();
 					@include mobile {
-						font-size: 1em;
+						font-size: 1.5em;
 					}
 					span {
 						@include addTransition();
 					}
 					&:hover, &:focus {
+						background: $c_dark;
 						cursor: pointer;
 						span {
 							color: $c_main;
@@ -148,8 +238,8 @@ main{
 		// HEADER TOP PAGE
 		// ==========================================================================
 		.pro-top-header {
-			height: 45px;
-			border-bottom: 1px solid $c_filet;
+			height: 48px;
+			background: #2d2d2d;
 			@include addTransitionCurve();
 			@include tablet_portrait {
 				display: block;
@@ -181,9 +271,8 @@ main{
 					}
 				}
 				svg {
-					width: 110px;
-					height: 20px;
-					margin: 12px 0;
+					width: 170px;
+					height: 48px;
 				}
 				.pro-right {
 					float: right;
@@ -197,11 +286,12 @@ main{
 						}
 					}
 					.pro-btn-connexion {
-						@include ft($f_spe, $s_p, 700, $c_grey50, 3em);
+						@include ft($f_spe, $s_p, 700, $c_grey50, 3.4em);
 						text-transform: uppercase;
 						background: #fbac28;
 						padding: 0 20px;
 						margin: 0 15px;
+						height: 48px;
 						@include addTransition();
 						@include tablet_portrait{
 							display: block;
@@ -212,7 +302,7 @@ main{
 							content: "\e900";
 							@include font();
 							float: left;
-							line-height: 3em;
+							line-height: 3.28em;
 							margin-right: 10px;
 							font-weight: 700;
 							@include tablet_portrait{
@@ -241,7 +331,7 @@ main{
 								}
 							}
 							a {
-								@include ft($f_txt, $s_small, 600, $c_grey50, 3.750em);
+								@include ft($f_txt, $s_small, 600, $c_white, 4em);
 								text-transform: uppercase;
 								padding: 0 15px;
 								display: block;
@@ -258,7 +348,7 @@ main{
 									right: 15px;
 									height: 1px;
 									width: calc(100% - 30px);
-									background: $c_grey50;
+									background: $c_white;
 									opacity: 0;
 									@include addTransitionCurve();
 									@include tablet_portrait{
@@ -319,6 +409,7 @@ main{
 					background: none;
 					position: relative;
 					top: 50%;
+					transform: translateY(-50%);
 					transform: translate3d(0, -50%, 0);
 					img{
 						@include addTransitionCurve();
@@ -356,16 +447,19 @@ main{
 					width: 50%;
 					height: 100vh;
 					margin: 0;
-					margin: 0;
 					z-index: 200;
-					transform: translateY(80px);
-					transform: translate3d(0,80px,0);
 					pointer-events: none;
-					background: $c_sub;
+					background: $c_dark;
 					@include addTransitionCurve();
+					> * {
+						width: 50%;
+					}
 				}
 				@include mobile{
 					width: calc(100% - 60px);
+					> * {
+						width: calc(100% - 60px);
+					}
 				}
 				.is-scrolled & {
 					line-height: 80px;
@@ -381,7 +475,7 @@ main{
 						top: 0;
 						left: -100%;
 						width: 100%;
-						height: 75vh;
+						height: 77vh;
 						overflow: auto;
 						float: none;
 						margin: 0;
@@ -393,12 +487,17 @@ main{
 						visibility: hidden;
 						opacity: 0;
 					}
+					@include mobile{
+						height: 70vh;
+					}
 
 					&.show {
 						transition: all 0.2s ease-in-out, visibility 0s linear;
 						visibility: visible;
 						opacity: 1;
 						left: 0;
+						position: relative;
+						width: 100%;
 
 						ul {
 							li {
@@ -533,7 +632,7 @@ main{
 								display: none;
 								position: absolute;
 								top: calc(100% + 20px);
-								width: 100%;
+								width: calc(100% + 80px);
 								margin: 0;
 								border: none;
 								border-radius: 0;
@@ -541,6 +640,7 @@ main{
 									position: relative;
 									background: none;
 									box-shadow: none;
+									width: 100%;
 								}
 								li {
 									display: block;

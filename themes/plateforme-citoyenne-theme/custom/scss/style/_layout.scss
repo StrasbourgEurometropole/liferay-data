@@ -229,13 +229,13 @@ figcaption {
 	}
 	ul, fieldset {
 		position: absolute;
-		right: -20px;
+		right: -22px;
 		top: 35px;
 		width: 200px;
 		z-index: 200;
 		border-radius: 0;
 		list-style-type: none;
-		box-shadow: 2px 1px 12px 0px rgba(0, 0, 0, 0.2);
+		box-shadow: 2px 1px 12px 0 rgba(0, 0, 0, 0.2);
 		background: $c_white;
 		opacity: 0;
 		display: none;
@@ -250,7 +250,7 @@ figcaption {
 		}
 		&:before {
 			content: "";
-			//@include font();
+			@include font();
 			position: absolute;
 			top: -9px;
 			right: 23px;
@@ -273,7 +273,7 @@ figcaption {
 			display: block;
 			margin-left: 0;
 			a {
-				@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
+				@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
 				display: block;
 				text-align: left;
 				background: $c_white;
@@ -305,7 +305,7 @@ figcaption {
 					user-select: none;
 					display: block;
 					padding: 0;
-					@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
+					@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
 					@include addTransition();
 					&:before {
 						content: '';
@@ -342,6 +342,7 @@ figcaption {
 					}
 					&:hover, &:focus {
 						cursor: pointer;
+						color: $c_main;
 
 					}
 				}
@@ -432,10 +433,10 @@ figcaption {
 	label {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
 		text-transform: uppercase;
+		margin: 0 4px;
 	}
 	.pro-wrapper-date {
 		position: relative;
-		margin: 0 4px;
 		&:before {
 			content: '';
 			position: absolute;
@@ -611,8 +612,8 @@ main {
 
 			.pro-description {
 				display: block;
-				max-width: 85%;
-				margin-left: 15%;
+				max-width: 70%;
+				margin-left: 30%;
 				overflow: hidden;
 				@include tablet_landscape {
 					max-width: 90%;
@@ -658,6 +659,25 @@ main {
 		}
 	}
 }
+
+
+.pro-timer{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: $c_dark;
+	p{
+		@include ft($f_txt, 0.875em, 400, $c_white, 1.2em);
+		padding: 7px 0;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		margin-bottom: 0;
+		text-align: center;
+	}
+}
+
+
 
 .pro-bookmark {
 	position: absolute;

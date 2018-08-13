@@ -788,6 +788,12 @@
 				h2 {
 					@include ft($f_hx, 5em, 700, $c_txt, 1em);
 					display: block;
+					@include mobile{
+						font-size: 4em;
+					}
+					@include mobile_small{
+						font-size: 3em;
+					}
 				}
 				> div {
 					margin: 30px 0;

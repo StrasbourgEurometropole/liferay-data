@@ -17,12 +17,12 @@
 	.owl-dots {
 		position: absolute;
 		height: 10px;
-		bottom: -20px;
-		right: 40px;
-		left: 40px;
-		width: calc(100% - 60px);
+		bottom: -10px;
+		right: 0;
+		left: 0;
+		width: 100%;
 		margin: auto;
-		text-align: right;
+		text-align: center;
 		> .owl-dot {
 			display: inline-block;
 			vertical-align: middle;
@@ -32,7 +32,7 @@
 			background: $c_dark;
 			margin: 0 2px;
 			@include addTransition();
-			&.active {
+			&:hover, &.active {
 				background: $c_main;
 			}
 		}

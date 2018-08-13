@@ -1,3 +1,7 @@
+.page-signataire{
+	overflow: visible;
+}
+
 .pro-wrapper-signataire {
 	padding: 20px 0;
 
@@ -96,7 +100,6 @@
 					top: 50%;
 					left: 50%;
 					transform: translate(-50%, -50%);
-					transform: translate3d(-50%, -50%, 0);
 					display: block;
 					text-align: center;
 					text-transform: uppercase;
