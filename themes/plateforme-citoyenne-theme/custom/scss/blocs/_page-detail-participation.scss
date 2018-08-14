@@ -22,10 +22,16 @@
 					&:before {
 						background: $c_violet;
 					}
+					.pro-encart-theme{
+						background: $c_violet;
+					}
 				}
 
 				&.pro-theme-orange, &.pro-theme-consultation {
 					&:before {
+						background: $c_orange;
+					}
+					.pro-encart-theme{
 						background: $c_orange;
 					}
 				}
@@ -34,10 +40,16 @@
 					&:before {
 						background: $c_rouge;
 					}
+					.pro-encart-theme{
+						background: $c_rouge;
+					}
 				}
 
 				&.pro-theme-vert, &.pro-theme-co-construire {
 					&:before {
+						background: $c_vert;
+					}
+					.pro-encart-theme{
 						background: $c_vert;
 					}
 				}
@@ -46,6 +58,13 @@
 					&:before {
 						background: $c_brun;
 					}
+					.pro-encart-theme{
+						background: $c_brun;
+					}
+				}
+
+				.pro-encart-theme{
+					margin-bottom: 15px;
 				}
 
 				h1 {
@@ -139,6 +158,66 @@
 						}
 					}
 				}
+			}
+		}
+
+
+		.pro-bloc-description{
+			position: relative;
+			overflow: hidden;
+			&.pro-to-expand{
+				min-height: 445px !important;
+			}
+			&.pro-expand{
+				height: 100% !important;
+				&:before{
+					opacity: 0;
+				}
+				& + .pro-btn-expand{
+					display: none;
+				}
+			}
+		}
+
+		.pro-btn-expand{
+			position: relative;
+			top: 15px;
+			margin: 20px 0;
+			display: block;
+			text-align: center;
+			@include addTransition();
+			&:before{
+				content: '';
+				position: absolute;
+				top: 50%;
+				left: 0;
+				right: 0;
+				transform: translateY(-50%);
+				height: 1px;
+				width: 100%;
+				display: block;
+				background: rgba($c_dark,0.2);
+			}
+			&:hover, &:focus{
+				span{
+					background: $c_dark;
+					color: $c_main;
+				}
+			}
+			span{
+				position: relative;
+				z-index: 10;
+				width: 50px;
+				height: 50px;
+				line-height: 52px;
+				background: $c_main;
+				border-radius: 50%;
+				text-align: center;
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 25px;
+				color: black;
+				@include addTransition();
 			}
 		}
 
@@ -255,6 +334,9 @@
 					width: 50%;
 					float: left;
 					padding: 0 10px;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
 					@include addTransition();
 					&:first-child {
 						&:after {
@@ -268,10 +350,18 @@
 							background: #d4c500;
 						}
 					}
-
 					&:hover, &:focus {
 						background: $c_dark;
 						color: $c_main;
+						> span.icon-ico-like {
+							background: $c_main;
+							color: $c_txt;
+						}
+					}
+
+					&.active{
+						background: $c_dark;
+						color: $c_white;
 						> span.icon-ico-like {
 							background: $c_main;
 							color: $c_txt;

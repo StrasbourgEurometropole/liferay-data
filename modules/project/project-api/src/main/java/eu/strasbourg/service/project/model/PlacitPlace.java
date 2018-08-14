@@ -134,4 +134,9 @@ public interface PlacitPlace extends PlacitPlaceModel, PersistedModel {
 	* @return True : lieu SIG ; False : lieu manuel
 	*/
 	public boolean isSIG();
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

@@ -365,6 +365,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		return _project.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _project.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Project> toCacheModel() {
 		return _project.toCacheModel();

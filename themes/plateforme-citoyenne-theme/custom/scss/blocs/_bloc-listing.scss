@@ -60,6 +60,7 @@
 		margin: 14px 0;
 		&:hover, &:focus {
 			> div {
+				box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
 				transform: translate3d(0, 0, 0) scale(1.02);
 			}
 		}
@@ -108,6 +109,7 @@
 
 		&:hover, &:focus {
 			transform: none;
+			box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
 		}
 
 		> figure, .fit-cover {
@@ -167,6 +169,7 @@
 
 		&:hover, &:focus {
 			transform: none;
+			box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
 		}
 
 		.pro-header-petition {
@@ -201,4 +204,53 @@
 			}
 		}
 	}
+
+
+
+	.pro-bloc-card-budget {
+		margin: 20px 0;
+		&:first-child {
+			@include tablet_landscape {
+				margin-top: 0;
+			}
+		}
+
+		&:hover, &:focus {
+			transform: none;
+			box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
+		}
+
+		.pro-header-budget {
+			margin-bottom: 15px;
+			padding: 20px 30px 0 30px;
+			@include mobile{
+				padding: 20px 20px 0 20px;
+			}
+		}
+
+		.pro-content-budget {
+			padding: 0 30px 20px 30px;
+			@include mobile{
+				padding: 0 20px 20px 20px;
+			}
+			h3 {
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
+				margin-bottom: 15px;
+				height: 68px;
+				overflow: hidden;
+			}
+
+			.pro-time {
+				@include ft($f_txt, 0.875em, 400, $c_txt, normal);
+				margin-bottom: 10px;
+			}
+		}
+		.pro-footer-budget{
+			padding: 0 30px;
+			@include mobile{
+				padding: 0 20px;
+			}
+		}
+	}
+
 }

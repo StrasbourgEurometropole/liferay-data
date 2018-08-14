@@ -61,10 +61,12 @@
 		transition: all 0.2s cubic-bezier(0.25, 0.5, 0.5, 0.9);
 		left: 20px;
 		right: 20px;
+		pointer-events: none;
 
 		&.show-menu-map {
 			opacity: 1;
 			transform: translate3d(0, 0, 0);
+			pointer-events: auto;
 		}
 	}
 
@@ -137,6 +139,9 @@
 			@include mobile {
 				max-height: 300px;
 			}
+			@media screen and (max-height: 800px){
+				max-height: 250px;
+			}
 
 			> div {
 				overflow: auto;
@@ -155,6 +160,9 @@
 				}
 				@include mobile {
 					max-height: 300px;
+				}
+				@media screen and (max-height: 800px){
+					max-height: 250px;
 				}
 
 				> div {

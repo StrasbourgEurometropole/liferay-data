@@ -41,6 +41,10 @@
 		display: inline-block;
 		width: auto;
 		padding: 0 45px;
+		@include mobile{
+			width: 100%;
+			padding: 0 10px;
+		}
 		&:hover, &:focus {
 			border-color: $c_txt;
 			background: $c_txt;

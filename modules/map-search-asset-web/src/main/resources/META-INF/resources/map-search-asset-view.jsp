@@ -1,6 +1,6 @@
 <%@ include file="/map-search-asset-init.jsp" %>
 
-<portlet:resourceURL id="changeDistrict" var="changeDistrictURL">
+<portlet:resourceURL id="changeMapSelection" var="changeMapSelectionURL">
 </portlet:resourceURL>
 
 <div class="pro-page-carte">
@@ -141,7 +141,7 @@
 
 <liferay-util:html-top>
 	<script>
-		var changeDistrictURL = '${changeDistrictURL}';
+		var changeMapSelectionURL = '${changeMapSelectionURL}';
 		var porletNamespace = '<portlet:namespace/>';
 	</script>
 </liferay-util:html-top>

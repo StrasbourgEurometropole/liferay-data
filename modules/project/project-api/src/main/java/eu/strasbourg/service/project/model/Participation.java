@@ -197,6 +197,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.lang.String getDistrictLabel(java.util.Locale locale);
 
 	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
+
+	/**
 	* Retourne le status de la participation
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getParticipationStatusCategory();
@@ -237,4 +242,9 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne le copyright de l'image principale
 	*/
 	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

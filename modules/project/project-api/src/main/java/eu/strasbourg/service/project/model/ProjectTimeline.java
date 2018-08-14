@@ -54,4 +54,9 @@ public interface ProjectTimeline extends ProjectTimelineModel, PersistedModel {
 				return ProjectTimeline.class;
 			}
 		};
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

@@ -24,17 +24,17 @@
 				<div id="${comment.commentId}" class="pro-item">
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span>
-						<c:if test="${comment.userQuality != null and comment.userQuality != ''}">
-							<span>
-								<liferay-ui:message key='comment-in-quality-of' /> <strong><i>"${comment.userQuality}"</i></strong>,
-							</span>
-						</c:if>
 						<span class="pro-comment-time">
 							<liferay-ui:message key='comment-published' />
 							<time datetime="${comment.createDate}">
 								<fmt:formatDate type="date" value="${comment.createDate}" pattern="dd MMM yyyy" />
 							</time>
 						</span>
+						<c:if test="${comment.userQuality != null and comment.userQuality != ''}">
+							<span class="pro-fonction">
+								<liferay-ui:message key='comment-in-quality-of' /> ${comment.userQuality}
+							</span>
+						</c:if>
 						<div class="pro-comment">
 							<p id="comment-${comment.commentId}">${comment.comment}</p>
 							<div class="pro-interactions">
@@ -73,25 +73,32 @@
 												title="Repondre au commentaire">
 												<liferay-ui:message key='comment-answer'/>
 											</a>
-											<c:if test="${comment.publikId == userPublikId}">
-												<a href="#Modifier"
-													data-commentid="${comment.commentId}"
-													title="Repondre au commentaire">
-													<liferay-ui:message key='comment-edit'/>
-												</a>
-											</c:if>
+											<a href="#report" 
+												title="Signaler le commentaire" 
+												data-commentid="${comment.commentId}">
+												Signaler
+											</a>
 											<c:if test="${isAdmin}">
 												<a href="${hideComment}" title="Masquer le commentaire">
 													<liferay-ui:message key='comment-hide'/>
 												</a>
 											</c:if>
 										</div>
-										<div>
-											<a href="#report" title="Signaler le commentaire" data-commentid="${comment.commentId}">Signaler</a>
-		                                    <c:if test="${userPublikId eq comment.publikId}">
-		                                    	<a href="#Supprimer" title="Supprimer mon commentaire" data-commentid="${comment.commentId}">Supprimer</a>
-		                                    </c:if>
-		                                </div>
+										<c:if test="${userPublikId eq comment.publikId}">
+											<div class="pro-action-comm">
+		                                        <a href="#Modifier"
+													data-commentid="${comment.commentId}"
+													title="Repondre au commentaire">
+		                                        	<span class="icon-ico-modifier"></span>
+		                                        </a>
+		                                        <a href="#Supprimer" 
+		                                        	title="Supprimer mon commentaire" 
+		                                        	data-commentid="${comment.commentId}">
+		                                        	<span class="icon-ico-remove"></span>
+		                                        </a>
+		                                    </div>
+		                                </c:if> 
+		                                   
 		                            </c:when>
 		                            <c:otherwise>
 		                            	<a class="pro-like">${comment.nbLikes}</a>
@@ -182,23 +189,19 @@
 	// Gestion de l'affichage et du controle de l'action de signalement
     $("a[href='#report']").click(function(e){
         var commentId=$(this).data('commentid');
-        $("#deleteModalNav").hide();
-        $("#reportModalNav").show();
         $("input[id='commentId']").val(commentId);
         e.preventDefault();
-        $("#signalementModal").modal();
+        $("#modalSignaler").modal();
     });
 
 	 $("a[href='#Supprimer']").click(function(e){
         var commentId=$(this).data('commentid');
-        $("#reportModalNav").hide();
-        $("#deleteModalNav").show();
         $("input[id='commentId']").val(commentId);
         e.preventDefault();
-        $("#deleteModal").modal();
+        $("#modalSupprimer").modal();
      });
 
-	// Gestion de l'affichage et du contrÃ´le de l'action de post du commentaire
+	// Gestion de l'affichage et du controle de l'action de post du commentaire
 	$("#form-comments").submit(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();
@@ -214,7 +217,7 @@
     	}
 	});
 	
-	// Gestion du contrÃ´le de la saisie du commentaire
+	// Gestion du controle de la saisie du commentaire
 	$("#message").click(function(e){
 	    if(!${isUserloggedIn}){
 	    	e.preventDefault();
@@ -226,7 +229,7 @@
 	    }
 	});
 	
-	// Gestion de l'affichage de la rÃ©ponse
+	// Gestion de l'affichage de la reponse
 	$("[href='#Repondre']").click(function(e){
 		var OPName = $(this).data('username');
 		var parentId = $(this).data('commentid');

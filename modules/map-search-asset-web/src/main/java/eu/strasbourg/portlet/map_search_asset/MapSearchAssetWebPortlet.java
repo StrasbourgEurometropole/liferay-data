@@ -1,6 +1,9 @@
 package eu.strasbourg.portlet.map_search_asset;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -19,6 +22,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.portlet.Portlet;
@@ -54,9 +58,9 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	private static final String CITY_NAME = "Strasbourg";
 	
 	private long selectedDistrictCategoryId;
-	private List<Long> selectedProjectIds;
-	private List<Long> selectedParticipationIds;
-	private List<Long> selectedEventIds;
+	private String selectedProjectIds;
+	private String selectedParticipationIds;
+	private String selectedEventIds;
 	
 	private List<AssetCategory> districtCategories;
 	private List<Project> projects;
@@ -98,24 +102,67 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			long groupId = new Long(themeDisplay.getLayout().getGroupId());
 			String resourceID = request.getResourceID();
-
-			if (resourceID.equals("changeDistrict")) {
+			
+			// Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
+			if (resourceID.equals("changeMapSelection")) {
 				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrict");
+				this.selectedProjectIds = ParamUtil.getString(request, "selectedProjectIds");
+				this.selectedParticipationIds = ParamUtil.getString(request, "selectedParticipationIds");
+				this.selectedEventIds = ParamUtil.getString(request, "selectedEventIds");
 				
 				if (this.selectedDistrictCategoryId > 0) {
 					this.projects = ProjectLocalServiceUtil.findByCategoryIds(new long[] {this.selectedDistrictCategoryId});
-					
 				} else {
 					this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
 				}
 				
+				for (String selectedProject : selectedProjectIds.split(",")) {
+					// TODO : Ajouter un attribut isMarkeable à l'objet JSON
+				}
+				
+				JSONObject jsonResponse = this.constructJSONSelection();
+				
+				// Recuperation de l'élément d'écriture de la réponse
+				PrintWriter writer = response.getWriter();
+				writer.print(jsonResponse.toString());
 			}
-			
 			
 		} catch (Exception e) {
 			_log.error(e);
 		}
 		super.serveResource(request, response);
+	}
+	
+	/**
+	 * Retourne un objet JSON contenant l'ensemble des entités voulu et valide
+	 * un atribut "isMarkeable" sur les entités selectionnées et donc à afficher
+	 */
+	private JSONObject constructJSONSelection() {
+		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+		
+		// Gestion des projets
+		JSONArray jsonProjects = JSONFactoryUtil.createJSONArray();
+		for (Project project : this.projects) {
+			jsonProjects.put(project.toJSON());
+		}
+		jsonResponse.put("projects", jsonProjects);
+		
+		// Gestion des participations
+		JSONArray jsonParticipations = JSONFactoryUtil.createJSONArray();
+		for (Participation participation : this.participations) {
+			jsonParticipations.put(participation.toJSON());
+		}
+		jsonResponse.put("participations", jsonProjects);
+		
+		// Gestion des événements
+		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
+		for (Event event : this.events) {
+			jsonEvents.put(event.toJSON());
+		}
+		jsonResponse.put("events", jsonEvents);
+		
+		
+		return  jsonResponse;
 	}
 	
 	/**

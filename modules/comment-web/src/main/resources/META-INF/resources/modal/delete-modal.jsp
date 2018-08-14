@@ -1,35 +1,22 @@
 <portlet:actionURL var="deleteComment" name="deleteComment">
 </portlet:actionURL>
 
-<nav id="deleteModalNav">
-    <!-- HTML pour la modal de suppression -->
-    <div class="pro-modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">
-                            <span class="icon-ico-close"/>
-                        </span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col-sm-6">
-                        <div class="pro-reagir">
-                            <div>
-                                <h3>Attention</h3>
-                                <p>&Ecirc;tes-vous s&ucirc;r de vouloir supprimer votre message ?</p>
-                                <form id="form-delete" method="post" action="${deleteComment}"
-                                    class="pro-user-connected">
-                                    <input type="hidden" id="commentId" name="<portlet:namespace />commentId"/>
-                                    <input type="submit" class="pro-btn-yellow" value="supprimer" />
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-header"/>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</nav>
+<!-- SUPPRIMER UN COMMENTAIRE -->
+<!-- HTML pour la modal de budget participatif -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalSupprimer" tabindex="-1" role="dialog" aria-labelledby="modalSupprimer">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='Supprimer un commentaire'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='comment-are-you-sure'/></h4>
+                <form id="form-delete" method="post" action="${deleteComment}">
+                    <input type="hidden" id="commentId" name="<portlet:namespace />commentId"/>
+                    <input type="submit" class="pro-btn" value="Supprimer" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

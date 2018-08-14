@@ -231,6 +231,14 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		return _placitPlace.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _placitPlace.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.PlacitPlace> toCacheModel() {
 		return _placitPlace.toCacheModel();

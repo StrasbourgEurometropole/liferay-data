@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,9 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.adict.AdictService;
@@ -277,6 +281,27 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 		
 		return place != null ? true : false;
+	}
+	
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonPlacitPlace = JSONFactoryUtil.createJSONObject();
+		List<String> mercators = this.getMercators();
+		
+		// Champs de gestion
+		jsonPlacitPlace.put("id", this.getPlacitPlaceId());
+		
+		// Champs : Autres
+		jsonPlacitPlace.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+		jsonPlacitPlace.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
+		jsonPlacitPlace.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonPlacitPlace.put("imageURL", this.getImageURL());
+		
+		return jsonPlacitPlace;
 	}
 	
 	/**

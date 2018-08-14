@@ -186,6 +186,8 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
 * Demande de signature du pacte
 */
 $(document).on("click", "[name='#Pact-sign']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
     $("#myModal").modal();
 });
 
