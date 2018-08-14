@@ -139,44 +139,15 @@
         $(".portlet-content>.portlet-title-text").hide();
 
         // Gestion de la carte interactive
+        // Notes : voir dans le theme placit "override/custom.js"
 
         //Création de la carte au centre de strasbourg
-        var leafletMap = L.map('mapid', {
-            // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-            center: [48.573, 7.752],
-            maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-            minZoom: 13,
-            zoom: 13,
-            minZoom: 12,
-            zoomControl: false,
-            attributionControl: false
-        });
-
-        // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-        var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-            layers: 'gct_fond_de_carte_couleur'
-        }).addTo(leafletMap);
+        leafletMap = getLeafletMap()
 
         // Définition des marqueurs
-        var projectMarkerIcon = new L.Icon({
-            iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-projet.png',
-            iconSize: [75, 95],
-            iconAnchor: [37, 78],
-            popupAnchor: [1, -78]
-        });
-        var participationMarkerIcon = new L.Icon({
-            iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-participation.png',
-            iconSize: [75, 95],
-            iconAnchor: [37, 78],
-            popupAnchor: [1, -78]
-        });
-        var eventMarkerIcon = new L.Icon({
-            iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
-            iconSize: [75, 95],
-            iconAnchor: [37, 78],
-            popupAnchor: [1, -78]
-        });
-        
+        var projectMarkerIcon = getMarkerIcon('project');
+        var participationMarkerIcon = getMarkerIcon('participation');
+        var eventMarkerIcon =  getMarkerIcon('event');
 
         // Ajout des marqueurs sur la map
         var projectMarkers = [];

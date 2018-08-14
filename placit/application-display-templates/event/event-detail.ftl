@@ -176,35 +176,17 @@
     $(document).ready(function() {
 
         // Gestion de la carte interactive
+        // Notes : voir dans le theme placit "override/custom.js"
         if (eventMercatorX && eventMercatorX.length != 0) {
 
             //Création de la carte au centre de strasbourg
-            var leafletMap = L.map('mapid', {
-                // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-                center: [eventMercatorY,  eventMercatorX],
-                maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-                minZoom: 13,
-                zoom: 13,
-                minZoom: 12,
-                zoomControl: false,
-                attributionControl: false
-            });
-
-            // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-            var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-                layers: 'gct_fond_de_carte_couleur'
-            }).addTo(leafletMap);
+            leafletMap = getLeafletMap()
 
             // Définition des marqueurs
-            var markerIcon = new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
-                iconSize: [75, 95],
-                iconAnchor: [37, 78],
-                popupAnchor: [1, -78]
-            });
+            var eventIcon = getMarkerIcon('event');
 
             // Ajout du marqueur sur la map
-            var marker = L.marker([eventMercatorY, eventMercatorX], {icon: markerIcon}).addTo(leafletMap);
+            var marker = L.marker([eventMercatorY, eventMercatorX], {icon: eventIcon}).addTo(leafletMap);
         }
 
     });
