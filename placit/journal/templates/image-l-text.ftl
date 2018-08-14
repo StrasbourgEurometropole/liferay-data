@@ -22,13 +22,13 @@
             <div class="col-sm-6">
                 <h2 class="pro-big-title">
                     ${titleLine1.getData()}
-                    <#if titleLine2.getData() != "" >
+                    <#if titleLine2.getData()?has_content >
                         <br>
                         ${titleLine2.getData()}
                     </#if>
                 </h2>
                 <p>${text.getData()}</p>
-                <#if linkUrl.getData() != "" >
+                <#if linkUrl.getData()?has_content >
                     <a href="${linkUrl.getData()}" class="pro-btn-yellow" title="${linkLabel.getData()}">En savoir plus</a>
                 </#if>
             </div>
