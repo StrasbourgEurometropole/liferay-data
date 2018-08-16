@@ -54,7 +54,7 @@
 			                                data-title="Comment of ${comment.getPublikUserName()}"
 			                                data-entityid="${comment.commentId}"
 			                                data-entitygroupid="${comment.groupId}"
-											title="Aimer ce commentaire">
+											title="Approuver ce commentaire">
 											${comment.nbLikes}
 										</a>
 		                                   <a href="#pro-avis-dislike-pro" class="pro-dislike" 
@@ -63,7 +63,7 @@
 			                                data-title="Comment of ${comment.getPublikUserName()}" 
 			                                data-entityid="${comment.commentId}"
 			                                data-entitygroupid="${comment.groupId}"
-		                                   	title="Ne pas aimer ce commentaire">
+		                                   	title="Désapprouver ce commentaire">
 		                                   	${comment.nbDislikes}
 		                                </a>
 										<div>
@@ -88,7 +88,7 @@
 											<div class="pro-action-comm">
 		                                        <a href="#Modifier"
 													data-commentid="${comment.commentId}"
-													title="Repondre au commentaire">
+													title="Modifier mon commentaire">
 		                                        	<span class="icon-ico-modifier"></span>
 		                                        </a>
 		                                        <a href="#Supprimer" 
@@ -253,6 +253,7 @@
 		$("input[id='editCommentId']").val(commentId);
 		$("input[id='parentCommentId']").val(0);
 		$(".pro-reagir .pro-textearea>textarea").text(baseMsg);
+		$(".pro-reagir .pro-textearea>textarea").focus();
 		$(".pro-reagir .pro-textearea>input").hide();
 		$("label[for='inQualityOf']").hide();
 		$("label[for='message']").text('<liferay-ui:message key="comment-edit-comment" />');
