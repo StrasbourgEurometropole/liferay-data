@@ -15,19 +15,16 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-
 import eu.strasbourg.service.project.model.Petition;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
 
 /**
@@ -65,7 +62,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -111,6 +108,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(externalImageCopyright);
 		sb.append(", mediaChoice=");
 		sb.append(mediaChoice);
+		sb.append(", imageId=");
+		sb.append(imageId);
 		sb.append("}");
 
 		return sb.toString();
@@ -234,6 +233,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 
 		petitionImpl.setMediaChoice(mediaChoice);
+		petitionImpl.setImageId(imageId);
 
 		petitionImpl.resetOriginalValues();
 
@@ -271,6 +271,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		externalImageCopyright = objectInput.readUTF();
 
 		mediaChoice = objectInput.readBoolean();
+
+		imageId = objectInput.readLong();
 	}
 
 	@Override
@@ -367,6 +369,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 
 		objectOutput.writeBoolean(mediaChoice);
+
+		objectOutput.writeLong(imageId);
 	}
 
 	public String uuid;
@@ -391,4 +395,5 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String externalImageURL;
 	public String externalImageCopyright;
 	public boolean mediaChoice;
+	public long imageId;
 }

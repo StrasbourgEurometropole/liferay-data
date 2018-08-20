@@ -23,7 +23,7 @@ jQuery(function() {
 				contentBox : '#place-fields',
 				fieldIndexes : namespace + 'placeIndexes',
 				namespace : namespace,
-				url: getParticipationPlaceRowURL
+				url: getPetitionPlaceRowURL
 			}).render();
 		}
 	});

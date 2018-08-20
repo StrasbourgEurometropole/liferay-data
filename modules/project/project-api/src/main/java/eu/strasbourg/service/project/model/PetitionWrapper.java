@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +77,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("imageId", getImageId());
 
 		return attributes;
 	}
@@ -218,6 +215,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (mediaChoice != null) {
 			setMediaChoice(mediaChoice);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
 		}
 	}
 
@@ -644,6 +647,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the image ID of this petition.
+	*
+	* @return the image ID of this petition
+	*/
+	@Override
+	public long getImageId() {
+		return _petition.getImageId();
+	}
+
+	/**
 	* Returns the petition ID of this petition.
 	*
 	* @return the petition ID of this petition
@@ -788,6 +801,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setGroupId(long groupId) {
 		_petition.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the image ID of this petition.
+	*
+	* @param imageId the image ID of this petition
+	*/
+	@Override
+	public void setImageId(long imageId) {
+		_petition.setImageId(imageId);
 	}
 
 	/**

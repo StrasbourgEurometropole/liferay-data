@@ -65,15 +65,20 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
-		<field name="description" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="placeTextArea" type="String" />
 		<field name="filesDownload" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 		<field name="videoUrl" type="String" />
-		<field name="externalImageURL" type="String" />
+		<field name="externalImageURL" type="String" >
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
+		<field name="imageId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.PlacitPlace">
 		<field name="uuid" type="String" />

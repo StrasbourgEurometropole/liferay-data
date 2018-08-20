@@ -2980,6 +2980,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setExternalImageURL(petition.getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(petition.getExternalImageCopyright());
 		petitionImpl.setMediaChoice(petition.isMediaChoice());
+		petitionImpl.setImageId(petition.getImageId());
 
 		return petitionImpl;
 	}

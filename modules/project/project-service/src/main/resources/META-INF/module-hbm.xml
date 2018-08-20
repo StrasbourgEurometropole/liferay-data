@@ -66,6 +66,7 @@
 		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.PlacitPlaceImpl" table="project_PlacitPlace">
 		<id name="placitPlaceId" type="long">

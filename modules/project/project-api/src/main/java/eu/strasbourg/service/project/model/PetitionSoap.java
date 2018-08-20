@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +55,7 @@ public class PetitionSoap implements Serializable {
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
 		soapModel.setMediaChoice(model.getMediaChoice());
+		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
 	}
@@ -288,6 +288,14 @@ public class PetitionSoap implements Serializable {
 		_mediaChoice = mediaChoice;
 	}
 
+	public long getImageId() {
+		return _imageId;
+	}
+
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
 	private String _uuid;
 	private long _petitionId;
 	private long _groupId;
@@ -310,4 +318,5 @@ public class PetitionSoap implements Serializable {
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
+	private long _imageId;
 }

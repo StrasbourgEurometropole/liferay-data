@@ -251,6 +251,9 @@
 		<column name="externalImageCopyright" type="String" />
 		<column name="mediaChoice" type="boolean" />
 
+		<!-- Links with other entities -->
+		<column name="imageId" type="long" />
+
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="title" />

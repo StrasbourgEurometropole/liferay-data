@@ -53,7 +53,8 @@ create table project_Petition (
 	videoUrl VARCHAR(75) null,
 	externalImageURL VARCHAR(75) null,
 	externalImageCopyright VARCHAR(75) null,
-	mediaChoice BOOLEAN
+	mediaChoice BOOLEAN,
+	imageId LONG
 );
 
 create table project_PlacitPlace (

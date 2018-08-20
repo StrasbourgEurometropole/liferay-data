@@ -89,7 +89,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "videoUrl", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
-			{ "mediaChoice", Types.BOOLEAN }
+			{ "mediaChoice", Types.BOOLEAN },
+			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -116,9 +117,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -175,6 +177,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
 		model.setMediaChoice(soapModel.getMediaChoice());
+		model.setImageId(soapModel.getImageId());
 
 		return model;
 	}
@@ -261,6 +264,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("imageId", getImageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -401,6 +405,12 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		if (mediaChoice != null) {
 			setMediaChoice(mediaChoice);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
 		}
 	}
 
@@ -786,6 +796,17 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		_mediaChoice = mediaChoice;
 	}
 
+	@JSON
+	@Override
+	public long getImageId() {
+		return _imageId;
+	}
+
+	@Override
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -925,6 +946,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setExternalImageURL(getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(getExternalImageCopyright());
 		petitionImpl.setMediaChoice(getMediaChoice());
+		petitionImpl.setImageId(getImageId());
 
 		petitionImpl.resetOriginalValues();
 
@@ -1148,12 +1170,14 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		petitionCacheModel.mediaChoice = getMediaChoice();
 
+		petitionCacheModel.imageId = getImageId();
+
 		return petitionCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1199,6 +1223,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getExternalImageCopyright());
 		sb.append(", mediaChoice=");
 		sb.append(getMediaChoice());
+		sb.append(", imageId=");
+		sb.append(getImageId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1206,7 +1232,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(70);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1300,6 +1326,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			"<column><column-name>mediaChoice</column-name><column-value><![CDATA[");
 		sb.append(getMediaChoice());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageId</column-name><column-value><![CDATA[");
+		sb.append(getImageId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1340,6 +1370,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
+	private long _imageId;
 	private long _columnBitmask;
 	private Petition _escapedModel;
 }
