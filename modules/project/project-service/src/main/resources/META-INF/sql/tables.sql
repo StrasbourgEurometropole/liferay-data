@@ -80,6 +80,14 @@ create table project_Project (
 	imageId LONG
 );
 
+create table project_ProjectFollowed (
+	projectFollowedId LONG not null primary key,
+	createDate DATE null,
+	publikUserId VARCHAR(75) null,
+	projectId LONG,
+	groupId LONG
+);
+
 create table project_ProjectTimeline (
 	projectTimelineId LONG not null primary key,
 	startDay INTEGER,

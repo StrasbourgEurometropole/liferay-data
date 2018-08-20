@@ -11505,6 +11505,80 @@ $(function() {
         });
     });
 
+    /*
+    * Gestion des suivi de projets
+    */
+    $(function() {
+        $(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Sauvegarde de l'élément
+            var element = $(this);
+            var elementType = $(this).attr('href') === '#Suivre' ? 'a' : 'span';
+
+            // Récupération des attributs du like
+            var projectid = $(this).data("projectid");
+            var groupid = $(this).data("groupid") ? $(this).data("groupid") : 0;
+
+            // Met à jour le compteur de followers
+            function updateCounter(num) {
+                var stringNum = num.toString();
+                var nbDigits = stringNum.length;
+                stringNum = "0".repeat(5 - nbDigits) + stringNum;
+                for (i = 1; i <= 5; i++) {
+                    $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
+                }
+            }
+
+            // Appel au service remote Liferay
+            Liferay.Service(
+                '/project.projectfollowed/add-follower-link',
+                {
+                    projectId: projectid,
+                    groupId: groupid
+                },
+                function(obj) {
+                    // En cas de succès, on effectue la modification des éléments visuels
+                    // selon la réponse et le type de l'élément
+                    if (obj.hasOwnProperty('success')) {
+                        switch(obj['success']) {
+                            case "follower added":
+                                element.toggleClass('active');
+                                element.text("Projet suivi");
+                                if (elementType === "a")
+                                    updateCounter(parseInt($('.pro-compt').text()) + 1);
+                                else
+                                    element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) + 1);
+                                break;
+                            case "follower deleted":                                
+                                element.toggleClass('active');
+                                element.text("Suivre ce projet");
+                                if (elementType === "a")
+                                    updateCounter(parseInt($('.pro-compt').text()) - 1);
+                                else
+                                    element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
+                                break;
+                        }
+                    }
+
+                    // Sinon on affiche un message d'erreur
+                    else if (obj.hasOwnProperty('error')) {
+                        if (obj['error'] == 'notConnected') {
+                            // Si l'utilisateur n'est pas connecté
+                            e.preventDefault();
+                            $("#myModal").modal();
+                        } else {
+                            // Autre erreur
+                            alert('Une erreur est survenue.');
+                        }
+                    }
+                }
+            );
+        });
+    });
+
 });
 
 var bounds;

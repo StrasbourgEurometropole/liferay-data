@@ -208,5 +208,32 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 		
 	</entity>
+
+	<entity local-service="true" name="ProjectFollowed" remote-service="true" uuid="false">
+
+		<!-- PK fields -->
+		<column name="projectFollowedId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="publikUserId" type="String" />
+		<column name="projectId" type="long" />
+		<column name="groupId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="ProjectId" return-type="Collection" db-index="true" >
+			<finder-column name="projectId" />
+		</finder>
+		<finder name="PublikUserIdAndProjectId" return-type="ProjectFollowed"  >
+			<finder-column name="publikUserId" />
+			<finder-column name="projectId" />
+		</finder>
+
+	</entity>
 	
 </service-builder>

@@ -28,13 +28,13 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventParticipation;
+import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.model.*;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -60,6 +60,37 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 * Never reference this class directly. All methods that expect a project model instance should use the {@link eu.strasbourg.service.project.model.Project} interface instead.
 	 */
 	public ProjectImpl() {
+	}
+
+    /**
+     * Retourne la liste des follower au projet
+     */
+    @Override
+    public List<ProjectFollowed> getProjectFollower() {
+        return ProjectFollowedLocalServiceUtil.getByProjectId(this.getProjectId());
+    }
+
+	/**
+	 * Retourne le nombre de follower au projet
+	 */
+	@Override
+	public int getNbFollower() {
+		return ProjectFollowedLocalServiceUtil.getByProjectId(this.getProjectId()).size();
+	}
+
+	/**
+	 * Retourne le label de 5 digits du nombre de follower au projet
+	 */
+	@Override
+	public String getNbFollowerLabel() {
+		// Transforme le numero en chaine de caractere
+		String stringNum = Integer.toString(this.getNbFollower());
+		// Recupere le nombre de chiffre
+		int nbDigits = stringNum.length();
+		// Ajoute les zeros manquants avant la chaine
+		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
+
+		return stringNum;
 	}
 	
 	/**

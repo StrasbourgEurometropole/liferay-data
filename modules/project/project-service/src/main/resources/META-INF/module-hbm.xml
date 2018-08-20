@@ -5,6 +5,7 @@
 	<import class="eu.strasbourg.service.project.model.Participation" />
 	<import class="eu.strasbourg.service.project.model.PlacitPlace" />
 	<import class="eu.strasbourg.service.project.model.Project" />
+	<import class="eu.strasbourg.service.project.model.ProjectFollowed" />
 	<import class="eu.strasbourg.service.project.model.ProjectTimeline" />
 	<class name="eu.strasbourg.service.project.model.impl.ParticipationImpl" table="project_Participation">
 		<id name="participationId" type="long">
@@ -90,6 +91,15 @@
 		<property name="contactLine2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactPhoneNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.ProjectFollowedImpl" table="project_ProjectFollowed">
+		<id name="projectFollowedId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ProjectTimelineImpl" table="project_ProjectTimeline">
 		<id name="projectTimelineId" type="long">
