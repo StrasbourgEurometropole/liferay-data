@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -37,8 +38,11 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.adict.AdictService;
+import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -47,6 +51,8 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -73,6 +79,10 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 public class EventImpl extends EventBaseImpl {
 
 	private static final long serialVersionUID = -263639533491031888L;
+	
+	private AdictService adictService;
+	
+	private AdictServiceTracker adictServiceTracker;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -300,11 +310,29 @@ public class EventImpl extends EventBaseImpl {
 	}
 	
 	/**
+	 * Retourne l'adresse complete du lieu SIG ou "manuel"
+	 */
+	@Override
+	public String getCompleteAddress(Locale locale) {
+		return this.getPlaceStreetNumber() + 
+				" " + this.getPlaceStreetName() + 
+				", " + this.getPlaceZipCode() +
+				" " + this.getCity(locale);
+	}
+	
+	/**
 	 * Retourne les coordonnees mercator en axe X (longitude)
 	 */
 	@Override
 	public String getMercatorX() {
-		return this.getPlace() == null ? "" : this.getPlace().getMercatorX();
+		if (this.getPlace() == null) {
+			// Appel a Addict pour trouver les coordonnees selon l'adresse
+			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			
+			return coorResult != null ? coorResult.get(0).toString() : "";
+		} else {
+			return this.getPlace().getMercatorX();
+		}
 	}
 	
 	/**
@@ -312,7 +340,41 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getMercatorY() {
-		return this.getPlace() == null ? "" : this.getPlace().getMercatorY();
+		if (this.getPlace() == null) {
+			// Appel a Addict pour trouver les coordonnees selon l'adresse
+			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			
+			return coorResult != null ? coorResult.get(1).toString() : "";
+		} else {
+			return this.getPlace().getMercatorY();
+		}
+	}
+	
+	/**
+	 * Retourne les coordonnees mercator en axe X et Y 
+	 * Notes : permet de ne pas multiplier les appels
+	 * @return tableau [mercatorX, mercatorY] sinon tableau vide
+	 */
+	@Override
+	public List<String> getMercators() {
+		if (this.getPlace() == null) {
+			// Appel a Addict pour trouver les coordonnees selon l'adresse
+			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			
+			if (coorResult != null) {
+				String mercatorX = coorResult.get(0).toString();
+				String mercatorY = coorResult.get(1).toString();
+				
+				return Arrays.asList(mercatorX, mercatorY);
+			} else {
+				return new ArrayList<String>();
+			}
+		} else {
+			return Arrays.asList(
+					this.getPlace().getMercatorX(), 
+					this.getPlace().getMercatorY()
+					);
+		}
 	}
 	
 	/**
@@ -329,6 +391,26 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public int getNbEventParticipations() {
 		return EventParticipationLocalServiceUtil.getByEventId(this.getEventId()).size();
+	}
+	
+	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+	
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED).size();
 	}
 	
 	/**
@@ -547,6 +629,18 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return false;
 	}
+	
+	/**
+	 * Recupere le service du module Adict sans passer par reference
+	 */
+	private AdictService getAdictService() {
+		if (adictService == null) {
+			adictServiceTracker = new AdictServiceTracker(this);
+			adictServiceTracker.open();
+			adictService = adictServiceTracker.getService();
+		}
+		return adictService;
+	}
 
 	/**
 	 * Retourne la version JSON de l'événenement
@@ -684,4 +778,5 @@ public class EventImpl extends EventBaseImpl {
 
 		return jsonEvent;
 	}
+	
 }

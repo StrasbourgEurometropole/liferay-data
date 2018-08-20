@@ -224,6 +224,14 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		return _placitPlace.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _placitPlace.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.PlacitPlace> toCacheModel() {
 		return _placitPlace.toCacheModel();
@@ -311,6 +319,22 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public java.lang.String getImageURL() {
 		return _placitPlace.getImageURL();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe X (longitude)
+	*/
+	@Override
+	public java.lang.String getMercatorX() {
+		return _placitPlace.getMercatorX();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe Y (latitude)
+	*/
+	@Override
+	public java.lang.String getMercatorY() {
+		return _placitPlace.getMercatorY();
 	}
 
 	/**
@@ -517,6 +541,17 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _placitPlace.getCategories();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
+	*/
+	@Override
+	public java.util.List<java.lang.String> getMercators() {
+		return _placitPlace.getMercators();
 	}
 
 	/**

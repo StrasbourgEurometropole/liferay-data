@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,16 +24,19 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
-import eu.strasbourg.service.agenda.model.EventParticipation;
-import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
@@ -92,7 +96,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 
 		return stringNum;
 	}
-	
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -287,34 +291,44 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 * Retourne la liste des participations du projet
 	 */
 	@Override
-	public List<AssetEntry> getParticipations() {
-		List<AssetEntry> result = new ArrayList<AssetEntry>();
+	public List<Participation> getParticipations() {
+		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
+		List<Participation> participationResults = new ArrayList<Participation>();
 
 		if(getProjectCategory() != null)
-			result = AssetEntryLocalServiceUtil
+			assetResults = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
 			.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
-		return result;
+		for (AssetEntry assetEntry : assetResults) {
+			participationResults.add(ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK()));
+		}
+
+		return participationResults;
 	}
 	
 	/**
 	 * Retourne la liste des évènements du projet
 	 */
 	@Override
-	public List<AssetEntry> getEvents() {
-		List<AssetEntry> result = new ArrayList<AssetEntry>();
+	public List<Event> getEvents() {
+		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
+		List<Event> eventResults = new ArrayList<Event>();
 		
 		if(getProjectCategory() != null)
-			result = AssetEntryLocalServiceUtil
+			assetResults = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
 			.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
-		return result;
+			for (AssetEntry assetEntry : assetResults) {
+				eventResults.add(EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK()));
+			}
+
+		return eventResults;
 	}
 
 	
@@ -346,4 +360,75 @@ public class ProjectImpl extends ProjectBaseImpl {
 				this.getAssetEntry().getEntryId(),
 				WorkflowConstants.STATUS_APPROVED).size();
 	}
+
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		JSONObject jsonPlacitPlace;
+		JSONArray jsonProjectTimelines = JSONFactoryUtil.createJSONArray();
+		JSONObject jsonProjectTimeline;
+
+		// Champs de gestion
+		jsonProject.put("id", this.getProjectId());
+
+		// Champs : Header
+		jsonProject.put("title", this.getTitle());
+		jsonProject.put("imageURL", this.getImageURL());
+		jsonProject.put("description", this.getDescription());
+		jsonProject.put("detailURL", this.getDetailURL());
+
+		// Champs : En bref
+		jsonProject.put("budget", this.getBudget());
+		jsonProject.put("label", this.getLabel());
+		jsonProject.put("duration", this.getDuration());
+		jsonProject.put("partners", this.getPartners());
+
+		// Champs : Contact
+		jsonProject.put("contactName", this.getContactName());
+		jsonProject.put("contactLine1", this.getContactLine1());
+		jsonProject.put("contactLine2", this.getContactLine2());
+		jsonProject.put("contactPhoneNumber", this.getContactPhoneNumber());
+
+		// Champs : Autres
+		jsonProject.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
+
+		// Lieux placit
+		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+			jsonPlacitPlaces.put(placitPlace.toJSON());
+		}
+		jsonProject.put("placitPlaces", jsonPlacitPlaces);
+
+		// Timeline
+		for (ProjectTimeline projectTimeline : this.getProjectTimelines()) {
+			jsonProjectTimelines.put(projectTimeline.toJSON());
+		}
+		jsonProject.put("projectTimelines", jsonProjectTimelines);
+
+		// Liste des Ids des catégories Territoire
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
+		if (jsonTerritories.length() > 0) {
+			jsonProject.put("territories", jsonTerritories);
+		}
+
+		// Liste des Ids des catégories Status
+		JSONArray jsonStatus = AssetVocabularyHelper.getExternalIdsJSONArray(this.getAllStatus());
+		if (jsonStatus.length() > 0) {
+			jsonProject.put("status", jsonStatus);
+		}
+
+		// Liste des Ids des catégories Thématiques
+		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
+		if (jsonThematics.length() > 0) {
+			jsonProject.put("thematics", jsonTerritories);
+		}
+
+		return jsonProject;
+	}
+
 }

@@ -282,6 +282,25 @@ a.pro-btn-share {
 	}
 }
 
+.pro-btn-transparent {
+	@include btn(transparent, $c_main, 2, $f_hx, $s_p);
+	text-transform: uppercase;
+	font-weight: 700;
+	height: 46px;
+	border: 2px solid $c_main;
+	line-height: 46px;
+	width: 100%;
+	display: block;
+	text-align: center;
+	position: relative;
+	padding: 0;
+	@include addTransition();
+	&:hover, &:focus {
+		background: $c_main;
+		color: $c_txt;
+	}
+}
+
 //.pro-btn-action {
 //	@include ft($f_hx, 0.938em, 700, $c_txt, 50px);
 //	width: 198px;
@@ -403,24 +422,6 @@ fieldset {
 				border: 1px solid #ccc;
 				cursor: pointer;
 			}
-			//&:after{
-			//	content: '';
-			//	position: absolute;
-			//	top: 46%;
-			//	transform: translateY(-50%);
-			//	transform: translate3d(0,-50%,0);
-			//	left: 3px;
-			//	width: 5px;
-			//	height: 10px;
-			//	opacity: 0;
-			//	transform: scaleX(-1) rotate(135deg);
-			//	-moz-transform-origin: left top;
-			//	-ms-transform-origin: left top;
-			//	-webkit-transform-origin: left top;
-			//	transform-origin: left top;
-			//	border-right: 3px solid $c_main;
-			//	border-top: 3px solid $c_main;
-			//}
 		}
 	}
 }
@@ -453,6 +454,51 @@ fieldset {
 	}
 }
 
+.pro-btn-signer{
+	@include btn($c_dark, $c_main, 2, $f_hx, 0.938em);
+	text-transform: uppercase;
+	font-weight: 700;
+	height: 50px;
+	border: 2px solid $c_main;
+	border-radius: 2px;
+	line-height: 46px;
+	text-align: center;
+	position: relative;
+	padding: 0 50px;
+	margin-left: 15px;
+	@include addTransition();
+	@media screen and (max-width: 1200px){
+		padding: 0 40px;
+	}
+	@include tablet_landscape{
+		padding: 0 25px;
+	}
+	@include tablet_portrait{
+		padding: 0 50px;
+	}
+	@include mobile{
+		display: block;
+		margin-top: 10px;
+	}
+	&:hover, &:focus, &.active {
+		background: $c_main;
+		color: $c_dark;
+		border-color: $c_main;
+		&:after{
+			color: $c_txt;
+		}
+	}
+	&:after {
+		content: "\e923";
+		@include font();
+		font-size: 1.3em;
+		color: $c_main;
+		float: right;
+		margin-left: 10px;
+		line-height: 42px;
+	}
+}
+
 .pro-btn-ticket {
 	@include btn($c_dark, $c_white, 2, $f_hx, 0.938em);
 	text-transform: uppercase;
@@ -470,14 +516,18 @@ fieldset {
 		background: transparent;
 		color: $c_dark;
 		border-color: $c_dark;
+		&:after{
+			color: $c_txt;
+		}
 	}
 	&:after {
 		content: "\e922";
 		@include font();
 		position: absolute;
 		right: 20px;
-		top: 50%;
+		top: 47%;
 		font-size: 1.5em;
+		color: $c_main;
 		transform: translateY(-50%);
 		transform: translate3d(0, -50%, 0);
 		@include tablet_portrait {

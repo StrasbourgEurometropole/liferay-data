@@ -106,6 +106,24 @@ public interface PlacitPlace extends PlacitPlaceModel, PersistedModel {
 	public java.lang.String getCity(java.util.Locale locale);
 
 	/**
+	* Retourne les coordonnees mercator en axe X (longitude)
+	*/
+	public java.lang.String getMercatorX();
+
+	/**
+	* Retourne les coordonnees mercator en axe Y (latitude)
+	*/
+	public java.lang.String getMercatorY();
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
+	*/
+	public java.util.List<java.lang.String> getMercators();
+
+	/**
 	* Retourne l'ID de l'image du lieu SIG ou "manuel"
 	*/
 	public java.lang.String getImageURL();
@@ -116,4 +134,9 @@ public interface PlacitPlace extends PlacitPlaceModel, PersistedModel {
 	* @return True : lieu SIG ; False : lieu manuel
 	*/
 	public boolean isSIG();
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

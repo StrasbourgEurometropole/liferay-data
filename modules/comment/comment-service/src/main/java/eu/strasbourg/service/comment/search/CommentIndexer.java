@@ -44,7 +44,7 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 	@Override
 	protected Summary doGetSummary(Document document, Locale locale,
 		String snippet, PortletRequest portletRequest,
-		PortletResponse portletResponse) throws Exception {
+		PortletResponse portletResponse) {
 		return createSummary(document, Field.USER_NAME, Field.URL);
 	}
 

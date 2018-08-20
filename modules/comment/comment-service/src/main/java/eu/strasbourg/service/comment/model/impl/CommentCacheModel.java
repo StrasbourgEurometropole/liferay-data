@@ -65,7 +65,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -95,6 +95,10 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(comment);
 		sb.append(", level=");
 		sb.append(level);
+		sb.append(", userQuality=");
+		sb.append(userQuality);
+		sb.append(", modifiedByUserDate=");
+		sb.append(modifiedByUserDate);
 		sb.append(", assetEntryId=");
 		sb.append(assetEntryId);
 		sb.append(", publikId=");
@@ -170,6 +174,21 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		}
 
 		commentImpl.setLevel(level);
+
+		if (userQuality == null) {
+			commentImpl.setUserQuality(StringPool.BLANK);
+		}
+		else {
+			commentImpl.setUserQuality(userQuality);
+		}
+
+		if (modifiedByUserDate == Long.MIN_VALUE) {
+			commentImpl.setModifiedByUserDate(null);
+		}
+		else {
+			commentImpl.setModifiedByUserDate(new Date(modifiedByUserDate));
+		}
+
 		commentImpl.setAssetEntryId(assetEntryId);
 
 		if (publikId == null) {
@@ -216,6 +235,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		comment = objectInput.readUTF();
 
 		level = objectInput.readInt();
+		userQuality = objectInput.readUTF();
+		modifiedByUserDate = objectInput.readLong();
 
 		assetEntryId = objectInput.readLong();
 		publikId = objectInput.readUTF();
@@ -274,6 +295,15 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 		objectOutput.writeInt(level);
 
+		if (userQuality == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userQuality);
+		}
+
+		objectOutput.writeLong(modifiedByUserDate);
+
 		objectOutput.writeLong(assetEntryId);
 
 		if (publikId == null) {
@@ -307,6 +337,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public long statusDate;
 	public String comment;
 	public int level;
+	public String userQuality;
+	public long modifiedByUserDate;
 	public long assetEntryId;
 	public String publikId;
 	public long parentCommentId;

@@ -14,14 +14,6 @@
 
 package eu.strasbourg.service.comment.service.impl;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -39,10 +31,20 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
+import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the comment local service.
@@ -277,12 +279,24 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 
 		// Supprime les reponses
 		List<Comment> childComments = comment.getApprovedChildComments();
-		for (Comment childComment : childComments) {
-			this.removeComment(childComment.getCommentId());
-		}
-		
-		LikeLocalServiceUtil.deleteLikeByEntityIdAndType(comment.getCommentId(), 16);
-		
+		if (childComments!=null&&!childComments.isEmpty()){
+            for (Comment childComment : childComments) {
+                this.removeComment(childComment.getCommentId());
+            }
+        }
+
+		//Supprime les signalements
+        List<Signalement> signalements = SignalementLocalServiceUtil.findByCommentId(commentId);
+        if (signalements!=null&&!signalements.isEmpty()){
+            signalements.forEach(SignalementLocalServiceUtil::deleteSignalement);
+        }
+
+		//supprime les likes
+        List<Like> likes = comment.getLikes();
+        if (likes!=null&&!likes.isEmpty()){
+            likes.forEach(LikeLocalServiceUtil::deleteLike);
+        }
+
 		return comment;
 	}
 

@@ -574,6 +574,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _event.getNbApprovedComments();
+	}
+
+	/**
 	* Retourne le nombre de participation a l'evenement
 	*/
 	@Override
@@ -917,6 +925,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getCity(java.util.Locale locale) {
 		return _event.getCity(locale);
+	}
+
+	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getCompleteAddress(java.util.Locale locale) {
+		return _event.getCompleteAddress(locale);
 	}
 
 	@Override
@@ -1802,6 +1818,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _event.getApprovedComments();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
@@ -1842,6 +1866,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getManifestations() {
 		return _event.getManifestations();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return "" si vide sinon "mercatorX;mercatorY"
+	*/
+	@Override
+	public java.util.List<java.lang.String> getMercators() {
+		return _event.getMercators();
 	}
 
 	/**

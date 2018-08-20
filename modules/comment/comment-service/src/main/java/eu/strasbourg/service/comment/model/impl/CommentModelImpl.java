@@ -89,6 +89,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "comment_", Types.CLOB },
 			{ "level", Types.INTEGER },
+			{ "userQuality", Types.VARCHAR },
+			{ "modifiedByUserDate", Types.TIMESTAMP },
 			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
 			{ "parentCommentId", Types.BIGINT },
@@ -111,13 +113,15 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("level", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("userQuality", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("modifiedByUserDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("parentCommentId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ TEXT null,level INTEGER,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ TEXT null,level INTEGER,userQuality VARCHAR(75) null,modifiedByUserDate DATE null,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
@@ -169,6 +173,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setComment(soapModel.getComment());
 		model.setLevel(soapModel.getLevel());
+		model.setUserQuality(soapModel.getUserQuality());
+		model.setModifiedByUserDate(soapModel.getModifiedByUserDate());
 		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
 		model.setParentCommentId(soapModel.getParentCommentId());
@@ -251,6 +257,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("comment", getComment());
 		attributes.put("level", getLevel());
+		attributes.put("userQuality", getUserQuality());
+		attributes.put("modifiedByUserDate", getModifiedByUserDate());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("parentCommentId", getParentCommentId());
@@ -346,6 +354,18 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		if (level != null) {
 			setLevel(level);
+		}
+
+		String userQuality = (String)attributes.get("userQuality");
+
+		if (userQuality != null) {
+			setUserQuality(userQuality);
+		}
+
+		Date modifiedByUserDate = (Date)attributes.get("modifiedByUserDate");
+
+		if (modifiedByUserDate != null) {
+			setModifiedByUserDate(modifiedByUserDate);
 		}
 
 		Long assetEntryId = (Long)attributes.get("assetEntryId");
@@ -646,6 +666,33 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@JSON
 	@Override
+	public String getUserQuality() {
+		if (_userQuality == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userQuality;
+		}
+	}
+
+	@Override
+	public void setUserQuality(String userQuality) {
+		_userQuality = userQuality;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedByUserDate() {
+		return _modifiedByUserDate;
+	}
+
+	@Override
+	public void setModifiedByUserDate(Date modifiedByUserDate) {
+		_modifiedByUserDate = modifiedByUserDate;
+	}
+
+	@JSON
+	@Override
 	public long getAssetEntryId() {
 		return _assetEntryId;
 	}
@@ -853,6 +900,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentImpl.setStatusDate(getStatusDate());
 		commentImpl.setComment(getComment());
 		commentImpl.setLevel(getLevel());
+		commentImpl.setUserQuality(getUserQuality());
+		commentImpl.setModifiedByUserDate(getModifiedByUserDate());
 		commentImpl.setAssetEntryId(getAssetEntryId());
 		commentImpl.setPublikId(getPublikId());
 		commentImpl.setParentCommentId(getParentCommentId());
@@ -1025,6 +1074,23 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		commentCacheModel.level = getLevel();
 
+		commentCacheModel.userQuality = getUserQuality();
+
+		String userQuality = commentCacheModel.userQuality;
+
+		if ((userQuality != null) && (userQuality.length() == 0)) {
+			commentCacheModel.userQuality = null;
+		}
+
+		Date modifiedByUserDate = getModifiedByUserDate();
+
+		if (modifiedByUserDate != null) {
+			commentCacheModel.modifiedByUserDate = modifiedByUserDate.getTime();
+		}
+		else {
+			commentCacheModel.modifiedByUserDate = Long.MIN_VALUE;
+		}
+
 		commentCacheModel.assetEntryId = getAssetEntryId();
 
 		commentCacheModel.publikId = getPublikId();
@@ -1051,7 +1117,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1081,6 +1147,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getComment());
 		sb.append(", level=");
 		sb.append(getLevel());
+		sb.append(", userQuality=");
+		sb.append(getUserQuality());
+		sb.append(", modifiedByUserDate=");
+		sb.append(getModifiedByUserDate());
 		sb.append(", assetEntryId=");
 		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
@@ -1096,7 +1166,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.comment.model.Comment");
@@ -1159,6 +1229,14 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getLevel());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>userQuality</column-name><column-value><![CDATA[");
+		sb.append(getUserQuality());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedByUserDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedByUserDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
 		sb.append(getAssetEntryId());
 		sb.append("]]></column-value></column>");
@@ -1208,6 +1286,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private int _level;
 	private int _originalLevel;
 	private boolean _setOriginalLevel;
+	private String _userQuality;
+	private Date _modifiedByUserDate;
 	private long _assetEntryId;
 	private long _originalAssetEntryId;
 	private boolean _setOriginalAssetEntryId;

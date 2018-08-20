@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.comment;
 
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -9,8 +10,6 @@ import eu.strasbourg.portlet.comment.display.context.EditCommentDisplayContext;
 import eu.strasbourg.portlet.comment.display.context.ViewCommentDisplayContext;
 import eu.strasbourg.portlet.comment.display.context.ViewSignalementDisplayContext;
 import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;

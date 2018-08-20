@@ -11,6 +11,38 @@ aside {
 	}
 
 
+	.pro-coup-de-coeur{
+		background: $c_main;
+		height: 60px;
+		position: absolute;
+		top: -60px;
+		left: 15px;
+		right: 15px;
+		z-index: 100;
+		width: calc(100% - 30px);
+		text-align: center;
+		@include mobile{
+			position: relative;
+			top: 0;
+			width: 100%;
+			left: 0;
+			right: 0;
+		}
+		p{
+			@include ft($f_txt, 0.875em, 700, $c_txt, 60px);
+			display: inline-block;
+			vertical-align: middle;
+			&:after{
+				content: "\e932";
+				@include font();
+				float: right;
+				line-height: 60px;
+				margin-left: 8px;
+			}
+		}
+	}
+
+
 	.pro-progress-bar{
 		padding: 5px 0;
 		.pro-progress-container{
@@ -147,6 +179,17 @@ aside {
 			}
 		}
 	}
+
+
+	.pro-wrapper-aside-budget{
+		padding: 30px 40px 45px 40px;
+		p{
+			@include ft($f_txt, 0.875em, 400, $c_white, 1.714em);
+			margin-bottom: 20px;
+			text-align: center;
+		}
+	}
+
 
 	.pro-event-comming {
 		padding: 15px 40px;

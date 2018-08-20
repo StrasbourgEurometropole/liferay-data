@@ -1,6 +1,12 @@
-.modal-backdrop{
+.modal-backdrop {
 	display: none !important;
 }
+
+
+.fade.in{
+	z-index: 1000000;
+}
+
 .pro-modal {
 	position: fixed;
 	top: 50%;
@@ -10,26 +16,50 @@
 	transform: translateY(-50%);
 	z-index: -1;
 	overflow: hidden;
+	display: none;
 	-webkit-overflow-scrolling: touch;
 	outline: 0;
 	padding-right: 0 !important;
 	height: 100%;
 	background: rgba(0, 0, 0, 0.7);
 
-	.modal-open & {
-		display: block !important;
-		z-index: 150;
+	&.pro-modal-connexion{
+		.modal-dialog{
+			max-width: 950px;
+			height: 650px;
+			.modal-content{
+				padding-bottom: 100px;
+				form{
+					background: none;
+				}
+			}
+		}
+	}
+
+	&.pro-modal-initiative{
+		.modal-content{
+			form{
+				textarea.form-control{
+					height: 285px;
+				}
+			}
+		}
 	}
 
 	.modal-dialog {
 		width: 100%;
-		max-width: 900px;
+		max-width: 650px;
+		max-height: 850px;
+		overflow: auto;
 		top: 50%;
 		margin: 0 auto;
 		transform: translateY(-50%);
-		@media screen and (max-width: 900px) {
-			margin: 0 30px;
-			width: calc(100% - 60px);
+		@media screen and (max-height: 800px){
+			max-height: 600px;
+			top: 30px;
+			transform: none;
+			bottom: 30px;
+			height: calc(100% - 60px);
 		}
 		@include mobile {
 			margin: 0 15px;
@@ -69,17 +99,45 @@
 	.modal-content {
 		box-shadow: none;
 		border-radius: 0;
-		height: 560px;
-		@include tablet_landscape {
-			height: 460px;
-		}
 		@include mobile {
 			overflow: auto;
+		}
+
+		.pro-modal-top {
+			position: relative;
+			width: 100%;
+			background: $c_dark;
+			padding: 0 20px;
+			h3 {
+				@include ft($f_hx, 1.250em, 700, $c_main, 1.5em);
+				text-align: left;
+				text-transform: uppercase;
+				margin: 0;
+				padding: 15px 0;
+			}
+			button {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				right: 20px;
+				z-index: 10000;
+				color: white;
+				opacity: 1;
+				font-size: 15px;
+				@include addTransition();
+				&:hover, &:focus, &:active {
+					color: $c_main;
+				}
+			}
+		}
+		form {
+			background: #edf0f2;
 		}
 
 	}
 
 	.modal-body {
+		position: relative;
 		padding: 0 30px;
 		@include mobile {
 			padding: 0;

@@ -148,6 +148,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getPlaceCity(java.util.Locale locale);
 
 	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getCompleteAddress(java.util.Locale locale);
+
+	/**
 	* Retourne les coordonnees mercator en axe X (longitude)
 	*/
 	public java.lang.String getMercatorX();
@@ -158,6 +163,14 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getMercatorY();
 
 	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return "" si vide sinon "mercatorX;mercatorY"
+	*/
+	public java.util.List<java.lang.String> getMercators();
+
+	/**
 	* Retourne la liste des participations de l'evenement
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation> getEventParticipations();
@@ -166,6 +179,16 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne le nombre de participation a l'evenement
 	*/
 	public int getNbEventParticipations();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
 
 	/**
 	* L'evenement est-il terminee ?

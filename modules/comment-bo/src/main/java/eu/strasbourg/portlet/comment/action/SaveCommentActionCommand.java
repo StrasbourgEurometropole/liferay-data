@@ -18,11 +18,16 @@ import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -89,6 +94,37 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             String commentaire = ParamUtil.getString(actionRequest,"comment");
             _log.info("nouveau commentaire : "+commentaire);
             comment.setComment(commentaire);
+
+            // ---------------------------------------------------------------
+            // -------------------------- BANNISSEMENT -----------------------
+            // ---------------------------------------------------------------
+
+            // Definir le format de recuperation de date
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            // Date de bannissement
+            Date banishDate = ParamUtil.getDate(actionRequest, "banishDate", dateFormat);
+
+            Calendar todayDate = Calendar.getInstance();
+            Calendar testDate = Calendar.getInstance();
+            testDate.setTime(banishDate);
+
+            boolean sameDay = todayDate.get(Calendar.YEAR) == testDate.get(Calendar.YEAR) &&
+                    todayDate.get(Calendar.DAY_OF_YEAR) == testDate.get(Calendar.DAY_OF_YEAR);
+
+            PublikUser publikUser = PublikUserLocalServiceUtil.getByPublikUserId(comment.getPublikId());
+
+            if(!sameDay)
+                publikUser.setBanishDate(banishDate);
+            else
+                publikUser.setBanishDate(null);
+
+            // Description du bannissement
+            String banishDescription = ParamUtil.getString(actionRequest, "banishDescription");
+            if (banishDescription==null||banishDescription.isEmpty()){
+                publikUser.setBanishDescription(banishDescription);
+            }else banishDescription="";
+            PublikUserLocalServiceUtil.updatePublikUser(publikUser);
             _commentLocalService.updateComment(comment);
 
         } catch (PortalException e) {

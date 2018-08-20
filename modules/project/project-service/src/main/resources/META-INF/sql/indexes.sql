@@ -10,6 +10,7 @@ create index IX_740C1DB2 on project_PlacitPlace (uuid_[$COLUMN_LENGTH:75$], comp
 create unique index IX_DD0468B4 on project_PlacitPlace (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_84EC11F1 on project_Project (groupId);
+create index IX_F6DCFECB on project_Project (status, groupId);
 create index IX_3B92E48D on project_Project (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_DB52A4F on project_Project (uuid_[$COLUMN_LENGTH:75$], groupId);
 
