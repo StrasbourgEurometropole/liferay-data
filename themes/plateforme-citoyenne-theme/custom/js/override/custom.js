@@ -97,6 +97,9 @@ $(function() {
                         // Si l'utilisateur n'est pas connecté
                         e.preventDefault();
                         $("#myModal").modal();
+                    } else if (obj['error'] == 'isBanned') {
+                        // Si l'utilisateur est banni
+                        alert("Vous ne pouvez plus juger, veuillez contacter l'administrateur du site.");
                     } else {
                         // Autre erreur
                         alert('Une erreur est survenue.');
@@ -169,6 +172,9 @@ $(function() {
                             // Si l'utilisateur n'est pas connecté
                             e.preventDefault();
                             $("#myModal").modal();
+                        } else if (obj['error'] == 'isBanned') {
+                            // Si l'utilisateur est banni
+                            alert("Vous ne pouvez plus participer, veuillez contacter l'administrateur du site.");
                         } else {
                             // Autre erreur
                             alert('Une erreur est survenue.');
@@ -176,6 +182,15 @@ $(function() {
                     }
                 }
             );
+        });
+    });
+
+    /*
+    * Demande de signature du pacte
+    */
+    $(function() {
+        $(document).on("click", "[name='#Pact-sign']", function(e) {
+            $("#myModal").modal();
         });
     });
 
@@ -226,7 +241,7 @@ $(function() {
                                 else
                                     element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) + 1);
                                 break;
-                            case "follower deleted":                                
+                            case "follower deleted":
                                 element.toggleClass('active');
                                 element.text("Suivre ce projet");
                                 if (elementType === "a")
