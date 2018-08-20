@@ -15,15 +15,11 @@
 package eu.strasbourg.service.project.service.persistence;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Petition;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.List;
@@ -651,6 +647,185 @@ public class PetitionUtil {
 	*/
 	public static int countByGroupId(long groupId) {
 		return getPersistence().countByGroupId(groupId);
+	}
+
+	/**
+	* Returns all the petitions where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the matching petitions
+	*/
+	public static List<Petition> findByStatusAndGroupId(int status, long groupId) {
+		return getPersistence().findByStatusAndGroupId(status, groupId);
+	}
+
+	/**
+	* Returns a range of all the petitions where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of petitions
+	* @param end the upper bound of the range of petitions (not inclusive)
+	* @return the range of matching petitions
+	*/
+	public static List<Petition> findByStatusAndGroupId(int status,
+		long groupId, int start, int end) {
+		return getPersistence()
+				   .findByStatusAndGroupId(status, groupId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the petitions where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of petitions
+	* @param end the upper bound of the range of petitions (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching petitions
+	*/
+	public static List<Petition> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		OrderByComparator<Petition> orderByComparator) {
+		return getPersistence()
+				   .findByStatusAndGroupId(status, groupId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the petitions where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of petitions
+	* @param end the upper bound of the range of petitions (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching petitions
+	*/
+	public static List<Petition> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		OrderByComparator<Petition> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByStatusAndGroupId(status, groupId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first petition in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching petition
+	* @throws NoSuchPetitionException if a matching petition could not be found
+	*/
+	public static Petition findByStatusAndGroupId_First(int status,
+		long groupId, OrderByComparator<Petition> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchPetitionException {
+		return getPersistence()
+				   .findByStatusAndGroupId_First(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first petition in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching petition, or <code>null</code> if a matching petition could not be found
+	*/
+	public static Petition fetchByStatusAndGroupId_First(int status,
+		long groupId, OrderByComparator<Petition> orderByComparator) {
+		return getPersistence()
+				   .fetchByStatusAndGroupId_First(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last petition in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching petition
+	* @throws NoSuchPetitionException if a matching petition could not be found
+	*/
+	public static Petition findByStatusAndGroupId_Last(int status,
+		long groupId, OrderByComparator<Petition> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchPetitionException {
+		return getPersistence()
+				   .findByStatusAndGroupId_Last(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last petition in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching petition, or <code>null</code> if a matching petition could not be found
+	*/
+	public static Petition fetchByStatusAndGroupId_Last(int status,
+		long groupId, OrderByComparator<Petition> orderByComparator) {
+		return getPersistence()
+				   .fetchByStatusAndGroupId_Last(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the petitions before and after the current petition in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param petitionId the primary key of the current petition
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next petition
+	* @throws NoSuchPetitionException if a petition with the primary key could not be found
+	*/
+	public static Petition[] findByStatusAndGroupId_PrevAndNext(
+		long petitionId, int status, long groupId,
+		OrderByComparator<Petition> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchPetitionException {
+		return getPersistence()
+				   .findByStatusAndGroupId_PrevAndNext(petitionId, status,
+			groupId, orderByComparator);
+	}
+
+	/**
+	* Removes all the petitions where status = &#63; and groupId = &#63; from the database.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	*/
+	public static void removeByStatusAndGroupId(int status, long groupId) {
+		getPersistence().removeByStatusAndGroupId(status, groupId);
+	}
+
+	/**
+	* Returns the number of petitions where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the number of matching petitions
+	*/
+	public static int countByStatusAndGroupId(int status, long groupId) {
+		return getPersistence().countByStatusAndGroupId(status, groupId);
 	}
 
 	/**

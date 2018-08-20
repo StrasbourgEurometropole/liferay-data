@@ -14,6 +14,11 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -21,13 +26,25 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the petition local service.
@@ -56,13 +73,177 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 	public Petition createPetition(long petitionId) {
 		return super.createPetition(petitionId);
 	}
-
-	@Override
-	public Petition updatePetition(Petition petition) {
-		return super.updatePetition(petition);
+    @Override
+	public Petition updatePetition(Petition petition, ServiceContext sc) throws PortalException {
+		if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
+			petition.setStatus(WorkflowConstants.STATUS_APPROVED);
+		}else {
+			petition.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
+		updatePetition(petition);
+		updateAssetEntry(petition,sc);
+		reindex(petition,false);
+		return petition;
 	}
 
-	public List<Petition> findByKeyword(String keyword, long groupId, int start, int end){
+    /**
+     * Met à jour l'AssetEntry rattachée à la petition
+     */
+    private void updateAssetEntry(Petition petition, ServiceContext sc)
+            throws PortalException {
+        assetEntryLocalService.updateEntry(sc.getUserId(),sc.getScopeGroupId(),petition.getCreateDate(),
+                petition.getModifiedDate(),Petition.class.getName(), petition.getPrimaryKey(),petition.getUuid(),
+                0,sc.getAssetCategoryIds(),sc.getAssetTagNames(),true,petition.isApproved(),
+                petition.getCreateDate(),null,petition.getCreateDate(),null, ContentTypes.TEXT_HTML,
+                petition.getTitle(),petition.getDescription(),petition.getDescription(),null,null,
+                0,0,null);
+        reindex(petition,false);
+    }
+    /**
+     * Met à jour le statut du petition "manuellement" (pas via le workflow)
+     */
+    @Override
+    public void updateStatus(Petition petition, int status) throws PortalException {
+        this.updateStatus(petition.getUserId(), petition.getPetitionId(), status, null,
+                null);
+    }
+    @Override
+    public Petition updateStatus(long userId, long petitionId, int status,
+                                  ServiceContext serviceContext,
+                                  Map<String, Serializable> workflowContext)
+            throws PortalException {
+        Date now = new Date();
+        Petition petition = this.getPetition(petitionId);
+        petition.setStatus(status);
+        User user = UserLocalServiceUtil.fetchUser(userId);
+        if (user != null){
+            petition.setStatusByUserId(user.getUserId());
+            petition.setStatusByUserName(user.getFullName());
+        }
+        petition.setStatusDate(new Date());
+        petition = updatePetition(petition);
+        AssetEntry entry = assetEntryLocalService.getEntry(Petition.class.getName(),petition.getPrimaryKey());
+        entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+        if (entry.isVisible()){
+            entry.setPublishDate(now);
+        }
+        assetEntryLocalService.updateAssetEntry(entry);
+        reindex(petition,false);
+        return petition;
+    }
+
+    /**
+     * Supprime une petition
+     */
+    @Override
+    public Petition removePetition(long petitionId) throws PortalException {
+        AssetEntry entry = AssetEntryLocalServiceUtil
+                .fetchEntry(Petition.class.getName(), petitionId);
+
+        if (entry != null) {
+            // Delete the link with categories
+            for (long categoryId : entry.getCategoryIds()) {
+                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+                        categoryId, entry.getEntryId());
+            }
+
+            // Delete the link with tags
+            long[] tagIds = AssetEntryLocalServiceUtil
+                    .getAssetTagPrimaryKeys(entry.getEntryId());
+            if (tagIds!=null&&tagIds.length>0){
+                for (long tagId : tagIds) {
+                    AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagId,
+                            entry.getEntryId());
+                }
+            }
+
+            // Supprime lien avec les autres entries
+            List<AssetLink> links = this.assetLinkLocalService
+                    .getLinks(entry.getEntryId());
+            if (links!=null&&!links.isEmpty()){
+                for (AssetLink link : links) {
+                    this.assetLinkLocalService.deleteAssetLink(link);
+                }
+            }
+
+            // Delete the AssetEntry
+            AssetEntryLocalServiceUtil.deleteEntry(Petition.class.getName(),
+                    petitionId);
+
+            // Supprime les lieux
+            List<PlacitPlace> placitPlaces = this.placitPlaceLocalService
+                    .getByPetition(petitionId);
+            if (placitPlaces!=null&&!placitPlaces.isEmpty()){
+                for (PlacitPlace placitPlace : placitPlaces) {
+                    this.placitPlaceLocalService.removePlacitPlace(
+                            placitPlace.getPlacitPlaceId());
+                }
+            }
+        }
+
+        // Supprime la petition
+        Petition petition = petitionPersistence.remove(petitionId);
+
+        // Delete the index
+        this.reindex(petition, true);
+
+        // Supprime ce qui a rapport au workflow
+        WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+                petition.getCompanyId(), petition.getGroupId(), Petition.class.getName(),
+                petition.getPetitionId());
+        return petition;
+    }
+
+    /**
+     * Renvoie la liste des vocabulaires rattachés à une petition
+     */
+    @Override
+    public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
+        List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+                .getAssetVocabularies(-1, -1);
+        List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
+        long classNameId = ClassNameLocalServiceUtil
+                .getClassNameId(Petition.class);
+        for (AssetVocabulary vocabulary : vocabularies) {
+            if (vocabulary.getGroupId() == groupId
+                    && LongStream.of(vocabulary.getSelectedClassNameIds())
+                    .anyMatch(c -> c == classNameId)) {
+                attachedVocabularies.add(vocabulary);
+            }
+        }
+        return attachedVocabularies;
+    }
+
+    /**
+	 * Reindex la petition dans le moteur de recherche
+	 */
+	private void reindex(Petition petition, boolean delete) throws SearchException {
+		Indexer<Petition> indexer = IndexerRegistryUtil
+				.nullSafeGetIndexer(Petition.class);
+		if (delete) {
+			indexer.delete(petition);
+		} else {
+			indexer.reindex(petition);
+		}
+	}
+
+    /**
+     * Retourne tous les petitions d'un groupe
+     */
+    @Override
+     public List<Petition> getByGroupId(long groupId) {
+        return this.petitionPersistence.findByGroupId(groupId);
+    }
+
+    /**
+     * Retourne tous les petitions publiés d'un groupe
+     */
+    @Override
+    public List<Petition> getPublishedByGroupId(long groupId) {
+        return this.petitionPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+    }
+    @Override
+    public List<Petition> findByKeyword(String keyword, long groupId, int start, int end){
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
 			dynamicQuery.add(

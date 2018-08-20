@@ -15,9 +15,8 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -35,12 +34,11 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Petition;
 
 import java.io.Serializable;
-
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Petition. Methods of this
@@ -166,6 +164,11 @@ public interface PetitionLocalService extends BaseLocalService,
 		long groupId) throws PortalException;
 
 	/**
+	* Supprime une petition
+	*/
+	public Petition removePetition(long petitionId) throws PortalException;
+
+	/**
 	* Updates the petition in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param petition the petition
@@ -173,6 +176,14 @@ public interface PetitionLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Petition updatePetition(Petition petition);
+
+	public Petition updatePetition(Petition petition, ServiceContext sc)
+		throws PortalException;
+
+	public Petition updateStatus(long userId, long petitionId, int status,
+		ServiceContext serviceContext,
+		Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of petitions.
@@ -232,6 +243,18 @@ public interface PetitionLocalService extends BaseLocalService,
 		int start, int end);
 
 	/**
+	* Renvoie la liste des vocabulaires rattachés à une petition
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
+
+	/**
+	* Retourne tous les petitions d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getByGroupId(long groupId);
+
+	/**
 	* Returns a range of all the petitions.
 	*
 	* <p>
@@ -272,6 +295,12 @@ public interface PetitionLocalService extends BaseLocalService,
 		OrderByComparator<Petition> orderByComparator);
 
 	/**
+	* Retourne tous les petitions publiés d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getPublishedByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -293,4 +322,10 @@ public interface PetitionLocalService extends BaseLocalService,
 	* Recherche par mot clés (compte)
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Met à jour le statut du petition "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Petition petition, int status)
+		throws PortalException;
 }

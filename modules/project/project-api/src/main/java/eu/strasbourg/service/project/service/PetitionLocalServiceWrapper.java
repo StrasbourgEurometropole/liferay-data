@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -180,6 +179,16 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	}
 
 	/**
+	* Supprime une petition
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Petition removePetition(
+		long petitionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _petitionLocalService.removePetition(petitionId);
+	}
+
+	/**
 	* Updates the petition in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param petition the petition
@@ -189,6 +198,24 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	public eu.strasbourg.service.project.model.Petition updatePetition(
 		eu.strasbourg.service.project.model.Petition petition) {
 		return _petitionLocalService.updatePetition(petition);
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.Petition updatePetition(
+		eu.strasbourg.service.project.model.Petition petition,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _petitionLocalService.updatePetition(petition, sc);
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.Petition updateStatus(
+		long userId, long petitionId, int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _petitionLocalService.updateStatus(userId, petitionId, status,
+			serviceContext, workflowContext);
 	}
 
 	/**
@@ -271,6 +298,24 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	}
 
 	/**
+	* Renvoie la liste des vocabulaires rattachés à une petition
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _petitionLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne tous les petitions d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getByGroupId(
+		long groupId) {
+		return _petitionLocalService.getByGroupId(groupId);
+	}
+
+	/**
 	* Returns a range of all the petitions.
 	*
 	* <p>
@@ -320,6 +365,15 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	}
 
 	/**
+	* Retourne tous les petitions publiés d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getPublishedByGroupId(
+		long groupId) {
+		return _petitionLocalService.getPublishedByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -351,6 +405,16 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	@Override
 	public long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return _petitionLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut du petition "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.project.model.Petition petition, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_petitionLocalService.updateStatus(petition, status);
 	}
 
 	@Override

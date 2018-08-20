@@ -14,7 +14,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -28,7 +27,6 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Component(
 	immediate = true,
@@ -95,7 +93,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// Auteur
 			String author = ParamUtil.getString(request, "userName");
 			petition.setUserName(author);
-			_petitionLocalService.updatePetition(petition);
+			_petitionLocalService.updatePetition(petition,sc);
 		} catch (PortalException e) {
 			_log.error(e);
 		}

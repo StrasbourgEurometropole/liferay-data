@@ -3,6 +3,7 @@ create index IX_37B14F35 on project_Participation (uuid_[$COLUMN_LENGTH:75$], co
 create unique index IX_883E1EF7 on project_Participation (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_EE43B560 on project_Petition (groupId);
+create index IX_F58DC33A on project_Petition (status, groupId);
 create index IX_12FAADFE on project_Petition (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2EB29C00 on project_Petition (uuid_[$COLUMN_LENGTH:75$], groupId);
 
