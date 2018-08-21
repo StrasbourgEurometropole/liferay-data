@@ -158,7 +158,7 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne la liste des participations du projet
 	*/
-	public java.util.List<eu.strasbourg.service.project.model.Participation> getParticipations();
+	public java.util.List<Participation> getParticipations();
 
 	/**
 	* Retourne la liste des évènements du projet
