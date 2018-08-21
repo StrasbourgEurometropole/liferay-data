@@ -61,7 +61,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	private static final String CITY_NAME = "Strasbourg";
 	private static final String ATTRIBUTE_IS_MARKEABLE = "isMarkeable";
 	private static final String JSON_OBJECT_PROJECTS = "projects";
-	private static final String JSON_OBJECT_PARTICIPATIONS = "participation";
+	private static final String JSON_OBJECT_PARTICIPATIONS = "participations";
 	private static final String JSON_OBJECT_EVENTS = "events";
 	private static final String RESSSOURCE_CHANGE_DISTRICT = "changeDistrictSelection";
 	private static final String RESSSOURCE_CHANGE_PROJECTS = "changeProjectsSelection";
@@ -132,7 +132,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			// REQUETE : Nouvelle sélection de quartier
 			if (resourceID.equals(RESSSOURCE_CHANGE_DISTRICT)) { 
 				
-				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrict");
+				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrictId");
 				
 				// Réinitialisation des éléments enfants
 				this.selectedProjectIds.clear();
@@ -158,42 +158,47 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				this.participations.clear();
 				this.events.clear();
 				
-				// Parcours des Ids
-				for (String requestSelectedProjectId : requestSelectedProjectIds.split(",")) {
-					long projectId = Long.parseLong((requestSelectedProjectId));
+				if (requestSelectedProjectIds != "") {
 					
-					Project project = ProjectLocalServiceUtil.fetchProject(projectId);
+					// Parcours des Ids
+					for (String requestSelectedProjectId : requestSelectedProjectIds.split(",")) {
+						long projectId = Long.parseLong((requestSelectedProjectId));
+						
+						Project project = ProjectLocalServiceUtil.fetchProject(projectId);
+						
+						if (project != null) {
+							this.selectedProjectIds.add(projectId);
+							this.participations.addAll(project.getParticipations());
+						}
+					}
+				
+				
+					// Récupération des éléments "enfants" en adaptant les séléctions
+					List<Long> tempSelectedParticipations = new ArrayList<Long>();
 					
-					if (project != null) {
-						this.selectedProjectIds.add(projectId);
-						this.participations.addAll(project.getParticipations());
+					for (Participation participation : this.participations) {
+						if (this.selectedParticipationIds.contains(participation.getParticipationId())) {
+							tempSelectedParticipations.add(participation.getParticipationId());
+						}
 					}
-				}
-				
-				// Récupération des éléments "enfants" en adaptant les séléctions
-				List<Long> tempSelectedParticipations = new ArrayList<Long>();
-				
-				for (Participation participation : this.participations) {
-					if (this.selectedParticipationIds.contains(participation.getParticipationId())) {
-						tempSelectedParticipations.add(participation.getParticipationId());
+					
+					this.selectedParticipationIds = tempSelectedParticipations;
+					
+					for (Long participationId : this.selectedParticipationIds) {
+						Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
+						this.events.addAll(participation.getEvents());
 					}
+					
+					List<Long> tempSelectedEvents = new ArrayList<Long>();
+					
+					for (Event event : this.events) {
+						if (this.selectedEventIds.contains(event.getEventId())) 
+							tempSelectedEvents.add(event.getEventId());
+					}
+					
+					this.selectedEventIds = tempSelectedEvents;
+				
 				}
-				
-				this.selectedParticipationIds = tempSelectedParticipations;
-				
-				for (Long participationId : this.selectedParticipationIds) {
-					Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-					this.events.addAll(participation.getEvents());
-				}
-				
-				List<Long> tempSelectedEvents = new ArrayList<Long>();
-				
-				for (Event event : this.events) {
-					if (this.selectedEventIds.contains(event.getEventId())) 
-						tempSelectedEvents.add(event.getEventId());
-				}
-				
-				this.selectedEventIds = tempSelectedEvents;
 				
 			}
 			// REQUETE : Nouvelle sélection de participations
@@ -205,27 +210,31 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				this.selectedParticipationIds.clear();
 				this.events.clear();
 				
-				// Parcours des Ids
-				for (String requestSelectedParticipationId : requestSelectedParticipationIds.split(",")) {
-					long participationId = Long.parseLong((requestSelectedParticipationId));
+				if (requestSelectedParticipationIds != "") {
 					
-					Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-					
-					if (participation != null) {
-						this.selectedParticipationIds.add(participationId);
-						this.events.addAll(participation.getEvents());
+					// Parcours des Ids
+					for (String requestSelectedParticipationId : requestSelectedParticipationIds.split(",")) {
+						long participationId = Long.parseLong((requestSelectedParticipationId));
+						
+						Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
+						
+						if (participation != null) {
+							this.selectedParticipationIds.add(participationId);
+							this.events.addAll(participation.getEvents());
+						}
 					}
+					
+					// Récupération des éléments "enfants" en adaptant les séléctions
+					List<Long> tempSelectedEvents = new ArrayList<Long>();
+					
+					for (Event event : this.events) {
+						if (this.selectedEventIds.contains(event.getEventId())) 
+							tempSelectedEvents.add(event.getEventId());
+					}
+					
+					this.selectedEventIds = tempSelectedEvents;
+					
 				}
-				
-				// Récupération des éléments "enfants" en adaptant les séléctions
-				List<Long> tempSelectedEvents = new ArrayList<Long>();
-				
-				for (Event event : this.events) {
-					if (this.selectedEventIds.contains(event.getEventId())) 
-						tempSelectedEvents.add(event.getEventId());
-				}
-				
-				this.selectedEventIds = tempSelectedEvents;
 				
 			} 
 			// REQUETE : Nouvelle sélection d'entités dépendantes des participations
@@ -236,15 +245,19 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				// Réinitialisation des éléments concernés
 				this.selectedEventIds.clear();
 				
-				// Parcours des Ids
-				for (String requestSelectedEventId : requestSelectedEventIds.split(",")) {
-					long eventId = Long.parseLong((requestSelectedEventId));
+				if (requestSelectedEventIds != "") {
 					
-					Event event = EventLocalServiceUtil.fetchEvent(eventId);
-					
-					if (event != null) {
-						this.selectedEventIds.add(eventId);
+					// Parcours des Ids
+					for (String requestSelectedEventId : requestSelectedEventIds.split(",")) {
+						long eventId = Long.parseLong((requestSelectedEventId));
+						
+						Event event = EventLocalServiceUtil.fetchEvent(eventId);
+						
+						if (event != null) {
+							this.selectedEventIds.add(eventId);
+						}
 					}
+					
 				}
 				
 			}
@@ -307,7 +320,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			);
 			jsonParticipations.put(jsonParticipation);
 		}
-		jsonResponse.put(JSON_OBJECT_PARTICIPATIONS, jsonProjects);
+		jsonResponse.put(JSON_OBJECT_PARTICIPATIONS, jsonParticipations);
 		
 		// ###### Gestion des événements #####
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();

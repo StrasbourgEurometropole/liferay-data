@@ -64,22 +64,7 @@
 	
 	                        <fieldset id="participations_fieldset" class="pro-wrapper-chk">
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="participations" /></legend>
-	                            <div>
-	                                <input type="checkbox" id="cat_1_2" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_1_2">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_2_2" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_2_2">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_3_2" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_3_2">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_4_2" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_4_2">Nom de l'item</label>
-	                            </div>
+	                           	
 	                        </fieldset>
 	                    </div>
 	                </div>
@@ -93,22 +78,7 @@
 	
 	                        <fieldset id="events_fieldset" class="pro-wrapper-chk">
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="events" /></legend>
-	                            <div>
-	                                <input type="checkbox" id="cat_1_1" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_1_1">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_2_1" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_2_1">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_3_1" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_3_1">Nom de l'item</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="cat_4_1" class="hide-checkbox" name="type_val[]" value="value">
-	                                <label for="cat_4_1">Nom de l'item</label>
-	                            </div>
+	                            
 	                        </fieldset>
 	                    </div>
 	                </div>

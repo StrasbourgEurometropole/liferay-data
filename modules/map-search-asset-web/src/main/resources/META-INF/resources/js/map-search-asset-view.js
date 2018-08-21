@@ -5,6 +5,10 @@ var projects = null;
 var participations = null;
 var events = null;
 
+var projectMarkers = null;
+var participationMarkers = null;
+var eventMarkers = null;
+
 var entityType = {
 	PROJECT : 'project',
 	PARTICIPATION : 'participation',
@@ -15,20 +19,20 @@ var entityType = {
  * Supprime l'affichage des éléments selon le nom de l'entité demandée
  * @notes : Récursif selon la hiérarchie des entités 
  */
-function removeFilterElements(entityName = entityType.PROJECT) {
+function removeFilterElementsFrom(entityName = entityType.PROJECT) {
 	switch (entityName) {
 		case entityType.PROJECT:
 			$("input[id^='project_']").each(function() {
 				$(this).parent().remove();
 			});
-			removeFilterElements(entityType.PARTICIPATION);
+			removeFilterElementsFrom(entityType.PARTICIPATION);
 			break;
 			
 		case entityType.PARTICIPATION:
 			$("input[id^='participation_']").each(function() {
 				$(this).parent().remove();
 			});
-			removeFilterElements(entityType.EVENT);
+			removeFilterElementsFrom(entityType.EVENT);
 			break;
 			
 		case entityType.EVENT:
@@ -40,37 +44,86 @@ function removeFilterElements(entityName = entityType.PROJECT) {
 }
 
 /**
+ * Supprime l'affichage des marqueurs selon le nom de l'entité demandée
+ * @notes : Récursif selon la hiérarchie des entités 
+ */
+function removeMarkerElementsFrom(entityName = entityType.PROJECT) {
+	switch (entityName) {
+		case entityType.PROJECT:
+			if (projectMarkers != null) {
+				projectMarkers.forEach(function(projectMarker) {
+					leafletMap.removeLayer(projectMarker);
+				}
+			}
+			break;
+			
+		case entityType.PARTICIPATION:
+			if (participationMarkers != null) {
+				participationMarkers.forEach(function(participationMarker) {
+					leafletMap.removeLayer(participationMarker);
+				}
+			}
+			removeFilterElementsFrom(entityType.EVENT);
+			break;
+			
+		case entityType.EVENT:
+			if (eventMarkers != null) {
+				eventMarkers.forEach(function(eventMarker) {
+					leafletMap.removeLayer(eventMarker);
+				}
+			}
+		    break;
+	}
+}
+
+/**
  * Mise à jour de la liste des filtres
  * @param entityName Nom de l'entité à partir duquel mettre à jour
  */ 
 function updateFilterElements(entityName = entityType.PROJECT) {
 	
-	removeFilterElements(entityName);
+	removeFilterElementsFrom(entityName);
 	
 	switch (entityName) {
 		case entityType.PROJECT:
-			projects.forEach(function(project, index) {
-				$("fieldset[id='projects_fieldset']").append(
-					"<div>" + 
-                        "<input type='checkbox' id='project_" + index + "' class='hide-checkbox' value='" + project.id + "'>" +
-                        "<label for='project_" + index + "'>" + project.title + "</label>" +
-                    "</div>"
-				);
-			});
+			if (projects != null) {
+				projects.forEach(function(project, index) {
+					$("fieldset[id='projects_fieldset']").append(
+						"<div>" + 
+	                        "<input type='checkbox' id='project_" + index + "' class='hide-checkbox' value='" + project.id + "'>" +
+	                        "<label for='project_" + index + "'>" + project.title + "</label>" +
+	                    "</div>"
+					);
+				});
+				updateFilterElements(entityType.PARTICIPATION);
+			}
 			break;
 			
-		case entityType.PARTICIPATION:  
-			participations.forEach(function(participation, index) {
-				$("fieldset[id='participations_fieldset']").append(
-					"<div>" + 
-                        "<input type='checkbox' id='participation_" + index + "' class='hide-checkbox' value='" + project.id + "'>" +
-                        "<label for='articipation_" + index + "'>" + project.title + "</label>" +
-                    "</div>"
-				);
-			});
+		case entityType.PARTICIPATION:
+			if (participations != null) {
+				participations.forEach(function(participation, index) {
+					$("fieldset[id='participations_fieldset']").append(
+						"<div>" + 
+	                        "<input type='checkbox' id='participation_" + index + "' class='hide-checkbox' value='" + participation.id + "'>" +
+	                        "<label for='participation_" + index + "'>" + participation.title + "</label>" +
+	                    "</div>"
+					);
+				});
+				updateFilterElements(entityType.EVENT);
+			}
 			break;
 			
 		case entityType.EVENT:
+			if (events != null) {
+				events.forEach(function(event, index) {
+					$("fieldset[id='events_fieldset']").append(
+						"<div>" + 
+	                        "<input type='checkbox' id='event_" + index + "' class='hide-checkbox' value='" + event.id + "'>" +
+	                        "<label for='event_" + index + "'>" + event.title + "</label>" +
+	                    "</div>"
+					);
+				});
+			}
 		    break;
 	}
 }
@@ -80,40 +133,34 @@ function updateFilterElements(entityName = entityType.PROJECT) {
  * @param entityName Nom de l'entité à partir duquel mettre à jour
  */
 function updateMarkerElements(entityName = entityType.PROJECT) {
+	removeMarkerElementsFrom(entityName);
+	
 	switch (entityName) {
 		case entityType.PROJECT:
-			projects.forEach(function(project, index) {
-				$("fieldset[id='projects_fieldset']").append(
-					"<div>" + 
-                        "<input type='checkbox' id='project_" + index + "' class='hide-checkbox' value='" + project.id + "'>" +
-                        "<label for='project_" + index + "'>" + project.title + "</label>" +
-                    "</div>"
-				);
-			});
+			if (projects != null) {
+				projects.forEach(function(project, index) {
+					
+				});
+				updateMarkerElements(entityType.PARTICIPATION);
+			}
 			break;
 			
 		case entityType.PARTICIPATION:
-			participations.forEach(function(participation, index) {
-				$("fieldset[id='participations_fieldset']").append(
-					"<div>" + 
-                        "<input type='checkbox' id='participation_" + index + "' class='hide-checkbox' value='" + participation.id + "'>" +
-                        "<label for='participation_" + index + "'>" + participation.title + "</label>" +
-                    "</div>"
-				);
-			});
+			if (participations != null) {
+				participations.forEach(function(participation, index) {
+					
+				});
+				updateMarkerElements(entityType.EVENT);
+			}
 			break;
 			
 		case entityType.EVENT:
-			events.forEach(function(event, index) {
-				$("fieldset[id='events_fieldset']").append(
-					"<div>" + 
-                        "<input type='checkbox' id='event_" + index + "' class='hide-checkbox' value='" + event.id + "'>" +
-                        "<label for='event_" + index + "'>" + event.title + "</label>" +
-                    "</div>"
-				);
-			});
-		    break;
-	    
+			if (events != null) {
+				events.forEach(function(event, index) {
+					
+				});
+			    break;
+			}
 	}
 }
 
@@ -139,21 +186,25 @@ $(document).ready(function() {
     leafletMap = getLeafletMap()
 });
 
-// Lors d'une selection de quartier
+/**
+ * Lors d'une selection de quartier
+ */
 $('#district').change(function() {
-	var selectedDistrict = this.value;
+	var selectedDistrictId = this.value;
 	
 	AUI().use('aui-io-request', function(A) {
 		A.io.request(changeDistrictSelectionURL, {
 			method : 'post',
 			dataType: 'json',
 			data : {
-				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedDistrict : selectedDistrict
+				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedDistrictId : selectedDistrictId
 			},
 			on: {
                 success: function(e) {
                 	var data = this.get('responseData');
-                	projects = data.projects ;
+                	projects = data.projects;
+                	participations = data.participations;
+                	events = data.events;
                 	
                 	updateFilterElements(entityType.PROJECT);
 			 	}
@@ -162,21 +213,79 @@ $('#district').change(function() {
 	});
 });
 
-// Lors d'une selection de projet
-$("fieldset[id='projects_fieldset'] input").change(function() {
+/**
+ * Lors d'une selection de projet
+ */
+$(document).on("change", "input[id^='project_']", function() {
 	
-	var selectedProjects = getSelectedMarkerElements(entityType.PROJECT);
+	var selectedProjectIds = getSelectedMarkerElements(entityType.PROJECT);
 	
 	AUI().use('aui-io-request', function(A) {
 		A.io.request(changeProjectsSelectionURL, {
 			method : 'post',
 			dataType: 'json',
-			data : { 
-				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedProjects : selectedProjects
+			data : {
+				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedProjectIds : selectedProjectIds
 			},
 			on: {
                 success: function(e) {
+                	var data = this.get('responseData');
+                	projects = data.projects;
+                	participations = data.participations;
+                	events = data.events;
                 	
+                	updateFilterElements(entityType.PARTICIPATION);
+			 	}
+			 }
+		});
+	});
+});
+
+/**
+ * Lors d'une selection de participation
+ */
+$(document).on("change", "input[id^='participation_']", function() {
+	
+	var selectedParticipationIds = getSelectedMarkerElements(entityType.PARTICIPATION);
+	
+	AUI().use('aui-io-request', function(A) {
+		A.io.request(changeParticipationsSelectionURL, {
+			method : 'post',
+			dataType: 'json',
+			data : { 
+				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedParticipationIds : selectedParticipationIds
+			},
+			on: {
+                success: function(e) {
+                	var data = this.get('responseData');
+                	participations = data.participations;
+                	events = data.events;
+                	
+                	updateFilterElements(entityType.EVENT);
+			 	}
+			 }
+		});
+	});
+});
+
+/**
+ * Lors d'une selection d'entité sous participation
+ */
+$(document).on("change","fieldset[id='events_fieldset'] input", function() {
+	
+	var selectedEventsIds = getSelectedMarkerElements(entityType.EVENT);
+	
+	AUI().use('aui-io-request', function(A) {
+		A.io.request(changeSubEntitiesSelectionURL, {
+			method : 'post',
+			dataType: 'json',
+			data : { 
+				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedEventIds : selectedEventIds
+			},
+			on: {
+                success: function(e) {
+                	var data = this.get('responseData');
+                	events = data.events;
 			 	}
 			 }
 		});
