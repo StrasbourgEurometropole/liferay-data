@@ -225,8 +225,8 @@ public class AdictServiceImpl implements AdictService {
 		JSONObject trafficJSON = null;
 		try {
 			String adictTrafficURL = StrasbourgPropsUtil.getAdictTrafficURL();
-			trafficJSON = JSONHelper.readJsonFromURL(
-					"http://adict-preprod.strasbourg.eu/api/v1.0/traffic?srid=4326&token=aa72a01e643db472f3e7843ac1f3e48c");
+			adictTrafficURL = "http://adict.strasbourg.eu/api/v1.0/traffic?srid=4326&token=aa72a01e643db472f3e7843ac1f3e48c";
+			trafficJSON = JSONHelper.readJsonFromURL(adictTrafficURL);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -241,9 +241,10 @@ public class AdictServiceImpl implements AdictService {
 	public JSONObject getAlerts() {
 		JSONObject alertsJSON = null;
 		try {
-			String adictTrafficURL = StrasbourgPropsUtil.getAdictAlertsURL();
+			String adictAlertscURL = StrasbourgPropsUtil.getAdictAlertsURL();
+            adictAlertscURL = "http://adict.strasbourg.eu/api/v1.0/traffic/alerts?srid=4326&token=aa72a01e643db472f3e7843ac1f3e48c";
 			alertsJSON = JSONHelper.readJsonFromURL(
-					adictTrafficURL);
+					adictAlertscURL);
 		} catch (Exception e) {
 			log.error(e);
 		}

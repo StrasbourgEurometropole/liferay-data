@@ -199,6 +199,24 @@
                     	$(popupElement).find('.infowindow__right').remove(); // On cache le champ dans l'infowindow
                     }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
+                    layer.on('popupopen', function(e) {
+                        var addFavoriteElement = $('.add-favorites', e.target._popup._contentNode);
+                        var isFavorite = false;
+                        var id = addFavoriteElement.data('id');
+                        var type = addFavoriteElement.data('type');
+                        var i;
+                        for (i = 0; i < window.userFavorites.length; i++) {
+                            if(window.userFavorites[i].typeId == type && window.userFavorites[i].entityId == id){
+                                isFavorite = true;
+                                break;
+                            }
+                        }
+                        if (isFavorite) {
+                            addFavoriteElement.addClass('liked');
+                        } else {
+                            addFavoriteElement.removeClass('liked');
+                        }
+                    });
                     // Titre dans la liste des markers
                     layer.options['title'] = feature.properties.name;
                 }
@@ -227,6 +245,9 @@
                     $(popupAlerteElement).find('.infowindow__visual').html(formated_info);  
                     $(popupAlerteElement).find('.infowindow__address').html(feature.properties.texte); 
                     layer.bindPopup($(popupAlerteElement).html(), {closeButton: false});
+                    layer.on('popupopen', function(e) {
+                        $('.leaflet-popup-tip', $(e.target._popup._contentNode).parent().parent()).css('background', 'white');
+                    });
                     // Titre dans la liste des markers
                     layer.options['title'] = feature.properties.lieu;
                 }
@@ -239,7 +260,8 @@
                 while (i < layers.length) {
                     var j = i;
                     while (j < layers.length) {
-                        if (i != j && layers[i].feature.properties.sigId == layers[j].feature.properties.sigId) {
+                        if (i != j && layers[j].feature.properties.sigId
+                            && layers[i].feature.properties.sigId == layers[j].feature.properties.sigId) {
                             markers.removeLayer(layers[j]);
                         };
                         j++;
@@ -320,12 +342,14 @@
                         typeContenu: window.typesContenu
                     },
                     function(data) {
-                        // Convertion des données geoJSON en marker
-                        var favoritesData = L.geoJson(data, {
-                            pointToLayer: pointToLayer,
-                            onEachFeature: onEachFeature
-                        });
-                        markers.addLayers(favoritesData);
+                        try {
+                            // Convertion des données geoJSON en marker
+                            var favoritesData = L.geoJson(data, {
+                                pointToLayer: pointToLayer,
+                                onEachFeature: onEachFeature
+                            });
+                            markers.addLayers(favoritesData);
+                        } catch (e) {}
                         removeDuplicates(markers);
                         requestsInProgress--;
                         maybeHideLoadingIcon();
@@ -347,12 +371,14 @@
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
-                        var poisData = L.geoJson(data, {
-                            pointToLayer: pointToLayer,
-                            onEachFeature: onEachFeature
-                        });
-                        markers.addLayers(poisData);
-                        removeDuplicates(markers);
+                        try {
+                            var poisData = L.geoJson(data, {
+                                pointToLayer: pointToLayer,
+                                onEachFeature: onEachFeature
+                            });
+                            markers.addLayers(poisData);
+                            removeDuplicates(markers);
+                        } catch(e) {}
                         requestsInProgress--;
                         maybeHideLoadingIcon();
                     }
@@ -367,14 +393,16 @@
                     '/strasbourg.strasbourg/get-traffic', {
                     },
                     function(data) {
-                        // Convertion des données JSON en liner
-                        var trafficData = L.geoJson(data, {
-                            style: function (feature) {
-                            	var color = feature.properties.color.replace('0x','#');
-                                return {color: color};
-                            }
-                        });
-                        markers.addLayers(trafficData);
+                        try {
+                            // Convertion des données JSON en liner
+                            var trafficData = L.geoJson(data, {
+                                style: function (feature) {
+                                    var color = feature.properties.color.replace('0x', '#');
+                                    return {color: color};
+                                }
+                            });
+                            markers.addLayers(trafficData);
+                        } catch (e) {}
                         requestsInProgress--;
                         maybeHideLoadingIcon();
                     }
@@ -389,12 +417,14 @@
                     '/strasbourg.strasbourg/get-alerts', {
                     },
                     function(data) {
-                        // Convertion des données geoJSON en marker
-                        var alertesData = L.geoJson(data, {
-                            pointToLayer: pointAlertToLayer,
-                            onEachFeature: onEachFeatureAlerte
-                        });
-                        markers.addLayers(alertesData);
+                        try {
+                            // Convertion des données geoJSON en marker
+                            var alertesData = L.geoJson(data, {
+                                pointToLayer: pointAlertToLayer,
+                                onEachFeature: onEachFeatureAlerte
+                            });
+                            markers.addLayers(alertesData);
+                        } catch (e) {}
                         requestsInProgress--;
                         maybeHideLoadingIcon();
                     }

@@ -78,6 +78,7 @@ public class MapPortlet extends MVCPortlet {
 
 		try {
 			themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            configId = null;
 
 			// Récupération de la configuration
 			MapConfiguration configuration = themeDisplay.getPortletDisplay()
@@ -429,6 +430,8 @@ public class MapPortlet extends MVCPortlet {
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
 		try {
+            configId = null;
+            themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 			String resourceID = resourceRequest.getResourceID();
 
 			if (resourceID.equals("toggleInterestPoint")) {

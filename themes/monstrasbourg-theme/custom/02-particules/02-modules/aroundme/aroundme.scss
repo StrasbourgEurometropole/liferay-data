@@ -57,22 +57,31 @@
             overflow: hidden;
             p{
                 color: #ffffff;
-                font-family: $opensans;
-                font-size: 1.5rem;
+                font-family: "MontSerrat", arial;
+                font-size: 1.4rem;
                 line-height: 1.2em;
-                font-weight: 300;
+                font-weight: 400;
                 text-align: center;
             }
-            a {
+
+            p.info-text {
                 color: #ffffff;
                 font-family: $opensans;
                 font-size: 1.5rem;
                 line-height: 1.2em;
                 font-weight: 300;
                 text-align: center;
-                text-decoration: underline;;
-                &:hover {
-                    text-decoration: none;
+                a {
+                    color: #ffffff;
+                    font-family: $opensans;
+                    font-size: 1.5rem;
+                    line-height: 1.2em;
+                    font-weight: 300;
+                    text-align: center;
+                    text-decoration: underline;;
+                    &:hover {
+                        text-decoration: none;
+                    }
                 }
             }
         }
