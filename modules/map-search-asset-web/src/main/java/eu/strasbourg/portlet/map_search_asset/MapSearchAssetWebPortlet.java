@@ -16,7 +16,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.project.exception.NoSuchProjectException;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
@@ -60,12 +59,22 @@ import org.osgi.service.component.annotations.Component;
 public class MapSearchAssetWebPortlet extends MVCPortlet {
 	
 	private static final String CITY_NAME = "Strasbourg";
+	private static final String ATTRIBUTE_IS_MARKEABLE = "isMarkeable";
+	private static final String JSON_OBJECT_PROJECTS = "projects";
+	private static final String JSON_OBJECT_PARTICIPATIONS = "participation";
+	private static final String JSON_OBJECT_EVENTS = "events";
+	private static final String RESSSOURCE_CHANGE_DISTRICT = "changeDistrictSelection";
+	private static final String RESSSOURCE_CHANGE_PROJECTS = "changeProjectsSelection";
+	private static final String RESSSOURCE_CHANGE_PARTICIPATION = "changeParticipationsSelection";
+	private static final String RESSSOURCE_CHANGE_SUB_ENTITIES = "changeSubEntitiesSelection";
 	
+	// Listes des IDs des entités séléctionnées en front
 	private long selectedDistrictCategoryId;
 	private List<Long> selectedProjectIds;
 	private List<Long> selectedParticipationIds;
 	private List<Long> selectedEventIds;
 	
+	// Listes des entités à afficher en front
 	private List<AssetCategory> districtCategories;
 	private List<Project> projects;
 	private List<Participation> participations;
@@ -93,6 +102,10 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		request.setAttribute("projects", this.projects);
 		
 		// Initialisation des variables tempons
+		this.selectedDistrictCategoryId = -1;
+		this.selectedProjectIds = new ArrayList<Long>();
+		this.selectedParticipationIds = new ArrayList<Long>();
+		this.selectedEventIds = new ArrayList<Long>();
 		this.participations = new ArrayList<Participation>();
 		this.events = new ArrayList<Event>();
 		
@@ -101,6 +114,11 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	
 	/**
 	 * Méthode exécutée lors d'un appel AJAX
+	 * Chaque appel est identifié par un RessourceID permettant de gérer le comportement 
+	 * à fourir
+	 * @note Il est possible de gérer chaque fonction dans une classe MVCRessourceCommand
+	 * 		comme dans les modules BO pour les MVCActionCommand, toutefois il faudrait alors mutualiser
+	 * 		les données dans une classe externe pour agir sur les même résultats 
 	 */
 	@Override
 	public void serveResource(ResourceRequest request, ResourceResponse response)
@@ -112,7 +130,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			String resourceID = request.getResourceID();			
 			
 			// REQUETE : Nouvelle sélection de quartier
-			if (resourceID.equals("changeDistrictSelection")) { 
+			if (resourceID.equals(RESSSOURCE_CHANGE_DISTRICT)) { 
 				
 				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrict");
 				
@@ -131,7 +149,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 			} 
 			// REQUETE : Nouvelle sélection de projets
-			else if (resourceID.equals("changeProjectsSelection")) { 
+			else if (resourceID.equals(RESSSOURCE_CHANGE_PROJECTS)) { 
 				
 				String requestSelectedProjectIds = ParamUtil.getString(request, "selectedProjectIds");
 				
@@ -179,7 +197,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 			}
 			// REQUETE : Nouvelle sélection de participations
-			else if (resourceID.equals("changeParticipationsSelection")) {
+			else if (resourceID.equals(RESSSOURCE_CHANGE_PARTICIPATION)) {
 				
 				String requestSelectedParticipationIds = ParamUtil.getString(request, "selectedParticipationIds");
 				
@@ -211,7 +229,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 			} 
 			// REQUETE : Nouvelle sélection d'entités dépendantes des participations
-			else if (resourceID.equals("changeSubEntitiesSelection")) {
+			else if (resourceID.equals(RESSSOURCE_CHANGE_SUB_ENTITIES)) {
 				
 				String requestSelectedEventIds = ParamUtil.getString(request, "selectedEventIds");
 				
@@ -244,32 +262,64 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	}
 	
 	/**
-	 * Retourne un objet JSON contenant l'ensemble des entités voulu et valide
-	 * un atribut "isMarkeable" sur les entités selectionnées et donc à afficher
+	 * Retourne un objet JSON contenant l'ensemble des entités voulues et valide
+	 * un atribut "isMarkeable" à afficher sur la map en front
+	 * @return JSONObject sous la forme :
+	 * 		{
+	 * 			"projects" : 
+	 * 				[
+     * 					{"id" : 0000,
+	 * 					"title" : "blablabla"
+	 * 					...},
+	 *	  				{...}
+	 * 				],
+	 * 			"participations" :
+	 * 				[{...}],
+	 * 			"events" :
+	 * 				[{...}],
+	 * 		}
 	 */
 	private JSONObject constructJSONSelection() {
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 		
-		// Gestion des projets
+		// ##### Gestion des projets #####
 		JSONArray jsonProjects = JSONFactoryUtil.createJSONArray();
 		for (Project project : this.projects) {
-			jsonProjects.put(project.toJSON());
+			// Récupération du JSON de l'entité
+			JSONObject jsonProject = project.toJSON();
+			// Si l'entité est dans la liste de celles séléctionnées
+			jsonProject.put(
+					ATTRIBUTE_IS_MARKEABLE, 
+					this.selectedProjectIds.contains(project.getProjectId()) ? true : false
+			);
+			// Ajout de l'entité dans le tableau de résutats correspondant
+			jsonProjects.put(jsonProject);
 		}
-		jsonResponse.put("projects", jsonProjects);
+		jsonResponse.put(JSON_OBJECT_PROJECTS, jsonProjects);
 		
-		// Gestion des participations
+		// ##### Gestion des participations #####
 		JSONArray jsonParticipations = JSONFactoryUtil.createJSONArray();
 		for (Participation participation : this.participations) {
-			jsonParticipations.put(participation.toJSON());
+			JSONObject jsonParticipation = participation.toJSON();
+			jsonParticipation.put(
+					ATTRIBUTE_IS_MARKEABLE, 
+					this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
+			);
+			jsonParticipations.put(jsonParticipation);
 		}
-		jsonResponse.put("participations", jsonProjects);
+		jsonResponse.put(JSON_OBJECT_PARTICIPATIONS, jsonProjects);
 		
-		// Gestion des événements
+		// ###### Gestion des événements #####
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : this.events) {
-			jsonEvents.put(event.toJSON());
+			JSONObject jsonEvent = event.toJSON();
+			jsonEvent.put(
+					ATTRIBUTE_IS_MARKEABLE, 
+					this.selectedEventIds.contains(event.getEventId()) ? true : false
+			);
+			jsonEvents.put(jsonEvent);
 		}
-		jsonResponse.put("events", jsonEvents);
+		jsonResponse.put(JSON_OBJECT_EVENTS, jsonEvents);
 		
 		return  jsonResponse;
 	}
