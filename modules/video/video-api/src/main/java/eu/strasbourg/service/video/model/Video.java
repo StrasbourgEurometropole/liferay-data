@@ -98,6 +98,12 @@ public interface Video extends VideoModel, PersistedModel {
 	public java.lang.String getPlayer(java.util.Locale locale);
 
 	/**
+	* Retourne le code html nécessaire à l'affichage de la vidéo dans le header du site vidéo
+	* et de son utilisation par les différentes API
+	*/
+	public java.lang.String getPlayerHeaderVideo(java.util.Locale locale);
+
+	/**
 	* Retourne l'URL de téléchargement du fichier de transcription
 	*/
 	public java.lang.String getTranscriptionDownloadURL();

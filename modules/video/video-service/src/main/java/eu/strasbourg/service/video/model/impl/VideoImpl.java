@@ -63,7 +63,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
  * Whenever methods are added, rerun ServiceBuilder to copy their definitions
  * into the {@link eu.strasbourg.service.video.model.Video} interface.
  * </p>
- *
+ *>
  * @author BenjaminBini
  */
 @ProviderType
