@@ -45,16 +45,20 @@ create table project_Petition (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(75) null,
-	description VARCHAR(75) null,
+	description TEXT null,
 	placeTextArea VARCHAR(75) null,
 	filesDownload VARCHAR(75) null,
 	publicationDate DATE null,
 	expirationDate DATE null,
+	quotaSignature LONG,
+	nombreSignature LONG,
 	videoUrl VARCHAR(75) null,
-	externalImageURL VARCHAR(75) null,
+	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(75) null,
 	mediaChoice BOOLEAN,
-	imageId LONG
+	consultationPlacesBody VARCHAR(75) null,
+	imageId LONG,
+	filesIds VARCHAR(75) null
 );
 
 create table project_PlacitPlace (

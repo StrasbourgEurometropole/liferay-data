@@ -72,13 +72,17 @@
 		<field name="filesDownload" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
+		<field name="quotaSignature" type="long" />
+		<field name="nombreSignature" type="long" />
 		<field name="videoUrl" type="String" />
-		<field name="externalImageURL" type="String" >
+		<field name="externalImageURL" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
+		<field name="consultationPlacesBody" type="String" />
 		<field name="imageId" type="long" />
+		<field name="filesIds" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.PlacitPlace">
 		<field name="uuid" type="String" />

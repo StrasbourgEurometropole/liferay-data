@@ -378,6 +378,34 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setExpirationDate(Date expirationDate);
 
 	/**
+	 * Returns the quota signature of this petition.
+	 *
+	 * @return the quota signature of this petition
+	 */
+	public long getQuotaSignature();
+
+	/**
+	 * Sets the quota signature of this petition.
+	 *
+	 * @param quotaSignature the quota signature of this petition
+	 */
+	public void setQuotaSignature(long quotaSignature);
+
+	/**
+	 * Returns the nombre signature of this petition.
+	 *
+	 * @return the nombre signature of this petition
+	 */
+	public long getNombreSignature();
+
+	/**
+	 * Sets the nombre signature of this petition.
+	 *
+	 * @param nombreSignature the nombre signature of this petition
+	 */
+	public void setNombreSignature(long nombreSignature);
+
+	/**
 	 * Returns the video url of this petition.
 	 *
 	 * @return the video url of this petition
@@ -444,6 +472,21 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setMediaChoice(boolean mediaChoice);
 
 	/**
+	 * Returns the consultation places body of this petition.
+	 *
+	 * @return the consultation places body of this petition
+	 */
+	@AutoEscape
+	public String getConsultationPlacesBody();
+
+	/**
+	 * Sets the consultation places body of this petition.
+	 *
+	 * @param consultationPlacesBody the consultation places body of this petition
+	 */
+	public void setConsultationPlacesBody(String consultationPlacesBody);
+
+	/**
 	 * Returns the image ID of this petition.
 	 *
 	 * @return the image ID of this petition
@@ -456,6 +499,21 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	 * @param imageId the image ID of this petition
 	 */
 	public void setImageId(long imageId);
+
+	/**
+	 * Returns the files IDs of this petition.
+	 *
+	 * @return the files IDs of this petition
+	 */
+	@AutoEscape
+	public String getFilesIds();
+
+	/**
+	 * Sets the files IDs of this petition.
+	 *
+	 * @param filesIds the files IDs of this petition
+	 */
+	public void setFilesIds(String filesIds);
 
 	/**
 	 * Returns <code>true</code> if this petition is approved.

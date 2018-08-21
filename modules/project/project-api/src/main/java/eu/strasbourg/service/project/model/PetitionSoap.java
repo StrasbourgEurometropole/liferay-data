@@ -51,11 +51,15 @@ public class PetitionSoap implements Serializable {
 		soapModel.setFilesDownload(model.getFilesDownload());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
+		soapModel.setQuotaSignature(model.getQuotaSignature());
+		soapModel.setNombreSignature(model.getNombreSignature());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
 		soapModel.setMediaChoice(model.getMediaChoice());
+		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
 		soapModel.setImageId(model.getImageId());
+		soapModel.setFilesIds(model.getFilesIds());
 
 		return soapModel;
 	}
@@ -252,6 +256,22 @@ public class PetitionSoap implements Serializable {
 		_expirationDate = expirationDate;
 	}
 
+	public long getQuotaSignature() {
+		return _quotaSignature;
+	}
+
+	public void setQuotaSignature(long quotaSignature) {
+		_quotaSignature = quotaSignature;
+	}
+
+	public long getNombreSignature() {
+		return _nombreSignature;
+	}
+
+	public void setNombreSignature(long nombreSignature) {
+		_nombreSignature = nombreSignature;
+	}
+
 	public String getVideoUrl() {
 		return _videoUrl;
 	}
@@ -288,12 +308,28 @@ public class PetitionSoap implements Serializable {
 		_mediaChoice = mediaChoice;
 	}
 
+	public String getConsultationPlacesBody() {
+		return _consultationPlacesBody;
+	}
+
+	public void setConsultationPlacesBody(String consultationPlacesBody) {
+		_consultationPlacesBody = consultationPlacesBody;
+	}
+
 	public long getImageId() {
 		return _imageId;
 	}
 
 	public void setImageId(long imageId) {
 		_imageId = imageId;
+	}
+
+	public String getFilesIds() {
+		return _filesIds;
+	}
+
+	public void setFilesIds(String filesIds) {
+		_filesIds = filesIds;
 	}
 
 	private String _uuid;
@@ -314,9 +350,13 @@ public class PetitionSoap implements Serializable {
 	private String _filesDownload;
 	private Date _publicationDate;
 	private Date _expirationDate;
+	private long _quotaSignature;
+	private long _nombreSignature;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
+	private String _consultationPlacesBody;
 	private long _imageId;
+	private String _filesIds;
 }

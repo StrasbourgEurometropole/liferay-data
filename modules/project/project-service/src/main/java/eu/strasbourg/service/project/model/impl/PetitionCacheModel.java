@@ -62,7 +62,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,6 +100,10 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
 		sb.append(expirationDate);
+		sb.append(", quotaSignature=");
+		sb.append(quotaSignature);
+		sb.append(", nombreSignature=");
+		sb.append(nombreSignature);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -108,8 +112,12 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(externalImageCopyright);
 		sb.append(", mediaChoice=");
 		sb.append(mediaChoice);
+		sb.append(", consultationPlacesBody=");
+		sb.append(consultationPlacesBody);
 		sb.append(", imageId=");
 		sb.append(imageId);
+		sb.append(", filesIds=");
+		sb.append(filesIds);
 		sb.append("}");
 
 		return sb.toString();
@@ -211,6 +219,9 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setExpirationDate(new Date(expirationDate));
 		}
 
+		petitionImpl.setQuotaSignature(quotaSignature);
+		petitionImpl.setNombreSignature(nombreSignature);
+
 		if (videoUrl == null) {
 			petitionImpl.setVideoUrl(StringPool.BLANK);
 		}
@@ -233,7 +244,22 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 
 		petitionImpl.setMediaChoice(mediaChoice);
+
+		if (consultationPlacesBody == null) {
+			petitionImpl.setConsultationPlacesBody(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setConsultationPlacesBody(consultationPlacesBody);
+		}
+
 		petitionImpl.setImageId(imageId);
+
+		if (filesIds == null) {
+			petitionImpl.setFilesIds(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setFilesIds(filesIds);
+		}
 
 		petitionImpl.resetOriginalValues();
 
@@ -266,13 +292,19 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		filesDownload = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
+
+		quotaSignature = objectInput.readLong();
+
+		nombreSignature = objectInput.readLong();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
 
 		mediaChoice = objectInput.readBoolean();
+		consultationPlacesBody = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
+		filesIds = objectInput.readUTF();
 	}
 
 	@Override
@@ -347,6 +379,10 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
 
+		objectOutput.writeLong(quotaSignature);
+
+		objectOutput.writeLong(nombreSignature);
+
 		if (videoUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -370,7 +406,21 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		objectOutput.writeBoolean(mediaChoice);
 
+		if (consultationPlacesBody == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(consultationPlacesBody);
+		}
+
 		objectOutput.writeLong(imageId);
+
+		if (filesIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(filesIds);
+		}
 	}
 
 	public String uuid;
@@ -391,9 +441,13 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String filesDownload;
 	public long publicationDate;
 	public long expirationDate;
+	public long quotaSignature;
+	public long nombreSignature;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;
 	public boolean mediaChoice;
+	public String consultationPlacesBody;
 	public long imageId;
+	public String filesIds;
 }

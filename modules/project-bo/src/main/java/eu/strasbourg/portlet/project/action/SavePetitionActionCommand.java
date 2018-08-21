@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -27,6 +28,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component(
 	immediate = true,
@@ -47,7 +49,9 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) 
 			throws PortletException {
-		
+
+		// Défini le format de date à utiliser pour les champs temporels
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			
@@ -81,19 +85,140 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 				// Si elle existe (edit), on la cherche
 				petition = _petitionLocalService.getPetition(petitionId);
 			}
-			
+
+			//récupération des informations :
+			long quotasSignature = ParamUtil.getLong(request, "quotaSignature");
+			Boolean mediaChoice = ParamUtil.getBoolean(request, "mediaChoice");
+			String videoUrl = ParamUtil.getString(request, "videoUrl");
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
+			String externalImageCopyright = ParamUtil.getString(request,
+					"externalImageCopyright");
+			String description = ParamUtil.getString(request, "description");
+			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
+			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
+			String filesIds = ParamUtil.getString(request, "filesIds");
+			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
+			Date expirationDate = ParamUtil.getDate(request, "expirationDate", dateFormat);
+			String title = ParamUtil.getString(request, "title");
+			String author = ParamUtil.getString(request, "userName");
+
+
 			// ---------------------------------------------------------------
 			// -------------------------- GENERALITES ------------------------
 			// ---------------------------------------------------------------
 
 			// Titre
-			String title = ParamUtil.getString(request, "title");
 			petition.setTitle(title);
 
 			// Auteur
-			String author = ParamUtil.getString(request, "userName");
 			petition.setUserName(author);
-			_petitionLocalService.updatePetition(petition,sc);
+
+			// quota-signature
+			petition.setQuotaSignature(quotasSignature);
+
+			// ---------------------------------------------------------------
+			// -------------------------- Video / Image ------------------------
+			// ---------------------------------------------------------------
+
+			petition.setMediaChoice(mediaChoice);
+			petition.setVideoUrl(videoUrl);
+			if (imageId>0){ //image interne
+				petition.setImageId(imageId);
+				petition.setExternalImageURL("");
+				petition.setExternalImageCopyright("");
+			}else if (!Validator.isNull(externalImageURL)){ // Image interne
+				petition.setImageId(0L);
+				petition.setExternalImageURL(externalImageURL);
+				petition.setExternalImageCopyright(externalImageCopyright);
+			} else {
+				petition.setImageId(0L);
+				petition.setExternalImageURL("");
+				petition.setExternalImageCopyright("");
+			}
+
+			// ---------------------------------------------------------------
+			// -------------------------- DESCRIPTION ------------------------
+			// ---------------------------------------------------------------
+
+			petition.setDescription(description);
+
+
+			// ---------------------------------------------------------------
+			// -------------------------- LIEUX DE CONSULTATIONS -------------
+			// ---------------------------------------------------------------
+
+			petition.setConsultationPlacesBody(consultationPlacesBody);
+
+			for (PlacitPlace placitPlace : petition.getPlacitPlaces()){
+				_placitPlaceLocalService.removePlacitPlace(placitPlace.getPlacitPlaceId());
+			}
+			for (String placitPlacesIndexe : placitPlacesIndexesString.split(",")){
+				String placeSIGId = ParamUtil.getString(request, "placeSIGId" + placitPlacesIndexe);
+				String placeName = ParamUtil.getString(request, "placeName" + placitPlacesIndexe);
+				long placeCityId = ParamUtil.getLong(request, "placeCityId" + placitPlacesIndexe);
+
+				// Si il existe au moins un lieu SIG ou manuel
+				if (Validator.isNotNull(placitPlacesIndexe)
+						&&(Validator.isNotNull(placeSIGId)
+						||(Validator.isNotNull(placeName)
+						&&Validator.isNotNull(placeCityId)))){
+					// Initialisation de l'entité
+					PlacitPlace placitPlace = _placitPlaceLocalService.createPlacitPlace(sc);
+
+					if (Validator.isNotNull(placeSIGId)) {
+						// Lieu SIG
+						placitPlace.setPlaceSIGId(placeSIGId);
+					} else {
+						// Nom du lieu
+						placitPlace.setPlaceName(placeName);
+
+						// Numéro de rue
+						String placeStreetNumber = ParamUtil.getString(request,
+								"placeStreetNumber" + placitPlacesIndexe);
+						placitPlace.setPlaceStreetNumber(placeStreetNumber);
+
+						// Nom de la rue
+						String placeStreetName = ParamUtil.getString(request,
+								"placeStreetName" + placitPlacesIndexe);
+						placitPlace.setPlaceStreetName(placeStreetName);
+
+						// Code postal
+						String placeZipCode = ParamUtil.getString(request,
+								"placeZipCode" + placitPlacesIndexe);
+						placitPlace.setPlaceZipCode(placeZipCode);
+
+						// Ville
+						placitPlace.setPlaceCityId(placeCityId);
+
+						// Image du lieu
+						long placeImageId = ParamUtil.getLong(request,
+								"placeImageId" + placitPlacesIndexe);
+						placitPlace.setImageId(placeImageId);
+					}
+
+                    // Rattachement a la participation
+                    placitPlace.setPetitionId(petition.getPetitionId());
+
+                    // Mise à jour en base
+                    _placitPlaceLocalService.updatePlacitPlace(placitPlace, sc);
+				}
+			}
+
+            // ---------------------------------------------------------------
+            // -------------------------- DOCUMENTS --------------------------
+            // ---------------------------------------------------------------
+
+            petition.setFilesIds(filesIds);
+
+            // ---------------------------------------------------------------
+            // -------------------------- AUTRES -----------------------------
+            // ---------------------------------------------------------------
+
+            petition.setPublicationDate(publicationDate);
+            petition.setExpirationDate(expirationDate);
+
+            _petitionLocalService.updatePetition(petition,sc);
 		} catch (PortalException e) {
 			_log.error(e);
 		}

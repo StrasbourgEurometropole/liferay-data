@@ -27,6 +27,9 @@ import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -111,6 +114,30 @@ public class PetitionImpl extends PetitionBaseImpl {
                 VocabularyNames.PETITION_STATUS);
         return listStatus.size() > 0 ? listStatus.get(0) : null;
     }
+
+	public String getSituationStatusPetition() {
+		String result = "Nouvelle";
+		if (getExpirationDate()==null)
+			return result;
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime expirationTime = new Timestamp(getExpirationDate().getTime()).toLocalDateTime();
+		boolean isExpirated = now.isAfter(expirationTime);
+		boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
+
+		if (quotaSignatureAtteint && !isExpirated)
+			result = "Aboutie";
+		else if (isExpirated && !quotaSignatureAtteint)
+			result = "Non aboutie";
+		else {
+			long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
+			if (periodTemp <=7)
+				result = "Bient&ocirc;t termin&eacute;e";
+			else result = "En cours";
+		}
+
+		return result;
+	}
+
 
 	/**
 	 * Retourne la liste des lieux placit liés à la participation

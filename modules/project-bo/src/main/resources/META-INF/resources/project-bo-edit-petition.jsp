@@ -48,6 +48,9 @@
 				<%-- Champ : Auteur --%>
 				<aui:input name="userName" required="true" />
 
+				<%-- Champ : quota Signataire --%>
+				<aui:input name="quotaSignature" required="true" />
+
 			</aui:fieldset>
 
             <%-- Groupe de champs : video/image --%>
@@ -68,21 +71,17 @@
 
                 <%-- Champ : Image interne --%>
                 <div class="internalImage" <c:if test="${(empty dc.petition.imageId or dc.petition.imageId eq 0) and not empty dc.petition.externalImageURL }">style="display: none;"</c:if>>
-                    <strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.petition.imageId}" global="true"/>
+                    <strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.petition.imageId}" global="true"/>
                 </div>
 
                 <%-- Groupe de champs : Image externe --%>
                 <div class="externalImage" <c:if test="${(not empty dc.petition.imageId and dc.petition.imageId gt 0) or empty dc.petition.externalImageURL }">style="display: none;"</c:if>>
 
                     <%-- Champ : URL de l'image externe --%>
-                    <aui:input name="externalImageURL" helpMessage="help-image-size" >
-                        <aui:validator name="required" errorMessage="this-field-is-required" />
-                    </aui:input>
+                    <aui:input name="externalImageURL" helpMessage="help-image-size"/>
 
                     <%-- Champ : Copyright de l'image externe --%>
-                    <aui:input name="externalImageCopyright" >
-                        <aui:validator name="required" errorMessage="this-field-is-required" />
-                    </aui:input>
+                    <aui:input name="externalImageCopyright"/>
 
                 </div>
 
@@ -129,14 +128,60 @@
 
             <%-- Groupe de champs : Documents a telecharger --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-document">
+
+				<%-- Champ : Selection des documents --%>
+				<strasbourg-picker:file label="eu.documents" name="filesIds"
+					required="false" multiple="true" value="${dc.petition.filesIds}" />
+
 			</aui:fieldset>
 
             <%-- Groupe de champs : vocabulaire --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-vocabulary">
+
+				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
+				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+
+				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+				<div class="has-error">
+					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
+							function (val, fieldNode, ruleValue) {
+								var validated = true;
+								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								for (var i = 0; i < fields.length; i++) {
+									fieldContent = fields[i];
+								    if ($(fieldContent).find('.icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    	validated = false;
+								    	break;
+								    }
+								}
+								return validated;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
+
+				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
+				<aui:input name="tags" type="assetTags" />
+
+				<div class="form-group input-int-wrapper">
+                    <label class="control-label"> <liferay-ui:message key="status" /> </label>
+                    <input class="field disabled form-control lfr-input-text" disabled="disabled" id="_eu_strasbourg_portlet_project_ProjectBOPortlet_status" name="_eu_strasbourg_portlet_project_ProjectBOPortlet_status"
+                           style="" type="text" value="${dc.petition.getSituationStatusPetition()}" maxlength="75" aria-describedby="">
+                </div>
+
 			</aui:fieldset>
 
             <%-- Groupe de champs : Autre --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-other">
+
+				<%-- Champ : Date de publication --%>
+				<aui:input name="publicationDate" required="false" />
+
+				<%-- Champ : Date d'expiration --%>
+				<aui:input name="expirationDate" required="false" />
+
 			</aui:fieldset>
 
 		</aui:fieldset-group>

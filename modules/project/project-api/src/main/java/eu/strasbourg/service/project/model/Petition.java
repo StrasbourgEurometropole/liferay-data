@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
@@ -84,6 +83,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	* Retourne le status de la petition
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory();
+
+	public java.lang.String getSituationStatusPetition();
 
 	/**
 	* Retourne la liste des lieux placit liés à la participation

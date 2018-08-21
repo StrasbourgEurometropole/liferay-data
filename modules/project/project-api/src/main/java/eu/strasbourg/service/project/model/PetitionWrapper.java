@@ -73,11 +73,15 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("filesDownload", getFilesDownload());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
+		attributes.put("quotaSignature", getQuotaSignature());
+		attributes.put("nombreSignature", getNombreSignature());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("imageId", getImageId());
+		attributes.put("filesIds", getFilesIds());
 
 		return attributes;
 	}
@@ -192,6 +196,18 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setExpirationDate(expirationDate);
 		}
 
+		Long quotaSignature = (Long)attributes.get("quotaSignature");
+
+		if (quotaSignature != null) {
+			setQuotaSignature(quotaSignature);
+		}
+
+		Long nombreSignature = (Long)attributes.get("nombreSignature");
+
+		if (nombreSignature != null) {
+			setNombreSignature(nombreSignature);
+		}
+
 		String videoUrl = (String)attributes.get("videoUrl");
 
 		if (videoUrl != null) {
@@ -217,10 +233,23 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setMediaChoice(mediaChoice);
 		}
 
+		String consultationPlacesBody = (String)attributes.get(
+				"consultationPlacesBody");
+
+		if (consultationPlacesBody != null) {
+			setConsultationPlacesBody(consultationPlacesBody);
+		}
+
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		String filesIds = (String)attributes.get("filesIds");
+
+		if (filesIds != null) {
+			setFilesIds(filesIds);
 		}
 	}
 
@@ -414,6 +443,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the consultation places body of this petition.
+	*
+	* @return the consultation places body of this petition
+	*/
+	@Override
+	public java.lang.String getConsultationPlacesBody() {
+		return _petition.getConsultationPlacesBody();
+	}
+
+	/**
 	* Returns the description of this petition.
 	*
 	* @return the description of this petition
@@ -454,6 +493,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the files IDs of this petition.
+	*
+	* @return the files IDs of this petition
+	*/
+	@Override
+	public java.lang.String getFilesIds() {
+		return _petition.getFilesIds();
+	}
+
+	/**
 	* Retourne le label de 5 digits du nombre de commentaires de l'entité
 	*/
 	@Override
@@ -469,6 +518,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getPlaceTextArea() {
 		return _petition.getPlaceTextArea();
+	}
+
+	@Override
+	public java.lang.String getSituationStatusPetition() {
+		return _petition.getSituationStatusPetition();
 	}
 
 	/**
@@ -657,6 +711,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the nombre signature of this petition.
+	*
+	* @return the nombre signature of this petition
+	*/
+	@Override
+	public long getNombreSignature() {
+		return _petition.getNombreSignature();
+	}
+
+	/**
 	* Returns the petition ID of this petition.
 	*
 	* @return the petition ID of this petition
@@ -674,6 +738,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public long getPrimaryKey() {
 		return _petition.getPrimaryKey();
+	}
+
+	/**
+	* Returns the quota signature of this petition.
+	*
+	* @return the quota signature of this petition
+	*/
+	@Override
+	public long getQuotaSignature() {
+		return _petition.getQuotaSignature();
 	}
 
 	/**
@@ -714,6 +788,17 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_petition.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the consultation places body of this petition.
+	*
+	* @param consultationPlacesBody the consultation places body of this petition
+	*/
+	@Override
+	public void setConsultationPlacesBody(
+		java.lang.String consultationPlacesBody) {
+		_petition.setConsultationPlacesBody(consultationPlacesBody);
 	}
 
 	/**
@@ -794,6 +879,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Sets the files IDs of this petition.
+	*
+	* @param filesIds the files IDs of this petition
+	*/
+	@Override
+	public void setFilesIds(java.lang.String filesIds) {
+		_petition.setFilesIds(filesIds);
+	}
+
+	/**
 	* Sets the group ID of this petition.
 	*
 	* @param groupId the group ID of this petition
@@ -839,6 +934,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Sets the nombre signature of this petition.
+	*
+	* @param nombreSignature the nombre signature of this petition
+	*/
+	@Override
+	public void setNombreSignature(long nombreSignature) {
+		_petition.setNombreSignature(nombreSignature);
+	}
+
+	/**
 	* Sets the petition ID of this petition.
 	*
 	* @param petitionId the petition ID of this petition
@@ -881,6 +986,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_petition.setPublicationDate(publicationDate);
+	}
+
+	/**
+	* Sets the quota signature of this petition.
+	*
+	* @param quotaSignature the quota signature of this petition
+	*/
+	@Override
+	public void setQuotaSignature(long quotaSignature) {
+		_petition.setQuotaSignature(quotaSignature);
 	}
 
 	/**

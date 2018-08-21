@@ -2976,11 +2976,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setFilesDownload(petition.getFilesDownload());
 		petitionImpl.setPublicationDate(petition.getPublicationDate());
 		petitionImpl.setExpirationDate(petition.getExpirationDate());
+		petitionImpl.setQuotaSignature(petition.getQuotaSignature());
+		petitionImpl.setNombreSignature(petition.getNombreSignature());
 		petitionImpl.setVideoUrl(petition.getVideoUrl());
 		petitionImpl.setExternalImageURL(petition.getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(petition.getExternalImageCopyright());
 		petitionImpl.setMediaChoice(petition.isMediaChoice());
+		petitionImpl.setConsultationPlacesBody(petition.getConsultationPlacesBody());
 		petitionImpl.setImageId(petition.getImageId());
+		petitionImpl.setFilesIds(petition.getFilesIds());
 
 		return petitionImpl;
 	}

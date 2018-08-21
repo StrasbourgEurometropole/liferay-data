@@ -244,6 +244,8 @@
 		<column name="filesDownload" type="String" />
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date" />
+		<column name="quotaSignature" type="long" />
+		<column name="nombreSignature" type="long" />
 
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
@@ -251,8 +253,13 @@
 		<column name="externalImageCopyright" type="String" />
 		<column name="mediaChoice" type="boolean" />
 
+		<!-- Lieux de consultation -->
+		<column name="consultationPlacesBody" type="String" />
+
+
 		<!-- Links with other entities -->
 		<column name="imageId" type="long" />
+		<column name="filesIds" type="String" />
 
 		<!-- Order -->
 		<order by="asc">

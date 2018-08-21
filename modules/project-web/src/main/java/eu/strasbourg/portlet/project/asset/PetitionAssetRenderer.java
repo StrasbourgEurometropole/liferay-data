@@ -23,11 +23,6 @@ public class PetitionAssetRenderer extends BaseJSPAssetRenderer<Petition> {
     }
 
     @Override
-    public String getJspPath(HttpServletRequest request, String template) {
-        return null;
-    }
-
-    @Override
     public Petition getAssetObject() {
         return _entry;
     }
@@ -60,6 +55,11 @@ public class PetitionAssetRenderer extends BaseJSPAssetRenderer<Petition> {
     @Override
     public long getClassPK() {
         return _entry.getPetitionId();
+    }
+
+    @Override
+    public String getJspPath(HttpServletRequest request, String template) {
+        return null;
     }
 
     @Override
