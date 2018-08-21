@@ -121,16 +121,16 @@ public class PetitionImpl extends PetitionBaseImpl {
 			return result;
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime expirationTime = new Timestamp(getExpirationDate().getTime()).toLocalDateTime();
-		boolean isExpirated = now.isAfter(expirationTime);
+		boolean isExpired = now.isAfter(expirationTime);
 		boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
 
-		if (quotaSignatureAtteint && !isExpirated)
+		if (quotaSignatureAtteint && !isExpired)
 			result = "Aboutie";
-		else if (isExpirated && !quotaSignatureAtteint)
+		else if (isExpired && !quotaSignatureAtteint)
 			result = "Non aboutie";
 		else {
 			long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
-			if (periodTemp <=7)
+			if (!isExpired && periodTemp <= 7)
 				result = "Bient&ocirc;t termin&eacute;e";
 			else result = "En cours";
 		}
