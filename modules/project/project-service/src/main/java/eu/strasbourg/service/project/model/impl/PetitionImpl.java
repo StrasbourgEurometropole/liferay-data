@@ -116,7 +116,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
 	public String getSituationStatusPetition() {
-		String result = "Nouvelle";
+		String result = "Brouillon";
 		if (getExpirationDate()==null)
 			return result;
 		LocalDateTime now = LocalDateTime.now();
