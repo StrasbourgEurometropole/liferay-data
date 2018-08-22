@@ -381,6 +381,11 @@ public class PetitionLocalServiceUtil {
 		return getService().findByKeywordCount(keyword, groupId);
 	}
 
+	public static void updateAllPetitionsStatus()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateAllPetitionsStatus();
+	}
+
 	/**
 	* Met à jour le statut du petition "manuellement" (pas via le workflow)
 	*/

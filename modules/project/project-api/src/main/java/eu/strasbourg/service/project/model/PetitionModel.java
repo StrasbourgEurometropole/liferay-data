@@ -350,6 +350,21 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setFilesDownload(String filesDownload);
 
 	/**
+	 * Returns the petition status of this petition.
+	 *
+	 * @return the petition status of this petition
+	 */
+	@AutoEscape
+	public String getPetitionStatus();
+
+	/**
+	 * Sets the petition status of this petition.
+	 *
+	 * @param petitionStatus the petition status of this petition
+	 */
+	public void setPetitionStatus(String petitionStatus);
+
+	/**
 	 * Returns the publication date of this petition.
 	 *
 	 * @return the publication date of this petition

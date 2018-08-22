@@ -242,6 +242,7 @@
 		<column name="description" type="String" />
 		<column name="placeTextArea" type="String" />
 		<column name="filesDownload" type="String" />
+		<column name="petitionStatus" type="String" />
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date" />
 		<column name="quotaSignature" type="long" />

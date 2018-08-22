@@ -168,7 +168,7 @@
 				<div class="form-group input-int-wrapper">
                     <label class="control-label"> <liferay-ui:message key="status" /> </label>
                     <input class="field disabled form-control lfr-input-text" disabled="disabled" id="_eu_strasbourg_portlet_project_ProjectBOPortlet_status" name="_eu_strasbourg_portlet_project_ProjectBOPortlet_status"
-                           style="" type="text" value="${dc.petition.getSituationStatusPetition()}" maxlength="75" aria-describedby="">
+                           style="" type="text" value="${dc.petition.petitionStatus}" maxlength="75" aria-describedby="">
                 </div>
 
 			</aui:fieldset>

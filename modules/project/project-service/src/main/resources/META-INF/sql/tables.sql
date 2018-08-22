@@ -48,6 +48,7 @@ create table project_Petition (
 	description TEXT null,
 	placeTextArea VARCHAR(75) null,
 	filesDownload VARCHAR(75) null,
+	petitionStatus VARCHAR(75) null,
 	publicationDate DATE null,
 	expirationDate DATE null,
 	quotaSignature LONG,

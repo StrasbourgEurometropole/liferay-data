@@ -407,6 +407,12 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 		return _petitionLocalService.findByKeywordCount(keyword, groupId);
 	}
 
+	@Override
+	public void updateAllPetitionsStatus()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_petitionLocalService.updateAllPetitionsStatus();
+	}
+
 	/**
 	* Met à jour le statut du petition "manuellement" (pas via le workflow)
 	*/

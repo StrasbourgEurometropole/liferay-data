@@ -71,6 +71,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
+		attributes.put("petitionStatus", getPetitionStatus());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
@@ -182,6 +183,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (filesDownload != null) {
 			setFilesDownload(filesDownload);
+		}
+
+		String petitionStatus = (String)attributes.get("petitionStatus");
+
+		if (petitionStatus != null) {
+			setPetitionStatus(petitionStatus);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -511,6 +518,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the petition status of this petition.
+	*
+	* @return the petition status of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionStatus() {
+		return _petition.getPetitionStatus();
+	}
+
+	/**
 	* Returns the place text area of this petition.
 	*
 	* @return the place text area of this petition
@@ -518,11 +535,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getPlaceTextArea() {
 		return _petition.getPlaceTextArea();
-	}
-
-	@Override
-	public java.lang.String getSituationStatusPetition() {
-		return _petition.getSituationStatusPetition();
 	}
 
 	/**
@@ -951,6 +963,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setPetitionId(long petitionId) {
 		_petition.setPetitionId(petitionId);
+	}
+
+	/**
+	* Sets the petition status of this petition.
+	*
+	* @param petitionStatus the petition status of this petition
+	*/
+	@Override
+	public void setPetitionStatus(java.lang.String petitionStatus) {
+		_petition.setPetitionStatus(petitionStatus);
 	}
 
 	/**

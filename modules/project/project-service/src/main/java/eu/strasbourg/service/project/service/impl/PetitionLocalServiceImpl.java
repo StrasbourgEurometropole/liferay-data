@@ -25,21 +25,28 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
+import eu.strasbourg.utils.constants.FriendlyURLs;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -130,6 +137,44 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
         assetEntryLocalService.updateAssetEntry(entry);
         reindex(petition,false);
         return petition;
+    }
+
+    @Override
+    public void updateAllPetitionsStatus() throws PortalException {
+        _log.info("Start checking petitions status");
+
+        // Recupere l'ID par defaut du portal
+        long companyId = PortalUtil.getDefaultCompanyId();
+
+        // Recupere le groupe du site via son nom
+        Group group = GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL);
+
+        List<Petition> petitionList = getPublishedByGroupId(group.getGroupId());
+        if (petitionList != null && !petitionList.isEmpty()) {
+            for (Petition petition : petitionList) {
+                if (petition.getPublicationDate() != null && petition.getExpirationDate() != null) {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime expirationTime = new Timestamp(petition.getExpirationDate().getTime()).toLocalDateTime();
+                    LocalDateTime publicationTime = new Timestamp(petition.getPublicationDate().getTime()).toLocalDateTime();
+                    boolean isExpired = now.isAfter(expirationTime);
+                    boolean quotaSignatureAtteint = petition.getNombreSignature() >= petition.getQuotaSignature();
+                    if (quotaSignatureAtteint && !isExpired)
+                        petition.setPetitionStatus("Aboutie");
+                    else if (isExpired && !quotaSignatureAtteint)
+                        petition.setPetitionStatus("Non aboutie");
+                    else {
+                        long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
+                        long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
+                        if (!isExpired && periodNews <= 7)
+                            petition.setPetitionStatus("Nouveau");
+                        else if (!isExpired && periodTemp <= 7)
+                            petition.setPetitionStatus("Bient&ocirc;t termin&eacute;e");
+                        else petition.setPetitionStatus("En cours");
+                    }
+                    updatePetition(petition);
+                }
+            }
+        }
     }
 
     /**

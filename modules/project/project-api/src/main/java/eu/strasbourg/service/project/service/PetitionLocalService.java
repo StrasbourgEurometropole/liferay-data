@@ -323,6 +323,8 @@ public interface PetitionLocalService extends BaseLocalService,
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
+	public void updateAllPetitionsStatus() throws PortalException;
+
 	/**
 	* Met à jour le statut du petition "manuellement" (pas via le workflow)
 	*/

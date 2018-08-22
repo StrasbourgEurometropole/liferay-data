@@ -70,6 +70,7 @@
 		</field>
 		<field name="placeTextArea" type="String" />
 		<field name="filesDownload" type="String" />
+		<field name="petitionStatus" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 		<field name="quotaSignature" type="long" />

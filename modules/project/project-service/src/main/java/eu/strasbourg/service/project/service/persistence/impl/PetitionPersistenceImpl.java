@@ -2974,6 +2974,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setDescription(petition.getDescription());
 		petitionImpl.setPlaceTextArea(petition.getPlaceTextArea());
 		petitionImpl.setFilesDownload(petition.getFilesDownload());
+		petitionImpl.setPetitionStatus(petition.getPetitionStatus());
 		petitionImpl.setPublicationDate(petition.getPublicationDate());
 		petitionImpl.setExpirationDate(petition.getExpirationDate());
 		petitionImpl.setQuotaSignature(petition.getQuotaSignature());
