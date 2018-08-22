@@ -145,7 +145,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 
         // Recupere l'ID par defaut du portal
         long companyId = PortalUtil.getDefaultCompanyId();
-
+        int petitionUpdatedCount = 0;
         // Recupere le groupe du site via son nom
         Group group = GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL);
 
@@ -172,9 +172,12 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                         else petition.setPetitionStatus("En cours");
                     }
                     updatePetition(petition);
+                    petitionUpdatedCount++;
                 }
             }
         }
+
+        _log.info("Updated " + petitionUpdatedCount + " petitions status");
     }
 
     /**
