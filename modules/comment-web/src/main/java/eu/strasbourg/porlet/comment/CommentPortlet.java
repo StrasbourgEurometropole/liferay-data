@@ -201,7 +201,7 @@ public class CommentPortlet extends MVCPortlet {
 					// Edition des attributs
 					comment.setAssetEntryId(entryID);
 					comment.setUrlProjectCommentaire(url.toString());
-					comment.setUserName(comment.getPublikUserName());
+					comment.setUserName(comment.getFullPublikUserName());
 					comment.setComment(message);
 					comment.setUserQuality(userQuality);
 
