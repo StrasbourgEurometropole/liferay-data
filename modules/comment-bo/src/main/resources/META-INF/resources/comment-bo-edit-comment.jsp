@@ -91,10 +91,6 @@
                             <liferay-ui:search-container-column-text cssClass="content-column"
                             name="userName" truncate="true" orderable="true" value="${reporting.userName}" />
 
-                            <%-- Colonne : début du commentaire --%>
-                            <liferay-ui:search-container-column-text cssClass="content-column"
-                                name="comment" truncate="true" orderable="true" value="${reporting.getCommentContent()}" />
-
                             <%-- Colonne : Date de modification--%>
                             <fmt:formatDate value="${reporting.createDate}"
                                 var="formattedCreatedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
