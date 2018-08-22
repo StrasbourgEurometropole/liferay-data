@@ -14,7 +14,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
@@ -23,6 +25,7 @@ public class EditCommentDisplayContext {
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
 
+    private PublikUser publikUser;
     private Comment _comment;
     private String _banishment;
     private LocalDateTime date;
@@ -30,41 +33,56 @@ public class EditCommentDisplayContext {
     private int _month;
     private int _day;
 
-    public EditCommentDisplayContext(RenderRequest request, RenderResponse response){
-        this.date = LocalDateTime.now();
+    public EditCommentDisplayContext(RenderRequest request, RenderResponse response) {
+        publikUser = getPublikUser(request);
+        this.date = getDate();
         this._request = request;
         this._themeDisplay = (ThemeDisplay) request
                 .getAttribute(WebKeys.THEME_DISPLAY);
     }
 
-    public int getYear(){
+    private PublikUser getPublikUser(RenderRequest request) {
+        long commentId = ParamUtil.getLong(request, "commentId");
+        if (_comment == null && commentId > 0) {
+            _comment = CommentLocalServiceUtil.fetchComment(commentId);
+        }
+        return PublikUserLocalServiceUtil.getByPublikUserId(_comment.getPublikId());
+    }
+
+    private LocalDateTime getDate() {
+        Date banishDate = publikUser.getBanishDate();
+        if (banishDate != null)
+            return new Timestamp(banishDate.getTime()).toLocalDateTime();
+        else return LocalDateTime.now();
+    }
+
+    public int getYear() {
         _year = date.getYear();
         return _year;
     }
 
-    public int getMonth(){
-        _month = date.getMonthValue()-1;
+    public int getMonth() {
+        _month = date.getMonthValue() - 1;
         return _month;
     }
 
-    public int getDay(){
+    public int getDay() {
         _day = date.getDayOfMonth();
         return _day;
     }
 
-    public Comment getComment(){
-        Long commentId = ParamUtil.getLong(_request,"commentId");
-        if (_comment == null && commentId>0){
+    public Comment getComment() {
+        long commentId = ParamUtil.getLong(_request, "commentId");
+        if (_comment == null && commentId > 0) {
             _comment = CommentLocalServiceUtil.fetchComment(commentId);
         }
         return _comment;
     }
 
-    public String getBanishment(){
-        if (this._comment==null){
+    public String getBanishment() {
+        if (this._comment == null) {
             _comment = this.getComment();
         }
-        PublikUser publikUser =PublikUserLocalServiceUtil.getByPublikUserId(_comment.getPublikId());
         return publikUser.getBanishDescription();
     }
 
