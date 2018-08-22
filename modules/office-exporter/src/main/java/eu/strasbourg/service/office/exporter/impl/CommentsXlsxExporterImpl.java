@@ -1,11 +1,15 @@
 package eu.strasbourg.service.office.exporter.impl;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -53,9 +57,9 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
 
     public void exportComments(OutputStream stream, List<Comment> comments) {
         XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("comments");
+        XSSFSheet sheet = workbook.createSheet("Commentaires");
 
-        Object[][] commentData = {{LanguageUtil.get(bundle, "type"), LanguageUtil.get(bundle, "title"),
+        Object[][] commentData = {{LanguageUtil.get(bundle, "commentType"), LanguageUtil.get(bundle, "commentName"),
                 LanguageUtil.get(bundle, "modification-date"), LanguageUtil.get(bundle, "comment-level"),
                 LanguageUtil.get(bundle, "comment")}};
 
