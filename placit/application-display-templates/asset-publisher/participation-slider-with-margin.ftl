@@ -43,7 +43,7 @@
                     <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
                     <!-- Recuperation de la couleur hexa correspondant au type de la participation -->
-                    <#assign participationColor = entry.getProjectCategoryColor() />
+                    <#assign participationColor = entry.getTypeCategoryColor() />
 
                     <div class="item pro-bloc-card-participation type-color-hexa-${participationColor}" data-linkall="a">
                         <div>

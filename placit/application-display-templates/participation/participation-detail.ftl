@@ -20,7 +20,7 @@
 <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
 <!-- Recuperation de la couleur hexa correspondant au type de la participation -->
-<#assign participationColor = entry.getProjectCategoryColor() />
+<#assign participationColor = entry.getTypeCategoryColor() />
 
 <!-- Recuperation des thématiques de la participation -->
 <#if entry.getThematicCategories()??>
