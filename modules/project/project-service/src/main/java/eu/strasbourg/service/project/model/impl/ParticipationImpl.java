@@ -40,6 +40,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -59,10 +60,10 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	private static final long serialVersionUID = 1311330918138728472L;
 	
 	public static final String SOON_ARRIVED = "soon_arrived";
-	public static final String FINISHED = "finished";
-	public static final String SOON_FINISHED = "soon_finished";
 	public static final String NEW = "new";
 	public static final String IN_PROGRESS = "in_progress";
+	public static final String SOON_FINISHED = "soon_finished";
+	public static final String FINISHED = "finished";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -490,7 +491,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		
 		switch (this.getParticipationStatus()) {
 			case SOON_ARRIVED:
-				result = "Début dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
+				result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
 				break;
 			case NEW:
 			case IN_PROGRESS:
@@ -498,7 +499,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 				result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
 				break;
 			case FINISHED:
-				result = "Terminée";
+				result = "Finie";
 				break;
 		}
 		
@@ -537,10 +538,11 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		// Initialisation des variables tempons et résultantes
 		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 		// Champs de gestion
 		jsonParticipation.put("id", this.getParticipationId());
-		jsonParticipation.put("createDate", this.getCreateDate());
+		jsonParticipation.put("createDate", dateFormat.format(this.getCreateDate()));
 		
 		// Champs : Header
 		jsonParticipation.put("title", this.getTitle());
@@ -576,7 +578,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		
 		// Label des vocabulaires
 		AssetCategory projectCategory = this.getProjectCategory();
-		AssetCategory statusCategory = this.getProjectCategory();
+		AssetCategory statusCategory = this.getParticipationStatusCategory();
 		AssetCategory typeCategory = this.getTypeCategory();
 		
 		jsonParticipation.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
