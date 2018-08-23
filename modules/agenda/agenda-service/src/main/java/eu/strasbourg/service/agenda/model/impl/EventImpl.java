@@ -775,6 +775,14 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		
+		List<String> mercators = this.getMercators();
+		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
+		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		
+		jsonEvent.put("firstDate", this.getFirstStartDate());
+		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
 		return jsonEvent;
 	}
