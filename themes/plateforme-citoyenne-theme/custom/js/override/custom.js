@@ -360,6 +360,7 @@ function getParticipationMarker(participation, mercators) {
             '</div></a>' + 
         '</div>' + 
         colorHack
+        ,{maxHeight: 300, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -384,7 +385,7 @@ function getEventMarker(event) {
                     '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
                     '<span class="pro-time">Le <time datetime="2018-01-10">' + event.firstDate + '</time></span>' +
                     '<p>À : ' + event.completeAddress + '</p>' +
-                    '<h3>' + event.event.title.fr_FR + '</h3>' +
+                    '<h3>' + event.title.fr_FR + '</h3>' +
                 '</div>' +
                 '<div class="pro-footer-event">' +
                     '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
@@ -392,6 +393,7 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
+        ,{maxHeight: 280, maxWidth: 654}
     );
 
     return marker;

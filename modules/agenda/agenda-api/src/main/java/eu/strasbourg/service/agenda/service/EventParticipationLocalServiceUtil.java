@@ -127,6 +127,14 @@ public class EventParticipationLocalServiceUtil {
 	}
 
 	/**
+	* Retourne la participation à l'événement d'un utilisateur et d'un événement donné
+	*/
+	public static eu.strasbourg.service.agenda.model.EventParticipation getByPublikUserIdAndEventId(
+		java.lang.String publikUserId, long eventId) {
+		return getService().getByPublikUserIdAndEventId(publikUserId, eventId);
+	}
+
+	/**
 	* Returns the event participation with the primary key.
 	*
 	* @param eventParticipationId the primary key of the event participation

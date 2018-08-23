@@ -131,6 +131,16 @@ public class EventParticipationLocalServiceWrapper
 	}
 
 	/**
+	* Retourne la participation à l'événement d'un utilisateur et d'un événement donné
+	*/
+	@Override
+	public eu.strasbourg.service.agenda.model.EventParticipation getByPublikUserIdAndEventId(
+		java.lang.String publikUserId, long eventId) {
+		return _eventParticipationLocalService.getByPublikUserIdAndEventId(publikUserId,
+			eventId);
+	}
+
+	/**
 	* Returns the event participation with the primary key.
 	*
 	* @param eventParticipationId the primary key of the event participation

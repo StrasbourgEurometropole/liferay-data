@@ -166,7 +166,7 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne les coordonnees mercator en axe X et Y
 	* Notes : permet de ne pas multiplier les appels
 	*
-	* @return "" si vide sinon "mercatorX;mercatorY"
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
 	*/
 	public java.util.List<java.lang.String> getMercators();
 
@@ -258,6 +258,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices();
 
 	public java.time.LocalDate getNextOpenDate();
+
+	/**
+	* Demande si l'utilisateur demandé participe à l'événement
+	*/
+	public boolean isUserParticipate(java.lang.String publikUserId);
 
 	/**
 	* Retourne la version JSON de l'événenement

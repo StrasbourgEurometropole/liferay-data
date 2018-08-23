@@ -382,6 +382,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : this.events) {
 			JSONObject jsonEvent = event.toJSON();
+			String publikUserId = this.getPublikID(request);
 			jsonEvent.put(
 					ATTRIBUTE_IS_MARKEABLE, 
 					this.selectedEventIds.contains(event.getEventId()) ? true : false
@@ -392,7 +393,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			);
 			jsonEvent.put(
 					ATTRIBUTE_IS_USER_PARTICIPATE, 
-					false
+					publikUserId != "" ? event.isUserParticipate(publikUserId) : false
 			);
 			jsonEvents.put(jsonEvent);
 		}
