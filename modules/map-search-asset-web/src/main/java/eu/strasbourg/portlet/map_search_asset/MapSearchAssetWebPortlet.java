@@ -61,6 +61,10 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	
 	private static final String CITY_NAME = "Strasbourg";
 	private static final String ATTRIBUTE_IS_MARKEABLE = "isMarkeable";
+	private static final String ATTRIBUTE_LINK = "link";
+	private static final String ATTRIBUTE_IS_USER_PARTICIPATE = "isUserPart";
+	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
+	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	private static final String JSON_OBJECT_PROJECTS = "projects";
 	private static final String JSON_OBJECT_PARTICIPATIONS = "participations";
 	private static final String JSON_OBJECT_EVENTS = "events";
@@ -306,7 +310,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 			}
 			
-			JSONObject jsonResponse = this.constructJSONSelection();
+			JSONObject jsonResponse = this.constructJSONSelection(request);
 			
 			// Recuperation de l'élément d'écriture de la réponse
 			PrintWriter writer = response.getWriter();
@@ -336,10 +340,10 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 * 				[{...}],
 	 * 		}
 	 */
-	private JSONObject constructJSONSelection() {
+	private JSONObject constructJSONSelection(ResourceRequest request) {
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 		
-		// ##### Gestion des projets #####
+		// Gestion des projets
 		JSONArray jsonProjects = JSONFactoryUtil.createJSONArray();
 		for (Project project : this.projects) {
 			// Récupération du JSON de l'entité
@@ -349,12 +353,16 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 					ATTRIBUTE_IS_MARKEABLE, 
 					this.selectedProjectIds.contains(project.getProjectId()) ? true : false
 			);
+			jsonProject.put(
+					ATTRIBUTE_LINK, 
+					this.getHomeURL(request) + "/" + project.getDetailURL()
+			);
 			// Ajout de l'entité dans le tableau de résutats correspondant
 			jsonProjects.put(jsonProject);
 		}
 		jsonResponse.put(JSON_OBJECT_PROJECTS, jsonProjects);
 		
-		// ##### Gestion des participations #####
+		// Gestion des participations
 		JSONArray jsonParticipations = JSONFactoryUtil.createJSONArray();
 		for (Participation participation : this.participations) {
 			JSONObject jsonParticipation = participation.toJSON();
@@ -362,17 +370,29 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 					ATTRIBUTE_IS_MARKEABLE, 
 					this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
 			);
+			jsonParticipation.put(
+					ATTRIBUTE_LINK, 
+					this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
+			);
 			jsonParticipations.put(jsonParticipation);
 		}
 		jsonResponse.put(JSON_OBJECT_PARTICIPATIONS, jsonParticipations);
 		
-		// ###### Gestion des événements #####
+		// Gestion des événements
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : this.events) {
 			JSONObject jsonEvent = event.toJSON();
 			jsonEvent.put(
 					ATTRIBUTE_IS_MARKEABLE, 
 					this.selectedEventIds.contains(event.getEventId()) ? true : false
+			);
+			jsonEvent.put(
+					ATTRIBUTE_LINK, 
+					this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
+			);
+			jsonEvent.put(
+					ATTRIBUTE_IS_USER_PARTICIPATE, 
+					false
 			);
 			jsonEvents.put(jsonEvent);
 		}

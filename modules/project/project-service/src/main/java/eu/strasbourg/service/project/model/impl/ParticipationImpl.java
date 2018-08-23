@@ -279,7 +279,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 * 'code_color' de la categorie associee
 	 */
 	@Override
-	public String getProjectCategoryColor() {
+	public String getTypeCategoryColor() {
 		long categoryId = this.getTypeCategory().getCategoryId();
 		return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
 	}
@@ -577,11 +577,15 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		// Label des vocabulaires
 		AssetCategory projectCategory = this.getProjectCategory();
 		AssetCategory statusCategory = this.getProjectCategory();
+		AssetCategory typeCategory = this.getTypeCategory();
 		
 		jsonParticipation.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
 		jsonParticipation.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
+		jsonParticipation.put("typeLabel", typeCategory != null ? typeCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("typeColor", this.getTypeCategoryColor());
 		jsonParticipation.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
 		jsonParticipation.put("statusId", statusCategory != null ? statusCategory.getCategoryId() : "");
+		jsonParticipation.put("statusCode", this.getParticipationStatus());
 		jsonParticipation.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
 		jsonParticipation.put("statusDetailLabel", this.getStatusDetailLabel());
 		

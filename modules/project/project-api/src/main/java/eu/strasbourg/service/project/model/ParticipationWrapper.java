@@ -717,15 +717,6 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne la couleur hexa du type de la participation contenu dans la propriete
-	* 'code_color' de la categorie associee
-	*/
-	@Override
-	public java.lang.String getProjectCategoryColor() {
-		return _participation.getProjectCategoryColor();
-	}
-
-	/**
 	* Returns the status by user name of this participation.
 	*
 	* @return the status by user name of this participation
@@ -769,6 +760,15 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getTitle() {
 		return _participation.getTitle();
+	}
+
+	/**
+	* Retourne la couleur hexa du type de la participation contenu dans la propriete
+	* 'code_color' de la categorie associee
+	*/
+	@Override
+	public java.lang.String getTypeCategoryColor() {
+		return _participation.getTypeCategoryColor();
 	}
 
 	/**

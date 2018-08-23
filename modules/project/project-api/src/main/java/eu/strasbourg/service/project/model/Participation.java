@@ -163,7 +163,7 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne la couleur hexa du type de la participation contenu dans la propriete
 	* 'code_color' de la categorie associee
 	*/
-	public java.lang.String getProjectCategoryColor();
+	public java.lang.String getTypeCategoryColor();
 
 	/**
 	* Retourne les thematiques de la participation (

@@ -158,10 +158,7 @@ function updateMarkerElements(entityName = entityType.PROJECT) {
 							// Le lieux est-il repérable ?
 							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
 								// Création du marqueur
-								var marker = getProjectMarker(
-												[placitPlace.mercatorY, placitPlace.mercatorX],
-												homeURL + "/" + project.detailURL
-											);
+								var marker = getProjectMarker(project, [placitPlace.mercatorY, placitPlace.mercatorX]);
 								// Ajout du marqueur sur la carte
 								marker.addTo(leafletMap);
 								// Ajout du marqueur dans le tableau de références
@@ -181,19 +178,7 @@ function updateMarkerElements(entityName = entityType.PROJECT) {
 					if (participation.isMarkeable) {
 						participation.placitPlaces.forEach(function(placitPlace) {
 							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
-								var marker = getParticipationMarker(
-												[placitPlace.mercatorY, placitPlace.mercatorX],
-												homeURL + "detail-participation/-/entity/id/" + participation.id,
-												participation.imageURL,
-												participation.author,
-												participation.districtsLabel,
-												participation.thematicsLabel,
-												participation.statusLabel,
-												participation.projectName,
-												participation.title,
-												participation.publicationDate,
-												participation.statusDetail
-											);
+								var marker = getParticipationMarker(participation, [placitPlace.mercatorY, placitPlace.mercatorX]);
 								marker.addTo(leafletMap);
 								participationMarkers.push(marker);
 							}
@@ -210,15 +195,7 @@ function updateMarkerElements(entityName = entityType.PROJECT) {
 				events.forEach(function(event, index) {
 					if (event.isMarkeable) {
 						if (event.mercatorY != 0 && event.mercatorX != 0) {
-							var marker = getEventMarker(
-											[event.mercatorY, event.mercatorX],
-											homeURL + "detail-evenement/-/entity/id/" + event.id,
-											event.firstDate,
-											event.completeAddress,
-											event.title.fr_FR,
-											false,
-											event.nbPart,
-										);
+							var marker = getEventMarker(event);
 							marker.addTo(leafletMap);
 							eventMarkers.push(marker);
 						}
