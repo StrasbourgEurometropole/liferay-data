@@ -65,14 +65,14 @@ public class ViewPetitionsDisplayContext extends ViewListBaseDisplayContext<Peti
      * @return liste de PK (ex: "1,5,7,8")
      */
     public String getAllPetitionIds() throws PortalException {
-        String petitionIds = "";
-        for (Petition petition : this.getAllPetitions()) {
+        StringBuilder petitionIds = new StringBuilder();
+        for (Petition petition : this.getPetitions()) {
             if (petitionIds.length() > 0) {
-                petitionIds += ",";
+                petitionIds.append(",");
             }
-            petitionIds += petition.getPetitionId();
+            petitionIds.append(petition.getPetitionId());
         }
-        return petitionIds;
+        return petitionIds.toString();
     }
 
     /**

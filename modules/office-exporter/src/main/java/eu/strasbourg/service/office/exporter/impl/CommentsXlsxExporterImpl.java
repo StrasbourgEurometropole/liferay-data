@@ -65,8 +65,7 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
 
         for (Comment comment : comments) {
             DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-            String dateCreate = dateFormat.format(comment.getCreateDate());
-
+            String dateCreate = dateFormat.format(comment.getModifiedByUserDate() == null ? comment.getCreateDate() : comment.getModifiedByUserDate());
             String languageId = LocaleUtil.toLanguageId(Locale.FRANCE);
             String title = LocalizationUtil.getLocalization(comment.getAssetEntryTitle(), languageId);
 

@@ -81,6 +81,8 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
+		attributes.put("assetEntryId", getAssetEntryId());
+		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 
@@ -245,6 +247,18 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (consultationPlacesBody != null) {
 			setConsultationPlacesBody(consultationPlacesBody);
+		}
+
+		Long assetEntryId = (Long)attributes.get("assetEntryId");
+
+		if (assetEntryId != null) {
+			setAssetEntryId(assetEntryId);
+		}
+
+		String publikId = (String)attributes.get("publikId");
+
+		if (publikId != null) {
+			setPublikId(publikId);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -449,6 +463,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return new PetitionWrapper((Petition)_petition.clone());
 	}
 
+	@Override
+	public java.lang.String getAssetEntryTitle() {
+		return _petition.getAssetEntryTitle();
+	}
+
 	/**
 	* Returns the consultation places body of this petition.
 	*
@@ -535,6 +554,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getPlaceTextArea() {
 		return _petition.getPlaceTextArea();
+	}
+
+	/**
+	* Returns the publik ID of this petition.
+	*
+	* @return the publik ID of this petition
+	*/
+	@Override
+	public java.lang.String getPublikId() {
+		return _petition.getPublikId();
 	}
 
 	/**
@@ -693,6 +722,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the asset entry ID of this petition.
+	*
+	* @return the asset entry ID of this petition
+	*/
+	@Override
+	public long getAssetEntryId() {
+		return _petition.getAssetEntryId();
+	}
+
+	/**
 	* Returns the company ID of this petition.
 	*
 	* @return the company ID of this petition
@@ -785,6 +824,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void persist() {
 		_petition.persist();
+	}
+
+	/**
+	* Sets the asset entry ID of this petition.
+	*
+	* @param assetEntryId the asset entry ID of this petition
+	*/
+	@Override
+	public void setAssetEntryId(long assetEntryId) {
+		_petition.setAssetEntryId(assetEntryId);
 	}
 
 	@Override
@@ -1008,6 +1057,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_petition.setPublicationDate(publicationDate);
+	}
+
+	/**
+	* Sets the publik ID of this petition.
+	*
+	* @param publikId the publik ID of this petition
+	*/
+	@Override
+	public void setPublikId(java.lang.String publikId) {
+		_petition.setPublikId(publikId);
 	}
 
 	/**

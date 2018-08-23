@@ -58,6 +58,8 @@ create table project_Petition (
 	externalImageCopyright VARCHAR(75) null,
 	mediaChoice BOOLEAN,
 	consultationPlacesBody VARCHAR(75) null,
+	assetEntryId LONG,
+	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null
 );

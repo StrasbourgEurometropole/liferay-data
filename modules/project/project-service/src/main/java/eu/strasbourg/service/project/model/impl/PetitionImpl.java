@@ -18,6 +18,9 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
@@ -45,6 +48,9 @@ public class PetitionImpl extends PetitionBaseImpl {
 	 *
 	 * Never reference this class directly. All methods that expect a petition model instance should use the {@link eu.strasbourg.service.project.model.Petition} interface instead.
 	 */
+
+	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
 	public PetitionImpl() {
 	}
 
@@ -92,6 +98,24 @@ public class PetitionImpl extends PetitionBaseImpl {
                 WorkflowConstants.STATUS_APPROVED);
     }
 
+	@Override
+	public String getAssetEntryTitle(){
+		String result="N/A";
+		try {
+			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+			String temp = entry.getTitle();
+			if (temp!=null&&!temp.isEmpty()){
+				if (temp.length()>50){
+					temp = entry.getTitle(this.getLocale("FR"));
+				}
+				result = temp;
+			}
+		} catch (PortalException e) {
+			_log.error("Erreur lors de la récupération du nom : ",e);
+		}
+		return result;
+	}
+
     /**
      * Renvoie la liste des AssetCategory rattachées à cet item (via
      * l'assetEntry)
@@ -101,6 +125,7 @@ public class PetitionImpl extends PetitionBaseImpl {
         return AssetVocabularyHelper
                 .getAssetEntryCategories(this.getAssetEntry());
     }
+
 
     /**
      * Retourne le status de la petition

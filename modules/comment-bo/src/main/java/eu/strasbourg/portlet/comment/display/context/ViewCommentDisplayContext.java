@@ -28,14 +28,14 @@ public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Commen
     }
 
     public String getAllCommentIds() throws PortalException {
-        String commentIds = "";
+        StringBuilder commentIds = new StringBuilder();
         for (Comment comment : this.getComments()) {
             if (commentIds.length() > 0) {
-                commentIds += ",";
+                commentIds.append(",");
             }
-            commentIds += comment.getCommentId();
+            commentIds.append(comment.getCommentId());
         }
-        return commentIds;
+        return commentIds.toString();
     }
 
 
