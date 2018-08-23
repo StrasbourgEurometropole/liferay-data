@@ -10,6 +10,17 @@
     <#assign homeURL = "/" />
 </#if>
 
+<!-- Recuperation des coordonnées GPS -->
+<#assign eventPlaceMercatorX = 0 />
+<#assign eventPlaceMercatorY = 0 />
+
+<#assign eventPlaceMercators = entry.getMercators() />
+
+<#if eventPlaceMercators?size == 2 >
+    <#assign eventPlaceMercatorX = eventPlaceMercators[0] />
+    <#assign eventPlaceMercatorY = eventPlaceMercators[1] />
+</#if>
+
 <div class="pro-page-detail">
 
     <div class="container">
@@ -35,7 +46,7 @@
                         <#if entry.getThemeLabel(locale)?has_content>
                             <span>${entry.getThemeLabel(locale)}</span>
                         </#if>
-                        <span>? commentaires</span>
+                        <span>${entry.getNbApprovedComments()} commentaire(s)</span>
                     </div>
 
                     <div id="breadcrumb">
@@ -93,11 +104,16 @@
                         </div>
 
                     </div>
+
+                    <!-- Fiche de l'entité -->
                     <aside class="col-sm-4">
-                        <#if entry.getMercatorY()?has_content >
-                            <div class="bloc-iframe maps" data-theme="default" data-lat="${entry.getMercatorY()}" data-lng="${entry.getMercatorX()}" data-marker="true"
-                             data-markericon="event" data-zoom="12" data-filter-options="filterMapDetail"></div>
+
+                        <!-- Bloc : map -->
+                        <#if eventPlaceMercators?size == 2 >
+                            <div class="bloc-iframe leaflet-map" id="mapid" ></div>
                         </#if>
+
+                        <!-- Bloc : compteur de participants -->
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
@@ -118,6 +134,8 @@
                                 </a>
                             </#if>
                         </div>
+
+                        <!-- Bloc : contact -->
                         <div class="pro-contact">
                             <h4>Contact</h4>
                             <p>
@@ -127,12 +145,15 @@
                             </p>
                             <a href="tel:${entry.phone}" title="Numéro de téléphone : ${entry.phone}">${entry.phone}</a>
                         </div>
+
+                        <!-- Bloc : reservation -->
                         <#if entry.bookingURL?has_content>
                             <div class="pro-ticket">
                                 <#if entry.getBookingDescription(locale)?has_content>${entry.getBookingDescription(locale)}</#if>
                                 <a href="${entry.bookingURL}" target="_blank" class="pro-btn-ticket" title="Réservation d'un billet">Reserver un billet</a>
                             </div>
                         </#if>
+
                     </aside>
                 </div>
             </article>
@@ -148,6 +169,29 @@
 </div>
 
 <script>
+
+    var eventMercatorX = ${eventPlaceMercatorX};
+    var eventMercatorY = ${eventPlaceMercatorY};
+
+    $(document).ready(function() {
+
+        // Gestion de la carte interactive
+        // Notes : voir dans le theme placit "override/custom.js"
+        if (eventMercatorX && eventMercatorX.length != 0) {
+
+            //Création de la carte au centre de strasbourg
+            leafletMap = getLeafletMap()
+
+            // Définition des marqueurs
+            var eventIcon = getMarkerIcon('event');
+
+            // Ajout du marqueur sur la map
+            var marker = L.marker([eventMercatorY, eventMercatorX], {icon: eventIcon}).addTo(leafletMap);
+        }
+
+    });
+
+    // Gestion de la participation ou non d'un utilisateur à un événement
     $(document).ready(function() {
         $('.pro-slider-event>.container>div').each(function() {
             $(this).addClass("col-lg-10 col-lg-offset-1");
@@ -173,4 +217,5 @@
         );
 
     });
+
 </script>

@@ -30,8 +30,15 @@
 <!-- Recuperation des evenements lies a la participation -->
 <#assign participationEvents = entry.getEvents() />
 
-<!-- Recuperation des evenements lies a la participation -->
+<!-- Recuperation des lieux lies a la participation -->
 <#assign participationPlaces = entry.getPlacitPlaces() />
+
+<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+<#assign instanceId = themeDisplay.getPortletDisplay().getId() />
+
+<!-- Initialisation des conteneurs de coordonnees GPS -->
+<#assign participationPlaceMercators = [] />
+<#assign eventPlaceMercators = [] />
 
 <div class="pro-page-detail pro-page-detail-participation">
 
@@ -142,6 +149,8 @@
                                         <#if participationPlaces?has_content>
                                             <#list participationPlaces as place >
 
+                                                <#assign participationPlaceMercators = participationPlaceMercators + [place.getMercators()] />
+
                                                 <div class="col-md-4 col-sm-6">
                                                     <a>
                                                         <figure class="fit-cover">
@@ -195,8 +204,10 @@
 
                     </div>
 
-
+                    <!-- Fiche de l'entité -->
                     <aside class="col-sm-4">
+
+                        <!-- Bloc : avis -->
                         <div class="pro-push-avis">
                             <#if entry.isJudgeable() && request.session.getAttribute("has_pact_signed")!false>
                                 <a href="#pro-approuv" class="pro-like"
@@ -233,18 +244,25 @@
                                 </a>
                             </#if>
                         </div>
-                        <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
-                             data-zoom="12" data-filter-options="filterMapDetail"></div>
+
+                        <!-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
+
+                        <!-- Bloc : compteur commentaires -->
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.nbApprovedCommentsLabel}</span>
                             <p>Citoyens(nes) ont réagi</p>
                             <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                         </div>
+
+                        <!-- Bloc : à venir -->
                         <div class="pro-event-comming">
                             <a href="#pro-link-evenement" target="Evenement à venir">
                                 <strong><#if participationEvents?has_content>${participationEvents?size}</#if></strong> Évènement(s) à venir
                             </a>
                         </div>
+
+                        <!-- Bloc : contact -->
                         <div class="pro-contact">
                             <h4>Contact</h4>
                             <p>
@@ -260,70 +278,76 @@
                             	<a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
                             </#if>
                         </div>
+
                     </aside>
                 </div>
             </article>
+
 
         </div>
     </div>
 
 </div>
 
+
 <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
     <div class="container">
+
         <div class="col-lg-10 col-lg-offset-1">
-            <h2>L'agenda</h2>
-            <a href="${homeURL}agenda" class="pro-btn">Voir Tout l’agenda</a>
+            <h2>L’agenda</h2>
+            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
         </div>
 
         <div class="col-lg-10 col-lg-offset-1">
             <div class="owl-carousel owl-opacify owl-theme owl-cards">
-
-
+            
+                <!-- Parcours des entites de l'asset publisher -->
                 <#if participationEvents?has_content>
                     <#list participationEvents as event >
 
-                        <!-- Separation du titre de l'evenement  en deux parties -->
-                        <#assign eventTitle = event.getTitle(locale) >
-                        <#if eventTitle?length gt 15 && eventTitle?index_of(" ", 15) != -1 >
-                            <#assign breakIndex = eventTitle?index_of(" ", 15) >
-                            <#assign eventTitleFirstPart = eventTitle?substring(0, breakIndex) />
-                            <#assign eventTitleSecondPart = eventTitle?substring(breakIndex, eventTitle?length) />
-                        <#else>
-                            <#assign eventTitleFirstPart = eventTitle />
-                        </#if>
-
+                        <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+                        
                         <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
                             <div>
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
-                                    <span class="pro-time">
-                                        <#if event.firstStartDate?has_content>
-                                            Le <time datetime="2018-01-10">${event.firstStartDate?string("dd MMMM yyyy")}</time>
-                                        </#if>
-                                    </span>
-                                    <p>À : ${event.getPlaceAlias(locale)}<br></p>
-                                    <h3>
-                                        ${eventTitleFirstPart}
-                                        <br>
-                                        <#if eventTitleSecondPart?has_content>${eventTitleSecondPart}</#if>
+                                    <span class="pro-time"><#if event.firstStartDate?has_content>Le ${event.firstStartDate?string("dd MMMM yyyy")}</#if></span>
+                                    <p>À : ${event.getPlaceAlias(locale)}</p>
+                                    <h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+                                        overflow: hidden;text-overflow: ellipsis;height: 53px">
+                                        ${event.getTitle(locale)}
                                     </h3>
                                 </div>
                                 <div class="pro-footer-event">
-                                    <!--
-                                    <span class="pro-btn-action active">Je participe</span>
-                                    <span class="pro-number"><strong>4537</strong> Participant(s)</span>
-                                    -->
+                                    <#if event.isFinished() >
+                                        <span class="pro-btn-action">
+                                            Événement terminé
+                                        </span>
+                                    <#elseif request.session.getAttribute("has_pact_signed")!false >
+                                        <span class="pro-btn-action"
+                                            name="#Participe-${instanceId}"
+                                            data-eventid="${event.eventId}"
+                                            data-groupid="${event.groupId}">
+                                            Je participe
+                                        </span>
+                                    <#else>
+                                        <span class="pro-btn-action" name="#Pact-sign">
+                                            Je participe
+                                        </span>
+                                    </#if>
+                                    <span class="pro-number"><strong>${event.getNbEventParticipations()}</strong> Participant(s)</span>
                                 </div>
                             </div>
                         </a>
-                    </#list>
+                    
+                        </#list>
                 <#else>
                     Aucun événement associé pour le moment
                 </#if>
 
             </div>
         </div>
+
     </div>
 </section>
 
@@ -335,3 +359,79 @@
         }
     </style>
 </#if>
+
+<script>
+    var participationPlaceMercators = [
+        <#list participationPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
+    var eventPlaceMercators = [
+        <#list eventPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
+    $(document).ready(function() {
+
+        // Gestion de la carte interactive
+        // Notes : voir dans le theme placit "override/custom.js"
+
+        //Création de la carte au centre de strasbourg
+        leafletMap = getLeafletMap()
+
+        // Définition des marqueurs
+        var participationMarkerIcon = getMarkerIcon('participation');
+        var eventMarkerIcon = getMarkerIcon('event');
+
+        // Ajout des marqueurs sur la map
+        var participationMarkers = [];
+        var eventMarkers = [];
+
+        for(var i= 0; i < participationPlaceMercators.length; i++) {
+            participationMarkers.push(
+                L.marker(participationPlaceMercators[i], {icon: participationMarkerIcon}).addTo(leafletMap)
+            );
+        }
+        for(var i= 0; i < eventPlaceMercators.length; i++) {
+            eventMarkers.push(
+                L.marker(eventPlaceMercators[i], {icon: eventMarkerIcon}).addTo(leafletMap)
+            );
+        }
+
+    });
+
+    $(document).ready(function() {
+        $("span[name='#Participe-${instanceId}']").each(function() {
+
+            // Sauvegarde de l'élément
+            var element = $(this);
+            
+            // Récupération des attributs du like
+            var eventid = $(this).data("eventid");
+
+            // Recherche si l'utilisateur participe a l'evenement
+            Liferay.Service(
+                '/agenda.eventparticipation/is-user-participates',
+                {
+                    eventId: eventid
+                },
+                function(obj) {
+                    // En cas de succès, on effectue la modification des éléments visuels
+                    // selon la réponse et le type de l'élément
+                    if (obj.hasOwnProperty('success')) {
+                        if (obj['success'] == 'true') {
+                            element.toggleClass('active');
+                        }
+                    }
+                }
+            );
+
+        });
+    });
+</script>

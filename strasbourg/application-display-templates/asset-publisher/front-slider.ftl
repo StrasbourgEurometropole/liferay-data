@@ -42,7 +42,7 @@
           {
             category: 'agenda',
             title: '${event.getTitle(locale)?js_string}',
-            lead: '${event.getDescription(locale)?js_string}',
+            type: '${event.getTypeLabel(locale)?js_string}',
             link: '${themeDisplay.portalURL}' + window.homeURL + 'evenement/-/entity/id/${event.eventId}',
             ville: '${event.getCity(locale)} <#if event.getCity(locale)?has_content>-</#if> ${event.getPlaceAlias(locale)?js_string}',
             id: '${event.eventId}',
@@ -132,7 +132,7 @@
                 </div>
                 <div class="seu-title dotme" data-dot="3">__title__</div>
                 <div class="seu-ville">__ville__</div>
-                <div class="seu-lead dotme" data-dot="7">__lead__</div>
+                <div class="item-categories" data-dot="3">__type__</div>
             </a>
             <a href="#" class="seu-add-favorites" data-type="2" data-title="__title__" data-url="__link__" data-id="__id__" >
                 <span>__favorite__</span>

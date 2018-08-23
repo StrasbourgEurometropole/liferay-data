@@ -50,6 +50,30 @@
             "required": true,
             "showLabel": true,
             "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "fr_FR": "Image de fond (avant le chargement de la vidéo)"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
         }
     ]
 }

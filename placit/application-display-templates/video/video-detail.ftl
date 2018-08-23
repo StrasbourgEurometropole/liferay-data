@@ -83,7 +83,7 @@
                     <!-- Recuperation des thématiques de la vidéo -->
                     <#assign thematicCategories = entry.thematicCategories />
                     <!-- Liste des thématiques de la vidéo -->
-                    <#if thematicCategories?? >
+                    <#if thematicCategories?has_content >
                         <div class="pro-item">
                             <p><strong>Thématiques : </strong></p>
                             <#list thematicCategories as thematicCategory >
@@ -94,7 +94,7 @@
                     <!-- Recuperation des quartiers de la vidéo -->
                     <#assign districtCategories = entry.districtCategories />
                     <!-- Liste des quartiers de la participation -->
-                    <#if districtCategories?? >
+                    <#if districtCategories?has_content >
                         <div class="pro-item">
                             <p><strong>Quartier(s) : </strong></p>
                             <#list districtCategories as districtCategory >
@@ -102,14 +102,14 @@
                             </#list>
                         </div>
                     </#if>
-                    <div class="pro-item">
-                        <p><strong>Projet : </strong></p>
-                        <!-- Recuperation du projet de la vidéo -->
-                        <#assign projectCategory = entry.projectCategory />
-                        <#if projectCategory??>
+                    <#if entry.projectCategory??>
+                        <div class="pro-item">
+                            <p><strong>Projet : </strong></p>
+                            <!-- Recuperation du projet de la vidéo -->
+                            <#assign projectCategory = entry.projectCategory />
                             <a href="#" title="${projectCategory.getTitle(locale)}">${projectCategory.getTitle(locale)}</a>
-                        </#if>
-                    </div>
+                        </div>
+                    </#if>
                 </aside>
             </div>
         </div>

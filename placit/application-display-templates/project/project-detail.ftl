@@ -7,6 +7,35 @@
     <#assign homeURL = "/" />
 </#if>
 
+<!-- Recuperation des entités lies au projet -->
+<#assign projectPlaces = entry.getPlacitPlaces() />
+<#assign projectEvents = entry.getEvents() />
+<#assign projectParticipations = entry.getParticipations() />
+
+<!-- Initialisation des conteneurs de coordonnees GPS -->
+<#assign projectPlaceMercators = [] />
+<#assign eventPlaceMercators = [] />
+<#assign participationPlaceMercators = [] />
+
+<!-- Recuperation des coordonnées de chaque entité liées -->
+<#list projectPlaces as place >
+    <#assign projectPlaceMercators = projectPlaceMercators + [place.getMercators()] />
+</#list>
+
+<#list projectEvents as event >
+    <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+</#list>
+
+<#list projectParticipations as participation >
+    <#list participation.getPlacitPlaces() as place >
+        <#assign participationPlaceMercators = participationPlaceMercators + [place.getMercators()] />
+    </#list>
+    <#list participation.getEvents() as event >
+        <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+    </#list>
+</#list>
+
+
 <div id="breadcrumb">
     <span>
         <span>
@@ -54,6 +83,19 @@
         <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${entry.getParticipations()?size}</strong> Participation(s) en cours</a>
         <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${entry.getEvents()?size}</strong> Évènement(s) à venir</a>
     </div> 
+ <!-- Fiche de l'entité -->
+<aside class="col-sm-4-to-move">
+
+    <!-- Bloc : map -->
+    <div class="bloc-iframe leaflet-map" id="mapid" ></div>
+
+    <!-- Bloc : entités liées -->
+    <div class="pro-event-comming">
+        <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${projectParticipations?size}</strong> Participation(s) en cours</a>
+        <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${projectEvents?size}</strong> Évènement(s) à venir</a>
+    </div>
+
+    <!-- Bloc : contact -->
     <div class="pro-contact">
         <h4>Contact</h4>
         <p>
@@ -67,6 +109,7 @@
         </p>
         <a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
     </div>
+
 </aside>
  
  <style>
@@ -87,7 +130,33 @@
  </style>
  
  <script>
+    var projectPlaceMercators = [
+        <#list projectPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
+    var participationPlaceMercators = [
+        <#list participationPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
+    var eventPlaceMercators = [
+        <#list eventPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
     $(document).ready(function() {
+
+        // Déplacement du bloc de la fiche entité
         $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
         $(".portlet-content>.portlet-title-text").hide();
 
@@ -110,5 +179,37 @@
                 }
             }
         );
+
+        // Gestion de la carte interactive
+        // Notes : voir dans le theme placit "override/custom.js"
+
+        //Création de la carte au centre de strasbourg
+        leafletMap = getLeafletMap()
+
+        // Définition des marqueurs
+        var projectMarkerIcon = getMarkerIcon('project');
+        var participationMarkerIcon = getMarkerIcon('participation');
+        var eventMarkerIcon =  getMarkerIcon('event');
+
+        // Ajout des marqueurs sur la map
+        var projectMarkers = [];
+        var participationMarkers = [];
+        var eventMarkers = [];
+
+        for(var i= 0; i < projectPlaceMercators.length; i++) {
+            projectMarkers.push(
+                L.marker(projectPlaceMercators[i], {icon: projectMarkerIcon}).addTo(leafletMap)
+            );
+        }
+        for(var i= 0; i < participationPlaceMercators.length; i++) {
+            participationMarkers.push(
+                L.marker(participationPlaceMercators[i], {icon: participationMarkerIcon}).addTo(leafletMap)
+            );
+        }
+        for(var i= 0; i < eventPlaceMercators.length; i++) {
+            eventMarkers.push(
+                L.marker(eventPlaceMercators[i], {icon: eventMarkerIcon}).addTo(leafletMap)
+            );
+        }
     });
 </script>
