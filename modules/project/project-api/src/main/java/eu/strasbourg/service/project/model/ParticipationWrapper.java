@@ -746,6 +746,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le label d'affichage détaillant le statut
+	*/
+	@Override
+	public java.lang.String getStatusDetailLabel() {
+		return _participation.getStatusDetailLabel();
+	}
+
+	/**
 	* Retourne une chaine des 'Thematics' sépararée d'un '-'
 	*/
 	@Override

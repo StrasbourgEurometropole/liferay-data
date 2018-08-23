@@ -121,6 +121,7 @@
 
 <liferay-util:html-top>
 	<script>
+		var homeURL = '${homeURL}';
 		var porletNamespace = '<portlet:namespace/>';
 		
 		var changeDistrictSelectionURL = '${changeDistrictSelectionURL}';

@@ -297,11 +297,54 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
+*/
+function getProjectMarker(mercators, link) {
+
+    var projectMarkerIcon = getMarkerIcon("project");
+    var marker = L.marker(mercators, {icon: projectMarkerIcon});
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'une particiaption sur la carte intéractive
+*/
+function getParticipationMarker(mercators, link, imageUrl, author,  districts, thematics, status, project, title, publishDate, statusDetail) {
+
+    var participationMarkerIcon = getMarkerIcon("participation");
+    var marker = L.marker(mercators, {icon: participationMarkerIcon});
+
+    marker.bindPopup(
+        '<div class="pro-vignette-map-inte">' +
+            '<a href="' + link + '" class="item pro-bloc-card-participation pro-theme-information" data-linkall="a">' +
+            '<div>' +
+                '<div class="pro-header-participation">' + 
+                    '<figure><img src="' + imageUrl + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+                    '<p>Participation publiée par :</p><p><strong>' + author + '</strong></p>' +
+                    '<div class="pro-info-top-right"><span class="pro-encart-theme">' + thematics + '</span></div>' +
+                '</div>' +
+                '<div class="pro-content-participation">' +
+                    '<div class="pro-meta"><span>' + districts + '</span><span>' + thematics + '</span><span>' + status + '</span><span>' + project + '</span></div>' +
+                    '<h3>' + title + '</h3>' +
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / <span class="pro-duree">' + statusDetail + '</span></span></div>' +
+                    '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>' +
+            '</div></a>' + 
+        '</div>'
+    );
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'un événement sur la carte intéractive
 */
 function getEventMarker(mercators, link, publishDate, place, title, isUserPart, nbPart) {
+
     var eventMarkerIcon = getMarkerIcon("event");
-    var marker = L.marker(mercators, {icon: eventMarkerIcon})
+    var marker = L.marker(mercators, {icon: eventMarkerIcon});
 
     var activePart = isUserPart ? "active" : "";
 
@@ -310,7 +353,7 @@ function getEventMarker(mercators, link, publishDate, place, title, isUserPart, 
             '<a href="' + link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
                 '<div class="pro-header-event">' +
                     '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
+                    '<span class="pro-time">Le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
                     '<p>À : ' + place + '</p>' +
                     '<h3>' + title + '</h3>' +
                 '</div>' +
@@ -326,42 +369,21 @@ function getEventMarker(mercators, link, publishDate, place, title, isUserPart, 
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getProjectMarker(link) {
-
-    var projectMarkerIcon = getMarkerIcon("project");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getParticipationPopUp(link) {
-
-    var participationMarkerIcon = getMarkerIcon("participation");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getInitiativePopUp(link) {
+function getInitiativePopUp(mercators, link) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
+    var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
 
-    return '';
+    return marker;
 
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
 */
-function getPetitionPopUp(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+function getPetitionMarker(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
 
     var petitionMarkerIcon = getMarkerIcon("petition");
     var marker = L.marker(mercators, {icon: petitionMarkerIcon})

@@ -57,6 +57,12 @@ import java.util.stream.Collectors;
 public class ParticipationImpl extends ParticipationBaseImpl {
 
 	private static final long serialVersionUID = 1311330918138728472L;
+	
+	public static final String SOON_ARRIVED = "soon_arrived";
+	public static final String FINISHED = "finished";
+	public static final String SOON_FINISHED = "soon_finished";
+	public static final String NEW = "new";
+	public static final String IN_PROGRESS = "in_progress";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -413,19 +419,19 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		expirationDateMinus = cal.getTime();
 		
 		if (todayDate.before(publicationDate)) {
-			return "soon_arrived";
+			return SOON_ARRIVED;
 		} 
 		else if (todayDate.after(expirationDate)) {
-			return "finished";
+			return FINISHED;
 		}
 		else if (todayDate.after(expirationDateMinus)) {
-			return "soon_finished";
+			return SOON_FINISHED;
 		}
 		else if (todayDate.before(publicationDatePlus)) {
-			return "new";
+			return NEW;
 		} 
 		else {
-			return "in_progress";
+			return IN_PROGRESS;
 		}
 	}
 	
@@ -473,6 +479,30 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			}
 		}
 		return URLs;
+	}
+	
+	/**
+	 * Retourne le label d'affichage détaillant le statut
+	 */
+	@Override
+	public String getStatusDetailLabel() {
+		String result = "";
+		
+		switch (this.getParticipationStatus()) {
+			case SOON_ARRIVED:
+				result = "Début dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
+				break;
+			case NEW:
+			case IN_PROGRESS:
+			case SOON_FINISHED:
+				result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
+				break;
+			case FINISHED:
+				result = "Terminée";
+				break;
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -553,6 +583,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		jsonParticipation.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
 		jsonParticipation.put("statusId", statusCategory != null ? statusCategory.getCategoryId() : "");
 		jsonParticipation.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("statusDetailLabel", this.getStatusDetailLabel());
 		
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {

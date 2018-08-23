@@ -5,9 +5,9 @@ var projects = null;
 var participations = null;
 var events = null;
 
-var projectMarkers = null;
-var participationMarkers = null;
-var eventMarkers = null;
+var projectMarkers = [];
+var participationMarkers = [];
+var eventMarkers = [];
 
 var entityType = {
 	PROJECT : 'project',
@@ -53,7 +53,8 @@ function removeMarkerElementsFrom(entityName = entityType.PROJECT) {
 			if (projectMarkers != null) {
 				projectMarkers.forEach(function(projectMarker) {
 					leafletMap.removeLayer(projectMarker);
-				}
+				});
+				projectMarkers = [];
 			}
 			break;
 			
@@ -61,16 +62,17 @@ function removeMarkerElementsFrom(entityName = entityType.PROJECT) {
 			if (participationMarkers != null) {
 				participationMarkers.forEach(function(participationMarker) {
 					leafletMap.removeLayer(participationMarker);
-				}
+				});
+				participationMarkers = [];
 			}
-			removeFilterElementsFrom(entityType.EVENT);
 			break;
 			
 		case entityType.EVENT:
 			if (eventMarkers != null) {
 				eventMarkers.forEach(function(eventMarker) {
 					leafletMap.removeLayer(eventMarker);
-				}
+				});
+				eventMarkers = [];
 			}
 		    break;
 	}
@@ -94,6 +96,9 @@ function updateFilterElements(entityName = entityType.PROJECT) {
 	                        "<label for='project_" + index + "'>" + project.title + "</label>" +
 	                    "</div>"
 					);
+					if (project.isMarkeable) {
+						$("input[id='project_" + index + "']").prop('checked', true);
+					}
 				});
 				updateFilterElements(entityType.PARTICIPATION);
 			}
@@ -108,6 +113,9 @@ function updateFilterElements(entityName = entityType.PROJECT) {
 	                        "<label for='participation_" + index + "'>" + participation.title + "</label>" +
 	                    "</div>"
 					);
+					if (participation.isMarkeable) {
+						$("input[id='participation_" + index + "']").prop('checked', true);
+					}
 				});
 				updateFilterElements(entityType.EVENT);
 			}
@@ -119,9 +127,12 @@ function updateFilterElements(entityName = entityType.PROJECT) {
 					$("fieldset[id='events_fieldset']").append(
 						"<div>" + 
 	                        "<input type='checkbox' id='event_" + index + "' class='hide-checkbox' value='" + event.id + "'>" +
-	                        "<label for='event_" + index + "'>" + event.title + "</label>" +
+	                        "<label for='event_" + index + "'>" + event.title.fr_FR + "</label>" +
 	                    "</div>"
 					);
+					if (event.isMarkeable) {
+						$("input[id='event_" + index + "']").prop('checked', true);
+					}
 				});
 			}
 		    break;
@@ -138,26 +149,80 @@ function updateMarkerElements(entityName = entityType.PROJECT) {
 	switch (entityName) {
 		case entityType.PROJECT:
 			if (projects != null) {
-				projects.forEach(function(project, index) {
-					
+				// Parcours des projets
+				projects.forEach(function(project) {
+					// Le projet doit-il être affiché ?
+					if (project.isMarkeable) {
+						// Parcours des lieux du projet
+						project.placitPlaces.forEach(function(placitPlace) {
+							// Le lieux est-il repérable ?
+							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
+								// Création du marqueur
+								var marker = getProjectMarker(
+												[placitPlace.mercatorY, placitPlace.mercatorX],
+												homeURL + "/" + project.detailURL
+											);
+								// Ajout du marqueur sur la carte
+								marker.addTo(leafletMap);
+								// Ajout du marqueur dans le tableau de références
+								projectMarkers.push(marker);
+							}
+						});
+					}
 				});
 				updateMarkerElements(entityType.PARTICIPATION);
 			}
 			break;
 			
 		case entityType.PARTICIPATION:
+			// Même processus que l'entité Project
 			if (participations != null) {
 				participations.forEach(function(participation, index) {
-					
+					if (participation.isMarkeable) {
+						participation.placitPlaces.forEach(function(placitPlace) {
+							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
+								var marker = getParticipationMarker(
+												[placitPlace.mercatorY, placitPlace.mercatorX],
+												homeURL + "detail-participation/-/entity/id/" + participation.id,
+												participation.imageURL,
+												participation.author,
+												participation.districtsLabel,
+												participation.thematicsLabel,
+												participation.statusLabel,
+												participation.projectName,
+												participation.title,
+												participation.publicationDate,
+												participation.statusDetail
+											);
+								marker.addTo(leafletMap);
+								participationMarkers.push(marker);
+							}
+						});
+					}
 				});
 				updateMarkerElements(entityType.EVENT);
 			}
 			break;
 			
 		case entityType.EVENT:
+			// Même processus que l'entité Project
 			if (events != null) {
 				events.forEach(function(event, index) {
-					
+					if (event.isMarkeable) {
+						if (event.mercatorY != 0 && event.mercatorX != 0) {
+							var marker = getEventMarker(
+											[event.mercatorY, event.mercatorX],
+											homeURL + "detail-evenement/-/entity/id/" + event.id,
+											event.firstDate,
+											event.completeAddress,
+											event.title.fr_FR,
+											false,
+											event.nbPart,
+										);
+							marker.addTo(leafletMap);
+							eventMarkers.push(marker);
+						}
+					}
 				});
 			    break;
 			}
@@ -207,6 +272,7 @@ $('#district').change(function() {
                 	events = data.events;
                 	
                 	updateFilterElements(entityType.PROJECT);
+                	updateMarkerElements(entityType.PROJECT);
 			 	}
 			 }
 		});
@@ -235,6 +301,7 @@ $(document).on("change", "input[id^='project_']", function() {
                 	events = data.events;
                 	
                 	updateFilterElements(entityType.PARTICIPATION);
+                	updateMarkerElements(entityType.PROJECT);
 			 	}
 			 }
 		});
@@ -262,6 +329,7 @@ $(document).on("change", "input[id^='participation_']", function() {
                 	events = data.events;
                 	
                 	updateFilterElements(entityType.EVENT);
+                	updateMarkerElements(entityType.PARTICIPATION);
 			 	}
 			 }
 		});
@@ -271,21 +339,23 @@ $(document).on("change", "input[id^='participation_']", function() {
 /**
  * Lors d'une selection d'entité sous participation
  */
-$(document).on("change","fieldset[id='events_fieldset'] input", function() {
+$(document).on("change","input[id^='event_']", function() {
 	
-	var selectedEventsIds = getSelectedMarkerElements(entityType.EVENT);
+	var selectedEventIds = getSelectedMarkerElements(entityType.EVENT);
 	
 	AUI().use('aui-io-request', function(A) {
 		A.io.request(changeSubEntitiesSelectionURL, {
 			method : 'post',
 			dataType: 'json',
-			data : { 
+			data : {
 				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedEventIds : selectedEventIds
 			},
 			on: {
                 success: function(e) {
                 	var data = this.get('responseData');
                 	events = data.events;
+                	
+                	updateMarkerElements(entityType.EVENT);
 			 	}
 			 }
 		});

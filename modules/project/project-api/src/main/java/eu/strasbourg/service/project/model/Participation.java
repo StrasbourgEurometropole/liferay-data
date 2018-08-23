@@ -234,6 +234,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<java.lang.String> getFilesURLs();
 
 	/**
+	* Retourne le label d'affichage détaillant le statut
+	*/
+	public java.lang.String getStatusDetailLabel();
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();

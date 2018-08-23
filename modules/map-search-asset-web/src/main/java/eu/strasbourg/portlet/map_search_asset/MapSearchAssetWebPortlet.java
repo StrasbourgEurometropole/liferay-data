@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.map_search_asset;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -89,9 +90,13 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = new Long(themeDisplay.getLayout().getGroupId());
 		
-		//Recuperation et attribution des informations de l'utilisateur
+		// Recuperation et attribution des informations de l'utilisateur
 		String publikUserId = getPublikID(request);
 		request.setAttribute("publikUserId", publikUserId);
+		
+		// Recuperation et attribution de l'URL de base du site
+		String homeUrl = getHomeURL(request);
+		request.setAttribute("homeURL", homeUrl);
 		
 		// Recuperation et attribution des quartiers
 		this.districtCategories = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
@@ -129,17 +134,16 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			long groupId = new Long(themeDisplay.getLayout().getGroupId());
 			String resourceID = request.getResourceID();			
 			
-			// REQUETE : Nouvelle sélection de quartier
+			// ---------------------------------------------------------------
+			// -------- REQUETE : Nouvelle sélection de quartier  ------------
+			// ---------------------------------------------------------------
 			if (resourceID.equals(RESSSOURCE_CHANGE_DISTRICT)) { 
 				
 				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrictId");
 				
 				// Réinitialisation des éléments enfants
-				this.selectedProjectIds.clear();
 				this.participations.clear();
-				this.selectedParticipationIds.clear();
 				this.events.clear();
-				this.selectedEventIds.clear();
 				
 				if (this.selectedDistrictCategoryId > 0) {
 					this.projects = ProjectLocalServiceUtil.findByCategoryIds(new long[] {this.selectedDistrictCategoryId});
@@ -147,8 +151,45 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 					this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
 				}
 				
+				// Récupération des éléments "enfants" en adaptant les séléctions
+				List<Long> tempSelectedProjects = new ArrayList<Long>();
+				for (Project project : this.projects) {
+					if (this.selectedProjectIds.contains(project.getProjectId())) {
+						tempSelectedProjects.add(project.getProjectId());
+					}
+				}
+				this.selectedProjectIds = tempSelectedProjects;
+				
+				for (Long projectId : this.selectedProjectIds) {
+					Project project = ProjectLocalServiceUtil.fetchProject(projectId);
+					this.participations.addAll(project.getParticipations());
+				}
+				
+				List<Long> tempSelectedParticipations = new ArrayList<Long>();
+				for (Participation participation : this.participations) {
+					if (this.selectedParticipationIds.contains(participation.getParticipationId())) {
+						tempSelectedParticipations.add(participation.getParticipationId());
+					}
+				}
+				this.selectedParticipationIds = tempSelectedParticipations;
+				
+				for (Long participationId : this.selectedParticipationIds) {
+					Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
+					this.events.addAll(participation.getEvents());
+				}
+				
+				List<Long> tempSelectedEvents = new ArrayList<Long>();
+				for (Event event : this.events) {
+					if (this.selectedEventIds.contains(event.getEventId())) 
+						tempSelectedEvents.add(event.getEventId());
+				}
+				this.selectedEventIds = tempSelectedEvents;
+				
+				
 			} 
-			// REQUETE : Nouvelle sélection de projets
+			// ---------------------------------------------------------------
+			// -------- REQUETE : Nouvelle sélection de projets  -------------
+			// ---------------------------------------------------------------
 			else if (resourceID.equals(RESSSOURCE_CHANGE_PROJECTS)) { 
 				
 				String requestSelectedProjectIds = ParamUtil.getString(request, "selectedProjectIds");
@@ -175,13 +216,11 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 					// Récupération des éléments "enfants" en adaptant les séléctions
 					List<Long> tempSelectedParticipations = new ArrayList<Long>();
-					
 					for (Participation participation : this.participations) {
 						if (this.selectedParticipationIds.contains(participation.getParticipationId())) {
 							tempSelectedParticipations.add(participation.getParticipationId());
 						}
 					}
-					
 					this.selectedParticipationIds = tempSelectedParticipations;
 					
 					for (Long participationId : this.selectedParticipationIds) {
@@ -190,18 +229,21 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 					}
 					
 					List<Long> tempSelectedEvents = new ArrayList<Long>();
-					
 					for (Event event : this.events) {
 						if (this.selectedEventIds.contains(event.getEventId())) 
 							tempSelectedEvents.add(event.getEventId());
 					}
-					
 					this.selectedEventIds = tempSelectedEvents;
 				
+				} else {
+					this.selectedParticipationIds.clear();
+					this.selectedEventIds.clear();
 				}
 				
 			}
-			// REQUETE : Nouvelle sélection de participations
+			// ---------------------------------------------------------------
+			// -------- REQUETE : Nouvelle sélection de participations  ------
+			// ---------------------------------------------------------------
 			else if (resourceID.equals(RESSSOURCE_CHANGE_PARTICIPATION)) {
 				
 				String requestSelectedParticipationIds = ParamUtil.getString(request, "selectedParticipationIds");
@@ -226,18 +268,20 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 					
 					// Récupération des éléments "enfants" en adaptant les séléctions
 					List<Long> tempSelectedEvents = new ArrayList<Long>();
-					
 					for (Event event : this.events) {
 						if (this.selectedEventIds.contains(event.getEventId())) 
 							tempSelectedEvents.add(event.getEventId());
 					}
-					
 					this.selectedEventIds = tempSelectedEvents;
 					
+				} else {
+					this.selectedEventIds.clear();
 				}
 				
 			} 
-			// REQUETE : Nouvelle sélection d'entités dépendantes des participations
+			// ---------------------------------------------------------------
+			// -------- REQUETE : Nouvelle sélection d'entités dépendantes des participations
+			// ---------------------------------------------------------------
 			else if (resourceID.equals(RESSSOURCE_CHANGE_SUB_ENTITIES)) {
 				
 				String requestSelectedEventIds = ParamUtil.getString(request, "selectedEventIds");
@@ -342,11 +386,27 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 * @return L'id publik de l'utilisateur courant
 	 */
 	private String getPublikID(PortletRequest request) {
-		
 		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
 		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
 		
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
+	}
+	
+	/**
+	 * Récupération de l'URL de base du site pour le lien vers les pages des entités
+	 */
+	private String getHomeURL(PortletRequest request) {
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
+				|| themeDisplay.getScopeGroup().isStagingGroup()) {
+			try {
+				return "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
+			} catch (PortalException e) {
+				return "/web/";
+			}
+		} else {
+			return "/";
+		}
 	}
 	
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
