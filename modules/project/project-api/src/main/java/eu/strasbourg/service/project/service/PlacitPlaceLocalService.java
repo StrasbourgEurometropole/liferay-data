@@ -284,6 +284,12 @@ public interface PlacitPlaceLocalService extends BaseLocalService,
 	public List<PlacitPlace> getByParticipation(long participationId);
 
 	/**
+	* Retourne les lieux d'une participation
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PlacitPlace> getByPetition(long petitionId);
+
+	/**
 	* Retourne les lieux d'un projet
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

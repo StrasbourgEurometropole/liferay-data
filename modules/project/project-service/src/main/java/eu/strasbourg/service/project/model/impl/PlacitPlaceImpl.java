@@ -14,14 +14,23 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.adict.AdictService;
+import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
@@ -44,6 +53,10 @@ import eu.strasbourg.utils.FileEntryHelper;
 public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 
 	private static final long serialVersionUID = 2939226261046827826L;
+	
+	private AdictService adictService;
+	
+	private AdictServiceTracker adictServiceTracker;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -97,8 +110,8 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 	 */
 	@Override
 	public String getSIGPlaceAlias(Locale locale) {
-		Place place = PlaceLocalServiceUtil
-			.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
 		if (place != null) {
 			return place.getAlias(locale);
 		} else {
@@ -125,8 +138,8 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 	 */
 	@Override
 	public String getAddress() {
-		Place place = PlaceLocalServiceUtil
-			.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
 		if (place != null) {
 			return place.getAddressStreet();
 		} else {
@@ -139,8 +152,8 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 	 */
 	@Override
 	public String getCompleteAddress(Locale locale) {
-		Place place = PlaceLocalServiceUtil
-			.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
 		if (place != null && !place.getAddressStreet().isEmpty() && place.getAddressStreet() != "") {
 			return place.getAddressStreet() + 
 					", " + place.getAddressZipCode() + 
@@ -159,8 +172,8 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 	 */
 	@Override
 	public String getZipCode() {
-		Place place = PlaceLocalServiceUtil
-			.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
 		if (place != null) {
 			return place.getAddressZipCode();
 		} else {
@@ -173,8 +186,8 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 	 */
 	@Override
 	public String getCity(Locale locale) {
-		Place place = PlaceLocalServiceUtil
-			.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
 		if (place != null) {
 			return place.getCity(locale);
 		} else {
@@ -183,12 +196,75 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 	}
 	
 	/**
+	 * Retourne les coordonnees mercator en axe X (longitude)
+	 */
+	@Override
+	public String getMercatorX() {
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
+		if (place == null) {
+			// Appel a Addict pour trouver les coordonnees selon l'adresse
+			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			
+			return coorResult != null ? coorResult.get(0).toString() : "";
+		} else {
+			return place.getMercatorX();
+		}
+	}
+	
+	/**
+	 * Retourne les coordonnees mercator en axe Y (latitude)
+	 */
+	@Override
+	public String getMercatorY() {
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
+		if (place == null) {
+			// Appel a Addict pour trouver les coordonnees selon l'adresse
+			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			
+			return coorResult != null ? coorResult.get(1).toString() : "";
+		} else {
+			return place.getMercatorY();
+		}
+	}
+	
+	/**
+	 * Retourne les coordonnees mercator en axe X et Y
+	 * Notes : permet de ne pas multiplier les appels
+	 * @return tableau [mercatorX, mercatorY] sinon tableau vide
+	 */
+	@Override
+	public List<String> getMercators() {
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
+		if (place == null) {
+			// Appel a Addict pour trouver les coordonnees selon l'adresse
+			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			
+			if (coorResult != null) {
+				String mercatorX = coorResult.get(0).toString();
+				String mercatorY = coorResult.get(1).toString();
+				
+				return Arrays.asList(mercatorX, mercatorY);
+			} else {
+				return new ArrayList<String>();
+			}
+		} else {
+			return Arrays.asList(
+					place.getMercatorX(), 
+					place.getMercatorY()
+					);
+		}
+	}
+	
+	/**
 	 * Retourne l'ID de l'image du lieu SIG ou "manuel"
 	 */
 	@Override
 	public String getImageURL() {
-		Place place = PlaceLocalServiceUtil
-			.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		
 		if (place != null) {
 			return FileEntryHelper.getFileEntryURL(place.getImageId());
 		} else {
@@ -207,5 +283,37 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 		return place != null ? true : false;
 	}
 	
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonPlacitPlace = JSONFactoryUtil.createJSONObject();
+		List<String> mercators = this.getMercators();
+		
+		// Champs de gestion
+		jsonPlacitPlace.put("id", this.getPlacitPlaceId());
+		
+		// Champs : Autres
+		jsonPlacitPlace.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+		jsonPlacitPlace.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
+		jsonPlacitPlace.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonPlacitPlace.put("imageURL", this.getImageURL());
+		
+		return jsonPlacitPlace;
+	}
+	
+	/**
+	 * Recupere le service du module Adict sans passer par reference
+	 */
+	private AdictService getAdictService() {
+		if (adictService == null) {
+			adictServiceTracker = new AdictServiceTracker(this);
+			adictServiceTracker.open();
+			adictService = adictServiceTracker.getService();
+		}
+		return adictService;
+	}
 	
 }

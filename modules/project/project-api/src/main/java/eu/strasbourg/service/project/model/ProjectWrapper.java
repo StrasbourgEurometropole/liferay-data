@@ -365,6 +365,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		return _project.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _project.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Project> toCacheModel() {
 		return _project.toCacheModel();
@@ -391,6 +399,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public int getNbApprovedComments() {
 		return _project.getNbApprovedComments();
+	}
+
+	/**
+	* Retourne le nombre de follower au projet
+	*/
+	@Override
+	public int getNbFollower() {
+		return _project.getNbFollower();
 	}
 
 	/**
@@ -563,6 +579,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Retourne le label de 5 digits du nombre de follower au projet
+	*/
+	@Override
+	public java.lang.String getNbFollowerLabel() {
+		return _project.getNbFollowerLabel();
+	}
+
+	/**
 	* Returns the partners of this project.
 	*
 	* @return the partners of this project
@@ -726,7 +750,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* Retourne la liste des évènements du projet
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getEvents() {
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents() {
 		return _project.getEvents();
 	}
 
@@ -734,7 +758,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* Retourne la liste des participations du projet
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getParticipations() {
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getParticipations() {
 		return _project.getParticipations();
 	}
 
@@ -760,15 +784,23 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* Retourne la liste des lieux placit liés au projet
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return _project.getPlacitPlaces();
+	}
+
+	/**
+	* Retourne la liste des follower au projet
+	*/
+	@Override
+	public java.util.List<ProjectFollowed> getProjectFollower() {
+		return _project.getProjectFollower();
 	}
 
 	/**
 	* Retourne la liste des entrées timelines du projet
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getProjectTimelines() {
+	public java.util.List<ProjectTimeline> getProjectTimelines() {
 		return _project.getProjectTimelines();
 	}
 

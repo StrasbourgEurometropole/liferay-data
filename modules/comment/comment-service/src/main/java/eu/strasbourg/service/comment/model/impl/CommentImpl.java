@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -27,21 +23,18 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
-import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
-import eu.strasbourg.service.comment.service.persistence.SignalementUtil;
-import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
-import eu.strasbourg.service.comment.service.persistence.SignalementUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Comment service. Represents a row in the &quot;comment_Comment&quot; database table, with each column mapped to a property of this class.
@@ -146,6 +139,14 @@ public class CommentImpl extends CommentBaseImpl {
 				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
 	}
 
+	/**
+	 * méthode permettant de retourner le nom de l'utilisateur en entier.
+	 * @return le nom de l'utilisateur.
+	 */
+	public String getFullPublikUserName(){
+		PublikUser publikUser = getPublikUser();
+		return publikUser.getFirstName() + " " + StringUtil.toUpperCase(publikUser.getLastName());
+	}
 
 	/**
 	 * Retourne la liste des like/dislike de l'entité

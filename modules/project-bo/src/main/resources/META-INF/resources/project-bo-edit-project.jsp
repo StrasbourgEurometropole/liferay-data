@@ -139,6 +139,7 @@
 							</div>
 						</div>
 					</c:forEach>
+					
 					<aui:input type="hidden" name="placeIndexes" value="${dc.defaultPlaceIndexes}" />
 				</div>
 				
@@ -182,7 +183,7 @@
 				<div class="timeline-label"><label><liferay-ui:message key="enter-a-timeline" /></label></div>
 				
 				<%-- Composant : Definit l'utilisation d'un selecteur multiple --%>
-				<div id="date-fields">
+				<div id="timeline-fields">
 				
 					<c:if test="${empty dc.project.projectTimelines}">
 						<div class="lfr-form-row lfr-form-row-inline row-timeline">
@@ -212,12 +213,7 @@
 
 					<%-- Variable : Definit les variables de gestion et de retour du selecteur 
 					(voir "autofields" dans le .js de l'edit de l'entite)  --%>
-					<c:if test="${empty dc.project.projectTimelines}">
-							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
-						</c:if>
-						<c:if test="${not empty dc.project.projectTimelines}">
-							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
-					</c:if>		
+					<aui:input type="hidden" name="timelineIndexes" value="${dc.defaultTimelineIndexes}" />
 					
 				</div>
 			

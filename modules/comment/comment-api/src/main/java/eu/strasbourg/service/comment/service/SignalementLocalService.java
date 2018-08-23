@@ -15,9 +15,7 @@
 package eu.strasbourg.service.comment.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -35,11 +33,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.comment.model.Signalement;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -193,7 +189,8 @@ public interface SignalementLocalService extends BaseLocalService,
 	public Signalement updateSignalement(Signalement signalement);
 
 	public Signalement updateSignalement(Signalement signalement,
-		ServiceContext sc) throws PortalException;
+		ServiceContext sc, java.lang.String publikUserId)
+		throws PortalException;
 
 	/**
 	* Returns the number of signalements.

@@ -148,6 +148,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getPlaceCity(java.util.Locale locale);
 
 	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getCompleteAddress(java.util.Locale locale);
+
+	/**
 	* Retourne les coordonnees mercator en axe X (longitude)
 	*/
 	public java.lang.String getMercatorX();
@@ -156,6 +161,14 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne les coordonnees mercator en axe Y (latitude)
 	*/
 	public java.lang.String getMercatorY();
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return "" si vide sinon "mercatorX;mercatorY"
+	*/
+	public java.util.List<java.lang.String> getMercators();
 
 	/**
 	* Retourne la liste des participations de l'evenement

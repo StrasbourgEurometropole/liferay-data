@@ -54,11 +54,13 @@
     text-transform: uppercase;
     background: #fbac28;
     padding: 0 8px;
+    height: 48px;
     -webkit-transition: all .2s ease;
     -o-transition: all .2s ease;
     -moz-transition: all .2s ease;
     transition: all .2s ease;
 	margin-left: -16px;
+	margin-right: 15px;
 }
 
 #th-global #pro-header .pro-top-header .container .pro-right .nav-logout .picto{
@@ -68,7 +70,7 @@ background-position: center;
 background-repeat: no-repeat;
 height : 16px;
 width : 16px;
-margin-bottom: -2px;
+margin-bottom: -5px;
 }
 
 #th-global #pro-header .pro-top-header .container .pro-right .nav-logout:hover .picto{
@@ -161,6 +163,35 @@ form .pro-facette-date input {
     float: none;
 }
 
-.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event>span.pro-number{
+.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event>span.pro-number {
     line-height: inherit;
+}
+
+// Taille de la map sur les détails entité
+aside .leaflet-map {
+	width: 100%;
+    height: 200px;
+}
+
+// Passage de la map en dessous du footer et header
+.leaflet-map {
+	z-index: 10;
+}
+
+// Correction du lien de l'image de la facette présent sur la carte intéractive
+.pro-wrapper-facette-carte form .pro-affiner:before {
+	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
+}
+
+.pro-page-carte .pro-wrapper-map.leaflet-map {
+    position: relative;
+    height: -webkit-calc(100vh - 167px);
+    height: -moz-calc(100vh - 167px);
+    height: calc(100vh - 167px);
+}
+
+// Correction du chemin d'image pour les bloc large (ex: les instances)
+.pro-bloc-large:before {
+    content: '';
+    background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
 }

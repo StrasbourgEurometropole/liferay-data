@@ -51,6 +51,42 @@
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 	</model>
+	<model name="eu.strasbourg.service.project.model.Petition">
+		<field name="uuid" type="String" />
+		<field name="petitionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="placeTextArea" type="String" />
+		<field name="filesDownload" type="String" />
+		<field name="petitionStatus" type="String" />
+		<field name="publicationDate" type="Date" />
+		<field name="expirationDate" type="Date" />
+		<field name="quotaSignature" type="long" />
+		<field name="nombreSignature" type="long" />
+		<field name="videoUrl" type="String" />
+		<field name="externalImageURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="externalImageCopyright" type="String" />
+		<field name="mediaChoice" type="boolean" />
+		<field name="consultationPlacesBody" type="String" />
+		<field name="assetEntryId" type="long" />
+		<field name="publikId" type="String" />
+		<field name="imageId" type="long" />
+		<field name="filesIds" type="String" />
+	</model>
 	<model name="eu.strasbourg.service.project.model.PlacitPlace">
 		<field name="uuid" type="String" />
 		<field name="placitPlaceId" type="long" />
@@ -70,6 +106,7 @@
 		<field name="imageId" type="long" />
 		<field name="projectId" type="long" />
 		<field name="participationId" type="long" />
+		<field name="petitionId" type="long" />
 		<field name="placeSIGId" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Project">
@@ -113,6 +150,13 @@
 		</field>
 		<field name="contactPhoneNumber" type="String" />
 		<field name="imageId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.ProjectFollowed">
+		<field name="projectFollowedId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="publikUserId" type="String" />
+		<field name="projectId" type="long" />
+		<field name="groupId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.ProjectTimeline">
 		<field name="projectTimelineId" type="long" />

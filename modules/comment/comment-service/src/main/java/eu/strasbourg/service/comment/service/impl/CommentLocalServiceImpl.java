@@ -121,7 +121,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
     @Override
 	public Comment updateComment(Comment comment, ServiceContext sc)
 			throws PortalException {
-		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 		comment.setStatusByUserId(sc.getUserId());
 		comment.setStatusByUserName(comment.getPublikUserName());
 		comment.setStatusDate(sc.getModifiedDate());

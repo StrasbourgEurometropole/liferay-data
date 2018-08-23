@@ -14,6 +14,12 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.text.DateFormat;
+
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+
 import aQute.bnd.annotation.ProviderType;
 
 /**
@@ -37,4 +43,26 @@ public class ProjectTimelineImpl extends ProjectTimelineBaseImpl {
 	 */
 	public ProjectTimelineImpl() {
 	}
+	
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonProjectTimeline = JSONFactoryUtil.createJSONObject();
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+		
+		// Champs de gestion
+		jsonProjectTimeline.put("id", this.getProjectTimelineId());
+		
+		// Champs : Autres
+		jsonProjectTimeline.put("startDay", this.getStartDay());
+		jsonProjectTimeline.put("date", dateFormat.format(this.getDate()));
+		jsonProjectTimeline.put("title", this.getTitle());
+		jsonProjectTimeline.put("link", this.getLink());
+		
+		return jsonProjectTimeline;
+	}
+	
 }

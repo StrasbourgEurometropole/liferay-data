@@ -96,6 +96,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 			{ "imageId", Types.BIGINT },
 			{ "projectId", Types.BIGINT },
 			{ "participationId", Types.BIGINT },
+			{ "petitionId", Types.BIGINT },
 			{ "placeSIGId", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -117,10 +118,11 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("participationId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("petitionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("placeSIGId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,placeSIGId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,petitionId LONG,placeSIGId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_PlacitPlace";
 	public static final String ORDER_BY_JPQL = " ORDER BY placitPlace.placitPlaceId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_PlacitPlace.placitPlaceId ASC";
@@ -139,10 +141,11 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long PARTICIPATIONID_COLUMN_BITMASK = 4L;
-	public static final long PLACESIGID_COLUMN_BITMASK = 8L;
-	public static final long PROJECTID_COLUMN_BITMASK = 16L;
-	public static final long UUID_COLUMN_BITMASK = 32L;
-	public static final long PLACITPLACEID_COLUMN_BITMASK = 64L;
+	public static final long PETITIONID_COLUMN_BITMASK = 8L;
+	public static final long PLACESIGID_COLUMN_BITMASK = 16L;
+	public static final long PROJECTID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long PLACITPLACEID_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -173,6 +176,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		model.setImageId(soapModel.getImageId());
 		model.setProjectId(soapModel.getProjectId());
 		model.setParticipationId(soapModel.getParticipationId());
+		model.setPetitionId(soapModel.getPetitionId());
 		model.setPlaceSIGId(soapModel.getPlaceSIGId());
 
 		return model;
@@ -254,6 +258,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		attributes.put("imageId", getImageId());
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
+		attributes.put("petitionId", getPetitionId());
 		attributes.put("placeSIGId", getPlaceSIGId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -358,6 +363,12 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 		if (participationId != null) {
 			setParticipationId(participationId);
+		}
+
+		Long petitionId = (Long)attributes.get("petitionId");
+
+		if (petitionId != null) {
+			setPetitionId(petitionId);
 		}
 
 		String placeSIGId = (String)attributes.get("placeSIGId");
@@ -739,6 +750,29 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 	@JSON
 	@Override
+	public long getPetitionId() {
+		return _petitionId;
+	}
+
+	@Override
+	public void setPetitionId(long petitionId) {
+		_columnBitmask |= PETITIONID_COLUMN_BITMASK;
+
+		if (!_setOriginalPetitionId) {
+			_setOriginalPetitionId = true;
+
+			_originalPetitionId = _petitionId;
+		}
+
+		_petitionId = petitionId;
+	}
+
+	public long getOriginalPetitionId() {
+		return _originalPetitionId;
+	}
+
+	@JSON
+	@Override
 	public String getPlaceSIGId() {
 		if (_placeSIGId == null) {
 			return StringPool.BLANK;
@@ -878,6 +912,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		placitPlaceImpl.setImageId(getImageId());
 		placitPlaceImpl.setProjectId(getProjectId());
 		placitPlaceImpl.setParticipationId(getParticipationId());
+		placitPlaceImpl.setPetitionId(getPetitionId());
 		placitPlaceImpl.setPlaceSIGId(getPlaceSIGId());
 
 		placitPlaceImpl.resetOriginalValues();
@@ -960,6 +995,10 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		placitPlaceModelImpl._originalParticipationId = placitPlaceModelImpl._participationId;
 
 		placitPlaceModelImpl._setOriginalParticipationId = false;
+
+		placitPlaceModelImpl._originalPetitionId = placitPlaceModelImpl._petitionId;
+
+		placitPlaceModelImpl._setOriginalPetitionId = false;
 
 		placitPlaceModelImpl._originalPlaceSIGId = placitPlaceModelImpl._placeSIGId;
 
@@ -1052,6 +1091,8 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 		placitPlaceCacheModel.participationId = getParticipationId();
 
+		placitPlaceCacheModel.petitionId = getPetitionId();
+
 		placitPlaceCacheModel.placeSIGId = getPlaceSIGId();
 
 		String placeSIGId = placitPlaceCacheModel.placeSIGId;
@@ -1065,7 +1106,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1099,6 +1140,8 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		sb.append(getProjectId());
 		sb.append(", participationId=");
 		sb.append(getParticipationId());
+		sb.append(", petitionId=");
+		sb.append(getPetitionId());
 		sb.append(", placeSIGId=");
 		sb.append(getPlaceSIGId());
 		sb.append("}");
@@ -1108,7 +1151,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.PlacitPlace");
@@ -1179,6 +1222,10 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		sb.append(getParticipationId());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>petitionId</column-name><column-value><![CDATA[");
+		sb.append(getPetitionId());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>placeSIGId</column-name><column-value><![CDATA[");
 		sb.append(getPlaceSIGId());
 		sb.append("]]></column-value></column>");
@@ -1219,6 +1266,9 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 	private long _participationId;
 	private long _originalParticipationId;
 	private boolean _setOriginalParticipationId;
+	private long _petitionId;
+	private long _originalPetitionId;
+	private boolean _setOriginalPetitionId;
 	private String _placeSIGId;
 	private String _originalPlaceSIGId;
 	private long _columnBitmask;

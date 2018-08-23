@@ -19,6 +19,9 @@ body {
 	main {
 		position: relative;
 		overflow: hidden;
+		&.pro-overflow-visible{
+			overflow: visible;
+		}
 	}
 
 	.pro-bloc-display{
@@ -27,6 +30,11 @@ body {
 
 	.pro-margin-0{
 		margin: 0 !important;
+	}
+
+	.pro-max-900{
+		max-width: 930px;
+		margin: auto;
 	}
 
 	.evitement {

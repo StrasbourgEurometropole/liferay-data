@@ -53,10 +53,61 @@
 						margin-right: 15px;
 					}
 					p {
-						@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+						@include ft($f_txt, 0.875em, 400, $c_txt, 1.533em);
 						display: inline-block;
 						width: calc(100% - 70px);
 						margin-bottom: 0;
+					}
+				}
+
+
+				&.pro-theme-embryon{
+					.pro-wrapper-meta{
+						.pro-statut{
+							span{
+								background: #72dde5;
+							}
+						}
+					}
+				}
+
+				&.pro-theme-croissance{
+					.pro-wrapper-meta{
+						.pro-statut{
+							span{
+								background: #89f3d8;
+							}
+						}
+					}
+				}
+
+				&.pro-theme-floraison{
+					.pro-wrapper-meta{
+						.pro-statut{
+							span{
+								background: #ff85b2;
+							}
+						}
+					}
+				}
+
+				&.pro-theme-fecondation{
+					.pro-wrapper-meta{
+						.pro-statut{
+							span{
+								background: #8ba8d5;
+							}
+						}
+					}
+				}
+
+				&.pro-theme-fructification{
+					.pro-wrapper-meta{
+						.pro-statut{
+							span{
+								background: #ffed00;
+							}
+						}
 					}
 				}
 
@@ -144,26 +195,24 @@
 					border-radius: 2px;
 					figure.fit-cover {
 						margin: 0;
-						height: 140px;
+						height: 115px;
 						background: none;
 						img{
-							width: 90px;
-							height: 90px;
+							width: 70px;
+							height: 70px;
 							border-radius: 50%;
 							margin: auto;
-							top: 50%;
-							transform: translateY(-50%);
-							transform: translate3d(0,-50%,0);
+							top: 25px;
 						}
 						figcaption {
 							display: none;
 						}
 					}
 					> div {
-						padding: 5px 25px;
+						padding: 5px 25px 25px;
 						text-align: center;
 						@include tablet_landscape {
-							padding: 5px 15px;
+							padding: 5px 15px 15px;
 						}
 						time{
 							font-size: 0.875em;
@@ -172,10 +221,11 @@
 						h3 {
 							@include ft($f_hx, 1.125em, 700, $c_txt, 1.200em);
 							display: block;
-							margin: 10px 0;
+							margin: 5px 0 8px 0;
 						}
 						p{
-							font-size: 0.875em;
+							font-size: 0.813em;
+							margin: 0;
 							line-height: normal;
 						}
 					}
@@ -240,6 +290,9 @@
 					width: 50%;
 					float: left;
 					padding: 0 10px;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
 					@include addTransition();
 					&:first-child {
 						&:after {
@@ -254,7 +307,7 @@
 						}
 					}
 
-					&:hover, &:focus {
+					&:hover, &:focus, &.active {
 						background: $c_dark;
 						color: $c_main;
 						> span.icon-ico-like {
@@ -280,7 +333,6 @@
 					}
 
 					> span:not(.icon-ico-like) {
-						font-size: 0.85em;
 						@media screen and (max-width: 1200px) {
 							display: none;
 						}

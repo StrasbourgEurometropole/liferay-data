@@ -15,7 +15,6 @@
 package eu.strasbourg.service.comment.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
@@ -72,6 +71,13 @@ public interface Comment extends CommentModel, PersistedModel {
 	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser();
 
 	public java.lang.String getPublikUserName();
+
+	/**
+	* méthode permettant de retourner le nom de l'utilisateur en entier.
+	*
+	* @return le nom de l'utilisateur.
+	*/
+	public java.lang.String getFullPublikUserName();
 
 	/**
 	* Retourne la liste des like/dislike de l'entité

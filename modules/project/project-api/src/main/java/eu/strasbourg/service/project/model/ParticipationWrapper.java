@@ -439,6 +439,14 @@ public class ParticipationWrapper implements Participation,
 		return _participation.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _participation.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Participation> toCacheModel() {
 		return _participation.toCacheModel();
@@ -709,15 +717,6 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne la couleur hexa du type de la participation contenu dans la propriete
-	* 'code_color' de la categorie associee
-	*/
-	@Override
-	public java.lang.String getProjectCategoryColor() {
-		return _participation.getProjectCategoryColor();
-	}
-
-	/**
 	* Returns the status by user name of this participation.
 	*
 	* @return the status by user name of this participation
@@ -738,6 +737,22 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le label d'affichage détaillant le statut
+	*/
+	@Override
+	public java.lang.String getStatusDetailLabel() {
+		return _participation.getStatusDetailLabel();
+	}
+
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	@Override
+	public java.lang.String getThematicsLabel(java.util.Locale locale) {
+		return _participation.getThematicsLabel(locale);
+	}
+
+	/**
 	* Returns the title of this participation.
 	*
 	* @return the title of this participation
@@ -745,6 +760,15 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getTitle() {
 		return _participation.getTitle();
+	}
+
+	/**
+	* Retourne la couleur hexa du type de la participation contenu dans la propriete
+	* 'code_color' de la categorie associee
+	*/
+	@Override
+	public java.lang.String getTypeCategoryColor() {
+		return _participation.getTypeCategoryColor();
 	}
 
 	/**

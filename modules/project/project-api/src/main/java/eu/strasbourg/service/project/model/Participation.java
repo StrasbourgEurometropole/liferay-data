@@ -163,7 +163,7 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne la couleur hexa du type de la participation contenu dans la propriete
 	* 'code_color' de la categorie associee
 	*/
-	public java.lang.String getProjectCategoryColor();
+	public java.lang.String getTypeCategoryColor();
 
 	/**
 	* Retourne les thematiques de la participation (
@@ -195,6 +195,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	*/
 	public java.lang.String getDistrictLabel(java.util.Locale locale);
+
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
 
 	/**
 	* Retourne le status de la participation
@@ -229,6 +234,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<java.lang.String> getFilesURLs();
 
 	/**
+	* Retourne le label d'affichage détaillant le statut
+	*/
+	public java.lang.String getStatusDetailLabel();
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
@@ -237,4 +247,9 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne le copyright de l'image principale
 	*/
 	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

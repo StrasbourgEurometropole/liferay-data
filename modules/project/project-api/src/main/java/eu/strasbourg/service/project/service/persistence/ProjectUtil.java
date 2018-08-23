@@ -652,6 +652,184 @@ public class ProjectUtil {
 	}
 
 	/**
+	* Returns all the projects where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the matching projects
+	*/
+	public static List<Project> findByStatusAndGroupId(int status, long groupId) {
+		return getPersistence().findByStatusAndGroupId(status, groupId);
+	}
+
+	/**
+	* Returns a range of all the projects where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of projects
+	* @param end the upper bound of the range of projects (not inclusive)
+	* @return the range of matching projects
+	*/
+	public static List<Project> findByStatusAndGroupId(int status,
+		long groupId, int start, int end) {
+		return getPersistence()
+				   .findByStatusAndGroupId(status, groupId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the projects where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of projects
+	* @param end the upper bound of the range of projects (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching projects
+	*/
+	public static List<Project> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		OrderByComparator<Project> orderByComparator) {
+		return getPersistence()
+				   .findByStatusAndGroupId(status, groupId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the projects where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of projects
+	* @param end the upper bound of the range of projects (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching projects
+	*/
+	public static List<Project> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		OrderByComparator<Project> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByStatusAndGroupId(status, groupId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first project in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching project
+	* @throws NoSuchProjectException if a matching project could not be found
+	*/
+	public static Project findByStatusAndGroupId_First(int status,
+		long groupId, OrderByComparator<Project> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchProjectException {
+		return getPersistence()
+				   .findByStatusAndGroupId_First(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first project in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching project, or <code>null</code> if a matching project could not be found
+	*/
+	public static Project fetchByStatusAndGroupId_First(int status,
+		long groupId, OrderByComparator<Project> orderByComparator) {
+		return getPersistence()
+				   .fetchByStatusAndGroupId_First(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last project in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching project
+	* @throws NoSuchProjectException if a matching project could not be found
+	*/
+	public static Project findByStatusAndGroupId_Last(int status, long groupId,
+		OrderByComparator<Project> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchProjectException {
+		return getPersistence()
+				   .findByStatusAndGroupId_Last(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last project in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching project, or <code>null</code> if a matching project could not be found
+	*/
+	public static Project fetchByStatusAndGroupId_Last(int status,
+		long groupId, OrderByComparator<Project> orderByComparator) {
+		return getPersistence()
+				   .fetchByStatusAndGroupId_Last(status, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the projects before and after the current project in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param projectId the primary key of the current project
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next project
+	* @throws NoSuchProjectException if a project with the primary key could not be found
+	*/
+	public static Project[] findByStatusAndGroupId_PrevAndNext(long projectId,
+		int status, long groupId, OrderByComparator<Project> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchProjectException {
+		return getPersistence()
+				   .findByStatusAndGroupId_PrevAndNext(projectId, status,
+			groupId, orderByComparator);
+	}
+
+	/**
+	* Removes all the projects where status = &#63; and groupId = &#63; from the database.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	*/
+	public static void removeByStatusAndGroupId(int status, long groupId) {
+		getPersistence().removeByStatusAndGroupId(status, groupId);
+	}
+
+	/**
+	* Returns the number of projects where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the number of matching projects
+	*/
+	public static int countByStatusAndGroupId(int status, long groupId) {
+		return getPersistence().countByStatusAndGroupId(status, groupId);
+	}
+
+	/**
 	* Caches the project in the entity cache if it is enabled.
 	*
 	* @param project the project

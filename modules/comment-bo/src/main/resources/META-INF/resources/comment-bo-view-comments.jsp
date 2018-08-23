@@ -138,13 +138,6 @@
 	</form>
 </div>
 
-<%-- Composant : bouton d'ajout d'entite --%>
-<liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_COMMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-		<liferay-frontend:add-menu-item title="Ajouter un commentaire" url="${addCommentURL}" />
-	</c:if>
-</liferay-frontend:add-menu>
-
 <%-- URL : definit le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />

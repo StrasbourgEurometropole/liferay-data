@@ -15,16 +15,12 @@
 package eu.strasbourg.service.comment.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -428,6 +424,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public java.lang.String getComment() {
 		return _comment.getComment();
+	}
+
+	/**
+	* méthode permettant de retourner le nom de l'utilisateur en entier.
+	*
+	* @return le nom de l'utilisateur.
+	*/
+	@Override
+	public java.lang.String getFullPublikUserName() {
+		return _comment.getFullPublikUserName();
 	}
 
 	/**

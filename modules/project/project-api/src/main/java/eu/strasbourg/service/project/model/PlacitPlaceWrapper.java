@@ -76,6 +76,7 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		attributes.put("imageId", getImageId());
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
+		attributes.put("petitionId", getPetitionId());
 		attributes.put("placeSIGId", getPlaceSIGId());
 
 		return attributes;
@@ -179,6 +180,12 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 			setParticipationId(participationId);
 		}
 
+		Long petitionId = (Long)attributes.get("petitionId");
+
+		if (petitionId != null) {
+			setPetitionId(petitionId);
+		}
+
 		String placeSIGId = (String)attributes.get("placeSIGId");
 
 		if (placeSIGId != null) {
@@ -222,6 +229,14 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _placitPlace.getExpandoBridge();
+	}
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _placitPlace.toJSON();
 	}
 
 	@Override
@@ -311,6 +326,22 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public java.lang.String getImageURL() {
 		return _placitPlace.getImageURL();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe X (longitude)
+	*/
+	@Override
+	public java.lang.String getMercatorX() {
+		return _placitPlace.getMercatorX();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe Y (latitude)
+	*/
+	@Override
+	public java.lang.String getMercatorY() {
+		return _placitPlace.getMercatorY();
 	}
 
 	/**
@@ -520,6 +551,17 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	}
 
 	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
+	*/
+	@Override
+	public java.util.List<java.lang.String> getMercators() {
+		return _placitPlace.getMercators();
+	}
+
+	/**
 	* Returns a map of the locales and localized place names of this placit place.
 	*
 	* @return the locales and localized place names of this placit place
@@ -567,6 +609,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public long getParticipationId() {
 		return _placitPlace.getParticipationId();
+	}
+
+	/**
+	* Returns the petition ID of this placit place.
+	*
+	* @return the petition ID of this placit place
+	*/
+	@Override
+	public long getPetitionId() {
+		return _placitPlace.getPetitionId();
 	}
 
 	/**
@@ -721,6 +773,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public void setParticipationId(long participationId) {
 		_placitPlace.setParticipationId(participationId);
+	}
+
+	/**
+	* Sets the petition ID of this placit place.
+	*
+	* @param petitionId the petition ID of this placit place
+	*/
+	@Override
+	public void setPetitionId(long petitionId) {
+		_placitPlace.setPetitionId(petitionId);
 	}
 
 	/**

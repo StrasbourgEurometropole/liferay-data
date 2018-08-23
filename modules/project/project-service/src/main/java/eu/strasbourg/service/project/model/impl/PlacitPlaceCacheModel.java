@@ -66,7 +66,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,6 +100,8 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		sb.append(projectId);
 		sb.append(", participationId=");
 		sb.append(participationId);
+		sb.append(", petitionId=");
+		sb.append(petitionId);
 		sb.append(", placeSIGId=");
 		sb.append(placeSIGId);
 		sb.append("}");
@@ -176,6 +178,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		placitPlaceImpl.setImageId(imageId);
 		placitPlaceImpl.setProjectId(projectId);
 		placitPlaceImpl.setParticipationId(participationId);
+		placitPlaceImpl.setPetitionId(petitionId);
 
 		if (placeSIGId == null) {
 			placitPlaceImpl.setPlaceSIGId(StringPool.BLANK);
@@ -215,6 +218,8 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		projectId = objectInput.readLong();
 
 		participationId = objectInput.readLong();
+
+		petitionId = objectInput.readLong();
 		placeSIGId = objectInput.readUTF();
 	}
 
@@ -282,6 +287,8 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 
 		objectOutput.writeLong(participationId);
 
+		objectOutput.writeLong(petitionId);
+
 		if (placeSIGId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -306,5 +313,6 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 	public long imageId;
 	public long projectId;
 	public long participationId;
+	public long petitionId;
 	public String placeSIGId;
 }

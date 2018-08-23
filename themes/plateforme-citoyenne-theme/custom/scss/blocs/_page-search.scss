@@ -1,4 +1,5 @@
 .pro-search-page {
+	overflow: visible;
 	.pro-form-search {
 		height: 100%;
 		margin: 0;
@@ -24,333 +25,408 @@
 		}
 	}
 
-	.pro-wrapper-search {
-		padding-top: 20px;
-		padding-bottom: 10px;
-		> .row {
-			> * {
-				margin: 10px 0;
+	.pro-wrapper-top-listing{
+		position: relative;
+		z-index: 10;
+		.container{
+			padding: 0;
+		}
+		.pro-sort{
+			padding: 0 15px;
+			margin-right: 15px;
+			ul{
+				width: 150px;
+				&:before{
+					right: 18px;
+				}
+				@media screen and (max-width: 1280px){
+					left: 0;
+					&:before{
+						left: 23px;
+						right: auto;
+					}
+				}
+			}
+		}
+	}
+}
 
-				.pro-bloc-actu {
-					height: 219px;
-					border: 1px solid rgba($c_dark, 0.25);
-					border-radius: 4px;
-					margin: 0;
-					@include addTransition();
-					&:after {
-						content: '';
-						display: block;
-						clear: both;
+
+
+
+
+
+.pro-wrapper-search {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	>.row, &.row {
+		> * {
+			margin: 10px 0;
+			@include mobile{
+				min-height: auto !important;
+			}
+
+			.pro-bloc-actu {
+				height: 219px;
+				border: 1px solid rgba($c_dark, 0.25);
+				border-radius: 4px;
+				margin: 0;
+				background: $c_white;
+				@include addTransition();
+				&:after {
+					content: '';
+					display: block;
+					clear: both;
+				}
+				&:hover, &:focus {
+					box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+					&:before {
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						opacity: 0;
+						z-index: 10;
+						visibility: hidden;
 					}
-					&:hover, &:focus {
-						box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-						&:before {
-							top: 0;
-							left: 0;
-							right: 0;
-							bottom: 0;
-							opacity: 0;
-							z-index: 10;
-							visibility: hidden;
-						}
-						> .img {
-							z-index: 20;
-							top: 0;
-							left: 0;
-							right: 0;
-							width: 40%;
-							height: 100%;
-							margin-bottom: 0;
-							figure {
-								height: 100%;
-								img {
-									opacity: 1 !important;
-								}
-							}
-							> span {
-								opacity: 0;
-								left: 20px;
-							}
-							&.pro-no-photo {
-								height: 174px;
-								width: 100%;
-							}
-						}
-						> .content {
-							&:after {
-								left: 0;
-								right: 0;
-								width: 100%;
-								opacity: 0;
-							}
-							.link {
-								&:after {
-									opacity: 0;
-								}
-							}
-						}
-					}
-					@include mobile {
-						height: 100%;
-						margin: 0;
-					}
-					> * {
-						height: 100%;
-					}
-					.img {
+					> .img {
+						z-index: 20;
+						top: 0;
+						left: 0;
+						right: 0;
 						width: 40%;
-						float: left;
-						@include mobile {
-							position: absolute;
-						}
+						height: 100%;
+						margin-bottom: 0;
 						figure {
 							height: 100%;
-						}
-					}
-					.content {
-						width: 60%;
-						float: left;
-						padding: 15px;
-						@include mobile {
-							margin-left: 40%;
-						}
-					}
-				}
-
-				.pro-bloc-card-event {
-					height: 219px;
-					@include mobile {
-						height: 100%;
-					}
-					> * {
-						height: 100%;
-					}
-					&:hover, &:focus {
-						> * {
-							transform: none;
-						}
-					}
-					.pro-footer-event {
-						padding: 18px 20px;
-						position: absolute;
-						bottom: 0;
-						left: 0;
-						right: 0;
-						@include mobile {
-							position: relative;
-						}
-						> span.pro-number {
-							font-size: 0.75em;
-						}
-
-						.pro-btn-action {
-							@include tablet_portrait {
-								width: 160px;
-								&.active {
-									&:after {
-										right: 25px;
-									}
-								}
-							}
-							@include mobile {
-								width: 100%;
-								&.active {
-									&:after {
-										right: 50px;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				.pro-bloc-card-participation {
-					height: 219px;
-					@include mobile {
-						height: 100%;
-					}
-					> * {
-						height: 100%;
-					}
-					&:hover, &:focus {
-						> * {
-							transform: none;
-						}
-					}
-
-					.pro-header-participation {
-						padding: 13px 20px 0 20px;
-					}
-					.pro-footer-participation {
-						padding: 11px 20px;
-						position: absolute;
-						left: 0;
-						right: 0;
-						bottom: 0;
-						@include mobile {
-							position: relative;
-						}
-					}
-				}
-
-				.pro-card-video {
-					height: 219px;
-					border: 1px solid rgba($c_dark, 0.25);
-					border-radius: 4px;
-					@include mobile {
-						height: 100%;
-					}
-					&:hover, &:focus {
-						box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-						cursor: pointer;
-						.pro-header {
-							figure {
-								img {
-									transform: none;
-								}
-							}
-						}
-					}
-					.pro-header {
-						height: 100%;
-						&:before, &:after {
-							content: none;
-						}
-						figure {
-							height: 100%;
-							&:after {
-								content: '';
-								position: absolute;
-								top: 0;
-								left: 0;
-								right: 0;
-								bottom: 0;
-								z-index: 100;
-								/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+25,0.65+100 */
-								background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* FF3.6-15 */
-								background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* Chrome10-25,Safari5.1-6 */
-								background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-								filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6000000', GradientType=0); /* IE6-9 */
-							}
 							img {
-								height: 100%;
+								opacity: 1 !important;
 							}
 						}
-						.icon-ico-lecteur {
-							transform: none;
-							left: auto;
-							top: auto;
-							right: 85px;
-							bottom: 85px;
-							z-index: 100;
+						> span {
+							opacity: 0;
+							left: 20px;
+						}
+						&.pro-no-photo {
+							height: 174px;
+							width: 100%;
 						}
 					}
-					.pro-meta-avis {
+					> .content {
+						&:after {
+							left: 0;
+							right: 0;
+							width: 100%;
+							opacity: 0;
+						}
+						.link {
+							&:after {
+								opacity: 0;
+							}
+						}
+					}
+				}
+				@include mobile {
+					height: 100%;
+					margin: 0;
+				}
+				> * {
+					height: 100%;
+				}
+				.img {
+					width: 40%;
+					float: left;
+					@include mobile {
 						position: absolute;
-						bottom: 10px;
-						left: 20px;
-						right: 20px;
-						width: calc(100% - 40px);
-						z-index: 1000;
-						text-align: left;
-						> a {
-							float: none;
-							display: inline-block;
-							text-align: left;
-							&:focus {
-								h3 {
-									color: $c_main;
+					}
+					figure {
+						height: 100%;
+					}
+				}
+				.content {
+					width: 60%;
+					float: left;
+					padding: 15px;
+					@include mobile {
+						margin-left: 40%;
+					}
+				}
+			}
+
+			.pro-bloc-card-event {
+				height: 219px;
+				@include mobile {
+					height: 100%;
+				}
+				> * {
+					height: 100%;
+					background: $c_white;
+				}
+				&:hover, &:focus {
+					> * {
+						transform: none;
+					}
+				}
+				.pro-footer-event {
+					padding: 18px 20px;
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					@include mobile {
+						position: relative;
+					}
+					> span.pro-number {
+						font-size: 0.75em;
+					}
+
+					.pro-btn-action {
+						@include tablet_portrait {
+							width: 160px;
+							&.active {
+								&:after {
+									right: 25px;
 								}
 							}
 						}
-						h3 {
-							color: $c_white;
-							margin-bottom: 10px;
-							@include addTransition();
+						@include mobile {
+							width: 100%;
+							&.active {
+								&:after {
+									right: 50px;
+								}
+							}
 						}
-						.pro-view {
-							color: $c_white;
-							font-weight: 700;
+					}
+				}
+			}
+
+			.pro-bloc-card-participation {
+				height: 219px;
+				@include mobile {
+					height: 100%;
+				}
+				> * {
+					height: 100%;
+				}
+				&:hover, &:focus {
+					> * {
+						transform: none;
+					}
+				}
+
+				.pro-header-participation {
+					padding: 13px 20px 0 20px;
+					margin-bottom: 17px;
+				}
+				.pro-footer-participation {
+					padding: 11px 20px;
+					position: absolute;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					@include mobile {
+						position: relative;
+					}
+				}
+			}
+
+			.pro-card-video {
+				height: 219px;
+				border: 1px solid rgba($c_dark, 0.25);
+				border-radius: 4px;
+				@include mobile {
+					height: 100%;
+				}
+				&:hover, &:focus {
+					box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+					cursor: pointer;
+					.pro-header {
+						figure {
+							img {
+								transform: none;
+							}
+						}
+					}
+				}
+				.pro-header {
+					height: 100%;
+					&:before, &:after {
+						content: none;
+					}
+					figure {
+						height: 100%;
+						&:after {
+							content: '';
 							position: absolute;
+							top: 0;
+							left: 0;
 							right: 0;
 							bottom: 0;
+							z-index: 100;
+							/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+25,0.65+100 */
+							background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* FF3.6-15 */
+							background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+							background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6000000', GradientType=0); /* IE6-9 */
 						}
-						.pro-avis {
-							display: block;
-							float: none;
-							text-align: left;
-							> * {
-								background: $c_main;
-								text-align: center;
-								border-radius: 4px;
-								display: inline-block;
-								&:hover, &:focus {
-									background: $c_dark;
-									color: $c_main;
-								}
-							}
+						img {
+							height: 100%;
 						}
 					}
-
-				}
-
-
-				.pro-bloc-card-initiative{
-					&:hover, &:focus{
+					.icon-ico-lecteur {
 						transform: none;
-					}
-
-					> figure, .fit-cover {
-						width: 130px !important;
-						@include mobile {
-							height: 150px;
-							width: 100% !important;
-						}
-						& + div {
-							width: calc(100% - 130px);
-							left: 130px;
-							@include mobile {
-								width: 100%;
-								left: 0;
-							}
-						}
-					}
-
-					.pro-footer-initiative{
-						height: 70px;
-						.pro-avis{
-							line-height: 70px;
-							p{
-								line-height: 70px;
-							}
-						}
-						p{
-							line-height: 70px;
-							margin-bottom: 0;
-						}
+						left: auto;
+						top: auto;
+						right: 85px;
+						bottom: 85px;
+						z-index: 100;
 					}
 				}
-
-
-				.pro-bloc-card-petition {
-					color: red;
-					&:hover, &:focus {
-						transform: none;
-					}
-					.pro-header-petition{
-						margin-bottom: 5px;
-					}
-					.pro-content-petition{
-						h3{
-							margin-bottom: 5px;
+				.pro-meta-avis {
+					position: absolute;
+					bottom: 10px;
+					left: 20px;
+					right: 20px;
+					width: calc(100% - 40px);
+					z-index: 1000;
+					text-align: left;
+					> a {
+						float: none;
+						display: inline-block;
+						text-align: left;
+						&:focus {
+							h3 {
+								color: $c_main;
+							}
 						}
 					}
-					.pro-footer-petition{
-						height: 70px;
+					h3 {
+						color: $c_white;
+						margin-bottom: 10px;
+						@include addTransition();
+					}
+					.pro-view {
+						color: $c_white;
+						font-weight: 700;
+						position: absolute;
+						right: 0;
+						bottom: 0;
+					}
+					.pro-avis {
+						display: block;
+						float: none;
+						text-align: left;
+						> * {
+							background: $c_main;
+							text-align: center;
+							border-radius: 4px;
+							display: inline-block;
+							&:hover, &:focus {
+								background: $c_dark;
+								color: $c_main;
+							}
+						}
 					}
 				}
 
 			}
+
+
+			.pro-bloc-card-initiative{
+				&:hover, &:focus{
+					transform: none;
+				}
+
+				> figure, .fit-cover {
+					width: 130px !important;
+					@include mobile {
+						height: 150px;
+						width: 100% !important;
+					}
+					& + div {
+						width: calc(100% - 130px);
+						left: 130px;
+						@include mobile {
+							width: 100%;
+							left: 0;
+						}
+					}
+				}
+
+				.pro-footer-initiative{
+					height: 70px;
+					.pro-avis{
+						line-height: 70px;
+						@include mobile{
+							line-height: normal;
+						}
+						p{
+							line-height: 70px;
+							@include mobile{
+								line-height: normal;
+							}
+						}
+					}
+					p{
+						line-height: 70px;
+						margin-bottom: 0;
+						@include mobile{
+							line-height: normal;
+						}
+					}
+				}
+			}
+
+
+			.pro-bloc-card-petition {
+				&:hover, &:focus {
+					transform: none;
+				}
+				.pro-header-petition{
+					margin-bottom: 5px;
+				}
+				.pro-content-petition{
+					h3{
+						margin-bottom: 5px;
+					}
+				}
+				.pro-footer-petition{
+					height: 70px;
+				}
+			}
+
+
+			.pro-bloc-card-budget {
+				&.pro-theme-faisabilite{
+					.pro-info-top-right{
+						span{
+							width: 100px;
+							overflow: hidden;
+						}
+					}
+				}
+				&:hover, &:focus {
+					transform: none;
+				}
+				.pro-header-budget{
+					margin-bottom: 5px;
+					.pro-info-top-right{
+						@include mobile{
+							margin: 10px 0;
+						}
+					}
+				}
+				.pro-content-budget{
+					h3{
+						margin-bottom: 5px;
+					}
+				}
+				.pro-footer-budget{
+					height: 70px;
+				}
+			}
+
 		}
 	}
 }

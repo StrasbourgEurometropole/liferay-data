@@ -108,6 +108,11 @@
 				right: 0;
 				left: -1000px;
 			}
+			@include mobile{
+				right: 0;
+				left: 0;
+				width: 100%;
+			}
 		}
 
 		.pro-bloc-card-participation {
@@ -115,6 +120,7 @@
 
 			&:hover, &:focus {
 				> * {
+					box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
 					transform: none;
 				}
 			}
@@ -127,6 +133,15 @@
 					@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.429em);
 					strong {
 						color: $c_txt;
+					}
+				}
+
+				.pro-number-comm, .pro-info-top-right{
+					top: 25px;
+					right: 30px;
+					@include mobile{
+						top: 0;
+						right: 0;
 					}
 				}
 			}
