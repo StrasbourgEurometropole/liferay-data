@@ -80,28 +80,28 @@
                             </span>
                         </#if>
                     </div>
-                    <div class="pro-item">
-                        <p><strong>Thématiques : </strong></p>
-                        <!-- Recuperation des thématiques de la vidéo -->
-                        <#assign thematicCategories = entry.thematicCategories />
-                        <!-- Liste des thématiques de la vidéo -->
-                        <#if thematicCategories?? >
+                    <!-- Recuperation des thématiques de la vidéo -->
+                    <#assign thematicCategories = entry.thematicCategories />
+                    <!-- Liste des thématiques de la vidéo -->
+                    <#if thematicCategories?? >
+                        <div class="pro-item">
+                            <p><strong>Thématiques : </strong></p>
                             <#list thematicCategories as thematicCategory >
                                 <a href="#" title="${thematicCategory.getTitle(locale)}">${thematicCategory.getTitle(locale)}</a>
                             </#list>
-                        </#if>
-                    </div>
-                    <div class="pro-item">
-                        <p><strong>Quartier(s) : </strong></p>
-                        <!-- Recuperation des quartiers de la vidéo -->
-                        <#assign districtCategories = entry.districtCategories />
-                        <!-- Liste des quartiers de la participation -->
-                        <#if districtCategories?? >
+                        </div>
+                    </#if>
+                    <!-- Recuperation des quartiers de la vidéo -->
+                    <#assign districtCategories = entry.districtCategories />
+                    <!-- Liste des quartiers de la participation -->
+                    <#if districtCategories?? >
+                        <div class="pro-item">
+                            <p><strong>Quartier(s) : </strong></p>
                             <#list districtCategories as districtCategory >
                                 <a href="#" title="${districtCategory.getTitle(locale)}">${districtCategory.getTitle(locale)}</a>
                             </#list>
-                        </#if>
-                    </div>
+                        </div>
+                    </#if>
                     <div class="pro-item">
                         <p><strong>Projet : </strong></p>
                         <!-- Recuperation du projet de la vidéo -->
