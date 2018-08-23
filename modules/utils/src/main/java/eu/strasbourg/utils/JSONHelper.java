@@ -37,11 +37,11 @@ public class JSONHelper {
 		return sb.toString();
 	}
 
-	public static JSONObject readJsonFromURL(String URL, String basicAuthUser, String basicAuthPassword)
+	public static JSONObject readJsonFromURL(String URL, String basicAuthUser, String basicAuthPassword, int timeout)
 			throws IOException, JSONException {
 		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
-		httpConn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
-		httpConn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+		httpConn.setConnectTimeout(timeout);
+		httpConn.setReadTimeout(timeout);
 		if (basicAuthUser != null && basicAuthPassword != null) {
 			String encoded = Base64.getEncoder()
 					.encodeToString((basicAuthUser + ":" + basicAuthPassword).getBytes(Charset.forName("UTF-8")));
@@ -111,7 +111,15 @@ public class JSONHelper {
 	}
 
 	public static JSONObject readJsonFromURL(String URL) throws IOException, JSONException {
-		return JSONHelper.readJsonFromURL(URL, null, null);
+		return JSONHelper.readJsonFromURL(URL, null, null, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+	}
+	
+	public static JSONObject readJsonFromURL(String URL, int timeout) throws IOException, JSONException {
+		return JSONHelper.readJsonFromURL(URL, null, null, timeout);
+	}
+	
+	public static JSONObject readJsonFromURL(String URL, String basicAuthUser, String basicAuthPassword) throws IOException, JSONException {
+		return JSONHelper.readJsonFromURL(URL, basicAuthUser, basicAuthPassword, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
 	}
 
 	public static JSONArray readJsonArrayFromURL(String URL) throws IOException, JSONException {
