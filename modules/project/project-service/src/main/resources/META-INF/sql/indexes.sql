@@ -20,4 +20,7 @@ create index IX_F6DCFECB on project_Project (status, groupId);
 create index IX_3B92E48D on project_Project (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_DB52A4F on project_Project (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_FC72391B on project_ProjectFollowed (projectId);
+create index IX_2A9E13B0 on project_ProjectFollowed (publikUserId[$COLUMN_LENGTH:75$], projectId);
+
 create index IX_6F4E9C8A on project_ProjectTimeline (projectId);
