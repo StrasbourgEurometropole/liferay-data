@@ -1,5 +1,8 @@
 <%@ include file="/search-asset-init.jsp"%>
 
+<portlet:resourceURL id="videosSelection" var="videosSelectionURL">
+</portlet:resourceURL>
+
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
 
 <!-- Recherche par mots-clefs -->
@@ -35,15 +38,15 @@
 	            <div class="pro-facette-date">
 	                <label for="startDate" class="hide"><liferay-ui:message key="eu.dates" /></label>
 	                <span class="pro-wrapper-date">
-	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date"
+	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date dynamic"
 			            	readonly="readonly" value="${dc.fromMonthValue}/${dc.fromDay}/${dc.fromYear}">
 			            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
 			            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
 			            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
 	                </span>
 	                <label for="endDate"><liferay-ui:message key="eu.au" /></label>
-	                <span class="pro-wrapper-date"> 
-	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date"
+	                <span class="pro-wrapper-date">
+	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date dynamic"
 			            	readonly="readonly" value="${dc.toMonthValue}/${dc.toDay}/${dc.toYear}">
 			            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
 			            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
@@ -89,7 +92,7 @@
         <h4><liferay-ui:message key="eu.districts" /></h4>
         <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
+    <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
         
         <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />
@@ -114,7 +117,7 @@
         <h4><liferay-ui:message key="eu.thematics" /></h4>
         <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
+    <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
         		
 		<c:set var="thematicVocabulary" value="${vocabularyAccessor.getThematics(groupID)}" />
@@ -146,3 +149,15 @@
 		});
 	});
 </script>
+
+<liferay-util:html-top>
+	<script>
+		var porletNamespace = '<portlet:namespace/>';
+
+        var videosSelectionURL = '${videosSelectionURL}';
+	</script>
+</liferay-util:html-top>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetweb/js/placit-video.js"></script>
+</liferay-util:html-bottom>

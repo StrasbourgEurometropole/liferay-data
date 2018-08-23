@@ -33,13 +33,15 @@
                 <div class="col-md-9 pro-wrapper-listing-video">
                     <div class="pro-wrapper">
                         <h2><liferay-ui:message key="eu.all-videos" /></h2>
-                        <div class="pro-sort pro-dropdown">
-                            <a href="#">Tri A-Z</a>
-                            <ul>
-                                <li><a href="#">Tri A-Z</a></li>
-                                <li><a href="#">Tri Z-A</a></li>
-                            </ul>
-                        </div>
+	                    <c:if test="${dc.configuration.displayDateSorting()}">
+                            <div class="pro-sort pro-dropdown">
+                                <a id="sortType" href="#">Tri A-Z</a>
+                                <ul>
+                                    <li><a href="sortVideo('asc');">Tri A-Z</a></li>
+                                    <li><a href="sortVideo('desc');">Tri Z-A</a></li>
+                                </ul>
+                            </div>
+	                    </c:if>
                     </div>
 
                     <div class="row pro-listing-video" data-egalize="> * > a">
@@ -180,5 +182,6 @@
 	// Change la valeur du selecteur de page par la valeur courante  
 	$(document).ready(function() {
 		$('#change-page').prop('selectedIndex', ${dc.pager.currentPage - 1}).selectric('refresh');
+		var homeURL = ${homeURL};
 	});
 </script>
