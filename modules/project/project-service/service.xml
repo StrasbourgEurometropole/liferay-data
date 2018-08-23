@@ -259,6 +259,8 @@
 
 
 		<!-- Links with other entities -->
+		<column name="assetEntryId" type="long" />
+		<column name="publikId" type="String" />
 		<column name="imageId" type="long" />
 		<column name="filesIds" type="String" />
 

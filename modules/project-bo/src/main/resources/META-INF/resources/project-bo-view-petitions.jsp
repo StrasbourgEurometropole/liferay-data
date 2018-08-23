@@ -91,8 +91,13 @@
 					value="${formattedModifiedDate}" />
 				
 				<%-- Colonne : Createur --%>
-				<liferay-ui:search-container-column-text name="user">
-					${petition.statusByUserName}
+                <liferay-ui:search-container-column-text name="user">
+                    ${petition.userName}
+                </liferay-ui:search-container-column-text>
+
+                <%-- Colonne : nombre signature --%>
+				<liferay-ui:search-container-column-text name="signatureCount">
+					${petition.nombreSignature}
 				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Statut --%>
@@ -126,6 +131,17 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<liferay-portlet:resourceURL var="exportPetitionsXlsxURL" id="exportPetitionsXlsx">
+    	</liferay-portlet:resourceURL>
+    	<form method="POST" action="${exportPetitionsXlsxURL}">
+    		<aui:input type="hidden" name="petitionIds" value="${dc.allPetitionIds}" />
+    		<aui:button-row>
+    			<aui:button cssClass="btn-lg" type="submit"
+    				value="export-petitions-xlsx" />
+    		</aui:button-row>
+    	</form>
+
 </div>
 
 <%-- Composant : bouton d'ajout d'entite --%>

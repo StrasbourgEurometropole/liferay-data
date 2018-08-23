@@ -73,6 +73,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
 
+	public java.lang.String getAssetEntryTitle();
+
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)

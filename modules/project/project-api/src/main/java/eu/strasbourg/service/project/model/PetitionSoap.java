@@ -59,6 +59,8 @@ public class PetitionSoap implements Serializable {
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
 		soapModel.setMediaChoice(model.getMediaChoice());
 		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
+		soapModel.setAssetEntryId(model.getAssetEntryId());
+		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
 
@@ -325,6 +327,22 @@ public class PetitionSoap implements Serializable {
 		_consultationPlacesBody = consultationPlacesBody;
 	}
 
+	public long getAssetEntryId() {
+		return _assetEntryId;
+	}
+
+	public void setAssetEntryId(long assetEntryId) {
+		_assetEntryId = assetEntryId;
+	}
+
+	public String getPublikId() {
+		return _publikId;
+	}
+
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
+	}
+
 	public long getImageId() {
 		return _imageId;
 	}
@@ -367,6 +385,8 @@ public class PetitionSoap implements Serializable {
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
 	private String _consultationPlacesBody;
+	private long _assetEntryId;
+	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
 }

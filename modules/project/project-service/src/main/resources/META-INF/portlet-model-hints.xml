@@ -82,6 +82,8 @@
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
 		<field name="consultationPlacesBody" type="String" />
+		<field name="assetEntryId" type="long" />
+		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
 	</model>
