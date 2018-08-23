@@ -298,9 +298,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Returns the layout friendly u r l of this search log.
+	* Returns the layout friendly url of this search log.
 	*
-	* @return the layout friendly u r l of this search log
+	* @return the layout friendly url of this search log
 	*/
 	@Override
 	public java.lang.String getLayoutFriendlyURL() {
@@ -398,9 +398,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Returns the result1 class p k of this search log.
+	* Returns the result1 class pk of this search log.
 	*
-	* @return the result1 class p k of this search log
+	* @return the result1 class pk of this search log
 	*/
 	@Override
 	public long getResult1ClassPK() {
@@ -418,9 +418,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Returns the result2 class p k of this search log.
+	* Returns the result2 class pk of this search log.
 	*
-	* @return the result2 class p k of this search log
+	* @return the result2 class pk of this search log
 	*/
 	@Override
 	public long getResult2ClassPK() {
@@ -438,9 +438,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Returns the result3 class p k of this search log.
+	* Returns the result3 class pk of this search log.
 	*
-	* @return the result3 class p k of this search log
+	* @return the result3 class pk of this search log
 	*/
 	@Override
 	public long getResult3ClassPK() {
@@ -488,9 +488,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Returns the user target class p k of this search log.
+	* Returns the user target class pk of this search log.
 	*
-	* @return the user target class p k of this search log
+	* @return the user target class pk of this search log
 	*/
 	@Override
 	public long getUserTargetClassPK() {
@@ -564,9 +564,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Sets the layout friendly u r l of this search log.
+	* Sets the layout friendly url of this search log.
 	*
-	* @param layoutFriendlyURL the layout friendly u r l of this search log
+	* @param layoutFriendlyURL the layout friendly url of this search log
 	*/
 	@Override
 	public void setLayoutFriendlyURL(java.lang.String layoutFriendlyURL) {
@@ -614,9 +614,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Sets the result1 class p k of this search log.
+	* Sets the result1 class pk of this search log.
 	*
-	* @param result1ClassPK the result1 class p k of this search log
+	* @param result1ClassPK the result1 class pk of this search log
 	*/
 	@Override
 	public void setResult1ClassPK(long result1ClassPK) {
@@ -644,9 +644,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Sets the result2 class p k of this search log.
+	* Sets the result2 class pk of this search log.
 	*
-	* @param result2ClassPK the result2 class p k of this search log
+	* @param result2ClassPK the result2 class pk of this search log
 	*/
 	@Override
 	public void setResult2ClassPK(long result2ClassPK) {
@@ -674,9 +674,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Sets the result3 class p k of this search log.
+	* Sets the result3 class pk of this search log.
 	*
-	* @param result3ClassPK the result3 class p k of this search log
+	* @param result3ClassPK the result3 class pk of this search log
 	*/
 	@Override
 	public void setResult3ClassPK(long result3ClassPK) {
@@ -734,9 +734,9 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	/**
-	* Sets the user target class p k of this search log.
+	* Sets the user target class pk of this search log.
 	*
-	* @param userTargetClassPK the user target class p k of this search log
+	* @param userTargetClassPK the user target class pk of this search log
 	*/
 	@Override
 	public void setUserTargetClassPK(long userTargetClassPK) {

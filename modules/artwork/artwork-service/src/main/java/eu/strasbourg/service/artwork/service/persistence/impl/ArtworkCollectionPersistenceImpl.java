@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -51,6 +52,8 @@ import eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionPersis
 import eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -1999,6 +2002,22 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 	public ArtworkCollectionPersistenceImpl() {
 		setModelClass(ArtworkCollection.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -2071,7 +2090,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ArtworkCollectionModelImpl)artworkCollection);
+		clearUniqueFindersCache((ArtworkCollectionModelImpl)artworkCollection,
+			true);
 	}
 
 	@Override
@@ -2083,52 +2103,40 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			entityCache.removeResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 				ArtworkCollectionImpl.class, artworkCollection.getPrimaryKey());
 
-			clearUniqueFindersCache((ArtworkCollectionModelImpl)artworkCollection);
+			clearUniqueFindersCache((ArtworkCollectionModelImpl)artworkCollection,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		ArtworkCollectionModelImpl artworkCollectionModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					artworkCollectionModelImpl.getUuid(),
-					artworkCollectionModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				artworkCollectionModelImpl);
-		}
-		else {
-			if ((artworkCollectionModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						artworkCollectionModelImpl.getUuid(),
-						artworkCollectionModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					artworkCollectionModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		ArtworkCollectionModelImpl artworkCollectionModelImpl) {
 		Object[] args = new Object[] {
 				artworkCollectionModelImpl.getUuid(),
 				artworkCollectionModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			artworkCollectionModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ArtworkCollectionModelImpl artworkCollectionModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					artworkCollectionModelImpl.getUuid(),
+					artworkCollectionModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((artworkCollectionModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					artworkCollectionModelImpl.getOriginalUuid(),
 					artworkCollectionModelImpl.getOriginalGroupId()
 				};
@@ -2308,8 +2316,35 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ArtworkCollectionModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ArtworkCollectionModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { artworkCollectionModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					artworkCollectionModelImpl.getUuid(),
+					artworkCollectionModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { artworkCollectionModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2373,8 +2408,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			ArtworkCollectionImpl.class, artworkCollection.getPrimaryKey(),
 			artworkCollection, false);
 
-		clearUniqueFindersCache(artworkCollectionModelImpl);
-		cacheUniqueFindersCache(artworkCollectionModelImpl, isNew);
+		clearUniqueFindersCache(artworkCollectionModelImpl, false);
+		cacheUniqueFindersCache(artworkCollectionModelImpl);
 
 		artworkCollection.resetOriginalValues();
 
@@ -2562,7 +2597,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		query.append(_SQL_SELECT_ARTWORKCOLLECTION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

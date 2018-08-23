@@ -91,8 +91,13 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 		// correspondants
 		Street street = streets.get(0);
 		String[] sectorTypes = configuration.types();
-		List<String> sigIds = adictService.getSectorizedPlaceIdsForCoordinates(street.getX(), street.getY(),
-				sectorTypes);
+		List<String> sigIds = null;
+		try {
+			sigIds = adictService.getSectorizedPlaceIdsForCoordinates(street.getX(), street.getY(),
+					sectorTypes);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		List<Place> places = new ArrayList<Place>();
 		for (String sigId : sigIds) {
 			Place place = placeLocalService.getPlaceBySIGId(sigId);
