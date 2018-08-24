@@ -49,6 +49,9 @@
             <article>
                 <header>
                     <div class="pro-header-participation">
+                        <span class="pro-encart-theme" style="background : #${participationColor}">
+                            ${participationType}
+                        </span>
                         <h1>${entry.title}</h1>
                         <div class="pro-meta">
 

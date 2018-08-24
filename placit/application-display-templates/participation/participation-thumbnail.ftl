@@ -61,7 +61,10 @@
 
             <p>Participation publiée par :</p>
             <p><strong>${entry.getAuthor()}</strong></p>
-            <div class="pro-number-comm">
+            <div class="pro-info-top-right">
+                <span class="pro-encart-theme" style="background : #${participationColor}">
+                    ${participationType}
+                </span>
                 <span>${entry.nbApprovedComments}</span>
                 <p>Commentaire(s)</p>
             </div>

@@ -56,6 +56,11 @@
                                 </figure>
                                 <p>Concertation publiée par :</p>
                                 <p><strong>${entry.getAuthor()}</strong></p>
+                                <div class="pro-info-top-right">
+                                    <span class="pro-encart-theme" style="background : #${participationColor}">
+                                        ${participationType}
+                                    </span>
+                                </div>
                             </div>
                             <div class="pro-content-participation">
                                 <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
