@@ -377,23 +377,6 @@ function getProjectMarker(project, mercators) {
     var projectMarkerIcon = getMarkerIcon("project");
     var marker = L.marker(mercators, {icon: projectMarkerIcon});
 
-    marker.bindPopup(
-        '<div class="pro-vignette-map-inte">' +
-            '<a href="' + link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
-                '<div class="pro-header-event">' +
-                    '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
-                    '<p>À : ' + place + '</p>' +
-                    '<h3>' + title + '</h3>' +
-                '</div>' +
-                '<div class="pro-footer-event">' +
-                    '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
-                    '<span class="pro-number"><strong>' + nbPart + '</strong> Participant(s)</span>' +
-                '</div>' +
-            '</div></a>' +
-        '</div>'
-    );
-
     return marker;
 
 }
