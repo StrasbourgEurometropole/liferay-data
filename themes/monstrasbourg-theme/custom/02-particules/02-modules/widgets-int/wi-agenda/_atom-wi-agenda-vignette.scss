@@ -45,6 +45,29 @@
             font-size: 1.5rem;
         }
     }
+    .item-categories{
+        font-family: $montserrat;
+        color: #2da192;
+        font-size: 1.4rem;
+        font-weight: 400;
+        margin-bottom: 10px;
+        padding-left: 30px;
+        position: relative;
+        &:before{
+            content: '';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background-size: 12px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-label, #2da192) );
+                position: absolute;
+                top: 50%; left: 0;
+                transform: translateY(-50%);
+           
+        }
+    }
     .seu-lead{
         font-family: $opensans;
         font-weight: 600;

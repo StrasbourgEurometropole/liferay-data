@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerWebService;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -24,9 +25,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
-		"javax.portlet.display-name=M&eacute;diatheque", "javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/mediatheque-view.jsp",
-		"javax.portlet.init-param.config-template=/configuration/mediatheque-configuration.jsp",
+		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/mediatheque-view.jsp",
+		"javax.portlet.init-param.config-template=/configuration/mediatheque-configuration.jsp", "javax.portlet.display-name=Mediatheque",
 		"javax.portlet.name=" + StrasbourgPortletKeys.MEDIATHEQUE_WEB, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class MediathequeWebPortlet extends MVCPortlet {
@@ -39,45 +39,58 @@ public class MediathequeWebPortlet extends MVCPortlet {
 		String publikInternalId = dc.getPublikID(request);
 
 		BorrowerResponse borrower = BorrowerWebService.getResponse(publikInternalId, request);
-		dc.setBorrower(borrower);
-		
 		String template = "";
 
-		// si l'utilisateur a activé son lien
-		if(Validator.isNull(borrower.getCode_erreur())) {
-			template = "etape4";
-		}else {
-			switch (borrower.getCode_erreur()) {
-			case "AUCUNE_ASSOCIATION":
-				// Aucune association trouvée
-				template = "etape1";
-				break;
-			case "DELAI_DEPASSE":
-				// le compte n'a pas été activé dans le temps imparti
-				template = "etape1";
-				break;
-			case "ASSOCIATION_A_VALIDER":
-				// si l'utilisateur n'a pas activé son lien
-				template = "etape2C";
-				break;
-			case "AUCUN_EMAIL":
-				// son email n'est pas renseigné
-				template = "etape2B";
-				break;
-			case "AUCUNE_CARTE":
-				// le numéro de carte n'existe pas
-				template = "etape1";
-				request.setAttribute("error", borrower.getErreur());
-				break;
-			case "ASSOCIATION_SUPPRIMEE":
-				// Une association a été supprimée
-				template = "etape1";
-				break;
-			default:
-				// erreur technique -> TECHNIQUE
-				template = "etape0";
-				request.setAttribute("error", borrower.getErreur());
-				break;
+		if (Validator.isNull(borrower)) {
+			// erreur technique -> TECHNIQUE
+			template = "etape0";
+			request.setAttribute("error", "");
+		} else {
+			dc.setBorrower(borrower);
+
+			// si l'utilisateur a activé son lien
+			if (Validator.isNull(borrower.getCode_erreur()) && (Validator.isNull(borrower.getErr()) || borrower.getErr().equals("0"))) {
+				template = "etape4";
+			} else {
+				if (Validator.isNull(borrower.getCode_erreur())) {
+					// erreur technique -> TECHNIQUE
+					template = "etape0";
+					request.setAttribute("error", "");
+				} else {
+					switch (borrower.getCode_erreur()) {
+					case "AUCUNE_ASSOCIATION":
+						// Aucune association trouvée
+						template = "etape1";
+						break;
+					case "DELAI_DEPASSE":
+						// le compte n'a pas été activé dans le temps imparti
+						template = "etape1";
+						break;
+					case "ASSOCIATION_A_VALIDER":
+						// si l'utilisateur n'a pas activé son lien
+						template = "etape2C";
+						break;
+					case "AUCUN_EMAIL":
+						// son email n'est pas renseigné
+						template = "etape2B";
+						break;
+					case "AUCUNE_CARTE":
+						// le numéro de carte n'existe pas
+						template = "etape1";
+						request.setAttribute("error", borrower.getErreur());
+						break;
+					case "ASSOCIATION_SUPPRIMEE":
+						// Une association a été supprimée
+						template = "etape1";
+						request.setAttribute("error", borrower.getErreur());
+						break;
+					default:
+						// erreur technique -> TECHNIQUE
+						template = "etape0";
+						request.setAttribute("error", borrower.getErreur());
+						break;
+					}
+				}
 			}
 		}
 
@@ -95,6 +108,9 @@ public class MediathequeWebPortlet extends MVCPortlet {
 			}
 		}
 		request.setAttribute("dc", dc);
+		
+		// titre personnalisable
+		request.setAttribute("title", PortletHelper.getPortletTitle("account-mediatheque", request));
 
 		include("/templates/" + template + ".jsp", request, response);
 	}

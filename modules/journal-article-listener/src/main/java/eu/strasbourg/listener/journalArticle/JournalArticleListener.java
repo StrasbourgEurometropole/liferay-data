@@ -37,6 +37,7 @@ public class JournalArticleListener extends BaseModelListener<JournalArticle>
 	/**
 	 *  A la publication d'un nouvel article, on déprécie les anciennes versions
 	 *  Update => dans le cas où l'on passe de brouillon à publié
+	 *  Aussi dans le cas où on clique sur "Enregistrer et dépublier", ça déprécie aussi les anciennes versions
 	 */
 	@Override
 	public void onAfterUpdate(JournalArticle model) throws ModelListenerException {
@@ -58,7 +59,8 @@ public class JournalArticleListener extends BaseModelListener<JournalArticle>
 		List<JournalArticle> articles = JournalArticleLocalServiceUtil.getArticles(model.getGroupId(),
 				model.getArticleId());
 
-		if (statusJournalArticle == 0) 
+		// Si l'article/actu est publié  (statut 0) ou dépublié (2)
+		if (statusJournalArticle == 0 || statusJournalArticle == 2 ) 
 		{
 			for (JournalArticle journalArticle : articles) 
 			{

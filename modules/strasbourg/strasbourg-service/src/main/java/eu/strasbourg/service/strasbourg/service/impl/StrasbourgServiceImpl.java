@@ -216,4 +216,14 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	public JSONArray getCoordinateForAddress(String address) {
 		return getAdictService().getCoordinateForAddress(address);
 	}
+
+	@Override
+	public JSONObject getTraffic() {
+		return getAdictService().getTraffic();
+	}
+
+	@Override
+	public JSONObject getAlerts() {
+		return getAdictService().getAlerts();
+	}
 }

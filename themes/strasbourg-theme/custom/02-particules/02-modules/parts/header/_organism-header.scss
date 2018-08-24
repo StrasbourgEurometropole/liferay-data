@@ -276,6 +276,10 @@
             @include RWD(tablet){
                 display: block;
             }
+
+            @include RWD(mobile){
+                width: 45px;
+            }
         }
         .seu-lang-list{
             display: flex;
@@ -314,6 +318,10 @@
             transition: all, 0.5s;
             @include RWD(tablet){
                 display: none;
+            }
+
+            @include RWD(mobile){
+                width: 45px;
             }
             &.actif{
                 background-color: #31455D;

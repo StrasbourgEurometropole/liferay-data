@@ -60,6 +60,7 @@ public class NotificationWrapper implements Notification,
 
 		attributes.put("notificationId", getNotificationId());
 		attributes.put("title", getTitle());
+		attributes.put("description", getDescription());
 		attributes.put("url", getUrl());
 		attributes.put("automatic", getAutomatic());
 		attributes.put("singleUser", getSingleUser());
@@ -84,6 +85,12 @@ public class NotificationWrapper implements Notification,
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
 		}
 
 		String url = (String)attributes.get("url");
@@ -255,6 +262,74 @@ public class NotificationWrapper implements Notification,
 	}
 
 	/**
+	* Returns the description of this notification.
+	*
+	* @return the description of this notification
+	*/
+	@Override
+	public java.lang.String getDescription() {
+		return _notification.getDescription();
+	}
+
+	/**
+	* Returns the localized description of this notification in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized description of this notification
+	*/
+	@Override
+	public java.lang.String getDescription(java.lang.String languageId) {
+		return _notification.getDescription(languageId);
+	}
+
+	/**
+	* Returns the localized description of this notification in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized description of this notification
+	*/
+	@Override
+	public java.lang.String getDescription(java.lang.String languageId,
+		boolean useDefault) {
+		return _notification.getDescription(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized description of this notification in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized description of this notification
+	*/
+	@Override
+	public java.lang.String getDescription(java.util.Locale locale) {
+		return _notification.getDescription(locale);
+	}
+
+	/**
+	* Returns the localized description of this notification in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized description of this notification. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getDescription(java.util.Locale locale,
+		boolean useDefault) {
+		return _notification.getDescription(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getDescriptionCurrentLanguageId() {
+		return _notification.getDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getDescriptionCurrentValue() {
+		return _notification.getDescriptionCurrentValue();
+	}
+
+	/**
 	* Returns the single user ID of this notification.
 	*
 	* @return the single user ID of this notification
@@ -385,6 +460,16 @@ public class NotificationWrapper implements Notification,
 	}
 
 	/**
+	* Returns a map of the locales and localized descriptions of this notification.
+	*
+	* @return the locales and localized descriptions of this notification
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getDescriptionMap() {
+		return _notification.getDescriptionMap();
+	}
+
+	/**
 	* Returns a map of the locales and localized titles of this notification.
 	*
 	* @return the locales and localized titles of this notification
@@ -455,6 +540,70 @@ public class NotificationWrapper implements Notification,
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_notification.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the description of this notification.
+	*
+	* @param description the description of this notification
+	*/
+	@Override
+	public void setDescription(java.lang.String description) {
+		_notification.setDescription(description);
+	}
+
+	/**
+	* Sets the localized description of this notification in the language.
+	*
+	* @param description the localized description of this notification
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setDescription(java.lang.String description,
+		java.util.Locale locale) {
+		_notification.setDescription(description, locale);
+	}
+
+	/**
+	* Sets the localized description of this notification in the language, and sets the default locale.
+	*
+	* @param description the localized description of this notification
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setDescription(java.lang.String description,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_notification.setDescription(description, locale, defaultLocale);
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(java.lang.String languageId) {
+		_notification.setDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized descriptions of this notification from the map of locales and localized descriptions.
+	*
+	* @param descriptionMap the locales and localized descriptions of this notification
+	*/
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, java.lang.String> descriptionMap) {
+		_notification.setDescriptionMap(descriptionMap);
+	}
+
+	/**
+	* Sets the localized descriptions of this notification from the map of locales and localized descriptions, and sets the default locale.
+	*
+	* @param descriptionMap the locales and localized descriptions of this notification
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, java.lang.String> descriptionMap,
+		java.util.Locale defaultLocale) {
+		_notification.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	@Override

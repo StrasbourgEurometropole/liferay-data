@@ -1489,6 +1489,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 
 		notificationImpl.setNotificationId(notification.getNotificationId());
 		notificationImpl.setTitle(notification.getTitle());
+		notificationImpl.setDescription(notification.getDescription());
 		notificationImpl.setUrl(notification.getUrl());
 		notificationImpl.setAutomatic(notification.isAutomatic());
 		notificationImpl.setSingleUser(notification.isSingleUser());

@@ -129,7 +129,7 @@ L.Control.ListMarkers = L.Control.extend({
 					}
 				} 
 			}
-			var lienFavori = '<a href="#" class="add-favorites';
+			var lienFavori = '<div style="background-color: white; padding: 0px 8px;"><a href="#" class="add-favorites';
 			if(addedFavorite){
 				lienFavori += ' liked';
 			}
@@ -143,8 +143,12 @@ L.Control.ListMarkers = L.Control.extend({
 			}else{
 				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
 			}
-			lienFavori += '</a>';
+			lienFavori += '</a></div>';
 		    a.insertAdjacentHTML('afterend', lienFavori);
+		}
+
+		if (layer.feature.properties.listeTypes) {
+		    a.insertAdjacentHTML('afterend', '<p class="types">' + layer.feature.properties.listeTypes + '</p>');
 		}
 
 		return div;

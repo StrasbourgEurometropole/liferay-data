@@ -56,6 +56,9 @@ public class InterestViewerWebPortlet extends MVCPortlet {
 			InterestViewerDisplayContext dc = new InterestViewerDisplayContext(themeDisplay, request);
 
 			request.setAttribute("dc", dc);
+			
+			// titre personnalisable en mode widget
+			request.setAttribute("title", PortletHelper.getPortletTitle("actu-agenda", request));
 
 			include("/templates/" + template + ".jsp", request, response);
 		} catch (ConfigurationException e) {
