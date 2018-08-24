@@ -11768,10 +11768,10 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 */
 function getProjectMarker(project, mercators) {
 
-<<<<<<< HEAD
+
     var projectMarkerIcon = getMarkerIcon("project");
     var marker = L.marker(mercators, {icon: projectMarkerIcon});
-=======
+
     marker.bindPopup(
         '<div class="pro-vignette-map-inte">' +
             '<a href="' + link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
@@ -11788,7 +11788,6 @@ function getProjectMarker(project, mercators) {
             '</div></a>' +
         '</div>'
     );
->>>>>>> 116d9cb9b244073cdf888811843431fa638158d4
 
     return marker;
 

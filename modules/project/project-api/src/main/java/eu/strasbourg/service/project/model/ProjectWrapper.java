@@ -758,7 +758,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* Retourne la liste des participations du projet
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Participation> getParticipations() {
+	public java.util.List<Participation> getParticipations() {
 		return _project.getParticipations();
 	}
 
