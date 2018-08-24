@@ -27,6 +27,7 @@ public class ValidationAddressDisplayContext {
 	private Boolean hasError;
 	private String lastName;
 	private String address;
+	private String zipCode;
 	private List<Street> streets;
 
 	public ValidationAddressDisplayContext(ThemeDisplay themeDisplay, PortletRequest request, AdictService adict) {
@@ -46,6 +47,8 @@ public class ValidationAddressDisplayContext {
 
 	// récupération des informations de l'utilisateur
 	public void getUserInfo() {
+		hasError = false;
+		streets = new ArrayList<Street>();
 		// Récupération du publik ID avec la session
 		String internalId = getPublikID();
 		if (Validator.isNotNull(internalId)) {
@@ -53,16 +56,17 @@ public class ValidationAddressDisplayContext {
 			if (userDetail.toString().equals("{}")) {
 				hasError = true;
 			} else {
-				hasError = false;
 				if (Validator.isNotNull(userDetail.get("last_name"))) {
 					lastName = userDetail.getString("last_name");
+					address = userDetail.get("address") + " " + userDetail.getString("zipcode") + " "
+								+ userDetail.get("city");
+					zipCode = userDetail.getString("zipcode");
 
 					if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
 							&& Validator.isNotNull(userDetail.get("city"))) {
-						address = userDetail.get("address") + " " + userDetail.getString("zipcode") + " "
-								+ userDetail.get("city");
-						String zipCode = userDetail.getString("zipcode");
-						if (Validator.isNotNull(address) && StrasbourgPropsUtil.getEMSZipCode().contains(zipCode)) {
+						if (!isEMS()) {
+							streets = null;
+						}else{
 							streets = adictService.searchStreetNumbers(address);
 							if(Validator.isNull(streets)) {
 								hasError = true;
@@ -93,8 +97,8 @@ public class ValidationAddressDisplayContext {
 	}
 
 	// récupération de l'adresse de l'utilisateur
-	public String getAddress() {
-		return address;
+	public Boolean hasAddress() {
+		return Validator.isNotNull(address);
 	}
 
 	// retourne le nom de l'utilisateur
@@ -105,5 +109,15 @@ public class ValidationAddressDisplayContext {
 	// récupère l/les adresse(s) dans adict
 	public List<Street> getAddressList() {
 		return streets;
+	}
+
+	// vérifie si l'adresse saisie fait partie de l'EMS
+	public Boolean isEMS(){
+		return StrasbourgPropsUtil.getEMSZipCode().contains(zipCode);
+	}
+
+	// vérifie si le CP est null ou fait partie de l'EMS
+	public Boolean isEMSOrNull(){
+		return isEMS()||Validator.isNull(zipCode);
 	}
 }

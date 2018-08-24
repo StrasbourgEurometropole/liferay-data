@@ -1,6 +1,19 @@
 (function(jQuery) {
-	var namespace = '_eu_strasbourg_portlet_validationAddress_ValidationAddressWebPortlet_';
-	
+    var namespace = '_eu_strasbourg_portlet_validationAddress_ValidationAddressWebPortlet_';
+
+    $('input[type="radio"').on('click', function() {
+        if($(this).val() == "other"){
+            $('#validation').hide();
+            $('#other-address').show();
+        }else{
+            $('#' + namespace + 'fm #' + namespace + 'address').val($(this).val().split(',')[0]);
+            $('#' + namespace + 'fm #' + namespace + 'zipCode').val($(this).val().split(',')[1]);
+            $('#' + namespace + 'fm #' + namespace + 'city').val($(this).val().split(',')[2]);
+            $('#validation').show();
+            $('#other-address').hide();
+        }
+   });
+
 	//Autocomplete des lieux
 	var options = {
 		type : "POST",
@@ -32,7 +45,6 @@
 			$('#' + namespace + 'fmChoice #' + namespace + 'address').val(suggestion.rue);
 			$('#' + namespace + 'fmChoice #' + namespace + 'zipCode').val(suggestion.cp);
 			$('#' + namespace + 'fmChoice #' + namespace + 'city').val(suggestion.ville);
-			$('#' + namespace + 'fmChoice #address').html("<p>" + suggestion.rue + "<br>" + suggestion.cp + " " + suggestion.ville +"</p>");
 			$('#' + namespace + 'fmChoice').show();
 		}
 	};
