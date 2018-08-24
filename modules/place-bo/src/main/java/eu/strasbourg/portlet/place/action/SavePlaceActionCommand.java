@@ -301,12 +301,12 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					}
 
 				}
-				
-				// On supprime les anciennes périodes qui n'existent plus
-				for (Period period : periods) {
-					if(!periodsToKeep.contains(period.getPeriodId())){
-						_periodLocalService.removePeriod(period.getPeriodId());
-					}
+			}
+			
+			// On supprime les anciennes périodes qui n'existent plus
+			for (Period period : periods) {
+				if(!periodsToKeep.contains(period.getPeriodId())){
+					_periodLocalService.removePeriod(period.getPeriodId());
 				}
 			}
 

@@ -1,7 +1,10 @@
 <%@ include file="/resid-init.jsp" %>
 
 <section id="resid">
-    <h2><liferay-ui:message key="account-resid" /></h2>
+	<c:if test="${dc.showDeleteButton()}">
+		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+	</c:if>
+    <h2>${title}</h2>
 	<!-- Etape 1 -->
     <div class="form-group">
 		<div class="content" align="center">

@@ -4,7 +4,7 @@
 	<c:if test="${showDeleteButton}">
 		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
 	</c:if>
-    <h2><liferay-ui:message key="my-family-space" /></h2>
+    <h2>${title}</h2>
 		<!-- contenu web -->
 		<liferay-portlet:runtime
 			portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"

@@ -6,8 +6,9 @@
         margin-bottom: 20px;
     }
     .card-box{
-        padding: 25px 65px 75px 65px;
+        padding: 25px 65px 45px 65px;
         min-height: 500px;
+        margin-bottom: 50px;
         @include RWD(tablet){
             padding: 25px 40px 40px 40px;
         }

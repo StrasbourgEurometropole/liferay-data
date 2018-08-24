@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.resid.configuration;
 
+import java.util.List;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -52,9 +54,15 @@ public class ResidConfigurationAction
 			String residURL = ParamUtil.getString(request, "residURL");
 			setPreference(request, "residURL", residURL);
 
-			// URL zone
-			String zoneURL = ParamUtil.getString(request, "zoneURL");
-			setPreference(request, "zoneURL", zoneURL);
+			// Listes des zones
+			int nbZone = ParamUtil.getInteger(request, "nbZone");
+			String[] zones = new String[nbZone];
+			String[] code = ParamUtil.getStringValues(request, "code");
+			String[] url = ParamUtil.getStringValues(request, "url");	
+			for (int i = 0; i < nbZone; i++) {	
+				zones[i] = code[i] + ";" + url[i];
+			}
+			setPreference(request, "zones", zones);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -75,7 +83,7 @@ public class ResidConfigurationAction
 						ResidConfiguration.class);
 			request.setAttribute("liaisonURL", configuration.liaisonURL());
 			request.setAttribute("residURL", configuration.residURL());
-			request.setAttribute("zoneURL", configuration.zoneURL());
+			request.setAttribute("zones", configuration.zones());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);

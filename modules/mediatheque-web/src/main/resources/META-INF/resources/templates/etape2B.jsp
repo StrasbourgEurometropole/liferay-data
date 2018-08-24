@@ -1,8 +1,13 @@
 <%@ include file="/mediatheque-init.jsp" %>
 
 <section id="mediatheque">
-    <h2><liferay-ui:message key="account-mediatheque" /></h2>
-		<!-- Etape 2 Pas d'email renseignÃÂ© -->
+
+	<c:if test="${dc.showDeleteButton()}">
+		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+	</c:if>
+
+    <h2>${title}</h2>
+		<!-- Etape 2 Pas d'email renseigné -->
 		<p align="center">
 			<liferay-ui:message key="email-text" />
 		</p>

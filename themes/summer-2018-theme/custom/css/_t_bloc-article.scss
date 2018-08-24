@@ -1,6 +1,12 @@
 #mns-global{
 
 	.mns-bloc-article{
+		@include mobile{
+			margin-top: 30px !important;
+		}
+		@include tablet_portrait {
+			margin-top: 30px !important;
+		}
 		.mns-wrapper-title{
 			display: flex;
 		    justify-content: center;

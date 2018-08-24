@@ -38,6 +38,8 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -52,6 +54,7 @@ import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -75,6 +78,7 @@ public class MapPortlet extends MVCPortlet {
 
 		try {
 			themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            configId = null;
 
 			// Récupération de la configuration
 			MapConfiguration configuration = themeDisplay.getPortletDisplay()
@@ -89,74 +93,78 @@ public class MapPortlet extends MVCPortlet {
 				address = userDetail.get("address") + " " + userDetail.get("zipcode") + " " + userDetail.get("city");
 			}
 
-			boolean hasConfig = false; // Permet de cocher tous les POI si
-										// aucune configuration
+			boolean hasConfig = false; // Permet de cocher tous les POI si aucune configuration
+			String mode = ""; // Mode d'affichage
 			boolean widgetMod = false;
-			long groupId = -1; // Group du site dans lequel on doit afficher le
-			// détail du POI
-			boolean openInNewTab = false; // Ouvertures du détail des POIS dans
-											// la
-			// même fenêtre par défaut
+			long groupId = -1; // Group du site dans lequel on doit afficher le détail du POI
+			boolean openInNewTab = false; // Ouvertures du détail des POIS dans la même fenêtre par défaut
 			String typesContenu = ""; // Les type de contenus
-			String categoriesIdsString = ""; // Les id des catégories affichées
-												// non cochées
-			String categoriesDefaultsIdsString = ""; // Les catégories affichées
-														// coché
-			String prefilterCategoriesIdsString = ""; // Les catégories masquées
-														// et
-			// cochées
-			boolean districtUser = false; // Affichage de la map du quartier de
-			// l'utilisateur
-			AssetCategory district = null;
-			String interestsIdsString = ""; // Les id des intérêts affichés non
-											// cochés
-			String interestsDefaultsIdsString = ""; // Les intérêts affichés
-													// cochés
-			boolean showFavorites = false; // Affichage des favoris par défaut
+			String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
 			boolean showConfig = true; // Affichage de la zone de configuration
 			boolean showList = true; // Affichage de la liste à droite
+			String prefilterCategoriesIdsString = ""; // Les catégories masquées et cochées
+			String categoriesIdsString = ""; // Les id des catégories affichées non cochées
+			String categoriesDefaultsIdsString = ""; // Les catégories affichées coché
+			boolean districtUser = false; // Affichage de la map du quartier de l'utilisateur
+			String interestsIdsString = ""; // Les id des intérêts affichés
+			String interestsDefaultsIdsString = ""; // Les intérêts cochés
+			boolean showFavorites = false; // Affichage des favoris par défaut
+			boolean showTraffic = false; // Affichage de l'info trafic
+			String linkCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
+			String linkInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
+			
 			List<AssetCategory> categories = null; // Les catégories actives
 			List<Interest> interests = null; // Les intérêts actifs
+			AssetCategory district = null;
 
 			// Est-ce que la config du portlet est défini ?
 			if (configuration.hasConfig()) {
+				hasConfig = true;
+				mode = configuration.mode();
+				groupId = configuration.groupId();
+				openInNewTab = configuration.openInNewTab();
 				// Chargement de la configuration globale pour le mode widget
 				if (configuration.widgetMod()) {
 					ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
-					hasConfig = true;
 					widgetMod = true;
 					try {
 						String globalConfig = GetterUtil.getString(ed.getAttribute("map_global_config"));
 						JSONObject json = JSONFactoryUtil.createJSONObject(globalConfig);
 						JSONArray jsonArray = json.getJSONArray("typesContenu");
 						typesContenu = jsonArray.join(",").replace("\"", "");
-						JSONArray jsonArrayCategories = json.getJSONArray("categoriesIds");
-						categoriesIdsString = jsonArrayCategories.join(",");
-						JSONArray jsonArrayCategoriesDefault = json.getJSONArray("categoriesDefaultsIds");
-						categoriesDefaultsIdsString = jsonArrayCategoriesDefault.join(",");
-						JSONArray jsonArrayPrefilterCategories = json.getJSONArray("prefilterCategoriesIds");
-						prefilterCategoriesIdsString = jsonArrayPrefilterCategories.join(",");
 						JSONArray jsonArrayInterests = json.getJSONArray("interestsIds");
 						interestsIdsString = jsonArrayInterests.join(",");
-						JSONArray jsonArrayInterestsDefault = json.getJSONArray("interestsDefaultsIds");
-						interestsDefaultsIdsString = jsonArrayInterestsDefault.join(",");
 						showFavorites = json.getBoolean("showFavorites");
-						showConfig = json.getBoolean("showConfig");
-						showList = json.getBoolean("showList");
 					} catch (Exception ex) {
 						_log.error("Missing expando field : map_global_config");
 					}
 				}
 				// Chargement de la configuration du portlet sinon
 				else {
-					hasConfig = true;
-					groupId = configuration.groupId();
-					openInNewTab = configuration.openInNewTab();
+					typesContenu = configuration.typesContenu();
+					Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.eventExplanationXML());
+					for (Map.Entry<Locale, String> map : mapText.entrySet()) {
+						if (themeDisplay.getLocale().toString().equals(map.getKey().toString())) {
+							eventExplanationText = HtmlUtil.unescape(map.getValue());
+							break;
+						}
+					}
+					if (Validator.isNull(eventExplanationText)) {
+						eventExplanationText = "No configuration";
+					}
+					showConfig = configuration.showConfig();
+					showList = configuration.showList();
+					prefilterCategoriesIdsString = configuration.prefilterCategoriesIds();
+					categoriesIdsString = configuration.categoriesIds();
+					categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
 					districtUser = configuration.districtUser();
 					if (districtUser) {
                         if (Validator.isNotNull(address)) {
-                            String sectorType = "quartier_elus";
-                            district = adictService.getDistrictByAddressAndSector(address, sectorType);
+                        	try {
+								district = adictService.getDistrictByAddress(address);
+							}catch (Exception e ){
+								_log.error(e);
+							}
                         }
                         if (district == null) {
                             HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
@@ -173,15 +181,12 @@ public class MapPortlet extends MVCPortlet {
                             }
                         }
                     }
-					typesContenu = configuration.typesContenu();
-					categoriesIdsString = configuration.categoriesIds();
-					categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
-					prefilterCategoriesIdsString = configuration.prefilterCategoriesIds();
+
 					interestsIdsString = configuration.interestsIds();
-					interestsDefaultsIdsString = configuration.interestsDefaultsIds();
 					showFavorites = configuration.showFavorites();
-					showConfig = configuration.showConfig();
-					showList = configuration.showList();
+					showTraffic = configuration.showTraffic();
+					linkCategoryId = configuration.linkCategoryId();
+					linkInterestId = configuration.linkInterestId();
 				}
 
 				List<Long> categoriesIds;
@@ -223,24 +228,13 @@ public class MapPortlet extends MVCPortlet {
 					interestIds = Arrays.stream(interestsIdsString.split(","))
 							.map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
 				else
-					// Si jamais aucun intérêt affiché et non cochée n'est coché
-					// intentionnellement...
+					// Si jamais aucun intérêt affiché n'est coché intentionnellement...
 					interestIds = new ArrayList<Long>();
-
-				List<Long> interestsDefaultsIds;
-				if (!interestsDefaultsIdsString.equals(""))
-					interestsDefaultsIds = Arrays.stream(interestsDefaultsIdsString.split(","))
-							.map(i -> Long.parseLong(i.replace("\"", ""))).collect(Collectors.toList());
-				else
-					// Si jamais aucun intérêt affiché et coché n'est coché
-					// intentionnellement...
-					interestsDefaultsIds = new ArrayList<Long>();
 
 				// Récupération de tous les centres d'intérêts affiché avec le
 				// statut publié
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-						.filter(i -> i.getStatus() == 0 && (interestIds.contains(i.getInterestId())
-								|| interestsDefaultsIds.contains(i.getInterestId())))
+						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId()))
 						.sorted(Comparator.comparing(i2 -> i2.getType().getTitle(Locale.FRANCE)))
 						.collect(Collectors.toList());
 
@@ -268,76 +262,10 @@ public class MapPortlet extends MVCPortlet {
 					}
 					interests.removeIf(i -> i.getType().getName().equals("Quartier"));
 				}
-			} // Si pas de config on récupère toutes les catégories et tous les
-				// intérêts
+			} // Si pas de config on ne récupère aucunes catégories ni intérêts
 			else {
 				categories = new ArrayList<>();
 				interests = new ArrayList<>();
-			}
-
-			// Si l'utilisateur est connecté et qu'il a configuré le portlet
-			// autour de moi
-			PublikUser user = null;
-			String userConfigString = "";
-			if (Validator.isNotNull(internalId)) {
-				user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-				userConfigString = user.getMapConfig();
-				if (Validator.isNotNull(userConfigString)) {
-					hasConfig = true;
-				}
-			}
-			if (hasConfig) {
-				JSONObject userPortletConfig = null;
-				// Une config par portlet (nouvelle façon de faire)
-				if (userConfigString.startsWith("[")) {
-					JSONArray userConfigs =  JSONFactoryUtil.createJSONArray(userConfigString);
-					// On va recherche le configId correspondant
-					String configId = getConfigId();
-					for (int i = 0; i < userConfigs.length(); i++) {
-						JSONObject config = userConfigs.getJSONObject(i);
-						if (config.getString("configId").equals(configId)) {
-							userPortletConfig = config;
-							break;
-						}
-					}
-				} else { // Ca n'a été enregistré que pour le mode widget (legacy)
-					userPortletConfig = JSONFactoryUtil.createJSONObject(userConfigString);
-				}
-
-
-				if (userPortletConfig != null) {
-                    JSONArray jsonArrayCategories = userPortletConfig.getJSONArray("categories");
-                    if (jsonArrayCategories != null) {
-                        categoriesDefaultsIdsString = jsonArrayCategories.join(",");
-                    }
-                    JSONArray jsonArrayInterests = userPortletConfig.getJSONArray("interests");
-                    if (jsonArrayInterests != null) {
-                        interestsDefaultsIdsString = jsonArrayInterests.join(",");
-                    }
-
-                    showFavorites = userPortletConfig.getBoolean("showFavorites");
-                }
-			} else // Sinon on prend par defaut les catégories de l'utilisateur
-					// s'il en a
-			{
-				if (Validator.isNotNull(internalId)) {
-					hasConfig = true;
-					String userDefautPOI = StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId)
-							.stream().map(i -> i.getInterestId()).collect(Collectors.toList()), ",");
-					if (Validator.isNotNull(userDefautPOI)) {
-						if (Validator.isNotNull(interestsDefaultsIdsString)) {
-							interestsDefaultsIdsString += ",";
-						}
-						interestsDefaultsIdsString += userDefautPOI;
-					}
-					// String userDefautCategories =
-					// StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId)
-					// .stream().map(i ->
-					// i.getInterestId()).collect(Collectors.toList()), ",");
-					// if (Validator.isNotNull(userDefautCategories)) {
-					// categoriesDefaultsIdsString += userDefautCategories;
-					// }
-				}
 			}
 
 			// on regroupe les catégories par vocabulaire
@@ -371,26 +299,92 @@ public class MapPortlet extends MVCPortlet {
 				vocabularyGroup.put(vocabularyName, categoriesVocabulary);
 			}
 
+			// Si l'utilisateur est connecté et qu'il a configuré le portlet
+			// autour de moi
+			boolean hasUserConfig = false;
+			boolean hasUserConfigForPortlet = false;
+			PublikUser user = null;
+			String userConfigString = "";
+			if (Validator.isNotNull(internalId)) {
+				user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+				userConfigString = user.getMapConfig();
+				if (Validator.isNotNull(userConfigString)) {
+					hasUserConfig = true;
+				}
+			}
+			if (hasUserConfig) {
+				JSONObject userPortletConfig = null;
+				// Une config par portlet (nouvelle façon de faire)
+				if (userConfigString != null && userConfigString.startsWith("[")) {
+					JSONArray userConfigs =  JSONFactoryUtil.createJSONArray(userConfigString);
+					// On va recherche le configId correspondant
+					String configId = getConfigId();
+					for (int i = 0; i < userConfigs.length(); i++) {
+						JSONObject config = userConfigs.getJSONObject(i);
+						if (config.getString("configId").equals(configId)) {
+							userPortletConfig = config;
+							hasUserConfigForPortlet = true;
+							break;
+						}
+					}
+				} else { // Ca n'a été enregistré que pour le mode widget (legacy)
+					userPortletConfig = JSONFactoryUtil.createJSONObject(userConfigString);
+				}
+
+
+				if (userPortletConfig != null) {
+                    JSONArray jsonArrayCategories = userPortletConfig.getJSONArray("categories");
+                    if (jsonArrayCategories != null) {
+                        categoriesDefaultsIdsString = jsonArrayCategories.join(",");
+                    }
+                    JSONArray jsonArrayInterests = userPortletConfig.getJSONArray("interests");
+                    if (jsonArrayInterests != null) {
+                        interestsDefaultsIdsString = jsonArrayInterests.join(",");
+                    }
+                    showFavorites = userPortletConfig.getBoolean("showFavorites"); 
+                }
+			} 
+			
+			// Si l'utilisateur n'a pas de config pour ce portlet on prend ses centres d'intérêts (s'il en a)
+			if (!hasUserConfigForPortlet) { 
+				if (Validator.isNotNull(internalId)) {
+					String userDefautPOI = StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId)
+							.stream().map(i -> i.getInterestId()).collect(Collectors.toList()), ",");
+					if (Validator.isNotNull(userDefautPOI)) {
+						interestsDefaultsIdsString += userDefautPOI;
+					}
+				}
+			}
+			
 			request.setAttribute("hasConfig", hasConfig);
+			request.setAttribute("mode", mode);
 			request.setAttribute("widgetMod", widgetMod);
-			request.setAttribute("widgetIntro", configuration.widgetIntro());
-			request.setAttribute("widgetLink", configuration.widgetLink());
+			request.setAttribute("defaultConfig", configuration.defaultConfig());
 			request.setAttribute("groupId", groupId);
 			request.setAttribute("openInNewTab", openInNewTab);
+			request.setAttribute("typesContenu", typesContenu);
+			request.setAttribute("eventExplanationText", eventExplanationText);
+			request.setAttribute("showConfig", showConfig);
+			request.setAttribute("showList", showList);			
+			request.setAttribute("widgetIntro", configuration.widgetIntro());
+			request.setAttribute("widgetLink", configuration.widgetLink());
+			request.setAttribute("vocabularyGroups", vocabularyGroup);
+			request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIdsString);
+			request.setAttribute("categoriesCheckedIds", categoriesDefaultsIdsString);			
 			request.setAttribute("districtUser", districtUser);
 			request.setAttribute("district", district);
-			request.setAttribute("typesContenu", typesContenu);
-			request.setAttribute("vocabularyGroups", vocabularyGroup);
-			request.setAttribute("categoriesCheckedIds", categoriesDefaultsIdsString);
-			request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIdsString);
 			request.setAttribute("interestGroups", InterestGroupDisplay.getInterestGroups(interests));
 			request.setAttribute("interestsCheckedIds", interestsDefaultsIdsString);
 			request.setAttribute("showFavorites", showFavorites);
-			request.setAttribute("showConfig", showConfig);
-			request.setAttribute("showList", showList);
+			request.setAttribute("showTraffic", showTraffic);
+			request.setAttribute("linkCategoryId", linkCategoryId);
+			request.setAttribute("linkInterestId", linkInterestId);
 			request.setAttribute("address", address);
-			request.setAttribute("defaultConfig", configuration.defaultConfig());
 			request.setAttribute("internalId", internalId);
+			
+			// titre personnalisable en mode widget
+			request.setAttribute("title", PortletHelper.getPortletTitle("auround-me", request));
+			
 			MapDisplayContext dc = new MapDisplayContext(themeDisplay);
 			request.setAttribute("dc", dc);
 			if (widgetMod) {
@@ -439,6 +433,8 @@ public class MapPortlet extends MVCPortlet {
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
 		try {
+            configId = null;
+            themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 			String resourceID = resourceRequest.getResourceID();
 
 			if (resourceID.equals("toggleInterestPoint")) {
@@ -517,7 +513,7 @@ public class MapPortlet extends MVCPortlet {
     private String configId;
 
     /**
-     * Retiure la configuration du portlet en cours à partir de la configuration userConfig
+     * Retire la configuration du portlet en cours à partir de la configuration userConfig
      */
     private JSONArray getUserConfigWithoutCurrentPortlet(JSONArray userConfig, String configId) {
 	    JSONArray userConfigWithoutCurrentPortlet = JSONFactoryUtil.createJSONArray();

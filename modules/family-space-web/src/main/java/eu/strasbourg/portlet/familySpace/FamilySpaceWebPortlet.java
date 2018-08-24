@@ -46,6 +46,9 @@ public class FamilySpaceWebPortlet extends MVCPortlet {
 			renderRequest.setAttribute("familySpaceURL", familySpaceURL);
 			renderRequest.setAttribute("showDeleteButton", PortletHelper.showDeleteButtonOnDashboard(themeDisplay,
 					themeDisplay.getPortletDisplay().getId()));
+			
+			// titre personnalisable
+			renderRequest.setAttribute("title", PortletHelper.getPortletTitle("my-family-space", renderRequest));
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}

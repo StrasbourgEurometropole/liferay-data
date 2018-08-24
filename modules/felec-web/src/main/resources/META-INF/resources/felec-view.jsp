@@ -147,8 +147,9 @@
 				</div>
 				<div>
 					La date d'effet de cette radiation est ${felecResponse.applicationDate}.
-					Inscrivez-vous en ligne en moins de 10 minutes (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
-					<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
+					<div>
+						<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
+					</div>
 				</div>
 				<div class="warning">
 					<strong>Attention</strong> : vous devez vous inscrire avant le 31 d&eacute;cembre pour pouvoir voter l'ann&eacute;e suivante.
@@ -159,7 +160,7 @@
 				<div class="main-response">
 					Vous &ecirc;tes en cours d'inscription sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg
 				</div>
-				<div>>
+				<div>
 					Votre inscription sera effective au ${felecResponse.applicationDate}.
 					A compter de cette date, vous pourrez voter au bureau de vote :
 				</div>

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.portlet.resid.configuration.ResidConfiguration;
 import eu.strasbourg.portlet.resid.dossier.DossiersResponse;
+import eu.strasbourg.utils.PortletHelper;
 
 public class ResidDisplayContext {
 
@@ -44,12 +45,16 @@ public class ResidDisplayContext {
 		return residURL;
 	}
 
-	public String getZoneURL() {
-		String zoneURL = configuration.zoneURL();
-		if (Validator.isNull(zoneURL)) {
-			zoneURL = "#";
+	// Récupération de l'url de la zone
+	public String getZoneURL(String code) {
+		String[] zones = configuration.zones();
+		for (String zone : zones) {
+			String[] zoneValue = zone.split(";");
+			if(zoneValue[0].equals(code)) {
+				return zoneValue[1];
+			}
 		}
-		return zoneURL;
+		return "";
 	}
 
 	// Récupération de l'id utilisateur
@@ -74,5 +79,9 @@ public class ResidDisplayContext {
 
 	public LocalDate getToday() {
 		return LocalDate.now();
+	}
+
+	public boolean showDeleteButton() {
+		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
 }

@@ -22,15 +22,49 @@
 			
 			<!-- Type de contenu -->
 			<aui:fieldset collapsed="true" collapsible="true"
-					label="type-contenu">
+					label="type-contenu" cssClass="noWidgetMode" >
 				
 				<!-- Lieux -->
 				<aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
 					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
+				
 				<!-- Evénements -->
 				<aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
-					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" ></aui:input>
+					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" cssClass="typeEvent"></aui:input>
 			
+				<!-- Carto normale et page autour de moi -->
+				<div class="eventExplanation">
+					<aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
+				</div>
+			
+			</aui:fieldset>
+			
+			<!-- Affichage -->
+			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
+
+				<div class="noWidgetMode">
+					<!-- Choix de l'affichage de la zone de configuration -->
+					<div>
+						<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+					</div>
+					
+					<!-- Choix de l'affichage de la liste -->
+					<div>
+						<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
+					</div>
+				</div>
+			
+				<!-- Choix du site pour la cible des lien -->
+				<aui:select name="groupId" label="detail-target-site">
+					<c:forEach var="site" items="${sites}">
+						<aui:option value="${site.groupId}" selected="${site.groupId eq selectedGroupId}">${site.name}</aui:option>
+					</c:forEach>
+				</aui:select>
+				
+				<!-- Choix de l'ouverture d'un lien dans un nouvel onglet ou pas  -->
+				<div>
+					<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
+				</div>
 			</aui:fieldset>
 			
 			<!-- Carto normale -->
@@ -78,33 +112,6 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- Affichage -->
-			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
-
-				<!-- Choix de l'affichage de la zone de configuration -->
-				<div>
-					<aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
-				</div>
-				
-				<!-- Choix de l'affichage de la liste -->
-				<div>
-					<aui:input type="checkbox" name="showList" value="${showList || !hasConfig}" label="show-list" />
-				</div>
-			
-				<!-- Choix du site pour la cible des lien -->
-				<aui:select name="groupId" label="detail-target-site">
-					<c:forEach var="site" items="${sites}">
-						<aui:option value="${site.groupId}" selected="${site.groupId eq selectedGroupId}">${site.name}</aui:option>
-					</c:forEach>
-				</aui:select>
-				
-				<!-- Choix de l'ouverture d'un lien dans un nouvel onglet ou pas  -->
-				<div>
-					<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
-				</div>
-				
-			</aui:fieldset>
-			
 			<!-- MonStrabourg -->
 			<aui:fieldset collapsed="true" collapsible="true"
 					label="mon-strasbourg" cssClass="monStrasbourgMode">
@@ -136,7 +143,6 @@
 							<tr style="border-bottom: solid 3px;">
 								<td width="100px"><liferay-ui:message key="interest-choice-disabled-help"/></td>
 								<td width="100px"><liferay-ui:message key="interest-choice-help"/></td>
-								<td width="100px"><liferay-ui:message key="interest-choice-default-help" /></td>
 								<td></td>
 							</tr>
 							<c:forEach var="interest" items="${interests}" varStatus="intStatus">
@@ -148,15 +154,11 @@
 								</c:if>
 								<td style="padding-top: 10px">
 									<aui:input type="radio" name="interestStatus${interest.interestId}" value="disabled" label=""
-											   checked="${!fn:contains(interestsIds, interest.interestId) || !fn:contains(interestsDefaultsIds, interest.interestId) || !hasConfig}" ></aui:input>
+											   checked="${!fn:contains(interestsIds, interest.interestId) || !hasConfig}" ></aui:input>
 								</td>
 								<td style="padding-top: 10px">
 									<aui:input type="radio" name="interestStatus${interest.interestId}" value="unchecked" label=""
 											   checked="${fn:contains(interestsIds, interest.interestId)}" ></aui:input>
-								</td>
-								<td style="padding-top: 10px">
-									<aui:input type="radio" name="interestStatus${interest.interestId}" value="checked" label=""
-											   checked="${fn:contains(interestsDefaultsIds, interest.interestId)}" ></aui:input>
 								</td>
 								<td style="text-align: left">${interest.getTitle(locale)}</td>
 								</tr>
@@ -173,40 +175,137 @@
 
 					</p>
 				</div>
+			</aui:fieldset>
+			
+			<!-- Info trafic -->
+			<aui:fieldset collapsed="true" collapsible="true"
+					label="traffic" cssClass="noWidgetMode infoTraffic">
+
+				<p>
+					<!-- Affichage de l'info trafic -->
+					<div>
+						<aui:input type="checkbox" name="showTraffic" value="${showTraffic || !hasConfig}" label="show-traffic" />
+					</div>
+
+				</p>
+				
+				<div class="infoTrafficChecked">
+					<!-- Mode widget -->
+					<div class="normalMode">
+	
+						<!-- Choix de la catégorie qui affichera l'info trafic -->
+						<label><liferay-ui:message key="category-link" /></label>
+						<p>
+							<div id="categorySelectorLabel"></div>
+							<div id="categorySelector"></div>
+							<aui:input type="hidden" name="linkCategoryId" />
+						</p>
+	
+					</div>
+
+					<!-- Mode autour de moi -->
+					<div class="aroundMeMode">
+					
+						<!-- Choix du CI qui affichera l'info trafic -->
+						<label><liferay-ui:message key="interest-link" /></label>
+						
+			            <select class="toCustomSelect" id="linkInterestId" name="<portlet:namespace />linkInterestId">
+			            	<aui:option value=""></aui:option>
+							<c:forEach var="interest" items="${interests}" varStatus="intStatus">
+			                    <c:choose>
+			                        <c:when test="${interest.interestId == linkInterestId}">
+			                            <aui:option value="${interest.interestId}" selected="true" >
+			                                ${interest.getTitle(locale)}
+			                            </aui:option>
+			                        </c:when>
+			                        <c:otherwise>
+			                            <aui:option value="${interest.interestId}" >
+			                                ${interest.getTitle(locale)}
+			                            </aui:option>
+			                        </c:otherwise>
+			                    </c:choose>
+			                </c:forEach>
+			            </select>
+					
+					</div>
+				</div>
 
 				<script>
 					var refreshConfigDisplay = function() {
-                        var mode = $('.modeSelection input[type=radio]:checked').val();
-                        if (mode === 'widget') {
-                            $('.monStrasbourgMode').show();
-                            $('.widgetMode').show();
-                            $('.aroundMeMode').hide();
-                            $('.normalMode').hide();
-                        } else if (mode == 'aroundme') {
-                            $('.monStrasbourgMode').show();
-                            $('.widgetMode').hide();
-                            $('.aroundMeMode').show();
-                            $('.normalMode').hide();
-                        } else {
-                            $('.monStrasbourgMode').hide();
-                            $('.widgetMode').hide();
-                            $('.aroundMeMode').hide();
-                            $('.normalMode').show();
-                        }
+		               var mode = $('.modeSelection input[type=radio]:checked').val();
+		               if (mode === 'widget') {
+		                   $('.monStrasbourgMode').show();
+		                   $('.widgetMode').show();
+		                   $('.aroundMeMode').hide();
+		                   $('.normalMode').hide();
+		                   $('.noWidgetMode').hide();
+		               } else if (mode == 'aroundme') {
+		                   $('.monStrasbourgMode').show();
+		                   $('.widgetMode').hide();
+		                   $('.aroundMeMode').show();
+		                   $('.normalMode').hide();
+		                   $('.noWidgetMode').show();
+		               } else {
+		                   $('.monStrasbourgMode').hide();
+		                   $('.widgetMode').hide();
+		                   $('.aroundMeMode').hide();
+		                   $('.normalMode').show();
+		                   $('.noWidgetMode').show();
+		               }
+	                   if ($('.typeEvent').is(":checked")) {
+	                       $('.eventExplanation').show();
+	                   } else {
+	                       $('.eventExplanation').hide();
+	                   }
+					}
+					
+					var refreshConfigTrafficDisplay = function() {
+		                   if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
+		                       $('.infoTrafficChecked').show();
+		                   } else {
+		                       $('.infoTrafficChecked').hide();
+		                   }
 					}
 					$('.modeSelection input[type=radio]').on('change', function() {
                         refreshConfigDisplay();
 					})
+					$('.typeEvent').on('change', function() {
+		                   if ($(this).is(":checked")) {
+		                       $('.eventExplanation').show();
+		                   } else {
+		                       $('.eventExplanation').hide();
+		                   }
+					})
+					$('.infoTraffic input[type=checkbox]').on('change', function() {
+						refreshConfigTrafficDisplay();
+					})
 					$(function() {
                         refreshConfigDisplay();
+                        refreshConfigTrafficDisplay();
 					})
 				</script>
 			</aui:fieldset>		
 
 		</aui:fieldset-group>
-		
+
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 		</aui:button-row>
 	</aui:form>
 </div>
+
+<aui:script use="liferay-asset-categories-selector">
+	new Liferay.AssetCategoriesSelector(
+		{
+			curEntryIds: "${linkCategoryId}",
+			curEntries: "${categoryTitle}",
+			hiddenInput: "#<portlet:namespace />linkCategoryId",
+			contentBox: "#categorySelector",
+			label: "<liferay-ui:message key='category' />",
+			labelNode: "#categorySelectorLabel",
+			singleSelect: true,
+			vocabularyGroupIds: ${themeDisplay.companyGroupId},
+			vocabularyIds: "${vocabularies}"
+		}
+	).render();
+</aui:script>
