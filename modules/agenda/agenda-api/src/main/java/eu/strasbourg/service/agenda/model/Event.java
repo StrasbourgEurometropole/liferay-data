@@ -260,6 +260,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.time.LocalDate getNextOpenDate();
 
 	/**
+	* Demande si l'utilisateur demandé participe à l'événement
+	*/
+	public boolean isUserParticipate(java.lang.String publikUserId);
+
+	/**
 	* Retourne la version JSON de l'événenement
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();

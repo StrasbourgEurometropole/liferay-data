@@ -129,6 +129,13 @@ public interface EventParticipationLocalService extends BaseLocalService,
 	public EventParticipation fetchEventParticipation(long eventParticipationId);
 
 	/**
+	* Retourne la participation à l'événement d'un utilisateur et d'un événement donné
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public EventParticipation getByPublikUserIdAndEventId(
+		java.lang.String publikUserId, long eventId);
+
+	/**
 	* Returns the event participation with the primary key.
 	*
 	* @param eventParticipationId the primary key of the event participation

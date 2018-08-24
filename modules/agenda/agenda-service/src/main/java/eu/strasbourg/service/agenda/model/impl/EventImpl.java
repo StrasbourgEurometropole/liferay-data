@@ -641,6 +641,16 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return adictService;
 	}
+	
+	/**
+	 * Demande si l'utilisateur demandé participe à l'événement
+	 */
+	@Override
+	public boolean isUserParticipate(String publikUserId) {
+		if (EventParticipationLocalServiceUtil.getByPublikUserIdAndEventId(publikUserId, this.getEventId()) != null)
+			return true;
+		return false;
+	}
 
 	/**
 	 * Retourne la version JSON de l'événenement
