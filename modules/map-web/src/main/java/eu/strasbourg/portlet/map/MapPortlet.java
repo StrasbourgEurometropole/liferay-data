@@ -160,8 +160,11 @@ public class MapPortlet extends MVCPortlet {
 					districtUser = configuration.districtUser();
 					if (districtUser) {
                         if (Validator.isNotNull(address)) {
-                            String sectorType = "quartier_elus";
-                            district = adictService.getDistrictByAddressAndSector(address, sectorType);
+                        	try {
+								district = adictService.getDistrictByAddress(address);
+							}catch (Exception e ){
+								_log.error(e);
+							}
                         }
                         if (district == null) {
                             HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);

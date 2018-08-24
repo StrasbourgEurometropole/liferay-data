@@ -1,9 +1,11 @@
 package eu.strasbourg.service.adict.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.liferay.portal.kernel.json.JSONException;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -29,6 +31,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
  */
 @Component(immediate = true, property = {}, service = AdictService.class)
 public class AdictServiceImpl implements AdictService {
+
 
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 
@@ -225,7 +228,6 @@ public class AdictServiceImpl implements AdictService {
 		JSONObject trafficJSON = null;
 		try {
 			String adictTrafficURL = StrasbourgPropsUtil.getAdictTrafficURL();
-			adictTrafficURL = "http://adict.strasbourg.eu/api/v1.0/traffic?srid=4326&token=aa72a01e643db472f3e7843ac1f3e48c";
 			trafficJSON = JSONHelper.readJsonFromURL(adictTrafficURL);
 		} catch (Exception e) {
 			log.error(e);
@@ -234,22 +236,21 @@ public class AdictServiceImpl implements AdictService {
 		return trafficJSON;
 	}
 
-	/**
-	 * Retourne les coordonnées des alertes
-	 */
-	@Override
-	public JSONObject getAlerts() {
-		JSONObject alertsJSON = null;
-		try {
-			String adictAlertscURL = StrasbourgPropsUtil.getAdictAlertsURL();
-            adictAlertscURL = "http://adict.strasbourg.eu/api/v1.0/traffic/alerts?srid=4326&token=aa72a01e643db472f3e7843ac1f3e48c";
-			alertsJSON = JSONHelper.readJsonFromURL(
-					adictAlertscURL);
-		} catch (Exception e) {
-			log.error(e);
-		}
+    /**
+     * Retourne les coordonnées des alertes
+     */
+    @Override
+    public JSONObject getAlerts() {
+        JSONObject alertsJSON = null;
+        try {
+            String adictTrafficURL = StrasbourgPropsUtil.getAdictAlertsURL();
+            alertsJSON = JSONHelper.readJsonFromURL(
+                    adictTrafficURL);
+        } catch (Exception e) {
+            log.error(e);
+        }
 
-		return alertsJSON;
-	}
+        return alertsJSON;
+    }
 
 }

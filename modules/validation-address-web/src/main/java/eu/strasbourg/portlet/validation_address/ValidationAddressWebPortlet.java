@@ -23,7 +23,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.required-namespaced-parameters=false",
-		"javax.portlet.display-name=validation-address", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.display-name=Validation d'adresse", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/validation-address-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/validation-address-configuration.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.VALIDATION_ADDRESS_WEB, "javax.portlet.resource-bundle=content.Language",

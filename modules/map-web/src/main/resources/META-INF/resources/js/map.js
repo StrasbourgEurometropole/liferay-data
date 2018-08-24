@@ -627,6 +627,7 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                     var markerIcon = new L.Icon({
                         iconUrl: '/o/mapweb/images/gps.png',
+                        iconSize: [35,35],
                         iconAnchor: [12, 12]
                     });
                     var homeMarker = L.marker([position.coords.latitude, position.coords.longitude], { icon: markerIcon }).addTo(mymap);
