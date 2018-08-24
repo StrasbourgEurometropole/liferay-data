@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -45,6 +46,8 @@ import eu.strasbourg.service.link.model.impl.LinkModelImpl;
 import eu.strasbourg.service.link.service.persistence.LinkPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -1963,6 +1966,22 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 	public LinkPersistenceImpl() {
 		setModelClass(Link.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -2030,7 +2049,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((LinkModelImpl)link);
+		clearUniqueFindersCache((LinkModelImpl)link, true);
 	}
 
 	@Override
@@ -2042,48 +2061,35 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			entityCache.removeResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
 				LinkImpl.class, link.getPrimaryKey());
 
-			clearUniqueFindersCache((LinkModelImpl)link);
+			clearUniqueFindersCache((LinkModelImpl)link, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(LinkModelImpl linkModelImpl,
-		boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					linkModelImpl.getUuid(), linkModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				linkModelImpl);
-		}
-		else {
-			if ((linkModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						linkModelImpl.getUuid(), linkModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					linkModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(LinkModelImpl linkModelImpl) {
+	protected void cacheUniqueFindersCache(LinkModelImpl linkModelImpl) {
 		Object[] args = new Object[] {
 				linkModelImpl.getUuid(), linkModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args, linkModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(LinkModelImpl linkModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					linkModelImpl.getUuid(), linkModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((linkModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					linkModelImpl.getOriginalUuid(),
 					linkModelImpl.getOriginalGroupId()
 				};
@@ -2255,8 +2261,34 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !LinkModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!LinkModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { linkModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					linkModelImpl.getUuid(), linkModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { linkModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2314,8 +2346,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		entityCache.putResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
 			LinkImpl.class, link.getPrimaryKey(), link, false);
 
-		clearUniqueFindersCache(linkModelImpl);
-		cacheUniqueFindersCache(linkModelImpl, isNew);
+		clearUniqueFindersCache(linkModelImpl, false);
+		cacheUniqueFindersCache(linkModelImpl);
 
 		link.resetOriginalValues();
 
@@ -2499,7 +2531,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		query.append(_SQL_SELECT_LINK_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

@@ -500,9 +500,9 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns the u r l of this link.
+	* Returns the url of this link.
 	*
-	* @return the u r l of this link
+	* @return the url of this link
 	*/
 	@Override
 	public java.lang.String getURL() {
@@ -510,10 +510,10 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns the localized u r l of this link in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized url of this link in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
-	* @return the localized u r l of this link
+	* @return the localized url of this link
 	*/
 	@Override
 	public java.lang.String getURL(java.lang.String languageId) {
@@ -521,11 +521,11 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns the localized u r l of this link in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized url of this link in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized u r l of this link
+	* @return the localized url of this link
 	*/
 	@Override
 	public java.lang.String getURL(java.lang.String languageId,
@@ -534,10 +534,10 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns the localized u r l of this link in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized url of this link in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param locale the locale of the language
-	* @return the localized u r l of this link
+	* @return the localized url of this link
 	*/
 	@Override
 	public java.lang.String getURL(java.util.Locale locale) {
@@ -545,11 +545,11 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns the localized u r l of this link in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized url of this link in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param locale the local of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized u r l of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	* @return the localized url of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	*/
 	@Override
 	public java.lang.String getURL(java.util.Locale locale, boolean useDefault) {
@@ -681,9 +681,9 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns a map of the locales and localized u r ls of this link.
+	* Returns a map of the locales and localized urls of this link.
 	*
-	* @return the locales and localized u r ls of this link
+	* @return the locales and localized urls of this link
 	*/
 	@Override
 	public Map<java.util.Locale, java.lang.String> getURLMap() {
@@ -1044,9 +1044,9 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the u r l of this link.
+	* Sets the url of this link.
 	*
-	* @param URL the u r l of this link
+	* @param URL the url of this link
 	*/
 	@Override
 	public void setURL(java.lang.String URL) {
@@ -1054,9 +1054,9 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the localized u r l of this link in the language.
+	* Sets the localized url of this link in the language.
 	*
-	* @param URL the localized u r l of this link
+	* @param URL the localized url of this link
 	* @param locale the locale of the language
 	*/
 	@Override
@@ -1065,9 +1065,9 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the localized u r l of this link in the language, and sets the default locale.
+	* Sets the localized url of this link in the language, and sets the default locale.
 	*
-	* @param URL the localized u r l of this link
+	* @param URL the localized url of this link
 	* @param locale the locale of the language
 	* @param defaultLocale the default locale
 	*/
@@ -1083,9 +1083,9 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the localized u r ls of this link from the map of locales and localized u r ls.
+	* Sets the localized urls of this link from the map of locales and localized urls.
 	*
-	* @param URLMap the locales and localized u r ls of this link
+	* @param URLMap the locales and localized urls of this link
 	*/
 	@Override
 	public void setURLMap(Map<java.util.Locale, java.lang.String> URLMap) {
@@ -1093,9 +1093,9 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the localized u r ls of this link from the map of locales and localized u r ls, and sets the default locale.
+	* Sets the localized urls of this link from the map of locales and localized urls, and sets the default locale.
 	*
-	* @param URLMap the locales and localized u r ls of this link
+	* @param URLMap the locales and localized urls of this link
 	* @param defaultLocale the default locale
 	*/
 	@Override
