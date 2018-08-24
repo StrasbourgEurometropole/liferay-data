@@ -42,18 +42,8 @@
 				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="modified-date" truncate="true"
-				value="${formattedModifiedfDate}" />
-
-			<fmt:formatDate value="${petition.modifiedDate}"
-				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="modified-date" truncate="true"
 				value="${formattedModifiedDate}" />
 
-			<liferay-ui:search-container-column-text name="">
-				<div class="data" data-id="${petition.petitionId}" data-title="${petition.title}"></div>
-			</liferay-ui:search-container-column-text>
-			
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator  />

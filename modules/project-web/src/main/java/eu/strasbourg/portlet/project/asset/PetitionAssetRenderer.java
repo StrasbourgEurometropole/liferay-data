@@ -63,16 +63,6 @@ public class PetitionAssetRenderer extends BaseJSPAssetRenderer<Petition> {
     }
 
     @Override
-    public String getSummary(PortletRequest portletRequest, PortletResponse portletResponse) {
-        return "Name : "+ _entry.getDescription();
-    }
-
-    @Override
-    public String getTitle(Locale locale) {
-        return _entry.getTitle();
-    }
-
-    @Override
     public boolean include(HttpServletRequest request, HttpServletResponse response, String template) throws Exception {
         request.setAttribute("entry",this._entry);
         request.setAttribute("detailPortletName", StrasbourgPortletKeys.ENTITY_DETAIL_WEB);
@@ -81,5 +71,15 @@ public class PetitionAssetRenderer extends BaseJSPAssetRenderer<Petition> {
 
     public Petition getPetition(){
         return this._entry;
+    }
+
+    @Override
+    public String getSummary(PortletRequest portletRequest, PortletResponse portletResponse) {
+        return "Name : "+ _entry.getDescription();
+    }
+
+    @Override
+    public String getTitle(Locale locale) {
+        return _entry.getTitle();
     }
 }
