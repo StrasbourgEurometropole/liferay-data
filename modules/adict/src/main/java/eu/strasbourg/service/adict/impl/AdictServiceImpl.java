@@ -189,7 +189,7 @@ public class AdictServiceImpl implements AdictService {
      * Retourne les coordonnées d'une adresse en JSon
      */
     @Override
-    public JSONArray getCoordinateForAddress(String address) throws Exception {
+    public JSONArray getCoordinateForAddress(String address) throws Exception { 
         JSONArray coordinates = null;
         String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
         String url = urlSearch + HtmlUtil.escapeURL(address);
