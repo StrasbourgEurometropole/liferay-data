@@ -37,9 +37,7 @@ public class ValidationAddressWebPortlet extends MVCPortlet {
 		ValidationAddressDisplayContext dc = new ValidationAddressDisplayContext(themeDisplay, request,adictService);
 		
 		request.setAttribute("dc", dc);
-		
-		// titre personnalisable
-		request.setAttribute("title", PortletHelper.getPortletTitle("validation-address", request));
+
 		super.render(request, response);
 	}
 
