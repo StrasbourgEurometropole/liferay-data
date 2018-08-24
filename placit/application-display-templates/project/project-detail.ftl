@@ -65,10 +65,6 @@
  </div>
  
  <aside class="col-sm-4-to-move">
-    <#if entry.placitPlaces?size gt 0 >
-        <!-- <div class="bloc-iframe maps" data-theme="default" data-lat="${entry.getMercatorY()}" data-lng="${entry.getMercatorX()}" data-marker="true"
-         data-markericon="event" data-zoom="12" data-filter-options="filterMapDetail"></div> -->
-    </#if>
     <div class="pro-compteur">
         <span class="pro-compt">${entry.getNbFollowerLabel()}</span>
         <p>Citoyens(nes) suivent ce projet</p>
