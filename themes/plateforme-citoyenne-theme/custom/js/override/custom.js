@@ -360,7 +360,7 @@ function getParticipationMarker(participation, mercators) {
             '</div></a>' + 
         '</div>' + 
         colorHack
-        ,{maxHeight: 300, minWidth: 480, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
