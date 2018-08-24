@@ -63,8 +63,14 @@
         </#if>
     </ul>
  </div>
- 
- <aside class="col-sm-4-to-move">
+
+<!-- Fiche de l'entité -->
+<aside class="col-sm-4-to-move">
+
+    <!-- Bloc : map -->
+    <div class="bloc-iframe leaflet-map" id="mapid" ></div>
+
+    <!-- Bloc : Compteur de suivi -->
     <div class="pro-compteur">
         <span class="pro-compt">${entry.getNbFollowerLabel()}</span>
         <p>Citoyens(nes) suivent ce projet</p>
@@ -75,15 +81,12 @@
             Suivre ce projet
         </a>
     </div>
+
+    <!-- Bloc : A venir -->
     <div class="pro-event-comming">
         <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${entry.getParticipations()?size}</strong> Participation(s) en cours</a>
         <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${entry.getEvents()?size}</strong> Évènement(s) à venir</a>
     </div> 
- <!-- Fiche de l'entité -->
-<aside class="col-sm-4-to-move">
-
-    <!-- Bloc : map -->
-    <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 
     <!-- Bloc : entités liées -->
     <div class="pro-event-comming">
