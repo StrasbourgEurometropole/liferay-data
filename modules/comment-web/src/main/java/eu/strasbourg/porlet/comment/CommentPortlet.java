@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -182,11 +181,11 @@ public class CommentPortlet extends MVCPortlet {
 				
 				// Recuperation de l'URL de redirection
 				String redirectURL = ParamUtil.getString(request, "redirectURL");
-
+				
 				Comment comment;
 
 				if (editCommentId <= 0) { // Creation d'un nouveau commentaire
-					comment = _commentLocalService.createComment(userPublikId,sc);
+					comment = _commentLocalService.createComment(userPublikId, sc);
 
 					// Initialisation de l'URL du commentaire
 					StringBuilder url = new StringBuilder(redirectURL);
@@ -256,8 +255,11 @@ public class CommentPortlet extends MVCPortlet {
 	 * @throws PortalException PortalException
      */
 	public void reportComment(ActionRequest request, ActionResponse response) throws PortalException, IOException {
+        
+        // Recuperation de l'URL de redirection
+		String redirectURL = ParamUtil.getString(request, "redirectURL");
+		
 		String userPublikId = getPublikID(request);
-        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long result = ParamUtil.getLong(request, "commentId");
         long categoryId = ParamUtil.getLong(request, "categorie");
         Comment comment = CommentLocalServiceUtil.getComment(result);
@@ -265,10 +267,8 @@ public class CommentPortlet extends MVCPortlet {
         Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
         AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
         SignalementLocalServiceUtil.updateSignalement(signalement,sc,userPublikId);
-        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-        PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-                PortletRequest.RENDER_PHASE);
-        response.sendRedirect(renderUrl.toString());
+        
+        response.sendRedirect(redirectURL);
     }
 
 	/**
@@ -279,15 +279,16 @@ public class CommentPortlet extends MVCPortlet {
 	 * @throws IOException Exception
 	 */
     public void deleteComment(ActionRequest request, ActionResponse response) throws PortalException, IOException {
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		// Recuperation de l'URL de redirection
+		String redirectURL = ParamUtil.getString(request, "redirectURL");
+		
 		long commentId = ParamUtil.getLong(request,"commentId");
         if (isSameUser(request,CommentLocalServiceUtil.getComment(commentId))){
             CommentLocalServiceUtil.removeComment(commentId);
         }
-        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-        PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-                PortletRequest.RENDER_PHASE);
-        response.sendRedirect(renderUrl.toString());
+        
+        response.sendRedirect(redirectURL);
 	}
 
     /**
