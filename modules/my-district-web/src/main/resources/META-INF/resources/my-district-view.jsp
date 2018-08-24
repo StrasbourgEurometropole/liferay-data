@@ -244,9 +244,9 @@
 		                            </div>
 		                            <div class="date-end">__date_end__</div>
 		                        </div>
+		                        <div class="title dotme" data-dot="3">__title__</div>		
 		                        <div class="ville">__ville__</div>
-		                        <div class="item-categories" data-dot="3">__type__</div>
-		                        <div class="title dotme" data-dot="3">__title__</div>		                        
+		                        <div class="item-categories" data-dot="3">__type__</div>                        
 		                    </a>
 					        <a href="#" class="add-favorites"
 					            data-type="2" 
