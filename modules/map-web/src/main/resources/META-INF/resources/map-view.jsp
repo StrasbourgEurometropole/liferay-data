@@ -40,33 +40,35 @@
 		        <div class="top__overflow">
 		            <aui:form method="POST" action="#" name="addItemForm" id="addItemForm" cssClass="filtres filtres--category">
 						<c:if test="${typesContenu.contains('eu.strasbourg.service.agenda.model.Event')}">
-	    					<p>${eventExplanationText}</p>
+	    					<p class="info-text">${eventExplanationText}</p>
 						</c:if>
 		                <div class="filtres__list" id="poin">
 	                        <button type="button" class="top__trigger top__trigger--close mobile-only"></button>
 		                    <c:set var="checkboxNamesCategories" value="" />
 		                    <c:forEach var="vocabularyGroups" items="${vocabularyGroups}" varStatus="groupVocabularyLoopStatus">
 		                        <h2 class="filtres__title" style="flex-basis: 100%; margin-top: 20px;">${vocabularyGroups.key}</h2>
-		                        <c:forEach var="category" items="${vocabularyGroups.value}" varStatus="intStatus">
-		                            <c:set var="checkboxNamesCategories" value="${checkboxNamesCategories},categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" />
-		                            <div class="filtres__item form-group grid-item categories">
-		                                <input
-		                                    name="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}"
-		                                    type="checkbox"
-		                                    value="${category.categoryId}"
-		                                    id="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}"
-		                                    <c:if test="${fn:contains(categoriesCheckedIds, category.categoryId) || !hasConfig}">
-		                                        checked
-		                                    </c:if>
-		                                >
-		                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
-		                                	${category.getTitle(locale)}
-	
-											<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
-		                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
-		                                </label>
-		                            </div>
-		                        </c:forEach>
+		                        <div class="filtres__list">
+			                        <c:forEach var="category" items="${vocabularyGroups.value}" varStatus="intStatus">
+			                            <c:set var="checkboxNamesCategories" value="${checkboxNamesCategories},categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" />
+			                            <div class="filtres__item form-group grid-item categories">
+			                                <input
+			                                    name="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}"
+			                                    type="checkbox"
+			                                    value="${category.categoryId}"
+			                                    id="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}"
+			                                    <c:if test="${fn:contains(categoriesCheckedIds, category.categoryId) || !hasConfig}">
+			                                        checked
+			                                    </c:if>
+			                                >
+			                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
+			                                	${category.getTitle(locale)}
+		
+												<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
+			                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
+			                                </label>
+			                            </div>
+			                        </c:forEach>
+		                        </div>
 		                    </c:forEach>
 		                    <c:set var="checkboxNamesInterests" value="" />
 		                    <c:forEach var="interestGroup" items="${interestGroups}" varStatus="groupLoopStatus">

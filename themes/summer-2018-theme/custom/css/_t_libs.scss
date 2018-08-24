@@ -165,12 +165,10 @@
         right: calc(5% + 40px);
         @include mobile {
             position: absolute;
-            bottom: 10%;
             right: calc(5% + 35px);
         }
         @include tablet_portrait {
             position: absolute;
-            bottom: 10%;
             right: calc(5% + 30px);
         }
 

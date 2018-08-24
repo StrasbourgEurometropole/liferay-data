@@ -67,7 +67,7 @@
 						</c:if>
 					">
 						<div class="title">
-							<label>${media.name}</label>
+							<label>${media.name}<c:if test="${fn:length(media.name) eq 25}"> ...</c:if></label>
 						</div>
 						<p>
 		        			<c:if test="${not empty dc.getType(media.type)}">
@@ -122,7 +122,7 @@
 						</c:if>
 					">
 						<div class="title">
-							<label>${media.name}</label>
+							<label>${media.name}<c:if test="${fn:length(media.name) eq 25}"> ...</c:if></label>
 						</div> 
 						<p>
 							${media.type}

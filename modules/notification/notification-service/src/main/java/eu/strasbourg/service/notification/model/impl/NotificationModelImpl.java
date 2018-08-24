@@ -76,6 +76,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "notificationId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
+			{ "description", Types.CLOB },
 			{ "url", Types.VARCHAR },
 			{ "automatic", Types.BOOLEAN },
 			{ "singleUser", Types.BOOLEAN },
@@ -90,6 +91,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 	static {
 		TABLE_COLUMNS_MAP.put("notificationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("url", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("automatic", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("singleUser", Types.BOOLEAN);
@@ -100,7 +102,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table notification_Notification (notificationId LONG not null primary key,title STRING null,url VARCHAR(75) null,automatic BOOLEAN,singleUser BOOLEAN,singleUserId VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,status INTEGER,typeId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table notification_Notification (notificationId LONG not null primary key,title STRING null,description TEXT null,url VARCHAR(75) null,automatic BOOLEAN,singleUser BOOLEAN,singleUserId VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,status INTEGER,typeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table notification_Notification";
 	public static final String ORDER_BY_JPQL = " ORDER BY notification.notificationId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY notification_Notification.notificationId ASC";
@@ -136,6 +138,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 		model.setNotificationId(soapModel.getNotificationId());
 		model.setTitle(soapModel.getTitle());
+		model.setDescription(soapModel.getDescription());
 		model.setUrl(soapModel.getUrl());
 		model.setAutomatic(soapModel.getAutomatic());
 		model.setSingleUser(soapModel.getSingleUser());
@@ -210,6 +213,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 		attributes.put("notificationId", getNotificationId());
 		attributes.put("title", getTitle());
+		attributes.put("description", getDescription());
 		attributes.put("url", getUrl());
 		attributes.put("automatic", getAutomatic());
 		attributes.put("singleUser", getSingleUser());
@@ -237,6 +241,12 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
 		}
 
 		String url = (String)attributes.get("url");
@@ -396,6 +406,109 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 		setTitle(LocalizationUtil.updateLocalization(titleMap, getTitle(),
 				"Title", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getDescription() {
+		if (_description == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _description;
+		}
+	}
+
+	@Override
+	public String getDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId);
+	}
+
+	@Override
+	public String getDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescription(String languageId) {
+		return LocalizationUtil.getLocalization(getDescription(), languageId);
+	}
+
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getDescription(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return _descriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionCurrentValue() {
+		Locale locale = getLocale(_descriptionCurrentLanguageId);
+
+		return getDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getDescription());
+	}
+
+	@Override
+	public void setDescription(String description) {
+		_description = description;
+	}
+
+	@Override
+	public void setDescription(String description, Locale locale) {
+		setDescription(description, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setDescription(String description, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(description)) {
+			setDescription(LocalizationUtil.updateLocalization(
+					getDescription(), "Description", description, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setDescription(LocalizationUtil.removeLocalization(
+					getDescription(), "Description", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		_descriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionMap(Map<Locale, String> descriptionMap) {
+		setDescriptionMap(descriptionMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setDescriptionMap(Map<Locale, String> descriptionMap,
+		Locale defaultLocale) {
+		if (descriptionMap == null) {
+			return;
+		}
+
+		setDescription(LocalizationUtil.updateLocalization(descriptionMap,
+				getDescription(), "Description",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -572,6 +685,17 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 			}
 		}
 
+		Map<Locale, String> descriptionMap = getDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -616,6 +740,16 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 		else {
 			setTitle(getTitle(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String description = getDescription(defaultLocale);
+
+		if (Validator.isNull(description)) {
+			setDescription(getDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescription(getDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -634,6 +768,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 		notificationImpl.setNotificationId(getNotificationId());
 		notificationImpl.setTitle(getTitle());
+		notificationImpl.setDescription(getDescription());
 		notificationImpl.setUrl(getUrl());
 		notificationImpl.setAutomatic(getAutomatic());
 		notificationImpl.setSingleUser(getSingleUser());
@@ -729,6 +864,14 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 			notificationCacheModel.title = null;
 		}
 
+		notificationCacheModel.description = getDescription();
+
+		String description = notificationCacheModel.description;
+
+		if ((description != null) && (description.length() == 0)) {
+			notificationCacheModel.description = null;
+		}
+
 		notificationCacheModel.url = getUrl();
 
 		String url = notificationCacheModel.url;
@@ -776,12 +919,14 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{notificationId=");
 		sb.append(getNotificationId());
 		sb.append(", title=");
 		sb.append(getTitle());
+		sb.append(", description=");
+		sb.append(getDescription());
 		sb.append(", url=");
 		sb.append(getUrl());
 		sb.append(", automatic=");
@@ -805,7 +950,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.notification.model.Notification");
@@ -818,6 +963,10 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
 		sb.append(getTitle());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>description</column-name><column-value><![CDATA[");
+		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>url</column-name><column-value><![CDATA[");
@@ -864,6 +1013,8 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 	private long _notificationId;
 	private String _title;
 	private String _titleCurrentLanguageId;
+	private String _description;
+	private String _descriptionCurrentLanguageId;
 	private String _url;
 	private boolean _automatic;
 	private boolean _singleUser;

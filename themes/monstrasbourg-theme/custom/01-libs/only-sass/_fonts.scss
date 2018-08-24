@@ -68,6 +68,19 @@ $path: '../fonts/';
     }
 
 // OpenSans
+    // light
+    @font-face {
+        font-family: 'OpenSans';
+        src: url('#{$path}opensans-light-webfont.eot');
+        src: url('#{$path}opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+             url('#{$path}opensans-light-webfont.woff2') format('woff2'),
+             url('#{$path}opensans-light-webfont.woff') format('woff'),
+             url('#{$path}opensans-light-webfont.ttf') format('truetype'),
+             url('#{$path}opensans-light-webfont.otf') format('otf'),
+             url('#{$path}opensans-light-webfont.svg#opensanslight') format('svg');
+        font-weight: 300;
+        font-style: normal;
+    }
     // Regular
     @font-face {
         font-family: 'OpenSans';

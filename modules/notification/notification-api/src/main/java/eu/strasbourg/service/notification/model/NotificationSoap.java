@@ -36,6 +36,7 @@ public class NotificationSoap implements Serializable {
 
 		soapModel.setNotificationId(model.getNotificationId());
 		soapModel.setTitle(model.getTitle());
+		soapModel.setDescription(model.getDescription());
 		soapModel.setUrl(model.getUrl());
 		soapModel.setAutomatic(model.getAutomatic());
 		soapModel.setSingleUser(model.getSingleUser());
@@ -112,6 +113,14 @@ public class NotificationSoap implements Serializable {
 		_title = title;
 	}
 
+	public String getDescription() {
+		return _description;
+	}
+
+	public void setDescription(String description) {
+		_description = description;
+	}
+
 	public String getUrl() {
 		return _url;
 	}
@@ -186,6 +195,7 @@ public class NotificationSoap implements Serializable {
 
 	private long _notificationId;
 	private String _title;
+	private String _description;
 	private String _url;
 	private boolean _automatic;
 	private boolean _singleUser;

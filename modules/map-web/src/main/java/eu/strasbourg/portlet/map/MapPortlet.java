@@ -78,6 +78,7 @@ public class MapPortlet extends MVCPortlet {
 
 		try {
 			themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            configId = null;
 
 			// Récupération de la configuration
 			MapConfiguration configuration = themeDisplay.getPortletDisplay()
@@ -159,8 +160,11 @@ public class MapPortlet extends MVCPortlet {
 					districtUser = configuration.districtUser();
 					if (districtUser) {
                         if (Validator.isNotNull(address)) {
-                            String sectorType = "quartier_elus";
-                            district = adictService.getDistrictByAddressAndSector(address, sectorType);
+                        	try {
+								district = adictService.getDistrictByAddress(address);
+							}catch (Exception e ){
+								_log.error(e);
+							}
                         }
                         if (district == null) {
                             HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
@@ -429,6 +433,8 @@ public class MapPortlet extends MVCPortlet {
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
 		try {
+            configId = null;
+            themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 			String resourceID = resourceRequest.getResourceID();
 
 			if (resourceID.equals("toggleInterestPoint")) {

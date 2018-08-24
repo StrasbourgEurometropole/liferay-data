@@ -26,7 +26,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/mediatheque-view.jsp",
-		"javax.portlet.init-param.config-template=/configuration/mediatheque-configuration.jsp",
+		"javax.portlet.init-param.config-template=/configuration/mediatheque-configuration.jsp", "javax.portlet.display-name=Mediatheque",
 		"javax.portlet.name=" + StrasbourgPortletKeys.MEDIATHEQUE_WEB, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class MediathequeWebPortlet extends MVCPortlet {
@@ -49,7 +49,7 @@ public class MediathequeWebPortlet extends MVCPortlet {
 			dc.setBorrower(borrower);
 
 			// si l'utilisateur a activé son lien
-			if (Validator.isNull(borrower.getCode_erreur()) && borrower.getErr().equals("0")) {
+			if (Validator.isNull(borrower.getCode_erreur()) && (Validator.isNull(borrower.getErr()) || borrower.getErr().equals("0"))) {
 				template = "etape4";
 			} else {
 				if (Validator.isNull(borrower.getCode_erreur())) {
@@ -82,6 +82,7 @@ public class MediathequeWebPortlet extends MVCPortlet {
 					case "ASSOCIATION_SUPPRIMEE":
 						// Une association a été supprimée
 						template = "etape1";
+						request.setAttribute("error", borrower.getErreur());
 						break;
 					default:
 						// erreur technique -> TECHNIQUE
