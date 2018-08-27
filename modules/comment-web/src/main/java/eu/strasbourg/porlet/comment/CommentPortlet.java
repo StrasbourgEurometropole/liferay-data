@@ -63,6 +63,7 @@ import java.util.stream.Collectors;
 	property = {
         "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
+		"com.liferay.portlet.css-class-wrapper=comment-portlet",
         "javax.portlet.display-name=Commentaires",
 		"javax.portlet.init-param.add-process-action-success-action=false",
         "javax.portlet.init-param.template-path=/",
