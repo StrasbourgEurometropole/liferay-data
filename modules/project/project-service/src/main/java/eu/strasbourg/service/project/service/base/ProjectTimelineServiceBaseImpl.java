@@ -32,6 +32,7 @@ import eu.strasbourg.service.project.service.ProjectTimelineService;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
+import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 
@@ -281,6 +282,63 @@ public abstract class ProjectTimelineServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setProjectPersistence(ProjectPersistence projectPersistence) {
 		this.projectPersistence = projectPersistence;
+	}
+
+	/**
+	 * Returns the project followed local service.
+	 *
+	 * @return the project followed local service
+	 */
+	public eu.strasbourg.service.project.service.ProjectFollowedLocalService getProjectFollowedLocalService() {
+		return projectFollowedLocalService;
+	}
+
+	/**
+	 * Sets the project followed local service.
+	 *
+	 * @param projectFollowedLocalService the project followed local service
+	 */
+	public void setProjectFollowedLocalService(
+		eu.strasbourg.service.project.service.ProjectFollowedLocalService projectFollowedLocalService) {
+		this.projectFollowedLocalService = projectFollowedLocalService;
+	}
+
+	/**
+	 * Returns the project followed remote service.
+	 *
+	 * @return the project followed remote service
+	 */
+	public eu.strasbourg.service.project.service.ProjectFollowedService getProjectFollowedService() {
+		return projectFollowedService;
+	}
+
+	/**
+	 * Sets the project followed remote service.
+	 *
+	 * @param projectFollowedService the project followed remote service
+	 */
+	public void setProjectFollowedService(
+		eu.strasbourg.service.project.service.ProjectFollowedService projectFollowedService) {
+		this.projectFollowedService = projectFollowedService;
+	}
+
+	/**
+	 * Returns the project followed persistence.
+	 *
+	 * @return the project followed persistence
+	 */
+	public ProjectFollowedPersistence getProjectFollowedPersistence() {
+		return projectFollowedPersistence;
+	}
+
+	/**
+	 * Sets the project followed persistence.
+	 *
+	 * @param projectFollowedPersistence the project followed persistence
+	 */
+	public void setProjectFollowedPersistence(
+		ProjectFollowedPersistence projectFollowedPersistence) {
+		this.projectFollowedPersistence = projectFollowedPersistence;
 	}
 
 	/**
@@ -563,6 +621,12 @@ public abstract class ProjectTimelineServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.project.service.ProjectService projectService;
 	@BeanReference(type = ProjectPersistence.class)
 	protected ProjectPersistence projectPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.ProjectFollowedLocalService.class)
+	protected eu.strasbourg.service.project.service.ProjectFollowedLocalService projectFollowedLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.ProjectFollowedService.class)
+	protected eu.strasbourg.service.project.service.ProjectFollowedService projectFollowedService;
+	@BeanReference(type = ProjectFollowedPersistence.class)
+	protected ProjectFollowedPersistence projectFollowedPersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.ProjectTimelineLocalService.class)
 	protected eu.strasbourg.service.project.service.ProjectTimelineLocalService projectTimelineLocalService;
 	@BeanReference(type = ProjectTimelineService.class)

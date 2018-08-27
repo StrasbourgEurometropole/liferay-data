@@ -36,12 +36,10 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.model.*;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -68,7 +66,38 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 */
 	public ProjectImpl() {
 	}
-	
+
+    /**
+     * Retourne la liste des follower au projet
+     */
+    @Override
+    public List<ProjectFollowed> getProjectFollower() {
+        return ProjectFollowedLocalServiceUtil.getByProjectId(this.getProjectId());
+    }
+
+	/**
+	 * Retourne le nombre de follower au projet
+	 */
+	@Override
+	public int getNbFollower() {
+		return ProjectFollowedLocalServiceUtil.getByProjectId(this.getProjectId()).size();
+	}
+
+	/**
+	 * Retourne le label de 5 digits du nombre de follower au projet
+	 */
+	@Override
+	public String getNbFollowerLabel() {
+		// Transforme le numero en chaine de caractere
+		String stringNum = Integer.toString(this.getNbFollower());
+		// Recupere le nombre de chiffre
+		int nbDigits = stringNum.length();
+		// Ajoute les zeros manquants avant la chaine
+		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
+
+		return stringNum;
+	}
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -277,7 +306,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 		for (AssetEntry assetEntry : assetResults) {
 			participationResults.add(ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK()));
 		}
-		
+
 		return participationResults;
 	}
 	
@@ -299,7 +328,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 			for (AssetEntry assetEntry : assetResults) {
 				eventResults.add(EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK()));
 			}
-		
+
 		return eventResults;
 	}
 
@@ -332,7 +361,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 				this.getAssetEntry().getEntryId(),
 				WorkflowConstants.STATUS_APPROVED).size();
 	}
-	
+
 	/**
 	 * Retourne la version JSON de l'entité
 	 */
@@ -345,62 +374,62 @@ public class ProjectImpl extends ProjectBaseImpl {
 		JSONObject jsonPlacitPlace;
 		JSONArray jsonProjectTimelines = JSONFactoryUtil.createJSONArray();
 		JSONObject jsonProjectTimeline;
-		
+
 		// Champs de gestion
 		jsonProject.put("id", this.getProjectId());
-		
+
 		// Champs : Header
 		jsonProject.put("title", this.getTitle());
 		jsonProject.put("imageURL", this.getImageURL());
 		jsonProject.put("description", this.getDescription());
 		jsonProject.put("detailURL", this.getDetailURL());
-		
+
 		// Champs : En bref
 		jsonProject.put("budget", this.getBudget());
 		jsonProject.put("label", this.getLabel());
 		jsonProject.put("duration", this.getDuration());
 		jsonProject.put("partners", this.getPartners());
-		
+
 		// Champs : Contact
 		jsonProject.put("contactName", this.getContactName());
 		jsonProject.put("contactLine1", this.getContactLine1());
 		jsonProject.put("contactLine2", this.getContactLine2());
 		jsonProject.put("contactPhoneNumber", this.getContactPhoneNumber());
-		
+
 		// Champs : Autres
 		jsonProject.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
-		
+
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
 			jsonPlacitPlaces.put(placitPlace.toJSON());
 		}
 		jsonProject.put("placitPlaces", jsonPlacitPlaces);
-		
+
 		// Timeline
 		for (ProjectTimeline projectTimeline : this.getProjectTimelines()) {
 			jsonProjectTimelines.put(projectTimeline.toJSON());
 		}
 		jsonProject.put("projectTimelines", jsonProjectTimelines);
-		
+
 		// Liste des Ids des catégories Territoire
 		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
 		if (jsonTerritories.length() > 0) {
 			jsonProject.put("territories", jsonTerritories);
 		}
-		
+
 		// Liste des Ids des catégories Status
 		JSONArray jsonStatus = AssetVocabularyHelper.getExternalIdsJSONArray(this.getAllStatus());
 		if (jsonStatus.length() > 0) {
 			jsonProject.put("status", jsonStatus);
 		}
-		
+
 		// Liste des Ids des catégories Thématiques
 		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
 		if (jsonThematics.length() > 0) {
 			jsonProject.put("thematics", jsonTerritories);
 		}
-		
+
 		return jsonProject;
 	}
-	
+
 }

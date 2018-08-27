@@ -5,7 +5,7 @@
     <div class="generic-form">
 		<h1>Mes notifications</h1>
 		        
-		<!-- Nombre de résultats et items par page -->
+		<!-- Nombre de rÃ©sultats et items par page -->
 		<div class="search-infos">
 		    <div class="search-infos__amount"> 
 		    	<c:choose>
@@ -32,9 +32,9 @@
 		    </div>
 		</div>
 		
-		<!-- Liste des résultats -->
+		<!-- Liste des rÃ©sultats -->
 		<aui:form method="post" name="fm">
-			<!-- Résultats -->
+			<!-- RÃ©sultats -->
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
 				<ul class="notification-list">	        
@@ -42,6 +42,9 @@
 						<portlet:actionURL name="showNotification" var="showNotification">
 							<portlet:param name="notificationId" value="${notif.notificationId}"></portlet:param>
 						</portlet:actionURL>
+						<liferay-portlet:renderURL var="detailNotifURL">
+							<portlet:param name="notificationDetailId" value="${notif.notificationId}"></portlet:param>
+						</liferay-portlet:renderURL>
 						<c:choose>
 							<c:when test="${notif.isRead()}">
 								<li class="notification-list__item notification-list__item--read">
@@ -51,7 +54,7 @@
 							</c:otherwise>
 						</c:choose>
 				
-							<a href="${showNotification}" target="_blank" class="notification-item" title="${notif.title} (<liferay-ui:message key="eu.new-window" />)">
+							<a href="${showNotification}" target="_blank" class="notification-item" title="${notif.title} (<liferay-ui:message key="eu.new-window" />)">								
 								<div class="notification-item__date">
 									<fmt:formatDate type="date" value="${notif.date}" pattern = "dd.MM.yyyy"/>
 								</div>
@@ -84,7 +87,7 @@
 				<!-- Pagination -->
 				<c:if test="${dc.pager.lastPage > 1}">
 		            <ul class="mseu-pagination unstyled">
-		            	<!-- Page précédente -->
+		            	<!-- Page prÃ©cÃ©dente -->
 		                <li class="pagin-prev pagin-item">
 							<c:if test="${not dc.pager.onFirstPage}">
 			                    <a class="btn-square bordered core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"

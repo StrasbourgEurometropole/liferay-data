@@ -525,6 +525,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Demande si l'utilisateur demandé participe à l'événement
+	*/
+	@Override
+	public boolean isUserParticipate(java.lang.String publikUserId) {
+		return _event.isUserParticipate(publikUserId);
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -1872,7 +1880,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	* Retourne les coordonnees mercator en axe X et Y
 	* Notes : permet de ne pas multiplier les appels
 	*
-	* @return "" si vide sinon "mercatorX;mercatorY"
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
 	*/
 	@Override
 	public java.util.List<java.lang.String> getMercators() {

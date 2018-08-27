@@ -427,6 +427,36 @@ public class VideoImpl extends VideoBaseImpl {
 
         return player;
     }
+    
+    /**
+	 * Retourne le code html nécessaire à l'affichage de la vidéo dans le header du site vidéo
+	 * et de son utilisation par les différentes API
+	 */
+	@Override
+	public String getPlayerHeaderVideo(Locale locale) {
+		String player = "";
+		String videoUrl = this.getSource(locale);
+		if (videoUrl.contains("dailymotion.")) {
+			String[] videoUrlParts = videoUrl.split("/");
+			String videoId = videoUrlParts[videoUrlParts.length - 1];            
+			player = "<div id=\"player\" data-video-id=\""+videoId+"\"></div>";
+		} else if (videoUrl.contains("youtube.")) {
+			String[] videoUrlParts = videoUrl.split("v=");
+			String videoId = videoUrlParts[videoUrlParts.length - 1];
+			player = "<iframe id=\"youtubePlayer\" width=\"auto\" height=\"auto\" src=\"https://www.youtube.com/embed/"
+					+ videoId
+					+ "?enablejsapi=1\" frameborder=\"0\" allowfullscreen></iframe>";
+		} else if (videoUrl.contains("vimeo.")) {
+			String[] videoUrlParts = videoUrl.split("/");
+			String videoId = videoUrlParts[videoUrlParts.length - 1];
+			player = "<iframe src=\"https://player.vimeo.com/video/" + videoId
+					+ "?title=0&byline=0&portrait=0&api=1\" width=\"auto\" height=\"auto\" frameborder=\"0\" allowfullscreen></iframe>";
+		} else {
+			player = this.getSource(locale);
+		}
+
+		return player;
+	}
 
     /**
      * Retourne l'URL de téléchargement du fichier de transcription

@@ -119,7 +119,8 @@
                         <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a>
                         </li>
                         <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>                      
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>   
+						<li><a href="${themeDisplay.getPortalURL()}${homeURL}videos" title="Vidéos">Vidéos</a></li> 						
                     </ul>
                 </nav>
             </div>

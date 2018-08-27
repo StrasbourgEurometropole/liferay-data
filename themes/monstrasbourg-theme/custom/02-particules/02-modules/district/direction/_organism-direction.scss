@@ -1,0 +1,47 @@
+%organism-direction{    
+    @extend %molecule-district-section;
+
+    background-color: #00E3D2;    
+    padding: 45px 50px;
+    justify-content: normal;
+
+    .flexbox{
+        display: flex; 
+        width: 100%;
+
+        @include RWD(tablet){
+            flex-direction: column;
+        } 
+
+        .container-left{
+            width: 50%;
+            flex: 1;
+            @include RWD(tablet){
+                order: 2;
+                flex: auto;
+            }
+
+            .add-favorites{    
+                width: max-content;
+                margin-top: -40px;
+                margin-bottom: 60px;
+            }
+        }
+
+        .container-right{
+            @include RWD(desktop){
+                margin-left: 20px;
+                width: 50%;            
+            }
+            @include RWD(tablet){
+                order: 1;
+            }
+            @include RWD(tablet_only){
+                padding: 20px;
+                display: flex;
+                background-color: $second-color;
+            }
+            flex-shrink: 0;
+        }
+    }
+}

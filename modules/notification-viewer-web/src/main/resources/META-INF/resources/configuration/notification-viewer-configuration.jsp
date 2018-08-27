@@ -27,6 +27,9 @@
 				<aui:option value="notification-viewer-all" selected="${template eq 'notification-viewer-all'}">
 					<liferay-ui:message key="toutes" />
 				</aui:option>
+				<aui:option value="notification-viewer-detail" selected="${template eq 'notification-viewer-detail'}">
+					<liferay-ui:message key="detail" />
+				</aui:option>
 			</aui:select>
 		</aui:fieldset>
 		

@@ -1034,8 +1034,12 @@ a:hover {
   color: #2d2d2d;
 }
 
+strong {
+  font-family: "proximanova-regular", sans-serif;
+}
+
 /* line 78, ../sass/partials/_typography.scss */
-strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .page-header-share span, .news-carousel .news-secondary-links a, .museum-home .cover-text .cover-text-1, .museum-home .cover-text .cover-text-2, .museum-home .welcome-text, .rubric-portlet .rubric-page-name, .rubric-portlet .rubric-page-links li a:hover, .rubric-portlet .rubric-page-read-more a, .entity-detail-children .entity-detail-child .entity-detail-child-source, .artwork-detail .artwork-artist, .artwork-detail .artwork-sources, .artwork-collection-detail .collection-sources, .edition-detail .edition-subtitle, .event-detail .place-links, .place-detail .place-links, .event-detail .event-phone, .event-detail .place-phone, .place-detail .event-phone, .place-detail .place-phone, .search-asset-portlet .search-asset-form form legend, .entity-thumbnail .entity-thumbnail-source, .featured-header .featured-header-link, .featured-artwork .featured-artwork-text .featured-artwork-link, .featured-footer a, .arrow-block-link a, .artwork-detail .artwork-notice a, .edition-detail .edition-download a,
+ .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .page-header-share span, .news-carousel .news-secondary-links a, .museum-home .cover-text .cover-text-1, .museum-home .cover-text .cover-text-2, .museum-home .welcome-text, .rubric-portlet .rubric-page-name, .rubric-portlet .rubric-page-links li a:hover, .rubric-portlet .rubric-page-read-more a, .entity-detail-children .entity-detail-child .entity-detail-child-source, .artwork-detail .artwork-artist, .artwork-detail .artwork-sources, .artwork-collection-detail .collection-sources, .edition-detail .edition-subtitle, .event-detail .place-links, .place-detail .place-links, .event-detail .event-phone, .event-detail .place-phone, .place-detail .event-phone, .place-detail .place-phone, .search-asset-portlet .search-asset-form form legend, .entity-thumbnail .entity-thumbnail-source, .featured-header .featured-header-link, .featured-artwork .featured-artwork-text .featured-artwork-link, .featured-footer a, .arrow-block-link a, .artwork-detail .artwork-notice a, .edition-detail .edition-download a,
 .edition-detail .edition-url a, .video-detail .video-transcription a,
 .video-detail .video-origin a {
   font-family: "proximanova-bold", sans-serif;

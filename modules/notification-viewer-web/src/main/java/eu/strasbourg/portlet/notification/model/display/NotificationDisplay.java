@@ -9,6 +9,8 @@ public class NotificationDisplay {
 	private Date date;
 	private boolean isRead;
 	private Long notificationId;
+	private String description;
+	private String URL;
 	
 	public Date getDate() {
 		return date;
@@ -34,7 +36,18 @@ public class NotificationDisplay {
 	public void setRead(boolean isRead) {
 		this.isRead = isRead;
 	}
-
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getURL() {
+		return URL;
+	}
+	public void setURL(String URL) {
+		this.URL = URL;
+	}
 	
 	
 }

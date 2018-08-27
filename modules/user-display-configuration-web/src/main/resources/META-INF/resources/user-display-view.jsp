@@ -15,14 +15,13 @@
 				<c:set var="displayTitle" value="${dc.getPortletDisplayTitle(portletId)}" />
 				<c:set var="hiddenByUser" value="${dc.isPortletHiddenByUser(portletId)}" />
 				<c:choose>
-					<c:when test="${(displayStatus eq 'on' or displayStatus eq 'on_disabled') and not hiddenByUser}">
+					<c:when test="${not hiddenByUser}">
 						<li class="customize-list__item">
 					</c:when>
 					<c:otherwise>
 						<li class="customize-list__item customize-list__item--read">
 					</c:otherwise>
 				</c:choose>
-
 
 				<div class="customize-item">
 					<div class="customize-item__date">

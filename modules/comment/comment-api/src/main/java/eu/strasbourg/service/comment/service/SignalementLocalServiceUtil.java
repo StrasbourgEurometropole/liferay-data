@@ -15,7 +15,9 @@
 package eu.strasbourg.service.comment.service;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.osgi.util.ServiceTrackerFactory;
+
 import org.osgi.util.tracker.ServiceTracker;
 
 /**

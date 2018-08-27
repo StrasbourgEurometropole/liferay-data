@@ -54,7 +54,7 @@
             <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}" style="top: 0;"></button>
         </c:if>
 
-        <h2>Autour de moi</h2>
+        <h2>${title}</h2>
         <p class="subtitle">${widgetIntro}</p>
         <div class="btn-line">
             <a href="${widgetLink}" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Modifier ma carte</span><span class="btn-arrow"></span></span></a>

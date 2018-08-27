@@ -1,0 +1,4 @@
+Bundle-Name: objtp-bo
+Bundle-SymbolicName: objtp.bo
+Bundle-Version: 1.0.0
+Web-ContextPath: /objtpbo

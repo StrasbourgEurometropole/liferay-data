@@ -15613,6 +15613,23 @@ function createPopinMediatheque(message, agree, deny){
     });
  }(jQuery));
 
+(function ($) {
+    $('.dossier .btn-minus').on('click', function() {
+        var num = $(this).parent().attr("name");
+        $('#dossier' + num).addClass("hide");
+        //$('#dossier' + num).hide();
+        $(this).addClass("hide");
+        $(this).parent().children(".btn-more").removeClass("hide");
+    });
+    $('.dossier .btn-more').on('click', function() {
+        var num = $(this).parent().attr("name");
+        $('#dossier' + num).removeClass("hide");
+        //$('#dossier' + num).show();
+        $(this).addClass("hide");
+        $(this).parent().children(".btn-minus").removeClass("hide");
+    });
+ }(jQuery));
+
 /**
  * MegaSlider
  * 
@@ -15722,10 +15739,22 @@ function megaSlider(slider, category){
                 var $item = $(this).closest('.notification-list__item');
                 if(!$item.hasClass('notification-list__item--read')){
                     $item.addClass('notification-list__item--read');
-                    if (Number($notifAmount.innerText)-1 == 0) {
+                    $notifAmount.innerText = Number($notifAmount.innerText)-1;
+                    if (Number($notifAmount.innerText) == 0) {
                         $notifAmount.remove();
-                    } else {
-                        $notifAmount.innerText =Number($notifAmount.innerText)-1;
+                        $('#no-notif-item').show();
+                    } 
+                    $('#notif_' + $(this).attr("id")).hide();
+                    $('#notif_' + $(this).attr("id")).removeClass("new");
+                    // s'il y a encore des notifs non lue, on affiche les 3 premières.
+                    var $nbNotifDisplay = 0;
+                    if ($notifAmount != undefined && Number($notifAmount.innerText) > 0) {
+                        $('.notif-item.new').each(function(){
+                            if($nbNotifDisplay < 3){
+                                $(this).show();
+                                $nbNotifDisplay++;
+                            }
+                        });
                     }
                 }else{
                     $item.removeClass('notification-list__item--read');
@@ -15734,8 +15763,14 @@ function megaSlider(slider, category){
                         iDiv.innerText = 1;
                         iDiv.className = 'notif-amount';
                         $('.notif-picto')[0].appendChild(iDiv);
+                        $notifAmount = $('.notif-amount')[0];
+                        $('#no-notif-item').hide();
                     } else {
                         $notifAmount.innerText =Number($notifAmount.innerText)+1;
+                    }
+                    $('#notif_' + $(this).attr("id")).addClass("new");
+                    if (Number($notifAmount.innerText) <= 3) {
+                        $('#notif_' + $(this).attr("id")).show();
                     }
                 }
             });
@@ -15887,6 +15922,7 @@ $(function() {
         var groupId = $(this).data("groupId") ? $(this).data("groupId") : 0;
         var type = $(this).data("type");
         var title = $(this).data("title");
+        var isFavorite = true;
 
         // Si le favoris a déjà été ajouté par l'utilisateur
         if (htmlA[0].classList.contains('liked')) {
@@ -15917,6 +15953,7 @@ $(function() {
                     }
                 }
             );
+            isFavorite = false;
         } else {
             // Sinon appel du WS pour ajouter un favoris
             var favoriteToAdd = {
@@ -15949,6 +15986,36 @@ $(function() {
 
                 }
             );
+        }
+
+        // On met à jour window.userFavorites
+        var userFavorites = [];
+        var isNewFavorite = true;
+        for (var i = 0; i < window.userFavorites.length; i++) {
+            var favorite = window.userFavorites[i];
+            if (favorite.entityId !== id) {
+                userFavorites.push(favorite);
+            } else {
+                isNewFavorite = false;
+            }
+        }
+        if (isNewFavorite) {
+            var newFavorite = {
+                entityId: id,
+                typeId: type
+            };
+            userFavorites.push(newFavorite);
+        }
+        window.userFavorites = userFavorites;
+
+        // On modfie les boutons correspondant sur la page
+        var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
+        if (isFavorite) {
+            favoriteButton.addClass('liked');
+            favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+        }else{
+            favoriteButton.removeClass('liked');
+            favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
         }
     });
 });

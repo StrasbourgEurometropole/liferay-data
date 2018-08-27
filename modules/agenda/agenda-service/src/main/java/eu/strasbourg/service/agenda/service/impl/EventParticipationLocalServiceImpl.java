@@ -67,4 +67,12 @@ public class EventParticipationLocalServiceImpl
 		return this.eventParticipationPersistence.findByEventId(eventId);
 	}
 	
+	/**
+	 * Retourne la participation à l'événement d'un utilisateur et d'un événement donné
+	 */
+	@Override
+	public EventParticipation getByPublikUserIdAndEventId(String publikUserId, long eventId) {
+		return this.eventParticipationPersistence.fetchByPublikUserIdAndEventId(publikUserId, eventId);
+	}
+	
 }

@@ -1,7 +1,10 @@
 <%@ include file="/resid-init.jsp" %>
 
 <section id="resid">
-    <h2><liferay-ui:message key="account-resid" /></h2>
+	<c:if test="${dc.showDeleteButton()}">
+		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+	</c:if>
+    <h2>${title}</h2>
 	<!-- Etape 2 -->
 	<c:if test="${not empty error}">
 		<!-- Message d'erreur -->
@@ -46,7 +49,7 @@
 							<label><liferay-ui:message key="name" /></label>
 						</div>
 						<div class="content">
-							<p>${contractant.prenom} ${contratant.nom}</p>
+							<p>${contractant.prenom} ${contractant.nom}</p>
 						</div>
 						<!-- Adresse -->
 						<c:set var="adresse" value="${contractant.adresse}" />
@@ -89,9 +92,13 @@
 							<label><liferay-ui:message key="zone" /></label>
 						</div>
 						<div class="content">
-							<a href="${dc.zoneURL}" target="_blank" title="<liferay-ui:message key="zone-text-x" arguments="${zone.code}" /> - ${zone.intitule}(<liferay-ui:message key="eu.new-window"/>)" >
-								${zone.intitule}
-							</a>
+							<c:if test="${not empty dc.getZoneURL(zone.code)}">
+								<a href="${dc.getZoneURL(zone.code)}" target="_blank" title="${zone.intitule}(<liferay-ui:message key="eu.new-window"/>)" >
+							</c:if>
+							${zone.intitule}
+							<c:if test="${not empty dc.getZoneURL(zone.code)}">
+								</a>
+							</c:if>
 						</div>
 						<!-- fin de validité du titre -->
 						<div class="title">

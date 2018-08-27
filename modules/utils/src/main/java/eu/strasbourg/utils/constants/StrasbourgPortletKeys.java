@@ -83,6 +83,7 @@ public class StrasbourgPortletKeys {
 
 
 	public static final String OBJTP_WEB = "eu_strasbourg_portlet_objtp_web_ObjtpWebPortlet";
+	public static final String OBJTP_BO = "eu_strasbourg_portlet_objtp_ObjtpBOPortlet";
 
 	public static final String MY_DISTRICT_WEB = "eu_strasbourg_portlet_my_district_MyDistrictWebPortlet";
 
@@ -103,6 +104,9 @@ public class StrasbourgPortletKeys {
 	public static final String ZONE_WEB = "eu_strasbourg_portlet_zone_ZonedWebPortlet";
 
 	public static final String PACTE_WEB = "eu_strasbourg_portlet_pacte_PacteWebPortlet";
-	
+
     public static final String MAP_SEARCH_ASSET_WEB = "eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet";
+
+	public static final String VALIDATION_ADDRESS_WEB = "eu_strasbourg_portlet_validationAddress_ValidationAddressWebPortlet";
+
 }

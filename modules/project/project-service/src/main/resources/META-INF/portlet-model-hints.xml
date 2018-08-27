@@ -151,6 +151,13 @@
 		<field name="contactPhoneNumber" type="String" />
 		<field name="imageId" type="long" />
 	</model>
+	<model name="eu.strasbourg.service.project.model.ProjectFollowed">
+		<field name="projectFollowedId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="publikUserId" type="String" />
+		<field name="projectId" type="long" />
+		<field name="groupId" type="long" />
+	</model>
 	<model name="eu.strasbourg.service.project.model.ProjectTimeline">
 		<field name="projectTimelineId" type="long" />
 		<field name="startDay" type="int" />

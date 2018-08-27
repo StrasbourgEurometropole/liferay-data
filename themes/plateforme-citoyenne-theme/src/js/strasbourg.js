@@ -11548,7 +11548,7 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
                         else
                             element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) + 1);
                         break;
-                    case "participation deleted":                                
+                    case "participation deleted":
                         element.toggleClass('active');
                         if (elementType === "a")
                             updateCounter(parseInt($('.pro-compt').text()) - 1);
@@ -11586,6 +11586,78 @@ $(document).on("click", "[name='#Pact-sign']", function(e) {
     $("#myModal").modal();
 });
 
+/*
+* Gestion des suivi de projets
+*/
+$(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function(e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Sauvegarde de l'élément
+    var element = $(this);
+    var elementType = $(this).attr('href') === '#Suivre' ? 'a' : 'span';
+
+    // Récupération des attributs du like
+    var projectid = $(this).data("projectid");
+    var groupid = $(this).data("groupid") ? $(this).data("groupid") : 0;
+
+    // Met à jour le compteur de followers
+    function updateCounter(num) {
+        var stringNum = num.toString();
+        var nbDigits = stringNum.length;
+        stringNum = "0".repeat(5 - nbDigits) + stringNum;
+        for (i = 1; i <= 5; i++) {
+            $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
+        }
+    }
+
+    // Appel au service remote Liferay
+    Liferay.Service(
+        '/project.projectfollowed/add-follower-link',
+        {
+            projectId: projectid,
+            groupId: groupid
+        },
+        function(obj) {
+            // En cas de succès, on effectue la modification des éléments visuels
+            // selon la réponse et le type de l'élément
+            if (obj.hasOwnProperty('success')) {
+                switch(obj['success']) {
+                    case "follower added":
+                        element.toggleClass('active');
+                        element.text("Projet suivi");
+                        if (elementType === "a")
+                            updateCounter(parseInt($('.pro-compt').text()) + 1);
+                        else
+                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) + 1);
+                        break;
+                    case "follower deleted":
+                        element.toggleClass('active');
+                        element.text("Suivre ce projet");
+                        if (elementType === "a")
+                            updateCounter(parseInt($('.pro-compt').text()) - 1);
+                        else
+                            element.siblings().first().find('strong').text(+parseInt(element.siblings().first().text()) - 1);
+                        break;
+                }
+            }
+
+            // Sinon on affiche un message d'erreur
+            else if (obj.hasOwnProperty('error')) {
+                if (obj['error'] == 'notConnected') {
+                    // Si l'utilisateur n'est pas connecté
+                    e.preventDefault();
+                    $("#myModal").modal();
+                } else {
+                    // Autre erreur
+                    alert('Une erreur est survenue.');
+                }
+            }
+        }
+    );
+});
+
 /**
 * Retourne une map Leaflet configurée pour la plateforme citoyenne
 */
@@ -11613,7 +11685,7 @@ function getLeafletMap() {
 
 
 /**
-* Retourne l'icone de marqueur selon le type de l'entité 
+* Retourne l'icone de marqueur selon le type de l'entité
 */
 function getMarkerIcon(entityType = "default") {
 
@@ -11662,7 +11734,7 @@ function getMarkerIcon(entityType = "default") {
             });
     }
 
-    return 
+    return
 
 }
 
@@ -11678,13 +11750,13 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
         '<a target="_blank" href="' + link + '" id="map-inte-container">' +
             '<div class="map-inte-content">' +
                 '<div class="map-inte-header">' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' + 
-                    '<p>' + place + '</p>' + 
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
+                    '<p>' + place + '</p>' +
                 '</div>' +
                 '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
                     '<span class="pro-btn-yellow">En savoir plus</span>' +
-                '</div>' + 
-            '</div> ' + 
+                '</div>' +
+            '</div> ' +
         '</a>'
     );
 
@@ -11692,90 +11764,144 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
 */
-function getEventMarker(mercators, link, publishDate, place, title, isUserPart, nbPart) {
-    var eventMarkerIcon = getMarkerIcon("event");
-    var marker = L.marker(mercators, {icon: eventMarkerIcon})
+function getProjectMarker(project, mercators) {
 
-    var activePart = isUserPart ? "active" : "";
+
+    var projectMarkerIcon = getMarkerIcon("project");
+    var marker = L.marker(mercators, {icon: projectMarkerIcon});
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'une particiaption sur la carte intéractive
+*/
+function getParticipationMarker(participation, mercators) {
+
+    var participationMarkerIcon = getMarkerIcon("participation");
+    var marker = L.marker(mercators, {icon: participationMarkerIcon});
+
+    var footerContent = '';
+
+    if (participation.statusCode === "soon_arrived") {
+        footerContent = 
+            '<div class="pro-footer-participation pro-participation-soon">' + 
+                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
+                '<p>Bientôt disponible</p>' +
+            '</div>';
+    } else if (participation.statusCode === "finished") {
+        footerContent = 
+            '<div class="pro-footer-participation pro-participation-deadline">' + 
+                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
+                '<p>Participation terminée, merci de votre participation</p>' +
+            '</div>';
+    } else {
+        footerContent = '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>';
+    }
+
+    var colorHack = 
+        '<style style="display: none" >' +
+            '.type-color-hexa-' + participation.typeColor + '>div:before {' +
+                'background:#'+ participation.typeColor + ' !important;' +
+            '}' +
+        '</style>';
+
+    marker.bindPopup(
+        '<div class="pro-vignette-map-inte">' +
+            '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
+            '<div>' +
+                '<div class="pro-header-participation">' + 
+                    '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+                    '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
+                    '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
+                '</div>' +
+                '<div class="pro-content-participation">' +
+                    '<div class="pro-meta"><span>' + participation.districtsLabel + '</span><span>' + participation.thematicsLabel + '</span>' +
+                    '<span>' + participation.statusLabel + '</span><span>' + participation.projectName + '</span></div>' +
+                    '<h3>' + participation.title + '</h3>' +
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + participation.createDate + '</time>' +
+                    ' / <span class="pro-duree">' + participation.statusDetailLabel + '</span></span></div>' +
+                    footerContent +
+            '</div></a>' + 
+        '</div>' + 
+        colorHack
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+    );
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'un événement sur la carte intéractive
+*/
+function getEventMarker(event) {
+    //mercators, link, publishDate, place, title, isUserPart, nbPart) {
+
+    var eventMarkerIcon = getMarkerIcon("event");
+    var marker = L.marker([event.mercatorY, event.mercatorX], {icon: eventMarkerIcon});
+
+    var activePart = event.isUserPart ? "active" : "";
 
     marker.bindPopup(
         '<div class="pro-vignette-map-inte">' + 
-            '<a href="' + link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
+            '<a href="' + event.link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
                 '<div class="pro-header-event">' +
                     '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
-                    '<p>À : ' + place + '</p>' +
-                    '<h3>' + title + '</h3>' +
+                    '<span class="pro-time">Le <time datetime="2018-01-10">' + event.firstDate + '</time></span>' +
+                    '<p>À : ' + event.completeAddress + '</p>' +
+                    '<h3>' + event.title.fr_FR + '</h3>' +
                 '</div>' +
                 '<div class="pro-footer-event">' +
                     '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
-                    '<span class="pro-number"><strong>' + nbPart + '</strong> Participant(s)</span>' +
+                    '<span class="pro-number"><strong>' + event.nbPart + '</strong> Participant(s)</span>' +
                 '</div>' +
             '</div></a>' +
         '</div>'
+        ,{maxHeight: 280, maxWidth: 654}
     );
 
     return marker;
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getProjectMarker(link) {
-
-    var projectMarkerIcon = getMarkerIcon("project");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getParticipationPopUp(link) {
-
-    var participationMarkerIcon = getMarkerIcon("participation");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getInitiativePopUp(link) {
+function getInitiativePopUp(mercators, link) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
+    var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
 
-    return '';
+    return marker;
 
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
 */
-function getPetitionPopUp(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+function getPetitionMarker(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
 
     var petitionMarkerIcon = getMarkerIcon("petition");
     var marker = L.marker(mercators, {icon: petitionMarkerIcon})
 
     marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' + 
+        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' +
             '<div class="pro-header-petition">' +
                 '<figure role="group"></figure> ' +
-                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' + 
+                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' +
             '</div>' +
-            '<div class="pro-content-petition">' + 
-                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' + 
+            '<div class="pro-content-petition">' +
+                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
                 '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
-                '<span class="pro-duree">' + durationLabel + '</span></span>' + 
+                '<span class="pro-duree">' + durationLabel + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
                 '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' + 
-                '</div>' + 
+                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' +
+                '</div>' +
                 '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
