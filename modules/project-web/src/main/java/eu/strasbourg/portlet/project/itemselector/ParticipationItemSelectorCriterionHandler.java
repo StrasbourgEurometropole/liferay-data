@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.participation.itemselector;
+package eu.strasbourg.portlet.project.itemselector;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;

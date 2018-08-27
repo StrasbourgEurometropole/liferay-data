@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.participation.itemselector;
+package eu.strasbourg.portlet.project.itemselector;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -42,7 +42,7 @@ public class ParticipationItemSelectorView  implements ItemSelectorView<Particip
 		return _servletContext;
 	}
 
-	@Reference(target = "(osgi.web.symbolicname=participation.web)", unbind = "-")
+	@Reference(target = "(osgi.web.symbolicname=project.web)", unbind = "-")
 	public void setServletContext(ServletContext servletContext) {
 		this._servletContext = servletContext;
 	}

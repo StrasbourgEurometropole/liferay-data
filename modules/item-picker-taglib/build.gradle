@@ -28,6 +28,5 @@ dependencies {
 	compile project(":modules:activity-web")
 	compile project(":modules:official-web")
 	compile project(":modules:project-web")
-	compile project(":modules:participation-web")
 	compile project(":modules:utils")
 }

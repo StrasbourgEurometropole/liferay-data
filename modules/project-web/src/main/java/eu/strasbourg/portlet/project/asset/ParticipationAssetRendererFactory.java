@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.participation.asset;
+package eu.strasbourg.portlet.project.asset;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -46,7 +46,6 @@ public class ParticipationAssetRendererFactory extends BaseAssetRendererFactory<
 	public String getType() {
 		return TYPE;
 	}
-	
 	
 	private ParticipationLocalService _participationLocalService;
 

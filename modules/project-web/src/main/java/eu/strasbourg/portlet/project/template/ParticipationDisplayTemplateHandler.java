@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.participation.template;
+package eu.strasbourg.portlet.project.template;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,7 +17,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(
 		immediate = true,
 		property = {
-	        "javax.portlet.name=" + StrasbourgPortletKeys.PARTICIPATION_WEB
+	        "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
 	    },
 		service = TemplateHandler.class
 	)
@@ -34,7 +34,7 @@ public class ParticipationDisplayTemplateHandler extends BasePortletDisplayTempl
 
 	@Override
 	public String getResourceName() {
-		return StrasbourgPortletKeys.PARTICIPATION_WEB;
+		return StrasbourgPortletKeys.PROJECT_WEB;
 	}
 
 	@Override

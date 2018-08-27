@@ -22,10 +22,10 @@ import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCrit
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
-import eu.strasbourg.portlet.participation.itemselector.ParticipationItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.PetitionItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.ParticipationItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
 

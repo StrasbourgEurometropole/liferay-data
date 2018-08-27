@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.participation.asset;
+package eu.strasbourg.portlet.project.asset;
 
 import java.util.Locale;
 
@@ -15,7 +15,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ParticipationAssetRenderer extends BaseJSPAssetRenderer<Participation> {
 
-	
 	public static final String TYPE = "participation";
 	private Participation _entry;
 	
