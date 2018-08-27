@@ -95,9 +95,9 @@ public class PetitionImpl extends PetitionBaseImpl {
      * @return le pourcentage en long.
      */
     public double getPourcentageSignature(){
-        long nombreSignature = getNombreSignature();
-        long quotaSignature = getQuotaSignature();
-        double result = Double.valueOf(nombreSignature) / Double.valueOf(quotaSignature);
+        Double nombreSignature = (double) getNombreSignature();
+        Double quotaSignature = (double) getQuotaSignature();
+        double result = nombreSignature / quotaSignature;
         return result * 100;
     }
     /**
