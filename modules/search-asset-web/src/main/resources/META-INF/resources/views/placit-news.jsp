@@ -172,7 +172,7 @@
 </div>
 <aui:script>
 	$(function() {
-		//Force la premiere tuille aÃÂ  prendre deux fois plus de place en hauteur de largeur
+		//Force la premiere tuille aÂ  prendre deux fois plus de place en hauteur de largeur
 		$('.col-md-3.col-sm-6.col-xs-12').first().removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-6').addClass('col-sm-12');
 		$('.pro-bloc-actu').first().addClass('pro-bloc-actu-large');
 		
@@ -181,9 +181,3 @@
 		egalizeAll();
 	});
 </aui:script>
-
-<style>
-	.comment-portlet {
-	    display: none !important;
-	}
-</style>
