@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -402,7 +398,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne le projet de la participation (
+	* Retourne le projet de la petition (
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
@@ -425,6 +421,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Petition> toCacheModel() {
 		return _petition.toCacheModel();
+	}
+
+	/**
+	* méthode permettant de récupérer le pourcentage de signatures obtenu.
+	*
+	* @return le pourcentage en long.
+	*/
+	@Override
+	public double getPourcentageSignature() {
+		return _petition.getPourcentageSignature();
 	}
 
 	@Override
@@ -458,6 +464,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public int getStatus() {
 		return _petition.getStatus();
+	}
+
+	/**
+	* Calcul la différence de jours entre la date du jour et celle d'expiration
+	*/
+	@Override
+	public int getTodayExpirationDifferenceDays() {
+		return _petition.getTodayExpirationDifferenceDays();
 	}
 
 	@Override
@@ -501,6 +515,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	@Override
+	public java.lang.String getDistrictLabel(java.util.Locale locale) {
+		return _petition.getDistrictLabel(locale);
+	}
+
+	/**
 	* Returns the external image copyright of this petition.
 	*
 	* @return the external image copyright of this petition
@@ -538,6 +562,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getFilesIds() {
 		return _petition.getFilesIds();
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _petition.getImageURL();
 	}
 
 	/**
@@ -726,7 +758,25 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _petition.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _petition.getFilesURLs();
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à la petition
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
@@ -734,7 +784,15 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne les thematiques de la participation (
+	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
+		return _petition.getTerritoryCategories();
+	}
+
+	/**
+	* Retourne les thematiques de la petition (
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
