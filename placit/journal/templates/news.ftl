@@ -56,13 +56,15 @@
     </div>
 </article>
 <style>
-.search-asset-portlet, .page-header {
+.search-asset-portlet, .page-header, .pro-header-small {
     display: none !important;
 }
 .portlet-body > div > div.h2 {
     display: none;
 }
-.pro-header-small {
-    display: none !important;
-}
 </style>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.comment-portlet').style.setProperty( 'display', 'block', 'important' );
+    });
+</script>
