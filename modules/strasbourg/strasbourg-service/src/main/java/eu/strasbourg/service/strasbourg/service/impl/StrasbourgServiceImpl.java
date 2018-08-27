@@ -23,6 +23,7 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.json.JSONArrayImpl;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -214,7 +215,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 	@Override
 	public JSONArray getCoordinateForAddress(String address) {
-		return getAdictService().getCoordinateForAddress(address);
+		try {
+			return getAdictService().getCoordinateForAddress(address);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

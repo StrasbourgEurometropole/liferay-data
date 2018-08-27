@@ -32,17 +32,11 @@
 
 		<liferay-ui:search-container-row
 			className="eu.strasbourg.service.project.model.Petition"
-			modelVar="petition" cssClass="project-row" keyProperty="petitionId" rowIdProperty="petitionId"
+			modelVar="petition" cssClass="petition-row" keyProperty="petitionId" rowIdProperty="petitionId"
 		>
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="title" truncate="true"
 				value="${petition.title}" />
-
-			<fmt:formatDate value="${petition.modifiedDate}"
-				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
-			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="modified-date" truncate="true"
-				value="${formattedModifiedfDate}" />
 
 			<fmt:formatDate value="${petition.modifiedDate}"
 				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -53,7 +47,7 @@
 			<liferay-ui:search-container-column-text name="">
 				<div class="data" data-id="${petition.petitionId}" data-title="${petition.title}"></div>
 			</liferay-ui:search-container-column-text>
-			
+
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator  />

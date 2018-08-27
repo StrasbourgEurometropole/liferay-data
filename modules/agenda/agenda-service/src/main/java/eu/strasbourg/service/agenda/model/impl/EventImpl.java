@@ -327,7 +327,13 @@ public class EventImpl extends EventBaseImpl {
 	public String getMercatorX() {
 		if (this.getPlace() == null) {
 			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			JSONArray coorResult = null;
+			try {
+				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			return coorResult != null ? coorResult.get(0).toString() : "";
 		} else {
@@ -342,7 +348,13 @@ public class EventImpl extends EventBaseImpl {
 	public String getMercatorY() {
 		if (this.getPlace() == null) {
 			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			JSONArray coorResult = null;
+			try {
+				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			return coorResult != null ? coorResult.get(1).toString() : "";
 		} else {
@@ -359,7 +371,13 @@ public class EventImpl extends EventBaseImpl {
 	public List<String> getMercators() {
 		if (this.getPlace() == null) {
 			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			JSONArray coorResult = null;
+			try {
+				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			if (coorResult != null) {
 				String mercatorX = coorResult.get(0).toString();

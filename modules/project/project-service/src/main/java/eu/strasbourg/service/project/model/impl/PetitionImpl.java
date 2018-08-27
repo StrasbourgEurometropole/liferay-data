@@ -87,7 +87,6 @@ public class PetitionImpl extends PetitionBaseImpl {
 				WorkflowConstants.STATUS_APPROVED).size();
 	}
 
-
     /**
      * Retourne les commentaires de l'entité
      */
@@ -97,6 +96,25 @@ public class PetitionImpl extends PetitionBaseImpl {
                 this.getAssetEntry().getEntryId(),
                 WorkflowConstants.STATUS_APPROVED);
     }
+
+	/**
+	 * Retourne les thematiques de la participation (
+	 */
+	@Override
+	public List<AssetCategory> getThematicCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.THEMATIC);
+	}
+
+	/**
+	 * Retourne le projet de la participation (
+	 */
+	@Override
+	public AssetCategory getProjectCategory() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT).get(0);
+	}
+
 
 	@Override
 	public String getAssetEntryTitle(){

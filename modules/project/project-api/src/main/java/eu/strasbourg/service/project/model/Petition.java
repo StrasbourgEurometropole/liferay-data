@@ -74,6 +74,16 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
 
+	/**
+	* Retourne les thematiques de la participation (
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
+
+	/**
+	* Retourne le projet de la participation (
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
 	public java.lang.String getAssetEntryTitle();
 
 	/**

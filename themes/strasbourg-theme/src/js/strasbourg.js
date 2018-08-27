@@ -6314,7 +6314,7 @@ jQuery('.magnific-popup').magnificPopup({
 	closeOnContentClick: true,
 	closeBtnInside: true,
 	fixedContentPos: true,
-	mainClass: 'mfp-no-margins mfp-with-zoom mfp-image', // class to remove default margin from left and right side
+	mainClass: 'mfp-original mfp-no-margins mfp-with-zoom mfp-image', // class to remove default margin from left and right side
 	image: {
 		verticalFit: true
 	},
@@ -6433,11 +6433,19 @@ jQuery('.objtp-gallery').magnificPopup({
 		preload: [0,1] // Will preload 0 - before current, and 1 after the current image
 	},
 	image: {
+		markup: '<div class="mfp-figure">'+
+            '<div class="mfp-close"></div>'+
+            '<div class="mfp-img"></div>'+
+            '<div class="mfp-bottom-bar">'+
+              '<div class="mfp-title"></div>'+
+            '</div>'+
+          '</div>',
 		tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
 		titleSrc: function(item) {
 			return item.el.attr('title');
 		}
 	}
+	  
 });
 
 /*!
@@ -17831,6 +17839,7 @@ $(function() {
         var groupId = $(this).data("groupId") ? $(this).data("groupId") : 0;
         var type = $(this).data("type");
         var title = $(this).data("title");
+        var isFavorite = true;
 
         // Si le favoris a déjà été ajouté par l'utilisateur
         if (htmlA[0].classList.contains('liked')) {
@@ -17861,6 +17870,7 @@ $(function() {
                     }
                 }
             );
+            isFavorite = false;
         } else {
             // Sinon appel du WS pour ajouter un favoris
             var favoriteToAdd = {
@@ -17893,6 +17903,35 @@ $(function() {
 
                 }
             );
+        }
+
+        // On met à jour window.userFavorites
+        var userId = window.publikInternalId;
+        Liferay.Service(
+            '/favorite.favorite/get-user-favorites', {
+                userId: userId
+            },
+            function(obj) {
+                var json = '[';
+                    obj.favorites.forEach(function(favorite, index){
+                      json  += '{"entityId":' + favorite.entityId + ',"typeId": ' + favorite.typeId +'}';
+                       if (obj.favorites[index + 1]){
+                            json  += ',';
+                       }
+                    }); 
+                json  += ']'; console.log(json);
+                window.userFavorites = JSON.parse(json);
+            }
+        );
+
+        // On modfie les boutons correspondant sur la page
+        var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
+        if (isFavorite) {
+            favoriteButton.addClass('liked');
+            favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+        }else{
+            favoriteButton.removeClass('liked');
+            favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
         }
     });
 });
@@ -18000,15 +18039,6 @@ if($('.seu-wi-lieux').length){
         });
     });
 }
-$(window).load(function() {
-    $('#objtp-detail-container').masonry({
-        itemSelector: '.objtp-detail-item',
-        gutter: '.gutter-sizer',
-        percentPosition: true,
-        transitionDuration: '0.6s'
-    });
-});
-
 $(window).load(function() {
     if(themeDisplay.getLayoutRelativeURL().includes("objets-trouves") && getCookie('has-consent-objtp-rule') == null) {
      createPopinObjtpRule();
