@@ -83,9 +83,9 @@
 										<div class="seu-date-end">${firstStartDate}</div> 
 									</div> 
 	                            </c:if>
+								<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTitle(locale))}</div>
 								<div class="seu-ville">${event.getPlaceAlias(locale)} - ${event.getPlaceCity(locale)}</div> 
-								<div class="item-categories" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTypeLabel(locale))}</div> 
-								<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTitle(locale))}</div> 
+								<div class="item-categories" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTypeLabel(locale))}</div>
 							</a> 
 						</div> 
 					</c:forEach>
