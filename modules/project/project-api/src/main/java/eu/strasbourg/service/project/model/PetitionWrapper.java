@@ -85,6 +85,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
+		attributes.put("signataireId", getSignataireId());
 
 		return attributes;
 	}
@@ -272,6 +273,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		if (filesIds != null) {
 			setFilesIds(filesIds);
 		}
+
+		Long signataireId = (Long)attributes.get("signataireId");
+
+		if (signataireId != null) {
+			setSignataireId(signataireId);
+		}
 	}
 
 	/**
@@ -446,6 +453,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public int compareTo(eu.strasbourg.service.project.model.Petition petition) {
 		return _petition.compareTo(petition);
+	}
+
+	/**
+	* méthode permettant de récuperer les faux signataires d'une pétitions.
+	*
+	* @return les faux signataires.
+	*/
+	@Override
+	public int getCountFakeSignataire() {
+		return _petition.getCountFakeSignataire();
 	}
 
 	/**
@@ -880,6 +897,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the signataire ID of this petition.
+	*
+	* @return the signataire ID of this petition
+	*/
+	@Override
+	public long getSignataireId() {
+		return _petition.getSignataireId();
+	}
+
+	/**
 	* Returns the status by user ID of this petition.
 	*
 	* @return the status by user ID of this petition
@@ -1155,6 +1182,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setQuotaSignature(long quotaSignature) {
 		_petition.setQuotaSignature(quotaSignature);
+	}
+
+	/**
+	* Sets the signataire ID of this petition.
+	*
+	* @param signataireId the signataire ID of this petition
+	*/
+	@Override
+	public void setSignataireId(long signataireId) {
+		_petition.setSignataireId(signataireId);
 	}
 
 	/**

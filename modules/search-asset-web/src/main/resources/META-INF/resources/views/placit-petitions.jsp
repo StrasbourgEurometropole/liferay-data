@@ -13,10 +13,6 @@
         </span>
             </div>
 
-            <div class="pro-wrapper-sort">				
-                <span class="pro-legend"><liferay-ui:message key="eu.legend-petitions" /></span>
-            </div>
-
             <div class="row pro-wrapper-listing-petition">
 
                 <div class="col-xs-12">

@@ -28,7 +28,9 @@ import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -89,6 +91,14 @@ public class PetitionImpl extends PetitionBaseImpl {
         }
         return districts;
     }
+
+	/**
+	 * méthode permettant de récuperer les faux signataires d'une pétitions.
+	 * @return les faux signataires.
+	 */
+	public int getCountFakeSignataire(){
+		return SignataireLocalServiceUtil.countFakeSignataireByPetition(getPetitionId());
+	}
 
     /**
      * méthode permettant de récupérer le pourcentage de signatures obtenu.
@@ -251,6 +261,10 @@ public class PetitionImpl extends PetitionBaseImpl {
                 .getAssetEntryCategories(this.getAssetEntry());
     }
 
+    List<Signataire> getSignataires(){
+    	List<Signataire> result = SignataireLocalServiceUtil.getSignatairesByPetitionId(getPetitionId());
+    	return result;
+	}
 
     /**
      * Retourne le status de la petition

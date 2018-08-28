@@ -66,6 +66,13 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
+	* méthode permettant de récuperer les faux signataires d'une pétitions.
+	*
+	* @return les faux signataires.
+	*/
+	public int getCountFakeSignataire();
+
+	/**
 	* méthode permettant de récupérer le pourcentage de signatures obtenu.
 	*
 	* @return le pourcentage en long.
