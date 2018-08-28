@@ -65,6 +65,6 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.comment-portlet').style.setProperty( 'display', 'block', 'important' );
+        $('.comment-portlet').css("cssText", "display: block !important;");
     });
 </script>
