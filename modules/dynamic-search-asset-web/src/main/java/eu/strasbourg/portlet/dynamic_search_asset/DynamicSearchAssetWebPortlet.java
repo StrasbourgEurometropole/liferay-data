@@ -42,6 +42,7 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.DYNAMIC_SEARCH_ASSET_WEB,
+		"javax.portlet.init-param.config-template=/dynamic-search-asset-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -87,7 +88,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			String resourceID = request.getResourceID();			
 			
 			// ---------------------------------------------------------------
-			// -------- REQUETE : Nouvelle sélection de quartier  ------------
+			// -------- REQUETE :   ------------
 			// ---------------------------------------------------------------
 			if (resourceID.equals("")) { 
 				
