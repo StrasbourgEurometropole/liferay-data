@@ -834,7 +834,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 				state = OccupationState.ORANGE;
 			} else
 				state = OccupationState.GREEN;
-			state.setOccupation("" + occupation);
+			String newOccupation = occupation + " min";
+			if(occupation > 60 ){
+				newOccupation = (occupation/60) + "h" + (occupation%60);
+			}
+			state.setOccupation(newOccupation);
 			break;
 		}
 		return state;
