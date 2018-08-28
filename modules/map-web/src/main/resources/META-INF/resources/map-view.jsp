@@ -40,7 +40,7 @@
 		        <div class="top__overflow">
 		            <aui:form method="POST" action="#" name="addItemForm" id="addItemForm" cssClass="filtres filtres--category">
 						<c:if test="${typesContenu.contains('eu.strasbourg.service.agenda.model.Event')}">
-	    					<p class="info-text">${eventExplanationText}</p>
+	    					<div class="info-text">${eventExplanationText}</div>
 						</c:if>
 		                <div class="filtres__list" id="poin">
 	                        <button type="button" class="top__trigger top__trigger--close mobile-only"></button>

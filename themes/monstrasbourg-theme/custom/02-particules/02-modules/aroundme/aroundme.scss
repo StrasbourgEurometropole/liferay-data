@@ -55,16 +55,8 @@
         position: relative;
         form{
             overflow: hidden;
-            p{
-                color: #ffffff;
-                font-family: "MontSerrat", arial;
-                font-size: 1.4rem;
-                line-height: 1.2em;
-                font-weight: 400;
-                text-align: center;
-            }
 
-            p.info-text {
+            .info-text {
                 color: #ffffff;
                 font-family: $opensans;
                 font-size: 1.5rem;
