@@ -77,6 +77,7 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
 		attributes.put("petitionId", getPetitionId());
+		attributes.put("initiativeId", getInitiativeId());
 		attributes.put("placeSIGId", getPlaceSIGId());
 
 		return attributes;
@@ -184,6 +185,12 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 
 		if (petitionId != null) {
 			setPetitionId(petitionId);
+		}
+
+		Long initiativeId = (Long)attributes.get("initiativeId");
+
+		if (initiativeId != null) {
+			setInitiativeId(initiativeId);
 		}
 
 		String placeSIGId = (String)attributes.get("placeSIGId");
@@ -602,6 +609,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	}
 
 	/**
+	* Returns the initiative ID of this placit place.
+	*
+	* @return the initiative ID of this placit place
+	*/
+	@Override
+	public long getInitiativeId() {
+		return _placitPlace.getInitiativeId();
+	}
+
+	/**
 	* Returns the participation ID of this placit place.
 	*
 	* @return the participation ID of this placit place
@@ -748,6 +765,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public void setImageId(long imageId) {
 		_placitPlace.setImageId(imageId);
+	}
+
+	/**
+	* Sets the initiative ID of this placit place.
+	*
+	* @param initiativeId the initiative ID of this placit place
+	*/
+	@Override
+	public void setInitiativeId(long initiativeId) {
+		_placitPlace.setInitiativeId(initiativeId);
 	}
 
 	/**

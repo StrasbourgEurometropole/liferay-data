@@ -33,6 +33,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionService;
+import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
@@ -61,6 +62,63 @@ public abstract class PetitionServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.project.service.PetitionServiceUtil} to access the petition remote service.
 	 */
+
+	/**
+	 * Returns the initiative local service.
+	 *
+	 * @return the initiative local service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeLocalService getInitiativeLocalService() {
+		return initiativeLocalService;
+	}
+
+	/**
+	 * Sets the initiative local service.
+	 *
+	 * @param initiativeLocalService the initiative local service
+	 */
+	public void setInitiativeLocalService(
+		eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService) {
+		this.initiativeLocalService = initiativeLocalService;
+	}
+
+	/**
+	 * Returns the initiative remote service.
+	 *
+	 * @return the initiative remote service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeService getInitiativeService() {
+		return initiativeService;
+	}
+
+	/**
+	 * Sets the initiative remote service.
+	 *
+	 * @param initiativeService the initiative remote service
+	 */
+	public void setInitiativeService(
+		eu.strasbourg.service.project.service.InitiativeService initiativeService) {
+		this.initiativeService = initiativeService;
+	}
+
+	/**
+	 * Returns the initiative persistence.
+	 *
+	 * @return the initiative persistence
+	 */
+	public InitiativePersistence getInitiativePersistence() {
+		return initiativePersistence;
+	}
+
+	/**
+	 * Sets the initiative persistence.
+	 *
+	 * @param initiativePersistence the initiative persistence
+	 */
+	public void setInitiativePersistence(
+		InitiativePersistence initiativePersistence) {
+		this.initiativePersistence = initiativePersistence;
+	}
 
 	/**
 	 * Returns the participation local service.
@@ -751,6 +809,12 @@ public abstract class PetitionServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
+	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeService.class)
+	protected eu.strasbourg.service.project.service.InitiativeService initiativeService;
+	@BeanReference(type = InitiativePersistence.class)
+	protected InitiativePersistence initiativePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationLocalService.class)
 	protected eu.strasbourg.service.project.service.ParticipationLocalService participationLocalService;
 	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationService.class)

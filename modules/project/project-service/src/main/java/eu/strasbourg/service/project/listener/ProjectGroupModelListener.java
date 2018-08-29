@@ -12,8 +12,10 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
 
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 
@@ -44,6 +46,16 @@ public class ProjectGroupModelListener extends BaseModelListener<Group> {
 		for (Participation participation : participations) {
 			try {
 				ParticipationLocalServiceUtil.removeParticipation(participation.getParticipationId());
+			} catch (PortalException e) {
+				_log.error(e);
+			}
+		}
+		
+		// Initiative
+		List<Initiative> initiatives = InitiativeLocalServiceUtil.getByGroupId(model.getGroupId());
+		for (Initiative initiative : initiatives) {
+			try {
+				InitiativeLocalServiceUtil.removeInitiative(initiative.getInitiativeId());
 			} catch (PortalException e) {
 				_log.error(e);
 			}

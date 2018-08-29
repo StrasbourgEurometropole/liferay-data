@@ -1,6 +1,40 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.project.model.Initiative">
+		<field name="uuid" type="String" />
+		<field name="initiativeId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="author" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="videoUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="externalImageURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="externalImageCopyright" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="mediaChoice" type="boolean" />
+		<field name="consultationPlacesBody" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+	</model>
 	<model name="eu.strasbourg.service.project.model.Participation">
 		<field name="uuid" type="String" />
 		<field name="participationId" type="long" />
@@ -107,6 +141,7 @@
 		<field name="projectId" type="long" />
 		<field name="participationId" type="long" />
 		<field name="petitionId" type="long" />
+		<field name="initiativeId" type="long" />
 		<field name="placeSIGId" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Project">
