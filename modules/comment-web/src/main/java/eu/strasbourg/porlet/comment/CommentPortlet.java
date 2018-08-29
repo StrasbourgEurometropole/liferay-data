@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -46,7 +45,6 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
-import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +63,7 @@ import java.util.stream.Collectors;
 	property = {
         "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
+		"com.liferay.portlet.css-class-wrapper=comment-portlet",
         "javax.portlet.display-name=Commentaires",
 		"javax.portlet.init-param.add-process-action-success-action=false",
         "javax.portlet.init-param.template-path=/",
@@ -82,6 +81,8 @@ public class CommentPortlet extends MVCPortlet {
 	private static final String ESCAPE_PARAM_URL_PARTTERN = "(\\?|#)";
 	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
 	private static final String PARTICIPATION_CLASSNAME = "eu.strasbourg.service.project.model.Participation";
+	private static final String REDIRECT_URL_PARAM = "redirectURL";
+	
 	
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
@@ -137,7 +138,7 @@ public class CommentPortlet extends MVCPortlet {
 			// URL de redirection pour le POST evitant les soumissions multiples
 			String redirectURL =  themeDisplay.getURLPortal() + themeDisplay.getURLCurrent();
 			
-			request.setAttribute("redirectURL", redirectURL);
+			request.setAttribute(REDIRECT_URL_PARAM, redirectURL);
 			request.setAttribute("categories",assetCategories);
 			request.setAttribute("comments", comments);
 			request.setAttribute("isAdmin", isAdmin);
@@ -181,12 +182,12 @@ public class CommentPortlet extends MVCPortlet {
 				String userQuality = ParamUtil.getString(request, "inQualityOf");
 				
 				// Recuperation de l'URL de redirection
-				String redirectURL = ParamUtil.getString(request, "redirectURL");
-
+				String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
+				
 				Comment comment;
 
 				if (editCommentId <= 0) { // Creation d'un nouveau commentaire
-					comment = _commentLocalService.createComment(userPublikId,sc);
+					comment = _commentLocalService.createComment(userPublikId, sc);
 
 					// Initialisation de l'URL du commentaire
 					StringBuilder url = new StringBuilder(redirectURL);
@@ -240,13 +241,19 @@ public class CommentPortlet extends MVCPortlet {
 
 	/**
 	 *  Méthode qui permet à l'administrateur de cacher un commentaire
+	 * @throws IOException 
 	 */
-	public void hideComment(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
+	public void hideComment(ActionRequest request, ActionResponse response) throws PortalException, SystemException, IOException {
+		// Recuperation de l'URL de redirection
+		String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
+		
         Comment comment = _commentLocalService.getComment(ParamUtil.getLong(request, "commentId"));
         if (isSameUser(request,comment)){
             comment.setStatus(WorkflowConstants.STATUS_DENIED);
             _commentLocalService.updateComment(comment);
         }
+        
+        response.sendRedirect(redirectURL);
 	}
 
     /**
@@ -256,8 +263,11 @@ public class CommentPortlet extends MVCPortlet {
 	 * @throws PortalException PortalException
      */
 	public void reportComment(ActionRequest request, ActionResponse response) throws PortalException, IOException {
+        
+        // Recuperation de l'URL de redirection
+		String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
+		
 		String userPublikId = getPublikID(request);
-        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long result = ParamUtil.getLong(request, "commentId");
         long categoryId = ParamUtil.getLong(request, "categorie");
         Comment comment = CommentLocalServiceUtil.getComment(result);
@@ -265,10 +275,8 @@ public class CommentPortlet extends MVCPortlet {
         Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
         AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
         SignalementLocalServiceUtil.updateSignalement(signalement,sc,userPublikId);
-        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-        PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-                PortletRequest.RENDER_PHASE);
-        response.sendRedirect(renderUrl.toString());
+        
+        response.sendRedirect(redirectURL);
     }
 
 	/**
@@ -279,15 +287,16 @@ public class CommentPortlet extends MVCPortlet {
 	 * @throws IOException Exception
 	 */
     public void deleteComment(ActionRequest request, ActionResponse response) throws PortalException, IOException {
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		// Recuperation de l'URL de redirection
+		String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
+		
 		long commentId = ParamUtil.getLong(request,"commentId");
         if (isSameUser(request,CommentLocalServiceUtil.getComment(commentId))){
             CommentLocalServiceUtil.removeComment(commentId);
         }
-        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-        PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-                PortletRequest.RENDER_PHASE);
-        response.sendRedirect(renderUrl.toString());
+        
+        response.sendRedirect(redirectURL);
 	}
 
     /**
