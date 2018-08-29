@@ -10,29 +10,30 @@
 <#assign homeURL = "/" />
         </#if>
 
+
         <!-- Recuperation du status de la petition (terminee, bientot, etc.) -->
 <#switch entry.getPetitionStatus()>
-<#case "Nouveau">
-<#assign PetitionStatus = "Nouveau" />
-<#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
-<#break>
-<#case "En cours">
-<#assign PetitionStatus = "En cours" />
-<#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
-<#break>
-<#case "Bient&ocirc;t termin&eacute;e">
-<#assign PetitionStatus = "Bientôt terminée" />
-<#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
-<#break>
-<#case "Aboutie">
-<#assign PetitionStatus = "Aboutie" />
-<#assign proDuree = "Terminée"  />
-<#break>
-<#case "Non aboutie">
-<#assign PetitionStatus = "Non aboutie" />
-<#assign proDuree = "Terminée"  />
-<#break>
-        </#switch>
+    <#case "new">
+        <#assign petitionStatus = "Nouvelle" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
+        <#break>
+    <#case "failed">
+        <#assign petitionStatus = "Non aboutie" />
+        <#assign proDuree = "Terminée"  />
+        <#break>
+    <#case "in_progress">
+        <#assign petitionStatus = "En cours" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
+        <#break>
+    <#case "soon_finished">
+        <#assign petitionStatus = "Bientôt terminée" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
+        <#break>
+    <#case "completed">
+        <#assign petitionStatus = "Aboutie" />
+        <#assign proDuree = "Terminée"  />
+        <#break>
+</#switch>
 
         <!-- Recuperation des thématiques de la Petition -->
 <#if entry.getThematicCategories()??>
@@ -66,7 +67,7 @@
 </div>
 <div class="pro-content-petition">
 <div class="pro-wrapper-meta">
-    <div class="pro-statut"><span>${entry.getPetitionStatus()}</span></div>
+    <div class="pro-statut"><span>${petitionStatus}</span></div>
     <div class="pro-meta">
         <!-- Liste des quartiers de la Petition -->
         <span>${entry.getDistrictLabel(locale)}</span>
