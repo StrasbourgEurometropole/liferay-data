@@ -63,7 +63,7 @@
     <fieldset class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
         
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getParticipationStatus(groupID)}" />
+        <c:set var="statusVocabulary" value="${vocabularyAccessor.getPlacitStatus(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(statusVocabulary)}"
 			var="category"

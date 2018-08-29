@@ -35,6 +35,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,6 +61,10 @@ public class PetitionImpl extends PetitionBaseImpl {
 	 *
 	 * Never reference this class directly. All methods that expect a petition model instance should use the {@link eu.strasbourg.service.project.model.Petition} interface instead.
 	 */
+
+	public static final String COMPLETED = "completed";
+	public static final String DRAFT = "Brouillon";
+	public static final String FAILED = "failed";
 
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -272,9 +279,34 @@ public class PetitionImpl extends PetitionBaseImpl {
     @Override
     public AssetCategory getPetitionStatusCategory() {
         List<AssetCategory> listStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-                VocabularyNames.PETITION_STATUS);
+                VocabularyNames.PLACIT_STATUS);
         return listStatus.size() > 0 ? listStatus.get(0) : null;
     }
+    @Override
+    public String getPetitionStatus(){
+    	String result = DRAFT;
+		if (getPublicationDate() != null && getExpirationDate() != null) {
+			LocalDateTime now = LocalDateTime.now();
+			LocalDateTime expirationTime = new Timestamp(getExpirationDate().getTime()).toLocalDateTime();
+			LocalDateTime publicationTime = new Timestamp(getPublicationDate().getTime()).toLocalDateTime();
+			boolean isExpired = now.isAfter(expirationTime);
+			boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
+			if (quotaSignatureAtteint && !isExpired)
+				result = COMPLETED;
+			else if (isExpired && !quotaSignatureAtteint)
+				result = FAILED;
+			else {
+				long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
+				long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
+				if (!isExpired && periodNews <= 7)
+					result = ParticipationImpl.NEW;
+				else if (!isExpired && periodTemp <= 7)
+					result = ParticipationImpl.SOON_FINISHED;
+				else result = ParticipationImpl.IN_PROGRESS;
+			}
+		}
+		return result;
+	}
 
 	/**
 	 * Retourne la liste des lieux placit liés à la petition

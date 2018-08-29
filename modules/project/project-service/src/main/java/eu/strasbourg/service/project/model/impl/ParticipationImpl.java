@@ -41,7 +41,11 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -383,7 +387,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	@Override
 	public AssetCategory getParticipationStatusCategory() {
 		List<AssetCategory> listStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PARTICIPATION_STATUS);
+				VocabularyNames.PLACIT_STATUS);
 		return listStatus.size() > 0 ? listStatus.get(0) : null;
 	}
 	
