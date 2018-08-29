@@ -12,6 +12,12 @@ import aQute.bnd.annotation.metatype.Meta;
 	name = "portlet.familySpace.configuration.name")
 public interface FamilySpaceConfiguration {
 
+	@Meta.AD(name = "addLunchURL", deflt = "", required = false)
+	public String addLunchURL();
+
+	@Meta.AD(name = "linkAccountURL", deflt = "", required = false)
+	public String linkAccountURL();
+
 	@Meta.AD(name = "familySpaceURL", deflt = "", required = false)
 	public String familySpaceURL();
 

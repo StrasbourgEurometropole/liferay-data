@@ -48,7 +48,15 @@ public class FamilySpaceConfigurationAction
 		String cmd = ParamUtil.getString(request, "cmd");
 
 		if (cmd.equals("update")) {
-			
+
+			// URL ajout d'un repas
+			String addLunchURL = ParamUtil.getString(request, "addLunchURL");
+			setPreference(request, "addLunchURL", addLunchURL);
+
+			// URL lier un compte
+			String linkAccountURL = ParamUtil.getString(request, "linkAccountURL");
+			setPreference(request, "linkAccountURL", linkAccountURL);
+
 			// URL site espace famille
 			String familySpaceURL = ParamUtil.getString(request, "familySpaceURL");
 			setPreference(request, "familySpaceURL", familySpaceURL);
@@ -70,6 +78,8 @@ public class FamilySpaceConfigurationAction
 			FamilySpaceConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						FamilySpaceConfiguration.class);
+			request.setAttribute("addLunchURL", configuration.addLunchURL());
+			request.setAttribute("linkAccountURL", configuration.linkAccountURL());
 			request.setAttribute("familySpaceURL", configuration.familySpaceURL());
 			
 		} catch (ConfigurationException e) {

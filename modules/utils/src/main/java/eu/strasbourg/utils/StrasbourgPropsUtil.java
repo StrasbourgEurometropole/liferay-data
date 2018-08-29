@@ -212,8 +212,12 @@ public class StrasbourgPropsUtil {
 	public static String getRecordAddressURL(){
 		return PropsUtil.get("eu.strasbourg.publik.url.record.address");
 	}
-	
+
 	public static String getEMSZipCode(){
 		return PropsUtil.get("eu.strasbourg.ems.zip_code");
+	}
+
+	public static String getFamilySpace(){
+		return PropsUtil.get("eu.strasbourg.family.space.url");
 	}
 }
