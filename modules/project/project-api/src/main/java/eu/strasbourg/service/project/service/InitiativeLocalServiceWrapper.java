@@ -84,6 +84,16 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 	}
 
 	/**
+	* Crée une initiative vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Initiative createInitiative(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _initiativeLocalService.createInitiative(sc);
+	}
+
+	/**
 	* Creates a new initiative with the primary key. Does not add the initiative to the database.
 	*
 	* @param initiativeId the primary key for the new initiative
@@ -191,6 +201,19 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 	public eu.strasbourg.service.project.model.Initiative updateInitiative(
 		eu.strasbourg.service.project.model.Initiative initiative) {
 		return _initiativeLocalService.updateInitiative(initiative);
+	}
+
+	/**
+	* Met à jour une initiative et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Initiative updateInitiative(
+		eu.strasbourg.service.project.model.Initiative initiative,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _initiativeLocalService.updateInitiative(initiative, sc);
 	}
 
 	/**

@@ -2413,6 +2413,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		initiativeImpl.setExternalImageURL(initiative.getExternalImageURL());
 		initiativeImpl.setExternalImageCopyright(initiative.getExternalImageCopyright());
 		initiativeImpl.setMediaChoice(initiative.isMediaChoice());
+		initiativeImpl.setAssetEntryId(initiative.getAssetEntryId());
+		initiativeImpl.setPublikId(initiative.getPublikId());
+		initiativeImpl.setImageId(initiative.getImageId());
+		initiativeImpl.setFilesIds(initiative.getFilesIds());
 		initiativeImpl.setConsultationPlacesBody(initiative.getConsultationPlacesBody());
 
 		return initiativeImpl;

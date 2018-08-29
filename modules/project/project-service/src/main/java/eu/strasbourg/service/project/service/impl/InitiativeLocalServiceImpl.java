@@ -14,19 +14,23 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
@@ -51,6 +55,90 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.InitiativeLocalServiceUtil} to access the initiative local service.
 	 */
+	
+	
+	/**
+	 * Crée une initiative vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Initiative createInitiative(ServiceContext sc)
+		throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = counterLocalService.increment();
+
+		Initiative initiative = this.initiativeLocalService
+			.createInitiative(pk);
+
+		initiative.setGroupId(sc.getScopeGroupId());
+		initiative.setUserName(user.getFullName());
+		initiative.setUserId(sc.getUserId());
+
+		initiative.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return initiative;
+	}
+	
+	/**
+	 * Met à jour une initiative et l'enregistre en base de données
+	 * @throws IOException 
+	 */
+	@Override
+	public Initiative updateInitiative(Initiative initiative, ServiceContext sc)
+			throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		initiative.setStatusByUserId(sc.getUserId());
+		initiative.setStatusByUserName(user.getFullName());
+		initiative.setStatusDate(sc.getModifiedDate());
+
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			initiative.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			initiative.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
+		initiative = this.initiativeLocalService.updateInitiative(initiative);
+		
+		this.updateAssetEntry(initiative, sc);
+		this.reindex(initiative, false);
+
+		return initiative;
+	}
+	
+	/**
+	 * Met à jour l'AssetEntry rattachée à la initiative
+	 */
+	private void updateAssetEntry(Initiative initiative, ServiceContext sc)
+			throws PortalException {
+		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
+				sc.getScopeGroupId(), // Group ID
+				initiative.getCreateDate(), // Date of creation
+				initiative.getModifiedDate(), // Date of modification
+				Initiative.class.getName(), // Class name
+				initiative.getPrimaryKey(), // Class PK
+				initiative.getUuid(), // UUID
+				0, // Class type ID
+				sc.getAssetCategoryIds(), // Categories IDs
+				sc.getAssetTagNames(), // Tags IDs
+				true, // Listable
+				initiative.isApproved(), // Visible
+				initiative.getCreateDate(), // Start date
+				null, // End date
+				initiative.getCreateDate(), // Publication date
+				null, // Date of expiration
+				ContentTypes.TEXT_HTML, // Content type
+				initiative.getTitle(), // Title
+				initiative.getDescription(), // Description
+				initiative.getDescription(), // Summary
+				null, // URL
+				null, // Layout uuid
+				0, // Width
+				0, // Height
+				null); // Priority
+
+		// Réindexe la initiative
+		this.reindex(initiative, false);
+	}
 	
 	/**
 	 * Retourne toutes les initiatives d'un groupe

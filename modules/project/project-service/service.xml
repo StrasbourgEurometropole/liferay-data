@@ -355,6 +355,12 @@
 		<column name="externalImageURL" type="String" />
 		<column name="externalImageCopyright" type="String" />
 		<column name="mediaChoice" type="boolean" />
+		
+		<!-- Links with other entities -->
+		<column name="assetEntryId" type="long" />
+		<column name="publikId" type="String" />
+		<column name="imageId" type="long" />
+		<column name="filesIds" type="String" />
 
 		<!-- Lieux de consultation -->
 		<column name="consultationPlacesBody" type="String" />

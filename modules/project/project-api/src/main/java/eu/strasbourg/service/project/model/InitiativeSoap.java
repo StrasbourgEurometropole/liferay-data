@@ -53,6 +53,10 @@ public class InitiativeSoap implements Serializable {
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
 		soapModel.setMediaChoice(model.getMediaChoice());
+		soapModel.setAssetEntryId(model.getAssetEntryId());
+		soapModel.setPublikId(model.getPublikId());
+		soapModel.setImageId(model.getImageId());
+		soapModel.setFilesIds(model.getFilesIds());
 		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
 
 		return soapModel;
@@ -262,6 +266,38 @@ public class InitiativeSoap implements Serializable {
 		_mediaChoice = mediaChoice;
 	}
 
+	public long getAssetEntryId() {
+		return _assetEntryId;
+	}
+
+	public void setAssetEntryId(long assetEntryId) {
+		_assetEntryId = assetEntryId;
+	}
+
+	public String getPublikId() {
+		return _publikId;
+	}
+
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
+	}
+
+	public long getImageId() {
+		return _imageId;
+	}
+
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
+	public String getFilesIds() {
+		return _filesIds;
+	}
+
+	public void setFilesIds(String filesIds) {
+		_filesIds = filesIds;
+	}
+
 	public String getConsultationPlacesBody() {
 		return _consultationPlacesBody;
 	}
@@ -289,5 +325,9 @@ public class InitiativeSoap implements Serializable {
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
+	private long _assetEntryId;
+	private String _publikId;
+	private long _imageId;
+	private String _filesIds;
 	private String _consultationPlacesBody;
 }

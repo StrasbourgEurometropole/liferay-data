@@ -64,4 +64,21 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne la liste des lieux placit liés à l'initiative
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
+
+	/**
+	* Retourne les noms des lieux placit de l'initiative
+	*/
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale);
+
+	/**
+	* Retourne les ids SIG des lieux placit de l'initiative
+	*/
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale);
 }

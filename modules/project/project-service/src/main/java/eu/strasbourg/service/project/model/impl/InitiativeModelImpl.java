@@ -93,6 +93,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
 			{ "mediaChoice", Types.BOOLEAN },
+			{ "assetEntryId", Types.BIGINT },
+			{ "publikId", Types.VARCHAR },
+			{ "imageId", Types.BIGINT },
+			{ "filesIds", Types.VARCHAR },
 			{ "consultationPlacesBody", Types.CLOB }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -117,10 +121,14 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.CLOB);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,description TEXT null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,consultationPlacesBody TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,description TEXT null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,consultationPlacesBody TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Initiative";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiative.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Initiative.title ASC";
@@ -173,6 +181,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
 		model.setMediaChoice(soapModel.getMediaChoice());
+		model.setAssetEntryId(soapModel.getAssetEntryId());
+		model.setPublikId(soapModel.getPublikId());
+		model.setImageId(soapModel.getImageId());
+		model.setFilesIds(soapModel.getFilesIds());
 		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
 
 		return model;
@@ -257,6 +269,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("assetEntryId", getAssetEntryId());
+		attributes.put("publikId", getPublikId());
+		attributes.put("imageId", getImageId());
+		attributes.put("filesIds", getFilesIds());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -380,6 +396,30 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 		if (mediaChoice != null) {
 			setMediaChoice(mediaChoice);
+		}
+
+		Long assetEntryId = (Long)attributes.get("assetEntryId");
+
+		if (assetEntryId != null) {
+			setAssetEntryId(assetEntryId);
+		}
+
+		String publikId = (String)attributes.get("publikId");
+
+		if (publikId != null) {
+			setPublikId(publikId);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
+		String filesIds = (String)attributes.get("filesIds");
+
+		if (filesIds != null) {
+			setFilesIds(filesIds);
 		}
 
 		String consultationPlacesBody = (String)attributes.get(
@@ -724,6 +764,60 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@JSON
 	@Override
+	public long getAssetEntryId() {
+		return _assetEntryId;
+	}
+
+	@Override
+	public void setAssetEntryId(long assetEntryId) {
+		_assetEntryId = assetEntryId;
+	}
+
+	@JSON
+	@Override
+	public String getPublikId() {
+		if (_publikId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _publikId;
+		}
+	}
+
+	@Override
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
+	}
+
+	@JSON
+	@Override
+	public long getImageId() {
+		return _imageId;
+	}
+
+	@Override
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
+	@JSON
+	@Override
+	public String getFilesIds() {
+		if (_filesIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _filesIds;
+		}
+	}
+
+	@Override
+	public void setFilesIds(String filesIds) {
+		_filesIds = filesIds;
+	}
+
+	@JSON
+	@Override
 	public String getConsultationPlacesBody() {
 		if (_consultationPlacesBody == null) {
 			return StringPool.BLANK;
@@ -874,6 +968,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		initiativeImpl.setExternalImageURL(getExternalImageURL());
 		initiativeImpl.setExternalImageCopyright(getExternalImageCopyright());
 		initiativeImpl.setMediaChoice(getMediaChoice());
+		initiativeImpl.setAssetEntryId(getAssetEntryId());
+		initiativeImpl.setPublikId(getPublikId());
+		initiativeImpl.setImageId(getImageId());
+		initiativeImpl.setFilesIds(getFilesIds());
 		initiativeImpl.setConsultationPlacesBody(getConsultationPlacesBody());
 
 		initiativeImpl.resetOriginalValues();
@@ -1068,6 +1166,26 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 		initiativeCacheModel.mediaChoice = getMediaChoice();
 
+		initiativeCacheModel.assetEntryId = getAssetEntryId();
+
+		initiativeCacheModel.publikId = getPublikId();
+
+		String publikId = initiativeCacheModel.publikId;
+
+		if ((publikId != null) && (publikId.length() == 0)) {
+			initiativeCacheModel.publikId = null;
+		}
+
+		initiativeCacheModel.imageId = getImageId();
+
+		initiativeCacheModel.filesIds = getFilesIds();
+
+		String filesIds = initiativeCacheModel.filesIds;
+
+		if ((filesIds != null) && (filesIds.length() == 0)) {
+			initiativeCacheModel.filesIds = null;
+		}
+
 		initiativeCacheModel.consultationPlacesBody = getConsultationPlacesBody();
 
 		String consultationPlacesBody = initiativeCacheModel.consultationPlacesBody;
@@ -1082,7 +1200,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1122,6 +1240,14 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(getExternalImageCopyright());
 		sb.append(", mediaChoice=");
 		sb.append(getMediaChoice());
+		sb.append(", assetEntryId=");
+		sb.append(getAssetEntryId());
+		sb.append(", publikId=");
+		sb.append(getPublikId());
+		sb.append(", imageId=");
+		sb.append(getImageId());
+		sb.append(", filesIds=");
+		sb.append(getFilesIds());
 		sb.append(", consultationPlacesBody=");
 		sb.append(getConsultationPlacesBody());
 		sb.append("}");
@@ -1131,7 +1257,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(64);
+		StringBundler sb = new StringBundler(76);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Initiative");
@@ -1214,6 +1340,22 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(getMediaChoice());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
+		sb.append(getAssetEntryId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>publikId</column-name><column-value><![CDATA[");
+		sb.append(getPublikId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageId</column-name><column-value><![CDATA[");
+		sb.append(getImageId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>filesIds</column-name><column-value><![CDATA[");
+		sb.append(getFilesIds());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>consultationPlacesBody</column-name><column-value><![CDATA[");
 		sb.append(getConsultationPlacesBody());
 		sb.append("]]></column-value></column>");
@@ -1252,6 +1394,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
+	private long _assetEntryId;
+	private String _publikId;
+	private long _imageId;
+	private String _filesIds;
 	private String _consultationPlacesBody;
 	private long _columnBitmask;
 	private Initiative _escapedModel;

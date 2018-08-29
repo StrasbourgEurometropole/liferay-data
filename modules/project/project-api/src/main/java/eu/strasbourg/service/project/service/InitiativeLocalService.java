@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -95,6 +96,12 @@ public interface InitiativeLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Initiative addInitiative(Initiative initiative);
+
+	/**
+	* Crée une initiative vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Initiative createInitiative(ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Creates a new initiative with the primary key. Does not add the initiative to the database.
@@ -175,6 +182,14 @@ public interface InitiativeLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Initiative updateInitiative(Initiative initiative);
+
+	/**
+	* Met à jour une initiative et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Initiative updateInitiative(Initiative initiative, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of initiatives.

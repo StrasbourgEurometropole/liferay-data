@@ -66,7 +66,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -106,6 +106,14 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		sb.append(externalImageCopyright);
 		sb.append(", mediaChoice=");
 		sb.append(mediaChoice);
+		sb.append(", assetEntryId=");
+		sb.append(assetEntryId);
+		sb.append(", publikId=");
+		sb.append(publikId);
+		sb.append(", imageId=");
+		sb.append(imageId);
+		sb.append(", filesIds=");
+		sb.append(filesIds);
 		sb.append(", consultationPlacesBody=");
 		sb.append(consultationPlacesBody);
 		sb.append("}");
@@ -210,6 +218,23 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		}
 
 		initiativeImpl.setMediaChoice(mediaChoice);
+		initiativeImpl.setAssetEntryId(assetEntryId);
+
+		if (publikId == null) {
+			initiativeImpl.setPublikId(StringPool.BLANK);
+		}
+		else {
+			initiativeImpl.setPublikId(publikId);
+		}
+
+		initiativeImpl.setImageId(imageId);
+
+		if (filesIds == null) {
+			initiativeImpl.setFilesIds(StringPool.BLANK);
+		}
+		else {
+			initiativeImpl.setFilesIds(filesIds);
+		}
 
 		if (consultationPlacesBody == null) {
 			initiativeImpl.setConsultationPlacesBody(StringPool.BLANK);
@@ -251,6 +276,12 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		externalImageCopyright = objectInput.readUTF();
 
 		mediaChoice = objectInput.readBoolean();
+
+		assetEntryId = objectInput.readLong();
+		publikId = objectInput.readUTF();
+
+		imageId = objectInput.readLong();
+		filesIds = objectInput.readUTF();
 		consultationPlacesBody = objectInput.readUTF();
 	}
 
@@ -339,6 +370,24 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 		objectOutput.writeBoolean(mediaChoice);
 
+		objectOutput.writeLong(assetEntryId);
+
+		if (publikId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikId);
+		}
+
+		objectOutput.writeLong(imageId);
+
+		if (filesIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(filesIds);
+		}
+
 		if (consultationPlacesBody == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -366,5 +415,9 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	public String externalImageURL;
 	public String externalImageCopyright;
 	public boolean mediaChoice;
+	public long assetEntryId;
+	public String publikId;
+	public long imageId;
+	public String filesIds;
 	public String consultationPlacesBody;
 }

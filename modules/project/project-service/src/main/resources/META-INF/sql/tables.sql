@@ -18,6 +18,10 @@ create table project_Initiative (
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(400) null,
 	mediaChoice BOOLEAN,
+	assetEntryId LONG,
+	publikId VARCHAR(75) null,
+	imageId LONG,
+	filesIds VARCHAR(75) null,
 	consultationPlacesBody TEXT null
 );
 

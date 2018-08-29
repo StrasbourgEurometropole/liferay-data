@@ -15,6 +15,8 @@
 package eu.strasbourg.service.project.model.impl;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -22,6 +24,8 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
@@ -60,5 +64,31 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	/**
+	 * Retourne la liste des lieux placit liés à l'initiative
+	 */
+	@Override
+	public List<PlacitPlace> getPlacitPlaces() {
+		return PlacitPlaceLocalServiceUtil.getByInitiative(this.getInitiativeId());
+	}
+
+	/**
+	 * Retourne les noms des lieux placit de l'initiative
+	 */
+	@Override
+	public List<String> getPlaceNames(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceAlias(locale)).distinct().collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les ids SIG des lieux placit de l'initiative
+	 */
+	@Override
+	public List<String> getPlaceSIGIds(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceSIGId()).distinct().collect(Collectors.toList());
 	}
 }

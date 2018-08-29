@@ -404,6 +404,64 @@ public interface InitiativeModel extends BaseModel<Initiative>, GroupedModel,
 	public void setMediaChoice(boolean mediaChoice);
 
 	/**
+	 * Returns the asset entry ID of this initiative.
+	 *
+	 * @return the asset entry ID of this initiative
+	 */
+	public long getAssetEntryId();
+
+	/**
+	 * Sets the asset entry ID of this initiative.
+	 *
+	 * @param assetEntryId the asset entry ID of this initiative
+	 */
+	public void setAssetEntryId(long assetEntryId);
+
+	/**
+	 * Returns the publik ID of this initiative.
+	 *
+	 * @return the publik ID of this initiative
+	 */
+	@AutoEscape
+	public String getPublikId();
+
+	/**
+	 * Sets the publik ID of this initiative.
+	 *
+	 * @param publikId the publik ID of this initiative
+	 */
+	public void setPublikId(String publikId);
+
+	/**
+	 * Returns the image ID of this initiative.
+	 *
+	 * @return the image ID of this initiative
+	 */
+	public long getImageId();
+
+	/**
+	 * Sets the image ID of this initiative.
+	 *
+	 * @param imageId the image ID of this initiative
+	 */
+	public void setImageId(long imageId);
+
+	/**
+	 * Returns the files IDs of this initiative.
+	 *
+	 * @return the files IDs of this initiative
+	 */
+	@AutoEscape
+	public String getFilesIds();
+
+	/**
+	 * Sets the files IDs of this initiative.
+	 *
+	 * @param filesIds the files IDs of this initiative
+	 */
+	public void setFilesIds(String filesIds);
+
+	/**
 	 * Returns the consultation places body of this initiative.
 	 *
 	 * @return the consultation places body of this initiative

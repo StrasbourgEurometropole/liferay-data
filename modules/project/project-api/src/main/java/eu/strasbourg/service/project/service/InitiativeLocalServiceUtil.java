@@ -85,6 +85,15 @@ public class InitiativeLocalServiceUtil {
 	}
 
 	/**
+	* Crée une initiative vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.project.model.Initiative createInitiative(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createInitiative(sc);
+	}
+
+	/**
 	* Creates a new initiative with the primary key. Does not add the initiative to the database.
 	*
 	* @param initiativeId the primary key for the new initiative
@@ -181,6 +190,18 @@ public class InitiativeLocalServiceUtil {
 	public static eu.strasbourg.service.project.model.Initiative updateInitiative(
 		eu.strasbourg.service.project.model.Initiative initiative) {
 		return getService().updateInitiative(initiative);
+	}
+
+	/**
+	* Met à jour une initiative et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.project.model.Initiative updateInitiative(
+		eu.strasbourg.service.project.model.Initiative initiative,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateInitiative(initiative, sc);
 	}
 
 	/**

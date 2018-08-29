@@ -78,6 +78,10 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("assetEntryId", getAssetEntryId());
+		attributes.put("publikId", getPublikId());
+		attributes.put("imageId", getImageId());
+		attributes.put("filesIds", getFilesIds());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 
 		return attributes;
@@ -198,6 +202,30 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 
 		if (mediaChoice != null) {
 			setMediaChoice(mediaChoice);
+		}
+
+		Long assetEntryId = (Long)attributes.get("assetEntryId");
+
+		if (assetEntryId != null) {
+			setAssetEntryId(assetEntryId);
+		}
+
+		String publikId = (String)attributes.get("publikId");
+
+		if (publikId != null) {
+			setPublikId(publikId);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
+		String filesIds = (String)attributes.get("filesIds");
+
+		if (filesIds != null) {
+			setFilesIds(filesIds);
 		}
 
 		String consultationPlacesBody = (String)attributes.get(
@@ -433,6 +461,26 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Returns the files IDs of this initiative.
+	*
+	* @return the files IDs of this initiative
+	*/
+	@Override
+	public java.lang.String getFilesIds() {
+		return _initiative.getFilesIds();
+	}
+
+	/**
+	* Returns the publik ID of this initiative.
+	*
+	* @return the publik ID of this initiative
+	*/
+	@Override
+	public java.lang.String getPublikId() {
+		return _initiative.getPublikId();
+	}
+
+	/**
 	* Returns the status by user name of this initiative.
 	*
 	* @return the status by user name of this initiative
@@ -552,6 +600,42 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne les noms des lieux placit de l'initiative
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale) {
+		return _initiative.getPlaceNames(locale);
+	}
+
+	/**
+	* Retourne les ids SIG des lieux placit de l'initiative
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale) {
+		return _initiative.getPlaceSIGIds(locale);
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à l'initiative
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+		return _initiative.getPlacitPlaces();
+	}
+
+	/**
+	* Returns the asset entry ID of this initiative.
+	*
+	* @return the asset entry ID of this initiative
+	*/
+	@Override
+	public long getAssetEntryId() {
+		return _initiative.getAssetEntryId();
+	}
+
+	/**
 	* Returns the company ID of this initiative.
 	*
 	* @return the company ID of this initiative
@@ -569,6 +653,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public long getGroupId() {
 		return _initiative.getGroupId();
+	}
+
+	/**
+	* Returns the image ID of this initiative.
+	*
+	* @return the image ID of this initiative
+	*/
+	@Override
+	public long getImageId() {
+		return _initiative.getImageId();
 	}
 
 	/**
@@ -614,6 +708,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void persist() {
 		_initiative.persist();
+	}
+
+	/**
+	* Sets the asset entry ID of this initiative.
+	*
+	* @param assetEntryId the asset entry ID of this initiative
+	*/
+	@Override
+	public void setAssetEntryId(long assetEntryId) {
+		_initiative.setAssetEntryId(assetEntryId);
 	}
 
 	/**
@@ -710,6 +814,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Sets the files IDs of this initiative.
+	*
+	* @param filesIds the files IDs of this initiative
+	*/
+	@Override
+	public void setFilesIds(java.lang.String filesIds) {
+		_initiative.setFilesIds(filesIds);
+	}
+
+	/**
 	* Sets the group ID of this initiative.
 	*
 	* @param groupId the group ID of this initiative
@@ -717,6 +831,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setGroupId(long groupId) {
 		_initiative.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the image ID of this initiative.
+	*
+	* @param imageId the image ID of this initiative
+	*/
+	@Override
+	public void setImageId(long imageId) {
+		_initiative.setImageId(imageId);
 	}
 
 	/**
@@ -767,6 +891,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_initiative.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publik ID of this initiative.
+	*
+	* @param publikId the publik ID of this initiative
+	*/
+	@Override
+	public void setPublikId(java.lang.String publikId) {
+		_initiative.setPublikId(publikId);
 	}
 
 	/**
