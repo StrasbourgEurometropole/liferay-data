@@ -144,7 +144,7 @@
                         <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
                              data-zoom="12" data-filter-options="filterMapDetail"></div>
                         <div class="pro-compteur">
-                            <span class="pro-compt pro-compt-six">${entry.getNombreSignature()}</span>
+                            <span class="pro-compt pro-compt-six">${entry.getNombreSignatureBoard()}</span>
                             <p>Citoyens(nes) ont signé</p>
                             <div class="pro-progress-bar">
                                 <div class="pro-progress-container">
