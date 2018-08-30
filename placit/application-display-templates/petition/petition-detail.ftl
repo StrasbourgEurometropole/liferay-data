@@ -140,7 +140,7 @@
                         <div class="pro-push-avis">
                             <#if entry.isJudgeable() && request.session.getAttribute("has_pact_signed")!false>
                                 <a href="#pro-approuv" class="pro-like"
-                                   data-typeid="15"
+                                   data-typeid="17"
                                    data-isdislike="false"
                                    data-title="${entry.getTitle()}"
                                    data-entityid="${entry.petitionId}"
@@ -149,7 +149,7 @@
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                                 </a>
                                 <a href="#pro-not-approuv" class="pro-dislike"
-                                   data-typeid="15"
+                                   data-typeid="17"
                                    data-isdislike="true"
                                    data-title="${entry.getTitle()}"
                                    data-entityid="${entry.petitionId}"
