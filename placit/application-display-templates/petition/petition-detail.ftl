@@ -21,6 +21,11 @@
 <#assign petitionThematics = entry.getThematicCategories() />
         </#if>
 
+        <!-- Recuperation des thématiques de la petition -->
+<#if entry.getProjectCategory()??>
+<#assign petitionProject = entry.getProjectCategory() />
+        </#if>
+
         <!-- Recuperation des lieux lies a la petition -->
 <#assign petitionPlaces = entry.getPlacitPlaces() />
 
@@ -42,22 +47,21 @@
                     <div class="pro-header-participation pro-theme-information">
                         <h1>${entry.title}</h1>
                         <div class="pro-wrapper-meta">
-                            <div class="pro-statut"><span>Nouveau</span></div>
+                            <div class="pro-statut"><span>${entry.getFrontStatusFR()}</span></div>
                             <div class="pro-meta">
-                                <!-- Liste des quartiers de la participation -->
+                                <!-- Liste des quartiers de la petition -->
                                 <span>${entry.getDistrictLabel(locale)}</span>
-                                <!-- Liste des thématiques de la participation -->
-                                <#if participationThematics?? >
-                                    <#list participationThematics as participationThematic >
-                                        <span>${participationThematic.getTitle(locale)}</span>
+                                <!-- Liste des thématiques de la petition -->
+                                <#if petitionThematics?? >
+                                    <#list petitionThematics as petitionThematic >
+                                        <span>${petitionThematic.getTitle(locale)}</span>
                                     </#list>
                                 </#if>
-                                <span>${petitionStatus}</span>
-                                <span>Nom du projet</span>
+                                <span>${petitionProject.getTitle(locale)}</span>
                             </div>
                         </div>
                         <div class="pro-header-auteur">
-                            <figure><!-- Si une image de la participation existe -->
+                            <figure><!-- Si une image de la petition existe -->
                                 <#if entry.getImageURL()?has_content>
                                     <img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
                                 </#if>
@@ -139,7 +143,7 @@
                                    data-typeid="15"
                                    data-isdislike="false"
                                    data-title="${entry.getTitle()}"
-                                   data-entityid="${entry.participationId}"
+                                   data-entityid="${entry.petitionId}"
                                    data-entitygroupid="${entry.groupId}"
                                    title="Cliquez pour approuver">
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
@@ -148,7 +152,7 @@
                                    data-typeid="15"
                                    data-isdislike="true"
                                    data-title="${entry.getTitle()}"
-                                   data-entityid="${entry.participationId}"
+                                   data-entityid="${entry.petitionId}"
                                    data-entitygroupid="${entry.groupId}"
                                    title="Cliquez pour désapprouver">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
