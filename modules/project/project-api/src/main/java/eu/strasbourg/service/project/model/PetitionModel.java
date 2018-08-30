@@ -563,6 +563,20 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setFilesIds(String filesIds);
 
 	/**
+	 * Returns the signataire ID of this petition.
+	 *
+	 * @return the signataire ID of this petition
+	 */
+	public long getSignataireId();
+
+	/**
+	 * Sets the signataire ID of this petition.
+	 *
+	 * @param signataireId the signataire ID of this petition
+	 */
+	public void setSignataireId(long signataireId);
+
+	/**
 	 * Returns <code>true</code> if this petition is approved.
 	 *
 	 * @return <code>true</code> if this petition is approved; <code>false</code> otherwise

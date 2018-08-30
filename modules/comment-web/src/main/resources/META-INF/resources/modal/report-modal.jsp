@@ -1,4 +1,5 @@
 <portlet:actionURL var="reportComment" name="reportComment">
+	<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
 </portlet:actionURL>
 
 <!-- SIGNALER LE COMMENTAIRE -->

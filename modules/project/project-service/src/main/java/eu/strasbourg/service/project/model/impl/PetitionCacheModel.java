@@ -65,7 +65,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(63);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -127,6 +127,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(imageId);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
+		sb.append(", signataireId=");
+		sb.append(signataireId);
 		sb.append("}");
 
 		return sb.toString();
@@ -286,6 +288,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setFilesIds(filesIds);
 		}
 
+		petitionImpl.setSignataireId(signataireId);
+
 		petitionImpl.resetOriginalValues();
 
 		return petitionImpl;
@@ -334,6 +338,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
+
+		signataireId = objectInput.readLong();
 	}
 
 	@Override
@@ -466,6 +472,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		else {
 			objectOutput.writeUTF(filesIds);
 		}
+
+		objectOutput.writeLong(signataireId);
 	}
 
 	public String uuid;
@@ -498,4 +506,5 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String publikId;
 	public long imageId;
 	public String filesIds;
+	public long signataireId;
 }

@@ -299,7 +299,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 		return comment;
 	}
 
-
     /**
      * Renvoie la liste des vocabulaires rattachés à un commentaire
      */
@@ -319,7 +318,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
         }
         return attachedVocabularies;
     }
-
 
     /**
      * Recherche par mot clés

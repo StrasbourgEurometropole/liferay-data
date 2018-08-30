@@ -103,7 +103,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
 			{ "imageId", Types.BIGINT },
-			{ "filesIds", Types.VARCHAR }
+			{ "filesIds", Types.VARCHAR },
+			{ "signataireId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -138,9 +139,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("signataireId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,petitionStatus VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,nombreSignature LONG,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesBody VARCHAR(75) null,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,petitionStatus VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,nombreSignature LONG,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesBody VARCHAR(75) null,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,signataireId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -158,9 +160,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long STATUS_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long SIGNATAIREID_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long TITLE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -205,6 +208,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setPublikId(soapModel.getPublikId());
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
+		model.setSignataireId(soapModel.getSignataireId());
 
 		return model;
 	}
@@ -299,6 +303,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
+		attributes.put("signataireId", getSignataireId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -488,6 +493,12 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
+		}
+
+		Long signataireId = (Long)attributes.get("signataireId");
+
+		if (signataireId != null) {
+			setSignataireId(signataireId);
 		}
 	}
 
@@ -981,6 +992,29 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		_filesIds = filesIds;
 	}
 
+	@JSON
+	@Override
+	public long getSignataireId() {
+		return _signataireId;
+	}
+
+	@Override
+	public void setSignataireId(long signataireId) {
+		_columnBitmask |= SIGNATAIREID_COLUMN_BITMASK;
+
+		if (!_setOriginalSignataireId) {
+			_setOriginalSignataireId = true;
+
+			_originalSignataireId = _signataireId;
+		}
+
+		_signataireId = signataireId;
+	}
+
+	public long getOriginalSignataireId() {
+		return _originalSignataireId;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -1128,6 +1162,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setPublikId(getPublikId());
 		petitionImpl.setImageId(getImageId());
 		petitionImpl.setFilesIds(getFilesIds());
+		petitionImpl.setSignataireId(getSignataireId());
 
 		petitionImpl.resetOriginalValues();
 
@@ -1203,6 +1238,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionModelImpl._originalStatus = petitionModelImpl._status;
 
 		petitionModelImpl._setOriginalStatus = false;
+
+		petitionModelImpl._originalSignataireId = petitionModelImpl._signataireId;
+
+		petitionModelImpl._setOriginalSignataireId = false;
 
 		petitionModelImpl._columnBitmask = 0;
 	}
@@ -1392,12 +1431,14 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.filesIds = null;
 		}
 
+		petitionCacheModel.signataireId = getSignataireId();
+
 		return petitionCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(63);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1459,6 +1500,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getImageId());
 		sb.append(", filesIds=");
 		sb.append(getFilesIds());
+		sb.append(", signataireId=");
+		sb.append(getSignataireId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1466,7 +1509,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(94);
+		StringBundler sb = new StringBundler(97);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1592,6 +1635,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			"<column><column-name>filesIds</column-name><column-value><![CDATA[");
 		sb.append(getFilesIds());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>signataireId</column-name><column-value><![CDATA[");
+		sb.append(getSignataireId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1640,6 +1687,9 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
+	private long _signataireId;
+	private long _originalSignataireId;
+	private boolean _setOriginalSignataireId;
 	private long _columnBitmask;
 	private Petition _escapedModel;
 }

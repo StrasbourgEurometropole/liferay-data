@@ -383,6 +383,11 @@ public class PetitionLocalServiceUtil {
 		return getService().findByKeywordCount(keyword, groupId);
 	}
 
+	public static void addSignataires(
+		eu.strasbourg.service.project.model.Petition petition, int numberToAdd) {
+		getService().addSignataires(petition, numberToAdd);
+	}
+
 	public static void updateAllPetitionsStatus()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().updateAllPetitionsStatus();

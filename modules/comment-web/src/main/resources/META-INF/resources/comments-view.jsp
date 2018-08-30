@@ -19,6 +19,7 @@
 			
 				<portlet:actionURL name="hideComment" var="hideComment">
 					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
+					<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
 				<div id="${comment.commentId}" class="pro-item">
@@ -63,7 +64,7 @@
 			                                data-title="Comment of ${comment.getPublikUserName()}" 
 			                                data-entityid="${comment.commentId}"
 			                                data-entitygroupid="${comment.groupId}"
-		                                   	title="Désapprouver ce commentaire">
+		                                   	title="DÃ©sapprouver ce commentaire">
 		                                   	${comment.nbDislikes}
 		                                </a>
 										<div>

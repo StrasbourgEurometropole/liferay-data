@@ -124,6 +124,7 @@
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
+		<field name="signataireId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.PlacitPlace">
 		<field name="uuid" type="String" />
@@ -209,5 +210,25 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="projectId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.Signataire">
+		<field name="uuid" type="String" />
+		<field name="signataireId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="signataireName" type="String" />
+		<field name="signataireFirstname" type="String" />
+		<field name="signatureDate" type="Date" />
+		<field name="assetEntryId" type="long" />
+		<field name="publikId" type="long" />
+		<field name="petitionId" type="long" />
 	</model>
 </model-hints>

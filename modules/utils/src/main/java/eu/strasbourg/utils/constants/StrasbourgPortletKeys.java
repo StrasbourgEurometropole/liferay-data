@@ -78,9 +78,6 @@ public class StrasbourgPortletKeys {
 	
 	public static final String PROJECT_BO = "eu_strasbourg_portlet_project_ProjectBOPortlet";
 	public static final String PROJECT_WEB = "eu_strasbourg_portlet_project_ProjectPortlet";
-	public static final String PARTICIPATION_BO = "eu_strasbourg_portlet_participation_ParticipationBOPortlet";
-	public static final String PARTICIPATION_WEB = "eu_strasbourg_portlet_participation_ParticipationPortlet";
-
 
 	public static final String OBJTP_WEB = "eu_strasbourg_portlet_objtp_web_ObjtpWebPortlet";
 	public static final String OBJTP_BO = "eu_strasbourg_portlet_objtp_ObjtpBOPortlet";
@@ -108,5 +105,7 @@ public class StrasbourgPortletKeys {
     public static final String MAP_SEARCH_ASSET_WEB = "eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet";
 
 	public static final String VALIDATION_ADDRESS_WEB = "eu_strasbourg_portlet_validationAddress_ValidationAddressWebPortlet";
+	
+	public static final String DYNAMIC_SEARCH_ASSET_WEB = "eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet";
 
 }
