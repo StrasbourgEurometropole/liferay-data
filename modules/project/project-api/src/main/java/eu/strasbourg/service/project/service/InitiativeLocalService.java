@@ -246,6 +246,12 @@ public interface InitiativeLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par mot clés
+	*/
+	public List<Initiative> findByKeyword(java.lang.String keyword,
+		long groupId, int start, int end);
+
+	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -308,4 +314,9 @@ public interface InitiativeLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
 }

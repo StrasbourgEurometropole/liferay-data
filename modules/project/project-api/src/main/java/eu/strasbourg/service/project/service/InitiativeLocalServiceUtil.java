@@ -273,6 +273,14 @@ public class InitiativeLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getByGroupId(
@@ -348,6 +356,13 @@ public class InitiativeLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
 	}
 
 	public static InitiativeLocalService getService() {

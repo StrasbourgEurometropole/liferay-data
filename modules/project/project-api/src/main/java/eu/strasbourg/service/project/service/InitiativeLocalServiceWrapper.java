@@ -290,6 +290,16 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _initiativeLocalService.findByKeyword(keyword, groupId, start,
+			end);
+	}
+
+	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/
 	@Override
@@ -372,6 +382,14 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _initiativeLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _initiativeLocalService.findByKeywordCount(keyword, groupId);
 	}
 
 	@Override
