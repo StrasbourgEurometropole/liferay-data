@@ -206,6 +206,17 @@ public class SignataireLocalServiceWrapper implements SignataireLocalService,
 	}
 
 	/**
+	* méthode permettant de récuperer les signataires par l'identifiant de la pétition.
+	*
+	* @param petitionId l'identifiant de la pétition.
+	* @return la liste des signataires.
+	*/
+	@Override
+	public int countSignataireByPetitionId(long petitionId) {
+		return _signataireLocalService.countSignataireByPetitionId(petitionId);
+	}
+
+	/**
 	* Returns the number of signataires.
 	*
 	* @return the number of signataires

@@ -71,11 +71,9 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
-		attributes.put("petitionStatus", getPetitionStatus());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
-		attributes.put("nombreSignature", getNombreSignature());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -188,12 +186,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setFilesDownload(filesDownload);
 		}
 
-		String petitionStatus = (String)attributes.get("petitionStatus");
-
-		if (petitionStatus != null) {
-			setPetitionStatus(petitionStatus);
-		}
-
 		Date publicationDate = (Date)attributes.get("publicationDate");
 
 		if (publicationDate != null) {
@@ -210,12 +202,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (quotaSignature != null) {
 			setQuotaSignature(quotaSignature);
-		}
-
-		Long nombreSignature = (Long)attributes.get("nombreSignature");
-
-		if (nombreSignature != null) {
-			setNombreSignature(nombreSignature);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -582,6 +568,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _petition.getImageCopyright(locale);
+	}
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
@@ -597,11 +591,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getNbApprovedCommentsLabel();
 	}
 
-	/**
-	* Returns the petition status of this petition.
-	*
-	* @return the petition status of this petition
-	*/
 	@Override
 	public java.lang.String getPetitionStatus() {
 		return _petition.getPetitionStatus();
@@ -801,6 +790,31 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @param locale la locale de la région
+	* @return la liste de pétition.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
+		java.util.Locale locale) {
+		return _petition.getSuggestions(locale);
+	}
+
+	/**
+	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @param locale la locale de la région
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de pétition.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
+		java.util.Locale locale, int nbSuggestions) {
+		return _petition.getSuggestions(locale, nbSuggestions);
+	}
+
+	/**
 	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
 	*/
 	@Override
@@ -857,9 +871,9 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Returns the nombre signature of this petition.
+	* Méthode permettant de retourner le nombre de signataire de la pétition
 	*
-	* @return the nombre signature of this petition
+	* @return le nombre.
 	*/
 	@Override
 	public long getNombreSignature() {
@@ -904,6 +918,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public long getSignataireId() {
 		return _petition.getSignataireId();
+	}
+
+	@Override
+	public long getSignataireNeeded() {
+		return _petition.getSignataireNeeded();
 	}
 
 	/**
@@ -1100,16 +1119,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Sets the nombre signature of this petition.
-	*
-	* @param nombreSignature the nombre signature of this petition
-	*/
-	@Override
-	public void setNombreSignature(long nombreSignature) {
-		_petition.setNombreSignature(nombreSignature);
-	}
-
-	/**
 	* Sets the petition ID of this petition.
 	*
 	* @param petitionId the petition ID of this petition
@@ -1117,16 +1126,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setPetitionId(long petitionId) {
 		_petition.setPetitionId(petitionId);
-	}
-
-	/**
-	* Sets the petition status of this petition.
-	*
-	* @param petitionStatus the petition status of this petition
-	*/
-	@Override
-	public void setPetitionStatus(java.lang.String petitionStatus) {
-		_petition.setPetitionStatus(petitionStatus);
 	}
 
 	/**

@@ -80,6 +80,13 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public double getPourcentageSignature();
 
 	/**
+	* Méthode permettant de retourner le nombre de signataire de la pétition
+	*
+	* @return le nombre.
+	*/
+	public long getNombreSignature();
+
+	/**
 	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
@@ -105,6 +112,30 @@ public interface Petition extends PetitionModel, PersistedModel {
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
+
+	/**
+	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @param locale la locale de la région
+	* @return la liste de pétition.
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
+		java.util.Locale locale);
+
+	/**
+	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @param locale la locale de la région
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de pétition.
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
+		java.util.Locale locale, int nbSuggestions);
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
 
 	/**
 	* Retourne le label de 5 digits du nombre de commentaires de l'entité
@@ -143,6 +174,10 @@ public interface Petition extends PetitionModel, PersistedModel {
 	* Retourne le status de la petition
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory();
+
+	public long getSignataireNeeded();
+
+	public java.lang.String getPetitionStatus();
 
 	/**
 	* Retourne la liste des lieux placit liés à la petition

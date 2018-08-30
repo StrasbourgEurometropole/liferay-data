@@ -350,21 +350,6 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setFilesDownload(String filesDownload);
 
 	/**
-	 * Returns the petition status of this petition.
-	 *
-	 * @return the petition status of this petition
-	 */
-	@AutoEscape
-	public String getPetitionStatus();
-
-	/**
-	 * Sets the petition status of this petition.
-	 *
-	 * @param petitionStatus the petition status of this petition
-	 */
-	public void setPetitionStatus(String petitionStatus);
-
-	/**
 	 * Returns the publication date of this petition.
 	 *
 	 * @return the publication date of this petition
@@ -405,20 +390,6 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	 * @param quotaSignature the quota signature of this petition
 	 */
 	public void setQuotaSignature(long quotaSignature);
-
-	/**
-	 * Returns the nombre signature of this petition.
-	 *
-	 * @return the nombre signature of this petition
-	 */
-	public long getNombreSignature();
-
-	/**
-	 * Sets the nombre signature of this petition.
-	 *
-	 * @param nombreSignature the nombre signature of this petition
-	 */
-	public void setNombreSignature(long nombreSignature);
 
 	/**
 	 * Returns the video url of this petition.

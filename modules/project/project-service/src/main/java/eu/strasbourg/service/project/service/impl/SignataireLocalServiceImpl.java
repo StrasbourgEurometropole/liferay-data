@@ -45,15 +45,27 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
 	public static final String ANONYME = "ENTREE ANONYME";
 
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-	/**
-	 * méthode permettant de récuperer les signataires par l'identifiant de la pétition.
-	 * @param petitionId l'identifiant de la pétition.
-	 * @return la liste des signataires.
-	 */
-	@Override
-	public List<Signataire> getSignatairesByPetitionId(long petitionId) {
-		return signatairePersistence.findByPetition(petitionId);
-	}
+
+    /**
+     * méthode permettant de récuperer les signataires par l'identifiant de la pétition.
+     * @param petitionId l'identifiant de la pétition.
+     * @return la liste des signataires.
+     */
+    @Override
+    public List<Signataire> getSignatairesByPetitionId(long petitionId) {
+        return signatairePersistence.findByPetition(petitionId);
+    }
+
+    /**
+     * méthode permettant de récuperer les signataires par l'identifiant de la pétition.
+     * @param petitionId l'identifiant de la pétition.
+     * @return la liste des signataires.
+     */
+    public int countSignataireByPetitionId(long petitionId) {
+        int count = signatairePersistence.countByPetition(petitionId);
+		_log.info("le nombre de signataire : "+count);
+        return count;
+    }
 
     /**
      * méthode de creation de signataire.

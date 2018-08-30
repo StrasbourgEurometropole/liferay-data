@@ -21,6 +21,12 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -29,19 +35,26 @@ import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -103,6 +116,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 	 * méthode permettant de récuperer les faux signataires d'une pétitions.
 	 * @return les faux signataires.
 	 */
+    @Override
 	public int getCountFakeSignataire(){
 		return SignataireLocalServiceUtil.countFakeSignataireByPetition(getPetitionId());
 	}
@@ -111,12 +125,26 @@ public class PetitionImpl extends PetitionBaseImpl {
      * méthode permettant de récupérer le pourcentage de signatures obtenu.
      * @return le pourcentage en long.
      */
+    @Override
     public double getPourcentageSignature(){
         Double nombreSignature = (double) getNombreSignature();
         Double quotaSignature = (double) getQuotaSignature();
         double result = nombreSignature / quotaSignature;
         return result * 100;
     }
+
+    /**
+     * Méthode permettant de retourner le nombre de signataire de la pétition
+     * @return le nombre.
+     */
+    @Override
+    public long getNombreSignature(){
+    	long result = 0L;
+
+		result = (long) SignataireLocalServiceUtil.countSignataireByPetitionId(getPetitionId());
+		return result;
+    }
+
     /**
      * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
      * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
@@ -187,6 +215,89 @@ public class PetitionImpl extends PetitionBaseImpl {
 			return FileEntryHelper.getFileEntryURL(this.getImageId());
 		}
 	}
+
+
+	/**
+	 * Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	 * @param locale la locale de la région
+	 * @return la liste de pétition.
+	 */
+	@Override
+	public List<Petition> getSuggestions(Locale locale) {
+		return getSuggestions(locale, 10);
+	}
+
+	/**
+	 * Retourne X suggestions max pour un thème appartenant à la vidéo en cours
+	 * @param locale la locale de la région
+	 * @param nbSuggestions le nombre de suggestions.
+	 * @return la liste de pétition.
+	 */
+	@Override
+	public List<Petition> getSuggestions(Locale locale, int nbSuggestions) {
+		List<Petition> suggestions = new ArrayList<>();
+		long[] assetCategoryIds = {};
+		String[] assetTagNames = {};
+		Map<String, Serializable> attributes = new HashMap<>();
+		Layout layout = null;
+		long scopeGroupId = 0;
+		TimeZone timeZone = TimeZone.getDefault();
+		SearchContext searchContext = SearchContextFactory
+				.getInstance(assetCategoryIds, assetTagNames, attributes, this.getCompanyId(), "", layout, locale, scopeGroupId, timeZone, this.getUserId());
+
+		// ClassNames
+		String[] className = {Petition.class.getName()};
+
+		// Group Id
+		long groupId = this.getGroupId();
+
+		// Group Id global
+		long globalGroupId = 0;
+
+		List<Long[]> prefilterCategoriesIds = new ArrayList<>();
+		String[] prefilterTagsNames = {};
+
+		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, className,
+				groupId, globalGroupId, false, "", false, "",
+				null, null, new ArrayList<>(), new ArrayList<>(), prefilterTagsNames, locale, -1, -1,
+				"", true);
+
+		if (hits != null)
+
+		{
+			List<Petition> petitions = new ArrayList<>();
+			for (Document document : hits.getDocs()) {
+				Petition petition = PetitionLocalServiceUtil.fetchPetition(
+						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+				if (petition != null && petition.getPetitionId() != this.getPetitionId()) {
+					petitions.add(petition);
+				}
+			}
+			Collections.shuffle(petitions);
+			if (petitions.size() > nbSuggestions) {
+				for (int j = 0; j < nbSuggestions; j++) {
+					suggestions.add(petitions.get(j));
+				}
+			} else {
+				suggestions = petitions;
+			}
+		}
+
+		return suggestions;
+	}
+
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(Locale locale) {
+		if (Validator.isNotNull(this.getExternalImageCopyright())) {
+			return this.getExternalImageCopyright();
+		} else {
+			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		}
+	}
+
 	/**
 	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
 	 */
@@ -269,8 +380,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
     List<Signataire> getSignataires(){
-    	List<Signataire> result = SignataireLocalServiceUtil.getSignatairesByPetitionId(getPetitionId());
-    	return result;
+		return SignataireLocalServiceUtil.getSignatairesByPetitionId(getPetitionId());
 	}
 
     /**
@@ -282,6 +392,16 @@ public class PetitionImpl extends PetitionBaseImpl {
                 VocabularyNames.PLACIT_STATUS);
         return listStatus.size() > 0 ? listStatus.get(0) : null;
     }
+
+    /**
+     * méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
+     * @return le nombre
+     */
+    @Override
+    public long getSignataireNeeded() {
+        return getQuotaSignature() - getNombreSignature();
+    }
+
     @Override
     public String getPetitionStatus(){
     	String result = DRAFT;

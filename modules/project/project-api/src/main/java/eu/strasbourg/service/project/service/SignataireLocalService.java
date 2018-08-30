@@ -184,6 +184,14 @@ public interface SignataireLocalService extends BaseLocalService,
 	public int countFakeSignataireByPetition(long petitionId);
 
 	/**
+	* méthode permettant de récuperer les signataires par l'identifiant de la pétition.
+	*
+	* @param petitionId l'identifiant de la pétition.
+	* @return la liste des signataires.
+	*/
+	public int countSignataireByPetitionId(long petitionId);
+
+	/**
 	* Returns the number of signataires.
 	*
 	* @return the number of signataires

@@ -194,6 +194,16 @@ public class SignataireLocalServiceUtil {
 	}
 
 	/**
+	* méthode permettant de récuperer les signataires par l'identifiant de la pétition.
+	*
+	* @param petitionId l'identifiant de la pétition.
+	* @return la liste des signataires.
+	*/
+	public static int countSignataireByPetitionId(long petitionId) {
+		return getService().countSignataireByPetitionId(petitionId);
+	}
+
+	/**
 	* Returns the number of signataires.
 	*
 	* @return the number of signataires

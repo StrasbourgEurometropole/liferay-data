@@ -62,11 +62,9 @@
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="filesDownload" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="petitionStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 		<property name="quotaSignature" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="nombreSignature" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />

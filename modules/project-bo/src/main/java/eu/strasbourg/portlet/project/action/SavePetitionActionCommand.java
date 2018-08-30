@@ -84,7 +84,6 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			if (petitionId == 0) {
 				// Si elle n'existe pas (add/save), on la créé
 				petition = _petitionLocalService.createPetition(sc);
-				petition.setPetitionStatus("Brouillon");
 			} else {
 				// Si elle existe (edit), on la cherche
 				petition = _petitionLocalService.getPetition(petitionId);
