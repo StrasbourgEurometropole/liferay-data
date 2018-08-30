@@ -81,7 +81,7 @@
 </div>
         </div>
 
-<a href="${homeURL}detail-petition/-/entity/id/${entry.petitionId}" title="Détail ''" title="lien de la page"><h3>${entry.title}</h3></a>
+<a href="${homeURL}detail-petition/-/entity/id/${entry.petitionId}" title="lien de la page"><h3>${entry.title}</h3></a>
 <span class="pro-time">Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span></span>
         </div>
 <div class="pro-footer-petition">
