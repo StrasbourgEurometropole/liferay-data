@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -38,7 +37,6 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.project.exception.NoSuchPetitionException;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.impl.PetitionImpl;
@@ -46,9 +44,7 @@ import eu.strasbourg.service.project.model.impl.PetitionModelImpl;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1976,6 +1972,517 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "petition.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SIGNATAIRE =
+		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySignataire",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SIGNATAIRE =
+		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySignataire",
+			new String[] { Long.class.getName() },
+			PetitionModelImpl.SIGNATAIREID_COLUMN_BITMASK |
+			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SIGNATAIRE = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySignataire",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the petitions where signataireId = &#63;.
+	 *
+	 * @param signataireId the signataire ID
+	 * @return the matching petitions
+	 */
+	@Override
+	public List<Petition> findBySignataire(long signataireId) {
+		return findBySignataire(signataireId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the petitions where signataireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param signataireId the signataire ID
+	 * @param start the lower bound of the range of petitions
+	 * @param end the upper bound of the range of petitions (not inclusive)
+	 * @return the range of matching petitions
+	 */
+	@Override
+	public List<Petition> findBySignataire(long signataireId, int start, int end) {
+		return findBySignataire(signataireId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the petitions where signataireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param signataireId the signataire ID
+	 * @param start the lower bound of the range of petitions
+	 * @param end the upper bound of the range of petitions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching petitions
+	 */
+	@Override
+	public List<Petition> findBySignataire(long signataireId, int start,
+		int end, OrderByComparator<Petition> orderByComparator) {
+		return findBySignataire(signataireId, start, end, orderByComparator,
+			true);
+	}
+
+	/**
+	 * Returns an ordered range of all the petitions where signataireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param signataireId the signataire ID
+	 * @param start the lower bound of the range of petitions
+	 * @param end the upper bound of the range of petitions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching petitions
+	 */
+	@Override
+	public List<Petition> findBySignataire(long signataireId, int start,
+		int end, OrderByComparator<Petition> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SIGNATAIRE;
+			finderArgs = new Object[] { signataireId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SIGNATAIRE;
+			finderArgs = new Object[] {
+					signataireId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Petition> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Petition>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Petition petition : list) {
+					if ((signataireId != petition.getSignataireId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_PETITION_WHERE);
+
+			query.append(_FINDER_COLUMN_SIGNATAIRE_SIGNATAIREID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(PetitionModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(signataireId);
+
+				if (!pagination) {
+					list = (List<Petition>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Petition>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first petition in the ordered set where signataireId = &#63;.
+	 *
+	 * @param signataireId the signataire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching petition
+	 * @throws NoSuchPetitionException if a matching petition could not be found
+	 */
+	@Override
+	public Petition findBySignataire_First(long signataireId,
+		OrderByComparator<Petition> orderByComparator)
+		throws NoSuchPetitionException {
+		Petition petition = fetchBySignataire_First(signataireId,
+				orderByComparator);
+
+		if (petition != null) {
+			return petition;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("signataireId=");
+		msg.append(signataireId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchPetitionException(msg.toString());
+	}
+
+	/**
+	 * Returns the first petition in the ordered set where signataireId = &#63;.
+	 *
+	 * @param signataireId the signataire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching petition, or <code>null</code> if a matching petition could not be found
+	 */
+	@Override
+	public Petition fetchBySignataire_First(long signataireId,
+		OrderByComparator<Petition> orderByComparator) {
+		List<Petition> list = findBySignataire(signataireId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last petition in the ordered set where signataireId = &#63;.
+	 *
+	 * @param signataireId the signataire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching petition
+	 * @throws NoSuchPetitionException if a matching petition could not be found
+	 */
+	@Override
+	public Petition findBySignataire_Last(long signataireId,
+		OrderByComparator<Petition> orderByComparator)
+		throws NoSuchPetitionException {
+		Petition petition = fetchBySignataire_Last(signataireId,
+				orderByComparator);
+
+		if (petition != null) {
+			return petition;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("signataireId=");
+		msg.append(signataireId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchPetitionException(msg.toString());
+	}
+
+	/**
+	 * Returns the last petition in the ordered set where signataireId = &#63;.
+	 *
+	 * @param signataireId the signataire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching petition, or <code>null</code> if a matching petition could not be found
+	 */
+	@Override
+	public Petition fetchBySignataire_Last(long signataireId,
+		OrderByComparator<Petition> orderByComparator) {
+		int count = countBySignataire(signataireId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Petition> list = findBySignataire(signataireId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the petitions before and after the current petition in the ordered set where signataireId = &#63;.
+	 *
+	 * @param petitionId the primary key of the current petition
+	 * @param signataireId the signataire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next petition
+	 * @throws NoSuchPetitionException if a petition with the primary key could not be found
+	 */
+	@Override
+	public Petition[] findBySignataire_PrevAndNext(long petitionId,
+		long signataireId, OrderByComparator<Petition> orderByComparator)
+		throws NoSuchPetitionException {
+		Petition petition = findByPrimaryKey(petitionId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Petition[] array = new PetitionImpl[3];
+
+			array[0] = getBySignataire_PrevAndNext(session, petition,
+					signataireId, orderByComparator, true);
+
+			array[1] = petition;
+
+			array[2] = getBySignataire_PrevAndNext(session, petition,
+					signataireId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Petition getBySignataire_PrevAndNext(Session session,
+		Petition petition, long signataireId,
+		OrderByComparator<Petition> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_PETITION_WHERE);
+
+		query.append(_FINDER_COLUMN_SIGNATAIRE_SIGNATAIREID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(PetitionModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(signataireId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(petition);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Petition> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the petitions where signataireId = &#63; from the database.
+	 *
+	 * @param signataireId the signataire ID
+	 */
+	@Override
+	public void removeBySignataire(long signataireId) {
+		for (Petition petition : findBySignataire(signataireId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(petition);
+		}
+	}
+
+	/**
+	 * Returns the number of petitions where signataireId = &#63;.
+	 *
+	 * @param signataireId the signataire ID
+	 * @return the number of matching petitions
+	 */
+	@Override
+	public int countBySignataire(long signataireId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SIGNATAIRE;
+
+		Object[] finderArgs = new Object[] { signataireId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PETITION_WHERE);
+
+			query.append(_FINDER_COLUMN_SIGNATAIRE_SIGNATAIREID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(signataireId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SIGNATAIRE_SIGNATAIREID_2 = "petition.signataireId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSANDGROUPID =
 		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
 			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
@@ -2849,6 +3356,12 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
 				args);
 
+			args = new Object[] { petitionModelImpl.getSignataireId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGNATAIRE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SIGNATAIRE,
+				args);
+
 			args = new Object[] {
 					petitionModelImpl.getStatus(),
 					petitionModelImpl.getGroupId()
@@ -2914,6 +3427,23 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
+			}
+
+			if ((petitionModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SIGNATAIRE.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						petitionModelImpl.getOriginalSignataireId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGNATAIRE, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SIGNATAIRE,
+					args);
+
+				args = new Object[] { petitionModelImpl.getSignataireId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGNATAIRE, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SIGNATAIRE,
 					args);
 			}
 
@@ -2992,6 +3522,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setPublikId(petition.getPublikId());
 		petitionImpl.setImageId(petition.getImageId());
 		petitionImpl.setFilesIds(petition.getFilesIds());
+		petitionImpl.setSignataireId(petition.getSignataireId());
 
 		return petitionImpl;
 	}

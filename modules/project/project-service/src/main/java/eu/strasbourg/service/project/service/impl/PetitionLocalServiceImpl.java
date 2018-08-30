@@ -148,10 +148,10 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
         int petitionUpdatedCount = 0;
         // Recupere le groupe du site via son nom
         Group group = GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL);
-
         List<Petition> petitionList = getPublishedByGroupId(group.getGroupId());
         if (petitionList != null && !petitionList.isEmpty()) {
             for (Petition petition : petitionList) {
+                String statusBeforeCheck = petition.getPetitionStatus();
                 if (petition.getPublicationDate() != null && petition.getExpirationDate() != null) {
                     LocalDateTime now = LocalDateTime.now();
                     LocalDateTime expirationTime = new Timestamp(petition.getExpirationDate().getTime()).toLocalDateTime();
@@ -172,7 +172,9 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                         else petition.setPetitionStatus("En cours");
                     }
                     updatePetition(petition);
-                    petitionUpdatedCount++;
+                    reindex(petition,false);
+                    if (!statusBeforeCheck.equals(petition.getPetitionStatus()))
+                        petitionUpdatedCount++;
                 }
             }
         }
@@ -343,4 +345,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return petitionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
+	public void addSignataires(Petition petition, int numberToAdd){
+
+    }
 }

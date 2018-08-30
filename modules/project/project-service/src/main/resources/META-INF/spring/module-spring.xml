@@ -19,4 +19,7 @@
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectTimelineLocalServiceImpl" id="eu.strasbourg.service.project.service.ProjectTimelineLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectTimelineServiceImpl" id="eu.strasbourg.service.project.service.ProjectTimelineService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.impl.SignataireLocalServiceImpl" id="eu.strasbourg.service.project.service.SignataireLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.SignataireServiceImpl" id="eu.strasbourg.service.project.service.SignataireService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.SignatairePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.SignatairePersistence" parent="basePersistence" />
 </beans>

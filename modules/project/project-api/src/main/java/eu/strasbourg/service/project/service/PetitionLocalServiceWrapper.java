@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -406,6 +405,12 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	@Override
 	public long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return _petitionLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	@Override
+	public void addSignataires(
+		eu.strasbourg.service.project.model.Petition petition, int numberToAdd) {
+		_petitionLocalService.addSignataires(petition, numberToAdd);
 	}
 
 	@Override

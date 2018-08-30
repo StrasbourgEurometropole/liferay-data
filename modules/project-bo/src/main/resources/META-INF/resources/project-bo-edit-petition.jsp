@@ -176,6 +176,13 @@
             <%-- Groupe de champs : Autre --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-other">
 
+				<%-- Champ : nombre signataire --%>
+                <div class="form-group input-Date-wrapper">
+                    <label class="control-label"><liferay-ui:message key="nb-fake-signataires" /></label>
+				    <input class="field form-control lfr-input-text" type="text" name="<portlet:namespace />nbFakeSignataire"
+				    contents="${dc.petition.getCountFakeSignataire()}"/>
+                </div >
+
 				<%-- Champ : Date de publication --%>
 				<aui:input name="publicationDate" required="false" />
 

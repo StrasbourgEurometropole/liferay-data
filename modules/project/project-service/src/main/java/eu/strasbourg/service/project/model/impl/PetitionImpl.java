@@ -21,16 +21,26 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
@@ -54,6 +64,71 @@ public class PetitionImpl extends PetitionBaseImpl {
 	public PetitionImpl() {
 	}
 
+    /**
+     * Retourne les catégories 'Territoire' correspondant aux pays de la petition
+     */
+    @Override
+    public List<AssetCategory> getTerritoryCategories() {
+        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.TERRITORY);
+    }
+
+    /**
+     * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+     * @return : null si vide, sinon la liste des catégories
+     */
+    @Override
+    public List<AssetCategory> getDistrictCategories() {
+        List<AssetCategory> territories = getTerritoryCategories();
+        List<AssetCategory> districts = new ArrayList<>();
+        for (AssetCategory territory : territories) {
+            try {
+                if (territory.getAncestors().size() == 2) {
+                    districts.add(territory);
+                }
+            } catch (PortalException ignored) {
+            }
+        }
+        return districts;
+    }
+
+	/**
+	 * méthode permettant de récuperer les faux signataires d'une pétitions.
+	 * @return les faux signataires.
+	 */
+	public int getCountFakeSignataire(){
+		return SignataireLocalServiceUtil.countFakeSignataireByPetition(getPetitionId());
+	}
+
+    /**
+     * méthode permettant de récupérer le pourcentage de signatures obtenu.
+     * @return le pourcentage en long.
+     */
+    public double getPourcentageSignature(){
+        Double nombreSignature = (double) getNombreSignature();
+        Double quotaSignature = (double) getQuotaSignature();
+        double result = nombreSignature / quotaSignature;
+        return result * 100;
+    }
+    /**
+     * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+     * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+     */
+    @Override
+    public String getDistrictLabel(Locale locale) {
+        StringBuilder result = new StringBuilder();
+        List<AssetCategory> districts = getDistrictCategories();
+        if (districts==null || districts.isEmpty()){
+            result.append("Aucun quartier");
+        } else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
+            result.append("Tous les quartiers");
+        } else {
+            result.append(districts.stream()
+                    .map(district -> district.getTitle(locale))
+                    .collect(Collectors.joining(" - ")));
+        }
+        return result.toString();
+    }
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -63,6 +138,48 @@ public class PetitionImpl extends PetitionBaseImpl {
 				this.getPetitionId());
 	}
 
+    /**
+     * Calcul la différence de jours entre la date du jour et celle d'expiration
+     */
+    @Override
+    public int getTodayExpirationDifferenceDays () {
+        // Instanciation des variables
+        Date todayDate = new Date();
+        Date expirationDate = this.getExpirationDate();
+
+        // Calcul du nombre de millisecondes entre les deux dates et
+        // conversion en nombre de jours
+        long diff = expirationDate.getTime() - todayDate.getTime();
+        return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Retourne la liste des URLs des documents
+     */
+    @Override
+    public List<String> getFilesURLs() {
+        List<String> URLs = new ArrayList<String>();
+        for (String fileIdStr : this.getFilesIds().split(",")) {
+            Long fileId = GetterUtil.getLong(fileIdStr);
+            if (Validator.isNotNull(fileId)) {
+                String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+                URLs.add(fileURL);
+            }
+        }
+        return URLs;
+    }
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+    @Override
+	public String getImageURL() {
+		if (Validator.isNotNull(this.getExternalImageURL())) {
+			return this.getExternalImageURL();
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
+	}
 	/**
 	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
 	 */
@@ -98,7 +215,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
 	/**
-	 * Retourne les thematiques de la participation (
+	 * Retourne les thematiques de la petition (
 	 */
 	@Override
 	public List<AssetCategory> getThematicCategories() {
@@ -107,7 +224,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 	}
 
 	/**
-	 * Retourne le projet de la participation (
+	 * Retourne le projet de la petition (
 	 */
 	@Override
 	public AssetCategory getProjectCategory() {
@@ -144,6 +261,10 @@ public class PetitionImpl extends PetitionBaseImpl {
                 .getAssetEntryCategories(this.getAssetEntry());
     }
 
+    List<Signataire> getSignataires(){
+    	List<Signataire> result = SignataireLocalServiceUtil.getSignatairesByPetitionId(getPetitionId());
+    	return result;
+	}
 
     /**
      * Retourne le status de la petition
@@ -156,7 +277,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
 	/**
-	 * Retourne la liste des lieux placit liés à la participation
+	 * Retourne la liste des lieux placit liés à la petition
 	 */
 	@Override
 	public List<PlacitPlace> getPlacitPlaces() {

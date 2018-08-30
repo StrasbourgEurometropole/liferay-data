@@ -63,7 +63,7 @@
     <fieldset class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
         
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getPetitionStatus(groupID)}" />
+        <c:set var="statusVocabulary" value="${vocabularyAccessor.getParticipationStatus(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(statusVocabulary)}"
 			var="category"
@@ -121,31 +121,6 @@
 				value="${category.categoryId}"
 				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
 				id="vocabulary_2_${catStatus.index}"
-				label="${category.getTitle(locale)}"
-				cssClass="move-to-grand-parent" />
-		</c:forEach>
-		
-    </fieldset>
-</div>
-
-<!-- Recherche par types -->
-<div class="pro-group">
-    <div class="pro-header">
-        <h4><liferay-ui:message key="eu.petition.types" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
-    </div>
-    <fieldset class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par type de petition</legend>
-		
-		<c:set var="petitionTypesVocabulary" value="${vocabularyAccessor.getPetitionTypes(groupID)}" />
-		<c:forEach
-			items="${dc.getDropdownRootCategories(petitionTypesVocabulary)}"
-			var="category"
-			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_3"
-				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_3_${catStatus.index}"
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>

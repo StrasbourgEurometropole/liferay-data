@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
@@ -55,9 +54,57 @@ public interface Petition extends PetitionModel, PersistedModel {
 		};
 
 	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
+
+	/**
+	* méthode permettant de récuperer les faux signataires d'une pétitions.
+	*
+	* @return les faux signataires.
+	*/
+	public int getCountFakeSignataire();
+
+	/**
+	* méthode permettant de récupérer le pourcentage de signatures obtenu.
+	*
+	* @return le pourcentage en long.
+	*/
+	public double getPourcentageSignature();
+
+	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	public java.lang.String getDistrictLabel(java.util.Locale locale);
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Calcul la différence de jours entre la date du jour et celle d'expiration
+	*/
+	public int getTodayExpirationDifferenceDays();
+
+	/**
+	* Retourne la liste des URLs des documents
+	*/
+	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageURL();
 
 	/**
 	* Retourne le label de 5 digits du nombre de commentaires de l'entité
@@ -75,12 +122,12 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
 
 	/**
-	* Retourne les thematiques de la participation (
+	* Retourne les thematiques de la petition (
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
 	/**
-	* Retourne le projet de la participation (
+	* Retourne le projet de la petition (
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
@@ -98,7 +145,7 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory();
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne la liste des lieux placit liés à la petition
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 }
