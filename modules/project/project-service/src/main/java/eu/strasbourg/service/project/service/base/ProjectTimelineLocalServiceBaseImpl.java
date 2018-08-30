@@ -15,6 +15,7 @@
 package eu.strasbourg.service.project.service.base;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -39,6 +40,7 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
@@ -49,9 +51,11 @@ import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the project timeline local service.

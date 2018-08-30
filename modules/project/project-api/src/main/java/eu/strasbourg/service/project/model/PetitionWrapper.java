@@ -348,6 +348,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	@Override
+	public boolean isJudgeable() {
+		return _petition.isJudgeable();
+	}
+
+	/**
 	* Returns <code>true</code> if this petition is media choice.
 	*
 	* @return <code>true</code> if this petition is media choice; <code>false</code> otherwise
@@ -460,6 +468,26 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _petition.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _petition.getNbLikes();
+	}
+
+	/**
 	* Returns the status of this petition.
 	*
 	* @return the status of this petition
@@ -567,6 +595,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getFilesIds();
 	}
 
+	@Override
+	public java.lang.String getFrontStatusFR() {
+		return _petition.getFrontStatusFR();
+	}
+
 	/**
 	* Retourne le copyright de l'image principale
 	*/
@@ -591,6 +624,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getNbApprovedCommentsLabel();
 	}
 
+	/**
+	* méthode permettant d'afficher le nombre de signature.
+	*
+	* @return le nombre avec des zeros devant.
+	*/
 	@Override
 	public java.lang.String getNombreSignatureBoard() {
 		return _petition.getNombreSignatureBoard();

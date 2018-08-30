@@ -29,7 +29,7 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
 	protected void activate() {
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), 5, TimeUnit.MINUTE));
+				getEventListenerClass(), 60, TimeUnit.MINUTE));
 
 		_schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);

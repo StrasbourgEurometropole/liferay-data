@@ -62,9 +62,7 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
      * @return la liste des signataires.
      */
     public int countSignataireByPetitionId(long petitionId) {
-        int count = signatairePersistence.countByPetition(petitionId);
-		_log.info("le nombre de signataire : "+count);
-        return count;
+        return signatairePersistence.countByPetition(petitionId);
     }
 
     /**

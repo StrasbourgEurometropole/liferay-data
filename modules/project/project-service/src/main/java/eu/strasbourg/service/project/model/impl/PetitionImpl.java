@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Signataire;
@@ -171,6 +172,7 @@ public class PetitionImpl extends PetitionBaseImpl {
         }
         return result.toString();
     }
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -179,6 +181,51 @@ public class PetitionImpl extends PetitionBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Petition.class.getName(),
 				this.getPetitionId());
 	}
+
+    /**
+     * Retourne le nombre de likes de l'entité
+     *  @see eu.strasbourg.service.like.model.LikeType
+     */
+    @Override
+    public int getNbLikes() {
+        return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+                this.getPetitionId(),
+                17,
+                false).size();
+    }
+
+    /**
+     * Retourne le nombre de dislikes de l'entité
+     *  @see eu.strasbourg.service.like.model.LikeType
+     */
+    @Override
+    public int getNbDislikes() {
+        return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+                this.getPetitionId(),
+                17,
+                true).size();
+    }
+
+    /**
+     * Peut apporter une reaction (commenter, liker, participer) a l'entite
+     */
+    @Override
+    public boolean isJudgeable() {
+        boolean response = true;
+        AssetCategory status = this.getPetitionStatusCategory();
+
+        if (status == null) {
+            response =  false;
+        } else if (status.getTitle(Locale.FRENCH).equals("Aboutie")) {
+            response = false;
+        } else if (status.getTitle(Locale.FRENCH).equals("Non aboutie")) {
+            response = false;
+        } else if (status.getTitle(Locale.FRENCH).equals("Terminée")) {
+            response = false;
+        }
+
+        return response;
+    }
 
     /**
      * Calcul la différence de jours entre la date du jour et celle d'expiration
@@ -409,6 +456,10 @@ public class PetitionImpl extends PetitionBaseImpl {
         return getQuotaSignature() - getNombreSignature();
     }
 
+    /**
+     * méthode de récupération du status
+     * @return le status.
+     */
     @Override
     public String getPetitionStatus(){
     	String result = DRAFT;
@@ -434,6 +485,26 @@ public class PetitionImpl extends PetitionBaseImpl {
 		}
 		return result;
 	}
+
+    /**
+     * méthode de récupération du status
+     * @return le status.
+     */
+    @Override
+    public String getFrontStatusFR(){
+        String result = "";
+        String status = this.getPetitionStatus();
+        if (COMPLETED.equals(status)){
+            result = "Aboutie";
+        }else if (FAILED.equals(status)){
+            result = "Non aboutie";
+        }else if (ParticipationImpl.NEW.equals(status)){
+            result = "Nouvelle";
+        }else if (ParticipationImpl.SOON_FINISHED.equals(status)){
+            result = "Bientôt terminée";
+        }else result = "En cours";
+        return result;
+    }
 
 	/**
 	 * Retourne la liste des lieux placit liés à la petition

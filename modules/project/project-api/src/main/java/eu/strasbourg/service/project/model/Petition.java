@@ -86,6 +86,11 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public long getNombreSignature();
 
+	/**
+	* méthode permettant d'afficher le nombre de signature.
+	*
+	* @return le nombre avec des zeros devant.
+	*/
 	public java.lang.String getNombreSignatureBoard();
 
 	/**
@@ -99,6 +104,25 @@ public interface Petition extends PetitionModel, PersistedModel {
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
+
+	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	public boolean isJudgeable();
 
 	/**
 	* Calcul la différence de jours entre la date du jour et celle d'expiration
@@ -185,6 +209,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public long getSignataireNeeded();
 
 	public java.lang.String getPetitionStatus();
+
+	public java.lang.String getFrontStatusFR();
 
 	/**
 	* Retourne la liste des lieux placit liés à la petition
