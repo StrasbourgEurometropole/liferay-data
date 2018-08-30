@@ -86,6 +86,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public long getNombreSignature();
 
+	public java.lang.String getNombreSignatureBoard();
+
 	/**
 	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
 	*
@@ -175,6 +177,11 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getPetitionStatusCategory();
 
+	/**
+	* méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
+	*
+	* @return le nombre
+	*/
 	public long getSignataireNeeded();
 
 	public java.lang.String getPetitionStatus();

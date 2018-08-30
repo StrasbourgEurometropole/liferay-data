@@ -139,10 +139,17 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public long getNombreSignature(){
-    	long result = 0L;
+		return (long) SignataireLocalServiceUtil.countSignataireByPetitionId(getPetitionId());
+    }
 
-		result = (long) SignataireLocalServiceUtil.countSignataireByPetitionId(getPetitionId());
-		return result;
+    /**
+     * méthode permettant d'afficher le nombre de signature.
+     * @return le nombre avec des zeros devant.
+     */
+    @Override
+    public String getNombreSignatureBoard(){
+        long nbResult = getNombreSignature();
+        return String.format("%06d",nbResult);
     }
 
     /**

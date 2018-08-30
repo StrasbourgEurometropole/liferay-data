@@ -592,6 +592,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	@Override
+	public java.lang.String getNombreSignatureBoard() {
+		return _petition.getNombreSignatureBoard();
+	}
+
+	@Override
 	public java.lang.String getPetitionStatus() {
 		return _petition.getPetitionStatus();
 	}
@@ -920,6 +925,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getSignataireId();
 	}
 
+	/**
+	* méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
+	*
+	* @return le nombre
+	*/
 	@Override
 	public long getSignataireNeeded() {
 		return _petition.getSignataireNeeded();
