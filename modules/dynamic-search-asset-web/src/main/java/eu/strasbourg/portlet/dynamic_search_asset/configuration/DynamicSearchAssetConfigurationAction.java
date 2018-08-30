@@ -125,6 +125,10 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			boolean globalScope = ParamUtil.getBoolean(request, "globalScope");
 			setPreference(request, "globalScope", String.valueOf(globalScope));
 			
+			// CHAMP : date
+			boolean dateField = ParamUtil.getBoolean(request, "dateField");
+			setPreference(request, "dateField", String.valueOf(dateField));
+			
 			// CHAMP : Delta (nombre de resultats max à afficher)
 			long delta = ParamUtil.getLong(request, "delta");
 			setPreference(request, "delta", String.valueOf(delta));
@@ -240,9 +244,12 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			boolean globalScope = ParamUtil.getBoolean(request, "globalScope", configuration.globalScope());
 			request.setAttribute("globalScope", globalScope);
 			
+			// Champ date
+			boolean dateField = ParamUtil.getBoolean(request, "dateField", configuration.dateField());
+			request.setAttribute("dateField", dateField);
+			
 			// Delta
-			long delta = ParamUtil.getLong(request, "delta",
-				configuration.delta());
+			long delta = ParamUtil.getLong(request, "delta", configuration.delta());
 			request.setAttribute("delta", delta);
 			
 			// Formulaire à afficher
@@ -250,10 +257,8 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			request.setAttribute("searchForm", searchForm);
 
 			// Préfiltres catégories
-			String prefilterCategoriesIds = configuration
-				.prefilterCategoriesIds().replace(";", ",");
-			request.setAttribute("prefilterCategoriesIds",
-				prefilterCategoriesIds);
+			String prefilterCategoriesIds = configuration.prefilterCategoriesIds().replace(";", ",");
+			request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIds);
 
 			// Préfiltre tags
 			String prefilterTagsNames = configuration.prefilterTagsNames();
@@ -268,12 +273,6 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			_log.error(e);
 		}
 		super.include(portletConfig, request, response);
-	}
-	
-
-	@Override
-	public String getJspPath(HttpServletRequest request) {
-		return "/configuration/dynamic-viewer-configuration.jsp";
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

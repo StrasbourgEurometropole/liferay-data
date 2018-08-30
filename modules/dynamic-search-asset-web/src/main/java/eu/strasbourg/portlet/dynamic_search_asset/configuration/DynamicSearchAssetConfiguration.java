@@ -45,6 +45,9 @@ public interface DynamicSearchAssetConfiguration {
 	@Meta.AD(name = "boostTagsNames", required = false)
 	public String boostTagsNames();
 	
+	@Meta.AD(name = "dateField", required = false)
+	public boolean dateField();
+	
 	@Meta.AD(name = "delta", required = false)
 	public long delta();
 	

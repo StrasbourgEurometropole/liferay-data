@@ -36,11 +36,12 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=category.Strasbourg",
+		"com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
+		"com.liferay.portlet.css-class-wrapper=dynamic-search-asset-portlet",
 		"javax.portlet.display-name=Recherche d'asset dynamique",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.init-param.view-template=/dynamic-search-asset-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.DYNAMIC_SEARCH_ASSET_WEB,
 		"javax.portlet.init-param.config-template=/dynamic-search-asset-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
