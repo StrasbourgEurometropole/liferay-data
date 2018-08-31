@@ -208,9 +208,26 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public long getSignataireNeeded();
 
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
 	public java.lang.String getPetitionStatus();
 
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
 	public java.lang.String getFrontStatusFR();
+
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
+	public java.lang.String getProDureeFR();
 
 	/**
 	* Retourne la liste des lieux placit liés à la petition

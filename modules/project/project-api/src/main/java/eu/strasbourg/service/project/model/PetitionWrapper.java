@@ -595,6 +595,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getFilesIds();
 	}
 
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
 	@Override
 	public java.lang.String getFrontStatusFR() {
 		return _petition.getFrontStatusFR();
@@ -634,6 +639,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getNombreSignatureBoard();
 	}
 
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
 	@Override
 	public java.lang.String getPetitionStatus() {
 		return _petition.getPetitionStatus();
@@ -647,6 +657,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getPlaceTextArea() {
 		return _petition.getPlaceTextArea();
+	}
+
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getProDureeFR() {
+		return _petition.getProDureeFR();
 	}
 
 	/**

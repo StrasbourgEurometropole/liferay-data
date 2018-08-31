@@ -486,25 +486,41 @@ public class PetitionImpl extends PetitionBaseImpl {
 		return result;
 	}
 
-    /**
-     * méthode de récupération du status
-     * @return le status.
-     */
-    @Override
-    public String getFrontStatusFR(){
-        String result = "";
-        String status = this.getPetitionStatus();
-        if (COMPLETED.equals(status)){
-            result = "Aboutie";
-        }else if (FAILED.equals(status)){
-            result = "Non aboutie";
-        }else if (ParticipationImpl.NEW.equals(status)){
-            result = "Nouvelle";
-        }else if (ParticipationImpl.SOON_FINISHED.equals(status)){
-            result = "Bientôt terminée";
-        }else result = "En cours";
-        return result;
-    }
+	/**
+	 * méthode de récupération du status
+	 * @return le status.
+	 */
+	@Override
+	public String getFrontStatusFR(){
+		String result;
+		String status = this.getPetitionStatus();
+		if (COMPLETED.equals(status)){
+			result = "Aboutie";
+		}else if (FAILED.equals(status)){
+			result = "Non aboutie";
+		}else if (ParticipationImpl.NEW.equals(status)){
+			result = "Nouvelle";
+		}else if (ParticipationImpl.SOON_FINISHED.equals(status)){
+			result = "Bientôt terminée";
+		}else result = "En cours";
+		return result;
+	}
+
+
+	/**
+	 * méthode de récupération du status
+	 * @return le status.
+	 */
+	@Override
+	public String getProDureeFR(){
+		String result;
+		String status = this.getPetitionStatus();
+		if (COMPLETED.equals(status)||
+				FAILED.equals(status)){
+			result = "Terminée";
+		}else result = "Fin dans " + this.getTodayExpirationDifferenceDays() + " jour(s)";
+		return result;
+	}
 
 	/**
 	 * Retourne la liste des lieux placit liés à la petition
