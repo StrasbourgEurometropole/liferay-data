@@ -39,12 +39,6 @@
 				value="${project.title}" />
 
 			<fmt:formatDate value="${project.modifiedDate}"
-				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
-			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="modified-date" truncate="true"
-				value="${formattedModifiedfDate}" />
-
-			<fmt:formatDate value="${project.modifiedDate}"
 				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="modified-date" truncate="true"

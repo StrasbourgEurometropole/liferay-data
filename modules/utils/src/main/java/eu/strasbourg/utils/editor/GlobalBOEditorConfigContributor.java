@@ -37,7 +37,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 		"javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO,
-		"javax.portlet.name=" + StrasbourgPortletKeys.PARTICIPATION_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.LINK_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,

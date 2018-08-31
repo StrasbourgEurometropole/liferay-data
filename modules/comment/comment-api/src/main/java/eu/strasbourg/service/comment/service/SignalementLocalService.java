@@ -193,7 +193,8 @@ public interface SignalementLocalService extends BaseLocalService,
 	public Signalement updateSignalement(Signalement signalement);
 
 	public Signalement updateSignalement(Signalement signalement,
-		ServiceContext sc) throws PortalException;
+		ServiceContext sc, java.lang.String publikUserId)
+		throws PortalException;
 
 	/**
 	* Returns the number of signalements.

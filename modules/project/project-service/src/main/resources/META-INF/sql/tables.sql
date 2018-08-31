@@ -31,6 +31,38 @@ create table project_Participation (
 	expirationDate DATE null
 );
 
+create table project_Petition (
+	uuid_ VARCHAR(75) null,
+	petitionId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	title VARCHAR(75) null,
+	description TEXT null,
+	placeTextArea VARCHAR(75) null,
+	filesDownload VARCHAR(75) null,
+	publicationDate DATE null,
+	expirationDate DATE null,
+	quotaSignature LONG,
+	videoUrl VARCHAR(75) null,
+	externalImageURL VARCHAR(400) null,
+	externalImageCopyright VARCHAR(75) null,
+	mediaChoice BOOLEAN,
+	consultationPlacesBody VARCHAR(75) null,
+	assetEntryId LONG,
+	publikId VARCHAR(75) null,
+	imageId LONG,
+	filesIds VARCHAR(75) null,
+	signataireId LONG
+);
+
 create table project_PlacitPlace (
 	uuid_ VARCHAR(75) null,
 	placitPlaceId LONG not null primary key,
@@ -48,6 +80,7 @@ create table project_PlacitPlace (
 	imageId LONG,
 	projectId LONG,
 	participationId LONG,
+	petitionId LONG,
 	placeSIGId VARCHAR(75) null
 );
 
@@ -96,4 +129,63 @@ create table project_ProjectTimeline (
 	title VARCHAR(400) null,
 	link VARCHAR(400) null,
 	projectId LONG
+);
+
+create table project_Signataire (
+	uuid_ VARCHAR(75) null,
+	signataireId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	signataireName VARCHAR(75) null,
+	signataireFirstname VARCHAR(75) null,
+	signatureDate DATE null,
+	assetEntryId LONG,
+	publikId LONG,
+	petitionId LONG
+);
+
+create table project_Signatory (
+	uuid_ VARCHAR(75) null,
+	signatoryId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	signataireName VARCHAR(75) null,
+	signataireFirstname VARCHAR(75) null,
+	signatureDate DATE null,
+	assetEntryId LONG,
+	publikId LONG,
+	imageId LONG,
+	petitionId LONG
+);
+
+create table project_Signatoryy (
+	uuid_ VARCHAR(75) null,
+	signatoryId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	signataireName VARCHAR(75) null
 );

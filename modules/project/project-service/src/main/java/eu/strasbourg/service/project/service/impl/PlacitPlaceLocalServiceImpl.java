@@ -68,7 +68,7 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 	public List<PlacitPlace> getByProject(long projectId) {
 		return this.placitPlacePersistence.findByProject(projectId);
 	}
-	
+
 	/**
 	 * Retourne les lieux d'une participation
 	 */
@@ -76,7 +76,15 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 	public List<PlacitPlace> getByParticipation(long participationId) {
 		return this.placitPlacePersistence.findByParticipation(participationId);
 	}
-	
+
+	/**
+	 * Retourne les lieux d'une participation
+	 */
+	@Override
+	public List<PlacitPlace> getByPetition(long petitionId) {
+		return this.placitPlacePersistence.findByPetition(petitionId);
+	}
+
 	/**
 	 * Crée un lieu Placit vide avec une PK, non ajouté à la base de donnée
 	 */

@@ -40,7 +40,12 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -57,6 +62,12 @@ import java.util.stream.Collectors;
 public class ParticipationImpl extends ParticipationBaseImpl {
 
 	private static final long serialVersionUID = 1311330918138728472L;
+	
+	public static final String SOON_ARRIVED = "soon_arrived";
+	public static final String NEW = "new";
+	public static final String IN_PROGRESS = "in_progress";
+	public static final String SOON_FINISHED = "soon_finished";
+	public static final String FINISHED = "finished";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -194,7 +205,6 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		int nbDigits = stringNum.length();
 		// Ajoute les zeros manquants avant la chaine
 		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
-		
 		return stringNum;
 	}
 	
@@ -273,7 +283,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 * 'code_color' de la categorie associee
 	 */
 	@Override
-	public String getProjectCategoryColor() {
+	public String getTypeCategoryColor() {
 		long categoryId = this.getTypeCategory().getCategoryId();
 		return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
 	}
@@ -377,7 +387,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	@Override
 	public AssetCategory getParticipationStatusCategory() {
 		List<AssetCategory> listStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PARTICIPATION_STATUS);
+				VocabularyNames.PLACIT_STATUS);
 		return listStatus.size() > 0 ? listStatus.get(0) : null;
 	}
 	
@@ -413,19 +423,19 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		expirationDateMinus = cal.getTime();
 		
 		if (todayDate.before(publicationDate)) {
-			return "soon_arrived";
+			return SOON_ARRIVED;
 		} 
 		else if (todayDate.after(expirationDate)) {
-			return "finished";
+			return FINISHED;
 		}
 		else if (todayDate.after(expirationDateMinus)) {
-			return "soon_finished";
+			return SOON_FINISHED;
 		}
 		else if (todayDate.before(publicationDatePlus)) {
-			return "new";
+			return NEW;
 		} 
 		else {
-			return "in_progress";
+			return IN_PROGRESS;
 		}
 	}
 	
@@ -476,6 +486,30 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
+	 * Retourne le label d'affichage détaillant le statut
+	 */
+	@Override
+	public String getStatusDetailLabel() {
+		String result = "";
+		
+		switch (this.getParticipationStatus()) {
+			case SOON_ARRIVED:
+				result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
+				break;
+			case NEW:
+			case IN_PROGRESS:
+			case SOON_FINISHED:
+				result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
+				break;
+			case FINISHED:
+				result = "Finie";
+				break;
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
@@ -507,10 +541,11 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		// Initialisation des variables tempons et résultantes
 		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 		// Champs de gestion
 		jsonParticipation.put("id", this.getParticipationId());
-		jsonParticipation.put("createDate", this.getCreateDate());
+		jsonParticipation.put("createDate", dateFormat.format(this.getCreateDate()));
 		
 		// Champs : Header
 		jsonParticipation.put("title", this.getTitle());
@@ -546,13 +581,18 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		
 		// Label des vocabulaires
 		AssetCategory projectCategory = this.getProjectCategory();
-		AssetCategory statusCategory = this.getProjectCategory();
+		AssetCategory statusCategory = this.getParticipationStatusCategory();
+		AssetCategory typeCategory = this.getTypeCategory();
 		
 		jsonParticipation.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
 		jsonParticipation.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
+		jsonParticipation.put("typeLabel", typeCategory != null ? typeCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("typeColor", this.getTypeCategoryColor());
 		jsonParticipation.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
 		jsonParticipation.put("statusId", statusCategory != null ? statusCategory.getCategoryId() : "");
+		jsonParticipation.put("statusCode", this.getParticipationStatus());
 		jsonParticipation.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("statusDetailLabel", this.getStatusDetailLabel());
 		
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {

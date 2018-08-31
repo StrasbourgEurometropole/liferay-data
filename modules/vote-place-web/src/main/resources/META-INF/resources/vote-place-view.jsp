@@ -10,10 +10,13 @@
 	<c:if test="${showDeleteButton}">
 		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
 	</c:if>
-    <h2><liferay-ui:message key="vote-place" /></h2>
+    <h2>${title}</h2>
+   	<c:if test="${not empty error}">
+		<div class="error"><liferay-ui:message key="eu.webservice-indispo" /></div>
+   	</c:if>
 	<div class="felec-response rte">
     	<c:if test="${not empty champsNull}">
-			<!-- Tous les champs n'ont pas étés renseignés -->
+			<!-- Tous les champs n'ont pas ÃÂ©tÃÂ©s renseignÃÂ©s -->
 			<div class="main-response">
 				Pour conna&icirc;tre les coordonn&eacute;es de votre bureau de vote, merci de renseigner la ou les information(s) suivante(s) :
 				<div class="incomplet">
@@ -39,7 +42,7 @@
 				<div class="error">
 					<c:choose>
 	       				<c:when test="${felecResponse.responseCode eq 9}">
-							<!-- Requête trop vague -->
+							<!-- RequÃÂªte trop vague -->
 							Plusieurs &eacute;lecteurs r&eacute;pondent &agrave; ces crit&egrave;res, pr&eacute;cisez votre recherche.
 	       				</c:when>
 	       				<c:when test="${felecResponse.responseCode eq 4}">

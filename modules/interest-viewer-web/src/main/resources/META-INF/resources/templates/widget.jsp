@@ -17,7 +17,7 @@
     <c:if test="${dc.showDeleteButton()}">
 	    <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
     </c:if>
-	<h2><liferay-ui:message key="actu-agenda" /></h2> 
+	<h2>${title}</h2> 
 	<c:if test="${not dc.hasInterest()}">
 		<p>${dc.getNoInterestText()}</p>
 		<div align="center">
@@ -69,7 +69,7 @@
 		              {
 		                category: 'agenda',
 		                title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
-		                lead: '${dc.getJSONEncodedString(dc.DeleteTag(event.getDescription(locale)))}',
+		                type: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTypeLabel(locale)))}',
 		                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
 		                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
 		                id: '${event.eventId}',
@@ -154,8 +154,8 @@
                             <div class="date-end">__date_end__</div>
                         </div>
                         <div class="ville">__ville__</div>
+                        <div class="item-categories" data-dot="3">__type__</div>
                         <div class="title dotme" data-dot="3">__title__</div>
-                        <div class="lead dotme" data-dot="7">__lead__</div>
                     </a>
 			        <a href="#" class="add-favorites"
 			            data-type="2" 

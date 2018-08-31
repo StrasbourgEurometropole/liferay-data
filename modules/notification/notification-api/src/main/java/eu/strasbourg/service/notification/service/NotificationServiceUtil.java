@@ -47,10 +47,11 @@ public class NotificationServiceUtil {
 	*/
 	public static com.liferay.portal.kernel.json.JSONObject addNotification(
 		java.lang.String userId, boolean isGlobal, java.lang.String title,
-		java.lang.String url, java.lang.String publicationDate,
-		java.lang.String expirationDate, java.lang.String typeId) {
+		java.lang.String description, java.lang.String url,
+		java.lang.String publicationDate, java.lang.String expirationDate,
+		java.lang.String typeId) {
 		return getService()
-				   .addNotification(userId, isGlobal, title, url,
+				   .addNotification(userId, isGlobal, title, description, url,
 			publicationDate, expirationDate, typeId);
 	}
 

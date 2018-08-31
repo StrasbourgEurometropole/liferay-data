@@ -767,6 +767,138 @@ public interface PlacitPlacePersistence extends BasePersistence<PlacitPlace> {
 	public int countByParticipation(long participationId);
 
 	/**
+	* Returns all the placit places where petitionId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @return the matching placit places
+	*/
+	public java.util.List<PlacitPlace> findByPetition(long petitionId);
+
+	/**
+	* Returns a range of all the placit places where petitionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlacitPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param petitionId the petition ID
+	* @param start the lower bound of the range of placit places
+	* @param end the upper bound of the range of placit places (not inclusive)
+	* @return the range of matching placit places
+	*/
+	public java.util.List<PlacitPlace> findByPetition(long petitionId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the placit places where petitionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlacitPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param petitionId the petition ID
+	* @param start the lower bound of the range of placit places
+	* @param end the upper bound of the range of placit places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching placit places
+	*/
+	public java.util.List<PlacitPlace> findByPetition(long petitionId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the placit places where petitionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlacitPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param petitionId the petition ID
+	* @param start the lower bound of the range of placit places
+	* @param end the upper bound of the range of placit places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching placit places
+	*/
+	public java.util.List<PlacitPlace> findByPetition(long petitionId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first placit place in the ordered set where petitionId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching placit place
+	* @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	*/
+	public PlacitPlace findByPetition_First(long petitionId,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException;
+
+	/**
+	* Returns the first placit place in the ordered set where petitionId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching placit place, or <code>null</code> if a matching placit place could not be found
+	*/
+	public PlacitPlace fetchByPetition_First(long petitionId,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace> orderByComparator);
+
+	/**
+	* Returns the last placit place in the ordered set where petitionId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching placit place
+	* @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	*/
+	public PlacitPlace findByPetition_Last(long petitionId,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException;
+
+	/**
+	* Returns the last placit place in the ordered set where petitionId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching placit place, or <code>null</code> if a matching placit place could not be found
+	*/
+	public PlacitPlace fetchByPetition_Last(long petitionId,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace> orderByComparator);
+
+	/**
+	* Returns the placit places before and after the current placit place in the ordered set where petitionId = &#63;.
+	*
+	* @param placitPlaceId the primary key of the current placit place
+	* @param petitionId the petition ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next placit place
+	* @throws NoSuchPlacitPlaceException if a placit place with the primary key could not be found
+	*/
+	public PlacitPlace[] findByPetition_PrevAndNext(long placitPlaceId,
+		long petitionId,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException;
+
+	/**
+	* Removes all the placit places where petitionId = &#63; from the database.
+	*
+	* @param petitionId the petition ID
+	*/
+	public void removeByPetition(long petitionId);
+
+	/**
+	* Returns the number of placit places where petitionId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @return the number of matching placit places
+	*/
+	public int countByPetition(long petitionId);
+
+	/**
 	* Returns all the placit places where placeSIGId = &#63;.
 	*
 	* @param placeSIGId the place sig ID

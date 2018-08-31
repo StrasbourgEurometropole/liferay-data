@@ -21,9 +21,12 @@ import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.base.SignalementLocalServiceBaseImpl;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 
 import java.util.List;
 
@@ -79,20 +82,20 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
 	 */
 	@Override
 	public Signalement createSignalement(ServiceContext sc, long commentId) throws PortalException{
-		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 		long pk = counterLocalService.increment();
 		Signalement signalement = signalementLocalService.createSignalement(pk);
 		signalement.setCommentId(commentId);
 		return signalement;
 	}
 
-	public Signalement updateSignalement(Signalement signalement, ServiceContext sc)
+	@Override
+	public Signalement updateSignalement(Signalement signalement, ServiceContext sc, String publikUserId)
             throws PortalException{
-	    User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserId);
 		signalement.setGroupId(sc.getScopeGroupId());
-	    signalement.setStatusByUserId(sc.getUserId());
-        signalement.setUserName(user.getFullName());
-        signalement.setUserId(user.getUserId());
+	    signalement.setStatusByUserId(user.getPublikUserLiferayId());
+        signalement.setUserName(setPublikUserName(user));
+        signalement.setUserId(user.getPublikUserLiferayId());
         signalement.setStatusDate(sc.getModifiedDate());
         if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
             signalement.setStatus(WorkflowConstants.STATUS_APPROVED);
@@ -100,12 +103,22 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
             signalement.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
 	    signalement = signalementLocalService.updateSignalement(signalement);
-        reindex(signalement, false);
+        if (signalement.isApproved()){
+			reindex(signalement, false);
+		} else {
+        	reindex(signalement,true);
+		}
         return signalement;
     }
 
+    private String setPublikUserName(PublikUser user) {
+        return user.getFirstName() + " " + StringUtil.toUpperCase(user.getLastName());
+    }
+
     Signalement removeSignalement(long signalementId) throws PortalException{
-        return signalementPersistence.remove(signalementId);
+		Signalement signalement =  signalementPersistence.remove(signalementId);
+		reindex(signalement,true);
+        return signalement;
     }
 
 	public List<Signalement> findByCommentId(long commentId){

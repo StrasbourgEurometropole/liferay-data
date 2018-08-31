@@ -19,6 +19,7 @@
 			
 				<portlet:actionURL name="hideComment" var="hideComment">
 					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
+					<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
 				<div id="${comment.commentId}" class="pro-item">
@@ -54,7 +55,7 @@
 			                                data-title="Comment of ${comment.getPublikUserName()}"
 			                                data-entityid="${comment.commentId}"
 			                                data-entitygroupid="${comment.groupId}"
-											title="Aimer ce commentaire">
+											title="Approuver ce commentaire">
 											${comment.nbLikes}
 										</a>
 		                                   <a href="#pro-avis-dislike-pro" class="pro-dislike" 
@@ -63,7 +64,7 @@
 			                                data-title="Comment of ${comment.getPublikUserName()}" 
 			                                data-entityid="${comment.commentId}"
 			                                data-entitygroupid="${comment.groupId}"
-		                                   	title="Ne pas aimer ce commentaire">
+		                                   	title="Désapprouver ce commentaire">
 		                                   	${comment.nbDislikes}
 		                                </a>
 										<div>
@@ -88,7 +89,7 @@
 											<div class="pro-action-comm">
 		                                        <a href="#Modifier"
 													data-commentid="${comment.commentId}"
-													title="Repondre au commentaire">
+													title="Modifier mon commentaire">
 		                                        	<span class="icon-ico-modifier"></span>
 		                                        </a>
 		                                        <a href="#Supprimer" 
@@ -110,7 +111,7 @@
 						
 						<div class="pro-comment-response" style="padding-left: 50px">
 							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
-								<div>
+								<div id="${commentAnswer.commentId}">
 									<p style="margin-bottom: 7px">
 										<strong>${commentAnswer.getPublikUserName()}</strong>
 										<liferay-ui:message key="comment-answered" /> 
@@ -253,6 +254,7 @@
 		$("input[id='editCommentId']").val(commentId);
 		$("input[id='parentCommentId']").val(0);
 		$(".pro-reagir .pro-textearea>textarea").text(baseMsg);
+		$(".pro-reagir .pro-textearea>textarea").focus();
 		$(".pro-reagir .pro-textearea>input").hide();
 		$("label[for='inQualityOf']").hide();
 		$("label[for='message']").text('<liferay-ui:message key="comment-edit-comment" />');

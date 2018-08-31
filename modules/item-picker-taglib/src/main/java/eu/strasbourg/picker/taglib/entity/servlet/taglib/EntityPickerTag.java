@@ -1,13 +1,6 @@
 
 package eu.strasbourg.picker.taglib.entity.servlet.taglib;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.PortletURL;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.item.selector.ItemSelectorReturnType;
@@ -17,7 +10,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
-
 import eu.strasbourg.picker.taglib.file.internal.servlet.ServletContextUtil;
 import eu.strasbourg.portlet.activity.itemselector.ActivityCourseItemSelectorCriterion;
 import eu.strasbourg.portlet.activity.itemselector.ActivityItemSelectorCriterion;
@@ -30,11 +22,18 @@ import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCrit
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
-import eu.strasbourg.portlet.participation.itemselector.ParticipationItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.PetitionItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.ParticipationItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
+
+import javax.portlet.PortletURL;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Benjamin Bini
@@ -268,16 +267,26 @@ public class EntityPickerTag extends IncludeTag {
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, ProjectItemSelectorCriterion);
 			break;
-		case "eu.strasbourg.service.project.model.Participation":
-			ParticipationItemSelectorCriterion ParticipationItemSelectorCriterion = new ParticipationItemSelectorCriterion();
-			ParticipationItemSelectorCriterion
-				.setDesiredItemSelectorReturnTypes(
-					desiredItemSelectorReturnTypes);
-			itemSelectorURL = ServletContextUtil.getItemSelector()
-				.getItemSelectorURL(
-					RequestBackedPortletURLFactoryUtil.create(request),
-					"itemSelected" + _name, ParticipationItemSelectorCriterion);
-			break;
+			case "eu.strasbourg.service.project.model.Participation":
+				ParticipationItemSelectorCriterion ParticipationItemSelectorCriterion = new ParticipationItemSelectorCriterion();
+				ParticipationItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, ParticipationItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.project.model.Petition":
+				PetitionItemSelectorCriterion PetitionItemSelectorCriterion = new PetitionItemSelectorCriterion();
+				PetitionItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, PetitionItemSelectorCriterion);
+				break;
 		}
 		
 		

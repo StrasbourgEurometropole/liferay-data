@@ -28,7 +28,7 @@ public class VocabularyNames {
 	public static final String NOTIFICATION_TYPE = "type de notification";
 	public static final String NEWS_TYPE = "type d'actualite";
 	public static final String PARTICIPATION_TYPE = "type de participation";
-	public static final String PARTICIPATION_STATUS = "statut participation";
+	public static final String PLACIT_STATUS = "statut participer";
 	public static final String THEMATIC = "thematique";
 	public static final String PROJECT_STATUS = "statut projet";
 	public static final String SIGNALEMENT_CATEGORIE = "Signalements Categorie";

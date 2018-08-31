@@ -1,4 +1,5 @@
 <portlet:actionURL var="deleteComment" name="deleteComment">
+	<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
 </portlet:actionURL>
 
 <!-- SUPPRIMER UN COMMENTAIRE -->

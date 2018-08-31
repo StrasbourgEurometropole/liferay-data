@@ -56,28 +56,42 @@ public class PortletHelper {
 		boolean result = true;
         String adminStatus = getDashboardPortletStatusFromAdminConfig(themeDisplay, portletId);
         if (adminStatus.equals("off_hidden")) {
-            return false;
+			return true;
+			// TODO ANGEL à remettre : return false;
         } else if (adminStatus.equals("on_disabled")) {
             return true;
         }
 		if (internalId != null && !internalId.equals("")) {
-			// Portlets à ne pas afficher
-			List<String> hiddenPortlets = new ArrayList<String>(); 
+			// Portlets à ne pas afficher et à afficher
+			List<String> hiddenPortlets = new ArrayList<String>();
+			List<String> shownPortlets = new ArrayList<String>();
 			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
 
 			try {
 				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
-				JSONArray jsonArray = json.getJSONArray("hiddenPortlets");
-				if (jsonArray != null) {
-					jsonArray.forEach(t -> hiddenPortlets.add((String) t));
-					result = !hiddenPortlets.contains(portletId);
+				JSONArray hiddenPortletsJsonArray = json.getJSONArray("hiddenPortlets");
+				JSONArray shownPortletsJsonArray = json.getJSONArray("shownPortlets");
+				if (hiddenPortletsJsonArray != null) {
+					hiddenPortletsJsonArray.forEach(t -> hiddenPortlets.add((String) t));
+				}
+				if (shownPortletsJsonArray != null) {
+					shownPortletsJsonArray.forEach(t -> shownPortlets.add((String) t));
+				}
+				if (shownPortlets.contains(portletId)) {
+					return true;
+				} else if (hiddenPortlets.contains(portletId)) {
+					return true;
+					// TODO ANGEL à remettre : return false;
+				} else {
+					return Validator.isNull(adminStatus) || adminStatus.startsWith("on");
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+				return true;
 			}
+		} else {
+        	return true;
 		}
-
-		return result;
 	}
 
 	public static boolean showDeleteButtonOnDashboard(ThemeDisplay themeDisplay, String portletId) {
@@ -132,28 +146,56 @@ public class PortletHelper {
 				// JSON initialisation
 				String userConfigString = user.getDisplayConfig();
 				if (Validator.isNull(userConfigString)) {
-					userConfigString = "{\"hiddenPortlets\":[]}";
+					userConfigString = "{\"hiddenPortlets\":[], \"shownPortlets\":[]}";
 				}
 				
 				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
-				JSONArray jsonArray = json.getJSONArray("hiddenPortlets");
-				
-				List<String> portlets = new ArrayList<String>(); 
-				jsonArray.forEach(a -> portlets.add((String)a));
+				JSONArray hiddenPortletsJsonArray;
+				if (json.has("hiddenPortlets")) {
+					hiddenPortletsJsonArray = json.getJSONArray("hiddenPortlets");
+				}  else {
+					hiddenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
+				}
 
-				if (show && portlets.contains(portletId)) {
-				    portlets.remove(portletId);
-                }
-                if (!show && !portlets.contains(portletId)) {
-                    portlets.add(portletId);
-                }
-					
-				JSONArray jsonArray2 = JSONFactoryUtil.createJSONArray();
-				portlets.forEach(a -> jsonArray2.put(a));
-				jsonArray = jsonArray2;
+				JSONArray shownPortletsJsonArray;
+				if (json.has("shownPortlets")) {
+					shownPortletsJsonArray = json.getJSONArray("shownPortlets");
+				} else {
+					shownPortletsJsonArray = JSONFactoryUtil.createJSONArray();
+				}
+
+				List<String> hiddenPortletIds = new ArrayList<String>(); 
+				hiddenPortletsJsonArray.forEach(a -> hiddenPortletIds.add((String)a));
+
+				List<String> shownPortletIds = new ArrayList<String>();
+				shownPortletsJsonArray.forEach(a -> shownPortletIds.add((String)a));
+
+				if (show) {
+					if (hiddenPortletIds.contains(portletId)) {
+						hiddenPortletIds.remove(portletId);
+					}
+					if (!shownPortletIds.contains(portletId)) {
+						shownPortletIds.add(portletId);
+					}
+				} else {
+					if (shownPortletIds.contains(portletId)) {
+						shownPortletIds.remove(portletId);
+					}
+					if (!hiddenPortletIds.contains(portletId)) {
+						hiddenPortletIds.add(portletId);
+					}
+				}
+
+				JSONArray newHiddenPortletJsonArray = JSONFactoryUtil.createJSONArray();
+				hiddenPortletIds.forEach(a -> newHiddenPortletJsonArray.put(a));
+
+				JSONArray newShownPortletJsonArray = JSONFactoryUtil.createJSONArray();
+				shownPortletIds.forEach(a -> newShownPortletJsonArray.put(a));
 				
 				// Enregistrement des préférences utilisateur.
-				json.put("hiddenPortlets", jsonArray);
+				json.put("hiddenPortlets", newHiddenPortletJsonArray);
+				json.put("shownPortlets", newShownPortletJsonArray);
+
 				user.setDisplayConfig(json.toJSONString());
 				PublikUserLocalServiceUtil.updatePublikUser(user);
 			} catch (JSONException e) {

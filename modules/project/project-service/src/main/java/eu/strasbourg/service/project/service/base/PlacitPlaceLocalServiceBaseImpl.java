@@ -55,10 +55,12 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
+import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
+import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import java.io.Serializable;
 
@@ -477,6 +479,43 @@ public abstract class PlacitPlaceLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the petition local service.
+	 *
+	 * @return the petition local service
+	 */
+	public eu.strasbourg.service.project.service.PetitionLocalService getPetitionLocalService() {
+		return petitionLocalService;
+	}
+
+	/**
+	 * Sets the petition local service.
+	 *
+	 * @param petitionLocalService the petition local service
+	 */
+	public void setPetitionLocalService(
+		eu.strasbourg.service.project.service.PetitionLocalService petitionLocalService) {
+		this.petitionLocalService = petitionLocalService;
+	}
+
+	/**
+	 * Returns the petition persistence.
+	 *
+	 * @return the petition persistence
+	 */
+	public PetitionPersistence getPetitionPersistence() {
+		return petitionPersistence;
+	}
+
+	/**
+	 * Sets the petition persistence.
+	 *
+	 * @param petitionPersistence the petition persistence
+	 */
+	public void setPetitionPersistence(PetitionPersistence petitionPersistence) {
+		this.petitionPersistence = petitionPersistence;
+	}
+
+	/**
 	 * Returns the placit place local service.
 	 *
 	 * @return the placit place local service
@@ -625,6 +664,44 @@ public abstract class PlacitPlaceLocalServiceBaseImpl
 	public void setProjectTimelinePersistence(
 		ProjectTimelinePersistence projectTimelinePersistence) {
 		this.projectTimelinePersistence = projectTimelinePersistence;
+	}
+
+	/**
+	 * Returns the signataire local service.
+	 *
+	 * @return the signataire local service
+	 */
+	public eu.strasbourg.service.project.service.SignataireLocalService getSignataireLocalService() {
+		return signataireLocalService;
+	}
+
+	/**
+	 * Sets the signataire local service.
+	 *
+	 * @param signataireLocalService the signataire local service
+	 */
+	public void setSignataireLocalService(
+		eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService) {
+		this.signataireLocalService = signataireLocalService;
+	}
+
+	/**
+	 * Returns the signataire persistence.
+	 *
+	 * @return the signataire persistence
+	 */
+	public SignatairePersistence getSignatairePersistence() {
+		return signatairePersistence;
+	}
+
+	/**
+	 * Sets the signataire persistence.
+	 *
+	 * @param signatairePersistence the signataire persistence
+	 */
+	public void setSignatairePersistence(
+		SignatairePersistence signatairePersistence) {
+		this.signatairePersistence = signatairePersistence;
 	}
 
 	/**
@@ -909,6 +986,10 @@ public abstract class PlacitPlaceLocalServiceBaseImpl
 	protected eu.strasbourg.service.project.service.ParticipationLocalService participationLocalService;
 	@BeanReference(type = ParticipationPersistence.class)
 	protected ParticipationPersistence participationPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.PetitionLocalService.class)
+	protected eu.strasbourg.service.project.service.PetitionLocalService petitionLocalService;
+	@BeanReference(type = PetitionPersistence.class)
+	protected PetitionPersistence petitionPersistence;
 	@BeanReference(type = PlacitPlaceLocalService.class)
 	protected PlacitPlaceLocalService placitPlaceLocalService;
 	@BeanReference(type = PlacitPlacePersistence.class)
@@ -925,6 +1006,10 @@ public abstract class PlacitPlaceLocalServiceBaseImpl
 	protected eu.strasbourg.service.project.service.ProjectTimelineLocalService projectTimelineLocalService;
 	@BeanReference(type = ProjectTimelinePersistence.class)
 	protected ProjectTimelinePersistence projectTimelinePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.SignataireLocalService.class)
+	protected eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService;
+	@BeanReference(type = SignatairePersistence.class)
+	protected SignatairePersistence signatairePersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

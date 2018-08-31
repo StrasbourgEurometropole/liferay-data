@@ -402,7 +402,6 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			dynamicQuery
 					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-
 		return projectPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 	

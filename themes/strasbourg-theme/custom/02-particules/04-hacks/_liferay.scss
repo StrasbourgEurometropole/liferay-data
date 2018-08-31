@@ -17,6 +17,15 @@
 }
 
 
+/* Formulaire de récupération de mot de passe */
+#portlet_new-password + form {
+  margin: 100px auto 200px auto;
+  max-width: 500px;
+  font-size: 1.5em;
+  font-family: Arial, sans-serif;
+}
+
+
 /* Décallage lorsqu'un utilisateur est connecté */
 
 .has-control-menu .seu-header {

@@ -280,6 +280,9 @@
                     <aui:option value="placit-videos" selected="${searchForm eq 'placit-videos'}">
                        	<liferay-ui:message key="placit-videos" />
                     </aui:option>
+					<aui:option value="placit-petitions" selected="${searchForm eq 'placit-petitions'}">
+						<liferay-ui:message key="placit-petitions" />
+					</aui:option>
 				</aui:select>
 				
 				<!-- Bouton exporter -->

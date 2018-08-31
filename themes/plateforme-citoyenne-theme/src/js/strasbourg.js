@@ -11769,71 +11769,125 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
 */
-function getEventMarker(mercators, link, publishDate, place, title, isUserPart, nbPart) {
-    var eventMarkerIcon = getMarkerIcon("event");
-    var marker = L.marker(mercators, {icon: eventMarkerIcon})
+function getProjectMarker(project, mercators) {
 
-    var activePart = isUserPart ? "active" : "";
+
+    var projectMarkerIcon = getMarkerIcon("project");
+    var marker = L.marker(mercators, {icon: projectMarkerIcon});
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'une particiaption sur la carte intéractive
+*/
+function getParticipationMarker(participation, mercators) {
+
+    var participationMarkerIcon = getMarkerIcon("participation");
+    var marker = L.marker(mercators, {icon: participationMarkerIcon});
+
+    var footerContent = '';
+
+    if (participation.statusCode === "soon_arrived") {
+        footerContent = 
+            '<div class="pro-footer-participation pro-participation-soon">' + 
+                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
+                '<p>Bientôt disponible</p>' +
+            '</div>';
+    } else if (participation.statusCode === "finished") {
+        footerContent = 
+            '<div class="pro-footer-participation pro-participation-deadline">' + 
+                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
+                '<p>Participation terminée, merci de votre participation</p>' +
+            '</div>';
+    } else {
+        footerContent = '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>';
+    }
+
+    var colorHack = 
+        '<style style="display: none" >' +
+            '.type-color-hexa-' + participation.typeColor + '>div:before {' +
+                'background:#'+ participation.typeColor + ' !important;' +
+            '}' +
+        '</style>';
 
     marker.bindPopup(
         '<div class="pro-vignette-map-inte">' +
-            '<a href="' + link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
+            '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
+            '<div>' +
+                '<div class="pro-header-participation">' + 
+                    '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+                    '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
+                    '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
+                '</div>' +
+                '<div class="pro-content-participation">' +
+                    '<div class="pro-meta"><span>' + participation.districtsLabel + '</span><span>' + participation.thematicsLabel + '</span>' +
+                    '<span>' + participation.statusLabel + '</span><span>' + participation.projectName + '</span></div>' +
+                    '<h3>' + participation.title + '</h3>' +
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + participation.createDate + '</time>' +
+                    ' / <span class="pro-duree">' + participation.statusDetailLabel + '</span></span></div>' +
+                    footerContent +
+            '</div></a>' + 
+        '</div>' + 
+        colorHack
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+    );
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'un événement sur la carte intéractive
+*/
+function getEventMarker(event) {
+    //mercators, link, publishDate, place, title, isUserPart, nbPart) {
+
+    var eventMarkerIcon = getMarkerIcon("event");
+    var marker = L.marker([event.mercatorY, event.mercatorX], {icon: eventMarkerIcon});
+
+    var activePart = event.isUserPart ? "active" : "";
+
+    marker.bindPopup(
+        '<div class="pro-vignette-map-inte">' + 
+            '<a href="' + event.link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
                 '<div class="pro-header-event">' +
                     '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
-                    '<p>À : ' + place + '</p>' +
-                    '<h3>' + title + '</h3>' +
+                    '<span class="pro-time">Le <time datetime="2018-01-10">' + event.firstDate + '</time></span>' +
+                    '<p>À : ' + event.completeAddress + '</p>' +
+                    '<h3>' + event.title.fr_FR + '</h3>' +
                 '</div>' +
                 '<div class="pro-footer-event">' +
                     '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
-                    '<span class="pro-number"><strong>' + nbPart + '</strong> Participant(s)</span>' +
+                    '<span class="pro-number"><strong>' + event.nbPart + '</strong> Participant(s)</span>' +
                 '</div>' +
             '</div></a>' +
         '</div>'
+        ,{maxHeight: 280, maxWidth: 654}
     );
 
     return marker;
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getProjectMarker(link) {
-
-    var projectMarkerIcon = getMarkerIcon("project");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getParticipationPopUp(link) {
-
-    var participationMarkerIcon = getMarkerIcon("participation");
-
-    return '';
-
-}
-
-/**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
-*/
-function getInitiativePopUp(link) {
+function getInitiativePopUp(mercators, link) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
+    var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
 
-    return '';
+    return marker;
 
 }
 
 /**
-* Retourne le contenu des marqueurs de leaflet sur le listing des événements
+* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
 */
-function getPetitionPopUp(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+function getPetitionMarker(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
 
     var petitionMarkerIcon = getMarkerIcon("petition");
     var marker = L.marker(mercators, {icon: petitionMarkerIcon})

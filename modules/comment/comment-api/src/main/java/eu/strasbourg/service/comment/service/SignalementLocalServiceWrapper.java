@@ -215,9 +215,11 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 	@Override
 	public eu.strasbourg.service.comment.model.Signalement updateSignalement(
 		eu.strasbourg.service.comment.model.Signalement signalement,
-		com.liferay.portal.kernel.service.ServiceContext sc)
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.lang.String publikUserId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _signalementLocalService.updateSignalement(signalement, sc);
+		return _signalementLocalService.updateSignalement(signalement, sc,
+			publikUserId);
 	}
 
 	/**

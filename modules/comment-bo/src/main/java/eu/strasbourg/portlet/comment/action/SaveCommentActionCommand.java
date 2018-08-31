@@ -24,7 +24,10 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,7 +73,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             long commentId = ParamUtil.getLong(actionRequest,"commentId");
             Comment comment;
             if (commentId==0){
-                comment = _commentLocalService.createComment(sc);
+                comment = _commentLocalService.createComment("",sc);
                 comment.setCreateDate(new Date());
             } else {
                 comment = _commentLocalService.getComment(commentId);
@@ -121,7 +124,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
 
             // Description du bannissement
             String banishDescription = ParamUtil.getString(actionRequest, "banishDescription");
-            if (banishDescription==null||banishDescription.isEmpty()){
+            if (banishDescription!=null&&!banishDescription.isEmpty()){
                 publikUser.setBanishDescription(banishDescription);
             }else banishDescription="";
             PublikUserLocalServiceUtil.updatePublikUser(publikUser);

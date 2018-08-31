@@ -104,9 +104,8 @@ public class EditParticipationDisplayContext {
 	public boolean hasPermission(String actionId) throws PortalException {
 		return _themeDisplay.getPermissionChecker().hasPermission(
 		this._themeDisplay.getCompanyGroupId(),
-			StrasbourgPortletKeys.PARTICIPATION_BO, StrasbourgPortletKeys.PARTICIPATION_BO,
+			StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO,
 			actionId);
 	}
 
 }
-

@@ -163,7 +163,7 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne la couleur hexa du type de la participation contenu dans la propriete
 	* 'code_color' de la categorie associee
 	*/
-	public java.lang.String getProjectCategoryColor();
+	public java.lang.String getTypeCategoryColor();
 
 	/**
 	* Retourne les thematiques de la participation (
@@ -232,6 +232,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne la liste des URLs des documents
 	*/
 	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
+	* Retourne le label d'affichage détaillant le statut
+	*/
+	public java.lang.String getStatusDetailLabel();
 
 	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry

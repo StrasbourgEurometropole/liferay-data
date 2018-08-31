@@ -431,6 +431,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* méthode permettant de retourner le nom de l'utilisateur en entier.
+	*
+	* @return le nom de l'utilisateur.
+	*/
+	@Override
+	public java.lang.String getFullPublikUserName() {
+		return _comment.getFullPublikUserName();
+	}
+
+	/**
 	* Returns the publik ID of this comment.
 	*
 	* @return the publik ID of this comment

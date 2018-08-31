@@ -327,7 +327,13 @@ public class EventImpl extends EventBaseImpl {
 	public String getMercatorX() {
 		if (this.getPlace() == null) {
 			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			JSONArray coorResult = null;
+			try {
+				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			return coorResult != null ? coorResult.get(0).toString() : "";
 		} else {
@@ -342,7 +348,13 @@ public class EventImpl extends EventBaseImpl {
 	public String getMercatorY() {
 		if (this.getPlace() == null) {
 			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			JSONArray coorResult = null;
+			try {
+				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			return coorResult != null ? coorResult.get(1).toString() : "";
 		} else {
@@ -359,7 +371,13 @@ public class EventImpl extends EventBaseImpl {
 	public List<String> getMercators() {
 		if (this.getPlace() == null) {
 			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			JSONArray coorResult = null;
+			try {
+				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			if (coorResult != null) {
 				String mercatorX = coorResult.get(0).toString();
@@ -623,7 +641,7 @@ public class EventImpl extends EventBaseImpl {
 			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && endDate.isBefore(today) || today.isEqual(startDate)) {
+			if (today.isAfter(startDate) && today.isBefore(endDate) || today.isEqual(startDate)) {
 				return true;
 			}
 		}
@@ -640,6 +658,16 @@ public class EventImpl extends EventBaseImpl {
 			adictService = adictServiceTracker.getService();
 		}
 		return adictService;
+	}
+	
+	/**
+	 * Demande si l'utilisateur demandé participe à l'événement
+	 */
+	@Override
+	public boolean isUserParticipate(String publikUserId) {
+		if (EventParticipationLocalServiceUtil.getByPublikUserIdAndEventId(publikUserId, this.getEventId()) != null)
+			return true;
+		return false;
 	}
 
 	/**
@@ -775,6 +803,14 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		
+		List<String> mercators = this.getMercators();
+		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
+		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		
+		jsonEvent.put("firstDate", this.getFirstStartDate());
+		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
 		return jsonEvent;
 	}

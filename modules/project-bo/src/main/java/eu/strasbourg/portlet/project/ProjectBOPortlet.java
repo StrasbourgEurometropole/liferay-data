@@ -9,20 +9,19 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
-
-import java.io.IOException;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
+import java.io.IOException;
 
 /**
  * @author cedric.henry
@@ -54,12 +53,14 @@ public class ProjectBOPortlet extends MVCPortlet {
 		String tab = ParamUtil.getString(renderRequest, "tab");
 		Boolean fromAjaxProject = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxProject"));
 		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
+		Boolean fromAjaxPetition = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxPetition"));
 		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
+
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL.toString());
 		}
@@ -73,12 +74,20 @@ public class ProjectBOPortlet extends MVCPortlet {
 			EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "participations";
+		} else if (cmd.equals("editPetition") || fromAjaxPetition) {
+			EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "Petitions";
 		} else if (tab.equals("participations")) {
 			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
 			renderRequest.setAttribute("dc", dc);
 			title = "participations";
-		} else { // Else, we are on the projects list page
-			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse); 
+		} else if (tab.equals("petitions")){
+			ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "petitions";
+		}else { // Else, we are on the projects list page
+			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "projects";
 		}

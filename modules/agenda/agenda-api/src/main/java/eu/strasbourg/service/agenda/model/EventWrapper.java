@@ -525,6 +525,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Demande si l'utilisateur demandé participe à l'événement
+	*/
+	@Override
+	public boolean isUserParticipate(java.lang.String publikUserId) {
+		return _event.isUserParticipate(publikUserId);
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
