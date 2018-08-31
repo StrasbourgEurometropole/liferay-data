@@ -16,6 +16,14 @@
 			value="${configurationRenderURL}" />
 		
 		<aui:fieldset>
+			<aui:input name="addLunchURL" value="${addLunchURL}" type="text" label="add-lunch-url" />
+		</aui:fieldset>
+
+		<aui:fieldset>
+			<aui:input name="linkAccountURL" value="${linkAccountURL}" type="text" label="link-account-url" />
+		</aui:fieldset>
+
+		<aui:fieldset>
 			<aui:input name="familySpaceURL" value="${familySpaceURL}" type="text" label="family-space-url" />
 		</aui:fieldset>
 		
