@@ -167,7 +167,7 @@
 			<liferay-portlet:renderURL varImpl="dissociateURL" >
 				<portlet:param name="dissociate" value="dissocier" />
 			</liferay-portlet:renderURL>
-			<a href="${dissociateURL}" class="btn-square--bordered--core" title="<liferay-ui:message key="dissociate" />" data-dissociateconfirm="dissociate">
+			<a href="${dissociateURL}#mediatheque" class="btn-square--bordered--core" title="<liferay-ui:message key="dissociate" />" data-dissociateconfirm="dissociate">
 				<span class="flexbox">
 					<span class="btn-text"><liferay-ui:message key="dissociate" /></span>
 					<span class="btn-arrow"></span>

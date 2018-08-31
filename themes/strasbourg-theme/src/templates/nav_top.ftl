@@ -26,15 +26,15 @@
         <button id="trigger-account-menu">
           <span class="seu-flexbox">
             <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
-            <#if (notifCount > 0)>
-              <span class="seu-picto">
-                <span class="notif-amount">${notifCount}</span>
-              </span>
-            </#if>
+            <span class="seu-picto">
+                <#if (notifCount > 0)>
+                    <span class="notif-amount">${notifCount}</span>
+                </#if>
+            </span>
             <a href="${layoutHelper.getPublikProfileURL()}" style="text-decoration: none;">
               <span class="seu-text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
-            </a>    
-            <span class="seu-arrow"></span>
+            </a>
+            <span class="seu-arrow" style="display: none;"></span>
           </span>
         </button>
         <!-- Menu connecté -->

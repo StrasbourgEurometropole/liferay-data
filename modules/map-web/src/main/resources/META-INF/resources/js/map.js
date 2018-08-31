@@ -88,7 +88,7 @@
             });
 
             // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-            var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
+            var wmsLayer = L.tileLayer.wms('https://adict.strasbourg.eu/mapproxy/service?', {
                 layers: 'gct_fond_de_carte_couleur'
             }).addTo(mymap);
 

@@ -100,7 +100,7 @@
                 margin-right: 10px;
                 @include RWD(mobile){
                     margin: 0;
-                } 
+                }
             }
             .notif-amount{
                 background-color: $third-color;
@@ -123,23 +123,25 @@
             }
             .seu-arrow{
                 content: '';
-                display: inline-block;
+                @include RWD(mobile) {
+                  display: inline-block !important;
+                }
                 width: 17px;
                 height: 17px;
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
                 margin-right: 10px;
-                background-image: url( svg-bg-uri($svg-arrow1, #505050) ); 
+                background-image: url( svg-bg-uri($svg-arrow1, #505050) );
                 transform: rotate(90deg);
-                margin-left: 20px; 
+                margin-left: 20px;
                 transition: all, 0.5s;
                 @include RWD(mobile){
                     margin-left: 5px;
                     margin-right: 5px;
                 }
             }
-            &:hover, &:focus{
+            #trigger-account-menu:hover, trigger-account-menu:focus{
                 text-decoration: none;
                 .seu-text{
                     &:after{
@@ -149,15 +151,35 @@
                 .seu-arrow{
                     transform:  translateY(3px) rotate(90deg);
                 }
-                #account-menu{
-                    // display: block;
+                @include RWD(mobile) {
+                  #account-menu {
+                    display: block;
+                  }
                 }
             }
 
             &.seu-nav-account{
                 background-color: $third-color;
                 .seu-picto{
-                    background-image: url( svg-bg-uri($svg-account, #505050) );                    
+                    background-image: url( svg-bg-uri($svg-account, #505050) );
+                }
+                .portlet-journal-content {
+                    display: inline-block;
+                    height: 100%;
+                    vertical-align: top;
+                    ul {
+                        display: flex
+                    }
+                    section.portlet {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                    &:before {
+                        height: 100%;
+                        content: "";
+                        display: inline-block;
+                        vertical-align: middle;
+                  }
                 }
             }
             &.seu-nav-contact{
@@ -165,9 +187,48 @@
                     background-image: url( svg-bg-uri($svg-mail, #505050) );
                 }
             }
+            @include RWD(mobile){
+              #inline-account-menu {
+                display: none;
+              }
+            }
+            #inline-account-menu {
+              height: 23px;
+              margin-left: 20px;
+              .logout {
+                margin-left: 30px;
+              }
+              li:last-child {
+                max-width: 40px;
+              }
+            }
+            #inline-account-menu .account-link {
+                &:before{
+                    content: '';
+                    display: inline-block;
+                    width: 23px;
+                    height: 23px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    margin-right: 15px;
+                }
+                &.dashboard:before{
+                    background-image: url( svg-bg-uri($svg-dashboard, #505050) );
+                }
+                &.account:before{
+                    background-image: url( svg-bg-uri($svg-account, #505050) );
+                }
+                &.notification:before{
+                    background-image: url( svg-bg-uri($svg-notification, #505050) );
+                }
+                &.logout:before{
+                    background-image: url( svg-bg-uri($svg-close, #505050) );
+                }
+            }
             #account-menu{
                 position: absolute;
-                top: 100%;
+                top: 23px;
                 left: 50%;
                 transform: translateX(-50%);
                 width: 100%;
@@ -238,7 +299,7 @@
                     }
                 }
                 .seu-arrow{
-                    background-image: url( svg-bg-uri($svg-arrow1, #ffffff) ); 
+                    background-image: url( svg-bg-uri($svg-arrow1, #ffffff) );
                 }
                 #account-menu{
                     background-color: #333333;

@@ -88,7 +88,10 @@ jQuery(function() {
 			window.open(url,'_blank','height=750, width=1050, toolbar=no, menubar=no,scrollbars=yes, resizable=yes, location=no, directories=no, status=no'); 
 			return false; 
 	    } else {
-	      jQuery('.errors').html(errorMessage).show();
+            jQuery('#formFactures .errors').html(errorMessage).show();
+            jQuery('html, body').animate({
+                scrollTop: (jQuery('#formFactures .errors').offset().top)
+            },500);
 	    }
     });
 });

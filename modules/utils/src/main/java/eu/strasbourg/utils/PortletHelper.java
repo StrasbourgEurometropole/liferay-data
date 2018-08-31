@@ -56,8 +56,7 @@ public class PortletHelper {
 		boolean result = true;
         String adminStatus = getDashboardPortletStatusFromAdminConfig(themeDisplay, portletId);
         if (adminStatus.equals("off_hidden")) {
-			return true;
-			// TODO ANGEL à remettre : return false;
+			return false;
         } else if (adminStatus.equals("on_disabled")) {
             return true;
         }
@@ -80,8 +79,7 @@ public class PortletHelper {
 				if (shownPortlets.contains(portletId)) {
 					return true;
 				} else if (hiddenPortlets.contains(portletId)) {
-					return true;
-					// TODO ANGEL à remettre : return false;
+					return false;
 				} else {
 					return Validator.isNull(adminStatus) || adminStatus.startsWith("on");
 				}
