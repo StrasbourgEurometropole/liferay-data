@@ -7,3 +7,31 @@
 	varImpl="configurationActionURL" />
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
+	<aui:form action="${configurationActionURL}" method="post" name="fm" >
+
+		<aui:input name="cmd" type="hidden" value="update" />
+
+		<aui:fieldset-group markupView="lexicon">
+			<!-- Affichage -->
+			<aui:fieldset collapsed="true" collapsible="true"
+				label="display">
+
+				<!-- Formulaire de recherche -->
+				<aui:select name="popupTemplateId">
+					<aui:option value="filePetition" selected="${popupTemplateId eq 'filePetition'}">
+						<liferay-ui:message key="filePetition" />
+					</aui:option>
+					<aui:option value="signPetition" selected="${popupTemplateId eq 'signPetition'}">
+						<liferay-ui:message key="signPetition" />
+					</aui:option>
+				</aui:select>
+			</aui:fieldset>
+
+		</aui:fieldset-group>
+
+		<aui:button-row>
+			<aui:button type="submit"></aui:button>
+		</aui:button-row>
+	</aui:form>
+</div>
