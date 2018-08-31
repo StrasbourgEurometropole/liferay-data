@@ -247,7 +247,7 @@ public class SearchAssetDisplayContext {
 					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
-
+		
 		this._entries = results;
 	}
 

@@ -181,9 +181,11 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			String boostTagsNames = ParamUtil.getString(request, "boostTagsNames");
 			setPreference(request, "boostTagsNames", boostTagsNames);
 			
-			// CHAMP : Filtre par date par défaut
-			Long dateRange = ParamUtil.getLong(request, "dateRange");
-			setPreference(request, "dateRange", String.valueOf(dateRange));
+			// CHAMP : Filtre par dates par défaut
+			Long dateRangeFrom = ParamUtil.getLong(request, "dateRangeFrom");
+			Long dateRangeTo = ParamUtil.getLong(request, "dateRangeTo");
+			setPreference(request, "dateRangeFrom", String.valueOf(dateRangeFrom));
+			setPreference(request, "dateRangeTo", String.valueOf(dateRangeTo));
 		}
 		
 		super.processAction(portletConfig, request, response);
@@ -248,6 +250,12 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			// Champ date
 			boolean dateField = ParamUtil.getBoolean(request, "dateField", configuration.dateField());
 			request.setAttribute("dateField", dateField);
+			
+			// Filtre par date par défault
+			long dateRangeFrom = configuration.dateRangeFrom();
+			long dateRangeTo = configuration.dateRangeTo();
+			request.setAttribute("dateRangeFrom", dateRangeFrom);
+			request.setAttribute("dateRangeTo", dateRangeTo);
 			
 			// Delta
 			long delta = ParamUtil.getLong(request, "delta", configuration.delta());

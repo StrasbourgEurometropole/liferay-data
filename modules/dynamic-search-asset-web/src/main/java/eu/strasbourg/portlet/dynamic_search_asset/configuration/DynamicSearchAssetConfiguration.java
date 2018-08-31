@@ -51,7 +51,10 @@ public interface DynamicSearchAssetConfiguration {
 	@Meta.AD(name = "delta", required = false)
 	public long delta();
 	
-	@Meta.AD(name = "dateRange", required = false, deflt = "60")
-	public long dateRange();
+	@Meta.AD(name = "dateRangeFrom", required = false, deflt = "0")
+	public long dateRangeFrom();
+	
+	@Meta.AD(name = "dateRangeTo", required = false, deflt = "60")
+	public long dateRangeTo();
 	
 }

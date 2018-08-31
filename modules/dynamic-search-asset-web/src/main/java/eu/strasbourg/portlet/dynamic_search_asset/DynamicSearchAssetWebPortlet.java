@@ -26,17 +26,19 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.portlet.Portlet;
@@ -84,7 +86,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			long groupId = new Long(themeDisplay.getLayout().getGroupId());
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
 			
@@ -139,7 +140,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				
 				// Recuperation des classNames selectionnes demandes par l'utilisateur
 				String selectedClassNames = ParamUtil.getString(request, "selectedClassNames");
-				List<String> classNames = Arrays.asList(selectedClassNames.split(","));
+				String[] classNames = selectedClassNames.split(",");
 				
 				// Recuperation des mots clefs demandes par l'utilisateur
 				String keywords = ParamUtil.getString(request, "keywords");
@@ -151,32 +152,52 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				// Recuperation du nombre de resultat max demande
 				int maxResults = (int) this.configuration.delta();
 				
+				// Recuperation de la configuration du prefiltre par date de la configuration
+				boolean useDatePrefilter = this.configuration.dateField();
+				long dateRangeFrom = (int) this.configuration.dateRangeFrom();
+				long dateRangeTo = (int) this.configuration.dateRangeTo();
+				LocalDate fromDate = LocalDate.now().plusDays(dateRangeFrom);
+				LocalDate toDate = LocalDate.now().plusDays(dateRangeTo);
+				
+				// Recuperation de la configuration des prefiltre sur les categories
+				String prefilterCategoriesIdsString = this.configuration.prefilterCategoriesIds();
+				List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
+				for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
+					Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
+							.toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
+					prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
+				}
+
+				// Recuperation de la configuration des prefiltre sur les etiquettes
+				String prefilterTagsNamesString = this.configuration.prefilterTagsNames();
+				String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
+				
 				// Recherche
-//				Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
-//						keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-//						prefilterTagsNames, idSIGPlace, themeDisplay.getLocale(), 0,
-//						maxResults, "score", false);
-//				List<AssetEntry> results = new ArrayList<AssetEntry>();
-//				if (hits != null) {
-//					int i = 0;
-//					for (float s : hits.getScores()) {
-//						_log.info(GetterUtil.getString(hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
-//						i++;
-//						if (i > 10)
-//							break;
-//					}
-//
-//					for (Document document : hits.getDocs()) {
-//						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-//								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-//								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-//						if (entry != null) {
-//							results.add(entry);
-//						}
-//					}
-//				}
-//
-//				this.assetEntries = results;
+				Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
+						keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<Long[]>(),
+						prefilterCategoriesIds, prefilterTagsNames, themeDisplay.getLocale(), 0,
+						maxResults, "score", false);
+				List<AssetEntry> results = new ArrayList<AssetEntry>();
+				
+				if (hits != null) {
+					int i = 0;
+					for (float s : hits.getScores()) {
+						_log.info(GetterUtil.getString(hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
+						i++;
+						if (i > 10)
+							break;
+					}
+					for (Document document : hits.getDocs()) {
+						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
+								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+						if (entry != null) {
+							results.add(entry);
+						}
+					}
+				}
+
+				this.assetEntries = results;
 				
 				JSONObject jsonResponse = this.constructJSONSelection(request);
 				

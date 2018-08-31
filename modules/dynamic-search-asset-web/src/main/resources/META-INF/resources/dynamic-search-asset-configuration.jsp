@@ -102,15 +102,26 @@
 			<!-- Date de selection -->
 			<aui:fieldset collapsed="true" collapsible="true" label="date-filter">
 				
-				<!-- Filtre par date -->
+				<!-- Utilisation du filtre par date -->
 				<div>
 					<liferay-ui:message key="date-explanations" />
 					<aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
 				</div>
 				
-				<!-- Filtre par date par defaut --> 
-				<aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
-			
+				<!-- Filtre par date par defaut  -->
+				<liferay-ui:message key="date-range-explanation" />
+				<p>
+					<aui:input type="number" name="dateRangeFrom" 
+						min="-1000" max="+1000" cssClass="date-range" value="${dateRangeFrom}" 
+						label="default-date-range-from" inlineField="true"/>
+				</p>
+				<p>
+					<!-- Filtre par date par defaut -->
+					<aui:input type="number" name="dateRangeTo" 
+						min="-1000" max="+1000" cssClass="date-range" value="${dateRangeTo}" 
+						label="default-date-range-to" inlineField="true"/>
+				</p>
+				
 			</aui:fieldset>
 			
 			<!-- Affichage -->
