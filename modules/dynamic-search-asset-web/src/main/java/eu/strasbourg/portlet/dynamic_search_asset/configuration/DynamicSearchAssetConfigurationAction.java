@@ -58,7 +58,7 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		String cmd = ParamUtil.getString(request, "cmd");
-
+		
 		if (cmd.equals("update")) {
 			
 			// CHAMP : ClassNamesIds et LayoutsFriendlyURLs
@@ -83,12 +83,13 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 					// Et la friendlyURL du layout de détail correspondant
 					String layoutFriendlyURL = ParamUtil.getString(request, "layoutFriendlyURL_" + i);
 					
-					// Si la friendlyURL ne correspond pas à un layout, on renvoie une erreur
-					if (LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
-							themeDisplay.getScopeGroupId(), false, layoutFriendlyURL) == null) {
-						SessionErrors.add(request, "wrong-friendly-url");
-						return;
-					}
+//					// Si la friendlyURL ne correspond pas à un layout, on renvoie une erreur
+//					if (LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
+//							themeDisplay.getScopeGroupId(), false, layoutFriendlyURL) == null) {
+//						SessionErrors.add(request, "wrong-friendly-url");
+//						return;
+//					}
+					
 					if (j > 0) {
 						layoutsFriendlyURLs += ",";
 					}
@@ -96,10 +97,10 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 					j++;
 				}
 			}
-
+			
 			setPreference(request, "assetClassNamesIds", assetClassNamesIdsString);
 			setPreference(request, "layoutsFriendlyURLs", layoutsFriendlyURLs);
-
+			
 			// CHAMP : ClassNames
 			String assetClassNames = "";
 			for (String assetClassNameIdString : assetClassNamesIdsString.split(",")) {
@@ -114,8 +115,8 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			setPreference(request, "assetClassNames", assetClassNames);
 
 			// CHAMP : Recherche des JournalArticle
-			boolean searchJournalArticle = ParamUtil.getBoolean(request, "searchJournalArticle");
-			setPreference(request, "searchJournalArticle", String.valueOf(searchJournalArticle));
+			boolean searchNews = ParamUtil.getBoolean(request, "searchNews");
+			setPreference(request, "searchNews", String.valueOf(searchNews));
 
 			// CHAMP : Recherche de documents
 			boolean searchDocument = ParamUtil.getBoolean(request, "searchDocument");
@@ -229,8 +230,8 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 				assetClassNamesIdsString);
 
 			// Recherche de JournalArticle
-			boolean searchJournalArticle = ParamUtil.getBoolean(request, "searchJournalArticle", configuration.searchJournalArticle());
-			request.setAttribute("searchJournalArticle", searchJournalArticle);
+			boolean searchNews = ParamUtil.getBoolean(request, "searchNews", configuration.searchNews());
+			request.setAttribute("searchNews", searchNews);
 
 			// Recherche de documents
 			boolean searchDocument = ParamUtil.getBoolean(request, "searchDocument", configuration.searchDocument());

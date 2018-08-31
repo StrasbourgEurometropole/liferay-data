@@ -766,7 +766,7 @@ public class SearchAssetDisplayContext {
 
 		// Catégories sélectionnées par l'utilisateur
 		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
-
+		
 		// Préfiltre catégories
 		String prefilterCategoriesIdsString = this.getConfiguration().prefilterCategoriesIds();
 		List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();

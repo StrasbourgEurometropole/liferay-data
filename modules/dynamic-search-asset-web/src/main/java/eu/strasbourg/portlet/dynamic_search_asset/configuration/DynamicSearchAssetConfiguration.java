@@ -24,8 +24,8 @@ public interface DynamicSearchAssetConfiguration {
 	@Meta.AD(name = "layoutsFriendlyURLs", required = false)
 	public String layoutsFriendlyURLs();
 	
-	@Meta.AD(name = "searchJournalArticle", required = false)
-	public boolean searchJournalArticle();
+	@Meta.AD(name = "searchNews", required = false)
+	public boolean searchNews();
 	
 	@Meta.AD(name = "searchDocument", required = false)
 	public boolean searchDocument();

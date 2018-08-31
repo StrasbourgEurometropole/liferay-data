@@ -3,7 +3,7 @@
 
         <@liferay_portlet["runtime"]
         portletProviderAction=portletProviderAction.VIEW
-        portletName="eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet" 
+        portletName="eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet"
         instanceId="BigBrotherIsWatchingYou"/>
 
         <div class="pro-wrapper-top-header">
