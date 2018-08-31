@@ -56,6 +56,10 @@ public class ProjectGroupModelListener extends BaseModelListener<Group> {
 		for (Initiative initiative : initiatives) {
 			try {
 				InitiativeLocalServiceUtil.removeInitiative(initiative.getInitiativeId());
+			} catch (PortalException e) {
+				_log.error(e);
+			}
+		}
 
 
 		// Petition
