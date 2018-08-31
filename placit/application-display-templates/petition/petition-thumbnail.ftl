@@ -5,36 +5,10 @@
 
         <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-<#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-<#assign homeURL = "/" />
-        </#if>
-
-
-        <!-- Recuperation du status de la petition (terminee, bientot, etc.) -->
-<#switch entry.getPetitionStatus()>
-    <#case "new">
-        <#assign petitionStatus = "Nouvelle" />
-        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
-        <#break>
-    <#case "failed">
-        <#assign petitionStatus = "Non aboutie" />
-        <#assign proDuree = "Terminée"  />
-        <#break>
-    <#case "in_progress">
-        <#assign petitionStatus = "En cours" />
-        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
-        <#break>
-    <#case "soon_finished">
-        <#assign petitionStatus = "Bientôt terminée" />
-        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
-        <#break>
-    <#case "completed">
-        <#assign petitionStatus = "Aboutie" />
-        <#assign proDuree = "Terminée"  />
-        <#break>
-</#switch>
-
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#else>
+    <#assign homeURL = "/" />
+</#if>
         <!-- Recuperation des thématiques de la Petition -->
 <#if entry.getThematicCategories()??>
 <#assign petitionThematics = entry.getThematicCategories() />
@@ -67,7 +41,7 @@
 </div>
 <div class="pro-content-petition">
 <div class="pro-wrapper-meta">
-    <div class="pro-statut"><span>${petitionStatus}</span></div>
+    <div class="pro-statut"><span>${entry.getFrontStatusFR()}</span></div>
     <div class="pro-meta">
         <!-- Liste des quartiers de la Petition -->
         <span>${entry.getDistrictLabel(locale)}</span>
@@ -82,7 +56,7 @@
         </div>
 
 <a href="${homeURL}detail-petition/-/entity/id/${entry.petitionId}" title="lien de la page"><h3>${entry.title}</h3></a>
-<span class="pro-time">Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span></span>
+<span class="pro-time">Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${entry.getProDureeFR()}</span></span>
         </div>
 <div class="pro-footer-petition">
 <div class="pro-progress-bar">

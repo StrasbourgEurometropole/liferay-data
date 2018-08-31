@@ -13,9 +13,6 @@
 <#assign homeURL = "/" />
         </#if>
 
-        <!-- Recuperation du status de la petition (terminee, bientot, etc.) -->
-<#assign petitionStatus = entry.getPetitionStatus() />
-
         <!-- Recuperation des thématiques de la petition -->
 <#if entry.getThematicCategories()??>
 <#assign petitionThematics = entry.getThematicCategories() />
@@ -212,29 +209,6 @@
                         <#list suggestions as suggestion >
                             <!-- Recuperation ddu pourcentage de signataires -->
                             <#assign pourcentage = suggestion.getPourcentageSignature()/>
-                            <!-- Recuperation du status de la petition (terminee, bientot, etc.) -->
-                            <#switch suggestion.getPetitionStatus()>
-                                <#case "new">
-                                    <#assign petitionStatus = "Nouvelle" />
-                                    <#assign proDuree = "Fin dans " + suggestion.getTodayExpirationDifferenceDays() + " jour(s)" />
-                                <#break>
-                                <#case "failed">
-                                    <#assign petitionStatus = "Non aboutie" />
-                                    <#assign proDuree = "Terminée"  />
-                                <#break>
-                                <#case "in_progress">
-                                    <#assign petitionStatus = "En cours" />
-                                    <#assign proDuree = "Fin dans " + suggestion.getTodayExpirationDifferenceDays() + " jour(s)" />
-                                <#break>
-                                <#case "soon_finished">
-                                    <#assign petitionStatus = "Bientôt terminée" />
-                                    <#assign proDuree = "Fin dans " + suggestion.getTodayExpirationDifferenceDays() + " jour(s)" />
-                                <#break>
-                                <#case "completed">
-                                    <#assign petitionStatus = "Aboutie" />
-                                    <#assign proDuree = "Terminée"  />
-                                <#break>
-                            </#switch>
                             <div class="item pro-bloc-card-petition" data-linkall="a">
                                 <div class="pro-header-petition">
                                     <figure role="group">
@@ -250,7 +224,7 @@
                                         <h3>${suggestion.title}</h3></a>
                                     <p>Pétition adressée à <u>la ville de Strasbourg</u></p>
                                     <span class="pro-time">Publiée le
-                                        <time datetime="${suggestion.publicationDate?date?string['dd/MM/yyyy']}">${suggestion.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span></span>
+                                        <time datetime="${suggestion.publicationDate?date?string['dd/MM/yyyy']}">${suggestion.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${suggestion.getProDureeFR()}</span></span>
                                 </div>
                                 <div class="pro-footer-petition">
                                     <div class="pro-progress-bar">
