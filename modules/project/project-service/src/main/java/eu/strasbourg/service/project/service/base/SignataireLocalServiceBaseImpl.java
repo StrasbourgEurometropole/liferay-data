@@ -62,6 +62,8 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.SignataireLocalService;
+import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
+import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
@@ -472,6 +474,82 @@ public abstract class SignataireLocalServiceBaseImpl
 	@Override
 	public Signataire updateSignataire(Signataire signataire) {
 		return signatairePersistence.update(signataire);
+	}
+
+	/**
+	 * Returns the initiative local service.
+	 *
+	 * @return the initiative local service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeLocalService getInitiativeLocalService() {
+		return initiativeLocalService;
+	}
+
+	/**
+	 * Sets the initiative local service.
+	 *
+	 * @param initiativeLocalService the initiative local service
+	 */
+	public void setInitiativeLocalService(
+		eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService) {
+		this.initiativeLocalService = initiativeLocalService;
+	}
+
+	/**
+	 * Returns the initiative persistence.
+	 *
+	 * @return the initiative persistence
+	 */
+	public InitiativePersistence getInitiativePersistence() {
+		return initiativePersistence;
+	}
+
+	/**
+	 * Sets the initiative persistence.
+	 *
+	 * @param initiativePersistence the initiative persistence
+	 */
+	public void setInitiativePersistence(
+		InitiativePersistence initiativePersistence) {
+		this.initiativePersistence = initiativePersistence;
+	}
+
+	/**
+	 * Returns the initiative help local service.
+	 *
+	 * @return the initiative help local service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeHelpLocalService getInitiativeHelpLocalService() {
+		return initiativeHelpLocalService;
+	}
+
+	/**
+	 * Sets the initiative help local service.
+	 *
+	 * @param initiativeHelpLocalService the initiative help local service
+	 */
+	public void setInitiativeHelpLocalService(
+		eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService) {
+		this.initiativeHelpLocalService = initiativeHelpLocalService;
+	}
+
+	/**
+	 * Returns the initiative help persistence.
+	 *
+	 * @return the initiative help persistence
+	 */
+	public InitiativeHelpPersistence getInitiativeHelpPersistence() {
+		return initiativeHelpPersistence;
+	}
+
+	/**
+	 * Sets the initiative help persistence.
+	 *
+	 * @param initiativeHelpPersistence the initiative help persistence
+	 */
+	public void setInitiativeHelpPersistence(
+		InitiativeHelpPersistence initiativeHelpPersistence) {
+		this.initiativeHelpPersistence = initiativeHelpPersistence;
 	}
 
 	/**
@@ -1016,6 +1094,14 @@ public abstract class SignataireLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
+	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
+	@BeanReference(type = InitiativePersistence.class)
+	protected InitiativePersistence initiativePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeHelpLocalService.class)
+	protected eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService;
+	@BeanReference(type = InitiativeHelpPersistence.class)
+	protected InitiativeHelpPersistence initiativeHelpPersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationLocalService.class)
 	protected eu.strasbourg.service.project.service.ParticipationLocalService participationLocalService;
 	@BeanReference(type = ParticipationPersistence.class)

@@ -1,3 +1,40 @@
+create table project_Initiative (
+	uuid_ VARCHAR(75) null,
+	initiativeId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	title VARCHAR(400) null,
+	author VARCHAR(75) null,
+	description TEXT null,
+	videoUrl VARCHAR(400) null,
+	externalImageURL VARCHAR(400) null,
+	externalImageCopyright VARCHAR(400) null,
+	mediaChoice BOOLEAN,
+	assetEntryId LONG,
+	publikId VARCHAR(75) null,
+	imageId LONG,
+	filesIds VARCHAR(75) null,
+	consultationPlacesBody TEXT null,
+	publicationDate DATE null
+);
+
+create table project_InitiativeHelp (
+	initiativeHelpId LONG not null primary key,
+	createDate DATE null,
+	publikUserId VARCHAR(75) null,
+	initiativeId LONG,
+	groupId LONG,
+	message VARCHAR(75) null
+);
+
 create table project_Participation (
 	uuid_ VARCHAR(75) null,
 	participationId LONG not null primary key,
@@ -81,6 +118,7 @@ create table project_PlacitPlace (
 	projectId LONG,
 	participationId LONG,
 	petitionId LONG,
+	initiativeId LONG,
 	placeSIGId VARCHAR(75) null
 );
 

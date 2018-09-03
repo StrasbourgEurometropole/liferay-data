@@ -2,6 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="eu.strasbourg.service.project.model.Initiative" />
+	<import class="eu.strasbourg.service.project.model.InitiativeHelp" />
 	<import class="eu.strasbourg.service.project.model.Participation" />
 	<import class="eu.strasbourg.service.project.model.Petition" />
 	<import class="eu.strasbourg.service.project.model.PlacitPlace" />
@@ -9,6 +11,45 @@
 	<import class="eu.strasbourg.service.project.model.ProjectFollowed" />
 	<import class="eu.strasbourg.service.project.model.ProjectTimeline" />
 	<import class="eu.strasbourg.service.project.model.Signataire" />
+	<class name="eu.strasbourg.service.project.model.impl.InitiativeImpl" table="project_Initiative">
+		<id name="initiativeId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="author" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="assetEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="consultationPlacesBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.InitiativeHelpImpl" table="project_InitiativeHelp">
+		<id name="initiativeHelpId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="initiativeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="message" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ParticipationImpl" table="project_Participation">
 		<id name="participationId" type="long">
 			<generator class="assigned" />
@@ -96,6 +137,7 @@
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="participationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="petitionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="initiativeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="placeSIGId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ProjectImpl" table="project_Project">

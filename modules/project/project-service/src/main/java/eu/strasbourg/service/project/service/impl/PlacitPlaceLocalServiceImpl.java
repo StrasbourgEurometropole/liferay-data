@@ -76,6 +76,14 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 	public List<PlacitPlace> getByParticipation(long participationId) {
 		return this.placitPlacePersistence.findByParticipation(participationId);
 	}
+	
+	/**
+	 * Retourne les lieux d'une initiative
+	 */
+	@Override
+	public List<PlacitPlace> getByInitiative(long initiativeId) {
+		return this.placitPlacePersistence.findByInitiative(initiativeId);
+	}
 
 	/**
 	 * Retourne les lieux d'une participation

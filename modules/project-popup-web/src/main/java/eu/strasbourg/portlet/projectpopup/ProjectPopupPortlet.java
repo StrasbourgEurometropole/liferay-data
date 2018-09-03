@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.project.projectpopup.portlet;
+package eu.strasbourg.portlet.projectpopup;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -10,6 +10,8 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+
+import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
 import eu.strasbourg.portlet.project.projectpopup.configuration.ProjectPopupConfiguration;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -22,6 +24,8 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -32,9 +36,9 @@ import java.io.IOException;
 	immediate = true,
 	property = {
 			"com.liferay.portlet.display-category=Strasbourg",
-			"com.liferay.portlet.instanceable=false",
+			"com.liferay.portlet.instanceable=true",
 			"com.liferay.portlet.css-class-wrapper=project-popup-portlet",
-			"javax.portlet.display-name=ProjectPopup",
+			"javax.portlet.display-name=Popups Participer",
 			"javax.portlet.init-param.add-process-action-success-action=false",
 			"javax.portlet.init-param.template-path=/",
 			"javax.portlet.init-param.view-template=/project-popup-view.jsp",
@@ -89,6 +93,13 @@ public class ProjectPopupPortlet extends MVCPortlet {
         LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
+    }
+
+    @Override
+    public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+    		throws IOException, PortletException {
+    	// TODO Auto-generated method stub
+    	super.serveResource(resourceRequest, resourceResponse);
     }
 
 }
