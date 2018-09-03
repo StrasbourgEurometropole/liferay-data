@@ -29,6 +29,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineService;
+import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
@@ -115,6 +116,63 @@ public abstract class ProjectTimelineServiceBaseImpl extends BaseServiceImpl
 	public void setInitiativePersistence(
 		InitiativePersistence initiativePersistence) {
 		this.initiativePersistence = initiativePersistence;
+	}
+
+	/**
+	 * Returns the initiative help local service.
+	 *
+	 * @return the initiative help local service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeHelpLocalService getInitiativeHelpLocalService() {
+		return initiativeHelpLocalService;
+	}
+
+	/**
+	 * Sets the initiative help local service.
+	 *
+	 * @param initiativeHelpLocalService the initiative help local service
+	 */
+	public void setInitiativeHelpLocalService(
+		eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService) {
+		this.initiativeHelpLocalService = initiativeHelpLocalService;
+	}
+
+	/**
+	 * Returns the initiative help remote service.
+	 *
+	 * @return the initiative help remote service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeHelpService getInitiativeHelpService() {
+		return initiativeHelpService;
+	}
+
+	/**
+	 * Sets the initiative help remote service.
+	 *
+	 * @param initiativeHelpService the initiative help remote service
+	 */
+	public void setInitiativeHelpService(
+		eu.strasbourg.service.project.service.InitiativeHelpService initiativeHelpService) {
+		this.initiativeHelpService = initiativeHelpService;
+	}
+
+	/**
+	 * Returns the initiative help persistence.
+	 *
+	 * @return the initiative help persistence
+	 */
+	public InitiativeHelpPersistence getInitiativeHelpPersistence() {
+		return initiativeHelpPersistence;
+	}
+
+	/**
+	 * Sets the initiative help persistence.
+	 *
+	 * @param initiativeHelpPersistence the initiative help persistence
+	 */
+	public void setInitiativeHelpPersistence(
+		InitiativeHelpPersistence initiativeHelpPersistence) {
+		this.initiativeHelpPersistence = initiativeHelpPersistence;
 	}
 
 	/**
@@ -719,6 +777,12 @@ public abstract class ProjectTimelineServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.project.service.InitiativeService initiativeService;
 	@BeanReference(type = InitiativePersistence.class)
 	protected InitiativePersistence initiativePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeHelpLocalService.class)
+	protected eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeHelpService.class)
+	protected eu.strasbourg.service.project.service.InitiativeHelpService initiativeHelpService;
+	@BeanReference(type = InitiativeHelpPersistence.class)
+	protected InitiativeHelpPersistence initiativeHelpPersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationLocalService.class)
 	protected eu.strasbourg.service.project.service.ParticipationLocalService participationLocalService;
 	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationService.class)

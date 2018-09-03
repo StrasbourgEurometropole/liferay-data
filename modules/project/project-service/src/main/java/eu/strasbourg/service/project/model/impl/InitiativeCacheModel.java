@@ -66,7 +66,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -116,6 +116,8 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		sb.append(filesIds);
 		sb.append(", consultationPlacesBody=");
 		sb.append(consultationPlacesBody);
+		sb.append(", publicationDate=");
+		sb.append(publicationDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -243,6 +245,13 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			initiativeImpl.setConsultationPlacesBody(consultationPlacesBody);
 		}
 
+		if (publicationDate == Long.MIN_VALUE) {
+			initiativeImpl.setPublicationDate(null);
+		}
+		else {
+			initiativeImpl.setPublicationDate(new Date(publicationDate));
+		}
+
 		initiativeImpl.resetOriginalValues();
 
 		return initiativeImpl;
@@ -283,6 +292,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
 		consultationPlacesBody = objectInput.readUTF();
+		publicationDate = objectInput.readLong();
 	}
 
 	@Override
@@ -394,6 +404,8 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		else {
 			objectOutput.writeUTF(consultationPlacesBody);
 		}
+
+		objectOutput.writeLong(publicationDate);
 	}
 
 	public String uuid;
@@ -420,4 +432,5 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	public long imageId;
 	public String filesIds;
 	public String consultationPlacesBody;
+	public long publicationDate;
 }

@@ -97,7 +97,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			{ "publikId", Types.VARCHAR },
 			{ "imageId", Types.BIGINT },
 			{ "filesIds", Types.VARCHAR },
-			{ "consultationPlacesBody", Types.CLOB }
+			{ "consultationPlacesBody", Types.CLOB },
+			{ "publicationDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -126,9 +127,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,description TEXT null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,consultationPlacesBody TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,description TEXT null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,consultationPlacesBody TEXT null,publicationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Initiative";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiative.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Initiative.title ASC";
@@ -186,6 +188,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
 		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
+		model.setPublicationDate(soapModel.getPublicationDate());
 
 		return model;
 	}
@@ -274,6 +277,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
+		attributes.put("publicationDate", getPublicationDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -427,6 +431,12 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 		if (consultationPlacesBody != null) {
 			setConsultationPlacesBody(consultationPlacesBody);
+		}
+
+		Date publicationDate = (Date)attributes.get("publicationDate");
+
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 	}
 
@@ -832,6 +842,17 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		_consultationPlacesBody = consultationPlacesBody;
 	}
 
+	@JSON
+	@Override
+	public Date getPublicationDate() {
+		return _publicationDate;
+	}
+
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_publicationDate = publicationDate;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -973,6 +994,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		initiativeImpl.setImageId(getImageId());
 		initiativeImpl.setFilesIds(getFilesIds());
 		initiativeImpl.setConsultationPlacesBody(getConsultationPlacesBody());
+		initiativeImpl.setPublicationDate(getPublicationDate());
 
 		initiativeImpl.resetOriginalValues();
 
@@ -1195,12 +1217,21 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			initiativeCacheModel.consultationPlacesBody = null;
 		}
 
+		Date publicationDate = getPublicationDate();
+
+		if (publicationDate != null) {
+			initiativeCacheModel.publicationDate = publicationDate.getTime();
+		}
+		else {
+			initiativeCacheModel.publicationDate = Long.MIN_VALUE;
+		}
+
 		return initiativeCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1250,6 +1281,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(getFilesIds());
 		sb.append(", consultationPlacesBody=");
 		sb.append(getConsultationPlacesBody());
+		sb.append(", publicationDate=");
+		sb.append(getPublicationDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -1257,7 +1290,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(76);
+		StringBundler sb = new StringBundler(79);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Initiative");
@@ -1359,6 +1392,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			"<column><column-name>consultationPlacesBody</column-name><column-value><![CDATA[");
 		sb.append(getConsultationPlacesBody());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
+		sb.append(getPublicationDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1399,6 +1436,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	private long _imageId;
 	private String _filesIds;
 	private String _consultationPlacesBody;
+	private Date _publicationDate;
 	private long _columnBitmask;
 	private Initiative _escapedModel;
 }

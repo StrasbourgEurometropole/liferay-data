@@ -416,6 +416,9 @@
 
 		<!-- Lieux de consultation -->
 		<column name="consultationPlacesBody" type="String" />
+		
+		<!-- Others -->
+		<column name="publicationDate" type="Date" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -432,5 +435,37 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 
+	</entity>
+	<entity local-service="true" name="InitiativeHelp"
+		remote-service="true" uuid="false">
+
+		<!-- PK fields -->
+		<column name="initiativeHelpId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="publikUserId" type="String" />
+		<column name="initiativeId" type="long" />
+		<column name="groupId" type="long" />
+		<column name="message" type="String" />
+
+		<!-- Finder methods -->
+		<finder name="PublikUserId" return-type="Collection" db-index="true">
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="initiativeId" return-type="Collection" db-index="true">
+			<finder-column name="initiativeId" />
+		</finder>
+		<finder name="PublikUserIdAndInitiativeId" return-type="InitiativeHelp">
+			<finder-column name="publikUserId" />
+			<finder-column name="initiativeId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
 </service-builder>

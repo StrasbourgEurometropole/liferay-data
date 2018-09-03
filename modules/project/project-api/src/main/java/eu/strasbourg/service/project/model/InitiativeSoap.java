@@ -58,6 +58,7 @@ public class InitiativeSoap implements Serializable {
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
 		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
+		soapModel.setPublicationDate(model.getPublicationDate());
 
 		return soapModel;
 	}
@@ -306,6 +307,14 @@ public class InitiativeSoap implements Serializable {
 		_consultationPlacesBody = consultationPlacesBody;
 	}
 
+	public Date getPublicationDate() {
+		return _publicationDate;
+	}
+
+	public void setPublicationDate(Date publicationDate) {
+		_publicationDate = publicationDate;
+	}
+
 	private String _uuid;
 	private long _initiativeId;
 	private long _groupId;
@@ -330,4 +339,5 @@ public class InitiativeSoap implements Serializable {
 	private long _imageId;
 	private String _filesIds;
 	private String _consultationPlacesBody;
+	private Date _publicationDate;
 }

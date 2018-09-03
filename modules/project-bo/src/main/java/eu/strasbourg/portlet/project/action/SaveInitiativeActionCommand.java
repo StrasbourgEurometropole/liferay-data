@@ -201,7 +201,19 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 					// Mise à jour en base
 					_placitPlaceLocalService.updatePlacitPlace(placitPlace, sc);
 				}
-			}						
+			}
+			
+			// ---------------------------------------------------------------
+			// -------------------------- AUTRES -----------------------------
+			// ---------------------------------------------------------------
+						
+			
+			// Défini le format de date à utiliser pour les champs temporels 
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			
+			// Date de publication
+			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
+			initiative.setPublicationDate(publicationDate);
 
 			_initiativeLocalService.updateInitiative(initiative, sc);
 

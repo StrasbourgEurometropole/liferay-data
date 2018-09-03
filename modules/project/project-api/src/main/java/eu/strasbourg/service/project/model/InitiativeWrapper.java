@@ -83,6 +83,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
+		attributes.put("publicationDate", getPublicationDate());
 
 		return attributes;
 	}
@@ -234,6 +235,12 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		if (consultationPlacesBody != null) {
 			setConsultationPlacesBody(consultationPlacesBody);
 		}
+
+		Date publicationDate = (Date)attributes.get("publicationDate");
+
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
+		}
 	}
 
 	/**
@@ -352,6 +359,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne le type de l'initiative (
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
+		return _initiative.getTypeCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -383,6 +398,44 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public int compareTo(
 		eu.strasbourg.service.project.model.Initiative initiative) {
 		return _initiative.compareTo(initiative);
+	}
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _initiative.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre d'aides de l'initiative
+	*/
+	@Override
+	public int getNbHelpInitiative() {
+		return _initiative.getNbHelpInitiative();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _initiative.getNbLikes();
+	}
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikesDislikes() {
+		return _initiative.getNbLikesDislikes();
 	}
 
 	/**
@@ -441,6 +494,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la initiative
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	@Override
+	public java.lang.String getDistrictLabel(java.util.Locale locale) {
+		return _initiative.getDistrictLabel(locale);
+	}
+
+	/**
 	* Returns the external image copyright of this initiative.
 	*
 	* @return the external image copyright of this initiative
@@ -471,6 +534,22 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _initiative.getImageCopyright(locale);
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _initiative.getImageURL();
+	}
+
+	/**
 	* Returns the publik ID of this initiative.
 	*
 	* @return the publik ID of this initiative
@@ -498,6 +577,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _initiative.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	@Override
+	public java.lang.String getThematicsLabel(java.util.Locale locale) {
+		return _initiative.getThematicsLabel(locale);
 	}
 
 	/**
@@ -581,6 +668,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Returns the publication date of this initiative.
+	*
+	* @return the publication date of this initiative
+	*/
+	@Override
+	public Date getPublicationDate() {
+		return _initiative.getPublicationDate();
+	}
+
+	/**
 	* Returns the status date of this initiative.
 	*
 	* @return the status date of this initiative
@@ -597,6 +694,56 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _initiative.getCategories();
+	}
+
+	/**
+	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la initiative
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
+		return _initiative.getCityCategories();
+	}
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
+		return _initiative.getDislikes();
+	}
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la initiative
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _initiative.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _initiative.getLikes();
+	}
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes() {
+		return _initiative.getLikesDislikes();
 	}
 
 	/**
@@ -623,6 +770,30 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
 		return _initiative.getPlacitPlaces();
+	}
+
+	/**
+	* Retourne le projet de l'initiative (
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProjectsCategory() {
+		return _initiative.getProjectsCategory();
+	}
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays de la initiative
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
+		return _initiative.getTerritoryCategories();
+	}
+
+	/**
+	* Retourne les thematiques de la initiative (
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _initiative.getThematicCategories();
 	}
 
 	/**
@@ -891,6 +1062,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_initiative.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publication date of this initiative.
+	*
+	* @param publicationDate the publication date of this initiative
+	*/
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_initiative.setPublicationDate(publicationDate);
 	}
 
 	/**

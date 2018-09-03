@@ -3,6 +3,7 @@
 
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="eu.strasbourg.service.project.model.Initiative" />
+	<import class="eu.strasbourg.service.project.model.InitiativeHelp" />
 	<import class="eu.strasbourg.service.project.model.Participation" />
 	<import class="eu.strasbourg.service.project.model.Petition" />
 	<import class="eu.strasbourg.service.project.model.PlacitPlace" />
@@ -37,6 +38,17 @@
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="consultationPlacesBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.InitiativeHelpImpl" table="project_InitiativeHelp">
+		<id name="initiativeHelpId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="initiativeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="message" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ParticipationImpl" table="project_Participation">
 		<id name="participationId" type="long">

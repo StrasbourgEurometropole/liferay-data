@@ -2418,6 +2418,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		initiativeImpl.setImageId(initiative.getImageId());
 		initiativeImpl.setFilesIds(initiative.getFilesIds());
 		initiativeImpl.setConsultationPlacesBody(initiative.getConsultationPlacesBody());
+		initiativeImpl.setPublicationDate(initiative.getPublicationDate());
 
 		return initiativeImpl;
 	}

@@ -81,4 +81,107 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	*/
 	public java.util.List<java.lang.String> getPlaceSIGIds(
 		java.util.Locale locale);
+
+	/**
+	* Retourne les thematiques de la initiative (
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays de la initiative
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
+
+	/**
+	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la initiative
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories();
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la initiative
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
+
+	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la initiative
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	public java.lang.String getDistrictLabel(java.util.Locale locale);
+
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
+	* Retourne le projet de l'initiative (
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProjectsCategory();
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageURL();
+
+	/**
+	* Retourne le type de l'initiative (
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
+
+	/**
+	* Retourne le nombre d'aides de l'initiative
+	*/
+	public int getNbHelpInitiative();
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes();
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes();
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikesDislikes();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
 }

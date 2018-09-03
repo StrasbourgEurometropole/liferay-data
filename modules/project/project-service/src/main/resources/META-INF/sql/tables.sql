@@ -22,7 +22,17 @@ create table project_Initiative (
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null,
-	consultationPlacesBody TEXT null
+	consultationPlacesBody TEXT null,
+	publicationDate DATE null
+);
+
+create table project_InitiativeHelp (
+	initiativeHelpId LONG not null primary key,
+	createDate DATE null,
+	publikUserId VARCHAR(75) null,
+	initiativeId LONG,
+	groupId LONG,
+	message VARCHAR(75) null
 );
 
 create table project_Participation (

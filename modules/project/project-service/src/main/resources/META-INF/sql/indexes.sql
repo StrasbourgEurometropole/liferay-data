@@ -2,6 +2,9 @@ create index IX_F2897552 on project_Initiative (groupId);
 create index IX_C528BE4C on project_Initiative (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_F62467CE on project_Initiative (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_25334934 on project_InitiativeHelp (initiativeId);
+create index IX_61D1667F on project_InitiativeHelp (publikUserId[$COLUMN_LENGTH:75$], initiativeId);
+
 create index IX_46F38A49 on project_Participation (groupId);
 create index IX_37B14F35 on project_Participation (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_883E1EF7 on project_Participation (uuid_[$COLUMN_LENGTH:75$], groupId);

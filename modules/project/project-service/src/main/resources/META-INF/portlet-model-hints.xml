@@ -38,6 +38,15 @@
 		<field name="consultationPlacesBody" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="publicationDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.InitiativeHelp">
+		<field name="initiativeHelpId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="publikUserId" type="String" />
+		<field name="initiativeId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="message" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Participation">
 		<field name="uuid" type="String" />

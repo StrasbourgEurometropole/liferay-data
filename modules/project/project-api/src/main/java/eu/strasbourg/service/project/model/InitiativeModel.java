@@ -477,6 +477,20 @@ public interface InitiativeModel extends BaseModel<Initiative>, GroupedModel,
 	public void setConsultationPlacesBody(String consultationPlacesBody);
 
 	/**
+	 * Returns the publication date of this initiative.
+	 *
+	 * @return the publication date of this initiative
+	 */
+	public Date getPublicationDate();
+
+	/**
+	 * Sets the publication date of this initiative.
+	 *
+	 * @param publicationDate the publication date of this initiative
+	 */
+	public void setPublicationDate(Date publicationDate);
+
+	/**
 	 * Returns <code>true</code> if this initiative is approved.
 	 *
 	 * @return <code>true</code> if this initiative is approved; <code>false</code> otherwise

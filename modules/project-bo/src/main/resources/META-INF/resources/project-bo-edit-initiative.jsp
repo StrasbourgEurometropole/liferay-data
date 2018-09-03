@@ -47,17 +47,12 @@
 				
 				<%-- Champ : Auteur --%>
 				<aui:input name="author" required="true" />
-			
-			</aui:fieldset>
-			
-			<%-- Groupe de champs : Description --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="description">
-								
+				
 				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="false" />
-				
+			
 			</aui:fieldset>
-					
+											
 			<%-- Groupe de champs : Medias --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="medias">
 				
@@ -76,7 +71,7 @@
 				
 				<%-- Champ : Image interne --%>
 				<div class="internalImage" <c:if test="${(empty dc.initiative.imageId or dc.initiative.imageId eq 0) and not empty dc.initiative.externalImageURL }">style="display: none;"</c:if>>
-					<strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.initiative.imageId}" global="true" />
+					<strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.initiative.imageId}" global="false" />
 				</div>
 				
 				<%-- Groupe de champs : Image externe --%>
@@ -126,7 +121,15 @@
 					<aui:input type="hidden" name="placeIndexes" value="${dc.defaultPlaceIndexes}" />
 				</div>
 				
-			</aui:fieldset>								
+			</aui:fieldset>	
+			
+			<%-- Groupe de champs : Autres --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="others">
+								
+				<%-- Champ : Date de publication --%>
+				<aui:input name="publicationDate" required="true" />
+							
+			</aui:fieldset>							
 			
 			<%-- Groupe de champs : Categorisations --%>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
