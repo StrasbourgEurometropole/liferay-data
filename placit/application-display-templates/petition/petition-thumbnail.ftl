@@ -67,3 +67,9 @@
 </div>
 </div>
         </div>
+
+
+<@liferay_portlet["runtime"]
+        portletProviderAction=portletProviderAction.VIEW
+        portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
+        instanceId="1"/>

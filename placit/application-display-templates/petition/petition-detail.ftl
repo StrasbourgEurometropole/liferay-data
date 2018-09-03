@@ -182,7 +182,7 @@
                                 <p class="pro-txt-progress">Il manque ${entry.getSignataireNeeded()} soutien(s) — <span>il reste ${entry.getTodayExpirationDifferenceDays()} jour(s)</span></p>
                             </div>
                             <div class="pro-wrapper-links-petition">
-                                <a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalPetition">Signer la pétition</a>
+                                <a id="#signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">Signer la pétition</a>
                                 <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                 <div class="col-lg-10 col-lg-offset-1">
                     <h2>D’autres pétitions</h2>
                     <div class="pro-wrapper">
-                        <a href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
+                        <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
                         <a href="listing-petition.html" class="pro-btn">Toutes les pétitions</a>
                     </div>
                 </div>
@@ -241,13 +241,13 @@
             </div>
         </section>
     </#if>
-    <!-- HTML pour la modal d'une pétition -->
-    <div class="pro-modal fade" id="modalPetition" tabindex="-1" role="dialog" aria-labelledby="modalPetition">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <p>Modal pour le dépôt d'une pétition</p>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 </div>
+<@liferay_portlet["runtime"]
+        portletProviderAction=portletProviderAction.VIEW
+        portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
+        instanceId="${entry.petitionId}"/>
+
+<@liferay_portlet["runtime"]
+    portletProviderAction=portletProviderAction.VIEW
+    portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
+    instanceId="deposerPetition"/>
