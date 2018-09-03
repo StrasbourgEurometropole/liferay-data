@@ -7,8 +7,9 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.portlet.project.projectpopup.configuration.ProjectPopupConfiguration;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -34,6 +35,7 @@ import java.io.IOException;
 			"javax.portlet.init-param.template-path=/",
 			"javax.portlet.init-param.view-template=/project-popup-view.jsp",
 			"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
+            "javax.portlet.init-param.config-template=/project-popup-configuration.jsp",
 			"javax.portlet.resource-bundle=content.Language",
 			"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -49,10 +51,17 @@ public class ProjectPopupPortlet extends MVCPortlet {
 
         String userPublikId = getPublikID(request);
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
         try {
-            //Récupération de la configuration du portlet
+            // Récupération de la configuration du portlet
+            ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
+                    .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
 
+            // Récupération du paramètre de tri des commentaires
+            String popupTemplateId = configuration.popupTemplateId();
+            if (Validator.isNull(popupTemplateId)) {
+                popupTemplateId = "filePetition";
+            }
+            request.setAttribute("popupTemplateId",popupTemplateId);
         } catch (Exception e){
 
         }

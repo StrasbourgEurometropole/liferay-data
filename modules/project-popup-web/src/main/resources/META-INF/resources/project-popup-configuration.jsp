@@ -4,7 +4,10 @@
 <%@page import="com.liferay.asset.kernel.model.AssetRendererFactory"%>
 
 <liferay-portlet:actionURL portletConfiguration="true"
-	varImpl="configurationActionURL" />
+	var="configurationActionURL" />
+
+<liferay-portlet:renderURL portletConfiguration="true"
+	var="configurationRenderURL" />
 
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
@@ -12,6 +15,9 @@
 
 		<aui:input name="cmd" type="hidden" value="update" />
 
+		<aui:input name="redirect" type="hidden"
+			value="${configurationRenderURL}" />
+		
 		<aui:fieldset-group markupView="lexicon">
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true"
