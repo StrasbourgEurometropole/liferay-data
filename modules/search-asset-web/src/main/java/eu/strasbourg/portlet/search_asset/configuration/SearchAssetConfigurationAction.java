@@ -1,17 +1,5 @@
 package eu.strasbourg.portlet.search_asset.configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -35,10 +23,19 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PredicateFilter;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration",
@@ -62,9 +59,9 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 		if (cmd.equals("update")) {
 
 			// ClassNamesIds et templates Ids associés
-			String assetClassNamesIdsString = "";
-			String templatesKeysString = "";
-			String layoutsFriendlyURLs = "";
+			StringBuilder assetClassNamesIdsString = new StringBuilder();
+			StringBuilder templatesKeysString = new StringBuilder();
+			StringBuilder layoutsFriendlyURLs = new StringBuilder();
 			long assetClassNamesCount = ParamUtil.getLong(actionRequest,
 				"assetClassNamesCount");
 			int j = 0;
@@ -77,17 +74,17 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				if (assetClassNameSelected) {
 					// ClassName
 					if (assetClassNamesIdsString.length() > 0) {
-						assetClassNamesIdsString += ",";
+						assetClassNamesIdsString.append(",");
 					}
-					assetClassNamesIdsString += assetClassNameIdString;
+					assetClassNamesIdsString.append(assetClassNameIdString);
 
 					// Template correspondant
 					String templateKeyString = ParamUtil
 						.getString(actionRequest, "templateKey_" + i);
 					if (templatesKeysString.length() > 0) {
-						templatesKeysString += ",";
+						templatesKeysString.append(",");
 					}
-					templatesKeysString += templateKeyString;
+					templatesKeysString.append(templateKeyString);
 
 					// Et la friendlyURL du layout de détail correspondant
 					String layoutFriendlyURL = ParamUtil
@@ -101,22 +98,22 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 						return;
 					}
 					if (j > 0) {
-						layoutsFriendlyURLs += ",";
+						layoutsFriendlyURLs.append(",");
 					}
-					layoutsFriendlyURLs += layoutFriendlyURL;
+					layoutsFriendlyURLs.append(layoutFriendlyURL);
 					j++;
 				}
 			}
 
 			setPreference(actionRequest, "assetClassNamesIds",
-				assetClassNamesIdsString);
-			setPreference(actionRequest, "templatesKeys", templatesKeysString);
+					assetClassNamesIdsString.toString());
+			setPreference(actionRequest, "templatesKeys", templatesKeysString.toString());
 			setPreference(actionRequest, "layoutsFriendlyURLs",
-				layoutsFriendlyURLs);
+					layoutsFriendlyURLs.toString());
 
 			// ClassNames
 			String assetClassNames = "";
-			for (String assetClassNameIdString : assetClassNamesIdsString
+			for (String assetClassNameIdString : assetClassNamesIdsString.toString()
 				.split(",")) {
 				if (assetClassNameIdString.length() > 0) {
 					ClassName assetClassName = ClassNameLocalServiceUtil
@@ -150,7 +147,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				documentTemplateKey);
 
 			// VocabulariesIds
-			String vocabulariesIdsString = "";
+			StringBuilder vocabulariesIdsString = new StringBuilder();
 			String vocabulariesControlTypes = "";
 			long vocabulariesCount = ParamUtil.getLong(actionRequest,
 				"vocabulariesCount");
@@ -162,9 +159,9 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 					vocabularyIdString) && !vocabularyIdString.equals("false");
 				if (vocabularySelected) {
 					if (vocabulariesIdsString.length() > 0) {
-						vocabulariesIdsString += ",";
+						vocabulariesIdsString.append(",");
 					}
-					vocabulariesIdsString += vocabularyIdString;
+					vocabulariesIdsString.append(vocabularyIdString);
 
 					// Mode d'affichage du vocabulaire
 					String vocabularyControlType = ParamUtil
@@ -177,7 +174,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				}
 			}
 			setPreference(actionRequest, "vocabulariesIds",
-				vocabulariesIdsString);
+					vocabulariesIdsString.toString());
 			setPreference(actionRequest, "vocabulariesControlTypes",
 				vocabulariesControlTypes);
 
@@ -232,10 +229,10 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 					}
 				}
 			}
-			String sortedPrefilterCategoriesIds = "";
+			StringBuilder sortedPrefilterCategoriesIds = new StringBuilder();
 			for (Long vocabularyId : vocabulariesIds) {
 				if (sortedPrefilterCategoriesIds.length() > 0) {
-					sortedPrefilterCategoriesIds += ";";
+					sortedPrefilterCategoriesIds.append(";");
 				}
 				for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
@@ -245,17 +242,17 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 						if (category != null
 							&& vocabularyId == category.getVocabularyId()) {
 							if (sortedPrefilterCategoriesIds.length() > 0
-								&& !sortedPrefilterCategoriesIds
+								&& !sortedPrefilterCategoriesIds.toString()
 									.endsWith(";")) {
-								sortedPrefilterCategoriesIds += ",";
+								sortedPrefilterCategoriesIds.append(",");
 							}
-							sortedPrefilterCategoriesIds += categoryId;
+							sortedPrefilterCategoriesIds.append(categoryId);
 						}
 					}
 				}
 			}
 			setPreference(actionRequest, "prefilterCategoriesIds",
-				sortedPrefilterCategoriesIds);
+					sortedPrefilterCategoriesIds.toString());
 
 			// Préfiltre tags
 			String prefilterTagsNames = ParamUtil.getString(actionRequest,
@@ -316,17 +313,9 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				.filter(
 					AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
 						themeDisplay.getCompany().getCompanyId()),
-					new PredicateFilter<AssetRendererFactory<?>>() {
-
-						@Override
-						public boolean filter(
-							AssetRendererFactory<?> assetRendererFactory) {
-							return assetRendererFactory.isCategorizable()
-								&& assetRendererFactory.getClassName()
-									.startsWith("eu.strasbourg");
-						}
-
-					});
+						assetRendererFactory -> assetRendererFactory.isCategorizable()
+							&& assetRendererFactory.getClassName()
+								.startsWith("eu.strasbourg"));
 
 			request.setAttribute("availableAssetRendererFactories",
 				availableAssetRendererFactories);

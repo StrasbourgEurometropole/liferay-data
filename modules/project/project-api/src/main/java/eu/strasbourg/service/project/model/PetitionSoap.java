@@ -50,11 +50,9 @@ public class PetitionSoap implements Serializable {
 		soapModel.setDescription(model.getDescription());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setFilesDownload(model.getFilesDownload());
-		soapModel.setPetitionStatus(model.getPetitionStatus());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 		soapModel.setQuotaSignature(model.getQuotaSignature());
-		soapModel.setNombreSignature(model.getNombreSignature());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
@@ -245,14 +243,6 @@ public class PetitionSoap implements Serializable {
 		_filesDownload = filesDownload;
 	}
 
-	public String getPetitionStatus() {
-		return _petitionStatus;
-	}
-
-	public void setPetitionStatus(String petitionStatus) {
-		_petitionStatus = petitionStatus;
-	}
-
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -275,14 +265,6 @@ public class PetitionSoap implements Serializable {
 
 	public void setQuotaSignature(long quotaSignature) {
 		_quotaSignature = quotaSignature;
-	}
-
-	public long getNombreSignature() {
-		return _nombreSignature;
-	}
-
-	public void setNombreSignature(long nombreSignature) {
-		_nombreSignature = nombreSignature;
 	}
 
 	public String getVideoUrl() {
@@ -385,11 +367,9 @@ public class PetitionSoap implements Serializable {
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
-	private String _petitionStatus;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _quotaSignature;
-	private long _nombreSignature;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

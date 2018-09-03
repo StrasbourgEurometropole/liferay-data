@@ -117,11 +117,9 @@
 		</field>
 		<field name="placeTextArea" type="String" />
 		<field name="filesDownload" type="String" />
-		<field name="petitionStatus" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 		<field name="quotaSignature" type="long" />
-		<field name="nombreSignature" type="long" />
 		<field name="videoUrl" type="String" />
 		<field name="externalImageURL" type="String">
 			<hint name="max-length">400</hint>

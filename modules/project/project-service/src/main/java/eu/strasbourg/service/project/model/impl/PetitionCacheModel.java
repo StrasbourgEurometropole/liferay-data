@@ -65,7 +65,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(63);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,16 +99,12 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(placeTextArea);
 		sb.append(", filesDownload=");
 		sb.append(filesDownload);
-		sb.append(", petitionStatus=");
-		sb.append(petitionStatus);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
 		sb.append(expirationDate);
 		sb.append(", quotaSignature=");
 		sb.append(quotaSignature);
-		sb.append(", nombreSignature=");
-		sb.append(nombreSignature);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -216,13 +212,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setFilesDownload(filesDownload);
 		}
 
-		if (petitionStatus == null) {
-			petitionImpl.setPetitionStatus(StringPool.BLANK);
-		}
-		else {
-			petitionImpl.setPetitionStatus(petitionStatus);
-		}
-
 		if (publicationDate == Long.MIN_VALUE) {
 			petitionImpl.setPublicationDate(null);
 		}
@@ -238,7 +227,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 
 		petitionImpl.setQuotaSignature(quotaSignature);
-		petitionImpl.setNombreSignature(nombreSignature);
 
 		if (videoUrl == null) {
 			petitionImpl.setVideoUrl(StringPool.BLANK);
@@ -319,13 +307,10 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		description = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
 		filesDownload = objectInput.readUTF();
-		petitionStatus = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
 
 		quotaSignature = objectInput.readLong();
-
-		nombreSignature = objectInput.readLong();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
@@ -411,19 +396,10 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			objectOutput.writeUTF(filesDownload);
 		}
 
-		if (petitionStatus == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(petitionStatus);
-		}
-
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
 
 		objectOutput.writeLong(quotaSignature);
-
-		objectOutput.writeLong(nombreSignature);
 
 		if (videoUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -492,11 +468,9 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String description;
 	public String placeTextArea;
 	public String filesDownload;
-	public String petitionStatus;
 	public long publicationDate;
 	public long expirationDate;
 	public long quotaSignature;
-	public long nombreSignature;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;
