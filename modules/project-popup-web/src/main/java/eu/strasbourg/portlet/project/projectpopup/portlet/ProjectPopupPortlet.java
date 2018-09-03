@@ -49,7 +49,6 @@ public class ProjectPopupPortlet extends MVCPortlet {
     @Override
     public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 
-        String userPublikId = getPublikID(request);
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         try {
             // Récupération de la configuration du portlet
