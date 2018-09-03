@@ -24,7 +24,5 @@
 	<script src="/o/projectbo/js/project-bo-main.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 
-<liferay-portlet:actionURL varImpl="timelineRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<liferay-portlet:param name="mvcPath" value="/includes/timeline-row.jsp" />
-</liferay-portlet:actionURL>
+<jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
 

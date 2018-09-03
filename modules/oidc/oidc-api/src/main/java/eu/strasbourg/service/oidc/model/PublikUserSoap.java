@@ -37,6 +37,8 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setPublikUserLiferayId(model.getPublikUserLiferayId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setUserId(model.getUserId());
+		soapModel.setUserName(model.getUserName());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setAccessToken(model.getAccessToken());
 		soapModel.setFirstName(model.getFirstName());
@@ -45,6 +47,8 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setMapConfig(model.getMapConfig());
 		soapModel.setDisplayConfig(model.getDisplayConfig());
 		soapModel.setPactSignature(model.getPactSignature());
+		soapModel.setBanishDate(model.getBanishDate());
+		soapModel.setBanishDescription(model.getBanishDescription());
 
 		return soapModel;
 	}
@@ -129,6 +133,22 @@ public class PublikUserSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
+	public long getUserId() {
+		return _userId;
+	}
+
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	public String getUserName() {
+		return _userName;
+	}
+
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
 	public String getPublikId() {
 		return _publikId;
 	}
@@ -193,10 +213,28 @@ public class PublikUserSoap implements Serializable {
 		_pactSignature = pactSignature;
 	}
 
+	public Date getBanishDate() {
+		return _banishDate;
+	}
+
+	public void setBanishDate(Date banishDate) {
+		_banishDate = banishDate;
+	}
+
+	public String getBanishDescription() {
+		return _banishDescription;
+	}
+
+	public void setBanishDescription(String banishDescription) {
+		_banishDescription = banishDescription;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private long _userId;
+	private String _userName;
 	private String _publikId;
 	private String _accessToken;
 	private String _firstName;
@@ -205,4 +243,6 @@ public class PublikUserSoap implements Serializable {
 	private String _mapConfig;
 	private String _displayConfig;
 	private Date _pactSignature;
+	private Date _banishDate;
+	private String _banishDescription;
 }

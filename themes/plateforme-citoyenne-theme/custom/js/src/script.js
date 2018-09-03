@@ -39,8 +39,15 @@ document.addEventListener('scroll',function(){
 });
 
 
-$('.pro-bloc-card-event').on('click',function(){
+
+/*$('.pro-bloc-card-event').on('click',function(e){
+    e.preventDefault();
    $(this).find('pro-btn-action').toggleClass('active');
+});
+
+$('.pro-btn-signer').on('click',function(e){
+    e.preventDefault();
+   $(this).toggleClass('active');
 });
 
 
@@ -49,10 +56,10 @@ $('.pro-btn-action').on('click',function(e){
     e.preventDefault();
     e.stopPropagation();
     $(this).toggleClass('active');
-});
+});*/
 
 
-// Dans les cards expérience, on coupe les lettres du mot découvrir pour créer un effet d'animation
+// Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
 var textDiscoverWrapped = '';
 for (var i = 0; i != textDiscover.length; i++) {

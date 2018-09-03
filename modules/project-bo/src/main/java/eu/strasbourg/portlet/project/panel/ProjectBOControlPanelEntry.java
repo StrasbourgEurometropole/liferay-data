@@ -11,12 +11,12 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  * @author Cédric Henry
  */
 @Component(
-		immediate = true,
-		property = {
-			"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO
-		},
-		service = ControlPanelEntry.class
-	)
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO
+	},
+	service = ControlPanelEntry.class
+)
 public class ProjectBOControlPanelEntry extends BaseControlPanelEntry {
 	
 }

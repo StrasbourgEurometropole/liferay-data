@@ -60,14 +60,88 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes();
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes();
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikesDislikes();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
+
+	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	public boolean isJudgeable();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	/**
+	* Retourne le label de 5 digits du nombre de commentaires de l'entité
+	*/
+	public java.lang.String getNbApprovedCommentsLabel();
+
+	/**
 	* Retourne la liste des événements liés à la participation
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
 
 	/**
-	* Retourne la liste des lieux liés à la participation
+	* Retourne la liste des lieux placit liés à la participation
 	*/
-	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces();
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
+
+	/**
+	* Retourne les noms des lieux placit de la participation
+	*/
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale);
+
+	/**
+	* Retourne les ids SIG des lieux placit de la participation
+	*/
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale);
 
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
@@ -84,6 +158,12 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne le projet de la participation (
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	* Retourne la couleur hexa du type de la participation contenu dans la propriete
+	* 'code_color' de la categorie associee
+	*/
+	public java.lang.String getTypeCategoryColor();
 
 	/**
 	* Retourne les thematiques de la participation (
@@ -115,6 +195,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	*/
 	public java.lang.String getDistrictLabel(java.util.Locale locale);
+
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
 
 	/**
 	* Retourne le status de la participation
@@ -149,6 +234,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<java.lang.String> getFilesURLs();
 
 	/**
+	* Retourne le label d'affichage détaillant le statut
+	*/
+	public java.lang.String getStatusDetailLabel();
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
@@ -157,4 +247,9 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne le copyright de l'image principale
 	*/
 	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

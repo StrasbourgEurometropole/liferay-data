@@ -62,7 +62,7 @@ function opacifyOffSlide($el) {
 
 $('.owl-cards').each(function () {
 
-    if($('.owl-cards .item').length > 0){
+    if ($('.owl-cards .item').length > 0) {
         var _self = $(this);
 
         var options = {
@@ -85,17 +85,15 @@ $('.owl-cards').each(function () {
             }
 
         });
-        _self.on('initialized.owl.carousel', function(event){
+        _self.on('initialized.owl.carousel', function (event) {
             // Do something
-            $('.owl-stage',_self).attr('data-anim','top-stack');
+            $('.owl-stage', _self).attr('data-anim', 'top-stack');
         });
 
         _self.owlCarousel(options);
     }
 
 });
-
-
 
 
 $('.owl-slider').each(function () {
@@ -124,11 +122,77 @@ $('.owl-slider').each(function () {
 
     });
 
-    _self.on('initialized.owl.carousel', function(event){
+    _self.on('initialized.owl.carousel', function (event) {
         // Do something
-        $('.owl-stage',_self).attr('data-anim','top-stack');
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
     });
 
     _self.owlCarousel(options);
+
+});
+
+
+$('.owl-timeline').each(function () {
+
+    var _self = $(this);
+
+
+    var options = {
+            items: 5,
+            loop: false,
+            margin: 0,
+            startPosition: 2,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+                1300: {
+                    items: 5
+                }
+            },
+            nav: true,
+            dots: false,
+            center: true,
+            mouseDrag: false,
+            touchDrag: false,
+            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],
+            autoplay: false,
+            autoplayTimeout: 4000
+        }
+        ;
+
+    var data = _self.data();
+
+    $.each(data, function (key, data) {
+
+        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+            options[key] = data;
+        }
+
+    });
+
+    _self.on('initialized.owl.carousel', function (event) {
+        // Do something
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
+    });
+
+    _self.on('changed.owl.carousel', function (event) {
+        rangerSliderValue = event.item.index + 1;
+        if (rangerSliderValue < 1) {
+
+            rangerSliderValue = 1;
+        }
+        $('#myRange').val(rangerSliderValue);
+    });
+
+    _self.owlCarousel(options);
+
+    $('#myRange').on('change', function () {
+        _self.trigger('to.owl.carousel', (parseInt($('#myRange').val()) - 1));
+    });
+
 
 });

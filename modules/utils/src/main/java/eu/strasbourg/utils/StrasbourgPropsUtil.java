@@ -204,6 +204,14 @@ public class StrasbourgPropsUtil {
 	public static String getResidantURL(){
 		return PropsUtil.get("eu.strasbourg.resid.url");
 	}
+
+	public static String getDailymotionApiUrl() {
+		return PropsUtil.get("eu.strasbourg.dailymotion.api.url");
+	}
+
+	public static String getYoutubeApiUrl() {
+		return PropsUtil.get("eu.strasbourg.youtube.api.url");
+	}
 	
 	public static int getWebServiceDefaultTimeout() {
 		return Integer.parseInt(PropsUtil.get("eu.strasbourg.webservice.default.timeout"));
@@ -215,6 +223,7 @@ public class StrasbourgPropsUtil {
 
 	public static String getEMSZipCode(){
 		return PropsUtil.get("eu.strasbourg.ems.zip_code");
+
 	}
 
 	public static String getFamilySpace(){

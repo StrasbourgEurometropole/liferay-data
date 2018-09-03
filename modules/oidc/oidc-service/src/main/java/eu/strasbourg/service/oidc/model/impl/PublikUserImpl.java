@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
+import java.util.Date;
+
 import aQute.bnd.annotation.ProviderType;
 
 /**
@@ -34,4 +36,19 @@ public class PublikUserImpl extends PublikUserBaseImpl {
 	 */
 	public PublikUserImpl() {
 	}
+	
+	/**
+	 * L'utilisateur est-il en perdiode de bannissement ?
+	 */
+	public boolean isBanned() {
+		Date now = new Date();
+		
+		if (this.getBanishDate() != null) {
+			if (this.getBanishDate().compareTo(now) > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

@@ -422,3 +422,5 @@ Temporary Items
 /.idea/
 themes/plateforme-citoyenne-theme/src/css/strasbourg.css
 themes/plateforme-citoyenne-theme/src/js/strasbourg.js
+Petition-api/bnd.bnd
+Petition-api/build.gradle

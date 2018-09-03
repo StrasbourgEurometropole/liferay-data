@@ -54,4 +54,9 @@ public interface PublikUser extends PublikUserModel, PersistedModel {
 				return PublikUser.class;
 			}
 		};
+
+	/**
+	* L'utilisateur est-il en perdiode de bannissement ?
+	*/
+	public boolean isBanned();
 }

@@ -95,6 +95,35 @@ public class AssetVocabularyHelper {
 		}
 		return null;
 	}
+	
+	/**
+	 * Retourne les quartiers d'une ville
+	 * @param city Le nom de la ville
+	 * @return La liste des catégories quartier disponibles pour la ville demandée
+	 */
+	public static List<AssetCategory> getAllDistrictsFromCity(String cityName) {
+		
+		List<AssetCategory> cityDistricts = new ArrayList<AssetCategory>();
+		
+		try {			
+			// Récupération du vocabulaire des teritoires
+			AssetVocabulary territoryVocabulary = getGlobalVocabulary(VocabularyNames.TERRITORY);
+			
+			List<AssetCategory> cities = territoryVocabulary.getCategories();
+			
+			// Parcours des villes
+			for (AssetCategory city : cities) {
+				if (city.getTitle(Locale.FRENCH).equals(cityName)) {
+					cityDistricts = getChild(city.getCategoryId());
+				}
+			}
+			
+		} catch (PortalException e) {
+			return null;
+		}
+		
+		return cityDistricts;
+	}
 
 	public static boolean isAllDistrict(int listDistrictSizeToCompare){
         AssetVocabulary territoryVocabulary = null;

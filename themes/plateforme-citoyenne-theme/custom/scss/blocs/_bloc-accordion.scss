@@ -1,7 +1,7 @@
 .pro-bloc-accordion {
 	margin: 50px 0 130px 0;
 	@include mobile {
-		margin: 100px 0 130px 0;
+		margin: 100px 0 60px 0;
 	}
 	&:after {
 		content: '';
@@ -92,6 +92,7 @@
 			position: relative;
 			transform: translate3d(0, 0, 0);
 			.panel-body {
+				background: #edf0f2;
 				&:before, &:after {
 					content: '';
 					display: block;
@@ -118,7 +119,10 @@
 			position: relative;
 			padding: 20px 0 40px;
 			border: none;
-			background: #edf0f2;
+			background: none;
+			transition-delay: 0.4s;
+			transition: all 0.5s ease;
+
 
 			h4 {
 				@include ft($f_txt, 1.125em, 700, $c_dark, normal);

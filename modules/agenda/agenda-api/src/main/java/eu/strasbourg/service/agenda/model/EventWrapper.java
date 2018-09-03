@@ -100,6 +100,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("websiteName", getWebsiteName());
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
+		attributes.put("bookingDescription", getBookingDescription());
+		attributes.put("bookingURL", getBookingURL());
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
@@ -361,6 +363,18 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 			setPrice(price);
 		}
 
+		String bookingDescription = (String)attributes.get("bookingDescription");
+
+		if (bookingDescription != null) {
+			setBookingDescription(bookingDescription);
+		}
+
+		String bookingURL = (String)attributes.get("bookingURL");
+
+		if (bookingURL != null) {
+			setBookingURL(bookingURL);
+		}
+
 		String source = (String)attributes.get("source");
 
 		if (source != null) {
@@ -458,6 +472,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* L'evenement est-il terminee ?
+	*/
+	@Override
+	public boolean isFinished() {
+		return _event.isFinished();
+	}
+
+	/**
 	* Returns <code>true</code> if this event is inactive.
 	*
 	* @return <code>true</code> if this event is inactive; <code>false</code> otherwise
@@ -500,6 +522,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public boolean isScheduled() {
 		return _event.isScheduled();
+	}
+
+	/**
+	* Demande si l'utilisateur demandé participe à l'événement
+	*/
+	@Override
+	public boolean isUserParticipate(java.lang.String publikUserId) {
+		return _event.isUserParticipate(publikUserId);
 	}
 
 	/**
@@ -549,6 +579,22 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public int compareTo(eu.strasbourg.service.agenda.model.Event event) {
 		return _event.compareTo(event);
+	}
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _event.getNbApprovedComments();
+	}
+
+	/**
+	* Retourne le nombre de participation a l'evenement
+	*/
+	@Override
+	public int getNbEventParticipations() {
+		return _event.getNbEventParticipations();
 	}
 
 	/**
@@ -803,12 +849,98 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the booking description of this event.
+	*
+	* @return the booking description of this event
+	*/
+	@Override
+	public java.lang.String getBookingDescription() {
+		return _event.getBookingDescription();
+	}
+
+	/**
+	* Returns the localized booking description of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized booking description of this event
+	*/
+	@Override
+	public java.lang.String getBookingDescription(java.lang.String languageId) {
+		return _event.getBookingDescription(languageId);
+	}
+
+	/**
+	* Returns the localized booking description of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized booking description of this event
+	*/
+	@Override
+	public java.lang.String getBookingDescription(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getBookingDescription(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized booking description of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized booking description of this event
+	*/
+	@Override
+	public java.lang.String getBookingDescription(java.util.Locale locale) {
+		return _event.getBookingDescription(locale);
+	}
+
+	/**
+	* Returns the localized booking description of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized booking description of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getBookingDescription(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getBookingDescription(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getBookingDescriptionCurrentLanguageId() {
+		return _event.getBookingDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getBookingDescriptionCurrentValue() {
+		return _event.getBookingDescriptionCurrentValue();
+	}
+
+	/**
+	* Returns the booking url of this event.
+	*
+	* @return the booking url of this event
+	*/
+	@Override
+	public java.lang.String getBookingURL() {
+		return _event.getBookingURL();
+	}
+
+	/**
 	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du
 	* lieu lié sinon
 	*/
 	@Override
 	public java.lang.String getCity(java.util.Locale locale) {
 		return _event.getCity(locale);
+	}
+
+	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	@Override
+	public java.lang.String getCompleteAddress(java.util.Locale locale) {
+		return _event.getCompleteAddress(locale);
 	}
 
 	@Override
@@ -973,6 +1105,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getMercatorY() {
 		return _event.getMercatorY();
+	}
+
+	/**
+	* Retourne le label de 5 digits du nombre de participation a l'evenement
+	*/
+	@Override
+	public java.lang.String getNbEventParticipationsLabel() {
+		return _event.getNbEventParticipationsLabel();
 	}
 
 	/**
@@ -1686,6 +1826,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _event.getApprovedComments();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
@@ -1704,6 +1852,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne la liste des participations de l'evenement
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation> getEventParticipations() {
+		return _event.getEventParticipations();
+	}
+
+	/**
 	* Retourne la liste des périodes auxquelles l'événement à lieu (classées
 	* par date de début croissante)
 	*/
@@ -1718,6 +1874,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getManifestations() {
 		return _event.getManifestations();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
+	*/
+	@Override
+	public java.util.List<java.lang.String> getMercators() {
+		return _event.getMercators();
 	}
 
 	/**
@@ -1786,6 +1953,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getAccessMap() {
 		return _event.getAccessMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized booking descriptions of this event.
+	*
+	* @return the locales and localized booking descriptions of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getBookingDescriptionMap() {
+		return _event.getBookingDescriptionMap();
 	}
 
 	/**
@@ -2119,6 +2296,81 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, java.lang.String> accessMap,
 		java.util.Locale defaultLocale) {
 		_event.setAccessMap(accessMap, defaultLocale);
+	}
+
+	/**
+	* Sets the booking description of this event.
+	*
+	* @param bookingDescription the booking description of this event
+	*/
+	@Override
+	public void setBookingDescription(java.lang.String bookingDescription) {
+		_event.setBookingDescription(bookingDescription);
+	}
+
+	/**
+	* Sets the localized booking description of this event in the language.
+	*
+	* @param bookingDescription the localized booking description of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setBookingDescription(java.lang.String bookingDescription,
+		java.util.Locale locale) {
+		_event.setBookingDescription(bookingDescription, locale);
+	}
+
+	/**
+	* Sets the localized booking description of this event in the language, and sets the default locale.
+	*
+	* @param bookingDescription the localized booking description of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setBookingDescription(java.lang.String bookingDescription,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_event.setBookingDescription(bookingDescription, locale, defaultLocale);
+	}
+
+	@Override
+	public void setBookingDescriptionCurrentLanguageId(
+		java.lang.String languageId) {
+		_event.setBookingDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized booking descriptions of this event from the map of locales and localized booking descriptions.
+	*
+	* @param bookingDescriptionMap the locales and localized booking descriptions of this event
+	*/
+	@Override
+	public void setBookingDescriptionMap(
+		Map<java.util.Locale, java.lang.String> bookingDescriptionMap) {
+		_event.setBookingDescriptionMap(bookingDescriptionMap);
+	}
+
+	/**
+	* Sets the localized booking descriptions of this event from the map of locales and localized booking descriptions, and sets the default locale.
+	*
+	* @param bookingDescriptionMap the locales and localized booking descriptions of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setBookingDescriptionMap(
+		Map<java.util.Locale, java.lang.String> bookingDescriptionMap,
+		java.util.Locale defaultLocale) {
+		_event.setBookingDescriptionMap(bookingDescriptionMap, defaultLocale);
+	}
+
+	/**
+	* Sets the booking url of this event.
+	*
+	* @param bookingURL the booking url of this event
+	*/
+	@Override
+	public void setBookingURL(java.lang.String bookingURL) {
+		_event.setBookingURL(bookingURL);
 	}
 
 	@Override

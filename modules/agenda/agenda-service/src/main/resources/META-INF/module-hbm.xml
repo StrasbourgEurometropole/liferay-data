@@ -6,6 +6,7 @@
 	<import class="eu.strasbourg.service.agenda.model.CampaignEvent" />
 	<import class="eu.strasbourg.service.agenda.model.CampaignEventStatus" />
 	<import class="eu.strasbourg.service.agenda.model.Event" />
+	<import class="eu.strasbourg.service.agenda.model.EventParticipation" />
 	<import class="eu.strasbourg.service.agenda.model.EventPeriod" />
 	<import class="eu.strasbourg.service.agenda.model.ImportReport" />
 	<import class="eu.strasbourg.service.agenda.model.ImportReportLine" />
@@ -138,12 +139,23 @@
 		<property name="websiteName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="free" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="bookingDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="bookingURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="idSource" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="firstStartDate" type="org.hibernate.type.TimestampType" />
 		<property name="lastEndDate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.agenda.model.impl.EventParticipationImpl" table="agenda_EventParticipation">
+		<id name="eventParticipationId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="eventId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.EventPeriodImpl" table="agenda_EventPeriod">
 		<id name="eventPeriodId" type="long">

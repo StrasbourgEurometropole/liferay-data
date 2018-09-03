@@ -87,11 +87,14 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
-			{ "comment_", Types.VARCHAR },
+			{ "comment_", Types.CLOB },
+			{ "level", Types.INTEGER },
+			{ "userQuality", Types.VARCHAR },
+			{ "modifiedByUserDate", Types.TIMESTAMP },
 			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
-			{ "like_", Types.BIGINT },
-			{ "dislike", Types.BIGINT }
+			{ "parentCommentId", Types.BIGINT },
+			{ "urlProjectCommentaire", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -108,14 +111,17 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("level", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("userQuality", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("modifiedByUserDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("like_", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("dislike", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("parentCommentId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("urlProjectCommentaire", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ STRING null,assetEntryId LONG,publikId VARCHAR(75) null,like_ LONG,dislike LONG)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ TEXT null,level INTEGER,userQuality VARCHAR(75) null,modifiedByUserDate DATE null,assetEntryId LONG,publikId VARCHAR(75) null,parentCommentId LONG,urlProjectCommentaire STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
@@ -134,9 +140,11 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	public static final long ASSETENTRYID_COLUMN_BITMASK = 1L;
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long STATUS_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+	public static final long LEVEL_COLUMN_BITMASK = 8L;
+	public static final long PARENTCOMMENTID_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -164,10 +172,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setComment(soapModel.getComment());
+		model.setLevel(soapModel.getLevel());
+		model.setUserQuality(soapModel.getUserQuality());
+		model.setModifiedByUserDate(soapModel.getModifiedByUserDate());
 		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
-		model.setLike(soapModel.getLike());
-		model.setDislike(soapModel.getDislike());
+		model.setParentCommentId(soapModel.getParentCommentId());
+		model.setUrlProjectCommentaire(soapModel.getUrlProjectCommentaire());
 
 		return model;
 	}
@@ -245,10 +256,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("comment", getComment());
+		attributes.put("level", getLevel());
+		attributes.put("userQuality", getUserQuality());
+		attributes.put("modifiedByUserDate", getModifiedByUserDate());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
-		attributes.put("like", getLike());
-		attributes.put("dislike", getDislike());
+		attributes.put("parentCommentId", getParentCommentId());
+		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -336,6 +350,24 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			setComment(comment);
 		}
 
+		Integer level = (Integer)attributes.get("level");
+
+		if (level != null) {
+			setLevel(level);
+		}
+
+		String userQuality = (String)attributes.get("userQuality");
+
+		if (userQuality != null) {
+			setUserQuality(userQuality);
+		}
+
+		Date modifiedByUserDate = (Date)attributes.get("modifiedByUserDate");
+
+		if (modifiedByUserDate != null) {
+			setModifiedByUserDate(modifiedByUserDate);
+		}
+
 		Long assetEntryId = (Long)attributes.get("assetEntryId");
 
 		if (assetEntryId != null) {
@@ -348,16 +380,17 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			setPublikId(publikId);
 		}
 
-		Long like = (Long)attributes.get("like");
+		Long parentCommentId = (Long)attributes.get("parentCommentId");
 
-		if (like != null) {
-			setLike(like);
+		if (parentCommentId != null) {
+			setParentCommentId(parentCommentId);
 		}
 
-		Long dislike = (Long)attributes.get("dislike");
+		String urlProjectCommentaire = (String)attributes.get(
+				"urlProjectCommentaire");
 
-		if (dislike != null) {
-			setDislike(dislike);
+		if (urlProjectCommentaire != null) {
+			setUrlProjectCommentaire(urlProjectCommentaire);
 		}
 	}
 
@@ -610,6 +643,56 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@JSON
 	@Override
+	public int getLevel() {
+		return _level;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		_columnBitmask |= LEVEL_COLUMN_BITMASK;
+
+		if (!_setOriginalLevel) {
+			_setOriginalLevel = true;
+
+			_originalLevel = _level;
+		}
+
+		_level = level;
+	}
+
+	public int getOriginalLevel() {
+		return _originalLevel;
+	}
+
+	@JSON
+	@Override
+	public String getUserQuality() {
+		if (_userQuality == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userQuality;
+		}
+	}
+
+	@Override
+	public void setUserQuality(String userQuality) {
+		_userQuality = userQuality;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedByUserDate() {
+		return _modifiedByUserDate;
+	}
+
+	@Override
+	public void setModifiedByUserDate(Date modifiedByUserDate) {
+		_modifiedByUserDate = modifiedByUserDate;
+	}
+
+	@JSON
+	@Override
 	public long getAssetEntryId() {
 		return _assetEntryId;
 	}
@@ -649,24 +732,41 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@JSON
 	@Override
-	public long getLike() {
-		return _like;
+	public long getParentCommentId() {
+		return _parentCommentId;
 	}
 
 	@Override
-	public void setLike(long like) {
-		_like = like;
+	public void setParentCommentId(long parentCommentId) {
+		_columnBitmask |= PARENTCOMMENTID_COLUMN_BITMASK;
+
+		if (!_setOriginalParentCommentId) {
+			_setOriginalParentCommentId = true;
+
+			_originalParentCommentId = _parentCommentId;
+		}
+
+		_parentCommentId = parentCommentId;
+	}
+
+	public long getOriginalParentCommentId() {
+		return _originalParentCommentId;
 	}
 
 	@JSON
 	@Override
-	public long getDislike() {
-		return _dislike;
+	public String getUrlProjectCommentaire() {
+		if (_urlProjectCommentaire == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _urlProjectCommentaire;
+		}
 	}
 
 	@Override
-	public void setDislike(long dislike) {
-		_dislike = dislike;
+	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
+		_urlProjectCommentaire = urlProjectCommentaire;
 	}
 
 	@Override
@@ -799,10 +899,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentImpl.setStatusByUserName(getStatusByUserName());
 		commentImpl.setStatusDate(getStatusDate());
 		commentImpl.setComment(getComment());
+		commentImpl.setLevel(getLevel());
+		commentImpl.setUserQuality(getUserQuality());
+		commentImpl.setModifiedByUserDate(getModifiedByUserDate());
 		commentImpl.setAssetEntryId(getAssetEntryId());
 		commentImpl.setPublikId(getPublikId());
-		commentImpl.setLike(getLike());
-		commentImpl.setDislike(getDislike());
+		commentImpl.setParentCommentId(getParentCommentId());
+		commentImpl.setUrlProjectCommentaire(getUrlProjectCommentaire());
 
 		commentImpl.resetOriginalValues();
 
@@ -879,9 +982,17 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		commentModelImpl._setOriginalStatus = false;
 
+		commentModelImpl._originalLevel = commentModelImpl._level;
+
+		commentModelImpl._setOriginalLevel = false;
+
 		commentModelImpl._originalAssetEntryId = commentModelImpl._assetEntryId;
 
 		commentModelImpl._setOriginalAssetEntryId = false;
+
+		commentModelImpl._originalParentCommentId = commentModelImpl._parentCommentId;
+
+		commentModelImpl._setOriginalParentCommentId = false;
 
 		commentModelImpl._columnBitmask = 0;
 	}
@@ -961,6 +1072,25 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.comment = null;
 		}
 
+		commentCacheModel.level = getLevel();
+
+		commentCacheModel.userQuality = getUserQuality();
+
+		String userQuality = commentCacheModel.userQuality;
+
+		if ((userQuality != null) && (userQuality.length() == 0)) {
+			commentCacheModel.userQuality = null;
+		}
+
+		Date modifiedByUserDate = getModifiedByUserDate();
+
+		if (modifiedByUserDate != null) {
+			commentCacheModel.modifiedByUserDate = modifiedByUserDate.getTime();
+		}
+		else {
+			commentCacheModel.modifiedByUserDate = Long.MIN_VALUE;
+		}
+
 		commentCacheModel.assetEntryId = getAssetEntryId();
 
 		commentCacheModel.publikId = getPublikId();
@@ -971,16 +1101,23 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.publikId = null;
 		}
 
-		commentCacheModel.like = getLike();
+		commentCacheModel.parentCommentId = getParentCommentId();
 
-		commentCacheModel.dislike = getDislike();
+		commentCacheModel.urlProjectCommentaire = getUrlProjectCommentaire();
+
+		String urlProjectCommentaire = commentCacheModel.urlProjectCommentaire;
+
+		if ((urlProjectCommentaire != null) &&
+				(urlProjectCommentaire.length() == 0)) {
+			commentCacheModel.urlProjectCommentaire = null;
+		}
 
 		return commentCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1008,14 +1145,20 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getStatusDate());
 		sb.append(", comment=");
 		sb.append(getComment());
+		sb.append(", level=");
+		sb.append(getLevel());
+		sb.append(", userQuality=");
+		sb.append(getUserQuality());
+		sb.append(", modifiedByUserDate=");
+		sb.append(getModifiedByUserDate());
 		sb.append(", assetEntryId=");
 		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
-		sb.append(", like=");
-		sb.append(getLike());
-		sb.append(", dislike=");
-		sb.append(getDislike());
+		sb.append(", parentCommentId=");
+		sb.append(getParentCommentId());
+		sb.append(", urlProjectCommentaire=");
+		sb.append(getUrlProjectCommentaire());
 		sb.append("}");
 
 		return sb.toString();
@@ -1023,7 +1166,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.comment.model.Comment");
@@ -1082,6 +1225,18 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getComment());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>level</column-name><column-value><![CDATA[");
+		sb.append(getLevel());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userQuality</column-name><column-value><![CDATA[");
+		sb.append(getUserQuality());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedByUserDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedByUserDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
 		sb.append(getAssetEntryId());
 		sb.append("]]></column-value></column>");
@@ -1090,12 +1245,12 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getPublikId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>like</column-name><column-value><![CDATA[");
-		sb.append(getLike());
+			"<column><column-name>parentCommentId</column-name><column-value><![CDATA[");
+		sb.append(getParentCommentId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>dislike</column-name><column-value><![CDATA[");
-		sb.append(getDislike());
+			"<column><column-name>urlProjectCommentaire</column-name><column-value><![CDATA[");
+		sb.append(getUrlProjectCommentaire());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1128,12 +1283,19 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _comment;
+	private int _level;
+	private int _originalLevel;
+	private boolean _setOriginalLevel;
+	private String _userQuality;
+	private Date _modifiedByUserDate;
 	private long _assetEntryId;
 	private long _originalAssetEntryId;
 	private boolean _setOriginalAssetEntryId;
 	private String _publikId;
-	private long _like;
-	private long _dislike;
+	private long _parentCommentId;
+	private long _originalParentCommentId;
+	private boolean _setOriginalParentCommentId;
+	private String _urlProjectCommentaire;
 	private long _columnBitmask;
 	private Comment _escapedModel;
 }

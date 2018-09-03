@@ -9,6 +9,9 @@
 		height: 100%;
 		width: 1px;
 		background: #CECECE;
+		@include tablet_portrait{
+			content: none;
+		}
 	}
 	#breadcrumb {
 		padding: 10px 0;
@@ -41,6 +44,29 @@
 				&:first-child {
 					padding-left: 0;
 				}
+			}
+		}
+
+		.pro-btn-yellow{
+			width: auto;
+			padding: 0 40px;
+			position: absolute;
+			right: 0;
+			bottom: 30px;
+			&:hover, &:focus{
+				background: $c_dark;
+				border-color: $c_dark;
+			}
+			@media screen and (max-width: 1200px){
+				position: relative;
+				display: inline-block;
+				bottom: 0;
+				margin-top: 20px;
+				float: left;
+			}
+			@include mobile{
+				float: none;
+				display: block;
 			}
 		}
 
@@ -82,6 +108,11 @@
 				right: 0;
 				left: -1000px;
 			}
+			@include mobile{
+				right: 0;
+				left: 0;
+				width: 100%;
+			}
 		}
 
 		.pro-bloc-card-participation {
@@ -89,6 +120,7 @@
 
 			&:hover, &:focus {
 				> * {
+					box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
 					transform: none;
 				}
 			}
@@ -101,6 +133,15 @@
 					@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.429em);
 					strong {
 						color: $c_txt;
+					}
+				}
+
+				.pro-number-comm, .pro-info-top-right{
+					top: 25px;
+					right: 30px;
+					@include mobile{
+						top: 0;
+						right: 0;
 					}
 				}
 			}

@@ -1,12 +1,25 @@
 <%@ include file="/search-asset-init.jsp"%>
+<liferay-portlet:actionURL varImpl="searchActionURL" />
+
 <!-- File d'ariane -->
 <div class="pro-wrapper-top-listing">
 	<div class="container">
 		<div id="breadcrumb">
-			<span> <span><a href="${dc.getHomeURL()}"><liferay-ui:message
-							key="eu.breadcrumb-home" /></a> <span class="breadcrumb_last"><liferay-ui:message
-							key="eu.breadcrumb-news" /></span> </span>
+			<span>
+			    <span>
+			        <a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
+			        <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-news" /></span>
+			    </span>
 			</span>
+		</div>
+		<div class="pro-wrapper-sort">
+            <!-- Formulaire de recherche -->
+            <aui:form action="${searchActionURL}" method="get" name="fm"
+                id="search-asset-form">
+                <liferay-portlet:renderURLParams varImpl="searchActionURL" />
+                <liferay-util:include page="/forms/placit-news-form.jsp"
+                    servletContext="<%=application%>" />
+            </aui:form>
 		</div>
 	</div>
 </div>

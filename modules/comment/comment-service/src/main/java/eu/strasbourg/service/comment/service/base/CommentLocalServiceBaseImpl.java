@@ -63,6 +63,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.comment.service.persistence.CommentPersistence;
+import eu.strasbourg.service.comment.service.persistence.SignalementPersistence;
 
 import java.io.Serializable;
 
@@ -499,6 +500,44 @@ public abstract class CommentLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the signalement local service.
+	 *
+	 * @return the signalement local service
+	 */
+	public eu.strasbourg.service.comment.service.SignalementLocalService getSignalementLocalService() {
+		return signalementLocalService;
+	}
+
+	/**
+	 * Sets the signalement local service.
+	 *
+	 * @param signalementLocalService the signalement local service
+	 */
+	public void setSignalementLocalService(
+		eu.strasbourg.service.comment.service.SignalementLocalService signalementLocalService) {
+		this.signalementLocalService = signalementLocalService;
+	}
+
+	/**
+	 * Returns the signalement persistence.
+	 *
+	 * @return the signalement persistence
+	 */
+	public SignalementPersistence getSignalementPersistence() {
+		return signalementPersistence;
+	}
+
+	/**
+	 * Sets the signalement persistence.
+	 *
+	 * @param signalementPersistence the signalement persistence
+	 */
+	public void setSignalementPersistence(
+		SignalementPersistence signalementPersistence) {
+		this.signalementPersistence = signalementPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -780,6 +819,10 @@ public abstract class CommentLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected CommentLocalService commentLocalService;
 	@BeanReference(type = CommentPersistence.class)
 	protected CommentPersistence commentPersistence;
+	@BeanReference(type = eu.strasbourg.service.comment.service.SignalementLocalService.class)
+	protected eu.strasbourg.service.comment.service.SignalementLocalService signalementLocalService;
+	@BeanReference(type = SignalementPersistence.class)
+	protected SignalementPersistence signalementPersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

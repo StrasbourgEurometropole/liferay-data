@@ -1,0 +1,9 @@
+Bundle-Name: like-api
+Bundle-SymbolicName: eu.strasbourg.service.like.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.like.exception,\
+	eu.strasbourg.service.like.model,\
+	eu.strasbourg.service.like.service,\
+	eu.strasbourg.service.like.service.persistence
+-includeresource: META-INF/service.xml=../like-service/service.xml

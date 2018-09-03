@@ -2,13 +2,8 @@
 .pro-pagination {
 	padding: 25px 0;
 	border-top: 1px solid $c_filet;
-	margin-bottom: -20px;
 	@include mobile {
 		padding: 20px 0;
-	}
-
-	& + .pro-bloc-prefooter {
-		margin-top: 20px;
 	}
 
 	p, form {
@@ -121,7 +116,7 @@
 					&:focus {
 						color: $c_main;
 					}
-					@include mobile {
+					@include tablet_portrait {
 						padding: 0;
 						margin-left: 20px;
 					}

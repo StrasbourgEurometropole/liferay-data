@@ -59,6 +59,10 @@ public interface Comment extends CommentModel, PersistedModel {
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
+	public java.lang.String getTypeAssetEntry();
+
+	public java.lang.String getAssetEntryTitle();
+
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
@@ -68,4 +72,72 @@ public interface Comment extends CommentModel, PersistedModel {
 	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser();
 
 	public java.lang.String getPublikUserName();
+
+	/**
+	* méthode permettant de retourner le nom de l'utilisateur en entier.
+	*
+	* @return le nom de l'utilisateur.
+	*/
+	public java.lang.String getFullPublikUserName();
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes();
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes();
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikesDislikes();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
+
+	/**
+	* Retourne la liste des commentaires enfants de l'item
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments();
+
+	/**
+	* méthode qui renvoie la liste des signalements d'un commentaire.
+	*
+	* @return la liste des signalements
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements();
+
+	/**
+	* méthode qui renvoie le nombre de signalement pour un commentaire.
+	*
+	* @return le nombre de signalement en int.
+	*/
+	public int getCountSignalements();
 }

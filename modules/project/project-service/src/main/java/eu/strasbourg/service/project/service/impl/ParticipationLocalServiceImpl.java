@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
@@ -234,6 +235,14 @@ public class ParticipationLocalServiceImpl
 			// Delete the AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Participation.class.getName(),
 					participationId);
+			
+			// Supprime les lieux
+			List<PlacitPlace> placitPlaces = this.placitPlaceLocalService
+				.getByParticipation(participationId);
+			for (PlacitPlace placitPlace : placitPlaces) {
+				this.placitPlaceLocalService.removePlacitPlace(
+						placitPlace.getPlacitPlaceId());
+			}
 
 		}
 

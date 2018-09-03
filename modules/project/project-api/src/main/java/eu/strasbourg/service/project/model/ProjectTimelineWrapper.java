@@ -134,6 +134,14 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 		return _projectTimeline.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _projectTimeline.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.ProjectTimeline> toCacheModel() {
 		return _projectTimeline.toCacheModel();

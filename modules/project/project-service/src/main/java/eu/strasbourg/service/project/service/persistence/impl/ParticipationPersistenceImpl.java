@@ -2435,7 +2435,6 @@ public class ParticipationPersistenceImpl extends BasePersistenceImpl<Participat
 		participationImpl.setImageId(participation.getImageId());
 		participationImpl.setFilesIds(participation.getFilesIds());
 		participationImpl.setEventsIds(participation.getEventsIds());
-		participationImpl.setPlacesIds(participation.getPlacesIds());
 		participationImpl.setPublicationDate(participation.getPublicationDate());
 		participationImpl.setExpirationDate(participation.getExpirationDate());
 

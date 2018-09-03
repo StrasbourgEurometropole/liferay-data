@@ -6,6 +6,8 @@
 		<field name="publikUserLiferayId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
 		<field name="publikId" type="String">
 			<hint name="max-length">200</hint>
 		</field>
@@ -26,5 +28,9 @@
 			<hint name="max-length">1000</hint>
 		</field>
 		<field name="pactSignature" type="Date" />
+		<field name="banishDate" type="Date" />
+		<field name="banishDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 	</model>
 </model-hints>

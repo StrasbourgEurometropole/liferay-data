@@ -14,32 +14,36 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Participation service. Represents a row in the &quot;project_Participation&quot; database table, with each column mapped to a property of this class.
@@ -53,8 +57,13 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 @ProviderType
 public class ParticipationImpl extends ParticipationBaseImpl {
 
-    private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 	private static final long serialVersionUID = 1311330918138728472L;
+	
+	public static final String SOON_ARRIVED = "soon_arrived";
+	public static final String NEW = "new";
+	public static final String IN_PROGRESS = "in_progress";
+	public static final String SOON_FINISHED = "soon_finished";
+	public static final String FINISHED = "finished";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -72,7 +81,129 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(),
 			this.getParticipationId());
 	}
-
+	
+	/**
+	 * Retourne la liste des like/dislike de l'entité
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getLikesDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
+				this.getParticipationId(), 
+				15);
+	}
+	
+	/**
+	 * Retourne la liste des likes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getLikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				false);
+	}
+	
+	/**
+	 * Retourne la liste des dislikes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public List<Like> getDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				true);
+	}
+	
+	/**
+	 * Retourne le nombre de likes/dislikes de l'entité
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikesDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
+				this.getParticipationId(), 
+				15).size();
+	}
+	
+	/**
+	 * Retourne le nombre de likes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				false).size();
+	}
+	
+	/**
+	 * Retourne le nombre de dislikes de l'entité
+	 *  @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbDislikes() {
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
+				this.getParticipationId(), 
+				15, 
+				true).size();
+	}
+	
+	/**
+	 * Peut apporter une reaction (commenter, liker, participer) a l'entite
+	 */
+	@Override
+	public boolean isJudgeable() {
+		AssetCategory status = this.getParticipationStatusCategory();
+		
+		if (status == null) {
+			return false;
+		} else if (status.getTitle(Locale.FRENCH).equals("À venir")) {
+			return false;
+		} else if (status.getTitle(Locale.FRENCH).equals("Terminée")) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+	
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(
+				this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED).size();
+	}
+	
+	/**
+	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
+	 */
+	@Override
+	public String getNbApprovedCommentsLabel() {
+		// Transforme le numero en chaine de caractere
+		String stringNum = Integer.toString(this.getNbApprovedComments());
+		// Recupere le nombre de chiffre
+		int nbDigits = stringNum.length();
+		// Ajoute les zeros manquants avant la chaine
+		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
+		return stringNum;
+	}
+	
 	/**
 	 * Retourne la liste des événements liés à la participation
 	 */
@@ -90,19 +221,29 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
-	 * Retourne la liste des lieux liés à la participation
+	 * Retourne la liste des lieux placit liés à la participation
 	 */
 	@Override
-	public List<Place> getPlaces() {
-		List<Place> places = new ArrayList<Place>();
-		for (String placeIdsStr : this.getPlacesIds().split(",")) {
-			Long placeId = GetterUtil.getLong(placeIdsStr);
-			Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
-			if (place != null) {
-				places.add(place);
-			}
-		}
-		return places;
+	public List<PlacitPlace> getPlacitPlaces() {
+		return PlacitPlaceLocalServiceUtil.getByParticipation(this.getParticipationId());
+	}
+
+	/**
+	 * Retourne les noms des lieux placit de la participation
+	 */
+	@Override
+	public List<String> getPlaceNames(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceAlias(locale)).distinct().collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les ids SIG des lieux placit de la participation
+	 */
+	@Override
+	public List<String> getPlaceSIGIds(Locale locale) {
+		List<PlacitPlace> placitPlaces = this.getPlacitPlaces();
+		return placitPlaces.stream().map(c -> c.getPlaceSIGId()).distinct().collect(Collectors.toList());
 	}
 
 	/**
@@ -131,6 +272,16 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	public AssetCategory getProjectCategory() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.PROJECT).get(0);
+	}
+	
+	/**
+	 * Retourne la couleur hexa du type de la participation contenu dans la propriete
+	 * 'code_color' de la categorie associee
+	 */
+	@Override
+	public String getTypeCategoryColor() {
+		long categoryId = this.getTypeCategory().getCategoryId();
+		return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
 	}
 	
 	/**
@@ -210,6 +361,21 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		}
 		return result.toString();
 	}
+	
+	/**
+	 * Retourne une chaine des 'Thematics' sépararée d'un '-'
+	 */
+	@Override
+	public String getThematicsLabel(Locale locale) {
+		StringBuilder result = new StringBuilder();
+		List<AssetCategory> thematics = this.getThematicCategories();
+
+	    result.append(thematics.stream()
+                .map(thematic -> thematic.getTitle(locale))
+                .collect(Collectors.joining(" - ")));
+
+		return result.toString();
+	}
 
 	/**
 	 * Retourne le status de la participation
@@ -253,19 +419,19 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		expirationDateMinus = cal.getTime();
 		
 		if (todayDate.before(publicationDate)) {
-			return "soon_arrived";
+			return SOON_ARRIVED;
 		} 
 		else if (todayDate.after(expirationDate)) {
-			return "finished";
+			return FINISHED;
 		}
 		else if (todayDate.after(expirationDateMinus)) {
-			return "soon_finished";
+			return SOON_FINISHED;
 		}
 		else if (todayDate.before(publicationDatePlus)) {
-			return "new";
+			return NEW;
 		} 
 		else {
-			return "in_progress";
+			return IN_PROGRESS;
 		}
 	}
 	
@@ -316,6 +482,30 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
+	 * Retourne le label d'affichage détaillant le statut
+	 */
+	@Override
+	public String getStatusDetailLabel() {
+		String result = "";
+		
+		switch (this.getParticipationStatus()) {
+			case SOON_ARRIVED:
+				result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
+				break;
+			case NEW:
+			case IN_PROGRESS:
+			case SOON_FINISHED:
+				result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
+				break;
+			case FINISHED:
+				result = "Finie";
+				break;
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
@@ -338,5 +528,89 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 		}
 	}
+	
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
+		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		
+		// Champs de gestion
+		jsonParticipation.put("id", this.getParticipationId());
+		jsonParticipation.put("createDate", dateFormat.format(this.getCreateDate()));
+		
+		// Champs : Header
+		jsonParticipation.put("title", this.getTitle());
+		jsonParticipation.put("author", this.getAuthor());
+		
+		// Champs : Contact
+		jsonParticipation.put("contactName", this.getContactName());
+		jsonParticipation.put("contactLine1", this.getContactLine1());
+		jsonParticipation.put("contactLine2", this.getContactLine2());
+		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
+		
+		// Champs : Médias
+		jsonParticipation.put("videoUrl", this.getVideoUrl());
+		jsonParticipation.put("imageURL", this.getImageURL());
+		jsonParticipation.put("mediaChoice", this.getMediaChoice());
+		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
+		
+		// Champs : Description
+		jsonParticipation.put("descriptionChapeau", this.getDescriptionChapeau());
+		jsonParticipation.put("descriptionBody", this.getDescriptionBody());
+		
+		// Champs : Description
+		jsonParticipation.put("consultationPlacesBody", this.getConsultationPlacesBody());
+		
+		// Champs : Dates
+		jsonParticipation.put("publicationDate", this.getPublicationDate());
+		jsonParticipation.put("expirationDate", this.getExpirationDate());
+		
+		// Champs : Intéractivités
+		jsonParticipation.put("nbApprovedComments", this.getNbApprovedComments());
+		jsonParticipation.put("nbLikes", this.getNbLikes());
+		jsonParticipation.put("nbDislikes", this.getNbDislikes());
+		
+		// Label des vocabulaires
+		AssetCategory projectCategory = this.getProjectCategory();
+		AssetCategory statusCategory = this.getParticipationStatusCategory();
+		AssetCategory typeCategory = this.getTypeCategory();
+		
+		jsonParticipation.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
+		jsonParticipation.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
+		jsonParticipation.put("typeLabel", typeCategory != null ? typeCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("typeColor", this.getTypeCategoryColor());
+		jsonParticipation.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("statusId", statusCategory != null ? statusCategory.getCategoryId() : "");
+		jsonParticipation.put("statusCode", this.getParticipationStatus());
+		jsonParticipation.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
+		jsonParticipation.put("statusDetailLabel", this.getStatusDetailLabel());
+		
+		// Lieux placit
+		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+			jsonPlacitPlaces.put(placitPlace.toJSON());
+		}
+		jsonParticipation.put("placitPlaces", jsonPlacitPlaces);
+		
+		// Liste des Ids des catégories Territoire
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
+		if (jsonTerritories.length() > 0) {
+			jsonParticipation.put("territories", jsonTerritories);
+		}
+		
+		// Liste des Ids des catégories Thématiques
+		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
+		if (jsonThematics.length() > 0) {
+			jsonParticipation.put("thematics", jsonThematics);
+		}
+		
+		return jsonParticipation;
+	}
+	
+	private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 	
 }

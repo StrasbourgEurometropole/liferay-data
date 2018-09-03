@@ -1492,6 +1492,123 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setPriceMap(Map<Locale, String> priceMap, Locale defaultLocale);
 
 	/**
+	 * Returns the booking description of this event.
+	 *
+	 * @return the booking description of this event
+	 */
+	public String getBookingDescription();
+
+	/**
+	 * Returns the localized booking description of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized booking description of this event
+	 */
+	@AutoEscape
+	public String getBookingDescription(Locale locale);
+
+	/**
+	 * Returns the localized booking description of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking description of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getBookingDescription(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized booking description of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized booking description of this event
+	 */
+	@AutoEscape
+	public String getBookingDescription(String languageId);
+
+	/**
+	 * Returns the localized booking description of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking description of this event
+	 */
+	@AutoEscape
+	public String getBookingDescription(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getBookingDescriptionCurrentLanguageId();
+
+	@AutoEscape
+	public String getBookingDescriptionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized booking descriptions of this event.
+	 *
+	 * @return the locales and localized booking descriptions of this event
+	 */
+	public Map<Locale, String> getBookingDescriptionMap();
+
+	/**
+	 * Sets the booking description of this event.
+	 *
+	 * @param bookingDescription the booking description of this event
+	 */
+	public void setBookingDescription(String bookingDescription);
+
+	/**
+	 * Sets the localized booking description of this event in the language.
+	 *
+	 * @param bookingDescription the localized booking description of this event
+	 * @param locale the locale of the language
+	 */
+	public void setBookingDescription(String bookingDescription, Locale locale);
+
+	/**
+	 * Sets the localized booking description of this event in the language, and sets the default locale.
+	 *
+	 * @param bookingDescription the localized booking description of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setBookingDescription(String bookingDescription, Locale locale,
+		Locale defaultLocale);
+
+	public void setBookingDescriptionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized booking descriptions of this event from the map of locales and localized booking descriptions.
+	 *
+	 * @param bookingDescriptionMap the locales and localized booking descriptions of this event
+	 */
+	public void setBookingDescriptionMap(
+		Map<Locale, String> bookingDescriptionMap);
+
+	/**
+	 * Sets the localized booking descriptions of this event from the map of locales and localized booking descriptions, and sets the default locale.
+	 *
+	 * @param bookingDescriptionMap the locales and localized booking descriptions of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setBookingDescriptionMap(
+		Map<Locale, String> bookingDescriptionMap, Locale defaultLocale);
+
+	/**
+	 * Returns the booking url of this event.
+	 *
+	 * @return the booking url of this event
+	 */
+	@AutoEscape
+	public String getBookingURL();
+
+	/**
+	 * Sets the booking url of this event.
+	 *
+	 * @param bookingURL the booking url of this event
+	 */
+	public void setBookingURL(String bookingURL);
+
+	/**
 	 * Returns the source of this event.
 	 *
 	 * @return the source of this event

@@ -1,19 +1,18 @@
 package eu.strasbourg.service.project.scheduler;
 
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
-
 import eu.strasbourg.service.project.service.ParticipationLocalService;
+import eu.strasbourg.service.project.service.PetitionLocalService;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * Modifie le statut des participations
@@ -44,16 +43,23 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		_participationLocalService.updateAllParticipationsStatus();
-	}
-	
-	@Reference(unbind = "-")
-	protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
-		_participationLocalService = participationLocalService;
+		_petitionLocalService.updateAllPetitionsStatus();
 	}
 
-	@Reference(unbind = "-")
+    @Reference(unbind = "-")
+    protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
+        _participationLocalService = participationLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
+        _petitionLocalService = petitionLocalService;
+    }
+
+    @Reference(unbind = "-")
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
-	
+
 	private ParticipationLocalService _participationLocalService;
+	private PetitionLocalService _petitionLocalService;
 	
 }
