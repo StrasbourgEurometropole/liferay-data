@@ -70,7 +70,7 @@
                             <figure>
                             	<!-- Si une image de la participation existe -->
                                 <#if entry.getImageURL()?has_content>
-                                	<img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
+                                	<img src="${entry.getImageURL()}" width="40" height="40" alt="Image de l'auteur"/>
                                 </#if>
                             </figure>
                             <p>Participation publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
