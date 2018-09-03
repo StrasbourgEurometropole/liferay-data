@@ -151,6 +151,11 @@
                 .seu-arrow{
                     transform:  translateY(3px) rotate(90deg);
                 }
+                @include RWD(not-mobile) {
+                  #account-menu {
+                    display: none !important;
+                  }
+                }
                 @include RWD(mobile) {
                   #account-menu {
                     display: block;
