@@ -28,9 +28,9 @@ import java.io.IOException;
 	immediate = true,
 	property = {
 			"com.liferay.portlet.display-category=Strasbourg",
-			"com.liferay.portlet.instanceable=false",
+			"com.liferay.portlet.instanceable=true",
 			"com.liferay.portlet.css-class-wrapper=project-popup-portlet",
-			"javax.portlet.display-name=ProjectPopup",
+			"javax.portlet.display-name=Popups Participer",
 			"javax.portlet.init-param.add-process-action-success-action=false",
 			"javax.portlet.init-param.template-path=/",
 			"javax.portlet.init-param.view-template=/project-popup-view.jsp",

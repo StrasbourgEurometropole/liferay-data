@@ -31,6 +31,9 @@
 					<aui:option value="signPetition" selected="${popupTemplateId eq 'signPetition'}">
 						<liferay-ui:message key="signPetition" />
 					</aui:option>
+					<aui:option value="giveInitiativeHelp" selected="${popupTemplateId eq 'giveInitiativeHelp'}">
+						<liferay-ui:message key="giveInitiativeHelp" />
+					</aui:option>
 				</aui:select>
 			</aui:fieldset>
 
