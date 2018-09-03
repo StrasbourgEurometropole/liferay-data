@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form>
+            <form id="form-sign-petition" method="post" action="${signPetition}">
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
                         <p><liferay-ui:message key="modal.signpetition.information"/></p>
@@ -20,21 +20,21 @@
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <label for="nom"><liferay-ui:message key="modal.user.username"/><span class="required">*</span></label>
-                            <input type="text" class="form-control" id="nom" placeholder="Dupond"/>
+                            <input type="text" class="form-control" id="username" placeholder="Dupond"/>
                         </div>
                         <div class="form-group form-triple">
                             <label for="prenom"><liferay-ui:message key="modal.user.firstname"/></label>
-                            <input type="text" class="form-control" id="prenom" placeholder="Jean"/>
+                            <input type="text" class="form-control" id="firstname" placeholder="Jean"/>
                         </div>
                         <div class="form-group form-triple">
                             <label for="date"><liferay-ui:message key="modal.user.birthday"/><span class="required">*</span></label>
-                            <input type="text" class="form-control frm_date" id="date" placeholder="jj/mm/aaaa" readonly="readonly"/>
+                            <input type="text" class="form-control frm_date" id="birthday" placeholder="jj/mm/aaaa" readonly="readonly"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="adresse"><liferay-ui:message key="modal.user.address"/><span class="required">*</span></label>
-                            <input type="text" class="form-control" id="adresse"/>
+                            <input type="text" class="form-control" id="address"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
@@ -43,30 +43,30 @@
                             </div>
                             <div class="form-code">
                                 <label for="code"><liferay-ui:message key="modal.user.postalcode"/><span class="required">*</span></label>
-                                <input type="text" class="form-control" id="code"/>
+                                <input type="text" class="form-control" id="postalcode"/>
                             </div>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="email"><liferay-ui:message key="modal.user.mail"/><span class="required">*</span></label>
-                            <input type="email" class="form-control" id="email" placeholder="jean.dupond@gmail.com">
+                            <input type="email" class="form-control" id="mail" placeholder="jean.dupond@gmail.com">
                         </div>
                         <div class="form-group form-half">
                             <label for="tel"><liferay-ui:message key="modal.user.phone"/><span class="required">*</span></label>
-                            <input type="text" class="form-control" id="tel"/>
+                            <input type="text" class="form-control" id="phone"/>
                         </div>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="optin" value="optin">
+                        <input type="checkbox" id="legalage" value="optin">
                         <label for="optin"><liferay-ui:message key="modal.legalage"/></label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="optin-2" value="optin">
+                        <input type="checkbox" id="cnil" value="optin">
                         <label for="optin-2"><liferay-ui:message key="modal.cnil"/></label>
                     </div>
                 </div>

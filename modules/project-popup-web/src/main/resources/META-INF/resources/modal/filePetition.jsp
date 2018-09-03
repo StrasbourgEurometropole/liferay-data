@@ -9,7 +9,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form>
+            <form id="form-file-petition" method="post" action="${filePetition}">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
                     <div class="form-group">
