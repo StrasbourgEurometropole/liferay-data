@@ -141,7 +141,7 @@
                     margin-right: 5px;
                 }
             }
-            #trigger-account-menu:hover, trigger-account-menu:focus{
+            &:hover, &:focus{
                 text-decoration: none;
                 .seu-text{
                     &:after{
