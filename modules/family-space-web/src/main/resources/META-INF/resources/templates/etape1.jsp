@@ -22,6 +22,22 @@
             </c:if>
         </div>
         <div id="family${family.idFamily}" <c:if test="${count.index gt 1}" > class="hide" </c:if> style="margin-bottom: 40px;">
+            <c:if test="${fn:length(family.persons) == 0}">
+                <!-- Accès espace famille -->
+                <div class="form-group">
+                    <div class="content" style="text-align: center;">
+                        <p style="margin-bottom: 30px";>
+                            <liferay-ui:message key="no-child" />
+                        </p>
+                        <a href="${dc.familySpaceURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="manage-family-space" /> (<liferay-ui:message key="eu.new-window" />)">
+                            <span class="flexbox">
+                                <span class="btn-text"><liferay-ui:message key="manage-family-space" /></span>
+                                <span class="btn-arrow"></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </c:if>
             <c:forEach items="${family.persons}" var="person" varStatus="count">
                 <div class="webform-layout-box">
                     <!-- Enfant -->
@@ -37,6 +53,11 @@
 
                     <!-- Repas -->
                     <c:if test="${person.hasLunchBooked}">
+                        <fmt:parseDate value="${person.firstBookingDate}" pattern="yyyy-MM-dd" var="firstBookingDate" type="both" />
+                        <fmt:formatDate value="${firstBookingDate}" type="date" var="newFirstBookingDate" pattern="dd/MM/yyyy" />
+                        <fmt:parseDate value="${person.lastBookingDate}" pattern="yyyy-MM-dd" var="lastBookingDate" type="both" />
+                        <fmt:formatDate value="${lastBookingDate}" type="date" var="newLastBookingDate" pattern="dd/MM/yyyy" />
+                        <c:set var="dateAlert" value="${dc.today.plusMonths(7)}" />
 						<c:set value="${newFirstBookingDate}-${newLastBookingDate}" var="dates"/>
                         <div class="form-group">
                             <div class="title">
@@ -49,11 +70,6 @@
                     </c:if>
                 </div>
                 <c:if test="${person.hasLunchBooked}">
-                    <fmt:parseDate value="${person.firstBookingDate}" pattern="yyyy-MM-dd" var="firstBookingDate" type="both" />
-                    <fmt:formatDate value="${firstBookingDate}" type="date" var="newFirstBookingDate" pattern="dd/MM/yyyy" />
-                    <fmt:parseDate value="${person.lastBookingDate}" pattern="yyyy-MM-dd" var="lastBookingDate" type="both" />
-                    <fmt:formatDate value="${lastBookingDate}" type="date" var="newLastBookingDate" pattern="dd/MM/yyyy" />
-                    <c:set var="dateAlert" value="${dc.today.plusMonths(7)}" />
                     <c:if test="${dateAlert.isAfter(person.lastBookingDate)}">
                         <div class="warning">
                             <strong><liferay-ui:message key="warning" /></strong><br>
@@ -63,20 +79,6 @@
                 </c:if>
             </c:forEach>
 
-			<!-- Réserver des repas -->
-            <aui:form name="fm" action="${dc.addLunchURL}" class="generic-form toValidate">
-                <aui:input type="hidden" name="idFamily" value="${family.idFamily}" />
-                <div class="form-group">
-                    <div class="content" align="center">
-                        <button type="submit" class="btn-square--filled--core">
-                            <span class="flexbox">
-                                <span class="btn-text"><liferay-ui:message key="book-more-lunches" /></span>
-                                <span class="btn-arrow"></span>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </aui:form>
         </div>
     </c:forEach>
     <div class="webform-layout-box">
