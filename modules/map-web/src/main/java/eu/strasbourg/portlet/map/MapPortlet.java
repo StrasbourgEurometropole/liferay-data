@@ -499,7 +499,7 @@ public class MapPortlet extends MVCPortlet {
             try {
                 MapConfiguration configuration = themeDisplay.getPortletDisplay()
                         .getPortletInstanceConfiguration(MapConfiguration.class);
-                if (configuration.defaultConfig()) {
+                if (configuration.defaultConfig() || configuration.widgetMod()) {
                     configId = "widget";
                 } else {
                     configId = themeDisplay.getPortletDisplay().getInstanceId();
