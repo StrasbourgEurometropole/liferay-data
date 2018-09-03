@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.project.projectpopup.configuration;
+package eu.strasbourg.portlet.projectpopup.configuration;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
