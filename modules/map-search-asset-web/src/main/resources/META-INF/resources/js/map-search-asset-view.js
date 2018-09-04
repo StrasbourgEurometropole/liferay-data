@@ -10,9 +10,9 @@ var participationMarkers = [];
 var eventMarkers = [];
 
 var entityType = {
-	PROJECT : 'project',
-	PARTICIPATION : 'participation',
-	EVENT : 'event',
+		PROJECT : 'project',
+		PARTICIPATION : 'participation',
+		EVENT : 'event'
 }
 
 /**

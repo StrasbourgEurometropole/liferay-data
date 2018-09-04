@@ -9,6 +9,8 @@ import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.video.model.Video;
+import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -45,6 +47,8 @@ import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.Collator;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,7 +97,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
-	private static final String NEWS_TAG_NAME = "actualité";
+	private static final String DETAIL_VIDEO_URL = "detail-video/-/entity/id/";
+	private static final String NEWS_TAG_NAME = "actualite";
 	
 	private DynamicSearchAssetConfiguration configuration;
 	
@@ -276,7 +281,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			 * AssetEntry : Événement
 			 */
 			if (assetClassName.equals(Event.class.getName())) {
-				Event event = EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK());
+				Event event = EventLocalServiceUtil.getEvent(assetEntry.getClassPK());
 				
 				JSONObject jsonEvent = event.toJSON();
 				
@@ -298,7 +303,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			 * AssetEntry : Projet
 			 */
 			else if (assetClassName.equals(Project.class.getName())) {
-				Project project = ProjectLocalServiceUtil.fetchProject(assetEntry.getClassPK());
+				Project project = ProjectLocalServiceUtil.getProject(assetEntry.getClassPK());
 				
 				JSONObject jsonProject = project.toJSON();
 				
@@ -318,7 +323,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			 * AssetEntry : Participation
 			 */
 			else if (assetClassName.equals(Participation.class.getName())) {
-				Participation participation = ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK());
+				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
 				
 				JSONObject jsonParticipation = participation.toJSON();
 				
@@ -332,6 +337,26 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 				
 				jsonResponse.put(jsonParticipation);
+			}
+			
+			/**
+			 * AssetEntry : Vidéo
+			 */
+			else if (assetClassName.equals(Video.class.getName())) {
+				Video video = VideoLocalServiceUtil.getVideo(assetEntry.getClassPK());
+				
+				JSONObject jsonVideo = video.toJSON();
+				
+				jsonVideo.put(
+					ATTRIBUTE_CLASSNAME,
+					Video.class.getName()
+				);
+				jsonVideo.put(
+					ATTRIBUTE_LINK,
+					this.getHomeURL(request) + DETAIL_VIDEO_URL + video.getVideoId()
+				);
+				
+				jsonResponse.put(jsonVideo);
 			}
 			
 			/**
@@ -350,13 +375,27 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				
 				List<String> tagNames = Arrays.asList(assetEntry.getTagNames());
 				
+				// Outil permettant de passer outre les accents lors d'un test d'équivalence
+				Collator collator = Collator.getInstance();
+				collator.setStrength(Collator.NO_DECOMPOSITION);
+				Boolean containsNewsTagName = false;
+				
 				// Vérification de la véracité d'un JournalArticle de type actualité
-				if (tagNames.contains(NEWS_TAG_NAME)) {
-					JournalArticle journalArticle = JournalArticleServiceUtil.fetchArticle(groupId, Long.toString(assetEntry.getClassPK()));
+				for (String nameToTest : tagNames) {
+					if (collator.compare(nameToTest, NEWS_TAG_NAME) == 0) {
+						containsNewsTagName = true;
+					}
+				}
+				
+				// Si tel est le cas
+				if (containsNewsTagName) {
+					JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+					
+					// Récupération du contenu dynamique en XML de l'article
+					com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(journalArticle.getContentByLocale("fr_FR"));
 					
 					JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
-					
-					com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(journalArticle.getContentByLocale("FRENCH"));
 					
 					jsonArticle.put(
 						ATTRIBUTE_CLASSNAME,
@@ -376,7 +415,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					);
 					jsonArticle.put(
 						ATTRIBUTE_PUBLISH_DATE,
-						journalArticle.getDisplayDate()
+						dateFormat.format(journalArticle.getDisplayDate())
 					);
 					jsonArticle.put(
 						ATTRIBUTE_IMAGE_URL,
