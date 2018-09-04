@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +61,6 @@ public class PetitionSoap implements Serializable {
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
-		soapModel.setSignataireId(model.getSignataireId());
 
 		return soapModel;
 	}
@@ -343,14 +341,6 @@ public class PetitionSoap implements Serializable {
 		_filesIds = filesIds;
 	}
 
-	public long getSignataireId() {
-		return _signataireId;
-	}
-
-	public void setSignataireId(long signataireId) {
-		_signataireId = signataireId;
-	}
-
 	private String _uuid;
 	private long _petitionId;
 	private long _groupId;
@@ -379,5 +369,4 @@ public class PetitionSoap implements Serializable {
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
-	private long _signataireId;
 }

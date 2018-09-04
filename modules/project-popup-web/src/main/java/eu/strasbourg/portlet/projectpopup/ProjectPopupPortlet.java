@@ -1,17 +1,5 @@
 package eu.strasbourg.portlet.projectpopup;
 
-import java.io.IOException;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,9 +10,18 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletSession;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * @author alexandre.quere
@@ -51,7 +48,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
 	/**le log*/
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
-	
+
     @Override
     public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 
@@ -66,15 +63,15 @@ public class ProjectPopupPortlet extends MVCPortlet {
             if (Validator.isNull(popupTemplateId)) {
                 popupTemplateId = "filePetition";
             }
-            
+
             // Récupération de l'asset entry Id qui est partagé par le portlet détail
             // entité sur la même page.
             long entryID = this.getPortletAssetEntryId(request);
-		
+
 			// Si on ne récupère rien --> return (On affiche rien)
 			if (entryID == -1)
 				return;
-            
+
             request.setAttribute("popupTemplateId",popupTemplateId);
         } catch (Exception e){
 
@@ -90,20 +87,20 @@ public class ProjectPopupPortlet extends MVCPortlet {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
-    
-    
+
+
     /**
 	 * Recupere l'ID de l'assetEntry du detail de la page
-	 * @throws PortalException 
+	 * @throws PortalException
 	 */
 	private long getPortletAssetEntryId(PortletRequest request) throws PortalException {
 		PortletSession portletSession = request.getPortletSession();
-		
+
 		if (portletSession.getAttribute(SHARED_ASSET_ID, PortletSession.APPLICATION_SCOPE) != null) {
 			return (long) portletSession.getAttribute(SHARED_ASSET_ID,
 					PortletSession.APPLICATION_SCOPE);
 		}
-		
+
 		return -1;
 	}
 }

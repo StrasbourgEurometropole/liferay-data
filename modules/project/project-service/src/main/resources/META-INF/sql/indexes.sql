@@ -10,7 +10,6 @@ create index IX_37B14F35 on project_Participation (uuid_[$COLUMN_LENGTH:75$], co
 create unique index IX_883E1EF7 on project_Participation (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_EE43B560 on project_Petition (groupId);
-create index IX_E53B9B04 on project_Petition (signataireId);
 create index IX_F58DC33A on project_Petition (status, groupId);
 create index IX_12FAADFE on project_Petition (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2EB29C00 on project_Petition (uuid_[$COLUMN_LENGTH:75$], groupId);
@@ -38,11 +37,3 @@ create index IX_86C956F3 on project_Signataire (groupId);
 create index IX_E8FC746E on project_Signataire (petitionId, signataireName[$COLUMN_LENGTH:75$]);
 create index IX_B66621CB on project_Signataire (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2A129F0D on project_Signataire (uuid_[$COLUMN_LENGTH:75$], groupId);
-
-create index IX_C5CAE324 on project_Signatory (groupId);
-create index IX_2FF7F273 on project_Signatory (petitionId);
-create index IX_B470BCBA on project_Signatory (uuid_[$COLUMN_LENGTH:75$], companyId);
-create unique index IX_3E9529BC on project_Signatory (uuid_[$COLUMN_LENGTH:75$], groupId);
-
-create index IX_C3D59DB3 on project_Signatoryy (uuid_[$COLUMN_LENGTH:75$], companyId);
-create unique index IX_5D7FF4F5 on project_Signatoryy (uuid_[$COLUMN_LENGTH:75$], groupId);

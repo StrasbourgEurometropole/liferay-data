@@ -1,4 +1,7 @@
 <%@ include file="/project-popup-init.jsp" %>
+<portlet:actionURL var="petitionPopup" name="petitionPopup">
+</portlet:actionURL>
+
 <!-- HTML pour la modal d'une pétition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">

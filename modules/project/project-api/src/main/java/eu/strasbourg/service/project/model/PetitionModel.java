@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +26,6 @@ import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
 /**
@@ -532,20 +529,6 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	 * @param filesIds the files IDs of this petition
 	 */
 	public void setFilesIds(String filesIds);
-
-	/**
-	 * Returns the signataire ID of this petition.
-	 *
-	 * @return the signataire ID of this petition
-	 */
-	public long getSignataireId();
-
-	/**
-	 * Sets the signataire ID of this petition.
-	 *
-	 * @param signataireId the signataire ID of this petition
-	 */
-	public void setSignataireId(long signataireId);
 
 	/**
 	 * Returns <code>true</code> if this petition is approved.
