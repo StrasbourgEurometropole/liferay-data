@@ -129,7 +129,7 @@
 				</c:if>
 				<c:if test="${felecResponse.returnCard eq 'O'}">
 					<div class="error">
-						<a href="https://www.strasbourg.eu/lieu/-/entity/sig/462_SPC_38">Votre carte d'&eacute;lecteur est disponible &agrave; l'accueil du centre administratif</a>
+						Votre carte d'&eacute;lecteur est disponible <a href="https://www.strasbourg.eu/lieu/-/entity/sig/462_SPC_38">&agrave; l'accueil du centre administratif</a>
 					</div>
 				</c:if>
 				<!-- <div align="right">

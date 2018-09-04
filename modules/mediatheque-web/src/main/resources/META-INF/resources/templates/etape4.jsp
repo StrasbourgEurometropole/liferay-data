@@ -123,10 +123,12 @@
 					">
 						<div class="title">
 							<label>${media.name}<c:if test="${fn:length(media.name) eq 25}"> ...</c:if></label>
-						</div> 
-						<p>
-							${media.type}
-						</p>
+						</div>
+						<c:if test="${not empty dc.getType(media.type)}">
+							<p>
+								${dc.getType(media.type)}
+							</p>
+						</c:if>
 					</div>
 				</c:forEach>
 	        	<c:if test="${fn:length(reservations) gt 3}">
