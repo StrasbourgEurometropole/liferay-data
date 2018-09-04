@@ -294,7 +294,6 @@
         <column name="publikId" type="String" />
         <column name="imageId" type="long" />
         <column name="filesIds" type="String" />
-        <column name="signataireId" type="long" />
 
         <!-- Order -->
         <order by="asc">
@@ -305,9 +304,6 @@
 
         <finder name="GroupId" return-type="Collection">
             <finder-column name="groupId" />
-        </finder>
-        <finder name="Signataire" return-type="Collection">
-            <finder-column name="signataireId" />
         </finder>
         <finder name="StatusAndGroupId" return-type="Collection">
             <finder-column name="status" />

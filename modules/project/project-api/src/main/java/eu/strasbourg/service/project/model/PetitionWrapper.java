@@ -15,12 +15,16 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.expando.kernel.model.ExpandoBridge;
+
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,7 +87,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
-		attributes.put("signataireId", getSignataireId());
 
 		return attributes;
 	}
@@ -258,12 +261,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
-		}
-
-		Long signataireId = (Long)attributes.get("signataireId");
-
-		if (signataireId != null) {
-			setSignataireId(signataireId);
 		}
 	}
 
@@ -974,16 +971,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Returns the signataire ID of this petition.
-	*
-	* @return the signataire ID of this petition
-	*/
-	@Override
-	public long getSignataireId() {
-		return _petition.getSignataireId();
-	}
-
-	/**
 	* méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
 	*
 	* @return le nombre
@@ -1249,16 +1236,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setQuotaSignature(long quotaSignature) {
 		_petition.setQuotaSignature(quotaSignature);
-	}
-
-	/**
-	* Sets the signataire ID of this petition.
-	*
-	* @param signataireId the signataire ID of this petition
-	*/
-	@Override
-	public void setSignataireId(long signataireId) {
-		_petition.setSignataireId(signataireId);
 	}
 
 	/**

@@ -15,16 +15,19 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+
 import eu.strasbourg.service.project.model.Petition;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
 import java.util.Date;
 
 /**
@@ -62,7 +65,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -120,8 +123,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(imageId);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
-		sb.append(", signataireId=");
-		sb.append(signataireId);
 		sb.append("}");
 
 		return sb.toString();
@@ -273,8 +274,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setFilesIds(filesIds);
 		}
 
-		petitionImpl.setSignataireId(signataireId);
-
 		petitionImpl.resetOriginalValues();
 
 		return petitionImpl;
@@ -320,8 +319,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
-
-		signataireId = objectInput.readLong();
 	}
 
 	@Override
@@ -445,8 +442,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		else {
 			objectOutput.writeUTF(filesIds);
 		}
-
-		objectOutput.writeLong(signataireId);
 	}
 
 	public String uuid;
@@ -477,5 +472,4 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String publikId;
 	public long imageId;
 	public String filesIds;
-	public long signataireId;
 }
