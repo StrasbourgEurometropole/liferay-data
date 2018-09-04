@@ -1,5 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
 <portlet:actionURL var="petitionPopup" name="petitionPopup">
+	<portlet:param name="cmd" value="savePetition" />
 </portlet:actionURL>
 
 <!-- HTML pour la modal d'une pétition -->
@@ -11,7 +12,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form id="form-sign-petition" method="post" action="${signPetition}">
+            <form id="form-sign-petition" method="post" action="${petitionPopup}">
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
                         <p><liferay-ui:message key="modal.signpetition.information"/></p>
