@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
@@ -196,6 +195,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataires();
 
 	/**
 	* Retourne le status de la petition

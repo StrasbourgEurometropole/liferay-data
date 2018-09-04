@@ -1,6 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
 <portlet:actionURL var="petitionPopup" name="petitionPopup">
-	<portlet:param name="cmd" value="savePetition" />
+	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
 <!-- HTML pour la modal d'une pétition -->
@@ -22,40 +22,34 @@
                     <h4><liferay-ui:message key="modal.signpetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
-				            <aui:input name="username" cssClass="form-control" label="modal.user.username" required="true" placeholder="Dupond"/>
+				            <aui:input name="username" label="modal.user.username" required="true" placeholder="Dupond"/>
                         </div>
                         <div class="form-group form-triple">
-				            <aui:input name="firstname" cssClass="form-control" label="modal.user.firstname" required="true" placeholder="Jean"/>
+				            <aui:input name="firstname" label="modal.user.firstname" required="true" placeholder="Jean"/>
                         </div>
                         <div class="form-group form-triple">
-				            <aui:input name="birthday" cssClass="form-control frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
+				            <aui:input name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="adresse"><liferay-ui:message key="modal.user.address"/><span class="required">*</span></label>
-                            <input type="text" class="form-control" id="address"/>
-				            <aui:input name="address" cssClass="form-control" label="modal.user.address" required="true" placeholder=""/>
+				            <aui:input name="address" label="modal.user.address" required="true"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <label for="city"><liferay-ui:message key="modal.user.city"/><span class="required">*</span></label>
-                                <input type="text" class="form-control" id="city"/>
+				                <aui:input name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
                             </div>
                             <div class="form-code">
-                                <label for="code"><liferay-ui:message key="modal.user.postalcode"/><span class="required">*</span></label>
-                                <input type="text" class="form-control" id="postalcode"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
                             </div>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="email"><liferay-ui:message key="modal.user.mail"/><span class="required">*</span></label>
-                            <input type="email" class="form-control" id="mail" placeholder="jean.dupond@gmail.com">
+                                <aui:input name="mail" label="modal.user.mail" required="true" placeholder="jean.dupond@gmail.com"/>
                         </div>
                         <div class="form-group form-half">
-                            <label for="tel"><liferay-ui:message key="modal.user.phone"/><span class="required">*</span></label>
-                            <input type="text" class="form-control" id="phone"/>
+                                <aui:input name="phone" label="modal.user.phone" required="true" placeholder="0611111111"/>
                         </div>
                     </div>
                 </div>

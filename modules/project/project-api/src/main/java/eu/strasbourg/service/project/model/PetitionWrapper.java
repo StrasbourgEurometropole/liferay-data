@@ -838,6 +838,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getPlacitPlaces();
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataires() {
+		return _petition.getSignataires();
+	}
+
 	/**
 	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
 	*

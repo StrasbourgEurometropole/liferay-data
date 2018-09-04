@@ -173,6 +173,7 @@ public class PetitionImpl extends PetitionBaseImpl {
         return result.toString();
     }
 
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -433,7 +434,8 @@ public class PetitionImpl extends PetitionBaseImpl {
                 .getAssetEntryCategories(this.getAssetEntry());
     }
 
-    List<Signataire> getSignataires(){
+
+    public List<Signataire> getSignataires(){
 		return SignataireLocalServiceUtil.getSignatairesByPetitionId(getPetitionId());
 	}
 

@@ -1,4 +1,7 @@
 <%@ include file="/project-popup-init.jsp" %>
+<portlet:actionURL var="petitionPopup" name="petitionPopup">
+	<portlet:param name="cmd" value="savePetition" />
+</portlet:actionURL>
 <!-- DEPOSER UNE NOUVELLE PETITION -->
 <!-- HTML pour la modal de pétition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalPetition" tabindex="-1" role="dialog" aria-labelledby="modalPetition">
@@ -13,33 +16,34 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
                     <div class="form-group">
-                        <label for="titre"><liferay-ui:message key="modal.filepetition.information.title"/> <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="titre"/>
+                        <aui:input name="title" label="modal.filepetition.information.title" required="true"/>
                     </div>
                     <div class="form-group">
-                        <label for="description"><liferay-ui:message key="modal.filepetition.information.description"/> <span>*</span></label>
-                        <textarea id="description" class="form-control" rows="3"></textarea>
+                        <aui:input type="textarea" name="description" label="modal.filepetition.information.description" required="true"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-triple">
-                            <label for="petition"><liferay-ui:message key="modal.filepetition.information.nom"/></label>
-                            <select id="petition">
-                                <option>Nom 1</option>
-                                <option>Nom 2</option>
+                            <label for="petition"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
+                            <select name="<portlet:namespace />project">
+                                <c:forEach var="project" items="${projects}">
+                                    <option value="${project.categoryId}">${project.name}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <div class="form-group form-triple">
                             <label for="territoire"><liferay-ui:message key="modal.filepetition.information.territoire"/></label>
-                            <select id="territoire">
-                                <option>Thématique 1</option>
-                                <option>Thématique 2</option>
+                            <select name="<portlet:namespace />quartier">
+                                <c:forEach var="quartier" items="${quartiers}">
+                                    <option value="${quartier.categoryId}">${quartier.name}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <div class="form-group form-triple">
                             <label for="thematique"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
-                            <select id="thematique">
-                                <option>Thématique 1</option>
-                                <option>Thématique 2</option>
+                            <select name="<portlet:namespace />theme">
+                                <c:forEach var="theme" items="${thematics}">
+                                    <option value="${theme.categoryId}">${theme.name}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>
@@ -51,42 +55,34 @@
                     <h4><liferay-ui:message key="modal.filepetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
-                            <label for="nom-3"><liferay-ui:message key="modal.user.username"/> <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="nom-3" placeholder="Dupond"/>
+                            <aui:input name="username" label="modal.user.username" required="true" placeholder="Dupond"/>
                         </div>
                         <div class="form-group form-triple">
-                            <label for="prenom-3"><liferay-ui:message key="modal.user.firstname"/></label>
-                            <input type="text" class="form-control" id="prenom-3" placeholder="Jean"/>
+                            <aui:input name="firstname" label="modal.user.firstname" required="true" placeholder="Jean"/>
                         </div>
                         <div class="form-group form-triple">
-                            <label for="date-3"><liferay-ui:message key="modal.user.birthday"/> <span class="required">*</span></label>
-                            <input type="text" class="form-control frm_date" id="date-3" placeholder="jj/mm/aaaa" readonly="readonly"/>
+                            <aui:input name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="adresse-3"><liferay-ui:message key="modal.user.address"/> <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="adresse-3" />
+                            <aui:input name="address" label="modal.user.address" required="true"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <label for="city-3"><liferay-ui:message key="modal.user.city"/> <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="city-3" />
+                                <aui:input name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
                             </div>
                             <div class="form-code">
-                                <label for="code-3"><liferay-ui:message key="modal.user.postalcode"/> <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="code-3" />
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
                             </div>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="email-3"><liferay-ui:message key="modal.user.mail"/> <span class="required">*</span></label>
-                            <input type="email" class="form-control" id="email-3" placeholder="jean.dupond@gmail.com">
+                            <aui:input name="mail" label="modal.user.mail" required="true" placeholder="jean.dupond@gmail.com"/>
                         </div>
                         <div class="form-group form-half">
-                            <label for="tel-3"><liferay-ui:message key="modal.user.phone"/></label>
-                            <input type="text" class="form-control" id="tel-3"/>
+                            <aui:input name="phone" label="modal.user.phone" required="true" placeholder="0611111111"/>
                         </div>
                     </div>
                 </div>

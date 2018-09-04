@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.projectpopup;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -11,6 +12,8 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -22,6 +25,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author alexandre.quere
@@ -48,9 +52,11 @@ public class ProjectPopupPortlet extends MVCPortlet {
 	/**le log*/
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
+	private static final String CITY_NAME = "Strasbourg";
 
     @Override
     public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+		AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
 
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         try {
@@ -58,6 +64,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
             ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
 
+			long groupId = themeDisplay.getLayout().getGroupId();
             // Récupération du paramètre de tri des commentaires
             String popupTemplateId = configuration.popupTemplateId();
             if (Validator.isNull(popupTemplateId)) {
@@ -72,9 +79,21 @@ public class ProjectPopupPortlet extends MVCPortlet {
 			if (entryID == -1)
 				return;
 
-            request.setAttribute("popupTemplateId",popupTemplateId);
-        } catch (Exception e){
+			// Récupération des quartiers
+			List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
 
+            // Récupération des thematics
+            List<AssetCategory> thematics = assetVocabularyAccessor.getThematics(groupId).getCategories();
+
+            // Récupération des thematics
+            List<AssetCategory> projects = assetVocabularyAccessor.getProjects(groupId).getCategories();
+
+			request.setAttribute("popupTemplateId",popupTemplateId);
+			request.setAttribute("quartiers",districts);
+			request.setAttribute("thematics",thematics);
+			request.setAttribute("projects",projects);
+        } catch (Exception e){
+			_log.error("erreur : ",e);
         }
         super.render(request, response);
     }
