@@ -11,7 +11,7 @@
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
-            <form id="form-sign-petition" method="post" action="${petitionPopup}">
+            <form id="form-sign-petition" method="post" action="${signPetition}">
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
                         <p><liferay-ui:message key="modal.signpetition.information"/></p>
