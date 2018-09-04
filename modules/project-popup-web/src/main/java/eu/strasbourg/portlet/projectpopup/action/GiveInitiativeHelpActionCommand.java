@@ -20,13 +20,10 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	)
 public class GiveInitiativeHelpActionCommand implements MVCActionCommand {
 
-	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
 	
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
 		throws PortletException {
-		
-
 		
 		return true;
 	}
