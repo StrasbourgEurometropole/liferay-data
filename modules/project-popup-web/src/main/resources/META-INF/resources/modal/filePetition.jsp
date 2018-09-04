@@ -1,6 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
-<portlet:actionURL var="petitionPopup" name="petitionPopup">
-	<portlet:param name="cmd" value="savePetition" />
+<portlet:actionURL var="filePetition" name="filePetition">
+	<portlet:param name="cmd" value="filePetition" />
 </portlet:actionURL>
 <!-- DEPOSER UNE NOUVELLE PETITION -->
 <!-- HTML pour la modal de pétition -->
@@ -88,14 +88,14 @@
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="optin-3" value="optin">
-                        <label for="optin"><liferay-ui:message key="modal.legalage"/></label>
+                        <input type="checkbox" id="file-petition-legalage" value="legalage">
+                        <label for="file-petition-legalage"><liferay-ui:message key="modal.legalage"/></label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="optin-10" value="optin-3">
-                        <label for="optin-10"><liferay-ui:message key="modal.cnil"/></label>
+                        <input type="checkbox" id="file-petition-cnil" value="cnil">
+                        <label for="file-petition-cnil"><liferay-ui:message key="modal.cnil"/></label>
                     </div>
                 </div>
                 <div class="pro-info-supp">

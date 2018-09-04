@@ -1,5 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
-<portlet:actionURL var="petitionPopup" name="petitionPopup">
+<portlet:actionURL var="signPetition" name="signPetition">
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
@@ -55,14 +55,14 @@
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="legalage" value="optin">
-                        <label for="optin"><liferay-ui:message key="modal.legalage"/></label>
+                        <input type="checkbox" id="legalage" value="legalage">
+                        <label for="legalage"><liferay-ui:message key="modal.legalage"/></label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="cnil" value="optin">
-                        <label for="optin-2"><liferay-ui:message key="modal.cnil"/></label>
+                        <input type="checkbox" id="cnil" value="cnil">
+                        <label for="cnil"><liferay-ui:message key="modal.cnil"/></label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
