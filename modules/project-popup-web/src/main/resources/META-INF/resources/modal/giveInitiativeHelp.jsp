@@ -1,3 +1,8 @@
+<%@ include file="/project-popup-init.jsp" %>
+
+<portlet:actionURL var="giveInitiativeHelp" name="giveInitiativeHelp">
+</portlet:actionURL>
+
 <!-- MODAL PROPOSER MON AIDE -->
         <div class="pro-modal pro-bloc-pcs-form fade" id="modalAide" tabindex="-1" role="dialog" aria-labelledby="modalAide">
             <div class="modal-dialog" role="document">
@@ -7,7 +12,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
                     </div>
 
-                    <form>
+                    <form method="post" action="${giveInitiativeHelp}">
                         <div class="pro-wrapper">
                             <div class="pro-row">
                                 <div class="form-group form-half">

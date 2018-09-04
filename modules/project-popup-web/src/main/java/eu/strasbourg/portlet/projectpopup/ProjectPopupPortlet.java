@@ -5,20 +5,15 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
-import eu.strasbourg.portlet.project.projectpopup.configuration.ProjectPopupConfiguration;
-import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
@@ -75,17 +70,6 @@ public class ProjectPopupPortlet extends MVCPortlet {
         super.render(request, response);
     }
 
-    public void signPetition(ActionRequest request, ActionResponse response) throws Exception{
-        try{
-            String userPublikId = getPublikID(request);
-            String userName = ParamUtil.getString(request,"username");
-            Petition petition;
-
-        }catch (Exception e){
-
-        }
-    }
-
     /**
      * Récupération du publik ID avec la session
      */
@@ -94,12 +78,4 @@ public class ProjectPopupPortlet extends MVCPortlet {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
-
-    @Override
-    public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-    		throws IOException, PortletException {
-    	// TODO Auto-generated method stub
-    	super.serveResource(resourceRequest, resourceResponse);
-    }
-
 }

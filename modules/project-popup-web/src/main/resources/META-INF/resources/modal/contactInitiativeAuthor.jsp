@@ -1,3 +1,9 @@
+<%@ include file="/project-popup-init.jsp" %>
+
+
+<portlet:resourceURL id="ContactInitiativeAuthor" var="ContactInitiativeAuthorURL">
+</portlet:resourceURL>
+
 <!-- MODAL CONTACTER LE PORTEUR -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalContacter"
 	tabindex="-1" role="dialog" aria-labelledby="modalContacter">
@@ -50,7 +56,7 @@
 					</div>
 				</div>
 				<div class="pro-form-submit">
-					<button type="submit" class="btn btn-default">Contacter le
+					<button id="submitButton" type="submit" class="btn btn-default">Contacter le
 						porteur</button>
 				</div>
 			</form>
@@ -60,3 +66,21 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<script>
+
+$('#submitButton').click( function(){
+	AUI().use('aui-io-request', function(A) {
+		A.io.request('${ContactInitiativeAuthorURL}', {
+			method : 'post',
+			dataType: 'json',
+			on: {
+	            success: function(e) {
+	            	alert('success');
+			 	}
+			 }
+		});
+	});
+});
+
+</script>
