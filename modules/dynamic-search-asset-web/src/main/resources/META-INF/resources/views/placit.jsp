@@ -1,6 +1,6 @@
 <%@ include file="/dynamic-search-asset-init.jsp" %>
 
-<portlet:resourceURL id="searchAsset" var="searchAssetURL">
+<portlet:resourceURL id="searchSubmit" var="searchSubmitURL">
 </portlet:resourceURL>
 
 <!-- Portlet de recherche dynamique -->
@@ -14,7 +14,7 @@
         </div>
         
         <!-- CHAMP : Saisie de la recherche -->
-        <form method="GET" action="page-search.html">
+        <form>
             <label for="pro-search" style="display: none;">Rechercher...</label>
             <input type="text" name="dynamic-search-keywords" id="pro-search" placeholder="Effectuer une recherche...">
             <button id="dynamic-search-submit" type="submit" aria-label="Bouton de recherche"><span class="icon-ico-search"></span></button>
@@ -64,7 +64,7 @@
 		var homeURL = '${homeURL}';
 		var porletNamespace = '<portlet:namespace/>';
 		
-		var searchAssetURL = '${searchAssetURL}';
+		var searchSubmitURL = '${searchSubmitURL}';
 	</script>
 </liferay-util:html-top>
 

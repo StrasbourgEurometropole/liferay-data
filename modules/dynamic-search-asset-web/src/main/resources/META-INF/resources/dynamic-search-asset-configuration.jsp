@@ -15,8 +15,8 @@
 		<aui:fieldset-group markupView="lexicon">
 		
 			<!-- Type d'asset -->
-			<aui:fieldset collapsed="false" collapsible="true"
-				label="asset-type">
+			<aui:fieldset collapsed="false" collapsible="true"label="asset-type">
+			
 				<liferay-ui:message key="asset-types-explanations" />
 				<div class="asset-types">
 					<aui:input type="hidden" name="assetClassNamesCount"
@@ -65,12 +65,15 @@
 			
 			<!-- Portee -->
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
+			
 				<liferay-ui:message key="scope-explanations" />
 				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
+				
 			</aui:fieldset>
 			
 			<!-- Prefiltre -->
 			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
+			
 				<liferay-ui:message key="prefilter-explanations" />
 				<label><liferay-ui:message key="categories" /></label>
 				<p>
@@ -86,10 +89,12 @@
 						hiddenInput="prefilterTagsNames"
 						curTags="${prefilterTagsNames}" />
 				</p>
+				
 			</aui:fieldset>
 			
 			<!-- Boosts -->
 			<aui:fieldset collapsed="true" collapsible="true" label="boosts">
+			
 				<liferay-ui:message key="boost-explanations" />
 				<p>
 					<label><liferay-ui:message key="tags" /></label>
@@ -97,6 +102,7 @@
 						hiddenInput="boostTagsNames"
 						curTags="${boostTagsNames}" />
 				</p>
+				
 			</aui:fieldset>
 			
 			<!-- Date de selection -->
@@ -125,8 +131,7 @@
 			</aui:fieldset>
 			
 			<!-- Affichage -->
-			<aui:fieldset collapsed="true" collapsible="true"
-				label="display">
+			<aui:fieldset collapsed="true" collapsible="true" label="display">
 
 				<!-- Nombre de resultats par page -->
 				<aui:input type="number" name="delta" value="${delta}" />
@@ -145,6 +150,7 @@
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 		</aui:button-row>
+		
 	</aui:form>
 </div>
 

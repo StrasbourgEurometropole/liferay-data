@@ -25,24 +25,28 @@ function getSelectedClassNames() {
 /**
  * Lors d'une soumission de formulaire de recherche dynamique
  */
-$('#dynamic-search-submit').submit(function() {
+$('#dynamic-search-submit').click(function(event) {
+	
+	event.preventDefault();
 	
 	var selectedClassNames = getSelectedClassNames();
-	var keywords = $( "input[name='dynamic-search-keywords']" ).val();
+	var keywords = $("input[name='dynamic-search-keywords']").val();
 	
 	AUI().use('aui-io-request', function(A) {
-		A.io.request(searchAssetURL, {
+		A.io.request(searchSubmitURL, {
 			method : 'post',
 			dataType: 'json',
 			data : {
-				_eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_selectedClassNames : selectedClassNames,
-				_eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_keywords : keywords
+				_eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_BigBrotherIsWatchingYou_selectedClassNames : selectedClassNames,
+				_eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet_INSTANCE_BigBrotherIsWatchingYou_keywords : keywords
 			},
 			on: {
                 success: function(e) {
                 	removeAllThumbnails();
                 	
                 	var data = this.get('responseData');
+                	
+                	console.log(data);
                 	
 			 	}
 			 }

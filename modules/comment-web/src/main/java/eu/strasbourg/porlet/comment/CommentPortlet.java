@@ -195,7 +195,7 @@ public class CommentPortlet extends MVCPortlet {
 					//insertion du lien vers le commentaire
 				    url.append("#");
 				    url.append(comment.getCommentId());
-
+				    
 				    // Recuperation de l'ID de l'AssetEntry commente
 					long entryID = ParamUtil.getLong(request, "entryID");
 

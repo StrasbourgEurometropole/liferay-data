@@ -2,8 +2,13 @@ package eu.strasbourg.portlet.dynamic_search_asset;
 
 import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -11,6 +16,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -34,12 +40,16 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.xml.DocumentException;
+import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -73,8 +83,19 @@ import org.osgi.service.component.annotations.Component;
 )
 public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	
+	private static final String ATTRIBUTE_CLASSNAME = "className";
+	private static final String ATTRIBUTE_LINK = "link";
+	private static final String ATTRIBUTE_TITLE = "title";
+	private static final String ATTRIBUTE_CHAPO = "chapo";
+	private static final String ATTRIBUTE_IMAGE_URL = "imageURL";
+	private static final String ATTRIBUTE_PUBLISH_DATE = "publishDate";
+	private static final String ATTRIBUTE_IS_USER_PARTICIPATE = "isUserPart";
+	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
+	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
+	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
+	private static final String NEWS_TAG_NAME = "actualité";
+	
 	private DynamicSearchAssetConfiguration configuration;
-	private List<String> classNames;
 	
 	private List<AssetEntry> assetEntries;
 	
@@ -132,7 +153,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// ---------------------------------------------------------------
 			// -------- REQUETE : Effectuer une recherche --------------------
 			// ---------------------------------------------------------------
-			if (resourceID.equals("searchAsset")) {
+			if (resourceID.equals("searchSubmit")) {
 				
 				// Recuperation du searchContext
 				HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
@@ -167,7 +188,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 							.toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
 					prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 				}
-
+				
 				// Recuperation de la configuration des prefiltre sur les etiquettes
 				String prefilterTagsNamesString = this.configuration.prefilterTagsNames();
 				String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
@@ -199,7 +220,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
 				this.assetEntries = results;
 				
-				JSONObject jsonResponse = this.constructJSONSelection(request);
+				JSONArray jsonResponse = this.constructJSONSelection(request);
 				
 				// Recuperation de l'élément d'écriture de la réponse
 				PrintWriter writer = response.getWriter();
@@ -229,17 +250,144 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * 			"events" :
 	 * 				[{...}],
 	 * 		}
+	 * @throws PortalException 
+	 * @throws DocumentException 
 	 */
-	private JSONObject constructJSONSelection(ResourceRequest request) {
-		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+	private JSONArray constructJSONSelection(ResourceRequest request) throws PortalException, DocumentException {
 		
-		// Parcrous des résultats
+		// Récupération du contexte de la requète
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = new Long(themeDisplay.getLayout().getGroupId());
+		String publikUserId = this.getPublikID(request);
+		
+		// Initialisation du JSON de réponse
+		JSONArray jsonResponse = JSONFactoryUtil.createJSONArray();
+		
+		// Parcours des résultats
 		for (AssetEntry assetEntry : this.assetEntries) {
 			
-			switch (assetEntry.getClassName()) {
+			String assetClassName = assetEntry.getClassName();
+			
+			// Récupération du JSON de l'entité selon le type d'assetEntry
+			// Note : impossibilité d'utilisé un switch case pour cause d'utilisation de non-constante
+			// TODO : Trouver comment contrer l'archaïssité de java sur le sujet des constantes sur les switch
+			
+			/**
+			 * AssetEntry : Événement
+			 */
+			if (assetClassName.equals(Event.class.getName())) {
+				Event event = EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK());
 				
+				JSONObject jsonEvent = event.toJSON();
 				
+				jsonEvent.put(
+					ATTRIBUTE_CLASSNAME,
+					Event.class.getName()
+				);
+				jsonEvent.put(
+					ATTRIBUTE_LINK,
+					this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
+				);
+				jsonEvent.put(
+					ATTRIBUTE_IS_USER_PARTICIPATE, 
+					publikUserId != "" ? event.isUserParticipate(publikUserId) : false
+				);
+			}
+			
+			/**
+			 * AssetEntry : Projet
+			 */
+			else if (assetClassName.equals(Project.class.getName())) {
+				Project project = ProjectLocalServiceUtil.fetchProject(assetEntry.getClassPK());
 				
+				JSONObject jsonProject = project.toJSON();
+				
+				jsonProject.put(
+					ATTRIBUTE_CLASSNAME,
+					Project.class.getName()
+				);
+				jsonProject.put(
+					ATTRIBUTE_LINK, 
+					this.getHomeURL(request) + project.getDetailURL()
+				);
+				
+				jsonResponse.put(jsonProject);
+			}
+			
+			/**
+			 * AssetEntry : Participation
+			 */
+			else if (assetClassName.equals(Participation.class.getName())) {
+				Participation participation = ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK());
+				
+				JSONObject jsonParticipation = participation.toJSON();
+				
+				jsonParticipation.put(
+					ATTRIBUTE_CLASSNAME,
+					Participation.class.getName()
+				);
+				jsonParticipation.put(
+					ATTRIBUTE_LINK,
+					this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
+				);
+				
+				jsonResponse.put(jsonParticipation);
+			}
+			
+			/**
+			 * AssetEntry : Pétition
+			 */
+			else if (assetClassName.equals(Petition.class.getName())) {
+				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
+				
+				// TODO :  Implémenter la gestion des pétitions en format JSON pour la recherche et la carte
+			}
+			
+			/**
+			 * AssetEntry : JournalArticle avant identification d'un potentiel Article
+			 */
+			else if (assetClassName.equals(JournalArticle.class.getName())) {
+				
+				List<String> tagNames = Arrays.asList(assetEntry.getTagNames());
+				
+				// Vérification de la véracité d'un JournalArticle de type actualité
+				if (tagNames.contains(NEWS_TAG_NAME)) {
+					JournalArticle journalArticle = JournalArticleServiceUtil.fetchArticle(groupId, Long.toString(assetEntry.getClassPK()));
+					
+					JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
+					
+					com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(journalArticle.getContentByLocale("FRENCH"));
+					
+					jsonArticle.put(
+						ATTRIBUTE_CLASSNAME,
+						JournalArticle.class.getName()
+					);
+					jsonArticle.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + "-/" + journalArticle.getUrlTitle()
+					);
+					jsonArticle.put(
+						ATTRIBUTE_TITLE,
+						docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")
+					);
+					jsonArticle.put(
+						ATTRIBUTE_CHAPO,
+						docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()")
+					);
+					jsonArticle.put(
+						ATTRIBUTE_PUBLISH_DATE,
+						journalArticle.getDisplayDate()
+					);
+					jsonArticle.put(
+						ATTRIBUTE_IMAGE_URL,
+						docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()")
+					);
+					
+					jsonResponse.put(jsonArticle);
+					
+				} else {
+					continue;
+				}
 			}
 			
 		}
@@ -251,22 +399,19 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * Retourne la liste des class names configurés recherchable
 	 */
 	public List<String> getConfiguredClassNames() {
-		if (this.classNames == null) {
-			List<String> classNames = new ArrayList<String>();
-			for (String className : this.configuration.assetClassNames().split(",")) {
-				if (Validator.isNotNull(className)) {
-					classNames.add(className);
-				}
+		List<String> classNames = new ArrayList<String>();
+		for (String className : this.configuration.assetClassNames().split(",")) {
+			if (Validator.isNotNull(className)) {
+				classNames.add(className);
 			}
-			if (this.configuration.searchNews()) {
-				classNames.add(JournalArticle.class.getName());
-			}
-			if (this.configuration.searchDocument()) {
-				classNames.add(DLFileEntry.class.getName());
-			}
-			this.classNames = classNames;
 		}
-		return this.classNames;
+		if (this.configuration.searchNews()) {
+			classNames.add(JournalArticle.class.getName());
+		}
+		if (this.configuration.searchDocument()) {
+			classNames.add(DLFileEntry.class.getName());
+		}
+		return classNames;
 	}
 	
 	/**
