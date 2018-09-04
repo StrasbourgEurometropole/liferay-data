@@ -93,7 +93,6 @@ create table project_Petition (
 	externalImageCopyright VARCHAR(75) null,
 	mediaChoice BOOLEAN,
 	consultationPlacesBody VARCHAR(75) null,
-	assetEntryId LONG,
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null
@@ -183,8 +182,11 @@ create table project_Signataire (
 	statusDate DATE null,
 	signataireName VARCHAR(75) null,
 	signataireFirstname VARCHAR(75) null,
+	birthday DATE null,
+	address VARCHAR(75) null,
+	postalCode LONG,
+	city VARCHAR(75) null,
 	signatureDate DATE null,
-	assetEntryId LONG,
 	publikId LONG,
 	petitionId LONG
 );

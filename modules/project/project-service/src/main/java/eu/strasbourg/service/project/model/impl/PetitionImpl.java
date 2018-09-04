@@ -409,7 +409,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 	public String getAssetEntryTitle(){
 		String result="N/A";
 		try {
-			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntry().getEntryId());
 			String temp = entry.getTitle();
 			if (temp!=null&&!temp.isEmpty()){
 				if (temp.length()>50){

@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,8 +69,11 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("signataireName", getSignataireName());
 		attributes.put("signataireFirstname", getSignataireFirstname());
+		attributes.put("birthday", getBirthday());
+		attributes.put("address", getAddress());
+		attributes.put("postalCode", getPostalCode());
+		attributes.put("city", getCity());
 		attributes.put("signatureDate", getSignatureDate());
-		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("petitionId", getPetitionId());
 
@@ -168,16 +167,34 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 			setSignataireFirstname(signataireFirstname);
 		}
 
+		Date birthday = (Date)attributes.get("birthday");
+
+		if (birthday != null) {
+			setBirthday(birthday);
+		}
+
+		String address = (String)attributes.get("address");
+
+		if (address != null) {
+			setAddress(address);
+		}
+
+		Long postalCode = (Long)attributes.get("postalCode");
+
+		if (postalCode != null) {
+			setPostalCode(postalCode);
+		}
+
+		String city = (String)attributes.get("city");
+
+		if (city != null) {
+			setCity(city);
+		}
+
 		Date signatureDate = (Date)attributes.get("signatureDate");
 
 		if (signatureDate != null) {
 			setSignatureDate(signatureDate);
-		}
-
-		Long assetEntryId = (Long)attributes.get("assetEntryId");
-
-		if (assetEntryId != null) {
-			setAssetEntryId(assetEntryId);
 		}
 
 		Long publikId = (Long)attributes.get("publikId");
@@ -340,6 +357,26 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Returns the address of this signataire.
+	*
+	* @return the address of this signataire
+	*/
+	@Override
+	public java.lang.String getAddress() {
+		return _signataire.getAddress();
+	}
+
+	/**
+	* Returns the city of this signataire.
+	*
+	* @return the city of this signataire
+	*/
+	@Override
+	public java.lang.String getCity() {
+		return _signataire.getCity();
+	}
+
+	/**
 	* Returns the signataire firstname of this signataire.
 	*
 	* @return the signataire firstname of this signataire
@@ -420,6 +457,16 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Returns the birthday of this signataire.
+	*
+	* @return the birthday of this signataire
+	*/
+	@Override
+	public Date getBirthday() {
+		return _signataire.getBirthday();
+	}
+
+	/**
 	* Returns the create date of this signataire.
 	*
 	* @return the create date of this signataire
@@ -460,16 +507,6 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
-	* Returns the asset entry ID of this signataire.
-	*
-	* @return the asset entry ID of this signataire
-	*/
-	@Override
-	public long getAssetEntryId() {
-		return _signataire.getAssetEntryId();
-	}
-
-	/**
 	* Returns the company ID of this signataire.
 	*
 	* @return the company ID of this signataire
@@ -497,6 +534,16 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	@Override
 	public long getPetitionId() {
 		return _signataire.getPetitionId();
+	}
+
+	/**
+	* Returns the postal code of this signataire.
+	*
+	* @return the postal code of this signataire
+	*/
+	@Override
+	public long getPostalCode() {
+		return _signataire.getPostalCode();
 	}
 
 	/**
@@ -555,18 +602,38 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
-	* Sets the asset entry ID of this signataire.
+	* Sets the address of this signataire.
 	*
-	* @param assetEntryId the asset entry ID of this signataire
+	* @param address the address of this signataire
 	*/
 	@Override
-	public void setAssetEntryId(long assetEntryId) {
-		_signataire.setAssetEntryId(assetEntryId);
+	public void setAddress(java.lang.String address) {
+		_signataire.setAddress(address);
+	}
+
+	/**
+	* Sets the birthday of this signataire.
+	*
+	* @param birthday the birthday of this signataire
+	*/
+	@Override
+	public void setBirthday(Date birthday) {
+		_signataire.setBirthday(birthday);
 	}
 
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_signataire.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the city of this signataire.
+	*
+	* @param city the city of this signataire
+	*/
+	@Override
+	public void setCity(java.lang.String city) {
+		_signataire.setCity(city);
 	}
 
 	/**
@@ -638,6 +705,16 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	@Override
 	public void setPetitionId(long petitionId) {
 		_signataire.setPetitionId(petitionId);
+	}
+
+	/**
+	* Sets the postal code of this signataire.
+	*
+	* @param postalCode the postal code of this signataire
+	*/
+	@Override
+	public void setPostalCode(long postalCode) {
+		_signataire.setPostalCode(postalCode);
 	}
 
 	/**

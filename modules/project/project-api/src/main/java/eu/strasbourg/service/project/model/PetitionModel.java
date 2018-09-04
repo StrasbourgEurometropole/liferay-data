@@ -473,20 +473,6 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setConsultationPlacesBody(String consultationPlacesBody);
 
 	/**
-	 * Returns the asset entry ID of this petition.
-	 *
-	 * @return the asset entry ID of this petition
-	 */
-	public long getAssetEntryId();
-
-	/**
-	 * Sets the asset entry ID of this petition.
-	 *
-	 * @param assetEntryId the asset entry ID of this petition
-	 */
-	public void setAssetEntryId(long assetEntryId);
-
-	/**
 	 * Returns the publik ID of this petition.
 	 *
 	 * @return the publik ID of this petition

@@ -15,12 +15,9 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -35,15 +32,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.SignataireModel;
 import eu.strasbourg.service.project.model.SignataireSoap;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -88,8 +82,11 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "signataireName", Types.VARCHAR },
 			{ "signataireFirstname", Types.VARCHAR },
+			{ "birthday", Types.TIMESTAMP },
+			{ "address", Types.VARCHAR },
+			{ "postalCode", Types.BIGINT },
+			{ "city", Types.VARCHAR },
 			{ "signatureDate", Types.TIMESTAMP },
-			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.BIGINT },
 			{ "petitionId", Types.BIGINT }
 		};
@@ -110,13 +107,16 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("signataireName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("signataireFirstname", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("birthday", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("address", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("postalCode", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("city", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("signatureDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("petitionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Signataire (uuid_ VARCHAR(75) null,signataireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,signataireName VARCHAR(75) null,signataireFirstname VARCHAR(75) null,signatureDate DATE null,assetEntryId LONG,publikId LONG,petitionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Signataire (uuid_ VARCHAR(75) null,signataireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,signataireName VARCHAR(75) null,signataireFirstname VARCHAR(75) null,birthday DATE null,address VARCHAR(75) null,postalCode LONG,city VARCHAR(75) null,signatureDate DATE null,publikId LONG,petitionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Signataire";
 	public static final String ORDER_BY_JPQL = " ORDER BY signataire.signataireId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Signataire.signataireId ASC";
@@ -166,8 +166,11 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setSignataireName(soapModel.getSignataireName());
 		model.setSignataireFirstname(soapModel.getSignataireFirstname());
+		model.setBirthday(soapModel.getBirthday());
+		model.setAddress(soapModel.getAddress());
+		model.setPostalCode(soapModel.getPostalCode());
+		model.setCity(soapModel.getCity());
 		model.setSignatureDate(soapModel.getSignatureDate());
-		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
 		model.setPetitionId(soapModel.getPetitionId());
 
@@ -248,8 +251,11 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("signataireName", getSignataireName());
 		attributes.put("signataireFirstname", getSignataireFirstname());
+		attributes.put("birthday", getBirthday());
+		attributes.put("address", getAddress());
+		attributes.put("postalCode", getPostalCode());
+		attributes.put("city", getCity());
 		attributes.put("signatureDate", getSignatureDate());
-		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("petitionId", getPetitionId());
 
@@ -346,16 +352,34 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			setSignataireFirstname(signataireFirstname);
 		}
 
+		Date birthday = (Date)attributes.get("birthday");
+
+		if (birthday != null) {
+			setBirthday(birthday);
+		}
+
+		String address = (String)attributes.get("address");
+
+		if (address != null) {
+			setAddress(address);
+		}
+
+		Long postalCode = (Long)attributes.get("postalCode");
+
+		if (postalCode != null) {
+			setPostalCode(postalCode);
+		}
+
+		String city = (String)attributes.get("city");
+
+		if (city != null) {
+			setCity(city);
+		}
+
 		Date signatureDate = (Date)attributes.get("signatureDate");
 
 		if (signatureDate != null) {
 			setSignatureDate(signatureDate);
-		}
-
-		Long assetEntryId = (Long)attributes.get("assetEntryId");
-
-		if (assetEntryId != null) {
-			setAssetEntryId(assetEntryId);
 		}
 
 		Long publikId = (Long)attributes.get("publikId");
@@ -632,6 +656,60 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@JSON
 	@Override
+	public Date getBirthday() {
+		return _birthday;
+	}
+
+	@Override
+	public void setBirthday(Date birthday) {
+		_birthday = birthday;
+	}
+
+	@JSON
+	@Override
+	public String getAddress() {
+		if (_address == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _address;
+		}
+	}
+
+	@Override
+	public void setAddress(String address) {
+		_address = address;
+	}
+
+	@JSON
+	@Override
+	public long getPostalCode() {
+		return _postalCode;
+	}
+
+	@Override
+	public void setPostalCode(long postalCode) {
+		_postalCode = postalCode;
+	}
+
+	@JSON
+	@Override
+	public String getCity() {
+		if (_city == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _city;
+		}
+	}
+
+	@Override
+	public void setCity(String city) {
+		_city = city;
+	}
+
+	@JSON
+	@Override
 	public Date getSignatureDate() {
 		return _signatureDate;
 	}
@@ -639,17 +717,6 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	@Override
 	public void setSignatureDate(Date signatureDate) {
 		_signatureDate = signatureDate;
-	}
-
-	@JSON
-	@Override
-	public long getAssetEntryId() {
-		return _assetEntryId;
-	}
-
-	@Override
-	public void setAssetEntryId(long assetEntryId) {
-		_assetEntryId = assetEntryId;
 	}
 
 	@JSON
@@ -817,8 +884,11 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		signataireImpl.setStatusDate(getStatusDate());
 		signataireImpl.setSignataireName(getSignataireName());
 		signataireImpl.setSignataireFirstname(getSignataireFirstname());
+		signataireImpl.setBirthday(getBirthday());
+		signataireImpl.setAddress(getAddress());
+		signataireImpl.setPostalCode(getPostalCode());
+		signataireImpl.setCity(getCity());
 		signataireImpl.setSignatureDate(getSignatureDate());
-		signataireImpl.setAssetEntryId(getAssetEntryId());
 		signataireImpl.setPublikId(getPublikId());
 		signataireImpl.setPetitionId(getPetitionId());
 
@@ -988,6 +1058,33 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			signataireCacheModel.signataireFirstname = null;
 		}
 
+		Date birthday = getBirthday();
+
+		if (birthday != null) {
+			signataireCacheModel.birthday = birthday.getTime();
+		}
+		else {
+			signataireCacheModel.birthday = Long.MIN_VALUE;
+		}
+
+		signataireCacheModel.address = getAddress();
+
+		String address = signataireCacheModel.address;
+
+		if ((address != null) && (address.length() == 0)) {
+			signataireCacheModel.address = null;
+		}
+
+		signataireCacheModel.postalCode = getPostalCode();
+
+		signataireCacheModel.city = getCity();
+
+		String city = signataireCacheModel.city;
+
+		if ((city != null) && (city.length() == 0)) {
+			signataireCacheModel.city = null;
+		}
+
 		Date signatureDate = getSignatureDate();
 
 		if (signatureDate != null) {
@@ -996,8 +1093,6 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		else {
 			signataireCacheModel.signatureDate = Long.MIN_VALUE;
 		}
-
-		signataireCacheModel.assetEntryId = getAssetEntryId();
 
 		signataireCacheModel.publikId = getPublikId();
 
@@ -1008,7 +1103,7 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1038,10 +1133,16 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		sb.append(getSignataireName());
 		sb.append(", signataireFirstname=");
 		sb.append(getSignataireFirstname());
+		sb.append(", birthday=");
+		sb.append(getBirthday());
+		sb.append(", address=");
+		sb.append(getAddress());
+		sb.append(", postalCode=");
+		sb.append(getPostalCode());
+		sb.append(", city=");
+		sb.append(getCity());
 		sb.append(", signatureDate=");
 		sb.append(getSignatureDate());
-		sb.append(", assetEntryId=");
-		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
 		sb.append(", petitionId=");
@@ -1053,7 +1154,7 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Signataire");
@@ -1116,12 +1217,24 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		sb.append(getSignataireFirstname());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>signatureDate</column-name><column-value><![CDATA[");
-		sb.append(getSignatureDate());
+			"<column><column-name>birthday</column-name><column-value><![CDATA[");
+		sb.append(getBirthday());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
-		sb.append(getAssetEntryId());
+			"<column><column-name>address</column-name><column-value><![CDATA[");
+		sb.append(getAddress());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>postalCode</column-name><column-value><![CDATA[");
+		sb.append(getPostalCode());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>city</column-name><column-value><![CDATA[");
+		sb.append(getCity());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>signatureDate</column-name><column-value><![CDATA[");
+		sb.append(getSignatureDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publikId</column-name><column-value><![CDATA[");
@@ -1162,8 +1275,11 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	private String _signataireName;
 	private String _originalSignataireName;
 	private String _signataireFirstname;
+	private Date _birthday;
+	private String _address;
+	private long _postalCode;
+	private String _city;
 	private Date _signatureDate;
-	private long _assetEntryId;
 	private long _publikId;
 	private long _petitionId;
 	private long _originalPetitionId;

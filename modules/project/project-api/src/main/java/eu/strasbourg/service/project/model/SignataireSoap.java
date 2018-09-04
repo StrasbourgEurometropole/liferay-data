@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,8 +47,11 @@ public class SignataireSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setSignataireName(model.getSignataireName());
 		soapModel.setSignataireFirstname(model.getSignataireFirstname());
+		soapModel.setBirthday(model.getBirthday());
+		soapModel.setAddress(model.getAddress());
+		soapModel.setPostalCode(model.getPostalCode());
+		soapModel.setCity(model.getCity());
 		soapModel.setSignatureDate(model.getSignatureDate());
-		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setPetitionId(model.getPetitionId());
 
@@ -216,20 +218,44 @@ public class SignataireSoap implements Serializable {
 		_signataireFirstname = signataireFirstname;
 	}
 
+	public Date getBirthday() {
+		return _birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		_birthday = birthday;
+	}
+
+	public String getAddress() {
+		return _address;
+	}
+
+	public void setAddress(String address) {
+		_address = address;
+	}
+
+	public long getPostalCode() {
+		return _postalCode;
+	}
+
+	public void setPostalCode(long postalCode) {
+		_postalCode = postalCode;
+	}
+
+	public String getCity() {
+		return _city;
+	}
+
+	public void setCity(String city) {
+		_city = city;
+	}
+
 	public Date getSignatureDate() {
 		return _signatureDate;
 	}
 
 	public void setSignatureDate(Date signatureDate) {
 		_signatureDate = signatureDate;
-	}
-
-	public long getAssetEntryId() {
-		return _assetEntryId;
-	}
-
-	public void setAssetEntryId(long assetEntryId) {
-		_assetEntryId = assetEntryId;
 	}
 
 	public long getPublikId() {
@@ -262,8 +288,11 @@ public class SignataireSoap implements Serializable {
 	private Date _statusDate;
 	private String _signataireName;
 	private String _signataireFirstname;
+	private Date _birthday;
+	private String _address;
+	private long _postalCode;
+	private String _city;
 	private Date _signatureDate;
-	private long _assetEntryId;
 	private long _publikId;
 	private long _petitionId;
 }

@@ -294,7 +294,6 @@
         <column name="consultationPlacesBody" type="String" />
 
         <!-- Links with other entities -->
-        <column name="assetEntryId" type="long" />
         <column name="publikId" type="String" />
         <column name="imageId" type="long" />
         <column name="filesIds" type="String" />
@@ -343,12 +342,15 @@
         <column name="statusDate" type="Date" />
 
         <!-- main fields -->
-        <column name="signataireName" type="String" />
-        <column name="signataireFirstname" type="String" />
+		<column name="signataireName" type="String" />
+		<column name="signataireFirstname" type="String" />
+		<column name="birthday" type="Date" />
+		<column name="address" type="String" />
+		<column name="postalCode" type="long" />
+		<column name="city" type="String" />
         <column name="signatureDate" type="Date" />
 
         <!-- Links with other entities -->
-        <column name="assetEntryId" type="long" />
         <column name="publikId" type="long" />
         <column name="petitionId" type="long" />
 

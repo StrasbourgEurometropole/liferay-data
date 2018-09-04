@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +26,6 @@ import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
 /**
@@ -323,6 +320,64 @@ public interface SignataireModel extends BaseModel<Signataire>, GroupedModel,
 	public void setSignataireFirstname(String signataireFirstname);
 
 	/**
+	 * Returns the birthday of this signataire.
+	 *
+	 * @return the birthday of this signataire
+	 */
+	public Date getBirthday();
+
+	/**
+	 * Sets the birthday of this signataire.
+	 *
+	 * @param birthday the birthday of this signataire
+	 */
+	public void setBirthday(Date birthday);
+
+	/**
+	 * Returns the address of this signataire.
+	 *
+	 * @return the address of this signataire
+	 */
+	@AutoEscape
+	public String getAddress();
+
+	/**
+	 * Sets the address of this signataire.
+	 *
+	 * @param address the address of this signataire
+	 */
+	public void setAddress(String address);
+
+	/**
+	 * Returns the postal code of this signataire.
+	 *
+	 * @return the postal code of this signataire
+	 */
+	public long getPostalCode();
+
+	/**
+	 * Sets the postal code of this signataire.
+	 *
+	 * @param postalCode the postal code of this signataire
+	 */
+	public void setPostalCode(long postalCode);
+
+	/**
+	 * Returns the city of this signataire.
+	 *
+	 * @return the city of this signataire
+	 */
+	@AutoEscape
+	public String getCity();
+
+	/**
+	 * Sets the city of this signataire.
+	 *
+	 * @param city the city of this signataire
+	 */
+	public void setCity(String city);
+
+	/**
 	 * Returns the signature date of this signataire.
 	 *
 	 * @return the signature date of this signataire
@@ -335,20 +390,6 @@ public interface SignataireModel extends BaseModel<Signataire>, GroupedModel,
 	 * @param signatureDate the signature date of this signataire
 	 */
 	public void setSignatureDate(Date signatureDate);
-
-	/**
-	 * Returns the asset entry ID of this signataire.
-	 *
-	 * @return the asset entry ID of this signataire
-	 */
-	public long getAssetEntryId();
-
-	/**
-	 * Sets the asset entry ID of this signataire.
-	 *
-	 * @param assetEntryId the asset entry ID of this signataire
-	 */
-	public void setAssetEntryId(long assetEntryId);
 
 	/**
 	 * Returns the publik ID of this signataire.

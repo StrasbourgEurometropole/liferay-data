@@ -127,7 +127,6 @@
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
 		<field name="consultationPlacesBody" type="String" />
-		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
@@ -232,8 +231,11 @@
 		<field name="statusDate" type="Date" />
 		<field name="signataireName" type="String" />
 		<field name="signataireFirstname" type="String" />
+		<field name="birthday" type="Date" />
+		<field name="address" type="String" />
+		<field name="postalCode" type="long" />
+		<field name="city" type="String" />
 		<field name="signatureDate" type="Date" />
-		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="long" />
 		<field name="petitionId" type="long" />
 	</model>

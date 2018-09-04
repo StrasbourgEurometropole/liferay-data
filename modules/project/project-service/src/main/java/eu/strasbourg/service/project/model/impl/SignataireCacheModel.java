@@ -15,19 +15,16 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-
 import eu.strasbourg.service.project.model.Signataire;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
 
 /**
@@ -66,7 +63,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,10 +93,16 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		sb.append(signataireName);
 		sb.append(", signataireFirstname=");
 		sb.append(signataireFirstname);
+		sb.append(", birthday=");
+		sb.append(birthday);
+		sb.append(", address=");
+		sb.append(address);
+		sb.append(", postalCode=");
+		sb.append(postalCode);
+		sb.append(", city=");
+		sb.append(city);
 		sb.append(", signatureDate=");
 		sb.append(signatureDate);
-		sb.append(", assetEntryId=");
-		sb.append(assetEntryId);
 		sb.append(", publikId=");
 		sb.append(publikId);
 		sb.append(", petitionId=");
@@ -177,6 +180,29 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			signataireImpl.setSignataireFirstname(signataireFirstname);
 		}
 
+		if (birthday == Long.MIN_VALUE) {
+			signataireImpl.setBirthday(null);
+		}
+		else {
+			signataireImpl.setBirthday(new Date(birthday));
+		}
+
+		if (address == null) {
+			signataireImpl.setAddress(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setAddress(address);
+		}
+
+		signataireImpl.setPostalCode(postalCode);
+
+		if (city == null) {
+			signataireImpl.setCity(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setCity(city);
+		}
+
 		if (signatureDate == Long.MIN_VALUE) {
 			signataireImpl.setSignatureDate(null);
 		}
@@ -184,7 +210,6 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			signataireImpl.setSignatureDate(new Date(signatureDate));
 		}
 
-		signataireImpl.setAssetEntryId(assetEntryId);
 		signataireImpl.setPublikId(publikId);
 		signataireImpl.setPetitionId(petitionId);
 
@@ -215,9 +240,12 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		statusDate = objectInput.readLong();
 		signataireName = objectInput.readUTF();
 		signataireFirstname = objectInput.readUTF();
-		signatureDate = objectInput.readLong();
+		birthday = objectInput.readLong();
+		address = objectInput.readUTF();
 
-		assetEntryId = objectInput.readLong();
+		postalCode = objectInput.readLong();
+		city = objectInput.readUTF();
+		signatureDate = objectInput.readLong();
 
 		publikId = objectInput.readLong();
 
@@ -279,9 +307,25 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			objectOutput.writeUTF(signataireFirstname);
 		}
 
-		objectOutput.writeLong(signatureDate);
+		objectOutput.writeLong(birthday);
 
-		objectOutput.writeLong(assetEntryId);
+		if (address == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(address);
+		}
+
+		objectOutput.writeLong(postalCode);
+
+		if (city == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(city);
+		}
+
+		objectOutput.writeLong(signatureDate);
 
 		objectOutput.writeLong(publikId);
 
@@ -302,8 +346,11 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 	public long statusDate;
 	public String signataireName;
 	public String signataireFirstname;
+	public long birthday;
+	public String address;
+	public long postalCode;
+	public String city;
 	public long signatureDate;
-	public long assetEntryId;
 	public long publikId;
 	public long petitionId;
 }

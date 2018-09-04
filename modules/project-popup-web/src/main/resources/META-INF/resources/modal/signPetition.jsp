@@ -11,7 +11,6 @@
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
-
             <form id="form-sign-petition" method="post" action="${petitionPopup}">
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
@@ -23,22 +22,20 @@
                     <h4><liferay-ui:message key="modal.signpetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
-                            <label for="nom"><liferay-ui:message key="modal.user.username"/><span class="required">*</span></label>
-                            <input type="text" class="form-control" id="username" placeholder="Dupond"/>
+				            <aui:input name="username" cssClass="form-control" label="modal.user.username" required="true" placeholder="Dupond"/>
                         </div>
                         <div class="form-group form-triple">
-                            <label for="prenom"><liferay-ui:message key="modal.user.firstname"/></label>
-                            <input type="text" class="form-control" id="firstname" placeholder="Jean"/>
+				            <aui:input name="firstname" cssClass="form-control" label="modal.user.firstname" required="true" placeholder="Jean"/>
                         </div>
                         <div class="form-group form-triple">
-                            <label for="date"><liferay-ui:message key="modal.user.birthday"/><span class="required">*</span></label>
-                            <input type="text" class="form-control frm_date" id="birthday" placeholder="jj/mm/aaaa" readonly="readonly"/>
+				            <aui:input name="birthday" cssClass="form-control frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="adresse"><liferay-ui:message key="modal.user.address"/><span class="required">*</span></label>
                             <input type="text" class="form-control" id="address"/>
+				            <aui:input name="address" cssClass="form-control" label="modal.user.address" required="true" placeholder=""/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
