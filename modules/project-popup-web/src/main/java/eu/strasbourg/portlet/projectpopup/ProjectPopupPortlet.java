@@ -78,12 +78,4 @@ public class ProjectPopupPortlet extends MVCPortlet {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
-    
-    @Override
-    public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-    		throws IOException, PortletException {
-    	// TODO Auto-generated method stub
-    	super.serveResource(resourceRequest, resourceResponse);
-    }
-
 }
