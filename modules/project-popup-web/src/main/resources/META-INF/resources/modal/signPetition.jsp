@@ -7,6 +7,7 @@
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
@@ -69,10 +70,36 @@
                     <p><i><liferay-ui:message key="modal.signpetition.condition"/></i></p>
                 </div>
                 <div class="pro-form-submit">
-                    <button type="submit" class="btn btn-default"><liferay-ui:message key="modal.signpetition.submit"/></button>
+                    <button id="sendSign" type="submit" class="btn btn-default"><liferay-ui:message key="modal.signpetition.submit"/></button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<script type="text/javascript">
+    $("#sendSign").click(function{
+    var response = validateForm();
+    if (!response){
+        $(this).off(click);
+    }
+    });
+
+
+
+    function validateForm()
+    {
+        var birthday=document.forms["Form"]["birthday"].value;
+        var b=document.forms["Form"]["city"].value;
+        var c=document.forms["Form"]["address"].value;
+        var d=document.forms["Form"]["answer_d"].value;
+        if (birthday==null || birthday=="",
+            city==null || city=="",
+            address==null || address=="",
+            d==null || d=="")
+        {
+            alert("Please Fill All Required Field");
+            return false;
+        }
+    }
+</script>
