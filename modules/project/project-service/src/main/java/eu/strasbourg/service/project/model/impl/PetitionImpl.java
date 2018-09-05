@@ -503,7 +503,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 		}else if (ParticipationImpl.NEW.equals(status)){
 			result = "Nouvelle";
 		}else if (ParticipationImpl.SOON_FINISHED.equals(status)){
-			result = "Bientôt terminée";
+			result = "Bient&ocirc;t termin&eacute;e";
 		}else result = "En cours";
 		return result;
 	}
@@ -519,7 +519,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 		String status = this.getPetitionStatus();
 		if (COMPLETED.equals(status)||
 				FAILED.equals(status)){
-			result = "Terminée";
+			result = "Termin&eacute;e";
 		}else result = "Fin dans " + this.getTodayExpirationDifferenceDays() + " jour(s)";
 		return result;
 	}
