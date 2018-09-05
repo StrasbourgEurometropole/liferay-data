@@ -341,6 +341,8 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 * 		}
 	 */
 	private JSONObject constructJSONSelection(ResourceRequest request) {
+		String publikUserId = this.getPublikID(request);
+		
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 		
 		// Gestion des projets
@@ -350,12 +352,12 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			JSONObject jsonProject = project.toJSON();
 			// Si l'entité est dans la liste de celles séléctionnées
 			jsonProject.put(
-					ATTRIBUTE_IS_MARKEABLE, 
-					this.selectedProjectIds.contains(project.getProjectId()) ? true : false
+				ATTRIBUTE_IS_MARKEABLE, 
+				this.selectedProjectIds.contains(project.getProjectId()) ? true : false
 			);
 			jsonProject.put(
-					ATTRIBUTE_LINK, 
-					this.getHomeURL(request) + "/" + project.getDetailURL()
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + project.getDetailURL()
 			);
 			// Ajout de l'entité dans le tableau de résutats correspondant
 			jsonProjects.put(jsonProject);
@@ -367,12 +369,12 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		for (Participation participation : this.participations) {
 			JSONObject jsonParticipation = participation.toJSON();
 			jsonParticipation.put(
-					ATTRIBUTE_IS_MARKEABLE, 
-					this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
+				ATTRIBUTE_IS_MARKEABLE, 
+				this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
 			);
 			jsonParticipation.put(
-					ATTRIBUTE_LINK, 
-					this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
 			);
 			jsonParticipations.put(jsonParticipation);
 		}
@@ -382,18 +384,18 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : this.events) {
 			JSONObject jsonEvent = event.toJSON();
-			String publikUserId = this.getPublikID(request);
+			
 			jsonEvent.put(
-					ATTRIBUTE_IS_MARKEABLE, 
-					this.selectedEventIds.contains(event.getEventId()) ? true : false
+				ATTRIBUTE_IS_MARKEABLE, 
+				this.selectedEventIds.contains(event.getEventId()) ? true : false
 			);
 			jsonEvent.put(
-					ATTRIBUTE_LINK, 
-					this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
 			);
 			jsonEvent.put(
-					ATTRIBUTE_IS_USER_PARTICIPATE, 
-					publikUserId != "" ? event.isUserParticipate(publikUserId) : false
+				ATTRIBUTE_IS_USER_PARTICIPATE, 
+				publikUserId != "" ? event.isUserParticipate(publikUserId) : false
 			);
 			jsonEvents.put(jsonEvent);
 		}
