@@ -1,9 +1,11 @@
 // Initialisation des variables de références
-var videos = null;
+var participations = null;
 
 var entityType = {
+	STATE : 'vocabulary_0',
 	DISTRICT : 'vocabulary_1',
 	THEMATIC : 'vocabulary_2',
+	TYPE : 'vocabulary_3',
 }
 
 var sortField = "publishDate_sortable";
@@ -50,12 +52,13 @@ function getSelectedEntries() {
         selectedEndMonth = $('input[data-name="toMonth"]')[0].value;
         selectedEndYear = $('input[data-name="toYear"]')[0].value;
 	}
-	var selectedProject = $('#projet')[0].value;
+	var selectedStates = getSelectedMarkerElements(entityType.STATE);
 	var selectedDistricts = getSelectedMarkerElements(entityType.DISTRICT);
 	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
+	var selectedTypes = getSelectedMarkerElements(entityType.TYPE);
 
 	AUI().use('aui-io-request', function(A) {
-		A.io.request(videosSelectionURL, {
+		A.io.request(participationsSelectionURL, {
 			method : 'post',
 			dataType: 'json',
 			data : {
@@ -66,15 +69,16 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndDay : selectedEndDay,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedProject : selectedProject,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStates : selectedStates,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedTypes : selectedTypes,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
 			on: {
                 success: function(e) {
                 	var data = this.get('responseData');
-                	getResult('video', data);
+                	getResult('participation', data);
 			 	}
 			}
 		});
@@ -86,8 +90,8 @@ $('#name').on('input',function() {
 	getSelectedEntries();
 });
 
-// Lors d'une selection de projet
-$('#projet').change(function() {
+// Lors d'une selection d'état
+$("fieldset[id='states_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
 
@@ -98,6 +102,11 @@ $("fieldset[id='districts_fieldset'] input").change(function() {
 
 // Lors d'une selection d'une thématique
 $("fieldset[id='thematics_fieldset'] input").change(function() {
+	getSelectedEntries();
+});
+
+// Lors d'une selection d'un type
+$("fieldset[id='types_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
 

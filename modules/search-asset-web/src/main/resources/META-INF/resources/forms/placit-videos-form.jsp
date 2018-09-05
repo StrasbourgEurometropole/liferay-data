@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<portlet:resourceURL id="videosSelection" var="videosSelectionURL">
+<portlet:resourceURL id="entrySelectionVideo" var="videosSelectionURL">
 </portlet:resourceURL>
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
@@ -9,7 +9,7 @@
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="keywords" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset class="pro-text">
         <legend aria-hidden="true" class="hide">Effectuer une recherche</legend>
@@ -30,7 +30,7 @@
 	<div class="pro-group">
 	    <div class="pro-header">
 	        <h4><liferay-ui:message key="eu.dates" /></h4>
-	        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+	        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
 	    </div>
 	    <fieldset>
 	        <legend aria-hidden="true" class="hide">Choix par date</legend>
@@ -62,7 +62,7 @@
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.projects" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset>
         <legend aria-hidden="true" class="hide">Choix par nom de projet</legend>
@@ -90,7 +90,7 @@
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.districts" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
@@ -115,7 +115,7 @@
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
@@ -136,12 +136,6 @@
     </fieldset>
 </div>
 
-<div class="pro-group">
-    <input type="submit" name="rechercher" value="Rechercher" />
-</div>
-
-<aui:input type="hidden" name="vocabulariesCount" value="3" />
-
 <script>
 	$(document).ready(function() {
 		$('.move-to-grand-parent').each(function() {
@@ -160,4 +154,5 @@
 
 <liferay-util:html-bottom>
 	<script src="/o/searchassetweb/js/placit-video.js"></script>
+
 </liferay-util:html-bottom>

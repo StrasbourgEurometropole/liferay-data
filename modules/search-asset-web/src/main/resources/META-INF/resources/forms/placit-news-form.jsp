@@ -1,5 +1,8 @@
 <%@ include file="/search-asset-init.jsp"%>
 
+<portlet:resourceURL id="entrySelectionNews" var="newsSelectionURL">
+</portlet:resourceURL>
+
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
 
 <!-- Recherche par dates -->
@@ -7,7 +10,7 @@
 	<div class="pro-facette-date">
 	    <label for="startDate"><liferay-ui:message key="eu.dates" /></label>
         <span class="pro-wrapper-date">
-            <input name="from" data-type="date" type="text" id="date-start"  class="frm_date"
+            <input name="from" data-type="date" type="text" id="date-start"  class="frm_date dynamic"
                 readonly="readonly" value="${dc.fromMonthValue}/${dc.fromDay}/${dc.fromYear}">
             <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
             <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
@@ -15,7 +18,7 @@
         </span>
         <label for="endDate"><liferay-ui:message key="eu.au" /></label>
         <span class="pro-wrapper-date">
-            <input name="to" data-type="date" type="text" id="date-end" class="frm_date"
+            <input name="to" data-type="date" type="text" id="date-end" class="frm_date dynamic"
                 readonly="readonly" value="${dc.toMonthValue}/${dc.toDay}/${dc.toYear}">
             <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
             <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
@@ -68,12 +71,6 @@
     </fieldset>
 </div>
 
-<div class="pro-sort pro-dropdown">
-    <input type="submit" name="rechercher" value="Rechercher" style="margin-bottom: 0px; padding: 0px 10px; margin-top: -12px;" />
-</div>
-
-<aui:input type="hidden" name="vocabulariesCount" value="2" />
-
 <script>
 	$(document).ready(function() {
 		$('.move-to-grand-parent').each(function() {
@@ -81,3 +78,16 @@
 		});
 	});
 </script>
+
+<liferay-util:html-top>
+	<script>
+		var porletNamespace = '<portlet:namespace/>';
+
+        var newsSelectionURL = '${newsSelectionURL}';
+	</script>
+</liferay-util:html-top>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetweb/js/placit-news.js"></script>
+
+</liferay-util:html-bottom>

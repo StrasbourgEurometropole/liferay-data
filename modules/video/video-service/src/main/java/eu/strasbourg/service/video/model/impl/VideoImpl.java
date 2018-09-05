@@ -650,10 +650,9 @@ public class VideoImpl extends VideoBaseImpl {
         videoJSON.put("groupId", this.getGroupId());
         videoJSON.put("nbLikes", this.getNbLikes());
         videoJSON.put("nbDislikes", this.getNbDislikes());
-        String videoURL = this.getSource();
+        String videoURL = this.getSource(Locale.FRANCE);
         String site = this.getSiteVideo(videoURL);
         String videoId = this.getVideoId(site, videoURL);
-        videoJSON.put("videoId", videoId);
         videoJSON.put("nbViews", this.getNbViews(site,videoId));
 
         Set<Locale> locales = this.getSourceMap().keySet();

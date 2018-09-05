@@ -515,3 +515,422 @@ function getPetitionMarker(mercators, link, author, title, place, publishDate, d
     return marker;
 
 }
+
+/**
+ * Retoune le résultat
+ */
+function getResult(searchPage, data) {
+    if(data != null){
+        var nbEntries = data.entries.length;
+        // afficahge résultat
+        $('.pro-listing-' + searchPage).html('');
+        var listing = '<div class="pro-wi-grid unstyled" data-page="1">';
+        var indexGrid = 2;
+        $.each(data.entries,function(index, json) {
+            if(index > 0 && index % delta == 0){
+                listing += '</div><div class="pro-wi-grid hidden unstyled" data-page="' + indexGrid + '">';
+                indexGrid++;
+            }
+
+            if(json.class == "eu.strasbourg.service.video.model.Video"){
+                listing += createVideo(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.Project"){
+                listing += createProject(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.Participation"){
+                listing += createParticipation(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.agenda.model.Event"){
+                listing += createVideo(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.Petition"){
+                listing += createVideo(json.json);
+            }
+
+            if(json.class == "com.liferay.journal.model.JournalArticle"){
+                listing += createVideo(json.json);
+            }
+        });
+        listing += '</div>';
+        $('.pro-listing-' + searchPage).html(listing);
+
+        // gestion de la pagination
+        // selecteur de page + Label
+        selecteur = '';
+        if(nbEntries > delta){
+            selecteur =
+            '<form method="get">' +
+                '<select id="change-page" name="change-page">';
+            var indexPage = 1;
+            for (indexPage; indexPage <= nbEntries / delta; indexPage++) {
+                selecteur +=
+                    '<option value="' + indexPage + '">' +
+                        'Page ' + indexPage + ' ( ' + (nbEntries < (indexPage * delta) ? nbEntries : delta) + ' )' +
+                    '</option>';
+            }
+            if((indexPage - 1) * delta < nbEntries){
+                selecteur +=
+                    '<option value="' + indexPage + '">' +
+                        'Page ' + indexPage + ' ( ' + nbEntries + ' )' +
+                    '</option>';
+            }
+            selecteur +=
+                '</select>' +
+            '</form>';
+        }
+        selecteur += '<p class="hidden-xs"></p>';
+        $('.pro-pagination .pull-left').html(selecteur);
+        $('#change-page').selectric();
+
+        // liens de navigation
+        link = '';
+        if(nbEntries > delta){
+            link =
+            '<ul>' +
+                '<!-- Lien vers la premiere page -->' +
+                '<li class="pro-disabled" >' +
+                    '<a class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing" data-action="first">Premier</a>' +
+                '</li>' +
+                '<!-- Lien vers la page precedente page -->' +
+                '<li class="pro-disabled" >' +
+                    '<a title="Lien vers la page precedente du Listing" data-action="prev">Précédent</a>' +
+                '</li>' +
+                '<!-- Lien vers la page suivante -->' +
+                '<li>' +
+                    '<a title="Lien vers la page suivante du Listing" data-action="next">Suivant</a>' +
+                '</li>' +
+                '<!-- Lien vers la derniere page -->' +
+                '<li>' +
+                    '<a class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing" data-action="last">Dernier</a>' +
+                '</li>' +
+            '</ul>';
+        }
+        $('.pro-pagination .pull-right').html(link);
+    }
+    buildPaginate();
+}
+
+/**
+* Création de la vignette vidéo
+ * @return
+*/
+function createVideo(video){
+    var vignette =
+        '<div class="col-md-4 col-sm-6 col-xs-12">' +
+            '<div class="pro-card pro-card-video vignette" data-linkall=".pro-link-all">' +
+                '<div class="pro-header">' +
+                    '<figure class="fit-cover" role="group">' +
+                        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + '">' +
+                    '</figure>' +
+                    '<span class="icon-ico-lecteur"></span>' +
+                '</div>' +
+                '<div class="pro-meta-avis">' +
+                    '<div class="pro-avis">' +
+                        '<a href="#pro-avis-like-pro" class="pro-like"' +
+                            'data-typeid="3" ' +
+                            'data-isdislike="false"' +
+                            'data-title="' + video.title["fr_FR"] + '"' +
+                            'data-entityid="' + video.id + '"' +
+                            'data-entitygroupid="' + video.groupId + '">' +
+                            video.nbLikes +
+                        '</a>' +
+                        '<a href="#pro-avis-dislike-pro" class="pro-dislike"' +
+                            'data-typeid="3" ' +
+                            'data-isdislike="true"' +
+                            'data-title="' + video.title["fr_FR"] + '"' +
+                            'data-entityid="' + video.id + '"' +
+                            'data-entitygroupid="' + video.groupId + '">' +
+                            video.nbDislikes +
+                        '</a>' +
+                    '</div>';
+                    if (video.nbViews != ""){
+                        vignette +=
+                        '<span class="pro-view">' +
+                            video.nbViews + ' vues' +
+                        '</span>';
+                    }
+                vignette +=
+                '</div>' +
+                '<a href="' + homeURL + 'detail-video/-/entity/id/' + video.id + '" title="Vers la page ' + video.title["fr_FR"] + '" class="pro-link-all"><h3>' + video.title["fr_FR"] + '</h3></a>' +
+            '</div>' +
+        '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette projet
+ * @return
+*/
+function createProject(project){
+    var vignette =
+        '<div class="col-md-4 col-sm-6 col-xs-12">' +
+            '<div class="item bloc-card-projet vignette">' +
+                '<a href="' + homeURL + project.detailURL + '" title="lien de la page">' +
+                    '<div class="img">' +
+                        '<figure role="group">' +
+                            '<img src=' + project.imageURL + ' alt="Image projet" width="360" height="242" class="fit-cover"/>' +
+                        '</figure>' +
+                        '<span>Voir le projet</span>' +
+                    '</div>' +
+                    '<div class="content">' +
+                        '<span class="location">' + project.districtLabel + '</span>' +
+                        '<h3>' + project.title + '</h3>' +
+                        '<div class="pro-wrap-thematique">' +
+                            '<!-- Liste des thématiques de la participation -->';
+                            for(var i = 0 ; i < project.jsonThematicCategoriesTitle.length ; i++){
+                                vignette += '<span>' + project.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+
+                            }
+    vignette +=         '</div>' +
+                    '</div>' +
+                '</a>' +
+                '<ul>' +
+                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' Participation(s) en cours</a></li>' +
+                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-evenement" title="lien de la page" tabindex="-1">' + project.nbEvents + ' Événement(s) à venir</a></li>' +
+                '</ul>' +
+            '</div>' +
+        '</div>';
+    return vignette;
+}
+
+/**
+* Création de la vignette participation
+ * @return
+*/
+function createParticipation(participation){
+    // Recuperation du status de la participation (terminee, bientot, etc.)
+    var participationStatus;
+    var proDuree;
+    switch (participation.statusCode){
+        case "new" :
+            participationStatus = "Nouvelle";
+            proDuree = "Fin dans " + participation.todayExpirationDifferenceDays + " jour(s)";
+            break;
+        case "soon_arrived" :
+            participationStatus = "À venir";
+            proDuree = "Début dans " + participation.todayPublicationDifferenceDays + " jour(s)";
+            break;
+        case "in_progress" :
+            participationStatus = "En cours";
+            proDuree = "Fin dans " + participation.todayExpirationDifferenceDays + " jour(s)";
+            break;
+        case "soon_finished" :
+            participationStatus = "Bientôt terminée";
+            proDuree = "Fin dans " + participation.todayExpirationDifferenceDays + " jour(s)";
+            break;
+        case "finished" :
+            participationStatus = "Terminée";
+            proDuree = "Terminée";
+            break;
+    }
+
+    var vignette =
+        '<div class="item pro-bloc-card-participation vignette type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
+            '<div>' +
+                '<div class="pro-header-participation">' +
+                    '<figure role="group">';
+                        if(participation.imageURL != ""){
+                            vignette += '<img src="' + participation.imageURL + '" width="40" height="40" alt="Image participation"/>';
+                        }
+    vignette +=     '</figure>' +
+                    '<p>Participation publiée par :</p>' +
+                    '<p><strong>' + participation.author + '</strong></p>' +
+                    '<div class="pro-info-top-right">' +
+                        '<span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' +
+                            participation.typeLabel +
+                        '</span>' +
+                        '<span>' + participation.nbApprovedComments + '</span>' +
+                        '<p>Commentaire(s)</p>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="pro-content-participation">' +
+                    '<div class="pro-meta">' +
+                        '<!-- Liste des quartiers de la participation -->' +
+                        '<span>' + participation.districtsLabel +'</span>' +
+                        '<!-- Liste des thématiques de la participation -->';
+                        for(var i = 0 ; i < participation.jsonThematicCategoriesTitle.length ; i++){
+                            vignette += '<span>' + participation.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+
+                        }
+                        if(participation.typeLabel != ""){
+                            vignette += 
+                            '<!-- Type de la participation -->' +
+                            '<span>Type : ' + participation.typeLabel + '</span>';
+                        }
+    vignette +=         '<!-- Statut de la participation -->' +
+                        '<span>' + participationStatus + '</span>' +
+                        '<!-- Projet lié à la participation -->' +
+                        '<span>' + participation.projectName + '</span>' +
+                    '</div>' +
+                    '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '" title="Lien vers la page détail Participation - Lien des commentaires">' +
+                        '<h3>' + participation.title + '</h3>' +
+                    '</a>' +
+                    '<span class="pro-time">' +
+                        'Publiée le <time datetime="' + participation.createDate + '">' + participation.createDate + '</time> / <span class="pro-duree">' + proDuree + '</span>' +
+                    '</span>' +
+                '</div>' +
+                '<!-- Selection du type de template selon le status de la participation -->';
+                if (participationStatus == "À venir"){
+                    vignette +=
+                    '<div class="pro-footer-participation pro-participation-soon">' +
+                        '<div class="pro-avis">' +
+                            '<span class="pro-like">' + participation.nbLikes + '</span>' +
+                            '<span class="pro-dislike">' + participation.nbDislikes + '</span>' +
+                        '</div>' +
+                        '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">' +
+                            'Concertation bientôt disponible...' +
+                        '</a>' +
+                    '</div>';
+                }else if (participationStatus == "Nouvelle" || participationStatus == "En cours" || participationStatus == "Bientôt terminée"){
+                    vignette +=
+                    '<div class="pro-footer-participation pro-participation-in-progress">' +
+                        '<div class="pro-avis">';
+                            if (participation.isJudgeable && participation.hasPactSigned ){
+                                vignette +=
+                                '<a href="#pro-avis-like-pro" class="pro-like"' +
+                                    'data-typeid="15" ' +
+                                    'data-isdislike="false" ' +
+                                    'data-title="' + participation.title + '" ' + 
+                                    'data-entityid="' + participation.id + '" ' +
+                                    'data-entitygroupid="' + participation.groupId + '">' +
+                                    participation.nbLikes +
+                                '</a>' +
+                                '<a href="#pro-avis-dislike-pro" class="pro-dislike"' +
+                                    'data-typeid="15" ' +
+                                    'data-isdislike="true" ' +
+                                    'data-title="' + participation.title + '" ' + 
+                                    'data-entityid="' + participation.id + '" ' +
+                                    'data-entitygroupid="' + participation.groupId + '">' +
+                                    participation.nbDislikes +
+                                '</a>';
+                            }else if (participation.hasPactSigned){
+                                vignette +=
+                                '<a class="pro-like" name="#Pact-sign">' + participation.nbLikes + '</a>' +
+                                '<a class="pro-dislike" name="#Pact-sign">' + participation.nbDislikes + '</a>';
+                            }else{
+                                vignette +=
+                                '<a class="pro-like">' + participation.nbLikes + '</a>' +
+                                '<a class="pro-dislike">' + participation.nbDislikes + '</a>';
+                            }
+                    vignette +=
+                        '</div>' +
+                        '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">' +
+                            'Réagissez...' +
+                        '</a>' +
+                    '</div>';
+                }else if (participationStatus == "Terminée"){
+                    vignette +=
+                    '<div class="pro-footer-participation pro-participation-deadline">' +
+                        '<div class="pro-avis">' +
+                            '<span class="pro-like">' + participation.nbLikes + '</span>' +
+                            '<span class="pro-dislike">' + participation.nbDislikes + '</span>' +
+                        '</div>' +
+                        '<p>Participation terminée, merci de votre participation</p>' +
+                    '</div>';
+                }
+    vignette +=        
+            '</div>' +
+        '</div>' +
+        '<!-- Cree le style de couleur hexa a la volee pour l\'application de la couleur !-->';
+        if(participation.typeColor != ""){
+            vignette += 
+            '<style style="display: none" >' +
+                '.type-color-hexa-' + participation.typeColor + '>*:before {' +
+                    'background:#' + participation.typeColor + ';' +
+                '}' +
+            '</style>';
+        }
+    return vignette;
+}
+
+
+/**
+* Création de la pagination
+*/
+function buildPaginate(){
+    $('.pro-search-listing').each(function(index, widget){
+        var wi = {
+            $widget: $(widget),
+            $list: $(widget).find('.pro-wi-grid'),
+            $items: $(widget).find('.vignette')
+        }
+
+        // Récupérer le nombre de page
+        wi.items_count = wi.$items.length;
+        wi.page_count = Math.ceil(wi.items_count / delta);
+
+        goToPage(wi, 1);
+        wi.$widget.find('[data-action="first"]').on('click', function(){
+            goToPage(wi, 1);
+        });
+        wi.$widget.find('[data-action="prev"]').on('click', function(){
+            goToPage(wi, getCurrentPage(wi) - 1);
+        });
+        wi.$widget.find('[data-action="next"]').on('click', function(){
+            goToPage(wi, getCurrentPage(wi) + 1);
+        });
+        wi.$widget.find('[data-action="last"]').on('click', function(){
+            goToPage(wi, wi.page_count);
+        });
+        wi.$widget.find('#change-page').on('change', function(){
+            var target = $(this).val(); 
+            goToPage(wi, target);
+        })
+    });
+}
+
+/**
+ * @description Récupère la page courante en se basant sur l'état de la pagination
+ * @param {*} wi 
+ */
+function getCurrentPage(wi){
+    var page = parseInt(wi.$widget.find('#change-page').val());
+    return page;
+}
+
+/**
+ * @description Affiche la page ayant l'index demandé
+ * @param {Object} wi - Objet de configuration
+ * @param {Int} index - Index de la page cible
+ */
+function goToPage(wi, index){
+    if(index <= wi.page_count){
+        // Gestion de l'affichage des résultats
+        wi.$widget.find('.pro-wi-grid').addClass('hidden');
+        wi.$widget.find('.pro-wi-grid[data-page="'+index+'"]').removeClass('hidden');
+
+        // Gestion des états first/prev/next/last pagination
+        if(index == 1){
+            wi.$widget.find('[data-action="first"]').parent('li').addClass('pro-disabled');
+            wi.$widget.find('[data-action="prev"]').parent('li').addClass('pro-disabled');
+        }else{
+            wi.$widget.find('[data-action="first"]').parent('li').removeClass('pro-disabled');
+            wi.$widget.find('[data-action="prev"]').parent('li').removeClass('pro-disabled');
+        }
+        if(index == wi.page_count){
+            wi.$widget.find('[data-action="next"]').parent('li').addClass('pro-disabled');
+            wi.$widget.find('[data-action="last"]').parent('li').addClass('pro-disabled');
+        }else{
+            wi.$widget.find('[data-action="next"]').parent('li').removeClass('pro-disabled');
+            wi.$widget.find('[data-action="last"]').parent('li').removeClass('pro-disabled');
+        }
+
+        // Gestion de l'affichage du selecteur
+        wi.$widget.find('#change-page option[value="' + index + '"]').prop('selected', true);
+    }
+
+    // Gestion affichage du résultat de la pagination
+    var indexDernierItemPage = index * delta;
+    var pageResult = 'Affichage des résultats ' +
+                    (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
+                    (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
+                    ' parmis ' + wi.items_count;
+    wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
+    
+}

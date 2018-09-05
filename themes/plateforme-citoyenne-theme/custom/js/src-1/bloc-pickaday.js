@@ -31,7 +31,7 @@ $('.frm_date').each(function(){
             // Utilisé pour les recherches ajax
             if(this._o.field.className.indexOf('dynamic') >= 0){
                 // Renvoi la liste des entités demandées
-                getSelectedVideos();
+                getSelectedEntries();
             }
 	    }
     });

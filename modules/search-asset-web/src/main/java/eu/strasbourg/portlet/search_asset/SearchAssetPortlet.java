@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetLinkLocalServiceUtil;
@@ -22,6 +23,7 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.service.activity.model.Activity;
@@ -53,12 +55,15 @@ import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelper;
 import org.osgi.service.component.annotations.Component;
 
@@ -79,56 +84,58 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
-		"com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.css-class-wrapper=search-asset-portlet",
-		"com.liferay.portlet.single-page-application=false",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/search-asset-view.jsp",
-		"javax.portlet.init-param.check-auth-token=false",
-		"javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+        "com.liferay.portlet.display-category=Strasbourg",
+        "com.liferay.portlet.instanceable=false",
+        "com.liferay.portlet.css-class-wrapper=search-asset-portlet",
+        "com.liferay.portlet.single-page-application=false",
+        "javax.portlet.init-param.template-path=/",
+        "javax.portlet.init-param.view-template=/search-asset-view.jsp",
+        "javax.portlet.init-param.check-auth-token=false",
+        "javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
+        "javax.portlet.resource-bundle=content.Language",
+        "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
 public class SearchAssetPortlet extends MVCPortlet {
 
-	@Override
-	public void render(RenderRequest renderRequest,
-			RenderResponse renderResponse)
-			throws IOException, PortletException {
-		try {
-			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
-					.getAttribute(WebKeys.THEME_DISPLAY);
-			SearchAssetConfiguration configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-							SearchAssetConfiguration.class);
+    @Override
+    public void render(RenderRequest renderRequest,
+                       RenderResponse renderResponse)
+            throws IOException, PortletException {
+        try {
+            ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
+                    .getAttribute(WebKeys.THEME_DISPLAY);
+            this._configuration = themeDisplay
+                    .getPortletDisplay().getPortletInstanceConfiguration(
+                            SearchAssetConfiguration.class);
+            getClassNames();
 
-			// On set le DisplayContext
-			SearchAssetDisplayContext dc = new SearchAssetDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
+            // On set le DisplayContext
+            SearchAssetDisplayContext dc = new SearchAssetDisplayContext(
+                    renderRequest, renderResponse);
+            renderRequest.setAttribute("dc", dc);
 
-			// Boolean pour dire qu'on vient du portlet de recherche et non d'un
-			// asset publisher (pour être utilisé dans les ADT si besoin
-			renderRequest.setAttribute("fromSearchPortlet", true);
 
-			// On envoie a la jsp la map className / layout qui fait
-			// correspondre à chaque type d'asset une page de détail
-			int i = 0;
-			Map<String, Long> className_layoutId = new HashMap<String, Long>();
-			for (String className : configuration.assetClassNames()
-					.split(",")) {
-				String layoutFriendlyURL = configuration.layoutsFriendlyURLs()
-						.split(",")[i];
-				Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
-						themeDisplay.getScopeGroupId(), false,
-						layoutFriendlyURL);
-				if (layout != null) {
-					className_layoutId.put(className, layout.getPlid());
-				}
-				i++;
-			}
+            // Boolean pour dire qu'on vient du portlet de recherche et non d'un
+            // asset publisher (pour être utilisé dans les ADT si besoin
+            renderRequest.setAttribute("fromSearchPortlet", true);
 
-			renderRequest.setAttribute("classNameLayoutId", className_layoutId);
+            // On envoie a la jsp la map className / layout qui fait
+            // correspondre à chaque type d'asset une page de détail
+            int i = 0;
+            Map<String, Long> className_layoutId = new HashMap<String, Long>();
+            for (String className :  this._configuration.assetClassNames()
+                    .split(",")) {
+                String layoutFriendlyURL =  this._configuration.layoutsFriendlyURLs()
+                        .split(",")[i];
+                Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
+                        themeDisplay.getScopeGroupId(), false,
+                        layoutFriendlyURL);
+                if (layout != null) {
+                    className_layoutId.put(className, layout.getPlid());
+                }
+                i++;
+            }
+
+            renderRequest.setAttribute("classNameLayoutId", className_layoutId);
 
             // Recuperation de l'URL de "base" du site
             String homeURL = "/";
@@ -137,67 +144,105 @@ public class SearchAssetPortlet extends MVCPortlet {
             }
             renderRequest.setAttribute("homeURL", homeURL);
 
-			super.render(renderRequest, renderResponse);
-		} catch (Exception e) {
-			_log.error(e);
-		}
-	}
+            super.render(renderRequest, renderResponse);
+        } catch (Exception e) {
+            _log.error(e);
+        }
+    }
 
-	/**
-	 * L'utilisateur a fait une recherche, on en profite pour set un attribut
-	 */
-	@Override
-	public void processAction(ActionRequest actionRequest,
-			ActionResponse actionResponse)
-			throws IOException, PortletException {
+    /**
+     * L'utilisateur a fait une recherche, on en profite pour set un attribut
+     */
+    @Override
+    public void processAction(ActionRequest actionRequest,
+                              ActionResponse actionResponse)
+            throws IOException, PortletException {
 
-		actionRequest.setAttribute("userSearch", true);
+        actionRequest.setAttribute("userSearch", true);
 
-		super.processAction(actionRequest, actionResponse);
-	}
+        super.processAction(actionRequest, actionResponse);
+    }
 
-	@Override
-	public void serveResource(ResourceRequest resourceRequest,
-			ResourceResponse resourceResponse)
-			throws IOException, PortletException {
+    @Override
+    public void serveResource(ResourceRequest resourceRequest,
+                              ResourceResponse resourceResponse)
+            throws IOException, PortletException {
 
-		try {
-			this._themeDisplay = (ThemeDisplay) resourceRequest
-					.getAttribute(WebKeys.THEME_DISPLAY);
+        try {
+            this._themeDisplay = (ThemeDisplay) resourceRequest
+                    .getAttribute(WebKeys.THEME_DISPLAY);
             this._request = resourceRequest;
             this._response = resourceResponse;
-            this._configuration = this._themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(SearchAssetConfiguration.class);
 
-			String resourceID = resourceRequest.getResourceID();
+            String resourceID = resourceRequest.getResourceID();
 
-			// Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
-			// et réaction au type de la demande
-			if (resourceID.equals("videosSelection")) { // Nouvelle sélection de videos
+            // Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
+            // et réaction au type de la demande
+            if (resourceID.startsWith("entrySelection")) { // Nouvelle sélection de videos
 
-				this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
-				this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
-                this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
-                this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
-                this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
-                this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
-                this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
-				this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
-				this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
-				this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
-				this._sortFieldAndType = ParamUtil.getString(resourceRequest,"sortFieldAndType");
+                if (resourceID.equals("entrySelectionVideo")) {
+                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
+                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
+                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
+                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
+                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
+                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
+                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
+                    this._states = new long[]{};
+                    this._statuts = new long[]{};
+                    this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
+                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                    this._types = new long[]{};
+                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
 
-				// Recherche des vidéos
-                this.initSearchContainer();
-				List<AssetEntry> entries = searchEntries();
+                if (resourceID.equals("entrySelectionProject")) {
+                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
+                    this._startDay = -1;
+                    this._startMonth = null;
+                    this._startYear = -1;
+                    this._endDay = -1;
+                    this._endMonth = null;
+                    this._endYear = -1;
+                    this._states = new long[]{};
+                    this._statuts = ParamUtil.getLongValues(resourceRequest, "selectedStatut");
+                    this._projects = new long[]{};
+                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                    this._types = new long[]{};
+                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
 
-				// Récupération du json des entités
+                if (resourceID.equals("entrySelectionParticipation")) {
+                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
+                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
+                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
+                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
+                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
+                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
+                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
+                    this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
+                    this._statuts = new long[]{};
+                    this._projects = new long[]{};
+                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                    this._types = ParamUtil.getLongValues(resourceRequest, "selectedTypes");
+                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
+
+                long delta = this._configuration.delta();
+
+                // Recherche des vidéos
+                List<AssetEntry> entries = searchEntries();
+
+                // Récupération du json des entités
                 JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
                 JSONArray jsonEntries = JSONFactoryUtil.createJSONArray();
-				for (AssetEntry entry : entries) {
-				    String className = entry.getClassName();
+                for (AssetEntry entry : entries) {
+                    String className = entry.getClassName();
 
-				    switch (className){
+                    switch (className) {
                         /*case "eu.strasbourg.service.activity.model.Activity":
                             Activity activity = ActivityLocalServiceUtil.fetchActivity(entry.getClassPK());
                             jsonEntries.put(activity.toJSON());
@@ -216,7 +261,10 @@ public class SearchAssetPortlet extends MVCPortlet {
                             break;*/
                         case "eu.strasbourg.service.agenda.model.Event":
                             Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
-                            jsonEntries.put(event.toJSON());
+                            JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
+                            jsonEvent.put("class", className);
+                            jsonEvent.put("json", event.toJSON());
+                            jsonEntries.put(jsonEvent);
                             break;
                         /*case "eu.strasbourg.service.agenda.model.Manifestation":
                             Manifestation manifestation = ManifestationLocalServiceUtil.fetchManifestation(entry.getClassPK());
@@ -256,202 +304,195 @@ public class SearchAssetPortlet extends MVCPortlet {
                             break;*/
                         case "eu.strasbourg.service.project.model.Project":
                             Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
-                            jsonEntries.put(project.toJSON());
+                            JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
+                            jsonProject.put("class", className);
+                            JSONObject json = project.toJSON();
+                            json.put("nbParticipations", project.getParticipations().size());
+                            json.put("nbEvents", project.getEvents().size());
+                            JSONArray jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+                            List<AssetCategory> thematicCategories = project.getThematicCategories();
+                            for (AssetCategory assetCategory : thematicCategories) {
+                                jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+                            }
+                            json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+                            jsonProject.put("json", json);
+                            jsonEntries.put(jsonProject);
                             break;
                         case "eu.strasbourg.service.project.model.Participation":
                             Participation participation = ParticipationLocalServiceUtil.fetchParticipation(entry.getClassPK());
-                            jsonEntries.put(participation.toJSON());
+                            JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
+                            jsonParticipation.put("class", className);
+                            json = participation.toJSON();
+                            json.put("todayExpirationDifferenceDays", participation.getTodayExpirationDifferenceDays());
+                            json.put("isJudgeable", participation.isJudgeable());
+                            json.put("groupId", participation.getGroupId());
+                            HttpServletRequest request = PortalUtil.getHttpServletRequest(resourceRequest);
+                            LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
+                            HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+                            json.put("hasPactSigned", originalRequest.getSession().getAttribute("has_pact_signed"));
+                            jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+                            thematicCategories = participation.getThematicCategories();
+                            for (AssetCategory assetCategory : thematicCategories) {
+                                jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+                            }
+                            json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+                            jsonParticipation.put("json", json);
+                            jsonEntries.put(jsonParticipation);
+                            break;
+                        case "eu.strasbourg.service.project.model.Petition":
+                            Petition petition = PetitionLocalServiceUtil.fetchPetition(entry.getClassPK());
+                            JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
+                            jsonPetition.put("class", className);
+                            //jsonPetition.put("json", petition.toJSON());
+                            jsonEntries.put(jsonPetition);
                             break;
                         case "eu.strasbourg.service.video.model.Video":
                             Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
-                            jsonEntries.put(video.toJSON());
+                            JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
+                            jsonVideo.put("class", className);
+                            jsonVideo.put("json", video.toJSON());
+                            jsonEntries.put(jsonVideo);
                             break;
                         /*case "eu.strasbourg.service.video.model.VideoGallery":
                             VideoGallery videoGallery = VideoGalleryLocalServiceUtil.fetchVideoGallery(entry.getClassPK());
                             jsonEntries.put(videoGallery.toJSON());
                             break;*/
                         case "com.liferay.journal.model.JournalArticle":
-                            JournalArticle  journalArticle = JournalArticleLocalServiceUtil.fetchJournalArticle(entry.getClassPK());
-                            /*jsonEntries.put(journalArticle.toJSON());*/
+                            JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchJournalArticle(entry.getClassPK());
+                            JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
+                            jsonJournalArticle.put("class", className);
+                            /*jsonJournalArticle.put("json", journalArticle.toJSON());
+                            jsonEntries.put(jsonJournalArticle);*/
                             break;
                         /*case "com.liferay.document.library.kernel.model.DLFileEntry":
                             DLFileEntry dlFileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(entry.getClassPK());
                             jsonEntries.put(dlFileEntry.toJSON());
                             break;*/
                     }
-				}
+                }
                 jsonResponse.put("entries", jsonEntries);
 
-				// Recuperation de l'élément d'écriture de la réponse
-				PrintWriter writer = resourceResponse.getWriter();
-				writer.print(jsonResponse.toString());
+                // Recuperation de l'élément d'écriture de la réponse
+                PrintWriter writer = resourceResponse.getWriter();
+                writer.print(jsonResponse.toString());
 
-			} else { // pour l'export PDF
+            } else { // pour l'export PDF
                 long groupId = new Long(this._themeDisplay.getLayout().getGroupId());
-				String exportType = this._configuration.exportType();
-				ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse, exportType);
-			}
-		} catch (Exception e2) {
-			_log.error(e2);
-		}
-		super.serveResource(resourceRequest, resourceResponse);
-	}
-
-    private void initSearchContainer() {
-        PortletURL iteratorURL = this._response.createRenderURL();
-        iteratorURL.setParameter("orderByCol", this.getSortField());
-        iteratorURL.setParameter("orderByType", this.getSortType());
-        int i = 0;
-        for (Long[] categoriesIds : this.getFilterCategoriesIds()) {
-            iteratorURL.setParameter("vocabulary_" + i, ArrayUtil.toStringArray(categoriesIds));
-            i++;
+                String exportType = this._configuration.exportType();
+                ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse, exportType);
+            }
+        } catch (Exception e2) {
+            _log.error(e2);
         }
-        iteratorURL.setParameter("paginate", String.valueOf(true));
-        iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
-
-        iteratorURL.setParameter("className", this.getFilterClassNames());
-
-        iteratorURL.setParameter("keywords", String.valueOf(this._keywords));
-        if (this._configuration.dateField()) {
-            iteratorURL.setParameter("fromDay", String.valueOf(this.getFromDay()));
-            iteratorURL.setParameter("fromMonth", String.valueOf(this.getFromMonthIndex()));
-            iteratorURL.setParameter("fromYear", String.valueOf(this.getFromYear()));
-            iteratorURL.setParameter("toDay", String.valueOf(this.getToDay()));
-            iteratorURL.setParameter("toMonth", String.valueOf(this.getToMonthIndex()));
-            iteratorURL.setParameter("toYear", String.valueOf(this.getToYear()));
-        }
-
-        if (this._searchContainer == null) {
-            this._searchContainer = new SearchContainer<AssetEntry>(this._request, iteratorURL, null,
-                    "no-entries-were-found");
-            this._searchContainer.getIteratorURL().setParameter("delta", String.valueOf(this.getDelta()));
-
-            this._searchContainer.setDelta((int) this.getDelta());
-        }
+        super.serveResource(resourceRequest, resourceResponse);
     }
 
-	/**
-	 * Effectue concrètement la recherche
-	 */
-	private List<AssetEntry> searchEntries() throws PortalException {
-		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(this._request);
-
-		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
-
-		// Mots clés
-		String keywords = this._keywords;
-
-		// ClassNames de la configuration
-		String[] classNames = this.getFilterClassNames();
-
-		// Inclusion ou non du scope global
-		boolean globalScope = this._configuration.globalScope();
-		long globalGroupId = this._themeDisplay.getCompanyGroupId();
-
-		// Group ID courant
-		long groupId = this._themeDisplay.getScopeGroupId();
-
-		// Catégories sélectionnées par l'utilisateur
-		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
-
-		// Préfiltre catégories
-		String prefilterCategoriesIdsString = this._configuration.prefilterCategoriesIds();
-		List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
-		for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
-			Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
-					.toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
-			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
-		}
-
-		// Préfiltre tags
-		String prefilterTagsNamesString = this._configuration.prefilterTagsNames();
-		String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
-
-		// Champ date
-		boolean dateField = this._configuration.dateField();
-		String dateFieldName = this._configuration.defaultSortField();
-		LocalDate fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
-		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
-
-		// Ordre
-		String sortField = this.getSortField();
-		boolean isSortDesc = "desc".equals(this.getSortType());
-
-		// Permet de remonter la hiérarchie des Request
-		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
-
-		// Lieu (pour la recherche agenda)
-		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
-
-		// Recherche
-		this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
-				keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-				prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
-				getSearchContainer().getEnd(), sortField, isSortDesc);
-
-		List<AssetEntry> results = new ArrayList<AssetEntry>();
-		if (this._hits != null) {
-			int i = 0;
-			for (float s : this._hits.getScores()) {
-				_log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
-				i++;
-				if (i > 10)
-					break;
-			}
-
-			for (Document document : this._hits.getDocs()) {
-				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-						GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (entry != null) {
-					results.add(entry);
-				}
-			}
-			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
-					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
-					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale());
-			this.getSearchContainer().setTotal((int) count);
-		}
-
-		return results;
-	}
-
     /**
-     * Renvoie la liste des types d'entités sur lesquels on souhaite rechercher
-     * les entries
+     * Effectue concrètement la recherche
      */
-    private String[] getFilterClassNames() {
-        if (_filterClassNames == null) {
-            this._filterClassNames = ParamUtil.getStringValues(this._request, "className");
+    private List<AssetEntry> searchEntries() throws PortalException {
+        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(this._request);
+
+        SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
+
+        // Mots clés
+        String keywords = this._keywords;
+
+        // ClassNames de la configuration
+        String[] classNames = ArrayUtil.toStringArray(this._classNames);
+
+        // Inclusion ou non du scope global
+        boolean globalScope = this._configuration.globalScope();
+        long globalGroupId = this._themeDisplay.getCompanyGroupId();
+
+        // Group ID courant
+        long groupId = this._themeDisplay.getScopeGroupId();
+
+        // Catégories sélectionnées par l'utilisateur
+        List<Long[]> categoriesIds = this.getFilterCategoriesIds();
+
+        // Préfiltre catégories
+        String prefilterCategoriesIdsString = this._configuration.prefilterCategoriesIds();
+        List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
+        for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
+            Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
+                    .toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
+            prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
         }
-        // Si la liste est vide, on renvoie la liste complète paramétrée via la
-        // configuration (on ne recherche pas sur rien !)
-        if (_filterClassNames.length == 0) {
-            _filterClassNames = ArrayUtil.toStringArray(this.getClassNames());
+
+        // Préfiltre tags
+        String prefilterTagsNamesString = this._configuration.prefilterTagsNames();
+        String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
+
+        // Champ date
+        boolean dateField = this._startDay == -1 ? false : this._configuration.dateField();
+        String dateFieldName = this._configuration.defaultSortField();
+        LocalDate fromDate = null;
+        LocalDate toDate = null;
+        if (dateField) {
+            fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
+            toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
         }
-        return _filterClassNames;
+
+        // Ordre
+        String sortField = this.getSortField();
+        boolean isSortDesc = "desc".equals(this.getSortType());
+
+        // Permet de remonter la hiérarchie des Request
+        HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+
+        // Lieu (pour la recherche agenda)
+        String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+
+        // Recherche
+        this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
+                keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+                prefilterTagsNames, idSIGPlace, this._themeDisplay.getLocale(), -1,
+                -1, sortField, isSortDesc);
+
+        List<AssetEntry> results = new ArrayList<AssetEntry>();
+        if (this._hits != null) {
+            int i = 0;
+            for (float s : this._hits.getScores()) {
+                _log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
+                i++;
+                if (i > 10)
+                    break;
+            }
+
+            for (Document document : this._hits.getDocs()) {
+                AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+                        GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
+                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                if (entry != null) {
+                    results.add(entry);
+                }
+            }
+            long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
+                    globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
+                    prefilterCategoriesIds, prefilterTagsNames, idSIGPlace, this._themeDisplay.getLocale());
+        }
+
+        return results;
     }
 
     /**
      * Retourne la liste des class names sur lesquelles on recherche
      */
-    public List<String> getClassNames() {
-        if (this._classNames == null) {
-            List<String> classNames = new ArrayList<String>();
-            for (String className : this._configuration.assetClassNames().split(",")) {
-                if (Validator.isNotNull(className)) {
-                    classNames.add(className);
-                }
+    public void getClassNames() {
+        List<String> classNames = new ArrayList<String>();
+        for (String className : this._configuration.assetClassNames().split(",")) {
+            if (Validator.isNotNull(className)) {
+                classNames.add(className);
             }
-            if (this._configuration.searchJournalArticle()) {
-                classNames.add("com.liferay.journal.model.JournalArticle");
-            }
-            if (this._configuration.searchDocument()) {
-                classNames.add(DLFileEntry.class.getName());
-            }
-            this._classNames = classNames;
         }
-        return this._classNames;
+        if (this._configuration.searchJournalArticle()) {
+            classNames.add("com.liferay.journal.model.JournalArticle");
+        }
+        if (this._configuration.searchDocument()) {
+            classNames.add(DLFileEntry.class.getName());
+        }
+        this._classNames = classNames;
     }
 
     /**
@@ -459,42 +500,72 @@ public class SearchAssetPortlet extends MVCPortlet {
      * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
      */
     private List<Long[]> getFilterCategoriesIds() {
-        if (_filterCategoriesIds == null) {
-            List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
-            List<Long> categoriesIds = new ArrayList<Long>();
+        List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
+        List<Long> categoriesIds = new ArrayList<Long>();
 
-            // On récupère les projets s'il y en a
-            for (long project : this._projects) {
-                if (project > 0) {
-                    categoriesIds.add(project);
-                }
+        // On récupère les états s'il y en a
+        for (long state : this._states) {
+            if (state > 0) {
+                categoriesIds.add(state);
             }
-            if (categoriesIds.size() > 0) {
-                filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
-            }
-
-            // On récupère les quartiers s'il y en a
-            for (long district : this._districts) {
-                if (district > 0) {
-                    categoriesIds.add(district);
-                }
-            }
-            if (categoriesIds.size() > 0) {
-                filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
-            }
-
-            // On récupère les thématiques s'il y en a
-            for (long thematic : this._thematics) {
-                if (thematic > 0) {
-                    categoriesIds.add(thematic);
-                }
-            }
-            if (categoriesIds.size() > 0) {
-                filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
-            }
-
-            this._filterCategoriesIds = filterCategoriesIds;
         }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On récupère les statuts s'il y en a
+        for (long statut : this._statuts) {
+            if (statut > 0) {
+                categoriesIds.add(statut);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On récupère les projets s'il y en a
+        for (long project : this._projects) {
+            if (project > 0) {
+                categoriesIds.add(project);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On récupère les quartiers s'il y en a
+        categoriesIds = new ArrayList<Long>();
+        for (long district : this._districts) {
+            if (district > 0) {
+                categoriesIds.add(district);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On récupère les thématiques s'il y en a
+        categoriesIds = new ArrayList<Long>();
+        for (long thematic : this._thematics) {
+            if (thematic > 0) {
+                categoriesIds.add(thematic);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        // On récupère les types s'il y en a
+        for (long type : this._types) {
+            if (type > 0) {
+                categoriesIds.add(type);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+
+        this._filterCategoriesIds = filterCategoriesIds;
         return this._filterCategoriesIds;
     }
 
@@ -657,50 +728,30 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
     }
 
-    /**
-     * Retourne le searchContainer des entités
-     */
-    public SearchContainer<AssetEntry> getSearchContainer() {
-        return this._searchContainer;
-    }
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    /**
-     * Retourne le nombre d'items par page à afficher
-     */
-    public long getDelta() {
-        long deltaFromParam = this._delta;
-        if (deltaFromParam > 0) {
-            return deltaFromParam;
-        }
-        if (this._configuration.delta() > 0) {
-            return this._configuration.delta();
-        }
-        return 12;
-    }
-
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
+    private ThemeDisplay _themeDisplay;
     private ResourceRequest _request;
     private ResourceResponse _response;
-    private ThemeDisplay _themeDisplay;
     private SearchAssetConfiguration _configuration;
 
     private String _keywords;
-    private String[] _filterClassNames;
-    private List<String> _classNames;
     private int _startDay;
     private String _startMonth;
     private int _startYear;
     private int _endDay;
     private String _endMonth;
     private int _endYear;
-    private List<Long[]> _filterCategoriesIds;
+    private long[] _states;
+    private long[] _statuts;
     private long[] _projects;
     private long[] _districts;
     private long[] _thematics;
+    private long[] _types;
     private String _sortFieldAndType;
 
+    private List<String> _classNames;
+    private List<Long[]> _filterCategoriesIds;
+
     private Hits _hits;
-    private SearchContainer<AssetEntry> _searchContainer;
-    private int _delta;
 }
