@@ -197,6 +197,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataires();
+
 	/**
 	* Retourne le status de la petition
 	*/

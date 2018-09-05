@@ -173,6 +173,7 @@ public class PetitionImpl extends PetitionBaseImpl {
         return result.toString();
     }
 
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -409,7 +410,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 	public String getAssetEntryTitle(){
 		String result="N/A";
 		try {
-			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
+			AssetEntry entry = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntry().getEntryId());
 			String temp = entry.getTitle();
 			if (temp!=null&&!temp.isEmpty()){
 				if (temp.length()>50){
@@ -433,7 +434,8 @@ public class PetitionImpl extends PetitionBaseImpl {
                 .getAssetEntryCategories(this.getAssetEntry());
     }
 
-    List<Signataire> getSignataires(){
+
+    public List<Signataire> getSignataires(){
 		return SignataireLocalServiceUtil.getSignatairesByPetitionId(getPetitionId());
 	}
 
@@ -501,7 +503,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 		}else if (ParticipationImpl.NEW.equals(status)){
 			result = "Nouvelle";
 		}else if (ParticipationImpl.SOON_FINISHED.equals(status)){
-			result = "Bientôt terminée";
+			result = "Bient&ocirc;t termin&eacute;e";
 		}else result = "En cours";
 		return result;
 	}
@@ -517,7 +519,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 		String status = this.getPetitionStatus();
 		if (COMPLETED.equals(status)||
 				FAILED.equals(status)){
-			result = "Terminée";
+			result = "Termin&eacute;e";
 		}else result = "Fin dans " + this.getTodayExpirationDifferenceDays() + " jour(s)";
 		return result;
 	}

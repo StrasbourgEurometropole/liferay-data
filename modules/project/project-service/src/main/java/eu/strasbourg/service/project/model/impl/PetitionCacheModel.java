@@ -15,19 +15,16 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-
 import eu.strasbourg.service.project.model.Petition;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
 
 /**
@@ -65,7 +62,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -115,8 +112,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(mediaChoice);
 		sb.append(", consultationPlacesBody=");
 		sb.append(consultationPlacesBody);
-		sb.append(", assetEntryId=");
-		sb.append(assetEntryId);
 		sb.append(", publikId=");
 		sb.append(publikId);
 		sb.append(", imageId=");
@@ -256,8 +251,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setConsultationPlacesBody(consultationPlacesBody);
 		}
 
-		petitionImpl.setAssetEntryId(assetEntryId);
-
 		if (publikId == null) {
 			petitionImpl.setPublikId(StringPool.BLANK);
 		}
@@ -313,8 +306,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		mediaChoice = objectInput.readBoolean();
 		consultationPlacesBody = objectInput.readUTF();
-
-		assetEntryId = objectInput.readLong();
 		publikId = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
@@ -425,8 +416,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			objectOutput.writeUTF(consultationPlacesBody);
 		}
 
-		objectOutput.writeLong(assetEntryId);
-
 		if (publikId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -468,7 +457,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String externalImageCopyright;
 	public boolean mediaChoice;
 	public String consultationPlacesBody;
-	public long assetEntryId;
 	public String publikId;
 	public long imageId;
 	public String filesIds;

@@ -83,7 +83,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
-		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
@@ -237,12 +236,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (consultationPlacesBody != null) {
 			setConsultationPlacesBody(consultationPlacesBody);
-		}
-
-		Long assetEntryId = (Long)attributes.get("assetEntryId");
-
-		if (assetEntryId != null) {
-			setAssetEntryId(assetEntryId);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -849,6 +842,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getPlacitPlaces();
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataires() {
+		return _petition.getSignataires();
+	}
+
 	/**
 	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
 	*
@@ -888,16 +886,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
 		return _petition.getThematicCategories();
-	}
-
-	/**
-	* Returns the asset entry ID of this petition.
-	*
-	* @return the asset entry ID of this petition
-	*/
-	@Override
-	public long getAssetEntryId() {
-		return _petition.getAssetEntryId();
 	}
 
 	/**
@@ -1003,16 +991,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void persist() {
 		_petition.persist();
-	}
-
-	/**
-	* Sets the asset entry ID of this petition.
-	*
-	* @param assetEntryId the asset entry ID of this petition
-	*/
-	@Override
-	public void setAssetEntryId(long assetEntryId) {
-		_petition.setAssetEntryId(assetEntryId);
 	}
 
 	@Override

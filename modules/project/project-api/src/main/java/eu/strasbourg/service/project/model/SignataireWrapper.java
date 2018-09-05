@@ -73,9 +73,15 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("signataireName", getSignataireName());
 		attributes.put("signataireFirstname", getSignataireFirstname());
+		attributes.put("birthday", getBirthday());
+		attributes.put("address", getAddress());
+		attributes.put("mail", getMail());
+		attributes.put("postalCode", getPostalCode());
+		attributes.put("mobilePhone", getMobilePhone());
+		attributes.put("phone", getPhone());
+		attributes.put("city", getCity());
 		attributes.put("signatureDate", getSignatureDate());
-		attributes.put("assetEntryId", getAssetEntryId());
-		attributes.put("publikId", getPublikId());
+		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("petitionId", getPetitionId());
 
 		return attributes;
@@ -168,22 +174,58 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 			setSignataireFirstname(signataireFirstname);
 		}
 
+		Date birthday = (Date)attributes.get("birthday");
+
+		if (birthday != null) {
+			setBirthday(birthday);
+		}
+
+		String address = (String)attributes.get("address");
+
+		if (address != null) {
+			setAddress(address);
+		}
+
+		String mail = (String)attributes.get("mail");
+
+		if (mail != null) {
+			setMail(mail);
+		}
+
+		Long postalCode = (Long)attributes.get("postalCode");
+
+		if (postalCode != null) {
+			setPostalCode(postalCode);
+		}
+
+		String mobilePhone = (String)attributes.get("mobilePhone");
+
+		if (mobilePhone != null) {
+			setMobilePhone(mobilePhone);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
+		}
+
+		String city = (String)attributes.get("city");
+
+		if (city != null) {
+			setCity(city);
+		}
+
 		Date signatureDate = (Date)attributes.get("signatureDate");
 
 		if (signatureDate != null) {
 			setSignatureDate(signatureDate);
 		}
 
-		Long assetEntryId = (Long)attributes.get("assetEntryId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
-		if (assetEntryId != null) {
-			setAssetEntryId(assetEntryId);
-		}
-
-		Long publikId = (Long)attributes.get("publikId");
-
-		if (publikId != null) {
-			setPublikId(publikId);
+		if (publikUserId != null) {
+			setPublikUserId(publikUserId);
 		}
 
 		Long petitionId = (Long)attributes.get("petitionId");
@@ -340,6 +382,66 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Returns the address of this signataire.
+	*
+	* @return the address of this signataire
+	*/
+	@Override
+	public java.lang.String getAddress() {
+		return _signataire.getAddress();
+	}
+
+	/**
+	* Returns the city of this signataire.
+	*
+	* @return the city of this signataire
+	*/
+	@Override
+	public java.lang.String getCity() {
+		return _signataire.getCity();
+	}
+
+	/**
+	* Returns the mail of this signataire.
+	*
+	* @return the mail of this signataire
+	*/
+	@Override
+	public java.lang.String getMail() {
+		return _signataire.getMail();
+	}
+
+	/**
+	* Returns the mobile phone of this signataire.
+	*
+	* @return the mobile phone of this signataire
+	*/
+	@Override
+	public java.lang.String getMobilePhone() {
+		return _signataire.getMobilePhone();
+	}
+
+	/**
+	* Returns the phone of this signataire.
+	*
+	* @return the phone of this signataire
+	*/
+	@Override
+	public java.lang.String getPhone() {
+		return _signataire.getPhone();
+	}
+
+	/**
+	* Returns the publik user ID of this signataire.
+	*
+	* @return the publik user ID of this signataire
+	*/
+	@Override
+	public java.lang.String getPublikUserId() {
+		return _signataire.getPublikUserId();
+	}
+
+	/**
 	* Returns the signataire firstname of this signataire.
 	*
 	* @return the signataire firstname of this signataire
@@ -420,6 +522,16 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Returns the birthday of this signataire.
+	*
+	* @return the birthday of this signataire
+	*/
+	@Override
+	public Date getBirthday() {
+		return _signataire.getBirthday();
+	}
+
+	/**
 	* Returns the create date of this signataire.
 	*
 	* @return the create date of this signataire
@@ -460,16 +572,6 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
-	* Returns the asset entry ID of this signataire.
-	*
-	* @return the asset entry ID of this signataire
-	*/
-	@Override
-	public long getAssetEntryId() {
-		return _signataire.getAssetEntryId();
-	}
-
-	/**
 	* Returns the company ID of this signataire.
 	*
 	* @return the company ID of this signataire
@@ -500,6 +602,16 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Returns the postal code of this signataire.
+	*
+	* @return the postal code of this signataire
+	*/
+	@Override
+	public long getPostalCode() {
+		return _signataire.getPostalCode();
+	}
+
+	/**
 	* Returns the primary key of this signataire.
 	*
 	* @return the primary key of this signataire
@@ -507,16 +619,6 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	@Override
 	public long getPrimaryKey() {
 		return _signataire.getPrimaryKey();
-	}
-
-	/**
-	* Returns the publik ID of this signataire.
-	*
-	* @return the publik ID of this signataire
-	*/
-	@Override
-	public long getPublikId() {
-		return _signataire.getPublikId();
 	}
 
 	/**
@@ -555,18 +657,38 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
-	* Sets the asset entry ID of this signataire.
+	* Sets the address of this signataire.
 	*
-	* @param assetEntryId the asset entry ID of this signataire
+	* @param address the address of this signataire
 	*/
 	@Override
-	public void setAssetEntryId(long assetEntryId) {
-		_signataire.setAssetEntryId(assetEntryId);
+	public void setAddress(java.lang.String address) {
+		_signataire.setAddress(address);
+	}
+
+	/**
+	* Sets the birthday of this signataire.
+	*
+	* @param birthday the birthday of this signataire
+	*/
+	@Override
+	public void setBirthday(Date birthday) {
+		_signataire.setBirthday(birthday);
 	}
 
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_signataire.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the city of this signataire.
+	*
+	* @param city the city of this signataire
+	*/
+	@Override
+	public void setCity(java.lang.String city) {
+		_signataire.setCity(city);
 	}
 
 	/**
@@ -616,6 +738,26 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Sets the mail of this signataire.
+	*
+	* @param mail the mail of this signataire
+	*/
+	@Override
+	public void setMail(java.lang.String mail) {
+		_signataire.setMail(mail);
+	}
+
+	/**
+	* Sets the mobile phone of this signataire.
+	*
+	* @param mobilePhone the mobile phone of this signataire
+	*/
+	@Override
+	public void setMobilePhone(java.lang.String mobilePhone) {
+		_signataire.setMobilePhone(mobilePhone);
+	}
+
+	/**
 	* Sets the modified date of this signataire.
 	*
 	* @param modifiedDate the modified date of this signataire
@@ -641,6 +783,26 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Sets the phone of this signataire.
+	*
+	* @param phone the phone of this signataire
+	*/
+	@Override
+	public void setPhone(java.lang.String phone) {
+		_signataire.setPhone(phone);
+	}
+
+	/**
+	* Sets the postal code of this signataire.
+	*
+	* @param postalCode the postal code of this signataire
+	*/
+	@Override
+	public void setPostalCode(long postalCode) {
+		_signataire.setPostalCode(postalCode);
+	}
+
+	/**
 	* Sets the primary key of this signataire.
 	*
 	* @param primaryKey the primary key of this signataire
@@ -656,13 +818,13 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
-	* Sets the publik ID of this signataire.
+	* Sets the publik user ID of this signataire.
 	*
-	* @param publikId the publik ID of this signataire
+	* @param publikUserId the publik user ID of this signataire
 	*/
 	@Override
-	public void setPublikId(long publikId) {
-		_signataire.setPublikId(publikId);
+	public void setPublikUserId(java.lang.String publikUserId) {
+		_signataire.setPublikUserId(publikUserId);
 	}
 
 	/**
