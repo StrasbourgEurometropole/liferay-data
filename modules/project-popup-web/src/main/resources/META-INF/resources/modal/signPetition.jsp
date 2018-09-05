@@ -22,10 +22,10 @@
                     <h4><liferay-ui:message key="modal.signpetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
-				            <aui:input name="username" label="modal.user.username" required="true" placeholder="Dupond"/>
+				            <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.lastName}"/>
                         </div>
                         <div class="form-group form-triple">
-				            <aui:input name="firstname" label="modal.user.firstname" required="true" placeholder="Jean"/>
+				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.firstName}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
 				            <aui:input name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                                <aui:input name="mail" label="modal.user.mail" required="true" placeholder="jean.dupond@gmail.com"/>
+                                <aui:input name="mail" disabled="true" label="modal.user.mail"  required="true" value="${userConnected.email}"/>
                         </div>
                         <div class="form-group form-half">
                                 <aui:input name="phone" label="modal.user.phone" required="true" placeholder="0611111111"/>

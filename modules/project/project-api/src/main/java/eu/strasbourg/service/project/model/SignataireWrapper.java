@@ -71,10 +71,13 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 		attributes.put("signataireFirstname", getSignataireFirstname());
 		attributes.put("birthday", getBirthday());
 		attributes.put("address", getAddress());
+		attributes.put("mail", getMail());
 		attributes.put("postalCode", getPostalCode());
+		attributes.put("mobilePhone", getMobilePhone());
+		attributes.put("phone", getPhone());
 		attributes.put("city", getCity());
 		attributes.put("signatureDate", getSignatureDate());
-		attributes.put("publikId", getPublikId());
+		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("petitionId", getPetitionId());
 
 		return attributes;
@@ -179,10 +182,28 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 			setAddress(address);
 		}
 
+		String mail = (String)attributes.get("mail");
+
+		if (mail != null) {
+			setMail(mail);
+		}
+
 		Long postalCode = (Long)attributes.get("postalCode");
 
 		if (postalCode != null) {
 			setPostalCode(postalCode);
+		}
+
+		String mobilePhone = (String)attributes.get("mobilePhone");
+
+		if (mobilePhone != null) {
+			setMobilePhone(mobilePhone);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
 		}
 
 		String city = (String)attributes.get("city");
@@ -197,10 +218,10 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 			setSignatureDate(signatureDate);
 		}
 
-		Long publikId = (Long)attributes.get("publikId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
-		if (publikId != null) {
-			setPublikId(publikId);
+		if (publikUserId != null) {
+			setPublikUserId(publikUserId);
 		}
 
 		Long petitionId = (Long)attributes.get("petitionId");
@@ -374,6 +395,46 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	@Override
 	public java.lang.String getCity() {
 		return _signataire.getCity();
+	}
+
+	/**
+	* Returns the mail of this signataire.
+	*
+	* @return the mail of this signataire
+	*/
+	@Override
+	public java.lang.String getMail() {
+		return _signataire.getMail();
+	}
+
+	/**
+	* Returns the mobile phone of this signataire.
+	*
+	* @return the mobile phone of this signataire
+	*/
+	@Override
+	public java.lang.String getMobilePhone() {
+		return _signataire.getMobilePhone();
+	}
+
+	/**
+	* Returns the phone of this signataire.
+	*
+	* @return the phone of this signataire
+	*/
+	@Override
+	public java.lang.String getPhone() {
+		return _signataire.getPhone();
+	}
+
+	/**
+	* Returns the publik user ID of this signataire.
+	*
+	* @return the publik user ID of this signataire
+	*/
+	@Override
+	public java.lang.String getPublikUserId() {
+		return _signataire.getPublikUserId();
 	}
 
 	/**
@@ -557,16 +618,6 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
-	* Returns the publik ID of this signataire.
-	*
-	* @return the publik ID of this signataire
-	*/
-	@Override
-	public long getPublikId() {
-		return _signataire.getPublikId();
-	}
-
-	/**
 	* Returns the signataire ID of this signataire.
 	*
 	* @return the signataire ID of this signataire
@@ -683,6 +734,26 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
+	* Sets the mail of this signataire.
+	*
+	* @param mail the mail of this signataire
+	*/
+	@Override
+	public void setMail(java.lang.String mail) {
+		_signataire.setMail(mail);
+	}
+
+	/**
+	* Sets the mobile phone of this signataire.
+	*
+	* @param mobilePhone the mobile phone of this signataire
+	*/
+	@Override
+	public void setMobilePhone(java.lang.String mobilePhone) {
+		_signataire.setMobilePhone(mobilePhone);
+	}
+
+	/**
 	* Sets the modified date of this signataire.
 	*
 	* @param modifiedDate the modified date of this signataire
@@ -705,6 +776,16 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	@Override
 	public void setPetitionId(long petitionId) {
 		_signataire.setPetitionId(petitionId);
+	}
+
+	/**
+	* Sets the phone of this signataire.
+	*
+	* @param phone the phone of this signataire
+	*/
+	@Override
+	public void setPhone(java.lang.String phone) {
+		_signataire.setPhone(phone);
 	}
 
 	/**
@@ -733,13 +814,13 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	/**
-	* Sets the publik ID of this signataire.
+	* Sets the publik user ID of this signataire.
 	*
-	* @param publikId the publik ID of this signataire
+	* @param publikUserId the publik user ID of this signataire
 	*/
 	@Override
-	public void setPublikId(long publikId) {
-		_signataire.setPublikId(publikId);
+	public void setPublikUserId(java.lang.String publikUserId) {
+		_signataire.setPublikUserId(publikUserId);
 	}
 
 	/**

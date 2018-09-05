@@ -63,7 +63,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -97,14 +97,20 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		sb.append(birthday);
 		sb.append(", address=");
 		sb.append(address);
+		sb.append(", mail=");
+		sb.append(mail);
 		sb.append(", postalCode=");
 		sb.append(postalCode);
+		sb.append(", mobilePhone=");
+		sb.append(mobilePhone);
+		sb.append(", phone=");
+		sb.append(phone);
 		sb.append(", city=");
 		sb.append(city);
 		sb.append(", signatureDate=");
 		sb.append(signatureDate);
-		sb.append(", publikId=");
-		sb.append(publikId);
+		sb.append(", publikUserId=");
+		sb.append(publikUserId);
 		sb.append(", petitionId=");
 		sb.append(petitionId);
 		sb.append("}");
@@ -194,7 +200,28 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			signataireImpl.setAddress(address);
 		}
 
+		if (mail == null) {
+			signataireImpl.setMail(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setMail(mail);
+		}
+
 		signataireImpl.setPostalCode(postalCode);
+
+		if (mobilePhone == null) {
+			signataireImpl.setMobilePhone(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setMobilePhone(mobilePhone);
+		}
+
+		if (phone == null) {
+			signataireImpl.setPhone(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setPhone(phone);
+		}
 
 		if (city == null) {
 			signataireImpl.setCity(StringPool.BLANK);
@@ -210,7 +237,13 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			signataireImpl.setSignatureDate(new Date(signatureDate));
 		}
 
-		signataireImpl.setPublikId(publikId);
+		if (publikUserId == null) {
+			signataireImpl.setPublikUserId(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setPublikUserId(publikUserId);
+		}
+
 		signataireImpl.setPetitionId(petitionId);
 
 		signataireImpl.resetOriginalValues();
@@ -242,12 +275,14 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		signataireFirstname = objectInput.readUTF();
 		birthday = objectInput.readLong();
 		address = objectInput.readUTF();
+		mail = objectInput.readUTF();
 
 		postalCode = objectInput.readLong();
+		mobilePhone = objectInput.readUTF();
+		phone = objectInput.readUTF();
 		city = objectInput.readUTF();
 		signatureDate = objectInput.readLong();
-
-		publikId = objectInput.readLong();
+		publikUserId = objectInput.readUTF();
 
 		petitionId = objectInput.readLong();
 	}
@@ -316,7 +351,28 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			objectOutput.writeUTF(address);
 		}
 
+		if (mail == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(mail);
+		}
+
 		objectOutput.writeLong(postalCode);
+
+		if (mobilePhone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(mobilePhone);
+		}
+
+		if (phone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(phone);
+		}
 
 		if (city == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -327,7 +383,12 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 
 		objectOutput.writeLong(signatureDate);
 
-		objectOutput.writeLong(publikId);
+		if (publikUserId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikUserId);
+		}
 
 		objectOutput.writeLong(petitionId);
 	}
@@ -348,9 +409,12 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 	public String signataireFirstname;
 	public long birthday;
 	public String address;
+	public String mail;
 	public long postalCode;
+	public String mobilePhone;
+	public String phone;
 	public String city;
 	public long signatureDate;
-	public long publikId;
+	public String publikUserId;
 	public long petitionId;
 }

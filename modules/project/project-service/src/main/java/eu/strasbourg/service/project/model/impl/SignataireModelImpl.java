@@ -84,10 +84,13 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			{ "signataireFirstname", Types.VARCHAR },
 			{ "birthday", Types.TIMESTAMP },
 			{ "address", Types.VARCHAR },
+			{ "mail", Types.VARCHAR },
 			{ "postalCode", Types.BIGINT },
+			{ "mobilePhone", Types.VARCHAR },
+			{ "phone", Types.VARCHAR },
 			{ "city", Types.VARCHAR },
 			{ "signatureDate", Types.TIMESTAMP },
-			{ "publikId", Types.BIGINT },
+			{ "publikUserId", Types.VARCHAR },
 			{ "petitionId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -109,14 +112,17 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		TABLE_COLUMNS_MAP.put("signataireFirstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("birthday", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("address", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("mail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("postalCode", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("mobilePhone", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("city", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("signatureDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("publikId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Signataire (uuid_ VARCHAR(75) null,signataireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,signataireName VARCHAR(75) null,signataireFirstname VARCHAR(75) null,birthday DATE null,address VARCHAR(75) null,postalCode LONG,city VARCHAR(75) null,signatureDate DATE null,publikId LONG,petitionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Signataire (uuid_ VARCHAR(75) null,signataireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,signataireName VARCHAR(75) null,signataireFirstname VARCHAR(75) null,birthday DATE null,address VARCHAR(75) null,mail VARCHAR(75) null,postalCode LONG,mobilePhone VARCHAR(75) null,phone VARCHAR(75) null,city VARCHAR(75) null,signatureDate DATE null,publikUserId VARCHAR(75) null,petitionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Signataire";
 	public static final String ORDER_BY_JPQL = " ORDER BY signataire.signataireId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Signataire.signataireId ASC";
@@ -168,10 +174,13 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		model.setSignataireFirstname(soapModel.getSignataireFirstname());
 		model.setBirthday(soapModel.getBirthday());
 		model.setAddress(soapModel.getAddress());
+		model.setMail(soapModel.getMail());
 		model.setPostalCode(soapModel.getPostalCode());
+		model.setMobilePhone(soapModel.getMobilePhone());
+		model.setPhone(soapModel.getPhone());
 		model.setCity(soapModel.getCity());
 		model.setSignatureDate(soapModel.getSignatureDate());
-		model.setPublikId(soapModel.getPublikId());
+		model.setPublikUserId(soapModel.getPublikUserId());
 		model.setPetitionId(soapModel.getPetitionId());
 
 		return model;
@@ -253,10 +262,13 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		attributes.put("signataireFirstname", getSignataireFirstname());
 		attributes.put("birthday", getBirthday());
 		attributes.put("address", getAddress());
+		attributes.put("mail", getMail());
 		attributes.put("postalCode", getPostalCode());
+		attributes.put("mobilePhone", getMobilePhone());
+		attributes.put("phone", getPhone());
 		attributes.put("city", getCity());
 		attributes.put("signatureDate", getSignatureDate());
-		attributes.put("publikId", getPublikId());
+		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("petitionId", getPetitionId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -364,10 +376,28 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			setAddress(address);
 		}
 
+		String mail = (String)attributes.get("mail");
+
+		if (mail != null) {
+			setMail(mail);
+		}
+
 		Long postalCode = (Long)attributes.get("postalCode");
 
 		if (postalCode != null) {
 			setPostalCode(postalCode);
+		}
+
+		String mobilePhone = (String)attributes.get("mobilePhone");
+
+		if (mobilePhone != null) {
+			setMobilePhone(mobilePhone);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
 		}
 
 		String city = (String)attributes.get("city");
@@ -382,10 +412,10 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			setSignatureDate(signatureDate);
 		}
 
-		Long publikId = (Long)attributes.get("publikId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
-		if (publikId != null) {
-			setPublikId(publikId);
+		if (publikUserId != null) {
+			setPublikUserId(publikUserId);
 		}
 
 		Long petitionId = (Long)attributes.get("petitionId");
@@ -683,6 +713,22 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@JSON
 	@Override
+	public String getMail() {
+		if (_mail == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _mail;
+		}
+	}
+
+	@Override
+	public void setMail(String mail) {
+		_mail = mail;
+	}
+
+	@JSON
+	@Override
 	public long getPostalCode() {
 		return _postalCode;
 	}
@@ -690,6 +736,38 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	@Override
 	public void setPostalCode(long postalCode) {
 		_postalCode = postalCode;
+	}
+
+	@JSON
+	@Override
+	public String getMobilePhone() {
+		if (_mobilePhone == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _mobilePhone;
+		}
+	}
+
+	@Override
+	public void setMobilePhone(String mobilePhone) {
+		_mobilePhone = mobilePhone;
+	}
+
+	@JSON
+	@Override
+	public String getPhone() {
+		if (_phone == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _phone;
+		}
+	}
+
+	@Override
+	public void setPhone(String phone) {
+		_phone = phone;
 	}
 
 	@JSON
@@ -721,13 +799,18 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@JSON
 	@Override
-	public long getPublikId() {
-		return _publikId;
+	public String getPublikUserId() {
+		if (_publikUserId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _publikUserId;
+		}
 	}
 
 	@Override
-	public void setPublikId(long publikId) {
-		_publikId = publikId;
+	public void setPublikUserId(String publikUserId) {
+		_publikUserId = publikUserId;
 	}
 
 	@JSON
@@ -886,10 +969,13 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		signataireImpl.setSignataireFirstname(getSignataireFirstname());
 		signataireImpl.setBirthday(getBirthday());
 		signataireImpl.setAddress(getAddress());
+		signataireImpl.setMail(getMail());
 		signataireImpl.setPostalCode(getPostalCode());
+		signataireImpl.setMobilePhone(getMobilePhone());
+		signataireImpl.setPhone(getPhone());
 		signataireImpl.setCity(getCity());
 		signataireImpl.setSignatureDate(getSignatureDate());
-		signataireImpl.setPublikId(getPublikId());
+		signataireImpl.setPublikUserId(getPublikUserId());
 		signataireImpl.setPetitionId(getPetitionId());
 
 		signataireImpl.resetOriginalValues();
@@ -1075,7 +1161,31 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			signataireCacheModel.address = null;
 		}
 
+		signataireCacheModel.mail = getMail();
+
+		String mail = signataireCacheModel.mail;
+
+		if ((mail != null) && (mail.length() == 0)) {
+			signataireCacheModel.mail = null;
+		}
+
 		signataireCacheModel.postalCode = getPostalCode();
+
+		signataireCacheModel.mobilePhone = getMobilePhone();
+
+		String mobilePhone = signataireCacheModel.mobilePhone;
+
+		if ((mobilePhone != null) && (mobilePhone.length() == 0)) {
+			signataireCacheModel.mobilePhone = null;
+		}
+
+		signataireCacheModel.phone = getPhone();
+
+		String phone = signataireCacheModel.phone;
+
+		if ((phone != null) && (phone.length() == 0)) {
+			signataireCacheModel.phone = null;
+		}
 
 		signataireCacheModel.city = getCity();
 
@@ -1094,7 +1204,13 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 			signataireCacheModel.signatureDate = Long.MIN_VALUE;
 		}
 
-		signataireCacheModel.publikId = getPublikId();
+		signataireCacheModel.publikUserId = getPublikUserId();
+
+		String publikUserId = signataireCacheModel.publikUserId;
+
+		if ((publikUserId != null) && (publikUserId.length() == 0)) {
+			signataireCacheModel.publikUserId = null;
+		}
 
 		signataireCacheModel.petitionId = getPetitionId();
 
@@ -1103,7 +1219,7 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1137,14 +1253,20 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		sb.append(getBirthday());
 		sb.append(", address=");
 		sb.append(getAddress());
+		sb.append(", mail=");
+		sb.append(getMail());
 		sb.append(", postalCode=");
 		sb.append(getPostalCode());
+		sb.append(", mobilePhone=");
+		sb.append(getMobilePhone());
+		sb.append(", phone=");
+		sb.append(getPhone());
 		sb.append(", city=");
 		sb.append(getCity());
 		sb.append(", signatureDate=");
 		sb.append(getSignatureDate());
-		sb.append(", publikId=");
-		sb.append(getPublikId());
+		sb.append(", publikUserId=");
+		sb.append(getPublikUserId());
 		sb.append(", petitionId=");
 		sb.append(getPetitionId());
 		sb.append("}");
@@ -1154,7 +1276,7 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(76);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Signataire");
@@ -1225,8 +1347,20 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		sb.append(getAddress());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>mail</column-name><column-value><![CDATA[");
+		sb.append(getMail());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>postalCode</column-name><column-value><![CDATA[");
 		sb.append(getPostalCode());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>mobilePhone</column-name><column-value><![CDATA[");
+		sb.append(getMobilePhone());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>phone</column-name><column-value><![CDATA[");
+		sb.append(getPhone());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>city</column-name><column-value><![CDATA[");
@@ -1237,8 +1371,8 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		sb.append(getSignatureDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>publikId</column-name><column-value><![CDATA[");
-		sb.append(getPublikId());
+			"<column><column-name>publikUserId</column-name><column-value><![CDATA[");
+		sb.append(getPublikUserId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>petitionId</column-name><column-value><![CDATA[");
@@ -1277,10 +1411,13 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	private String _signataireFirstname;
 	private Date _birthday;
 	private String _address;
+	private String _mail;
 	private long _postalCode;
+	private String _mobilePhone;
+	private String _phone;
 	private String _city;
 	private Date _signatureDate;
-	private long _publikId;
+	private String _publikUserId;
 	private long _petitionId;
 	private long _originalPetitionId;
 	private boolean _setOriginalPetitionId;

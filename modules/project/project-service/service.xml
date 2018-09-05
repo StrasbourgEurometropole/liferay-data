@@ -346,12 +346,15 @@
 		<column name="signataireFirstname" type="String" />
 		<column name="birthday" type="Date" />
 		<column name="address" type="String" />
+		<column name="mail" type="String" />
 		<column name="postalCode" type="long" />
+		<column name="mobilePhone" type="String" />
+		<column name="phone" type="String" />
 		<column name="city" type="String" />
         <column name="signatureDate" type="Date" />
 
         <!-- Links with other entities -->
-        <column name="publikId" type="long" />
+		<column name="publikUserId" type="String" />
         <column name="petitionId" type="long" />
 
         <!-- Finder methods -->

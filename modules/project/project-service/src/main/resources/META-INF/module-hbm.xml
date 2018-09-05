@@ -207,10 +207,13 @@
 		<property name="signataireFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="birthday" type="org.hibernate.type.TimestampType" />
 		<property name="address" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="postalCode" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="mobilePhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="signatureDate" type="org.hibernate.type.TimestampType" />
-		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

@@ -184,9 +184,12 @@ create table project_Signataire (
 	signataireFirstname VARCHAR(75) null,
 	birthday DATE null,
 	address VARCHAR(75) null,
+	mail VARCHAR(75) null,
 	postalCode LONG,
+	mobilePhone VARCHAR(75) null,
+	phone VARCHAR(75) null,
 	city VARCHAR(75) null,
 	signatureDate DATE null,
-	publikId LONG,
+	publikUserId VARCHAR(75) null,
 	petitionId LONG
 );

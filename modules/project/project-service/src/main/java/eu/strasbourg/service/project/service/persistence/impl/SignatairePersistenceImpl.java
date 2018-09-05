@@ -3572,10 +3572,13 @@ public class SignatairePersistenceImpl extends BasePersistenceImpl<Signataire>
 		signataireImpl.setSignataireFirstname(signataire.getSignataireFirstname());
 		signataireImpl.setBirthday(signataire.getBirthday());
 		signataireImpl.setAddress(signataire.getAddress());
+		signataireImpl.setMail(signataire.getMail());
 		signataireImpl.setPostalCode(signataire.getPostalCode());
+		signataireImpl.setMobilePhone(signataire.getMobilePhone());
+		signataireImpl.setPhone(signataire.getPhone());
 		signataireImpl.setCity(signataire.getCity());
 		signataireImpl.setSignatureDate(signataire.getSignatureDate());
-		signataireImpl.setPublikId(signataire.getPublikId());
+		signataireImpl.setPublikUserId(signataire.getPublikUserId());
 		signataireImpl.setPetitionId(signataire.getPetitionId());
 
 		return signataireImpl;

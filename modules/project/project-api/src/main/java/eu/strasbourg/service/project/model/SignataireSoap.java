@@ -49,10 +49,13 @@ public class SignataireSoap implements Serializable {
 		soapModel.setSignataireFirstname(model.getSignataireFirstname());
 		soapModel.setBirthday(model.getBirthday());
 		soapModel.setAddress(model.getAddress());
+		soapModel.setMail(model.getMail());
 		soapModel.setPostalCode(model.getPostalCode());
+		soapModel.setMobilePhone(model.getMobilePhone());
+		soapModel.setPhone(model.getPhone());
 		soapModel.setCity(model.getCity());
 		soapModel.setSignatureDate(model.getSignatureDate());
-		soapModel.setPublikId(model.getPublikId());
+		soapModel.setPublikUserId(model.getPublikUserId());
 		soapModel.setPetitionId(model.getPetitionId());
 
 		return soapModel;
@@ -234,12 +237,36 @@ public class SignataireSoap implements Serializable {
 		_address = address;
 	}
 
+	public String getMail() {
+		return _mail;
+	}
+
+	public void setMail(String mail) {
+		_mail = mail;
+	}
+
 	public long getPostalCode() {
 		return _postalCode;
 	}
 
 	public void setPostalCode(long postalCode) {
 		_postalCode = postalCode;
+	}
+
+	public String getMobilePhone() {
+		return _mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		_mobilePhone = mobilePhone;
+	}
+
+	public String getPhone() {
+		return _phone;
+	}
+
+	public void setPhone(String phone) {
+		_phone = phone;
 	}
 
 	public String getCity() {
@@ -258,12 +285,12 @@ public class SignataireSoap implements Serializable {
 		_signatureDate = signatureDate;
 	}
 
-	public long getPublikId() {
-		return _publikId;
+	public String getPublikUserId() {
+		return _publikUserId;
 	}
 
-	public void setPublikId(long publikId) {
-		_publikId = publikId;
+	public void setPublikUserId(String publikUserId) {
+		_publikUserId = publikUserId;
 	}
 
 	public long getPetitionId() {
@@ -290,9 +317,12 @@ public class SignataireSoap implements Serializable {
 	private String _signataireFirstname;
 	private Date _birthday;
 	private String _address;
+	private String _mail;
 	private long _postalCode;
+	private String _mobilePhone;
+	private String _phone;
 	private String _city;
 	private Date _signatureDate;
-	private long _publikId;
+	private String _publikUserId;
 	private long _petitionId;
 }
