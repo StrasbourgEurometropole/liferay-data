@@ -1,6 +1,7 @@
 // Initialisation des variables de références
 var resultEntries = null;
 
+// 'Enum' de tous les classNames des entité pouvant être rencontrées
 var entityClassName = {
 		ARTICLE : 'com.liferay.journal.model.JournalArticle',
 		FILE : 'com.liferay.document.library.kernel.model.DLFileEntry',
@@ -27,6 +28,13 @@ function removeAllThumbnails() {
 }
 
 /**
+ * Ajoute une vignette dans conteneur de résultats
+ */
+function addThumbnail(thumbnail) {
+	$("#dynamic-search-asset-results").append(thumbnail);
+}
+
+/**
  * Renvoi la liste des types entités demandées
  * @return liste des classNames sous forme d'une chaine de caractères séparée par des ","
  */
@@ -41,10 +49,51 @@ function getSelectedClassNames() {
 }
 
 /**
+ * Creation d'une vignette représentant un article donné
+ */
+function createArticleThumbnail(article) {
+	var articleThumbnail = 
+		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+		    '<a href="' + article.link + '" title="Lien vers la page : ' + article.title + '" class="pro-bloc-actu">' +
+		        '<div class="img">' +
+		            '<figure role="group">' +
+		                '<img src="' + article.imageURL + '" alt="Image article" width="360" height="174" class="fit-cover"/>' +
+		            '</figure>' +
+		        '</div>' +
+		        '<div class="content">' +
+		            '<span class="publication">Publiée le 04 décembre 2017</span>' +
+		            '<h3>' + article.title + '</h3>' +
+		            '<p>' + article.chapo + '</p>' +
+		            '<span class="link">Lire la suite</span>' +
+		        '</div>' +
+		    '</a>' +
+		'</div>';
+	
+	addThumbnail(articleThumbnail);
+}
+
+/**
  * Creation d'une vignette représentant un projet donné
  */
 function createProjectThumbnail(project) {
+	var projectThumbnail = 
+		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+		    '<a href="' + project.link + '" title="Lien vers la page : ' + article.title + '" class="pro-bloc-actu">' +
+		        '<div class="img">' +
+		            '<figure role="group">' +
+		                '<img src="' + project.imageURL + '" alt="Image article" width="360" height="174" class="fit-cover"/>' +
+		            '</figure>' +
+		        '</div>' +
+		        '<div class="content">' +
+		            '<span class="publication">Publiée le 04 décembre 2017</span>' +
+		            '<h3>' + project.title + '</h3>' +
+		            '<p>' + project.description + '</p>' +
+		            '<span class="link">Lire la suite</span>' +
+		        '</div>' +
+		    '</a>' +
+		'</div>';
 	
+	addThumbnail(projectThumbnail);
 }
 
 /**
@@ -76,47 +125,53 @@ function createParticipationThumbnail(participation) {
             '}' +
         '</style>';
     
-    return '<div class="pro-vignette-map-inte">' +
-			    '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
-			    '<div>' +
-			        '<div class="pro-header-participation">' + 
-			            '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-			            '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
-			            '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
-			        '</div>' +
-			        '<div class="pro-content-participation">' +
-			            '<div class="pro-meta"><span>' + participation.districtsLabel + '</span><span>' + participation.thematicsLabel + '</span>' +
-			            '<span>' + participation.statusLabel + '</span><span>' + participation.projectName + '</span></div>' +
-			            '<h3>' + participation.title + '</h3>' +
-			            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + participation.createDate + '</time>' +
-			            ' / <span class="pro-duree">' + participation.statusDetailLabel + '</span></span></div>' +
-			            footerContent +
-			    '</div></a>' + 
-			'</div>' + 
-			colorHack
+    var participationThumbnail = 
+    	'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+		    '<a href="' + participation.link + '" class="item pro-bloc-card-participation type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
+		    '<div>' +
+		        '<div class="pro-header-participation">' + 
+		            '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+		            '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
+		            '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
+		        '</div>' +
+		        '<div class="pro-content-participation">' +
+		            '<div class="pro-meta"><span>' + participation.districtsLabel + '</span><span>' + participation.thematicsLabel + '</span>' +
+		            '<span>' + participation.statusLabel + '</span><span>' + participation.projectName + '</span></div>' +
+		            '<h3>' + participation.title + '</h3>' +
+		            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + participation.createDate + '</time>' +
+		            ' / <span class="pro-duree">' + participation.statusDetailLabel + '</span></span></div>' +
+		            footerContent +
+		    '</div></a>' + 
+		'</div>' + 
+		colorHack
+		
+	addThumbnail(participationThumbnail);
 }
 
 /**
  * Creation d'une vignette représentant une pétition donnée
  */
 function createPetitionThumbnail(petition) {
-	return '<div class="item pro-bloc-card-petition"><a href="' + link + '">' +
+	var petitionThumbnail =
+			'<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
 			    '<div class="pro-header-petition">' +
 			        '<figure role="group"></figure> ' +
-			        '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' +
+			        '<p>Pétition publiée par :</p><p><strong>' + petition.author + '</strong></p>' +
 			    '</div>' +
 			    '<div class="pro-content-petition">' +
-			        '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
-			        '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
-			        '<span class="pro-duree">' + durationLabel + '</span></span>' +
+			        '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
+			        '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + petition.publishDate + '</time> / ' +
+			        '<span class="pro-duree">' + petition.durationLabel + '</span></span>' +
 			    '</div> ' +
 			    '<div class="pro-footer-petition">' +
 			        '<div class="pro-progress-bar">' +
-			            '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' +
+			            '<div class="pro-progress-container"><div style="width:' + petition.progress +'%"></div>' +
 			        '</div>' +
-			        '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
+			        '<p class="pro-txt-progress"><strong>' + petition.nbSub + '</strong> Signataire(s) sur ' + petition.nbGoal + ' nécessaires</p> ' +
 			    '</div>' +
-			'</div></a></div>'
+			'</div></a></div>';
+
+	addThumbnail(petitionThumbnail);
 }
 
 /**
@@ -125,20 +180,23 @@ function createPetitionThumbnail(petition) {
 function createEventThumbnail(event) {
 	var activePart = event.isUserPart ? "active" : "";
 	
-	return '<div class="pro-vignette-map-inte">' + 
-			    '<a href="' + event.link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
-				    '<div class="pro-header-event">' +
-				        '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-				        '<span class="pro-time">Le <time datetime="2018-01-10">' + event.firstDate + '</time></span>' +
-				        '<p>À : ' + event.completeAddress + '</p>' +
-				        '<h3>' + event.title.fr_FR + '</h3>' +
-				    '</div>' +
-				    '<div class="pro-footer-event">' +
-				        '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
-				        '<span class="pro-number"><strong>' + event.nbPart + '</strong> Participant(s)</span>' +
-				    '</div>' +
-				'</div></a>' +
-			'</div>';
+	var eventThumbnail =
+		'<div class="col-lg-4 col-sm-6 col-xs-12">' + 
+		    '<a href="' + event.link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
+			    '<div class="pro-header-event">' +
+			        '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
+			        '<span class="pro-time">Le <time datetime="2018-01-10">' + event.firstDate + '</time></span>' +
+			        '<p>À : ' + event.completeAddress + '</p>' +
+			        '<h3>' + event.title.fr_FR + '</h3>' +
+			    '</div>' +
+			    '<div class="pro-footer-event">' +
+			        '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
+			        '<span class="pro-number"><strong>' + event.nbPart + '</strong> Participant(s)</span>' +
+			    '</div>' +
+			'</div></a>' +
+		'</div>';
+	
+	addThumbnail(eventThumbnail);
 }
 
 /**
@@ -149,10 +207,9 @@ function updateResultThumbnails() {
 	removeAllThumbnails();
 	
 	resultEntries.forEach(function(entry) {
-		
 		switch (entry.className) {
 			case entityClassName.ARTICLE :
-				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+				createArticleThumbnail(entry);
 				break;
 			case entityClassName.FILE :
 				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
@@ -198,6 +255,7 @@ function updateResultThumbnails() {
 				break;
 			default :
 				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
+		}
 	});
 }
 
