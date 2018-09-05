@@ -4,7 +4,7 @@
 
  <div class="container">
     <div class="row">
-        <div class="col-md-8 pro-bloc-listing-petition">
+        <div class="col-md-8 pro-bloc-listing-participation">
             <div id="breadcrumb">
         <span>
             <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
@@ -13,7 +13,7 @@
         </span>
             </div>
 
-            <div class="row pro-wrapper-listing-petition">
+            <div class="row pro-wrapper-listing-participation">
 
                 <div class="col-xs-12">
                 
@@ -60,7 +60,7 @@
         </div>
 
         <div class="col-md-4 pro-wrapper-aside">
-            <div class="pro-bloc-facette pro-bloc-facette-petition">
+            <div class="pro-bloc-facette pro-bloc-facette-participation">
                 <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
 
                 <!-- Formulaire -->

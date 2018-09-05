@@ -29,16 +29,16 @@
 				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.firstName}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
-				            <aui:input name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
+				            <aui:input id="signbirthday" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-				            <aui:input name="address" label="modal.user.address" required="true"/>
+				            <aui:input id="signaddress" name="address" label="modal.user.address" required="true"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-				                <aui:input name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
+				                <aui:input id="signcity" name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
                             </div>
                             <div class="form-code">
                                 <aui:input name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
@@ -78,10 +78,11 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-    $("#sendSign").click(function{
+    var namespace = "<portlet:namespace />";
+    $("#sendSign").click(function(event){
     var response = validateForm();
-    if (!response){
-        $(this).off(click);
+    if (response){
+        event.preventDefault();
     }
     });
 
@@ -89,17 +90,19 @@
 
     function validateForm()
     {
-        var birthday=document.forms["Form"]["birthday"].value;
-        var b=document.forms["Form"]["city"].value;
-        var c=document.forms["Form"]["address"].value;
-        var d=document.forms["Form"]["answer_d"].value;
-        if (birthday==null || birthday=="",
-            city==null || city=="",
-            address==null || address=="",
-            d==null || d=="")
+        var birthday = $("#"+namespace+"signbirthday").val();
+        var city = $("#"+namespace+"signcity").val();
+
+        if (birthday==null || birthday=="")
         {
-            alert("Please Fill All Required Field");
+            $("#signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             return false;
         }
+        if (city==null || city=="")
+        {
+            $("#signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
+            return false;
+        }
+
     }
 </script>
