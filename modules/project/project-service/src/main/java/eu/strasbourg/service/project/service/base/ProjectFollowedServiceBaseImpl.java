@@ -35,6 +35,7 @@ import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
+import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import javax.sql.DataSource;
 
@@ -399,6 +400,63 @@ public abstract class ProjectFollowedServiceBaseImpl extends BaseServiceImpl
 	}
 
 	/**
+	 * Returns the signataire local service.
+	 *
+	 * @return the signataire local service
+	 */
+	public eu.strasbourg.service.project.service.SignataireLocalService getSignataireLocalService() {
+		return signataireLocalService;
+	}
+
+	/**
+	 * Sets the signataire local service.
+	 *
+	 * @param signataireLocalService the signataire local service
+	 */
+	public void setSignataireLocalService(
+		eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService) {
+		this.signataireLocalService = signataireLocalService;
+	}
+
+	/**
+	 * Returns the signataire remote service.
+	 *
+	 * @return the signataire remote service
+	 */
+	public eu.strasbourg.service.project.service.SignataireService getSignataireService() {
+		return signataireService;
+	}
+
+	/**
+	 * Sets the signataire remote service.
+	 *
+	 * @param signataireService the signataire remote service
+	 */
+	public void setSignataireService(
+		eu.strasbourg.service.project.service.SignataireService signataireService) {
+		this.signataireService = signataireService;
+	}
+
+	/**
+	 * Returns the signataire persistence.
+	 *
+	 * @return the signataire persistence
+	 */
+	public SignatairePersistence getSignatairePersistence() {
+		return signatairePersistence;
+	}
+
+	/**
+	 * Sets the signataire persistence.
+	 *
+	 * @param signatairePersistence the signataire persistence
+	 */
+	public void setSignatairePersistence(
+		SignatairePersistence signatairePersistence) {
+		this.signatairePersistence = signatairePersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -633,6 +691,12 @@ public abstract class ProjectFollowedServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.project.service.ProjectTimelineService projectTimelineService;
 	@BeanReference(type = ProjectTimelinePersistence.class)
 	protected ProjectTimelinePersistence projectTimelinePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.SignataireLocalService.class)
+	protected eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.SignataireService.class)
+	protected eu.strasbourg.service.project.service.SignataireService signataireService;
+	@BeanReference(type = SignatairePersistence.class)
+	protected SignatairePersistence signatairePersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

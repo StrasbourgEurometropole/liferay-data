@@ -426,7 +426,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 		// Liste des Ids des catégories Thématiques
 		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
 		if (jsonThematics.length() > 0) {
-			jsonProject.put("thematics", jsonTerritories);
+			jsonProject.put("thematics", jsonThematics);
 		}
 
 		return jsonProject;

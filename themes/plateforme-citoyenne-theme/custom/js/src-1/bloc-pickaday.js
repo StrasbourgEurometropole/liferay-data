@@ -28,6 +28,11 @@ $('.frm_date').each(function(){
                 monthInput[0].value = date.getMonth();
                 yearInput[0].value = date.getFullYear();
             }
+            // Utilisé pour les recherches ajax
+            if(this._o.field.className.indexOf('dynamic') >= 0){
+                // Renvoi la liste des entités demandées
+                getSelectedEntries();
+            }
 	    }
     });
 });

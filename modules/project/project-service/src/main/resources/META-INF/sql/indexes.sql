@@ -24,3 +24,8 @@ create index IX_FC72391B on project_ProjectFollowed (projectId);
 create index IX_2A9E13B0 on project_ProjectFollowed (publikUserId[$COLUMN_LENGTH:75$], projectId);
 
 create index IX_6F4E9C8A on project_ProjectTimeline (projectId);
+
+create index IX_86C956F3 on project_Signataire (groupId);
+create index IX_E8FC746E on project_Signataire (petitionId, signataireName[$COLUMN_LENGTH:75$]);
+create index IX_B66621CB on project_Signataire (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_2A129F0D on project_Signataire (uuid_[$COLUMN_LENGTH:75$], groupId);

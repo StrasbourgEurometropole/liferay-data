@@ -409,6 +409,12 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	}
 
 	@Override
+	public void addSignataires(
+		eu.strasbourg.service.project.model.Petition petition, int numberToAdd) {
+		_petitionLocalService.addSignataires(petition, numberToAdd);
+	}
+
+	@Override
 	public void updateAllPetitionsStatus()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		_petitionLocalService.updateAllPetitionsStatus();

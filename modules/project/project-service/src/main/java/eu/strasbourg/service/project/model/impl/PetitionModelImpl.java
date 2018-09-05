@@ -90,11 +90,9 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "description", Types.CLOB },
 			{ "placeTextArea", Types.VARCHAR },
 			{ "filesDownload", Types.VARCHAR },
-			{ "petitionStatus", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP },
 			{ "quotaSignature", Types.BIGINT },
-			{ "nombreSignature", Types.BIGINT },
 			{ "videoUrl", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
@@ -124,11 +122,9 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("filesDownload", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("petitionStatus", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("quotaSignature", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("nombreSignature", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
@@ -140,7 +136,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,petitionStatus VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,nombreSignature LONG,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesBody VARCHAR(75) null,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesBody VARCHAR(75) null,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -191,11 +187,9 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setDescription(soapModel.getDescription());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setFilesDownload(soapModel.getFilesDownload());
-		model.setPetitionStatus(soapModel.getPetitionStatus());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
 		model.setQuotaSignature(soapModel.getQuotaSignature());
-		model.setNombreSignature(soapModel.getNombreSignature());
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
@@ -285,11 +279,9 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
-		attributes.put("petitionStatus", getPetitionStatus());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
-		attributes.put("nombreSignature", getNombreSignature());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -404,12 +396,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			setFilesDownload(filesDownload);
 		}
 
-		String petitionStatus = (String)attributes.get("petitionStatus");
-
-		if (petitionStatus != null) {
-			setPetitionStatus(petitionStatus);
-		}
-
 		Date publicationDate = (Date)attributes.get("publicationDate");
 
 		if (publicationDate != null) {
@@ -426,12 +412,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		if (quotaSignature != null) {
 			setQuotaSignature(quotaSignature);
-		}
-
-		Long nombreSignature = (Long)attributes.get("nombreSignature");
-
-		if (nombreSignature != null) {
-			setNombreSignature(nombreSignature);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -788,22 +768,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
-	public String getPetitionStatus() {
-		if (_petitionStatus == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _petitionStatus;
-		}
-	}
-
-	@Override
-	public void setPetitionStatus(String petitionStatus) {
-		_petitionStatus = petitionStatus;
-	}
-
-	@JSON
-	@Override
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -833,17 +797,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	@Override
 	public void setQuotaSignature(long quotaSignature) {
 		_quotaSignature = quotaSignature;
-	}
-
-	@JSON
-	@Override
-	public long getNombreSignature() {
-		return _nombreSignature;
-	}
-
-	@Override
-	public void setNombreSignature(long nombreSignature) {
-		_nombreSignature = nombreSignature;
 	}
 
 	@JSON
@@ -1114,11 +1067,9 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setDescription(getDescription());
 		petitionImpl.setPlaceTextArea(getPlaceTextArea());
 		petitionImpl.setFilesDownload(getFilesDownload());
-		petitionImpl.setPetitionStatus(getPetitionStatus());
 		petitionImpl.setPublicationDate(getPublicationDate());
 		petitionImpl.setExpirationDate(getExpirationDate());
 		petitionImpl.setQuotaSignature(getQuotaSignature());
-		petitionImpl.setNombreSignature(getNombreSignature());
 		petitionImpl.setVideoUrl(getVideoUrl());
 		petitionImpl.setExternalImageURL(getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(getExternalImageCopyright());
@@ -1306,14 +1257,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.filesDownload = null;
 		}
 
-		petitionCacheModel.petitionStatus = getPetitionStatus();
-
-		String petitionStatus = petitionCacheModel.petitionStatus;
-
-		if ((petitionStatus != null) && (petitionStatus.length() == 0)) {
-			petitionCacheModel.petitionStatus = null;
-		}
-
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -1333,8 +1276,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		}
 
 		petitionCacheModel.quotaSignature = getQuotaSignature();
-
-		petitionCacheModel.nombreSignature = getNombreSignature();
 
 		petitionCacheModel.videoUrl = getVideoUrl();
 
@@ -1397,7 +1338,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1431,16 +1372,12 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getPlaceTextArea());
 		sb.append(", filesDownload=");
 		sb.append(getFilesDownload());
-		sb.append(", petitionStatus=");
-		sb.append(getPetitionStatus());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append(", expirationDate=");
 		sb.append(getExpirationDate());
 		sb.append(", quotaSignature=");
 		sb.append(getQuotaSignature());
-		sb.append(", nombreSignature=");
-		sb.append(getNombreSignature());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
 		sb.append(", externalImageURL=");
@@ -1466,7 +1403,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(94);
+		StringBundler sb = new StringBundler(88);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1537,10 +1474,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getFilesDownload());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>petitionStatus</column-name><column-value><![CDATA[");
-		sb.append(getPetitionStatus());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
@@ -1551,10 +1484,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(
 			"<column><column-name>quotaSignature</column-name><column-value><![CDATA[");
 		sb.append(getQuotaSignature());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>nombreSignature</column-name><column-value><![CDATA[");
-		sb.append(getNombreSignature());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>videoUrl</column-name><column-value><![CDATA[");
@@ -1626,11 +1555,9 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
-	private String _petitionStatus;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _quotaSignature;
-	private long _nombreSignature;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

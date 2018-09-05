@@ -328,6 +328,8 @@ public interface PetitionLocalService extends BaseLocalService,
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
+	public void addSignataires(Petition petition, int numberToAdd);
+
 	public void updateAllPetitionsStatus() throws PortalException;
 
 	/**

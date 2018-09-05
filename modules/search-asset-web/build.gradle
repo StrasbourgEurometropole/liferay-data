@@ -12,6 +12,14 @@ dependencies {
 	compile project (':modules:edition:edition-api')
 	compile project (':modules:official:official-api')
 	compile project (':modules:search-log:search-log-api')
+	compile project (':modules:video:video-api')
+	compile project (':modules:activity:activity-api')
+	compile project (':modules:agenda:agenda-api')
+	compile project (':modules:artwork:artwork-api')
+	compile project (':modules:interest:interest-api')
+	compile project (':modules:link:link-api')
+	compile project (':modules:place:place-api')
+	compile project (':modules:project:project-api')
 	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.10'
 	compile group: 'com.itextpdf.tool', name: 'xmlworker', version: '5.5.10'
 	compile group: 'org.apache.santuario', name: 'xmlsec', version: '1.5.1'

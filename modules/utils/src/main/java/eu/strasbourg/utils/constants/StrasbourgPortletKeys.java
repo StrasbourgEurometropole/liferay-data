@@ -78,6 +78,7 @@ public class StrasbourgPortletKeys {
 	
 	public static final String PROJECT_BO = "eu_strasbourg_portlet_project_ProjectBOPortlet";
 	public static final String PROJECT_WEB = "eu_strasbourg_portlet_project_ProjectPortlet";
+	public static final String PROJECT_POPUP_WEB = "eu_strasbourg_portlet_project_ProjectPopupPortlet";
 
 	public static final String OBJTP_WEB = "eu_strasbourg_portlet_objtp_web_ObjtpWebPortlet";
 	public static final String OBJTP_BO = "eu_strasbourg_portlet_objtp_ObjtpBOPortlet";
