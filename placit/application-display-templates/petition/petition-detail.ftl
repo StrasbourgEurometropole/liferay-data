@@ -25,6 +25,7 @@
 
         <!-- Recuperation des lieux lies a la petition -->
 <#assign petitionPlaces = entry.getPlacitPlaces() />
+<#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
 
         <!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
 <#assign instanceId = themeDisplay.getPortletDisplay().getId() />
@@ -182,7 +183,11 @@
                                 <p class="pro-txt-progress">Il manque ${entry.getSignataireNeeded()} soutien(s) — <span>il reste ${entry.getTodayExpirationDifferenceDays()} jour(s)</span></p>
                             </div>
                             <div class="pro-wrapper-links-petition">
-                                <a id="#signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">Signer la pétition</a>
+                                <#if isUserloggedIn>
+                                    <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">Signer la pétition</a>
+                                <#else>
+                                    <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#myModal">Signer la pétition</a>
+                                </#if>
                                 <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                             </div>
                         </div>
@@ -200,7 +205,11 @@
                 <div class="col-lg-10 col-lg-offset-1">
                     <h2>D’autres pétitions</h2>
                     <div class="pro-wrapper">
-                        <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
+                        <#if isUserloggedIn>
+                            <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
+                        <#else>
+                            <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Déposer une pétition</a>
+                        </#if>
                         <a href="listing-petition.html" class="pro-btn">Toutes les pétitions</a>
                     </div>
                 </div>
