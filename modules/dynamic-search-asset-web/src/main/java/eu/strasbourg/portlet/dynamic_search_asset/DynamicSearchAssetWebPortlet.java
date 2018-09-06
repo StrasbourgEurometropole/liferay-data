@@ -52,8 +52,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -87,6 +87,8 @@ import org.osgi.service.component.annotations.Component;
 )
 public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	
+	private static final String PLACIT_TAG = "participer";
+	private static final String SEARCH_FORM_PLACIT = "placit";
 	private static final String ATTRIBUTE_CLASSNAME = "className";
 	private static final String ATTRIBUTE_LINK = "link";
 	private static final String ATTRIBUTE_TITLE = "title";
@@ -225,6 +227,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
 				this.assetEntries = results;
 				
+				this.applyTemplateBehaviors(request);
+				
 				JSONArray jsonResponse = this.constructJSONSelection(request);
 				
 				// Recuperation de l'élément d'écriture de la réponse
@@ -236,6 +240,51 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			_log.error(e);
 		}
 		super.serveResource(request, response);
+	}
+	
+	/**
+	 * Applique un comportement de filtrage suplémentaire selon le template 
+	 * de formulaire configuré
+	 * @throws PortalException 
+	 */
+	private void applyTemplateBehaviors(ResourceRequest request) throws PortalException {
+		
+		String searchForm = configuration.searchForm();
+		
+		switch (searchForm) {
+			
+			/**
+			 * Comportement(s) : Plateforme-Citoyenne
+			 */
+			case SEARCH_FORM_PLACIT :
+				
+				// Parcours des résultats
+				for (Iterator <AssetEntry> results = this.assetEntries.iterator(); results.hasNext();) {
+					AssetEntry assetEntry = results.next();
+					
+					String assetClassName = assetEntry.getClassName();
+					
+					// Retirer les événements n'appartenant pas à Placit via le tag dédié
+					if (assetClassName.equals(Event.class.getName())) {
+						List<String> assetTags =  Arrays.asList(assetEntry.getTagNames());
+						
+						if (!assetTags.contains(PLACIT_TAG)) {
+							results.remove();
+						}
+					}
+					
+					// Retirer les vidéos n'appartenant pas à Placit via le tag dédié
+					if (assetClassName.equals(Video.class.getName())) {
+						List<String> assetTags =  Arrays.asList(assetEntry.getTagNames());
+						
+						if (!assetTags.contains(PLACIT_TAG)) {
+							results.remove();
+						}
+					}
+					
+				}
+				break;
+		}
 	}
 	
 	/**
@@ -261,8 +310,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private JSONArray constructJSONSelection(ResourceRequest request) throws PortalException, DocumentException {
 		
 		// Récupération du contexte de la requète
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		long groupId = new Long(themeDisplay.getLayout().getGroupId());
 		String publikUserId = this.getPublikID(request);
 		
 		// Initialisation du JSON de réponse
@@ -365,7 +412,21 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Petition.class.getName())) {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
 				
-				// TODO :  Implémenter la gestion des pétitions en format JSON pour la recherche et la carte
+				// TODO : Mettre en place les éléments de retranscription JSON d'une pétition
+				/**
+				JSONObject jsonPetition = petition.toJSON();
+				
+				jsonPetition.put(
+					ATTRIBUTE_CLASSNAME,
+					Petition.class.getName()
+				);
+				jsonPetition.put(
+					ATTRIBUTE_LINK,
+					this.getHomeURL(request) + DETAIL_PETITION_URL + petition.getPetitionId()
+				);
+				
+				jsonResponse.put(jsonPetition);
+				*/
 			}
 			
 			/**

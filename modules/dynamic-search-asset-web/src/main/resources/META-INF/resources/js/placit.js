@@ -1,5 +1,5 @@
 // Initialisation des variables de références
-var resultEntries = null;
+var resultEntries = [];
 
 // 'Enum' de tous les classNames des entité pouvant être rencontrées
 var entityClassName = {
@@ -73,12 +73,39 @@ function createArticleThumbnail(article) {
 }
 
 /**
+ * Creation d'une vignette représentant une vidéo donnée
+ */
+function createVideoThumbnail(video) {
+	var videoThumbnail = 
+		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+		    '<div class="pro-card-video" data-linkall="a">' +
+		        '<div class="pro-header">' +
+		            '<figure class="fit-cover" role="group">' +
+		                '<img alt="Image" width="280" height="175" src="' + video.imageURL + '">' +
+		            '</figure>' +
+		            '<span class="icon-ico-lecteur"></span>' +
+		        '</div>' +
+		        '<div class="pro-meta-avis">' +
+		            '<a href="' + video.link + '" title="Vers la page ' + video.title.fr_FR + '"><h3>' + video.title.fr_FR + '</h3></a>' +
+		            '<div class="pro-avis">' +
+		                '<a class="pro-like">' + video.nbLikes + '</a>' +
+		                '<a class="pro-dislike">' + video.nbDislikes + '</a>' +
+		            '</div>' +
+		            '<span class="pro-view">' + video.nbViews + ' vues</span>' +
+		        '</div>' +
+		    '</div>' +
+		'</div>';
+	
+	addThumbnail(videoThumbnail);
+}
+
+/**
  * Creation d'une vignette représentant un projet donné
  */
 function createProjectThumbnail(project) {
 	var projectThumbnail = 
 		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-		    '<a href="' + project.link + '" title="Lien vers la page : ' + article.title + '" class="pro-bloc-actu">' +
+		    '<a href="' + project.link + '" title="Lien vers la page : ' + project.title + '" class="pro-bloc-actu">' +
 		        '<div class="img">' +
 		            '<figure role="group">' +
 		                '<img src="' + project.imageURL + '" alt="Image article" width="360" height="174" class="fit-cover"/>' +
@@ -102,22 +129,37 @@ function createProjectThumbnail(project) {
 function createParticipationThumbnail(participation) {
 	var footerContent = '';
 
-    if (participation.statusCode === "soon_arrived") {
-        footerContent = 
-            '<div class="pro-footer-participation pro-participation-soon">' + 
-                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
-                '<p>Bientôt disponible</p>' +
-            '</div>';
-    } else if (participation.statusCode === "finished") {
-        footerContent = 
-            '<div class="pro-footer-participation pro-participation-deadline">' + 
-                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
-                '<p>Participation terminée, merci de votre participation</p>' +
-            '</div>';
-    } else {
-        footerContent = '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>';
+	// Adaptation du footer de la vignette selon le statut de la participation
+    switch(participation.statusCode) {
+    	case "soon_arrived" :
+	        footerContent = 
+	            '<div class="pro-footer-participation pro-participation-soon">' + 
+	                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
+	                '<p>Bientôt disponible</p>' +
+	            '</div>';
+	        break;
+    	case "finished" :
+	        footerContent = 
+		        '<div class="pro-footer-participation pro-participation-deadline">' +
+			        '<div class="pro-avis">' +
+			            '<span class="pro-like">' + participation.nbLikes + '</span>' +
+			            '<span class="pro-dislike">' + participation.nbDislikes + '</span>' +
+			        '</div>' +
+			        '<p>Participation terminée</p>' +
+			    '</div>';
+	        break;
+    	case "new" :
+    	case "in_progress" :
+    	case "soon_finished" :
+    		footerContent =
+    	        '<div class="pro-footer-participation">' +
+    		        '<a href="' + participation.link + '#pro-link-commentaire" class="pro-form-style"' +
+    		           'title="Lien vers la page détail Participation - Lien des commentaires">Réagissez...</a>' +
+    		    '</div>';
+    		break;
     }
 
+    // Création du Hack CSS permettant la colorisation de la vignette selon le type de participation
     var colorHack = 
         '<style style="display: none" >' +
             '.type-color-hexa-' + participation.typeColor + '>div:before {' +
@@ -127,23 +169,29 @@ function createParticipationThumbnail(participation) {
     
     var participationThumbnail = 
     	'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-		    '<a href="' + participation.link + '" class="item pro-bloc-card-participation type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
-		    '<div>' +
-		        '<div class="pro-header-participation">' + 
-		            '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-		            '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
-		            '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
-		        '</div>' +
-		        '<div class="pro-content-participation">' +
-		            '<div class="pro-meta"><span>' + participation.districtsLabel + '</span><span>' + participation.thematicsLabel + '</span>' +
-		            '<span>' + participation.statusLabel + '</span><span>' + participation.projectName + '</span></div>' +
-		            '<h3>' + participation.title + '</h3>' +
-		            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + participation.createDate + '</time>' +
-		            ' / <span class="pro-duree">' + participation.statusDetailLabel + '</span></span></div>' +
+		    '<div class="item pro-bloc-card-participation type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
+		        '<div>' +
+		            '<div class="pro-header-participation">' +
+		                '<figure role="group">' +
+		                    '<img src="' + participation.imageURL + '" width="40" height="40" alt="Image de la participation"/>' +
+		                '</figure>' +
+		                '<p>Concertation publiée par :</p>' +
+		                '<p><strong>' + participation.author + '</strong></p>' +
+		                '<div class="pro-info-top-right">' +
+		                    '<span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span>' +
+		                '</div>' +
+		            '</div>' +
+		            '<div class="pro-content-participation">' +
+		                '<a href="' + participation.link + '" title="Lien vers le détail de la participation">' + 
+		                	'<h3>' + participation.title + '</h3>' + 
+		                '</a>' +
+		                '<span class="pro-time">Publiée le <time datetime="2018-01-10"' + participation.createDate + '</time>' + 
+		                '/ <span class="pro-duree">' + participation.statusDetailLabel + '</span></span>' +
+		            '</div>' +
 		            footerContent +
-		    '</div></a>' + 
-		'</div>' + 
-		colorHack
+		        '</div>' +
+		    '</div>' +
+		'</div>' + colorHack;
 		
 	addThumbnail(participationThumbnail);
 }
@@ -283,7 +331,7 @@ $('#dynamic-search-submit').click(function(event) {
                 	
                 	updateResultThumbnails();
 			 	}
-			 }
+			}
 		});
 	});
 });
