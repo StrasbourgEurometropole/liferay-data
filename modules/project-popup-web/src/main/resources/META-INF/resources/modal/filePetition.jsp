@@ -1,5 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
-<portlet:actionURL var="filePetition" name="filePetition">
+<portlet:actionURL var="filePetitionURL" name="filePetition">
 	<portlet:param name="cmd" value="filePetition" />
 </portlet:actionURL>
 <!-- DEPOSER UNE NOUVELLE PETITION -->
@@ -12,7 +12,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form id="form-file-petition" method="post" action="${filePetition}">
+            <form id="form-file-petition" method="post" action="${filePetitionURL}">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
                     <div class="form-group">
@@ -55,34 +55,34 @@
                     <h4><liferay-ui:message key="modal.filepetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
-                            <aui:input name="username" label="modal.user.username" required="true" placeholder="Dupond"/>
+                            <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.lastName}"/>
                         </div>
                         <div class="form-group form-triple">
-                            <aui:input name="firstname" label="modal.user.firstname" required="true" placeholder="Jean"/>
+                            <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.firstName}"/>
                         </div>
                         <div class="form-group form-triple">
-                            <aui:input name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true"/>
+                            <aui:input id="address" name="address" label="modal.user.address" required="true"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
+                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
+                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
                             </div>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="mail" label="modal.user.mail" required="true" placeholder="jean.dupond@gmail.com"/>
+                            <aui:input name="mail" disabled="true" label="modal.user.mail" required="true" value="${userConnected.email}"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" required="true" placeholder="0611111111"/>
+                            <aui:input id="phone" name="phone" label="modal.user.phone" required="true" placeholder="0611111111"/>
                         </div>
                     </div>
                 </div>
@@ -102,10 +102,72 @@
                     <p><i><liferay-ui:message key="modal.filepetition.condition"/></i></p>
                     <p><liferay-ui:message key="modal.filepetition.contact"/></p>
                 </div>
+                <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <div class="pro-form-submit">
-                    <button type="submit" class="btn btn-default"><liferay-ui:message key="modal.filepetition.submit"/></button>
+                    <button id="sendPetition" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filepetition.submit"/></button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<script type="text/javascript">
+    var namespace = "<portlet:namespace />";
+    $("#sendPetition").click(function(event){
+        event.preventDefault();
+    var response = validateForm();
+    if (response){
+        $("#form-file-petition").submit();
+    }
+    });
+
+
+
+    function validateForm()
+    {
+        var result = true;
+        var birthday = $("#"+namespace+"birthday").val();
+        var city = $("#"+namespace+"city").val();
+        var address = $("#"+namespace+"address").val();
+        var postalcode = $("#"+namespace+"postalcode").val();
+        var phone = $("#"+namespace+"phone").val();
+        var legalage = $("#file-petition-legalage").is(":checked");
+        var cnil = $("#file-petition-cnil").is(":checked");
+
+        if (birthday==null || birthday==""){
+            $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"birthday").css({ "box-shadow" : "" });
+
+        if (city==null || city==""){
+            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+
+        if (address==null || address==""){
+            $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"address").css({ "box-shadow" : "" });
+
+        if (postalcode==null || postalcode==""){
+            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
+
+        if (phone==null || phone==""){
+            $("#"+namespace+"phone").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"phone").css({ "box-shadow" : "" });
+
+        if (!legalage)
+            result = false;
+
+        if (!cnil)
+            result = false;
+
+        if (!result)
+            $("#sendalert").removeClass("hidden");
+        else $("#sendalert").addClass("hidden");
+        return result;
+    }
+</script>
