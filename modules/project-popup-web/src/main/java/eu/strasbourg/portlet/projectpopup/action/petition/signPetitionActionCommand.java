@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.projectpopup.action.petition;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author alexandre.quere
@@ -52,9 +55,11 @@ public class signPetitionActionCommand implements MVCActionCommand {
     public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
         String action = ParamUtil.getString(request, "cmd");
         boolean result = false;
+        //test
         if ("signPetition".equals(action)) {
-            long entryID = ParamUtil.getLong(request, "entryID");
-            if (entryID == -1)
+            long entryID = ParamUtil.getLong(request, "entryId");
+            String test = ParamUtil.getString(request, "username");
+            if (entryID == 0)
                 throw new PortletException("Une erreur est survenue avec cette pétition");
             String publikID = getPublikID(request);
             if (publikID == null || publikID.isEmpty())
@@ -132,7 +137,8 @@ public class signPetitionActionCommand implements MVCActionCommand {
         Petition petition = null;
         ServiceContext sc = null;
         try {
-            petition = PetitionLocalServiceUtil.getPetition(entryID);
+            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryID);
+            petition = PetitionLocalServiceUtil.getPetition(assetEntry.getClassPK());
             sc = ServiceContextFactory.getInstance(actionRequest);
         } catch (PortalException e) {
             _log.error(e);
@@ -140,20 +146,27 @@ public class signPetitionActionCommand implements MVCActionCommand {
         if (petition == null || sc == null) {
             throw new PortletException("la pétition est null");
         }
-        Signataire signataire = SignataireLocalServiceUtil.createSignataire(sc);
-        signataire.setSignataireName(user.getLastName());
-        signataire.setUserName(user.getUserName());
-        signataire.setUserId(user.getUserId());
-        signataire.setBirthday(birthday);
-        signataire.setAddress(address);
-        signataire.setPostalCode(postalcode);
-        signataire.setCity(city);
-        signataire.setPublikUserId(user.getPublikId());
-        signataire.setMail(mail);
-        signataire.setMobilePhone(phone);
-        signataire.setPhone(phone);
-        signataire = SignataireLocalServiceUtil.addSignataire(signataire);
-        return true;
+        List<Signataire> signataireList = SignataireLocalServiceUtil.
+                findSignatairesByPetitionIdAndSignataireName(petition.getPetitionId(), user.getLastName());
+        Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getUserId() == signataire.getUserId()).findAny().orElse(null);
+        if (signataireTemp == null) {
+            Signataire signataire = SignataireLocalServiceUtil.createSignataire(sc);
+            signataire.setSignataireName(user.getLastName());
+            signataire.setUserName(user.getUserName());
+            signataire.setUserId(user.getUserId());
+            signataire.setBirthday(birthday);
+            signataire.setAddress(address);
+            signataire.setPostalCode(postalcode);
+            signataire.setCity(city);
+            signataire.setPublikUserId(user.getPublikId());
+            signataire.setMail(mail);
+            signataire.setMobilePhone(phone);
+            signataire.setPhone(phone);
+            signataire.setPetitionId(petition.getPetitionId());
+            signataire = SignataireLocalServiceUtil.addSignataire(signataire);
+            _log.info("Signataire : "+signataire);
+            return true;
+        }else return false;
     }
 
 

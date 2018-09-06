@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.SignataireLocalServiceBaseImpl;
 
+import javax.portlet.PortletException;
 import java.util.List;
 
 /**
@@ -86,6 +87,12 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
     @Override
 	public int countFakeSignataireByPetition(long petitionId){
 		return signatairePersistence.countByPetitionIdAndSignataireName(petitionId,ANONYME);
+	}
+
+	public List<Signataire> findSignatairesByPetitionIdAndSignataireName(long petitionId, String signataireName) throws PortletException {
+    	if (petitionId==0||signataireName==null||signataireName.isEmpty())
+    		throw new PortletException("erreur dans les parametres d'entrée");
+		return signatairePersistence.findByPetitionIdAndSignataireName(petitionId,signataireName);
 	}
 
     /**

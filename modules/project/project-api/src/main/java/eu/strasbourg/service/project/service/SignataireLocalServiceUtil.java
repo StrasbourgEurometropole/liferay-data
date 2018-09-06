@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -271,6 +269,14 @@ public class SignataireLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<eu.strasbourg.service.project.model.Signataire> findSignatairesByPetitionIdAndSignataireName(
+		long petitionId, java.lang.String signataireName)
+		throws javax.portlet.PortletException {
+		return getService()
+				   .findSignatairesByPetitionIdAndSignataireName(petitionId,
+			signataireName);
 	}
 
 	/**
