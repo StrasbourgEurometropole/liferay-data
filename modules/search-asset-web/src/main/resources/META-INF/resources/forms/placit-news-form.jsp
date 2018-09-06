@@ -30,7 +30,7 @@
 <!-- Recherche par thématiques -->
 <div class="pro-sort pro-dropdown">
     <a href="#" title="Voir toutes les thématiques"><liferay-ui:message key="eu.thematics" /></a>
-    <fieldset class="pro-checkbox">
+    <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par thématique</legend>
 
 		<c:set var="thematicVocabulary" value="${vocabularyAccessor.getThematics(groupID)}" />
@@ -52,7 +52,7 @@
 <!-- Recherche par quartiers -->
 <div class="pro-sort pro-dropdown">
     <a href="#" title="Voir tous les quartiers"><liferay-ui:message key="eu.districts" /></a>
-    <fieldset class="pro-checkbox">
+    <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
         
         <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />

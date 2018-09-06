@@ -1,87 +1,51 @@
 package eu.strasbourg.portlet.search_asset;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.*;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetLinkLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.service.activity.model.Activity;
-import eu.strasbourg.service.activity.model.ActivityCourse;
-import eu.strasbourg.service.activity.model.ActivityOrganizer;
-import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
-import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
-import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
-import eu.strasbourg.service.agenda.model.Campaign;
+import com.liferay.portal.kernel.xml.SAXReaderUtil;
+import eu.strasbourg.portlet.search_asset.action.ExportPDF;
+import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
+import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
-import eu.strasbourg.service.agenda.model.Manifestation;
-import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
-import eu.strasbourg.service.artwork.model.Artwork;
-import eu.strasbourg.service.artwork.model.ArtworkCollection;
-import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
-import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
-import eu.strasbourg.service.edition.model.Edition;
-import eu.strasbourg.service.edition.model.EditionGallery;
-import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
-import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
-import eu.strasbourg.service.interest.model.Interest;
-import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
-import eu.strasbourg.service.link.model.Link;
-import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
-import eu.strasbourg.service.official.model.Official;
-import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
-import eu.strasbourg.service.video.model.VideoGallery;
-import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
+import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
-import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-
-import eu.strasbourg.portlet.search_asset.action.ExportPDF;
-import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
-import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
-
-import eu.strasbourg.service.video.model.Video;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import javax.portlet.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
         "com.liferay.portlet.display-category=Strasbourg",
@@ -231,6 +195,57 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
                 }
 
+                if (resourceID.equals("entrySelectionAgenda")) {
+                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
+                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
+                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
+                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
+                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
+                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
+                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
+                    this._states = new long[]{};
+                    this._statuts = new long[]{};
+                    this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
+                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                    this._types = new long[]{};
+                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
+
+                if (resourceID.equals("entrySelectionPetition")) {
+                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
+                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
+                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
+                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
+                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
+                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
+                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
+                    this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
+                    this._statuts = new long[]{};
+                    this._projects = new long[]{};
+                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                    this._types = new long[]{};
+                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
+
+                if (resourceID.equals("entrySelectionNews")) {
+                    this._keywords = null;
+                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
+                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
+                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
+                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
+                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
+                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
+                    this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
+                    this._statuts = new long[]{};
+                    this._projects = new long[]{};
+                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                    this._types = new long[]{};
+                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
+
                 long delta = this._configuration.delta();
 
                 // Recherche des vidéos
@@ -263,7 +278,10 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
                             JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
                             jsonEvent.put("class", className);
-                            jsonEvent.put("json", event.toJSON());
+                            JSONObject json = event.toJSON();
+                            json.put("eventScheduleDisplay", event.getEventScheduleDisplay(Locale.FRANCE));
+                            json.put("placeAlias", event.getPlaceAlias(Locale.FRANCE));
+                            jsonEvent.put("json", json);
                             jsonEntries.put(jsonEvent);
                             break;
                         /*case "eu.strasbourg.service.agenda.model.Manifestation":
@@ -306,7 +324,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
                             JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
                             jsonProject.put("class", className);
-                            JSONObject json = project.toJSON();
+                            json = project.toJSON();
                             json.put("nbParticipations", project.getParticipations().size());
                             json.put("nbEvents", project.getEvents().size());
                             JSONArray jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
@@ -343,7 +361,15 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Petition petition = PetitionLocalServiceUtil.fetchPetition(entry.getClassPK());
                             JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
                             jsonPetition.put("class", className);
-                            //jsonPetition.put("json", petition.toJSON());
+                            json = petition.toJSON();
+                            jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+                            thematicCategories = petition.getThematicCategories();
+                            for (AssetCategory assetCategory : thematicCategories) {
+                                jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+                            }
+                            json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+                            json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap(petition.getProjectCategory().getTitleMap()));
+                            jsonPetition.put("json", json);
                             jsonEntries.put(jsonPetition);
                             break;
                         case "eu.strasbourg.service.video.model.Video":
@@ -358,11 +384,33 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonEntries.put(videoGallery.toJSON());
                             break;*/
                         case "com.liferay.journal.model.JournalArticle":
-                            JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchJournalArticle(entry.getClassPK());
+                            JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
                             JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
                             jsonJournalArticle.put("class", className);
-                            /*jsonJournalArticle.put("json", journalArticle.toJSON());
-                            jsonEntries.put(jsonJournalArticle);*/
+                            json = JSONFactoryUtil.createJSONObject();
+                            json.put("detailURL", LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), this._themeDisplay));
+                            String document = journalArticle.getContentByLocale(LocaleUtil.toLanguageId(Locale.FRANCE));
+                            com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(document);
+                            String title = docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()");
+                            if(Validator.isNull(title)){
+                                title = journalArticle.getTitle(Locale.FRANCE);
+                            }
+                            json.put("title", title);
+                            String thumbnail = docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()");
+                            json.put("thumbnail", thumbnail);
+                            JSONArray jsonVocabulariesTitle = JSONFactoryUtil.createJSONArray();
+                            AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
+                            List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire");
+                            for (AssetCategory assetCategory : listVocabulary) {
+                                jsonVocabulariesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+                            }
+                            json.put("jsonVocabulariesTitle", jsonVocabulariesTitle);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+                            json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
+                            String chapo = docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()");
+                            json.put("chapo", chapo.replaceAll("<[^>]*>", "").substring(0,chapo.length() > 100 ? 100 : chapo.length()));
+                            jsonJournalArticle.put("json", json);
+                            jsonEntries.put(jsonJournalArticle);
                             break;
                         /*case "com.liferay.document.library.kernel.model.DLFileEntry":
                             DLFileEntry dlFileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(entry.getClassPK());
@@ -399,7 +447,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         String keywords = this._keywords;
 
         // ClassNames de la configuration
-        String[] classNames = ArrayUtil.toStringArray(this._classNames);
+        String[] classNames = ArrayUtil.toStringArray(getClassNames());
 
         // Inclusion ou non du scope global
         boolean globalScope = this._configuration.globalScope();
@@ -479,7 +527,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     /**
      * Retourne la liste des class names sur lesquelles on recherche
      */
-    public void getClassNames() {
+    public List<String> getClassNames() {
         List<String> classNames = new ArrayList<String>();
         for (String className : this._configuration.assetClassNames().split(",")) {
             if (Validator.isNotNull(className)) {
@@ -492,7 +540,8 @@ public class SearchAssetPortlet extends MVCPortlet {
         if (this._configuration.searchDocument()) {
             classNames.add(DLFileEntry.class.getName());
         }
-        this._classNames = classNames;
+
+        return classNames;
     }
 
     /**
@@ -565,8 +614,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
         }
 
-        this._filterCategoriesIds = filterCategoriesIds;
-        return this._filterCategoriesIds;
+        return filterCategoriesIds;
     }
 
     /**
@@ -749,9 +797,6 @@ public class SearchAssetPortlet extends MVCPortlet {
     private long[] _thematics;
     private long[] _types;
     private String _sortFieldAndType;
-
-    private List<String> _classNames;
-    private List<Long[]> _filterCategoriesIds;
 
     private Hits _hits;
 }

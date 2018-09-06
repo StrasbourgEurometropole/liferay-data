@@ -409,6 +409,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _petition.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Petition> toCacheModel() {
 		return _petition.toCacheModel();

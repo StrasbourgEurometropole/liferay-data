@@ -545,15 +545,15 @@ function getResult(searchPage, data) {
             }
 
             if(json.class == "eu.strasbourg.service.agenda.model.Event"){
-                listing += createVideo(json.json);
+                listing += createAgenda(json.json);
             }
 
             if(json.class == "eu.strasbourg.service.project.model.Petition"){
-                listing += createVideo(json.json);
+                listing += createPetition(json.json);
             }
 
             if(json.class == "com.liferay.journal.model.JournalArticle"){
-                listing += createVideo(json.json);
+                listing += createNews(json.json);
             }
         });
         listing += '</div>';
@@ -617,7 +617,7 @@ function getResult(searchPage, data) {
 
 /**
 * Création de la vignette vidéo
- * @return
+* @return
 */
 function createVideo(video){
     var vignette =
@@ -849,6 +849,115 @@ function createParticipation(participation){
     return vignette;
 }
 
+/**
+* Création de la vignette event (agenda)
+ * @return
+*/
+function createAgenda(agenda){
+    var vignette =
+    '<div class="vignette">' +
+        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '" title="lien de la page" class="item pro-bloc-card-event"' + 
+            'data-lat="' + agenda.mercatorY + '"' +  
+            'data-lng="' + agenda.mercatorX + '"' + 
+        '>' + 
+            '<div>' + 
+                '<div class="pro-header-event">' + 
+                    '<span class="pro-ico"><span class="icon-ico-debat"></span></span>' + 
+                    '<span class="pro-time"><time>' + agenda.eventScheduleDisplay + '</time></span>' + 
+                    '<p>À : ' + agenda.placeAlias + '</p>' + 
+                    '<h3>' + agenda.title["fr_FR"] + '</h3>' + 
+                '</div>' + 
+                '<div class="pro-footer-event">' + 
+                    '<span class="pro-number"><strong>' + agenda.nbPart + '</strong> Participant(s)</span>' + 
+                '</div>' + 
+            '</div>' + 
+        '</a>' +
+    '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette event (agenda)
+ * @return
+*/
+function createNews(news){
+    var vignette =
+    '<div class="col-md-3 col-sm-6 col-xs-12 vignette">' + 
+        '<a href="' + news.detailURL + '" title="Lien vers la page (' + news.title + ')" class="pro-bloc-actu">' +          
+            '<div class="img">' +
+                '<figure role="group">' +
+                    '<img src="' + news.thumbnail + '" alt="Image" width="360" height="174" class="fit-cover"/>' +
+                '</figure>' +
+                '<span>';
+                for(var i = 0 ; i < news.jsonVocabulariesTitle.length ; i++){
+                    vignette += news.jsonVocabulariesTitle[i]["fr_FR"] + (i != (news.jsonVocabulariesTitle.length - 1) ? ', ' : '');
+
+                }
+    vignette +=
+                '</span>' +
+            '</div>' +
+            '<div class="content">' +
+                '<span class="publication">Publiée le ' + news.modifiedDate + '</span>' +
+                '<h3>' + news.title + '</h3>' +
+                '<p>' + news.chapo + (news.chapo.length > 100 ? '...' : '') + '</p>' +
+                '<span class="link">Lire la suite</span>' +
+            '</div>' +
+        '</a>' +
+    '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette pétition
+ * @return
+*/
+function createPetition(petition){
+    var vignette = 
+    '<div class="item pro-bloc-card-petition vignette" data-linkall="a">' +
+        '<div class="pro-header-petition">' +
+            '<figure role="group">' +
+                (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+            '</figure>' +
+            '<p>Pétition publiée par :</p>' +
+            '<p><strong>' + petition.userName + ' adressé à : Ville de Strasbourg</strong></p>' +
+            '<div class="pro-number-comm">' +
+                '<span>' + petition.nbApprovedComments + '</span>' +
+                '<p>Commentaire(s)</p>' +
+            '</div>' +
+        '</div>' +
+        '<div class="pro-content-petition">' +
+            '<div class="pro-wrapper-meta">' +
+                '<div class="pro-statut"><span>' + petition.frontStatusFR + '</span></div>' +
+                '<div class="pro-meta">' +
+                    '<!-- Liste des quartiers de la Petition -->' +
+                    '<span>' + petition.districtLabel + '</span>' +
+                    '<!-- Liste des thématiques de la Petition -->';
+                    for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
+                        vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+
+                    }
+    vignette +=
+                    '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' +
+                '</div>' +
+            '</div>' +
+            '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
+            '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+        '</div>' +
+        '<div class="pro-footer-petition">' +
+            '<div class="pro-progress-bar">' +
+                '<div class="pro-progress-container">' +
+                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
+                '</div>' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+
+    return vignette;
+}
+
 
 /**
 * Création de la pagination
@@ -923,6 +1032,7 @@ function goToPage(wi, index){
 
         // Gestion de l'affichage du selecteur
         wi.$widget.find('#change-page option[value="' + index + '"]').prop('selected', true);
+        wi.$widget.find('#change-page').selectric();
     }
 
     // Gestion affichage du résultat de la pagination
