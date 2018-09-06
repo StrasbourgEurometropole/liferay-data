@@ -80,10 +80,10 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-    var namespace = "<portlet:namespace />";
+    var namespaceSign = "<portlet:namespace />";
     $("#sendSign").click(function(event){
         event.preventDefault();
-    var response = validateForm();
+    var response = validateSignForm();
     if (response){
         $("#form-sign-petition").submit();
     }
@@ -91,41 +91,41 @@
 
 
 
-    function validateForm()
+    function validateSignForm()
     {
         var result = true;
-        var birthday = $("#"+namespace+"signbirthday").val();
-        var city = $("#"+namespace+"signcity").val();
-        var address = $("#"+namespace+"signaddress").val();
-        var postalcode = $("#"+namespace+"signpostalcode").val();
-        var phone = $("#"+namespace+"signphone").val();
+        var signBirthday = $("#"+namespaceSign+"signbirthday").val();
+        var signCity = $("#"+namespaceSign+"signcity").val();
+        var signAddress = $("#"+namespaceSign+"signaddress").val();
+        var signPostalcode = $("#"+namespaceSign+"signpostalcode").val();
+        var signPhone = $("#"+namespaceSign+"signphone").val();
         var signlegalage = $("#signlegalage").is(":checked");
         var signcnil = $("#signcnil").is(":checked");
 
-        if (birthday==null || birthday==""){
-            $("#"+namespace+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (signBirthday==null || signBirthday==""){
+            $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"signbirthday").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "" });
 
-        if (city==null || city==""){
-            $("#"+namespace+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (signCity==null || signCity==""){
+            $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"signcity").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSign+"signcity").css({ "box-shadow" : "" });
 
-        if (address==null || address==""){
-            $("#"+namespace+"signaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (signAddress==null || signAddress==""){
+            $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"signaddress").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "" });
 
-        if (postalcode==null || postalcode==""){
-            $("#"+namespace+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (signPostalcode==null || signPostalcode==""){
+            $("#"+namespaceSign+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"signpostalcode").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSign+"signpostalcode").css({ "box-shadow" : "" });
 
-        if (phone==null || phone==""){
-            $("#"+namespace+"signphone").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (signPhone==null || signPhone==""){
+            $("#"+namespaceSign+"signphone").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"signphone").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSign+"signphone").css({ "box-shadow" : "" });
 
         if (!signlegalage)
             result = false;
