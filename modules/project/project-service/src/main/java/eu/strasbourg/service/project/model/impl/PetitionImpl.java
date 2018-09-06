@@ -42,6 +42,7 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
@@ -217,11 +218,11 @@ public class PetitionImpl extends PetitionBaseImpl {
 
         if (status == null) {
             response =  false;
-        } else if (status.getTitle(Locale.FRENCH).equals("Aboutie")) {
+        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Aboutie")) {
             response = false;
-        } else if (status.getTitle(Locale.FRENCH).equals("Non aboutie")) {
+        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Non aboutie")) {
             response = false;
-        } else if (status.getTitle(Locale.FRENCH).equals("Terminée")) {
+        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Terminee")) {
             response = false;
         }
 
