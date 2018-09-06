@@ -1,13 +1,10 @@
-package eu.strasbourg.portlet.project.projectpopup.configuration;
+package eu.strasbourg.portlet.projectpopup.configuration;
 
-import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
-import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import org.osgi.service.component.annotations.Component;
@@ -18,7 +15,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * @author alexandre.quere
@@ -48,6 +44,7 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
         if (cmd.equals("update")){
             // Popup à afficher
             String popupTemplateId = ParamUtil.getString(request,"popupTemplateId");
+            request.setAttribute("popupTemplateId",popupTemplateId);
             setPreference(request,"popupTemplateId",popupTemplateId);
         }
         super.processAction(portletConfig, request, response);
@@ -63,17 +60,8 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
             ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
-            // Liste tous les types possibles de popup
-            // On ne prend que ceux qui commencent par "eu.strasbourg"
-            List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil.filter(
-                    AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
-                            themeDisplay.getCompany().getCompanyId()),
-                    assetRendererFactory -> assetRendererFactory.isCategorizable()
-                            && assetRendererFactory.getClassName().startsWith("eu.strasbourg"));
-            request.setAttribute("availableAssetRendererFactories",
-                    availableAssetRendererFactories);
             // Popup à afficher
-            String popupTemplateId = ParamUtil.getString(request,"popupTemplateId");
+            String popupTemplateId = configuration.popupTemplateId();
             request.setAttribute("popupTemplateId",popupTemplateId);
         }catch(Exception e){
             _log.error(e);

@@ -12,7 +12,6 @@
   margin-bottom: 0px;
 }
 
-
 //Pour afficher le header du thème en mode admin
 .has-control-menu #th-global #pro-header{
 	top: 64px;
@@ -38,7 +37,6 @@
 #th-global ul.dropdown-menu {
 	display : none;
 }
-
 
 //Cache le titre d'un web content...
 #th-global .portlet .portlet-title-text {
@@ -209,6 +207,14 @@ aside .leaflet-map {
     margin-top: 65px;
 }
 
-.dynamic-search-asset-results .pro-bloc-card-participation .pro-footer-participation .pro-dislike {
-    margin-left: 4px;
+// affichage des petites étoiles dans la popup signPetition.
+#modalSigner .text-warning{
+    font-size: 35%;
+    vertical-align: super;
+}
+
+// affichage des petites étoiles dans la popup modalPetition.
+#modalPetition .text-warning{
+    font-size: 35%;
+    vertical-align: super;
 }

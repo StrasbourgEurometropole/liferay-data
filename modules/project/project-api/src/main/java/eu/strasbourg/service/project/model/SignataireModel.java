@@ -323,6 +323,109 @@ public interface SignataireModel extends BaseModel<Signataire>, GroupedModel,
 	public void setSignataireFirstname(String signataireFirstname);
 
 	/**
+	 * Returns the birthday of this signataire.
+	 *
+	 * @return the birthday of this signataire
+	 */
+	public Date getBirthday();
+
+	/**
+	 * Sets the birthday of this signataire.
+	 *
+	 * @param birthday the birthday of this signataire
+	 */
+	public void setBirthday(Date birthday);
+
+	/**
+	 * Returns the address of this signataire.
+	 *
+	 * @return the address of this signataire
+	 */
+	@AutoEscape
+	public String getAddress();
+
+	/**
+	 * Sets the address of this signataire.
+	 *
+	 * @param address the address of this signataire
+	 */
+	public void setAddress(String address);
+
+	/**
+	 * Returns the mail of this signataire.
+	 *
+	 * @return the mail of this signataire
+	 */
+	@AutoEscape
+	public String getMail();
+
+	/**
+	 * Sets the mail of this signataire.
+	 *
+	 * @param mail the mail of this signataire
+	 */
+	public void setMail(String mail);
+
+	/**
+	 * Returns the postal code of this signataire.
+	 *
+	 * @return the postal code of this signataire
+	 */
+	public long getPostalCode();
+
+	/**
+	 * Sets the postal code of this signataire.
+	 *
+	 * @param postalCode the postal code of this signataire
+	 */
+	public void setPostalCode(long postalCode);
+
+	/**
+	 * Returns the mobile phone of this signataire.
+	 *
+	 * @return the mobile phone of this signataire
+	 */
+	@AutoEscape
+	public String getMobilePhone();
+
+	/**
+	 * Sets the mobile phone of this signataire.
+	 *
+	 * @param mobilePhone the mobile phone of this signataire
+	 */
+	public void setMobilePhone(String mobilePhone);
+
+	/**
+	 * Returns the phone of this signataire.
+	 *
+	 * @return the phone of this signataire
+	 */
+	@AutoEscape
+	public String getPhone();
+
+	/**
+	 * Sets the phone of this signataire.
+	 *
+	 * @param phone the phone of this signataire
+	 */
+	public void setPhone(String phone);
+
+	/**
+	 * Returns the city of this signataire.
+	 *
+	 * @return the city of this signataire
+	 */
+	@AutoEscape
+	public String getCity();
+
+	/**
+	 * Sets the city of this signataire.
+	 *
+	 * @param city the city of this signataire
+	 */
+	public void setCity(String city);
+
+	/**
 	 * Returns the signature date of this signataire.
 	 *
 	 * @return the signature date of this signataire
@@ -337,32 +440,19 @@ public interface SignataireModel extends BaseModel<Signataire>, GroupedModel,
 	public void setSignatureDate(Date signatureDate);
 
 	/**
-	 * Returns the asset entry ID of this signataire.
+	 * Returns the publik user ID of this signataire.
 	 *
-	 * @return the asset entry ID of this signataire
+	 * @return the publik user ID of this signataire
 	 */
-	public long getAssetEntryId();
+	@AutoEscape
+	public String getPublikUserId();
 
 	/**
-	 * Sets the asset entry ID of this signataire.
+	 * Sets the publik user ID of this signataire.
 	 *
-	 * @param assetEntryId the asset entry ID of this signataire
+	 * @param publikUserId the publik user ID of this signataire
 	 */
-	public void setAssetEntryId(long assetEntryId);
-
-	/**
-	 * Returns the publik ID of this signataire.
-	 *
-	 * @return the publik ID of this signataire
-	 */
-	public long getPublikId();
-
-	/**
-	 * Sets the publik ID of this signataire.
-	 *
-	 * @param publikId the publik ID of this signataire
-	 */
-	public void setPublikId(long publikId);
+	public void setPublikUserId(String publikUserId);
 
 	/**
 	 * Returns the petition ID of this signataire.

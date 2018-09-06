@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.project.projectpopup.configuration;
+package eu.strasbourg.portlet.projectpopup.configuration;
 
 import aQute.bnd.annotation.metatype.Meta;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;

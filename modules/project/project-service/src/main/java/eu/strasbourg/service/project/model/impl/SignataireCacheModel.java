@@ -66,7 +66,7 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,12 +96,24 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		sb.append(signataireName);
 		sb.append(", signataireFirstname=");
 		sb.append(signataireFirstname);
+		sb.append(", birthday=");
+		sb.append(birthday);
+		sb.append(", address=");
+		sb.append(address);
+		sb.append(", mail=");
+		sb.append(mail);
+		sb.append(", postalCode=");
+		sb.append(postalCode);
+		sb.append(", mobilePhone=");
+		sb.append(mobilePhone);
+		sb.append(", phone=");
+		sb.append(phone);
+		sb.append(", city=");
+		sb.append(city);
 		sb.append(", signatureDate=");
 		sb.append(signatureDate);
-		sb.append(", assetEntryId=");
-		sb.append(assetEntryId);
-		sb.append(", publikId=");
-		sb.append(publikId);
+		sb.append(", publikUserId=");
+		sb.append(publikUserId);
 		sb.append(", petitionId=");
 		sb.append(petitionId);
 		sb.append("}");
@@ -177,6 +189,50 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			signataireImpl.setSignataireFirstname(signataireFirstname);
 		}
 
+		if (birthday == Long.MIN_VALUE) {
+			signataireImpl.setBirthday(null);
+		}
+		else {
+			signataireImpl.setBirthday(new Date(birthday));
+		}
+
+		if (address == null) {
+			signataireImpl.setAddress(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setAddress(address);
+		}
+
+		if (mail == null) {
+			signataireImpl.setMail(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setMail(mail);
+		}
+
+		signataireImpl.setPostalCode(postalCode);
+
+		if (mobilePhone == null) {
+			signataireImpl.setMobilePhone(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setMobilePhone(mobilePhone);
+		}
+
+		if (phone == null) {
+			signataireImpl.setPhone(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setPhone(phone);
+		}
+
+		if (city == null) {
+			signataireImpl.setCity(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setCity(city);
+		}
+
 		if (signatureDate == Long.MIN_VALUE) {
 			signataireImpl.setSignatureDate(null);
 		}
@@ -184,8 +240,13 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			signataireImpl.setSignatureDate(new Date(signatureDate));
 		}
 
-		signataireImpl.setAssetEntryId(assetEntryId);
-		signataireImpl.setPublikId(publikId);
+		if (publikUserId == null) {
+			signataireImpl.setPublikUserId(StringPool.BLANK);
+		}
+		else {
+			signataireImpl.setPublikUserId(publikUserId);
+		}
+
 		signataireImpl.setPetitionId(petitionId);
 
 		signataireImpl.resetOriginalValues();
@@ -215,11 +276,16 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 		statusDate = objectInput.readLong();
 		signataireName = objectInput.readUTF();
 		signataireFirstname = objectInput.readUTF();
+		birthday = objectInput.readLong();
+		address = objectInput.readUTF();
+		mail = objectInput.readUTF();
+
+		postalCode = objectInput.readLong();
+		mobilePhone = objectInput.readUTF();
+		phone = objectInput.readUTF();
+		city = objectInput.readUTF();
 		signatureDate = objectInput.readLong();
-
-		assetEntryId = objectInput.readLong();
-
-		publikId = objectInput.readLong();
+		publikUserId = objectInput.readUTF();
 
 		petitionId = objectInput.readLong();
 	}
@@ -279,11 +345,53 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 			objectOutput.writeUTF(signataireFirstname);
 		}
 
+		objectOutput.writeLong(birthday);
+
+		if (address == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(address);
+		}
+
+		if (mail == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(mail);
+		}
+
+		objectOutput.writeLong(postalCode);
+
+		if (mobilePhone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(mobilePhone);
+		}
+
+		if (phone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(phone);
+		}
+
+		if (city == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(city);
+		}
+
 		objectOutput.writeLong(signatureDate);
 
-		objectOutput.writeLong(assetEntryId);
-
-		objectOutput.writeLong(publikId);
+		if (publikUserId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikUserId);
+		}
 
 		objectOutput.writeLong(petitionId);
 	}
@@ -302,8 +410,14 @@ public class SignataireCacheModel implements CacheModel<Signataire>,
 	public long statusDate;
 	public String signataireName;
 	public String signataireFirstname;
+	public long birthday;
+	public String address;
+	public String mail;
+	public long postalCode;
+	public String mobilePhone;
+	public String phone;
+	public String city;
 	public long signatureDate;
-	public long assetEntryId;
-	public long publikId;
+	public String publikUserId;
 	public long petitionId;
 }

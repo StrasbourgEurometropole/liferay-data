@@ -197,6 +197,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataires();
+
 	/**
 	* Retourne le status de la petition
 	*/
@@ -234,4 +236,9 @@ public interface Petition extends PetitionModel, PersistedModel {
 	* Retourne la liste des lieux placit liés à la petition
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

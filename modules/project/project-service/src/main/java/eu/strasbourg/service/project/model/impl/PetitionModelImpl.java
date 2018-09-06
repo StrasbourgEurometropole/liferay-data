@@ -15,12 +15,9 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -35,15 +32,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PetitionSoap;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -98,7 +92,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "externalImageCopyright", Types.VARCHAR },
 			{ "mediaChoice", Types.BOOLEAN },
 			{ "consultationPlacesBody", Types.VARCHAR },
-			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
 			{ "imageId", Types.BIGINT },
 			{ "filesIds", Types.VARCHAR }
@@ -130,13 +123,12 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesBody VARCHAR(75) null,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesBody VARCHAR(75) null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -195,7 +187,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
 		model.setMediaChoice(soapModel.getMediaChoice());
 		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
-		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
@@ -287,7 +278,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
-		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
@@ -444,12 +434,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		if (consultationPlacesBody != null) {
 			setConsultationPlacesBody(consultationPlacesBody);
-		}
-
-		Long assetEntryId = (Long)attributes.get("assetEntryId");
-
-		if (assetEntryId != null) {
-			setAssetEntryId(assetEntryId);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -882,17 +866,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
-	public long getAssetEntryId() {
-		return _assetEntryId;
-	}
-
-	@Override
-	public void setAssetEntryId(long assetEntryId) {
-		_assetEntryId = assetEntryId;
-	}
-
-	@JSON
-	@Override
 	public String getPublikId() {
 		if (_publikId == null) {
 			return StringPool.BLANK;
@@ -1075,7 +1048,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setExternalImageCopyright(getExternalImageCopyright());
 		petitionImpl.setMediaChoice(getMediaChoice());
 		petitionImpl.setConsultationPlacesBody(getConsultationPlacesBody());
-		petitionImpl.setAssetEntryId(getAssetEntryId());
 		petitionImpl.setPublikId(getPublikId());
 		petitionImpl.setImageId(getImageId());
 		petitionImpl.setFilesIds(getFilesIds());
@@ -1313,8 +1285,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.consultationPlacesBody = null;
 		}
 
-		petitionCacheModel.assetEntryId = getAssetEntryId();
-
 		petitionCacheModel.publikId = getPublikId();
 
 		String publikId = petitionCacheModel.publikId;
@@ -1338,7 +1308,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1388,8 +1358,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getMediaChoice());
 		sb.append(", consultationPlacesBody=");
 		sb.append(getConsultationPlacesBody());
-		sb.append(", assetEntryId=");
-		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
 		sb.append(", imageId=");
@@ -1403,7 +1371,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(88);
+		StringBundler sb = new StringBundler(85);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1506,10 +1474,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getConsultationPlacesBody());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
-		sb.append(getAssetEntryId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>publikId</column-name><column-value><![CDATA[");
 		sb.append(getPublikId());
 		sb.append("]]></column-value></column>");
@@ -1563,7 +1527,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
 	private String _consultationPlacesBody;
-	private long _assetEntryId;
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
