@@ -160,11 +160,33 @@
 
         </div>
     </div>
-
+	
+	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
+	<#assign classNameId = PortalUtil.getClassNameId("eu.strasbourg.service.agenda.model.Event") />	
+	<#assign scop = themeDisplay.getCompanyGroupId() />
+	<#assign i = 0 />
+	
+	<#assign preferencesMap = {"scopeIds": "Group_${scop}", "classNameIds" : "${classNameId}",
+	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />
+	
+	<#list entry.getCategories() as event >		
+		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${event.getCategoryId()}"} >
+		<#assign i++ />
+	</#list>
+	
+	<#list entry.getAssetEntry().getTags() as tag >
+		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetTags", "queryValues${i}" : "${tag.getName()}"} >
+		<#assign i++ />
+	</#list>
+	
     <@liferay_portlet["runtime"]
+	defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
     portletProviderAction=portletProviderAction.VIEW
-    portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet" 
-    instanceId="event${entry.eventId}"/>
+    portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
+	instanceId="event${entry.eventId}"
+    />
+
+	<!-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
 
 </div>
 
@@ -217,5 +239,10 @@
         );
 
     });
+
+	$(document).ready(function() {
+		//Change le titre du slider des événements
+		$("#pro-link-evenement .col-lg-10 h2").text("AUTRES ÉVÈNEMENTS")
+	});
 
 </script>

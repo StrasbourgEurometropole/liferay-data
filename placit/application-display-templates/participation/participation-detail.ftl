@@ -231,7 +231,7 @@
                                     title="Cliquez pour désapprouver">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
-                            <#elseif request.session.getAttribute("has_pact_signed")!true>
+                            <#elseif !request.session.getAttribute("has_pact_signed")?? || (request.session.getAttribute("has_pact_signed")?? && !request.session.getAttribute("has_pact_signed"))>
                                 <a class="pro-like" name="#Pact-sign">
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                                 </a>

@@ -28,6 +28,9 @@
 <#assign initiativePlaceMercators = [] />
 <#assign eventPlaceMercators = [] />
 
+<!-- Est-ce que l'utilisateur est connecte ?-->
+<#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
+
 <div class="pro-page-detail pro-page-detail-initiative">
 	<div class="container">
 		<div class="col-lg-11 col-lg-offset-1">
@@ -248,10 +251,24 @@
 							 
 						
 						<div class="pro-wrapper-links">
-							<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" data-toggle="modal" data-target="#modalContacter">Contacter le
+						
+							<#if isUserloggedIn>
+								<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" data-toggle="modal" data-target="#modalContacter">Contacter le
+									porteur</a>
+							<#else>
+								<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" data-toggle="modal" data-target="#myModal">Contacter le
 								porteur</a>
-							<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" data-toggle="modal" data-target="#modalAide">Proposer mon aide</a>
+							</#if>
+
+								
+							<#if isUserloggedIn>	
+								<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" data-toggle="modal" data-target="#modalAide">Proposer mon aide</a>
+							<#else>
+								<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" data-toggle="modal" data-target="#myModal">Proposer mon aide</a>
+							</#if>
+							
 							<a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
+
 						</div>
 					</aside>
 				</div>
@@ -273,5 +290,19 @@
 
 			
 		</div>
-	</section>                   
+	</section>
+
+		<@liferay_portlet["runtime"]
+		portletProviderAction=portletProviderAction.VIEW
+		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
+		instanceId="contactInitiativeAuthor"
+		/>
+		
+		<@liferay_portlet["runtime"]
+		portletProviderAction=portletProviderAction.VIEW
+		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
+		instanceId="giveInitiativeHelp"
+		queryString="entityid=123456789"
+		/>
+	
 </div>

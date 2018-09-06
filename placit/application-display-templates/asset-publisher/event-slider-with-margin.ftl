@@ -1,4 +1,4 @@
-<!-- DETAIL D'UN EVENEMENT -->
+<!-- SLIDER AGENDA -->
 
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
@@ -10,239 +10,94 @@
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des coordonnées GPS -->
-<#assign eventPlaceMercatorX = 0 />
-<#assign eventPlaceMercatorY = 0 />
+<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+<#assign instanceId = themeDisplay.getPortletDisplay().getId() />
 
-<#assign eventPlaceMercators = entry.getMercators() />
-
-<#if eventPlaceMercators?size == 2 >
-    <#assign eventPlaceMercatorX = eventPlaceMercators[0] />
-    <#assign eventPlaceMercatorY = eventPlaceMercators[1] />
-</#if>
-
-<div class="pro-page-detail">
-
+<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
     <div class="container">
 
-        <div class="col-lg-11 col-lg-offset-1">
-
-            <article>
-                <header>
-                    <#if entry.firstStartDate?has_content>
-                        <span class="pro-time">Début le<time datetime="2018-01-10"> ${entry.firstStartDate?string("dd MMMM yyyy à hh'H'mm")}</time></span>
-                    </#if>
-                    <p>À : 
-                        <#if entry.getPlaceAlias(locale)?has_content>${entry.getPlaceAlias(locale)},</#if>
-                        <#if entry.getPlaceAddress(locale)?has_content>${entry.getPlaceAddress(locale)},</#if>
-                        <#if entry.getPlaceZipCode()?has_content>${entry.getPlaceZipCode()}</#if>
-                        <#if entry.getPlaceCity(locale)?has_content>${entry.getPlaceCity(locale)}</#if>
-                    </p>
-                    <h1>>${entry.getTitle(locale)}</h1>
-                    <div class="pro-meta">
-                        <#if entry.getTerritoryLabel(locale)?has_content>
-                            <span>${entry.getTerritoryLabel(locale)}</span>
-                        </#if>
-                        <#if entry.getThemeLabel(locale)?has_content>
-                            <span>${entry.getThemeLabel(locale)}</span>
-                        </#if>
-                        <span>${entry.getNbApprovedComments()} commentaire(s)</span>
-                    </div>
-
-                    <div id="breadcrumb">
-                        <span>
-                            <span>
-                                <a href="${homeURL}">Accueil</a>
-                                <a href="${homeURL}agenda">Agenda</a>
-                                <span class="breadcrumb_last">${entry.getTitle(locale)}</span>
-                            </span>
-                        </span>
-                    </div>
-                </header>
-
-
-                <div class="row pro-container-detail-event">
-
-                    <div class="col-sm-8">
-                        <div class="pro-main-img">
-                            <figure role="group">
-                                <#if entry.imageURL?has_content>
-                                    <img src='${entry.imageURL}' alt="Image agenda" width="880" height="593" class="fit-cover" alt="${entry.getTitle(locale)}"/>
-                                </#if>
-                            </figure>
-                        </div>
-                        <div class="row pro-bloc pro-bloc-texte">
-                            ${entry.getDescription(locale)}
-                        </div>
-
-                        <div class="row pro-small-detail-bloc">
-                            <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
-                                <div class="col-sm-6">
-                                    <h4>Services aux handicapés</h4>
-                                    <ul>
-                                        <#if entry.accessForBlind>
-                                            <li class="pro-tooltip"><span class="icon-ico-handicap-oeil"></span><span class="tooltiptext">Handicap oeil</span></li>
-                                        </#if>
-                                        <#if entry.accessForDeficient>
-                                            <li class="pro-tooltip"><span class="icon-ico-handicap-visage"></span><span class="tooltiptext">Handicap visage</span></li>
-                                        </#if>
-                                        <#if entry.accessForDeaf>
-                                            <li class="pro-tooltip"><span class="icon-ico-handicap-oreille"></span><span class="tooltiptext">Handicap oreille</span></li>
-                                        </#if>    
-                                        <#if entry.accessForWheelchair>
-                                            <li class="pro-tooltip"><span class="icon-ico-handicap-moteur"></span><span class="tooltiptext">Handicap moteur</span></li>
-                                        </#if>
-                                    </ul>
-                                </div>
-                            </#if>
-                            <#if entry.getAccess(locale)?has_content >    
-                                <div class="col-sm-6">
-                                    <h4>Accès</h4>
-                                    <p>${entry.getAccess(locale)}</p>
-                                </div>
-                            </#if>
-                        </div>
-
-                    </div>
-
-                    <!-- Fiche de l'entité -->
-                    <aside class="col-sm-4">
-
-                        <!-- Bloc : map -->
-                        <#if eventPlaceMercators?size == 2 >
-                            <div class="bloc-iframe leaflet-map" id="mapid" ></div>
-                        </#if>
-
-                        <!-- Bloc : compteur de participants -->
-                        <div class="pro-compteur">
-                            <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
-                            <p>Citoyens(nes) participent à l’événement</p>
-                            <#if entry.isFinished() >
-                                <a class="pro-btn-action">
-                                    Événement terminé
-                                </a>
-                            <#elseif request.session.getAttribute("has_pact_signed")!false >
-                                <a href="#Participe" class="pro-btn-action"
-                                    data-eventid="${entry.eventId}"
-                                    data-groupid="${entry.groupId}"
-                                    title="Je participe">
-                                    Je participe
-                                </a>
-                            <#else>
-                                <a class="pro-btn-action" name="#Pact-sign">
-                                    Je participe
-                                </a>
-                            </#if>
-                        </div>
-
-                        <!-- Bloc : contact -->
-                        <div class="pro-contact">
-                            <h4>Contact</h4>
-                            <p>
-                                <#if entry.promoter?has_content><strong>${entry.promoter}</strong><br></#if>
-                                <#if entry.email?has_content>${entry.email}<br></#if>
-                                <#if entry.websiteURL?has_content>${entry.websiteURL}</#if>
-                            </p>
-                            <a href="tel:${entry.phone}" title="Numéro de téléphone : ${entry.phone}">${entry.phone}</a>
-                        </div>
-
-                        <!-- Bloc : reservation -->
-                        <#if entry.bookingURL?has_content>
-                            <div class="pro-ticket">
-                                <#if entry.getBookingDescription(locale)?has_content>${entry.getBookingDescription(locale)}</#if>
-                                <a href="${entry.bookingURL}" target="_blank" class="pro-btn-ticket" title="Réservation d'un billet">Reserver un billet</a>
-                            </div>
-                        </#if>
-
-                    </aside>
-                </div>
-            </article>
-
+        <div class="col-lg-10 col-lg-offset-1">
+            <h2>L’agenda (${entries?size})</h2>
+            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
         </div>
+
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="owl-carousel owl-opacify owl-theme owl-cards">
+            
+                <!-- Parcours des entites de l'asset publisher -->
+                <#list entries as curEntry>
+                    
+                    <!-- Recuperation de l'entite -->
+                    <#assign entry = curEntry.getAssetRenderer().getEvent() />
+                    
+                    <a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+                        <div>
+                            <div class="pro-header-event">
+                                <span class="pro-ico"><span class="icon-ico-debat"></span></span>
+                                <span class="pro-time"><#if entry.firstStartDate?has_content>Le ${entry.firstStartDate?string("dd MMMM yyyy")}</#if></span>
+                                <p>À : ${entry.getPlaceAlias(locale)}</p>
+                                <h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+                                    overflow: hidden;text-overflow: ellipsis;height: 53px">
+                                    ${entry.getTitle(locale)}
+                                </h3>
+                            </div>
+                            <div class="pro-footer-event">
+                                <#if entry.isFinished() >
+                                    <span class="pro-btn-action">
+                                        Événement terminé
+                                    </span>
+                                <#elseif request.session.getAttribute("has_pact_signed")!false >
+                                    <span class="pro-btn-action"
+                                        name="#Participe-${instanceId}"
+                                        data-eventid="${entry.eventId}"
+                                        data-groupid="${entry.groupId}">
+                                        Je participe
+                                    </span>
+                                <#else>
+                                    <span class="pro-btn-action" name="#Pact-sign">
+                                        Je participe
+                                    </span>
+                                </#if>
+                                <span class="pro-number"><strong>${entry.getNbEventParticipations()}</strong> Participant(s)</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                </#list>
+
+            </div>
+        </div>
+
     </div>
-	
-	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
-	<#assign classNameId = PortalUtil.getClassNameId("eu.strasbourg.service.agenda.model.Event") />	
-	<#assign scop = themeDisplay.getCompanyGroupId() />
-	<#assign i = 0 />
-	
-	<#assign preferencesMap = {"scopeIds": "Group_${scop}", "classNameIds" : "${classNameId}",
-	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />
-	
-	<#list entry.getCategories() as event >		
-		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${event.getCategoryId()}"} >
-		<#assign i++ />
-	</#list>
-	
-	<#list entry.getAssetEntry().getTags() as tag >
-		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetTags", "queryValues${i}" : "${tag.getName()}"} >
-		<#assign i++ />
-	</#list>
-	
-    <@liferay_portlet["runtime"]
-	defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
-    portletProviderAction=portletProviderAction.VIEW
-    portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
-	instanceId="event${entry.eventId}"
-    />
-
-	<!-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
-
-</div>
+</section>
 
 <script>
-
-    var eventMercatorX = ${eventPlaceMercatorX};
-    var eventMercatorY = ${eventPlaceMercatorY};
-
     $(document).ready(function() {
+        $("span[name='#Participe-${instanceId}']").each(function() {
 
-        // Gestion de la carte interactive
-        // Notes : voir dans le theme placit "override/custom.js"
-        if (eventMercatorX && eventMercatorX.length != 0) {
+            // Sauvegarde de l'élément
+            var element = $(this);
+            
+            // Récupération des attributs du like
+            var eventid = $(this).data("eventid");
 
-            //Création de la carte au centre de strasbourg
-            leafletMap = getLeafletMap()
-
-            // Définition des marqueurs
-            var eventIcon = getMarkerIcon('event');
-
-            // Ajout du marqueur sur la map
-            var marker = L.marker([eventMercatorY, eventMercatorX], {icon: eventIcon}).addTo(leafletMap);
-        }
-
-    });
-
-    // Gestion de la participation ou non d'un utilisateur à un événement
-    $(document).ready(function() {
-        $('.pro-slider-event>.container>div').each(function() {
-            $(this).addClass("col-lg-10 col-lg-offset-1");
-        });
-
-        var eventid = ${entry.eventId};
-
-        // Recherche si l'utilisateur participe a l'evenement
-        Liferay.Service(
-            '/agenda.eventparticipation/is-user-participates',
-            {
-                eventId: eventid
-            },
-            function(obj) {
-                // En cas de succès, on effectue la modification des éléments visuels
-                // selon la réponse et le type de l'élément
-                if (obj.hasOwnProperty('success')) {
-                    if (obj['success'] == 'true') {
-                        $("[href='#Participe']").toggleClass('active');
+            // Recherche si l'utilisateur participe a l'evenement
+            Liferay.Service(
+                '/agenda.eventparticipation/is-user-participates',
+                {
+                    eventId: eventid
+                },
+                function(obj) {
+                    // En cas de succès, on effectue la modification des éléments visuels
+                    // selon la réponse et le type de l'élément
+                    if (obj.hasOwnProperty('success')) {
+                        if (obj['success'] == 'true') {
+                            element.toggleClass('active');
+                        }
                     }
                 }
-            }
-        );
+            );
 
+        });
     });
-
-	$(document).ready(function() {
-		//Change le titre du slider des événements
-		$("#pro-link-evenement .col-lg-10 h2").text("AUTRES ÉVÈNEMENTS")
-	});
-
 </script>
