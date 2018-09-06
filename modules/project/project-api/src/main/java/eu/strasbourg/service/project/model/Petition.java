@@ -225,6 +225,13 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.lang.String getFrontStatusFR();
 
 	/**
+	* méthode d'affichage des information du status pour excel.
+	*
+	* @return le status.
+	*/
+	public java.lang.String getPetitionStatusExcel();
+
+	/**
 	* méthode de récupération du status
 	*
 	* @return le status.

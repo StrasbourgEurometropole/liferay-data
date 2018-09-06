@@ -508,6 +508,17 @@ public class PetitionImpl extends PetitionBaseImpl {
 		return result;
 	}
 
+	/**
+	 * méthode d'affichage des information du status pour excel.
+	 * @return le status.
+	 */
+	@Override
+	public String getPetitionStatusExcel(){
+		String result = this.getFrontStatusFR();
+		if (ParticipationImpl.SOON_FINISHED.equals(this.getPetitionStatus()))
+			result = "bientot terminee";
+		return result;
+	}
 
 	/**
 	 * méthode de récupération du status
