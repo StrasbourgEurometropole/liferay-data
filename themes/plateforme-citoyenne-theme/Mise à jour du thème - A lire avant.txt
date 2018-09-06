@@ -71,3 +71,21 @@ Le fichier js/src/scipt.js
         $(this).toggleClass('active');
     });
 
+Le fichier js/src-1/bloc-pickaday.js
+    Le code suivant a été complété afin de gérer la recherche en ajax
+
+    // Utilisé pour les recherches ajax
+    if(this._o.field.className.indexOf('dynamic') >= 0){
+        // Renvoi la liste des entités demandées
+        getSelectedEntries();
+    }
+
+Le fichier js/src-1/bloc-facette.js
+    Le code suivant a été complété afin de gérer la recherche en ajax
+
+    // Utilisé pour les recherches ajax
+    if($(this).hasClass('dynamic')){
+        // Renvoi la liste des entités demandées
+        getSelectedEntries();
+    }
+

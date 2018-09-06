@@ -641,10 +641,19 @@ public class VideoImpl extends VideoBaseImpl {
     @Override
     public JSONObject toJSON() {
         JSONObject videoJSON = JSONFactoryUtil.createJSONObject();
+        videoJSON.put("class", this.getClass().getName());
         videoJSON.put("id", this.getVideoId());
         videoJSON.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
         videoJSON.put("description", JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
         videoJSON.put("source", JSONHelper.getJSONFromI18nMap(this.getSourceMap()));
+        videoJSON.put("imageURL", this.getImageURL());
+        videoJSON.put("groupId", this.getGroupId());
+        videoJSON.put("nbLikes", this.getNbLikes());
+        videoJSON.put("nbDislikes", this.getNbDislikes());
+        String videoURL = this.getSource(Locale.FRANCE);
+        String site = this.getSiteVideo(videoURL);
+        String videoId = this.getVideoId(site, videoURL);
+        videoJSON.put("nbViews", this.getNbViews(site,videoId));
 
         Set<Locale> locales = this.getSourceMap().keySet();
         JSONObject playerJSON = JSONFactoryUtil.createJSONObject();

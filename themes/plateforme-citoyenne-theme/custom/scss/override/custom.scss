@@ -194,6 +194,14 @@ aside .leaflet-map {
     background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
 }
 
+.pro-disabled{
+    opacity: 0 !important;
+}
+
+.pro-pagination .pull-right li a{
+    cursor: pointer;
+}
+
 
 .dynamic-search-asset-portlet > section > .portlet-topper {
     margin-top: 65px;

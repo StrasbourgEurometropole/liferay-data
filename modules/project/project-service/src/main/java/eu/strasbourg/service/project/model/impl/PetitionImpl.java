@@ -19,6 +19,9 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -47,6 +50,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -402,8 +406,9 @@ public class PetitionImpl extends PetitionBaseImpl {
 	 */
 	@Override
 	public AssetCategory getProjectCategory() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PROJECT).get(0);
+		List<AssetCategory> listProject =  AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT);
+		return listProject.size() > 0 ? listProject.get(0) : null;
 	}
 
 
@@ -531,6 +536,32 @@ public class PetitionImpl extends PetitionBaseImpl {
 	@Override
 	public List<PlacitPlace> getPlacitPlaces() {
 		return PlacitPlaceLocalServiceUtil.getByPetition(this.getPetitionId());
+	}
+
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
+		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		jsonPetition.put("id", this.getPetitionId());
+		jsonPetition.put("createDate", dateFormat.format(this.getCreateDate()));
+		jsonPetition.put("imageURL", this.getImageURL());
+		jsonPetition.put("userName", this.getUserName());
+		jsonPetition.put("nbApprovedComments", this.getNbApprovedComments());
+		jsonPetition.put("frontStatusFR", this.getFrontStatusFR());
+		jsonPetition.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
+		jsonPetition.put("title", this.getTitle());
+		jsonPetition.put("proDureeFR", this.getProDureeFR());
+		jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
+		jsonPetition.put("nombreSignature", this.getNombreSignature());
+		jsonPetition.put("quotaSignature", this.getQuotaSignature());
+
+		return jsonPetition;
 	}
 
 }

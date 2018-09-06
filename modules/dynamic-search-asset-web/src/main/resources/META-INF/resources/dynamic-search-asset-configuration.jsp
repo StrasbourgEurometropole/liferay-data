@@ -5,18 +5,16 @@
 <liferay-portlet:actionURL portletConfiguration="true" varImpl="configurationActionURL" />
 
 <div class="container-fluid-1280 main-content-body">
-
-	<liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
 	
 	<aui:form action="${configurationActionURL}" method="post" name="fm" >
-
+		
 		<aui:input name="cmd" type="hidden" value="update" />
 		
 		<aui:fieldset-group markupView="lexicon">
 		
 			<!-- Type d'asset -->
-			<aui:fieldset collapsed="false" collapsible="true"
-				label="asset-type">
+			<aui:fieldset collapsed="false" collapsible="true"label="asset-type">
+			
 				<liferay-ui:message key="asset-types-explanations" />
 				<div class="asset-types">
 					<aui:input type="hidden" name="assetClassNamesCount"
@@ -35,11 +33,6 @@
 								checked="${classNameIsChecked}"
 								value="${assetRendererFactory.classNameId}" inlineField="true" />
 
-							<aui:input type="text"
-								placeholder="detail-friendly-url"
-								name="layoutFriendlyURL_${assetStatus.index}" inlineField="true"
-								value="${classNameIsChecked ? layoutsFriendlyURLs[i] : ''}" />
-
 							<c:if test="${classNameIsChecked}">
 								<c:set var="i" value="${i + 1}" />
 							</c:if>
@@ -47,21 +40,10 @@
 					</c:forEach>
 					<div class="asset-type-configuration">
 						<aui:input type="checkbox" 
-							name="searchJournalArticle" 
-							value="${searchJournalArticle}" 
-							label="web-content" 
+							name="searchNews" 
+							value="${searchNews}" 
+							label="com.liferay.journal.model.JournalArticle" 
 							inlineField="true" />
-						<aui:select name="journalArticleTemplateKey"
-							inlineField="true">
-							<aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
-							<c:forEach var="template"
-								items="${assetEntryTemplatesList}">
-								<aui:option value="${template.templateKey}"
-									selected="${journalArticleTemplateKey eq template.templateKey}">
-									${template.getName(locale)}
-								</aui:option>
-							</c:forEach>
-						</aui:select>
 					</div>
 					<div class="asset-type-configuration">
 						<aui:input type="checkbox" 
@@ -69,32 +51,22 @@
 							value="${searchDocument}" 
 							label="file" 
 							inlineField="true" />
-						<aui:select name="documentTemplateKey"
-							inlineField="true">
-							<aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
-							<c:forEach var="template"
-								items="${documentTemplatesList}">
-								<aui:option value="${template.templateKey}"
-									selected="${documentTemplateKey eq template.templateKey}">
-									${template.getName(locale)}
-								</aui:option>
-							</c:forEach>
-						</aui:select>
 					</div>
 				</div>
-				<div>
-					
-				</div>
+
 			</aui:fieldset>
 			
-			<!-- Portée -->
+			<!-- Portee -->
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
+			
 				<liferay-ui:message key="scope-explanations" />
 				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
+				
 			</aui:fieldset>
 			
-			<!-- Préfiltre -->
+			<!-- Prefiltre -->
 			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
+			
 				<liferay-ui:message key="prefilter-explanations" />
 				<label><liferay-ui:message key="categories" /></label>
 				<p>
@@ -110,10 +82,12 @@
 						hiddenInput="prefilterTagsNames"
 						curTags="${prefilterTagsNames}" />
 				</p>
+				
 			</aui:fieldset>
 			
 			<!-- Boosts -->
 			<aui:fieldset collapsed="true" collapsible="true" label="boosts">
+			
 				<liferay-ui:message key="boost-explanations" />
 				<p>
 					<label><liferay-ui:message key="tags" /></label>
@@ -121,25 +95,36 @@
 						hiddenInput="boostTagsNames"
 						curTags="${boostTagsNames}" />
 				</p>
+				
 			</aui:fieldset>
 			
-			<!-- Date de sélection -->
+			<!-- Date de selection -->
 			<aui:fieldset collapsed="true" collapsible="true" label="date-filter">
-			
-				<!-- Filtre par date -->
+				
+				<!-- Utilisation du filtre par date -->
 				<div>
 					<liferay-ui:message key="date-explanations" />
 					<aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
 				</div>
-
-				<!-- Filtre par date par defaut --> 
-				<aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
-			
+				
+				<!-- Filtre par date par defaut  -->
+				<liferay-ui:message key="date-range-explanation" />
+				<p>
+					<aui:input type="number" name="dateRangeFrom" 
+						min="-1000" max="+1000" cssClass="date-range" value="${dateRangeFrom}" 
+						label="default-date-range-from" inlineField="true"/>
+				</p>
+				<p>
+					<!-- Filtre par date par defaut -->
+					<aui:input type="number" name="dateRangeTo" 
+						min="-1000" max="+1000" cssClass="date-range" value="${dateRangeTo}" 
+						label="default-date-range-to" inlineField="true"/>
+				</p>
+				
 			</aui:fieldset>
 			
 			<!-- Affichage -->
-			<aui:fieldset collapsed="true" collapsible="true"
-				label="display">
+			<aui:fieldset collapsed="true" collapsible="true" label="display">
 
 				<!-- Nombre de resultats par page -->
 				<aui:input type="number" name="delta" value="${delta}" />
@@ -152,12 +137,24 @@
 				</aui:select>
 				
 			</aui:fieldset>
+			
+			<!-- Type de recherche -->
+			<aui:fieldset collapsed="true" collapsible="true" label="search-type">
+				
+				<!-- Utilisation de la recherche dynamique -->
+				<div>
+					<liferay-ui:message key="search-type-explanations" />
+					<aui:input type="checkbox" name="dynamicSearch" value="${dynamicSearch}" label="dynamicSearch" inlineField="true" />
+				</div>
+				
+			</aui:fieldset>
 
 		</aui:fieldset-group>
 		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 		</aui:button-row>
+		
 	</aui:form>
 </div>
 

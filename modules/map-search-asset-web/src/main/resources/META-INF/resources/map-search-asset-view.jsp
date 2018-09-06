@@ -12,7 +12,7 @@
 <portlet:resourceURL id="changeSubEntitiesSelection" var="changeSubEntitiesSelectionURL">
 </portlet:resourceURL>
 
-<!-- Conteneur de la page de carte intÃ©ractive  -->
+<!-- Conteneur de la page de carte intéractive  -->
 <div class="pro-page-carte">
 
 	<!-- Vignette de formulaire -->
