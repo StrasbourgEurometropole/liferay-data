@@ -348,6 +348,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					ATTRIBUTE_IS_USER_PARTICIPATE, 
 					publikUserId != "" ? event.isUserParticipate(publikUserId) : false
 				);
+				
+				jsonResponse.put(jsonEvent);
 			}
 			
 			/**
@@ -417,7 +419,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
 				
 				// TODO : Mettre en place les éléments de retranscription JSON d'une pétition
-				/**
 				JSONObject jsonPetition = petition.toJSON();
 				
 				jsonPetition.put(
@@ -430,7 +431,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 				
 				jsonResponse.put(jsonPetition);
-				*/
 			}
 			
 			/**

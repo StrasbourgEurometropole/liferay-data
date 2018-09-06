@@ -134,7 +134,8 @@ function createParticipationThumbnail(participation) {
     	case "soon_arrived" :
 	        footerContent = 
 	            '<div class="pro-footer-participation pro-participation-soon">' + 
-	                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
+	                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span>' +
+	                '<span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
 	                '<p>Bientôt disponible</p>' +
 	            '</div>';
 	        break;
@@ -201,23 +202,31 @@ function createParticipationThumbnail(participation) {
  */
 function createPetitionThumbnail(petition) {
 	var petitionThumbnail =
-			'<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
-			    '<div class="pro-header-petition">' +
-			        '<figure role="group"></figure> ' +
-			        '<p>Pétition publiée par :</p><p><strong>' + petition.author + '</strong></p>' +
-			    '</div>' +
-			    '<div class="pro-content-petition">' +
-			        '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
-			        '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + petition.publishDate + '</time> / ' +
-			        '<span class="pro-duree">' + petition.durationLabel + '</span></span>' +
-			    '</div> ' +
-			    '<div class="pro-footer-petition">' +
-			        '<div class="pro-progress-bar">' +
-			            '<div class="pro-progress-container"><div style="width:' + petition.progress +'%"></div>' +
+			'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+			    '<div class="item pro-bloc-card-petition" data-linkall="a">' +
+			        '<div class="pro-header-petition">' +
+			            '<figure role="group">' +
+			                '<img src="' + petition.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+			            '</figure>' +
+			            '<p>Pétition publiée par :</p>' +
+			            '<p><strong>' + petition.userName + '</strong></p>' +
 			        '</div>' +
-			        '<p class="pro-txt-progress"><strong>' + petition.nbSub + '</strong> Signataire(s) sur ' + petition.nbGoal + ' nécessaires</p> ' +
+			        '<div class="pro-content-petition">' +
+			            '<a href="' + petition.link + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
+			            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + petition.createDate + '</time>' +
+			            '/ <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+			        '</div>' +
+			        '<div class="pro-footer-petition">' +
+			            '<div class="pro-progress-bar">' +
+			                '<div class="pro-progress-container">' +
+			                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
+			                '</div>
+			                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + 
+			                '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
+			            '</div>' +
+			        '</div>' +
 			    '</div>' +
-			'</div></a></div>';
+			'</div>;
 
 	addThumbnail(petitionThumbnail);
 }
@@ -347,6 +356,16 @@ $('#dynamic-search-submit').click(function(event) {
  * Lors d'une modification de la valeur du champ texte de recherche
  */
 $('input[name=dynamic-search-keywords]').on("change paste keyup", function(event) {
+	// Si la recherche dynamique est configurée et que l'utilisateur a au moins selectionné trois caractères
+	if (dynamicSearch && $(this).val().length > 2) {
+		searchRequest();
+	}
+});
+
+/**
+ * Lors d'une selection d'entité
+ */
+$("input[id^='dynamic_search_type_']").change(function(event) {
 	// Si la recherche dynamique est configurée et que l'utilisateur a au moins selectionné trois caractères
 	if (dynamicSearch && $(this).val().length > 2) {
 		searchRequest();
