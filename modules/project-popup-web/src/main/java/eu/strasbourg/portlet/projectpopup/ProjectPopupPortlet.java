@@ -100,7 +100,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
             request.setAttribute("quartiers", districts);
             request.setAttribute("thematics", thematics);
             request.setAttribute("projects", projects);
-            request.setAttribute("entryID", entryID);
+            request.setAttribute("entryId", entryID);
             request.setAttribute("userConnected",user);
 
         } catch (Exception e) {

@@ -1,5 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
-<portlet:actionURL var="signPetition" name="signPetition">
+<portlet:actionURL var="signPetitionURL" name="signPetition">
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
@@ -12,7 +12,7 @@
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
-            <form id="form-sign-petition" method="post" action="${signPetition}">
+            <form id="form-sign-petition" method="post" action="${signPetitionURL}">
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
                         <p><liferay-ui:message key="modal.signpetition.information"/></p>
@@ -29,7 +29,7 @@
 				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.firstName}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
-				            <aui:input id="signbirthday" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
+				            <aui:input id="signbirthday" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -41,34 +41,36 @@
 				                <aui:input id="signcity" name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
+                                <aui:input id="signpostalcode" name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
                             </div>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                                <aui:input name="mail" disabled="true" label="modal.user.mail"  required="true" value="${userConnected.email}"/>
+                                <aui:input id="signmail" name="mail" disabled="true" label="modal.user.mail"  required="true" value="${userConnected.email}"/>
                         </div>
                         <div class="form-group form-half">
-                                <aui:input name="phone" label="modal.user.phone" required="true" placeholder="0611111111"/>
+                                <aui:input id="signphone" name="phone" label="modal.user.phone" required="true" placeholder="0611111111"/>
                         </div>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="legalage" value="legalage">
-                        <label for="legalage"><liferay-ui:message key="modal.legalage"/></label>
+                        <input type="checkbox" id="signlegalage" value="legalage">
+                        <label for="signlegalage"><liferay-ui:message key="modal.legalage"/></label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="cnil" value="cnil">
-                        <label for="cnil"><liferay-ui:message key="modal.cnil"/></label>
+                        <input type="checkbox" id="signcnil" value="cnil">
+                        <label for="signcnil"><liferay-ui:message key="modal.cnil"/></label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
                     <p><i><liferay-ui:message key="modal.signpetition.condition"/></i></p>
                 </div>
+                <input type="hidden" name="<portlet:namespace />entryId" value="${entryId}"/>
+                <div id="signalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <div class="pro-form-submit">
                     <button id="sendSign" type="submit" class="btn btn-default"><liferay-ui:message key="modal.signpetition.submit"/></button>
                 </div>
@@ -80,9 +82,10 @@
 <script type="text/javascript">
     var namespace = "<portlet:namespace />";
     $("#sendSign").click(function(event){
+        event.preventDefault();
     var response = validateForm();
     if (response){
-        event.preventDefault();
+        $("#form-sign-petition").submit();
     }
     });
 
@@ -90,19 +93,49 @@
 
     function validateForm()
     {
+        var result = true;
         var birthday = $("#"+namespace+"signbirthday").val();
         var city = $("#"+namespace+"signcity").val();
+        var address = $("#"+namespace+"signaddress").val();
+        var postalcode = $("#"+namespace+"signpostalcode").val();
+        var phone = $("#"+namespace+"signphone").val();
+        var signlegalage = $("#signlegalage").is(":checked");
+        var signcnil = $("#signcnil").is(":checked");
 
-        if (birthday==null || birthday=="")
-        {
-            $("#signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
-            return false;
-        }
-        if (city==null || city=="")
-        {
-            $("#signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
-            return false;
-        }
+        if (birthday==null || birthday==""){
+            $("#"+namespace+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"signbirthday").css({ "box-shadow" : "" });
 
+        if (city==null || city==""){
+            $("#"+namespace+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"signcity").css({ "box-shadow" : "" });
+
+        if (address==null || address==""){
+            $("#"+namespace+"signaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"signaddress").css({ "box-shadow" : "" });
+
+        if (postalcode==null || postalcode==""){
+            $("#"+namespace+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"signpostalcode").css({ "box-shadow" : "" });
+
+        if (phone==null || phone==""){
+            $("#"+namespace+"signphone").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"signphone").css({ "box-shadow" : "" });
+
+        if (!signlegalage)
+            result = false;
+
+        if (!signcnil)
+            result = false;
+
+        if (!result)
+            $("#signalert").removeClass("hidden");
+        else $("#signalert").addClass("hidden");
+        return result;
     }
 </script>
