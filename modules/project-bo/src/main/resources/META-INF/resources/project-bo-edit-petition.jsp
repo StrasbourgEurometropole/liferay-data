@@ -165,12 +165,6 @@
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
 				<aui:input name="tags" type="assetTags" />
 
-				<div class="form-group input-int-wrapper">
-                    <label class="control-label"> <liferay-ui:message key="status" /> </label>
-                    <input class="field disabled form-control lfr-input-text" disabled="disabled" id="_eu_strasbourg_portlet_project_ProjectBOPortlet_status" name="_eu_strasbourg_portlet_project_ProjectBOPortlet_status"
-                           style="" type="text" value="${dc.petition.petitionStatus}" maxlength="75" aria-describedby="">
-                </div>
-
 			</aui:fieldset>
 
             <%-- Groupe de champs : Autre --%>
