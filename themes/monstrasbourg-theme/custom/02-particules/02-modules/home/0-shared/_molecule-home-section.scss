@@ -69,3 +69,14 @@
         }
     }
 }
+
+.home-section {
+    @extend %molecule-home-section;
+    margin-bottom: 40px;
+
+    .rte {
+        font-size: 1.8rem;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+    }
+}

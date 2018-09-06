@@ -17,6 +17,10 @@ $(function() {
                 }
             }
         );
+        if (!window.userFavorites) {
+            window.userFavorite = [];
+        }
+        window.userFavorites.push(favoriteToAdd);
     }
 
     // On parcourt les favoris utilisateurs et on modfie les boutons correspondant sur la page
@@ -128,23 +132,24 @@ $(function() {
         }
 
         // On met à jour window.userFavorites
-        var userId = window.publikInternalId;
-        Liferay.Service(
-            '/favorite.favorite/get-user-favorites', {
-                userId: userId
-            },
-            function(obj) {
-                var json = '[';
-                    obj.favorites.forEach(function(favorite, index){
-                      json  += '{"entityId":' + favorite.entityId + ',"typeId": ' + favorite.typeId +'}';
-                       if (obj.favorites[index + 1]){
-                            json  += ',';
-                       }
-                    }); 
-                json  += ']'; console.log(json);
-                window.userFavorites = JSON.parse(json);
+        var userFavorites = [];
+        var isNewFavorite = true;
+        for (var i = 0; i < window.userFavorites.length; i++) {
+            var favorite = window.userFavorites[i];
+            if (favorite.entityId !== id) {
+                userFavorites.push(favorite);
+            } else {
+                isNewFavorite = false;
             }
-        );
+        }
+        if (isNewFavorite) {
+            var newFavorite = {
+                entityId: id,
+                typeId: type
+            };
+            userFavorites.push(newFavorite);
+        }
+        window.userFavorites = userFavorites;
 
         // On modfie les boutons correspondant sur la page
         var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
