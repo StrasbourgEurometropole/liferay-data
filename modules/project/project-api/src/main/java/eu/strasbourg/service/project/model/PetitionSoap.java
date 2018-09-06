@@ -53,6 +53,14 @@ public class PetitionSoap implements Serializable {
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 		soapModel.setQuotaSignature(model.getQuotaSignature());
+		soapModel.setPetitionnaireLastname(model.getPetitionnaireLastname());
+		soapModel.setPetitionnaireFirstname(model.getPetitionnaireFirstname());
+		soapModel.setPetitionnaireBirthday(model.getPetitionnaireBirthday());
+		soapModel.setPetitionnaireAdresse(model.getPetitionnaireAdresse());
+		soapModel.setPetitionnairePostalCode(model.getPetitionnairePostalCode());
+		soapModel.setPetitionnaireCity(model.getPetitionnaireCity());
+		soapModel.setPetitionnairePhone(model.getPetitionnairePhone());
+		soapModel.setPetitionnaireEmail(model.getPetitionnaireEmail());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
@@ -265,6 +273,70 @@ public class PetitionSoap implements Serializable {
 		_quotaSignature = quotaSignature;
 	}
 
+	public String getPetitionnaireLastname() {
+		return _petitionnaireLastname;
+	}
+
+	public void setPetitionnaireLastname(String petitionnaireLastname) {
+		_petitionnaireLastname = petitionnaireLastname;
+	}
+
+	public String getPetitionnaireFirstname() {
+		return _petitionnaireFirstname;
+	}
+
+	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
+		_petitionnaireFirstname = petitionnaireFirstname;
+	}
+
+	public Date getPetitionnaireBirthday() {
+		return _petitionnaireBirthday;
+	}
+
+	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
+		_petitionnaireBirthday = petitionnaireBirthday;
+	}
+
+	public String getPetitionnaireAdresse() {
+		return _petitionnaireAdresse;
+	}
+
+	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
+		_petitionnaireAdresse = petitionnaireAdresse;
+	}
+
+	public long getPetitionnairePostalCode() {
+		return _petitionnairePostalCode;
+	}
+
+	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
+		_petitionnairePostalCode = petitionnairePostalCode;
+	}
+
+	public String getPetitionnaireCity() {
+		return _petitionnaireCity;
+	}
+
+	public void setPetitionnaireCity(String petitionnaireCity) {
+		_petitionnaireCity = petitionnaireCity;
+	}
+
+	public String getPetitionnairePhone() {
+		return _petitionnairePhone;
+	}
+
+	public void setPetitionnairePhone(String petitionnairePhone) {
+		_petitionnairePhone = petitionnairePhone;
+	}
+
+	public String getPetitionnaireEmail() {
+		return _petitionnaireEmail;
+	}
+
+	public void setPetitionnaireEmail(String petitionnaireEmail) {
+		_petitionnaireEmail = petitionnaireEmail;
+	}
+
 	public String getVideoUrl() {
 		return _videoUrl;
 	}
@@ -352,6 +424,14 @@ public class PetitionSoap implements Serializable {
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _quotaSignature;
+	private String _petitionnaireLastname;
+	private String _petitionnaireFirstname;
+	private Date _petitionnaireBirthday;
+	private String _petitionnaireAdresse;
+	private long _petitionnairePostalCode;
+	private String _petitionnaireCity;
+	private String _petitionnairePhone;
+	private String _petitionnaireEmail;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

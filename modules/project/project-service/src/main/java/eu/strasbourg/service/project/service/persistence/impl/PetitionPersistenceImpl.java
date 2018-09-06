@@ -2977,6 +2977,14 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setPublicationDate(petition.getPublicationDate());
 		petitionImpl.setExpirationDate(petition.getExpirationDate());
 		petitionImpl.setQuotaSignature(petition.getQuotaSignature());
+		petitionImpl.setPetitionnaireLastname(petition.getPetitionnaireLastname());
+		petitionImpl.setPetitionnaireFirstname(petition.getPetitionnaireFirstname());
+		petitionImpl.setPetitionnaireBirthday(petition.getPetitionnaireBirthday());
+		petitionImpl.setPetitionnaireAdresse(petition.getPetitionnaireAdresse());
+		petitionImpl.setPetitionnairePostalCode(petition.getPetitionnairePostalCode());
+		petitionImpl.setPetitionnaireCity(petition.getPetitionnaireCity());
+		petitionImpl.setPetitionnairePhone(petition.getPetitionnairePhone());
+		petitionImpl.setPetitionnaireEmail(petition.getPetitionnaireEmail());
 		petitionImpl.setVideoUrl(petition.getVideoUrl());
 		petitionImpl.setExternalImageURL(petition.getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(petition.getExternalImageCopyright());

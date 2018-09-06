@@ -16,10 +16,10 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
                     <div class="form-group">
-                        <aui:input name="title" label="modal.filepetition.information.title" required="true"/>
+                        <aui:input id="petitiontitle" name="title" label="modal.filepetition.information.title" required="true"/>
                     </div>
                     <div class="form-group">
-                        <aui:input type="textarea" name="description" label="modal.filepetition.information.description" required="true"/>
+                        <aui:input id="petitiondescription" type="textarea" name="description" label="modal.filepetition.information.description" required="true"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-triple">
@@ -126,6 +126,8 @@
     function validateForm()
     {
         var result = true;
+        var petitiontitle = $("#"+namespace+"petitiontitle").val();
+        var petitiondescription = $("#"+namespace+"petitiondescription").val();
         var birthday = $("#"+namespace+"birthday").val();
         var city = $("#"+namespace+"city").val();
         var address = $("#"+namespace+"address").val();
@@ -133,6 +135,16 @@
         var phone = $("#"+namespace+"phone").val();
         var legalage = $("#file-petition-legalage").is(":checked");
         var cnil = $("#file-petition-cnil").is(":checked");
+
+        if (petitiontitle==null || petitiontitle==""){
+            $("#"+namespace+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"petitiontitle").css({ "box-shadow" : "" });
+
+        if (petitiondescription==null || petitiondescription==""){
+            $("#"+namespace+"petitiondescription").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"petitiondescription").css({ "box-shadow" : "" });
 
         if (birthday==null || birthday==""){
             $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });

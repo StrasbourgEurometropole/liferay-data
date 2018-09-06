@@ -58,7 +58,6 @@ public class signPetitionActionCommand implements MVCActionCommand {
         //test
         if ("signPetition".equals(action)) {
             long entryID = ParamUtil.getLong(request, "entryId");
-            String test = ParamUtil.getString(request, "username");
             if (entryID == 0)
                 throw new PortletException("Une erreur est survenue avec cette pétition");
             String publikID = getPublikID(request);
@@ -132,7 +131,6 @@ public class signPetitionActionCommand implements MVCActionCommand {
         String address = ParamUtil.getString(actionRequest, "address");
         String city = ParamUtil.getString(actionRequest, "city");
         long postalcode = ParamUtil.getLong(actionRequest, "postalcode");
-        String mail = ParamUtil.getString(actionRequest, "mail");
         String phone = ParamUtil.getString(actionRequest, "phone");
         Petition petition = null;
         ServiceContext sc = null;
@@ -159,11 +157,11 @@ public class signPetitionActionCommand implements MVCActionCommand {
             signataire.setPostalCode(postalcode);
             signataire.setCity(city);
             signataire.setPublikUserId(user.getPublikId());
-            signataire.setMail(mail);
+            signataire.setMail(user.getEmail());
             signataire.setMobilePhone(phone);
             signataire.setPhone(phone);
             signataire.setPetitionId(petition.getPetitionId());
-            signataire = SignataireLocalServiceUtil.addSignataire(signataire);
+            signataire = SignataireLocalServiceUtil.updateSignataire(signataire);
             _log.info("Signataire : "+signataire);
             return true;
         }else return false;

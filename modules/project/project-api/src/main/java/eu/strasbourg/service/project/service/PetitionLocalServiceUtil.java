@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -381,11 +379,6 @@ public class PetitionLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return getService().findByKeywordCount(keyword, groupId);
-	}
-
-	public static void addSignataires(
-		eu.strasbourg.service.project.model.Petition petition, int numberToAdd) {
-		getService().addSignataires(petition, numberToAdd);
 	}
 
 	public static void updateAllPetitionsStatus()

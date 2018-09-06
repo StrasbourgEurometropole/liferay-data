@@ -106,6 +106,14 @@
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 		<property name="quotaSignature" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="petitionnaireLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnaireFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnaireBirthday" type="org.hibernate.type.TimestampType" />
+		<property name="petitionnaireAdresse" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnairePostalCode" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="petitionnaireCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnairePhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnaireEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />

@@ -78,6 +78,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
+		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
+		attributes.put("petitionnaireFirstname", getPetitionnaireFirstname());
+		attributes.put("petitionnaireBirthday", getPetitionnaireBirthday());
+		attributes.put("petitionnaireAdresse", getPetitionnaireAdresse());
+		attributes.put("petitionnairePostalCode", getPetitionnairePostalCode());
+		attributes.put("petitionnaireCity", getPetitionnaireCity());
+		attributes.put("petitionnairePhone", getPetitionnairePhone());
+		attributes.put("petitionnaireEmail", getPetitionnaireEmail());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -204,6 +212,59 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (quotaSignature != null) {
 			setQuotaSignature(quotaSignature);
+		}
+
+		String petitionnaireLastname = (String)attributes.get(
+				"petitionnaireLastname");
+
+		if (petitionnaireLastname != null) {
+			setPetitionnaireLastname(petitionnaireLastname);
+		}
+
+		String petitionnaireFirstname = (String)attributes.get(
+				"petitionnaireFirstname");
+
+		if (petitionnaireFirstname != null) {
+			setPetitionnaireFirstname(petitionnaireFirstname);
+		}
+
+		Date petitionnaireBirthday = (Date)attributes.get(
+				"petitionnaireBirthday");
+
+		if (petitionnaireBirthday != null) {
+			setPetitionnaireBirthday(petitionnaireBirthday);
+		}
+
+		String petitionnaireAdresse = (String)attributes.get(
+				"petitionnaireAdresse");
+
+		if (petitionnaireAdresse != null) {
+			setPetitionnaireAdresse(petitionnaireAdresse);
+		}
+
+		Long petitionnairePostalCode = (Long)attributes.get(
+				"petitionnairePostalCode");
+
+		if (petitionnairePostalCode != null) {
+			setPetitionnairePostalCode(petitionnairePostalCode);
+		}
+
+		String petitionnaireCity = (String)attributes.get("petitionnaireCity");
+
+		if (petitionnaireCity != null) {
+			setPetitionnaireCity(petitionnaireCity);
+		}
+
+		String petitionnairePhone = (String)attributes.get("petitionnairePhone");
+
+		if (petitionnairePhone != null) {
+			setPetitionnairePhone(petitionnairePhone);
+		}
+
+		String petitionnaireEmail = (String)attributes.get("petitionnaireEmail");
+
+		if (petitionnaireEmail != null) {
+			setPetitionnaireEmail(petitionnaireEmail);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -648,6 +709,66 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the petitionnaire adresse of this petition.
+	*
+	* @return the petitionnaire adresse of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireAdresse() {
+		return _petition.getPetitionnaireAdresse();
+	}
+
+	/**
+	* Returns the petitionnaire city of this petition.
+	*
+	* @return the petitionnaire city of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireCity() {
+		return _petition.getPetitionnaireCity();
+	}
+
+	/**
+	* Returns the petitionnaire email of this petition.
+	*
+	* @return the petitionnaire email of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireEmail() {
+		return _petition.getPetitionnaireEmail();
+	}
+
+	/**
+	* Returns the petitionnaire firstname of this petition.
+	*
+	* @return the petitionnaire firstname of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireFirstname() {
+		return _petition.getPetitionnaireFirstname();
+	}
+
+	/**
+	* Returns the petitionnaire lastname of this petition.
+	*
+	* @return the petitionnaire lastname of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireLastname() {
+		return _petition.getPetitionnaireLastname();
+	}
+
+	/**
+	* Returns the petitionnaire phone of this petition.
+	*
+	* @return the petitionnaire phone of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnairePhone() {
+		return _petition.getPetitionnairePhone();
+	}
+
+	/**
 	* Returns the place text area of this petition.
 	*
 	* @return the place text area of this petition
@@ -785,6 +906,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public Date getModifiedDate() {
 		return _petition.getModifiedDate();
+	}
+
+	/**
+	* Returns the petitionnaire birthday of this petition.
+	*
+	* @return the petitionnaire birthday of this petition
+	*/
+	@Override
+	public Date getPetitionnaireBirthday() {
+		return _petition.getPetitionnaireBirthday();
 	}
 
 	/**
@@ -944,6 +1075,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public long getPetitionId() {
 		return _petition.getPetitionId();
+	}
+
+	/**
+	* Returns the petitionnaire postal code of this petition.
+	*
+	* @return the petitionnaire postal code of this petition
+	*/
+	@Override
+	public long getPetitionnairePostalCode() {
+		return _petition.getPetitionnairePostalCode();
 	}
 
 	/**
@@ -1167,6 +1308,87 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setPetitionId(long petitionId) {
 		_petition.setPetitionId(petitionId);
+	}
+
+	/**
+	* Sets the petitionnaire adresse of this petition.
+	*
+	* @param petitionnaireAdresse the petitionnaire adresse of this petition
+	*/
+	@Override
+	public void setPetitionnaireAdresse(java.lang.String petitionnaireAdresse) {
+		_petition.setPetitionnaireAdresse(petitionnaireAdresse);
+	}
+
+	/**
+	* Sets the petitionnaire birthday of this petition.
+	*
+	* @param petitionnaireBirthday the petitionnaire birthday of this petition
+	*/
+	@Override
+	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
+		_petition.setPetitionnaireBirthday(petitionnaireBirthday);
+	}
+
+	/**
+	* Sets the petitionnaire city of this petition.
+	*
+	* @param petitionnaireCity the petitionnaire city of this petition
+	*/
+	@Override
+	public void setPetitionnaireCity(java.lang.String petitionnaireCity) {
+		_petition.setPetitionnaireCity(petitionnaireCity);
+	}
+
+	/**
+	* Sets the petitionnaire email of this petition.
+	*
+	* @param petitionnaireEmail the petitionnaire email of this petition
+	*/
+	@Override
+	public void setPetitionnaireEmail(java.lang.String petitionnaireEmail) {
+		_petition.setPetitionnaireEmail(petitionnaireEmail);
+	}
+
+	/**
+	* Sets the petitionnaire firstname of this petition.
+	*
+	* @param petitionnaireFirstname the petitionnaire firstname of this petition
+	*/
+	@Override
+	public void setPetitionnaireFirstname(
+		java.lang.String petitionnaireFirstname) {
+		_petition.setPetitionnaireFirstname(petitionnaireFirstname);
+	}
+
+	/**
+	* Sets the petitionnaire lastname of this petition.
+	*
+	* @param petitionnaireLastname the petitionnaire lastname of this petition
+	*/
+	@Override
+	public void setPetitionnaireLastname(java.lang.String petitionnaireLastname) {
+		_petition.setPetitionnaireLastname(petitionnaireLastname);
+	}
+
+	/**
+	* Sets the petitionnaire phone of this petition.
+	*
+	* @param petitionnairePhone the petitionnaire phone of this petition
+	*/
+	@Override
+	public void setPetitionnairePhone(java.lang.String petitionnairePhone) {
+		_petition.setPetitionnairePhone(petitionnairePhone);
+	}
+
+	/**
+	* Sets the petitionnaire postal code of this petition.
+	*
+	* @param petitionnairePostalCode the petitionnaire postal code of this petition
+	*/
+	@Override
+	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
+		_petition.setPetitionnairePostalCode(petitionnairePostalCode);
 	}
 
 	/**

@@ -284,6 +284,16 @@
         <column name="expirationDate" type="Date" />
         <column name="quotaSignature" type="long" />
 
+		<!-- main fields -->
+		<column name="petitionnaireLastname" type="String" />
+		<column name="petitionnaireFirstname" type="String" />
+		<column name="petitionnaireBirthday" type="Date" />
+		<column name="petitionnaireAdresse" type="String" />
+		<column name="petitionnairePostalCode" type="long" />
+		<column name="petitionnaireCity" type="String" />
+		<column name="petitionnairePhone" type="String" />
+		<column name="petitionnaireEmail" type="String" />
+
         <!-- Medias -->
         <column name="videoUrl" type="String" />
         <column name="externalImageURL" type="String" />
