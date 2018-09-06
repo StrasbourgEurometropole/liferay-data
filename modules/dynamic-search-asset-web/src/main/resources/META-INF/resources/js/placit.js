@@ -220,13 +220,13 @@ function createPetitionThumbnail(petition) {
 			            '<div class="pro-progress-bar">' +
 			                '<div class="pro-progress-container">' +
 			                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
-			                '</div>
+			                '</div>' +
 			                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + 
 			                '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
 			            '</div>' +
 			        '</div>' +
 			    '</div>' +
-			'</div>;
+			'</div>';
 
 	addThumbnail(petitionThumbnail);
 }
