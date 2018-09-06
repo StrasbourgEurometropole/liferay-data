@@ -16,13 +16,10 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -69,13 +66,6 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
         Map<Locale, String> descriptionFieldMap = new HashMap<>();
         descriptionFieldMap.put(Locale.FRANCE, petition.getDescription());
 
-        Date publicationDate = petition.getPublicationDate();
-        Date expirationDate = petition.getExpirationDate();
-        List<Date> dates = new ArrayList<>(DateHelper.getDaysBetweenDates(publicationDate, expirationDate));
-
-        document.addDateSortable("dates", dates.toArray(new Date[0]));
-        document.addDateSortable("publicationDate", publicationDate);
-        document.addDateSortable("expirationDate", expirationDate);
         document.addLocalizedText(Field.TITLE, titleFieldMap);
         document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
         document.addNumber(Field.STATUS, petition.getStatus());
