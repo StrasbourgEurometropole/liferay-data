@@ -62,7 +62,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -102,6 +102,22 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(expirationDate);
 		sb.append(", quotaSignature=");
 		sb.append(quotaSignature);
+		sb.append(", petitionnaireLastname=");
+		sb.append(petitionnaireLastname);
+		sb.append(", petitionnaireFirstname=");
+		sb.append(petitionnaireFirstname);
+		sb.append(", petitionnaireBirthday=");
+		sb.append(petitionnaireBirthday);
+		sb.append(", petitionnaireAdresse=");
+		sb.append(petitionnaireAdresse);
+		sb.append(", petitionnairePostalCode=");
+		sb.append(petitionnairePostalCode);
+		sb.append(", petitionnaireCity=");
+		sb.append(petitionnaireCity);
+		sb.append(", petitionnairePhone=");
+		sb.append(petitionnairePhone);
+		sb.append(", petitionnaireEmail=");
+		sb.append(petitionnaireEmail);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -221,6 +237,58 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		petitionImpl.setQuotaSignature(quotaSignature);
 
+		if (petitionnaireLastname == null) {
+			petitionImpl.setPetitionnaireLastname(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireLastname(petitionnaireLastname);
+		}
+
+		if (petitionnaireFirstname == null) {
+			petitionImpl.setPetitionnaireFirstname(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireFirstname(petitionnaireFirstname);
+		}
+
+		if (petitionnaireBirthday == Long.MIN_VALUE) {
+			petitionImpl.setPetitionnaireBirthday(null);
+		}
+		else {
+			petitionImpl.setPetitionnaireBirthday(new Date(
+					petitionnaireBirthday));
+		}
+
+		if (petitionnaireAdresse == null) {
+			petitionImpl.setPetitionnaireAdresse(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireAdresse(petitionnaireAdresse);
+		}
+
+		petitionImpl.setPetitionnairePostalCode(petitionnairePostalCode);
+
+		if (petitionnaireCity == null) {
+			petitionImpl.setPetitionnaireCity(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireCity(petitionnaireCity);
+		}
+
+		if (petitionnairePhone == null) {
+			petitionImpl.setPetitionnairePhone(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnairePhone(petitionnairePhone);
+		}
+
+		if (petitionnaireEmail == null) {
+			petitionImpl.setPetitionnaireEmail(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireEmail(petitionnaireEmail);
+		}
+
 		if (videoUrl == null) {
 			petitionImpl.setVideoUrl(StringPool.BLANK);
 		}
@@ -300,6 +368,15 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		expirationDate = objectInput.readLong();
 
 		quotaSignature = objectInput.readLong();
+		petitionnaireLastname = objectInput.readUTF();
+		petitionnaireFirstname = objectInput.readUTF();
+		petitionnaireBirthday = objectInput.readLong();
+		petitionnaireAdresse = objectInput.readUTF();
+
+		petitionnairePostalCode = objectInput.readLong();
+		petitionnaireCity = objectInput.readUTF();
+		petitionnairePhone = objectInput.readUTF();
+		petitionnaireEmail = objectInput.readUTF();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
@@ -386,6 +463,52 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		objectOutput.writeLong(quotaSignature);
 
+		if (petitionnaireLastname == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireLastname);
+		}
+
+		if (petitionnaireFirstname == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireFirstname);
+		}
+
+		objectOutput.writeLong(petitionnaireBirthday);
+
+		if (petitionnaireAdresse == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireAdresse);
+		}
+
+		objectOutput.writeLong(petitionnairePostalCode);
+
+		if (petitionnaireCity == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireCity);
+		}
+
+		if (petitionnairePhone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnairePhone);
+		}
+
+		if (petitionnaireEmail == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireEmail);
+		}
+
 		if (videoUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -452,6 +575,14 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public long publicationDate;
 	public long expirationDate;
 	public long quotaSignature;
+	public String petitionnaireLastname;
+	public String petitionnaireFirstname;
+	public long petitionnaireBirthday;
+	public String petitionnaireAdresse;
+	public long petitionnairePostalCode;
+	public String petitionnaireCity;
+	public String petitionnairePhone;
+	public String petitionnaireEmail;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;

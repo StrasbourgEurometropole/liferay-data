@@ -120,6 +120,14 @@
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 		<field name="quotaSignature" type="long" />
+		<field name="petitionnaireLastname" type="String" />
+		<field name="petitionnaireFirstname" type="String" />
+		<field name="petitionnaireBirthday" type="Date" />
+		<field name="petitionnaireAdresse" type="String" />
+		<field name="petitionnairePostalCode" type="long" />
+		<field name="petitionnaireCity" type="String" />
+		<field name="petitionnairePhone" type="String" />
+		<field name="petitionnaireEmail" type="String" />
 		<field name="videoUrl" type="String" />
 		<field name="externalImageURL" type="String">
 			<hint name="max-length">400</hint>

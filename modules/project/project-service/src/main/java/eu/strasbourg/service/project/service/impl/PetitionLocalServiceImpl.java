@@ -366,7 +366,4 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return petitionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
-	public void addSignataires(Petition petition, int numberToAdd){
-
-    }
 }
