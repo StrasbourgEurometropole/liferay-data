@@ -56,17 +56,13 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 	public void processAction(PortletConfig portletConfig,
 		ActionRequest request, ActionResponse response) throws Exception {
 		
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		String cmd = ParamUtil.getString(request, "cmd");
 		
 		if (cmd.equals("update")) {
 			
-			// CHAMP : ClassNamesIds et LayoutsFriendlyURLs
+			// CHAMP : ClassNamesIds
 			String assetClassNamesIdsString = "";
-			String layoutsFriendlyURLs = "";
 			long assetClassNamesCount = ParamUtil.getLong(request, "assetClassNamesCount");
-			
-			int j = 0;
 			
 			for (long i = 0; i < assetClassNamesCount; i++) {
 				String assetClassNameIdString = ParamUtil.getString(request, "assetClassNameId_" + i);
@@ -79,27 +75,10 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 						assetClassNamesIdsString += ",";
 					}
 					assetClassNamesIdsString += assetClassNameIdString;
-
-					// Et la friendlyURL du layout de détail correspondant
-					String layoutFriendlyURL = ParamUtil.getString(request, "layoutFriendlyURL_" + i);
-					
-//					// Si la friendlyURL ne correspond pas à un layout, on renvoie une erreur
-//					if (LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
-//							themeDisplay.getScopeGroupId(), false, layoutFriendlyURL) == null) {
-//						SessionErrors.add(request, "wrong-friendly-url");
-//						return;
-//					}
-					
-					if (j > 0) {
-						layoutsFriendlyURLs += ",";
-					}
-					layoutsFriendlyURLs += layoutFriendlyURL;
-					j++;
 				}
 			}
 			
 			setPreference(request, "assetClassNamesIds", assetClassNamesIdsString);
-			setPreference(request, "layoutsFriendlyURLs", layoutsFriendlyURLs);
 			
 			// CHAMP : ClassNames
 			String assetClassNames = "";
@@ -186,6 +165,10 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			Long dateRangeTo = ParamUtil.getLong(request, "dateRangeTo");
 			setPreference(request, "dateRangeFrom", String.valueOf(dateRangeFrom));
 			setPreference(request, "dateRangeTo", String.valueOf(dateRangeTo));
+			
+			// CHAMP : Recherche dynamique (au fur et à mesure de l'écriture)
+			Boolean dynamicSearch = ParamUtil.getBoolean(request, "dynamicSearch", false);
+			setPreference(request, "dynamicSearch", String.valueOf(dynamicSearch));
 		}
 		
 		super.processAction(portletConfig, request, response);
@@ -239,10 +222,6 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			boolean searchDocument = ParamUtil.getBoolean(request, "searchDocument", configuration.searchDocument());
 			request.setAttribute("searchDocument", searchDocument);
 			
-			// Layouts
-			String[] layoutsFriendlyURLs = configuration.layoutsFriendlyURLs().split(",");
-			request.setAttribute("layoutsFriendlyURLs", layoutsFriendlyURLs);
-			
 			// Scope global
 			boolean globalScope = ParamUtil.getBoolean(request, "globalScope", configuration.globalScope());
 			request.setAttribute("globalScope", globalScope);
@@ -276,6 +255,10 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			// Boost tags
 			String boostTagsNames = configuration.boostTagsNames();
 			request.setAttribute("boostTagsNames", boostTagsNames);
+			
+			// Recherche dynamique (au fur et à mesure de l'écriture)
+			Boolean dynamicSearch = configuration.dynamicSearch();
+			request.setAttribute("dynamicSearch", dynamicSearch);
 			
 
 		} catch (ConfigurationException e) {

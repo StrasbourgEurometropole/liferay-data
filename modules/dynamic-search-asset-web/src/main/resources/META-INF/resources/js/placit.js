@@ -308,11 +308,9 @@ function updateResultThumbnails() {
 }
 
 /**
- * Lors d'une soumission de formulaire de recherche dynamique
+ * Lance la recherche en AJAX et demande la mise à jour de l'affichage
  */
-$('#dynamic-search-submit').click(function(event) {
-	
-	event.preventDefault();
+function searchRequest() {
 	
 	var selectedClassNames = getSelectedClassNames();
 	var keywords = $("input[name='dynamic-search-keywords']").val();
@@ -334,4 +332,23 @@ $('#dynamic-search-submit').click(function(event) {
 			}
 		});
 	});
+	
+}
+
+/**
+ * Lors d'une soumission de formulaire de recherche dynamique
+ */
+$('#dynamic-search-submit').click(function(event) {
+	event.preventDefault();
+	searchRequest();
+});
+
+/**
+ * Lors d'une modification de la valeur du champ texte de recherche
+ */
+$('input[name=dynamic-search-keywords]').on("change paste keyup", function(event) {
+	// Si la recherche dynamique est configurée et que l'utilisateur a au moins selectionné trois caractères
+	if (dynamicSearch && $(this).val().length > 2) {
+		searchRequest();
+	}
 });

@@ -21,9 +21,6 @@ public interface DynamicSearchAssetConfiguration {
 	@Meta.AD(name = "assetClassNames", required = false)
 	public String assetClassNames();
 	
-	@Meta.AD(name = "layoutsFriendlyURLs", required = false)
-	public String layoutsFriendlyURLs();
-	
 	@Meta.AD(name = "searchNews", required = false)
 	public boolean searchNews();
 	
@@ -56,5 +53,8 @@ public interface DynamicSearchAssetConfiguration {
 	
 	@Meta.AD(name = "dateRangeTo", required = false, deflt = "60")
 	public long dateRangeTo();
+	
+	@Meta.AD(name = "dynamicSearch", required = false)
+	public boolean dynamicSearch();
 	
 }

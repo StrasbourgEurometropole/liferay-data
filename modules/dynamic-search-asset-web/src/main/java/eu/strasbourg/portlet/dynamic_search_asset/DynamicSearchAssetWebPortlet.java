@@ -129,6 +129,10 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			String searchForm = configuration.searchForm();
 			request.setAttribute("searchForm", searchForm);
 			
+			// Recuperation du type de recherche
+			Boolean dynamicSearch = configuration.dynamicSearch();
+			request.setAttribute("dynamicSearch", dynamicSearch);
+			
 			// Recuperation des classes demandees
 			List<String> classNames = this.getConfiguredClassNames();
 			request.setAttribute("classNames", classNames);

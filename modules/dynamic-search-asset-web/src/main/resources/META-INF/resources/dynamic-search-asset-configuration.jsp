@@ -5,8 +5,6 @@
 <liferay-portlet:actionURL portletConfiguration="true" varImpl="configurationActionURL" />
 
 <div class="container-fluid-1280 main-content-body">
-
-	<liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
 	
 	<aui:form action="${configurationActionURL}" method="post" name="fm" >
 		
@@ -34,11 +32,6 @@
 								label="<%= ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) %>"
 								checked="${classNameIsChecked}"
 								value="${assetRendererFactory.classNameId}" inlineField="true" />
-
-							<aui:input type="text"
-								placeholder="detail-friendly-url"
-								name="layoutFriendlyURL_${assetStatus.index}" inlineField="true"
-								value="${classNameIsChecked ? layoutsFriendlyURLs[i] : ''}" />
 
 							<c:if test="${classNameIsChecked}">
 								<c:set var="i" value="${i + 1}" />
@@ -142,6 +135,17 @@
 						<liferay-ui:message key="placit" />
 					</aui:option>
 				</aui:select>
+				
+			</aui:fieldset>
+			
+			<!-- Type de recherche -->
+			<aui:fieldset collapsed="true" collapsible="true" label="search-type">
+				
+				<!-- Utilisation de la recherche dynamique -->
+				<div>
+					<liferay-ui:message key="search-type-explanations" />
+					<aui:input type="checkbox" name="dynamicSearch" value="${dynamicSearch}" label="dynamicSearch" inlineField="true" />
+				</div>
 				
 			</aui:fieldset>
 
