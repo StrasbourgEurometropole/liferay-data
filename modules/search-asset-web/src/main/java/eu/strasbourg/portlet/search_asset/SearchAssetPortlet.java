@@ -142,7 +142,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
             // Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
             // et réaction au type de la demande
-            if (resourceID.startsWith("entrySelection")) { // Nouvelle sélection de videos
+            if (resourceID != null && resourceID.startsWith("entrySelection")) { // Nouvelle sélection de videos
 
                 if (resourceID.equals("entrySelectionVideo")) {
                     this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
