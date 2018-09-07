@@ -51,7 +51,7 @@ public class EditParticipationDisplayContext {
 			 *  toutefois il est impossible de corriger la liste des ids correspondants
 			 *  dans les participations pour cause de references circulaires.
 			 *  L'erreur ne s'appliquant que pendant un itemcker puisqu'il parcourt la
-			 *  liste des Ids afin d'y trouver les asset adequat, nous supprimons les references
+			 *  liste des Ids afin d'y trouver les asset adequats, nous supprimons les references
 			 *  a la volee pour retablir l'ordre etabli
 			 */
 			String correctedEventIds = "";
