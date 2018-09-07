@@ -120,6 +120,8 @@ public class ParticipationLocalServiceImpl
 		
 		this.updateAssetEntry(participation, sc);
 		this.reindex(participation, false);
+		
+		this.updateAllParticipationsStatus();
 
 		return participation;
 	}
