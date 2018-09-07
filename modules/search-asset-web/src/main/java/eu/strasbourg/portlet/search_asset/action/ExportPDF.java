@@ -13,6 +13,8 @@ import java.util.Locale;
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletResponse;
+
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -33,11 +35,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
 import eu.strasbourg.service.official.model.Official;
@@ -56,35 +54,42 @@ public class ExportPDF {
 	public static void printPDFWithXMLWorker(ResourceRequest req,
 			ResourceResponse res, String exportType) throws PortletException, IOException,
 			DocumentException, SystemException, PortalException {
+		try {
+			// récupération du domaine
+			domaine = "http://localhost:8080";
 
-		// récupération du domaine
-		domaine = "http://localhost:8080";
+			// génération du pdf
+			Document doc = new Document();
+			doc.setMargins(35f, 35f, 35f, 35f);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			PdfWriter docWriter = null;
+			docWriter = PdfWriter.getInstance(doc, baos);
+			doc.open();
 
-		// génération du pdf
-		Document doc = new Document();
-		doc.setMargins(35f, 35f, 35f, 35f);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PdfWriter docWriter = null;
-		docWriter = PdfWriter.getInstance(doc, baos);
-		doc.open();
+			printPDFPeople(doc, req, exportType);
 
-		printPDFPeople(doc, req, exportType);
+			// fermeture du PDF
+			if (docWriter != null) {
+				docWriter.close();
+			}
+			if (doc != null) {
+				doc.close();
+			}
 
-		res.setContentType("application/pdf");
-		res.setContentLength(baos.size());
-		OutputStream out = res.getPortletOutputStream();
+			// ouverture du PDF dans le navigateur
+			HttpServletResponse response = PortalUtil.getHttpServletResponse(res);
+			response.setContentType("application/pdf");
+			response.setContentLength(baos.size());
+			OutputStream os = response.getOutputStream();
+			if (os != null) {
+				baos.writeTo(os);
+				os.flush();
+				os.close();
+			}
 
-		// fermeture du PDF
-		if (docWriter != null) {
-			docWriter.close();
 		}
-		if (doc != null) {
-			doc.close();
-		}
-		if (out != null) {
-			baos.writeTo(out);
-			out.flush();
-			out.close();
+		catch(DocumentException e) {
+			throw new IOException(e.getMessage());
 		}
 	}
 
