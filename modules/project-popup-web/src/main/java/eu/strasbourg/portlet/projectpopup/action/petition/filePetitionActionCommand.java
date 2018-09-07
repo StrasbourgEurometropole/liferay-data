@@ -2,7 +2,6 @@ package eu.strasbourg.portlet.projectpopup.action.petition;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -112,10 +111,10 @@ public class filePetitionActionCommand implements MVCActionCommand {
             long entryId = assetEntry.getEntryId();
             AssetCategoryLocalServiceUtil
                     .addAssetEntryAssetCategory(entryId, projectId);
-            AssetEntryLocalServiceUtil
-                    .addAssetCategoryAssetEntry(entryId,quartierId);
-            AssetEntryLocalServiceUtil
-                    .addAssetCategoryAssetEntry(entryId,themeId);
+            AssetCategoryLocalServiceUtil
+                    .addAssetEntryAssetCategory(entryId,quartierId);
+            AssetCategoryLocalServiceUtil
+                    .addAssetEntryAssetCategory(entryId,themeId);
         } catch (PortalException e) {
             _log.error(e);
             throw new PortletException(e);
