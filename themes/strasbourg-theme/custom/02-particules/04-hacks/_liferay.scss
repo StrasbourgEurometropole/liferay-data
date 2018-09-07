@@ -8,7 +8,6 @@
 
 
 /* Formulaire de connexion */
-
 .portlet-login {
   margin: 100px auto 200px auto;
   max-width: 500px;
@@ -18,7 +17,16 @@
 
 
 /* Formulaire de récupération de mot de passe */
-#portlet_new-password + form {
+#portlet_new-password + form, .seu form {
+  margin: 100px auto 200px auto;
+  max-width: 500px;
+  font-size: 1.5em;
+  font-family: Arial, sans-serif;
+}
+
+
+/* Formulaire de création de question de sécurité */
+form.update-reminder-query  {
   margin: 100px auto 200px auto;
   max-width: 500px;
   font-size: 1.5em;
