@@ -134,6 +134,7 @@
 		</field>
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
+		<field name="consultationPlacesText" type="String" />
 		<field name="consultationPlacesBody" type="String" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />

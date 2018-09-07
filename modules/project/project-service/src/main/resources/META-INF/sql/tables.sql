@@ -100,6 +100,7 @@ create table project_Petition (
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(75) null,
 	mediaChoice BOOLEAN,
+	consultationPlacesText VARCHAR(75) null,
 	consultationPlacesBody VARCHAR(75) null,
 	publikId VARCHAR(75) null,
 	imageId LONG,
