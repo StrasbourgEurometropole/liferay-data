@@ -709,6 +709,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* méthode d'affichage des information du status pour excel.
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getPetitionStatusExcel() {
+		return _petition.getPetitionStatusExcel();
+	}
+
+	/**
 	* Returns the petitionnaire adresse of this petition.
 	*
 	* @return the petitionnaire adresse of this petition

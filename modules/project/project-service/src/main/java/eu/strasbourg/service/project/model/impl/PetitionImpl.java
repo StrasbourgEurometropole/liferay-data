@@ -330,7 +330,8 @@ public class PetitionImpl extends PetitionBaseImpl {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(
 						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (petition != null && petition.getPetitionId() != this.getPetitionId()) {
-					petitions.add(petition);
+					if (WorkflowConstants.STATUS_APPROVED==petition.getStatus())
+						petitions.add(petition);
 				}
 			}
 			Collections.shuffle(petitions);
@@ -514,6 +515,17 @@ public class PetitionImpl extends PetitionBaseImpl {
 		return result;
 	}
 
+	/**
+	 * méthode d'affichage des information du status pour excel.
+	 * @return le status.
+	 */
+	@Override
+	public String getPetitionStatusExcel(){
+		String result = this.getFrontStatusFR();
+		if (ParticipationImpl.SOON_FINISHED.equals(this.getPetitionStatus()))
+			result = "bientot terminee";
+		return result;
+	}
 
 	/**
 	 * méthode de récupération du status
@@ -526,7 +538,9 @@ public class PetitionImpl extends PetitionBaseImpl {
 		if (COMPLETED.equals(status)||
 				FAILED.equals(status)){
 			result = "Termin&eacute;e";
-		}else result = "Fin dans " + this.getTodayExpirationDifferenceDays() + " jour(s)";
+		}else if (this.getTodayExpirationDifferenceDays()==0)
+			result = "Se termine aujourd'hui";
+		else result = "Fin dans " + this.getTodayExpirationDifferenceDays() + " jour(s)";
 		return result;
 	}
 

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
@@ -88,6 +89,7 @@ public class filePetitionActionCommand implements MVCActionCommand {
         Petition petition;
         try {
             sc = ServiceContextFactory.getInstance(request);
+            sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
