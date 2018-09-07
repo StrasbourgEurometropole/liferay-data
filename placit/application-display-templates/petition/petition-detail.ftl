@@ -121,6 +121,56 @@
 
                         <div class="row pro-bloc pro-bloc-texte">${entry.description}</div>
 
+
+
+                        <#if entry.filesURLs?has_content>
+                            <div class="pro-bloc-texte pro-bloc-telechargements">
+                                <h3>Document(s) téléchargé(s)</h3>
+                                <div class="row">
+                                    <#list entry.filesURLs as fileURL>
+                                        <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
+                                        <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+                                        <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+                                        <div class="col-sm-6">
+                                            <a href="${fileURL}" download title="${title}">
+                                                <span class="pro-filename">${title}</span>
+                                                <span class="pro-poids">Poids ${size}</span>
+                                            </a>
+                                        </div>
+
+                                    </#list>
+                                </div>
+                            </div>
+                        </#if>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="pro-contact-petition">
                             <span class="title">Pétition adressée à :</span>
                             <div>
