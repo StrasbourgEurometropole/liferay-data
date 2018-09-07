@@ -61,7 +61,7 @@
                             <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.firstName}"/>
                         </div>
                         <div class="form-group form-triple">
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
+                            <aui:input id="birthday" readonly="true" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
