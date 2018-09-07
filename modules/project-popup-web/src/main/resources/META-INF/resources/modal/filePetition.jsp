@@ -73,7 +73,7 @@
                                 <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
                             </div>
                             <div class="form-code">
-                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
+                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" pattern="[0-9]{5}" placeholder="67XXX"/>
                             </div>
                         </div>
                     </div>
@@ -112,6 +112,7 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
+
     var namespace = "<portlet:namespace />";
     $("#sendPetition").click(function(event){
         event.preventDefault();
@@ -120,8 +121,6 @@
         $("#form-file-petition").submit();
     }
     });
-
-
 
     function validateForm()
     {
@@ -135,6 +134,7 @@
         var phone = $("#"+namespace+"phone").val();
         var legalage = $("#file-petition-legalage").is(":checked");
         var cnil = $("#file-petition-cnil").is(":checked");
+        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (petitiontitle==null || petitiontitle==""){
             $("#"+namespace+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -164,7 +164,12 @@
         if (postalcode==null || postalcode==""){
             $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
+        }else if(!regex.test(postalcode)){
+            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            alert("Merci de respecter la syntaxe d'un code postal");
+            result = false;
+        }
+        else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
 
         if (phone==null || phone==""){
             $("#"+namespace+"phone").css({ "box-shadow" : "0 0 10px #CC0000" });
