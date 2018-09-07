@@ -171,6 +171,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					// Liaison de l'info trafic à un CI
 					String linkInterestId = ParamUtil.getString(request, "linkInterestId");
 					setPreference(request, "linkInterestId", linkInterestId);
+					json.put("trafficInterestId", linkInterestId);
 				}
 			}
 

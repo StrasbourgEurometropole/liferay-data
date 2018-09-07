@@ -22,7 +22,7 @@
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
-      <div class="seu-nav-account seu-nav-btn" title="Mon compte">
+      <div class="seu-nav-account seu-nav-btn">
         <button id="trigger-account-menu">
           <span class="seu-flexbox">
             <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
@@ -31,7 +31,7 @@
                     <span class="notif-amount">${notifCount}</span>
                 </#if>
             </span>
-            <a href="${layoutHelper.getPublikProfileURL()}" style="text-decoration: none;">
+            <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none;" title="Mon tableau de bord">
               <span class="seu-text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
             </a>
             <span class="seu-arrow" style="display: none;"></span>
@@ -48,7 +48,7 @@
       <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="seu-nav-account seu-nav-btn" title="Connexion">
         <span class="seu-flexbox">
           <span class="seu-picto"></span>
-          <span class="seu-text">Connexion</span>
+          <span class="seu-text">Se connecter à MonStrasbourg.eu</span>
         </span>    
       </a>
     </#if>
