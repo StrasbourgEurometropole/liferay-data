@@ -17,6 +17,7 @@ import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -43,6 +44,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 	private PetitionLocalService _petitionLocalService;
 
 	private PlacitPlaceLocalService _placitPlaceLocalService;
+
+	private SignataireLocalServiceUtil _signataireLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -81,7 +84,6 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			if (petitionId == 0) {
 				// Si elle n'existe pas (add/save), on la créé
 				petition = _petitionLocalService.createPetition(sc);
-				petition.setPetitionStatus("Brouillon");
 			} else {
 				// Si elle existe (edit), on la cherche
 				petition = _petitionLocalService.getPetition(petitionId);
@@ -103,6 +105,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			Date expirationDate = ParamUtil.getDate(request, "expirationDate", dateFormat);
 			String title = ParamUtil.getString(request, "title");
 			String author = ParamUtil.getString(request, "userName");
+			int fakeSignataire = ParamUtil.getInteger(request, "nbFakeSignataire");
 
 
 			// ---------------------------------------------------------------
@@ -144,7 +147,6 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 
 			petition.setDescription(description);
 
-
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
 			// ---------------------------------------------------------------
@@ -154,6 +156,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			for (PlacitPlace placitPlace : petition.getPlacitPlaces()){
 				_placitPlaceLocalService.removePlacitPlace(placitPlace.getPlacitPlaceId());
 			}
+			if (fakeSignataire>0)
+				SignataireLocalServiceUtil.createFakeSignataire(petitionId,fakeSignataire);
 			for (String placitPlacesIndexe : placitPlacesIndexesString.split(",")){
 				String placeSIGId = ParamUtil.getString(request, "placeSIGId" + placitPlacesIndexe);
 				String placeName = ParamUtil.getString(request, "placeName" + placitPlacesIndexe);

@@ -40,15 +40,18 @@ public class PetitionDisplayTemplateHandler extends BasePortletDisplayTemplateHa
 
     @Override
     public Map<String, TemplateVariableGroup> getTemplateVariableGroups(long classPK, String language, Locale locale) throws Exception {
-        Map<String, TemplateVariableGroup> templateVariableGroups = super.getTemplateVariableGroups(
+        Map<String, TemplateVariableGroup> templateVariableGroups =
+                super.getTemplateVariableGroups(
                 classPK, language, locale);
         TemplateVariableGroup fieldsTemplateVariableGroup =
                 templateVariableGroups.get("fields");
         fieldsTemplateVariableGroup.empty();
 
-        fieldsTemplateVariableGroup.addCollectionVariable("Petitions",
-                List.class, PortletDisplayTemplateManager.ENTRIES,
-                "Petition",Petition.class,"currentPetition",
+        fieldsTemplateVariableGroup.addCollectionVariable(
+                "Petitions", List.class,
+                PortletDisplayTemplateManager.ENTRIES,
+                "Petition",Petition.class,
+                "currentPetition",
                 "getTitle(locale)");
         fieldsTemplateVariableGroup.addVariable("Petition",Petition.class,"entry");
         fieldsTemplateVariableGroup.addVariable("Featured",Boolean.class,"isFeatured");

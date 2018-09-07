@@ -353,21 +353,6 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setFilesDownload(String filesDownload);
 
 	/**
-	 * Returns the petition status of this petition.
-	 *
-	 * @return the petition status of this petition
-	 */
-	@AutoEscape
-	public String getPetitionStatus();
-
-	/**
-	 * Sets the petition status of this petition.
-	 *
-	 * @param petitionStatus the petition status of this petition
-	 */
-	public void setPetitionStatus(String petitionStatus);
-
-	/**
 	 * Returns the publication date of this petition.
 	 *
 	 * @return the publication date of this petition
@@ -410,18 +395,122 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setQuotaSignature(long quotaSignature);
 
 	/**
-	 * Returns the nombre signature of this petition.
+	 * Returns the petitionnaire lastname of this petition.
 	 *
-	 * @return the nombre signature of this petition
+	 * @return the petitionnaire lastname of this petition
 	 */
-	public long getNombreSignature();
+	@AutoEscape
+	public String getPetitionnaireLastname();
 
 	/**
-	 * Sets the nombre signature of this petition.
+	 * Sets the petitionnaire lastname of this petition.
 	 *
-	 * @param nombreSignature the nombre signature of this petition
+	 * @param petitionnaireLastname the petitionnaire lastname of this petition
 	 */
-	public void setNombreSignature(long nombreSignature);
+	public void setPetitionnaireLastname(String petitionnaireLastname);
+
+	/**
+	 * Returns the petitionnaire firstname of this petition.
+	 *
+	 * @return the petitionnaire firstname of this petition
+	 */
+	@AutoEscape
+	public String getPetitionnaireFirstname();
+
+	/**
+	 * Sets the petitionnaire firstname of this petition.
+	 *
+	 * @param petitionnaireFirstname the petitionnaire firstname of this petition
+	 */
+	public void setPetitionnaireFirstname(String petitionnaireFirstname);
+
+	/**
+	 * Returns the petitionnaire birthday of this petition.
+	 *
+	 * @return the petitionnaire birthday of this petition
+	 */
+	public Date getPetitionnaireBirthday();
+
+	/**
+	 * Sets the petitionnaire birthday of this petition.
+	 *
+	 * @param petitionnaireBirthday the petitionnaire birthday of this petition
+	 */
+	public void setPetitionnaireBirthday(Date petitionnaireBirthday);
+
+	/**
+	 * Returns the petitionnaire adresse of this petition.
+	 *
+	 * @return the petitionnaire adresse of this petition
+	 */
+	@AutoEscape
+	public String getPetitionnaireAdresse();
+
+	/**
+	 * Sets the petitionnaire adresse of this petition.
+	 *
+	 * @param petitionnaireAdresse the petitionnaire adresse of this petition
+	 */
+	public void setPetitionnaireAdresse(String petitionnaireAdresse);
+
+	/**
+	 * Returns the petitionnaire postal code of this petition.
+	 *
+	 * @return the petitionnaire postal code of this petition
+	 */
+	public long getPetitionnairePostalCode();
+
+	/**
+	 * Sets the petitionnaire postal code of this petition.
+	 *
+	 * @param petitionnairePostalCode the petitionnaire postal code of this petition
+	 */
+	public void setPetitionnairePostalCode(long petitionnairePostalCode);
+
+	/**
+	 * Returns the petitionnaire city of this petition.
+	 *
+	 * @return the petitionnaire city of this petition
+	 */
+	@AutoEscape
+	public String getPetitionnaireCity();
+
+	/**
+	 * Sets the petitionnaire city of this petition.
+	 *
+	 * @param petitionnaireCity the petitionnaire city of this petition
+	 */
+	public void setPetitionnaireCity(String petitionnaireCity);
+
+	/**
+	 * Returns the petitionnaire phone of this petition.
+	 *
+	 * @return the petitionnaire phone of this petition
+	 */
+	@AutoEscape
+	public String getPetitionnairePhone();
+
+	/**
+	 * Sets the petitionnaire phone of this petition.
+	 *
+	 * @param petitionnairePhone the petitionnaire phone of this petition
+	 */
+	public void setPetitionnairePhone(String petitionnairePhone);
+
+	/**
+	 * Returns the petitionnaire email of this petition.
+	 *
+	 * @return the petitionnaire email of this petition
+	 */
+	@AutoEscape
+	public String getPetitionnaireEmail();
+
+	/**
+	 * Sets the petitionnaire email of this petition.
+	 *
+	 * @param petitionnaireEmail the petitionnaire email of this petition
+	 */
+	public void setPetitionnaireEmail(String petitionnaireEmail);
 
 	/**
 	 * Returns the video url of this petition.
@@ -503,20 +592,6 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	 * @param consultationPlacesBody the consultation places body of this petition
 	 */
 	public void setConsultationPlacesBody(String consultationPlacesBody);
-
-	/**
-	 * Returns the asset entry ID of this petition.
-	 *
-	 * @return the asset entry ID of this petition
-	 */
-	public long getAssetEntryId();
-
-	/**
-	 * Sets the asset entry ID of this petition.
-	 *
-	 * @param assetEntryId the asset entry ID of this petition
-	 */
-	public void setAssetEntryId(long assetEntryId);
 
 	/**
 	 * Returns the publik ID of this petition.

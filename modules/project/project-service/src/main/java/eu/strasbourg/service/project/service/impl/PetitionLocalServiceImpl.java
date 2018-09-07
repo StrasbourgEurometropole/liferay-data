@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -40,13 +41,14 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.impl.ParticipationImpl;
+import eu.strasbourg.service.project.model.impl.PetitionImpl;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -148,30 +150,51 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
         int petitionUpdatedCount = 0;
         // Recupere le groupe du site via son nom
         Group group = GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL);
+        long groupId = group.getGroupId();
+        List<Petition> petitionList = getPublishedByGroupId(groupId);
 
-        List<Petition> petitionList = getPublishedByGroupId(group.getGroupId());
+        long vocId = AssetVocabularyHelper.getVocabulary(VocabularyNames.PLACIT_STATUS, groupId).getVocabularyId();
+        AssetEntry entry = null;
+        AssetCategory removedCategory = null;
+        AssetCategory addedCategory = null;
         if (petitionList != null && !petitionList.isEmpty()) {
             for (Petition petition : petitionList) {
-                if (petition.getPublicationDate() != null && petition.getExpirationDate() != null) {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime expirationTime = new Timestamp(petition.getExpirationDate().getTime()).toLocalDateTime();
-                    LocalDateTime publicationTime = new Timestamp(petition.getPublicationDate().getTime()).toLocalDateTime();
-                    boolean isExpired = now.isAfter(expirationTime);
-                    boolean quotaSignatureAtteint = petition.getNombreSignature() >= petition.getQuotaSignature();
-                    if (quotaSignatureAtteint && !isExpired)
-                        petition.setPetitionStatus("Aboutie");
-                    else if (isExpired && !quotaSignatureAtteint)
-                        petition.setPetitionStatus("Non aboutie");
-                    else {
-                        long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
-                        long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
-                        if (!isExpired && periodNews <= 7)
-                            petition.setPetitionStatus("Nouveau");
-                        else if (!isExpired && periodTemp <= 7)
-                            petition.setPetitionStatus("Bient&ocirc;t termin&eacute;e");
-                        else petition.setPetitionStatus("En cours");
+                entry = petition.getAssetEntry();
+                // Cherche le precedent statut
+                for (AssetCategory cat : entry.getCategories()) {
+                    if (cat.getVocabularyId() == vocId) {
+                        removedCategory = cat;
                     }
-                    updatePetition(petition);
+                }
+                switch (petition.getPetitionStatus()) {
+                    case ParticipationImpl.SOON_FINISHED:
+                        addedCategory = AssetVocabularyHelper.getCategory("bientot terminee", groupId);
+                        break;
+                    case "new":
+                        addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
+                        break;
+                    case ParticipationImpl.IN_PROGRESS:
+                        addedCategory = AssetVocabularyHelper.getCategory("en cours", groupId);
+                        break;
+                    case PetitionImpl.DRAFT:
+                        addedCategory = AssetVocabularyHelper.getCategory("Brouillon", groupId);
+                        break;
+                    case PetitionImpl.COMPLETED:
+                        addedCategory = AssetVocabularyHelper.getCategory("Aboutie", groupId);
+                        break;
+                    case PetitionImpl.FAILED:
+                        addedCategory = AssetVocabularyHelper.getCategory("Non aboutie", groupId);
+                        break;
+                }// Si il y a eu changement de statut
+                boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();
+                if (isChanged) {
+                    AssetVocabularyHelper.removeCategoryToAssetEntry(removedCategory, entry);
+                }
+
+                // Ajoute la categorie
+                if ((addedCategory != null && removedCategory == null) || (addedCategory != null && isChanged)) {
+                    AssetVocabularyHelper.addCategoryToAssetEntry(addedCategory, entry);
+                    this.reindex(petition, false);
                     petitionUpdatedCount++;
                 }
             }

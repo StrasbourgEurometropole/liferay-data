@@ -50,17 +50,22 @@ public class PetitionSoap implements Serializable {
 		soapModel.setDescription(model.getDescription());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setFilesDownload(model.getFilesDownload());
-		soapModel.setPetitionStatus(model.getPetitionStatus());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 		soapModel.setQuotaSignature(model.getQuotaSignature());
-		soapModel.setNombreSignature(model.getNombreSignature());
+		soapModel.setPetitionnaireLastname(model.getPetitionnaireLastname());
+		soapModel.setPetitionnaireFirstname(model.getPetitionnaireFirstname());
+		soapModel.setPetitionnaireBirthday(model.getPetitionnaireBirthday());
+		soapModel.setPetitionnaireAdresse(model.getPetitionnaireAdresse());
+		soapModel.setPetitionnairePostalCode(model.getPetitionnairePostalCode());
+		soapModel.setPetitionnaireCity(model.getPetitionnaireCity());
+		soapModel.setPetitionnairePhone(model.getPetitionnairePhone());
+		soapModel.setPetitionnaireEmail(model.getPetitionnaireEmail());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
 		soapModel.setMediaChoice(model.getMediaChoice());
 		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
-		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
@@ -244,14 +249,6 @@ public class PetitionSoap implements Serializable {
 		_filesDownload = filesDownload;
 	}
 
-	public String getPetitionStatus() {
-		return _petitionStatus;
-	}
-
-	public void setPetitionStatus(String petitionStatus) {
-		_petitionStatus = petitionStatus;
-	}
-
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -276,12 +273,68 @@ public class PetitionSoap implements Serializable {
 		_quotaSignature = quotaSignature;
 	}
 
-	public long getNombreSignature() {
-		return _nombreSignature;
+	public String getPetitionnaireLastname() {
+		return _petitionnaireLastname;
 	}
 
-	public void setNombreSignature(long nombreSignature) {
-		_nombreSignature = nombreSignature;
+	public void setPetitionnaireLastname(String petitionnaireLastname) {
+		_petitionnaireLastname = petitionnaireLastname;
+	}
+
+	public String getPetitionnaireFirstname() {
+		return _petitionnaireFirstname;
+	}
+
+	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
+		_petitionnaireFirstname = petitionnaireFirstname;
+	}
+
+	public Date getPetitionnaireBirthday() {
+		return _petitionnaireBirthday;
+	}
+
+	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
+		_petitionnaireBirthday = petitionnaireBirthday;
+	}
+
+	public String getPetitionnaireAdresse() {
+		return _petitionnaireAdresse;
+	}
+
+	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
+		_petitionnaireAdresse = petitionnaireAdresse;
+	}
+
+	public long getPetitionnairePostalCode() {
+		return _petitionnairePostalCode;
+	}
+
+	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
+		_petitionnairePostalCode = petitionnairePostalCode;
+	}
+
+	public String getPetitionnaireCity() {
+		return _petitionnaireCity;
+	}
+
+	public void setPetitionnaireCity(String petitionnaireCity) {
+		_petitionnaireCity = petitionnaireCity;
+	}
+
+	public String getPetitionnairePhone() {
+		return _petitionnairePhone;
+	}
+
+	public void setPetitionnairePhone(String petitionnairePhone) {
+		_petitionnairePhone = petitionnairePhone;
+	}
+
+	public String getPetitionnaireEmail() {
+		return _petitionnaireEmail;
+	}
+
+	public void setPetitionnaireEmail(String petitionnaireEmail) {
+		_petitionnaireEmail = petitionnaireEmail;
 	}
 
 	public String getVideoUrl() {
@@ -328,14 +381,6 @@ public class PetitionSoap implements Serializable {
 		_consultationPlacesBody = consultationPlacesBody;
 	}
 
-	public long getAssetEntryId() {
-		return _assetEntryId;
-	}
-
-	public void setAssetEntryId(long assetEntryId) {
-		_assetEntryId = assetEntryId;
-	}
-
 	public String getPublikId() {
 		return _publikId;
 	}
@@ -376,17 +421,22 @@ public class PetitionSoap implements Serializable {
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
-	private String _petitionStatus;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _quotaSignature;
-	private long _nombreSignature;
+	private String _petitionnaireLastname;
+	private String _petitionnaireFirstname;
+	private Date _petitionnaireBirthday;
+	private String _petitionnaireAdresse;
+	private long _petitionnairePostalCode;
+	private String _petitionnaireCity;
+	private String _petitionnairePhone;
+	private String _petitionnaireEmail;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
 	private String _consultationPlacesBody;
-	private long _assetEntryId;
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;

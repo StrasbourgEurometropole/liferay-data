@@ -431,6 +431,20 @@ public interface PlacitPlaceModel extends BaseModel<PlacitPlace>, GroupedModel,
 	public void setPetitionId(long petitionId);
 
 	/**
+	 * Returns the initiative ID of this placit place.
+	 *
+	 * @return the initiative ID of this placit place
+	 */
+	public long getInitiativeId();
+
+	/**
+	 * Sets the initiative ID of this placit place.
+	 *
+	 * @param initiativeId the initiative ID of this placit place
+	 */
+	public void setInitiativeId(long initiativeId);
+
+	/**
 	 * Returns the place sig ID of this placit place.
 	 *
 	 * @return the place sig ID of this placit place

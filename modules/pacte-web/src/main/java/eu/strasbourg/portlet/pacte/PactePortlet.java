@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -71,7 +72,7 @@ public class PactePortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		try {
 			String resourceID = resourceRequest.getResourceID();
-
+			
 			if (resourceID.equals("pacteSignature")) {
 				
 				String publikUserID = getPublikID(resourceRequest);
@@ -83,13 +84,13 @@ public class PactePortlet extends MVCPortlet {
 					
 					//On sauvegarde la date de signature du pate. S'il était déjà signé on reset
 					if(isClausesChecked) {
+						HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
+						
 						if(user.getPactSignature() != null) {
 							user.setPactSignature(null);
-							HttpServletRequest request = PortalUtil.getHttpServletRequest(resourceRequest);
 							request.getSession().setAttribute(HAS_PACT_SIGNED_ATTRIBUTE, false);
 						} else {
 							user.setPactSignature(new Date());
-							HttpServletRequest request = PortalUtil.getHttpServletRequest(resourceRequest);
 							request.getSession().setAttribute(HAS_PACT_SIGNED_ATTRIBUTE, true);
 						}
 					}

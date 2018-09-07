@@ -195,6 +195,7 @@
 		<column name="projectId" type="long" />
 		<column name="participationId" type="long" />
 		<column name="petitionId" type="long" />
+		<column name="initiativeId" type="long" />
 		<column name="placeSIGId" type="String" />
 
 		<!-- Finder methods -->
@@ -209,6 +210,9 @@
 		</finder>
 		<finder name="Petition" return-type="Collection">
 			<finder-column name="petitionId" />
+		</finder>
+		<finder name="Initiative" return-type="Collection">
+			<finder-column name="initiativeId" />
 		</finder>
 		<finder name="SigId" return-type="Collection">
 			<finder-column name="placeSIGId" />
@@ -249,21 +253,152 @@
 
 	</entity>
 
-	<entity local-service="true" name="Petition" remote-service="true"
-		uuid="true">
+    <entity local-service="true" name="Petition" remote-service="true"
+            uuid="true">
+
+        <!-- PK fields -->
+        <column name="petitionId" primary="true" type="long" />
+
+        <!-- Group instance -->
+        <column name="groupId" type="long" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        <column name="createDate" type="Date" />
+        <column name="modifiedDate" type="Date" />
+
+        <!-- Workflow fields -->
+        <column name="status" type="int" />
+        <column name="statusByUserId" type="long" />
+        <column name="statusByUserName" type="String" />
+        <column name="statusDate" type="Date" />
+
+        <!-- main fields -->
+        <column name="title" type="String" />
+        <column name="description" type="String" />
+        <column name="placeTextArea" type="String" />
+        <column name="filesDownload" type="String" />
+        <column name="publicationDate" type="Date" />
+        <column name="expirationDate" type="Date" />
+        <column name="quotaSignature" type="long" />
+
+		<!-- main fields -->
+		<column name="petitionnaireLastname" type="String" />
+		<column name="petitionnaireFirstname" type="String" />
+		<column name="petitionnaireBirthday" type="Date" />
+		<column name="petitionnaireAdresse" type="String" />
+		<column name="petitionnairePostalCode" type="long" />
+		<column name="petitionnaireCity" type="String" />
+		<column name="petitionnairePhone" type="String" />
+		<column name="petitionnaireEmail" type="String" />
+
+        <!-- Medias -->
+        <column name="videoUrl" type="String" />
+        <column name="externalImageURL" type="String" />
+        <column name="externalImageCopyright" type="String" />
+        <column name="mediaChoice" type="boolean" />
+
+        <!-- Lieux de consultation -->
+        <column name="consultationPlacesBody" type="String" />
+
+        <!-- Links with other entities -->
+        <column name="publikId" type="String" />
+        <column name="imageId" type="long" />
+        <column name="filesIds" type="String" />
+
+        <!-- Order -->
+        <order by="asc">
+            <order-column name="title" />
+        </order>
+
+        <!-- Finder methods -->
+
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId" />
+        </finder>
+        <finder name="StatusAndGroupId" return-type="Collection">
+            <finder-column name="status" />
+            <finder-column name="groupId" />
+        </finder>
+
+        <!-- References -->
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+        <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+    </entity>
+
+    <entity local-service="true" name="Signataire" remote-service="true"
+            uuid="true">
 
 		<!-- PK fields -->
-		<column name="petitionId" primary="true" type="long" />
+        <column name="signataireId" primary="true" type="long" />
 
-		<!-- Group instance -->
-		<column name="groupId" type="long" />
+        <!-- Group instance -->
+        <column name="groupId" type="long" />
 
 		<!-- Audit fields -->
-		<column name="companyId" type="long" />
-		<column name="userId" type="long" />
-		<column name="userName" type="String" />
-		<column name="createDate" type="Date" />
-		<column name="modifiedDate" type="Date" />
+        <column name="companyId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        <column name="createDate" type="Date" />
+        <column name="modifiedDate" type="Date" />
+
+        <!-- Workflow fields -->
+        <column name="status" type="int" />
+        <column name="statusByUserId" type="long" />
+        <column name="statusByUserName" type="String" />
+        <column name="statusDate" type="Date" />
+
+        <!-- main fields -->
+		<column name="signataireName" type="String" />
+		<column name="signataireFirstname" type="String" />
+		<column name="birthday" type="Date" />
+		<column name="address" type="String" />
+		<column name="mail" type="String" />
+		<column name="postalCode" type="long" />
+		<column name="mobilePhone" type="String" />
+		<column name="phone" type="String" />
+		<column name="city" type="String" />
+        <column name="signatureDate" type="Date" />
+
+        <!-- Links with other entities -->
+		<column name="publikUserId" type="String" />
+        <column name="petitionId" type="long" />
+
+        <!-- Finder methods -->
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId" />
+        </finder>
+        <finder name="Petition" return-type="Collection">
+            <finder-column name="petitionId" />
+        </finder>
+        <finder name="PetitionIdAndSignataireName" return-type="Collection">
+            <finder-column name="petitionId" />
+            <finder-column name="signataireName" />
+        </finder>
+        <!-- References -->
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+        <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+    </entity>
+	
+	<entity local-service="true" cache-enabled="true" name="Initiative"
+		remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="initiativeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
 
 		<!-- Workflow fields -->
 		<column name="status" type="int" />
@@ -271,32 +406,28 @@
 		<column name="statusByUserName" type="String" />
 		<column name="statusDate" type="Date" />
 
-		<!-- main fields -->
+		<!-- Main fields -->
 		<column name="title" type="String" />
+		<column name="author" type="String" />
 		<column name="description" type="String" />
-		<column name="placeTextArea" type="String" />
-		<column name="filesDownload" type="String" />
-		<column name="petitionStatus" type="String" />
-		<column name="publicationDate" type="Date" />
-		<column name="expirationDate" type="Date" />
-		<column name="quotaSignature" type="long" />
-		<column name="nombreSignature" type="long" />
 
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
 		<column name="externalImageURL" type="String" />
 		<column name="externalImageCopyright" type="String" />
 		<column name="mediaChoice" type="boolean" />
-
-		<!-- Lieux de consultation -->
-		<column name="consultationPlacesBody" type="String" />
-
-
+		
 		<!-- Links with other entities -->
 		<column name="assetEntryId" type="long" />
 		<column name="publikId" type="String" />
 		<column name="imageId" type="long" />
 		<column name="filesIds" type="String" />
+
+		<!-- Lieux de consultation -->
+		<column name="consultationPlacesBody" type="String" />
+		
+		<!-- Others -->
+		<column name="publicationDate" type="Date" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -304,12 +435,7 @@
 		</order>
 
 		<!-- Finder methods -->
-
 		<finder name="GroupId" return-type="Collection">
-			<finder-column name="groupId" />
-		</finder>
-		<finder name="StatusAndGroupId" return-type="Collection">
-			<finder-column name="status" />
 			<finder-column name="groupId" />
 		</finder>
 
@@ -317,6 +443,38 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
-	</entity>
 
+	</entity>
+	<entity local-service="true" name="InitiativeHelp"
+		remote-service="true" uuid="false">
+
+		<!-- PK fields -->
+		<column name="initiativeHelpId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="publikUserId" type="String" />
+		<column name="initiativeId" type="long" />
+		<column name="groupId" type="long" />
+		<column name="message" type="String" />
+
+		<!-- Finder methods -->
+		<finder name="PublikUserId" return-type="Collection" db-index="true">
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="initiativeId" return-type="Collection" db-index="true">
+			<finder-column name="initiativeId" />
+		</finder>
+		<finder name="PublikUserIdAndInitiativeId" return-type="InitiativeHelp">
+			<finder-column name="publikUserId" />
+			<finder-column name="initiativeId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
 </service-builder>

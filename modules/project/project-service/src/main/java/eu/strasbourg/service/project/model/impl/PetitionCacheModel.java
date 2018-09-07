@@ -15,19 +15,16 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-
 import eu.strasbourg.service.project.model.Petition;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
 
 /**
@@ -65,7 +62,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,16 +96,28 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(placeTextArea);
 		sb.append(", filesDownload=");
 		sb.append(filesDownload);
-		sb.append(", petitionStatus=");
-		sb.append(petitionStatus);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
 		sb.append(expirationDate);
 		sb.append(", quotaSignature=");
 		sb.append(quotaSignature);
-		sb.append(", nombreSignature=");
-		sb.append(nombreSignature);
+		sb.append(", petitionnaireLastname=");
+		sb.append(petitionnaireLastname);
+		sb.append(", petitionnaireFirstname=");
+		sb.append(petitionnaireFirstname);
+		sb.append(", petitionnaireBirthday=");
+		sb.append(petitionnaireBirthday);
+		sb.append(", petitionnaireAdresse=");
+		sb.append(petitionnaireAdresse);
+		sb.append(", petitionnairePostalCode=");
+		sb.append(petitionnairePostalCode);
+		sb.append(", petitionnaireCity=");
+		sb.append(petitionnaireCity);
+		sb.append(", petitionnairePhone=");
+		sb.append(petitionnairePhone);
+		sb.append(", petitionnaireEmail=");
+		sb.append(petitionnaireEmail);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -119,8 +128,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(mediaChoice);
 		sb.append(", consultationPlacesBody=");
 		sb.append(consultationPlacesBody);
-		sb.append(", assetEntryId=");
-		sb.append(assetEntryId);
 		sb.append(", publikId=");
 		sb.append(publikId);
 		sb.append(", imageId=");
@@ -214,13 +221,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setFilesDownload(filesDownload);
 		}
 
-		if (petitionStatus == null) {
-			petitionImpl.setPetitionStatus(StringPool.BLANK);
-		}
-		else {
-			petitionImpl.setPetitionStatus(petitionStatus);
-		}
-
 		if (publicationDate == Long.MIN_VALUE) {
 			petitionImpl.setPublicationDate(null);
 		}
@@ -236,7 +236,58 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 
 		petitionImpl.setQuotaSignature(quotaSignature);
-		petitionImpl.setNombreSignature(nombreSignature);
+
+		if (petitionnaireLastname == null) {
+			petitionImpl.setPetitionnaireLastname(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireLastname(petitionnaireLastname);
+		}
+
+		if (petitionnaireFirstname == null) {
+			petitionImpl.setPetitionnaireFirstname(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireFirstname(petitionnaireFirstname);
+		}
+
+		if (petitionnaireBirthday == Long.MIN_VALUE) {
+			petitionImpl.setPetitionnaireBirthday(null);
+		}
+		else {
+			petitionImpl.setPetitionnaireBirthday(new Date(
+					petitionnaireBirthday));
+		}
+
+		if (petitionnaireAdresse == null) {
+			petitionImpl.setPetitionnaireAdresse(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireAdresse(petitionnaireAdresse);
+		}
+
+		petitionImpl.setPetitionnairePostalCode(petitionnairePostalCode);
+
+		if (petitionnaireCity == null) {
+			petitionImpl.setPetitionnaireCity(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireCity(petitionnaireCity);
+		}
+
+		if (petitionnairePhone == null) {
+			petitionImpl.setPetitionnairePhone(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnairePhone(petitionnairePhone);
+		}
+
+		if (petitionnaireEmail == null) {
+			petitionImpl.setPetitionnaireEmail(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setPetitionnaireEmail(petitionnaireEmail);
+		}
 
 		if (videoUrl == null) {
 			petitionImpl.setVideoUrl(StringPool.BLANK);
@@ -267,8 +318,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		else {
 			petitionImpl.setConsultationPlacesBody(consultationPlacesBody);
 		}
-
-		petitionImpl.setAssetEntryId(assetEntryId);
 
 		if (publikId == null) {
 			petitionImpl.setPublikId(StringPool.BLANK);
@@ -315,21 +364,25 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		description = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
 		filesDownload = objectInput.readUTF();
-		petitionStatus = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
 
 		quotaSignature = objectInput.readLong();
+		petitionnaireLastname = objectInput.readUTF();
+		petitionnaireFirstname = objectInput.readUTF();
+		petitionnaireBirthday = objectInput.readLong();
+		petitionnaireAdresse = objectInput.readUTF();
 
-		nombreSignature = objectInput.readLong();
+		petitionnairePostalCode = objectInput.readLong();
+		petitionnaireCity = objectInput.readUTF();
+		petitionnairePhone = objectInput.readUTF();
+		petitionnaireEmail = objectInput.readUTF();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
 
 		mediaChoice = objectInput.readBoolean();
 		consultationPlacesBody = objectInput.readUTF();
-
-		assetEntryId = objectInput.readLong();
 		publikId = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
@@ -405,19 +458,56 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			objectOutput.writeUTF(filesDownload);
 		}
 
-		if (petitionStatus == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(petitionStatus);
-		}
-
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
 
 		objectOutput.writeLong(quotaSignature);
 
-		objectOutput.writeLong(nombreSignature);
+		if (petitionnaireLastname == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireLastname);
+		}
+
+		if (petitionnaireFirstname == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireFirstname);
+		}
+
+		objectOutput.writeLong(petitionnaireBirthday);
+
+		if (petitionnaireAdresse == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireAdresse);
+		}
+
+		objectOutput.writeLong(petitionnairePostalCode);
+
+		if (petitionnaireCity == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireCity);
+		}
+
+		if (petitionnairePhone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnairePhone);
+		}
+
+		if (petitionnaireEmail == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(petitionnaireEmail);
+		}
 
 		if (videoUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -448,8 +538,6 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		else {
 			objectOutput.writeUTF(consultationPlacesBody);
 		}
-
-		objectOutput.writeLong(assetEntryId);
 
 		if (publikId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -484,17 +572,22 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String description;
 	public String placeTextArea;
 	public String filesDownload;
-	public String petitionStatus;
 	public long publicationDate;
 	public long expirationDate;
 	public long quotaSignature;
-	public long nombreSignature;
+	public String petitionnaireLastname;
+	public String petitionnaireFirstname;
+	public long petitionnaireBirthday;
+	public String petitionnaireAdresse;
+	public long petitionnairePostalCode;
+	public String petitionnaireCity;
+	public String petitionnairePhone;
+	public String petitionnaireEmail;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;
 	public boolean mediaChoice;
 	public String consultationPlacesBody;
-	public long assetEntryId;
 	public String publikId;
 	public long imageId;
 	public String filesIds;

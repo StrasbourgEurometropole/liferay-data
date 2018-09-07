@@ -14,7 +14,15 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -27,6 +35,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
@@ -38,12 +48,8 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Participation service. Represents a row in the &quot;project_Participation&quot; database table, with each column mapped to a property of this class.
@@ -161,9 +167,9 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		
 		if (status == null) {
 			return false;
-		} else if (status.getTitle(Locale.FRENCH).equals("À venir")) {
+		} else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "A venir")) {
 			return false;
-		} else if (status.getTitle(Locale.FRENCH).equals("Terminée")) {
+		} else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Terminee")) {
 			return false;
 		}
 		
@@ -383,7 +389,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	@Override
 	public AssetCategory getParticipationStatusCategory() {
 		List<AssetCategory> listStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PARTICIPATION_STATUS);
+				VocabularyNames.PLACIT_STATUS);
 		return listStatus.size() > 0 ? listStatus.get(0) : null;
 	}
 	
