@@ -12,7 +12,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -95,6 +94,11 @@ public class EditPetitionDisplayContext {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getCompanyGroupId(),
 			Petition.class.getName());
+	}
+
+	public int getCountFakeSignataires(){
+		int result = _petition.getCountFakeSignataire();
+		return result;
 	}
 		
 	/**
