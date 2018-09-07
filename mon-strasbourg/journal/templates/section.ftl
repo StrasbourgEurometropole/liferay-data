@@ -1,4 +1,8 @@
 <section class="home-section">
+    <#assign PortletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+    <#if PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.portletDisplay.id)>
+        <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+    </#if>
 	<h2>${title.data}</h2>
 	<div class="rte">
 		${text.data}
