@@ -189,6 +189,12 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                     case PetitionImpl.FAILED:
                         addedCategory = AssetVocabularyHelper.getCategory("Non aboutie", groupId);
                         break;
+                    case ParticipationImpl.SOON_ARRIVED:
+                        addedCategory = AssetVocabularyHelper.getCategory("a venir", groupId);
+                        break;
+                    default:
+                        addedCategory = AssetVocabularyHelper.getCategory("Brouillon", groupId);
+                        break;
                 }// Si il y a eu changement de statut
                 boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();
                 if (isChanged) {

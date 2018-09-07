@@ -478,7 +478,9 @@ public class PetitionImpl extends PetitionBaseImpl {
 			LocalDateTime publicationTime = new Timestamp(getPublicationDate().getTime()).toLocalDateTime();
 			boolean isExpired = now.isAfter(expirationTime);
 			boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
-			if (quotaSignatureAtteint && !isExpired)
+			if (now.isBefore(publicationTime))
+				result = ParticipationImpl.SOON_ARRIVED;
+			else if (quotaSignatureAtteint && !isExpired)
 				result = COMPLETED;
 			else if (isExpired && !quotaSignatureAtteint)
 				result = FAILED;
@@ -503,7 +505,9 @@ public class PetitionImpl extends PetitionBaseImpl {
 	public String getFrontStatusFR(){
 		String result;
 		String status = this.getPetitionStatus();
-		if (COMPLETED.equals(status)){
+		if (ParticipationImpl.SOON_ARRIVED.equals(status))
+			result = "&Agrave; venir";
+		else if (COMPLETED.equals(status)){
 			result = "Aboutie";
 		}else if (FAILED.equals(status)){
 			result = "Non aboutie";
