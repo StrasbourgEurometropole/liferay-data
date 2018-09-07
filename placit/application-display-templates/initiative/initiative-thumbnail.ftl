@@ -10,8 +10,8 @@
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation du type de l'initiative -->
-<#assign participationType = entry.getTypeCategory().getTitle(locale) />
+<!-- Recuperation du statut de l'initiative -->
+<#assign participationStatus = entry.getStatusCategory().getTitle(locale) />
 
 <!-- Recuperation des thématiques de l'initiative -->
 <#if entry.getThematicCategories()??>
@@ -42,8 +42,8 @@
 			</div>
 			<div class="pro-content-initiative">
 				<div class="pro-wrapper-meta">
-					<!-- Type de la participation -->
-					<#if participationType??><div class="pro-statut"><span>${participationType}</span></div></#if>
+					<!-- Statut de l'initiative -->
+					<#if participationStatus??><div class="pro-statut"><span>${participationStatus}</span></div></#if>
 									
 					<div class="pro-meta">
 						<!-- Liste des quartiers  -->

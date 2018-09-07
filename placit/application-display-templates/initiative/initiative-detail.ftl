@@ -18,8 +18,8 @@
     <#assign initiativeThematics = entry.getThematicCategories() />
 </#if>
 
-<!-- Recuperation du type -->
-<#assign initiativeType = entry.getTypeCategory().getTitle(locale) />
+<!-- Recuperation du statut de l'initiative -->
+<#assign participationStatus = entry.getStatusCategory().getTitle(locale) />
 
 <!-- Recuperation des lieux -->
 <#assign initiativePlaces = entry.getPlacitPlaces() />
@@ -39,7 +39,7 @@
 					<div class="pro-header-participation pro-theme-croissance">
 						<h1>${entry.title}</h1>
 						<div class="pro-wrapper-meta">
-							<div class="pro-statut"><span>${initiativeType}</span></div>
+							<div class="pro-statut"><span>${participationStatus}</span></div>
 							<div class="pro-meta">
 							
 								<!-- Liste des quartiers  -->
@@ -229,7 +229,7 @@
                                     title="Cliquez pour désapprouver">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
-                            <#else !request.session.getAttribute("has_pact_signed")?? || (request.session.getAttribute("has_pact_signed")?? && !request.session.getAttribute("has_pact_signed")) >
+                            <#elseif !request.session.getAttribute("has_pact_signed")?? || (request.session.getAttribute("has_pact_signed")?? && !request.session.getAttribute("has_pact_signed")) >
                                 <a class="pro-like" name="#Pact-sign">
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                                 </a>
