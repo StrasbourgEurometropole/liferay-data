@@ -176,7 +176,7 @@
                 <div class="form-group input-Date-wrapper">
                     <label class="control-label"><liferay-ui:message key="nb-fake-signataires" /></label>
 				    <input class="field form-control lfr-input-text" type="text" name="<portlet:namespace />nbFakeSignataire"
-				    contents="${dc.getCountFakeSignataires()}"/>
+				    value="${dc.getCountFakeSignataires()}"/>
                 </div >
 
 				<%-- Champ : Date de publication --%>

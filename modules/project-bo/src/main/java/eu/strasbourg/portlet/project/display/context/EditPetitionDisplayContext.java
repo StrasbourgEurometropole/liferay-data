@@ -4,6 +4,8 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -24,6 +26,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EditPetitionDisplayContext {
+
+
+	/**
+	 * le log
+	 */
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	private Petition _petition;
 	private List<AssetCategory> _cities;
@@ -96,9 +104,10 @@ public class EditPetitionDisplayContext {
 			Petition.class.getName());
 	}
 
-	public int getCountFakeSignataires(){
+	public String getCountFakeSignataires(){
 		int result = _petition.getCountFakeSignataire();
-		return result;
+		_log.info("le résultat : "+result);
+		return String.valueOf(result);
 	}
 		
 	/**
