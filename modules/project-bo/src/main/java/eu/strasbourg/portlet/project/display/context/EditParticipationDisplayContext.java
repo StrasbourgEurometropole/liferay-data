@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
@@ -43,6 +44,32 @@ public class EditParticipationDisplayContext {
 		long participationId = ParamUtil.getLong(_request, "participationId");
 		if (_participation == null && participationId > 0) {
 			_participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
+			
+			/**
+			 *  Vérification de l'éxistance des eventIds de la participation
+			 *  @note Les evenements sont au fur et a mesure depublies et suprimes,
+			 *  toutefois il est impossible de corriger la liste des ids correspondants
+			 *  dans les participations pour cause de references circulaires.
+			 *  L'erreur ne s'appliquant que pendant un itemcker puisqu'il parcourt la
+			 *  liste des Ids afin d'y trouver les asset adequat, nous supprimons les references
+			 *  a la volee pour retablir l'ordre etabli
+			 */
+			String correctedEventIds = "";
+			String eventIds = _participation.getEventsIds();
+			
+			if (!eventIds.equals("")) {
+				for (String eventId : eventIds.split(",")) {
+					try {
+						if (EventLocalServiceUtil.fetchEvent(Long.parseLong(eventId)) != null) {
+							correctedEventIds += eventId + ",";
+						}
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			_participation.setEventsIds(correctedEventIds);
 		}
 		return _participation;
 	}
