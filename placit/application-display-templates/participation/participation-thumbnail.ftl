@@ -131,7 +131,7 @@
                             data-entitygroupid="${entry.groupId}">
                             ${entry.nbDislikes}
                         </a>
-                    <#elseif request.session.getAttribute("has_pact_signed")!false >
+                    <#elseif !request.session.getAttribute("has_pact_signed")?? || (request.session.getAttribute("has_pact_signed")?? && !request.session.getAttribute("has_pact_signed")) >
                         <a class="pro-like" name="#Pact-sign">${entry.nbLikes}</a>
                         <a class="pro-dislike" name="#Pact-sign">${entry.nbDislikes}</a>
                     <#else>
