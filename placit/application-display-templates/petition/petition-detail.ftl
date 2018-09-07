@@ -118,11 +118,7 @@
                             </div>
                         </div>
                         </#if>
-
                         <div class="row pro-bloc pro-bloc-texte">${entry.description}</div>
-
-
-
                         <#if entry.filesURLs?has_content>
                             <div class="pro-bloc-texte pro-bloc-telechargements">
                                 <h3>Document(s) téléchargé(s)</h3>
@@ -142,35 +138,6 @@
                                 </div>
                             </div>
                         </#if>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <div class="pro-contact-petition">
                             <span class="title">Pétition adressée à :</span>
                             <div>
@@ -182,8 +149,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <aside class="col-sm-4">
                         <div class="pro-push-avis">
                             <#if entry.isJudgeable() && request.session.getAttribute("has_pact_signed")!false>
@@ -260,7 +225,7 @@
                         <#else>
                             <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Déposer une pétition</a>
                         </#if>
-                        <a href="listing-petition.html" class="pro-btn">Toutes les pétitions</a>
+                        <a href="${homeURL}petitions" class="pro-btn">Toutes les pétitions</a>
                     </div>
                 </div>
                 <div class="col-lg-10 col-lg-offset-1">
