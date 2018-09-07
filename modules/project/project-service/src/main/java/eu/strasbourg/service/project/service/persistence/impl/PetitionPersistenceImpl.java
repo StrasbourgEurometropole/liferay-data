@@ -15,6 +15,7 @@
 package eu.strasbourg.service.project.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -37,6 +38,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.project.exception.NoSuchPetitionException;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.impl.PetitionImpl;
@@ -44,7 +46,9 @@ import eu.strasbourg.service.project.model.impl.PetitionModelImpl;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

@@ -425,6 +425,7 @@
 		<column name="filesIds" type="String" />
 
 		<!-- Lieux de consultation -->
+		<column name="consultationPlacesText" type="String" />
 		<column name="consultationPlacesBody" type="String" />
 		
 		<!-- Others -->

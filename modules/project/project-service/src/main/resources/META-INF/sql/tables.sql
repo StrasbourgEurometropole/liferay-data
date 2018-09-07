@@ -22,6 +22,7 @@ create table project_Initiative (
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null,
+	consultationPlacesText VARCHAR(75) null,
 	consultationPlacesBody TEXT null,
 	publicationDate DATE null
 );

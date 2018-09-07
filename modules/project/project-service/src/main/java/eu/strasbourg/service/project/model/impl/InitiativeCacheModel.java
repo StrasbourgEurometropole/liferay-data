@@ -66,7 +66,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(51);
+		StringBundler sb = new StringBundler(53);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -114,6 +114,8 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		sb.append(imageId);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
+		sb.append(", consultationPlacesText=");
+		sb.append(consultationPlacesText);
 		sb.append(", consultationPlacesBody=");
 		sb.append(consultationPlacesBody);
 		sb.append(", publicationDate=");
@@ -238,6 +240,13 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			initiativeImpl.setFilesIds(filesIds);
 		}
 
+		if (consultationPlacesText == null) {
+			initiativeImpl.setConsultationPlacesText(StringPool.BLANK);
+		}
+		else {
+			initiativeImpl.setConsultationPlacesText(consultationPlacesText);
+		}
+
 		if (consultationPlacesBody == null) {
 			initiativeImpl.setConsultationPlacesBody(StringPool.BLANK);
 		}
@@ -291,6 +300,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
+		consultationPlacesText = objectInput.readUTF();
 		consultationPlacesBody = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 	}
@@ -398,6 +408,13 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			objectOutput.writeUTF(filesIds);
 		}
 
+		if (consultationPlacesText == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(consultationPlacesText);
+		}
+
 		if (consultationPlacesBody == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -431,6 +448,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	public String publikId;
 	public long imageId;
 	public String filesIds;
+	public String consultationPlacesText;
 	public String consultationPlacesBody;
 	public long publicationDate;
 }

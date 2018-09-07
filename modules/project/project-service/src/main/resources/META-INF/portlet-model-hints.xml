@@ -35,6 +35,7 @@
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
+		<field name="consultationPlacesText" type="String" />
 		<field name="consultationPlacesBody" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
