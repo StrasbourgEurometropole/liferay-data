@@ -23,7 +23,7 @@
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
       <div class="seu-nav-account seu-nav-btn" title="Mon compte">
-        <button id="trigger-account-menu">
+        <button id="trigger-account-menu" onClick="javascript: location='${layoutHelper.getPublikProfileURL()}';">
           <span class="seu-flexbox">
             <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
             <span class="seu-picto">
