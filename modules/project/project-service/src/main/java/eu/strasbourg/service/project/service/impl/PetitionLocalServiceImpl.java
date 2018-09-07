@@ -82,6 +82,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 	public Petition createPetition(long petitionId) {
 		return super.createPetition(petitionId);
 	}
+	
     @Override
 	public Petition updatePetition(Petition petition, ServiceContext sc) throws PortalException {
 		if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
@@ -92,6 +93,9 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		updatePetition(petition);
 		updateAssetEntry(petition,sc);
 		reindex(petition,false);
+		
+		this.updateAllPetitionsStatus();
+		
 		return petition;
 	}
 
