@@ -78,6 +78,8 @@ public class filePetitionActionCommand implements MVCActionCommand {
         String address = ParamUtil.getString(request, "address");
         String city = ParamUtil.getString(request, "city");
         long postalcode = ParamUtil.getLong(request, "postalcode");
+        if (postalcode==0)
+            throw new PortletException("le code postal n'est pas compatible");
         String phone = ParamUtil.getString(request, "phone");
         String title = ParamUtil.getString(request, "title");
         String description = ParamUtil.getString(request, "description");
