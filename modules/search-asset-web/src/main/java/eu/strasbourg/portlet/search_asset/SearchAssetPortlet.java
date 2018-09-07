@@ -425,7 +425,6 @@ public class SearchAssetPortlet extends MVCPortlet {
                 writer.print(jsonResponse.toString());
 
             } else { // pour l'export PDF
-                long groupId = new Long(this._themeDisplay.getLayout().getGroupId());
                 String exportType = this._configuration.exportType();
                 ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse, exportType);
             }
