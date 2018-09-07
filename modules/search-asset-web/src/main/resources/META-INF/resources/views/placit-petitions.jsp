@@ -7,13 +7,17 @@
         <div class="row">
             <div class="col-md-8 pro-bloc-listing-participation">
                 <div id="breadcrumb">
-            <span>
-                <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
-                    <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-petition" /></span>
-                </span>
-            </span>
+		            <span>
+		                <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
+		                    <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-petition" /></span>
+		                </span>
+		            </span>
                 </div>
-
+                
+                <div class="pro-wrapper-sort">
+					<a id="buttonDeposer" href="deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
+				</div>
+				
                 <div class="row pro-wrapper-listing-participation">
 
                     <div class="col-xs-12">
@@ -39,56 +43,7 @@
                         <liferay-util:include page="/forms/placit-petitions-form.jsp"
                             servletContext="<%=application%>" />
                     </aui:form>
-
                 </div>
-
-                <!--
-                <div class="pro-widget-petition">
-                    <h4><liferay-ui:message key="eu.most-searched" /></h4>
-
-                    <a href="detail-event.html" title="Lien vers Titre de l'evenement">
-                        <div class="pro-meta">
-                            <span>Quartier</span>
-                            <span>Thematique</span>
-                        </div>
-                        <h3>Titre de l'enement<br>Sur deux lignes</h3>
-
-                        <div class="pro-meta-footer">
-                            <span class="pro-comments"><strong>37 </strong>Commentaire(s)</span>
-                            <div class="pro-avis">
-                                <span class="pro-like"><span class="icon-ico-like"></span> 1808</span>
-                                <span class="pro-dislike"><span class="icon-ico-like"></span> 404</span>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-                -->
-
-                <!--
-                <div class="pro-widget-petition">
-                    <h4><liferay-ui:message key="eu.least-noticed" /></h4>
-
-
-                    <a href="detail-event.html" title="Lien vers Titre de l'evenement">
-                        <div class="pro-meta">
-                            <span>Quartier</span>
-                            <span>Thematique</span>
-                        </div>
-                        <h3>Titre de l'evenement<br>Sur deux lignes</h3>
-
-                        <div class="pro-meta-footer">
-                            <span class="pro-comments"><strong>9 </strong>Commentaire(s)</span>
-                            <div class="pro-avis">
-                                <span class="pro-like"><span class="icon-ico-like"></span> 1808</span>
-                                <span class="pro-dislike"><span class="icon-ico-like"></span> 404</span>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-                -->
-
             </div>
         </div>
     </div>
