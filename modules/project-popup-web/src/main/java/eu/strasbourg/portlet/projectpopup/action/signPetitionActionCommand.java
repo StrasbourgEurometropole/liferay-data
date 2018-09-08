@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.projectpopup.action.petition;
+package eu.strasbourg.portlet.projectpopup.action;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
