@@ -511,6 +511,16 @@
                         }
                 	}
                 }
+                if (window.mode == "widget" && interests.length > 0) {
+                    var interestIds = interests.split(',');
+                    for (var i = 0; i < interestIds.length; i++) {
+                        if (interestIds[i] === window.linkInterestId) {
+                            addTraffic(markers);
+                            addAlerts(markers);
+                            break;
+                        }
+                    }
+                }
 
                 // Ajout à la map
                 mymap.addLayer(markers);

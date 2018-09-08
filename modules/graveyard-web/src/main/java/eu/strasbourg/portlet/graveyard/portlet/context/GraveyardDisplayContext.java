@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.graveyard.portlet.context;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -223,11 +225,26 @@ public class GraveyardDisplayContext {
 	public List<DefuntDTO> getResults() {
 		if (this.defunts == null) {
 			// Récupération des défunts
-			List<DefuntDTO> defunts = graveyard.getDefunts();
+			this.defunts = graveyard.getDefunts();
 
-			this.defunts = defunts;
+			// On parcours les résultats pour supprimer les décès d'avant 1998
+			List<DefuntDTO> defuntsList = new ArrayList<DefuntDTO>();
+			for (DefuntDTO defunt : this.defunts ) {
+				String[] deathDateString = defunt.getDeathDate().split("/");
+				LocalDate beforeDate =  LocalDate.of(1997, 12, 31);
+				LocalDate deathDate =  LocalDate.of(Integer.parseInt(deathDateString.clone()[2]), Integer.parseInt(deathDateString.clone()[1]), Integer.parseInt(deathDateString.clone()[0]));
+				if(deathDate.isAfter(beforeDate)){
+					defuntsList.add(defunt);
+				}
+			}
+			this.defunts = defuntsList;
 		}
+
 		return this.defunts;
+	}
+
+	public boolean hasDeathDateBefore1998(){
+		return (!graveyard.getCount().equals(""+this.getResultCount()));
 	}
 
 	/**

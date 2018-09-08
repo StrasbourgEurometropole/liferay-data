@@ -80,12 +80,13 @@ public class TwitterClient {
 					if (medias.length > 0) {
 						for (MediaEntity media : medias) {
 							if (media.getType().equals("photo")) {
-								tweet.setImageURL(media.getMediaURL().toString());
+								tweet.setImageURL(media.getMediaURLHttps().toString());
 								break;
 							}
 						}
 					}
 					// Checks for images posted using other APIs
+					/*
 					else {
 						URLEntity[] entities = status.getRetweetedStatus().getURLEntities();
 						if (entities.length > 0) {
@@ -99,6 +100,7 @@ public class TwitterClient {
 							}
 						}
 					}
+					*/
 
 				} else {
 					tweet.setContent(status.getText());
