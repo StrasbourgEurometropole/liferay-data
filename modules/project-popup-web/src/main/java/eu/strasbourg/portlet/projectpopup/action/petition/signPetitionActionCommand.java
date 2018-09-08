@@ -131,6 +131,8 @@ public class signPetitionActionCommand implements MVCActionCommand {
         String address = ParamUtil.getString(actionRequest, "address");
         String city = ParamUtil.getString(actionRequest, "city");
         long postalcode = ParamUtil.getLong(actionRequest, "postalcode");
+        if (0==postalcode)
+            throw new PortletException("le code postal n'est pas compatible");
         String phone = ParamUtil.getString(actionRequest, "phone");
         Petition petition = null;
         ServiceContext sc = null;
