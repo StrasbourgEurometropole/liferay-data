@@ -23,6 +23,9 @@ public class ContactInitiativeAuthorResourceCommand implements MVCResourceComman
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws PortletException {
+		
+			String initiative = "Ini";
+		
 		return false;
 	}
 
