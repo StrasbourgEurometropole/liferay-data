@@ -257,6 +257,53 @@ form{
 			display: block;
 			margin-bottom: 5px;
 		}
+
+		&.frm_opt_container{
+			.label{
+				@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.571em);
+				display: block;
+				padding: 0;
+				margin-bottom: 5px;
+			}
+			> div {
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 40px;
+			}
+		}
+
+
+
+		/* Style for Radio */
+		input[type="radio"] {
+			display: none;
+		}
+		input[type="radio"] + span {
+			background-color: $c_white;
+			border: 1px solid $c_sub;
+			border-radius: 50px;
+			display: inline-block;
+			float: left;
+			margin-right: 7px;
+			padding: 7px;
+			position: relative;
+			top: 2px;
+			-webkit-appearance: none;
+		}
+
+		input[type="radio"]:checked + span {
+			color: $c_sub;
+		}
+		input[type="radio"]:checked + span:after {
+			background: $c_sub;
+			border-radius: 50px;
+			content: " ";
+			height: 10px;
+			left: 2px;
+			position: absolute;
+			top: 2px;
+			width: 10px;
+		}
 	}
 
 

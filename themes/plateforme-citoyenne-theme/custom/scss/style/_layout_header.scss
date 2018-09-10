@@ -154,6 +154,24 @@ main{
 						}
 					}
 				}
+
+				fieldset{
+					left: 0;
+					right: 0;
+					&:before{
+						top: -5px;
+						left: 23px;
+						right: auto;
+					}
+					label{
+						@include mobile{
+							color: $c_white;
+							&:hover, &:focus{
+								color: $c_main;
+							}
+						}
+					}
+				}
 			}
 
 			.pro-wrapper-search{
