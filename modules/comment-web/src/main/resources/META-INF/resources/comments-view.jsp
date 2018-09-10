@@ -22,6 +22,7 @@
 					<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
 					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
 				</portlet:actionURL>
+				
 				<div id="${comment.commentId}" class="pro-item">
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span>
@@ -39,14 +40,6 @@
 						<div class="pro-comment">
 							<p id="comment-${comment.commentId}">${comment.comment}</p>
 							<div class="pro-interactions">
-								<c:if test="${comment.modifiedByUserDate != null}">
-									<div>
-										<a>
-											(<liferay-ui:message key='comment-edited-on' />
-											<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="dd/MM/yyyy" />)
-										</a>
-									</div>
-								</c:if>
 								<c:choose>
 									<c:when test="${!isUserBanned && hasUserSigned}">
 										<a href="#pro-avis-like-pro" class="pro-like"
@@ -64,10 +57,10 @@
 			                                data-title="Comment of ${comment.getPublikUserName()}" 
 			                                data-entityid="${comment.commentId}"
 			                                data-entitygroupid="${comment.groupId}"
-		                                   	title="Désapprouver ce commentaire">
+		                                   	title="Desapprouver ce commentaire">
 		                                   	${comment.nbDislikes}
 		                                </a>
-										<div>
+										<div class="pro-action-link">
 											<a href="#Repondre" class="pro-reponse"
 												data-commentid="${comment.commentId}"
 												data-username="${comment.getPublikUserName()}"
@@ -77,7 +70,7 @@
 											<a href="#report" 
 												title="Signaler le commentaire" 
 												data-commentid="${comment.commentId}">
-												Signaler
+												<liferay-ui:message key='comment-report'/>
 											</a>
 											<c:if test="${isAdmin}">
 												<a href="${hideComment}" title="Masquer le commentaire">
@@ -108,10 +101,26 @@
 	                        	</c:choose>
 							</div>							
 						</div>
+						<c:if test="${comment.modifiedByUserDate != null}">
+							<p class="pro-label-edition">
+								<liferay-ui:message key='comment-edited-on' />
+								<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="dd MMMM yyyy" />
+								<liferay-ui:message key='comment-edited-at' />
+								<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="HH:mm:ss" />
+							</p>
+						</c:if>
 						
+						<!-- Réponse du commentaire -->
 						<div class="pro-comment-response" style="padding-left: 50px">
 							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
-								<div id="${commentAnswer.commentId}">
+							
+								<portlet:actionURL name="hideComment" var="hideComment">
+									<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
+									<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
+									<portlet:param name="commentId" value="${commentAnswer.commentId}"></portlet:param>
+								</portlet:actionURL>
+							
+								<div id="${commentAnswer.commentId}" style="margin-bottom: 20px">
 									<p style="margin-bottom: 7px">
 										<strong>${commentAnswer.getPublikUserName()}</strong>
 										<liferay-ui:message key="comment-answered" /> 
@@ -120,8 +129,41 @@
 											value="${commentAnswer.createDate}"
 											pattern="dd MMM yyyy" />
 									</p>
-									<p>${commentAnswer.comment}</p>
+									<p id="comment-${commentAnswer.commentId}">${commentAnswer.comment}</p>
+									<c:if test="${!isUserBanned && hasUserSigned}">
+										<div class="pro-interactions">
+	                                        <div class="pro-action-link">
+	                                            <a href="#report" title="Signaler le commentaire" data-commentid="${commentAnswer.commentId}">
+	                                           		<liferay-ui:message key='comment-report'/>
+	                                            </a>
+	                                            <c:if test="${isAdmin}">
+	                                            	<a href="${hideComment}" title="Masquer le commentaire">
+	                                            		<liferay-ui:message key='comment-hide'/>
+	                                            	</a>
+	                                            </c:if> 
+	                                        </div>
+	                                        <c:if test="${userPublikId eq commentAnswer.publikId}">
+		                                        <div class="pro-action-comm">
+		                                            <a href="#Modifier" data-commentid="${commentAnswer.commentId}">
+		                                            	<span class="icon-ico-modifier"></span>
+		                                            </a>
+		                                            <a href="#Supprimer" data-commentid="${commentAnswer.commentId}">
+		                                            	<span class="icon-ico-remove"></span>
+		                                            </a>
+		                                        </div>
+		                                	</c:if>
+	                                    </div>
+	                                </c:if>
+	                                <c:if test="${commentAnswer.modifiedByUserDate != null}">
+										<p class="pro-label-edition">
+											<liferay-ui:message key='comment-edited-on' />
+											<fmt:formatDate type="date" value="${commentAnswer.modifiedByUserDate}" pattern="dd MMMM yyyy" />
+											<liferay-ui:message key='comment-edited-at' />
+											<fmt:formatDate type="date" value="${commentAnswer.modifiedByUserDate}" pattern="HH:mm:ss" />
+										</p>
+									</c:if>
 								</div>
+								
 							</c:forEach>
 						</div>
 						
