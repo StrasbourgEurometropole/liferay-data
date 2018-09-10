@@ -1,7 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
-<portlet:actionURL var="filePetitionURL" name="filePetition">
-	<portlet:param name="cmd" value="filePetition" />
-</portlet:actionURL>
+<portlet:resourceURL id="filePetition" var="filePetitionURL">
+</portlet:resourceURL>
 <!-- DEPOSER UNE NOUVELLE PETITION -->
 <!-- HTML pour la modal de pétition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalPetition" tabindex="-1" role="dialog" aria-labelledby="modalPetition">
@@ -118,7 +117,17 @@
         event.preventDefault();
     var response = validateForm();
     if (response){
-        $("#form-file-petition").submit();
+        AUI().use('aui-io-request', function(A) {
+            A.io.request('${filePetitionURL}', {
+                method : 'post',
+                dataType: 'json',
+                on: {
+                    success: function(e) {
+                        $('#modalPetition').modal('hide')
+                    }
+                 }
+            });
+        });
     }
     });
 

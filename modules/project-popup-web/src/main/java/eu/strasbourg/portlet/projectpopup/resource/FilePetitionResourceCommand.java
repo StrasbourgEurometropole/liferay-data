@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.projectpopup.action;
+package eu.strasbourg.portlet.projectpopup.resource;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -6,7 +6,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -18,13 +18,11 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,16 +31,7 @@ import java.util.Date;
 /**
  * @author alexandre.quere
  */
-
-@Component(
-        immediate = true,
-        property = {
-                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
-                "mvc.command.name=filePetition"
-        },
-        service = MVCActionCommand.class
-)
-public class filePetitionActionCommand implements MVCActionCommand {
+public class FilePetitionResourceCommand implements MVCResourceCommand {
 
     /**
      * le log
@@ -55,11 +44,11 @@ public class filePetitionActionCommand implements MVCActionCommand {
     public static final long QUOTA = 7000;
 
     @Override
-    public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
-        String publikID = getPublikID(request);
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
         boolean result;
-        if (publikID == null || publikID.isEmpty())
-            throw new PortletException("veuillez vous identifier/enregistrer");
+        String publikID = getPublikID(request);
+        if (publikID==null||publikID.isEmpty())
+            throw new PortletException("utilisateur non enregistré/identifié");
         boolean isValid = validate(request);
         if (!isValid) {
             throw new PortletException("la validation des champs n'est pas passée");
@@ -68,7 +57,7 @@ public class filePetitionActionCommand implements MVCActionCommand {
         return result;
     }
 
-    private boolean sendPetition(ActionRequest request, String publikID) throws PortletException {
+    private boolean sendPetition(ResourceRequest request, String publikID) throws PortletException {
         PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date birthday = ParamUtil.getDate(request, "birthday", dateFormat);
@@ -102,7 +91,7 @@ public class filePetitionActionCommand implements MVCActionCommand {
             petition.setPetitionnairePostalCode(postalcode);
             petition.setPetitionnairePhone(phone);
             petition.setPetitionnaireEmail(user.getEmail());
-            petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
+//            petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
             AssetEntry assetEntry = petition.getAssetEntry();
             if (assetEntry == null)
                 throw new PortalException("aucune assetCategory pour la pétition"
@@ -122,7 +111,7 @@ public class filePetitionActionCommand implements MVCActionCommand {
         return true;
     }
 
-    private boolean validate(ActionRequest request) {
+    private boolean validate(ResourceRequest request) {
         boolean isValid = true;
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -172,5 +161,4 @@ public class filePetitionActionCommand implements MVCActionCommand {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
-
 }

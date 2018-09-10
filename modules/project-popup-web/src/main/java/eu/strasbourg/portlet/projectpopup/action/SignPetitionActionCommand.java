@@ -48,7 +48,7 @@ import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_UR
         },
         service = MVCActionCommand.class
 )
-public class signPetitionActionCommand implements MVCActionCommand {
+public class SignPetitionActionCommand implements MVCActionCommand {
 
 
     /**
