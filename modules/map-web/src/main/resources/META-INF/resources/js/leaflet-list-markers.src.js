@@ -103,7 +103,6 @@ L.Control.ListMarkers = L.Control.extend({
 				that.fire('item-mouseout', {layer: layer });
 			}, this);
 
-		console.log('_createItem',layer.options);
 
 		if( layer.options.hasOwnProperty(this.options.label) )
 		{

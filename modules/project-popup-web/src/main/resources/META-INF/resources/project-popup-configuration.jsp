@@ -37,6 +37,9 @@
 					<aui:option value="contactInitiativeAuthor" selected="${popupTemplateId eq 'contactInitiativeAuthor'}">
 						<liferay-ui:message key="contactInitiativeAuthor" />
 					</aui:option>
+					<aui:option value="submitInitiative" selected="${popupTemplateId eq 'submitInitiative'}">
+						<liferay-ui:message key="submitInitiative" />
+					</aui:option>
 				</aui:select>
 			</aui:fieldset>
 
