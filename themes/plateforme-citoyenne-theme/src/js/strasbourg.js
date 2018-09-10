@@ -11182,17 +11182,11 @@ if ($(window).width() < 992) {
 
 /* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
 $('.pro-remove').on('click',function(){
-   	$(this).parents('.pro-group').find('input:checked').prop('checked',false);
+   $(this).parents('.pro-group').find('input:checked').prop('checked',false);
 
     $(this).parents('.pro-group').find('input:text').val('');
 
     $(this).parents('.pro-group').find('select').prop('selectedIndex', 0).selectric('refresh');
-
-    // Utilisé pour les recherches ajax
-    if($(this).hasClass('dynamic')){
-        // Renvoi la liste des entités demandées
-        getSelectedEntries();
-    }
 });
 $('[data-frmval]').each(function(){
     this.setAttribute('placeholder',this.getAttribute('data-frmval'));
@@ -11324,6 +11318,28 @@ $('.pro-bloc-prefooter .pro-ico').on('click',function(e){
     e.preventDefault();
     $('.pro-bloc-prefooter .pro-ico').removeClass('active');
     $(this).addClass('active').siblings().removeClass('active');
+});
+
+
+$('.pro-bloc-prefooter .pro-signature-pacte > a').on('click',function(e){
+    e.preventDefault();
+    $(this).toggleClass('active');
+    if($(this).hasClass('active')){
+        $('h3',this).text('Vous avez adhéré au pacte');
+        $('span',this).css('display','none');
+        if($(this).hasClass('pro-disabled')){
+            $('h3',this).text('Signer');
+            $('span',this).css('display','block');
+        }
+    }
+    else if($(this).hasClass('pro-disabled')){
+        $('h3',this).text('Signer');
+        $('span',this).css('display','block');
+    }
+    else{
+        $('h3',this).text('Signer');
+        $('span',this).css('display','block');
+    }
 });
 // Slider Actu Quartiers - Changement de slider
 $('.pro-wrapper-quartier').first().addClass('active');
@@ -12734,7 +12750,7 @@ function callbackCarteInteractive(macarte) {
     markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
 
 
-    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" title="lien de la page" class="pro-bloc-card-participation' +
+    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
         ' pro-theme-concertation"><div>' +
         '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
         '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
@@ -12747,7 +12763,7 @@ function callbackCarteInteractive(macarte) {
         '</div></div></a></div>', markerParticipation, 247);
 
 
-    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.html" title="lien de la page" class="pro-bloc-card-event"><div>' +
+    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
         '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>' +
         '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
         '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participants-es</span></div>' +
@@ -12761,7 +12777,7 @@ function callbackCarteInteractive(macarte) {
     //     '</a></div>',marker3,247);
 
 
-    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" class="item pro-bloc-card-participation pro-theme-information"' +
+    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
         ' data-linkall="a">' +
         '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
         '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
@@ -12781,14 +12797,14 @@ function callbackCarteInteractive(macarte) {
     //     '</div></a></div>',marker5,247);
 
 
-    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.html"><div class="pro-header-petition">' +
+    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
         '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
         '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
         '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
         '</div></div></a></div>', markerPetition, 247);
 
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.html"><div class="wrapper-card-initiative"><div> ' +
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
         '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
         '<div class="pro-content-initiative">' +
@@ -12797,12 +12813,11 @@ function callbackCarteInteractive(macarte) {
         '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
         '</div></a></div>', markerInitiative, 247);
 
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-vignette-projet"><a href="detail-projet.html"><div>' +
-        '<div class="pro-content-vignette-projet">' +
-        '<div><span class="location">Nom du quartier</span></div>' +
-        '<h3>Titre du projet<br>Sur deux lignes</h3>' +
-        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div>'+
-        '</div> ' +
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet" data-linkall="a">' +
+        '<a href="detail-projet.php"></a><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
+        '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
+        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
+        '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
         '</a></div>', markerProjet, 247);
 
 
@@ -13010,9 +13025,8 @@ document.addEventListener('scroll',function(){
     lastscrolltop = st;
 });
 
-
-
-/*$('.pro-bloc-card-event').on('click',function(e){
+/*
+$('.pro-bloc-card-event').on('click',function(e){
     e.preventDefault();
    $(this).find('pro-btn-action').toggleClass('active');
 });
