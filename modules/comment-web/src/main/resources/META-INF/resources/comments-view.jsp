@@ -67,7 +67,7 @@
 		                                   	title="Désapprouver ce commentaire">
 		                                   	${comment.nbDislikes}
 		                                </a>
-										<div>
+										<div class="pro-action-link">
 											<a href="#Repondre" class="pro-reponse"
 												data-commentid="${comment.commentId}"
 												data-username="${comment.getPublikUserName()}"
@@ -77,7 +77,7 @@
 											<a href="#report" 
 												title="Signaler le commentaire" 
 												data-commentid="${comment.commentId}">
-												Signaler
+												<liferay-ui:message key='comment-report'/>
 											</a>
 											<c:if test="${isAdmin}">
 												<a href="${hideComment}" title="Masquer le commentaire">
