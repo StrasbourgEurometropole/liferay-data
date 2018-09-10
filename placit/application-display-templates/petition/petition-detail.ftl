@@ -55,7 +55,9 @@
                                         <span>${petitionThematic.getTitle(locale)}</span>
                                     </#list>
                                 </#if>
-                                <span>${petitionProject.getTitle(locale)}</span>
+                                <#if petitionProject?? >
+                                    <span>${petitionProject.getTitle(locale)}</span>
+                                </#if>
                             </div>
                         </div>
                         <div class="pro-header-auteur">
