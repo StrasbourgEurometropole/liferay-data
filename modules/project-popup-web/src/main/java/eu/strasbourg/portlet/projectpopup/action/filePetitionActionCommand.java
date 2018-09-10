@@ -59,7 +59,7 @@ public class filePetitionActionCommand implements MVCActionCommand {
     public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
         String userName = ParamUtil.getString(request, "username");
         String publikID = getPublikID(request);
-        boolean result = false;
+        boolean result;
         if (publikID == null || publikID.isEmpty())
             throw new PortletException("veuillez vous identifier/enregistrer");
         boolean isValid = validate(request);

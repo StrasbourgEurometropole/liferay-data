@@ -77,11 +77,9 @@ public class ProjectPopupPortlet extends MVCPortlet {
 
             // Récupération de l'asset entry Id qui est partagé par le portlet détail
             // entité sur la même page.
+            // les popups n'ont pas forcement besion de l'entryId (déposer une petition par exemple)
+            // //donc il faut etre en mesure de pouvoir gerer ca.
             long entryID = this.getPortletAssetEntryId(request);
-
-            // Si on ne récupère rien --> return (On affiche rien)
-            if (entryID == -1)
-                return;
 
             PublikUser user=null;
             if (publikID != null && !publikID.isEmpty())
@@ -100,7 +98,8 @@ public class ProjectPopupPortlet extends MVCPortlet {
             request.setAttribute("quartiers", districts);
             request.setAttribute("thematics", thematics);
             request.setAttribute("projects", projects);
-            request.setAttribute("entryId", entryID);
+            if (entryID!=-1)
+                request.setAttribute("entryId", entryID);
             request.setAttribute("userConnected",user);
 
         } catch (Exception e) {
