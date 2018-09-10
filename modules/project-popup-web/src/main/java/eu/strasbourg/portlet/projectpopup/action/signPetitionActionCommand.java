@@ -28,10 +28,13 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_URL_PARAM;
 
 /**
  * @author alexandre.quere
@@ -46,6 +49,8 @@ import java.util.List;
         service = MVCActionCommand.class
 )
 public class signPetitionActionCommand implements MVCActionCommand {
+
+
     /**
      * le log
      */
@@ -54,6 +59,8 @@ public class signPetitionActionCommand implements MVCActionCommand {
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
         String action = ParamUtil.getString(request, "cmd");
+        // Recuperation de l'URL de redirection
+        String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
         boolean result = false;
         //test
         if ("signPetition".equals(action)) {
@@ -68,6 +75,12 @@ public class signPetitionActionCommand implements MVCActionCommand {
                 throw new PortletException("la validation des champs n'est pas passée");
             } else
                 result = signPetition(request, entryID, publikID);
+            try {
+                response.sendRedirect(redirectURL);
+            } catch (IOException e) {
+                _log.error("erreur de redirection dans le sign petition : ",e);
+                throw new PortletException(e);
+            }
         }
         return result;
     }
