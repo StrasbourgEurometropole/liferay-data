@@ -82,9 +82,6 @@
                     </#list>
                 </#if>
 
-                <!-- Type de la participation -->
-                <#if participationType??><span>Type : ${participationType}</span></#if>
-
                 <!-- Statut de la participation -->
                 <span>${participationStatus}</span>
 
