@@ -102,7 +102,7 @@ public class filePetitionActionCommand implements MVCActionCommand {
             petition.setPetitionnairePostalCode(postalcode);
             petition.setPetitionnairePhone(phone);
             petition.setPetitionnaireEmail(user.getEmail());
-            petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
+//            petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
             AssetEntry assetEntry = petition.getAssetEntry();
             if (assetEntry == null)
                 throw new PortalException("aucune assetCategory pour la pétition"

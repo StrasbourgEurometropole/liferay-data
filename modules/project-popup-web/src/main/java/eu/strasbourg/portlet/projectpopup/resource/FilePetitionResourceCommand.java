@@ -18,6 +18,8 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
@@ -31,6 +33,14 @@ import java.util.Date;
 /**
  * @author alexandre.quere
  */
+@Component(
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
+                "mvc.command.name=filePetition"
+        },
+        service = MVCResourceCommand.class
+)
 public class FilePetitionResourceCommand implements MVCResourceCommand {
 
     /**
@@ -91,7 +101,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnairePostalCode(postalcode);
             petition.setPetitionnairePhone(phone);
             petition.setPetitionnaireEmail(user.getEmail());
-//            petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
+            petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
             AssetEntry assetEntry = petition.getAssetEntry();
             if (assetEntry == null)
                 throw new PortalException("aucune assetCategory pour la pétition"

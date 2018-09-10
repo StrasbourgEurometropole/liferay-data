@@ -11,7 +11,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form id="form-file-petition" method="post" action="${filePetitionURL}">
+            <form id="form-file-petition">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
                     <div class="form-group">
@@ -117,10 +117,13 @@
         event.preventDefault();
     var response = validateForm();
     if (response){
+        var url = window.location.host+window.location.pathname;
+        var petitiontitle = $("#"+namespace+"petitiontitle").val();
         AUI().use('aui-io-request', function(A) {
             A.io.request('${filePetitionURL}', {
                 method : 'post',
                 dataType: 'json',
+                data:{},
                 on: {
                     success: function(e) {
                         $('#modalPetition').modal('hide')
