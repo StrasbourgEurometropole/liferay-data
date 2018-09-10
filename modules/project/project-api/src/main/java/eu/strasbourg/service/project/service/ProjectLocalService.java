@@ -253,6 +253,11 @@ public interface ProjectLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par ID de catégorie
+	*/
+	public List<Project> findByCategoryIds(long[] categoryIds);
+
+	/**
 	* Recherche par mot clés
 	*/
 	public List<Project> findByKeyword(java.lang.String keyword, long groupId,
@@ -309,6 +314,12 @@ public interface ProjectLocalService extends BaseLocalService,
 	public List<Project> getProjectsByUuidAndCompanyId(java.lang.String uuid,
 		long companyId, int start, int end,
 		OrderByComparator<Project> orderByComparator);
+
+	/**
+	* Retourne tous les projets publiés d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Project> getPublishedByGroupId(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

@@ -1,0 +1,10 @@
+{
+  "LiferayTheme": {
+    "appServerPath": "C:\\Liferay\\eclipse-workspace\\Liferay-workspace\\bundles\\tomcat-8.0.32",
+    "deployPath": "C:\\Liferay\\eclipse-workspace\\Liferay-workspace\\bundles\\deploy",
+    "url": "http://localhost:8080",
+    "appServerPathPlugin": "C:\\Liferay\\eclipse-workspace\\Liferay-workspace\\bundles\\tomcat-8.0.32\\webapps\\project-detail-layouttpl",
+    "deployed": true,
+    "pluginName": "project-detail-layouttpl"
+  }
+}

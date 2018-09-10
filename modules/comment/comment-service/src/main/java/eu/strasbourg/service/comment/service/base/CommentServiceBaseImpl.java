@@ -34,6 +34,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentService;
 import eu.strasbourg.service.comment.service.persistence.CommentPersistence;
+import eu.strasbourg.service.comment.service.persistence.SignalementPersistence;
 
 import javax.sql.DataSource;
 
@@ -110,6 +111,63 @@ public abstract class CommentServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setCommentPersistence(CommentPersistence commentPersistence) {
 		this.commentPersistence = commentPersistence;
+	}
+
+	/**
+	 * Returns the signalement local service.
+	 *
+	 * @return the signalement local service
+	 */
+	public eu.strasbourg.service.comment.service.SignalementLocalService getSignalementLocalService() {
+		return signalementLocalService;
+	}
+
+	/**
+	 * Sets the signalement local service.
+	 *
+	 * @param signalementLocalService the signalement local service
+	 */
+	public void setSignalementLocalService(
+		eu.strasbourg.service.comment.service.SignalementLocalService signalementLocalService) {
+		this.signalementLocalService = signalementLocalService;
+	}
+
+	/**
+	 * Returns the signalement remote service.
+	 *
+	 * @return the signalement remote service
+	 */
+	public eu.strasbourg.service.comment.service.SignalementService getSignalementService() {
+		return signalementService;
+	}
+
+	/**
+	 * Sets the signalement remote service.
+	 *
+	 * @param signalementService the signalement remote service
+	 */
+	public void setSignalementService(
+		eu.strasbourg.service.comment.service.SignalementService signalementService) {
+		this.signalementService = signalementService;
+	}
+
+	/**
+	 * Returns the signalement persistence.
+	 *
+	 * @return the signalement persistence
+	 */
+	public SignalementPersistence getSignalementPersistence() {
+		return signalementPersistence;
+	}
+
+	/**
+	 * Sets the signalement persistence.
+	 *
+	 * @param signalementPersistence the signalement persistence
+	 */
+	public void setSignalementPersistence(
+		SignalementPersistence signalementPersistence) {
+		this.signalementPersistence = signalementPersistence;
 	}
 
 	/**
@@ -468,6 +526,12 @@ public abstract class CommentServiceBaseImpl extends BaseServiceImpl
 	protected CommentService commentService;
 	@BeanReference(type = CommentPersistence.class)
 	protected CommentPersistence commentPersistence;
+	@BeanReference(type = eu.strasbourg.service.comment.service.SignalementLocalService.class)
+	protected eu.strasbourg.service.comment.service.SignalementLocalService signalementLocalService;
+	@BeanReference(type = eu.strasbourg.service.comment.service.SignalementService.class)
+	protected eu.strasbourg.service.comment.service.SignalementService signalementService;
+	@BeanReference(type = SignalementPersistence.class)
+	protected SignalementPersistence signalementPersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

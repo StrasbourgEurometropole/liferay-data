@@ -300,6 +300,15 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	}
 
 	/**
+	* Recherche par ID de catégorie
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> findByCategoryIds(
+		long[] categoryIds) {
+		return _projectLocalService.findByCategoryIds(categoryIds);
+	}
+
+	/**
 	* Recherche par mot clés
 	*/
 	@Override
@@ -373,6 +382,15 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.project.model.Project> orderByComparator) {
 		return _projectLocalService.getProjectsByUuidAndCompanyId(uuid,
 			companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne tous les projets publiés d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> getPublishedByGroupId(
+		long groupId) {
+		return _projectLocalService.getPublishedByGroupId(groupId);
 	}
 
 	/**

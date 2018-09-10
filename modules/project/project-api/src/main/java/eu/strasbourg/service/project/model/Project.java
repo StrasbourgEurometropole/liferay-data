@@ -55,9 +55,41 @@ public interface Project extends ProjectModel, PersistedModel {
 		};
 
 	/**
+	* Retourne la liste des follower au projet
+	*/
+	public java.util.List<ProjectFollowed> getProjectFollower();
+
+	/**
+	* Retourne le nombre de follower au projet
+	*/
+	public int getNbFollower();
+
+	/**
+	* Retourne le label de 5 digits du nombre de follower au projet
+	*/
+	public java.lang.String getNbFollowerLabel();
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Retourne la liste des lieux placit liés au projet
+	*/
+	public java.util.List<PlacitPlace> getPlacitPlaces();
+
+	/**
+	* Retourne les noms des lieux placit au projet
+	*/
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale);
+
+	/**
+	* Retourne les ids SIG des lieux placit au projet
+	*/
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale);
 
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
@@ -109,7 +141,7 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne la liste des entrées timelines du projet
 	*/
-	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getProjectTimelines();
+	public java.util.List<ProjectTimeline> getProjectTimelines();
 
 	public java.lang.String getProjectStatus(java.util.Locale locale);
 
@@ -126,15 +158,30 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne la liste des participations du projet
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getParticipations();
+	public java.util.List<Participation> getParticipations();
 
 	/**
 	* Retourne la liste des évènements du projet
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getEvents();
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
 
 	/**
 	* Retourne les thematiques du projet
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

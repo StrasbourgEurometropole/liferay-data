@@ -66,7 +66,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(63);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -124,8 +124,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		sb.append(filesIds);
 		sb.append(", eventsIds=");
 		sb.append(eventsIds);
-		sb.append(", placesIds=");
-		sb.append(placesIds);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
@@ -291,13 +289,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			participationImpl.setEventsIds(eventsIds);
 		}
 
-		if (placesIds == null) {
-			participationImpl.setPlacesIds(StringPool.BLANK);
-		}
-		else {
-			participationImpl.setPlacesIds(placesIds);
-		}
-
 		if (publicationDate == Long.MIN_VALUE) {
 			participationImpl.setPublicationDate(null);
 		}
@@ -355,7 +346,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
 		eventsIds = objectInput.readUTF();
-		placesIds = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
 	}
@@ -503,13 +493,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			objectOutput.writeUTF(eventsIds);
 		}
 
-		if (placesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(placesIds);
-		}
-
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
 	}
@@ -542,7 +525,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	public long imageId;
 	public String filesIds;
 	public String eventsIds;
-	public String placesIds;
 	public long publicationDate;
 	public long expirationDate;
 }

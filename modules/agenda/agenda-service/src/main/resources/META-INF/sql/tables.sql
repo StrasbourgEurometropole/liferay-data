@@ -121,12 +121,22 @@ create table agenda_Event (
 	websiteName STRING null,
 	free INTEGER,
 	price TEXT null,
+	bookingDescription TEXT null,
+	bookingURL VARCHAR(75) null,
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
 	publicationDate DATE null,
 	firstStartDate DATE null,
 	lastEndDate DATE null,
 	imageId LONG
+);
+
+create table agenda_EventParticipation (
+	eventParticipationId LONG not null primary key,
+	createDate DATE null,
+	publikUserId VARCHAR(75) null,
+	eventId LONG,
+	groupId LONG
 );
 
 create table agenda_EventPeriod (

@@ -16,9 +16,6 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.LongStream;
@@ -28,6 +25,7 @@ import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -45,6 +43,8 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.project.exception.NoSuchProjectException;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
@@ -254,6 +254,14 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			for (ProjectTimeline projectTimeline : projectTimelines) {
 				ProjectTimelineLocalServiceUtil.deleteProjectTimeline(projectTimeline);
 			}
+			
+			// Supprime les lieux
+			List<PlacitPlace> placitPlaces = this.placitPlaceLocalService
+				.getByProject(projectId);
+			for (PlacitPlace placitPlace : placitPlaces) {
+				this.placitPlaceLocalService.removePlacitPlace(
+						placitPlace.getPlacitPlaceId());
+			}
 
 		}
 
@@ -311,6 +319,14 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	public List<Project> getByGroupId(long groupId) {
 		return this.projectPersistence.findByGroupId(groupId);
 	}
+	
+	/**
+	 * Retourne tous les projets publiés d'un groupe
+	 */
+	@Override
+	public List<Project> getPublishedByGroupId(long groupId) {
+		return this.projectPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	}
 
 	/**
 	 * Recherche par mot clés
@@ -333,6 +349,46 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 
 	/**
+	 * Recherche par ID de catégorie
+	 */
+	@Override
+	public List<Project> findByCategoryIds(long[] categoryIds) {
+		
+		// Initialisation des variables tempons et resutantes
+		Project matchingProject = null;
+		List<Project> projects = new ArrayList<Project>();
+		
+		// Creation de la requete d'assetEntry correspondant a notre definition
+		AssetEntryQuery assetEntryQueryForCategory = new AssetEntryQuery();
+		assetEntryQueryForCategory.setAllCategoryIds(categoryIds);
+		assetEntryQueryForCategory.setClassName(Project.class.getName());
+		assetEntryQueryForCategory.setOrderByCol1("title");
+		assetEntryQueryForCategory.setOrderByType1("ASC");
+		assetEntryQueryForCategory.setVisible(true);
+
+		// Recherche en elle-meme
+		List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil.getEntries(assetEntryQueryForCategory);
+		
+		// Parcours des resultats et ajout des projets correspondants dans la liste finale
+		for (AssetEntry assetEntry : assetEntries) {
+			try {
+				matchingProject = this.projectPersistence.findByPrimaryKey(assetEntry.getClassPK());
+				
+				if (matchingProject != null) {
+					projects.add(matchingProject);
+				}
+			} catch (NoSuchProjectException e) {
+				_log.error("Project '"+ assetEntry.getClassPK() + "' doesn't exist anymore " + 
+					" but the corresponding AssetEntry '" + assetEntry.getEntryId() + 
+					"' is always in the movie ...\n" + e);
+				continue;
+			}
+		}
+		
+		return projects;
+	}
+
+	/**
 	 * Recherche par mot clés (compte)
 	 */
 	@Override
@@ -346,7 +402,8 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			dynamicQuery
 					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-
 		return projectPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+	
+	private Log _log = LogFactoryUtil.getLog(this.getClass());
 }

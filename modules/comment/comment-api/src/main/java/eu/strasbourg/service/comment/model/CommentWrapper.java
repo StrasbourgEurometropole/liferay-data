@@ -72,10 +72,13 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("comment", getComment());
+		attributes.put("level", getLevel());
+		attributes.put("userQuality", getUserQuality());
+		attributes.put("modifiedByUserDate", getModifiedByUserDate());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
-		attributes.put("like", getLike());
-		attributes.put("dislike", getDislike());
+		attributes.put("parentCommentId", getParentCommentId());
+		attributes.put("urlProjectCommentaire", getUrlProjectCommentaire());
 
 		return attributes;
 	}
@@ -160,6 +163,24 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 			setComment(comment);
 		}
 
+		Integer level = (Integer)attributes.get("level");
+
+		if (level != null) {
+			setLevel(level);
+		}
+
+		String userQuality = (String)attributes.get("userQuality");
+
+		if (userQuality != null) {
+			setUserQuality(userQuality);
+		}
+
+		Date modifiedByUserDate = (Date)attributes.get("modifiedByUserDate");
+
+		if (modifiedByUserDate != null) {
+			setModifiedByUserDate(modifiedByUserDate);
+		}
+
 		Long assetEntryId = (Long)attributes.get("assetEntryId");
 
 		if (assetEntryId != null) {
@@ -172,16 +193,17 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 			setPublikId(publikId);
 		}
 
-		Long like = (Long)attributes.get("like");
+		Long parentCommentId = (Long)attributes.get("parentCommentId");
 
-		if (like != null) {
-			setLike(like);
+		if (parentCommentId != null) {
+			setParentCommentId(parentCommentId);
 		}
 
-		Long dislike = (Long)attributes.get("dislike");
+		String urlProjectCommentaire = (String)attributes.get(
+				"urlProjectCommentaire");
 
-		if (dislike != null) {
-			setDislike(dislike);
+		if (urlProjectCommentaire != null) {
+			setUrlProjectCommentaire(urlProjectCommentaire);
 		}
 	}
 
@@ -319,6 +341,56 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* méthode qui renvoie le nombre de signalement pour un commentaire.
+	*
+	* @return le nombre de signalement en int.
+	*/
+	@Override
+	public int getCountSignalements() {
+		return _comment.getCountSignalements();
+	}
+
+	/**
+	* Returns the level of this comment.
+	*
+	* @return the level of this comment
+	*/
+	@Override
+	public int getLevel() {
+		return _comment.getLevel();
+	}
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _comment.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _comment.getNbLikes();
+	}
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikesDislikes() {
+		return _comment.getNbLikesDislikes();
+	}
+
+	/**
 	* Returns the status of this comment.
 	*
 	* @return the status of this comment
@@ -343,6 +415,11 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		return new CommentWrapper((Comment)_comment.clone());
 	}
 
+	@Override
+	public java.lang.String getAssetEntryTitle() {
+		return _comment.getAssetEntryTitle();
+	}
+
 	/**
 	* Returns the comment of this comment.
 	*
@@ -351,6 +428,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public java.lang.String getComment() {
 		return _comment.getComment();
+	}
+
+	/**
+	* méthode permettant de retourner le nom de l'utilisateur en entier.
+	*
+	* @return le nom de l'utilisateur.
+	*/
+	@Override
+	public java.lang.String getFullPublikUserName() {
+		return _comment.getFullPublikUserName();
 	}
 
 	/**
@@ -388,6 +475,21 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		return _comment.getStatusByUserUuid();
 	}
 
+	@Override
+	public java.lang.String getTypeAssetEntry() {
+		return _comment.getTypeAssetEntry();
+	}
+
+	/**
+	* Returns the url project commentaire of this comment.
+	*
+	* @return the url project commentaire of this comment
+	*/
+	@Override
+	public java.lang.String getUrlProjectCommentaire() {
+		return _comment.getUrlProjectCommentaire();
+	}
+
 	/**
 	* Returns the user name of this comment.
 	*
@@ -396,6 +498,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public java.lang.String getUserName() {
 		return _comment.getUserName();
+	}
+
+	/**
+	* Returns the user quality of this comment.
+	*
+	* @return the user quality of this comment
+	*/
+	@Override
+	public java.lang.String getUserQuality() {
+		return _comment.getUserQuality();
 	}
 
 	/**
@@ -439,6 +551,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Returns the modified by user date of this comment.
+	*
+	* @return the modified by user date of this comment
+	*/
+	@Override
+	public Date getModifiedByUserDate() {
+		return _comment.getModifiedByUserDate();
+	}
+
+	/**
 	* Returns the modified date of this comment.
 	*
 	* @return the modified date of this comment
@@ -459,12 +581,60 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* méthode qui renvoie la liste des signalements d'un commentaire.
+	*
+	* @return la liste des signalements
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements() {
+		return _comment.findSignalements();
+	}
+
+	/**
+	* Retourne la liste des commentaires enfants de l'item
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments() {
+		return _comment.getApprovedChildComments();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _comment.getCategories();
+	}
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
+		return _comment.getDislikes();
+	}
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _comment.getLikes();
+	}
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes() {
+		return _comment.getLikesDislikes();
 	}
 
 	/**
@@ -498,16 +668,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Returns the dislike of this comment.
-	*
-	* @return the dislike of this comment
-	*/
-	@Override
-	public long getDislike() {
-		return _comment.getDislike();
-	}
-
-	/**
 	* Returns the group ID of this comment.
 	*
 	* @return the group ID of this comment
@@ -518,13 +678,13 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Returns the like of this comment.
+	* Returns the parent comment ID of this comment.
 	*
-	* @return the like of this comment
+	* @return the parent comment ID of this comment
 	*/
 	@Override
-	public long getLike() {
-		return _comment.getLike();
+	public long getParentCommentId() {
+		return _comment.getParentCommentId();
 	}
 
 	/**
@@ -617,16 +777,6 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		_comment.setCreateDate(createDate);
 	}
 
-	/**
-	* Sets the dislike of this comment.
-	*
-	* @param dislike the dislike of this comment
-	*/
-	@Override
-	public void setDislike(long dislike) {
-		_comment.setDislike(dislike);
-	}
-
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_comment.setExpandoBridgeAttributes(expandoBridge);
@@ -654,13 +804,23 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Sets the like of this comment.
+	* Sets the level of this comment.
 	*
-	* @param like the like of this comment
+	* @param level the level of this comment
 	*/
 	@Override
-	public void setLike(long like) {
-		_comment.setLike(like);
+	public void setLevel(int level) {
+		_comment.setLevel(level);
+	}
+
+	/**
+	* Sets the modified by user date of this comment.
+	*
+	* @param modifiedByUserDate the modified by user date of this comment
+	*/
+	@Override
+	public void setModifiedByUserDate(Date modifiedByUserDate) {
+		_comment.setModifiedByUserDate(modifiedByUserDate);
 	}
 
 	/**
@@ -676,6 +836,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setNew(boolean n) {
 		_comment.setNew(n);
+	}
+
+	/**
+	* Sets the parent comment ID of this comment.
+	*
+	* @param parentCommentId the parent comment ID of this comment
+	*/
+	@Override
+	public void setParentCommentId(long parentCommentId) {
+		_comment.setParentCommentId(parentCommentId);
 	}
 
 	/**
@@ -754,6 +924,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Sets the url project commentaire of this comment.
+	*
+	* @param urlProjectCommentaire the url project commentaire of this comment
+	*/
+	@Override
+	public void setUrlProjectCommentaire(java.lang.String urlProjectCommentaire) {
+		_comment.setUrlProjectCommentaire(urlProjectCommentaire);
+	}
+
+	/**
 	* Sets the user ID of this comment.
 	*
 	* @param userId the user ID of this comment
@@ -771,6 +951,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setUserName(java.lang.String userName) {
 		_comment.setUserName(userName);
+	}
+
+	/**
+	* Sets the user quality of this comment.
+	*
+	* @param userQuality the user quality of this comment
+	*/
+	@Override
+	public void setUserQuality(java.lang.String userQuality) {
+		_comment.setUserQuality(userQuality);
 	}
 
 	/**

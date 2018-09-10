@@ -247,7 +247,7 @@ public class SearchAssetDisplayContext {
 					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
-
+		
 		this._entries = results;
 	}
 
@@ -766,7 +766,7 @@ public class SearchAssetDisplayContext {
 
 		// Catégories sélectionnées par l'utilisateur
 		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
-
+		
 		// Préfiltre catégories
 		String prefilterCategoriesIdsString = this.getConfiguration().prefilterCategoriesIds();
 		List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();

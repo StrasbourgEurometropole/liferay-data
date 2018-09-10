@@ -153,12 +153,23 @@
 		<field localized="true" name="price" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field localized="true" name="bookingDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="bookingURL" type="String" />
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />
 		<field name="imageId" type="Long" />
+	</model>
+	<model name="eu.strasbourg.service.agenda.model.EventParticipation">
+		<field name="eventParticipationId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="publikUserId" type="String" />
+		<field name="eventId" type="long" />
+		<field name="groupId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventPeriod">
 		<field name="uuid" type="String" />

@@ -158,6 +158,7 @@
 
 					<liferay-portlet:actionURL name="deleteFavorite" var="deleteFavoriteURL">
 						<portlet:param name="favoriteId" value="${favorite.favoriteId}" />
+						<portlet:param name="favoriteTypeId" value="${param.favoriteTypeId}" />
 					</liferay-portlet:actionURL>
 					<a href="${deleteFavoriteURL }" class="favoris-teaser__trash" data-favconfirm="delete"><liferay-ui:message key="delete-favorite" /></a></li>
 				</c:forEach>

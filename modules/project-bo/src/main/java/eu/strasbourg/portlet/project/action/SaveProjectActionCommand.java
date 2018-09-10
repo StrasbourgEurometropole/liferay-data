@@ -28,8 +28,10 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -154,6 +156,72 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			project.setContactPhoneNumber(contactPhoneNumber);
 			
 			// ---------------------------------------------------------------
+			// -------------------------- LIEUX DE CONSULTATIONS -------------
+			// ---------------------------------------------------------------
+			
+			// Lieux
+			for (PlacitPlace placitPlace : project.getPlacitPlaces()) {
+				// On supprime d'abord les lieux existants
+				_placitPlaceLocalService.removePlacitPlace(placitPlace.getPlacitPlaceId());
+			}
+			// Puis on crée les nouveaux
+			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
+			for (String placitPlacesIndexe : placitPlacesIndexesString.split(",")) {
+				
+				// Recupere les valeurs de test pour savoir si il existe des lieux placit
+				String placeSIGId = ParamUtil.getString(request, "placeSIGId" + placitPlacesIndexe);
+				String placeName = ParamUtil.getString(request, "placeName" + placitPlacesIndexe);
+				long placeCityId = ParamUtil.getLong(request, "placeCityId" + placitPlacesIndexe);
+				
+				// Si il existe au moins un lieu SIG ou manuel
+				if (Validator.isNotNull(placitPlacesIndexe) 
+						&& (Validator.isNotNull(placeSIGId) 
+						|| (Validator.isNotNull(placeName) 
+						&& Validator.isNotNull(placeCityId)))) {
+					
+					// Initialisation de l'entité
+					PlacitPlace placitPlace = _placitPlaceLocalService.createPlacitPlace(sc);
+
+					if (Validator.isNotNull(placeSIGId)) {
+						// Lieu SIG
+						placitPlace.setPlaceSIGId(placeSIGId);
+					} else {
+						// Nom du lieu
+						placitPlace.setPlaceName(placeName);
+
+						// Numéro de rue
+						String placeStreetNumber = ParamUtil.getString(request,
+							"placeStreetNumber" + placitPlacesIndexe);
+						placitPlace.setPlaceStreetNumber(placeStreetNumber);
+
+						// Nom de la rue
+						String placeStreetName = ParamUtil.getString(request,
+							"placeStreetName" + placitPlacesIndexe);
+						placitPlace.setPlaceStreetName(placeStreetName);
+
+						// Code postal
+						String placeZipCode = ParamUtil.getString(request,
+							"placeZipCode" + placitPlacesIndexe);
+						placitPlace.setPlaceZipCode(placeZipCode);
+
+						// Ville
+						placitPlace.setPlaceCityId(placeCityId);
+						
+						// Image du lieu
+						long placeImageId = ParamUtil.getLong(request,
+							"placeImageId" + placitPlacesIndexe);
+						placitPlace.setImageId(placeImageId);
+					}
+
+					// Rattachement a la participation
+					placitPlace.setProjectId(project.getProjectId());
+
+					// Mise à jour en base
+					_placitPlaceLocalService.updatePlacitPlace(placitPlace, sc);
+				}
+			}
+			
+			// ---------------------------------------------------------------
 			// -------------------------- TIMELINE ---------------------------
 			// ---------------------------------------------------------------
 			
@@ -168,14 +236,9 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			for (String timelineIndex : timelineIndexesString.split(",")) {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				if (Validator.isNotNull(timelineIndex)
-					&& Validator.isNotNull(
-						ParamUtil.getString(request, "date" + timelineIndex))) {
-					
-					// J + XX
-					/*Integer startDay = ParamUtil.getInteger(request,
-							"startDay" + timelineIndex);*/
+					&& Validator.isNotNull(ParamUtil.getString(request, "date" + timelineIndex))) {
 
-					// SPACING
+					// Spacing
 					Integer spacing = ParamUtil.getInteger(request,
 							"spacing" + timelineIndex);
 
@@ -193,7 +256,6 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 
 					ProjectTimeline projectTimeline = _projectTimelineLocalService
 						.createProjectTimeline();
-//                    projectTimeline.setStartDay(startDay);
 					projectTimeline.setDate(date);
 					projectTimeline.setSpacing(spacing);
 					projectTimeline.setTitle(timelineTitle);
@@ -238,38 +300,29 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 		
-		// TODO : vérifier la raison de la mauvaise redirection lors d'un controle 
-		// du copyright
-		/**
-		// Copyright de l'image
-		String imageCopyright = ParamUtil.getString(request,
-			"externalImageCopyright");
-		boolean internalImageWithoutCopyright = imageId > 0 && Validator
-			.isNull(FileEntryHelper.getImageCopyright(imageId, Locale.FRANCE));
-		boolean externalImageWithoutCopyright = Validator.isNotNull(imageURL)
-			&& Validator.isNull(imageCopyright);
-		if (internalImageWithoutCopyright || externalImageWithoutCopyright) {
-			SessionErrors.add(request, "image-copyright-error");
-			isValid = false;
-		}
-		*/
-
 		return isValid;
 	}
-
+	
 	@Reference(unbind = "-")
 	protected void setProjectLocalService(ProjectLocalService projectLocalService) {
 		_projectLocalService = projectLocalService;
 	}
-
+	
 	@Reference(unbind = "-")
 	protected void setProjectTimelineLocalService(ProjectTimelineLocalService projectTimelineLocalService) {
 		_projectTimelineLocalService = projectTimelineLocalService;
 	}
 	
+	@Reference(unbind = "-")
+	protected void setPlacitPlaceLocalService(PlacitPlaceLocalService placitPlaceLocalService) {
+		_placitPlaceLocalService = placitPlaceLocalService;
+	}
+	
 	private ProjectLocalService _projectLocalService;
 	
 	private ProjectTimelineLocalService _projectTimelineLocalService;
+	
+	private PlacitPlaceLocalService _placitPlaceLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 

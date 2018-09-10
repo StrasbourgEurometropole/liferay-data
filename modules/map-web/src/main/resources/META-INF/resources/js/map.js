@@ -71,7 +71,7 @@
                 center: [48.573, 7.752],
                 maxBounds: [[48.42, 7.52], [48.72, 7.94]],
                 zoom: 13,
-                minZoom: 10,
+                minZoom: 11,
                 zoomControl: false,
                 attributionControl: false
             });
@@ -89,7 +89,7 @@
 
             // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
             var wmsLayer = L.tileLayer.wms('https://adict.strasbourg.eu/mapproxy/service?', {
-                layers: 'gct_fond_de_carte_couleur'
+                layers: 'monstrasbourg'
             }).addTo(mymap);
 
             // Contrôle correspondant à la liste des markers
@@ -510,6 +510,16 @@
                             }
                         }
                 	}
+                }
+                if (window.mode == "widget" && interests.length > 0) {
+                    var interestIds = interests.split(',');
+                    for (var i = 0; i < interestIds.length; i++) {
+                        if (interestIds[i] === window.linkInterestId) {
+                            addTraffic(markers);
+                            addAlerts(markers);
+                            break;
+                        }
+                    }
                 }
 
                 // Ajout à la map

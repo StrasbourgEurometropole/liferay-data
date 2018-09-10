@@ -83,7 +83,7 @@ public class MapPortlet extends MVCPortlet {
 			// Récupération de la configuration
 			MapConfiguration configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(MapConfiguration.class);
-
+			
 			// Récupération du publik ID avec la session
 			String internalId = getPublikID(request);
 
@@ -110,8 +110,8 @@ public class MapPortlet extends MVCPortlet {
 			String interestsDefaultsIdsString = ""; // Les intérêts cochés
 			boolean showFavorites = false; // Affichage des favoris par défaut
 			boolean showTraffic = false; // Affichage de l'info trafic
-			String linkCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
-			String linkInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
+			String trafficCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
+			String trafficInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
 			
 			List<AssetCategory> categories = null; // Les catégories actives
 			List<Interest> interests = null; // Les intérêts actifs
@@ -135,6 +135,7 @@ public class MapPortlet extends MVCPortlet {
 						JSONArray jsonArrayInterests = json.getJSONArray("interestsIds");
 						interestsIdsString = jsonArrayInterests.join(",");
 						showFavorites = json.getBoolean("showFavorites");
+						trafficInterestId = json.getString("trafficInterestId");
 					} catch (Exception ex) {
 						_log.error("Missing expando field : map_global_config");
 					}
@@ -185,8 +186,8 @@ public class MapPortlet extends MVCPortlet {
 					interestsIdsString = configuration.interestsIds();
 					showFavorites = configuration.showFavorites();
 					showTraffic = configuration.showTraffic();
-					linkCategoryId = configuration.linkCategoryId();
-					linkInterestId = configuration.linkInterestId();
+					trafficCategoryId = configuration.linkCategoryId();
+					trafficInterestId = configuration.linkInterestId();
 				}
 
 				List<Long> categoriesIds;
@@ -377,8 +378,8 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("interestsCheckedIds", interestsDefaultsIdsString);
 			request.setAttribute("showFavorites", showFavorites);
 			request.setAttribute("showTraffic", showTraffic);
-			request.setAttribute("linkCategoryId", linkCategoryId);
-			request.setAttribute("linkInterestId", linkInterestId);
+			request.setAttribute("trafficCategoryId", trafficCategoryId);
+			request.setAttribute("trafficInterestId", trafficInterestId);
 			request.setAttribute("address", address);
 			request.setAttribute("internalId", internalId);
 			

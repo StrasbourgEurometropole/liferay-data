@@ -104,6 +104,12 @@
 						<c:if test="${dc.hasPermission('EDIT_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editEventURL}" />
 						</c:if>
+						
+						<liferay-portlet:resourceURL id="exportEventParticipationsXlsx"
+							var="exportEventParticipationsXlsxURL">
+							<portlet:param name="eventId" value="${event.eventId}" />
+						</liferay-portlet:resourceURL>
+						<liferay-ui:icon message="export-xlsx-participations" url="${exportEventParticipationsXlsxURL}" />
 
 						<liferay-portlet:actionURL name="duplicateEvent"
 							var="duplicateEventURL">

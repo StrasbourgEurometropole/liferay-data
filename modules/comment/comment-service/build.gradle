@@ -3,10 +3,12 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
+	compile group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "2.0.0"
 	compileOnly project(":modules:comment:comment-api")
 	
 	compile project (':modules:utils')
 	compile project(":modules:oidc:oidc-api")
+	compile project(":modules:like:like-api")
 }
 
 buildService {

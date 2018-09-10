@@ -2,9 +2,54 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="eu.strasbourg.service.project.model.Initiative" />
+	<import class="eu.strasbourg.service.project.model.InitiativeHelp" />
 	<import class="eu.strasbourg.service.project.model.Participation" />
+	<import class="eu.strasbourg.service.project.model.Petition" />
+	<import class="eu.strasbourg.service.project.model.PlacitPlace" />
 	<import class="eu.strasbourg.service.project.model.Project" />
+	<import class="eu.strasbourg.service.project.model.ProjectFollowed" />
 	<import class="eu.strasbourg.service.project.model.ProjectTimeline" />
+	<import class="eu.strasbourg.service.project.model.Signataire" />
+	<class name="eu.strasbourg.service.project.model.impl.InitiativeImpl" table="project_Initiative">
+		<id name="initiativeId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="author" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="assetEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="consultationPlacesBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.InitiativeHelpImpl" table="project_InitiativeHelp">
+		<id name="initiativeHelpId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="initiativeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="message" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ParticipationImpl" table="project_Participation">
 		<id name="participationId" type="long">
 			<generator class="assigned" />
@@ -36,9 +81,70 @@
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="eventsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="placesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.PetitionImpl" table="project_Petition">
+		<id name="petitionId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="filesDownload" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
+		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
+		<property name="quotaSignature" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="petitionnaireLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnaireFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnaireBirthday" type="org.hibernate.type.TimestampType" />
+		<property name="petitionnaireAdresse" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnairePostalCode" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="petitionnaireCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnairePhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionnaireEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="consultationPlacesBody" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.PlacitPlaceImpl" table="project_PlacitPlace">
+		<id name="placitPlaceId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="placeName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeStreetNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeStreetName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeZipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeCityId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="participationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="petitionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="initiativeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="placeSIGId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ProjectImpl" table="project_Project">
 		<id name="projectId" type="long">
@@ -70,6 +176,15 @@
 		<property name="contactPhoneNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
+	<class name="eu.strasbourg.service.project.model.impl.ProjectFollowedImpl" table="project_ProjectFollowed">
+		<id name="projectFollowedId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ProjectTimelineImpl" table="project_ProjectTimeline">
 		<id name="projectTimelineId" type="long">
 			<generator class="assigned" />
@@ -80,5 +195,33 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.project.model.impl.SignataireImpl" table="project_Signataire">
+		<id name="signataireId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="signataireName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="signataireFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="birthday" type="org.hibernate.type.TimestampType" />
+		<property name="address" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="postalCode" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="mobilePhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="signatureDate" type="org.hibernate.type.TimestampType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="petitionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

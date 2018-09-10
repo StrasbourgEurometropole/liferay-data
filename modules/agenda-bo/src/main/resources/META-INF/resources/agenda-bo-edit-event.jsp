@@ -213,6 +213,17 @@
 				</div>
 				<aui:input label="event-price" name="price" />
 			</aui:fieldset>
+			
+			<%-- Groupe de champs : Reservation de billet --%>
+			<aui:fieldset collapsed="true" collapsible="true" label="event-booking">
+			
+				<%-- Champ : Description de la reservation de billet --%>
+				<aui:input label="booking-description" name="bookingDescription" />
+				
+				<%-- Champ : URL de la reservation de billet --%>
+				<aui:input label="booking-url" name="bookingURL" />
+				
+			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">

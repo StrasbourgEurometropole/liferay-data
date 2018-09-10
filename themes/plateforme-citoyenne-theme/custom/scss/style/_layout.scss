@@ -229,13 +229,13 @@ figcaption {
 	}
 	ul, fieldset {
 		position: absolute;
-		right: -20px;
+		right: -22px;
 		top: 35px;
 		width: 200px;
 		z-index: 200;
 		border-radius: 0;
 		list-style-type: none;
-		box-shadow: 2px 1px 12px 0px rgba(0, 0, 0, 0.2);
+		box-shadow: 2px 1px 12px 0 rgba(0, 0, 0, 0.2);
 		background: $c_white;
 		opacity: 0;
 		display: none;
@@ -250,7 +250,7 @@ figcaption {
 		}
 		&:before {
 			content: "";
-			//@include font();
+			@include font();
 			position: absolute;
 			top: -9px;
 			right: 23px;
@@ -273,7 +273,7 @@ figcaption {
 			display: block;
 			margin-left: 0;
 			a {
-				@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
+				@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
 				display: block;
 				text-align: left;
 				background: $c_white;
@@ -293,8 +293,7 @@ figcaption {
 
 	}
 
-
-	fieldset{
+	fieldset {
 		&.pro-checkbox {
 			> * {
 				padding: 3px 15px;
@@ -306,7 +305,7 @@ figcaption {
 					user-select: none;
 					display: block;
 					padding: 0;
-					@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
+					@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
 					@include addTransition();
 					&:before {
 						content: '';
@@ -343,6 +342,7 @@ figcaption {
 					}
 					&:hover, &:focus {
 						cursor: pointer;
+						color: $c_main;
 
 					}
 				}
@@ -369,7 +369,7 @@ figcaption {
 		}
 	}
 
-	&.open ul,  &.open fieldset{
+	&.open ul, &.open fieldset {
 		opacity: 1;
 		display: block;
 	}
@@ -433,10 +433,10 @@ figcaption {
 	label {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
 		text-transform: uppercase;
+		margin: 0 4px;
 	}
 	.pro-wrapper-date {
 		position: relative;
-		margin: 0 4px;
 		&:before {
 			content: '';
 			position: absolute;
@@ -612,8 +612,8 @@ main {
 
 			.pro-description {
 				display: block;
-				max-width: 85%;
-				margin-left: 15%;
+				max-width: 70%;
+				margin-left: 30%;
 				overflow: hidden;
 				@include tablet_landscape {
 					max-width: 90%;
@@ -629,6 +629,14 @@ main {
 					}
 				}
 			}
+		}
+	}
+}
+
+.pro-wrapper-tuiles {
+	> * {
+		&:nth-child(odd) {
+			background: #edf0f2;
 		}
 	}
 }
@@ -649,5 +657,85 @@ main {
 			font-size: 0.7em;
 			margin-right: 10px;
 		}
+	}
+}
+
+
+.pro-timer{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: $c_dark;
+	p{
+		@include ft($f_txt, 0.875em, 400, $c_white, 1.2em);
+		padding: 7px 0;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		margin-bottom: 0;
+		text-align: center;
+	}
+}
+
+
+
+.pro-bookmark {
+	position: absolute;
+	top: 0;
+	right: 30px;
+	width: 120px;
+	height: 170px;
+	background: $c_main;
+
+	&:after{
+		content: '';
+		position: absolute;
+		bottom: -44px;
+		left: 0;
+		right: 0;
+		height: 84px;
+		width: 120px;
+		background-size: 12px;
+		background: url(../images/background/bookmark.png) no-repeat center center /contain;
+	}
+	> div{
+		position: relative;
+		&:before {
+			content: "";
+			position: absolute;
+			border: 1px solid rgba($c_dark,0.1);
+			border-bottom: none;
+			top: 2px;
+			left: 2px;
+			right: 2px;
+			bottom: 2px;
+		}
+	}
+	span {
+		position: relative;
+		padding: 20px 0;
+		display: block;
+		color: $c_dark;
+		text-align: center;
+		font-size: 45px;
+		&:after{
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 70px;
+			height: 1px;
+			background: rgba($c_dark,0.1);
+			margin: auto;
+		}
+	}
+	p{
+		@include ft($f_txt, 0.688em, 700, $c_txt, 1.5em);
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+		padding: 20px 10px;
+		text-align: center;
 	}
 }

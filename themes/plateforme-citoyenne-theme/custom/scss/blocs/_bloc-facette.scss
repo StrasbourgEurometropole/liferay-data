@@ -89,6 +89,28 @@
 				padding-top: 15px;
 				padding-bottom: 25px;
 
+				&.pro-text{
+					> * {
+						input{
+							@include ft($f_txt, $s_small, 400, $c_txt, 46px);
+							display: block;
+							-webkit-appearance: none;
+							box-shadow: none;
+							outline: none;
+							width: calc(100% - 1px);
+							border: 1px solid #a6a6a6;
+							height: 46px;
+							padding: 0 15px;
+							border-radius: 4px;
+							margin: 0;
+							@include addTransition();
+							&:hover, &:focus{
+								border-color: $c_dark;
+							}
+						}
+					}
+				}
+
 				&.pro-checkbox {
 					> * {
 						input {
@@ -114,7 +136,7 @@
 								border-radius: 2px;
 								background: #fff;
 								cursor: pointer;
-								top: 5px;
+								top: 4px;
 							}
 							&:after {
 								content: "\e91a";
@@ -123,7 +145,7 @@
 								font-size: 14px;
 								position: absolute;
 								left: 4px;
-								top: 5px;
+								top: 3px;
 								transform: translateY(-50%);
 								transform: translate3d(0, -50%, 0);
 								cursor: pointer;

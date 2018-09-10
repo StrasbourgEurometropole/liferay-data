@@ -12,7 +12,6 @@
   margin-bottom: 0px;
 }
 
-
 //Pour afficher le header du thème en mode admin
 .has-control-menu #th-global #pro-header{
 	top: 64px;
@@ -39,7 +38,6 @@
 	display : none;
 }
 
-
 //Cache le titre d'un web content...
 #th-global .portlet .portlet-title-text {
 	display: none;
@@ -54,11 +52,13 @@
     text-transform: uppercase;
     background: #fbac28;
     padding: 0 8px;
+    height: 48px;
     -webkit-transition: all .2s ease;
     -o-transition: all .2s ease;
     -moz-transition: all .2s ease;
     transition: all .2s ease;
 	margin-left: -16px;
+	margin-right: 15px;
 }
 
 #th-global #pro-header .pro-top-header .container .pro-right .nav-logout .picto{
@@ -68,7 +68,7 @@ background-position: center;
 background-repeat: no-repeat;
 height : 16px;
 width : 16px;
-margin-bottom: -2px;
+margin-bottom: -5px;
 }
 
 #th-global #pro-header .pro-top-header .container .pro-right .nav-logout:hover .picto{
@@ -131,7 +131,12 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 
 // Ajout de la marge des icons des datepiker Pikaday
 .pro-bloc-facette form .pro-group fieldset>* .pro-facette-date input {
-	margin-right : 10px;
+	margin-right : 12px;
+}
+
+// Ajout de la marge des icons des datepiker Pikaday
+form .pro-facette-date input {
+	margin-right : 12px;
 }
 
 // Suppression des surcharges de couleur sur le panneau d'ajout de contenu de Liferay
@@ -147,4 +152,74 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 // Affichage du fond jaune pour la page du pacte et peut-être ailleurs, l'avenir nous le dira
 .pro-page-pacte .pro-wrapper-content .pro-preambule:before  {
 	background: url(/o/plateforme-citoyenne-theme/images/background/bg-yellow.png);
+}
+
+// Vignette evenement : Correction du selecteur pour l'affichage du compteur
+.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event span {
+    display: block;
+    text-align: right;
+    float: none;
+}
+
+.pro-bloc-listing-event .pro-bloc-card-event>div .pro-footer-event>span.pro-number {
+    line-height: inherit;
+}
+
+// Taille de la map sur les détails entité
+aside .leaflet-map {
+	width: 100%;
+    height: 200px;
+}
+
+// Passage de la map en dessous du footer et header
+.leaflet-map {
+	z-index: 10;
+}
+
+// Correction du lien de l'image de la facette présent sur la carte intéractive
+.pro-wrapper-facette-carte form .pro-affiner:before {
+	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
+}
+
+.pro-page-carte .pro-wrapper-map.leaflet-map {
+    position: relative;
+    height: -webkit-calc(100vh - 167px);
+    height: -moz-calc(100vh - 167px);
+    height: calc(100vh - 167px);
+}
+
+// Correction du chemin d'image pour les bloc large (ex: les instances)
+.pro-bloc-large:before {
+    content: '';
+    background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
+}
+
+.pro-disabled{
+    opacity: 0 !important;
+}
+
+.pro-pagination .pull-right li a{
+    cursor: pointer;
+}
+
+
+.dynamic-search-asset-portlet > section > .portlet-topper {
+    margin-top: 65px;
+}
+
+// affichage des petites étoiles dans la popup signPetition.
+#modalSigner .text-warning{
+    font-size: 35%;
+    vertical-align: super;
+}
+
+// affichage des petites étoiles dans la popup modalPetition.
+#modalPetition .text-warning{
+    font-size: 35%;
+    vertical-align: super;
+}
+
+.alertMessage{
+    color:#ff0000;
+    font-weight:bold;
 }

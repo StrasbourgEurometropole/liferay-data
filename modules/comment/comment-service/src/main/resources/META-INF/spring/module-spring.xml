@@ -4,4 +4,7 @@
 	<bean class="eu.strasbourg.service.comment.service.impl.CommentLocalServiceImpl" id="eu.strasbourg.service.comment.service.CommentLocalService" />
 	<bean class="eu.strasbourg.service.comment.service.impl.CommentServiceImpl" id="eu.strasbourg.service.comment.service.CommentService" />
 	<bean class="eu.strasbourg.service.comment.service.persistence.impl.CommentPersistenceImpl" id="eu.strasbourg.service.comment.service.persistence.CommentPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.comment.service.impl.SignalementLocalServiceImpl" id="eu.strasbourg.service.comment.service.SignalementLocalService" />
+	<bean class="eu.strasbourg.service.comment.service.impl.SignalementServiceImpl" id="eu.strasbourg.service.comment.service.SignalementService" />
+	<bean class="eu.strasbourg.service.comment.service.persistence.impl.SignalementPersistenceImpl" id="eu.strasbourg.service.comment.service.persistence.SignalementPersistence" parent="basePersistence" />
 </beans>

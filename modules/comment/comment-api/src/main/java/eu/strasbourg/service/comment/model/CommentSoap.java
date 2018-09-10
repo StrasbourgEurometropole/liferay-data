@@ -47,10 +47,13 @@ public class CommentSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setComment(model.getComment());
+		soapModel.setLevel(model.getLevel());
+		soapModel.setUserQuality(model.getUserQuality());
+		soapModel.setModifiedByUserDate(model.getModifiedByUserDate());
 		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
-		soapModel.setLike(model.getLike());
-		soapModel.setDislike(model.getDislike());
+		soapModel.setParentCommentId(model.getParentCommentId());
+		soapModel.setUrlProjectCommentaire(model.getUrlProjectCommentaire());
 
 		return soapModel;
 	}
@@ -207,6 +210,30 @@ public class CommentSoap implements Serializable {
 		_comment = comment;
 	}
 
+	public int getLevel() {
+		return _level;
+	}
+
+	public void setLevel(int level) {
+		_level = level;
+	}
+
+	public String getUserQuality() {
+		return _userQuality;
+	}
+
+	public void setUserQuality(String userQuality) {
+		_userQuality = userQuality;
+	}
+
+	public Date getModifiedByUserDate() {
+		return _modifiedByUserDate;
+	}
+
+	public void setModifiedByUserDate(Date modifiedByUserDate) {
+		_modifiedByUserDate = modifiedByUserDate;
+	}
+
 	public long getAssetEntryId() {
 		return _assetEntryId;
 	}
@@ -223,20 +250,20 @@ public class CommentSoap implements Serializable {
 		_publikId = publikId;
 	}
 
-	public long getLike() {
-		return _like;
+	public long getParentCommentId() {
+		return _parentCommentId;
 	}
 
-	public void setLike(long like) {
-		_like = like;
+	public void setParentCommentId(long parentCommentId) {
+		_parentCommentId = parentCommentId;
 	}
 
-	public long getDislike() {
-		return _dislike;
+	public String getUrlProjectCommentaire() {
+		return _urlProjectCommentaire;
 	}
 
-	public void setDislike(long dislike) {
-		_dislike = dislike;
+	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
+		_urlProjectCommentaire = urlProjectCommentaire;
 	}
 
 	private String _uuid;
@@ -252,8 +279,11 @@ public class CommentSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _comment;
+	private int _level;
+	private String _userQuality;
+	private Date _modifiedByUserDate;
 	private long _assetEntryId;
 	private String _publikId;
-	private long _like;
-	private long _dislike;
+	private long _parentCommentId;
+	private String _urlProjectCommentaire;
 }

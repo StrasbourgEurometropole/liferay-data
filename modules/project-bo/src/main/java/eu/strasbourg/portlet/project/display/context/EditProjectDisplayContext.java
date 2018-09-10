@@ -3,10 +3,13 @@ package eu.strasbourg.portlet.project.display.context;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
@@ -15,15 +18,18 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 public class EditProjectDisplayContext {
 	
 	private Project _project;
-	
+	private List<AssetCategory> _cities;
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
 	
@@ -42,15 +48,51 @@ public class EditProjectDisplayContext {
 		return _project;
 	}
 		
-	public String getDefaultIndexes(int length) {
-		String indexes = "";
-		for (int i = 1; i <= length; i++) {
-			if (Validator.isNotNull(indexes)) {
-				indexes += ",";
+	public String getDefaultTimelineIndexes() throws PortalException {
+		if (this.getProject() != null) {
+			List<ProjectTimeline> timelines = this.getProject().getProjectTimelines();
+			String indexes = "0";
+			for (int i = 1; i <= timelines.size(); i++) {
+				indexes += "," + i;
 			}
-			indexes += i;
+			return indexes;
 		}
-		return indexes;
+		return "";
+	}
+	
+	/**
+	 * Renvoie les indexes des lieux par défaut
+	 */
+	public String getDefaultPlaceIndexes() throws PortalException {
+		if (this.getProject() != null) {
+			List<PlacitPlace> places = this.getProject().getPlacitPlaces();
+			String indexes = "0";
+			for (int i = 1; i <= places.size(); i++) {
+				indexes += "," + i;
+			}
+			return indexes;
+		}
+		return "";
+	}
+	
+	/**
+	 * Retourne la liste des villes
+	 */
+	public List<AssetCategory> getCities() throws PortalException {
+		if (Validator.isNull(this._cities)) {
+			AssetVocabulary territoriesVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.TERRITORY);
+			if (territoriesVocabulary != null) {
+				this._cities = territoriesVocabulary.getCategories().stream().filter(c -> {
+					try {
+						return c.getAncestors().size() == 1;
+					} catch (Exception e) {
+						return false;
+					}
+				}).collect(Collectors.toList());
+			}
+		}
+		return this._cities;
 	}
 
 	public Locale[] getAvailableLocales() {

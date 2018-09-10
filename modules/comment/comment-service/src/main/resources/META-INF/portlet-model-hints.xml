@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<hint-collection name="URL">
+		<hint name="max-length">4000</hint>
+	</hint-collection>
+	<hint-collection name="EDITOR">
+		<hint name="editor">true</hint>
+		<hint name="max-length">2000000</hint>
+	</hint-collection>
 	<model name="eu.strasbourg.service.comment.model.Comment">
 		<field name="uuid" type="String" />
 		<field name="commentId" type="long" />
@@ -15,11 +22,31 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="comment" type="String">
-			<hint name="max-length">4000</hint>
+			<hint-collection name="EDITOR" />
 		</field>
+		<field name="level" type="int" />
+		<field name="userQuality" type="String" />
+		<field name="modifiedByUserDate" type="Date" />
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
-		<field name="like" type="long" />
-		<field name="dislike" type="long" />
+		<field name="parentCommentId" type="long" />
+		<field name="urlProjectCommentaire" type="String">
+			<hint-collection name="URL" />
+		</field>
+	</model>
+	<model name="eu.strasbourg.service.comment.model.Signalement">
+		<field name="uuid" type="String" />
+		<field name="signalementId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="commentId" type="long" />
 	</model>
 </model-hints>

@@ -16,6 +16,7 @@
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveProject" varImpl="saveProjectURL">
 	<portlet:param name="cmd" value="saveProject" />
+	<portlet:param name="tab" value="projects" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
@@ -26,9 +27,10 @@
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="place-error" message="place-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
-	<aui:form action="${saveProjectURL}" method="post" name="fm">
+	<aui:form action="${saveProjectURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.project}" model="<%=Project.class %>" />
@@ -111,6 +113,38 @@
 				
 			</aui:fieldset>
 			
+			<%-- Groupe de champs : Lieux de consultation --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="consultation-places">
+				
+				<%-- Champ : Lieux --%>
+				<div id="place-fields">
+					<c:if test="${empty dc.project.getPlacitPlaces()}">
+						<div class="lfr-form-row lfr-form-row-inline main-content-card row-place">
+							<h3><liferay-ui:message key="place" /></h3>
+							<div class="row-fields">
+								<liferay-util:include page="/includes/placit-place-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="0" />
+								</liferay-util:include>
+							</div>
+						</div>
+					</c:if>
+					<c:forEach items="${dc.project.getPlacitPlaces()}" var="placitPlace" varStatus="status">
+						<c:set var="placitPlace" value="${placitPlace}" scope="request"/>
+						<div class="lfr-form-row lfr-form-row-inline main-content-card row-place">
+							<h3><liferay-ui:message key="place" /></h3>
+							<div class="row-fields">
+								<liferay-util:include page="/includes/placit-place-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="${status.index}" />
+								</liferay-util:include>
+							</div>
+						</div>
+					</c:forEach>
+					
+					<aui:input type="hidden" name="placeIndexes" value="${dc.defaultPlaceIndexes}" />
+				</div>
+				
+			</aui:fieldset>
+			
 			<%-- Groupe de champs : Categorisations --%>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
 				
@@ -149,10 +183,10 @@
 				<div class="timeline-label"><label><liferay-ui:message key="enter-a-timeline" /></label></div>
 				
 				<%-- Composant : Definit l'utilisation d'un selecteur multiple --%>
-				<div id="date-fields">
+				<div id="timeline-fields">
 				
 					<c:if test="${empty dc.project.projectTimelines}">
-						<div class="lfr-form-row lfr-form-row-inline">
+						<div class="lfr-form-row lfr-form-row-inline row-timeline">
 							<div class="row-fields">
 								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
 									<liferay-util:param name="index" value="0" />
@@ -162,7 +196,7 @@
 					</c:if>
 					
 					<c:forEach items="${dc.project.projectTimelines}" var="projectTimeline" varStatus="status">
- 						<div class="lfr-form-row lfr-form-row-inline">
+ 						<div class="lfr-form-row lfr-form-row-inline row-timeline">
 							<div class="row-fields">
 								<fmt:formatDate value="${projectTimeline.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
 								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
@@ -179,12 +213,7 @@
 
 					<%-- Variable : Definit les variables de gestion et de retour du selecteur 
 					(voir "autofields" dans le .js de l'edit de l'entite)  --%>
-					<c:if test="${empty dc.project.projectTimelines}">
-							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
-						</c:if>
-						<c:if test="${not empty dc.project.projectTimelines}">
-							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
-					</c:if>		
+					<aui:input type="hidden" name="timelineIndexes" value="${dc.defaultTimelineIndexes}" />
 					
 				</div>
 			
@@ -219,23 +248,34 @@
 		</aui:button-row>
 
 	</aui:form>
-
-	<%-- Variable : definit la phase de l'entite (utile pour l'action Jquery) --%>
-	<liferay-util:html-top>
-		<script>
-			var editProject = true;
-		</script>
-	</liferay-util:html-top>
 	
 </div>
 
+<liferay-portlet:actionURL name="getProjectPlaceRow" varImpl="placeRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/placit-place-row.jsp" />
+</liferay-portlet:actionURL>
+
+<liferay-portlet:actionURL name="getProjectTimelineRow" varImpl="timelineRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/timeline-row.jsp" />
+</liferay-portlet:actionURL>
+
 <liferay-util:html-top>
 	<script>
+		var editProject = true;
+		var getProjectPlaceRowURL = '${placeRowURL}';
 		var getProjectTimelineRowJSPURL = '${timelineRowURL}';
 	</script>
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
+	<aui:script>
+		define._amd = define.amd;
+		define.amd = false;
+	</aui:script>
+	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
+	<script>
+		define.amd = define._amd;
+	</script>
 	<script src="/o/projectbo/js/project-bo-edit-project.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 

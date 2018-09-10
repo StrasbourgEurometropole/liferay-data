@@ -6,6 +6,8 @@ dependencies {
 	compile project (':modules:utils')
 	compile project(":modules:agenda:agenda-api")
 	compile project(":modules:place:place-api")
+	compile project(":modules:comment:comment-api")
+	compile project(":modules:adict")
 }
 
 buildService {

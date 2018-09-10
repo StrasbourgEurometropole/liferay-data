@@ -87,9 +87,10 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	*/
 	@Override
 	public eu.strasbourg.service.comment.model.Comment createComment(
+		java.lang.String userPublikId,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _commentLocalService.createComment(sc);
+		return _commentLocalService.createComment(userPublikId, sc);
 	}
 
 	/**
@@ -201,6 +202,32 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	}
 
 	/**
+	* Met à jour un commentaire et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.comment.model.Comment updateComment(
+		eu.strasbourg.service.comment.model.Comment comment,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _commentLocalService.updateComment(comment, sc);
+	}
+
+	/**
+	* Met à jour le statut du projet par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.comment.model.Comment updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _commentLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
+	}
+
+	/**
 	* Returns the number of comments.
 	*
 	* @return the number of comments
@@ -218,6 +245,17 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _commentLocalService.getOSGiServiceIdentifier();
+	}
+
+	/**
+	* méthode permettant d'obtenir une partie du commentaire.
+	*
+	* @param comment le commentaire en entier.
+	* @return le résultat du commentaire.
+	*/
+	@Override
+	public java.lang.String getSummary(java.lang.String comment) {
+		return _commentLocalService.getSummary(comment);
 	}
 
 	/**
@@ -274,6 +312,24 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _commentLocalService.findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à un commentaire
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _commentLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
 	* Retourne tous les commentaires d'un asset entry
 	*/
 	@Override
@@ -283,12 +339,31 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	}
 
 	/**
+	* Retourne tous les commentaires d'un asset entry
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getByAssetEntryAndLevel(
+		long assetEntryId, int level, int status) {
+		return _commentLocalService.getByAssetEntryAndLevel(assetEntryId,
+			level, status);
+	}
+
+	/**
 	* Retourne tous les commentaires d'un groupe
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.comment.model.Comment> getByGroupId(
 		long groupId) {
 		return _commentLocalService.getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne tous les commentaires d'un commentaire parent
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getByParentCommentId(
+		long parentCommentId, int status) {
+		return _commentLocalService.getByParentCommentId(parentCommentId, status);
 	}
 
 	/**
@@ -364,6 +439,24 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _commentLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _commentLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut du projet "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.comment.model.Comment comment, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_commentLocalService.updateStatus(comment, status);
 	}
 
 	@Override

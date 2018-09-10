@@ -67,6 +67,7 @@ import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
+import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
@@ -786,6 +787,44 @@ public abstract class EventLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the event participation local service.
+	 *
+	 * @return the event participation local service
+	 */
+	public eu.strasbourg.service.agenda.service.EventParticipationLocalService getEventParticipationLocalService() {
+		return eventParticipationLocalService;
+	}
+
+	/**
+	 * Sets the event participation local service.
+	 *
+	 * @param eventParticipationLocalService the event participation local service
+	 */
+	public void setEventParticipationLocalService(
+		eu.strasbourg.service.agenda.service.EventParticipationLocalService eventParticipationLocalService) {
+		this.eventParticipationLocalService = eventParticipationLocalService;
+	}
+
+	/**
+	 * Returns the event participation persistence.
+	 *
+	 * @return the event participation persistence
+	 */
+	public EventParticipationPersistence getEventParticipationPersistence() {
+		return eventParticipationPersistence;
+	}
+
+	/**
+	 * Sets the event participation persistence.
+	 *
+	 * @param eventParticipationPersistence the event participation persistence
+	 */
+	public void setEventParticipationPersistence(
+		EventParticipationPersistence eventParticipationPersistence) {
+		this.eventParticipationPersistence = eventParticipationPersistence;
+	}
+
+	/**
 	 * Returns the event period local service.
 	 *
 	 * @return the event period local service
@@ -1233,6 +1272,10 @@ public abstract class EventLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected EventLocalService eventLocalService;
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.EventParticipationLocalService.class)
+	protected eu.strasbourg.service.agenda.service.EventParticipationLocalService eventParticipationLocalService;
+	@BeanReference(type = EventParticipationPersistence.class)
+	protected EventParticipationPersistence eventParticipationPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class)
 	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService;
 	@BeanReference(type = EventPeriodPersistence.class)

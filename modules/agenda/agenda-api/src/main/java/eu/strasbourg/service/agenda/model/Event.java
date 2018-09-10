@@ -148,6 +148,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getPlaceCity(java.util.Locale locale);
 
 	/**
+	* Retourne l'adresse complete du lieu SIG ou "manuel"
+	*/
+	public java.lang.String getCompleteAddress(java.util.Locale locale);
+
+	/**
 	* Retourne les coordonnees mercator en axe X (longitude)
 	*/
 	public java.lang.String getMercatorX();
@@ -156,6 +161,44 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne les coordonnees mercator en axe Y (latitude)
 	*/
 	public java.lang.String getMercatorY();
+
+	/**
+	* Retourne les coordonnees mercator en axe X et Y
+	* Notes : permet de ne pas multiplier les appels
+	*
+	* @return tableau [mercatorX, mercatorY] sinon tableau vide
+	*/
+	public java.util.List<java.lang.String> getMercators();
+
+	/**
+	* Retourne la liste des participations de l'evenement
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation> getEventParticipations();
+
+	/**
+	* Retourne le nombre de participation a l'evenement
+	*/
+	public int getNbEventParticipations();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	/**
+	* L'evenement est-il terminee ?
+	*/
+	public boolean isFinished();
+
+	/**
+	* Retourne le label de 5 digits du nombre de participation a l'evenement
+	*/
+	public java.lang.String getNbEventParticipationsLabel();
 
 	/**
 	* Retourne true si l'événement est accessible pour au moins un type de
@@ -215,6 +258,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices();
 
 	public java.time.LocalDate getNextOpenDate();
+
+	/**
+	* Demande si l'utilisateur demandé participe à l'événement
+	*/
+	public boolean isUserParticipate(java.lang.String publikUserId);
 
 	/**
 	* Retourne la version JSON de l'événenement

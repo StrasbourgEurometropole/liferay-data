@@ -14,14 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -47,12 +39,20 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the participation local service.
@@ -120,6 +120,8 @@ public class ParticipationLocalServiceImpl
 		
 		this.updateAssetEntry(participation, sc);
 		this.reindex(participation, false);
+		
+		this.updateAllParticipationsStatus();
 
 		return participation;
 	}
@@ -234,6 +236,14 @@ public class ParticipationLocalServiceImpl
 			// Delete the AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Participation.class.getName(),
 					participationId);
+			
+			// Supprime les lieux
+			List<PlacitPlace> placitPlaces = this.placitPlaceLocalService
+				.getByParticipation(participationId);
+			for (PlacitPlace placitPlace : placitPlaces) {
+				this.placitPlaceLocalService.removePlacitPlace(
+						placitPlace.getPlacitPlaceId());
+			}
 
 		}
 
@@ -268,8 +278,8 @@ public class ParticipationLocalServiceImpl
 			long groupId = group.getGroupId();
 			// Recupere toutes les participations du site
 			List<Participation> participations = this.participationPersistence.findByGroupId(groupId);
-			// Recupere l'ID du vocabulaire de 'Statut participation'
-			long vocId = AssetVocabularyHelper.getVocabulary(VocabularyNames.PARTICIPATION_STATUS, groupId).getVocabularyId();
+			// Recupere l'ID du vocabulaire de 'Statut participer'
+			long vocId = AssetVocabularyHelper.getVocabulary(VocabularyNames.PLACIT_STATUS, groupId).getVocabularyId();
 			AssetEntry entry = null;
 			AssetCategory removedCategory = null;
 			AssetCategory addedCategory = null;

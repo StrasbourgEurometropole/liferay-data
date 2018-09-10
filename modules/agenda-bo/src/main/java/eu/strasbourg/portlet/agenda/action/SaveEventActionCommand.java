@@ -235,6 +235,10 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "websiteURL");
 			event.setWebsiteURLMap(websiteURL);
 
+			// ---------------------------------------------------------------
+			// -------------------------- PRIX -------------------------------
+			// ---------------------------------------------------------------
+			
 			Integer free = ParamUtil.getInteger(request, "free");
 			event.setFree(free);
 
@@ -242,6 +246,20 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "price");
 			event.setPriceMap(price);
 
+			// ---------------------------------------------------------------
+			// ----------------- RESERVATION DE BILLETS ----------------------
+			// ---------------------------------------------------------------
+			
+			// Description de la reservation
+			Map<Locale, String> bookingDescriptionMap = LocalizationUtil
+				.getLocalizationMap(request, "bookingDescription");
+			event.setBookingDescriptionMap(bookingDescriptionMap);
+			
+			// URL de la billeterie
+			String bookingURL = ParamUtil.getString(request,
+					"bookingURL");
+			event.setBookingURL(bookingURL);
+			
 			String publicationDateString = ParamUtil.getString(request,
 				"publicationDate");
 			String publicationDateTimeString = ParamUtil.getString(request,

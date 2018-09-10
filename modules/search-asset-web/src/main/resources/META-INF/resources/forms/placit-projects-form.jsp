@@ -1,15 +1,40 @@
 <%@ include file="/search-asset-init.jsp"%>
 
+<portlet:resourceURL id="entrySelectionProject" var="projectsSelectionURL">
+</portlet:resourceURL>
+
+<c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
+
+<!-- Recherche par mots-clefs -->
+<div class="pro-group">
+    <div class="pro-header">
+        <h4><liferay-ui:message key="keywords" /></h4>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
+    </div>
+    <fieldset class="pro-text">
+        <legend aria-hidden="true" class="hide">Effectuer une recherche</legend>
+        <div>
+            <input type="text"
+            	name="<portlet:namespace />keywords"
+            	id="name"
+            	placeholder="<liferay-ui:message key="please-enter-keyword" />"
+            	value="${dc.keywords}">
+            <label for="name" class="hide"><liferay-ui:message key="keywords" /></label>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Recherche par statut -->
 <div class="pro-group">
 	<div class="pro-header">
 		<h4>
 			<liferay-ui:message key="eu.projet-status" />
 		</h4>
-		<span class="pro-remove"><liferay-ui:message
+		<span class="pro-remove dynamic"><liferay-ui:message
 				key="eu.projet-erase" /></span>
 	</div>
 	<fieldset>
-		<legend aria-hidden="true" class="hide">Choix par nom de projet</legend>
+		<legend aria-hidden="true" class="hide">Choix par statut</legend>
 		<div>
 			<select class="" id="statut-projet"
 				name="<portlet:namespace />vocabulary_0">
@@ -31,14 +56,15 @@
 </div>
 <br />
 
+<!-- Recherche par quartier -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.districts" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
+    <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
-        
+
         <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(districtVocabulary)}"
@@ -51,18 +77,19 @@
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
-        
+
     </fieldset>
 </div>
 
+<!-- Recherche par thématique -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
+    <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
-        		
+
 		<c:set var="thematicVocabulary" value="${vocabularyAccessor.getThematics(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(thematicVocabulary)}"
@@ -75,15 +102,9 @@
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
-		
+
     </fieldset>
 </div>
-
-<div class="pro-group">
-    <input type="submit" name="rechercher" value="Rechercher" />
-</div>
-
-<aui:input type="hidden" name="vocabulariesCount" value="3" />
 
 <script>
 	$(document).ready(function() {
@@ -92,3 +113,16 @@
 		});
 	});
 </script>
+
+<liferay-util:html-top>
+	<script>
+		var porletNamespace = '<portlet:namespace/>';
+
+        var projectsSelectionURL = '${projectsSelectionURL}';
+	</script>
+</liferay-util:html-top>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetweb/js/placit-project.js"></script>
+
+</liferay-util:html-bottom>

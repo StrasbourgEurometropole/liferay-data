@@ -1,12 +1,35 @@
 <%@ include file="/search-asset-init.jsp"%>
 
+<portlet:resourceURL id="entrySelectionParticipation" var="participationsSelectionURL">
+</portlet:resourceURL>
+
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
 
+<!-- Recherche par mots-clefs -->
+<div class="pro-group">
+    <div class="pro-header">
+        <h4><liferay-ui:message key="keywords" /></h4>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
+    </div>
+    <fieldset class="pro-text">
+        <legend aria-hidden="true" class="hide">Effectuer une recherche</legend>
+        <div>
+            <input type="text" 
+            	name="<portlet:namespace />keywords"
+            	id="name"
+            	placeholder="<liferay-ui:message key="please-enter-keyword" />"
+            	value="${dc.keywords}">
+            <label for="name" class="hide"><liferay-ui:message key="keywords" /></label>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Recherche par dates -->
 <c:if test="${dc.dateField}">
 	<div class="pro-group">
 	    <div class="pro-header">
 	        <h4><liferay-ui:message key="eu.dates" /></h4>
-	        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+	        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
 	    </div>
 	    <fieldset>
 	        <legend aria-hidden="true" class="hide">Choix par date</legend>
@@ -14,7 +37,7 @@
 	            <div class="pro-facette-date">
 	                <label for="startDate" class="hide"><liferay-ui:message key="eu.dates" /></label>
 	                <span class="pro-wrapper-date">
-	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date"
+	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date dynamic"
 			            	readonly="readonly" value="${dc.fromMonthValue}/${dc.fromDay}/${dc.fromYear}">
 			            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
 			            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
@@ -22,7 +45,7 @@
 	                </span>
 	                <label for="endDate"><liferay-ui:message key="eu.au" /></label>
 	                <span class="pro-wrapper-date"> 
-	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date"
+	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date dynamic"
 			            	readonly="readonly" value="${dc.toMonthValue}/${dc.toDay}/${dc.toYear}">
 			            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
 			            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
@@ -34,15 +57,16 @@
 	</div>
 </c:if>
 
+<!-- Recherche par états -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.state" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
+    <fieldset id="states_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
         
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getParticipationStatus(groupID)}" />
+        <c:set var="statusVocabulary" value="${vocabularyAccessor.getPlacitStatus(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(statusVocabulary)}"
 			var="category"
@@ -57,12 +81,13 @@
     </fieldset>
 </div>
 
+<!-- Recherche par quartiers -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.districts" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
+    <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
         
         <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />
@@ -81,12 +106,13 @@
     </fieldset>
 </div>
 
+<!-- Recherche par thématiques -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>
-        <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
+    <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
         		
 		<c:set var="thematicVocabulary" value="${vocabularyAccessor.getThematics(groupID)}" />
@@ -105,11 +131,30 @@
     </fieldset>
 </div>
 
+<!-- Recherche par types -->
 <div class="pro-group">
-    <input type="submit" name="rechercher" value="Rechercher" />
+    <div class="pro-header">
+        <h4><liferay-ui:message key="eu.participation.types" /></h4>
+        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
+    </div>
+    <fieldset id="types_fieldset" class="pro-checkbox">
+        <legend aria-hidden="true" class="hide">Choix par type de participation</legend>
+		
+		<c:set var="participationTypesVocabulary" value="${vocabularyAccessor.getParticipationTypes(groupID)}" />
+		<c:forEach
+			items="${dc.getDropdownRootCategories(participationTypesVocabulary)}"
+			var="category"
+			varStatus="catStatus">
+			<aui:input type="checkbox" name="vocabulary_3"
+				value="${category.categoryId}"
+				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
+				id="vocabulary_3_${catStatus.index}"
+				label="${category.getTitle(locale)}"
+				cssClass="move-to-grand-parent" />
+		</c:forEach>
+		
+    </fieldset>
 </div>
-
-<aui:input type="hidden" name="vocabulariesCount" value="3" />
 
 <script>
 	$(document).ready(function() {
@@ -118,3 +163,16 @@
 		});
 	});
 </script>
+
+<liferay-util:html-top>
+	<script>
+		var porletNamespace = '<portlet:namespace/>';
+
+        var participationsSelectionURL = '${participationsSelectionURL}';
+	</script>
+</liferay-util:html-top>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetweb/js/placit-participation.js"></script>
+
+</liferay-util:html-bottom>

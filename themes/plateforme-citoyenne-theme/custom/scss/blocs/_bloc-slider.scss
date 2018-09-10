@@ -47,11 +47,10 @@
 				}
 				@include mobile {
 					min-width: auto;
-					width: 250px !important;
 					height: 100%;
 				}
 				@include mobile_small {
-					width: 200px !important;
+					width: 260px !important;
 				}
 				@include addTransitionCurve();
 				&.opacify {
@@ -128,35 +127,21 @@
 				border: none;
 				box-shadow: none;
 				transform: translateY(-50%);
-				width: 40px;
-				height: 40px;
+				width: 45px;
+				height: 45px;
 				@include addTransition();
-				&:before {
-					content: '';
-					display: block;
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					background: #AAA;
-					border-radius: 50%;
-					z-index: -1;
-					width: 40px;
-					height: 40px;
-					@include addTransition();
-				}
 				span {
-					font-size: 20px;
+					font-size: 40px;
 					position: absolute;
 					left: 0;
 					top: 0;
 					line-height: 40px;
-					text-align: center;
+					text-align: left;
+					@include addTransition();
 				}
 				&:hover, &:focus {
-					&:before {
-						background: $c_main;
+					span{
+						color: $c_main;
 					}
 				}
 				&.disabled {
@@ -174,6 +159,7 @@
 				right: 0;
 				top: 150px;
 				span {
+					text-align: right;
 					right: -3px;
 				}
 			}
@@ -202,11 +188,11 @@
 			.owl-item {
 				width: 435px !important;
 				@include mobile {
-					width: 280px !important;
+					width: 300px !important;
 					height: auto;
 				}
 				@include mobile_small {
-					width: 200px !important;
+					width: 260px !important;
 				}
 				.item {
 					margin-top: 20px;
@@ -271,11 +257,11 @@
 			.owl-item {
 				width: 435px !important;
 				@include mobile {
-					width: 280px !important;
+					width: 300px !important;
 					height: auto;
 				}
 				@include mobile_small {
-					width: 200px !important;
+					width: 260px !important;
 				}
 				.item {
 					margin-top: 20px;

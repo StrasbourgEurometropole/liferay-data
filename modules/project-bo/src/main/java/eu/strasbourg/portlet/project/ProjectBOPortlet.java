@@ -1,15 +1,5 @@
 package eu.strasbourg.portlet.project;
 
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.theme.PortletDisplay;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
-
 import java.io.IOException;
 
 import javax.portlet.Portlet;
@@ -18,6 +8,25 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+
+import eu.strasbourg.portlet.project.display.context.EditInitiativeDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewInitiativesDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
 
 /**
  * @author cedric.henry
@@ -46,30 +55,64 @@ public class ProjectBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		
-		renderResponse.setTitle("Projets");
+		String tab = ParamUtil.getString(renderRequest, "tab");
+		Boolean fromAjaxProject = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxProject"));
+		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
+		Boolean fromAjaxPetition = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxPetition"));
+		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
+
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL.toString());
 		}
 		
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editProject")) {
+		if (cmd.equals("editProject") || fromAjaxProject) {
 			EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);		
-		} else {
-			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse); 
+			renderRequest.setAttribute("dc", dc);	
+			title = "projects";
+		} else if (cmd.equals("editParticipation") || fromAjaxParticipation) {
+			EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+			title = "participations";
+		} else if (cmd.equals("editPetition") || fromAjaxPetition) {
+			EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "Petitions";
+		} else if (cmd.equals("editInitiative") || fromAjaxPetition) {
+			EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "Initiatives";		
+		} else if (tab.equals("participations")) {
+			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
+			renderRequest.setAttribute("dc", dc);
+			title = "participations";
+		} else if (tab.equals("petitions")){
+			ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "petitions";
+		} else if (tab.equals("initiatives")){
+			ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "initiatives";
+		}
+		else { // Else, we are on the projects list page
+			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "projects";
 		}
 		
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 		
 		super.render(renderRequest, renderResponse);
+		
+		title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
+		renderResponse.setTitle(title);
 	}
 
 }

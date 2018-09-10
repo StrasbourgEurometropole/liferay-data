@@ -1,4 +1,0 @@
-Bundle-Name: participation-bo
-Bundle-SymbolicName: eu.strasbourg.portlet.participation
-Bundle-Version: 1.0.0
-Web-ContextPath: /participationbo

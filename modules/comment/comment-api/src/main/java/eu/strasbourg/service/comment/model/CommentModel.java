@@ -308,6 +308,49 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setComment(String comment);
 
 	/**
+	 * Returns the level of this comment.
+	 *
+	 * @return the level of this comment
+	 */
+	public int getLevel();
+
+	/**
+	 * Sets the level of this comment.
+	 *
+	 * @param level the level of this comment
+	 */
+	public void setLevel(int level);
+
+	/**
+	 * Returns the user quality of this comment.
+	 *
+	 * @return the user quality of this comment
+	 */
+	@AutoEscape
+	public String getUserQuality();
+
+	/**
+	 * Sets the user quality of this comment.
+	 *
+	 * @param userQuality the user quality of this comment
+	 */
+	public void setUserQuality(String userQuality);
+
+	/**
+	 * Returns the modified by user date of this comment.
+	 *
+	 * @return the modified by user date of this comment
+	 */
+	public Date getModifiedByUserDate();
+
+	/**
+	 * Sets the modified by user date of this comment.
+	 *
+	 * @param modifiedByUserDate the modified by user date of this comment
+	 */
+	public void setModifiedByUserDate(Date modifiedByUserDate);
+
+	/**
 	 * Returns the asset entry ID of this comment.
 	 *
 	 * @return the asset entry ID of this comment
@@ -337,32 +380,33 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setPublikId(String publikId);
 
 	/**
-	 * Returns the like of this comment.
+	 * Returns the parent comment ID of this comment.
 	 *
-	 * @return the like of this comment
+	 * @return the parent comment ID of this comment
 	 */
-	public long getLike();
+	public long getParentCommentId();
 
 	/**
-	 * Sets the like of this comment.
+	 * Sets the parent comment ID of this comment.
 	 *
-	 * @param like the like of this comment
+	 * @param parentCommentId the parent comment ID of this comment
 	 */
-	public void setLike(long like);
+	public void setParentCommentId(long parentCommentId);
 
 	/**
-	 * Returns the dislike of this comment.
+	 * Returns the url project commentaire of this comment.
 	 *
-	 * @return the dislike of this comment
+	 * @return the url project commentaire of this comment
 	 */
-	public long getDislike();
+	@AutoEscape
+	public String getUrlProjectCommentaire();
 
 	/**
-	 * Sets the dislike of this comment.
+	 * Sets the url project commentaire of this comment.
 	 *
-	 * @param dislike the dislike of this comment
+	 * @param urlProjectCommentaire the url project commentaire of this comment
 	 */
-	public void setDislike(long dislike);
+	public void setUrlProjectCommentaire(String urlProjectCommentaire);
 
 	/**
 	 * Returns <code>true</code> if this comment is approved.

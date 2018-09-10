@@ -208,16 +208,18 @@ function callbackMapListingEvent(macarte) {
 
     $('.pro-bloc-listing-event > a').each(function () {
         var geo = {lat: $(this).data('lat'), lng: $(this).data('lng')};
-        marker = th_maps.createMarker(macarte, geo, 'event');
+        marker = th_maps.createMarker(macarte, geo, 'participation', 'projet');
         bounds.extend(geo);
 
-        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container">' +
+        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container" class="pro-bloc-card-map-event">' +
             '<div class="map-inte-content">' +
             '<div class="map-inte-header"><span class="pro-time">Publiée le <time datetime="2018-01-10">' + $('time', this).text() + '</time></span><p>' + $('p', this).text() + '</p></div>' +
             '<div class="map-inte-content-text"><h3>' + $('h3', this).text() + '</h3>' +
             '<span class="pro-btn-yellow">En savoir plus</span>' +
-            '</div></div></a>', marker, 260);
+            '</div></div></a>', marker, 250);
     });
+
+    macarte.fitBounds(bounds);
 
     th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.RIGHT_TOP;
     th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
@@ -225,10 +227,8 @@ function callbackMapListingEvent(macarte) {
 }
 
 
-
-
 /* MAP POUR LES PAGES STANDARDS ET PROJET */
-function callbackCartePage(macarte){
+function callbackCartePage(macarte) {
     // ---------  Google map Zoom Button  --------- //
     google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
         e.preventDefault();
@@ -242,10 +242,8 @@ function callbackCartePage(macarte){
 }
 
 
-
-
 /* MAP POUR LA CARTE INTERACTIVE */
-function callbackCarteInteractive(macarte){
+function callbackCarteInteractive(macarte) {
 
     var bounds = new google.maps.LatLngBounds();
 
@@ -260,85 +258,126 @@ function callbackCarteInteractive(macarte){
         macarte.setZoom(macarte.getZoom() - 1);
     });
 
-    marker1 = th_maps.createMarker(macarte,{lat:48.5891137,lng:7.7514801},'map','projet');
-    marker2 = th_maps.createMarker(macarte,{lat:48.5991137,lng:7.7414801},'map','projet');
-    marker3 = th_maps.createMarker(macarte,{lat:48.5791137,lng:7.7314801},'map','projet');
-    marker4 = th_maps.createMarker(macarte,{lat:48.5775591,lng:7.7606211},'map','projet');
-    marker5 = th_maps.createMarker(macarte,{lat:48.5922362,lng:7.7282629},'map','projet');
+    markerParticipation = th_maps.createMarker(macarte, {lat: 48.5891137, lng: 7.7514801}, 'participation', 'marker');
+    markerEvent = th_maps.createMarker(macarte, {lat: 48.5991137, lng: 7.7414801}, 'event', 'marker');
+    markerParticipation2 = th_maps.createMarker(macarte, {lat: 48.5775591, lng: 7.7606211}, 'participation', 'marker');
+    markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
+    markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
+    markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
 
 
-    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
+    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" title="lien de la page" class="pro-bloc-card-participation' +
         ' pro-theme-concertation"><div>' +
         '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p></div>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
         '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
-        '<h3>Titre de l’Évènement<br>Sur deux lignes</h3>' +
+        '<h3>Titre de la participation terminée<br>Sur deux lignes</h3>' +
         '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
         '<div class="pro-footer-participation pro-participation-deadline"><div class="pro-avis"><span class="pro-like">1808</span>' +
         '<span class="pro-dislike">404</span></div><p>Participation terminée, merci de votre participation</p>' +
-        '</div></div></a></div>',marker1,247);
+        '</div></div></a></div>', markerParticipation, 247);
 
 
-    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="page.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
-        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Publiée le <time datetime="2018-01-10">10 janvier' +
-        ' 2018</time></span>' +
+    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.html" title="lien de la page" class="pro-bloc-card-event"><div>' +
+        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>' +
         '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
-        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participant(s)</span></div>' +
-        '</div></a></div>',marker2,247);
+        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participants-es</span></div>' +
+        '</div></a></div>', markerEvent, 247);
 
 
-    contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
-        '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
-        '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
-        ' class="link">Lire la suite</span></div>' +
-        '</a></div>',marker3,247);
+    // contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
+    //     '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
+    //     '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
+    //     ' class="link">Lire la suite</span></div>' +
+    //     '</a></div>',marker3,247);
 
 
-    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
+    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" class="item pro-bloc-card-participation pro-theme-information"' +
         ' data-linkall="a">' +
         '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Concertation publiée par :</p><p><strong>Ville de Strasbourg</strong></p></div>' +
-        '<div class="pro-content-participation"><h3>Titre de l’Évènement<br>Sur deux lignes</h3><span class="pro-time">Publiée le' +
-        ' <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
+        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
+        '<h3>Titre de la participation<br>Sur deux lignes</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
         '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>' +
-        '</div></a></div>',marker4,247);
+        '</div></a></div>', markerParticipation2, 247);
 
 
-    contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
-        '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
-        ' class="icon-ico-lecteur"></span></div>' +
-        '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
-        '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
-        '</div></a></div>',marker5,247);
+    // contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
+    //     '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
+    //     ' class="icon-ico-lecteur"></span></div>' +
+    //     '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
+    //     '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
+    //     '</div></a></div>',marker5,247);
 
 
+    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.html"><div class="pro-header-petition">' +
+        '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
+        '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
+        '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
+        '</div></div></a></div>', markerPetition, 247);
 
-    bounds.extend(marker1.position);
-    bounds.extend(marker2.position);
-    bounds.extend(marker3.position);
-    bounds.extend(marker4.position);
-    bounds.extend(marker5.position);
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.html"><div class="wrapper-card-initiative"><div> ' +
+        '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
+        '<div class="pro-content-initiative">' +
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '</div></div> ' +
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
+        '</div></a></div>', markerInitiative, 247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-vignette-projet"><a href="detail-projet.html"><div>' +
+        '<div class="pro-content-vignette-projet">' +
+        '<div><span class="location">Nom du quartier</span></div>' +
+        '<h3>Titre du projet<br>Sur deux lignes</h3>' +
+        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div>'+
+        '</div> ' +
+        '</a></div>', markerProjet, 247);
+
+
+    bounds.extend(markerParticipation.position);
+    bounds.extend(markerEvent.position);
+    bounds.extend(markerParticipation2.position);
+    bounds.extend(markerPetition.position);
+    bounds.extend(markerInitiative.position);
+    bounds.extend(markerProjet.position);
     macarte.fitBounds(bounds);
 }
 
 
 th_maps.onLoad(function () {
 
-
-    th_maps.addMarkerIcon('event', {
-        url: ''+document.location.origin+'./assets/images/logos/ico-marker-agenda-2x.png',
-        scaledSize: new google.maps.Size(30, 36)
+    th_maps.addMarkerIcon('participation', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-participation.png',
+        scaledSize: new google.maps.Size(75, 95)
     });
 
-    th_maps.addMarkerIcon('map', {
-        url: ''+document.location.origin+'./assets/images/logos/ico-marker-map-inte-2x.png',
-        scaledSize: new google.maps.Size(30, 36)
+    th_maps.addMarkerIcon('initiative', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-initiative.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('projet', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-projet.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('petition', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-petition.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('event', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        scaledSize: new google.maps.Size(75, 95)
     });
 
     th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.LEFT_CENTER;
     th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
 });
-
 
 
 /* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LES PAGES DE LISTING */
@@ -347,7 +386,7 @@ function filterMapListing(options) {
     options.streetViewControl = false;
     options.zoomControl = true;
 
-    options.zoomControlOptions = {position:google.maps.ControlPosition.LEFT_TOP};
+    options.zoomControlOptions = {position: google.maps.ControlPosition.LEFT_TOP};
     options.mapTypeId = google.maps.MapTypeId.ROADMAP;
 
     return options;

@@ -60,6 +60,65 @@ public interface Video extends VideoModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
+	* Retourne les thematiques de la vidéo
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la vidéo
+	*
+	* @return : la liste des catégories
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
+
+	/**
+	* Retourne le projet de la video
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	* Retourne la liste des like/dislike de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes();
+
+	/**
+	* Retourne la liste des likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes();
+
+	/**
+	* Retourne la liste des dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes();
+
+	/**
+	* Retourne le nombre de likes/dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikesDislikes();
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbLikes();
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	public int getNbDislikes();
+
+	/**
 	* Retourne la liste des AssetCategory correspondant à cet item (via
 	* l'AssetEntry)
 	*/
@@ -89,6 +148,31 @@ public interface Video extends VideoModel, PersistedModel {
 	* Retourne la version live de la vidéo si elle existe, null sinon
 	*/
 	public eu.strasbourg.service.video.model.Video getLiveVersion();
+
+	/**
+	* Retourne le site cible de la vidéo
+	*/
+	public java.lang.String getSiteVideo(java.lang.String videoUrl);
+
+	/**
+	* Retourne l'id de la vidéo
+	*/
+	public java.lang.String getVideoId(java.lang.String site,
+		java.lang.String videoUrl);
+
+	/**
+	* Retourne le nombre de vues d'une vidéo
+	*/
+	public java.lang.String getNbViews(java.lang.String site,
+		java.lang.String videoId);
+
+	/**
+	* Retourne le code embed de la vidéo si le champ "source" est un lien
+	* vers une vidéo Dailymotion, YouTube ou Vimeo, retourne le contenu du
+	* champ source sinon
+	*/
+	public java.lang.String getEmbedURL(java.lang.String site,
+		java.lang.String videoUrl);
 
 	/**
 	* Retourne le code html embed du player si le champ "source" est un lien
@@ -142,6 +226,14 @@ public interface Video extends VideoModel, PersistedModel {
 	*/
 	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(
 		java.util.Locale locale);
+
+	/**
+	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @throws PortalException
+	*/
+	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(
+		java.util.Locale locale, int nbSuggestions);
 
 	/**
 	* Retourne les thèmes de la vidéo

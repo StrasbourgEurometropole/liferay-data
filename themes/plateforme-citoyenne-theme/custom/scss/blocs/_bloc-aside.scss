@@ -9,6 +9,82 @@ aside {
 		width: 100%;
 		height: 200px;
 	}
+
+
+	.pro-coup-de-coeur{
+		background: $c_main;
+		height: 60px;
+		position: absolute;
+		top: -60px;
+		left: 15px;
+		right: 15px;
+		z-index: 100;
+		width: calc(100% - 30px);
+		text-align: center;
+		@include mobile{
+			position: relative;
+			top: 0;
+			width: 100%;
+			left: 0;
+			right: 0;
+		}
+		p{
+			@include ft($f_txt, 0.875em, 700, $c_txt, 60px);
+			display: inline-block;
+			vertical-align: middle;
+			&:after{
+				content: "\e932";
+				@include font();
+				float: right;
+				line-height: 60px;
+				margin-left: 8px;
+			}
+		}
+	}
+
+
+	.pro-progress-bar{
+		padding: 5px 0;
+		.pro-progress-container{
+			position: relative;
+			width: 100%;
+			height: 10px;
+			border-radius: 6px;
+			border: 1px solid $c_dark;
+			background: #504f47;
+			box-shadow: inset 4px 4px 5px 0px rgba(0,0,0,0.35);
+			margin-bottom: 5px;
+			> div{
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				background: $c_main;
+				border-radius: 6px;
+			}
+		}
+		p.pro-txt-progress{
+			@include ft($f_txt, 0.75em, 700, $c_white, normal);
+			margin-bottom: 15px;
+			text-align: left;
+			span{
+				color: $c_rouge;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+
+	.pro-wrapper-links-petition{
+		> * {
+			margin-bottom: 10px;
+			&:last-child{
+				margin-bottom: 15px;
+			}
+		}
+	}
+
+
 	.pro-compteur {
 		border-bottom: 1px solid #666666;
 		padding: 25px 40px;
@@ -103,6 +179,17 @@ aside {
 			}
 		}
 	}
+
+
+	.pro-wrapper-aside-budget{
+		padding: 30px 40px 45px 40px;
+		p{
+			@include ft($f_txt, 0.875em, 400, $c_white, 1.714em);
+			margin-bottom: 20px;
+			text-align: center;
+		}
+	}
+
 
 	.pro-event-comming {
 		padding: 15px 40px;

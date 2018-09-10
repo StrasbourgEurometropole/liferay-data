@@ -28,10 +28,15 @@
 
 		<!-- main fields -->
 		<column name="comment" type="String" />
+		<column name="level" type="int" />
+		<column name="userQuality" type="String" />
+		<column name="modifiedByUserDate" type="Date" />
+		
+		<!-- Links with other entities -->
 		<column name="assetEntryId" type="long" />
 		<column name="publikId" type="String" />
-		<column name="like" type="long" />
-		<column name="dislike" type="long" />
+		<column name="parentCommentId" type="long" />
+		<column name="urlProjectCommentaire" type="String"/>
 
 		<!-- Order -->
 		<order by="asc">
@@ -42,10 +47,17 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
-		
-		<!-- Finder methods -->
 		<finder name="AssetEntryId" return-type="Collection">
 			<finder-column name="assetEntryId" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="AssetEntryIdAndLevel" return-type="Collection">
+			<finder-column name="assetEntryId" />
+			<finder-column name="level" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="ParentCommentId" return-type="Collection">
+			<finder-column name="parentCommentId" />
 			<finder-column name="status" />
 		</finder>
 
@@ -53,5 +65,49 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+
+	<entity local-service="true" cache-enabled="true" name="Signalement" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="signalementId" type="long" primary="true"/>
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Links with other entities -->
+		<column name="commentId" type="long"/>
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="createDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="CommentId" return-type="Collection">
+			<finder-column name="commentId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		
 	</entity>
 </service-builder>
