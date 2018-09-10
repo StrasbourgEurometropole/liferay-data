@@ -1,4 +1,4 @@
-<!-- SLIDER AGENDA -->
+<!-- SLIDER AGENDA AVEC MARGE -->
 
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
