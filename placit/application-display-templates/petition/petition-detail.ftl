@@ -3,36 +3,41 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-        <!-- Recuperation du gestionnaire de fichiers Liferay -->
+<!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-        <!-- Recuperation de l'URL de "base" du site -->
+<!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-<#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
-<#assign homeURL = "/" />
-        </#if>
+    <#assign homeURL = "/" />
+</#if>
 
-        <!-- Recuperation des thématiques de la petition -->
+ <!-- Recuperation des thématiques de la petition -->
 <#if entry.getThematicCategories()??>
-<#assign petitionThematics = entry.getThematicCategories() />
-        </#if>
+    <#assign petitionThematics = entry.getThematicCategories() />
+</#if>
 
-        <!-- Recuperation des thématiques de la petition -->
+<!-- Recuperation des thématiques de la petition -->
 <#if entry.getProjectCategory()??>
-<#assign petitionProject = entry.getProjectCategory() />
-        </#if>
+    <#assign petitionProject = entry.getProjectCategory() />
+</#if>
 
-        <!-- Recuperation des lieux lies a la petition -->
-<#assign petitionPlaces = entry.getPlacitPlaces() />
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
 
-        <!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
 <#assign instanceId = themeDisplay.getPortletDisplay().getId() />
 
-        <!-- Initialisation des conteneurs de coordonnees GPS -->
+<!-- Initialisation des conteneurs de coordonnees GPS et recuperation des lieux lies a la petition -->
 <#assign petitionPlaceMercators = [] />
-<#assign eventPlaceMercators = [] />
+
+<!-- Recuperation des lieux lies a la petition -->
+<#assign petitionPlaces = entry.getPlacitPlaces() />
+
+<#list petitionPlaces as place >
+    <#assign petitionPlaceMercators = petitionPlaceMercators + [place.getMercators()] />
+</#list>
+
 
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
@@ -186,8 +191,10 @@
                                 </a>
                             </#if>
                         </div>
-                        <div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="event"
-                             data-zoom="12" data-filter-options="filterMapDetail"></div>
+                        
+                        <!-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
+
                         <div class="pro-compteur">
                             <span class="pro-compt pro-compt-six">${entry.getNombreSignatureBoard()}</span>
                             <p>Citoyens(nes) ont signé</p>
@@ -266,6 +273,39 @@
         </section>
     </#if>
 </div>
+
+<script>
+    var petitionPlaceMercators = [
+        <#list petitionPlaceMercators as placeMercators>
+            <#if placeMercators?size == 2>
+                [${placeMercators[1]}, ${placeMercators[0]}],
+            </#if>
+        </#list>
+    ];
+
+    $(document).ready(function() {
+
+        // Gestion de la carte interactive
+        // Notes : voir dans le theme placit "override/custom.js"
+
+        //Création de la carte au centre de strasbourg
+        leafletMap = getLeafletMap()
+
+        // Définition du marqueur
+        var petitionMarkerIcon = getMarkerIcon('petition');
+
+        // Ajout des marqueurs sur la map
+        var petitionMarkers = [];
+
+        for(var i= 0; i < petitionPlaceMercators.length; i++) {
+            petitionMarkers.push(
+                L.marker(petitionPlaceMercators[i], {icon: petitionMarkerIcon}).addTo(leafletMap)
+            );
+        }
+
+    });
+</script>
+
 <@liferay_portlet["runtime"]
         portletProviderAction=portletProviderAction.VIEW
         portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
@@ -275,4 +315,3 @@
     portletProviderAction=portletProviderAction.VIEW
     portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
     instanceId="deposerPetition"/>
-
