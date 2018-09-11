@@ -15,7 +15,7 @@
                 </div>
 
                  <div class="pro-wrapper-sort">
- 					<a id="buttonDeposer" href="deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition"><liferay-ui:message key="file-petition" /></a>
+ 					<a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition"><liferay-ui:message key="file-petition" /></a>
  				</div>
 				
                 <div class="row pro-wrapper-listing-participation">

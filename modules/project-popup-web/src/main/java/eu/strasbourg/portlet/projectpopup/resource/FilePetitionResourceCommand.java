@@ -69,14 +69,14 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
         boolean result;
         String publikID = getPublikID(request);
-        if (publikID==null||publikID.isEmpty())
+        if (publikID == null || publikID.isEmpty())
             throw new PortletException("utilisateur non enregistré/identifié");
         boolean isValid = validate(request);
         if (!isValid) {
             throw new PortletException("la validation des champs n'est pas passée");
         } else
             result = sendPetition(request, publikID);
-        return result;
+            return result;
     }
 
     private boolean sendPetition(ResourceRequest request, String publikID) throws PortletException {
@@ -86,7 +86,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         String address = ParamUtil.getString(request, ADDRESS);
         String city = ParamUtil.getString(request, CITY);
         long postalcode = ParamUtil.getLong(request, POSTALCODE);
-        if (postalcode==0)
+        if (postalcode == 0)
             throw new PortletException("le code postal n'est pas compatible");
         String phone = ParamUtil.getString(request, PHONE);
         String title = ParamUtil.getString(request, PETITIONTITLE);
@@ -122,9 +122,9 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             AssetCategoryLocalServiceUtil
                     .addAssetEntryAssetCategory(entryId, projectId);
             AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId,quartierId);
+                    .addAssetEntryAssetCategory(entryId, quartierId);
             AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId,themeId);
+                    .addAssetEntryAssetCategory(entryId, themeId);
         } catch (PortalException e) {
             _log.error(e);
             throw new PortletException(e);

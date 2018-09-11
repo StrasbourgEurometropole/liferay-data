@@ -110,7 +110,38 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<!-- CONFIRMATION NOUVELLE PETITION -->
+<!-- HTML pour la modal de confirmation de nouvelle pétition -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerPetition" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerPetition">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='confirm-petition'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='file-petition-ok'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#modalConfirmerPetition').modal('hide');
+    });
+
+    $("#buttonConfirm").click(function(event){
+        $('#modalConfirmerPetition').modal('hide');
+    });
+
 
     var namespace = "<portlet:namespace />";
     $("#sendPetition").click(function(event){
@@ -145,7 +176,8 @@
                 },
                 on: {
                     success: function(e) {
-                        $('#modalPetition').modal('hide')
+                        $('#modalPetition').modal('hide');
+                        $('#modalConfirmerPetition').modal('show');
                     }
                  }
             });
