@@ -56,7 +56,7 @@
 					</div>
 				</div>
 				<div class="pro-form-submit">
-					<button id="submitButton" type="submit" class="btn btn-default">Contacter le
+					<button id="submitContactButton" type="submit" class="btn btn-default">Contacter le
 						porteur</button>
 				</div>
 			</form>
@@ -69,14 +69,15 @@
 
 <script>
 
-$('#submitButton').click( function(){
+$('#submitContactButton').click( function(e){
+	e.preventDefault();
 	AUI().use('aui-io-request', function(A) {
 		A.io.request('${ContactInitiativeAuthorURL}', {
 			method : 'post',
 			dataType: 'json',
 			on: {
 	            success: function(e) {
-	            	alert('success');
+	            	$('#modalContacter').modal('hide')
 			 	}
 			 }
 		});

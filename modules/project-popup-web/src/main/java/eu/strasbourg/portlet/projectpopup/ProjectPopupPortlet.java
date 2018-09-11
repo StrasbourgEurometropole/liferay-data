@@ -57,6 +57,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
     private static final String CITY_NAME = "Strasbourg";
+    public static final String REDIRECT_URL_PARAM = "redirectURL";
 
     @Override
     public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
@@ -77,11 +78,9 @@ public class ProjectPopupPortlet extends MVCPortlet {
 
             // Récupération de l'asset entry Id qui est partagé par le portlet détail
             // entité sur la même page.
+            // les popups n'ont pas forcement besion de l'entryId (déposer une petition par exemple)
+            // //donc il faut etre en mesure de pouvoir gerer ca.
             long entryID = this.getPortletAssetEntryId(request);
-
-            // Si on ne récupère rien --> return (On affiche rien)
-            if (entryID == -1)
-                return;
 
             PublikUser user=null;
             if (publikID != null && !publikID.isEmpty())
@@ -96,11 +95,16 @@ public class ProjectPopupPortlet extends MVCPortlet {
             // Récupération des thematics
             List<AssetCategory> projects = assetVocabularyAccessor.getProjects(groupId).getCategories();
 
+            // URL de redirection pour le POST evitant les soumissions multiples
+            String redirectURL =  themeDisplay.getURLPortal() + themeDisplay.getURLCurrent();
+
+            request.setAttribute(REDIRECT_URL_PARAM, redirectURL);
             request.setAttribute("popupTemplateId", popupTemplateId);
             request.setAttribute("quartiers", districts);
             request.setAttribute("thematics", thematics);
             request.setAttribute("projects", projects);
-            request.setAttribute("entryId", entryID);
+            if (entryID!=-1)
+                request.setAttribute("entryId", entryID);
             request.setAttribute("userConnected",user);
 
         } catch (Exception e) {

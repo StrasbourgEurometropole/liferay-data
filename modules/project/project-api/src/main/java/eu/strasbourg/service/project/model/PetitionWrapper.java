@@ -90,6 +90,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("consultationPlacesText", getConsultationPlacesText());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
@@ -290,6 +291,13 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (mediaChoice != null) {
 			setMediaChoice(mediaChoice);
+		}
+
+		String consultationPlacesText = (String)attributes.get(
+				"consultationPlacesText");
+
+		if (consultationPlacesText != null) {
+			setConsultationPlacesText(consultationPlacesText);
 		}
 
 		String consultationPlacesBody = (String)attributes.get(
@@ -592,6 +600,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getConsultationPlacesBody() {
 		return _petition.getConsultationPlacesBody();
+	}
+
+	/**
+	* Returns the consultation places text of this petition.
+	*
+	* @return the consultation places text of this petition
+	*/
+	@Override
+	public java.lang.String getConsultationPlacesText() {
+		return _petition.getConsultationPlacesText();
 	}
 
 	/**
@@ -1176,6 +1194,17 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	public void setConsultationPlacesBody(
 		java.lang.String consultationPlacesBody) {
 		_petition.setConsultationPlacesBody(consultationPlacesBody);
+	}
+
+	/**
+	* Sets the consultation places text of this petition.
+	*
+	* @param consultationPlacesText the consultation places text of this petition
+	*/
+	@Override
+	public void setConsultationPlacesText(
+		java.lang.String consultationPlacesText) {
+		_petition.setConsultationPlacesText(consultationPlacesText);
 	}
 
 	/**

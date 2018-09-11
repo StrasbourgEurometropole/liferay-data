@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.projectpopup.action.petition;
+package eu.strasbourg.portlet.projectpopup.resource;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -6,7 +6,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -21,10 +21,10 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,17 +33,27 @@ import java.util.Date;
 /**
  * @author alexandre.quere
  */
-
 @Component(
         immediate = true,
         property = {
                 "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
                 "mvc.command.name=filePetition"
         },
-        service = MVCActionCommand.class
+        service = MVCResourceCommand.class
 )
-public class filePetitionActionCommand implements MVCActionCommand {
+public class FilePetitionResourceCommand implements MVCResourceCommand {
 
+    private static final String BIRTHDAY = "birthday";
+    private static final String ADDRESS = "address";
+    private static final String CITY = "city";
+    private static final String POSTALCODE = "postalcode";
+    private static final String PHONE = "phone";
+    private static final String PETITIONTITLE = "petitiontitle";
+    private static final String PETITIONDESCRIPTION = "petitiondescription";
+    private static final String PROJECT = "project";
+    private static final String QUARTIER = "quartier";
+    private static final String THEME = "theme";
+    private static final String PATTERN = "dd/MM/yyyy";
 
     /**
      * le log
@@ -56,34 +66,34 @@ public class filePetitionActionCommand implements MVCActionCommand {
     public static final long QUOTA = 7000;
 
     @Override
-    public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
-        String userName = ParamUtil.getString(request, "username");
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+        boolean result;
         String publikID = getPublikID(request);
-        boolean result = false;
-        if (publikID == null || publikID.isEmpty())
-            throw new PortletException("veuillez vous identifier/enregistrer");
+        if (publikID==null||publikID.isEmpty())
+            throw new PortletException("utilisateur non enregistré/identifié");
         boolean isValid = validate(request);
         if (!isValid) {
             throw new PortletException("la validation des champs n'est pas passée");
         } else
             result = sendPetition(request, publikID);
-        _log.info(userName);
         return result;
     }
 
-    private boolean sendPetition(ActionRequest request, String publikID) throws PortletException {
+    private boolean sendPetition(ResourceRequest request, String publikID) throws PortletException {
         PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-        String address = ParamUtil.getString(request, "address");
-        String city = ParamUtil.getString(request, "city");
-        long postalcode = ParamUtil.getLong(request, "postalcode");
-        String phone = ParamUtil.getString(request, "phone");
-        String title = ParamUtil.getString(request, "title");
-        String description = ParamUtil.getString(request, "description");
-        long projectId = ParamUtil.getLong(request, "project");
-        long quartierId = ParamUtil.getLong(request, "quartier");
-        long themeId = ParamUtil.getLong(request, "theme");
+        DateFormat dateFormat = new SimpleDateFormat(PATTERN);
+        Date birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+        String address = ParamUtil.getString(request, ADDRESS);
+        String city = ParamUtil.getString(request, CITY);
+        long postalcode = ParamUtil.getLong(request, POSTALCODE);
+        if (postalcode==0)
+            throw new PortletException("le code postal n'est pas compatible");
+        String phone = ParamUtil.getString(request, PHONE);
+        String title = ParamUtil.getString(request, PETITIONTITLE);
+        String description = ParamUtil.getString(request, PETITIONDESCRIPTION);
+        long projectId = ParamUtil.getLong(request, PROJECT);
+        long quartierId = ParamUtil.getLong(request, QUARTIER);
+        long themeId = ParamUtil.getLong(request, THEME);
         ServiceContext sc;
         Petition petition;
         try {
@@ -123,42 +133,42 @@ public class filePetitionActionCommand implements MVCActionCommand {
         return true;
     }
 
-    private boolean validate(ActionRequest request) {
+    private boolean validate(ResourceRequest request) {
         boolean isValid = true;
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat(PATTERN);
 
         // title
-        if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+        if (Validator.isNull(ParamUtil.getString(request, PETITIONTITLE))) {
             isValid = false;
         }
 
         // description
-        if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+        if (Validator.isNull(ParamUtil.getString(request, PETITIONDESCRIPTION))) {
             isValid = false;
         }
 
         // birthday
-        if (Validator.isNull(ParamUtil.getDate(request, "birthday", dateFormat))) {
+        if (Validator.isNull(ParamUtil.getDate(request, BIRTHDAY, dateFormat))) {
             isValid = false;
         }
 
         // city
-        if (Validator.isNull(ParamUtil.getString(request, "city"))) {
+        if (Validator.isNull(ParamUtil.getString(request, CITY))) {
             isValid = false;
         }
 
         // address
-        if (Validator.isNull(ParamUtil.getString(request, "address"))) {
+        if (Validator.isNull(ParamUtil.getString(request, ADDRESS))) {
             isValid = false;
         }
 
         // postalcode
-        if (Validator.isNull(ParamUtil.getLong(request, "postalcode"))) {
+        if (Validator.isNull(ParamUtil.getLong(request, POSTALCODE))) {
             isValid = false;
         }
 
         // phone
-        if (Validator.isNull(ParamUtil.getString(request, "phone"))) {
+        if (Validator.isNull(ParamUtil.getString(request, PHONE))) {
             isValid = false;
         }
 
@@ -173,5 +183,4 @@ public class filePetitionActionCommand implements MVCActionCommand {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
-
 }

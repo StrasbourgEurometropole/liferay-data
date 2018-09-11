@@ -1,7 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
-<portlet:actionURL var="filePetitionURL" name="filePetition">
-	<portlet:param name="cmd" value="filePetition" />
-</portlet:actionURL>
+<portlet:resourceURL id="filePetition" var="filePetitionURL">
+</portlet:resourceURL>
 <!-- DEPOSER UNE NOUVELLE PETITION -->
 <!-- HTML pour la modal de pétition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalPetition" tabindex="-1" role="dialog" aria-labelledby="modalPetition">
@@ -12,7 +11,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form id="form-file-petition" method="post" action="${filePetitionURL}">
+            <form id="form-file-petition">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
                     <div class="form-group">
@@ -24,7 +23,7 @@
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <label for="petition"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
-                            <select name="<portlet:namespace />project">
+                            <select id="<portlet:namespace />project" name="<portlet:namespace />project">
                                 <c:forEach var="project" items="${projects}">
                                     <option value="${project.categoryId}">${project.name}</option>
                                 </c:forEach>
@@ -32,7 +31,7 @@
                         </div>
                         <div class="form-group form-triple">
                             <label for="territoire"><liferay-ui:message key="modal.filepetition.information.territoire"/></label>
-                            <select name="<portlet:namespace />quartier">
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -40,7 +39,7 @@
                         </div>
                         <div class="form-group form-triple">
                             <label for="thematique"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
-                            <select name="<portlet:namespace />theme">
+                            <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <c:forEach var="theme" items="${thematics}">
                                     <option value="${theme.categoryId}">${theme.name}</option>
                                 </c:forEach>
@@ -61,7 +60,7 @@
                             <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.firstName}"/>
                         </div>
                         <div class="form-group form-triple">
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
+                            <aui:input id="birthday" readonly="true" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -73,7 +72,7 @@
                                 <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg"/>
                             </div>
                             <div class="form-code">
-                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX"/>
+                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" pattern="[0-9]{5}" placeholder="67XXX"/>
                             </div>
                         </div>
                     </div>
@@ -112,16 +111,47 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
+
     var namespace = "<portlet:namespace />";
     $("#sendPetition").click(function(event){
         event.preventDefault();
     var response = validateForm();
     if (response){
-        $("#form-file-petition").submit();
+        var petitionTitleValue = $("#"+namespace+"petitiontitle").val();
+        var petitionDescriptionValue = $("#"+namespace+"petitiondescription").val();
+        var birthdayValue = $("#"+namespace+"birthday").val();
+        var addressValue = $("#"+namespace+"address").val();
+        var cityValue = $("#"+namespace+"city").val();
+        var postalcodeValue = $("#"+namespace+"postalcode").val();
+        var phoneValue = $("#"+namespace+"phone").val();
+        var projectValue = $("#"+namespace+"project").val();
+        var quartierValue = $("#"+namespace+"quartier").val();
+        var themeValue = $("#"+namespace+"theme").val();
+        AUI().use('aui-io-request', function(A) {
+            A.io.request('${filePetitionURL}', {
+                method : 'POST',
+                dataType: 'json',
+                data:{
+                    <portlet:namespace/>petitiontitle:petitionTitleValue,
+                    <portlet:namespace/>petitiondescription:petitionDescriptionValue,
+                    <portlet:namespace/>birthday:birthdayValue,
+                    <portlet:namespace/>address:addressValue,
+                    <portlet:namespace/>city:cityValue,
+                    <portlet:namespace/>postalcode:postalcodeValue,
+                    <portlet:namespace/>phone:phoneValue,
+                    <portlet:namespace />project:projectValue,
+                    <portlet:namespace />quartier:quartierValue,
+                    <portlet:namespace />theme:themeValue
+                },
+                on: {
+                    success: function(e) {
+                        $('#modalPetition').modal('hide')
+                    }
+                 }
+            });
+        });
     }
     });
-
-
 
     function validateForm()
     {
@@ -135,6 +165,7 @@
         var phone = $("#"+namespace+"phone").val();
         var legalage = $("#file-petition-legalage").is(":checked");
         var cnil = $("#file-petition-cnil").is(":checked");
+        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (petitiontitle==null || petitiontitle==""){
             $("#"+namespace+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -164,7 +195,12 @@
         if (postalcode==null || postalcode==""){
             $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
+        }else if(!regex.test(postalcode)){
+            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            alert("Merci de respecter la syntaxe d'un code postal");
+            result = false;
+        }
+        else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
 
         if (phone==null || phone==""){
             $("#"+namespace+"phone").css({ "box-shadow" : "0 0 10px #CC0000" });

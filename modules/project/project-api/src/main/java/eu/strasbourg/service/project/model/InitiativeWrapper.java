@@ -82,6 +82,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
+		attributes.put("consultationPlacesText", getConsultationPlacesText());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("publicationDate", getPublicationDate());
 
@@ -229,6 +230,13 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 			setFilesIds(filesIds);
 		}
 
+		String consultationPlacesText = (String)attributes.get(
+				"consultationPlacesText");
+
+		if (consultationPlacesText != null) {
+			setConsultationPlacesText(consultationPlacesText);
+		}
+
 		String consultationPlacesBody = (String)attributes.get(
 				"consultationPlacesBody");
 
@@ -359,11 +367,11 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
-	* Retourne le type de l'initiative (
+	* Retourne le statut de l'initiative (
 	*/
 	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
-		return _initiative.getTypeCategory();
+	public com.liferay.asset.kernel.model.AssetCategory getStatusCategory() {
+		return _initiative.getStatusCategory();
 	}
 
 	/**
@@ -481,6 +489,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.lang.String getConsultationPlacesBody() {
 		return _initiative.getConsultationPlacesBody();
+	}
+
+	/**
+	* Returns the consultation places text of this initiative.
+	*
+	* @return the consultation places text of this initiative
+	*/
+	@Override
+	public java.lang.String getConsultationPlacesText() {
+		return _initiative.getConsultationPlacesText();
 	}
 
 	/**
@@ -925,6 +943,17 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public void setConsultationPlacesBody(
 		java.lang.String consultationPlacesBody) {
 		_initiative.setConsultationPlacesBody(consultationPlacesBody);
+	}
+
+	/**
+	* Sets the consultation places text of this initiative.
+	*
+	* @param consultationPlacesText the consultation places text of this initiative
+	*/
+	@Override
+	public void setConsultationPlacesText(
+		java.lang.String consultationPlacesText) {
+		_initiative.setConsultationPlacesText(consultationPlacesText);
 	}
 
 	/**

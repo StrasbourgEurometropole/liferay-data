@@ -22,6 +22,7 @@ create table project_Initiative (
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null,
+	consultationPlacesText VARCHAR(75) null,
 	consultationPlacesBody TEXT null,
 	publicationDate DATE null
 );
@@ -100,6 +101,7 @@ create table project_Petition (
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(75) null,
 	mediaChoice BOOLEAN,
+	consultationPlacesText VARCHAR(75) null,
 	consultationPlacesBody VARCHAR(75) null,
 	publikId VARCHAR(75) null,
 	imageId LONG,

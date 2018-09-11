@@ -78,11 +78,23 @@
 				}
 			}
 
-			.pro-fonction{
+			.pro-fonction {
 				@include ft($f_txt, 0.688em, 400, $c_txt, 1.188em);
 				text-transform: uppercase;
 				display: block;
 				margin-top: 4px;
+			}
+
+			.pro-label-edition {
+				@include ft($f_txt, 0.8em, 400, #aaaaaa, 1.188em);
+				margin: 8px 0 15px 0;
+				a {
+					color: #aaaaaa;
+					font-weight: 700;
+					&:hover, &:focus {
+						text-decoration: underline;
+					}
+				}
 			}
 
 			.pro-comment {
@@ -105,106 +117,132 @@
 						content: none;
 					}
 				}
-				.pro-interactions {
-					text-align: right;
-					> * {
-						display: inline-block;
-						vertical-align: middle;
-					}
-					> span, a {
-						position: relative;
-						@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
-						margin: 0 8px;
-						transition: none;
-						&:hover, &:focus, &:active{
+			}
+
+			.pro-interactions {
+				text-align: right;
+				> * {
+					display: inline-block;
+					vertical-align: middle;
+				}
+				> span, > a {
+					position: relative;
+					@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
+					margin: 0 8px;
+					transition: none;
+					&:hover, &:focus, &:active {
+						color: $c_main;
+						&:before {
 							color: $c_main;
-							&:before{
-								color: $c_main;
-							}
+						}
+					}
+					&:before {
+						content: "\e913";
+						@include font();
+						float: left;
+						margin-right: 5px;
+						line-height: 1.5em;
+						position: relative;
+						top: -2px;
+					}
+					&.pro-dislike {
+						@include mobile {
+							margin-right: 0;
 						}
 						&:before {
-							content: "\e913";
-							@include font();
-							float: left;
-							margin-right: 5px;
-							line-height: 1.5em;
-							position: relative;
-							top: -2px;
-						}
-						&.pro-dislike {
-							@include mobile{
-								margin-right: 0;
-							}
-							&:before {
-								transform: rotate(-180deg);
-								top: 2px;
-							}
+							transform: rotate(-180deg);
+							top: 2px;
 						}
 					}
-					> div {
-						@include mobile {
-							display: block;
-							margin-top: 10px;
+				}
+				> div {
+					@include mobile {
+						display: block;
+						margin-top: 10px;
+					}
+				}
+
+				.pro-action-link {
+					> a {
+						@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
+						position: relative;
+						margin: 0;
+						float: left;
+						padding: 0 4px;
+						@include addTransition();
+						&:hover, &:focus {
+							text-decoration: underline;
+							color: $c_txt;
 						}
-						> a {
-							@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
-							position: relative;
-							margin: 0;
-							@include addTransition();
-							&:before {
+
+						&:first-child {
+							padding-left: 0;
+						}
+
+						&:before {
+							content: '';
+							display: block;
+							clear: both;
+						}
+						&:after {
+							content: '';
+							position: absolute;
+							right: 0;
+							top: 50%;
+							transform: translateY(-50%);
+							transform: translate3d(0, -50%, 0);
+							height: 12px;
+							width: 1px;
+							background: $c_txt;
+							@include mobile {
+								right: 7px;
+							}
+						}
+
+						&:last-child {
+							&:after {
 								content: none;
 							}
-							&:hover, &:focus {
-								text-decoration: underline;
-								color: $c_txt;
-							}
-							&.pro-reponse {
-								font-weight: 700;
-								padding-right: 4px;
-								padding-left: 10px;
-								@include mobile {
-									padding-right: 20px;
-								}
-								&:after {
-									content: '';
-									position: absolute;
-									right: 0;
-									top: 50%;
-									transform: translateY(-50%);
-									transform: translate3d(0, -50%, 0);
-									height: 12px;
-									width: 1px;
-									background: $c_txt;
-									@include mobile {
-										right: 7px;
-									}
-								}
+						}
+						&.pro-reponse {
+							font-weight: 700;
+							padding-right: 4px;
+							padding-left: 10px;
+							@include mobile {
+								padding-right: 20px;
 							}
 						}
 					}
+				}
 
-					.pro-action-comm{
-						margin-left: 15px;
-						@include mobile{
-							margin: 10px 0 0 0;
+				.pro-action-comm {
+					margin-left: 15px;
+					@include mobile {
+						margin: 10px 0 0 0;
+					}
+					> a {
+						padding: 0 4px;
+						transition: none;
+						color: $c_txt;
+						&:last-child {
+							padding-right: 0;
 						}
-						> a{
-							padding: 0 4px;
-							transition: none;
-							&:last-child{
-								padding-right: 0;
-							}
-							&:hover, &:focus{
-								color: $c_main;
-								text-decoration: none;
-							}
+						&:hover, &:focus {
+							color: $c_main;
+							text-decoration: none;
 						}
 					}
 				}
 			}
 
 			.pro-comment-response {
+				position: relative;
 				margin-top: 20px;
+				&:after {
+					content: '';
+					display: block;
+					clear: both;
+				}
 				> * {
 					float: left;
 					@include mobile {
@@ -225,14 +263,27 @@
 						margin: 0;
 					}
 				}
-				div {
+				> div {
 					width: calc(100% - 65px);
 					@include mobile {
 						width: 100%;
 					}
+					> * {
+						max-width: 90%;
+					}
 					p {
 						@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
 						max-width: 90%;
+						margin: 0 0 10px 0;
+						&.pro-label-edition {
+							color: #aaaaaa;
+							font-size: 0.8em;
+							line-height: 1em;
+							margin: 10px 0;
+						}
+					}
+					.pro-interactions {
+						text-align: left;
 					}
 				}
 			}

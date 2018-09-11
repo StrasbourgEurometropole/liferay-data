@@ -98,6 +98,8 @@
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
 
+				<aui:input name="consultationPlacesText" required="false" />
+
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">
 					<c:if test="${empty dc.petition.getPlacitPlaces()}">
@@ -174,7 +176,7 @@
                 <div class="form-group input-Date-wrapper">
                     <label class="control-label"><liferay-ui:message key="nb-fake-signataires" /></label>
 				    <input class="field form-control lfr-input-text" type="text" name="<portlet:namespace />nbFakeSignataire"
-				    contents="${dc.petition.getCountFakeSignataire()}"/>
+				    value="${dc.getCountFakeSignataires()}"/>
                 </div >
 
 				<%-- Champ : Date de publication --%>

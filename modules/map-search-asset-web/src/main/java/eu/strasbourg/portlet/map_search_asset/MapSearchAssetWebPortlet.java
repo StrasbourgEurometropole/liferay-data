@@ -166,7 +166,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 				for (Long projectId : this.selectedProjectIds) {
 					Project project = ProjectLocalServiceUtil.fetchProject(projectId);
-					this.participations.addAll(project.getParticipations());
+					this.participations = this.mergeLists(this.participations, project.getParticipations());
 				}
 				
 				List<Long> tempSelectedParticipations = new ArrayList<Long>();
@@ -179,7 +179,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 				for (Long participationId : this.selectedParticipationIds) {
 					Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-					this.events.addAll(participation.getEvents());
+					this.events = this.mergeLists(this.events, participation.getEvents());
 				}
 				
 				List<Long> tempSelectedEvents = new ArrayList<Long>();
@@ -213,7 +213,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 						
 						if (project != null) {
 							this.selectedProjectIds.add(projectId);
-							this.participations.addAll(project.getParticipations());
+							this.participations = this.mergeLists(this.participations, project.getParticipations());
 						}
 					}
 				
@@ -229,7 +229,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 					
 					for (Long participationId : this.selectedParticipationIds) {
 						Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-						this.events.addAll(participation.getEvents());
+						this.events = this.mergeLists(this.events, participation.getEvents());
 					}
 					
 					List<Long> tempSelectedEvents = new ArrayList<Long>();
@@ -266,7 +266,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 						
 						if (participation != null) {
 							this.selectedParticipationIds.add(participationId);
-							this.events.addAll(participation.getEvents());
+							this.events = this.mergeLists(this.events, participation.getEvents());
 						}
 					}
 					
@@ -402,6 +402,20 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		jsonResponse.put(JSON_OBJECT_EVENTS, jsonEvents);
 		
 		return  jsonResponse;
+	}
+	
+	/**
+	 * Fusion de deux listes sans obtenir de doublon
+	 * @param listA La liste contenante
+	 * @param listB La liste à ajouter
+	 * @return La liste mergé sans doublon
+	 */
+	public <T> List<T> mergeLists(List<T> listA, List<T> listB) {
+		for (T object : listB){
+		   if (!listA.contains(object))
+			   listA.add(object);
+		}
+		return listA;
 	}
 	
 	/**

@@ -294,14 +294,15 @@
 		<column name="petitionnairePhone" type="String" />
 		<column name="petitionnaireEmail" type="String" />
 
-        <!-- Medias -->
-        <column name="videoUrl" type="String" />
-        <column name="externalImageURL" type="String" />
-        <column name="externalImageCopyright" type="String" />
-        <column name="mediaChoice" type="boolean" />
+		<!-- Medias -->
+		<column name="videoUrl" type="String" />
+		<column name="externalImageURL" type="String" />
+		<column name="externalImageCopyright" type="String" />
+		<column name="mediaChoice" type="boolean" />
 
-        <!-- Lieux de consultation -->
-        <column name="consultationPlacesBody" type="String" />
+		<!-- Lieux de consultation -->
+		<column name="consultationPlacesText" type="String" />
+		<column name="consultationPlacesBody" type="String" />
 
         <!-- Links with other entities -->
         <column name="publikId" type="String" />
@@ -424,6 +425,7 @@
 		<column name="filesIds" type="String" />
 
 		<!-- Lieux de consultation -->
+		<column name="consultationPlacesText" type="String" />
 		<column name="consultationPlacesBody" type="String" />
 		
 		<!-- Others -->
