@@ -23,7 +23,7 @@
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <label for="petition"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
-                            <select name="<portlet:namespace />project">
+                            <select id="<portlet:namespace />project" name="<portlet:namespace />project">
                                 <c:forEach var="project" items="${projects}">
                                     <option value="${project.categoryId}">${project.name}</option>
                                 </c:forEach>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group form-triple">
                             <label for="territoire"><liferay-ui:message key="modal.filepetition.information.territoire"/></label>
-                            <select name="<portlet:namespace />quartier">
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group form-triple">
                             <label for="thematique"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
-                            <select name="<portlet:namespace />theme">
+                            <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <c:forEach var="theme" items="${thematics}">
                                     <option value="${theme.categoryId}">${theme.name}</option>
                                 </c:forEach>
@@ -117,13 +117,32 @@
         event.preventDefault();
     var response = validateForm();
     if (response){
-        var url = window.location.host+window.location.pathname;
-        var petitiontitle = $("#"+namespace+"petitiontitle").val();
+        var petitionTitleValue = $("#"+namespace+"petitiontitle").val();
+        var petitionDescriptionValue = $("#"+namespace+"petitiondescription").val();
+        var birthdayValue = $("#"+namespace+"birthday").val();
+        var addressValue = $("#"+namespace+"address").val();
+        var cityValue = $("#"+namespace+"city").val();
+        var postalcodeValue = $("#"+namespace+"postalcode").val();
+        var phoneValue = $("#"+namespace+"phone").val();
+        var projectValue = $("#"+namespace+"project").val();
+        var quartierValue = $("#"+namespace+"quartier").val();
+        var themeValue = $("#"+namespace+"theme").val();
         AUI().use('aui-io-request', function(A) {
             A.io.request('${filePetitionURL}', {
-                method : 'post',
+                method : 'POST',
                 dataType: 'json',
-                data:{},
+                data:{
+                    <portlet:namespace/>petitiontitle:petitionTitleValue,
+                    <portlet:namespace/>petitiondescription:petitionDescriptionValue,
+                    <portlet:namespace/>birthday:birthdayValue,
+                    <portlet:namespace/>address:addressValue,
+                    <portlet:namespace/>city:cityValue,
+                    <portlet:namespace/>postalcode:postalcodeValue,
+                    <portlet:namespace/>phone:phoneValue,
+                    <portlet:namespace />project:projectValue,
+                    <portlet:namespace />quartier:quartierValue,
+                    <portlet:namespace />theme:themeValue
+                },
                 on: {
                     success: function(e) {
                         $('#modalPetition').modal('hide')
