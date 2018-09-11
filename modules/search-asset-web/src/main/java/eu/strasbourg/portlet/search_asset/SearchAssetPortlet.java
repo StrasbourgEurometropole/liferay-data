@@ -67,7 +67,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
                     .getAttribute(WebKeys.THEME_DISPLAY);
-            this._configuration = themeDisplay
+            SearchAssetConfiguration configuration = themeDisplay
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             SearchAssetConfiguration.class);
             getClassNames();
@@ -86,9 +86,9 @@ public class SearchAssetPortlet extends MVCPortlet {
             // correspondre à chaque type d'asset une page de détail
             int i = 0;
             Map<String, Long> className_layoutId = new HashMap<String, Long>();
-            for (String className :  this._configuration.assetClassNames()
+            for (String className :  configuration.assetClassNames()
                     .split(",")) {
-                String layoutFriendlyURL =  this._configuration.layoutsFriendlyURLs()
+                String layoutFriendlyURL =  configuration.layoutsFriendlyURLs()
                         .split(",")[i];
                 Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
                         themeDisplay.getScopeGroupId(), false,
@@ -135,6 +135,9 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             this._themeDisplay = (ThemeDisplay) resourceRequest
                     .getAttribute(WebKeys.THEME_DISPLAY);
+            this._configuration = this._themeDisplay
+                    .getPortletDisplay().getPortletInstanceConfiguration(
+                            SearchAssetConfiguration.class);
             this._request = resourceRequest;
             this._response = resourceResponse;
 
