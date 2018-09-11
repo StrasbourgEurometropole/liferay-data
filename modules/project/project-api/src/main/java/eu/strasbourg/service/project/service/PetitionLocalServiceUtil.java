@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -350,6 +348,14 @@ public class PetitionLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.project.model.Petition> getPublishedByGroupId(
 		long groupId) {
 		return getService().getPublishedByGroupId(groupId);
+	}
+
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostCommented() {
+		return getService().getTheMostCommented();
+	}
+
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostSigned() {
+		return getService().getTheMostSigned();
 	}
 
 	/**

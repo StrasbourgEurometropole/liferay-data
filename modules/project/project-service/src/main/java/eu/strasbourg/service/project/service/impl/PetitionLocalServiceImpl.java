@@ -50,9 +50,11 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 /**
@@ -376,4 +378,21 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return petitionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
+	public List<Petition> getTheMostSigned(){
+	    List<Petition> petitionList = petitionPersistence.findAll();
+	    _log.info("list avant le sort : "+petitionList);
+	    List<Petition> resultList = petitionList.stream()
+                .sorted(Comparator.comparing(petition -> petition.getSignataires().size()))
+                .collect(Collectors.toList());
+        _log.info("list apres le sort : "+resultList);
+        return resultList;
+    }
+
+    public List<Petition> getTheMostCommented(){
+	    List<Petition> petitionList = petitionPersistence.findAll();
+	    List<Petition> resultList = petitionList.stream()
+                .sorted(Comparator.comparing(petition -> petition.getApprovedComments().size()))
+                .collect(Collectors.toList());
+	    return resultList;
+    }
 }
