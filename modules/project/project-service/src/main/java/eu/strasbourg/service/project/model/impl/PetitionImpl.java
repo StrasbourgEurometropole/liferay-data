@@ -62,7 +62,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
@@ -164,20 +163,15 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public String getDistrictLabel(Locale locale) {
-        StringBuilder result = new StringBuilder();
         List<AssetCategory> districts = getDistrictCategories();
-        if (districts == null || districts.isEmpty()) {
-            result.append("Aucun quartier");
-        } else if (AssetVocabularyHelper.isAllDistrict(districts.size())) {
-            result.append("Tous les quartiers");
-        } else {
-            result.append(districts.stream()
-                    .map(district -> district.getTitle(locale))
-                    .collect(Collectors.joining(" - ")));
-        }
-        return result.toString();
+        return AssetVocabularyHelper.getDistrictTitle(locale,districts);
     }
 
+    @Override
+    public String getThematicLabel(Locale locale){
+        List<AssetCategory> thematics = getThematicCategories();
+        return AssetVocabularyHelper.getThematicTitle(locale,thematics);
+    }
 
     /**
      * Retourne l'AssetEntry rattaché cet item
@@ -492,6 +486,7 @@ public class PetitionImpl extends PetitionBaseImpl {
                 else result = ParticipationImpl.IN_PROGRESS;
             }
         }
+
         return result;
     }
 

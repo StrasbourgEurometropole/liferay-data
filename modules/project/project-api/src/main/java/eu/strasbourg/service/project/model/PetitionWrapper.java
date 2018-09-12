@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -844,6 +840,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _petition.getStatusByUserUuid();
+	}
+
+	@Override
+	public java.lang.String getThematicLabel(java.util.Locale locale) {
+		return _petition.getThematicLabel(locale);
 	}
 
 	/**

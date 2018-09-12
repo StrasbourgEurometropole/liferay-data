@@ -50,6 +50,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -378,21 +379,54 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return petitionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
-	public List<Petition> getTheMostSigned(){
-	    List<Petition> petitionList = petitionPersistence.findAll();
-	    _log.info("list avant le sort : "+petitionList);
-	    List<Petition> resultList = petitionList.stream()
+    /**
+     * Méthode permettant de trier les petitions
+     * @return
+     */
+    @Override
+    public List<Petition> getTheMostSigned(long groupId){
+        List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
+        _log.info("list avant le sort : "+petitionList.stream().map(Petition::getTitle).collect(Collectors.toList()));
+        _log.info("list avant getTheMostSigned size  : "+petitionList.stream().map(petition -> petition.getSignataires().size()).collect(Collectors.toList()));
+        List<Petition> resultList = petitionList.stream()
                 .sorted(Comparator.comparing(petition -> petition.getSignataires().size()))
+                .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
-        _log.info("list apres le sort : "+resultList);
+        _log.info("list apres le sort : "+resultList.stream().map(Petition::getTitle).collect(Collectors.toList()));
+        _log.info("list apres getTheMostSigned size  : "+resultList.stream().map(petition -> petition.getSignataires().size()).collect(Collectors.toList()));
         return resultList;
     }
 
-    public List<Petition> getTheMostCommented(){
-	    List<Petition> petitionList = petitionPersistence.findAll();
-	    List<Petition> resultList = petitionList.stream()
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<Petition> getTheThreeMostSigned(long groupId){
+        List<Petition> petitionList = getTheMostSigned(groupId);
+        List<Petition> resultList = petitionList.stream().limit(3).collect(Collectors.toList());
+        _log.info("list getTheThreeMostSigned : "+resultList.stream().map(Petition::getTitle).collect(Collectors.toList()));
+        return resultList;
+    }
+
+    @Override
+    public List<Petition> getTheThreeLessSigned(long groupId){
+        List<Petition> petitions = getTheMostSigned(groupId);
+        List<Petition> resultList = petitions.stream().skip(petitions.size()-3).collect(Collectors.toList());
+        _log.info("list getTheThreeLessSigned : "+resultList.stream().map(Petition::getTitle).collect(Collectors.toList()));
+        return resultList;
+    }
+
+    @Override
+    public List<Petition> getTheMostCommented(long groupId){
+	    List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
+	    List<Petition> temp = petitionList.stream()
                 .sorted(Comparator.comparing(petition -> petition.getApprovedComments().size()))
+                .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
+        List<Petition> resultList = temp.stream().limit(3).collect(Collectors.toList());
+        _log.info("list getTheMostCommented : "+resultList.stream().map(Petition::getTitle).collect(Collectors.toList()));
+        _log.info("list getTheMostCommented size  : "+resultList.stream().map(petition -> petition.getApprovedComments().size()).collect(Collectors.toList()));
 	    return resultList;
     }
 }

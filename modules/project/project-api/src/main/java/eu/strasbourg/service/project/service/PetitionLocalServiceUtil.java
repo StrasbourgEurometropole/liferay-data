@@ -350,12 +350,32 @@ public class PetitionLocalServiceUtil {
 		return getService().getPublishedByGroupId(groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostCommented() {
-		return getService().getTheMostCommented();
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostCommented(
+		long groupId) {
+		return getService().getTheMostCommented(groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostSigned() {
-		return getService().getTheMostSigned();
+	/**
+	* Méthode permettant de trier les petitions
+	*
+	* @return
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostSigned(
+		long groupId) {
+		return getService().getTheMostSigned(groupId);
+	}
+
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheThreeLessSigned(
+		long groupId) {
+		return getService().getTheThreeLessSigned(groupId);
+	}
+
+	/**
+	* @return
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getTheThreeMostSigned(
+		long groupId) {
+		return getService().getTheThreeMostSigned(groupId);
 	}
 
 	/**

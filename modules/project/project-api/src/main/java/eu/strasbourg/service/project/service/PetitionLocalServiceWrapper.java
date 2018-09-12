@@ -374,13 +374,35 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostCommented() {
-		return _petitionLocalService.getTheMostCommented();
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostCommented(
+		long groupId) {
+		return _petitionLocalService.getTheMostCommented(groupId);
+	}
+
+	/**
+	* Méthode permettant de trier les petitions
+	*
+	* @return
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostSigned(
+		long groupId) {
+		return _petitionLocalService.getTheMostSigned(groupId);
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostSigned() {
-		return _petitionLocalService.getTheMostSigned();
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheThreeLessSigned(
+		long groupId) {
+		return _petitionLocalService.getTheThreeLessSigned(groupId);
+	}
+
+	/**
+	* @return
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheThreeMostSigned(
+		long groupId) {
+		return _petitionLocalService.getTheThreeMostSigned(groupId);
 	}
 
 	/**
