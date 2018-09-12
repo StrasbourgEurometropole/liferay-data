@@ -17,6 +17,7 @@ package eu.strasbourg.service.project.service.impl;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import eu.strasbourg.service.project.exception.NoSuchSignataireException;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.SignataireLocalServiceBaseImpl;
 
@@ -65,6 +66,15 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
     public int countSignataireByPetitionId(long petitionId) {
         return signatairePersistence.countByPetition(petitionId);
     }
+
+    @Override
+    public void removeSignataire(long signataireId){
+		try {
+			signatairePersistence.remove(signataireId);
+		} catch (NoSuchSignataireException e) {
+			_log.error("pas de signataire : ",e);
+		}
+	}
 
     /**
      * méthode de creation de signataire.

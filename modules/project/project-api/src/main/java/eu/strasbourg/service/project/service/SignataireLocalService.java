@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -35,14 +33,11 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Signataire;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.portlet.PortletException;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service interface for Signataire. Methods of this
@@ -329,4 +324,6 @@ public interface SignataireLocalService extends BaseLocalService,
 	* @param nombreCreation le nombre de creation souhaité.
 	*/
 	public void createFakeSignataire(long petitionId, int nombreCreation);
+
+	public void removeSignataire(long signataireId);
 }
