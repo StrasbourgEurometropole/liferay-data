@@ -1030,7 +1030,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	/**
 	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
 	*
-	* @param locale la locale de la région
+	* @param locale        la locale de la région
 	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de pétition.
 	*/
