@@ -389,7 +389,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
         _log.info("list avant le sort : "+petitionList.stream().map(Petition::getTitle).collect(Collectors.toList()));
         _log.info("list avant getTheMostSigned size  : "+petitionList.stream().map(petition -> petition.getSignataires().size()).collect(Collectors.toList()));
         List<Petition> resultList = petitionList.stream()
-                .sorted(Comparator.comparing(petition -> petition.getSignataires().size()))
+                .sorted(Comparator.comparingInt(petition -> petition.getSignataires().size()))
                 .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
         _log.info("list apres le sort : "+resultList.stream().map(Petition::getTitle).collect(Collectors.toList()));
