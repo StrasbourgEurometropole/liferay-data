@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.projectpopup.resource;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -18,6 +20,7 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -26,6 +29,8 @@ import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,12 +53,25 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String CITY = "city";
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
+    private static final String MOBILE = "mobile";
     private static final String PETITIONTITLE = "petitiontitle";
     private static final String PETITIONDESCRIPTION = "petitiondescription";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
+    private static final String SAVEINFO = "saveinfo";
+    private static final String LASTNAME = "lastname";
     private static final String PATTERN = "dd/MM/yyyy";
+
+    public String publikID;
+    public PublikUser user;
+    public DateFormat dateFormat;
+    public Date birthday;
+    public String address;
+    public String city;
+    public long postalcode;
+    public String phone;
+    public String mobile;
 
     /**
      * le log
@@ -67,28 +85,53 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-        boolean result;
-        String publikID = getPublikID(request);
+        boolean result = false;
+        String message = "";
+        publikID = getPublikID(request);
         if (publikID == null || publikID.isEmpty())
-            throw new PortletException("utilisateur non enregistré/identifié");
+            message = "utilisateur non enregistr&eacute;/identifi&eacute;";
         boolean isValid = validate(request);
-        if (!isValid) {
-            throw new PortletException("la validation des champs n'est pas passée");
-        } else
-            result = sendPetition(request, publikID);
-            return result;
+        if (!isValid)
+            message = "la validation des champs n'est pas pass&eacute;e";
+
+        user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        dateFormat = new SimpleDateFormat(PATTERN);
+        birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+        address = ParamUtil.getString(request, ADDRESS);
+        city = ParamUtil.getString(request, CITY);
+        postalcode = ParamUtil.getLong(request, POSTALCODE);
+        if (postalcode == 0) {
+            message = "le code postal n'est pas compatible";
+        }
+        phone = ParamUtil.getString(request, PHONE);
+        mobile = ParamUtil.getString(request, MOBILE);
+        boolean savedInfo = false;
+        if (message.isEmpty()) {
+            boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
+            if (saveInfo)
+                savedInfo = saveInfo(request);
+            result = sendPetition(request);
+        }
+
+        // Récupération du json des entités
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+        jsonResponse.put("result", result);
+        jsonResponse.put("message", message);
+        jsonResponse.put("savedInfo", savedInfo);
+
+        // Recuperation de l'élément d'écriture de la réponse
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.print(jsonResponse.toString());
+
+        return result;
     }
 
-    private boolean sendPetition(ResourceRequest request, String publikID) throws PortletException {
-        PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
-        DateFormat dateFormat = new SimpleDateFormat(PATTERN);
-        Date birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
-        String address = ParamUtil.getString(request, ADDRESS);
-        String city = ParamUtil.getString(request, CITY);
-        long postalcode = ParamUtil.getLong(request, POSTALCODE);
-        if (postalcode == 0)
-            throw new PortletException("le code postal n'est pas compatible");
-        String phone = ParamUtil.getString(request, PHONE);
+    private boolean sendPetition(ResourceRequest request) throws PortletException {
         String title = ParamUtil.getString(request, PETITIONTITLE);
         String description = ParamUtil.getString(request, PETITIONDESCRIPTION);
         long projectId = ParamUtil.getLong(request, PROJECT);
@@ -111,7 +154,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnaireFirstname(user.getFirstName());
             petition.setPetitionnaireLastname(user.getLastName());
             petition.setPetitionnairePostalCode(postalcode);
-            petition.setPetitionnairePhone(phone);
+            petition.setPetitionnairePhone("" + phone);
             petition.setPetitionnaireEmail(user.getEmail());
             petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
             AssetEntry assetEntry = petition.getAssetEntry();
@@ -131,6 +174,14 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         }
         _log.info("pétition créé : " + petition);
         return true;
+    }
+
+    private boolean saveInfo(ResourceRequest request) throws PortletException {
+        // enregistrement des infos utilisateur dans entrouvert
+        String lastName = ParamUtil.getString(request, LASTNAME);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+        String dateNaiss = sdf.format(birthday);
+        return PublikApiClient.setAllUserDetails(publikID, lastName, address, "" + postalcode, city, dateNaiss, phone, mobile);
     }
 
     private boolean validate(ResourceRequest request) {
@@ -164,11 +215,6 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
         // postalcode
         if (Validator.isNull(ParamUtil.getLong(request, POSTALCODE))) {
-            isValid = false;
-        }
-
-        // phone
-        if (Validator.isNull(ParamUtil.getString(request, PHONE))) {
             isValid = false;
         }
 

@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.projectpopup;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -16,6 +17,7 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -82,9 +84,9 @@ public class ProjectPopupPortlet extends MVCPortlet {
             // //donc il faut etre en mesure de pouvoir gerer ca.
             long entryID = this.getPortletAssetEntryId(request);
 
-            PublikUser user=null;
+            JSONObject user = null;
             if (publikID != null && !publikID.isEmpty())
-                user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+                user = PublikApiClient.getUserDetails(publikID);
 
             // Récupération des quartiers
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
