@@ -197,6 +197,9 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             this._themeDisplay = (ThemeDisplay) resourceRequest
                     .getAttribute(WebKeys.THEME_DISPLAY);
+            this._configuration = this._themeDisplay
+                    .getPortletDisplay().getPortletInstanceConfiguration(
+                            SearchAssetConfiguration.class);
             this._request = resourceRequest;
             this._response = resourceResponse;
 
@@ -378,10 +381,17 @@ public class SearchAssetPortlet extends MVCPortlet {
                                 jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
                             }
                             json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
-                            json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap(petition.getProjectCategory().getTitleMap()));
+                            json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap((Validator.isNull(petition.getProjectCategory())? LocalizationUtil.getLocalizationMap("") : petition.getProjectCategory().getTitleMap())));
                             jsonPetition.put("json", json);
                             jsonEntries.put(jsonPetition);
                             break;
+                        /*case "eu.strasbourg.service.project.model.Signataire":
+                            Signataire signataire = SignataireLocalServiceUtil.fetchSignataire(entry.getClassPK());
+                            JSONObject jsonSignataire = JSONFactoryUtil.createJSONObject();
+                            jsonSignataire.put("class", className);
+                            jsonSignataire.put("json", signataire.toJSON());
+                            jsonEntries.put(jsonSignataire);
+                            break;*/
                         case "eu.strasbourg.service.video.model.Video":
                             Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
                             JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
