@@ -39,6 +39,7 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
@@ -89,6 +90,14 @@ public class SearchAssetPortlet extends MVCPortlet {
      */
     private PetitionLocalService _petitionLocalService;
 
+    /**
+     * interface des participation
+     */
+    private ParticipationLocalService _participationLocalService;
+
+    public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
+    public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
+
     @Override
     public void render(RenderRequest renderRequest,
                        RenderResponse renderResponse)
@@ -105,14 +114,6 @@ public class SearchAssetPortlet extends MVCPortlet {
             SearchAssetDisplayContext dc = new SearchAssetDisplayContext(
                     renderRequest, renderResponse);
             renderRequest.setAttribute("dc", dc);
-
-            //récuperer des objets des champs les plus/les moins.
-            List<Petition> petitionListMostSigned = _petitionLocalService
-                    .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
-            List<Petition> petitionListLessSigned = _petitionLocalService
-                    .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
-            List<Petition> petitionListMostCommented = _petitionLocalService
-                    .getTheMostCommented(themeDisplay.getScopeGroupId());
 
             // Boolean pour dire qu'on vient du portlet de recherche et non d'un
             // asset publisher (pour être utilisé dans les ADT si besoin
@@ -143,10 +144,32 @@ public class SearchAssetPortlet extends MVCPortlet {
                 homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
             }
             renderRequest.setAttribute("homeURL", homeURL);
-            renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
-            renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
-            renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
 
+            String className = classNameList.get(0);
+            if (className.equals(PARTICIPATION)){
+
+                List<Participation> participationListMostCommented = _participationLocalService
+                        .getMostCommented(themeDisplay.getScopeGroupId());
+                List<Participation> participationListLessCommented = _participationLocalService
+                        .getLessCommented(themeDisplay.getScopeGroupId());
+                renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
+                renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
+
+            }else if (className.equals(PETITION)){
+
+                //récuperer des objets des champs les plus/les moins.
+                List<Petition> petitionListMostSigned = _petitionLocalService
+                        .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListLessSigned = _petitionLocalService
+                        .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListMostCommented = _petitionLocalService
+                        .getTheMostCommented(themeDisplay.getScopeGroupId());
+
+                renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
+                renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
+                renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
+
+            }
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
@@ -781,6 +804,11 @@ public class SearchAssetPortlet extends MVCPortlet {
     @Reference(unbind = "-")
     protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
         _petitionLocalService = petitionLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
+        _participationLocalService = participationLocalService;
     }
 
 }

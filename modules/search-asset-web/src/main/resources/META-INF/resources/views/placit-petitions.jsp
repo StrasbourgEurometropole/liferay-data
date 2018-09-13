@@ -45,7 +45,7 @@
                     </aui:form>
                 </div>
                  <div class="pro-widget-participation">
-                    <h4>Les plus sign&eacute;es</h4>
+                    <h4><liferay-ui:message key="eu.most.signed" /></h4>
                     <c:forEach var="petitionMost" items="${petitionListMostSigned}">
                         <a href="detail-petition.html" title="Lien vers Titre de la petition">
                             <div class="pro-meta">
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="pro-widget-participation">
-                    <h4>Les moins sign&eacute;es</h4>
+                    <h4><liferay-ui:message key="eu.less.signed" /></h4>
                     <c:forEach var="petitionMost" items="${petitionListLessSigned}">
                         <a href="detail-petition.html" title="Lien vers Titre de la petition">
                             <div class="pro-meta">
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="pro-widget-participation">
-                    <h4>Les plus comment&eacute;es</h4>
+                    <h4><liferay-ui:message key="eu.most.commented" /></h4>
                     <c:forEach var="petitionMost" items="${petitionListMostCommented}">
                         <a href="detail-petition.html" title="Lien vers Titre de la petition">
                             <div class="pro-meta">
