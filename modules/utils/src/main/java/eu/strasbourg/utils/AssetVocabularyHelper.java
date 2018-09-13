@@ -580,9 +580,7 @@ public class AssetVocabularyHelper {
      */
 	public static String getThematicTitle(Locale locale,List<AssetCategory> assetCategories){
 		StringBuilder result = new StringBuilder();
-		if (assetCategories == null || assetCategories.isEmpty()) {
-			result.append("aucune thematiques");
-		} else {
+		if (assetCategories != null && !assetCategories.isEmpty()) {
 			result.append(assetCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
