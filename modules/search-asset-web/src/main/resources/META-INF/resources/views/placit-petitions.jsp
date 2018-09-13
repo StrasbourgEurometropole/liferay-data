@@ -47,7 +47,7 @@
                  <div class="pro-widget-participation">
                     <h4><liferay-ui:message key="eu.most.signed" /></h4>
                     <c:forEach var="petitionMost" items="${petitionListMostSigned}">
-                        <a href="detail-petition.html" title="Lien vers Titre de la petition">
+                        <a href="${dc.getHomeURL()}detail-petition/-/entity/id/${petitionMost.petitionId}" title="Lien vers Titre de la petition">
                             <div class="pro-meta">
                                 <span>${petitionMost.getDistrictLabel(locale)}</span>
 
@@ -66,7 +66,7 @@
                 <div class="pro-widget-participation">
                     <h4><liferay-ui:message key="eu.less.signed" /></h4>
                     <c:forEach var="petitionMost" items="${petitionListLessSigned}">
-                        <a href="detail-petition.html" title="Lien vers Titre de la petition">
+                        <a href="${dc.getHomeURL()}detail-petition/-/entity/id/${petitionMost.petitionId}" title="Lien vers Titre de la petition">
                             <div class="pro-meta">
                                 <span>${petitionMost.getDistrictLabel(locale)}</span>
 
@@ -85,7 +85,7 @@
                 <div class="pro-widget-participation">
                     <h4><liferay-ui:message key="eu.most.commented" /></h4>
                     <c:forEach var="petitionMost" items="${petitionListMostCommented}">
-                        <a href="detail-petition.html" title="Lien vers Titre de la petition">
+                        <a href="${dc.getHomeURL()}detail-petition/-/entity/id/${petitionMost.petitionId}" title="Lien vers Titre de la petition">
                             <div class="pro-meta">
                                 <span>${petitionMost.getDistrictLabel(locale)}</span>
 

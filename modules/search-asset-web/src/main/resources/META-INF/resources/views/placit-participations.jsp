@@ -46,7 +46,7 @@
                 <div class="pro-widget-participation">
                     <h4><liferay-ui:message key="eu.most.commented" /></h4>
                     <c:forEach var="participationMost" items="${participationListMostCommented}">
-                        <a href="detail-participation.html" title="Lien vers Titre d'une participation">
+                        <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationMost.participationId}" title="Lien vers Titre d'une participation">
                             <div class="pro-meta">
                                 <span>${participationMost.getDistrictLabel(locale)}</span>
                                 <span>${participationMost.getThematicsLabel(locale)}</span>
@@ -66,7 +66,7 @@
                 <div class="pro-widget-participation">
                     <h4><liferay-ui:message key="eu.less.commented" /></h4>
                     <c:forEach var="participationLess" items="${participationListLessCommented}">
-                        <a href="detail-participation.html" title="Lien vers Titre d'une participation">
+                        <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationMost.participationId}" title="Lien vers Titre d'une participation">
                             <div class="pro-meta">
                                 <span>${participationLess.getDistrictLabel(locale)}</span>
                                 <span>${participationLess.getThematicsLabel(locale)}</span>
