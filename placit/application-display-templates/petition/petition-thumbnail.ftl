@@ -11,8 +11,8 @@
 </#if>
         <!-- Recuperation des thématiques de la Petition -->
 <#if entry.getThematicCategories()??>
-<#assign petitionThematics = entry.getThematicCategories() />
-        </#if>
+    <#assign petitionThematics = entry.getThematicCategories() />
+</#if>
 
         <!-- Recuperation du pourcentage des signatures -->
 <#if entry.getPourcentageSignature()??>
@@ -47,13 +47,13 @@
         <span>${entry.getDistrictLabel(locale)}</span>
         <!-- Liste des thématiques de la Petition -->
         <#if petitionThematics?? >
-        <#list petitionThematics as petitionThematic >
-        <span>${petitionThematic.getTitle(locale)}</span>
-    </#list>
-</#if>
-<span>${petitionProject.getTitle(locale)}</span>
+            <#list petitionThematics as petitionThematic >
+                <span>${petitionThematic.getTitle(locale)}</span>
+            </#list>
+        </#if>
+        <span>${petitionProject.getTitle(locale)}</span>
+    </div>
 </div>
-        </div>
 
 <a href="${homeURL}detail-petition/-/entity/id/${entry.petitionId}" title="lien de la page"><h3>${entry.title}</h3></a>
 <span class="pro-time">Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${entry.getProDureeFR()}</span></span>
