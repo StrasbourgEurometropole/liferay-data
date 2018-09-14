@@ -61,6 +61,8 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String THEME = "theme";
     private static final String SAVEINFO = "saveinfo";
     private static final String LASTNAME = "lastname";
+    private static final String FIRSTNAME = "firstname";
+    private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
     public String publikID;
@@ -72,6 +74,14 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     public long postalcode;
     public String phone;
     public String mobile;
+    public String lastname;
+    public String firstname;
+    public String email;
+    public String title;
+    public String description;
+    public long projectId;
+    public long quartierId;
+    public long themeId;
 
     /**
      * le log
@@ -90,26 +100,38 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         publikID = getPublikID(request);
         if (publikID == null || publikID.isEmpty())
             message = "utilisateur non enregistr&eacute;/identifi&eacute;";
-        boolean isValid = validate(request);
-        if (!isValid)
-            message = "la validation des champs n'est pas pass&eacute;e";
+        else
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
 
-        user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
         dateFormat = new SimpleDateFormat(PATTERN);
         birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
         address = ParamUtil.getString(request, ADDRESS);
         city = ParamUtil.getString(request, CITY);
         postalcode = ParamUtil.getLong(request, POSTALCODE);
-        if (postalcode == 0) {
-            message = "le code postal n'est pas compatible";
-        }
         phone = ParamUtil.getString(request, PHONE);
         mobile = ParamUtil.getString(request, MOBILE);
+        lastname = ParamUtil.getString(request, LASTNAME);
+        firstname = ParamUtil.getString(request, FIRSTNAME);
+        email = ParamUtil.getString(request, EMAIL);
+
+        title = ParamUtil.getString(request, PETITIONTITLE);
+        description = ParamUtil.getString(request, PETITIONDESCRIPTION);
+        projectId = ParamUtil.getLong(request, PROJECT);
+        quartierId = ParamUtil.getLong(request, QUARTIER);
+        themeId = ParamUtil.getLong(request, THEME);
+
+        boolean isValid = validate(request);
+        if (!isValid)
+            message = "la validation des champs n'est pas pass&eacute;e";
+
         boolean savedInfo = false;
         if (message.isEmpty()) {
             boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
-            if (saveInfo)
-                savedInfo = saveInfo(request);
+            if (saveInfo) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+                String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
+                PublikApiClient.setAllUserDetails(publikID, user.getLastName(), address, "" + postalcode, city, dateNaiss, phone, mobile);
+            }
             result = sendPetition(request);
         }
 
@@ -132,11 +154,6 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     }
 
     private boolean sendPetition(ResourceRequest request) throws PortletException {
-        String title = ParamUtil.getString(request, PETITIONTITLE);
-        String description = ParamUtil.getString(request, PETITIONDESCRIPTION);
-        long projectId = ParamUtil.getLong(request, PROJECT);
-        long quartierId = ParamUtil.getLong(request, QUARTIER);
-        long themeId = ParamUtil.getLong(request, THEME);
         ServiceContext sc;
         Petition petition;
         try {
@@ -151,11 +168,11 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnaireAdresse(address);
             petition.setPetitionnaireBirthday(birthday);
             petition.setPetitionnaireCity(city);
-            petition.setPetitionnaireFirstname(user.getFirstName());
-            petition.setPetitionnaireLastname(user.getLastName());
+            petition.setPetitionnaireFirstname(firstname);
+            petition.setPetitionnaireLastname(lastname);
             petition.setPetitionnairePostalCode(postalcode);
             petition.setPetitionnairePhone("" + phone);
-            petition.setPetitionnaireEmail(user.getEmail());
+            petition.setPetitionnaireEmail(email);
             petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
             AssetEntry assetEntry = petition.getAssetEntry();
             if (assetEntry == null)
@@ -176,45 +193,37 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         return true;
     }
 
-    private boolean saveInfo(ResourceRequest request) throws PortletException {
-        // enregistrement des infos utilisateur dans entrouvert
-        String lastName = ParamUtil.getString(request, LASTNAME);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-        String dateNaiss = sdf.format(birthday);
-        return PublikApiClient.setAllUserDetails(publikID, lastName, address, "" + postalcode, city, dateNaiss, phone, mobile);
-    }
-
     private boolean validate(ResourceRequest request) {
         boolean isValid = true;
         DateFormat dateFormat = new SimpleDateFormat(PATTERN);
 
         // title
-        if (Validator.isNull(ParamUtil.getString(request, PETITIONTITLE))) {
+        if (Validator.isNull(title)) {
             isValid = false;
         }
 
         // description
-        if (Validator.isNull(ParamUtil.getString(request, PETITIONDESCRIPTION))) {
+        if (Validator.isNull(description)) {
             isValid = false;
         }
 
         // birthday
-        if (Validator.isNull(ParamUtil.getDate(request, BIRTHDAY, dateFormat))) {
+        if (Validator.isNull(birthday)) {
             isValid = false;
         }
 
         // city
-        if (Validator.isNull(ParamUtil.getString(request, CITY))) {
+        if (Validator.isNull(city)) {
             isValid = false;
         }
 
         // address
-        if (Validator.isNull(ParamUtil.getString(request, ADDRESS))) {
+        if (Validator.isNull(address)) {
             isValid = false;
         }
 
         // postalcode
-        if (Validator.isNull(ParamUtil.getLong(request, POSTALCODE))) {
+        if (Validator.isNull(postalcode)) {
             isValid = false;
         }
 

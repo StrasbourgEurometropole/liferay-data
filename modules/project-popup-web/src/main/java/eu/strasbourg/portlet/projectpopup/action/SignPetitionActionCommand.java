@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.projectpopup.action;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -20,15 +22,14 @@ import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
+import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,6 +51,18 @@ import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_UR
 )
 public class SignPetitionActionCommand implements MVCActionCommand {
 
+    public String publikID;
+    public PublikUser user;
+    public Date birthday;
+    public String address;
+    public String city;
+    public long postalcode;
+    public String phone;
+    public String mobile;
+    public String lastname;
+    public String firstname;
+    public String email;
+    public DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
      * le log
@@ -64,24 +77,52 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         boolean result = false;
         //test
         if ("signPetition".equals(action)) {
+
             long entryID = ParamUtil.getLong(request, "entryId");
             if (entryID == 0)
-                throw new PortletException("Une erreur est survenue avec cette pétition");
+                throw new PortletException("Une erreur est survenue avec cette p&eacute;tition");
             String publikID = getPublikID(request);
             if (publikID == null || publikID.isEmpty())
                 throw new PortletException("veuillez vous identifier/enregistrer");
+
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+            birthday = ParamUtil.getDate(request, "birthday", dateFormat);
+            address = ParamUtil.getString(request, "address");
+            city = ParamUtil.getString(request, "city");
+            postalcode = ParamUtil.getLong(request, "postalcode");
+            phone = ParamUtil.getString(request, "phone");
+            mobile = ParamUtil.getString(request, "mobile");
+            lastname = ParamUtil.getString(request, "username");
+            firstname = ParamUtil.getString(request, "firstname");
+            email = ParamUtil.getString(request, "mail");
+
             boolean isValid = validate(request);
-            if (!isValid) {
-                throw new PortletException("la validation des champs n'est pas passée");
-            } else
-                result = signPetition(request, entryID, publikID);
+            if (!isValid)
+                throw new PortletException("la validation des champs n'est pas pass&eacute;e");
+
+            // Sauvegarde des infos utilisateur
+            String saveInfo = ParamUtil.getString(request, "saveinfo");
+            if (saveInfo.equals("save-info")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+                String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
+                PublikApiClient.setAllUserDetails(publikID, user.getLastName(), address, "" + postalcode, city, dateNaiss, phone, mobile);
+            }
+
+            String message = signPetition(request, entryID, publikID);
+            if (message.isEmpty()) {
+                result = true;
+            } else {
+                throw new PortletException(message);
+            }
+
             try {
                 response.sendRedirect(redirectURL);
             } catch (IOException e) {
-                _log.error("erreur de redirection dans le sign petition : ",e);
+                _log.error("erreur de redirection dans le sign petition : ", e);
                 throw new PortletException(e);
             }
         }
+
         return result;
     }
 
@@ -93,35 +134,28 @@ public class SignPetitionActionCommand implements MVCActionCommand {
      */
     private boolean validate(ActionRequest request) {
         boolean isValid = true;
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         // birthday
-        if (Validator.isNull(ParamUtil.getDate(request, "birthday", dateFormat))) {
+        if (Validator.isNull(birthday)) {
             SessionErrors.add(request, "birthday-error");
             isValid = false;
         }
 
         // city
-        if (Validator.isNull(ParamUtil.getString(request, "city"))) {
+        if (Validator.isNull(city)) {
             SessionErrors.add(request, "city-error");
             isValid = false;
         }
 
         // address
-        if (Validator.isNull(ParamUtil.getString(request, "address"))) {
+        if (Validator.isNull(address)) {
             SessionErrors.add(request, "address-error");
             isValid = false;
         }
 
         // postalcode
-        if (Validator.isNull(ParamUtil.getLong(request, "postalcode"))) {
+        if (Validator.isNull(postalcode)) {
             SessionErrors.add(request, "postalcode-error");
-            isValid = false;
-        }
-
-        // phone
-        if (Validator.isNull(ParamUtil.getString(request, "phone"))) {
-            SessionErrors.add(request, "phone-error");
             isValid = false;
         }
 
@@ -137,16 +171,8 @@ public class SignPetitionActionCommand implements MVCActionCommand {
      * @return la réponse
      * @throws PortletException PortletException
      */
-    private boolean signPetition(ActionRequest actionRequest, long entryID, String publikID) throws PortletException {
-        PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date birthday = ParamUtil.getDate(actionRequest, "birthday", dateFormat);
-        String address = ParamUtil.getString(actionRequest, "address");
-        String city = ParamUtil.getString(actionRequest, "city");
-        long postalcode = ParamUtil.getLong(actionRequest, "postalcode");
-        if (0==postalcode)
-            throw new PortletException("le code postal n'est pas compatible");
-        String phone = ParamUtil.getString(actionRequest, "phone");
+    private String signPetition(ActionRequest actionRequest, long entryID, String publikID) throws PortletException {
+        String message = "";
         Petition petition = null;
         ServiceContext sc = null;
         try {
@@ -157,14 +183,14 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             _log.error(e);
         }
         if (petition == null || sc == null) {
-            throw new PortletException("la pétition est null");
+            message = "la p&eacute;tition est null";
         }
         List<Signataire> signataireList = SignataireLocalServiceUtil.
                 findSignatairesByPetitionIdAndSignataireName(petition.getPetitionId(), user.getLastName());
         Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getUserId() == signataire.getUserId()).findAny().orElse(null);
         if (signataireTemp == null) {
             Signataire signataire = SignataireLocalServiceUtil.createSignataire(sc);
-            signataire.setSignataireName(user.getLastName());
+            signataire.setSignataireName(lastname);
             signataire.setUserName(user.getUserName());
             signataire.setUserId(user.getUserId());
             signataire.setBirthday(birthday);
@@ -172,14 +198,17 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             signataire.setPostalCode(postalcode);
             signataire.setCity(city);
             signataire.setPublikUserId(user.getPublikId());
-            signataire.setMail(user.getEmail());
-            signataire.setMobilePhone(phone);
+            signataire.setMail(email);
+            signataire.setMobilePhone(mobile);
             signataire.setPhone(phone);
             signataire.setPetitionId(petition.getPetitionId());
             signataire = SignataireLocalServiceUtil.updateSignataire(signataire);
-            _log.info("Signataire : "+signataire);
-            return true;
-        }else return false;
+            _log.info("Signataire : " + signataire);
+        } else {
+            message = "Vous avez d&eacute;j&agrave; sign&eacute; la p&eacute;tition";
+        }
+
+        return message;
     }
 
 
