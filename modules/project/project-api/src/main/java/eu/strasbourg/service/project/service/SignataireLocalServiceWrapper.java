@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -395,6 +394,11 @@ public class SignataireLocalServiceWrapper implements SignataireLocalService,
 	@Override
 	public void createFakeSignataire(long petitionId, int nombreCreation) {
 		_signataireLocalService.createFakeSignataire(petitionId, nombreCreation);
+	}
+
+	@Override
+	public void removeSignataire(long signataireId) {
+		_signataireLocalService.removeSignataire(signataireId);
 	}
 
 	@Override

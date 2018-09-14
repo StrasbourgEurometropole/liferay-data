@@ -68,27 +68,27 @@ $(document).ready(function(){
                     list_mega[index].can_animate = true;
 
 
-                    // On modfie les boutons correspondant sur la page
-                    // var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
-                    jQuery('.seu-add-favorites').each(function(index, favoriteButton) {
-                        var favoriteButtonJq = jQuery(favoriteButton);
-                        var entityId = Number(favoriteButtonJq.data('id'));
-                        var type = Number(favoriteButtonJq.data('type'));
-                        var isFavorite = false;
-                        for (var i = 0; i < window.userFavorites.length; i++) {
-                            if (window.userFavorites[i].entityId === entityId && window.userFavorites[i].typeId === type) {
-                                isFavorite =  true;
-                                break;
+                        // On modfie les boutons correspondant sur la page
+                        // var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
+                        jQuery('.add-favorites').each(function(index, favoriteButton) {
+                            var favoriteButtonJq = jQuery(favoriteButton);
+                            var entityId = Number(favoriteButtonJq.data('id'));
+                            var type = Number(favoriteButtonJq.data('type'));
+                            var isFavorite = false;
+                            for (var i = 0; i < window.userFavorites.length; i++) {
+                                if (window.userFavorites[i].entityId === entityId && window.userFavorites[i].typeId === type) {
+                                    isFavorite =  true;
+                                    break;
+                                }
                             }
-                        }
-                        if (isFavorite) {
-                            favoriteButtonJq.addClass('liked');
-                            favoriteButton.textContent = Liferay.Language.get('eu.remove-from-favorite');
-                        }else{
-                            favoriteButtonJq.removeClass('liked');
-                            favoriteButton.children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
-                        }
-                    });
+                            if (isFavorite) {
+                                favoriteButtonJq.addClass('liked');
+                                favoriteButton.textContent = Liferay.Language.get('eu.remove-from-favorite');
+                            }else{
+                                favoriteButtonJq.removeClass('liked');
+                                favoriteButton.children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
+                            }
+                        });
 
                 }, 800);
             }

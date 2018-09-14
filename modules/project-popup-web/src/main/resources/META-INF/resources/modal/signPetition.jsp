@@ -1,5 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
 <portlet:actionURL var="signPetitionURL" name="signPetition">
+	<portlet:param name="redirectURL" value="${redirectURL}"/>
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
@@ -29,7 +30,7 @@
 				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.firstName}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
-				            <aui:input id="signbirthday" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
+				            <aui:input id="signbirthday" readonly="true" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa"/>
                         </div>
                     </div>
                     <div class="pro-row">

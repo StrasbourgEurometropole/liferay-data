@@ -16,10 +16,13 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +44,7 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
 
     @Override
     protected void doDelete(Petition petition) throws Exception {
-        deleteDocument(petition.getCompanyId(),petition.getPetitionId());
+        deleteDocument(petition.getCompanyId(), petition.getPetitionId());
     }
 
     @Override
@@ -66,6 +69,15 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
         Map<Locale, String> descriptionFieldMap = new HashMap<>();
         descriptionFieldMap.put(Locale.FRANCE, petition.getDescription());
 
+        Date publicationDate = petition.getPublicationDate();
+        Date expirationDate = petition.getExpirationDate();
+        if (publicationDate != null && expirationDate != null) {
+            List<Date> dates = new ArrayList<>(DateHelper.getDaysBetweenDates(publicationDate, expirationDate));
+            document.addDateSortable("dates", dates.toArray(new Date[dates.size()]));
+            document.addDateSortable("publicationDate", publicationDate);
+            document.addDateSortable("expirationDate", expirationDate);
+        }
+
         document.addLocalizedText(Field.TITLE, titleFieldMap);
         document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
         document.addNumber(Field.STATUS, petition.getStatus());
@@ -74,7 +86,7 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
 
     @Override
     protected Summary doGetSummary(Document document, Locale locale, String snippet, PortletRequest portletRequest, PortletResponse portletResponse) throws Exception {
-        return createSummary(document, Field.TITLE,Field.URL);
+        return createSummary(document, Field.TITLE, Field.URL);
     }
 
     @Override
@@ -92,7 +104,7 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
     @Override
     protected void doReindex(Petition petition) throws Exception {
         Document document = getDocument(petition);
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),petition.getCompanyId(),document,isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(getSearchEngineId(), petition.getCompanyId(), document, isCommitImmediately());
     }
 
     protected void reindexEntries(long companyId) throws PortalException {

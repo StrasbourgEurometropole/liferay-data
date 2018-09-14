@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -372,6 +371,38 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	public java.util.List<eu.strasbourg.service.project.model.Petition> getPublishedByGroupId(
 		long groupId) {
 		return _petitionLocalService.getPublishedByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostCommented(
+		long groupId) {
+		return _petitionLocalService.getTheMostCommented(groupId);
+	}
+
+	/**
+	* Méthode permettant de trier les petitions
+	*
+	* @return
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheMostSigned(
+		long groupId) {
+		return _petitionLocalService.getTheMostSigned(groupId);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheThreeLessSigned(
+		long groupId) {
+		return _petitionLocalService.getTheThreeLessSigned(groupId);
+	}
+
+	/**
+	* @return
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getTheThreeMostSigned(
+		long groupId) {
+		return _petitionLocalService.getTheThreeMostSigned(groupId);
 	}
 
 	/**

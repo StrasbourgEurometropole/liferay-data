@@ -34,6 +34,14 @@
 		.pro-sort{
 			padding: 0 15px;
 			margin-right: 15px;
+			fieldset{
+				left: 0;
+				right: 0;
+				&:before{
+					left: 23px;
+					right: auto;
+				}
+			}
 			ul{
 				width: 150px;
 				&:before{
@@ -423,6 +431,23 @@
 					}
 				}
 				.pro-footer-budget{
+					height: 70px;
+				}
+			}
+
+
+			.pro-bloc-card-projet {
+				&:hover, &:focus {
+					transform: none;
+				}
+				.pro-header-projet{
+					.pro-info-top-right{
+						@include mobile{
+							margin: 10px 0;
+						}
+					}
+				}
+				.pro-footer-projet{
 					height: 70px;
 				}
 			}

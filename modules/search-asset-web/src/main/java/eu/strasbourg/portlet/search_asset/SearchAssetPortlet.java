@@ -15,10 +15,22 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.search_asset.action.ExportPDF;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
@@ -28,7 +40,9 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
@@ -38,14 +52,26 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
         "com.liferay.portlet.display-category=Strasbourg",
@@ -60,6 +86,19 @@ import java.util.*;
         "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
 public class SearchAssetPortlet extends MVCPortlet {
 
+    /**
+     * interface des petitions
+     */
+    private PetitionLocalService _petitionLocalService;
+
+    /**
+     * interface des participation
+     */
+    private ParticipationLocalService _participationLocalService;
+
+    public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
+    public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
+
     @Override
     public void render(RenderRequest renderRequest,
                        RenderResponse renderResponse)
@@ -70,13 +109,12 @@ public class SearchAssetPortlet extends MVCPortlet {
             this._configuration = themeDisplay
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             SearchAssetConfiguration.class);
-            getClassNames();
+            List<String> classNameList = getClassNames();
 
             // On set le DisplayContext
             SearchAssetDisplayContext dc = new SearchAssetDisplayContext(
                     renderRequest, renderResponse);
             renderRequest.setAttribute("dc", dc);
-
 
             // Boolean pour dire qu'on vient du portlet de recherche et non d'un
             // asset publisher (pour être utilisé dans les ADT si besoin
@@ -86,9 +124,9 @@ public class SearchAssetPortlet extends MVCPortlet {
             // correspondre à chaque type d'asset une page de détail
             int i = 0;
             Map<String, Long> className_layoutId = new HashMap<String, Long>();
-            for (String className :  this._configuration.assetClassNames()
+            for (String className : this._configuration.assetClassNames()
                     .split(",")) {
-                String layoutFriendlyURL =  this._configuration.layoutsFriendlyURLs()
+                String layoutFriendlyURL = this._configuration.layoutsFriendlyURLs()
                         .split(",")[i];
                 Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
                         themeDisplay.getScopeGroupId(), false,
@@ -108,6 +146,31 @@ public class SearchAssetPortlet extends MVCPortlet {
             }
             renderRequest.setAttribute("homeURL", homeURL);
 
+            String className = classNameList.get(0);
+            if (className.equals(PARTICIPATION)){
+
+                List<Participation> participationListMostCommented = _participationLocalService
+                        .getMostCommented(themeDisplay.getScopeGroupId());
+                List<Participation> participationListLessCommented = _participationLocalService
+                        .getLessCommented(themeDisplay.getScopeGroupId());
+                renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
+                renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
+
+            }else if (className.equals(PETITION)){
+
+                //récuperer des objets des champs les plus/les moins.
+                List<Petition> petitionListMostSigned = _petitionLocalService
+                        .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListLessSigned = _petitionLocalService
+                        .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListMostCommented = _petitionLocalService
+                        .getTheMostCommented(themeDisplay.getScopeGroupId());
+
+                renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
+                renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
+                renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
+
+            }
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
@@ -135,6 +198,9 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             this._themeDisplay = (ThemeDisplay) resourceRequest
                     .getAttribute(WebKeys.THEME_DISPLAY);
+            this._configuration = this._themeDisplay
+                    .getPortletDisplay().getPortletInstanceConfiguration(
+                            SearchAssetConfiguration.class);
             this._request = resourceRequest;
             this._response = resourceResponse;
 
@@ -258,22 +324,6 @@ public class SearchAssetPortlet extends MVCPortlet {
                     String className = entry.getClassName();
 
                     switch (className) {
-                        /*case "eu.strasbourg.service.activity.model.Activity":
-                            Activity activity = ActivityLocalServiceUtil.fetchActivity(entry.getClassPK());
-                            jsonEntries.put(activity.toJSON());
-                            break;
-                        case "eu.strasbourg.service.activity.model.ActivityCourse":
-                            ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.fetchActivityCourse(entry.getClassPK());
-                            jsonEntries.put(activityCourse.toJSON());
-                            break;
-                        case "eu.strasbourg.service.activity.model.ActivityOrganizer":
-                            ActivityOrganizer activityOrganizer = ActivityOrganizerLocalServiceUtil.fetchActivityOrganizer(entry.getClassPK());
-                            jsonEntries.put(activityOrganizer.toJSON());
-                            break;
-                        case "eu.strasbourg.service.agenda.model.Campaign":
-                            Campaign campaign = CampaignLocalServiceUtil.fetchCampaign(entry.getClassPK());
-                            jsonEntries.put(campaign.toJSON());
-                            break;*/
                         case "eu.strasbourg.service.agenda.model.Event":
                             Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
                             JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
@@ -284,42 +334,6 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonEvent.put("json", json);
                             jsonEntries.put(jsonEvent);
                             break;
-                        /*case "eu.strasbourg.service.agenda.model.Manifestation":
-                            Manifestation manifestation = ManifestationLocalServiceUtil.fetchManifestation(entry.getClassPK());
-                            jsonEntries.put(manifestation.toJSON());
-                            break;
-                        case "eu.strasbourg.service.artwork.model.Artwork":
-                            Artwork artwork = ArtworkLocalServiceUtil.fetchArtwork(entry.getClassPK());
-                            jsonEntries.put(artwork.toJSON());
-                            break;
-                        case "eu.strasbourg.service.artwork.model.ArtworkCollection":
-                            ArtworkCollection artworkCollection = ArtworkCollectionLocalServiceUtil.fetchArtworkCollection(entry.getClassPK());
-                            jsonEntries.put(artworkCollection.toJSON());
-                            break;
-                        case "eu.strasbourg.service.edition.model.Edition":
-                            Edition edition = EditionLocalServiceUtil.fetchEdition(entry.getClassPK());
-                            jsonEntries.put(edition.toJSON());
-                            break;
-                        case "eu.strasbourg.service.edition.model.EditionGallery":
-                            EditionGallery editionGallery = EditionGalleryLocalServiceUtil.fetchEditionGallery(entry.getClassPK());
-                            jsonEntries.put(editionGallery.toJSON());
-                            break;
-                        case "eu.strasbourg.service.interest.model.Interest":
-                            Interest interest = InterestLocalServiceUtil.fetchInterest(entry.getClassPK());
-                            jsonEntries.put(interest.toJSON());
-                            break;
-                        case "eu.strasbourg.service.link.model.Link":
-                            Link link = LinkLocalServiceUtil.fetchLink(entry.getClassPK());
-                            jsonEntries.put(link.toJSON());
-                            break;
-                        case "eu.strasbourg.service.official.model.Official":
-                            Official official = OfficialLocalServiceUtil.fetchOfficial(entry.getClassPK());
-                            jsonEntries.put(official.toJSON());
-                            break;
-                        case "eu.strasbourg.service.place.model.Place":
-                            Place place = PlaceLocalServiceUtil.fetchPlace(entry.getClassPK());
-                            jsonEntries.put(place.toJSON());
-                            break;*/
                         case "eu.strasbourg.service.project.model.Project":
                             Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
                             JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
@@ -368,10 +382,17 @@ public class SearchAssetPortlet extends MVCPortlet {
                                 jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
                             }
                             json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
-                            json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap(petition.getProjectCategory().getTitleMap()));
+                            json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap((Validator.isNull(petition.getProjectCategory())? LocalizationUtil.getLocalizationMap("") : petition.getProjectCategory().getTitleMap())));
                             jsonPetition.put("json", json);
                             jsonEntries.put(jsonPetition);
                             break;
+                        /*case "eu.strasbourg.service.project.model.Signataire":
+                            Signataire signataire = SignataireLocalServiceUtil.fetchSignataire(entry.getClassPK());
+                            JSONObject jsonSignataire = JSONFactoryUtil.createJSONObject();
+                            jsonSignataire.put("class", className);
+                            jsonSignataire.put("json", signataire.toJSON());
+                            jsonEntries.put(jsonSignataire);
+                            break;*/
                         case "eu.strasbourg.service.video.model.Video":
                             Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
                             JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
@@ -379,10 +400,6 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonVideo.put("json", video.toJSON());
                             jsonEntries.put(jsonVideo);
                             break;
-                        /*case "eu.strasbourg.service.video.model.VideoGallery":
-                            VideoGallery videoGallery = VideoGalleryLocalServiceUtil.fetchVideoGallery(entry.getClassPK());
-                            jsonEntries.put(videoGallery.toJSON());
-                            break;*/
                         case "com.liferay.journal.model.JournalArticle":
                             JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
                             JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
@@ -392,7 +409,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             String document = journalArticle.getContentByLocale(LocaleUtil.toLanguageId(Locale.FRANCE));
                             com.liferay.portal.kernel.xml.Document docXML = SAXReaderUtil.read(document);
                             String title = docXML.valueOf("//dynamic-element[@name='title']/dynamic-content/text()");
-                            if(Validator.isNull(title)){
+                            if (Validator.isNull(title)) {
                                 title = journalArticle.getTitle(Locale.FRANCE);
                             }
                             json.put("title", title);
@@ -408,14 +425,10 @@ public class SearchAssetPortlet extends MVCPortlet {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
                             json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
                             String chapo = docXML.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()");
-                            json.put("chapo", chapo.replaceAll("<[^>]*>", "").substring(0,chapo.length() > 100 ? 100 : chapo.length()));
+                            json.put("chapo", chapo.replaceAll("<[^>]*>", "").substring(0, chapo.length() > 100 ? 100 : chapo.length()));
                             jsonJournalArticle.put("json", json);
                             jsonEntries.put(jsonJournalArticle);
                             break;
-                        /*case "com.liferay.document.library.kernel.model.DLFileEntry":
-                            DLFileEntry dlFileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(entry.getClassPK());
-                            jsonEntries.put(dlFileEntry.toJSON());
-                            break;*/
                     }
                 }
                 jsonResponse.put("entries", jsonEntries);
@@ -798,4 +811,15 @@ public class SearchAssetPortlet extends MVCPortlet {
     private String _sortFieldAndType;
 
     private Hits _hits;
+
+    @Reference(unbind = "-")
+    protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
+        _petitionLocalService = petitionLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
+        _participationLocalService = participationLocalService;
+    }
+
 }

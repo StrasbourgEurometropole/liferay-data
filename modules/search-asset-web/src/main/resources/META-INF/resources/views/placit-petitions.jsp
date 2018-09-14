@@ -13,11 +13,10 @@
 		                </span>
 		            </span>
                 </div>
-                
-<!--                 TODO -->
-<!--                 <div class="pro-wrapper-sort"> -->
-<!-- 					<a id="buttonDeposer" href="deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a> -->
-<!-- 				</div> -->
+
+                 <div class="pro-wrapper-sort">
+ 					<a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition"><liferay-ui:message key="file-petition" /></a>
+ 				</div>
 				
                 <div class="row pro-wrapper-listing-participation">
 
@@ -44,6 +43,62 @@
                         <liferay-util:include page="/forms/placit-petitions-form.jsp"
                             servletContext="<%=application%>" />
                     </aui:form>
+                </div>
+                 <div class="pro-widget-participation">
+                    <h4><liferay-ui:message key="eu.most.signed" /></h4>
+                    <c:forEach var="petitionMost" items="${petitionListMostSigned}">
+                        <a href="${dc.getHomeURL()}detail-petition/-/entity/id/${petitionMost.petitionId}" title="Lien vers Titre de la petition">
+                            <div class="pro-meta">
+                                <span>${petitionMost.getDistrictLabel(locale)}</span>
+
+                                <span>${petitionMost.getThematicLabel(locale)}</span>
+                            </div>
+                            <h3>${petitionMost.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-citoyen-petition"><strong>${petitionMost.getNombreSignature()} Signataire(s) </strong>sur ${petitionMost.getQuotaSignature()} n&eacute;cessaires</span>
+                                <span class="pro-comments pro-comments-right"><strong>${petitionMost.nbApprovedComments} </strong></span>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </div>
+
+                <div class="pro-widget-participation">
+                    <h4><liferay-ui:message key="eu.less.signed" /></h4>
+                    <c:forEach var="petitionMost" items="${petitionListLessSigned}">
+                        <a href="${dc.getHomeURL()}detail-petition/-/entity/id/${petitionMost.petitionId}" title="Lien vers Titre de la petition">
+                            <div class="pro-meta">
+                                <span>${petitionMost.getDistrictLabel(locale)}</span>
+
+                                <span>${petitionMost.getThematicLabel(locale)}</span>
+                            </div>
+                            <h3>${petitionMost.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-citoyen-petition"><strong>${petitionMost.getNombreSignature()} Signataire(s) </strong>sur ${petitionMost.getQuotaSignature()} n&eacute;cessaires</span>
+                                <span class="pro-comments pro-comments-right"><strong>${petitionMost.nbApprovedComments} </strong></span>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </div>
+
+                <div class="pro-widget-participation">
+                    <h4><liferay-ui:message key="eu.most.commented" /></h4>
+                    <c:forEach var="petitionMost" items="${petitionListMostCommented}">
+                        <a href="${dc.getHomeURL()}detail-petition/-/entity/id/${petitionMost.petitionId}" title="Lien vers Titre de la petition">
+                            <div class="pro-meta">
+                                <span>${petitionMost.getDistrictLabel(locale)}</span>
+
+                                <span>${petitionMost.getThematicLabel(locale)}</span>
+                            </div>
+                            <h3>${petitionMost.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-citoyen-petition"><strong>${petitionMost.getNombreSignature()} Signataire(s) </strong>sur ${petitionMost.getQuotaSignature()} n&eacute;cessaires</span>
+                                <span class="pro-comments pro-comments-right"><strong>${petitionMost.nbApprovedComments} </strong></span>
+                            </div>
+                        </a>
+                    </c:forEach>
                 </div>
             </div>
         </div>

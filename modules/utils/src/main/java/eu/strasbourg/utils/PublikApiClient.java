@@ -98,9 +98,11 @@ public class PublikApiClient {
 
 	/**
 	 * Enregistre l'adresse d'un utilisateur Publik 
-	 * 
+	 *
 	 * @param userId
 	 *            Identifiant Publik de l'utilisateur
+	 * @param lastName
+	 *            Nom de l'utilisateur
 	 * @param address
 	 *            adresse de l'utilisateur
 	 * @param zipCode
@@ -114,6 +116,41 @@ public class PublikApiClient {
 		String endpoint = "api/users/";
 		try {
 			JSONHelper.put(baseUrl + endpoint + userId + "/", lastName, address, zipCode, city,
+					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret());
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+
+	}
+
+	/**
+	 * Enregistre l'adresse, la date de naissance et les numéro de tel d'un utilisateur Publik
+	 *
+	 * @param userId
+	 *            Identifiant Publik de l'utilisateur
+	 * @param lastName
+	 *            Nom de l'utilisateur
+	 * @param address
+	 *            adresse de l'utilisateur
+	 * @param zipCode
+	 *            CP de l'utilisateur
+	 * @param city
+	 *            ville de l'utilisateur
+	 * @param dateNaiss
+	 *            date de naissance de l'utilisateur
+	 * @param phoneNumber
+	 *            téléphone fixe de l'utilisateur
+	 * @param cellNumber
+	 *            téléphone portable de l'utilisateur
+	 * @return Objet JSON content les informations de l'utilisateur
+	 */
+	public static boolean setAllUserDetails(String userId, String lastName, String address, String zipCode, String city,
+											String dateNaiss, String phoneNumber, String cellNumber) {
+		String baseUrl = StrasbourgPropsUtil.getPublikIssuer();
+		String endpoint = "api/users/";
+		try {
+			JSONHelper.put(baseUrl + endpoint + userId + "/", lastName, address, zipCode, city, phoneNumber, cellNumber, dateNaiss,
 					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret());
 			return true;
 		} catch (Exception ex) {

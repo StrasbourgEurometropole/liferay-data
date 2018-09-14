@@ -1,11 +1,5 @@
 package eu.strasbourg.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -26,6 +20,12 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * Classe Helper pour tout ce qui concerne les vocabulaires
@@ -565,6 +565,22 @@ public class AssetVocabularyHelper {
 		} else if (AssetVocabularyHelper.isAllDistrict(assetCategories.size())) {
 			result.append("tout les quartiers");
 		} else {
+			result.append(assetCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
+
+    /**
+     * méthode permettant de récupérer les titres des thématiques
+     * @param locale la locale
+     * @param assetCategories les thematiques
+     * @return les titres
+     */
+	public static String getThematicTitle(Locale locale,List<AssetCategory> assetCategories){
+		StringBuilder result = new StringBuilder();
+		if (assetCategories != null && !assetCategories.isEmpty()) {
 			result.append(assetCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
