@@ -1040,7 +1040,7 @@ function goToPage(wi, index){
     var pageResult = 'Affichage des résultats ' +
                     (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
                     (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
-                    ' parmis ' + wi.items_count;
+                    ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
     
 }
