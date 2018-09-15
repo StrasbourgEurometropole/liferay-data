@@ -134,6 +134,12 @@
 						}
 					}
 				}
+
+				&:focus{
+					h3{
+						text-decoration: underline;
+					}
+				}
 				@include mobile {
 					height: 100%;
 					margin: 0;
@@ -305,7 +311,7 @@
 						text-align: left;
 						&:focus {
 							h3 {
-								color: $c_main;
+								text-decoration: underline;
 							}
 						}
 					}

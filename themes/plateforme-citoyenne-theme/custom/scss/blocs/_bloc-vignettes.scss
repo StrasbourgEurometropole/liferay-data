@@ -198,7 +198,7 @@
 			}
 			> .content {
 				h3 {
-					color: $c_main;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -589,7 +589,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -1001,6 +1001,9 @@
 	&:focus {
 		> * {
 			box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+			h3{
+				text-decoration: underline;
+			}
 		}
 	}
 
@@ -1067,6 +1070,15 @@
 			overflow: hidden;
 			@include mobile {
 				margin: 0;
+			}
+		}
+
+		a{
+			display: block;
+			&:focus{
+				h3{
+					text-decoration: underline;
+				}
 			}
 		}
 	}
@@ -1348,7 +1360,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -1627,10 +1639,10 @@
 			height: 48px;
 			background: $c_dark;
 			position: absolute;
+			pointer-events: none;
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			transform: translate3d(-50%, -50%, 0);
 			line-height: 48px;
 			font-size: 1.5em;
 			color: $c_main;
@@ -1651,9 +1663,10 @@
 	}
 
 	> a {
+		display: block;
 		&:focus {
 			h3 {
-				color: $c_main;
+				text-decoration: underline;
 			}
 		}
 	}
@@ -1869,7 +1882,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -2091,7 +2104,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -2413,7 +2426,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -2536,7 +2549,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
