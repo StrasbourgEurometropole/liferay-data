@@ -74,6 +74,9 @@
 					
 				</div>
 				
+				<%-- Champ : opacité de l'image --%>
+				<aui:input name="opacityImage" required="false" helpMessage="opacityHelp"/>
+
 				<%-- Champ : URL detail du projet --%>
 				<aui:input name="detailURL" required="false" helpMessage="urlHelp2"/>
 				

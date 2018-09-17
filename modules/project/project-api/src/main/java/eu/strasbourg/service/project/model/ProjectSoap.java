@@ -49,6 +49,7 @@ public class ProjectSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
+		soapModel.setOpacityImage(model.getOpacityImage());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setDetailURL(model.getDetailURL());
 		soapModel.setBudget(model.getBudget());
@@ -232,6 +233,14 @@ public class ProjectSoap implements Serializable {
 		_externalImageCopyright = externalImageCopyright;
 	}
 
+	public long getOpacityImage() {
+		return _opacityImage;
+	}
+
+	public void setOpacityImage(long opacityImage) {
+		_opacityImage = opacityImage;
+	}
+
 	public String getDescription() {
 		return _description;
 	}
@@ -335,6 +344,7 @@ public class ProjectSoap implements Serializable {
 	private String _title;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
+	private long _opacityImage;
 	private String _description;
 	private String _detailURL;
 	private String _budget;

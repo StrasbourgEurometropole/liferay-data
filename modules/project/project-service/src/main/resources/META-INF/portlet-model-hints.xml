@@ -186,6 +186,7 @@
 		<field name="externalImageCopyright" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="opacityImage" type="long" />
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
