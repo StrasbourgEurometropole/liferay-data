@@ -89,7 +89,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			{ "title", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
-			{ "opacityImage", Types.BIGINT },
+			{ "opacityImage", Types.DOUBLE },
 			{ "description", Types.CLOB },
 			{ "detailURL", Types.VARCHAR },
 			{ "budget", Types.VARCHAR },
@@ -120,7 +120,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("opacityImage", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("opacityImage", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("detailURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
@@ -134,7 +134,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,opacityImage LONG,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration VARCHAR(75) null,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,opacityImage DOUBLE,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration VARCHAR(75) null,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";
@@ -387,7 +387,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			setExternalImageCopyright(externalImageCopyright);
 		}
 
-		Long opacityImage = (Long)attributes.get("opacityImage");
+		Double opacityImage = (Double)attributes.get("opacityImage");
 
 		if (opacityImage != null) {
 			setOpacityImage(opacityImage);
@@ -741,12 +741,12 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@JSON
 	@Override
-	public long getOpacityImage() {
+	public double getOpacityImage() {
 		return _opacityImage;
 	}
 
 	@Override
-	public void setOpacityImage(long opacityImage) {
+	public void setOpacityImage(double opacityImage) {
 		_opacityImage = opacityImage;
 	}
 
@@ -1535,7 +1535,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 	private String _title;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
-	private long _opacityImage;
+	private double _opacityImage;
 	private String _description;
 	private String _detailURL;
 	private String _budget;

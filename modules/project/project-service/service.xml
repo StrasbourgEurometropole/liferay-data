@@ -31,7 +31,7 @@
 		<column name="title" type="String" />
 		<column name="externalImageURL" type="String" />
 		<column name="externalImageCopyright" type="String" />
-		<column name="opacityImage" type="long" />
+		<column name="opacityImage" type="double" />
 		<column name="description" type="String" />
 		<column name="detailURL" type="String" />
 

@@ -342,14 +342,14 @@ public interface ProjectModel extends BaseModel<Project>, GroupedModel,
 	 *
 	 * @return the opacity image of this project
 	 */
-	public long getOpacityImage();
+	public double getOpacityImage();
 
 	/**
 	 * Sets the opacity image of this project.
 	 *
 	 * @param opacityImage the opacity image of this project
 	 */
-	public void setOpacityImage(long opacityImage);
+	public void setOpacityImage(double opacityImage);
 
 	/**
 	 * Returns the description of this project.

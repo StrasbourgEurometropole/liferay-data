@@ -304,7 +304,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
 
-		opacityImage = objectInput.readLong();
+		opacityImage = objectInput.readDouble();
 		description = objectInput.readUTF();
 		detailURL = objectInput.readUTF();
 		budget = objectInput.readUTF();
@@ -381,7 +381,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			objectOutput.writeUTF(externalImageCopyright);
 		}
 
-		objectOutput.writeLong(opacityImage);
+		objectOutput.writeDouble(opacityImage);
 
 		if (description == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -471,7 +471,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public String title;
 	public String externalImageURL;
 	public String externalImageCopyright;
-	public long opacityImage;
+	public double opacityImage;
 	public String description;
 	public String detailURL;
 	public String budget;
