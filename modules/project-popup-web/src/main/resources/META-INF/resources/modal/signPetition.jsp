@@ -97,6 +97,25 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- CONFIRMATION QUITTER PETITION -->
+<!-- HTML pour la modal de quitter le formulaire de pétition -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='quit-petition'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='file-petition-quit'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
 $("#closingButton").click(function(event){

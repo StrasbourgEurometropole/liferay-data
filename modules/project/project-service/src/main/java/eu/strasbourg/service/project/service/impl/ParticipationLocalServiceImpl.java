@@ -349,7 +349,9 @@ public class ParticipationLocalServiceImpl
      */
     public List<Participation> getMostCommented(long groupId) {
         List<Participation> participationList = getSortedParticipations(groupId);
-        return participationList.stream().limit(3).collect(Collectors.toList());
+        if (participationList.size()<3)
+            return participationList;
+        else return participationList.stream().limit(3).collect(Collectors.toList());
     }
 
     /**
@@ -376,7 +378,9 @@ public class ParticipationLocalServiceImpl
      */
     public List<Participation> getLessCommented(long groupId) {
         List<Participation> participationList = getSortedParticipations(groupId);
-        return participationList.stream().skip(participationList.size() - 3).collect(Collectors.toList());
+        if (participationList.size()<3)
+            return participationList;
+        else return participationList.stream().skip(participationList.size() - 3).collect(Collectors.toList());
     }
 
     /**
