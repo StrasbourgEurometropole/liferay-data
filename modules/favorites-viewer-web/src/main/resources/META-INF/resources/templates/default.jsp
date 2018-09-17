@@ -103,7 +103,7 @@
 		                                    ${occupationState.available}
 								    </c:if>
 									<c:if test="${favorite.place.isMairie()}">
-		                                    ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}">min</c:if>
+		                                    ${occupationState.occupation}
 							    	</c:if>
 								</div>
 								<div class="favoris-teaser__crowding-label"><liferay-ui:message key="${occupationState.label}" /></div>
