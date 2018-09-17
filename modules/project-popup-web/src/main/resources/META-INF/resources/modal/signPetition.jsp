@@ -1,4 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
+<%@ include file="/modal/quit.jsp" %>
 <portlet:actionURL var="signPetitionURL" name="signPetition">
 	<portlet:param name="redirectURL" value="${redirectURL}"/>
 	<portlet:param name="cmd" value="signPetition" />
@@ -11,7 +12,7 @@
 
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <button id="closingButton" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <form id="form-sign-petition" method="post" action="${signPetitionURL}">
                 <div class="pro-wrapper">
@@ -81,6 +82,12 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
+
+$("#closingButton").click(function(event){
+        event.preventDefault();
+        $("modalQuit").modal();
+    });
+
     var namespaceSign = "<portlet:namespace />";
     $("#sendSign").click(function(event){
         event.preventDefault();

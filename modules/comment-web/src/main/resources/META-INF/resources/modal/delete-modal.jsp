@@ -3,7 +3,7 @@
 </portlet:actionURL>
 
 <!-- SUPPRIMER UN COMMENTAIRE -->
-<!-- HTML pour la modal de budget participatif -->
+<!-- HTML pour la modal de supprimer un commentaire-->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSupprimer" tabindex="-1" role="dialog" aria-labelledby="modalSupprimer">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
