@@ -65,19 +65,19 @@
                         <div class="form-group form-triple">
                             <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 				            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" value="${formattedDate}"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input id="address" name="address" label="modal.user.address" required="true" value="${userConnected.get('address')}"/>
+                            <aui:input id="address" name="address" label="modal.user.address" required="true" onInput="checkValues();"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" value="${userConnected.get('city')}"/>
+                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" onInput="checkValues();"/>
                             </div>
                             <div class="form-code">
-                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" pattern="[0-9]{5}" placeholder="67XXX" value="${userConnected.get('zipcode')}"/>
+                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValues();"/>
                             </div>
                         </div>
                     </div>
@@ -86,15 +86,15 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input type="number" id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" value="${userConnected.get('phone')}"/>
+                            <aui:input type="number" id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" onInput="checkValues();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input type="number" id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" value="${userConnected.get('mobile')}"/>
+                            <aui:input type="number" id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" onInput="checkValues();"/>
                         </div>
                     </div>
-                    <div class="form-group form-checkbox">
+                    <div class="form-group form-checkbox" id="checkboxSaveInfo">
                         <div>
-                            <input type="checkbox" id="save-info" value="save-info" checked>
+                            <input type="checkbox" id="save-info" value="save-info">
                             <label for="save-info"><liferay-ui:message key="modal.save.info"/></label>
                         </div>
                     </div>
@@ -170,6 +170,7 @@
     $(document).ready(function(){
         $('#modalConfirmerPetition').modal('hide');
         $('#modalErrorPetition').modal('hide');
+        $('#checkboxSaveInfo').hide();
     });
 
     $("#modalConfirmerPetition #buttonConfirm").click(function(event){
@@ -183,6 +184,18 @@
     $("#buttonDeposer").click(function(){
         resetValues();
     });
+
+    function checkValues(){
+        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
+        $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
+        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
+            $('#checkboxSaveInfo #save-info').prop('checked', true);
+            $('#checkboxSaveInfo').show();
+        }else{
+            $('#checkboxSaveInfo #save-info').prop('checked', true);
+            $('#checkboxSaveInfo').hide();
+        }
+    }
 
     var namespace = "<portlet:namespace />";
     var saved_address = "${userConnected.get('address')}";
@@ -210,6 +223,8 @@
             var themeValue = $("#"+namespace+"theme").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
+            var firstNameValue = $("#"+namespace+"firstname").val();
+            var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
                 A.io.request('${filePetitionURL}', {
                     method : 'POST',
@@ -227,7 +242,9 @@
                         <portlet:namespace />quartier:quartierValue,
                         <portlet:namespace />theme:themeValue,
                         <portlet:namespace />saveinfo:saveInfoValue,
-                        <portlet:namespace />lastname:lastNameValue
+                        <portlet:namespace />lastname:lastNameValue,
+                        <portlet:namespace />firstname:firstNameValue,
+                        <portlet:namespace />email:emailValue
                     },
                     on: {
                         success: function(e) {
@@ -266,7 +283,7 @@
         $("#"+namespace+"quartier").selectric();
         $("#"+namespace+"theme option[value='0']").prop('selected', true);
         $("#"+namespace+"theme").selectric();
-        $("#save-info").prop("checked", true);
+        $("#save-info").prop("checked", false);
         $("#file-petition-legalage").prop("checked", false);
         $("#file-petition-cnil").prop("checked", false);
         $("#"+namespace+"birthday").val(saved_dateNaiss);

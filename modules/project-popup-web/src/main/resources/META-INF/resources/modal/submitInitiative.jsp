@@ -16,11 +16,11 @@
                     <h4>Informations sur l'initiative</h4>
                     <div class="form-group">
                         <label for="titre">Titre de l'initiative <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="titre"/>
+                        <input type="text" class="form-control" id="initiativetitre"/>
                     </div>
                     <div class="form-group">
                         <label for="description">Description <span>*</span></label>
-                        <textarea id="description" class="form-control" rows="3"></textarea>
+                        <textarea id="initiativedescription" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-triple">
@@ -169,13 +169,13 @@ var namespace = "<portlet:namespace />";
 function validateForm()
 {
     var result = true;
-    var petitiontitle = $("#"+namespace+"petitiontitle").val();
-    var petitiondescription = $("#"+namespace+"petitiondescription").val();
-    var birthday = $("#"+namespace+"birthday").val();
-    var city = $("#"+namespace+"city").val();
-    var address = $("#"+namespace+"address").val();
-    var postalcode = $("#"+namespace+"postalcode").val();
-    var phone = $("#"+namespace+"phone").val();
+    var title = $("#"+namespace+"initiativetitle").val();
+    var description = $("#"+namespace+"initiativedescription").val();
+    var birthday = $("#"+namespace+"initiativebirthday").val();
+    var city = $("#"+namespace+"initiativecity").val();
+    var address = $("#"+namespace+"initiativeaddress").val();
+    var postalcode = $("#"+namespace+"initiativepostalcode").val();
+    var phone = $("#"+namespace+"initiativephone").val();
     var legalage = $("#file-petition-legalage").is(":checked");
     var cnil = $("#file-petition-cnil").is(":checked");
     var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
@@ -191,25 +191,25 @@ function validateForm()
     }else $("#"+namespace+"petitiondescription").css({ "box-shadow" : "" });
 
     if (birthday==null || birthday==""){
-        $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+        $("#"+namespace+"initiativebirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
         result = false;
-    }else $("#"+namespace+"birthday").css({ "box-shadow" : "" });
+    }else $("#"+namespace+"initiativebirthday").css({ "box-shadow" : "" });
 
     if (city==null || city==""){
-        $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+        $("#"+namespace+"initiativecity").css({ "box-shadow" : "0 0 10px #CC0000" });
         result = false;
-    }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+    }else $("#"+namespace+"initiativecity").css({ "box-shadow" : "" });
 
     if (address==null || address==""){
-        $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
+        $("#"+namespace+"initiativeaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
         result = false;
-    }else $("#"+namespace+"address").css({ "box-shadow" : "" });
+    }else $("#"+namespace+"initiativeaddress").css({ "box-shadow" : "" });
 
     if (postalcode==null || postalcode==""){
-        $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+        $("#"+namespace+"initiativepostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
         result = false;
     }else if(!regex.test(postalcode)){
-        $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+        $("#"+namespace+"initiativepostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
         alert("Merci de respecter la syntaxe d'un code postal");
         result = false;
     }

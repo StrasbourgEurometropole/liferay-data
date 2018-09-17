@@ -146,6 +146,7 @@ create table project_Project (
 	title VARCHAR(400) null,
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(400) null,
+	opacityImage LONG,
 	description TEXT null,
 	detailURL VARCHAR(75) null,
 	budget VARCHAR(75) null,

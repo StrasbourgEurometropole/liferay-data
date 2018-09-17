@@ -74,11 +74,11 @@ function getSelectedEntries() {
 			on: {
                 success: function(e) {
                 	var data = this.get('responseData');
-                	getResult('video', data);
+                	getResult('video', data);                               	
 			 	}
 			}
 		});
-	});
+	});	
 }
 
 // Lors d'une recherche par mots clés
