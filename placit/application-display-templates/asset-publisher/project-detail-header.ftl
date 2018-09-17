@@ -14,7 +14,7 @@
 
 	<!--  -->
     <figure class="fit-cover">
-        <img src="${currEntry.imageURL}" alt="" width="1600" height="600">
+	    <img src="${currEntry.imageURL}" alt="" width="1600" height="600" style="opacity:${currEntry.opacityImage}">
     </figure>
     <div class="container caption">
         <div class="pro-bloc-display"><span class="pro-surtitre">${currEntry.getProjectStatus(locale)}</span></div>
