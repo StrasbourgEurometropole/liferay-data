@@ -362,6 +362,8 @@ public class ParticipationLocalServiceImpl
      */
     private List<Participation> getSortedParticipations(long groupId) {
         List<Participation> participations = participationPersistence.findByGroupId(groupId);
+        if (participations==null||participations.isEmpty())
+            return new ArrayList<>();
         participations = participations.stream().filter(participation -> participation.getStatus() == 0).collect(Collectors.toList());
         Comparator<Participation> reversedMostPopularSizeComparator
                 = Comparator.comparingInt(Participation::getNbApprovedComments).reversed();

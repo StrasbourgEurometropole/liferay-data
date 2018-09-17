@@ -393,7 +393,9 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
         Comparator<Petition> reversedSignaturesSizeComparator
                 = Comparator.comparingLong(Petition::getNombreSignature).reversed();
         List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
-        return petitionList.stream()
+        if (petitionList==null||petitionList.isEmpty())
+            return new ArrayList<>();
+        else return petitionList.stream()
                 .sorted(reversedSignaturesSizeComparator)
                 .collect(Collectors.toList());
     }
