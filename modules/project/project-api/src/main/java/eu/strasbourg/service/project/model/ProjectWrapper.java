@@ -183,7 +183,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 			setExternalImageCopyright(externalImageCopyright);
 		}
 
-		Long opacityImage = (Long)attributes.get("opacityImage");
+		Double opacityImage = (Double)attributes.get("opacityImage");
 
 		if (opacityImage != null) {
 			setOpacityImage(opacityImage);
@@ -383,6 +383,16 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Project> toCacheModel() {
 		return _project.toCacheModel();
+	}
+
+	/**
+	* Returns the opacity image of this project.
+	*
+	* @return the opacity image of this project
+	*/
+	@Override
+	public double getOpacityImage() {
+		return _project.getOpacityImage();
 	}
 
 	@Override
@@ -858,16 +868,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Returns the opacity image of this project.
-	*
-	* @return the opacity image of this project
-	*/
-	@Override
-	public long getOpacityImage() {
-		return _project.getOpacityImage();
-	}
-
-	/**
 	* Returns the primary key of this project.
 	*
 	* @return the primary key of this project
@@ -1105,7 +1105,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* @param opacityImage the opacity image of this project
 	*/
 	@Override
-	public void setOpacityImage(long opacityImage) {
+	public void setOpacityImage(double opacityImage) {
 		_project.setOpacityImage(opacityImage);
 	}
 

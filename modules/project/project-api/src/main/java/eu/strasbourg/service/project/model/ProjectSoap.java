@@ -233,11 +233,11 @@ public class ProjectSoap implements Serializable {
 		_externalImageCopyright = externalImageCopyright;
 	}
 
-	public long getOpacityImage() {
+	public double getOpacityImage() {
 		return _opacityImage;
 	}
 
-	public void setOpacityImage(long opacityImage) {
+	public void setOpacityImage(double opacityImage) {
 		_opacityImage = opacityImage;
 	}
 
@@ -344,7 +344,7 @@ public class ProjectSoap implements Serializable {
 	private String _title;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
-	private long _opacityImage;
+	private double _opacityImage;
 	private String _description;
 	private String _detailURL;
 	private String _budget;

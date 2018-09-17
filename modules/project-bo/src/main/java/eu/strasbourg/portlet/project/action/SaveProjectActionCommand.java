@@ -112,7 +112,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			}
 
 			// opacité de l'image
-			Long opacityImage = ParamUtil.getLong(request, "opacityImage");
+			Double opacityImage = ParamUtil.getDouble(request, "opacityImage");
 			project.setOpacityImage(opacityImage);
 
 			// URL détail du projet
