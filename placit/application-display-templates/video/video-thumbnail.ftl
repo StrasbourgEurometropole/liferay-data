@@ -39,7 +39,7 @@
 </@liferay_portlet.actionURL>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <div class="pro-card-video" data-linkall=".pro-link-all">
+    <div class="pro-card-video" data-linkall="a">
         <div class="pro-header">
             <figure class="fit-cover" role="group">
                 <img alt="${entry.getTitle(locale)}" width="280" height="175" src="${entry.imageURL}">
