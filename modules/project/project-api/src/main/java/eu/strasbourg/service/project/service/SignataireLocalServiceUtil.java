@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -370,6 +368,10 @@ public class SignataireLocalServiceUtil {
 	*/
 	public static void createFakeSignataire(long petitionId, int nombreCreation) {
 		getService().createFakeSignataire(petitionId, nombreCreation);
+	}
+
+	public static void removeSignataire(long signataireId) {
+		getService().removeSignataire(signataireId);
 	}
 
 	public static SignataireLocalService getService() {

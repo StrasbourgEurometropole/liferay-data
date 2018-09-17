@@ -301,10 +301,24 @@ public interface PetitionLocalService extends BaseLocalService,
 	public List<Petition> getPublishedByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Petition> getTheMostCommented();
+	public List<Petition> getTheMostCommented(long groupId);
+
+	/**
+	* Méthode permettant de trier les petitions
+	*
+	* @return
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getTheMostSigned(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Petition> getTheMostSigned();
+	public List<Petition> getTheThreeLessSigned(long groupId);
+
+	/**
+	* @return
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getTheThreeMostSigned(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

@@ -15,11 +15,8 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -37,11 +34,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Participation;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 
@@ -272,6 +267,24 @@ public interface ParticipationLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Participation> getByGroupId(long groupId);
+
+	/**
+	* méthode permettant de récupérer les 3 dernieres participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Participation> getLessCommented(long groupId);
+
+	/**
+	* méthode permettant de récupérer les 3 premières participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Participation> getMostCommented(long groupId);
 
 	/**
 	* Returns a range of all the participations.

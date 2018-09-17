@@ -95,8 +95,8 @@
 		                                   
 		                            </c:when>
 		                            <c:otherwise>
-		                            	<a class="pro-like">${comment.nbLikes}</a>
-		                                <a class="pro-dislike">${comment.nbDislikes}</a>
+		                            	<a class="pro-like" data-target="#myModal">${comment.nbLikes}</a>
+		                                <a class="pro-dislike" data-target="#myModal">${comment.nbDislikes}</a>
 		                       		</c:otherwise>
 	                        	</c:choose>
 							</div>							

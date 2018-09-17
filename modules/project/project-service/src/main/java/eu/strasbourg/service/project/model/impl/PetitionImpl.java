@@ -62,7 +62,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
@@ -101,6 +100,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+     *
      * @return : null si vide, sinon la liste des catégories
      */
     @Override
@@ -120,6 +120,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * méthode permettant de récuperer les faux signataires d'une pétitions.
+     *
      * @return les faux signataires.
      */
     @Override
@@ -129,6 +130,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * méthode permettant de récupérer le pourcentage de signatures obtenu.
+     *
      * @return le pourcentage en long.
      */
     @Override
@@ -141,6 +143,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * Méthode permettant de retourner le nombre de signataire de la pétition
+     *
      * @return le nombre.
      */
     @Override
@@ -150,6 +153,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * méthode permettant d'afficher le nombre de signature.
+     *
      * @return le nombre avec des zeros devant.
      */
     @Override
@@ -160,24 +164,20 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+     *
      * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
      */
     @Override
     public String getDistrictLabel(Locale locale) {
-        StringBuilder result = new StringBuilder();
         List<AssetCategory> districts = getDistrictCategories();
-        if (districts == null || districts.isEmpty()) {
-            result.append("Aucun quartier");
-        } else if (AssetVocabularyHelper.isAllDistrict(districts.size())) {
-            result.append("Tous les quartiers");
-        } else {
-            result.append(districts.stream()
-                    .map(district -> district.getTitle(locale))
-                    .collect(Collectors.joining(" - ")));
-        }
-        return result.toString();
+        return AssetVocabularyHelper.getDistrictTitle(locale, districts);
     }
 
+    @Override
+    public String getThematicLabel(Locale locale) {
+        List<AssetCategory> thematics = getThematicCategories();
+        return AssetVocabularyHelper.getThematicTitle(locale, thematics);
+    }
 
     /**
      * Retourne l'AssetEntry rattaché cet item
@@ -190,7 +190,8 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * Retourne le nombre de likes de l'entité
-     *  @see eu.strasbourg.service.like.model.LikeType
+     *
+     * @see eu.strasbourg.service.like.model.LikeType
      */
     @Override
     public int getNbLikes() {
@@ -202,7 +203,8 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * Retourne le nombre de dislikes de l'entité
-     *  @see eu.strasbourg.service.like.model.LikeType
+     *
+     * @see eu.strasbourg.service.like.model.LikeType
      */
     @Override
     public int getNbDislikes() {
@@ -279,6 +281,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+     *
      * @param locale la locale de la région
      * @return la liste de pétition.
      */
@@ -289,7 +292,8 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * Retourne X suggestions max pour un thème appartenant à la vidéo en cours
-     * @param locale la locale de la région
+     *
+     * @param locale        la locale de la région
      * @param nbSuggestions le nombre de suggestions.
      * @return la liste de pétition.
      */
@@ -456,6 +460,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
+     *
      * @return le nombre
      */
     @Override
@@ -465,6 +470,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * méthode de récupération du status
+     *
      * @return le status.
      */
     @Override
@@ -492,11 +498,13 @@ public class PetitionImpl extends PetitionBaseImpl {
                 else result = ParticipationImpl.IN_PROGRESS;
             }
         }
+
         return result;
     }
 
     /**
      * méthode de récupération du status
+     *
      * @return le status.
      */
     @Override
@@ -519,6 +527,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * méthode d'affichage des information du status pour excel.
+     *
      * @return le status.
      */
     @Override
@@ -531,6 +540,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
     /**
      * méthode de récupération du status
+     *
      * @return le status.
      */
     @Override

@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -846,6 +842,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getStatusByUserUuid();
 	}
 
+	@Override
+	public java.lang.String getThematicLabel(java.util.Locale locale) {
+		return _petition.getThematicLabel(locale);
+	}
+
 	/**
 	* Returns the title of this petition.
 	*
@@ -1029,7 +1030,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	/**
 	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
 	*
-	* @param locale la locale de la région
+	* @param locale        la locale de la région
 	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de pétition.
 	*/

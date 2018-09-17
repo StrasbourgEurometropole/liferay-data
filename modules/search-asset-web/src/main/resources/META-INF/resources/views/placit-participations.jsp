@@ -40,56 +40,48 @@
                         <liferay-util:include page="/forms/placit-participations-form.jsp"
                             servletContext="<%=application%>" />
                     </aui:form>
-
                 </div>
 
-                <!--
+
                 <div class="pro-widget-participation">
-                    <h4><liferay-ui:message key="eu.most-searched" /></h4>
-
-                    <a href="detail-event.html" title="Lien vers Titre de l'evenement">
-                        <div class="pro-meta">
-                            <span>Quartier</span>
-                            <span>Thematique</span>
-                        </div>
-                        <h3>Titre de l'enement<br>Sur deux lignes</h3>
-
-                        <div class="pro-meta-footer">
-                            <span class="pro-comments"><strong>37 </strong>Commentaire(s)</span>
-                            <div class="pro-avis">
-                                <span class="pro-like"><span class="icon-ico-like"></span> 1808</span>
-                                <span class="pro-dislike"><span class="icon-ico-like"></span> 404</span>
+                    <h4><liferay-ui:message key="eu.most.commented" /></h4>
+                    <c:forEach var="participationMost" items="${participationListMostCommented}">
+                        <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationMost.participationId}" title="Lien vers Titre d'une participation">
+                            <div class="pro-meta">
+                                <span>${participationMost.getDistrictLabel(locale)}</span>
+                                <span>${participationMost.getThematicsLabel(locale)}</span>
                             </div>
-                        </div>
-                    </a>
+                            <h3>${participationMost.title}</h3>
 
+                            <div class="pro-meta-footer">
+                                <span class="pro-comments"><strong>${participationMost.getNbApprovedComments()}</strong>Commentaire(s)</span>
+                                <div class="pro-avis">
+                                    <span class="pro-like"><span class="icon-ico-like"></span> ${participationMost.nbLikes}</span>
+                                    <span class="pro-dislike"><span class="icon-ico-like"></span> ${participationMost.nbDislikes}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </c:forEach>
                 </div>
-                -->
-
-                <!--
                 <div class="pro-widget-participation">
-                    <h4><liferay-ui:message key="eu.least-noticed" /></h4>
-
-
-                    <a href="detail-event.html" title="Lien vers Titre de l'evenement">
-                        <div class="pro-meta">
-                            <span>Quartier</span>
-                            <span>Thematique</span>
-                        </div>
-                        <h3>Titre de l'evenement<br>Sur deux lignes</h3>
-
-                        <div class="pro-meta-footer">
-                            <span class="pro-comments"><strong>9 </strong>Commentaire(s)</span>
-                            <div class="pro-avis">
-                                <span class="pro-like"><span class="icon-ico-like"></span> 1808</span>
-                                <span class="pro-dislike"><span class="icon-ico-like"></span> 404</span>
+                    <h4><liferay-ui:message key="eu.less.commented" /></h4>
+                    <c:forEach var="participationLess" items="${participationListLessCommented}">
+                        <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationMost.participationId}" title="Lien vers Titre d'une participation">
+                            <div class="pro-meta">
+                                <span>${participationLess.getDistrictLabel(locale)}</span>
+                                <span>${participationLess.getThematicsLabel(locale)}</span>
                             </div>
-                        </div>
-                    </a>
-
+                            <h3>${participationLess.title}</h3>
+                            <div class="pro-meta-footer">
+                                <span class="pro-comments"><strong>${participationLess.getNbApprovedComments()}</strong>Commentaire(s)</span>
+                                <div class="pro-avis">
+                                    <span class="pro-like"><span class="icon-ico-like"></span> ${participationLess.nbLikes}</span>
+                                    <span class="pro-dislike"><span class="icon-ico-like"></span> ${participationLess.nbDislikes}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </c:forEach>
                 </div>
-                -->
-
             </div>
         </div>
     </div>
