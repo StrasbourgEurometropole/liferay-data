@@ -12044,7 +12044,7 @@ function getResult(searchPage, data) {
 function createVideo(video){
     var vignette =
         '<div class="col-md-4 col-sm-6 col-xs-12">' +
-            '<div class="pro-card pro-card-video vignette" data-linkall=".pro-link-all">' +
+            '<div class="pro-card pro-card-video vignette" data-linkall="> a">' +
                 '<div class="pro-header">' +
                     '<figure class="fit-cover" role="group">' +
                         '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + '">' +
@@ -12414,6 +12414,8 @@ function buildPaginate(){
             goToPage(wi, target);
         })
     });
+	//Permet de recharger les liens des vignettes
+    th_linkAll();
 }
 
 /**
