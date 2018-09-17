@@ -105,8 +105,11 @@ public class EditPetitionDisplayContext {
 	}
 
 	public String getCountFakeSignataires(){
-		int result = _petition.getCountFakeSignataire();
-		_log.info("le résultat : "+result);
+		if (_petition==null) {
+            _log.info("la pétition est null donc pas de faux signataires");
+            return "0";
+        }
+        int result = _petition.getCountFakeSignataire();
 		return String.valueOf(result);
 	}
 		
