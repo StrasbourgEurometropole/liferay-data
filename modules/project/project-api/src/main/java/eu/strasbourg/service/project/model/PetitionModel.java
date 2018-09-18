@@ -579,6 +579,21 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setMediaChoice(boolean mediaChoice);
 
 	/**
+	 * Returns the consultation places text of this petition.
+	 *
+	 * @return the consultation places text of this petition
+	 */
+	@AutoEscape
+	public String getConsultationPlacesText();
+
+	/**
+	 * Sets the consultation places text of this petition.
+	 *
+	 * @param consultationPlacesText the consultation places text of this petition
+	 */
+	public void setConsultationPlacesText(String consultationPlacesText);
+
+	/**
 	 * Returns the consultation places body of this petition.
 	 *
 	 * @return the consultation places body of this petition

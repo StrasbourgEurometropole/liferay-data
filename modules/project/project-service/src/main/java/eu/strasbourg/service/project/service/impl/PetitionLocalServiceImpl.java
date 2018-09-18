@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.impl.ParticipationImpl;
 import eu.strasbourg.service.project.model.impl.PetitionImpl;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
@@ -50,9 +51,11 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 /**
@@ -170,7 +173,8 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                         removedCategory = cat;
                     }
                 }
-                switch (petition.getPetitionStatus()) {
+                String petitionStatus = petition.getPetitionStatus();
+                switch (petitionStatus) {
                     case ParticipationImpl.SOON_FINISHED:
                         addedCategory = AssetVocabularyHelper.getCategory("bientot terminee", groupId);
                         break;
@@ -180,14 +184,17 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                     case ParticipationImpl.IN_PROGRESS:
                         addedCategory = AssetVocabularyHelper.getCategory("en cours", groupId);
                         break;
-                    case PetitionImpl.DRAFT:
-                        addedCategory = AssetVocabularyHelper.getCategory("Brouillon", groupId);
-                        break;
                     case PetitionImpl.COMPLETED:
                         addedCategory = AssetVocabularyHelper.getCategory("Aboutie", groupId);
                         break;
                     case PetitionImpl.FAILED:
                         addedCategory = AssetVocabularyHelper.getCategory("Non aboutie", groupId);
+                        break;
+                    case ParticipationImpl.SOON_ARRIVED:
+                        addedCategory = AssetVocabularyHelper.getCategory("a venir", groupId);
+                        break;
+                    default:
+                        addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
                         break;
                 }// Si il y a eu changement de statut
                 boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();
@@ -254,6 +261,11 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                             placitPlace.getPlacitPlaceId());
                 }
             }
+        }
+
+        List<Signataire> signataires = signataireLocalService.getSignatairesByPetitionId(petitionId);
+        if (signataires!=null&&!signataires.isEmpty()){
+            signataires.forEach(signataire -> signataireLocalService.removeSignataire(signataire.getSignataireId()));
         }
 
         // Supprime la petition
@@ -370,4 +382,53 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return petitionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
+    /**
+     * Méthode permettant de trier les petitions
+     * @return
+     */
+    @Override
+    public List<Petition> getTheMostSigned(long groupId){
+        Comparator<Petition> reversedSignaturesSizeComparator
+                = Comparator.comparingLong(Petition::getNombreSignature).reversed();
+        List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
+        if (petitionList==null||petitionList.isEmpty())
+            return new ArrayList<>();
+        else return petitionList.stream()
+                .sorted(reversedSignaturesSizeComparator)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<Petition> getTheThreeMostSigned(long groupId){
+        List<Petition> petitionList = getTheMostSigned(groupId);
+        if (petitionList.size()<3)
+            return petitionList;
+        else return petitionList.stream().limit(3).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<Petition> getTheThreeLessSigned(long groupId){
+        List<Petition> petitions = getTheMostSigned(groupId);
+        if (petitions.size()<3)
+            return petitions;
+        else return petitions.stream().skip(petitions.size()-3).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Petition> getTheMostCommented(long groupId){
+	    List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
+        Comparator<Petition> reversedCommentSizeComparator
+                = Comparator.comparingInt(Petition::getNbApprovedComments).reversed();
+	    List<Petition> temp = petitionList.stream()
+                .sorted(reversedCommentSizeComparator)
+                .collect(Collectors.toList());
+	    if (temp.size()<3)
+	        return temp;
+	    else return temp.stream().limit(3).collect(Collectors.toList());
+    }
 }

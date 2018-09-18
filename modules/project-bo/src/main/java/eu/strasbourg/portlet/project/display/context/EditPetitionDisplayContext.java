@@ -4,6 +4,8 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -12,7 +14,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -25,6 +26,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EditPetitionDisplayContext {
+
+
+	/**
+	 * le log
+	 */
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	private Petition _petition;
 	private List<AssetCategory> _cities;
@@ -95,6 +102,14 @@ public class EditPetitionDisplayContext {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getCompanyGroupId(),
 			Petition.class.getName());
+	}
+
+	public String getCountFakeSignataires(){
+		if (_petition==null) {
+            return "0";
+        }
+        int result = _petition.getCountFakeSignataire();
+		return String.valueOf(result);
 	}
 		
 	/**

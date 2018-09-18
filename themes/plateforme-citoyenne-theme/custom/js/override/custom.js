@@ -282,7 +282,7 @@ function getLeafletMap() {
 
     // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
     var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-        layers: 'gct_fond_de_carte_couleur'
+        layers: 'monstrasbourg'
     }).addTo(leafletMap);
 
     return leafletMap;
@@ -292,7 +292,9 @@ function getLeafletMap() {
 /**
 * Retourne l'icone de marqueur selon le type de l'entité
 */
-function getMarkerIcon(entityType = "default") {
+function getMarkerIcon(entityType) {
+    
+    var entityType = (typeof entityType !== 'undefined') ? entityType : "default";
 
     switch (entityType) {
         case 'project':
@@ -622,7 +624,7 @@ function getResult(searchPage, data) {
 function createVideo(video){
     var vignette =
         '<div class="col-md-4 col-sm-6 col-xs-12">' +
-            '<div class="pro-card pro-card-video vignette" data-linkall=".pro-link-all">' +
+            '<div class="pro-card pro-card-video vignette" data-linkall="> a">' +
                 '<div class="pro-header">' +
                     '<figure class="fit-cover" role="group">' +
                         '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + '">' +
@@ -757,11 +759,6 @@ function createParticipation(participation){
                         for(var i = 0 ; i < participation.jsonThematicCategoriesTitle.length ; i++){
                             vignette += '<span>' + participation.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
 
-                        }
-                        if(participation.typeLabel != ""){
-                            vignette += 
-                            '<!-- Type de la participation -->' +
-                            '<span>Type : ' + participation.typeLabel + '</span>';
                         }
     vignette +=         '<!-- Statut de la participation -->' +
                         '<span>' + participationStatus + '</span>' +
@@ -992,6 +989,8 @@ function buildPaginate(){
             goToPage(wi, target);
         })
     });
+	//Permet de recharger les liens des vignettes
+    th_linkAll();
 }
 
 /**
@@ -1040,7 +1039,7 @@ function goToPage(wi, index){
     var pageResult = 'Affichage des résultats ' +
                     (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
                     (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
-                    ' parmis ' + wi.items_count;
+                    ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
     
 }

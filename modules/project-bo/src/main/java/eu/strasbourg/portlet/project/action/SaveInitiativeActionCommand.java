@@ -142,6 +142,10 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
 			initiative.setConsultationPlacesBody(consultationPlacesBody);
 			
+			// Zone libre d'ajout d'adresse spécifique
+			String consultationPlacesText = ParamUtil.getString(request, "consultationPlacesText");
+			initiative.setConsultationPlacesText(consultationPlacesText);
+			
 			// Lieux
 			for (PlacitPlace placitPlace : initiative.getPlacitPlaces()) {
 				// On supprime d'abord les lieux existants

@@ -370,6 +370,10 @@ public class SignataireLocalServiceUtil {
 		getService().createFakeSignataire(petitionId, nombreCreation);
 	}
 
+	public static void removeSignataire(long signataireId) {
+		getService().removeSignataire(signataireId);
+	}
+
 	public static SignataireLocalService getService() {
 		return _serviceTracker.getService();
 	}

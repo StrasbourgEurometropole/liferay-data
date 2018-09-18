@@ -49,7 +49,8 @@
 				<aui:input name="userName" required="true" />
 
 				<%-- Champ : quota Signataire --%>
-				<aui:input name="quotaSignature" required="true" />
+				<aui:input name="quotaSignature" required="true" type="number" readonly="true"
+					value="${not empty dc.petition ? dc.petition.quotaSignature : signatureNumber}"/>
 
 			</aui:fieldset>
 
@@ -97,6 +98,8 @@
 
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
+
+				<aui:input name="consultationPlacesText" required="false" />
 
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">
@@ -174,7 +177,7 @@
                 <div class="form-group input-Date-wrapper">
                     <label class="control-label"><liferay-ui:message key="nb-fake-signataires" /></label>
 				    <input class="field form-control lfr-input-text" type="text" name="<portlet:namespace />nbFakeSignataire"
-				    contents="${dc.petition.getCountFakeSignataire()}"/>
+				    value="${dc.getCountFakeSignataires()}"/>
                 </div >
 
 				<%-- Champ : Date de publication --%>

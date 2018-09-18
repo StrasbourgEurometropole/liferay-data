@@ -223,3 +223,12 @@ aside .leaflet-map {
     color:#ff0000;
     font-weight:bold;
 }
+
+.centerButtonValidation{
+    text-align:center;
+}
+
+//override permettant de rendre cliquable le bouton liferay pour les administrateurs mantis : 4389
+.dropdown.lfr-icon-menu {
+    z-index:100;
+}
