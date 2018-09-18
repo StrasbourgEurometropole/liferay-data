@@ -758,11 +758,6 @@ function createParticipation(participation){
                             vignette += '<span>' + participation.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
 
                         }
-                        if(participation.typeLabel != ""){
-                            vignette += 
-                            '<!-- Type de la participation -->' +
-                            '<span>Type : ' + participation.typeLabel + '</span>';
-                        }
     vignette +=         '<!-- Statut de la participation -->' +
                         '<span>' + participationStatus + '</span>' +
                         '<!-- Projet lié à la participation -->' +
