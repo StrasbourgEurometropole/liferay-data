@@ -65,7 +65,7 @@
                         <div class="form-group form-triple">
                             <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 				            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-                            <aui:input id="birthday" name="birthday" readonly="true" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
