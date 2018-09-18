@@ -45,7 +45,6 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
@@ -220,18 +219,14 @@ public class PetitionImpl extends PetitionBaseImpl {
     @Override
     public boolean isJudgeable() {
         boolean response = true;
-        AssetCategory status = this.getPetitionStatusCategory();
+        String status = this.getPetitionStatus();
 
-        if (status == null) {
+        if (status == null || status.isEmpty())
             response = false;
-        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Aboutie")) {
+        else if (COMPLETED.equals(status))
             response = false;
-        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Non aboutie")) {
+         else if (FAILED.equals(status))
             response = false;
-        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Terminee")) {
-            response = false;
-        }
-
         return response;
     }
 
@@ -466,17 +461,11 @@ public class PetitionImpl extends PetitionBaseImpl {
     @Override
     public long getSignataireNeeded() {
         long result = getQuotaSignature() - getNombreSignature();
-        if (result<0)
+        if (result < 0)
             result = 0;
         return result;
     }
 
-    public boolean isFinish (){
-        String result = this.getPetitionStatus();
-        if (result.equals(COMPLETED)||result.equals(FAILED))
-            return true;
-        else return false;
-    }
     /**
      * méthode de récupération du status
      *

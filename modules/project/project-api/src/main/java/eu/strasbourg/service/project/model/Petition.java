@@ -212,8 +212,6 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public long getSignataireNeeded();
 
-	public boolean isFinish();
-
 	/**
 	* méthode de récupération du status
 	*
