@@ -11,6 +11,11 @@
 	    </script>
 	    <div class="bill-form ${form}">
 	    	<h2>${formTitle}</h2>
+	    	
+	    	<c:if test="${form eq 'reom'}">
+				<div class="reom-commune">Seules les communes suivantes sont concern&eacute;es : Achenheim, Breuschwickersheim, Hangenbieten, Kolbsheim, Osthoffen</div>
+			</c:if>
+	    	
 	        <form action="" class="form" enctype="multipart/form-data" id="tipiForm" method="post" name="tipiForm">
 	            <input id="code_appli" name="appCode" type="hidden" value="${appCode}" /> 
 	            <input id="num_client" name="clientNumber" type="hidden" value="${clientNumber}" />

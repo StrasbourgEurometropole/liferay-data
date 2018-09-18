@@ -60,7 +60,16 @@ public class TipiPortlet extends MVCPortlet {
 				appCode = "EA";
 				clientNumber = "007964";
 				formTitle = "Facturation eau et assainissement";
+			} else if (form.equals("rs")) {
+				appCode = "RZ";
+				clientNumber = "002902";
+				formTitle = "Facturation redevance sp&eacute;ciale d&eacute;chets";
+			} else if (form.equals("reom")) {
+				appCode = "RC";
+				clientNumber = "021529";
+				formTitle = "Facturation redevance ordures m&eacute;nag&egrave;res";
 			}
+			
 		}
 		request.setAttribute("appCode", appCode);
 		request.setAttribute("clientNumber", clientNumber);
