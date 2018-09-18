@@ -1,19 +1,5 @@
 package eu.strasbourg.portlet.entity_detail;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletSession;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -26,10 +12,21 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfiguration;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletSession;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.requires-namespaced-parameters=false",
@@ -78,7 +75,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 			PortletPreferences preferences = request.getPreferences();
 			String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
 			long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
-			Map<String, Object> contextObjects = new HashMap<String, Object>();
+			Map<String, Object> contextObjects = new HashMap<>();
 			contextObjects.put("entry", entry != null ? entry.getAssetRenderer().getAssetObject() : null);
 			request.setAttribute("entries", new ArrayList<AssetEntry>());
 			request.setAttribute("displayStyle", displayStyle);
