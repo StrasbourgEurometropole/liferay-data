@@ -35,7 +35,7 @@
 <#assign petitionPlaces = entry.getPlacitPlaces() />
 
 <#assign signataireNeeded = entry.getSignataireNeeded() />
-<#assign isFinish = entry.isFinish() />
+<#assign isJudgeable = entry.isJudgeable() />
 
 <#list petitionPlaces as place >
     <#assign petitionPlaceMercators = petitionPlaceMercators + [place.getMercators()] />
@@ -161,7 +161,7 @@
                     </div>
                     <aside class="col-sm-4">
                         <div class="pro-push-avis">
-                            <#if entry.isJudgeable() && request.session.getAttribute("has_pact_signed")!false>
+                            <#if isJudgeable && request.session.getAttribute("has_pact_signed")!false>
                                 <a href="#pro-approuv" class="pro-like"
                                    data-typeid="17"
                                    data-isdislike="false"
@@ -187,6 +187,13 @@
                                 <a class="pro-dislike" name="#Pact-sign">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
+                            <#elseif !isJudgeable>
+                            <a class="pro-like">
+                            <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                             </a>
+                            <a class="pro-dislike">
+                                <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                            </a>
                             <#else>
                                 <a class="pro-like">
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
@@ -213,7 +220,7 @@
                             </div>
                             <div class="pro-wrapper-links-petition">
                                 <#if isUserloggedIn>
-                                    <#if !isFinish>
+                                    <#if isJudgeable>
                                         <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">Signer la pétition</a>
                                     <#else>
                                         <a id="signButton" href="#popin" class="pro-btn-yellow" title="La pétition est terminée" data-toggle="modal">Vous ne pouvez plus signer</a>
