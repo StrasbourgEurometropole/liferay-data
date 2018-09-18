@@ -25,6 +25,8 @@
                         <option value="schoolRestaurant"><@liferay.language key="school-restaurant" /></option>
                         <option value="afterSchool"><@liferay.language key="after-school" /></option>
                         <option value="water"><@liferay.language key="water" /></option>
+                        <option value="reom"><@liferay.language key="reom" /></option>
+                        <option value="rs"><@liferay.language key="rs" /></option>
                     </select>
                 </div>
             </div>
