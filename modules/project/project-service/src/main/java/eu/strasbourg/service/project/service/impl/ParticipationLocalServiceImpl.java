@@ -349,7 +349,9 @@ public class ParticipationLocalServiceImpl
      */
     public List<Participation> getMostCommented(long groupId) {
         List<Participation> participationList = getSortedParticipations(groupId);
-        return participationList.stream().limit(3).collect(Collectors.toList());
+        if (participationList.size()<3)
+            return participationList;
+        else return participationList.stream().limit(3).collect(Collectors.toList());
     }
 
     /**
@@ -360,6 +362,8 @@ public class ParticipationLocalServiceImpl
      */
     private List<Participation> getSortedParticipations(long groupId) {
         List<Participation> participations = participationPersistence.findByGroupId(groupId);
+        if (participations==null||participations.isEmpty())
+            return new ArrayList<>();
         participations = participations.stream().filter(participation -> participation.getStatus() == 0).collect(Collectors.toList());
         Comparator<Participation> reversedMostPopularSizeComparator
                 = Comparator.comparingInt(Participation::getNbApprovedComments).reversed();
@@ -376,7 +380,9 @@ public class ParticipationLocalServiceImpl
      */
     public List<Participation> getLessCommented(long groupId) {
         List<Participation> participationList = getSortedParticipations(groupId);
-        return participationList.stream().skip(participationList.size() - 3).collect(Collectors.toList());
+        if (participationList.size()<3)
+            return participationList;
+        else return participationList.stream().skip(participationList.size() - 3).collect(Collectors.toList());
     }
 
     /**

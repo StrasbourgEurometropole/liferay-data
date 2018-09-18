@@ -1,4 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
+<%@ include file="/modal/quit.jsp" %>
 <portlet:actionURL var="signPetitionURL" name="signPetition">
 	<portlet:param name="redirectURL" value="${redirectURL}"/>
 	<portlet:param name="cmd" value="signPetition" />
@@ -15,7 +16,7 @@
 
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <button id="closingButton" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <form id="form-sign-petition" method="post" action="${signPetitionURL}">
                 <div class="pro-wrapper">
@@ -96,7 +97,33 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- CONFIRMATION QUITTER PETITION -->
+<!-- HTML pour la modal de quitter le formulaire de pétition -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='quit-petition'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='file-petition-quit'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+$("#closingButton").click(function(event){
+        event.preventDefault();
+        $("modalQuit").modal();
+    });
+
+    var namespaceSign = "<portlet:namespace />";
     $("#sendSign").click(function(event){
         event.preventDefault();
         var response = validateSignForm();

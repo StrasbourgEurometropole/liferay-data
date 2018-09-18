@@ -393,7 +393,9 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
         Comparator<Petition> reversedSignaturesSizeComparator
                 = Comparator.comparingLong(Petition::getNombreSignature).reversed();
         List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
-        return petitionList.stream()
+        if (petitionList==null||petitionList.isEmpty())
+            return new ArrayList<>();
+        else return petitionList.stream()
                 .sorted(reversedSignaturesSizeComparator)
                 .collect(Collectors.toList());
     }
@@ -405,13 +407,18 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
     @Override
     public List<Petition> getTheThreeMostSigned(long groupId){
         List<Petition> petitionList = getTheMostSigned(groupId);
-        return petitionList.stream().limit(3).collect(Collectors.toList());
+        if (petitionList.size()<3)
+            return petitionList;
+        else return petitionList.stream().limit(3).collect(Collectors.toList());
+
     }
 
     @Override
     public List<Petition> getTheThreeLessSigned(long groupId){
         List<Petition> petitions = getTheMostSigned(groupId);
-        return petitions.stream().skip(petitions.size()-3).collect(Collectors.toList());
+        if (petitions.size()<3)
+            return petitions;
+        else return petitions.stream().skip(petitions.size()-3).collect(Collectors.toList());
     }
 
     @Override
@@ -422,6 +429,8 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 	    List<Petition> temp = petitionList.stream()
                 .sorted(reversedCommentSizeComparator)
                 .collect(Collectors.toList());
-	    return temp.stream().limit(3).collect(Collectors.toList());
+	    if (temp.size()<3)
+	        return temp;
+	    else return temp.stream().limit(3).collect(Collectors.toList());
     }
 }
