@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	
 	<@liferay_util["include"] page=top_head_include />
-	
+
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/strasbourg.css">
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.css">
 
@@ -38,6 +38,8 @@
 	<#include "${full_templates_path}/nav_top.ftl" />
 
 	<#include "${full_templates_path}/modal_connexion.ftl" />
+
+	<#include "${full_templates_path}/confirm_quit_modal.ftl" />
 
 	<main id="content">
 		<h1 class="hide-accessible">${the_title}</h1>

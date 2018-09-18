@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -58,6 +59,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -110,6 +112,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             SearchAssetConfiguration.class);
             List<String> classNameList = getClassNames();
+            String userPublikId = getPublikID(renderRequest);
 
             // On set le DisplayContext
             SearchAssetDisplayContext dc = new SearchAssetDisplayContext(
@@ -170,6 +173,11 @@ public class SearchAssetPortlet extends MVCPortlet {
                 renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
                 renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
 
+            }
+            if (Validator.isNotNull(userPublikId)) {
+                renderRequest.setAttribute("isUserloggedIn", true);
+            } else {
+                renderRequest.setAttribute("isUserloggedIn", false);
             }
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
@@ -769,6 +777,15 @@ public class SearchAssetPortlet extends MVCPortlet {
         } else {
             return sortFieldFromParam.split(",")[0];
         }
+    }
+
+    /**
+     * Récupération du publik ID avec la session
+     */
+    private String getPublikID(PortletRequest request) {
+        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
+        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+        return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
 
     /**
