@@ -20,6 +20,11 @@
 				<aui:option value="reom" label="Facturation redevance ordures m&eacute;nag&egrave;res" selected="${form eq 'reom'}" />
 				<aui:option value="rs" label="Facturation redevance sp&eacute;ciale d&eacute;chets" selected="${form eq 'rs'}" />				
 			</aui:select>
+			
+			<aui:fieldset>
+				<aui:input name="complement" value="${complement}" localized="true" type="editor" label="complement-text" />
+			</aui:fieldset>
+			
 			<aui:input type="hidden" name="form" />
 		</aui:fieldset>
 		

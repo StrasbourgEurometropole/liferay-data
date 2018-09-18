@@ -39,6 +39,10 @@ public class TipiPortlet extends MVCPortlet {
 		// Type de formulaire
 		String form = prefs.getValue("form", "");
 		request.setAttribute("form", form);
+		
+		// Complément d'infos
+		String complement = prefs.getValue("complement", "");
+		request.setAttribute("complement", complement);
 
 		String appCode = "";
 		String clientNumber = "";
