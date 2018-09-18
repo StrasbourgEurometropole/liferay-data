@@ -35,6 +35,7 @@
 <#assign petitionPlaces = entry.getPlacitPlaces() />
 
 <#assign signataireNeeded = entry.getSignataireNeeded() />
+<#assign isFinish = entry.isFinish() />
 
 <#list petitionPlaces as place >
     <#assign petitionPlaceMercators = petitionPlaceMercators + [place.getMercators()] />
@@ -212,7 +213,11 @@
                             </div>
                             <div class="pro-wrapper-links-petition">
                                 <#if isUserloggedIn>
-                                    <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">Signer la pétition</a>
+                                    <#if !isFinish>
+                                        <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">Signer la pétition</a>
+                                    <#else>
+                                        <a id="signButton" href="#popin" class="pro-btn-yellow" title="La pétition est terminée" data-toggle="modal">Vous ne pouvez plus signer</a>
+                                    </#if>
                                 <#else>
                                     <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#myModal">Signer la pétition</a>
                                 </#if>
