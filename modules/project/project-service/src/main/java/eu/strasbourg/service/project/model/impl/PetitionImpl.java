@@ -465,7 +465,10 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public long getSignataireNeeded() {
-        return getQuotaSignature() - getNombreSignature();
+        long result = getQuotaSignature() - getNombreSignature();
+        if (result<0)
+            result = 0;
+        return result;
     }
 
     /**
