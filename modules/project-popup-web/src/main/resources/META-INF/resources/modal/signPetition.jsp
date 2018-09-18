@@ -8,7 +8,7 @@
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
-<!-- HTML pour la modal d'une pétition -->
+<!-- HTML pour la modal d'une pÃ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -35,9 +35,14 @@
 				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.get('first_name')}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
-				            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
-                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-                            <aui:input id="signbirthday" readonly="true" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
+	                        <c:if test="${userConnected.get('birthdate')} != ''">
+					            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+	                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
+	                        <c:if test="${userConnected.get('birthdate')} == ''">
+	                            <fmt:formatDate value="" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
+                            <aui:input id="signbirthday" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -96,7 +101,31 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- CONFIRMATION QUITTER PETITION -->
+<!-- HTML pour la modal de quitter le formulaire de pÃ©tition -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='quit-petition'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='file-petition-quit'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+	$("#closingButton").click(function(event){
+        event.preventDefault();
+        $("modalQuit").modal();
+    });
 
     var namespaceSign = "<portlet:namespace />";
     $("#sendSign").click(function(event){
