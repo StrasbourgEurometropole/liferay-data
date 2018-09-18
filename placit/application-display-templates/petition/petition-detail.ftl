@@ -34,6 +34,8 @@
 <!-- Recuperation des lieux lies a la petition -->
 <#assign petitionPlaces = entry.getPlacitPlaces() />
 
+<#assign signataireNeeded = entry.getSignataireNeeded() />
+
 <#list petitionPlaces as place >
     <#assign petitionPlaceMercators = petitionPlaceMercators + [place.getMercators()] />
 </#list>
@@ -204,7 +206,9 @@
                                 <div class="pro-progress-container">
                                     <div style="width:${entry.getPourcentageSignature()}%"></div>
                                 </div>
-                                <p class="pro-txt-progress">Il manque ${entry.getSignataireNeeded()} soutien(s) — <span>il reste ${entry.getTodayExpirationDifferenceDays()} jour(s)</span></p>
+                                <#if signataireNeeded!=0>
+                                    <p class="pro-txt-progress">Il manque ${signataireNeeded} soutien(s) — <span>il reste ${entry.getTodayExpirationDifferenceDays()} jour(s)</span></p>
+                                </#if>
                             </div>
                             <div class="pro-wrapper-links-petition">
                                 <#if isUserloggedIn>

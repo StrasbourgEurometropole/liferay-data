@@ -132,8 +132,8 @@
                         <a class="pro-like" name="#Pact-sign">${entry.nbLikes}</a>
                         <a class="pro-dislike" name="#Pact-sign">${entry.nbDislikes}</a>
                     <#else>
-                        <a class="pro-like">${entry.nbLikes}</a>
-                        <a class="pro-dislike">${entry.nbDislikes}</a>
+                        <a class="pro-like" data-target="#myModal">${entry.nbLikes}</a>
+                        <a class="pro-dislike" data-target="#myModal">${entry.nbDislikes}</a>
                     </#if>
                 </div>
                 <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
