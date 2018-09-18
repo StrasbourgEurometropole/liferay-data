@@ -2,7 +2,7 @@
 <portlet:resourceURL id="filePetition" var="filePetitionURL">
 </portlet:resourceURL>
 <!-- DEPOSER UNE NOUVELLE PETITION -->
-<!-- HTML pour la modal de pétition -->
+<!-- HTML pour la modal de pÃ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalPetition" tabindex="-1" role="dialog" aria-labelledby="modalPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -63,8 +63,13 @@
                             <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
                         </div>
                         <div class="form-group form-triple">
-                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
-				            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        <c:if test="${userConnected.get('birthdate')} != ''">
+	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
+	                        <c:if test="${userConnected.get('birthdate')} == ''">
+					            <fmt:formatDate value="" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
                             <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                     </div>
@@ -126,7 +131,7 @@
 
 
 <!-- CONFIRMATION NOUVELLE PETITION -->
-<!-- HTML pour la modal de confirmation de nouvelle pétition -->
+<!-- HTML pour la modal de confirmation de nouvelle pÃ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerPetition" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -146,7 +151,7 @@
 
 
 <!-- ERREUR NOUVELLE PETITION -->
-<!-- HTML pour la modal d'erreur de nouvelle pétition -->
+<!-- HTML pour la modal d'erreur de nouvelle pÃ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorPetition" tabindex="-1" role="dialog" aria-labelledby="modalErrorPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -164,46 +169,44 @@
     </div>
 </div>
 
+<!-- CONFIRMATION QUITTER PETITION -->
+<!-- HTML pour la modal de quitter le formulaire de pÃ©tition -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='quit-petition'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='file-petition-quit'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+	var namespace = "<portlet:namespace />";
+	var saved_address = "${userConnected.get('address')}";
+	var saved_zipCode = "${userConnected.get('zipcode')}";
+	var saved_city = "${userConnected.get('city')}";
+	var saved_dateNaiss = "${formattedDate}";
+	var saved_phone = "${userConnected.get('phone')}";
+	var saved_mobile = "${userConnected.get('mobile')}";
 
     $(document).ready(function(){
         $('#modalConfirmerPetition').modal('hide');
         $('#modalErrorPetition').modal('hide');
-        $('#modalQuitPetition').modal('hide');
         $('#checkboxSaveInfo').hide();
+
+        $('#buttonDeposer').click(function(event){
+            resetValues();
+        });
     });
-
-    $("#modalConfirmerPetition #buttonConfirm").click(function(event){
-        $('#modalConfirmerPetition').modal('hide');
-    });
-
-    $("#modalErrorPetition #buttonConfirm").click(function(event){
-        $('#modalErrorPetition').modal('hide');
-    });
-
-    $("#buttonDeposer").click(function(){
-        resetValues();
-    });
-
-    function checkValues(){
-        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
-        $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
-        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
-            $('#checkboxSaveInfo #save-info').prop('checked', true);
-            $('#checkboxSaveInfo').show();
-        }else{
-            $('#checkboxSaveInfo #save-info').prop('checked', true);
-            $('#checkboxSaveInfo').hide();
-        }
-    }
-
-    var namespace = "<portlet:namespace />";
-    var saved_address = "${userConnected.get('address')}";
-    var saved_zipCode = "${userConnected.get('zipcode')}";
-    var saved_city = "${userConnected.get('city')}";
-    var saved_dateNaiss = "${formattedDate}";
-    var saved_phone = "${userConnected.get('phone')}";
-    var saved_mobile = "${userConnected.get('mobile')}";
 
     $("#sendPetition").click(function(event){
         event.preventDefault();
@@ -273,6 +276,14 @@
         }
     });
 
+    $('#modalConfirmerPetition #buttonConfirm').click(function(event){
+        $('#modalConfirmerPetition').modal('hide');
+    });
+
+    $('#modalErrorPetition #buttonConfirm').click(function(event){
+        $('#modalErrorPetition').modal('hide');
+    });
+
     function resetValues()
     {
         $("#"+namespace+"petitiontitle").val("");
@@ -283,7 +294,8 @@
         $("#"+namespace+"quartier").selectric();
         $("#"+namespace+"theme option[value='0']").prop('selected', true);
         $("#"+namespace+"theme").selectric();
-        $("#save-info").prop("checked", false);
+        $('#checkboxSaveInfo #save-info').prop('checked', false);
+        $('#checkboxSaveInfo').hide();
         $("#file-petition-legalage").prop("checked", false);
         $("#file-petition-cnil").prop("checked", false);
         $("#"+namespace+"birthday").val(saved_dateNaiss);
@@ -292,6 +304,18 @@
         $("#"+namespace+"postalcode").val(saved_zipCode);
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
+    }
+
+    function checkValues(){
+        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
+        $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
+        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
+            $('#checkboxSaveInfo #save-info').prop('checked', true);
+            $('#checkboxSaveInfo').show();
+        }else{
+            $('#checkboxSaveInfo #save-info').prop('checked', false);
+            $('#checkboxSaveInfo').hide();
+        }
     }
 
     function validateForm()
