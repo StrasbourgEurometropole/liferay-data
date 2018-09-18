@@ -50,6 +50,12 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FINISHED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
+
 /**
  * The extended model implementation for the Participation service. Represents a row in the &quot;project_Participation&quot; database table, with each column mapped to a property of this class.
  *
@@ -63,12 +69,6 @@ import java.util.stream.Collectors;
 public class ParticipationImpl extends ParticipationBaseImpl {
 
 	private static final long serialVersionUID = 1311330918138728472L;
-	
-	public static final String SOON_ARRIVED = "soon_arrived";
-	public static final String NEW = "new";
-	public static final String IN_PROGRESS = "in_progress";
-	public static final String SOON_FINISHED = "soon_finished";
-	public static final String FINISHED = "finished";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -409,19 +409,19 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		expirationDateMinus = cal.getTime();
 		
 		if (todayDate.before(publicationDate)) {
-			return SOON_ARRIVED;
+			return SOON_ARRIVED.getName();
 		} 
 		else if (todayDate.after(expirationDate)) {
-			return FINISHED;
+			return FINISHED.getName();
 		}
 		else if (todayDate.after(expirationDateMinus)) {
-			return SOON_FINISHED;
+			return SOON_FINISHED.getName();
 		}
 		else if (todayDate.before(publicationDatePlus)) {
-			return NEW;
+			return NEW.getName();
 		} 
 		else {
-			return IN_PROGRESS;
+			return IN_PROGRESS.getName();
 		}
 	}
 	
@@ -477,21 +477,13 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	@Override
 	public String getStatusDetailLabel() {
 		String result = "";
-		
-		switch (this.getParticipationStatus()) {
-			case SOON_ARRIVED:
-				result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
-				break;
-			case NEW:
-			case IN_PROGRESS:
-			case SOON_FINISHED:
-				result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
-				break;
-			case FINISHED:
-				result = "Finie";
-				break;
-		}
-		
+		String participationStatus = this.getParticipationStatus();
+		if (SOON_ARRIVED.getName().equals(participationStatus))
+			result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
+		else if (SOON_FINISHED.getName().equals(participationStatus))
+			result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
+		else if (FINISHED.getName().equals(participationStatus))
+			result = "Finie";
 		return result;
 	}
 	

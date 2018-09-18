@@ -63,6 +63,13 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
+
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
  *
@@ -79,10 +86,6 @@ public class PetitionImpl extends PetitionBaseImpl {
      *
      * Never reference this class directly. All methods that expect a petition model instance should use the {@link eu.strasbourg.service.project.model.Petition} interface instead.
      */
-
-    public static final String COMPLETED = "completed";
-    public static final String DRAFT = "Brouillon";
-    public static final String FAILED = "failed";
 
     public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -475,7 +478,7 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public String getPetitionStatus() {
-        String result = ParticipationImpl.NEW;
+        String result = NEW.getName();
         if (getPublicationDate() != null && getExpirationDate() != null) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expirationTime = new Timestamp(getExpirationDate().getTime()).toLocalDateTime();
@@ -483,19 +486,19 @@ public class PetitionImpl extends PetitionBaseImpl {
             boolean isExpired = now.isAfter(expirationTime);
             boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
             if (now.isBefore(publicationTime))
-                result = ParticipationImpl.SOON_ARRIVED;
+                result = SOON_ARRIVED.getName();
             else if (quotaSignatureAtteint && !isExpired)
-                result = COMPLETED;
+                result = COMPLETED.getName();
             else if (isExpired && !quotaSignatureAtteint)
-                result = FAILED;
+                result = FAILED.getName();
             else {
                 long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
                 long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
                 if (!isExpired && periodNews <= 7)
-                    result = ParticipationImpl.NEW;
+                    result = NEW.getName();
                 else if (!isExpired && periodTemp <= 7)
-                    result = ParticipationImpl.SOON_FINISHED;
-                else result = ParticipationImpl.IN_PROGRESS;
+                    result = SOON_FINISHED.getName();
+                else result = IN_PROGRESS.getName();
             }
         }
 
@@ -511,15 +514,15 @@ public class PetitionImpl extends PetitionBaseImpl {
     public String getFrontStatusFR() {
         String result;
         String status = this.getPetitionStatus();
-        if (ParticipationImpl.SOON_ARRIVED.equals(status))
+        if (SOON_ARRIVED.getName().equals(status))
             result = "&Agrave; venir";
-        else if (COMPLETED.equals(status)) {
+        else if (COMPLETED.getName().equals(status)) {
             result = "Aboutie";
-        } else if (FAILED.equals(status)) {
+        } else if (FAILED.getName().equals(status)) {
             result = "Non aboutie";
-        } else if (ParticipationImpl.NEW.equals(status)) {
+        } else if (NEW.getName().equals(status)) {
             result = "Nouvelle";
-        } else if (ParticipationImpl.SOON_FINISHED.equals(status)) {
+        } else if (SOON_FINISHED.getName().equals(status)) {
             result = "Bient&ocirc;t termin&eacute;e";
         } else result = "En cours";
         return result;
@@ -533,7 +536,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     @Override
     public String getPetitionStatusExcel() {
         String result = this.getFrontStatusFR();
-        if (ParticipationImpl.SOON_FINISHED.equals(this.getPetitionStatus()))
+        if (SOON_FINISHED.getName().equals(this.getPetitionStatus()))
             result = "bientot terminee";
         return result;
     }
@@ -547,8 +550,8 @@ public class PetitionImpl extends PetitionBaseImpl {
     public String getProDureeFR() {
         String result;
         String status = this.getPetitionStatus();
-        if (COMPLETED.equals(status) ||
-                FAILED.equals(status)) {
+        if (COMPLETED.getName().equals(status) ||
+                FAILED.getName().equals(status)) {
             result = "Termin&eacute;e";
         } else if (this.getTodayExpirationDifferenceDays() == 0)
             result = "Se termine aujourd'hui";
