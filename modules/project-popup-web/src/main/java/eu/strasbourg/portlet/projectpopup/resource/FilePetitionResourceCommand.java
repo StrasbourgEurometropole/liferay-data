@@ -179,12 +179,18 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 throw new PortalException("aucune assetCategory pour la pétition"
                         + petition.getPetitionId());
             long entryId = assetEntry.getEntryId();
-            AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId, projectId);
-            AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId, quartierId);
-            AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId, themeId);
+            if (projectId!=0) {
+                AssetCategoryLocalServiceUtil
+                        .addAssetEntryAssetCategory(entryId, projectId);
+            }
+            if (quartierId!=0) {
+                AssetCategoryLocalServiceUtil
+                        .addAssetEntryAssetCategory(entryId, quartierId);
+            }
+            if (themeId!=0) {
+                AssetCategoryLocalServiceUtil
+                        .addAssetEntryAssetCategory(entryId, themeId);
+            }
         } catch (PortalException e) {
             _log.error(e);
             throw new PortletException(e);
