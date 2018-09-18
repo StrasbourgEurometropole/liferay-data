@@ -482,16 +482,16 @@ public class PetitionImpl extends PetitionBaseImpl {
             boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
             if (now.isBefore(publicationTime))
                 result = ParticipationImpl.SOON_ARRIVED;
-            else if (quotaSignatureAtteint && !isExpired)
+            else if (quotaSignatureAtteint)
                 result = COMPLETED;
-            else if (isExpired && !quotaSignatureAtteint)
+            else if (isExpired)
                 result = FAILED;
             else {
                 long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
                 long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
-                if (!isExpired && periodNews <= 7)
+                if (periodNews <= 7)
                     result = ParticipationImpl.NEW;
-                else if (!isExpired && periodTemp <= 7)
+                else if (periodTemp <= 7)
                     result = ParticipationImpl.SOON_FINISHED;
                 else result = ParticipationImpl.IN_PROGRESS;
             }
