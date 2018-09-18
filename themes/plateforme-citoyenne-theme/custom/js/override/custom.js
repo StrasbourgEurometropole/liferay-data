@@ -292,7 +292,9 @@ function getLeafletMap() {
 /**
 * Retourne l'icone de marqueur selon le type de l'entité
 */
-function getMarkerIcon(entityType = "default") {
+function getMarkerIcon(entityType) {
+    
+    var entityType = (typeof entityType !== 'undefined') ? entityType : "default";
 
     switch (entityType) {
         case 'project':
