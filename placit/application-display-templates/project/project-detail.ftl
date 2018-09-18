@@ -82,12 +82,6 @@
         </a>
     </div>
 
-    <!-- Bloc : A venir -->
-    <div class="pro-event-comming">
-        <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${entry.getParticipations()?size}</strong> Participation(s) en cours</a>
-        <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${entry.getEvents()?size}</strong> Évènement(s) à venir</a>
-    </div> 
-
     <!-- Bloc : entités liées -->
     <div class="pro-event-comming">
         <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${projectParticipations?size}</strong> Participation(s) en cours</a>
@@ -125,6 +119,10 @@
  }
  .pro-btn-action.active:after{
     opacity: 0;
+ }
+ 
+ .col-sm-4 {
+	z-index : 50;
  }
  </style>
  

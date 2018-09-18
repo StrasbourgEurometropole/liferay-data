@@ -276,8 +276,12 @@
 			<div class="col-lg-10 col-lg-offset-1">
 				<h2>D’autres initiatives</h2>
 				<div class="pro-wrapper">
-					<a href="#popin" class="pro-btn-yellow" data-toggle="modal" data-target="#modalInitiative">Déposer une initiative</a>
-					<a href="listing-initiative.html" class="pro-btn">Toutes les initiatives</a>
+						<#if isUserloggedIn>
+                           <a href="#popin" class="pro-btn-yellow" data-toggle="modal" data-target="#modalInitiative">Déposer une initiative</a>
+                        <#else>
+                            <a href="#popin" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Déposer une initiative</a>
+                        </#if>					
+					<a href="${homeURL}initiatives" class="pro-btn">Toutes les initiatives</a>
 				</div>
 			</div>
 
@@ -295,7 +299,12 @@
 		portletProviderAction=portletProviderAction.VIEW
 		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
 		instanceId="giveInitiativeHelp"
-		queryString="entityid=123456789"
+		/>
+		
+		<@liferay_portlet["runtime"]
+		portletProviderAction=portletProviderAction.VIEW
+		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
+		instanceId="submitInitiative"
 		/>
 	
 </div>
