@@ -382,6 +382,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.isExpired();
 	}
 
+	@Override
+	public boolean isFinish() {
+		return _petition.isFinish();
+	}
+
 	/**
 	* Returns <code>true</code> if this petition is inactive.
 	*

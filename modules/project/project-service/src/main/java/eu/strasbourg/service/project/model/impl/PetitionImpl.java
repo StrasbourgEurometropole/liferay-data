@@ -471,6 +471,12 @@ public class PetitionImpl extends PetitionBaseImpl {
         return result;
     }
 
+    public boolean isFinish (){
+        String result = this.getPetitionStatus();
+        if (result.equals(COMPLETED)||result.equals(FAILED))
+            return true;
+        else return false;
+    }
     /**
      * méthode de récupération du status
      *
