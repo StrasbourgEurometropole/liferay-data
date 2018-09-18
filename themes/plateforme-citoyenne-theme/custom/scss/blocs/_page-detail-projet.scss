@@ -567,12 +567,24 @@
 				}
 			}
 
+			.container{
+				width: 100%;
+			}
+
+			.pro-bloc-txt-img{
+				h2{
+					&:before{
+						content: none;
+					}
+				}
+			}
+
 			.pro-bloc-image-slider {
 				.owl-carousel {
 					.owl-item {
 						.item {
 							.caption {
-								bottom: 25px;
+								bottom: 55px;
 								transform: none;
 								top: auto;
 								width: 100%;
@@ -606,6 +618,9 @@
 							figure {
 								img {
 									height: 460px;
+								}
+								figcaption{
+									margin: 0;
 								}
 							}
 						}

@@ -78,6 +78,8 @@
 			height: 50px;
 			background: $c_dark;
 			opacity: 1;
+			transition: all .2s ease;
+			margin-top: -2px;
 			@include addTransition();
 			span {
 				color: $c_main;
@@ -85,6 +87,7 @@
 				text-align: center;
 				line-height: 50px;
 				font-size: 0.9em;
+				opacity: 1;
 				@include addTransition();
 			}
 			&:hover, &:focus {

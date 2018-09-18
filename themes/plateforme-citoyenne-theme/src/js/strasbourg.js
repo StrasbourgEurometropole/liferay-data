@@ -11237,7 +11237,7 @@ $('a[href$="rechercher"]').on('click',function(e){
     e.preventDefault();
     $('#pro-header').toggleClass('pro-wrapper-search-open');
     $('body').css('overflow','hidden');
-    $('.pro-wrapper-search form input').focus();
+    $('#pro-search').focus();
     $('#pro-shadow-bg').addClass('pro-display-block');
 });
 
