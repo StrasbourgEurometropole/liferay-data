@@ -475,7 +475,7 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public String getPetitionStatus() {
-        String result = DRAFT;
+        String result = ParticipationImpl.NEW;
         if (getPublicationDate() != null && getExpirationDate() != null) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expirationTime = new Timestamp(getExpirationDate().getTime()).toLocalDateTime();
