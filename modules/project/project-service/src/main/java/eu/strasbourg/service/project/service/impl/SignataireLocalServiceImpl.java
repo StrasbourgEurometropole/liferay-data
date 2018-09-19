@@ -17,6 +17,7 @@ package eu.strasbourg.service.project.service.impl;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import eu.strasbourg.service.project.exception.NoSuchSignataireException;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.SignataireLocalServiceBaseImpl;
 
@@ -66,6 +67,15 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
         return signatairePersistence.countByPetition(petitionId);
     }
 
+    @Override
+    public void removeSignataire(long signataireId){
+		try {
+			signatairePersistence.remove(signataireId);
+		} catch (NoSuchSignataireException e) {
+			_log.error("pas de signataire : ",e);
+		}
+	}
+
     /**
      * méthode de creation de signataire.
      * @param sc le context.
@@ -101,21 +111,22 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
      * @param nombreCreation le nombre de creation souhaité.
      */
     @Override
-	public void createFakeSignataire(long petitionId, int nombreCreation){
-		if (countFakeSignataireByPetition(petitionId)>0){
-			List<Signataire> signataires = signatairePersistence.findByPetitionIdAndSignataireName(petitionId,ANONYME);
-			for (Signataire signataire : signataires) {
-				deleteSignataire(signataire);
-			}
-		}
-		for (int i = 0; i < nombreCreation; i++) {
-			long pk = counterLocalService.increment();
-			Signataire result = signatairePersistence.create(pk);
-			result.setPetitionId(petitionId);
-			result.setSignataireName(ANONYME);
-			result = signatairePersistence.update(result);
-			_log.info("la pk : " + pk + " et le resultat : " + result);
-		}
-	}
-
+	public void createFakeSignataire(long petitionId, int nombreCreation) {
+        int nombreFauxSignataires = countFakeSignataireByPetition(petitionId);
+        if (nombreCreation != nombreFauxSignataires) {
+            if (nombreFauxSignataires > 0) {
+                List<Signataire> signataires = signatairePersistence.findByPetitionIdAndSignataireName(petitionId, ANONYME);
+                for (Signataire signataire : signataires) {
+                    deleteSignataire(signataire);
+                }
+            }
+            for (int i = 0; i < nombreCreation; i++) {
+                long pk = counterLocalService.increment();
+                Signataire result = signatairePersistence.create(pk);
+                result.setPetitionId(petitionId);
+                result.setSignataireName(ANONYME);
+                result = signatairePersistence.update(result);
+            }
+        }
+    }
 }

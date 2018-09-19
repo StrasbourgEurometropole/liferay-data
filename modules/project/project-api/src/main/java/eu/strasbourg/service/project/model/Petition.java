@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
@@ -101,6 +100,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public java.lang.String getDistrictLabel(java.util.Locale locale);
 
+	public java.lang.String getThematicLabel(java.util.Locale locale);
+
 	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
@@ -152,7 +153,7 @@ public interface Petition extends PetitionModel, PersistedModel {
 	/**
 	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
 	*
-	* @param locale la locale de la région
+	* @param locale        la locale de la région
 	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de pétition.
 	*/

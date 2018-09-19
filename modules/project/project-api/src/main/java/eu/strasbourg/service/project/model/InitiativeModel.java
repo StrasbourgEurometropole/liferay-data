@@ -462,6 +462,21 @@ public interface InitiativeModel extends BaseModel<Initiative>, GroupedModel,
 	public void setFilesIds(String filesIds);
 
 	/**
+	 * Returns the consultation places text of this initiative.
+	 *
+	 * @return the consultation places text of this initiative
+	 */
+	@AutoEscape
+	public String getConsultationPlacesText();
+
+	/**
+	 * Sets the consultation places text of this initiative.
+	 *
+	 * @param consultationPlacesText the consultation places text of this initiative
+	 */
+	public void setConsultationPlacesText(String consultationPlacesText);
+
+	/**
 	 * Returns the consultation places body of this initiative.
 	 *
 	 * @return the consultation places body of this initiative

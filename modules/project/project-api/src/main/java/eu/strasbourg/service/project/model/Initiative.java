@@ -134,9 +134,9 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
-	* Retourne le type de l'initiative (
+	* Retourne le statut de l'initiative (
 	*/
-	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
+	public com.liferay.asset.kernel.model.AssetCategory getStatusCategory();
 
 	/**
 	* Retourne le nombre d'aides de l'initiative

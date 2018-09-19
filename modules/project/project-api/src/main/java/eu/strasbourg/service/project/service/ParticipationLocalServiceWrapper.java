@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -329,6 +328,30 @@ public class ParticipationLocalServiceWrapper
 	public java.util.List<eu.strasbourg.service.project.model.Participation> getByGroupId(
 		long groupId) {
 		return _participationLocalService.getByGroupId(groupId);
+	}
+
+	/**
+	* méthode permettant de récupérer les 3 dernieres participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getLessCommented(
+		long groupId) {
+		return _participationLocalService.getLessCommented(groupId);
+	}
+
+	/**
+	* méthode permettant de récupérer les 3 premières participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getMostCommented(
+		long groupId) {
+		return _participationLocalService.getMostCommented(groupId);
 	}
 
 	/**

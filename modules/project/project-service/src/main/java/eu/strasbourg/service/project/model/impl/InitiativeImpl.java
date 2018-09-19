@@ -228,12 +228,12 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
-	 * Retourne le type de l'initiative (
+	 * Retourne le statut de l'initiative (
 	 */
 	@Override
-	public AssetCategory getTypeCategory() {
+	public AssetCategory getStatusCategory() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.INITIATIVE_TYPE).get(0);
+				VocabularyNames.INITIATIVE_STATUS).get(0);
 	}
 	
 	/**

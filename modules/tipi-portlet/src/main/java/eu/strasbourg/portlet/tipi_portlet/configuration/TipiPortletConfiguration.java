@@ -11,4 +11,6 @@ public interface TipiPortletConfiguration {
 	@Meta.AD(name = "form", deflt = "", required = false)
 	public String form();
 
+	@Meta.AD(name = "complement", deflt = "", required = false)
+	public String complement();
 }

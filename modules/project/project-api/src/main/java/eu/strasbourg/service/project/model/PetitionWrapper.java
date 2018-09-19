@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,6 +86,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("consultationPlacesText", getConsultationPlacesText());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
@@ -290,6 +287,13 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (mediaChoice != null) {
 			setMediaChoice(mediaChoice);
+		}
+
+		String consultationPlacesText = (String)attributes.get(
+				"consultationPlacesText");
+
+		if (consultationPlacesText != null) {
+			setConsultationPlacesText(consultationPlacesText);
 		}
 
 		String consultationPlacesBody = (String)attributes.get(
@@ -595,6 +599,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the consultation places text of this petition.
+	*
+	* @return the consultation places text of this petition
+	*/
+	@Override
+	public java.lang.String getConsultationPlacesText() {
+		return _petition.getConsultationPlacesText();
+	}
+
+	/**
 	* Returns the description of this petition.
 	*
 	* @return the description of this petition
@@ -828,6 +842,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getStatusByUserUuid();
 	}
 
+	@Override
+	public java.lang.String getThematicLabel(java.util.Locale locale) {
+		return _petition.getThematicLabel(locale);
+	}
+
 	/**
 	* Returns the title of this petition.
 	*
@@ -1011,7 +1030,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	/**
 	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
 	*
-	* @param locale la locale de la région
+	* @param locale        la locale de la région
 	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de pétition.
 	*/
@@ -1176,6 +1195,17 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	public void setConsultationPlacesBody(
 		java.lang.String consultationPlacesBody) {
 		_petition.setConsultationPlacesBody(consultationPlacesBody);
+	}
+
+	/**
+	* Sets the consultation places text of this petition.
+	*
+	* @param consultationPlacesText the consultation places text of this petition
+	*/
+	@Override
+	public void setConsultationPlacesText(
+		java.lang.String consultationPlacesText) {
+		_petition.setConsultationPlacesText(consultationPlacesText);
 	}
 
 	/**

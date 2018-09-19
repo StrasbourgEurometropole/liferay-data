@@ -397,6 +397,11 @@ public class SignataireLocalServiceWrapper implements SignataireLocalService,
 	}
 
 	@Override
+	public void removeSignataire(long signataireId) {
+		_signataireLocalService.removeSignataire(signataireId);
+	}
+
+	@Override
 	public SignataireLocalService getWrappedService() {
 		return _signataireLocalService;
 	}

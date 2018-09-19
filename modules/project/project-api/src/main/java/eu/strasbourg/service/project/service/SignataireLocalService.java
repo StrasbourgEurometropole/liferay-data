@@ -324,4 +324,6 @@ public interface SignataireLocalService extends BaseLocalService,
 	* @param nombreCreation le nombre de creation souhaité.
 	*/
 	public void createFakeSignataire(long petitionId, int nombreCreation);
+
+	public void removeSignataire(long signataireId);
 }

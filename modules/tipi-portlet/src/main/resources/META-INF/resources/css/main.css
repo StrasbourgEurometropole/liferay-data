@@ -24,6 +24,11 @@
     font-size: 14px;
 }
 
+#tipi .complement
+{
+    margin-bottom: 10px;
+}
+
 #tipi #field-label
 {
     font-weight: bold;
@@ -183,6 +188,94 @@
     left: 380px;
 
     width: 215px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+/*PARTIE CONCERNANT La REOM*/
+
+#tipi .reom .year-field
+{
+    position: absolute;
+    top: 194px;
+    left: 30px;
+
+    width: 180px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+#tipi .reom .ref-field
+{
+    position: absolute;
+    top: 250px;
+    left: 30px;
+
+    width: 250px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+#tipi .reom .price-field
+{
+    position: absolute;
+    top: 420px;
+    left: 390px;
+
+    width: 200px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+/*PARTIE CONCERNANT La RS*/
+
+#tipi .rs .year-field
+{
+    position: absolute;
+    top: 160px;
+    left: 10px;
+
+    width: 180px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+#tipi .rs .ref-field
+{
+    position: absolute;
+    top: 215px;
+    left: 10px;
+
+    width: 250px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+#tipi .rs .price-field
+{
+    position: absolute;
+    top: 600px;
+    left: 390px;
+
+    width: 200px;
     padding: 3px;
 
     border: 1px solid red;

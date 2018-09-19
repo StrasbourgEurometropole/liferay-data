@@ -338,6 +338,20 @@ public interface ProjectModel extends BaseModel<Project>, GroupedModel,
 	public void setExternalImageCopyright(String externalImageCopyright);
 
 	/**
+	 * Returns the opacity image of this project.
+	 *
+	 * @return the opacity image of this project
+	 */
+	public double getOpacityImage();
+
+	/**
+	 * Sets the opacity image of this project.
+	 *
+	 * @param opacityImage the opacity image of this project
+	 */
+	public void setOpacityImage(double opacityImage);
+
+	/**
 	 * Returns the description of this project.
 	 *
 	 * @return the description of this project
