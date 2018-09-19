@@ -347,3 +347,17 @@ $(document).on("change","input[id^='event_']", function() {
 		});
 	});
 });
+
+/**
+ * Lors d'un zoom
+ */
+$(document).on("click","#pro-plus", function() {
+	leafletMap.setZoom(leafletMap.getZoom() + 1);
+});
+
+/**
+ * Lors d'un dézoom
+ */
+$(document).on("click","#pro-moins", function() {
+	leafletMap.setZoom(leafletMap.getZoom() - 1);
+});
