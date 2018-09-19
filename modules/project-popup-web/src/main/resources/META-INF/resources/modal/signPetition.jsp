@@ -8,7 +8,7 @@
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
-<!-- HTML pour la modal d'une pétition -->
+<!-- HTML pour la modal d'une pÃ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -35,9 +35,14 @@
 				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.get('first_name')}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
-				            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
-                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-                            <aui:input id="signbirthday" readonly="true" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
+	                        <c:if test="${userConnected.get('birthdate')} != ''">
+					            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+	                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
+	                        <c:if test="${userConnected.get('birthdate')} == ''">
+	                            <fmt:formatDate value="" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
+                            <aui:input id="signbirthday" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -88,6 +93,9 @@
                 </div>
                 <input type="hidden" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div id="signalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="signalertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
+                <div id="signalertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
+                <div id="signalertLegalage" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
                 <div class="pro-form-submit">
                     <button id="sendSign" type="submit" class="btn btn-default"><liferay-ui:message key="modal.signpetition.submit"/></button>
                 </div>
@@ -96,19 +104,58 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- CONFIRMATION QUITTER PETITION -->
+<!-- HTML pour la modal de quitter le formulaire de pÃ©tition -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='quit-petition'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='file-petition-quit'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+	$("#closingButton").click(function(event){
+        event.preventDefault();
+        $("modalQuit").modal();
+    });
 
     var namespaceSign = "<portlet:namespace />";
     $("#sendSign").click(function(event){
         event.preventDefault();
         var response = validateSignForm();
+
         if (response){
             $("#form-sign-petition").submit();
         }
     });
 
+      function getAge(dateString) {
+        var from = dateString.split("/");
+        var today = new Date();
+        var birthDate = new Date(from[2],from[1]-1,from[0]);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+      }
+
+
     $(document).ready(function(){
         $('#checkboxSignSaveInfo').hide();
+
     });
 
     $("#signButton[data-target='#modalSigner']").click(function(){
@@ -139,8 +186,6 @@
             $('#checkboxSignSaveInfo').hide();
         }
     }
-
-    var namespaceSign = "<portlet:namespace />";
     var saved_signaddress = "${userConnected.get('address')}";
     var saved_signzipCode = "${userConnected.get('zipcode')}";
     var saved_signcity = "${userConnected.get('city')}";
@@ -158,18 +203,19 @@
         var signlegalage = $("#signlegalage").is(":checked");
         var signcnil = $("#signcnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var age = getAge(signBirthday);
 
         if (signBirthday==null || signBirthday==""){
             $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "" });
 
-        if (signCity==null || signCity==""){
+        if (signCity==null || signCity===""){
             $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSign+"signcity").css({ "box-shadow" : "" });
 
-        if (signAddress==null || signAddress==""){
+        if (signAddress==null || signAddress===""){
             $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "" });
@@ -192,6 +238,29 @@
         if (!result)
             $("#signalert").removeClass("hidden");
         else $("#signalert").addClass("hidden");
+
+        if (signCity.toLowerCase()!=="strasbourg"){
+            $("#signalertcity").removeClass("hidden");
+            $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#signalertcity").addClass("hidden");
+
+        if (signPostalcode!=="67000"
+            &&signPostalcode!=="67100"
+            &&signPostalcode!=="67200"){
+            $("#signalertPostalCode").removeClass("hidden");
+            $("#"+namespaceSign+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#signalertPostalCode").addClass("hidden");
+
+        if(age<16){
+            $("#signalertLegalage").removeClass("hidden");
+            $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }
+        else $("#signalertLegalage").addClass("hidden");
+
         return result;
     }
+
 </script>

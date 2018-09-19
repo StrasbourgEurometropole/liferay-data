@@ -41,7 +41,7 @@
 
 	<#include "${full_templates_path}/confirm_quit_modal.ftl" />
 
-	<main id="content">
+	<main id="content" class="pro-overflow-visible">
 		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>

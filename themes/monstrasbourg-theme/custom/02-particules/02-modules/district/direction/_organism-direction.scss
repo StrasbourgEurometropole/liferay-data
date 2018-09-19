@@ -3,6 +3,9 @@
 
     background-color: #00E3D2;    
     padding: 45px 50px;
+    @include RWD(tablet){
+        padding: 45px 20px;
+    }
     justify-content: normal;
 
     .flexbox{
@@ -14,7 +17,6 @@
         } 
 
         .container-left{
-            width: 50%;
             flex: 1;
             @include RWD(tablet){
                 order: 2;
@@ -23,7 +25,9 @@
 
             .add-favorites{    
                 width: max-content;
-                margin-top: -40px;
+                @include RWD(desktop) {
+                    margin-top: -40px;
+                }
                 margin-bottom: 60px;
             }
         }

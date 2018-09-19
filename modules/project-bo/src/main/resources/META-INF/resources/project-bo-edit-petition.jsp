@@ -49,7 +49,8 @@
 				<aui:input name="userName" required="true" />
 
 				<%-- Champ : quota Signataire --%>
-				<aui:input name="quotaSignature" required="true" />
+				<aui:input name="quotaSignature" required="true" type="number" readonly="true"
+					value="${not empty dc.petition ? dc.petition.quotaSignature : signatureNumber}"/>
 
 			</aui:fieldset>
 

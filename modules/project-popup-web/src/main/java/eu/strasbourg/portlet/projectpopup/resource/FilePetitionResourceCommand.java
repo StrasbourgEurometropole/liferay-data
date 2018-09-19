@@ -11,10 +11,12 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -56,6 +58,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String MOBILE = "mobile";
     private static final String PETITIONTITLE = "petitiontitle";
     private static final String PETITIONDESCRIPTION = "petitiondescription";
+    private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
@@ -65,23 +68,24 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
-    public String publikID;
-    public PublikUser user;
-    public DateFormat dateFormat;
-    public Date birthday;
-    public String address;
-    public String city;
-    public long postalcode;
-    public String phone;
-    public String mobile;
-    public String lastname;
-    public String firstname;
-    public String email;
-    public String title;
-    public String description;
-    public long projectId;
-    public long quartierId;
-    public long themeId;
+    private String publikID;
+    private PublikUser user;
+    private DateFormat dateFormat;
+    private Date birthday;
+    private String address;
+    private String city;
+    private long postalcode;
+    private String phone;
+    private String mobile;
+    private String lastname;
+    private String firstname;
+    private String email;
+    private String title;
+    private String description;
+    private String lieu;
+    private long projectId;
+    private long quartierId;
+    private long themeId;
 
     /**
      * le log
@@ -91,7 +95,6 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     /**
      * En attendant de faire un fichier properties, on utilise cette variable
      */
-    public static final long QUOTA = 7000;
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
@@ -113,7 +116,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         lastname = ParamUtil.getString(request, LASTNAME);
         firstname = ParamUtil.getString(request, FIRSTNAME);
         email = ParamUtil.getString(request, EMAIL);
-
+        lieu = ParamUtil.getString(request,LIEU);
         title = ParamUtil.getString(request, PETITIONTITLE);
         description = ParamUtil.getString(request, PETITIONDESCRIPTION);
         projectId = ParamUtil.getLong(request, PROJECT);
@@ -156,18 +159,23 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private boolean sendPetition(ResourceRequest request) throws PortletException {
         ServiceContext sc;
         Petition petition;
+        
         try {
+            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            int signatureNumber = (int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition");
+
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
             petition.setUserName(user.getUserName());
-            petition.setQuotaSignature(QUOTA);
+            petition.setQuotaSignature(signatureNumber);
             petition.setUserId(user.getUserId());
             petition.setPetitionnaireAdresse(address);
             petition.setPetitionnaireBirthday(birthday);
             petition.setPetitionnaireCity(city);
+            petition.setConsultationPlacesText(lieu);
             petition.setPetitionnaireFirstname(firstname);
             petition.setPetitionnaireLastname(lastname);
             petition.setPetitionnairePostalCode(postalcode);

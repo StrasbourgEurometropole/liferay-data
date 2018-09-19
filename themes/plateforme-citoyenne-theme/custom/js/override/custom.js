@@ -282,7 +282,7 @@ function getLeafletMap() {
 
     // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
     var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-        layers: 'gct_fond_de_carte_couleur'
+        layers: 'monstrasbourg'
     }).addTo(leafletMap);
 
     return leafletMap;
@@ -292,7 +292,9 @@ function getLeafletMap() {
 /**
 * Retourne l'icone de marqueur selon le type de l'entité
 */
-function getMarkerIcon(entityType = "default") {
+function getMarkerIcon(entityType) {
+    
+    var entityType = (typeof entityType !== 'undefined') ? entityType : "default";
 
     switch (entityType) {
         case 'project':
@@ -757,11 +759,6 @@ function createParticipation(participation){
                         for(var i = 0 ; i < participation.jsonThematicCategoriesTitle.length ; i++){
                             vignette += '<span>' + participation.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
 
-                        }
-                        if(participation.typeLabel != ""){
-                            vignette += 
-                            '<!-- Type de la participation -->' +
-                            '<span>Type : ' + participation.typeLabel + '</span>';
                         }
     vignette +=         '<!-- Statut de la participation -->' +
                         '<span>' + participationStatus + '</span>' +
