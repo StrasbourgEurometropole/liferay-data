@@ -1,5 +1,4 @@
 <%@ include file="/project-popup-init.jsp" %>
-<%@ include file="/modal/quit.jsp" %>
 <portlet:actionURL var="signPetitionURL" name="signPetition">
 	<portlet:param name="redirectURL" value="${redirectURL}"/>
 	<portlet:param name="cmd" value="signPetition" />
