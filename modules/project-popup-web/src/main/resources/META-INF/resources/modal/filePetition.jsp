@@ -49,6 +49,9 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <aui:input id="petitionlieux" name="consultationPlacesText" label="modal.filepetition.information.lieu" value=""/>
+                    </div>
                     <div class="pro-txt-form">
                         <p><liferay-ui:message key="modal.filepetition.information.mayor"/></p>
                     </div>
@@ -221,6 +224,7 @@
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
+            var consultationPlacesTextValue = $("#"+namespace+"petitionlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var firstNameValue = $("#"+namespace+"firstname").val();
@@ -241,6 +245,7 @@
                         <portlet:namespace />project:projectValue,
                         <portlet:namespace />quartier:quartierValue,
                         <portlet:namespace />theme:themeValue,
+                        <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
                         <portlet:namespace />saveinfo:saveInfoValue,
                         <portlet:namespace />lastname:lastNameValue,
                         <portlet:namespace />firstname:firstNameValue,
@@ -285,6 +290,7 @@
     {
         $("#"+namespace+"petitiontitle").val("");
         $("#"+namespace+"petitiondescription").val("");
+        $("#"+namespace+"petitionlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();
         $("#"+namespace+"quartier option[value='0']").prop('selected', true);
