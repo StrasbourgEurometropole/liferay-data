@@ -591,13 +591,16 @@
             font-weight: 700;
             color: #FFFFFF;
             font-size: 0.8em;
-            height: 20px;
-            width: 20px;
+            height: 22px;
+            width: 22px;
             flex-shrink: 0;
             position: absolute;
             top: 0;
             right: 0;
             transform: translate(50%, -50%);
+            font-size: 11px;
+            text-align: center;
+            line-height: 8px;
 
             &.red{
                 background-color: $crowded-red;
@@ -790,6 +793,7 @@
                 width: 50px;
                 flex-shrink: 0;
                 margin: 5px auto;
+                line-height: 16px;
 
                 &.orange{
                     background-color: $crowded-orange;

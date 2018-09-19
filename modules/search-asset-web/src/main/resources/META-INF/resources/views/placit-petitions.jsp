@@ -15,7 +15,14 @@
                 </div>
 
                  <div class="pro-wrapper-sort">
- 					<a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition"><liferay-ui:message key="file-petition" /></a>
+                    <c:choose>
+                        <c:when test='${isUserloggedIn}'>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition"><liferay-ui:message key="file-petition" /></a>
+                        </c:when>
+                        <c:otherwise>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal"><liferay-ui:message key="file-petition" /></a>
+                        </c:otherwise>
+                    </c:choose>
  				</div>
 				
                 <div class="row pro-wrapper-listing-participation">

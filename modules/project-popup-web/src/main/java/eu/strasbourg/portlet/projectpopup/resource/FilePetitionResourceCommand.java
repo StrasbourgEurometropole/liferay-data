@@ -11,10 +11,12 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -91,7 +93,6 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     /**
      * En attendant de faire un fichier properties, on utilise cette variable
      */
-    public static final long QUOTA = 7000;
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
@@ -156,14 +157,18 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private boolean sendPetition(ResourceRequest request) throws PortletException {
         ServiceContext sc;
         Petition petition;
+        
         try {
+            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+            int signatureNumber = (int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition");
+
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
             petition.setUserName(user.getUserName());
-            petition.setQuotaSignature(QUOTA);
+            petition.setQuotaSignature(signatureNumber);
             petition.setUserId(user.getUserId());
             petition.setPetitionnaireAdresse(address);
             petition.setPetitionnaireBirthday(birthday);
@@ -179,12 +184,18 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 throw new PortalException("aucune assetCategory pour la pétition"
                         + petition.getPetitionId());
             long entryId = assetEntry.getEntryId();
-            AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId, projectId);
-            AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId, quartierId);
-            AssetCategoryLocalServiceUtil
-                    .addAssetEntryAssetCategory(entryId, themeId);
+            if (projectId!=0) {
+                AssetCategoryLocalServiceUtil
+                        .addAssetEntryAssetCategory(entryId, projectId);
+            }
+            if (quartierId!=0) {
+                AssetCategoryLocalServiceUtil
+                        .addAssetEntryAssetCategory(entryId, quartierId);
+            }
+            if (themeId!=0) {
+                AssetCategoryLocalServiceUtil
+                        .addAssetEntryAssetCategory(entryId, themeId);
+            }
         } catch (PortalException e) {
             _log.error(e);
             throw new PortletException(e);

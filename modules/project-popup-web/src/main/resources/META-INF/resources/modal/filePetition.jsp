@@ -8,7 +8,7 @@
         <div class="modal-content">
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.filepetition.title"/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <button id="closingButton" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
             <form id="form-file-petition">

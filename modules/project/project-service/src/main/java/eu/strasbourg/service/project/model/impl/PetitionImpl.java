@@ -45,7 +45,6 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
@@ -220,18 +219,14 @@ public class PetitionImpl extends PetitionBaseImpl {
     @Override
     public boolean isJudgeable() {
         boolean response = true;
-        AssetCategory status = this.getPetitionStatusCategory();
+        String status = this.getPetitionStatus();
 
-        if (status == null) {
+        if (status == null || status.isEmpty())
             response = false;
-        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Aboutie")) {
+        else if (COMPLETED.equals(status))
             response = false;
-        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Non aboutie")) {
+         else if (FAILED.equals(status))
             response = false;
-        } else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Terminee")) {
-            response = false;
-        }
-
         return response;
     }
 
@@ -465,7 +460,10 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public long getSignataireNeeded() {
-        return getQuotaSignature() - getNombreSignature();
+        long result = getQuotaSignature() - getNombreSignature();
+        if (result < 0)
+            result = 0;
+        return result;
     }
 
     /**
@@ -475,7 +473,7 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public String getPetitionStatus() {
-        String result = DRAFT;
+        String result = ParticipationImpl.NEW;
         if (getPublicationDate() != null && getExpirationDate() != null) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expirationTime = new Timestamp(getExpirationDate().getTime()).toLocalDateTime();
@@ -484,16 +482,16 @@ public class PetitionImpl extends PetitionBaseImpl {
             boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
             if (now.isBefore(publicationTime))
                 result = ParticipationImpl.SOON_ARRIVED;
-            else if (quotaSignatureAtteint && !isExpired)
+            else if (quotaSignatureAtteint)
                 result = COMPLETED;
-            else if (isExpired && !quotaSignatureAtteint)
+            else if (isExpired)
                 result = FAILED;
             else {
                 long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
                 long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
-                if (!isExpired && periodNews <= 7)
+                if (periodNews <= 7)
                     result = ParticipationImpl.NEW;
-                else if (!isExpired && periodTemp <= 7)
+                else if (periodTemp <= 7)
                     result = ParticipationImpl.SOON_FINISHED;
                 else result = ParticipationImpl.IN_PROGRESS;
             }

@@ -173,7 +173,8 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                         removedCategory = cat;
                     }
                 }
-                switch (petition.getPetitionStatus()) {
+                String petitionStatus = petition.getPetitionStatus();
+                switch (petitionStatus) {
                     case ParticipationImpl.SOON_FINISHED:
                         addedCategory = AssetVocabularyHelper.getCategory("bientot terminee", groupId);
                         break;
@@ -182,9 +183,6 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                         break;
                     case ParticipationImpl.IN_PROGRESS:
                         addedCategory = AssetVocabularyHelper.getCategory("en cours", groupId);
-                        break;
-                    case PetitionImpl.DRAFT:
-                        addedCategory = AssetVocabularyHelper.getCategory("Brouillon", groupId);
                         break;
                     case PetitionImpl.COMPLETED:
                         addedCategory = AssetVocabularyHelper.getCategory("Aboutie", groupId);
@@ -196,7 +194,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                         addedCategory = AssetVocabularyHelper.getCategory("a venir", groupId);
                         break;
                     default:
-                        addedCategory = AssetVocabularyHelper.getCategory("Brouillon", groupId);
+                        addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
                         break;
                 }// Si il y a eu changement de statut
                 boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();

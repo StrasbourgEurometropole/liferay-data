@@ -44,10 +44,10 @@
 		<aui:nav-item href="${petitionsURL}" label="petitions"
 			selected="${tab eq 'petitions'}" />
 	</aui:nav>
-	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${initiativesURL}" label="initiatives"
-			selected="${tab eq 'initiatives'}" />
-	</aui:nav>
+<!-- 	<aui:nav cssClass="navbar-nav"> -->
+<%-- 		<aui:nav-item href="${initiativesURL}" label="initiatives" --%>
+<%-- 			selected="${tab eq 'initiatives'}" /> --%>
+<!-- 	</aui:nav> -->
 
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">
