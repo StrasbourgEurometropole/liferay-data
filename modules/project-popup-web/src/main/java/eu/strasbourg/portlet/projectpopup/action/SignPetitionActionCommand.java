@@ -214,7 +214,7 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             signataire = SignataireLocalServiceUtil.updateSignataire(signataire);
             _log.info("Signataire : " + signataire);
         } else {
-            message = "Vous avez d&eacute;j&agrave; sign&eacute; la p&eacute;tition";
+            message = "Vous avez déjà signé la pétition";
         }
 
         return message;

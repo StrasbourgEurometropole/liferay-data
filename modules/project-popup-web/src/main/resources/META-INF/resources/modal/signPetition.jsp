@@ -139,34 +139,18 @@
             $("#form-sign-petition").submit();
         }
     });
-/*
-    function checkBirthday(){
-        $("#signbirthday").datepicker({
-            onSelect: function(value, ui) {
-                var current = new Date().getTime(),
-                    dateSelect = new Date(value).getTime();
-                    age = current - dateSelect;
-                    ageGet = Math.floor(age / 1000 / 60 / 60 / 24 / 365.25); // age / ms / sec / min / hour / days in a year
-                if(ageGet < 18){
-                    less_than_18(ageGet);
-                }else{
-                    greater_than_18(ageGet);
-                }
-            },
-            yearRange: '1900:+0d',//base year:current year
-            changeMonth: true,
-            changeYear: true,
-            defaultDate: '-18yr',
-        }).attr("readonly", "readonly"); //prevent manual changes
 
-        function less_than_18(theAge){
-            $("#signalert").removeClass("hidden");
+      function getAge(dateString) {
+        var from = dateString.split("/");
+        var today = new Date();
+        var birthDate = new Date(from[2],from[1]-1,from[0]);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
         }
-        function greater_than_18(theAge){
-            $("#signalert").addClass("hidden");
-        }
-    }
-*/
+        return age;
+      }
 
 
     $(document).ready(function(){
@@ -221,6 +205,7 @@
         var signlegalage = $("#signlegalage").is(":checked");
         var signcnil = $("#signcnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var age = getAge(signBirthday);
 
         if (signBirthday==null || signBirthday==""){
             $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -270,6 +255,14 @@
             result = false;
         } else $("#signalertPostalCode").addClass("hidden");
 
+        if(age<16){
+            $("#signalertLegalage").removeClass("hidden");
+            $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }
+        else $("#signalertLegalage").addClass("hidden");
+
         return result;
     }
+
 </script>
