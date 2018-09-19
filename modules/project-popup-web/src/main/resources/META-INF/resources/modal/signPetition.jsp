@@ -186,8 +186,6 @@
             $('#checkboxSignSaveInfo').hide();
         }
     }
-
-    var namespaceSign = "<portlet:namespace />";
     var saved_signaddress = "${userConnected.get('address')}";
     var saved_signzipCode = "${userConnected.get('zipcode')}";
     var saved_signcity = "${userConnected.get('city')}";
