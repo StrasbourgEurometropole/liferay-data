@@ -125,11 +125,6 @@
 
 <script type="text/javascript">
 
-	$("#closingButton").click(function(event){
-        event.preventDefault();
-        $("modalQuit").modal();
-    });
-
     var namespaceSign = "<portlet:namespace />";
     $("#sendSign").click(function(event){
         event.preventDefault();
