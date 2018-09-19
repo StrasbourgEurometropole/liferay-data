@@ -37,10 +37,9 @@
                                 </span>
                             </a>
                         </div>
-                        <p style="margin-top: 40px">Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.</p>
                 </c:if>
                 <c:if test="${!dc.address}">
-                    <p>
+                    <p style="margin-top: 40px">
                         L'adresse renseign&eacute;e dans votre profil ne correspond pas &agrave; un quartier de Strasbourg.
                         <br>Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.
                         <br>
@@ -383,7 +382,7 @@
 							<a href="#" class="add-favorites"
 							   data-type="1"
 							   data-title="${townHall.getAlias(locale)}"
-							   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${townHall.getSIGid()}"
+							   data-url="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.getSIGid()}"
 							   data-id="${townHall.placeId}">
 								<span><liferay-ui:message key="eu.add-to-favorite" /></span>
 							</a>
@@ -460,7 +459,7 @@
                                     <a href="#" class="add-favorites"
                                        data-type="1"
                                        data-title="${school.getAlias(locale)}"
-                                       data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
+                                       data-url="${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
                                        data-id="${school.placeId}">
                                         <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                                     </a>
