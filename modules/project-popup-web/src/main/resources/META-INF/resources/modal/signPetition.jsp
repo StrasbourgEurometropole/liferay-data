@@ -93,6 +93,9 @@
                 </div>
                 <input type="hidden" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div id="signalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="signalertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
+                <div id="signalertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
+                <div id="signalertLegalage" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
                 <div class="pro-form-submit">
                     <button id="sendSign" type="submit" class="btn btn-default"><liferay-ui:message key="modal.signpetition.submit"/></button>
                 </div>
@@ -131,13 +134,44 @@
     $("#sendSign").click(function(event){
         event.preventDefault();
         var response = validateSignForm();
+
         if (response){
             $("#form-sign-petition").submit();
         }
     });
+/*
+    function checkBirthday(){
+        $("#signbirthday").datepicker({
+            onSelect: function(value, ui) {
+                var current = new Date().getTime(),
+                    dateSelect = new Date(value).getTime();
+                    age = current - dateSelect;
+                    ageGet = Math.floor(age / 1000 / 60 / 60 / 24 / 365.25); // age / ms / sec / min / hour / days in a year
+                if(ageGet < 18){
+                    less_than_18(ageGet);
+                }else{
+                    greater_than_18(ageGet);
+                }
+            },
+            yearRange: '1900:+0d',//base year:current year
+            changeMonth: true,
+            changeYear: true,
+            defaultDate: '-18yr',
+        }).attr("readonly", "readonly"); //prevent manual changes
+
+        function less_than_18(theAge){
+            $("#signalert").removeClass("hidden");
+        }
+        function greater_than_18(theAge){
+            $("#signalert").addClass("hidden");
+        }
+    }
+*/
+
 
     $(document).ready(function(){
         $('#checkboxSignSaveInfo').hide();
+
     });
 
     $("#signButton[data-target='#modalSigner']").click(function(){
@@ -193,12 +227,12 @@
             result = false;
         }else $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "" });
 
-        if (signCity==null || signCity==""){
+        if (signCity==null || signCity===""){
             $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSign+"signcity").css({ "box-shadow" : "" });
 
-        if (signAddress==null || signAddress==""){
+        if (signAddress==null || signAddress===""){
             $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "" });
@@ -221,6 +255,19 @@
         if (!result)
             $("#signalert").removeClass("hidden");
         else $("#signalert").addClass("hidden");
+
+        if (signCity.toLowerCase()!=="strasbourg"){
+            $("#signalertcity").removeClass("hidden");
+            $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
+        } else $("#signalertcity").addClass("hidden");
+
+        if (signPostalcode!=="67000"
+            ||signPostalcode!=="67100"
+            ||signPostalcode!=="67200"){
+            $("#signalertPostalCode").removeClass("hidden");
+            $("#"+namespaceSign+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+        } else $("#signalertPostalCode").addClass("hidden");
+
         return result;
     }
 </script>
