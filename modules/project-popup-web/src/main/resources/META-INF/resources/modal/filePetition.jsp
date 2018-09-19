@@ -2,7 +2,7 @@
 <portlet:resourceURL id="filePetition" var="filePetitionURL">
 </portlet:resourceURL>
 <!-- DEPOSER UNE NOUVELLE PETITION -->
-<!-- HTML pour la modal de pÃ©tition -->
+<!-- HTML pour la modal de pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalPetition" tabindex="-1" role="dialog" aria-labelledby="modalPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -63,12 +63,9 @@
                             <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
                         </div>
                         <div class="form-group form-triple">
-	                        <c:if test="${userConnected.get('birthdate')} != ''">
+	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-	                        </c:if>
-	                        <c:if test="${userConnected.get('birthdate')} == ''">
-					            <fmt:formatDate value="" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
                             <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
@@ -131,7 +128,7 @@
 
 
 <!-- CONFIRMATION NOUVELLE PETITION -->
-<!-- HTML pour la modal de confirmation de nouvelle pÃ©tition -->
+<!-- HTML pour la modal de confirmation de nouvelle pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerPetition" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -151,7 +148,7 @@
 
 
 <!-- ERREUR NOUVELLE PETITION -->
-<!-- HTML pour la modal d'erreur de nouvelle pÃ©tition -->
+<!-- HTML pour la modal d'erreur de nouvelle pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorPetition" tabindex="-1" role="dialog" aria-labelledby="modalErrorPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -170,7 +167,7 @@
 </div>
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
