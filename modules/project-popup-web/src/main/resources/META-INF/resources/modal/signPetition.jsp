@@ -9,7 +9,7 @@
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
-<!-- HTML pour la modal d'une pÃ©tition -->
+<!-- HTML pour la modal d'une pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -36,12 +36,9 @@
 				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.get('first_name')}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
-	                        <c:if test="${userConnected.get('birthdate')} != ''">
+	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
 					            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 	                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-	                        </c:if>
-	                        <c:if test="${userConnected.get('birthdate')} == ''">
-	                            <fmt:formatDate value="" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
                             <aui:input id="signbirthday" readonly="true" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
                         </div>
@@ -103,7 +100,7 @@
 </div><!-- /.modal -->
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
