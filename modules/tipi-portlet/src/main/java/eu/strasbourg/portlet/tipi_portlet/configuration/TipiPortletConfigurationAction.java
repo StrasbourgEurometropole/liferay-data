@@ -46,6 +46,10 @@ public class TipiPortletConfigurationAction
 			// récupère le nom du formulaire
 			String form = ParamUtil.getString(request, "form");
 			setPreference(request, "form", form);
+			
+			// récupère le complément d'info du formulaire
+			String complement = ParamUtil.getString(request, "complement");
+			setPreference(request, "complement", complement);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -65,6 +69,7 @@ public class TipiPortletConfigurationAction
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						TipiPortletConfiguration.class);
 			request.setAttribute("form", configuration.form());
+			request.setAttribute("complement", configuration.complement());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);
