@@ -235,11 +235,13 @@ aside .leaflet-map {
 
 
 .pro-bloc-listing-petition {
+
+    padding-top: 15px;
+
 	&:after {
 		content: '';
 		display: block;
 		position: absolute;
-		padding-top: 15px;
 		top: 0;
 		right: -15px;
 		bottom: 0;
