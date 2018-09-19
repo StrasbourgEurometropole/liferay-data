@@ -11286,7 +11286,7 @@ $('.frm_date').each(function(){
 	        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
 	        const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
 	        const year = date.getFullYear();
-	        return `${day}/${month}/${year}`;
+	        return day + '/' + month + '/' + year;
 	    },
 	    parse: function(dateString) {
 	        // dateString is the result of `toString` method
@@ -11704,7 +11704,7 @@ function getLeafletMap() {
 
     // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
     var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-        layers: 'gct_fond_de_carte_couleur'
+        layers: 'monstrasbourg'
     }).addTo(leafletMap);
 
     return leafletMap;
@@ -11714,7 +11714,9 @@ function getLeafletMap() {
 /**
 * Retourne l'icone de marqueur selon le type de l'entité
 */
-function getMarkerIcon(entityType = "default") {
+function getMarkerIcon(entityType) {
+    
+    var entityType = (typeof entityType !== 'undefined') ? entityType : "default";
 
     switch (entityType) {
         case 'project':
