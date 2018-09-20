@@ -37,7 +37,7 @@ public class TwitterClient {
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true).setOAuthConsumerKey(twitterConsumerKey)
 					.setOAuthConsumerSecret(twitterConsumerSecret).setOAuthAccessToken(twitterAccessToken)
-					.setOAuthAccessTokenSecret(twitterAccessTokenSecret);
+					.setOAuthAccessTokenSecret(twitterAccessTokenSecret).setTweetModeExtended(true);
 			TwitterFactory tf = new TwitterFactory(cb.build());
 			twitter = tf.getInstance();
 
@@ -80,7 +80,7 @@ public class TwitterClient {
 					if (medias.length > 0) {
 						for (MediaEntity media : medias) {
 							if (media.getType().equals("photo")) {
-								tweet.setImageURL(media.getMediaURLHttps().toString());
+								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 								break;
 							}
 						}
@@ -110,7 +110,7 @@ public class TwitterClient {
 					if (medias != null) {
 						for (MediaEntity media : medias) {
 							if (media.getType().equals("photo")) {
-								tweet.setImageURL(media.getMediaURLHttps().toString());
+								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 								break;
 							}
 						}
