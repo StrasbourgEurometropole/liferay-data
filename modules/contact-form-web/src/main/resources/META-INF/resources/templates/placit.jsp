@@ -22,7 +22,9 @@
 
 <div class="pro-bloc-pcs-form pro-form-page-contact">
  <c:if test="${not param.mailSent}">
-    <liferay-portlet:actionURL name="contact" var="contactURL" />
+    <liferay-portlet:actionURL name="contact" var="contactURL">
+		<portlet:param name="placit" value="placit"></portlet:param>
+    </liferay-portlet:actionURL>
         <form action="${contactURL}" method="post" class="seu-main-form">
             <liferay-ui:error key="unknown-error" message="eu.unknown-error" targetNode=".seu-main-form" />
             <liferay-ui:error key="email-error" message="email-error" targetNode=".seu-main-form" />
@@ -35,37 +37,35 @@
                 <div class="pro-wrapper">
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input cssClass="form-control" name="contact.lastname" value="${param.lastName}" placeholder="Dupond" />
+                            <aui:input cssClass="form-control" name="contact.lastname" placeholder="Dupond" />
                         </div>
                         <div class="form-group form-half">
-                            <aui:input cssClass="form-control" name="contact.firstname" value="${param.firstName}" placeholder="Jean" />
+                            <aui:input cssClass="form-control" name="contact.firstname" placeholder="Jean" />
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input cssClass="form-control" name="contact.mail" value="${param.mailFrom}" placeholder="jean.dupond@gmail.com" />
+                            <aui:input cssClass="form-control" name="contact.mail" placeholder="jean.dupond@gmail.com" />
                         </div>
                         <div class="form-group form-half">
-                            <aui:input cssClass="form-control" name="contact.phone" value="${param.phone}" />
+                            <aui:input cssClass="form-control" name="contact.object" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <aui:input cssClass="form-control" name="contact.object" value="${param.object}"/>
-                    </div>
-                    <div class="form-group">
-                        <aui:input type="textarea" cssClass="form-control" name="contact.request" value="${param.content}" />
+                        <aui:input type="textarea" cssClass="form-control" name="contact.request"/>
                     </div>
                 </div>
             </div>
 
             <div class="pro-optin form-checkbox">
                 <div class="container pro-max-900">
-                    <input type="checkbox" id="placit-form-condition" value="optin">
-                    <label for="placit-form-condition">${privacyText}</label>
+                    <input type="checkbox" id="sendCopy" value="optin">
+                    <label for="sendCopy"><liferay-ui:message key="contact.receive-copy" /></label>
                 </div>
             </div>
             <div class="pro-form-submit">
-                <button type="submit" class="btn btn-default"><liferay-ui:message key="contact.send" /></button>
+                <input type="hidden" id="placit" name="<portlet:namespace />placit"/>
+                <button id="submit_placit_form" type="submit" class="btn btn-default"><liferay-ui:message key="contact.send" /></button>
             </div>
         </form>
     </c:if>

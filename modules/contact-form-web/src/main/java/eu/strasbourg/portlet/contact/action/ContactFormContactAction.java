@@ -62,13 +62,23 @@ public class ContactFormContactAction implements MVCActionCommand {
         String content = ParamUtil.getString(request, "content");
         String firstName = ParamUtil.getString(request, "firstName");
         String lastName = ParamUtil.getString(request, "lastName");
-        String phone = ParamUtil.getString(request, "phone");
-        String object = ParamUtil.getString(request, "object");
+        String object = ParamUtil.getString(request, "contact.object");
+        //adaptation du formulaire pour placit
+        if (emailFrom==null||emailFrom.isEmpty())
+            emailFrom = ParamUtil.getString(request, "contact.mail");
+        if (content==null||content.isEmpty())
+            content = ParamUtil.getString(request, "contact.request");
+        if (firstName==null||firstName.isEmpty())
+            firstName = ParamUtil.getString(request, "contact.firstname");
+        if (lastName==null||lastName.isEmpty())
+            lastName = ParamUtil.getString(request, "contact.lastname");
+
 
         // Validation
         boolean hasError = false;
         String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
-        if (!RecaptchaHelper.verify(gRecaptchaResponse)) {
+        String placit= ParamUtil.getString(request, "placit");
+        if (placit.isEmpty()&&!RecaptchaHelper.verify(gRecaptchaResponse)) {
             // Recaptcha
             SessionErrors.add(request, "recaptcha-error");
             hasError = true;
@@ -112,8 +122,6 @@ public class ContactFormContactAction implements MVCActionCommand {
         context.put("lastName", lastName);
         context.put("content", content);
         context.put("emailFrom", emailFrom);
-        if (phone != null && !phone.isEmpty())
-            context.put("phone", phone);
         if (object != null && !object.isEmpty())
             context.put("object", object);
 
