@@ -10,57 +10,63 @@
 </div>
 <div class="container">
     <div class="pro-bloc pro-bloc-texte pro-max-900 aligncenter">
-        <h2>Titre de type H2, Introduction</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-            ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-            occaecat cupidatat non proident, sunt in Lorem ipsum dolor.</p>
+        <c:if test="${not empty title}">
+            <h2>${title}</h2>
+        </c:if>
+        <c:if test="${not empty descriptionText}">
+            <p>${descriptionText}</p>
+        </c:if>
     </div>
 </div>
 
 
 <div class="pro-bloc-pcs-form pro-form-page-contact">
-    <form>
-        <div class="container pro-max-900">
-            <div class="pro-wrapper">
-                <div class="pro-row">
-                    <div class="form-group form-half">
-                        <label for="nom">Nom <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="nom" placeholder="Dupond"/>
-                    </div>
-                    <div class="form-group form-half">
-                        <label for="prenom">Prénom <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="prenom" placeholder="Jean"/>
-                    </div>
-                </div>
-                <div class="pro-row">
-                    <div class="form-group form-half">
-                        <label for="email">Adresse mail <span class="required">*</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="jean.dupond@gmail.com">
-                    </div>
-                    <div class="form-group form-half">
-                        <label for="tel">Téléphone <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="tel"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="tel">Objet <span class="required">*</span></label>
-                    <input type="text" class="form-control" id="objet"/>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message <span>*</span></label>
-                    <textarea id="message" class="form-control" rows="12"></textarea>
-                </div>
-            </div>
-        </div>
+ <c:if test="${not param.mailSent}">
+    <liferay-portlet:actionURL name="contact" var="contactURL" />
+        <form action="${contactURL}" method="post" class="seu-main-form">
+            <liferay-ui:error key="unknown-error" message="eu.unknown-error" targetNode=".seu-main-form" />
+            <liferay-ui:error key="email-error" message="email-error" targetNode=".seu-main-form" />
+            <liferay-ui:error key="lastname-error" message="lastname-error" targetNode=".seu-main-form" />
+            <liferay-ui:error key="firstname-error" message="firstname-error" targetNode=".seu-main-form" />
+            <liferay-ui:error key="content-error" message="content-error" targetNode=".seu-main-form" />
+            <liferay-ui:error key="invalid-mail-error" message="eu.invalid-mail-error" targetNode=".seu-main-form" />
 
-        <div class="pro-optin form-checkbox">
             <div class="container pro-max-900">
-                <input type="checkbox" id="optin-2" value="optin">
-                <label for="optin-2">Je consens XXXX (Conditions CNIL à préciser)</label>
+                <div class="pro-wrapper">
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <aui:input cssClass="form-control" name="contact.lastname" value="${param.lastName}" placeholder="Dupond" />
+                        </div>
+                        <div class="form-group form-half">
+                            <aui:input cssClass="form-control" name="contact.firstname" value="${param.firstName}" placeholder="Jean" />
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <aui:input cssClass="form-control" name="contact.mail" value="${param.mailFrom}" placeholder="jean.dupond@gmail.com" />
+                        </div>
+                        <div class="form-group form-half">
+                            <aui:input cssClass="form-control" name="contact.phone" value="${param.phone}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <aui:input cssClass="form-control" name="contact.object" value="${param.object}"/>
+                    </div>
+                    <div class="form-group">
+                        <aui:input type="textarea" cssClass="form-control" name="contact.request" value="${param.content}" />
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="pro-form-submit">
-            <button type="submit" class="btn btn-default">Envoyer le message</button>
-        </div>
-    </form>
+
+            <div class="pro-optin form-checkbox">
+                <div class="container pro-max-900">
+                    <input type="checkbox" id="placit-form-condition" value="optin">
+                    <label for="placit-form-condition">${privacyText}</label>
+                </div>
+            </div>
+            <div class="pro-form-submit">
+                <button type="submit" class="btn btn-default"><liferay-ui:message key="contact.send" /></button>
+            </div>
+        </form>
+    </c:if>
 </div>
