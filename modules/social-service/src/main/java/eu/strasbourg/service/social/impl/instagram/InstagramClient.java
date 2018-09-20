@@ -62,7 +62,9 @@ public class InstagramClient {
 
 				// Image
 				Images images = mediaData.getImages();
-				ImageData image = images.getStandardResolution();
+				ImageData image = images.getLowResolution();
+				if(image != null && (image.getImageHeight() <= 285 || image.getImageWidth() <= 285))
+					image = images.getStandardResolution();
 				socialPost.setImageURL(image.getImageUrl());
 
 				// Texte
