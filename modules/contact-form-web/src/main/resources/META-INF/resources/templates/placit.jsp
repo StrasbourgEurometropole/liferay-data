@@ -59,7 +59,7 @@
 
             <div class="pro-optin form-checkbox">
                 <div class="container pro-max-900">
-                    <input type="checkbox" id="sendCopy" value="optin">
+                    <input type="checkbox" name="sendCopy" id="sendCopy">
                     <label for="sendCopy"><liferay-ui:message key="contact.receive-copy" /></label>
                 </div>
             </div>
