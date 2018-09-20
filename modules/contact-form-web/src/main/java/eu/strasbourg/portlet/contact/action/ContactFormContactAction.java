@@ -63,6 +63,7 @@ public class ContactFormContactAction implements MVCActionCommand {
         String firstName = ParamUtil.getString(request, "firstName");
         String lastName = ParamUtil.getString(request, "lastName");
         String object = ParamUtil.getString(request, "contact.object");
+        String phone = ParamUtil.getString(request, "contact.phone");
         //adaptation du formulaire pour placit
         if (emailFrom==null||emailFrom.isEmpty())
             emailFrom = ParamUtil.getString(request, "contact.mail");
@@ -124,6 +125,8 @@ public class ContactFormContactAction implements MVCActionCommand {
         context.put("emailFrom", emailFrom);
         if (object != null && !object.isEmpty())
             context.put("object", object);
+        if (phone != null && !phone.isEmpty())
+            context.put("phone", phone);
 
         LocalDateTime dateTime = LocalDateTime.now();
         String date = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
