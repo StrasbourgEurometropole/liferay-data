@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="col-xs-12 pro-signature-pacte">
 				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'etat desactive du bouton -->
-				<a href="#" onclick="callServeResource();" <c:if test="${hasUserSigned}">class="active"</c:if>><!-- class="pro-disabled" -->
+				<a id="signPacte" href="#" <c:if test="${hasUserSigned}">class="active"</c:if>><!-- class="pro-disabled" -->
 					<div class="pro-svg">
 						<svg xmlns="http://www.w3.org/2000/svg" width="236.125"
 							height="59.09" viewBox="0 0 236.125 59.09" role="img">
@@ -88,45 +88,79 @@
 		</ul>
 	</div>
 	 -->
-	 
+</div>
+<!-- CONFIRMATION QUITTER -->
+<!-- HTML pour confirmer la résiliation du pacte -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPacte" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key="modal.quit.title"/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key="modal.quit.description" /></h4>
+                <div class="centerButtonValidation">
+                    <input id="buttonConfirmQuit" onclick="callServeResource();" type="submit" class="pro-btn" value="Quitter"/>
+                    <input id="buttonCancelQuit" type="reset" class="pro-btn"  data-dismiss="modal" value="Annuler"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <aui:script>
+
+$(document).ready(function(){
+    $('#modalQuitPacte').modal('hide');
+});
+
+$("#signPacte").click(function(e){
+    var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
+    if($(selector).hasClass('active')){
+        console.log("oki doki");
+        e.preventDefault();
+        $("#modalQuitPacte").modal('show');
+    }
+    else callServeResource();
+});
+
 function callServeResource() {
 	
 	if(${isUserloggedIn}){
 		if($("#type_v_1").is(':checked')) {
-			AUI().use('aui-io-request', function(A) {
-				A.io.request('${pacteSignatureURL}', {
-					method : 'post',
-					data : {
-						<portlet:namespace/>clauses : $("#type_v_1").is(':checked')
-					},
-					on: {
-		                success: function(e) {
-		                	var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
-	                	    e.preventDefault();
-	                	    $(selector).toggleClass('active');
-	                	    if($(selector).hasClass('active')){
-	                	        $('h3',selector).text('<liferay-ui:message key="pacte-adhere" />');
-	                	        $('span',selector).css('display','none');
-	                	        if($(selector).hasClass('pro-disabled')){
-	                	            $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
-	                	            $('span',selector).css('display','block');
-	                	        }
-	                	    }
-	                	    else if($(selector).hasClass('pro-disabled')){
-	                	        $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
-	                	        $('span',selector).css('display','block');
-	                	    }
-	                	    else{
-	                	        $('h3',selector).text('Signer');
-	                	        $('span',selector).css('display','block');
-	                	    }
-					 	}
-					 }
-				});
-			});
+		    $('#modalQuitPacte').modal('hide');
+            AUI().use('aui-io-request', function(A) {
+                A.io.request('${pacteSignatureURL}', {
+                    method : 'post',
+                    data : {
+                        <portlet:namespace/>clauses : $("#type_v_1").is(':checked')
+                    },
+                    on: {
+                        success: function(e) {
+                            var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
+                            e.preventDefault();
+                            $(selector).toggleClass('active');
+                            if($(selector).hasClass('active')){
+                                $('h3',selector).text('<liferay-ui:message key="pacte-adhere" />');
+                                $('span',selector).css('display','none');
+                                if($(selector).hasClass('pro-disabled')){
+                                    $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
+                                    $('span',selector).css('display','block');
+                                }
+                            }
+                            else if($(selector).hasClass('pro-disabled')){
+                                $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
+                                $('span',selector).css('display','block');
+                            }
+                            else{
+                                $('h3',selector).text('Signer');
+                                $('span',selector).css('display','block');
+                            }
+                        }
+                     }
+                });
+            });
 		}
 		else {
 			alert('<liferay-ui:message key="pacte-clauses-check" />');
