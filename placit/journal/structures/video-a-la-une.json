@@ -20,37 +20,58 @@
       "dataType": "string",
       "indexType": "keyword",
       "localizable": true,
-      "name": "Titre",
+      "name": "title",
       "readOnly": false,
       "repeatable": false,
       "required": true,
       "showLabel": true,
-      "type": "text",
-      "nestedFields": [
-        {
-          "label": {
-            "fr_FR": "Sous-Titre"
-          },
-          "predefinedValue": {
-            "fr_FR": ""
-          },
-          "style": {
-            "fr_FR": ""
-          },
-          "tip": {
-            "fr_FR": ""
-          },
-          "dataType": "string",
-          "indexType": "keyword",
-          "localizable": true,
-          "name": "Texte8aft",
-          "readOnly": false,
-          "repeatable": false,
-          "required": false,
-          "showLabel": true,
-          "type": "text"
-        }
-      ]
+      "type": "text"
+    },
+    {
+      "label": {
+        "fr_FR": "Titre ligne 2"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "string",
+      "indexType": "keyword",
+      "localizable": true,
+      "name": "title_line_2",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "text"
+    },
+    {
+      "label": {
+        "fr_FR": "Sous-Titre"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "string",
+      "indexType": "keyword",
+      "localizable": true,
+      "name": "subtitle",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "text"
     },
     {
       "label": {
@@ -69,7 +90,7 @@
       "fieldNamespace": "ddm",
       "indexType": "text",
       "localizable": true,
-      "name": "Image7uti",
+      "name": "image",
       "readOnly": false,
       "repeatable": false,
       "required": false,
@@ -92,12 +113,35 @@
       "dataType": "string",
       "indexType": "keyword",
       "localizable": true,
-      "name": "Textec5ei",
+      "name": "video_link",
       "readOnly": false,
       "repeatable": false,
       "required": true,
       "showLabel": true,
       "type": "text"
+    },
+    {
+      "label": {
+        "fr_FR": "Description de la vidéo"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "string",
+      "indexType": "text",
+      "localizable": true,
+      "name": "video_description",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "textarea"
     }
   ]
 }
