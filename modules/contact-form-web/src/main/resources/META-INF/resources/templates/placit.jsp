@@ -48,8 +48,11 @@
                             <aui:input cssClass="form-control" name="contact.mail" placeholder="jean.dupond@gmail.com" />
                         </div>
                         <div class="form-group form-half">
-                            <aui:input cssClass="form-control" name="contact.object" />
+                            <aui:input cssClass="form-control" name="contact.phone" />
                         </div>
+                    </div>
+                     <div class="form-group">
+                        <aui:input cssClass="form-control" name="contact.object" />
                     </div>
                     <div class="form-group">
                         <aui:input type="textarea" cssClass="form-control" name="contact.request"/>
