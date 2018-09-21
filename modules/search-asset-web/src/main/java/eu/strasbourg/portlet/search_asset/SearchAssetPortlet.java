@@ -362,7 +362,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Participation participation = ParticipationLocalServiceUtil.fetchParticipation(entry.getClassPK());
                             JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
                             jsonParticipation.put("class", className);
-                            json = participation.toJSON();
+                            json = participation.toJSON(this._themeDisplay);
                             json.put("todayExpirationDifferenceDays", participation.getTodayExpirationDifferenceDays());
                             json.put("isJudgeable", participation.isJudgeable());
                             json.put("groupId", participation.getGroupId());

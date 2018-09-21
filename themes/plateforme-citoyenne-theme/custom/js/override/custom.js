@@ -421,7 +421,7 @@ function getParticipationMarker(participation, mercators) {
             '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
             '<div>' +
                 '<div class="pro-header-participation">' + 
-                    '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+                    '<figure><img src="' + participation.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
                     '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
                     '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
                 '</div>' +
@@ -736,10 +736,8 @@ function createParticipation(participation){
         '<div class="item pro-bloc-card-participation vignette type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
             '<div>' +
                 '<div class="pro-header-participation">' +
-                    '<figure role="group">';
-                        if(participation.imageURL != ""){
-                            vignette += '<img src="' + participation.imageURL + '" width="40" height="40" alt="Image participation"/>';
-                        }
+                    '<figure role="group">';                       
+                            vignette += '<img src="' + participation.authorImageURL + '" width="40" height="40" alt="Image participation"/>';                       
     vignette +=     '</figure>' +
                     '<p>Participation publiée par :</p>' +
                     '<p><strong>' + participation.author + '</strong></p>' +

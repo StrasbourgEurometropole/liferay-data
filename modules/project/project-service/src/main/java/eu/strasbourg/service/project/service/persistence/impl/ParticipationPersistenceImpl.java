@@ -2420,7 +2420,6 @@ public class ParticipationPersistenceImpl extends BasePersistenceImpl<Participat
 		participationImpl.setStatusByUserName(participation.getStatusByUserName());
 		participationImpl.setStatusDate(participation.getStatusDate());
 		participationImpl.setTitle(participation.getTitle());
-		participationImpl.setAuthor(participation.getAuthor());
 		participationImpl.setContactName(participation.getContactName());
 		participationImpl.setContactLine1(participation.getContactLine1());
 		participationImpl.setContactLine2(participation.getContactLine2());
