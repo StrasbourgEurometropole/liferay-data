@@ -1,5 +1,5 @@
-<!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pétition -->
+<!-- CONFIRMATION QUITTER -->
+<!-- HTML pour confirmer l'annulation d'un formulaire -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
