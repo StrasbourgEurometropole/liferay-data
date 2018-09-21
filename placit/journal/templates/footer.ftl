@@ -63,10 +63,10 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <ul>
-                            <li><a href="/web/participer/pacte" title="Titre du lien">Le Pacte</a></li>
-                            <li><a href="/web/participer/contact" title="Titre du lien">Nous contacter</a></li>
-                            <li><a href="/web/participer/legal" title="Titre du lien">Mentions légales</a></li>
-                            <li><a href="/web/participer/glossaire" title="Titre du lien">Glossaire &amp; règles
+                            <li><a href="/web/participer/pacte" title="Signature du pacte">Le Pacte</a></li>
+                            <li><a href="/web/participer/contact" title="formulaire de contact">Nous contacter</a></li>
+                            <li><a href="/web/participer/legal" title="Mention légale">Mentions légales</a></li>
+                            <li><a href="/web/participer/glossaire" title="le glossaire">Glossaire &amp; règles
                                 d'utilisation</a></li>
                         </ul>
                     </div>
