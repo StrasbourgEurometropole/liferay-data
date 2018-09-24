@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4>Êtes-vous sure ? toutes vos modifications ne seront pas enregistrées.</h4>
+                <h4>Êtes-vous sure ? les données renseignées seront perdues.</h4>
                 <div class="centerButtonValidation">
                     <input id="buttonConfirmQuit" type="submit" class="pro-btn" value="Quitter"/>
                 </div>
