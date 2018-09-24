@@ -75,6 +75,14 @@ public class GraveyardDisplayContext {
 		return contactURL;
 	}
 
+	public String getLimit() {
+		String limit = configuration.limit();
+		if (Validator.isNull(limit)) {
+			limit = "20";
+		}
+		return limit;
+	}
+
 	public void recherche(RenderRequest request, RenderResponse response)
 			throws IOException, PortletException {
 
@@ -111,14 +119,6 @@ public class GraveyardDisplayContext {
 
 			if (Validator.isNull(name)) {
 				error += LanguageUtil.get(httpRequest, "required") + " " + LanguageUtil.get(httpRequest, "name-required");
-			}
-			if (Validator.isNull(firstName)) {
-				if (Validator.isNull(error)) {
-					error += LanguageUtil.get(httpRequest, "required");
-				}else {
-					error += ", ";
-				}
-				error += LanguageUtil.get(httpRequest, "firstname-required");
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			if ((Validator.isNotNull(birthDateStartString) || Validator.isNotNull(birthDateEndString))
@@ -172,7 +172,7 @@ public class GraveyardDisplayContext {
 			}
 			if (SessionErrors.isEmpty(request)) {
 				GraveyardResponse graveyardResponse = GraveyardWebServiceClient.getResponse(name, firstName,
-						birthDateStart, birthDateEnd, deathDateStart, deathDateEnd, deathPlace, concession);
+						birthDateStart, birthDateEnd, deathDateStart, deathDateEnd, deathPlace, concession, this.getLimit());
 				this.setGraveyard(graveyardResponse);
 			}
 		} catch (ParseException e1) {
@@ -230,12 +230,7 @@ public class GraveyardDisplayContext {
 			// On parcours les résultats pour supprimer les décès d'avant 1998
 			List<DefuntDTO> defuntsList = new ArrayList<DefuntDTO>();
 			for (DefuntDTO defunt : this.defunts ) {
-				String[] deathDateString = defunt.getDeathDate().split("/");
-				LocalDate beforeDate =  LocalDate.of(1997, 12, 31);
-				LocalDate deathDate =  LocalDate.of(Integer.parseInt(deathDateString.clone()[2]), Integer.parseInt(deathDateString.clone()[1]), Integer.parseInt(deathDateString.clone()[0]));
-				if(deathDate.isAfter(beforeDate)){
-					defuntsList.add(defunt);
-				}
+				defuntsList.add(defunt);
 			}
 			this.defunts = defuntsList;
 		}
@@ -243,16 +238,12 @@ public class GraveyardDisplayContext {
 		return this.defunts;
 	}
 
-	public boolean hasDeathDateBefore1998(){
-		return (!graveyard.getCount().equals(""+this.getResultCount()));
-	}
-
-	/**
-	 * Retourne le nombre total de résultats
-	 */
-	public int getResultCount() {
-		return getResults().size();
-	}
+    /**
+     * Retourne le nombre total de résultats
+     */
+    public int getResultCount() {
+        return getResults().size();
+    }
 
 	/**
 	 * Retourne le searchContainer

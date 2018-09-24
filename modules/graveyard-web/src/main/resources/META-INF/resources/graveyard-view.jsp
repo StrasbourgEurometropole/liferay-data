@@ -31,7 +31,7 @@
 				<!-- Prénom -->
 	            <div class="form-group">
 					<div class="title">
-						<label for="firstname"><liferay-ui:message key="graveyard.firstname" /><strong style="color:red">*</strong></label>
+						<label for="firstname"><liferay-ui:message key="graveyard.firstname" /></label>
 					</div>
 					<div class="content">
 						<input type="text" id="firstname" name="<portlet:namespace />firstname" 
@@ -171,50 +171,44 @@
                 <c:if test="${dc.graveyard.err eq 0}">
                     <!-- Messages d'erreur géré par l'api -->
                     <c:if test="${not empty dc.graveyard.erreur}">
-                        <div class="seu-error-messages">${dc.graveyard.erreur}</div>
+                        <div class="seu-error-messages">
+                            <c:if test="${dc.graveyard.codeErreur == 'LIMITE_DEPASSEE'}">
+                                <liferay-ui:message key="too-many-results" />
+                                <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
+                                    <liferay-ui:message key="graveyard.contact" />
+                                </a>
+                            </c:if>
+                            <c:if test="${dc.graveyard.codeErreur != 'LIMITE_DEPASSEE'}">
+                                ${dc.graveyard.erreur}
+                            </c:if>
+                        </div>
                     </c:if>
                     <c:if test="${empty dc.graveyard.erreur}">
                         <div class="graveyard-response rte">
                             <p>
+                                <div>
+                                    <liferay-ui:message key="before-98" />
+                                    <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
+                                        <liferay-ui:message key="graveyard.contact" />
+                                    </a>
+                                </div>
                                 <c:choose>
-                                    <c:when test="${dc.searchContainer.total == 0}">
+                                    <c:when test="${dc.graveyard.count == '0'}">
                                         <liferay-ui:message key="no-tot" />
                                         <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
                                             <liferay-ui:message key="graveyard.contact" />
                                         </a>
                                     </c:when>
-                                    <c:when test="${dc.searchContainer.total gt 50}">
-                                        <liferay-ui:message key="too-many-results" />
-                                        <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                            <liferay-ui:message key="graveyard.contact" />
-                                        </a>
-                                    </c:when>
-                                    <c:when test="${dc.searchContainer.total gt 1}">
-                                        <c:if test="${dc.hasDeathDateBefore1998()}">
-                                            <div>
-                                                <liferay-ui:message key="before-98" />
-                                                <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                                    <liferay-ui:message key="graveyard.contact" />
-                                                </a>
-                                            </div>
-                                        </c:if>
-                                        ${dc.searchContainer.total} <liferay-ui:message key="graveyard.results" />
+                                    <c:when test="${dc.graveyard.count == '1'}">
+                                        ${dc.searchContainer.total} <liferay-ui:message key="graveyard.result" />
                                     </c:when>
                                     <c:otherwise>
-                                        <c:if test="${dc.hasDeathDateBefore1998()}">
-                                            <div>
-                                                <liferay-ui:message key="before-98" />
-                                                <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                                    <liferay-ui:message key="graveyard.contact" />
-                                                </a>
-                                            </div>
-                                        </c:if>
-                                        ${dc.searchContainer.total} <liferay-ui:message key="graveyard.result" />
+                                        ${dc.searchContainer.total} <liferay-ui:message key="graveyard.results" />
                                     </c:otherwise>
                                 </c:choose>
                             </p>
 
-                            <c:if test="${dc.searchContainer.total gt 0 && dc.searchContainer.total lt 51}">
+                            <c:if test="${dc.searchContainer.total gt 0}">
                                 <!-- Liste des résultats -->
                                 <aui:form method="post" name="fm">
                                     <liferay-ui:search-container id="entriesSearchContainer"

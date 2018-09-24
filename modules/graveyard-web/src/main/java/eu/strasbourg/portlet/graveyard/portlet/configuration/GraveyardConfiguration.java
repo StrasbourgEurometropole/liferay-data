@@ -12,4 +12,7 @@ public interface GraveyardConfiguration {
 	@Meta.AD(name = "contactURL", deflt = "", required = false)
 	public String contactURL();
 
+	@Meta.AD(name = "limit", deflt = "", required = false)
+	public String limit();
+
 }
