@@ -85,7 +85,6 @@
                         </li>
                         <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
                         <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>
-						<li><a href="${themeDisplay.getPortalURL()}${homeURL}videos" title="Vidéos">Vidéos</a></li>
                         <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions citoyennes</a></li>
                     </ul>
                 </nav>
