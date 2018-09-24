@@ -88,10 +88,6 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Titre
 			String title = ParamUtil.getString(request, "title");
 			participation.setTitle(title);
-
-			// Auteur
-			String author = ParamUtil.getString(request, "author");
-			participation.setAuthor(author);
 			
 			// ---------------------------------------------------------------
 			// -------------------------- CONTACT ----------------------------
