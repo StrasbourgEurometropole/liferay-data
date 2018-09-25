@@ -118,41 +118,7 @@
             /**
              * Start canvas
              */
-            self.canvas.width = self.photoFrame.outerWidth();
-            self.canvas.height = self.photoFrame.outerHeight();
-            self.canvasContext = self.canvas.getContext('2d');
-            /**
-             * Show the right text
-             */
-            if (isMobile()) {
-                self.photoArea.addClass('is-mobile');
-            } else {
-                self.photoArea.addClass('is-desktop');
-            }
-            /**
-             * Merge the defaults with the user options
-             */
-            self.options = $.extend({}, self.defaults, options);
-
-            /**
-             * Enable/disable the image helper
-             */
-            if (self.options.imageHelper) {
-                registerImageHelper();
-            }
-
-            registerDropZoneEvents();
-            registerImageDragEvents();
-            registerZoomEvents();
-
-            /**
-             * Start
-             */
-            if (imageFilePath) {
-                processFile(imageFilePath);
-            } else {
-                self.photoArea.addClass('photo--empty');
-            }
+            
         }
 
         /**

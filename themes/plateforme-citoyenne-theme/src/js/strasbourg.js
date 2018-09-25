@@ -11411,1629 +11411,6 @@ $("[href$='-approuv']").on('click',function(e){
     // $(this).find('strong').text(+parseInt($(this).text()) + 1);
     $(this).toggleClass('active');
 });*/
-if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
-
-    var footer = $('footer').offset().top;
-    var windowH = $(window).height();
-    var barreFixed = $('.pro-bloc-prefooter');
-
-    $(window).on('scroll',function(){
-        console.log(footer);
-        if (window.pageYOffset-90 <= footer-windowH) {
-            barreFixed.addClass('pro-sticky-bar');
-        } else {
-            barreFixed.removeClass('pro-sticky-bar');
-        }
-    });
-
-}
-var bounds;
-var map;
-
-
-th_maps.addThemes('default', [
-    {
-        "featureType": "all",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "saturation": 36
-            },
-            {
-                "color": "#000000"
-            },
-            {
-                "lightness": 40
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 17
-            },
-            {
-                "weight": 1.2
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#dedede"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "hue": "#ffed00"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 29
-            },
-            {
-                "weight": 0.2
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 18
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f2f2f2"
-            },
-            {
-                "lightness": 19
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#e9e9e9"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    }
-]);
-
-
-var GetPosition = document.getElementById('cible');
-
-var zoomInButton = document.getElementById('pro-plus');
-var zoomOutButton = document.getElementById('pro-moins');
-
-
-/* MAP POUR LE LISTING DE LA PAGE EVENEMENT */
-function callbackMapListingEvent(macarte) {
-
-    var bounds = new google.maps.LatLngBounds();
-
-    $('.pro-bloc-listing-event > a').each(function () {
-        var geo = {lat: $(this).data('lat'), lng: $(this).data('lng')};
-        marker = th_maps.createMarker(macarte, geo, 'participation', 'projet');
-        bounds.extend(geo);
-
-        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container" class="pro-bloc-card-map-event">' +
-            '<div class="map-inte-content">' +
-            '<div class="map-inte-header"><span class="pro-time">Publiée le <time datetime="2018-01-10">' + $('time', this).text() + '</time></span><p>' + $('p', this).text() + '</p></div>' +
-            '<div class="map-inte-content-text"><h3>' + $('h3', this).text() + '</h3>' +
-            '<span class="pro-btn-yellow">En savoir plus</span>' +
-            '</div></div></a>', marker, 250);
-    });
-
-    macarte.fitBounds(bounds);
-
-    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.RIGHT_TOP;
-    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
-
-}
-
-
-/* MAP POUR LES PAGES STANDARDS ET PROJET */
-function callbackCartePage(macarte) {
-    // ---------  Google map Zoom Button  --------- //
-    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() + 1);
-    });
-
-    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() - 1);
-    });
-}
-
-
-/* MAP POUR LA CARTE INTERACTIVE */
-function callbackCarteInteractive(macarte) {
-
-    var bounds = new google.maps.LatLngBounds();
-
-    // ---------  Google map Zoom Button  --------- //
-    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() + 1);
-    });
-
-    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() - 1);
-    });
-
-    markerParticipation = th_maps.createMarker(macarte, {lat: 48.5891137, lng: 7.7514801}, 'participation', 'marker');
-    markerEvent = th_maps.createMarker(macarte, {lat: 48.5991137, lng: 7.7414801}, 'event', 'marker');
-    markerParticipation2 = th_maps.createMarker(macarte, {lat: 48.5775591, lng: 7.7606211}, 'participation', 'marker');
-    markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
-    markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
-    markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
-
-
-    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
-        ' pro-theme-concertation"><div>' +
-        '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
-        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
-        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
-        '<h3>Titre de la participation terminée<br>Sur deux lignes</h3>' +
-        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
-        '<div class="pro-footer-participation pro-participation-deadline"><div class="pro-avis"><span class="pro-like">1808</span>' +
-        '<span class="pro-dislike">404</span></div><p>Participation terminée, merci de votre participation</p>' +
-        '</div></div></a></div>', markerParticipation, 247);
-
-
-    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
-        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>' +
-        '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
-        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participants-es</span></div>' +
-        '</div></a></div>', markerEvent, 247);
-
-
-    // contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
-    //     '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
-    //     '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
-    //     ' class="link">Lire la suite</span></div>' +
-    //     '</a></div>',marker3,247);
-
-
-    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
-        ' data-linkall="a">' +
-        '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
-        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
-        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
-        '<h3>Titre de la participation<br>Sur deux lignes</h3>' +
-        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
-        '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>' +
-        '</div></a></div>', markerParticipation2, 247);
-
-
-    // contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
-    //     '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
-    //     ' class="icon-ico-lecteur"></span></div>' +
-    //     '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
-    //     '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
-    //     '</div></a></div>',marker5,247);
-
-
-    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
-        '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-        '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
-        '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
-        '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
-        '</div></div></a></div>', markerPetition, 247);
-
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
-        '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-        '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
-        '<div class="pro-content-initiative">' +
-        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
-        '</div></div> ' +
-        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
-        '</div></a></div>', markerInitiative, 247);
-
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet" data-linkall="a">' +
-        '<a href="detail-projet.php"></a><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
-        '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
-        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
-        '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
-        '</a></div>', markerProjet, 247);
-
-
-    bounds.extend(markerParticipation.position);
-    bounds.extend(markerEvent.position);
-    bounds.extend(markerParticipation2.position);
-    bounds.extend(markerPetition.position);
-    bounds.extend(markerInitiative.position);
-    bounds.extend(markerProjet.position);
-    macarte.fitBounds(bounds);
-}
-
-
-th_maps.onLoad(function () {
-
-    th_maps.addMarkerIcon('participation', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-participation.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('initiative', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-initiative.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('projet', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-projet.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('petition', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-petition.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('event', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.LEFT_CENTER;
-    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
-});
-
-
-/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LES PAGES DE LISTING */
-function filterMapListing(options) {
-    options.mapTypeControl = false;
-    options.streetViewControl = false;
-    options.zoomControl = true;
-
-    options.zoomControlOptions = {position: google.maps.ControlPosition.LEFT_TOP};
-    options.mapTypeId = google.maps.MapTypeId.ROADMAP;
-
-    return options;
-}
-
-
-/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LA PAGE DE DETAIL SIT ET AGENDA */
-function filterMapDetail(options) {
-    options.mapTypeControl = false;
-    options.streetViewControl = false;
-    options.zoomControl = false;
-    return options;
-}
-
-
-function generateContentWindow(img, title) {
-    var content = '<div id="map-inte-container">' +
-        '<div class="map-inte-content">' +
-        '<div class="map-inte-header"><figure><img src="' + img + '" width="260" height="160" alt="Titre image" class="fit-cover img-carte-inte" /></figure></div>' +
-        '<div class="map-inte-content-text"><h2 class="title-map-inte">' + title + '</h2>' +
-        '<a href="#" class="basic-link">En savoir plus</a>' +
-        '</div></div></div>';
-    return content;
-}
-
-function init_thMaps() {
-    th_maps.init({
-        defaultOptions: {
-            zoom: 16,
-            center: {lat: 48.5692059, lng: 7.6920547},
-            disableDefaultUI: true,
-            streetViewControl: false,
-            zoomControl: true,
-        }
-    });
-}
-
-init_thMaps();
-// document.addEventListener('scroll', init_thMaps);
-
-$('#pro-btn-menu-map').click(function () {
-    $('.pro-wrapper-facette-carte').toggleClass('show-menu-map');
-    $('.pro-menu-carte-mobile').toggleClass('btn-map-active');
-})
-$(function()
-{
-	ar_menu();
-});
-
-function ar_menu()
-{
-	// mobile sidebar menu
-	$('.th-menu').click(function () {
-		if (!$(this).hasClass('open')) {
-			$(this).addClass('open');
-			$('nav').addClass('show');
-			$('#pro-shadow-bg').addClass('pro-display-block');
-			$('#pro-header').addClass('menu-open');
-			$('.social-share').css('opacity','0');
-		}
-		else {
-			$('#pro-shadow-bg').removeClass('pro-display-block');
-			$(this).removeClass('open');
-			$('#pro-header').removeClass('menu-open');
-			$('.social-share').css('opacity','1');
-			setTimeout(function () {
-				$('nav').removeClass('show');
-			}, 150);
-		}
-	});
-
-	$('#pro-shadow-bg').click(function () {
-		$(this).removeClass('pro-display-block');
-		$('nav').removeClass('show');
-		$('.th-menu').removeClass('open');
-		$('#pro-header').removeClass('menu-open');
-		$('#pro-header').removeClass('pro-wrapper-search-open');
-	});
-}
-
-
-$('.currentLang > a').on('focus',function(){
-	$('.is-focus-lang').removeClass('is-focus-lang');
-	$(this).parents().next().addClass('is-focus-lang');
-});
-
-
-// Move Affiner la recherche on Tablet Portrait
-
-if ($(window).width() < 992) {
-	$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
-	$('.pro-wrapper-nav').append($('.pro-top-header'));
-}
-
-var menuEmplacement = 0;
-var timeoutResizeMenuEmplacement = null;
-
-$(window).resize(function() {
-	clearTimeout(timeoutResizeMenuEmplacement);
-	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
-});
-
-function moveMenuOnResize(){
-	var wW = $(window).width();
-	if (wW < 992 && menuEmplacement == 0) {
-		menuEmplacement = 1;
-		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
-		$('.pro-wrapper-nav').append($('.pro-top-header'));
-	}
-	if (wW >= 992 && menuEmplacement == 1) {
-		menuEmplacement = 0;
-		$('.pro-wrapper-aside').append($('.pro-bloc-facette-participation'));
-		$('.pro-wrapper-top-header').prepend($('.pro-top-header'));
-	}
-}
-/**
- * Profile picture
- * @author Daniel Salvagni <danielsalvagni@gmail.com>
- */
-
-
-/**
- * Turn the globals into local variables.
- */
-;(function (window, $, undefined) {
-    if (!window.profilePicture) {
-        window.profilePicture = profilePicture;
-    }
-
-    /**
-     * Component
-     */
-    function profilePicture(cssSelector, imageFilePath, options) {
-        var self = this;
-        /**
-         * Map the DOM elements
-         */
-        self.element = $(cssSelector);
-        self.canvas = $(cssSelector + ' .photo__frame .photo__canvas')[0];
-        self.photoImg = $(cssSelector + ' .photo__frame img');
-        self.photoHelper = $(cssSelector + ' .photo__helper');
-        self.photoLoading = $(cssSelector + ' .photo__frame .message.is-loading');
-        self.photoOptions = $(cssSelector + ' .photo__options');
-        self.photoFrame = $(cssSelector + ' .photo__frame');
-        self.photoArea = $(cssSelector + ' .photo');
-        self.zoomControl = $(cssSelector + ' input[type=range]');
-        /**
-         * Image info to post to the API
-         */
-        self.model = {
-            imageSrc: null,
-            width: null,
-            height: null,
-            originalWidth: null,
-            originalHeight: null,
-            y: null,
-            x: null,
-            zoom: 1,
-            cropWidth: null,
-            cropHeight: null
-        };
-
-
-        /**
-         * Plugin options
-         */
-        self.options = {};
-        /**
-         * Plugins defaults
-         */
-        self.defaults = {};
-        self.defaults.imageHelper = true;
-        self.defaults.imageHelperColor = 'rgba(255,255,255,.90)';
-        /**
-         * Callbacks
-         */
-        self.defaults.onChange = null;
-        self.defaults.onZoomChange = null;
-        self.defaults.onImageSizeChange = null;
-        self.defaults.onPositionChange = null;
-        self.defaults.onLoad = null;
-        self.defaults.onRemove = null;
-        self.defaults.onError = null;
-        /**
-         * Zoom default options
-         */
-        self.defaults.zoom = {
-            initialValue: 1,
-            minValue: 0.1,
-            maxValue: 2,
-            step: 0.01
-        };
-        /**
-         * Image default options
-         */
-        self.defaults.image = {
-            originalWidth: 0,
-            originalHeight: 0,
-            originaly: 0,
-            originalX: 0,
-            minWidth: 350,
-            minHeight: 350,
-            maxWidth: 1000,
-            maxHeight: 1000
-        };
-
-        /**
-         * Zoom controls
-         */
-        self.zoom = $(cssSelector + ' .zoom');
-
-        /**
-         * Call the constructor
-         */
-        init(cssSelector, imageFilePath, options);
-
-        /**
-         * Return public methods
-         */
-        return {
-            getData: getData,
-            getAsDataURL: getAsDataURL,
-            removeImage: removeImage
-        };
-
-
-        /**
-         * Constructor
-         * Register all components and options.
-         * Can load a preset image
-         */
-        function init(cssSelector, imageFilePath, options) {
-            /**
-             * Start canvas
-             */
-            self.canvas.width = self.photoFrame.outerWidth();
-            self.canvas.height = self.photoFrame.outerHeight();
-            self.canvasContext = self.canvas.getContext('2d');
-            /**
-             * Show the right text
-             */
-            if (isMobile()) {
-                self.photoArea.addClass('is-mobile');
-            } else {
-                self.photoArea.addClass('is-desktop');
-            }
-            /**
-             * Merge the defaults with the user options
-             */
-            self.options = $.extend({}, self.defaults, options);
-
-            /**
-             * Enable/disable the image helper
-             */
-            if (self.options.imageHelper) {
-                registerImageHelper();
-            }
-
-            registerDropZoneEvents();
-            registerImageDragEvents();
-            registerZoomEvents();
-
-            /**
-             * Start
-             */
-            if (imageFilePath) {
-                processFile(imageFilePath);
-            } else {
-                self.photoArea.addClass('photo--empty');
-            }
-        }
-
-        /**
-         * Check if the user's device is a smartphone/tablet
-         */
-        function isMobile() {
-            return navigator.userAgent.match(/BlackBerry|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
-        }
-
-        /**
-         * Return the model
-         */
-        function getData() {
-            return model;
-        }
-
-        /**
-         * Set the model
-         */
-        function setModel(model) {
-            self.model = model;
-        }
-
-        /**
-         * Set the image to a canvas
-         */
-        function processFile(imageUrl) {
-            function isDataURL(s) {
-                s = s.toString();
-                return !!s.match(isDataURL.regex);
-            }
-
-            isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-
-            var image = new Image();
-            if (!isDataURL(imageUrl)) {
-                image.crossOrigin = 'anonymous';
-            }
-            self.photoArea.addClass('photo--loading');
-            image.onload = function () {
-                var ratio,
-                    newH, newW,
-                    w = this.width, h = this.height;
-
-                if (w < self.options.image.minWidth ||
-                    h < self.options.image.minHeight) {
-                    self.photoArea.addClass('photo--error--image-size photo--empty');
-                    setModel({});
-
-                    /**
-                     * Call the onError callback
-                     */
-                    if (typeof self.options.onError === 'function') {
-                        self.options.onError('image-size');
-                    }
-
-                    self.photoArea.removeClass('photo--loading');
-                    return;
-                } else {
-                    self.photoArea.removeClass('photo--error--image-size');
-                }
-
-                self.photoArea.removeClass('photo--empty photo--error--file-type photo--loading');
-
-                var frameRatio = self.options.image.maxHeight / self.options.image.maxWidth;
-                var imageRatio = self.model.height / self.model.width;
-
-                if (frameRatio > imageRatio) {
-                    newH = self.options.image.maxHeight;
-                    ratio = (newH / h);
-                    newW = parseFloat(w) * ratio;
-                } else {
-                    newW = self.options.image.maxWidth;
-                    ratio = (newW / w);
-                    newH = parseFloat(h) * ratio;
-                }
-                h = newH;
-                w = newW;
-
-                self.model.imageSrc = image;
-                self.model.originalHeight = h;
-                self.model.originalWidth = w;
-                self.model.height = h;
-                self.model.width = w;
-                self.model.cropWidth = self.photoFrame.outerWidth();
-                self.model.cropHeight = self.photoFrame.outerHeight();
-                self.model.x = 0;
-                self.model.y = 0;
-                self.photoOptions.removeClass('hide');
-                fitToFrame();
-                render();
-
-                /**
-                 * Call the onLoad callback
-                 */
-                if (typeof self.options.onLoad === 'function') {
-                    self.options.onLoad(self.model);
-                }
-
-            };
-
-            image.src = imageUrl;
-        }
-
-        /**
-         * Remove the image and reset the component state
-         */
-        function removeImage() {
-            self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
-            self.canvasContext.save();
-            self.photoArea.addClass('photo--empty');
-            self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-            self.imageHelperCanvasContext.save();
-            setModel({});
-
-            /**
-             * Call the onRemove callback
-             */
-            if (typeof self.options.onRemove === 'function') {
-                self.options.onRemove(self.model);
-            }
-        }
-
-        /**
-         * Register the file drop zone events
-         */
-        function registerDropZoneEvents() {
-            var target = null;
-            /**
-             * Stop event propagation to all dropzone related events.
-             */
-            self.element.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
-            });
-
-            /**
-             * Register the events when the file is out or dropped on the dropzone
-             */
-            self.element.on('dragend dragleave drop', function (e) {
-                if (target === e.target) {
-                    self.element.removeClass('is-dragover');
-                }
-            });
-            /**
-             * Register the events when the file is over the dropzone
-             */
-            self.element.on('dragover dragenter', function (e) {
-                target = e.target;
-                self.element.addClass('is-dragover');
-            });
-            /**
-             * On a file is selected, calls the readFile method.
-             * It is allowed to select just one file - we're forcing it here.
-             */
-            self.element.on('change', 'input[type=file]', function (e) {
-                if (this.files && this.files.length) {
-                    readFile(this.files[0]);
-                    this.value = '';
-                }
-            });
-            /**
-             * Handle the click to the hidden input file so we can browser files.
-             */
-            self.element.on('click', '.photo--empty .photo__frame', function (e) {
-                $(cssSelector + ' input[type=file]').trigger('click');
-
-            });
-            /**
-             * Register the remove action to the remove button.
-             */
-            self.element.on('click', '.remove', function (e) {
-                removeImage();
-            });
-            /**
-             * Register the drop element to the container component
-             */
-            self.element.on('drop', function (e) {
-                readFile(e.originalEvent.dataTransfer.files[0]);
-            });
-
-
-            /**
-             * Only into the DropZone scope.
-             * Read a file using the FileReader API.
-             * Validates file type.
-             */
-            function readFile(file) {
-                self.photoArea.removeClass('photo--error photo--error--file-type photo--error-image-size');
-                /**
-                 * Validate file type
-                 */
-                if (!file.type.match('image.*')) {
-                    self.photoArea.addClass('photo--error--file-type');
-                    /**
-                     * Call the onError callback
-                     */
-                    if (typeof self.options.onError === 'function') {
-                        self.options.onError('file-type');
-                    }
-                    return;
-                }
-
-                var reader;
-                reader = new FileReader();
-                reader.onloadstart = function () {
-                    self.photoArea.addClass('photo--loading');
-                }
-                reader.onloadend = function (data) {
-                    self.photoImg.css({left: 0, top: 0});
-                    var base64Image = data.target.result;
-                    processFile(base64Image, file.type);
-                }
-                reader.onerror = function () {
-                    self.photoArea.addClass('photo--error');
-                    /**
-                     * Call the onError callback
-                     */
-                    if (typeof self.options.onError === 'function') {
-                        self.options.onError('unknown');
-                    }
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        /**
-         * Register the image drag events
-         */
-        function registerImageDragEvents() {
-            var $dragging, x, y, clientX, clientY;
-            if (self.options.imageHelper) {
-                self.photoHelper.on("mousedown touchstart", dragStart)
-                    .css('cursor', 'move');
-            } else {
-                self.photoFrame.on("mousedown touchstart", dragStart);
-            }
-
-            /**
-             * Stop dragging
-             */
-            $(window).on("mouseup touchend", function (e) {
-                if ($dragging) {
-                    /**
-                     * Call the onPositionChange callback
-                     */
-                    if (typeof self.options.onPositionChange === 'function') {
-                        self.options.onPositionChange(self.model);
-                    }
-                    /**
-                     * Call the onChange callback
-                     */
-                    if (typeof self.options.onChange === 'function') {
-                        self.options.onChange(self.model);
-                    }
-                }
-                $dragging = null;
-            });
-            /**
-             * Drag the image inside the container
-             */
-            $(window).on("mousemove touchmove", function (e) {
-
-                if ($dragging) {
-                    e.preventDefault();
-                    var refresh = false;
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                    if (e.touches) {
-                        clientX = e.touches[0].clientX
-                        clientY = e.touches[0].clientY
-                    }
-
-                    var dy = (clientY) - y;
-                    var dx = (clientX) - x;
-                    dx = Math.min(dx, 0);
-                    dy = Math.min(dy, 0);
-                    /**
-                     * Limit the area to drag horizontally
-                     */
-                    if (self.model.width + dx >= self.model.cropWidth) {
-                        self.model.x = dx;
-                        refresh = true;
-                    }
-                    if (self.model.height + dy >= self.model.cropHeight) {
-                        self.model.y = dy;
-                        refresh = true;
-                    }
-                    if (refresh) {
-                        render();
-                    }
-                }
-                ;
-            });
-
-            function dragStart(e) {
-                $dragging = true;
-                clientX = e.clientX;
-                clientY = e.clientY;
-                if (e.touches) {
-                    clientX = e.touches[0].clientX
-                    clientY = e.touches[0].clientY
-                }
-                x = clientX - self.model.x;
-                y = clientY - self.model.y;
-            }
-        }
-
-        /**
-         * Register the zoom control events
-         */
-        function registerZoomEvents() {
-
-            self.zoomControl
-                .attr('min', self.options.zoom.minValue)
-                .attr('max', self.options.zoom.maxValue)
-                .attr('step', self.options.zoom.step)
-                .val(self.options.zoom.initialValue)
-                .on('input', zoomChange);
-
-            function zoomChange(e) {
-                self.model.zoom = Number(this.value);
-                updateZoomIndicator();
-                scaleImage();
-                /**
-                 * Call the onPositionChange callback
-                 */
-                if (typeof self.options.onZoomChange === 'function') {
-                    self.options.onZoomChange(self.model);
-                }
-            }
-        }
-
-        /**
-         * Set the image to the center of the frame
-         */
-        function centerImage() {
-            var x = Math.abs(self.model.x - ((self.model.width - self.model.cropWidth) / 2));
-            var y = Math.abs(self.model.y - ((self.model.height - self.model.cropHeight) / 2));
-            x = self.model.x - x;
-            y = self.model.y - y;
-            x = Math.min(x, 0);
-            y = Math.min(y, 0);
-
-            if (self.model.width + (x) < self.model.cropWidth) {
-                /**
-                 * Calculates to handle the empty space on the right side
-                 */
-                x = Math.abs((self.model.width - self.model.cropWidth)) * -1;
-            }
-            if (self.model.height + (y) < self.model.cropHeight) {
-                /**
-                 * Calculates to handle the empty space on bottom
-                 */
-                y = Math.abs((self.model.height - self.model.cropHeight)) * -1;
-            }
-            self.model.x = x;
-            self.model.y = y;
-        }
-
-        /**
-         * Calculates the new image's position based in its new size
-         */
-        function getPosition(newWidth, newHeight) {
-
-            var deltaY = (self.model.y - (self.model.cropHeight / 2)) / self.model.height;
-            var deltaX = (self.model.x - (self.model.cropWidth / 2)) / self.model.width;
-            var y = (deltaY * newHeight + (self.model.cropHeight / 2));
-            var x = (deltaX * newWidth + (self.model.cropWidth / 2));
-
-            x = Math.min(x, 0);
-            y = Math.min(y, 0);
-
-            if (newWidth + (x) < self.model.cropWidth) {
-                /**
-                 * Calculates to handle the empty space on the right side
-                 */
-                x = Math.abs((newWidth - self.model.cropWidth)) * -1;
-
-            }
-            if (newHeight + (y) < self.model.cropHeight) {
-                /**
-                 * Calculates to handle the empty space on bottom
-                 */
-                y = Math.abs((newHeight - self.model.cropHeight)) * -1;
-            }
-            return {x: x, y: y};
-        }
-
-        /**
-         * Resize the image
-         */
-        function scaleImage() {
-            /**
-             * Calculates the image position to keep it centered
-             */
-            var newWidth = self.model.originalWidth * self.model.zoom;
-            var newHeight = self.model.originalHeight * self.model.zoom;
-
-            var position = getPosition(newWidth, newHeight);
-
-            /**
-             * Set the model
-             */
-            self.model.width = newWidth;
-            self.model.height = newHeight;
-            self.model.x = position.x;
-            self.model.y = position.y;
-            updateZoomIndicator();
-            render();
-
-            /**
-             * Call the onImageSizeChange callback
-             */
-            if (typeof self.options.onImageSizeChange === 'function') {
-                self.options.onImageSizeChange(self.model);
-            }
-        }
-
-        /**
-         * Updates the icon state from the slider
-         */
-        function updateZoomIndicator() {
-            /**
-             * Updates the zoom icon state
-             */
-            if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('min')).toFixed(2)) {
-                self.zoomControl.addClass('zoom--minValue');
-            } else {
-                self.zoomControl.removeClass('zoom--minValue');
-            }
-            if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('max')).toFixed(2)) {
-                self.zoomControl.addClass('zoom--maxValue');
-            } else {
-                self.zoomControl.removeClass('zoom--maxValue');
-            }
-        }
-
-        /**
-         * Resize and position the image to fit into the frame
-         */
-        function fitToFrame() {
-            var newHeight, newWidth, scaleRatio;
-
-            var frameRatio = self.model.cropHeight / self.model.cropWidth;
-            var imageRatio = self.model.height / self.model.width;
-
-            if (frameRatio > imageRatio) {
-                newHeight = self.model.cropHeight;
-                scaleRatio = (newHeight / self.model.height);
-                newWidth = parseFloat(self.model.width) * scaleRatio;
-            } else {
-                newWidth = self.model.cropWidth;
-                scaleRatio = (newWidth / self.model.width);
-                newHeight = parseFloat(self.model.height) * scaleRatio;
-            }
-            self.model.zoom = scaleRatio;
-
-            self.zoomControl
-                .attr('min', scaleRatio)
-                .attr('max', self.options.zoom.maxValue - scaleRatio)
-                .val(scaleRatio);
-
-            self.model.height = newHeight;
-            self.model.width = newWidth;
-            updateZoomIndicator();
-            centerImage();
-        }
-
-        /**
-         * Update image's position and size
-         */
-        function render() {
-            self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
-            self.canvasContext.save();
-            self.canvasContext.globalCompositeOperation = "destination-over";
-            self.canvasContext.drawImage(self.model.imageSrc, self.model.x, self.model.y, self.model.width, self.model.height);
-            self.canvasContext.restore();
-
-            if (self.options.imageHelper) {
-                updateHelper();
-            }
-            /**
-             * Call the onChange callback
-             */
-            if (typeof self.options.onChange === 'function') {
-                self.options.onChange(self.model);
-            }
-        }
-
-        /**
-         * Updates the image helper attributes
-         */
-        function updateHelper() {
-            var x = self.model.x + self.photoFrame.position().left;
-            var y = self.model.y + self.photoFrame.position().top;
-            /**
-             * Clear
-             */
-            self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-            self.imageHelperCanvasContext.save();
-            self.imageHelperCanvasContext.globalCompositeOperation = "destination-over";
-            /**
-             * Draw the helper
-             */
-            self.imageHelperCanvasContext.beginPath();
-            self.imageHelperCanvasContext.rect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-            self.imageHelperCanvasContext.fillStyle = self.options.imageHelperColor;
-            self.imageHelperCanvasContext.fill('evenodd');
-            /**
-             * Draw the image
-             */
-            self.imageHelperCanvasContext.drawImage(self.model.imageSrc, x, y, self.model.width, self.model.height);
-            self.imageHelperCanvasContext.restore();
-        }
-
-        /**
-         * Creates the canvas for the image helper
-         */
-        function registerImageHelper() {
-            var canvas = document.createElement('canvas');
-            canvas.className = "canvas--helper";
-            canvas.width = self.photoHelper.outerWidth();
-            canvas.height = self.photoHelper.outerHeight();
-
-            self.photoHelper.prepend(canvas);
-
-            self.imageHelperCanvas = canvas;
-            self.imageHelperCanvasContext = canvas.getContext('2d');
-            self.imageHelperCanvasContext.mozImageSmoothingEnabled = false;
-            self.imageHelperCanvasContext.msImageSmoothingEnabled = false;
-            self.imageHelperCanvasContext.imageSmoothingEnabled = false;
-        }
-
-        /**
-         * Return the image cropped as Base64 data URL
-         */
-        function getAsDataURL(quality) {
-            if (!quality) {
-                quality = 1;
-            }
-            return self.canvas.toDataURL(quality);
-        }
-    }
-})(window, jQuery);
-
-
-$(function () {
-
-    /**
-     * DEMO
-     */
-    var p = new profilePicture('.profile', null,
-        {
-            imageHelper: true,
-            onRemove: function (type) {
-                $('.preview').hide().attr('src', '');
-            },
-            onError: function (type) {
-                console.log('Error type: ' + type);
-            }
-        });
-
-
-    $('#previewBtn').on('click', function () {
-        $('.preview').show().attr('src', p.getAsDataURL());
-    });
-
-
-});
-// Si User et sur IE / EDGE alors on ajoute la classe IE au body
-if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer'){
-    $('#th-global').addClass('ie');
-}
-
-
-// Lancement du script de ObjectFit
-objectFitImages('.fit-cover img');
-
-
-/* Detect the scroll of the page and animate the menu */
-$(window).on('scroll', function (e) {
-    var st = $(this).scrollTop();
-
-    if (st > 100) {
-        $("#th-global").addClass("is-scrolled");
-        $('.social-share').addClass('fadein');
-    }
-    else {
-        $("#th-global").removeClass("is-scrolled");
-        $('.social-share').removeClass('fadein');
-    }
-});
-
-
-var lastscrolltop = 0;
-var lastIsDirTop = 0;
-document.addEventListener('scroll',function(){
-    var st = $(document).scrollTop();
-    if(st<lastscrolltop && lastIsDirTop == 0){
-        lastIsDirTop = 1;
-        $("#th-global").addClass('scrolldir-top',true);
-    }
-    if(st>lastscrolltop && lastIsDirTop == 1){
-        lastIsDirTop = 0;
-        $("#th-global").removeClass('scrolldir-top',true);
-    }
-    lastscrolltop = st;
-});
-
-/*
-$('.pro-bloc-card-event').on('click',function(e){
-    e.preventDefault();
-   $(this).find('pro-btn-action').toggleClass('active');
-});
-
-$('.pro-btn-signer').on('click',function(e){
-    e.preventDefault();
-   $(this).toggleClass('active');
-});
-
-
-// Call To Action -- Ajout de la Classe Active
-$('.pro-btn-action').on('click',function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $(this).toggleClass('active');
-});*/
-
-
-// Pour les compteurs dans les pages de détail
-var textDiscover = $('.pro-compt').first().text();
-var textDiscoverWrapped = '';
-for (var i = 0; i != textDiscover.length; i++) {
-    textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
-}
-$('.pro-compt').html(textDiscoverWrapped);
-
-
-// Changer le texte du bouton Suivre ce Projet - Page Détail projet
-$("[href='#pro-follow-project']").click(function(e){
-    e.preventDefault();
-    if($(this).hasClass('active')){
-        $(this).removeClass('active').text('Suivre ce projet');
-    }
-    else{
-        $(this).addClass('active').text('Projet Suivi');
-    }
-});
-
-
-
-if ($("[href='#backtop']").length) {
-    var scrollTrigger = 200, // px
-        backToTop = function () {
-            var scrollTop = $(window).scrollTop();
-            if (scrollTop > scrollTrigger) {
-                $("[href='#backtop']").addClass('show');
-            } else {
-                $("[href='#backtop']").removeClass('show');
-            }
-        };
-    backToTop();
-    $(window).on('scroll', function () {
-        backToTop();
-    });
-    $("[href='#backtop']").on('click', function (e) {
-        e.preventDefault();
-        $('html,body').animate({
-            scrollTop: 0
-        }, 700);
-    });
-}
-
-
-$("[href='#pro-onglet-account']").on('click',function(e){
-    e.preventDefault();
-    $('#pro-onglet-activite').addClass('pro-hide');
-    $('#pro-onglet-account').removeClass('pro-hide');
-});
-
-$("[href='#pro-onglet-activite']").on('click',function(e){
-    e.preventDefault();
-    $('#pro-onglet-activite').removeClass('pro-hide');
-    $('#pro-onglet-account').addClass('pro-hide');
-});
-
-
-$('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function() {
-    var widthTitle = $(this).width() + 60;
-    $(this).next().css({'width': 'calc(100% - ' + widthTitle + 'px)'});
-});
-$('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
-    e.preventDefault();
-    var target = this.hash,
-        $target = $(target);
-
-    var pos = $target.offset().top - 120;
-
-    $('html, body').stop().animate( {
-        'scrollTop': pos
-    }, 600, 'swing', function () {
-        window.location.hash = pos;
-    } );
-} );
-/* --------------------------- */
-/* --------------------------- */
-
-/* SCRIPT POUR OWL CAROUSEL OPACIFY */
-
-/* --------------------------- */
-/* --------------------------- */
-
-function opacifySlider() {
-    $('.owl-opacify').on('translated.owl.carousel', function () {
-        var $el = $(this);
-        opacifyOffSlide($el);
-        $el.removeClass('translate');
-
-    }).on('translate.owl.carousel drag.owl.carousel', function () {
-        $(this).addClass('translate');
-    }).on('initialized.owl.carousel', function () {
-        var $el = $(this);
-        opacifyOffSlide($el);
-    });
-}
-opacifySlider();
-
-function opacifyOffSlide($el) {
-    var elOffset = $el.offset();
-    var left = elOffset.left;
-    var width = $el.width();
-    var right = left + width;
-
-    var slides = [];
-
-    $('.owl-item', $el).each(function () {
-        $slide = $(this);
-        var o = $slide.offset();
-        var w = $slide.width();
-
-        if (o.left < left) {
-            slides.push(this);
-        }
-        if (o.left + w > right) {
-            slides.push(this);
-        }
-    }).removeClass('opacify');
-
-    $(slides).addClass('opacify');
-
-}
-// End Change comportement OwlCarousel
-
-
-/**
- * prend en charge automatiquement les options suivantes en balise data :
- *
- * items,
- * loop,
- * margin, center, autowidth, autoheight,
- * nav, dots,
- * autoplay, autoplayTimeout, autoplayHoverPause, autoplaySpeed
- *
- */
-
-
-$('.owl-cards').each(function () {
-
-    if ($('.owl-cards .item').length > 0) {
-        var _self = $(this);
-
-        var options = {
-            loop: false,
-            margin: 30,
-            dots: true,
-            nav: true,
-            items: 4,
-            // autoHeight:true,
-            autoWidth: true,
-            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"]
-        };
-
-        var data = _self.data();
-
-        $.each(data, function (key, data) {
-
-            if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
-                options[key] = data;
-            }
-
-        });
-        _self.on('initialized.owl.carousel', function (event) {
-            // Do something
-            $('.owl-stage', _self).attr('data-anim', 'top-stack');
-        });
-
-        _self.owlCarousel(options);
-    }
-
-});
-
-
-$('.owl-slider').each(function () {
-
-    var _self = $(this);
-
-    var options = {
-        items: 1,
-        loop: true,
-        singleItem: true,
-        margin: 0,
-        nav: true,
-        dots: true,
-        navText: ["", ""],
-        autoplay: false,
-        autoplayTimeout: 4000,
-    };
-
-    var data = _self.data();
-
-    $.each(data, function (key, data) {
-
-        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
-            options[key] = data;
-        }
-
-    });
-
-    _self.on('initialized.owl.carousel', function (event) {
-        // Do something
-        $('.owl-stage', _self).attr('data-anim', 'top-stack');
-    });
-
-    _self.owlCarousel(options);
-
-});
-
-
-$('.owl-timeline').each(function () {
-
-    var _self = $(this);
-
-
-    var options = {
-            items: 5,
-            loop: false,
-            margin: 0,
-            startPosition: 2,
-            responsive: {
-                0: {
-                    items: 2
-                },
-                992: {
-                    items: 3
-                },
-                1300: {
-                    items: 5
-                }
-            },
-            nav: true,
-            dots: false,
-            center: true,
-            mouseDrag: false,
-            touchDrag: false,
-            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],
-            autoplay: false,
-            autoplayTimeout: 4000
-        }
-        ;
-
-    var data = _self.data();
-
-    $.each(data, function (key, data) {
-
-        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
-            options[key] = data;
-        }
-
-    });
-
-    _self.on('initialized.owl.carousel', function (event) {
-        // Do something
-        $('.owl-stage', _self).attr('data-anim', 'top-stack');
-    });
-
-    _self.on('changed.owl.carousel', function (event) {
-        rangerSliderValue = event.item.index + 1;
-        if (rangerSliderValue < 1) {
-
-            rangerSliderValue = 1;
-        }
-        $('#myRange').val(rangerSliderValue);
-    });
-
-    _self.owlCarousel(options);
-
-    $('#myRange').on('change', function () {
-        _self.trigger('to.owl.carousel', (parseInt($('#myRange').val()) - 1));
-    });
-
-
-});
-//méthode permettant de confirmer la fermeture de la popup en ouvrant une nouvelle popup.
-$("#closingButton").click(function(event){
-   event.preventDefault();
-   var temp = $(document.activeElement).parent().parent().parent().parent();
-   var zindex = $(".fade.in").css("z-index");
-   $("#modalQuitPetition").modal("show");
-   $("#modalQuitPetition").css('z-index',zindex+1)
-   $("#buttonConfirmQuit").click(function(event){
-        $("#modalQuitPetition").modal("hide");
-        temp.modal('hide');
-   });
-});
-$("#closingButton2").click(function(event){
-   event.preventDefault();
-   var temp = $(document.activeElement).parent().parent().parent().parent();
-   var zindex = $(".fade.in").css("z-index");
-   $("#modalQuitPetition").modal("show");
-   $("#modalQuitPetition").css('z-index',zindex+1)
-   $("#buttonConfirmQuit").click(function(event){
-        $("#modalQuitPetition").modal("hide");
-        temp.modal('hide');
-   });
-});
-function isTouchDevice() {
-    return 'ontouchstart' in document.documentElement;
-}
-
-var Ww = $(window).width();
-
-if (isTouchDevice() && Ww < 1280) {
-   	$('body').addClass('no-hover');
-}
-
-if (isTouchDevice()) {
-    $('.lang > .sub-menu').addClass('sub-lang-mobile');
-    $('#lang-mobile').addClass('is-display');
-};
-
-
-var isiPad = navigator.userAgent.match(/iPad/i) != null;
-
-
-if (isiPad) {
-    $('body').addClass('on-ipad');
-}
 /*
 * Gestion des likes/dislikes
 */
@@ -14076,4 +12453,1593 @@ function goToPage(wi, index){
                     ' parmi ' + wi.items_count;
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
     
+}
+if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
+
+    var footer = $('footer').offset().top;
+    var windowH = $(window).height();
+    var barreFixed = $('.pro-bloc-prefooter');
+
+    $(window).on('scroll',function(){
+        console.log(footer);
+        if (window.pageYOffset-90 <= footer-windowH) {
+            barreFixed.addClass('pro-sticky-bar');
+        } else {
+            barreFixed.removeClass('pro-sticky-bar');
+        }
+    });
+
+}
+var bounds;
+var map;
+
+
+th_maps.addThemes('default', [
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "saturation": 36
+            },
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 40
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#fefefe"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#fefefe"
+            },
+            {
+                "lightness": 17
+            },
+            {
+                "weight": 1.2
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#dedede"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "hue": "#ffed00"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 29
+            },
+            {
+                "weight": 0.2
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 18
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f2f2f2"
+            },
+            {
+                "lightness": 19
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#e9e9e9"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    }
+]);
+
+
+var GetPosition = document.getElementById('cible');
+
+var zoomInButton = document.getElementById('pro-plus');
+var zoomOutButton = document.getElementById('pro-moins');
+
+
+/* MAP POUR LE LISTING DE LA PAGE EVENEMENT */
+function callbackMapListingEvent(macarte) {
+
+    var bounds = new google.maps.LatLngBounds();
+
+    $('.pro-bloc-listing-event > a').each(function () {
+        var geo = {lat: $(this).data('lat'), lng: $(this).data('lng')};
+        marker = th_maps.createMarker(macarte, geo, 'participation', 'projet');
+        bounds.extend(geo);
+
+        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container" class="pro-bloc-card-map-event">' +
+            '<div class="map-inte-content">' +
+            '<div class="map-inte-header"><span class="pro-time">Publiée le <time datetime="2018-01-10">' + $('time', this).text() + '</time></span><p>' + $('p', this).text() + '</p></div>' +
+            '<div class="map-inte-content-text"><h3>' + $('h3', this).text() + '</h3>' +
+            '<span class="pro-btn-yellow">En savoir plus</span>' +
+            '</div></div></a>', marker, 250);
+    });
+
+    macarte.fitBounds(bounds);
+
+    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.RIGHT_TOP;
+    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
+
+}
+
+
+/* MAP POUR LES PAGES STANDARDS ET PROJET */
+function callbackCartePage(macarte) {
+    // ---------  Google map Zoom Button  --------- //
+    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() + 1);
+    });
+
+    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() - 1);
+    });
+}
+
+
+/* MAP POUR LA CARTE INTERACTIVE */
+function callbackCarteInteractive(macarte) {
+
+    var bounds = new google.maps.LatLngBounds();
+
+    // ---------  Google map Zoom Button  --------- //
+    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() + 1);
+    });
+
+    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() - 1);
+    });
+
+    markerParticipation = th_maps.createMarker(macarte, {lat: 48.5891137, lng: 7.7514801}, 'participation', 'marker');
+    markerEvent = th_maps.createMarker(macarte, {lat: 48.5991137, lng: 7.7414801}, 'event', 'marker');
+    markerParticipation2 = th_maps.createMarker(macarte, {lat: 48.5775591, lng: 7.7606211}, 'participation', 'marker');
+    markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
+    markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
+    markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
+
+
+    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
+        ' pro-theme-concertation"><div>' +
+        '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
+        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
+        '<h3>Titre de la participation terminée<br>Sur deux lignes</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
+        '<div class="pro-footer-participation pro-participation-deadline"><div class="pro-avis"><span class="pro-like">1808</span>' +
+        '<span class="pro-dislike">404</span></div><p>Participation terminée, merci de votre participation</p>' +
+        '</div></div></a></div>', markerParticipation, 247);
+
+
+    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
+        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>' +
+        '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
+        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participants-es</span></div>' +
+        '</div></a></div>', markerEvent, 247);
+
+
+    // contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
+    //     '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
+    //     '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
+    //     ' class="link">Lire la suite</span></div>' +
+    //     '</a></div>',marker3,247);
+
+
+    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
+        ' data-linkall="a">' +
+        '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
+        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
+        '<h3>Titre de la participation<br>Sur deux lignes</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
+        '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>' +
+        '</div></a></div>', markerParticipation2, 247);
+
+
+    // contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
+    //     '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
+    //     ' class="icon-ico-lecteur"></span></div>' +
+    //     '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
+    //     '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
+    //     '</div></a></div>',marker5,247);
+
+
+    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
+        '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
+        '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
+        '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
+        '</div></div></a></div>', markerPetition, 247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
+        '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
+        '<div class="pro-content-initiative">' +
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '</div></div> ' +
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
+        '</div></a></div>', markerInitiative, 247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet" data-linkall="a">' +
+        '<a href="detail-projet.php"></a><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
+        '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
+        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
+        '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
+        '</a></div>', markerProjet, 247);
+
+
+    bounds.extend(markerParticipation.position);
+    bounds.extend(markerEvent.position);
+    bounds.extend(markerParticipation2.position);
+    bounds.extend(markerPetition.position);
+    bounds.extend(markerInitiative.position);
+    bounds.extend(markerProjet.position);
+    macarte.fitBounds(bounds);
+}
+
+
+th_maps.onLoad(function () {
+
+    th_maps.addMarkerIcon('participation', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-participation.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('initiative', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-initiative.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('projet', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-projet.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('petition', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-petition.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('event', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.LEFT_CENTER;
+    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
+});
+
+
+/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LES PAGES DE LISTING */
+function filterMapListing(options) {
+    options.mapTypeControl = false;
+    options.streetViewControl = false;
+    options.zoomControl = true;
+
+    options.zoomControlOptions = {position: google.maps.ControlPosition.LEFT_TOP};
+    options.mapTypeId = google.maps.MapTypeId.ROADMAP;
+
+    return options;
+}
+
+
+/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LA PAGE DE DETAIL SIT ET AGENDA */
+function filterMapDetail(options) {
+    options.mapTypeControl = false;
+    options.streetViewControl = false;
+    options.zoomControl = false;
+    return options;
+}
+
+
+function generateContentWindow(img, title) {
+    var content = '<div id="map-inte-container">' +
+        '<div class="map-inte-content">' +
+        '<div class="map-inte-header"><figure><img src="' + img + '" width="260" height="160" alt="Titre image" class="fit-cover img-carte-inte" /></figure></div>' +
+        '<div class="map-inte-content-text"><h2 class="title-map-inte">' + title + '</h2>' +
+        '<a href="#" class="basic-link">En savoir plus</a>' +
+        '</div></div></div>';
+    return content;
+}
+
+function init_thMaps() {
+    th_maps.init({
+        defaultOptions: {
+            zoom: 16,
+            center: {lat: 48.5692059, lng: 7.6920547},
+            disableDefaultUI: true,
+            streetViewControl: false,
+            zoomControl: true,
+        }
+    });
+}
+
+init_thMaps();
+// document.addEventListener('scroll', init_thMaps);
+
+$('#pro-btn-menu-map').click(function () {
+    $('.pro-wrapper-facette-carte').toggleClass('show-menu-map');
+    $('.pro-menu-carte-mobile').toggleClass('btn-map-active');
+})
+$(function()
+{
+	ar_menu();
+});
+
+function ar_menu()
+{
+	// mobile sidebar menu
+	$('.th-menu').click(function () {
+		if (!$(this).hasClass('open')) {
+			$(this).addClass('open');
+			$('nav').addClass('show');
+			$('#pro-shadow-bg').addClass('pro-display-block');
+			$('#pro-header').addClass('menu-open');
+			$('.social-share').css('opacity','0');
+		}
+		else {
+			$('#pro-shadow-bg').removeClass('pro-display-block');
+			$(this).removeClass('open');
+			$('#pro-header').removeClass('menu-open');
+			$('.social-share').css('opacity','1');
+			setTimeout(function () {
+				$('nav').removeClass('show');
+			}, 150);
+		}
+	});
+
+	$('#pro-shadow-bg').click(function () {
+		$(this).removeClass('pro-display-block');
+		$('nav').removeClass('show');
+		$('.th-menu').removeClass('open');
+		$('#pro-header').removeClass('menu-open');
+		$('#pro-header').removeClass('pro-wrapper-search-open');
+	});
+}
+
+
+$('.currentLang > a').on('focus',function(){
+	$('.is-focus-lang').removeClass('is-focus-lang');
+	$(this).parents().next().addClass('is-focus-lang');
+});
+
+
+// Move Affiner la recherche on Tablet Portrait
+
+if ($(window).width() < 992) {
+	$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
+	$('.pro-wrapper-nav').append($('.pro-top-header'));
+}
+
+var menuEmplacement = 0;
+var timeoutResizeMenuEmplacement = null;
+
+$(window).resize(function() {
+	clearTimeout(timeoutResizeMenuEmplacement);
+	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
+});
+
+function moveMenuOnResize(){
+	var wW = $(window).width();
+	if (wW < 992 && menuEmplacement == 0) {
+		menuEmplacement = 1;
+		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
+		$('.pro-wrapper-nav').append($('.pro-top-header'));
+	}
+	if (wW >= 992 && menuEmplacement == 1) {
+		menuEmplacement = 0;
+		$('.pro-wrapper-aside').append($('.pro-bloc-facette-participation'));
+		$('.pro-wrapper-top-header').prepend($('.pro-top-header'));
+	}
+}
+/**
+ * Profile picture
+ * @author Daniel Salvagni <danielsalvagni@gmail.com>
+ */
+
+
+/**
+ * Turn the globals into local variables.
+ */
+;(function (window, $, undefined) {
+    if (!window.profilePicture) {
+        window.profilePicture = profilePicture;
+    }
+
+    /**
+     * Component
+     */
+    function profilePicture(cssSelector, imageFilePath, options) {
+        var self = this;
+        /**
+         * Map the DOM elements
+         */
+        self.element = $(cssSelector);
+        self.canvas = $(cssSelector + ' .photo__frame .photo__canvas')[0];
+        self.photoImg = $(cssSelector + ' .photo__frame img');
+        self.photoHelper = $(cssSelector + ' .photo__helper');
+        self.photoLoading = $(cssSelector + ' .photo__frame .message.is-loading');
+        self.photoOptions = $(cssSelector + ' .photo__options');
+        self.photoFrame = $(cssSelector + ' .photo__frame');
+        self.photoArea = $(cssSelector + ' .photo');
+        self.zoomControl = $(cssSelector + ' input[type=range]');
+        /**
+         * Image info to post to the API
+         */
+        self.model = {
+            imageSrc: null,
+            width: null,
+            height: null,
+            originalWidth: null,
+            originalHeight: null,
+            y: null,
+            x: null,
+            zoom: 1,
+            cropWidth: null,
+            cropHeight: null
+        };
+
+
+        /**
+         * Plugin options
+         */
+        self.options = {};
+        /**
+         * Plugins defaults
+         */
+        self.defaults = {};
+        self.defaults.imageHelper = true;
+        self.defaults.imageHelperColor = 'rgba(255,255,255,.90)';
+        /**
+         * Callbacks
+         */
+        self.defaults.onChange = null;
+        self.defaults.onZoomChange = null;
+        self.defaults.onImageSizeChange = null;
+        self.defaults.onPositionChange = null;
+        self.defaults.onLoad = null;
+        self.defaults.onRemove = null;
+        self.defaults.onError = null;
+        /**
+         * Zoom default options
+         */
+        self.defaults.zoom = {
+            initialValue: 1,
+            minValue: 0.1,
+            maxValue: 2,
+            step: 0.01
+        };
+        /**
+         * Image default options
+         */
+        self.defaults.image = {
+            originalWidth: 0,
+            originalHeight: 0,
+            originaly: 0,
+            originalX: 0,
+            minWidth: 350,
+            minHeight: 350,
+            maxWidth: 1000,
+            maxHeight: 1000
+        };
+
+        /**
+         * Zoom controls
+         */
+        self.zoom = $(cssSelector + ' .zoom');
+
+        /**
+         * Call the constructor
+         */
+        init(cssSelector, imageFilePath, options);
+
+        /**
+         * Return public methods
+         */
+        return {
+            getData: getData,
+            getAsDataURL: getAsDataURL,
+            removeImage: removeImage
+        };
+
+
+        /**
+         * Constructor
+         * Register all components and options.
+         * Can load a preset image
+         */
+        function init(cssSelector, imageFilePath, options) {
+            /**
+             * Start canvas
+             */
+            
+        }
+
+        /**
+         * Check if the user's device is a smartphone/tablet
+         */
+        function isMobile() {
+            return navigator.userAgent.match(/BlackBerry|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
+        }
+
+        /**
+         * Return the model
+         */
+        function getData() {
+            return model;
+        }
+
+        /**
+         * Set the model
+         */
+        function setModel(model) {
+            self.model = model;
+        }
+
+        /**
+         * Set the image to a canvas
+         */
+        function processFile(imageUrl) {
+            function isDataURL(s) {
+                s = s.toString();
+                return !!s.match(isDataURL.regex);
+            }
+
+            isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+
+            var image = new Image();
+            if (!isDataURL(imageUrl)) {
+                image.crossOrigin = 'anonymous';
+            }
+            self.photoArea.addClass('photo--loading');
+            image.onload = function () {
+                var ratio,
+                    newH, newW,
+                    w = this.width, h = this.height;
+
+                if (w < self.options.image.minWidth ||
+                    h < self.options.image.minHeight) {
+                    self.photoArea.addClass('photo--error--image-size photo--empty');
+                    setModel({});
+
+                    /**
+                     * Call the onError callback
+                     */
+                    if (typeof self.options.onError === 'function') {
+                        self.options.onError('image-size');
+                    }
+
+                    self.photoArea.removeClass('photo--loading');
+                    return;
+                } else {
+                    self.photoArea.removeClass('photo--error--image-size');
+                }
+
+                self.photoArea.removeClass('photo--empty photo--error--file-type photo--loading');
+
+                var frameRatio = self.options.image.maxHeight / self.options.image.maxWidth;
+                var imageRatio = self.model.height / self.model.width;
+
+                if (frameRatio > imageRatio) {
+                    newH = self.options.image.maxHeight;
+                    ratio = (newH / h);
+                    newW = parseFloat(w) * ratio;
+                } else {
+                    newW = self.options.image.maxWidth;
+                    ratio = (newW / w);
+                    newH = parseFloat(h) * ratio;
+                }
+                h = newH;
+                w = newW;
+
+                self.model.imageSrc = image;
+                self.model.originalHeight = h;
+                self.model.originalWidth = w;
+                self.model.height = h;
+                self.model.width = w;
+                self.model.cropWidth = self.photoFrame.outerWidth();
+                self.model.cropHeight = self.photoFrame.outerHeight();
+                self.model.x = 0;
+                self.model.y = 0;
+                self.photoOptions.removeClass('hide');
+                fitToFrame();
+                render();
+
+                /**
+                 * Call the onLoad callback
+                 */
+                if (typeof self.options.onLoad === 'function') {
+                    self.options.onLoad(self.model);
+                }
+
+            };
+
+            image.src = imageUrl;
+        }
+
+        /**
+         * Remove the image and reset the component state
+         */
+        function removeImage() {
+            self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
+            self.canvasContext.save();
+            self.photoArea.addClass('photo--empty');
+            self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+            self.imageHelperCanvasContext.save();
+            setModel({});
+
+            /**
+             * Call the onRemove callback
+             */
+            if (typeof self.options.onRemove === 'function') {
+                self.options.onRemove(self.model);
+            }
+        }
+
+        /**
+         * Register the file drop zone events
+         */
+        function registerDropZoneEvents() {
+            var target = null;
+            /**
+             * Stop event propagation to all dropzone related events.
+             */
+            self.element.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.originalEvent.dataTransfer.dropEffect = 'copy';
+            });
+
+            /**
+             * Register the events when the file is out or dropped on the dropzone
+             */
+            self.element.on('dragend dragleave drop', function (e) {
+                if (target === e.target) {
+                    self.element.removeClass('is-dragover');
+                }
+            });
+            /**
+             * Register the events when the file is over the dropzone
+             */
+            self.element.on('dragover dragenter', function (e) {
+                target = e.target;
+                self.element.addClass('is-dragover');
+            });
+            /**
+             * On a file is selected, calls the readFile method.
+             * It is allowed to select just one file - we're forcing it here.
+             */
+            self.element.on('change', 'input[type=file]', function (e) {
+                if (this.files && this.files.length) {
+                    readFile(this.files[0]);
+                    this.value = '';
+                }
+            });
+            /**
+             * Handle the click to the hidden input file so we can browser files.
+             */
+            self.element.on('click', '.photo--empty .photo__frame', function (e) {
+                $(cssSelector + ' input[type=file]').trigger('click');
+
+            });
+            /**
+             * Register the remove action to the remove button.
+             */
+            self.element.on('click', '.remove', function (e) {
+                removeImage();
+            });
+            /**
+             * Register the drop element to the container component
+             */
+            self.element.on('drop', function (e) {
+                readFile(e.originalEvent.dataTransfer.files[0]);
+            });
+
+
+            /**
+             * Only into the DropZone scope.
+             * Read a file using the FileReader API.
+             * Validates file type.
+             */
+            function readFile(file) {
+                self.photoArea.removeClass('photo--error photo--error--file-type photo--error-image-size');
+                /**
+                 * Validate file type
+                 */
+                if (!file.type.match('image.*')) {
+                    self.photoArea.addClass('photo--error--file-type');
+                    /**
+                     * Call the onError callback
+                     */
+                    if (typeof self.options.onError === 'function') {
+                        self.options.onError('file-type');
+                    }
+                    return;
+                }
+
+                var reader;
+                reader = new FileReader();
+                reader.onloadstart = function () {
+                    self.photoArea.addClass('photo--loading');
+                }
+                reader.onloadend = function (data) {
+                    self.photoImg.css({left: 0, top: 0});
+                    var base64Image = data.target.result;
+                    processFile(base64Image, file.type);
+                }
+                reader.onerror = function () {
+                    self.photoArea.addClass('photo--error');
+                    /**
+                     * Call the onError callback
+                     */
+                    if (typeof self.options.onError === 'function') {
+                        self.options.onError('unknown');
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        /**
+         * Register the image drag events
+         */
+        function registerImageDragEvents() {
+            var $dragging, x, y, clientX, clientY;
+            if (self.options.imageHelper) {
+                self.photoHelper.on("mousedown touchstart", dragStart)
+                    .css('cursor', 'move');
+            } else {
+                self.photoFrame.on("mousedown touchstart", dragStart);
+            }
+
+            /**
+             * Stop dragging
+             */
+            $(window).on("mouseup touchend", function (e) {
+                if ($dragging) {
+                    /**
+                     * Call the onPositionChange callback
+                     */
+                    if (typeof self.options.onPositionChange === 'function') {
+                        self.options.onPositionChange(self.model);
+                    }
+                    /**
+                     * Call the onChange callback
+                     */
+                    if (typeof self.options.onChange === 'function') {
+                        self.options.onChange(self.model);
+                    }
+                }
+                $dragging = null;
+            });
+            /**
+             * Drag the image inside the container
+             */
+            $(window).on("mousemove touchmove", function (e) {
+
+                if ($dragging) {
+                    e.preventDefault();
+                    var refresh = false;
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                    if (e.touches) {
+                        clientX = e.touches[0].clientX
+                        clientY = e.touches[0].clientY
+                    }
+
+                    var dy = (clientY) - y;
+                    var dx = (clientX) - x;
+                    dx = Math.min(dx, 0);
+                    dy = Math.min(dy, 0);
+                    /**
+                     * Limit the area to drag horizontally
+                     */
+                    if (self.model.width + dx >= self.model.cropWidth) {
+                        self.model.x = dx;
+                        refresh = true;
+                    }
+                    if (self.model.height + dy >= self.model.cropHeight) {
+                        self.model.y = dy;
+                        refresh = true;
+                    }
+                    if (refresh) {
+                        render();
+                    }
+                }
+                ;
+            });
+
+            function dragStart(e) {
+                $dragging = true;
+                clientX = e.clientX;
+                clientY = e.clientY;
+                if (e.touches) {
+                    clientX = e.touches[0].clientX
+                    clientY = e.touches[0].clientY
+                }
+                x = clientX - self.model.x;
+                y = clientY - self.model.y;
+            }
+        }
+
+        /**
+         * Register the zoom control events
+         */
+        function registerZoomEvents() {
+
+            self.zoomControl
+                .attr('min', self.options.zoom.minValue)
+                .attr('max', self.options.zoom.maxValue)
+                .attr('step', self.options.zoom.step)
+                .val(self.options.zoom.initialValue)
+                .on('input', zoomChange);
+
+            function zoomChange(e) {
+                self.model.zoom = Number(this.value);
+                updateZoomIndicator();
+                scaleImage();
+                /**
+                 * Call the onPositionChange callback
+                 */
+                if (typeof self.options.onZoomChange === 'function') {
+                    self.options.onZoomChange(self.model);
+                }
+            }
+        }
+
+        /**
+         * Set the image to the center of the frame
+         */
+        function centerImage() {
+            var x = Math.abs(self.model.x - ((self.model.width - self.model.cropWidth) / 2));
+            var y = Math.abs(self.model.y - ((self.model.height - self.model.cropHeight) / 2));
+            x = self.model.x - x;
+            y = self.model.y - y;
+            x = Math.min(x, 0);
+            y = Math.min(y, 0);
+
+            if (self.model.width + (x) < self.model.cropWidth) {
+                /**
+                 * Calculates to handle the empty space on the right side
+                 */
+                x = Math.abs((self.model.width - self.model.cropWidth)) * -1;
+            }
+            if (self.model.height + (y) < self.model.cropHeight) {
+                /**
+                 * Calculates to handle the empty space on bottom
+                 */
+                y = Math.abs((self.model.height - self.model.cropHeight)) * -1;
+            }
+            self.model.x = x;
+            self.model.y = y;
+        }
+
+        /**
+         * Calculates the new image's position based in its new size
+         */
+        function getPosition(newWidth, newHeight) {
+
+            var deltaY = (self.model.y - (self.model.cropHeight / 2)) / self.model.height;
+            var deltaX = (self.model.x - (self.model.cropWidth / 2)) / self.model.width;
+            var y = (deltaY * newHeight + (self.model.cropHeight / 2));
+            var x = (deltaX * newWidth + (self.model.cropWidth / 2));
+
+            x = Math.min(x, 0);
+            y = Math.min(y, 0);
+
+            if (newWidth + (x) < self.model.cropWidth) {
+                /**
+                 * Calculates to handle the empty space on the right side
+                 */
+                x = Math.abs((newWidth - self.model.cropWidth)) * -1;
+
+            }
+            if (newHeight + (y) < self.model.cropHeight) {
+                /**
+                 * Calculates to handle the empty space on bottom
+                 */
+                y = Math.abs((newHeight - self.model.cropHeight)) * -1;
+            }
+            return {x: x, y: y};
+        }
+
+        /**
+         * Resize the image
+         */
+        function scaleImage() {
+            /**
+             * Calculates the image position to keep it centered
+             */
+            var newWidth = self.model.originalWidth * self.model.zoom;
+            var newHeight = self.model.originalHeight * self.model.zoom;
+
+            var position = getPosition(newWidth, newHeight);
+
+            /**
+             * Set the model
+             */
+            self.model.width = newWidth;
+            self.model.height = newHeight;
+            self.model.x = position.x;
+            self.model.y = position.y;
+            updateZoomIndicator();
+            render();
+
+            /**
+             * Call the onImageSizeChange callback
+             */
+            if (typeof self.options.onImageSizeChange === 'function') {
+                self.options.onImageSizeChange(self.model);
+            }
+        }
+
+        /**
+         * Updates the icon state from the slider
+         */
+        function updateZoomIndicator() {
+            /**
+             * Updates the zoom icon state
+             */
+            if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('min')).toFixed(2)) {
+                self.zoomControl.addClass('zoom--minValue');
+            } else {
+                self.zoomControl.removeClass('zoom--minValue');
+            }
+            if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('max')).toFixed(2)) {
+                self.zoomControl.addClass('zoom--maxValue');
+            } else {
+                self.zoomControl.removeClass('zoom--maxValue');
+            }
+        }
+
+        /**
+         * Resize and position the image to fit into the frame
+         */
+        function fitToFrame() {
+            var newHeight, newWidth, scaleRatio;
+
+            var frameRatio = self.model.cropHeight / self.model.cropWidth;
+            var imageRatio = self.model.height / self.model.width;
+
+            if (frameRatio > imageRatio) {
+                newHeight = self.model.cropHeight;
+                scaleRatio = (newHeight / self.model.height);
+                newWidth = parseFloat(self.model.width) * scaleRatio;
+            } else {
+                newWidth = self.model.cropWidth;
+                scaleRatio = (newWidth / self.model.width);
+                newHeight = parseFloat(self.model.height) * scaleRatio;
+            }
+            self.model.zoom = scaleRatio;
+
+            self.zoomControl
+                .attr('min', scaleRatio)
+                .attr('max', self.options.zoom.maxValue - scaleRatio)
+                .val(scaleRatio);
+
+            self.model.height = newHeight;
+            self.model.width = newWidth;
+            updateZoomIndicator();
+            centerImage();
+        }
+
+        /**
+         * Update image's position and size
+         */
+        function render() {
+            self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
+            self.canvasContext.save();
+            self.canvasContext.globalCompositeOperation = "destination-over";
+            self.canvasContext.drawImage(self.model.imageSrc, self.model.x, self.model.y, self.model.width, self.model.height);
+            self.canvasContext.restore();
+
+            if (self.options.imageHelper) {
+                updateHelper();
+            }
+            /**
+             * Call the onChange callback
+             */
+            if (typeof self.options.onChange === 'function') {
+                self.options.onChange(self.model);
+            }
+        }
+
+        /**
+         * Updates the image helper attributes
+         */
+        function updateHelper() {
+            var x = self.model.x + self.photoFrame.position().left;
+            var y = self.model.y + self.photoFrame.position().top;
+            /**
+             * Clear
+             */
+            self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+            self.imageHelperCanvasContext.save();
+            self.imageHelperCanvasContext.globalCompositeOperation = "destination-over";
+            /**
+             * Draw the helper
+             */
+            self.imageHelperCanvasContext.beginPath();
+            self.imageHelperCanvasContext.rect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+            self.imageHelperCanvasContext.fillStyle = self.options.imageHelperColor;
+            self.imageHelperCanvasContext.fill('evenodd');
+            /**
+             * Draw the image
+             */
+            self.imageHelperCanvasContext.drawImage(self.model.imageSrc, x, y, self.model.width, self.model.height);
+            self.imageHelperCanvasContext.restore();
+        }
+
+        /**
+         * Creates the canvas for the image helper
+         */
+        function registerImageHelper() {
+            var canvas = document.createElement('canvas');
+            canvas.className = "canvas--helper";
+            canvas.width = self.photoHelper.outerWidth();
+            canvas.height = self.photoHelper.outerHeight();
+
+            self.photoHelper.prepend(canvas);
+
+            self.imageHelperCanvas = canvas;
+            self.imageHelperCanvasContext = canvas.getContext('2d');
+            self.imageHelperCanvasContext.mozImageSmoothingEnabled = false;
+            self.imageHelperCanvasContext.msImageSmoothingEnabled = false;
+            self.imageHelperCanvasContext.imageSmoothingEnabled = false;
+        }
+
+        /**
+         * Return the image cropped as Base64 data URL
+         */
+        function getAsDataURL(quality) {
+            if (!quality) {
+                quality = 1;
+            }
+            return self.canvas.toDataURL(quality);
+        }
+    }
+})(window, jQuery);
+
+
+$(function () {
+
+    /**
+     * DEMO
+     */
+    var p = new profilePicture('.profile', null,
+        {
+            imageHelper: true,
+            onRemove: function (type) {
+                $('.preview').hide().attr('src', '');
+            },
+            onError: function (type) {
+                console.log('Error type: ' + type);
+            }
+        });
+
+
+    $('#previewBtn').on('click', function () {
+        $('.preview').show().attr('src', p.getAsDataURL());
+    });
+
+
+});
+// Si User et sur IE / EDGE alors on ajoute la classe IE au body
+if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer'){
+    $('#th-global').addClass('ie');
+}
+
+
+// Lancement du script de ObjectFit
+objectFitImages('.fit-cover img');
+
+
+/* Detect the scroll of the page and animate the menu */
+$(window).on('scroll', function (e) {
+    var st = $(this).scrollTop();
+
+    if (st > 100) {
+        $("#th-global").addClass("is-scrolled");
+        $('.social-share').addClass('fadein');
+    }
+    else {
+        $("#th-global").removeClass("is-scrolled");
+        $('.social-share').removeClass('fadein');
+    }
+});
+
+
+var lastscrolltop = 0;
+var lastIsDirTop = 0;
+document.addEventListener('scroll',function(){
+    var st = $(document).scrollTop();
+    if(st<lastscrolltop && lastIsDirTop == 0){
+        lastIsDirTop = 1;
+        $("#th-global").addClass('scrolldir-top',true);
+    }
+    if(st>lastscrolltop && lastIsDirTop == 1){
+        lastIsDirTop = 0;
+        $("#th-global").removeClass('scrolldir-top',true);
+    }
+    lastscrolltop = st;
+});
+
+/*
+$('.pro-bloc-card-event').on('click',function(e){
+    e.preventDefault();
+   $(this).find('pro-btn-action').toggleClass('active');
+});
+
+$('.pro-btn-signer').on('click',function(e){
+    e.preventDefault();
+   $(this).toggleClass('active');
+});
+
+
+// Call To Action -- Ajout de la Classe Active
+$('.pro-btn-action').on('click',function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).toggleClass('active');
+});*/
+
+
+// Pour les compteurs dans les pages de détail
+var textDiscover = $('.pro-compt').first().text();
+var textDiscoverWrapped = '';
+for (var i = 0; i != textDiscover.length; i++) {
+    textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
+}
+$('.pro-compt').html(textDiscoverWrapped);
+
+
+// Changer le texte du bouton Suivre ce Projet - Page Détail projet
+$("[href='#pro-follow-project']").click(function(e){
+    e.preventDefault();
+    if($(this).hasClass('active')){
+        $(this).removeClass('active').text('Suivre ce projet');
+    }
+    else{
+        $(this).addClass('active').text('Projet Suivi');
+    }
+});
+
+
+
+if ($("[href='#backtop']").length) {
+    var scrollTrigger = 200, // px
+        backToTop = function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+                $("[href='#backtop']").addClass('show');
+            } else {
+                $("[href='#backtop']").removeClass('show');
+            }
+        };
+    backToTop();
+    $(window).on('scroll', function () {
+        backToTop();
+    });
+    $("[href='#backtop']").on('click', function (e) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+    });
+}
+
+
+$("[href='#pro-onglet-account']").on('click',function(e){
+    e.preventDefault();
+    $('#pro-onglet-activite').addClass('pro-hide');
+    $('#pro-onglet-account').removeClass('pro-hide');
+});
+
+$("[href='#pro-onglet-activite']").on('click',function(e){
+    e.preventDefault();
+    $('#pro-onglet-activite').removeClass('pro-hide');
+    $('#pro-onglet-account').addClass('pro-hide');
+});
+
+
+$('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function() {
+    var widthTitle = $(this).width() + 60;
+    $(this).next().css({'width': 'calc(100% - ' + widthTitle + 'px)'});
+});
+$('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
+    e.preventDefault();
+    var target = this.hash,
+        $target = $(target);
+
+    var pos = $target.offset().top - 120;
+
+    $('html, body').stop().animate( {
+        'scrollTop': pos
+    }, 600, 'swing', function () {
+        window.location.hash = pos;
+    } );
+} );
+/* --------------------------- */
+/* --------------------------- */
+
+/* SCRIPT POUR OWL CAROUSEL OPACIFY */
+
+/* --------------------------- */
+/* --------------------------- */
+
+function opacifySlider() {
+    $('.owl-opacify').on('translated.owl.carousel', function () {
+        var $el = $(this);
+        opacifyOffSlide($el);
+        $el.removeClass('translate');
+
+    }).on('translate.owl.carousel drag.owl.carousel', function () {
+        $(this).addClass('translate');
+    }).on('initialized.owl.carousel', function () {
+        var $el = $(this);
+        opacifyOffSlide($el);
+    });
+}
+opacifySlider();
+
+function opacifyOffSlide($el) {
+    var elOffset = $el.offset();
+    var left = elOffset.left;
+    var width = $el.width();
+    var right = left + width;
+
+    var slides = [];
+
+    $('.owl-item', $el).each(function () {
+        $slide = $(this);
+        var o = $slide.offset();
+        var w = $slide.width();
+
+        if (o.left < left) {
+            slides.push(this);
+        }
+        if (o.left + w > right) {
+            slides.push(this);
+        }
+    }).removeClass('opacify');
+
+    $(slides).addClass('opacify');
+
+}
+// End Change comportement OwlCarousel
+
+
+/**
+ * prend en charge automatiquement les options suivantes en balise data :
+ *
+ * items,
+ * loop,
+ * margin, center, autowidth, autoheight,
+ * nav, dots,
+ * autoplay, autoplayTimeout, autoplayHoverPause, autoplaySpeed
+ *
+ */
+
+
+$('.owl-cards').each(function () {
+
+    if ($('.owl-cards .item').length > 0) {
+        var _self = $(this);
+
+        var options = {
+            loop: false,
+            margin: 30,
+            dots: true,
+            nav: true,
+            items: 4,
+            // autoHeight:true,
+            autoWidth: true,
+            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"]
+        };
+
+        var data = _self.data();
+
+        $.each(data, function (key, data) {
+
+            if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+                options[key] = data;
+            }
+
+        });
+        _self.on('initialized.owl.carousel', function (event) {
+            // Do something
+            $('.owl-stage', _self).attr('data-anim', 'top-stack');
+        });
+
+        _self.owlCarousel(options);
+    }
+
+});
+
+
+$('.owl-slider').each(function () {
+
+    var _self = $(this);
+
+    var options = {
+        items: 1,
+        loop: true,
+        singleItem: true,
+        margin: 0,
+        nav: true,
+        dots: true,
+        navText: ["", ""],
+        autoplay: false,
+        autoplayTimeout: 4000,
+    };
+
+    var data = _self.data();
+
+    $.each(data, function (key, data) {
+
+        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+            options[key] = data;
+        }
+
+    });
+
+    _self.on('initialized.owl.carousel', function (event) {
+        // Do something
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
+    });
+
+    _self.owlCarousel(options);
+
+});
+
+
+$('.owl-timeline').each(function () {
+
+    var _self = $(this);
+
+
+    var options = {
+            items: 5,
+            loop: false,
+            margin: 0,
+            startPosition: 2,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+                1300: {
+                    items: 5
+                }
+            },
+            nav: true,
+            dots: false,
+            center: true,
+            mouseDrag: false,
+            touchDrag: false,
+            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],
+            autoplay: false,
+            autoplayTimeout: 4000
+        }
+        ;
+
+    var data = _self.data();
+
+    $.each(data, function (key, data) {
+
+        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+            options[key] = data;
+        }
+
+    });
+
+    _self.on('initialized.owl.carousel', function (event) {
+        // Do something
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
+    });
+
+    _self.on('changed.owl.carousel', function (event) {
+        rangerSliderValue = event.item.index + 1;
+        if (rangerSliderValue < 1) {
+
+            rangerSliderValue = 1;
+        }
+        $('#myRange').val(rangerSliderValue);
+    });
+
+    _self.owlCarousel(options);
+
+    $('#myRange').on('change', function () {
+        _self.trigger('to.owl.carousel', (parseInt($('#myRange').val()) - 1));
+    });
+
+
+});
+//méthode permettant de confirmer la fermeture de la popup en ouvrant une nouvelle popup.
+$("#closingButton").click(function(event){
+   event.preventDefault();
+   var temp = $(document.activeElement).parent().parent().parent().parent();
+   var zindex = $(".fade.in").css("z-index");
+   $("#modalQuitPetition").modal("show");
+   $("#modalQuitPetition").css('z-index',zindex+1)
+   $("#buttonConfirmQuit").click(function(event){
+        $("#modalQuitPetition").modal("hide");
+        temp.modal('hide');
+   });
+});
+$("#closingButton2").click(function(event){
+   event.preventDefault();
+   var temp = $(document.activeElement).parent().parent().parent().parent();
+   var zindex = $(".fade.in").css("z-index");
+   $("#modalQuitPetition").modal("show");
+   $("#modalQuitPetition").css('z-index',zindex+1)
+   $("#buttonConfirmQuit").click(function(event){
+        $("#modalQuitPetition").modal("hide");
+        temp.modal('hide');
+   });
+});
+function isTouchDevice() {
+    return 'ontouchstart' in document.documentElement;
+}
+
+var Ww = $(window).width();
+
+if (isTouchDevice() && Ww < 1280) {
+   	$('body').addClass('no-hover');
+}
+
+if (isTouchDevice()) {
+    $('.lang > .sub-menu').addClass('sub-lang-mobile');
+    $('#lang-mobile').addClass('is-display');
+};
+
+
+var isiPad = navigator.userAgent.match(/iPad/i) != null;
+
+
+if (isiPad) {
+    $('body').addClass('on-ipad');
 }
