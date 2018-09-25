@@ -105,6 +105,10 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
 		return signatairePersistence.findByPetitionIdAndSignataireName(petitionId,signataireName);
 	}
 
+	public List<Signataire> getSignataireByPublikId(String publikId){
+        return signatairePersistence.findByPublikUserId(publikId);
+    }
+
     /**
      * méthode de création de faux signataires
      * @param petitionId la pétition concernée

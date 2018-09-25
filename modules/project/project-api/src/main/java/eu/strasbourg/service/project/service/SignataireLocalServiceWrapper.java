@@ -297,6 +297,12 @@ public class SignataireLocalServiceWrapper implements SignataireLocalService,
 			signataireName);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataireByPublikId(
+		java.lang.String publikId) {
+		return _signataireLocalService.getSignataireByPublikId(publikId);
+	}
+
 	/**
 	* Returns a range of all the signataires.
 	*

@@ -9,6 +9,10 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -19,6 +23,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author alexandre.quere
@@ -52,8 +57,11 @@ public class DashboardPortlet extends MVCPortlet {
             renderRequest.setAttribute("user",user);
         } else renderRequest.setAttribute("isUserloggedIn", false);
 
+        List<Petition> petitionList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
+        List<Signataire> signataireList = SignataireLocalServiceUtil.getSignataireByPublikId(publicId);
 
-
+        renderRequest.setAttribute("petitionCount",petitionList.size());
+        renderRequest.setAttribute("signataireCount",signataireList.size());
 
         super.render(renderRequest, renderResponse);
     }

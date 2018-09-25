@@ -15,12 +15,9 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -35,15 +32,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.SignataireModel;
 import eu.strasbourg.service.project.model.SignataireSoap;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -147,9 +141,10 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long PETITIONID_COLUMN_BITMASK = 4L;
-	public static final long SIGNATAIRENAME_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long SIGNATAIREID_COLUMN_BITMASK = 32L;
+	public static final long PUBLIKUSERID_COLUMN_BITMASK = 8L;
+	public static final long SIGNATAIRENAME_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long SIGNATAIREID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -816,7 +811,17 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
+		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
+
+		if (_originalPublikUserId == null) {
+			_originalPublikUserId = _publikUserId;
+		}
+
 		_publikUserId = publikUserId;
+	}
+
+	public String getOriginalPublikUserId() {
+		return GetterUtil.getString(_originalPublikUserId);
 	}
 
 	@JSON
@@ -1058,6 +1063,8 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		signataireModelImpl._setModifiedDate = false;
 
 		signataireModelImpl._originalSignataireName = signataireModelImpl._signataireName;
+
+		signataireModelImpl._originalPublikUserId = signataireModelImpl._publikUserId;
 
 		signataireModelImpl._originalPetitionId = signataireModelImpl._petitionId;
 
@@ -1424,6 +1431,7 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	private String _city;
 	private Date _signatureDate;
 	private String _publikUserId;
+	private String _originalPublikUserId;
 	private long _petitionId;
 	private long _originalPetitionId;
 	private boolean _setOriginalPetitionId;

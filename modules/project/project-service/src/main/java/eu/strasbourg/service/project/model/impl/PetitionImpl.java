@@ -587,5 +587,4 @@ public class PetitionImpl extends PetitionBaseImpl {
 
         return jsonPetition;
     }
-
 }

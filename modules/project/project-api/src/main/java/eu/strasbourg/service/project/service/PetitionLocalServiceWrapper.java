@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -314,6 +313,12 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	public java.util.List<eu.strasbourg.service.project.model.Petition> getByGroupId(
 		long groupId) {
 		return _petitionLocalService.getByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getPetitionByPublikUserID(
+		java.lang.String publikId) {
+		return _petitionLocalService.getPetitionByPublikUserID(publikId);
 	}
 
 	/**

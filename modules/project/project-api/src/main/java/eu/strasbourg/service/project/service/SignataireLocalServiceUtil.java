@@ -279,6 +279,11 @@ public class SignataireLocalServiceUtil {
 			signataireName);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataireByPublikId(
+		java.lang.String publikId) {
+		return getService().getSignataireByPublikId(publikId);
+	}
+
 	/**
 	* Returns a range of all the signataires.
 	*

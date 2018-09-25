@@ -324,6 +324,9 @@
             <finder-column name="status" />
             <finder-column name="groupId" />
         </finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
 
         <!-- References -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -376,6 +379,9 @@
         <finder name="Petition" return-type="Collection">
             <finder-column name="petitionId" />
         </finder>
+		<finder name="PublikUserId" return-type="Collection">
+			<finder-column name="publikUserId" />
+		</finder>
         <finder name="PetitionIdAndSignataireName" return-type="Collection">
             <finder-column name="petitionId" />
             <finder-column name="signataireName" />

@@ -250,6 +250,9 @@ public interface SignataireLocalService extends BaseLocalService,
 		long petitionId, java.lang.String signataireName)
 		throws PortletException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Signataire> getSignataireByPublikId(java.lang.String publikId);
+
 	/**
 	* Returns a range of all the signataires.
 	*
