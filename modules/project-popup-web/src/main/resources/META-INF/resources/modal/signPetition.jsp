@@ -16,7 +16,7 @@
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
             	<button id="closingButton2" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            	
+
             </div>
             <form id="form-sign-petition" method="post" action="${signPetitionURL}">
                 <div class="pro-wrapper">
@@ -128,6 +128,18 @@
         }
     });
 
+    function getAge(dateString) {
+        var from = dateString.split("/");
+        var today = new Date();
+        var birthDate = new Date(from[2],from[1]-1,from[0]);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+    }
+
     $(document).ready(function(){
         $('#checkboxSignSaveInfo').hide();
     });
@@ -214,6 +226,27 @@
         if (!result)
             $("#signalert").removeClass("hidden");
         else $("#signalert").addClass("hidden");
+        if (signCity.toLowerCase()!=="strasbourg"){
+            $("#signalertcity").removeClass("hidden");
+            $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#signalertcity").addClass("hidden");
+
+        if (signPostalcode!=="67000"
+            &&signPostalcode!=="67100"
+            &&signPostalcode!=="67200"){
+            $("#signalertPostalCode").removeClass("hidden");
+            $("#"+namespaceSign+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#signalertPostalCode").addClass("hidden");
+
+        if(age<16){
+            $("#signalertLegalage").removeClass("hidden");
+            $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }
+        else $("#signalertLegalage").addClass("hidden");
+
         return result;
     }
 </script>
