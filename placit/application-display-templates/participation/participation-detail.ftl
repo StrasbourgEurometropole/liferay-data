@@ -6,6 +6,10 @@
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
+<!-- Recuperation du créateur de la participation -->
+<#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
+<#assign user = UserLocalService.getUser(entry.getAssetEntry().userId) />
+
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -65,16 +69,13 @@
                                 </#list>
                             </#if>
 
-                        </div>
+                        </div>											
                         <div class="pro-header-auteur">
                             <figure>
-                            	<!-- Si une image de la participation existe -->
-                                <#if entry.getImageURL()?has_content>
-                                	<img src="${entry.getImageURL()}" width="40" height="40" alt="Image de l'auteur"/>
-                                </#if>
+                                <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image de l'auteur"/>
                             </figure>
                             <p>Participation publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
-                            <p><strong>${entry.author}</strong></p>
+                            <p><strong>${user.getFullName()}</strong></p>
                         </div>
                     </div>
 

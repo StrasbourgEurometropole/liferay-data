@@ -3,6 +3,10 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
+<!-- Recuperation du créateur de la participation -->
+<#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
+<#assign user = UserLocalService.getUser(entry.userId) />
+
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -49,13 +53,10 @@
                         <div>
                             <div class="pro-header-participation">
                                 <figure role="group">
-                                    <!-- Si une image de la participation existe -->
-                                    <#if entry.getImageURL()?has_content>
-                                        <img src="${entry.getImageURL()}" width="40" height="40" alt="Image participation"/>
-                                    </#if>
+                                    <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation"/>
                                 </figure>
                                 <p>Concertation publiée par :</p>
-                                <p><strong>${entry.getAuthor()}</strong></p>
+                                <p><strong>${user.getFullName()}</strong></p>
                                 <div class="pro-info-top-right">
                                     <span class="pro-encart-theme" style="background : #${participationColor}">
                                         ${participationType}
