@@ -138,7 +138,8 @@
 
     function resetSignValues()
     {
-        $("#signsave-info").prop("checked", false);
+        $('#checkboxSignSaveInfo #signsave-info').prop('checked', false);
+        $('#checkboxSignSaveInfo').hide();
         $("#file-petition-legalage").prop("checked", false);
         $("#file-petition-cnil").prop("checked", false);
         $("#"+namespaceSign+"signbirthday").val(saved_signdateNaiss);
