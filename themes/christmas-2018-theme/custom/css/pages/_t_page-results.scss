@@ -1,0 +1,49 @@
+/***************************/
+/***************************/
+
+/* -- PAGE RESULTS -- */
+
+/***************************/
+/***************************/
+
+.mns-item-results {
+	text-align: center;
+	padding: 2px 0;
+	> a {
+		padding: 35px 0;
+		display: block;
+		border-top: 1px solid $c_filet;
+		@include an(all, 0.3);
+		&:hover {
+			transform: scale(1.02);
+			-webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
+			-moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
+			box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
+		}
+	}
+	h3 {
+		@include ft($f_hx, 28px, 700, $c_txt, normal);
+		margin-bottom: 10px;
+	}
+
+	.mns-indic {
+		margin-bottom: 15px;
+	}
+
+	p {
+		clear: both;
+		width: 75%;
+		margin: auto;
+		margin-bottom: 10px;
+		@include tablet_portrait {
+			width: 90%;
+		}
+	}
+	.basic-link {
+		text-align: center;
+	}
+}
+
+.mns-pagination {
+	margin-top: 0;
+}

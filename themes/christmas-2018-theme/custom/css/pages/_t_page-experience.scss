@@ -1,0 +1,297 @@
+.page-experience{
+
+	.mns-header-fullpage{
+		.mns-wrapper-bread{
+			bottom: 80px;
+			@include mobile{
+				bottom: -20px;
+			}
+			.mns-breadcrumbs{
+				padding: 25px 0;
+				@include desktop{
+					padding: 25px 15px;
+				}
+			}
+		}
+	}
+	header{
+		.mns-wrapper-bread{
+			bottom: 80px;
+		}
+	}
+
+	.mns-pagination{
+		margin-top: 0;
+	}
+
+	.p-30{
+		@include desktop{
+			padding: 20px 15px;
+		}
+	}
+
+
+	.mns-section-agenda{
+		.mns-left{
+			position: relative;
+			h3{
+				@include ft($f_hx, 58px, 700, $c_txt, 70px);
+				max-width: 80%;
+			}
+			.link{
+				position: absolute;
+				bottom: 10px;
+				right: 0;
+				@include mobile{
+					position: relative;
+					bottom: 0;
+					top: 10px;
+				}
+			}
+		}
+	}
+
+	/* Style top header - Page détail expérience */
+	.mns-top-experience{
+		position: relative;
+		z-index: 10;
+		margin-top: -90px;
+		background: $c_white;
+		max-width: 1080px;
+		@include mobile{
+			margin-top: 0;
+		}
+		h1{
+			@include ft($f_hx, 60px, 700, $c_main, 72px);
+			padding: 20px 0 0 0;
+			max-width: calc(100% - 300px);
+			@include desktop{
+				font-size: 50px;
+				line-height: 62px;
+			}
+			@include tablet_portrait{
+				font-size: 40px;
+				line-height: 52px;
+				max-width: calc(100% - 280px);
+			}
+			@include mobile{
+				font-size: 26px;
+				line-height: 38px;
+				max-width: 100%;
+				margin-bottom: 25px;
+			}
+		}
+		.mns-meta{
+			position: absolute;
+			top: 30px;
+			right: 20px;
+			text-align: right;
+			width: 260px;
+			border-left: 1px solid rgba($c_dark,0.1);
+			padding-right: 75px;
+			@include tablet_portrait{
+				width: 260px;
+			}
+			@include mobile{
+				width: 100%;
+				position: relative;
+				top: 0;
+				right: 0;
+				margin: 20px auto;
+				border: none;
+			}
+			.mns-wrap-tag{
+				position: relative;
+				margin-bottom: 5px;
+				span{
+					&:after{
+						content: ',';
+					}
+					&:last-child{
+						&:after{
+							content: none;
+						}
+					}
+				}
+			}
+			span{
+				@include ft($f_txt, 13px, 400, #808080, 20px);
+			}
+			.mns-location{
+				position: relative;
+			}
+			figure{
+				position: absolute;
+				top: -10px;
+				right: 0;
+				width: 60px;
+				height: 60px;
+			}
+
+		}
+		.mns-bloc-texte{
+			border-top: 1px solid rgba($c_dark,0.1);
+			margin-top: 35px;
+			padding-top: 30px;
+		}
+	}
+
+
+	/* Style pour le listing des expériences */
+	.mns-listing-exp{
+		padding: 40px 15px 0;
+		.row{
+			margin: 0 -20px;
+			> * {
+				padding: 0 20px;
+				margin-bottom: 20px;
+			}
+		}
+	}
+
+	/* Style pour une card expérience dans le listing */
+	.mns-bloc-exp{
+		position: relative;
+		z-index: 5;
+		display: block;
+		@include addTransition();
+		@include mobile{
+			min-height: auto !important;
+		}
+		&:hover, &:focus{
+			transform: translateY(-20px);
+			.mns-img{
+				figure{
+					img{
+						box-shadow: 0 -20px 28px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
+					}
+				}
+			}
+			.mns-content{
+				.basic-link{
+					opacity: 1;
+				}
+			}
+		}
+
+		.no-hover &{
+			&:hover{
+				transform: none;
+				.mns-img{
+					figure{
+						img{
+							box-shadow: none;
+						}
+					}
+				}
+			}
+			.mns-content{
+				.basic-link{
+					opacity: 1;
+				}
+			}
+		}
+
+		&.mns-pub{
+			&:hover, &:focus{
+				transform: none;
+			}
+		}
+		.mns-img{
+			@include aspect-ratio(375,280);
+			margin-bottom: 10px;
+			figure{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				&:before{
+					content: '';
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					z-index: 10;
+					/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+50,0.8+100 */
+					background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%); /* FF3.6-15 */
+					background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.8) 100%); /* Chrome10-25,Safari5.1-6 */
+					background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.8) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 ); /* IE6-9 */
+				}
+				img{
+					@include addTransition();
+				}
+			}
+			.mns-wrap-tag{
+				position: absolute;
+				bottom: 10px;
+				right: 15px;
+				top: auto;
+				left: auto;
+				z-index: 100;
+				&:before{
+					content: "\e914";
+					@include font();
+					float: left;
+					line-height: 20px;
+					color: $c_white;
+					margin-right: 8px;
+				}
+				span{
+					position: relative;
+					display: inline-block;
+					vertical-align: middle;
+					@include ft($f_txt, 13px, 400, $c_white, 22px);
+					&:after{
+						content: ',';
+					}
+					&:last-child{
+						&:after{
+							content: none;
+						}
+					}
+				}
+			}
+		}
+		.mns-content{
+			position: relative;
+			.mns-location{
+				@include ft($f_txt, 12px, 400, $c_main, 16px);
+				position: relative;
+				display: block;
+				text-transform: uppercase;
+				margin-bottom: 6px;
+			}
+			h3{
+				@include ft($f_hx, 22px, 700, $c_txt, 28px);
+				max-width: 80%;
+			}
+			.icon-chevron-thin-right{
+				position: absolute;
+				top: 50%;
+				right: 0;
+				transform: translateY(-50%);
+				background: #FFF;
+				border: 2px solid #ebded3;
+				border-radius: 50%;
+				width: 20px;
+				height: 20px;
+				text-align: center;
+				line-height: 18px;
+				display: block;
+				font-size: 11px;
+				color: $c_dark;
+				@include addTransition();
+			}
+			.basic-link{
+				text-align: left;
+				opacity: 0;
+				@include addTransition();
+			}
+		}
+	}
+}

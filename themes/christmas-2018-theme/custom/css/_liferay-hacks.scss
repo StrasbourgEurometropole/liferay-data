@@ -1,0 +1,42 @@
+.portlet {
+  margin-bottom: 0;
+}
+
+.portlet-topper {
+  height: 30px;
+  z-index: 3000;
+  .dropdown-menu {
+    display: none !important;
+  }
+}
+
+.has-control-menu #mns-header {
+  margin-top: 65px;
+}
+
+.has-control-menu #mns-header .mns-nav.mns-nav-scroll {
+  margin-top: 65px;
+}
+
+h2.portlet-title-text {
+  display: none;
+}
+
+ .page-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin: 0;
+}
+
+ .alert-success {
+  display: none;
+}
+
+.portlet-asset-publisher .portlet-body > div > .h2 {
+  display: none;
+}
+
+ .mns-wrapper-duo-content .col-md-6 img {
+  width: auto !important;
+  height: auto !important;
+}

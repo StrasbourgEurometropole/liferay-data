@@ -1,0 +1,168 @@
+@charset "UTF-8";
+
+
+/* FONT IN LOCAL - PLAYFAIR */
+@font-face {
+    font-family: 'playfair';
+    src: url('../fonts/playfairdisplay-black-webfont.woff2') format('woff2'),
+         url('../fonts/playfairdisplay-black-webfont.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'playfair';
+    src: url('../fonts/playfairdisplay-blackitalic-webfont.woff2') format('woff2'),
+         url('../fonts/playfairdisplay-blackitalic-webfont.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'playfair';
+    src: url('../fonts/playfairdisplay-bold-webfont.woff2') format('woff2'),
+         url('../fonts/playfairdisplay-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'playfair';
+    src: url('../fonts/playfairdisplay-bolditalic-webfont.woff2') format('woff2'),
+         url('../fonts/playfairdisplay-bolditalic-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'playfair';
+    src: url('../fonts/playfairdisplay-italic-webfont.woff2') format('woff2'),
+         url('../fonts/playfairdisplay-italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'playfair';
+    src: url('../fonts/playfairdisplay-regular-webfont.woff2') format('woff2'),
+         url('../fonts/playfairdisplay-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* FONT IN LOCAL - SOURCE SANS PRO */
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-black-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-black-webfont.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-blackit-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-blackit-webfont.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-bold-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-boldit-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-boldit-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-it-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-it-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-light-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-light-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-lightit-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-lightit-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-regular-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-semibold-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-semibold-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesanspro-semiboldit-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-semiboldit-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+}
+
+
+/* FONT IN LOCAL - TRASHHAND */
+@font-face {
+    font-family: 'Trashhand';
+    src: url('../fonts/trashhand-webfont.woff2') format('woff2'),
+    url('../fonts/trashhand-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+$c_main: #baa56f;																		
+$c_sub: #808080;
+$c_rose: #d5afae;
+$c_dark: #000000;
+$c_white: #ffffff;
+$c_txt: #000000;
+$c_grey: #333333;
+$c_light: #f5f5f5;	
+$c_filet: #d8dae4;																											
+
+$f_arial: 'Arial', sans-serif;
+$f_hx: 'playfair', serif;														
+$f_txt: 'Source Sans Pro', sans-serif;
+$f_spe : 'Trashhand', sans-serif;
+
+$s_h1: 72px;																			
+$s_h2: 108px;																			
+$s_h3: 66px;																		
+$s_h4: 42px;																			
+$s_p: 16px;	
+$s_link: 18px;																			
+
+$g: 15px;																				
+
+$container_wd: 1300px;
+$container_de: 1170px;
+$container_tl: 940px;
+$container_tp: 720px;
+$container_mo: 100%;
+
+$breakpoint_wd: 1329px;
+$breakpoint_de: 1199px;
+$breakpoint_tl: 991px;
+$breakpoint_tp: 980px;
+$breakpoint_mo: 767px;
+$breakpoint_mo_small: 320px;
+
+$video-width: 780px;
