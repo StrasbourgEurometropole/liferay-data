@@ -420,7 +420,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Petition.class.getName())) {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
 				
-				// TODO : Mettre en place les éléments de retranscription JSON d'une pétition
 				JSONObject jsonPetition = petition.toJSON();
 				
 				jsonPetition.put(
