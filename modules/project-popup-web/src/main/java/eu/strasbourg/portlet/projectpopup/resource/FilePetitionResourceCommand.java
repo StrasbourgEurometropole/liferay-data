@@ -1,10 +1,25 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.osgi.service.component.annotations.Component;
+
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -18,24 +33,13 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author alexandre.quere
@@ -98,6 +102,8 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    	LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
+        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         boolean result = false;
         String message = "";
         publikID = getPublikID(request);
@@ -125,8 +131,8 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
         boolean isValid = validate(request);
         if (!isValid)
-            message = "la validation des champs n'est pas pass&eacute;e";
-
+            message = LanguageUtil.get(originalRequest, "general-error");
+        
         boolean savedInfo = false;
         if (message.isEmpty()) {
             boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
