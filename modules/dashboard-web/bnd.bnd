@@ -1,0 +1,4 @@
+Bundle-Name: dashboard-web
+Bundle-SymbolicName: eu.strasbourg.portlet.dashboard
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.dashboard.constants
