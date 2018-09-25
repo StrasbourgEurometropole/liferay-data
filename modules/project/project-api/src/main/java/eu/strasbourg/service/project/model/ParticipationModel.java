@@ -308,21 +308,6 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setTitle(String title);
 
 	/**
-	 * Returns the author of this participation.
-	 *
-	 * @return the author of this participation
-	 */
-	@AutoEscape
-	public String getAuthor();
-
-	/**
-	 * Sets the author of this participation.
-	 *
-	 * @param author the author of this participation
-	 */
-	public void setAuthor(String author);
-
-	/**
 	 * Returns the contact name of this participation.
 	 *
 	 * @return the contact name of this participation

@@ -340,10 +340,12 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 * 				[{...}],
 	 * 		}
 	 */
-	private JSONObject constructJSONSelection(ResourceRequest request) {
+	private JSONObject constructJSONSelection(ResourceRequest request) throws PortalException {
 		String publikUserId = this.getPublikID(request);
 		
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		
 		// Gestion des projets
 		JSONArray jsonProjects = JSONFactoryUtil.createJSONArray();
@@ -367,7 +369,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		// Gestion des participations
 		JSONArray jsonParticipations = JSONFactoryUtil.createJSONArray();
 		for (Participation participation : this.participations) {
-			JSONObject jsonParticipation = participation.toJSON();
+			JSONObject jsonParticipation = participation.toJSON(themeDisplay);
 			jsonParticipation.put(
 				ATTRIBUTE_IS_MARKEABLE, 
 				this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false

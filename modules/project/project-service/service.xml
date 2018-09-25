@@ -95,7 +95,6 @@
 
 		<!-- Header -->
 		<column name="title" type="String" />
-		<column name="author" type="String" />
 
 		<!-- Contact -->
 		<column name="contactName" type="String" />

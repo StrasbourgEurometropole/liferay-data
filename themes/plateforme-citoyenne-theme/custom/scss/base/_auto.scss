@@ -37,6 +37,10 @@ body {
 		margin: auto;
 	}
 
+	.pro-hide{
+		display: none;
+	}
+
 	.evitement {
 		@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
 		position: absolute;
