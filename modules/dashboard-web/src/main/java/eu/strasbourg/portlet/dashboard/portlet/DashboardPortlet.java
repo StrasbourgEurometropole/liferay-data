@@ -26,8 +26,10 @@ import java.io.IOException;
 @Component(
         immediate = true,
         property = {
-                "com.liferay.portlet.display-category=category.hidden",
+                "com.liferay.portlet.display-category=Strasbourg",
                 "com.liferay.portlet.instanceable=true",
+                "javax.portlet.display-name=Tableau de bord",
+                "javax.portlet.init-param.add-process-action-success-action=false",
                 "javax.portlet.init-param.template-path=/",
                 "javax.portlet.init-param.view-template=/view.jsp",
                 "javax.portlet.name=" + StrasbourgPortletKeys.DASHBOARD_WEB,
@@ -47,7 +49,11 @@ public class DashboardPortlet extends MVCPortlet {
             PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publicId);
             renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
             renderRequest.setAttribute("isUserloggedIn", true);
+            renderRequest.setAttribute("user",user);
         } else renderRequest.setAttribute("isUserloggedIn", false);
+
+
+
 
         super.render(renderRequest, renderResponse);
     }

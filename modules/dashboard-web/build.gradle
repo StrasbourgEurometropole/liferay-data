@@ -8,4 +8,5 @@ dependencies {
 
 	compile project (':modules:utils')
 	compile project (':modules:oidc:oidc-api')
+	compile project (':modules:project:project-api')
 }
