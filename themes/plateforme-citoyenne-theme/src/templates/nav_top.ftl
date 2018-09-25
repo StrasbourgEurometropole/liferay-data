@@ -94,6 +94,12 @@
             <div class="pro-menu-right">
                 <ul>
                     <li class="pro-tooltip">
+                        <a href="${themeDisplay.getPortalURL()}${homeURL}page-dashboard" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
+                            <span class="icon-ico-user"></span>
+                        </a>
+                        <span class="tooltiptext">Tableau de bord</span>
+                    </li>
+                    <li class="pro-tooltip">
                         <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">
                             <span class="icon-ico-map"></span>
                         </a>
