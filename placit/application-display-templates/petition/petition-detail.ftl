@@ -302,12 +302,20 @@
 
         // Ajout des marqueurs sur la map
         var petitionMarkers = [];
+        
+        // Centre la carte sur les pins
+        var bounds = [];
+        var marker;
 
         for(var i= 0; i < petitionPlaceMercators.length; i++) {
-            petitionMarkers.push(
-                L.marker(petitionPlaceMercators[i], {icon: petitionMarkerIcon}).addTo(leafletMap)
-            );
+            marker = L.marker(petitionPlaceMercators[i], {icon: petitionMarkerIcon});
+            // Ajout des coordonnées du marker dans le bounds
+            bounds.push(marker.getLatLng());
+            // Ajout du marker dans la map
+            petitionMarkers.push(marker.addTo(leafletMap));
         }
+            
+        leafletMap.fitBounds(bounds);
 
     });
 </script>

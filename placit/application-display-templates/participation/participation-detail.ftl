@@ -395,17 +395,25 @@
         // Ajout des marqueurs sur la map
         var participationMarkers = [];
         var eventMarkers = [];
+        
+        // Centre la carte sur les pins
+        var bounds = [];
+        var marker;
 
         for(var i= 0; i < participationPlaceMercators.length; i++) {
-            participationMarkers.push(
-                L.marker(participationPlaceMercators[i], {icon: participationMarkerIcon}).addTo(leafletMap)
-            );
+            marker = L.marker(participationPlaceMercators[i], {icon: participationMarkerIcon});
+            // Ajout des coordonnées du marker dans le bounds
+            bounds.push(marker.getLatLng());
+            // Ajout du marker dans la map
+            participationMarkers.push(marker.addTo(leafletMap));
         }
         for(var i= 0; i < eventPlaceMercators.length; i++) {
-            eventMarkers.push(
-                L.marker(eventPlaceMercators[i], {icon: eventMarkerIcon}).addTo(leafletMap)
-            );
+            marker = L.marker(eventPlaceMercators[i], {icon: eventMarkerIcon});
+            bounds.push(marker.getLatLng());
+            eventMarkers.push(marker.addTo(leafletMap));
         }
+            
+        leafletMap.fitBounds(bounds);
 
     });
 

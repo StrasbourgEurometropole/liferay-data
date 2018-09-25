@@ -209,6 +209,12 @@
 
             // Ajout du marqueur sur la map
             var marker = L.marker([eventMercatorY, eventMercatorX], {icon: eventIcon}).addTo(leafletMap);
+        
+            // Centre la carte sur les pins
+            var bounds = [];
+            // Ajout des coordonnées du marker dans le bounds
+            bounds.push(marker.getLatLng());
+            leafletMap.fitBounds(bounds);
         }
 
     });
