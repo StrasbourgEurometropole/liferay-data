@@ -7,6 +7,8 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -38,10 +40,13 @@ public class DashboardPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		String publicId = getPublikID(renderRequest);
-
+		_log.info("je passe par le render");
 		if (Validator.isNotNull(publicId)){
-			PublikUser
-		}
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publicId);
+			renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
+			renderRequest.setAttribute("isUserloggedIn", true);
+		} else renderRequest.setAttribute("isUserloggedIn", false);
+
 		super.render(renderRequest, renderResponse);
 	}
 
