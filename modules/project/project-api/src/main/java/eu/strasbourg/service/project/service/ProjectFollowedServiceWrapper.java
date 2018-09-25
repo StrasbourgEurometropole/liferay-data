@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -58,6 +57,12 @@ public class ProjectFollowedServiceWrapper implements ProjectFollowedService,
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _projectFollowedService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> findProjectFollowedByPublikUserId(
+		java.lang.String publikId) {
+		return _projectFollowedService.findProjectFollowedByPublikUserId(publikId);
 	}
 
 	@Override

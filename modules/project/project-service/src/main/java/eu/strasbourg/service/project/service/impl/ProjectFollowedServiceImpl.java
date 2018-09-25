@@ -18,14 +18,13 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-import eu.strasbourg.service.agenda.exception.NoSuchEventParticipationException;
-import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.project.exception.NoSuchProjectFollowedException;
 import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.service.base.ProjectFollowedServiceBaseImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the project followed remote service.
@@ -111,6 +110,10 @@ public class ProjectFollowedServiceImpl extends ProjectFollowedServiceBaseImpl {
 		} else {
 			return error("notConnected");
 		}
+	}
+
+	public List<ProjectFollowed> findProjectFollowedByPublikUserId(String publikId){
+		return projectFollowedPersistence.findByPublikUserId(publikId);
 	}
 
 	private JSONObject success(String message) {

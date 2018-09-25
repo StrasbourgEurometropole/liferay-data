@@ -10,8 +10,10 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -59,9 +61,11 @@ public class DashboardPortlet extends MVCPortlet {
 
         List<Petition> petitionList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
         List<Signataire> signataireList = SignataireLocalServiceUtil.getSignataireByPublikId(publicId);
+        List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);
 
         renderRequest.setAttribute("petitionCount",petitionList.size());
         renderRequest.setAttribute("signataireCount",signataireList.size());
+        renderRequest.setAttribute("projectFollowedsCount",projectFolloweds.size());
 
         super.render(renderRequest, renderResponse);
     }

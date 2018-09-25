@@ -15,10 +15,8 @@
 package eu.strasbourg.service.project.service.http;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-
 import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 
 import java.rmi.RemoteException;
@@ -92,6 +90,21 @@ public class ProjectFollowedServiceSoap {
 			com.liferay.portal.kernel.json.JSONObject returnValue = ProjectFollowedServiceUtil.isFollower(projectId);
 
 			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static eu.strasbourg.service.project.model.ProjectFollowedSoap[] findProjectFollowedByPublikUserId(
+		java.lang.String publikId) throws RemoteException {
+		try {
+			java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> returnValue =
+				ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publikId);
+
+			return eu.strasbourg.service.project.model.ProjectFollowedSoap.toSoapModels(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);
