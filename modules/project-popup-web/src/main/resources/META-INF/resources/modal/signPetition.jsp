@@ -195,6 +195,7 @@
         var signlegalage = $("#signlegalage").is(":checked");
         var signcnil = $("#signcnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var age = getAge(signBirthday);
 
         if (signBirthday==null || signBirthday==""){
             $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
