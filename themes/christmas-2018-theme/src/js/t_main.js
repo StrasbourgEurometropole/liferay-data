@@ -3304,7 +3304,7 @@ $('.owl-testi').each(function () {
     }
 });
 
-// Carsousel section Testimonial
+// Carsousel section agenda header
 $('#owl-full').owlCarousel({
     loop:true,
     dots: false,

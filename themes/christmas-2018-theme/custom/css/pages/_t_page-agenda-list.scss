@@ -82,21 +82,23 @@
 
 		.checkbox {
 			display: block;
-			> label {
-				position: relative;
-				display: block;
-				padding: 5px 0;
-				overflow: hidden;
-				padding-left: 30px;
-				@include addTransition();
-				input[type="checkbox"]:checked {
-					font-weight: 700;
-				}
-				&:hover, &:focus{
-					color: $c_main;
-				}
-				.cr{
-					top: 5px;
+			.form-group.form-inline.input-checkbox-wrapper {
+				> label {
+					position: relative;
+					display: block;
+					padding: 5px 0;
+					overflow: hidden;
+					padding-left: 30px;
+					@include addTransition();
+					input[type="checkbox"]:checked {
+						font-weight: 700;
+					}
+					&:hover, &:focus{
+						color: $c_main;
+					}
+					.cr{
+						top: 5px;
+					}
 				}
 			}
 		}
