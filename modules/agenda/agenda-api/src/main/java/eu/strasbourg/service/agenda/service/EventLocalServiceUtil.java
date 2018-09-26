@@ -15,9 +15,7 @@
 package eu.strasbourg.service.agenda.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -341,6 +339,11 @@ public class EventLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findByPlaceSIGId(
 		java.lang.String placeSIGId) {
 		return getService().findByPlaceSIGId(placeSIGId);
+	}
+
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findEventByUserPublikId(
+		java.lang.String publikId) {
+		return getService().findEventByUserPublikId(publikId);
 	}
 
 	/**

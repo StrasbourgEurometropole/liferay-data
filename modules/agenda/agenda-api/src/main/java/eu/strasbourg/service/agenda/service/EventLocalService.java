@@ -15,11 +15,8 @@
 package eu.strasbourg.service.agenda.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -40,12 +37,10 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.agenda.model.Event;
 
 import java.io.IOException;
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 
@@ -295,6 +290,8 @@ public interface EventLocalService extends BaseLocalService,
 	* Lance une recherche par placeSIGId
 	*/
 	public List<Event> findByPlaceSIGId(java.lang.String placeSIGId);
+
+	public List<Event> findEventByUserPublikId(java.lang.String publikId);
 
 	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event

@@ -15,7 +15,6 @@
 package eu.strasbourg.service.agenda.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -357,6 +356,12 @@ public class EventLocalServiceWrapper implements EventLocalService,
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> findByPlaceSIGId(
 		java.lang.String placeSIGId) {
 		return _eventLocalService.findByPlaceSIGId(placeSIGId);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> findEventByUserPublikId(
+		java.lang.String publikId) {
+		return _eventLocalService.findEventByUserPublikId(publikId);
 	}
 
 	/**
