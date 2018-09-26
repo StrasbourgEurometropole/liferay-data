@@ -4,7 +4,19 @@
 	<div class="mns-affiner">
       <span class="mns-more hidden-xs"><liferay-ui:message key="refine-your-search" /></span>
     </div>
-
+	
+	<!-- Champ mots-clés -->
+	<div class="form-group">
+        <div class="mns-label-top">
+				<label><liferay-ui:message key="keywords" /></label>
+			</div>
+        <div class="content">
+            <input type="text" id="name" name="<portlet:namespace />keywords" 
+                placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}">
+        </div>
+    </div>
+	
+	
 	<!-- Champ date -->
 	<c:if test="${dc.dateField}">
 		<div class="form-group date-selection">

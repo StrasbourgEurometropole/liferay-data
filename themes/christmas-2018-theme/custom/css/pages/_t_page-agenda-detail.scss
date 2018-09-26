@@ -8,6 +8,10 @@
 
 .mns-agenda-detail {
 
+	.icon-ico-5{
+            background-image: url( svg-bg-uri($svg-pmr, $svg-pmr-color) );
+        }
+
 	.mns-wrapper-agenda-detail{
 		.row{
 			@include mobile{
@@ -116,6 +120,8 @@
 			left: -50px;
 			top: initial;
 			bottom: -20px;
+			width: 290px; // sully
+    		height: 350px; // sully
 		}
 	}
 
@@ -205,4 +211,5 @@
 			}
 		}
 	}
+
 }
