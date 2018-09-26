@@ -319,6 +319,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		// Initialisation du JSON de réponse
 		JSONArray jsonResponse = JSONFactoryUtil.createJSONArray();
 		
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		
 		// Parcours des résultats
 		for (AssetEntry assetEntry : this.assetEntries) {
 			
@@ -378,7 +380,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Participation.class.getName())) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
 				
-				JSONObject jsonParticipation = participation.toJSON();
+				JSONObject jsonParticipation = participation.toJSON(themeDisplay);
 				
 				jsonParticipation.put(
 					ATTRIBUTE_CLASSNAME,

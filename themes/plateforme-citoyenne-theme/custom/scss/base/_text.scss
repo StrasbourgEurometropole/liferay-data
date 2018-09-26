@@ -535,3 +535,36 @@ fieldset {
 		}
 	}
 }
+
+.pro-btn-back-top{
+	position: fixed;
+	z-index: 200;
+	left: 50%;
+	transform: translateX(-50%);
+	transform: translate3d(-50%,0,0);
+	bottom: 40px;
+	width: 50px;
+	height: 50px;
+	background: $c_main;
+	border-radius: 50%;
+	box-shadow: 0 0 10px rgba($c_dark,0.2);
+	opacity: 0;
+	@include addTransition();
+	&.show{
+		opacity: 1;
+	}
+	&:hover, &:focus{
+		background: $c_dark;
+		span{
+			color: $c_main;
+		}
+	}
+	span{
+		display: block;
+		transform: rotate(180deg);
+		color: $c_txt;
+		text-align: center;
+		line-height: 46px;
+		@include addTransition();
+	}
+}

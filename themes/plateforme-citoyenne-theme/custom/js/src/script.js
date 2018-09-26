@@ -77,3 +77,46 @@ $("[href='#pro-follow-project']").click(function(e){
         $(this).addClass('active').text('Projet Suivi');
     }
 });
+
+
+
+if ($("[href='#backtop']").length) {
+    var scrollTrigger = 200, // px
+        backToTop = function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+                $("[href='#backtop']").addClass('show');
+            } else {
+                $("[href='#backtop']").removeClass('show');
+            }
+        };
+    backToTop();
+    $(window).on('scroll', function () {
+        backToTop();
+    });
+    $("[href='#backtop']").on('click', function (e) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+    });
+}
+
+
+$("[href='#pro-onglet-account']").on('click',function(e){
+    e.preventDefault();
+    $('#pro-onglet-activite').addClass('pro-hide');
+    $('#pro-onglet-account').removeClass('pro-hide');
+});
+
+$("[href='#pro-onglet-activite']").on('click',function(e){
+    e.preventDefault();
+    $('#pro-onglet-activite').removeClass('pro-hide');
+    $('#pro-onglet-account').addClass('pro-hide');
+});
+
+
+$('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function() {
+    var widthTitle = $(this).width() + 60;
+    $(this).next().css({'width': 'calc(100% - ' + widthTitle + 'px)'});
+});

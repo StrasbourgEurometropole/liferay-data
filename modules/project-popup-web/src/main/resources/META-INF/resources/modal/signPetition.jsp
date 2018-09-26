@@ -8,14 +8,15 @@
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
-<!-- HTML pour la modal d'une pÃ©tition -->
+<!-- HTML pour la modal d'une pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
-                <button id="closingButton2" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            	<button id="closingButton2" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+
             </div>
             <form id="form-sign-petition" method="post" action="${signPetitionURL}">
                 <div class="pro-wrapper">
@@ -35,14 +36,11 @@
 				            <aui:input name="firstname" disabled="true" label="modal.user.firstname" value="${userConnected.get('first_name')}" required="true"/>
                         </div>
                         <div class="form-group form-triple">
-	                        <c:if test="${userConnected.get('birthdate')} != ''">
+	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
 					            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 	                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-	                        <c:if test="${userConnected.get('birthdate')} == ''">
-	                            <fmt:formatDate value="" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-	                        </c:if>
-                            <aui:input id="signbirthday" cssClass="frm_date" name="birthday" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
+                            <aui:input id="signbirthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -105,7 +103,7 @@
 </div><!-- /.modal -->
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -124,18 +122,16 @@
 </div>
 
 <script type="text/javascript">
-
     var namespaceSign = "<portlet:namespace />";
     $("#sendSign").click(function(event){
         event.preventDefault();
         var response = validateSignForm();
-
         if (response){
             $("#form-sign-petition").submit();
         }
     });
 
-      function getAge(dateString) {
+    function getAge(dateString) {
         var from = dateString.split("/");
         var today = new Date();
         var birthDate = new Date(from[2],from[1]-1,from[0]);
@@ -145,12 +141,10 @@
           age--;
         }
         return age;
-      }
-
+    }
 
     $(document).ready(function(){
         $('#checkboxSignSaveInfo').hide();
-
     });
 
     $("#signButton[data-target='#modalSigner']").click(function(){
@@ -159,7 +153,8 @@
 
     function resetSignValues()
     {
-        $("#signsave-info").prop("checked", false);
+        $('#checkboxSignSaveInfo #signsave-info').prop('checked', false);
+        $('#checkboxSignSaveInfo').hide();
         $("#file-petition-legalage").prop("checked", false);
         $("#file-petition-cnil").prop("checked", false);
         $("#"+namespaceSign+"signbirthday").val(saved_signdateNaiss);
@@ -181,6 +176,8 @@
             $('#checkboxSignSaveInfo').hide();
         }
     }
+
+    var namespaceSign = "<portlet:namespace />";
     var saved_signaddress = "${userConnected.get('address')}";
     var saved_signzipCode = "${userConnected.get('zipcode')}";
     var saved_signcity = "${userConnected.get('city')}";
@@ -205,12 +202,12 @@
             result = false;
         }else $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "" });
 
-        if (signCity==null || signCity===""){
+        if (signCity==null || signCity==""){
             $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSign+"signcity").css({ "box-shadow" : "" });
 
-        if (signAddress==null || signAddress===""){
+        if (signAddress==null || signAddress==""){
             $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSign+"signaddress").css({ "box-shadow" : "" });
@@ -233,7 +230,6 @@
         if (!result)
             $("#signalert").removeClass("hidden");
         else $("#signalert").addClass("hidden");
-
         if (signCity.toLowerCase()!=="strasbourg"){
             $("#signalertcity").removeClass("hidden");
             $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -257,5 +253,4 @@
 
         return result;
     }
-
 </script>

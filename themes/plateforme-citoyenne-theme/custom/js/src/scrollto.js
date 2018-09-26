@@ -3,9 +3,11 @@ $('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
     var target = this.hash,
         $target = $(target);
 
+    var pos = $target.offset().top - 120;
+
     $('html, body').stop().animate( {
-        'scrollTop': $target.offset().top
+        'scrollTop': pos
     }, 600, 'swing', function () {
-        window.location.hash = target;
+        window.location.hash = pos;
     } );
 } );

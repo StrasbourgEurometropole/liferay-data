@@ -73,7 +73,6 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("author", getAuthor());
 		attributes.put("contactName", getContactName());
 		attributes.put("contactLine1", getContactLine1());
 		attributes.put("contactLine2", getContactLine2());
@@ -172,12 +171,6 @@ public class ParticipationWrapper implements Participation,
 
 		if (title != null) {
 			setTitle(title);
-		}
-
-		String author = (String)attributes.get("author");
-
-		if (author != null) {
-			setAuthor(author);
 		}
 
 		String contactName = (String)attributes.get("contactName");
@@ -441,10 +434,14 @@ public class ParticipationWrapper implements Participation,
 
 	/**
 	* Retourne la version JSON de l'entité
+	*
+	* @throws PortalException
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _participation.toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _participation.toJSON(themeDisplay);
 	}
 
 	@Override
@@ -547,14 +544,10 @@ public class ParticipationWrapper implements Participation,
 		return new ParticipationWrapper((Participation)_participation.clone());
 	}
 
-	/**
-	* Returns the author of this participation.
-	*
-	* @return the author of this participation
-	*/
 	@Override
-	public java.lang.String getAuthor() {
-		return _participation.getAuthor();
+	public java.lang.String getAuthorFullName()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _participation.getAuthorFullName();
 	}
 
 	/**
@@ -675,6 +668,13 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getFilesIds() {
 		return _participation.getFilesIds();
+	}
+
+	@Override
+	public java.lang.String getImageAuthorURL(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _participation.getImageAuthorURL(themeDisplay);
 	}
 
 	/**
@@ -1069,16 +1069,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void persist() {
 		_participation.persist();
-	}
-
-	/**
-	* Sets the author of this participation.
-	*
-	* @param author the author of this participation
-	*/
-	@Override
-	public void setAuthor(java.lang.String author) {
-		_participation.setAuthor(author);
 	}
 
 	@Override
