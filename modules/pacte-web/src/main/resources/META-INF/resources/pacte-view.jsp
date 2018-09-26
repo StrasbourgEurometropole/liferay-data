@@ -101,7 +101,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key="modal.quit.description" /></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirmQuit" onclick="callServeResource();" type="submit" class="pro-btn" value="Quitter"/>
+                    <input id="buttonConfirmQuit" onclick="callServeResource();" type="submit" class="pro-btn" value="Résilier"/>
                     <input id="buttonCancelQuit" type="reset" class="pro-btn"  data-dismiss="modal" value="Annuler"/>
                 </div>
             </div>
