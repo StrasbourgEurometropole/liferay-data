@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.dashboard.portlet;
 
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -17,6 +18,7 @@ import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -53,11 +55,13 @@ public class DashboardPortlet extends MVCPortlet {
     @Override
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         String publicId = getPublikID(renderRequest);
+
         if (Validator.isNotNull(publicId)) {
             PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publicId);
+            JSONObject userConnected = PublikApiClient.getUserDetails(publicId);
             renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
             renderRequest.setAttribute("isUserloggedIn", true);
-            renderRequest.setAttribute("userConnected",user);
+            renderRequest.setAttribute("userConnected",userConnected);
         } else renderRequest.setAttribute("isUserloggedIn", false);
 
         List<Petition> petitionFiledList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
@@ -67,7 +71,7 @@ public class DashboardPortlet extends MVCPortlet {
         List<Initiative>initiativeList = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
 
         renderRequest.setAttribute("petitionFiledCount",petitionFiledList.size());
-        renderRequest.setAttribute("petitionSignedCount",petitionFiledList.size());
+        renderRequest.setAttribute("petitionSignedCount",petitionSignedList.size());
         renderRequest.setAttribute("projectFollowedsCount",projectFolloweds.size());
         renderRequest.setAttribute("eventParticipationsCount",eventParticipations.size());
 

@@ -45,8 +45,8 @@
                         <span class="pro-txt"><liferay-ui:message key="dashboard.front.petition"/></span>
                     </div>
                     <div class="pro-link-dashboard">
-                        <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>${petitionSignedCount}</strong><liferay-ui:message key="dashboard.front.petition.signed"/></a>
-                        <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>${petitionFiledCount}</strong><liferay-ui:message key="dashboard.front.petition.filed"/></a>
+                        <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>${petitionSignedCount}</strong> <liferay-ui:message key="dashboard.front.petition.signed"/></a>
+                        <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>${petitionFiledCount}</strong> <liferay-ui:message key="dashboard.front.petition.filed"/></a>
                     </div>
                 </div>
             </div>
@@ -112,50 +112,45 @@
                 <div class="pro-wrapper col-md-9">
                     <div class="pro-row">
                         <div class="form-group form-third">
-                            <label for="nom">Nom <span class="required">*</span></label>
-                            <input type="text" class="form-control disabled" id="nom" value="Burton" disabled/>
+                            <aui:input name="username" disabled="true" label="dashboard.account.profile.username" required="true" value="${userConnected.get('last_name')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="prenom">Prénom <span class="required">*</span></label>
-                            <input type="text" class="form-control disabled" id="prenom" value="Marc" disabled/>
+                            <aui:input name="username" disabled="true" label="dashboard.account.profile.firstname" required="true" value="${userConnected.get('last_name')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="date">Date de naissance <span class="required">*</span></label>
-                            <input type="text" class="form-control frm_date" id="date" placeholder="jj/mm/aaaa"/>
+                            <c:if test="${userConnected.get('birthdate') ne 'null'}">
+                                <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+                                <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+                            </c:if>
+                            <aui:input id="signbirthday" name="birthday" cssClass="frm_date" label="dashboard.account.profile.birthday" required="true" placeholder="jj/mm/aaaa" value="${formattedDate}"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="adresse">Adresse <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="adresse" value="31 rue de la Boucherie"/>
+				            <aui:input id="signaddress" name="address" label="dashboard.account.profile.address" required="true" value="${userConnected.get('address')}"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <label for="city">Ville <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="city" value="Strasbourg"/>
+				                <aui:input id="signcity" name="city" label="dashboard.account.profile.city" required="true" placeholder="Strasbourg" value="${userConnected.get('city')}"/>
                             </div>
                             <div class="form-code">
-                                <label for="code">Code postal <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="code" value="67000"/>
+                                <aui:input id="signpostalcode" name="postalcode" label="dashboard.account.profile.postalcode" required="true" placeholder="67XXX" value="${userConnected.get('zipcode')}"/>
                             </div>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-third">
-                            <label for="email">Adresse mail <span class="required">*</span></label>
-                            <input type="email" class="form-control" id="email" value="marc.burton@gmail.com">
+                        <aui:input type="email" id="signmail" name="mail" disabled="true" label="dashboard.account.profile.mail"  required="true" value="${userConnected.get('email')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="tel_fixe">Téléphone Fixe</label>
-                            <input type="text" class="form-control" id="tel_fixe"/>
+                            <aui:input type="number" id="signmobile" name="mobile" label="dashboard.account.profile.phone" placeholder="0311111111" value="${userConnected.get('phone')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="tel_mobile">Téléphone mobile</label>
-                            <input type="text" class="form-control" id="tel_mobile" placeholder="+33 6 87 52 47 30"/>
+                            <aui:input type="number" id="signmobile" name="mobile" label="dashboard.account.profile.mobile" placeholder="0611111111" value="${userConnected.get('mobile')}"/>
                         </div>
                     </div>
                     <div class="pro-form-submit pro-row">
-                        <button type="submit" class="btn btn-default">Sauvegarder mon profil</button>
+                        <button type="submit" class="btn btn-default"><liferay-ui:message key="dashboard.account.profile.button.save"/></button>
                     </div>
                 </div>
             </form>
