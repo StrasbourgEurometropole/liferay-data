@@ -37,7 +37,7 @@ public class TwitterClient {
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true).setOAuthConsumerKey(twitterConsumerKey)
 					.setOAuthConsumerSecret(twitterConsumerSecret).setOAuthAccessToken(twitterAccessToken)
-					.setOAuthAccessTokenSecret(twitterAccessTokenSecret);
+					.setOAuthAccessTokenSecret(twitterAccessTokenSecret).setTweetModeExtended(true);
 			TwitterFactory tf = new TwitterFactory(cb.build());
 			twitter = tf.getInstance();
 
@@ -79,28 +79,12 @@ public class TwitterClient {
 					MediaEntity[] medias = status.getRetweetedStatus().getMediaEntities();
 					if (medias.length > 0) {
 						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo")) {
-								tweet.setImageURL(media.getMediaURLHttps().toString());
+							if (media.getType().equals("photo") || media.getType().equals("video")) {
+								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 								break;
 							}
 						}
 					}
-					// Checks for images posted using other APIs
-					/*
-					else {
-						URLEntity[] entities = status.getRetweetedStatus().getURLEntities();
-						if (entities.length > 0) {
-							URLEntity entity = entities[0];
-							if (entity.getExpandedURL() != null) {
-								tweet.setImageURL(entity.getExpandedURL().toString());
-							} else {
-								if (entity.getDisplayURL() != null) {
-									tweet.setImageURL(entity.getDisplayURL().toString());
-								}
-							}
-						}
-					}
-					*/
 
 				} else {
 					tweet.setContent(status.getText());
@@ -109,29 +93,13 @@ public class TwitterClient {
 					MediaEntity[] medias = status.getMediaEntities();
 					if (medias != null) {
 						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo")) {
-								tweet.setImageURL(media.getMediaURLHttps().toString());
+							if (media.getType().equals("photo") || media.getType().equals("video")) {
+								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 								break;
 							}
 						}
 					}
 
-					// Checks for images posted using other APIs
-					/*
-					else {
-						URLEntity[] entities = status.getURLEntities();
-						if (entities.length > 0) {
-							URLEntity entity = entities[0];
-							if (entity.getExpandedURL() != null) {
-								tweet.setImageURL(entity.getExpandedURL().toString());
-							} else {
-								if (entity.getDisplayURL() != null) {
-									tweet.setImageURL(entity.getDisplayURL().toString());
-								}
-							}
-						}
-					}
-					*/
 				}
 				tweets.add(tweet);
 				i++;

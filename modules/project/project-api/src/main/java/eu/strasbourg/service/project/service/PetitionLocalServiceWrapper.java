@@ -316,6 +316,12 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 		return _petitionLocalService.getByGroupId(groupId);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getPetitionByPublikUserID(
+		java.lang.String publikId) {
+		return _petitionLocalService.getPetitionByPublikUserID(publikId);
+	}
+
 	/**
 	* Returns a range of all the petitions.
 	*

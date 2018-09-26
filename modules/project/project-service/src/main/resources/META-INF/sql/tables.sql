@@ -50,7 +50,6 @@ create table project_Participation (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(400) null,
-	author VARCHAR(75) null,
 	contactName VARCHAR(75) null,
 	contactLine1 VARCHAR(400) null,
 	contactLine2 VARCHAR(400) null,

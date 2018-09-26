@@ -59,6 +59,13 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
+	public java.lang.String getImageAuthorURL(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	public java.lang.String getAuthorFullName()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
 	/**
 	* Retourne la liste des like/dislike de l'entité
 	*
@@ -250,6 +257,10 @@ public interface Participation extends ParticipationModel, PersistedModel {
 
 	/**
 	* Retourne la version JSON de l'entité
+	*
+	* @throws PortalException
 	*/
-	public com.liferay.portal.kernel.json.JSONObject toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

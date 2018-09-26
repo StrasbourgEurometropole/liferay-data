@@ -1,10 +1,25 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.osgi.service.component.annotations.Component;
+
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -18,24 +33,13 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author alexandre.quere
@@ -58,6 +62,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String MOBILE = "mobile";
     private static final String PETITIONTITLE = "petitiontitle";
     private static final String PETITIONDESCRIPTION = "petitiondescription";
+    private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
@@ -67,23 +72,24 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
-    public String publikID;
-    public PublikUser user;
-    public DateFormat dateFormat;
-    public Date birthday;
-    public String address;
-    public String city;
-    public long postalcode;
-    public String phone;
-    public String mobile;
-    public String lastname;
-    public String firstname;
-    public String email;
-    public String title;
-    public String description;
-    public long projectId;
-    public long quartierId;
-    public long themeId;
+    private String publikID;
+    private PublikUser user;
+    private DateFormat dateFormat;
+    private Date birthday;
+    private String address;
+    private String city;
+    private long postalcode;
+    private String phone;
+    private String mobile;
+    private String lastname;
+    private String firstname;
+    private String email;
+    private String title;
+    private String description;
+    private String lieu;
+    private long projectId;
+    private long quartierId;
+    private long themeId;
 
     /**
      * le log
@@ -96,6 +102,8 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    	LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
+        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         boolean result = false;
         String message = "";
         publikID = getPublikID(request);
@@ -114,7 +122,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         lastname = ParamUtil.getString(request, LASTNAME);
         firstname = ParamUtil.getString(request, FIRSTNAME);
         email = ParamUtil.getString(request, EMAIL);
-
+        lieu = ParamUtil.getString(request,LIEU);
         title = ParamUtil.getString(request, PETITIONTITLE);
         description = ParamUtil.getString(request, PETITIONDESCRIPTION);
         projectId = ParamUtil.getLong(request, PROJECT);
@@ -123,8 +131,8 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
         boolean isValid = validate(request);
         if (!isValid)
-            message = "la validation des champs n'est pas pass&eacute;e";
-
+            message = LanguageUtil.get(originalRequest, "general-error");
+        
         boolean savedInfo = false;
         if (message.isEmpty()) {
             boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
@@ -173,11 +181,13 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnaireAdresse(address);
             petition.setPetitionnaireBirthday(birthday);
             petition.setPetitionnaireCity(city);
+            petition.setConsultationPlacesText(lieu);
             petition.setPetitionnaireFirstname(firstname);
             petition.setPetitionnaireLastname(lastname);
             petition.setPetitionnairePostalCode(postalcode);
             petition.setPetitionnairePhone("" + phone);
             petition.setPetitionnaireEmail(email);
+            petition.setPublikId(publikID);
             petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
             AssetEntry assetEntry = petition.getAssetEntry();
             if (assetEntry == null)

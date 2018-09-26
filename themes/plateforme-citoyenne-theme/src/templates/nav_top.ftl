@@ -85,7 +85,6 @@
                         </li>
                         <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
                         <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>
-						<li><a href="${themeDisplay.getPortalURL()}${homeURL}videos" title="Vidéos">Vidéos</a></li>
                         <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions citoyennes</a></li>
                     </ul>
                 </nav>
@@ -94,6 +93,12 @@
             <!-- Menu de navigation : icones de droite -->
             <div class="pro-menu-right">
                 <ul>
+                    <li class="pro-tooltip">
+                        <a href="${themeDisplay.getPortalURL()}${homeURL}page-dashboard" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
+                            <span class="icon-ico-user"></span>
+                        </a>
+                        <span class="tooltiptext">Tableau de bord</span>
+                    </li>
                     <li class="pro-tooltip">
                         <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">
                             <span class="icon-ico-map"></span>

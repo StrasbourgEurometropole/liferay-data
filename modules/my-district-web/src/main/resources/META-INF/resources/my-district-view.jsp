@@ -428,10 +428,13 @@
 		</c:if>
 
 		<c:set var="sectorSchools" value="${dc.sectorSchools}"/>
-		<c:if test="${not empty sectorSchools}">
-			<div class="wi-wrapper">
-				<section id="ecoles">
-					<h2><liferay-ui:message key="sector-schools" /></h2>
+		<div class="wi-wrapper">
+			<section id="ecoles">
+				<h2><liferay-ui:message key="sector-schools" /></h2>
+				<c:if test="${empty sectorSchools}">
+					<p><liferay-ui:message key="no-school" /></p>
+				</c:if>
+				<c:if test="${not empty sectorSchools}">
                     <c:set var="error" value="${dc.hasError()}" />
                     <c:if test="${error}">
                         <!-- erreur technique -->
@@ -473,8 +476,8 @@
                             </c:forEach>
                         </div>
                     </c:if>
-				</section>
-			</div>
-		</c:if>
+				</c:if>
+			</section>
+		</div>
 	</div>
 </c:if>

@@ -431,4 +431,8 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 	        return temp;
 	    else return temp.stream().limit(3).collect(Collectors.toList());
     }
+
+    public List<Petition> getPetitionByPublikUserID(String publikId){
+        return petitionPersistence.findByPublikId(publikId);
+    }
 }

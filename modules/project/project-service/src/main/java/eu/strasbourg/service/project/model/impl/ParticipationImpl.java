@@ -14,7 +14,15 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -24,9 +32,13 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
@@ -40,15 +52,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Participation service. Represents a row in the &quot;project_Participation&quot; database table, with each column mapped to a property of this class.
@@ -86,6 +89,19 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(),
 			this.getParticipationId());
 	}
+	
+	@Override
+	public String getImageAuthorURL(ThemeDisplay themeDisplay) throws PortalException
+	{
+		return UserLocalServiceUtil.getUser(getAssetEntry().getUserId()).getPortraitURL(themeDisplay);
+	}
+	
+	@Override
+	public String getAuthorFullName() throws PortalException
+	{
+		return UserLocalServiceUtil.getUser(getAssetEntry().getUserId()).getFullName();
+	}
+	
 	
 	/**
 	 * Retourne la liste des like/dislike de l'entité
@@ -521,9 +537,10 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	
 	/**
 	 * Retourne la version JSON de l'entité
+	 * @throws PortalException 
 	 */
 	@Override
-	public JSONObject toJSON() {
+	public JSONObject toJSON(ThemeDisplay themeDisplay) throws PortalException {
 		// Initialisation des variables tempons et résultantes
 		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
@@ -535,7 +552,9 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		
 		// Champs : Header
 		jsonParticipation.put("title", this.getTitle());
-		jsonParticipation.put("author", this.getAuthor());
+		jsonParticipation.put("author", this.getAuthorFullName());
+		jsonParticipation.put("authorImageURL", this.getImageAuthorURL(themeDisplay));
+		
 		
 		// Champs : Contact
 		jsonParticipation.put("contactName", this.getContactName());

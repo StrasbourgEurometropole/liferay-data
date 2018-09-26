@@ -63,7 +63,7 @@ function createArticleThumbnail(article) {
 		        '<div class="content">' +
 		            '<span class="publication">Publiée le 04 décembre 2017</span>' +
 		            '<h3>' + article.title + '</h3>' +
-		            '<p>' + article.chapo + '</p>' +
+		            '<p>' + article.chapo.replace(/(<([^>]+)>)/ig,""); + '</p>' +
 		            '<span class="link">Lire la suite</span>' +
 		        '</div>' +
 		    '</a>' +
@@ -114,7 +114,7 @@ function createProjectThumbnail(project) {
 		        '<div class="content">' +
 		            '<span class="publication">Publiée le 04 décembre 2017</span>' +
 		            '<h3>' + project.title + '</h3>' +
-		            '<p>' + project.description + '</p>' +
+		            '<p>' + project.description.replace(/(<([^>]+)>)/ig,"") + '</p>' +
 		            '<span class="link">Lire la suite</span>' +
 		        '</div>' +
 		    '</a>' +
