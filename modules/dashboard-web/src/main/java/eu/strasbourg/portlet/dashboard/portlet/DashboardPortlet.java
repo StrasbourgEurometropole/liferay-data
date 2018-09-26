@@ -3,11 +3,9 @@ package eu.strasbourg.portlet.dashboard.portlet;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.portlet.dashboard.utils.DashBoardUtils;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -24,10 +22,8 @@ import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -50,11 +46,18 @@ import java.util.List;
         service = Portlet.class
 )
 public class DashboardPortlet extends MVCPortlet {
+
+    /**
+     * le log
+     */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+    private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
+    private static final String CITY_NAME = "Strasbourg";
+    public static final String REDIRECT_URL_PARAM = "redirectURL";
 
     @Override
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-        String publicId = getPublikID(renderRequest);
+        String publicId = DashBoardUtils.getPublikID(renderRequest);
 
         if (Validator.isNotNull(publicId)) {
             PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publicId);
@@ -82,12 +85,4 @@ public class DashboardPortlet extends MVCPortlet {
         super.render(renderRequest, renderResponse);
     }
 
-    // Récupération du publik ID avec la session
-    private String getPublikID(PortletRequest resourceRequest) {
-
-        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-
-        return SessionParamUtil.getString(originalRequest, "publik_internal_id");
-    }
 }
