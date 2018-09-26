@@ -1,48 +1,52 @@
 <%@ include file="/init.jsp" %>
 
+<portlet:actionURL var="saveProfilURL" name="saveProfil">
+	<portlet:param name="redirectURL" value="${redirectURL}"/>
+	<portlet:param name="cmd" value="saveProfil" />
+</portlet:actionURL>
+
 <div class="pro-bloc-dashboard">
     <div class="container pro-user">
         <a href="#pro-onglet-account">
             <figure>
                 <img src="assets/images/medias/comm-vincent.jpg" width="40" height="40" alt="Nom de l'utilisateur"/>
             </figure>
-            <span>Voir mon profil</span>
+            <span><liferay-ui:message key="dashboard.front.profil"/></span>
         </a>
-        <span>Bienvenue, <span id="pro-user-name">Marc B.</span></span>
+        <span><liferay-ui:message key="dashboard.front.welcome"/><span id="pro-user-name">Marc B.</span></span>
     </div>
 
     <div class="container pro-wrapper-dashboard">
 
-
         <!-- ONGLET ACTIVITE -->
         <div id="pro-onglet-activite">
-            <div class="pro-title-dashboard col-xs-12"><h1>Mon activité citoyenne</h1><span></span></div>
+            <div class="pro-title-dashboard col-xs-12"><h1><liferay-ui:message key="dashboard.front.myactivity"/></h1><span></span></div>
 
             <div class="col-lg-3 col-sm-6 col-xs-12">
                 <a href="#pro-link-listing-projet" class="pro-item pro-item-projet">
                     <div class="pro-item-center">
-                        <span class="pro-number">10</span>
-                        <span class="pro-txt">Projets<br>Suivis</span>
+                        <span class="pro-number">${projectFollowedsCount}</span>
+                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.project"/></span>
                     </div>
                 </a>
                 <a href="#pro-link-listing-event" class="pro-item pro-item-agenda">
                     <div class="pro-item-center">
-                        <span class="pro-number">15</span>
-                        <span class="pro-txt">évènements<br>à venir</span>
+                        <span class="pro-number">${eventParticipationsCount}</span>
+                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.event"/></span>
                     </div>
-                    <div class="pro-link-dashboard"><span class="pro-txt">Voir les évènements suivis</span></div>
+                    <div class="pro-link-dashboard"><span class="pro-txt"><liferay-ui:message key="dashboard.front.event.goto"/></span></div>
                 </a>
             </div>
 
             <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div class="pro-item pro-item-petition">
                     <div class="pro-item-center">
-                        <span class="pro-number">12</span>
-                        <span class="pro-txt">Pétitions</span>
+                        <span class="pro-number">${petitionFiledCount+petitionSignedCount}</span>
+                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.petition"/></span>
                     </div>
                     <div class="pro-link-dashboard">
-                        <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>8</strong> Pétitions signées</a>
-                        <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>4</strong> Pétitions déposées</a>
+                        <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>${petitionSignedCount}</strong><liferay-ui:message key="dashboard.front.petition.signed"/></a>
+                        <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>${petitionFiledCount}</strong><liferay-ui:message key="dashboard.front.petition.filed"/></a>
                     </div>
                 </div>
             </div>
@@ -52,12 +56,12 @@
                     <div class="pro-item-center">
                         <div>
                             <span class="icon-ico-initiative"></span>
-                            <span class="pro-txt">Initiatives</span>
+                            <span class="pro-txt"><liferay-ui:message key="dashboard.front.initiative"/></span>
                         </div>
                     </div>
                     <div class="pro-bloc-link-dashboard">
-                        <a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>6</strong><span>Initiatives<br>signées</span></a>
-                        <a href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>11</strong><span>Initiatives<br>aidées</span></a>
+                        <a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>6</strong><span><liferay-ui:message key="dashboard.front.initiative.signed"/></span></a>
+                        <a href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>11</strong><span><liferay-ui:message key="dashboard.front.initiative.filed"/></span></a>
                     </div>
                 </div>
             </div>
@@ -65,14 +69,14 @@
             <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div class="pro-item pro-item-budget">
                     <div class="pro-item-center">
-                        <p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p>
+                        <p></p>
                     </div>
-                    <span class="pro-title">Budget<br>Participatif</span>
+                    <span class="pro-title"><liferay-ui:message key="dashboard.front.budget"/></span>
                     <div class="pro-link-dashboard">
-                        <a href="#pro-link-listing-projet-soumis" class="pro-txt"><strong>2</strong><span> Projets soumis</span></a>
-                        <a href="#pro-link-listing-projet-vote" class="pro-txt"><strong>3</strong><span> Projets votés</span></a>
+                        <a href="#pro-link-listing-projet-soumis" class="pro-txt"><strong>2</strong><span><liferay-ui:message key="dashboard.front.budget.voted"/></span></a>
+                        <a href="#pro-link-listing-projet-vote" class="pro-txt"><strong>3</strong><span><liferay-ui:message key="dashboard.front.budget.filed"/></span></a>
                     </div>
-                    <div class="pro-info-vote"><span>Il vous reste <strong>2 votes</strong></span></div>
+                    <div class="pro-info-vote"><span><liferay-ui:message key="dashboard.front.budget.reliquat"/></span></div>
                 </div>
             </div>
         </div>
@@ -80,10 +84,10 @@
 
         <!-- ONGLET ACCOUNT -->
         <div id="pro-onglet-account" class="pro-hide">
-            <div class="pro-title-dashboard col-xs-12"><h2>Mon compte</h2><span></span></div>
-            <div class="col-xs-12"><a href="#pro-onglet-activite" class="pro-btn-back">Mes informations</a></div>
+            <div class="pro-title-dashboard col-xs-12"><h2><liferay-ui:message key="dashboard.account.title"/></h2><span></span></div>
+            <div class="col-xs-12"><a href="#pro-onglet-activite" class="pro-btn-back"><liferay-ui:message key="dashboard.account.information"/></a></div>
 
-            <form method="post" action="/">
+            <form id="form-save-profil" method="post" action="${saveProfilURL}">
                 <div class="pro-wrapper col-md-3">
                     <div class="profile">
                         <div class="photo">
@@ -95,10 +99,10 @@
 
                                     <div class="pro-photo-hover">
                                         <span class="icon-ico-user"></span>
-                                        <p>Modifier ma photo de profil</p>
+                                        <p><liferay-ui:message key="dashboard.account.profile.picture"/></p>
                                     </div>
                                     <div class="message is-wrong-image-size">
-                                        <p>Votre photo doit être plus large que 350 pixels.</p>
+                                        <p><liferay-ui:message key="dashboard.account.profile.picture.error"/></p>
                                     </div>
                                 </div>
                             </div>

@@ -14,11 +14,9 @@ import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.ProjectFollowed;
-import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
-import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -55,22 +53,21 @@ public class DashboardPortlet extends MVCPortlet {
     @Override
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         String publicId = getPublikID(renderRequest);
-        _log.info("je passe par le render");
         if (Validator.isNotNull(publicId)) {
             PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publicId);
             renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
             renderRequest.setAttribute("isUserloggedIn", true);
-            renderRequest.setAttribute("user",user);
+            renderRequest.setAttribute("userConnected",user);
         } else renderRequest.setAttribute("isUserloggedIn", false);
 
-        List<Petition> petitionList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
-        List<Signataire> signataireList = SignataireLocalServiceUtil.getSignataireByPublikId(publicId);
+        List<Petition> petitionFiledList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
+        List<Petition> petitionSignedList = PetitionLocalServiceUtil.getPetitionBySignatairePublikId(publicId);
         List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);
         List<EventParticipation> eventParticipations = EventParticipationLocalServiceUtil.getByPublikUser(publicId);
         List<Initiative>initiativeList = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
 
-        renderRequest.setAttribute("petitionCount",petitionList.size());
-        renderRequest.setAttribute("signataireCount",signataireList.size());
+        renderRequest.setAttribute("petitionFiledCount",petitionFiledList.size());
+        renderRequest.setAttribute("petitionSignedCount",petitionFiledList.size());
         renderRequest.setAttribute("projectFollowedsCount",projectFolloweds.size());
         renderRequest.setAttribute("eventParticipationsCount",eventParticipations.size());
 
