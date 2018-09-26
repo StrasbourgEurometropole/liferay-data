@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -38,7 +37,6 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.project.exception.NoSuchInitiativeException;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.impl.InitiativeImpl;
@@ -46,9 +44,7 @@ import eu.strasbourg.service.project.model.impl.InitiativeModelImpl;
 import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1979,6 +1975,553 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "initiative.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBypublikId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID =
+		new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBypublikId",
+			new String[] { String.class.getName() },
+			InitiativeModelImpl.PUBLIKID_COLUMN_BITMASK |
+			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBypublikId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the initiatives where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the matching initiatives
+	 */
+	@Override
+	public List<Initiative> findBypublikId(String publikId) {
+		return findBypublikId(publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the initiatives where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of initiatives
+	 * @param end the upper bound of the range of initiatives (not inclusive)
+	 * @return the range of matching initiatives
+	 */
+	@Override
+	public List<Initiative> findBypublikId(String publikId, int start, int end) {
+		return findBypublikId(publikId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the initiatives where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of initiatives
+	 * @param end the upper bound of the range of initiatives (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching initiatives
+	 */
+	@Override
+	public List<Initiative> findBypublikId(String publikId, int start, int end,
+		OrderByComparator<Initiative> orderByComparator) {
+		return findBypublikId(publikId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the initiatives where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of initiatives
+	 * @param end the upper bound of the range of initiatives (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching initiatives
+	 */
+	@Override
+	public List<Initiative> findBypublikId(String publikId, int start, int end,
+		OrderByComparator<Initiative> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID;
+			finderArgs = new Object[] { publikId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID;
+			finderArgs = new Object[] { publikId, start, end, orderByComparator };
+		}
+
+		List<Initiative> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Initiative>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Initiative initiative : list) {
+					if (!Objects.equals(publikId, initiative.getPublikId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_INITIATIVE_WHERE);
+
+			boolean bindPublikId = false;
+
+			if (publikId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
+			}
+			else if (publikId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(InitiativeModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikId) {
+					qPos.add(publikId);
+				}
+
+				if (!pagination) {
+					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first initiative in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative
+	 * @throws NoSuchInitiativeException if a matching initiative could not be found
+	 */
+	@Override
+	public Initiative findBypublikId_First(String publikId,
+		OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException {
+		Initiative initiative = fetchBypublikId_First(publikId,
+				orderByComparator);
+
+		if (initiative != null) {
+			return initiative;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publikId=");
+		msg.append(publikId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchInitiativeException(msg.toString());
+	}
+
+	/**
+	 * Returns the first initiative in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
+	 */
+	@Override
+	public Initiative fetchBypublikId_First(String publikId,
+		OrderByComparator<Initiative> orderByComparator) {
+		List<Initiative> list = findBypublikId(publikId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last initiative in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative
+	 * @throws NoSuchInitiativeException if a matching initiative could not be found
+	 */
+	@Override
+	public Initiative findBypublikId_Last(String publikId,
+		OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException {
+		Initiative initiative = fetchBypublikId_Last(publikId, orderByComparator);
+
+		if (initiative != null) {
+			return initiative;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publikId=");
+		msg.append(publikId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchInitiativeException(msg.toString());
+	}
+
+	/**
+	 * Returns the last initiative in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
+	 */
+	@Override
+	public Initiative fetchBypublikId_Last(String publikId,
+		OrderByComparator<Initiative> orderByComparator) {
+		int count = countBypublikId(publikId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Initiative> list = findBypublikId(publikId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the initiatives before and after the current initiative in the ordered set where publikId = &#63;.
+	 *
+	 * @param initiativeId the primary key of the current initiative
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next initiative
+	 * @throws NoSuchInitiativeException if a initiative with the primary key could not be found
+	 */
+	@Override
+	public Initiative[] findBypublikId_PrevAndNext(long initiativeId,
+		String publikId, OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException {
+		Initiative initiative = findByPrimaryKey(initiativeId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Initiative[] array = new InitiativeImpl[3];
+
+			array[0] = getBypublikId_PrevAndNext(session, initiative, publikId,
+					orderByComparator, true);
+
+			array[1] = initiative;
+
+			array[2] = getBypublikId_PrevAndNext(session, initiative, publikId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Initiative getBypublikId_PrevAndNext(Session session,
+		Initiative initiative, String publikId,
+		OrderByComparator<Initiative> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_INITIATIVE_WHERE);
+
+		boolean bindPublikId = false;
+
+		if (publikId == null) {
+			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
+		}
+		else if (publikId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+		}
+		else {
+			bindPublikId = true;
+
+			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(InitiativeModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindPublikId) {
+			qPos.add(publikId);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(initiative);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Initiative> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the initiatives where publikId = &#63; from the database.
+	 *
+	 * @param publikId the publik ID
+	 */
+	@Override
+	public void removeBypublikId(String publikId) {
+		for (Initiative initiative : findBypublikId(publikId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(initiative);
+		}
+	}
+
+	/**
+	 * Returns the number of initiatives where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the number of matching initiatives
+	 */
+	@Override
+	public int countBypublikId(String publikId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKID;
+
+		Object[] finderArgs = new Object[] { publikId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_INITIATIVE_WHERE);
+
+			boolean bindPublikId = false;
+
+			if (publikId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
+			}
+			else if (publikId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikId) {
+					qPos.add(publikId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "initiative.publikId IS NULL";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "initiative.publikId = ?";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(initiative.publikId IS NULL OR initiative.publikId = '')";
 
 	public InitiativePersistenceImpl() {
 		setModelClass(Initiative.class);
@@ -2311,6 +2854,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
 				args);
 
+			args = new Object[] { initiativeModelImpl.getPublikId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -2369,6 +2918,23 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
+			}
+
+			if ((initiativeModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						initiativeModelImpl.getOriginalPublikId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
+					args);
+
+				args = new Object[] { initiativeModelImpl.getPublikId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
 					args);
 			}
 		}

@@ -1,4 +1,5 @@
 create index IX_F2897552 on project_Initiative (groupId);
+create index IX_8561E7B8 on project_Initiative (publikId[$COLUMN_LENGTH:75$]);
 create index IX_C528BE4C on project_Initiative (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_F62467CE on project_Initiative (uuid_[$COLUMN_LENGTH:75$], groupId);
 

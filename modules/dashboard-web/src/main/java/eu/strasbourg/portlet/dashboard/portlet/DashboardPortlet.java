@@ -7,11 +7,15 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.agenda.model.EventParticipation;
+import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
@@ -62,10 +66,13 @@ public class DashboardPortlet extends MVCPortlet {
         List<Petition> petitionList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
         List<Signataire> signataireList = SignataireLocalServiceUtil.getSignataireByPublikId(publicId);
         List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);
+        List<EventParticipation> eventParticipations = EventParticipationLocalServiceUtil.getByPublikUser(publicId);
+        List<Initiative>initiativeList = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
 
         renderRequest.setAttribute("petitionCount",petitionList.size());
         renderRequest.setAttribute("signataireCount",signataireList.size());
         renderRequest.setAttribute("projectFollowedsCount",projectFolloweds.size());
+        renderRequest.setAttribute("eventParticipationsCount",eventParticipations.size());
 
         super.render(renderRequest, renderResponse);
     }

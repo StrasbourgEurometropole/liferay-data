@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -35,11 +33,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Initiative;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -250,6 +246,8 @@ public interface InitiativeLocalService extends BaseLocalService,
 	*/
 	public List<Initiative> findByKeyword(java.lang.String keyword,
 		long groupId, int start, int end);
+
+	public List<Initiative> findByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Retourne toutes les initiatives d'un groupe

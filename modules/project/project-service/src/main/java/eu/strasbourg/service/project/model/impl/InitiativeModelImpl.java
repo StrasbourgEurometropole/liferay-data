@@ -15,12 +15,9 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -35,15 +32,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeModel;
 import eu.strasbourg.service.project.model.InitiativeSoap;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -150,8 +144,9 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long TITLE_COLUMN_BITMASK = 8L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long TITLE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -807,7 +802,17 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public void setPublikId(String publikId) {
+		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
+
+		if (_originalPublikId == null) {
+			_originalPublikId = _publikId;
+		}
+
 		_publikId = publikId;
+	}
+
+	public String getOriginalPublikId() {
+		return GetterUtil.getString(_originalPublikId);
 	}
 
 	@JSON
@@ -1094,6 +1099,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		initiativeModelImpl._setOriginalCompanyId = false;
 
 		initiativeModelImpl._setModifiedDate = false;
+
+		initiativeModelImpl._originalPublikId = initiativeModelImpl._publikId;
 
 		initiativeModelImpl._columnBitmask = 0;
 	}
@@ -1476,6 +1483,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	private boolean _mediaChoice;
 	private long _assetEntryId;
 	private String _publikId;
+	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
 	private String _consultationPlacesText;

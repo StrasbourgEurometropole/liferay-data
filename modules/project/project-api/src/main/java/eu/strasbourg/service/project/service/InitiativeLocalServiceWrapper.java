@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -297,6 +296,12 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 		java.lang.String keyword, long groupId, int start, int end) {
 		return _initiativeLocalService.findByKeyword(keyword, groupId, start,
 			end);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> findByPublikUserId(
+		java.lang.String publikUserId) {
+		return _initiativeLocalService.findByPublikUserId(publikUserId);
 	}
 
 	/**
