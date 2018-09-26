@@ -90,7 +90,10 @@ public class MapPortlet extends MVCPortlet {
 			String address = null;
 			if (Validator.isNotNull(internalId)) {
 				JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
-				address = userDetail.get("address") + " " + userDetail.get("zipcode") + " " + userDetail.get("city");
+				if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
+						&& Validator.isNotNull(userDetail.get("city")))
+					address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
+							+ userDetail.get("city");
 			}
 
 			boolean hasConfig = false; // Permet de cocher tous les POI si aucune configuration
