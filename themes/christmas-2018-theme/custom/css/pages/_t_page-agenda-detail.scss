@@ -7,11 +7,6 @@
 /***************************/
 
 .mns-agenda-detail {
-
-	.icon-ico-5{
-            background-image: url( svg-bg-uri($svg-pmr, $svg-pmr-color) );
-        }
-
 	.mns-wrapper-agenda-detail{
 		.row{
 			@include mobile{
