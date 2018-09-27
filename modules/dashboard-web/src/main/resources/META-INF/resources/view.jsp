@@ -184,10 +184,10 @@
                             </div>
                         </a>
                         <ul>
-                            <li><a href="${projectFollowed.detailURL}#pro-link-participation" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.participation"/></a></li>
-                            <li><a href="${projectFollowed.detailURL}#pro-link-evenement" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.events"/></a></li>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-participation" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getParticipations())} <liferay-ui:message key="dashboard.thumbnail.project.participation"/></a></li>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-evenement" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getEvents())} <liferay-ui:message key="dashboard.thumbnail.project.events"/></a></li>
                             <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.budget"/></a></li>
-                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.petition"/></a></li>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-petition" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getPetitions())} <liferay-ui:message key="dashboard.thumbnail.project.petition"/></a></li>
                             <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.initiative"/></a></li>
                         </ul>
                     </div>

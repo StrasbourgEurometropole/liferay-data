@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -777,6 +773,11 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.util.List<Participation> getParticipations() {
 		return _project.getParticipations();
+	}
+
+	@Override
+	public java.util.List<Petition> getPetitions() {
+		return _project.getPetitions();
 	}
 
 	/**

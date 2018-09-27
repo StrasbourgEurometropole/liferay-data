@@ -38,6 +38,7 @@ import eu.strasbourg.service.project.model.Project;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Project. Methods of this
@@ -188,8 +189,7 @@ public interface ProjectLocalService extends BaseLocalService,
 	* Met à jour le statut du projet par le framework workflow
 	*/
 	public Project updateStatus(long userId, long entryId, int status,
-		ServiceContext sc,
-		java.util.Map<java.lang.String, Serializable> workflowContext)
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
 		throws PortalException;
 
 	/**
