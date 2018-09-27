@@ -231,7 +231,7 @@ public class CommentPortlet extends MVCPortlet {
 				}
 				
 				// Redirection (évite double requête POST si l'utilisateur actualise sa page)
-		        response.sendRedirect(redirectURL);
+		        response.sendRedirect(redirectURL + "#" + comment.getCommentId());
 				
 			}
 		} catch (Exception e) {
@@ -248,10 +248,9 @@ public class CommentPortlet extends MVCPortlet {
 		String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
 		
         Comment comment = _commentLocalService.getComment(ParamUtil.getLong(request, "commentId"));
-        if (isSameUser(request,comment)){
-            comment.setStatus(WorkflowConstants.STATUS_DENIED);
-            _commentLocalService.updateComment(comment);
-        }
+
+        comment.setStatus(WorkflowConstants.STATUS_DENIED);
+        _commentLocalService.updateComment(comment);
         
         response.sendRedirect(redirectURL);
 	}
@@ -276,7 +275,7 @@ public class CommentPortlet extends MVCPortlet {
         AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
         SignalementLocalServiceUtil.updateSignalement(signalement,sc,userPublikId);
         
-        response.sendRedirect(redirectURL);
+        response.sendRedirect(redirectURL  + "#" + comment.getCommentId());
     }
 
 	/**
