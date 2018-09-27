@@ -163,14 +163,34 @@
     <section id="pro-link-listing-projet" class="pro-bloc-slider">
         <div class="container">
             <h2><liferay-ui:message key="dashboard.thumbnail.project.title"/></h2>
-            <a href="${homeURL}projets" class="pro-btn" title=<liferay-ui:message key="dashboard.thumbnail.project.link.title"/> >
+            <a href="${homeURL}projets" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.project.link.title'/>" >
                 <liferay-ui:message key="dashboard.thumbnail.project.link"/>
             </a>
 
             <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
             <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
                 <c:forEach var="projectFollowed" items="${projectFolloweds}">
-
+                    <div class="item bloc-card-projet">
+                        <a href="${projectFollowed.detailURL}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>">
+                            <div class="img">
+                                <figure role="group">
+                                    <img src='${projectFollowed.imageURL}' alt="Image agenda" width="360" height="242" class="fit-cover"/>
+                                </figure>
+                                <span><liferay-ui:message key="dashboard.thumbnail.project.goto"/></span>
+                            </div>
+                            <div class="content">
+                                <span class="location">${projectFollowed.getDistrictLabel(locale)}</span>
+                                <h3>${projectFollowed.title}</h3>
+                            </div>
+                        </a>
+                        <ul>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-participation" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.participation"/></a></li>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-evenement" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.events"/></a></li>
+                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.budget"/></a></li>
+                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.petition"/></a></li>
+                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.initiative"/></a></li>
+                        </ul>
+                    </div>
                 </c:forEach>
             </div>
         </div>
@@ -181,7 +201,7 @@
         <section id="pro-link-listing-event" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <h2>Mon agenda (${eventCount})</h2>
-                <a href="${homeURL}agenda" class="pro-btn" title=<liferay-ui:message key="dashboard.thumbnail.agenda.title"/>>
+                <a href="${homeURL}agenda" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.agenda.title'/>">
                     <liferay-ui:message key="dashboard.thumbnail.agenda"/>
                 </a>
 
@@ -212,7 +232,7 @@
         <section id="pro-link-listing-petition-signe" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <h2><liferay-ui:message key="dashboard.thumbnail.petition.signed.mine"/> (${petitionSignedCount})</h2>
-                <a href="${homeURL}petitions" class="pro-btn" title=<liferay-ui:message key="dashboard.thumbnail.petition.main.alt"/>><liferay-ui:message key="dashboard.thumbnail.petition.main"/></a>
+                <a href="${homeURL}petitions" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.petition.main.alt'/>"><liferay-ui:message key="dashboard.thumbnail.petition.main"/></a>
 
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
                     <c:forEach var="petitionSigned" items="${petitionSigned}">
@@ -225,7 +245,7 @@
                                 <p><strong>${petitionSigned.petitionnaireFirstname} ${petitionSigned.petitionnaireLastname}</strong></p>
                             </div>
                             <div class="pro-content-petition">
-                                <a href="${homeURL}detail-petition/-/entity/id/${petitionSigned.petitionId}" title=<liferay-ui:message key="dashboard.thumbnail.petition.link"/>><h3>${petitionSigned.title}</h3></a>
+                                <a href="${homeURL}detail-petition/-/entity/id/${petitionSigned.petitionId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${petitionSigned.title}</h3></a>
                                 <p><liferay-ui:message key="dashboard.thumbnail.petition.to"/></p>
                                 <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.petition.publish.date"/>  <time datetime="${petitionSigned.getPublicationDateFr()}">${petitionSigned.getPublicationDateFr()}</time> / <span class="pro-duree">${petitionSigned.getProDureeFR()}</span></span>
                             </div>
@@ -251,7 +271,7 @@
         <section id="pro-link-listing-petition-depose" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <h2><liferay-ui:message key="dashboard.thumbnail.petition.filed.mine"/> (${petitionsFiledCount})</h2>
-                <a href="${homeURL}petitions" class="pro-btn" title=<liferay-ui:message key="dashboard.thumbnail.petition.main.alt"/>><liferay-ui:message key="dashboard.thumbnail.petition.main"/></a>
+                <a href="${homeURL}petitions" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.petition.main.alt'/>"><liferay-ui:message key="dashboard.thumbnail.petition.main"/></a>
 
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
                     <c:forEach var="petitionFiled" items="${petitionsFiled}">
@@ -264,7 +284,7 @@
                                 <p><strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong></p>
                             </div>
                             <div class="pro-content-petition">
-                                <a href="${homeURL}detail-petition/-/entity/id/${petitionFiled.petitionId}" title=<liferay-ui:message key="dashboard.thumbnail.petition.link"/>><h3>${petitionFiled.title}</h3></a>
+                                <a href="${homeURL}detail-petition/-/entity/id/${petitionFiled.petitionId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${petitionFiled.title}</h3></a>
                                 <p><liferay-ui:message key="dashboard.thumbnail.petition.to"/></p>
                                 <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.petition.publish.date"/>  <time datetime="${petitionFiled.getPublicationDateFr()}">${petitionFiled.getPublicationDateFr()}</time> / <span class="pro-duree">${petitionFiled.getProDureeFR()}</span></span>
                             </div>
