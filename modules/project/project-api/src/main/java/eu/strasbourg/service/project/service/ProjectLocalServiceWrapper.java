@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -315,6 +314,12 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	public java.util.List<eu.strasbourg.service.project.model.Project> findByKeyword(
 		java.lang.String keyword, long groupId, int start, int end) {
 		return _projectLocalService.findByKeyword(keyword, groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> findProjectFollowedByProjectId(
+		java.lang.String publicId) {
+		return _projectLocalService.findProjectFollowedByProjectId(publicId);
 	}
 
 	/**
