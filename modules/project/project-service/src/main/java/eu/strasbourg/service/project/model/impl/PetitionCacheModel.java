@@ -65,7 +65,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -121,6 +121,10 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(petitionnairePhone);
 		sb.append(", petitionnaireEmail=");
 		sb.append(petitionnaireEmail);
+		sb.append(", isSupported=");
+		sb.append(isSupported);
+		sb.append(", supportedBy=");
+		sb.append(supportedBy);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -294,6 +298,15 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setPetitionnaireEmail(petitionnaireEmail);
 		}
 
+		petitionImpl.setIsSupported(isSupported);
+
+		if (supportedBy == null) {
+			petitionImpl.setSupportedBy(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setSupportedBy(supportedBy);
+		}
+
 		if (videoUrl == null) {
 			petitionImpl.setVideoUrl(StringPool.BLANK);
 		}
@@ -389,6 +402,9 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionnaireCity = objectInput.readUTF();
 		petitionnairePhone = objectInput.readUTF();
 		petitionnaireEmail = objectInput.readUTF();
+
+		isSupported = objectInput.readBoolean();
+		supportedBy = objectInput.readUTF();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
@@ -522,6 +538,15 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			objectOutput.writeUTF(petitionnaireEmail);
 		}
 
+		objectOutput.writeBoolean(isSupported);
+
+		if (supportedBy == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(supportedBy);
+		}
+
 		if (videoUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -603,6 +628,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String petitionnaireCity;
 	public String petitionnairePhone;
 	public String petitionnaireEmail;
+	public boolean isSupported;
+	public String supportedBy;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;

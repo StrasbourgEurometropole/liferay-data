@@ -86,6 +86,8 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("petitionnaireCity", getPetitionnaireCity());
 		attributes.put("petitionnairePhone", getPetitionnairePhone());
 		attributes.put("petitionnaireEmail", getPetitionnaireEmail());
+		attributes.put("isSupported", getIsSupported());
+		attributes.put("supportedBy", getSupportedBy());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -268,6 +270,18 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setPetitionnaireEmail(petitionnaireEmail);
 		}
 
+		Boolean isSupported = (Boolean)attributes.get("isSupported");
+
+		if (isSupported != null) {
+			setIsSupported(isSupported);
+		}
+
+		String supportedBy = (String)attributes.get("supportedBy");
+
+		if (supportedBy != null) {
+			setSupportedBy(supportedBy);
+		}
+
 		String videoUrl = (String)attributes.get("videoUrl");
 
 		if (videoUrl != null) {
@@ -324,6 +338,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		if (filesIds != null) {
 			setFilesIds(filesIds);
 		}
+	}
+
+	/**
+	* Returns the is supported of this petition.
+	*
+	* @return the is supported of this petition
+	*/
+	@Override
+	public boolean getIsSupported() {
+		return _petition.getIsSupported();
 	}
 
 	/**
@@ -404,6 +428,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public boolean isIncomplete() {
 		return _petition.isIncomplete();
+	}
+
+	/**
+	* Returns <code>true</code> if this petition is is supported.
+	*
+	* @return <code>true</code> if this petition is is supported; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsSupported() {
+		return _petition.isIsSupported();
 	}
 
 	/**
@@ -844,6 +878,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _petition.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the supported by of this petition.
+	*
+	* @return the supported by of this petition
+	*/
+	@Override
+	public java.lang.String getSupportedBy() {
+		return _petition.getSupportedBy();
 	}
 
 	@Override
@@ -1320,6 +1364,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Sets whether this petition is is supported.
+	*
+	* @param isSupported the is supported of this petition
+	*/
+	@Override
+	public void setIsSupported(boolean isSupported) {
+		_petition.setIsSupported(isSupported);
+	}
+
+	/**
 	* Sets whether this petition is media choice.
 	*
 	* @param mediaChoice the media choice of this petition
@@ -1538,6 +1592,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_petition.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the supported by of this petition.
+	*
+	* @param supportedBy the supported by of this petition
+	*/
+	@Override
+	public void setSupportedBy(java.lang.String supportedBy) {
+		_petition.setSupportedBy(supportedBy);
 	}
 
 	/**

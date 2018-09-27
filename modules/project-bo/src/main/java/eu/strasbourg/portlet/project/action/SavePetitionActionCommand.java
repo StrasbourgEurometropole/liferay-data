@@ -98,6 +98,9 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String externalImageCopyright = ParamUtil.getString(request,
 					"externalImageCopyright");
 			String description = ParamUtil.getString(request, "description");
+			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
+			String supportedBy = ParamUtil.getString(request, "supportedBy");
+			
 			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
 			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
 			String filesIds = ParamUtil.getString(request, "filesIds");
@@ -146,6 +149,13 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			petition.setDescription(description);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DESCRIPTION ------------------------
+			// ---------------------------------------------------------------
+
+			petition.setIsSupported(isSupported);
+			petition.setSupportedBy(supportedBy);
 
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------

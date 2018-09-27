@@ -513,6 +513,42 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setPetitionnaireEmail(String petitionnaireEmail);
 
 	/**
+	 * Returns the is supported of this petition.
+	 *
+	 * @return the is supported of this petition
+	 */
+	public boolean getIsSupported();
+
+	/**
+	 * Returns <code>true</code> if this petition is is supported.
+	 *
+	 * @return <code>true</code> if this petition is is supported; <code>false</code> otherwise
+	 */
+	public boolean isIsSupported();
+
+	/**
+	 * Sets whether this petition is is supported.
+	 *
+	 * @param isSupported the is supported of this petition
+	 */
+	public void setIsSupported(boolean isSupported);
+
+	/**
+	 * Returns the supported by of this petition.
+	 *
+	 * @return the supported by of this petition
+	 */
+	@AutoEscape
+	public String getSupportedBy();
+
+	/**
+	 * Sets the supported by of this petition.
+	 *
+	 * @param supportedBy the supported by of this petition
+	 */
+	public void setSupportedBy(String supportedBy);
+
+	/**
 	 * Returns the video url of this petition.
 	 *
 	 * @return the video url of this petition
