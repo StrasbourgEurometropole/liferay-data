@@ -56,6 +56,12 @@
         form{
             overflow: hidden;
 
+            .filtres__list h2{
+                font-family: "MontSerrat", arial;
+                font-weight: 700;
+                font-size: 1.7rem;
+            }
+
             .info-text {
                 color: #ffffff;
                 font-family: $opensans;

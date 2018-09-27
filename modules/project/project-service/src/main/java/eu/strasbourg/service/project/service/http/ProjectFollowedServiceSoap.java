@@ -15,8 +15,10 @@
 package eu.strasbourg.service.project.service.http;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+
 import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 
 import java.rmi.RemoteException;
