@@ -201,7 +201,7 @@
         // Notes : voir dans le theme placit "override/custom.js"
         if (eventMercatorX && eventMercatorX.length != 0) {
 
-            //Création de la carte au centre de strasbourg
+            // Création de la carte au centre de strasbourg
             leafletMap = getLeafletMap()
 
             // Définition des marqueurs
