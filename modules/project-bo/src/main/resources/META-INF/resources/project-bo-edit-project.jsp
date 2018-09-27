@@ -56,7 +56,7 @@
 				
 				<%-- Champ : Image interne --%>
 				<div class="internalImage" <c:if test="${(empty dc.project.imageId or dc.project.imageId eq 0) and not empty dc.project.externalImageURL }">style="display: none;"</c:if>>
-					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="true"/>
+					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="false"/>
 				</div>
 				
 				<%-- Groupe de champs : Image externe --%>
@@ -74,7 +74,7 @@
 					
 				</div>
 				
-				<%-- Champ : opacitÃ© de l'image --%>
+				<%-- Champ : opacitÃÂ© de l'image --%>
 				<c:if test="${empty dc.project}">
 					<aui:input name="opacityImage" required="false" helpMessage="opacityHelp" value="1.00" />
 				</c:if>
