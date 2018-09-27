@@ -157,27 +157,34 @@
                     </aside>
                 </div>
             </article>
-
         </div>
     </div>
 	
+	<!-- Initialisation des class util-->
 	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
+	<#assign AssetVocabularyLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil"] />
 	<#assign classNameId = PortalUtil.getClassNameId("eu.strasbourg.service.agenda.model.Event") />	
 	<#assign scop = themeDisplay.getCompanyGroupId() />
 	<#assign i = 0 />
-	
+	<#assign themeAgenda = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scop, "Theme agenda") />
+
+	<!-- initialisation de la variable de configuration -->
 	<#assign preferencesMap = {"scopeIds": "Group_${scop}", "classNameIds" : "${classNameId}",
-	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />
-	
-	<#list entry.getCategories() as event >		
-		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${event.getCategoryId()}"} >
-		<#assign i++ />
+	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />	
+
+	<!-- On suggere les event avec le meme theme agenda que l'entite affichee -->
+	<#list entry.getCategories() as cat >
+		<#if cat.getVocabularyId() == themeAgenda.getVocabularyId()>
+			<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${cat.getCategoryId()}"} >
+			<#assign i++ />
+		</#if>	
 	</#list>
 	
+	<#--
 	<#list entry.getAssetEntry().getTags() as tag >
 		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetTags", "queryValues${i}" : "${tag.getName()}"} >
 		<#assign i++ />
-	</#list>
+	</#list>-->
 	
     <@liferay_portlet["runtime"]
 	defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
@@ -186,6 +193,7 @@
 	instanceId="event${entry.eventId}"
     />
 
+	
 	<!-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
 
 </div>
