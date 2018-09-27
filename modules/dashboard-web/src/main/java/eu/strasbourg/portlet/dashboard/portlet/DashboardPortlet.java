@@ -12,10 +12,10 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
+import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -25,6 +25,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,15 +70,23 @@ public class DashboardPortlet extends MVCPortlet {
 
         List<Petition> petitionFiledList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
         List<Petition> petitionSignedList = PetitionLocalServiceUtil.getPetitionBySignatairePublikId(publicId);
-        List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);
+        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publicId);
         List<Event> events = EventLocalServiceUtil.findEventByUserPublikId(publicId);
-        List<Initiative>initiativeList = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
+        List<Initiative>initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
+        List<Initiative> initiativesAides=new ArrayList<>();
+        //TODO Mock des budgets participatif à implémenter
+        List<Project> budgetFiled = new ArrayList<>();
+        List<Project> budgetVoted = new ArrayList<>();
 
-        renderRequest.setAttribute("petitionFiledCount",petitionFiledList.size());
+        renderRequest.setAttribute("petitionsFiledCount",petitionFiledList.size());
         renderRequest.setAttribute("petitionSignedCount",petitionSignedList.size());
         renderRequest.setAttribute("projectFollowedsCount",projectFolloweds.size());
+        renderRequest.setAttribute("initiativeFiledCount",initiativesFiled.size());
+        renderRequest.setAttribute("initiativeAidesCount",initiativesAides.size());
+        renderRequest.setAttribute("budgetFiledCount",budgetFiled.size());
+        renderRequest.setAttribute("budgetVotedCount",budgetVoted.size());
         renderRequest.setAttribute("eventCount",events.size());
-        renderRequest.setAttribute("petitionFiled",petitionFiledList);
+        renderRequest.setAttribute("petitionsFiled",petitionFiledList);
         renderRequest.setAttribute("petitionSigned",petitionSignedList);
         renderRequest.setAttribute("projectFolloweds",projectFolloweds);
         renderRequest.setAttribute("event",events);

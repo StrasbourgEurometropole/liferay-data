@@ -562,6 +562,12 @@ public class PetitionImpl extends PetitionBaseImpl {
         return PlacitPlaceLocalServiceUtil.getByPetition(this.getPetitionId());
     }
 
+    @Override
+    public String getPublicationDateFr(){
+        Date date = this.getPublicationDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
     /**
      * Retourne la version JSON de l'entité
      */

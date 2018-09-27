@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
@@ -159,6 +158,8 @@ public interface Project extends ProjectModel, PersistedModel {
 	* Retourne la liste des participations du projet
 	*/
 	public java.util.List<Participation> getParticipations();
+
+	public java.util.List<Petition> getPetitions();
 
 	/**
 	* Retourne la liste des évènements du projet

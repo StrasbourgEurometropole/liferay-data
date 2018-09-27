@@ -15,11 +15,8 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -37,13 +34,11 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Project;
 
 import java.io.Serializable;
-
-import java.util.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Project. Methods of this
@@ -194,8 +189,7 @@ public interface ProjectLocalService extends BaseLocalService,
 	* Met à jour le statut du projet par le framework workflow
 	*/
 	public Project updateStatus(long userId, long entryId, int status,
-		ServiceContext sc,
-		java.util.Map<java.lang.String, Serializable> workflowContext)
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
 		throws PortalException;
 
 	/**
@@ -262,6 +256,9 @@ public interface ProjectLocalService extends BaseLocalService,
 	*/
 	public List<Project> findByKeyword(java.lang.String keyword, long groupId,
 		int start, int end);
+
+	public List<Project> findProjectFollowedByProjectId(
+		java.lang.String publicId);
 
 	/**
 	* Renvoie la liste des vocabulaires rattachés à un projet
