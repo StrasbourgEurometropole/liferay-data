@@ -21,8 +21,12 @@
             <form id="form-sign-petition" method="post" action="${signPetitionURL}">
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
-                        <p><liferay-ui:message key="modal.signpetition.information"/></p>
-                        <a href="#" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
+                        <ul style="font-size : 10pt">  
+                        	<li><liferay-ui:message key="modal.signpetition.information"/></li>
+                        	<li><liferay-ui:message key="modal.signpetition.information2"/></li>
+                        	<li><liferay-ui:message key="modal.signpetition.information3"/></li>
+                        </ul>
+                        <a href="/cnil" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
                     </div>
                 </div>
                 <div class="pro-wrapper">
