@@ -4,16 +4,27 @@
     <dynamic-element name="content" type="text_area" index-type="keyword" instance-id="fhpn">
         <dynamic-content language-id="fr_FR">
             <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
-            <!-- <div class="social-share"><input class="toggle-input" id="toggle-input" type="checkbox" /> <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input"><span>Réseaux sociaux</span></label>
-            <ul class="network-list">
-                            <li class="facebook">&nbsp;</li>
-                            <li class="twitter">&nbsp;</li>
-                            <li class="linkedin">&nbsp;</li>
-                            <li class="googleplus">&nbsp;</li>
-                            <li class="mail">&nbsp;</li>
-            </ul>
+            <div class="social-share">
+                <input class="toggle-input" id="toggle-input" type="checkbox">
+                <label for="toggle-input" class="toggle" aria-label="Partagez sur les réseaux sociaux" aria-hidden="true"><span>Réseaux sociaux</span></label>
+                <ul class="network-list">
+                    <li class="facebook">
+                        <a id="sharefacebook" data-href="#" target="_blank" title="Lien de partage sur Facebook" aria-label="Partagez sur Facebook"></a>
+                    </li>
+                    <li class="twitter">
+                        <a id="sharetwitter" target="_blank" title="Lien de partage sur Twitter" aria-label="Partagez sur Twitter"></a>
+                    </li>
+                    <li class="linkedin">
+                        <a id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn" aria-label="Partagez sur LinkedIn"></a>
+                    </li>
+                    <li class="googleplus">
+                        <a id="ShareGooglePlus" target="_blank" title="Lien de partage sur Google+" aria-label="Partagez sur Google+"></a>
+                    </li>
+                    <li class="mail">
+                        <a id="ShareMail" title="Lien de partage par Email" aria-label="Partagez par Email"></a>
+                    </li>
+                </ul>
             </div>
-            -->
 
             <div class="container">
                 <div class="pro-logo"><a aria-label="Logo Ville de Strasbourg" href="https://www.strasbourg.eu/"
@@ -74,7 +85,6 @@
                     <div class="col-md-8 col-sm-6 col-xs-12">
                         <div class="pro-contact">
                             <h4>Ville et Eurométropole de Strasbourg</h4>
-
                             <p>1 parc de l'Étoile<br/>
                                 67076 Strasbourg Cedex</p>
                             <a class="pro-btn-tel" href="tel:0368985000" title="Numéro de téléphone : 03 68 98 50 00">+33
@@ -82,11 +92,11 @@
 
                         <div class="pro-social">
                             <h4>Suivez-nous</h4>
-
                             <ul>
-                                <li>&nbsp;</li>
-                                <li>&nbsp;</li>
-                                <li>&nbsp;</li>
+                                <li><a href="https://www.facebook.com/strasbourg.eu" title="Page Facebook Strasbourg" aria-label="Facebook" target="_blank"><span class="icon-ico-facebook"></span></a></li>
+                                <li><a href="https://twitter.com/strasbourg" title="Page Twitter Strasbourg" aria-label="Twitter" target="_blank"><span class="icon-ico-twitter"></span></a></li>
+                                <li><a href="https://www.instagram.com/strasbourg_eurometropole/" title="Page Instagram Strasbourg" aria-label="Instagram" target="_blank"><span
+                                        class="icon-ico-instagram"></span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -156,3 +166,20 @@
         </dynamic-content>
     </dynamic-element>
 </root>
+<script type="text/javascript">
+window.onload = function(){
+	var url = window.location.toString();
+    document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL)+"src=sdkpreparse");
+    document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
+    document.getElementById("ShareGooglePlus").setAttribute("href","https://plus.google.com/share?url="+url);
+    document.getElementById("ShareMail").setAttribute("href","mailto:&body="+url);
+
+}
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
