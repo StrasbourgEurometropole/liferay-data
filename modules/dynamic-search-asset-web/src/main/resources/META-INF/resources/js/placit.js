@@ -371,3 +371,11 @@ $("input[id^='dynamic_search_type_']").change(function(event) {
 		searchRequest();
 	}
 });
+
+/**
+ * Reinitialise le contenu du champ de recherche
+ * @note Utile dans le cas d'un retour à la page précédente
+ */
+$(document).ready(function() {
+	$("input[name='dynamic-search-keywords']").val("");
+});

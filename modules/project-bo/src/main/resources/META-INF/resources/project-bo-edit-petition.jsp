@@ -72,7 +72,7 @@
 
                 <%-- Champ : Image interne --%>
                 <div class="internalImage" <c:if test="${(empty dc.petition.imageId or dc.petition.imageId eq 0) and not empty dc.petition.externalImageURL }">style="display: none;"</c:if>>
-                    <strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.petition.imageId}" global="true"/>
+                    <strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.petition.imageId}" global="false"/>
                 </div>
 
                 <%-- Groupe de champs : Image externe --%>
@@ -93,6 +93,18 @@
 
 				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="false" />
+
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Soutien --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-support">
+		
+				<%-- Champ : Est soutenue ? --%>
+				<aui:input name="isSupported" label="is-supported" type="toggle-switch"
+					value="${not empty dc.petition ? dc.petition.isSupported : true}" />
+				
+				<%-- Champ : Soutenue par --%>
+				<aui:input name="supportedBy" required="false" />
 
 			</aui:fieldset>
 

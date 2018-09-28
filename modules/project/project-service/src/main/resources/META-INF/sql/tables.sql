@@ -96,6 +96,8 @@ create table project_Petition (
 	petitionnaireCity VARCHAR(75) null,
 	petitionnairePhone VARCHAR(75) null,
 	petitionnaireEmail VARCHAR(75) null,
+	isSupported BOOLEAN,
+	supportedBy VARCHAR(75) null,
 	videoUrl VARCHAR(75) null,
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(75) null,
