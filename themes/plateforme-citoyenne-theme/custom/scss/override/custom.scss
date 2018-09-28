@@ -219,6 +219,13 @@ aside .leaflet-map {
     vertical-align: super;
 }
 
+// affichage des petites étoiles dans la popup modalPetition.
+#form-save-profil .text-warning{
+    color:#ff0000;
+    font-size: 35%;
+    vertical-align: super;
+}
+
 .alertMessage{
     color:#ff0000;
     font-weight:bold;

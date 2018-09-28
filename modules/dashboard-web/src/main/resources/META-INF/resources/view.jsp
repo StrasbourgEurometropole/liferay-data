@@ -1,48 +1,52 @@
 <%@ include file="/init.jsp" %>
 
+<portlet:actionURL var="saveProfilURL" name="saveProfil">
+	<portlet:param name="redirectURL" value="${redirectURL}"/>
+	<portlet:param name="cmd" value="saveProfil" />
+</portlet:actionURL>
+
 <div class="pro-bloc-dashboard">
     <div class="container pro-user">
         <a href="#pro-onglet-account">
             <figure>
-                <img src="assets/images/medias/comm-vincent.jpg" width="40" height="40" alt="Nom de l'utilisateur"/>
+                <img src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png" width="40" height="40" alt="Nom de l'utilisateur"/>
             </figure>
-            <span>Voir mon profil</span>
+            <span><liferay-ui:message key="dashboard.front.profil"/></span>
         </a>
-        <span>Bienvenue, <span id="pro-user-name">Marc B.</span></span>
+        <span><liferay-ui:message key="dashboard.front.welcome"/><span id="pro-user-name">${userConnected.get('first_name')} ${userConnected.get('last_name')}</span></span>
     </div>
 
     <div class="container pro-wrapper-dashboard">
 
-
         <!-- ONGLET ACTIVITE -->
         <div id="pro-onglet-activite">
-            <div class="pro-title-dashboard col-xs-12"><h1>Mon activité citoyenne</h1><span></span></div>
+            <div class="pro-title-dashboard col-xs-12"><h1><liferay-ui:message key="dashboard.front.myactivity"/></h1><span></span></div>
 
             <div class="col-lg-3 col-sm-6 col-xs-12">
                 <a href="#pro-link-listing-projet" class="pro-item pro-item-projet">
                     <div class="pro-item-center">
-                        <span class="pro-number">10</span>
-                        <span class="pro-txt">Projets<br>Suivis</span>
+                        <span class="pro-number">${projectFollowedsCount}</span>
+                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.project"/></span>
                     </div>
                 </a>
                 <a href="#pro-link-listing-event" class="pro-item pro-item-agenda">
                     <div class="pro-item-center">
-                        <span class="pro-number">15</span>
-                        <span class="pro-txt">évènements<br>à venir</span>
+                        <span class="pro-number">${eventCount}</span>
+                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.event"/></span>
                     </div>
-                    <div class="pro-link-dashboard"><span class="pro-txt">Voir les évènements suivis</span></div>
+                    <div class="pro-link-dashboard"><span class="pro-txt"><liferay-ui:message key="dashboard.front.event.goto"/></span></div>
                 </a>
             </div>
 
             <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div class="pro-item pro-item-petition">
                     <div class="pro-item-center">
-                        <span class="pro-number">12</span>
-                        <span class="pro-txt">Pétitions</span>
+                        <span class="pro-number">${petitionsFiledCount+petitionSignedCount}</span>
+                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.petition"/></span>
                     </div>
                     <div class="pro-link-dashboard">
-                        <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>8</strong> Pétitions signées</a>
-                        <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>4</strong> Pétitions déposées</a>
+                        <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>${petitionSignedCount}</strong> <liferay-ui:message key="dashboard.front.petition.signed"/></a>
+                        <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>${petitionsFiledCount}</strong> <liferay-ui:message key="dashboard.front.petition.filed"/></a>
                     </div>
                 </div>
             </div>
@@ -52,12 +56,12 @@
                     <div class="pro-item-center">
                         <div>
                             <span class="icon-ico-initiative"></span>
-                            <span class="pro-txt">Initiatives</span>
+                            <span class="pro-txt"><liferay-ui:message key="dashboard.front.initiative"/></span>
                         </div>
                     </div>
                     <div class="pro-bloc-link-dashboard">
-                        <a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>6</strong><span>Initiatives<br>signées</span></a>
-                        <a href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>11</strong><span>Initiatives<br>aidées</span></a>
+                        <a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>0</strong><span><liferay-ui:message key="dashboard.front.initiative.signed"/></span></a>
+                        <a href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>0</strong><span><liferay-ui:message key="dashboard.front.initiative.filed"/></span></a>
                     </div>
                 </div>
             </div>
@@ -65,14 +69,14 @@
             <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div class="pro-item pro-item-budget">
                     <div class="pro-item-center">
-                        <p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p>
+                        <p></p>
                     </div>
-                    <span class="pro-title">Budget<br>Participatif</span>
+                    <span class="pro-title"><liferay-ui:message key="dashboard.front.budget"/></span>
                     <div class="pro-link-dashboard">
-                        <a href="#pro-link-listing-projet-soumis" class="pro-txt"><strong>2</strong><span> Projets soumis</span></a>
-                        <a href="#pro-link-listing-projet-vote" class="pro-txt"><strong>3</strong><span> Projets votés</span></a>
+                        <a href="#pro-link-listing-projet-soumis" class="pro-txt"><strong>0</strong> <span><liferay-ui:message key="dashboard.front.budget.voted"/></span></a>
+                        <a href="#pro-link-listing-projet-vote" class="pro-txt"><strong>0</strong> <span><liferay-ui:message key="dashboard.front.budget.filed"/></span></a>
                     </div>
-                    <div class="pro-info-vote"><span>Il vous reste <strong>2 votes</strong></span></div>
+                    <div class="pro-info-vote"><span><liferay-ui:message key="dashboard.front.budget.reliquat"/> 0 <liferay-ui:message key="dashboard.front.budget.reliquat2"/></span></div>
                 </div>
             </div>
         </div>
@@ -80,25 +84,25 @@
 
         <!-- ONGLET ACCOUNT -->
         <div id="pro-onglet-account" class="pro-hide">
-            <div class="pro-title-dashboard col-xs-12"><h2>Mon compte</h2><span></span></div>
-            <div class="col-xs-12"><a href="#pro-onglet-activite" class="pro-btn-back">Mes informations</a></div>
+            <div class="pro-title-dashboard col-xs-12"><h2><liferay-ui:message key="dashboard.account.title"/></h2><span></span></div>
+            <div class="col-xs-12"><a href="#pro-onglet-activite" class="pro-btn-back"><liferay-ui:message key="dashboard.account.information"/></a></div>
 
-            <form method="post" action="/">
+            <form id="form-save-profil" method="post" action="${saveProfilURL}">
                 <div class="pro-wrapper col-md-3">
                     <div class="profile">
                         <div class="photo">
                             <input type="file" accept="image/*">
                             <div class="photo__helper">
                                 <div class="photo__frame photo__frame--circle">
-                                    <img src="assets/images/medias/img-account.png" width="185" height="185" alt="Image" class="pro-img-bg"/>
+                                    <img src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png" width="185" height="185" alt="Image" class="pro-img-bg"/>
                                     <canvas class="photo__canvas"></canvas>
 
                                     <div class="pro-photo-hover">
                                         <span class="icon-ico-user"></span>
-                                        <p>Modifier ma photo de profil</p>
+                                        <p><liferay-ui:message key="dashboard.account.profile.picture"/></p>
                                     </div>
                                     <div class="message is-wrong-image-size">
-                                        <p>Votre photo doit être plus large que 350 pixels.</p>
+                                        <p><liferay-ui:message key="dashboard.account.profile.picture.error"/></p>
                                     </div>
                                 </div>
                             </div>
@@ -108,53 +112,360 @@
                 <div class="pro-wrapper col-md-9">
                     <div class="pro-row">
                         <div class="form-group form-third">
-                            <label for="nom">Nom <span class="required">*</span></label>
-                            <input type="text" class="form-control disabled" id="nom" value="Burton" disabled/>
+                            <aui:input name="username" disabled="true" label="dashboard.account.profile.username" required="true" value="${userConnected.get('last_name')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="prenom">Prénom <span class="required">*</span></label>
-                            <input type="text" class="form-control disabled" id="prenom" value="Marc" disabled/>
+                            <aui:input name="firstname" disabled="true" label="dashboard.account.profile.firstname" required="true" value="${userConnected.get('first_name')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="date">Date de naissance <span class="required">*</span></label>
-                            <input type="text" class="form-control frm_date" id="date" placeholder="jj/mm/aaaa"/>
+                            <c:if test="${userConnected.get('birthdate') ne 'null'}">
+                                <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+                                <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+                            </c:if>
+                            <aui:input name="birthday" cssClass="frm_date" label="dashboard.account.profile.birthday" required="true" placeholder="jj/mm/aaaa" value="${formattedDate}"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="adresse">Adresse <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="adresse" value="31 rue de la Boucherie"/>
+				            <aui:input name="address" label="dashboard.account.profile.address" required="true" value="${userConnected.get('address')}"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <label for="city">Ville <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="city" value="Strasbourg"/>
+				                <aui:input name="city" label="dashboard.account.profile.city" required="true" placeholder="Strasbourg" value="${userConnected.get('city')}"/>
                             </div>
                             <div class="form-code">
-                                <label for="code">Code postal <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="code" value="67000"/>
+                                <aui:input name="postalcode" label="dashboard.account.profile.postalcode" required="true" placeholder="67XXX" value="${userConnected.get('zipcode')}"/>
                             </div>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-third">
-                            <label for="email">Adresse mail <span class="required">*</span></label>
-                            <input type="email" class="form-control" id="email" value="marc.burton@gmail.com">
+                        <aui:input type="email" name="mail" disabled="true" label="dashboard.account.profile.mail"  required="true" value="${userConnected.get('email')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="tel_fixe">Téléphone Fixe</label>
-                            <input type="text" class="form-control" id="tel_fixe"/>
+                            <aui:input type="number" name="phone" label="dashboard.account.profile.phone" placeholder="0311111111" value="${userConnected.get('phone')}"/>
                         </div>
                         <div class="form-group form-third">
-                            <label for="tel_mobile">Téléphone mobile</label>
-                            <input type="text" class="form-control" id="tel_mobile" placeholder="+33 6 87 52 47 30"/>
+                            <aui:input type="number" name="mobile" label="dashboard.account.profile.mobile" placeholder="0611111111" value="${userConnected.get('mobile')}"/>
                         </div>
                     </div>
                     <div class="pro-form-submit pro-row">
-                        <button type="submit" class="btn btn-default">Sauvegarder mon profil</button>
+                        <button type="submit" class="btn btn-default"><liferay-ui:message key="dashboard.account.profile.button.save"/></button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- LISTING DE TUILES -->
+<c:if test="${projectFollowedsCount != 0}">
+    <section id="pro-link-listing-projet" class="pro-bloc-slider">
+        <div class="container">
+            <h2><liferay-ui:message key="dashboard.thumbnail.project.title"/></h2>
+            <a href="${homeURL}projets" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.project.link.title'/>" >
+                <liferay-ui:message key="dashboard.thumbnail.project.link"/>
+            </a>
+
+            <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
+            <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
+                <c:forEach var="projectFollowed" items="${projectFolloweds}">
+                    <div class="item bloc-card-projet">
+                        <a href="${projectFollowed.detailURL}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>">
+                            <div class="img">
+                                <figure role="group">
+                                    <img src='${projectFollowed.imageURL}' alt="Image agenda" width="360" height="242" class="fit-cover"/>
+                                </figure>
+                                <span><liferay-ui:message key="dashboard.thumbnail.project.goto"/></span>
+                            </div>
+                            <div class="content">
+                                <span class="location">${projectFollowed.getDistrictLabel(locale)}</span>
+                                <h3>${projectFollowed.title}</h3>
+                            </div>
+                        </a>
+                        <ul>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-participation" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getParticipations())} <liferay-ui:message key="dashboard.thumbnail.project.participation"/></a></li>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-evenement" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getEvents())} <liferay-ui:message key="dashboard.thumbnail.project.events"/></a></li>
+                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.budget"/></a></li>
+                            <li><a href="${projectFollowed.detailURL}#pro-link-petition" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getPetitions())} <liferay-ui:message key="dashboard.thumbnail.project.petition"/></a></li>
+                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.initiative"/></a></li>
+                        </ul>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </section>
+</c:if>
+<div class="pro-wrapper-list-dashboard">
+    <c:if test="${eventCount} != 0">
+        <section id="pro-link-listing-event" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <h2>Mon agenda (${eventCount})</h2>
+                <a href="${homeURL}agenda" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.agenda.title'/>">
+                    <liferay-ui:message key="dashboard.thumbnail.agenda"/>
+                </a>
+
+                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+                    <c:forEach var="event" items="${event}">
+                        <div class="item pro-bloc-card-event" data-linkall="a">
+                            <div>
+                                <div class="pro-header-event">
+                                    <span class="pro-ico"><span class="icon-ico-debat"></span></span>
+                                    <span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>
+                                    <p>À : Espace des associations de Strasbourg au centre ville</p>
+                                    <a href="detail-event.html" title="lien de la page"><h3>Titre de l’Évènement</h3></a>
+                                </div>
+                                <div class="pro-footer-event">
+                                    <span class="pro-btn-action">Je participe</span>
+                                    <span class="pro-number"><strong>37</strong> Participants-es</span>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </section>
+    </c:if>
+    <!-- Tuile des pétitions -->
+
+    <c:if test="${petitionSignedCount ne 0}">
+        <section id="pro-link-listing-petition-signe" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <h2><liferay-ui:message key="dashboard.thumbnail.petition.signed.mine"/> (${petitionSignedCount})</h2>
+                <a href="${homeURL}petitions" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.petition.main.alt'/>"><liferay-ui:message key="dashboard.thumbnail.petition.main"/></a>
+
+                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+                    <c:forEach var="petitionSigned" items="${petitionSigned}">
+                        <div class="item pro-bloc-card-petition" data-linkall="a">
+                            <div class="pro-header-petition">
+                                <figure role="group">
+                                    <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+                                </figure>
+                                <p><liferay-ui:message key="dashboard.thumbnail.petition.from"/></p>
+                                <p><strong>${petitionSigned.petitionnaireFirstname} ${petitionSigned.petitionnaireLastname}</strong></p>
+                            </div>
+                            <div class="pro-content-petition">
+                                <a href="${homeURL}detail-petition/-/entity/id/${petitionSigned.petitionId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${petitionSigned.title}</h3></a>
+                                <p><liferay-ui:message key="dashboard.thumbnail.petition.to"/></p>
+                                <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.petition.publish.date"/>  <time datetime="${petitionSigned.getPublicationDateFr()}">${petitionSigned.getPublicationDateFr()}</time> / <span class="pro-duree">${petitionSigned.getProDureeFR()}</span></span>
+                            </div>
+                            <div class="pro-footer-petition">
+                                <div class="pro-progress-bar">
+                                    <div class="pro-progress-container">
+                                        <div style="width:${petitionSigned.getPourcentageSignature()}%"></div>
+                                    </div>
+                                    <p class="pro-txt-progress"><strong>${petitionSigned.getNombreSignature()}</strong><liferay-ui:message key="dashboard.thumbnail.petition.progress"/> ${petitionSigned.getQuotaSignature()} <liferay-ui:message key="dashboard.thumbnail.petition.progress2"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </section>
+    </c:if>
+
+
+    <!-- Tuile des pétitions -->
+
+    <c:if test="${petitionsFiledCount != 0}">
+        <section id="pro-link-listing-petition-depose" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <h2><liferay-ui:message key="dashboard.thumbnail.petition.filed.mine"/> (${petitionsFiledCount})</h2>
+                <a href="${homeURL}petitions" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.petition.main.alt'/>"><liferay-ui:message key="dashboard.thumbnail.petition.main"/></a>
+
+                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+                    <c:forEach var="petitionFiled" items="${petitionsFiled}">
+                        <div class="item pro-bloc-card-petition" data-linkall="a">
+                            <div class="pro-header-petition">
+                                <figure role="group">
+                                    <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+                                </figure>
+                                <p><liferay-ui:message key="dashboard.thumbnail.petition.from"/></p>
+                                <p><strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong></p>
+                            </div>
+                            <div class="pro-content-petition">
+                                <a href="${homeURL}detail-petition/-/entity/id/${petitionFiled.petitionId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${petitionFiled.title}</h3></a>
+                                <p><liferay-ui:message key="dashboard.thumbnail.petition.to"/></p>
+                                <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.petition.publish.date"/>  <time datetime="${petitionFiled.getPublicationDateFr()}">${petitionFiled.getPublicationDateFr()}</time> / <span class="pro-duree">${petitionFiled.getProDureeFR()}</span></span>
+                            </div>
+                            <div class="pro-footer-petition">
+                                <div class="pro-progress-bar">
+                                    <div class="pro-progress-container">
+                                        <div style="width:${petitionFiled.getPourcentageSignature()}%"></div>
+                                    </div>
+                                    <p class="pro-txt-progress">
+                                    <strong>
+                                    ${petitionFiled.getNombreSignature()}
+                                    </strong>
+                                    <liferay-ui:message key="dashboard.thumbnail.petition.progress"/> ${petitionFiled.getQuotaSignature()} <liferay-ui:message key="dashboard.thumbnail.petition.progress2"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </section>
+    </c:if>
+
+
+    <!-- Tuile des initiatives -->
+    <c:if test="${initiativeFiledCount != 0}">
+        <section id="pro-link-listing-initiative-signe" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <h2>Mes initiatives signées (6)</h2>
+                <a href="listing-initiative.html" class="pro-btn" title="Lien vers la page du Listing des évènements">Toutes les initiatives</a>
+
+                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+
+                    <div class="item pro-bloc-card-initiative" data-linkall="a">
+                        <div class="wrapper-card-initiative">
+                            <div>
+                                <div class="pro-header-initiative">
+                                    <figure role="group">
+                                        <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/>
+                                    </figure>
+                                    <p>Initiative publiée par :</p>
+                                    <p><strong>Sylvie M.</strong></p>
+                                </div>
+                                <div class="pro-content-initiative">
+                                    <div class="pro-wrapper-meta">
+                                        <div class="pro-meta">
+                                            <span>Quartier</span>
+                                            <span>Thématique</span>
+                                            <span>Nom du projet</span>
+                                        </div>
+                                    </div>
+                                    <a href="detail-initiative.html" title="lien de la page"><h3>Titre de l’initiative<br>Sur deux lignes</h3></a>
+                                    <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pro-footer-initiative">
+                            <div class="pro-avis">
+                                <span>188</span>
+                            </div>
+                            <p>Citoyens soutiennent cette initiative</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </c:if>
+
+
+    <!-- Tuile des initiatives -->
+    <c:if test="${initiativeAidesCount != 0}">
+        <section id="pro-link-listing-initiative-aide" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <h2>Mes initiatives aidées (11)</h2>
+                <a href="listing-initiative.html" class="pro-btn" title="Lien vers la page du Listing des évènements">Toutes les initiatives</a>
+
+                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+
+                    <div class="item pro-bloc-card-initiative" data-linkall="a">
+                        <div class="wrapper-card-initiative">
+                            <div>
+                                <div class="pro-header-initiative">
+                                    <figure role="group">
+                                        <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/>
+                                    </figure>
+                                    <p>Initiative publiée par :</p>
+                                    <p><strong>Sylvie M.</strong></p>
+                                </div>
+                                <div class="pro-content-initiative">
+                                    <div class="pro-wrapper-meta">
+                                        <div class="pro-meta">
+                                            <span>Quartier</span>
+                                            <span>Thématique</span>
+                                            <span>Nom du projet</span>
+                                        </div>
+                                    </div>
+                                    <a href="detail-initiative.html" title="lien de la page"><h3>Titre de l’initiative<br>Sur deux lignes</h3></a>
+                                    <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pro-footer-initiative">
+                            <div class="pro-avis">
+                                <span>188</span>
+                            </div>
+                            <p>Citoyens soutiennent cette initiative</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </c:if>
+
+    <!-- Tuile des budgets -->
+    <c:if test="${budgetFiledCount != 0}">
+        <section id="pro-link-listing-projet-soumis" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <h2>Mes idées soumises (2)</h2>
+                <a href="listing-budget.html" class="pro-btn" title="Lien vers la page du Listing des budgets">Toutes les idées</a>
+
+                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+
+                    <div class="item pro-bloc-card-budget pro-theme-faisable" data-linkall="a">
+                        <div class="pro-header-budget">
+                            <figure role="group">
+                                <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/>
+                            </figure>
+                            <p>Idée déposée par :</p>
+                            <p><strong>Sylvie M.</strong></p>
+                            <div class="pro-info-top-right">
+                                <span class="pro-encart-theme">Faisable</span>
+                            </div>
+                        </div>
+                        <div class="pro-content-budget">
+                            <a href="detail-budget.html" title="lien de la page"><h3>Titre du budget participatif<br>Sur deux lignes</h3></a>
+                            <p>Projet adressée à <u>la ville de Strasbourg</u></p>
+                            <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span>
+                        </div>
+                        <div class="pro-footer-budget">
+                            <p><strong>1500</strong> Citoyens-nes soutiennent cette idée</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </c:if>
+
+
+    <!-- Tuile des budgets -->
+    <c:if test="${budgetVotedCount != 0}">
+        <section id="pro-link-listing-projet-vote" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <h2>Mes projets votés (3)</h2>
+                <a href="listing-budget.html" class="pro-btn" title="Lien vers la page du Listing des budgets">Toutes les idées</a>
+
+                <div class="owl-carousel owl-opacify owl-theme owl-cards">
+
+                    <div class="item pro-bloc-card-budget  pro-theme-non-faisable" data-linkall="a">
+                        <div class="pro-header-budget">
+                            <figure role="group">
+                                <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/>
+                            </figure>
+                            <p>Idée déposée par :</p>
+                            <p><strong>Sylvie M.</strong></p>
+                            <div class="pro-info-top-right">
+                                <span class="pro-encart-theme">Non faisable</span>
+                            </div>
+                        </div>
+                        <div class="pro-content-budget">
+                            <a href="detail-budget.html" title="lien de la page"><h3>Titre du budget participatif<br>Sur deux lignes</h3></a>
+                            <p>Projet adressée à <u>la ville de Strasbourg</u></p>
+                            <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span>
+                        </div>
+                        <div class="pro-footer-budget">
+                            <p>Ce budget participatif a été étudié et déclaré non-faisable</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </c:if>
+</div>
+
+<a href="#backtop" class="pro-btn-back-top"><span class="icon-ico-chevron-down"></span></a>
+<script></script>

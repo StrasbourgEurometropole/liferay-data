@@ -14,12 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -30,20 +25,30 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
@@ -298,18 +303,37 @@ public class ProjectImpl extends ProjectBaseImpl {
 
 		if(getProjectCategory() != null)
 			assetResults = AssetEntryLocalServiceUtil
-			.getAssetCategoryAssetEntries(getProjectCategory()
-			.getCategoryId()).stream()
-			.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
-			.collect(Collectors.toList());
-		
+					.getAssetCategoryAssetEntries(getProjectCategory()
+							.getCategoryId()).stream()
+					.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
+					.collect(Collectors.toList());
+
 		for (AssetEntry assetEntry : assetResults) {
 			participationResults.add(ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK()));
 		}
 
 		return participationResults;
 	}
-	
+
+	@Override
+	public List<Petition> getPetitions() {
+		List<AssetEntry> assetResults = new ArrayList<>();
+		List<Petition> petitionsResults = new ArrayList<>();
+
+		if(getProjectCategory() != null)
+			assetResults = AssetEntryLocalServiceUtil
+					.getAssetCategoryAssetEntries(getProjectCategory()
+							.getCategoryId()).stream()
+					.filter(cat -> cat.getClassName().equals(Petition.class.getName()) && cat.isVisible())
+					.collect(Collectors.toList());
+
+		for (AssetEntry assetEntry : assetResults) {
+            petitionsResults.add(PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK()));
+		}
+
+		return petitionsResults;
+	}
+
 	/**
 	 * Retourne la liste des évènements du projet
 	 */

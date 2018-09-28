@@ -303,6 +303,11 @@ public class PetitionLocalServiceUtil {
 		return getService().getPetitionByPublikUserID(publikId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getPetitionBySignatairePublikId(
+		java.lang.String publikId) {
+		return getService().getPetitionBySignatairePublikId(publikId);
+	}
+
 	/**
 	* Returns a range of all the petitions.
 	*

@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -278,6 +276,11 @@ public class InitiativeLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.project.model.Initiative> findByKeyword(
 		java.lang.String keyword, long groupId, int start, int end) {
 		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> findByPublikUserId(
+		java.lang.String publikUserId) {
+		return getService().findByPublikUserId(publikUserId);
 	}
 
 	/**
