@@ -1,16 +1,26 @@
 <!-- DETAIL D'UN EVENEMENT -->
 
-<!-- Recuperation de la localisation de l'utilisateur -->
+<#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<!-- Recuperation de l'URL de "base" du site -->
+<#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des coordonnées GPS -->
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign userID = request.session.getAttribute("publik_internal_id") />
+
+<#-- L'utilisateur participe à l'événement ? -->
+<#if userID?has_content >
+    <#assign isUserParticipates = entry.isUserParticipates(userID) />
+<#else>
+    <#assign isUserParticipates = false />
+</#if>
+
+<#-- Recuperation des coordonnées GPS -->
 <#assign eventPlaceMercatorX = 0 />
 <#assign eventPlaceMercatorY = 0 />
 
@@ -20,6 +30,9 @@
     <#assign eventPlaceMercatorX = eventPlaceMercators[0] />
     <#assign eventPlaceMercatorY = eventPlaceMercators[1] />
 </#if>
+
+<#-- Recuperation de la version JSON de l'événement -->
+<#assign eventJSON = entry.toJSON() />
 
 <div class="pro-page-detail">
 
@@ -157,27 +170,34 @@
                     </aside>
                 </div>
             </article>
-
         </div>
     </div>
 	
+	<!-- Initialisation des class util-->
 	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
+	<#assign AssetVocabularyLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil"] />
 	<#assign classNameId = PortalUtil.getClassNameId("eu.strasbourg.service.agenda.model.Event") />	
 	<#assign scop = themeDisplay.getCompanyGroupId() />
 	<#assign i = 0 />
-	
+	<#assign themeAgenda = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scop, "Theme agenda") />
+
+	<!-- initialisation de la variable de configuration -->
 	<#assign preferencesMap = {"scopeIds": "Group_${scop}", "classNameIds" : "${classNameId}",
-	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />
-	
-	<#list entry.getCategories() as event >		
-		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${event.getCategoryId()}"} >
-		<#assign i++ />
+	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />	
+
+	<!-- On suggere les event avec le meme theme agenda que l'entite affichee -->
+	<#list entry.getCategories() as cat >
+		<#if cat.getVocabularyId() == themeAgenda.getVocabularyId()>
+			<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${cat.getCategoryId()}"} >
+			<#assign i++ />
+		</#if>	
 	</#list>
 	
+	<#--
 	<#list entry.getAssetEntry().getTags() as tag >
 		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetTags", "queryValues${i}" : "${tag.getName()}"} >
 		<#assign i++ />
-	</#list>
+	</#list>-->
 	
     <@liferay_portlet["runtime"]
 	defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
@@ -186,14 +206,21 @@
 	instanceId="event${entry.eventId}"
     />
 
-	<!-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
+	
+	<#-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
 
 </div>
 
 <script>
 
+    var leafletMap = null;
+
+    // Préparation des données concernant les entités à afficher
     var eventMercatorX = ${eventPlaceMercatorX};
     var eventMercatorY = ${eventPlaceMercatorY};
+    var eventJSON = ${eventJSON};
+    eventJSON.link = '${homeURL}detail-evenement/-/entity/id/${entry.eventId}';
+    eventJSON.isUserPart = ${isUserParticipates?c};
 
     $(document).ready(function() {
 
@@ -205,10 +232,17 @@
             leafletMap = getLeafletMap()
 
             // Définition des marqueurs
-            var eventIcon = getMarkerIcon('event');
+            var eventMarker = getEventMarker(eventJSON);
 
             // Ajout du marqueur sur la map
-            var marker = L.marker([eventMercatorY, eventMercatorX], {icon: eventIcon}).addTo(leafletMap);
+           eventMarker.addTo(leafletMap);
+        
+            // Centre la carte sur les pins
+            var bounds = [];
+
+            // Ajout des coordonnées du marker dans le bounds
+            bounds.push(eventMarker.getLatLng());
+            leafletMap.fitBounds(bounds);
         }
 
     });
@@ -219,24 +253,9 @@
             $(this).addClass("col-lg-10 col-lg-offset-1");
         });
 
-        var eventid = ${entry.eventId};
-
-        // Recherche si l'utilisateur participe a l'evenement
-        Liferay.Service(
-            '/agenda.eventparticipation/is-user-participates',
-            {
-                eventId: eventid
-            },
-            function(obj) {
-                // En cas de succès, on effectue la modification des éléments visuels
-                // selon la réponse et le type de l'élément
-                if (obj.hasOwnProperty('success')) {
-                    if (obj['success'] == 'true') {
-                        $("[href='#Participe']").toggleClass('active');
-                    }
-                }
-            }
-        );
+        if (eventJSON.isUserPart) {
+            $("[href='#Participe']").toggleClass('active');
+        }
 
     });
 
