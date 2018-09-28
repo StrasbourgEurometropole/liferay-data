@@ -1,6 +1,10 @@
 .leaflet-control-fullscreen a {
-  background:#fff url(../images/leaflet/fullscreen.png) no-repeat 0 0;
-  background-size:26px 52px;
+  background: #ffed00 url(../images/leaflet/fullscreen.png) no-repeat 0 0;
+  background-size:26px 52px; 
+}
+
+.leaflet-control-fullscreen a:hover {
+  background: #000000 url(../images/leaflet/fullscreen-hover.png) no-repeat 0 0;
 }
 
 .leaflet-touch .leaflet-control-fullscreen a {
@@ -40,5 +44,8 @@
   (min-resolution:192dpi) {
     .leaflet-control-fullscreen a {
       background-image:url(../images/leaflet/fullscreen@2x.png);
+    }
+    .leaflet-control-fullscreen a:hover {
+      background-image:url(../images/leaflet/fullscreen-hover@2x.png);
     }
   }
