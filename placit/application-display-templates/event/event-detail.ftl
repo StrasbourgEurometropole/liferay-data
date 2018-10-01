@@ -181,11 +181,11 @@
 	<#assign i = 0 />
 	<#assign themeAgenda = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scop, "Theme agenda") />
 
-	<#-- initialisation de la variable de configuration -->
+	<!-- initialisation de la variable de configuration -->
 	<#assign preferencesMap = {"scopeIds": "Group_${scop}", "classNameIds" : "${classNameId}",
 	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />	
 
-	<#-- On suggere les event avec le meme theme agenda que l'entite affichee -->
+	<!-- On suggere les event avec le meme theme agenda que l'entite affichee -->
 	<#list entry.getCategories() as cat >
 		<#if cat.getVocabularyId() == themeAgenda.getVocabularyId()>
 			<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${cat.getCategoryId()}"} >

@@ -1,3 +1,9 @@
+<#-- Detail actualite -->
+
+<#-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
+<#assign sliderTemplate =  "ddmTemplate_1809516"/>
+<#assign typeActualite =  "1807609"/>
+
 <#setting locale = locale />
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
@@ -58,12 +64,32 @@
 
 	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
 	<#assign classNameId = PortalUtil.getClassNameId("com.liferay.journal.model.JournalArticle") />
-
+	<#assign AssetVocabularyLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil"] />	
+	
+	<#assign scopGlobal = themeDisplay.getCompanyGroupId() />
+	<#assign scop = themeDisplay.getSiteGroupId() />
+	<#assign i = 0 />
+	<#assign thematique = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scop, "Thématique") />
+	<#assign quartier = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scopGlobal, "Territoire") />
 
 	<#assign preferencesMap = {"anyAssetType" : "${classNameId}", "classNameIds" : "${classNameId}", "displayStyle" : "ddmTemplate_1809516", "anyClassTypeJournalArticleAssetRendererFactory" : "1807609",
-	"classTypeIdsJournalArticleAssetRendererFactory" : "1807609", "classTypeIds" : "1807609"}	/>	
+	"classTypeIdsJournalArticleAssetRendererFactory" : "${typeActualite}", "classTypeIds" : "${typeActualite}", "delta" : "4"}	/>	
 	
-
+	<#-- On suggere les actualite avec la meme thematique que l'entite affichee -->
+	<#list categoryList as cat >
+		<#if cat.getVocabularyId() == thematique.getVocabularyId()>
+			<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryContains${i}" : "true", "queryValues${i}" : "${cat.getCategoryId()}"} >
+			<#assign i++ />
+		</#if>	
+	</#list>
+	
+	<#-- On suggere les actualite avec le meme territoire que l'entite affichee -->
+	<#list categoryList as cat>
+		<#if cat.getVocabularyId() == quartier.getVocabularyId()>
+			<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryContains${i}" : "true", "queryValues${i}" : "${cat.getCategoryId()}"} >
+			<#assign i++ />
+		</#if>	
+	</#list>
 
 	<@liferay_portlet["runtime"]
 		defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
@@ -84,4 +110,10 @@
     $(document).ready(function() {
         $('.comment-portlet').css("cssText", "display: block !important;");
     });
+	
+	$(document).ready(function() {
+		//Change le titre du slider des actualite
+		$(".pro-intro h2").text("CELA POURRAIT VOUS INTERESSER");
+		$(".pro-intro p").hide();
+	});
 </script>
