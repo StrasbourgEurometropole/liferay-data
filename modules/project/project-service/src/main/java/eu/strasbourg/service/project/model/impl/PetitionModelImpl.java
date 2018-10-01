@@ -101,6 +101,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "petitionnaireCity", Types.VARCHAR },
 			{ "petitionnairePhone", Types.VARCHAR },
 			{ "petitionnaireEmail", Types.VARCHAR },
+			{ "isSupported", Types.BOOLEAN },
+			{ "supportedBy", Types.VARCHAR },
 			{ "videoUrl", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
@@ -141,6 +143,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("petitionnaireCity", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnairePhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnaireEmail", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("isSupported", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("supportedBy", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
@@ -152,7 +156,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(75) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(75) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(75) null,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(75) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(75) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(75) null,isSupported BOOLEAN,supportedBy VARCHAR(75) null,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -215,6 +219,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setPetitionnaireCity(soapModel.getPetitionnaireCity());
 		model.setPetitionnairePhone(soapModel.getPetitionnairePhone());
 		model.setPetitionnaireEmail(soapModel.getPetitionnaireEmail());
+		model.setIsSupported(soapModel.getIsSupported());
+		model.setSupportedBy(soapModel.getSupportedBy());
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
@@ -315,6 +321,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("petitionnaireCity", getPetitionnaireCity());
 		attributes.put("petitionnairePhone", getPetitionnairePhone());
 		attributes.put("petitionnaireEmail", getPetitionnaireEmail());
+		attributes.put("isSupported", getIsSupported());
+		attributes.put("supportedBy", getSupportedBy());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -498,6 +506,18 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		if (petitionnaireEmail != null) {
 			setPetitionnaireEmail(petitionnaireEmail);
+		}
+
+		Boolean isSupported = (Boolean)attributes.get("isSupported");
+
+		if (isSupported != null) {
+			setIsSupported(isSupported);
+		}
+
+		String supportedBy = (String)attributes.get("supportedBy");
+
+		if (supportedBy != null) {
+			setSupportedBy(supportedBy);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -1006,6 +1026,39 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
+	public boolean getIsSupported() {
+		return _isSupported;
+	}
+
+	@JSON
+	@Override
+	public boolean isIsSupported() {
+		return _isSupported;
+	}
+
+	@Override
+	public void setIsSupported(boolean isSupported) {
+		_isSupported = isSupported;
+	}
+
+	@JSON
+	@Override
+	public String getSupportedBy() {
+		if (_supportedBy == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _supportedBy;
+		}
+	}
+
+	@Override
+	public void setSupportedBy(String supportedBy) {
+		_supportedBy = supportedBy;
+	}
+
+	@JSON
+	@Override
 	public String getVideoUrl() {
 		if (_videoUrl == null) {
 			return StringPool.BLANK;
@@ -1298,6 +1351,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setPetitionnaireCity(getPetitionnaireCity());
 		petitionImpl.setPetitionnairePhone(getPetitionnairePhone());
 		petitionImpl.setPetitionnaireEmail(getPetitionnaireEmail());
+		petitionImpl.setIsSupported(getIsSupported());
+		petitionImpl.setSupportedBy(getSupportedBy());
 		petitionImpl.setVideoUrl(getVideoUrl());
 		petitionImpl.setExternalImageURL(getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(getExternalImageCopyright());
@@ -1569,6 +1624,16 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.petitionnaireEmail = null;
 		}
 
+		petitionCacheModel.isSupported = getIsSupported();
+
+		petitionCacheModel.supportedBy = getSupportedBy();
+
+		String supportedBy = petitionCacheModel.supportedBy;
+
+		if ((supportedBy != null) && (supportedBy.length() == 0)) {
+			petitionCacheModel.supportedBy = null;
+		}
+
 		petitionCacheModel.videoUrl = getVideoUrl();
 
 		String videoUrl = petitionCacheModel.videoUrl;
@@ -1637,7 +1702,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1693,6 +1758,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getPetitionnairePhone());
 		sb.append(", petitionnaireEmail=");
 		sb.append(getPetitionnaireEmail());
+		sb.append(", isSupported=");
+		sb.append(getIsSupported());
+		sb.append(", supportedBy=");
+		sb.append(getSupportedBy());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
 		sb.append(", externalImageURL=");
@@ -1718,7 +1787,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(112);
+		StringBundler sb = new StringBundler(118);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1833,6 +1902,14 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getPetitionnaireEmail());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>isSupported</column-name><column-value><![CDATA[");
+		sb.append(getIsSupported());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>supportedBy</column-name><column-value><![CDATA[");
+		sb.append(getSupportedBy());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>videoUrl</column-name><column-value><![CDATA[");
 		sb.append(getVideoUrl());
 		sb.append("]]></column-value></column>");
@@ -1913,6 +1990,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _petitionnaireCity;
 	private String _petitionnairePhone;
 	private String _petitionnaireEmail;
+	private boolean _isSupported;
+	private String _supportedBy;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

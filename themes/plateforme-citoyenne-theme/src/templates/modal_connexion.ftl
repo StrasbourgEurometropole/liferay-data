@@ -12,8 +12,7 @@
                                 <div class="pro-txt">
                                     <h2>Le Pacte</h2>
                                     <span class="pro-soustitre">Nul n'est censé l'ignorer</span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    <p>Vous devez avoir préalablement lu & signé le Pacte de la Démocratie locale pour agir sur le site.</p>
                                     <a href="${themeDisplay.getPortalURL()}${homeURL}pacte" class="pro-btn-yellow" title="Aller vers la page du Pacte">Consulter le pacte</a>
                                 </div>
                             </div>
@@ -22,7 +21,7 @@
                                 <div class="pro-reagir">
                                     <div>
                                         <h3>Se connecter</h3>
-                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboa commodo consequat.</p>                          
+                                        <p>Vous devez être identifié avec votre compte MonStrasbourg.eu pour agir sur le site.</p>                          
                                         <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="pro-btn-yellow" title="Connexion">Se connecter</a>
                                         
                                     </div>

@@ -25,9 +25,9 @@
         
         	<!-- CHAMP : Filtres des types d'entite -->
             <div class="pro-sort pro-dropdown">
-                <a href="#" title="Voir toutes les types d'entitÃ©">Types</a>
+                <a href="#" title="Voir toutes les types d'entite">Types</a>
                 <fieldset class="pro-checkbox">
-                    <legend aria-hidden="true" class="hide">Choix des types recherchÃ©s</legend>
+                    <legend aria-hidden="true" class="hide">Choix des types recherches</legend>
                     
                     <c:forEach var="className" varStatus="status" items="${classNames}">
 	                    <div>

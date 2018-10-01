@@ -277,7 +277,10 @@ function getLeafletMap() {
         zoom: 13,
         minZoom: 12,
         zoomControl: false,
-        attributionControl: false
+        attributionControl: false,
+        fullscreenControl: {
+            pseudoFullscreen: false // if true, fullscreen to page width and height
+        }
     });
 
     // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
