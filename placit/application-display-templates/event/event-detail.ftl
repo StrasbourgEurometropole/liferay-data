@@ -11,14 +11,10 @@
 </#if>
 
 <#-- Récupération de l'ID de l'utilisateur -->
-<#assign userID = request.session.getAttribute("publik_internal_id") />
+<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
-<#-- L'utilisateur participe à l'événement ? -->
-<#if userID?has_content >
-    <#assign isUserParticipates = entry.isUserParticipates(userID) />
-<#else>
-    <#assign isUserParticipates = false />
-</#if>
+<#-- L'utilisateur participe-t-il ? -->
+<#assign isUserPartActive = entry.isUserParticipates(userID)?then("active", "") >
 
 <#-- Recuperation des coordonnées GPS -->
 <#assign eventPlaceMercatorX = 0 />
@@ -32,7 +28,7 @@
 </#if>
 
 <#-- Recuperation de la version JSON de l'événement -->
-<#assign eventJSON = entry.toJSON() />
+<#assign eventJSON = entry.toJSON(userID) />
 
 <div class="pro-page-detail">
 
@@ -131,18 +127,20 @@
                             <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
                             <#if entry.isFinished() >
-                                <a class="pro-btn-action">
+                                <a class="pro-btn-action ${isUserPartActive}">
                                     Événement terminé
                                 </a>
                             <#elseif request.session.getAttribute("has_pact_signed")!false >
-                                <a href="#Participe" class="pro-btn-action"
+                                <a href="#Participe" 
+                                    class="pro-btn-action ${isUserPartActive}"
                                     data-eventid="${entry.eventId}"
                                     data-groupid="${entry.groupId}"
                                     title="Je participe">
                                     Je participe
                                 </a>
                             <#else>
-                                <a class="pro-btn-action" name="#Pact-sign">
+                                <a class="pro-btn-action ${isUserPartActive}" 
+                                    name="#Pact-sign">
                                     Je participe
                                 </a>
                             </#if>
@@ -220,7 +218,6 @@
     var eventMercatorY = ${eventPlaceMercatorY};
     var eventJSON = ${eventJSON};
     eventJSON.link = '${homeURL}detail-evenement/-/entity/id/${entry.eventId}';
-    eventJSON.isUserPart = ${isUserParticipates?c};
 
     $(document).ready(function() {
 
