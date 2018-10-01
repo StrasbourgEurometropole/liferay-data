@@ -15,7 +15,6 @@
 package eu.strasbourg.service.oidc.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -32,11 +31,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -313,4 +310,12 @@ public interface PublikUserLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* méthode permettant de récupererer le nombre de signataire.
+	*
+	* @return le nombre de signataire.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getCountUserHasSignedPacte();
 }

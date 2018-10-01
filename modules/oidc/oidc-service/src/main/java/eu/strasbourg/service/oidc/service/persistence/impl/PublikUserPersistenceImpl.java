@@ -15,7 +15,6 @@
 package eu.strasbourg.service.oidc.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -36,7 +35,6 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
@@ -44,9 +42,7 @@ import eu.strasbourg.service.oidc.model.impl.PublikUserModelImpl;
 import eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
