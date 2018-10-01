@@ -55,6 +55,23 @@
         </div>
     </div>
 </article>
+
+	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
+	<#assign classNameId = PortalUtil.getClassNameId("com.liferay.journal.model.JournalArticle") />
+
+
+	<#assign preferencesMap = {"anyAssetType" : "${classNameId}", "classNameIds" : "${classNameId}", "displayStyle" : "ddmTemplate_1809516", "anyClassTypeJournalArticleAssetRendererFactory" : "1807609",
+	"classTypeIdsJournalArticleAssetRendererFactory" : "1807609", "classTypeIds" : "1807609"}	/>	
+	
+
+
+	<@liferay_portlet["runtime"]
+		defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
+		portletProviderAction=portletProviderAction.VIEW
+		portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
+		instanceId="article${.now?long}"
+		/>
+
 <style>
 .search-asset-portlet, .page-header, .pro-header-small {
     display: none !important;
