@@ -433,7 +433,10 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
     }
 
     public List<Petition> getPetitionByPublikUserID(String publikId){
-        return petitionPersistence.findByPublikId(publikId);
+        List<Petition> petitionList = petitionPersistence.findByPublikId(publikId);
+        return petitionList.stream()
+                .filter(petition -> petition.getStatus()==0)
+                .collect(Collectors.toList());
     }
 
     public List<Petition> getPetitionBySignatairePublikId(String publikId){
@@ -449,6 +452,8 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                     return petition;
                 })
                 .collect(Collectors.toList());
-        return petitionList;
+        return petitionList.stream()
+                .filter(petition -> petition.getStatus()==0)
+                .collect(Collectors.toList());
     }
 }
