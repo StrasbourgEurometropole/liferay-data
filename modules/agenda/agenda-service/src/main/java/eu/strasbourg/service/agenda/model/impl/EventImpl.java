@@ -664,7 +664,7 @@ public class EventImpl extends EventBaseImpl {
 	 * Demande si l'utilisateur demandé participe à l'événement
 	 */
 	@Override
-	public boolean isUserParticipate(String publikUserId) {
+	public boolean isUserParticipates(String publikUserId) {
 		if (EventParticipationLocalServiceUtil.getByPublikUserIdAndEventId(publikUserId, this.getEventId()) != null)
 			return true;
 		return false;

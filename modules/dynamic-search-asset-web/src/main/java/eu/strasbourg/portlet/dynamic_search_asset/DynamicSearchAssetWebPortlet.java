@@ -348,7 +348,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 				jsonEvent.put(
 					ATTRIBUTE_IS_USER_PARTICIPATE, 
-					publikUserId != "" ? event.isUserParticipate(publikUserId) : false
+					publikUserId != "" ? event.isUserParticipates(publikUserId) : false
 				);
 				
 				jsonResponse.put(jsonEvent);

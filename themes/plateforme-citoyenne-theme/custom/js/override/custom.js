@@ -442,7 +442,7 @@ function getParticipationMarker(participation, mercators) {
     );
 
     return marker;
-
+    
 }
 
 /**

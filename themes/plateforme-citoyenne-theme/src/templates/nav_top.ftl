@@ -59,7 +59,7 @@
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">Connexion</span>
-                                </span>    
+                                </span>
                             </a>
                         </#if>
                         <ul>

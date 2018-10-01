@@ -262,7 +262,7 @@ public interface Event extends EventModel, PersistedModel {
 	/**
 	* Demande si l'utilisateur demandé participe à l'événement
 	*/
-	public boolean isUserParticipate(java.lang.String publikUserId);
+	public boolean isUserParticipates(java.lang.String publikUserId);
 
 	/**
 	* Retourne la version JSON de l'événenement
