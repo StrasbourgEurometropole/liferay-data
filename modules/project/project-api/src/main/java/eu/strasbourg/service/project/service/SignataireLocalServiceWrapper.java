@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -291,10 +290,10 @@ public class SignataireLocalServiceWrapper implements SignataireLocalService,
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Signataire> findSignatairesByPetitionIdAndSignataireName(
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> findSignatairesByPetitionIdAndPublikUserId(
 		long petitionId, java.lang.String signataireName)
 		throws javax.portlet.PortletException {
-		return _signataireLocalService.findSignatairesByPetitionIdAndSignataireName(petitionId,
+		return _signataireLocalService.findSignatairesByPetitionIdAndPublikUserId(petitionId,
 			signataireName);
 	}
 

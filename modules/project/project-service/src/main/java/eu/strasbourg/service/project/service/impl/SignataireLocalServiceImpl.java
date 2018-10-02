@@ -99,12 +99,14 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
 		return signatairePersistence.countByPetitionIdAndSignataireName(petitionId,ANONYME);
 	}
 
-	public List<Signataire> findSignatairesByPetitionIdAndSignataireName(long petitionId, String signataireName) throws PortletException {
-    	if (petitionId==0||signataireName==null||signataireName.isEmpty())
+    @Override
+	public List<Signataire> findSignatairesByPetitionIdAndPublikUserId(long petitionId, String publikUserId) throws PortletException {
+    	if (petitionId==0||publikUserId==null||publikUserId.isEmpty())
     		throw new PortletException("erreur dans les parametres d'entrée");
-		return signatairePersistence.findByPetitionIdAndSignataireName(petitionId,signataireName);
+		return signatairePersistence.findByPetitionIdAndPublikUserId(petitionId,publikUserId);
 	}
 
+    @Override
 	public List<Signataire> getSignataireByPublikId(String publikId){
         return signatairePersistence.findByPublikUserId(publikId);
     }

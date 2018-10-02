@@ -36,6 +36,7 @@ create index IX_2A9E13B0 on project_ProjectFollowed (publikUserId[$COLUMN_LENGTH
 create index IX_6F4E9C8A on project_ProjectTimeline (projectId);
 
 create index IX_86C956F3 on project_Signataire (groupId);
+create index IX_2FAA258F on project_Signataire (petitionId, publikUserId[$COLUMN_LENGTH:75$]);
 create index IX_E8FC746E on project_Signataire (petitionId, signataireName[$COLUMN_LENGTH:75$]);
 create index IX_501057A2 on project_Signataire (publikUserId[$COLUMN_LENGTH:75$]);
 create index IX_B66621CB on project_Signataire (uuid_[$COLUMN_LENGTH:75$], companyId);

@@ -187,8 +187,8 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             message = "la p&eacute;tition est null";
         }
         List<Signataire> signataireList = SignataireLocalServiceUtil.
-                findSignatairesByPetitionIdAndSignataireName(petition.getPetitionId(), user.getLastName());
-        Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getUserId() == signataire.getUserId()).findAny().orElse(null);
+                findSignatairesByPetitionIdAndPublikUserId(petition.getPetitionId(), user.getPublikId());
+        Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getPublikId().equals(signataire.getPublikUserId())).findAny().orElse(null);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime birthTime = new Timestamp(birthday.getTime()).toLocalDateTime();
         long period = ChronoUnit.YEARS.between(birthTime,now);
