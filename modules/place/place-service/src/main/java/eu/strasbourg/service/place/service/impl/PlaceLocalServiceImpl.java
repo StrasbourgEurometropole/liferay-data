@@ -110,7 +110,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		place.setAccessForDeficient(false);
 		place.setAccessForElder(false);
 		place.setAccessForWheelchair(false);
-		place.setDisplayEvents(false);
+		place.setDisplayEvents(true);
 		place.setSubjectToPublicHoliday(false);
 		place.setRTEnabled(false);
 

@@ -447,7 +447,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
             } else { // pour l'export PDF
                 String exportType = this._configuration.exportType();
-                ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse, exportType);
+                ExportPDF.printPDF(resourceRequest, resourceResponse, exportType);
             }
         } catch (Exception e2) {
             _log.error(e2);

@@ -768,8 +768,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	/**
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
-	* @param type
-	(1 = piscine, 2 = parking, 3 = mairie)
+	* @param type (1 = piscine, 2 = parking, 3 = mairie)
 	* @throws Exception
 	*/
 	@Override
@@ -2250,8 +2249,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	* Retourne les horaires des exceptions d'ouverture à partir du lundi de la
 	* semaine en cours
 	*
-	* @param surPériode
-	(false = horaires d'une journée uniquement , true = horaires
+	* @param surPériode (false = horaires d'une journée uniquement , true = horaires
 	sur 2 mois à partir du jour + le début de la semaine)
 	*/
 	@Override
