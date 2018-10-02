@@ -41,13 +41,13 @@
                     <div class="pro-annexes">
                         <h3><liferay-ui:message key="pacte.content.annexe"/></h3>
                         <ul>
-                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">Calendrier prévisionnel de mise en œuvre des principales actions du pacte pour la démocratie à Strasbourg.pdf<span class="pro-poids">
+                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">become_a_star_citizen.pdf<span class="pro-poids">
                             <liferay-ui:message key="pacte.content.annexe.weight"/> 283ko</span></a>
                             </li>
-                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">Préambule des élèves des collèges du Parc et de Kléber.pdf<span class="pro-poids">
+                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">Messer_era.pdf<span class="pro-poids">
                              <liferay-ui:message key="pacte.content.annexe.weight"/> 263ko</span></a>
                             </li>
-                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">Projet de délibération.pdf<span class="pro-poids">
+                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">the_next_step_is_UEE.pdf<span class="pro-poids">
                              <liferay-ui:message key="pacte.content.annexe.weight"/> 380ko</span></a>
                             </li>
                         </ul>
@@ -103,20 +103,171 @@
                         <p><liferay-ui:message key="pacte.content.effectivite.content2"/></p>
                         <p><liferay-ui:message key="pacte.content.effectivite.content3"/></p>
                     </div>
-
                     <span class="pro-big-letter pro-big-letter-e">E</span>
                 </div>
             </div>
 
+            <div class="pro-bloc-accordion">
+                <div class="col-xs-12"><h2><liferay-ui:message key="pacte.content.article"/></h2></div>
 
+                <div class="panel-group col-sm-9" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" title="Nom de l'article">
+                                    <liferay-ui:message key="pacte.content.article.premier"/>
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <p><liferay-ui:message key="pacte.content.article.premier.intro"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.premier.titre1"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.premier.titre1.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.premier.titre1.content2"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.premier.titre1.content3"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.premier.titre2"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.premier.titre2.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.premier.titre2.content2"/></p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" title="Nom de l'article">
+                                    <liferay-ui:message key="pacte.content.article.deux"/>
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                                <p><liferay-ui:message key="pacte.content.article.deux.intro"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.deux.titre1"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.deux.titre1.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.deux.titre1.content2"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.deux.titre1.content3"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.deux.titre2"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.deux.titre2.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.deux.titre2.content2"/></p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" title="Nom de l'article">
+                                    <liferay-ui:message key="pacte.content.article.trois"/>
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+                            <div class="panel-body">
+                                <p><liferay-ui:message key="pacte.content.article.trois.intro"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.trois.titre1"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.trois.titre1.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.trois.titre1.content2"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.trois.titre1.content3"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.trois.titre2"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.trois.titre2.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.trois.titre2.content2"/></p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingFour">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour" title="Nom de l'article">
+                                    <liferay-ui:message key="pacte.content.article.quatre"/>
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFour">
+                            <div class="panel-body">
+                                <p><liferay-ui:message key="pacte.content.article.quatre.intro"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.quatre.titre1"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.quatre.titre1.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.quatre.titre1.content2"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.quatre.titre1.content3"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.quatre.titre2"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.quatre.titre2.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.quatre.titre2.content2"/></p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingFive">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive" title="Nom de l'article">
+                                    <liferay-ui:message key="pacte.content.article.cinq"/>
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFive">
+                            <div class="panel-body">
+                                <p><liferay-ui:message key="pacte.content.article.cinq.intro"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.cinq.titre1"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.cinq.titre1.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.cinq.titre1.content2"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.cinq.titre1.content3"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.cinq.titre2"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.cinq.titre2.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.cinq.titre2.content2"/></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingSix">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix" title="Nom de l'article">
+                                    <liferay-ui:message key="pacte.content.article.six"/>
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseSix" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingSix">
+                            <div class="panel-body">
+                                <p><liferay-ui:message key="pacte.content.article.six.intro"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.six.titre1"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.six.titre1.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.six.titre1.content2"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.six.titre1.content3"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.six.titre2"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.six.titre2.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.six.titre2.content2"/></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingSeven">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven" title="Nom de l'article">
+                                    <liferay-ui:message key="pacte.content.article.sept"/>
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseSeven" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingSeven">
+                            <div class="panel-body">
+                                <p><liferay-ui:message key="pacte.content.article.sept.intro"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.sept.titre1"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.sept.titre1.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.sept.titre1.content2"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.sept.titre1.content3"/></p>
+                                <h4><liferay-ui:message key="pacte.content.article.sept.titre2"/></h4>
+                                <p><liferay-ui:message key="pacte.content.article.sept.titre2.content1"/></p>
+                                <p><liferay-ui:message key="pacte.content.article.sept.titre2.content2"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-
-
     <div class="pro-bloc-prefooter pro-sticky-bar">
         <div class="container">
             <div class="row pro-pencil">
@@ -125,8 +276,8 @@
                         <form>
                             <div class="pro-optin form-checkbox">
                                 <div>
-                                    <input type="checkbox" id="optin-2" value="optin">
-                                    <label for="optin-2"><liferay-ui:message key="pacte.label"/></label>
+                                    <input type="checkbox" id="type_v_2" value="optin">
+                                    <label for="type_v_2"><liferay-ui:message key="pacte.label"/></label>
                                 </div>
                             </div>
                         </form>
@@ -134,10 +285,10 @@
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <div>
-                        <p><a href="page-signataire.html">3600 <liferay-ui:message key="pacte.adhere.personnes"/></a> <liferay-ui:message key="pacte.adhere"/></p>
+                        <p><a href="page-signataire.html">${nbSignataires} <liferay-ui:message key="pacte.adhere.personnes"/></a> <liferay-ui:message key="pacte.adhere"/></p>
                         <span class="pro-you"><liferay-ui:message key="pacte.adhere.and.you"/></span>
                     </div>
-                    <a href="#SignerPacte" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
+                    <a href="#" onclick="callServeResource();" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
                 </div>
             </div>
         </div>
@@ -170,7 +321,7 @@ $(document).ready(function(){
     $('#modalQuitPacte').modal('hide');
 });
 
-$("#signPacte").click(function(e){
+$("#SignerPacte").click(function(e){
     var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
     if($(selector).hasClass('active')){
         console.log("oki doki");
@@ -183,13 +334,13 @@ $("#signPacte").click(function(e){
 function callServeResource() {
 	
 	if(${isUserloggedIn}){
-		if($("#type_v_1").is(':checked')) {
+		if($("#type_v_2").is(':checked')) {
 		    $('#modalQuitPacte').modal('hide');
             AUI().use('aui-io-request', function(A) {
                 A.io.request('${pacteSignatureURL}', {
                     method : 'post',
                     data : {
-                        <portlet:namespace/>clauses : $("#type_v_1").is(':checked')
+                        <portlet:namespace/>clauses : $("#type_v_2").is(':checked')
                     },
                     on: {
                         success: function(e) {
