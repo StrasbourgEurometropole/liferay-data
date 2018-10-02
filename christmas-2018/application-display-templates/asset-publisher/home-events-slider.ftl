@@ -5,7 +5,7 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
-<div class="mns-section-agenda">
+<div class="mns-section-agenda-home">
     <div class="container">
         <div class="col-xs-12 mns-right">
             <h2><@liferay_ui.message key="eu.the-agenda" /></h2>
