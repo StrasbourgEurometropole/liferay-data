@@ -16,7 +16,7 @@
                     <div id="breadcrumb">
                         <span>
                             <span>
-                                <a href="index.html"><liferay-ui:message key="pacte.content.breadcrumb.accueil"/></a>
+                                <a href="/accueil"><liferay-ui:message key="pacte.content.breadcrumb.accueil"/></a>
                                 <span class="breadcrumb_last"><liferay-ui:message key="pacte.content.breadcrumb.pacte"/></span>
                             </span>
                         </span>
@@ -285,7 +285,7 @@
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <div>
-                        <p><a href="page-signataire.html">${nbSignataires} <liferay-ui:message key="pacte.adhere.personnes"/></a> <liferay-ui:message key="pacte.adhere"/></p>
+                        <p><a href="/signataires">${nbSignataires} <liferay-ui:message key="pacte.adhere.personnes"/></a> <liferay-ui:message key="pacte.adhere"/></p>
                         <span class="pro-you"><liferay-ui:message key="pacte.adhere.and.you"/></span>
                     </div>
                     <c:if test="${hasUserSigned}">
@@ -354,7 +354,7 @@ function callServeResource() {
                                 $("#SignerPacte").text('<liferay-ui:message key="pacte.already.adhere" />');
                             }
                             else{
-                                $("#SignerPacte").text('pacte.sign');
+                                $("#SignerPacte").text('<liferay-ui:message key="pacte.sign" />');
                             }
                         }
                      }

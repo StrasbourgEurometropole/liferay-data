@@ -172,6 +172,7 @@
     </div>
 
     <!-- LISTING DE TUILES -->
+	<!--     projets -->
     <c:if test="${projectFollowedsCount != 0}">
         <section id="pro-link-listing-projet" class="pro-bloc-slider">
             <div class="container">
@@ -215,6 +216,7 @@
             </div>
         </section>
     </c:if>
+	<!--     event -->
     <div class="pro-wrapper-list-dashboard">
         <c:if test="${eventCount != 0}">
             <section id="pro-link-listing-event" class="pro-bloc-slider pro-slider-event">
@@ -235,7 +237,7 @@
                                         <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${event.getTitle(locale)}</h3></a>
                                     </div>
                                     <div class="pro-footer-event">
-                                        <span class="pro-btn-action"><liferay-ui:message key="dashboard.thumbnail.agenda.participe"/></span>
+                                        <span class="pro-btn-action active"><liferay-ui:message key="dashboard.thumbnail.agenda.participe"/></span>
                                         <span class="pro-number"><strong>${event.getNbEventParticipations()}</strong> <liferay-ui:message key="dashboard.thumbnail.agenda.participant"/></span>
                                     </div>
                                 </div>
@@ -245,8 +247,8 @@
                 </div>
             </section>
         </c:if>
-        <!-- Tuile des pétitions -->
-
+        
+        <!-- Tuile des pétitions signés -->
         <c:if test="${petitionSignedCount ne 0}">
             <section id="pro-link-listing-petition-signe" class="pro-bloc-slider pro-slider-event">
                 <div class="container">
@@ -257,9 +259,9 @@
                         <c:forEach var="petitionSigned" items="${petitionSigned}">
                             <div class="item pro-bloc-card-petition" data-linkall="a">
                                 <div class="pro-header-petition">
-                                    <figure role="group">
-                                        <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
-                                    </figure>
+<!--                                     <figure role="group"> -->
+<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
+<!--                                     </figure> -->
                                     <p><liferay-ui:message key="dashboard.thumbnail.petition.from"/></p>
                                     <p><strong>${petitionSigned.petitionnaireFirstname} ${petitionSigned.petitionnaireLastname}</strong></p>
                                 </div>
@@ -283,9 +285,7 @@
             </section>
         </c:if>
 
-
-        <!-- Tuile des pétitions -->
-
+        <!-- Tuile des pétitions déposés -->
         <c:if test="${petitionsFiledCount != 0}">
             <section id="pro-link-listing-petition-depose" class="pro-bloc-slider pro-slider-event">
                 <div class="container">
@@ -296,9 +296,9 @@
                         <c:forEach var="petitionFiled" items="${petitionsFiled}">
                             <div class="item pro-bloc-card-petition" data-linkall="a">
                                 <div class="pro-header-petition">
-                                    <figure role="group">
-                                        <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
-                                    </figure>
+<!--                                     <figure role="group"> -->
+<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
+<!--                                     </figure> -->
                                     <p><liferay-ui:message key="dashboard.thumbnail.petition.from"/></p>
                                     <p><strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong></p>
                                 </div>
