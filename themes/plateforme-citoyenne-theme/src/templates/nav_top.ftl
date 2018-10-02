@@ -94,7 +94,7 @@
             <div class="pro-menu-right">
                 <ul>
                     <li class="pro-tooltip">
-                        <a href="${themeDisplay.getPortalURL()}${homeURL}page-dashboard" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
+                        <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
                             <span class="icon-ico-user"></span>
                         </a>
                         <span class="tooltiptext">Tableau de bord</span>
