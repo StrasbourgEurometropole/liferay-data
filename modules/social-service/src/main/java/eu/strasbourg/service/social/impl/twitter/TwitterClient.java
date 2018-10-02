@@ -1,21 +1,16 @@
 package eu.strasbourg.service.social.impl.twitter;
 
+import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.social.twitter.Tweet;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
-
-import eu.strasbourg.service.social.twitter.Tweet;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import twitter4j.MediaEntity;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.URLEntity;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterClient {
 
@@ -79,7 +74,7 @@ public class TwitterClient {
 					MediaEntity[] medias = status.getRetweetedStatus().getMediaEntities();
 					if (medias.length > 0) {
 						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo") || media.getType().equals("video")) {
+							if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
 								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 								break;
 							}
@@ -93,13 +88,25 @@ public class TwitterClient {
 					MediaEntity[] medias = status.getMediaEntities();
 					if (medias != null) {
 						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo") || media.getType().equals("video")) {
+							if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
 								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 								break;
 							}
 						}
 					}
+				}
 
+				if(Validator.isNull(tweet.getImageURL()) && Validator.isNotNull(status.getQuotedStatus())){
+					// Checks for images posted using twitter API
+					MediaEntity[] medias = status.getQuotedStatus().getMediaEntities();
+					if (medias.length > 0) {
+						for (MediaEntity media : medias) {
+							if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
+								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
+								break;
+							}
+						}
+					}
 				}
 				tweets.add(tweet);
 				i++;
