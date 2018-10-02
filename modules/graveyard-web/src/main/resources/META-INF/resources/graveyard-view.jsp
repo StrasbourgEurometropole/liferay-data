@@ -217,6 +217,9 @@
                                             <div class="tot">
                                                 <span class="name">
                                                     ${tot.firstName} ${tot.name}
+                                                    <c:if test="${tot.birthName != ''}">
+                                                        (<liferay-ui:message key="graveyard.birthname" arguments=""/> ${tot.birthName})
+                                                    </c:if>
                                                 </span>
 
                                                 <div class="webform-layout-box">
