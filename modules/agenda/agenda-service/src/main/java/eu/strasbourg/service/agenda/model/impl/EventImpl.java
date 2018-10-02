@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -665,8 +666,10 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public boolean isUserParticipates(String publikUserId) {
-		if (EventParticipationLocalServiceUtil.getByPublikUserIdAndEventId(publikUserId, this.getEventId()) != null)
-			return true;
+		if (!publikUserId.isEmpty()) {
+			if (EventParticipationLocalServiceUtil.getByPublikUserIdAndEventId(publikUserId, this.getEventId()) != null)
+				return true;
+		}
 		return false;
 	}
 
@@ -812,6 +815,28 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
+		return jsonEvent;
+	}
+	
+	/**
+	 * Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
+	 */
+	@Override
+	public JSONObject toJSON(String publikUserID) {
+		JSONObject jsonEvent = this.toJSON();
+		
+		jsonEvent.put("isUserPart", this.isUserParticipates(publikUserID));
+		
+		Map<Locale, String> descriptionMap = this.getDescriptionMap();
+		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
+		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
+			String description = descriptionEntry.getValue().replace("\"/documents/",
+					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+			description = HtmlUtil.escape(description);
+			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
+		}
+		jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
+		
 		return jsonEvent;
 	}
 	

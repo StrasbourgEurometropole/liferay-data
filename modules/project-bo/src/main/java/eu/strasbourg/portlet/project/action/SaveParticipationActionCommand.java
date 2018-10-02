@@ -273,12 +273,6 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			SessionErrors.add(request, "title-error");
 			isValid = false;
 		}
-
-		// Auteur
-		if (Validator.isNull(ParamUtil.getString(request, "author"))) {
-			SessionErrors.add(request, "author-error");
-			isValid = false;
-		}
 		
 		// Date de publication
 		if (Validator.isNull(ParamUtil.getDate(request, "publicationDate", dateFormat))) {

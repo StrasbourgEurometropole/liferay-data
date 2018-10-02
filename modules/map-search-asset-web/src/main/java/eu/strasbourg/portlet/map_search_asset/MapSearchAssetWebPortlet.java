@@ -351,7 +351,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		JSONArray jsonProjects = JSONFactoryUtil.createJSONArray();
 		for (Project project : this.projects) {
 			// Récupération du JSON de l'entité
-			JSONObject jsonProject = project.toJSON();
+			JSONObject jsonProject = project.toJSON(publikUserId);
 			// Si l'entité est dans la liste de celles séléctionnées
 			jsonProject.put(
 				ATTRIBUTE_IS_MARKEABLE, 

@@ -553,6 +553,15 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.toJSON();
 	}
 
+	/**
+	* Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserID) {
+		return _event.toJSON(publikUserID);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.agenda.model.Event> toCacheModel() {
 		return _event.toCacheModel();

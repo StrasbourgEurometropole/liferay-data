@@ -44,9 +44,6 @@
 
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
-				
-				<%-- Champ : Auteur --%>
-				<aui:input name="author" required="true" />
 			
 			</aui:fieldset>
 			

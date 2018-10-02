@@ -11946,13 +11946,21 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 * Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
 */
 function getProjectMarker(project, mercators) {
-
-
     var projectMarkerIcon = getMarkerIcon("project");
     var marker = L.marker(mercators, {icon: projectMarkerIcon});
 
-    return marker;
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-projet" data-linkall="a">' +
+            '<a href="' + project.link + 'detail-projet.php"></a><div class="pro-header-projet">' +
+                '<p>Quartier(s) concerné(s) :</p><p><strong>' + project.districtLabel + '</strong></p></div> ' +
+                '<div class="pro-content-projet"><h3>' + project.title + '</h3>' +
+                '<div class="pro-wrap-thematique"><span>' + project.thematicsLabel + '</span></div></div> ' +
+                '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
+            '</a>' + 
+        '</div>'
+    );
 
+    return marker;
 }
 
 /**

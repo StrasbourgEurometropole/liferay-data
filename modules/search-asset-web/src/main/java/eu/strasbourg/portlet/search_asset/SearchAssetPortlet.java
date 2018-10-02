@@ -346,7 +346,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
                             JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
                             jsonProject.put("class", className);
-                            json = project.toJSON();
+                            json = project.toJSON(this.getPublikID(resourceRequest));
                             json.put("nbParticipations", project.getParticipations().size());
                             json.put("nbEvents", project.getEvents().size());
                             JSONArray jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();

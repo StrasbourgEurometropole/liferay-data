@@ -54,10 +54,14 @@ import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
- * The extended model implementation for the Participation service. Represents a row in the &quot;project_Participation&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the Participation service. Represents a
+ * row in the &quot;project_Participation&quot; database table, with each column
+ * mapped to a property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.project.model.Participation} interface.
+ * Helper methods and all application logic should be put in this class.
+ * Whenever methods are added, rerun ServiceBuilder to copy their definitions
+ * into the {@link eu.strasbourg.service.project.model.Participation} interface.
  * </p>
  *
  * @author Cedric Henry
@@ -66,7 +70,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 public class ParticipationImpl extends ParticipationBaseImpl {
 
 	private static final long serialVersionUID = 1311330918138728472L;
-	
+
 	public static final String SOON_ARRIVED = "soon_arrived";
 	public static final String NEW = "new";
 	public static final String IN_PROGRESS = "in_progress";
@@ -76,110 +80,98 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. All methods that expect a participation model instance should use the {@link eu.strasbourg.service.project.model.Participation} interface instead.
+	 * Never reference this class directly. All methods that expect a participation
+	 * model instance should use the {@link
+	 * eu.strasbourg.service.project.model.Participation} interface instead.
 	 */
 	public ParticipationImpl() {
 	}
-	
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(),
-			this.getParticipationId());
+		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(), this.getParticipationId());
 	}
-	
+
 	@Override
-	public String getImageAuthorURL(ThemeDisplay themeDisplay) throws PortalException
-	{
+	public String getImageAuthorURL(ThemeDisplay themeDisplay) throws PortalException {
 		return UserLocalServiceUtil.getUser(getAssetEntry().getUserId()).getPortraitURL(themeDisplay);
 	}
-	
+
 	@Override
-	public String getAuthorFullName() throws PortalException
-	{
+	public String getAuthorFullName() throws PortalException {
 		return UserLocalServiceUtil.getUser(getAssetEntry().getUserId()).getFullName();
 	}
-	
-	
+
 	/**
 	 * Retourne la liste des like/dislike de l'entité
+	 * 
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
 	public List<Like> getLikesDislikes() {
-		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
-				this.getParticipationId(), 
-				15);
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(this.getParticipationId(), 15);
 	}
-	
+
 	/**
 	 * Retourne la liste des likes de l'entité
-	 *  @see eu.strasbourg.service.like.model.LikeType
+	 * 
+	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
 	public List<Like> getLikes() {
-		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getParticipationId(), 
-				15, 
-				false);
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(this.getParticipationId(), 15, false);
 	}
-	
+
 	/**
 	 * Retourne la liste des dislikes de l'entité
-	 *  @see eu.strasbourg.service.like.model.LikeType
+	 * 
+	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
 	public List<Like> getDislikes() {
-		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getParticipationId(), 
-				15, 
-				true);
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(this.getParticipationId(), 15, true);
 	}
-	
+
 	/**
 	 * Retourne le nombre de likes/dislikes de l'entité
+	 * 
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
 	public int getNbLikesDislikes() {
-		return LikeLocalServiceUtil.getByEntityIdAndTypeId(
-				this.getParticipationId(), 
-				15).size();
+		return LikeLocalServiceUtil.getByEntityIdAndTypeId(this.getParticipationId(), 15).size();
 	}
-	
+
 	/**
 	 * Retourne le nombre de likes de l'entité
-	 *  @see eu.strasbourg.service.like.model.LikeType
+	 * 
+	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
 	public int getNbLikes() {
-		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getParticipationId(), 
-				15, 
-				false).size();
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(this.getParticipationId(), 15, false).size();
 	}
-	
+
 	/**
 	 * Retourne le nombre de dislikes de l'entité
-	 *  @see eu.strasbourg.service.like.model.LikeType
+	 * 
+	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
 	public int getNbDislikes() {
-		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
-				this.getParticipationId(), 
-				15, 
-				true).size();
+		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(this.getParticipationId(), 15, true).size();
 	}
-	
+
 	/**
 	 * Peut apporter une reaction (commenter, liker, participer) a l'entite
 	 */
 	@Override
 	public boolean isJudgeable() {
 		AssetCategory status = this.getParticipationStatusCategory();
-		
+
 		if (status == null) {
 			return false;
 		} else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "A venir")) {
@@ -187,30 +179,28 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		} else if (StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), "Terminee")) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Retourne les commentaires de l'entité
 	 */
 	@Override
 	public List<Comment> getApprovedComments() {
-		return CommentLocalServiceUtil.getByAssetEntry(
-				this.getAssetEntry().getEntryId(),
+		return CommentLocalServiceUtil.getByAssetEntry(this.getAssetEntry().getEntryId(),
 				WorkflowConstants.STATUS_APPROVED);
 	}
-	
+
 	/**
 	 * Retourne le nombre de commentaires de l'entité
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return CommentLocalServiceUtil.getByAssetEntry(
-				this.getAssetEntry().getEntryId(),
-				WorkflowConstants.STATUS_APPROVED).size();
+		return CommentLocalServiceUtil
+				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
 	}
-	
+
 	/**
 	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
 	 */
@@ -224,7 +214,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
 		return stringNum;
 	}
-	
+
 	/**
 	 * Retourne la liste des événements liés à la participation
 	 */
@@ -240,7 +230,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		}
 		return events;
 	}
-	
+
 	/**
 	 * Retourne la liste des lieux placit liés à la participation
 	 */
@@ -268,43 +258,41 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via
-	 * l'assetEntry)
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper
-			.getAssetEntryCategories(this.getAssetEntry());
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
-	
+
 	/**
 	 * Retourne le type de la participation (
 	 */
 	@Override
 	public AssetCategory getTypeCategory() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PARTICIPATION_TYPE).get(0);
+		return AssetVocabularyHelper
+				.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.PARTICIPATION_TYPE).get(0);
 	}
-	
+
 	/**
 	 * Retourne le projet de la participation (
 	 */
 	@Override
 	public AssetCategory getProjectCategory() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PROJECT).get(0);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.PROJECT)
+				.get(0);
 	}
-	
+
 	/**
-	 * Retourne la couleur hexa du type de la participation contenu dans la propriete
-	 * 'code_color' de la categorie associee
+	 * Retourne la couleur hexa du type de la participation contenu dans la
+	 * propriete 'code_color' de la categorie associee
 	 */
 	@Override
 	public String getTypeCategoryColor() {
 		long categoryId = this.getTypeCategory().getCategoryId();
 		return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
 	}
-	
+
 	/**
 	 * Retourne les thematiques de la participation (
 	 */
@@ -313,19 +301,22 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.THEMATIC);
 	}
-	
+
 	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la participation
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la
+	 * participation
 	 */
 	@Override
 	public List<AssetCategory> getTerritoryCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.TERRITORY);
 	}
-	
+
 	/**
-	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la participation
-	 * @return : null si vide, sinon la liste des catégories 
+	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la
+	 * participation
+	 * 
+	 * @return : null si vide, sinon la liste des catégories
 	 */
 	@Override
 	public List<AssetCategory> getCityCategories() {
@@ -344,8 +335,10 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
-	 * @return : null si vide, sinon la liste des catégories 
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de
+	 * la participation
+	 * 
+	 * @return : null si vide, sinon la liste des catégories
 	 */
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
@@ -364,23 +357,25 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 
 	/**
-	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la participation
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la
+	 * participation
+	 * 
 	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	 */
 	@Override
 	public String getDistrictLabel(Locale locale) {
 		List<AssetCategory> districts = getDistrictCategories();
-		return AssetVocabularyHelper.getDistrictTitle(locale,districts);
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
 	}
-	
+
 	/**
 	 * Retourne une chaine des 'Thematics' sépararée d'un '-'
 	 */
 	@Override
 	public String getThematicsLabel(Locale locale) {
 		List<AssetCategory> thematics = this.getThematicCategories();
-        String thematicTitle = AssetVocabularyHelper.getThematicTitle(locale, thematics);
-        return thematicTitle;
+		String thematicTitle = AssetVocabularyHelper.getThematicTitle(locale, thematics);
+		return thematicTitle;
 	}
 
 	/**
@@ -392,15 +387,15 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 				VocabularyNames.PLACIT_STATUS);
 		return listStatus.size() > 0 ? listStatus.get(0) : null;
 	}
-	
+
 	/**
-	 * Retourne le status de la participation selon la temporalité actuelle 
-	 * @return le status suivant l'ordre :
-	 * 		[soon_arrived] : date du jour antérieur à la date de publication
-	 * 		[new] : 7 jour après la publication
-	 * 		[in_progress] : toute la durée de la période de participation
-	 * 		[soon_finished] : 7 jours avant l'expiration
-	 * 		[finished] : date du jour postérieur à la date d'expiration
+	 * Retourne le status de la participation selon la temporalité actuelle
+	 * 
+	 * @return le status suivant l'ordre : [soon_arrived] : date du jour antérieur à
+	 *         la date de publication [new] : 7 jour après la publication
+	 *         [in_progress] : toute la durée de la période de participation
+	 *         [soon_finished] : 7 jours avant l'expiration [finished] : date du
+	 *         jour postérieur à la date d'expiration
 	 */
 	@Override
 	public String getParticipationStatus() {
@@ -410,67 +405,63 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		Date publicationDatePlus = this.getPublicationDate();
 		Date expirationDate = this.getExpirationDate();
 		Date expirationDateMinus = this.getExpirationDate();
-		
+
 		// Operation sur les ajouts et retraits de jours
 		Calendar cal = Calendar.getInstance();
-		
+
 		// ... sur la date de publication
 		cal.setTime(publicationDatePlus);
 		cal.add(Calendar.DATE, 7);
 		publicationDatePlus = cal.getTime();
-		
+
 		// ... sur la date d'expiration
 		cal.setTime(expirationDateMinus);
 		cal.add(Calendar.DATE, -7);
 		expirationDateMinus = cal.getTime();
-		
+
 		if (todayDate.before(publicationDate)) {
 			return SOON_ARRIVED;
-		} 
-		else if (todayDate.after(expirationDate)) {
+		} else if (todayDate.after(expirationDate)) {
 			return FINISHED;
-		}
-		else if (todayDate.after(expirationDateMinus)) {
+		} else if (todayDate.after(expirationDateMinus)) {
 			return SOON_FINISHED;
-		}
-		else if (todayDate.before(publicationDatePlus)) {
+		} else if (todayDate.before(publicationDatePlus)) {
 			return NEW;
-		} 
-		else {
+		} else {
 			return IN_PROGRESS;
 		}
 	}
-	
+
 	/**
 	 * Calcul la différence de jours entre la date du jour et celle de publication
 	 */
 	@Override
-	public int getTodayPublicationDifferenceDays () {
+	public int getTodayPublicationDifferenceDays() {
 		// Instanciation des variables
 		Date todayDate = new Date();
 		Date publicationDate = this.getPublicationDate();
-		
+
 		// Calcul du nombre de millisecondes entre les deux dates et
 		// conversion en nombre de jours
 		long diff = publicationDate.getTime() - todayDate.getTime();
-	    return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
-	
+
 	/**
 	 * Calcul la différence de jours entre la date du jour et celle d'expiration
 	 */
 	@Override
-	public int getTodayExpirationDifferenceDays () {
+	public int getTodayExpirationDifferenceDays() {
 		// Instanciation des variables
 		Date todayDate = new Date();
 		Date expirationDate = this.getExpirationDate();
-		
+
 		// Calcul du nombre de millisecondes entre les deux dates et
 		// conversion en nombre de jours
 		long diff = expirationDate.getTime() - todayDate.getTime();
-	    return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
-	
+
 	/**
 	 * Retourne la liste des URLs des documents
 	 */
@@ -486,31 +477,31 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		}
 		return URLs;
 	}
-	
+
 	/**
 	 * Retourne le label d'affichage détaillant le statut
 	 */
 	@Override
 	public String getStatusDetailLabel() {
 		String result = "";
-		
+
 		switch (this.getParticipationStatus()) {
-			case SOON_ARRIVED:
-				result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
-				break;
-			case NEW:
-			case IN_PROGRESS:
-			case SOON_FINISHED:
-				result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
-				break;
-			case FINISHED:
-				result = "Finie";
-				break;
+		case SOON_ARRIVED:
+			result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
+			break;
+		case NEW:
+		case IN_PROGRESS:
+		case SOON_FINISHED:
+			result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
+			break;
+		case FINISHED:
+			result = "Finie";
+			break;
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
@@ -522,7 +513,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			return FileEntryHelper.getFileEntryURL(this.getImageId());
 		}
 	}
-	
+
 	/**
 	 * Retourne le copyright de l'image principale
 	 */
@@ -534,10 +525,11 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 		}
 	}
-	
+
 	/**
 	 * Retourne la version JSON de l'entité
-	 * @throws PortalException 
+	 * 
+	 * @throws PortalException
 	 */
 	@Override
 	public JSONObject toJSON(ThemeDisplay themeDisplay) throws PortalException {
@@ -545,50 +537,49 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		
+
 		// Champs de gestion
 		jsonParticipation.put("id", this.getParticipationId());
 		jsonParticipation.put("createDate", dateFormat.format(this.getCreateDate()));
-		
+
 		// Champs : Header
 		jsonParticipation.put("title", this.getTitle());
 		jsonParticipation.put("author", this.getAuthorFullName());
 		jsonParticipation.put("authorImageURL", this.getImageAuthorURL(themeDisplay));
-		
-		
+
 		// Champs : Contact
 		jsonParticipation.put("contactName", this.getContactName());
 		jsonParticipation.put("contactLine1", this.getContactLine1());
 		jsonParticipation.put("contactLine2", this.getContactLine2());
 		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
-		
+
 		// Champs : Médias
 		jsonParticipation.put("videoUrl", this.getVideoUrl());
 		jsonParticipation.put("imageURL", this.getImageURL());
 		jsonParticipation.put("mediaChoice", this.getMediaChoice());
 		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
-		
+
 		// Champs : Description
 		jsonParticipation.put("descriptionChapeau", this.getDescriptionChapeau());
 		jsonParticipation.put("descriptionBody", this.getDescriptionBody());
-		
+
 		// Champs : Description
 		jsonParticipation.put("consultationPlacesBody", this.getConsultationPlacesBody());
-		
+
 		// Champs : Dates
 		jsonParticipation.put("publicationDate", this.getPublicationDate());
 		jsonParticipation.put("expirationDate", this.getExpirationDate());
-		
+
 		// Champs : Intéractivités
 		jsonParticipation.put("nbApprovedComments", this.getNbApprovedComments());
 		jsonParticipation.put("nbLikes", this.getNbLikes());
 		jsonParticipation.put("nbDislikes", this.getNbDislikes());
-		
+
 		// Label des vocabulaires
 		AssetCategory projectCategory = this.getProjectCategory();
 		AssetCategory statusCategory = this.getParticipationStatusCategory();
 		AssetCategory typeCategory = this.getTypeCategory();
-		
+
 		jsonParticipation.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
 		jsonParticipation.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
 		jsonParticipation.put("typeLabel", typeCategory != null ? typeCategory.getTitle(Locale.FRENCH) : "");
@@ -598,28 +589,28 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		jsonParticipation.put("statusCode", this.getParticipationStatus());
 		jsonParticipation.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
 		jsonParticipation.put("statusDetailLabel", this.getStatusDetailLabel());
-		
+
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
 			jsonPlacitPlaces.put(placitPlace.toJSON());
 		}
 		jsonParticipation.put("placitPlaces", jsonPlacitPlaces);
-		
+
 		// Liste des Ids des catégories Territoire
 		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
 		if (jsonTerritories.length() > 0) {
 			jsonParticipation.put("territories", jsonTerritories);
 		}
-		
+
 		// Liste des Ids des catégories Thématiques
 		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
 		if (jsonThematics.length() > 0) {
 			jsonParticipation.put("thematics", jsonThematics);
 		}
-		
+
 		return jsonParticipation;
 	}
-	
+
 	private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
-	
+
 }

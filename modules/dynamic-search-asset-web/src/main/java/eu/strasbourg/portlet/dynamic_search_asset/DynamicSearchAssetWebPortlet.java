@@ -360,7 +360,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Project.class.getName())) {
 				Project project = ProjectLocalServiceUtil.getProject(assetEntry.getClassPK());
 				
-				JSONObject jsonProject = project.toJSON();
+				JSONObject jsonProject = project.toJSON(publikUserId);
 				
 				jsonProject.put(
 					ATTRIBUTE_CLASSNAME,

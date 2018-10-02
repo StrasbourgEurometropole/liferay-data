@@ -268,4 +268,10 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne la version JSON de l'événenement
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
+	/**
+	* Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserID);
 }
