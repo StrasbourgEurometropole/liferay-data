@@ -7,6 +7,12 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+main{
+	overflow: hidden;
+	&.mns-overflow{
+		overflow: visible;
+	}
+}
 .container {
 	@media (min-width: 1200px) {
 		width: 1200px;

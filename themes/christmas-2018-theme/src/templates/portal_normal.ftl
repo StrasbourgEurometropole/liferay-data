@@ -47,27 +47,36 @@
                 <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
             </div>
         </div>
-        <#include "${full_templates_path}/navigation.ftl" />
+        <#assign isExperientiel = layout.getFriendlyURL() == "/experientel" />
+        <#if !isExperientiel>
+            <#include "${full_templates_path}/navigation.ftl" />
+        <#else>
+            <#include "${full_templates_path}/experientel.ftl" />
+        </#if>
     </header>
     <main>
-        <#if selectable>
-            <@liferay_util["include"] page=content_include />
-        <#else>
-            ${portletDisplay.recycle()}
-            ${portletDisplay.setTitle(the_title)}
-            <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
-            <@liferay_util["include"] page=content_include />
-        </#if>
+       
+            <#if selectable>
+                <@liferay_util["include"] page=content_include />
+            <#else>
+                ${portletDisplay.recycle()}
+                ${portletDisplay.setTitle(the_title)}
+                <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
+                <@liferay_util["include"] page=content_include />
+            </#if>
+
+       
     </main>
+    <#if !isExperientiel>
     <!-- Footer -->
-    <footer id="mns-footer">
-        <@liferay_portlet["runtime"]
-            portletProviderAction=portletProviderAction.VIEW
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="footer"
-            settingsScope="group" />
-    </footer>
-    
+        <footer id="mns-footer">
+            <@liferay_portlet["runtime"]
+                portletProviderAction=portletProviderAction.VIEW
+                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                instanceId="footer"
+                settingsScope="group" />
+        </footer>
+    </#if>
 
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />

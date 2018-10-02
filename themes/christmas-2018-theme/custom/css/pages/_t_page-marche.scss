@@ -6,18 +6,10 @@
 /***************************/
 /***************************/
 
-.mns-page-marche {
-	.small-container {
-		@include tablet_portrait {
-			padding: 50px 15px 0;
-		}
-	}
-
-	.mns-marche-intro {
-		padding: 20px 15px;
-		@include tablet_portrait {
-			padding: 0 30px 20px;
-		}
+.mns-marche-intro {
+	padding: 20px 15px;
+	@include tablet_portrait {
+		padding: 0 30px 20px;
 	}
 }
 
@@ -148,25 +140,25 @@
 }
 
 .mns-thematiques {
-	padding-top: 0 !important;
-	padding-bottom: 50px !important;
+	padding-top: 0;
+	padding-bottom: 50px;
 	h2 {
-		@include ft($f_hx !important, 78px !important, 700 !important, $c_txt !important, 84px !important);
-		display: block !important;
-		text-align: right !important;
-		margin-bottom: 25px !important;
+		@include ft($f_hx, 78px, 700, $c_txt, 84px);
+		display: block;
+		text-align: right;
+		margin-bottom: 25px;
 		@include desktop{
-			font-size: 58px !important;
-			line-height: 64px !important;
+			font-size: 58px;
+			line-height: 64px;
 		}
 		@include tablet_portrait{
-			font-size: 42px !important;
-			line-height: 48px !important;
+			font-size: 42px;
+			line-height: 48px;
 		}
 		@include mobile {
-			font-size: 36px !important;
-			line-height: normal !important;
-			margin-bottom: 20px !important;
+			font-size: 36px;
+			line-height: normal;
+			margin-bottom: 20px;
 		}
 	}
 }

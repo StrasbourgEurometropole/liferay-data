@@ -6,47 +6,24 @@
 /***************************/
 /***************************/
 
-.mns-agenda-detail {
-	.mns-wrapper-agenda-detail{
-		.row{
-			@include mobile{
-				-js-display: flex;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				transform: translate3d(0, 0, 0);
-				flex-direction: column;
+.mns-wrapper-agenda-detail {
+	.row {
+		@include mobile {
+			-js-display: flex;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			transform: translate3d(0, 0, 0);
+			flex-direction: column;
+		}
+	}
+	&.mns-fck{
+		figure{
+			img{
+				margin: 0;
 			}
 		}
 	}
-
-	.mns-section-agenda {
-		padding-bottom: 50px;
-		h2 {
-			text-align: left;
-			@include ft($f_hx, 40px, 700, $c_txt, normal);
-			display: inline-block;
-			vertical-align: middle;
-			max-width: 80%;
-			width: 80%;
-			@include mobile{
-				width: 100%;
-				font-size: 30px;
-				line-height: 38px;
-			}
-		}
-		.link {
-			float: right;
-			position: relative;
-			top: 10px;
-			color: $c_txt;
-			text-decoration: none;
-			@include tablet_portrait{
-				float: left;
-			}
-		}
-	}
-
 	&.mns-fck figure figcaption {
 		border: none;
 		right: 0;
@@ -65,146 +42,173 @@
 		white-space: nowrap;
 		max-width: 120%;
 	}
+}
 
-	.mns-img-agenda-top {
-		margin: 0;
-	}
-
-	.mns-aside-info{
-		margin-bottom: 40px;
-		figure{
-			margin: 0;
-			figcaption{
-				position: absolute;
-			}
-		}
-		@include mobile{
-			order: 2;
-		}
-	}
-
-	.mns-info-pratiques {
-		.mns-sec-info {
-			.mns-title-info {
-				&:after {
-					margin-bottom: 20px;
-				}
-			}
-			p {
-				width: 90%;
-				margin-bottom: 20px;
-				display: block;
-			}
-			a {
-				display: block;
-				@include ft($f_txt, 16px, 700, $c_white, 24px);
-				margin-bottom: 20px;
-				@include an(all, 0.3);
-				&:hover {
-					color: $c_main;
-				}
-				&:last-child {
-					margin-bottom: 0;
-				}
-			}
-		}
-
-		&:after {
-			content: '';
-			right: initial;
-			left: -50px;
-			top: initial;
-			bottom: -20px;
-			width: 290px; // sully
-    		height: 350px; // sully
-		}
-	}
-
-	.mns-event-date {
-		@include ft($f_txt, 20px, 700, $c_main, normal);
-		text-transform: uppercase;
-		margin-bottom: 15px;
-		display: block;
-	}
-
-	.mns-indic{
+.mns-section-agenda {
+	padding-bottom: 50px;
+	h2 {
 		text-align: left;
-	}
-
-	.mns-content-agenda-detail {
+		@include ft($f_hx, 40px, 700, $c_txt, normal);
+		display: inline-block;
+		vertical-align: middle;
+		max-width: 80%;
+		width: 80%;
 		@include mobile {
-			padding: 0;
-			order: 1;
+			width: 100%;
+			font-size: 30px;
+			line-height: 38px;
 		}
+	}
+	.link {
+		float: right;
+		position: relative;
+		top: 10px;
+		color: $c_txt;
+		text-decoration: none;
+		@include tablet_portrait {
+			float: left;
+		}
+	}
+}
 
+.mns-img-agenda-top {
+	margin: 0;
+}
+
+.mns-aside-info {
+	margin-bottom: 40px;
+	figure {
+		margin: 0;
+		figcaption {
+			position: absolute;
+		}
+	}
+	@include mobile {
+		order: 2;
+	}
+}
+
+.mns-info-pratiques {
+	.mns-sec-info {
+		.mns-title-info {
+			&:after {
+				margin-bottom: 20px;
+			}
+		}
+		p {
+			width: 90%;
+			margin-bottom: 20px;
+			display: block;
+		}
 		a {
-			color: #8399ad;
-			text-decoration: underline;
+			display: block;
+			@include ft($f_txt, 16px, 700, $c_white, 24px);
+			margin-bottom: 20px;
 			@include an(all, 0.3);
 			&:hover {
 				color: $c_main;
 			}
-		}
-
-		h1 {
-			font-size: 48px;
-			line-height: 54px;
-			width: 100%;
-			margin-bottom: 20px;
-		}
-
-		.mns-title-detail-actu {
-			@include ft($f_txt, 16px, 700, $c_main, normal);
-			padding-bottom: 10px;
-			border-bottom: 1px solid $c_filet;
-			text-transform: uppercase;
-			display: block;
-			margin-bottom: 25px;
-		}
-
-		.mns-wrapper-info-more{
-			position: relative;
-			padding: 15px 0 30px 0;
-			@include mobile{
-				padding: 15px 0 0 0;
-			}
-			&:after{
-				content: '';
-				display: block;
-				clear: both;
-			}
-			.mns-info-more {
-				margin: 10px 0 25px 0;
-				@include mobile {
-					margin-bottom: 30px;
-				}
-				> * {
-					&:last-child{
-						margin-bottom: 0;
-					}
-				}
-				&:nth-child(3){
-					clear: both;
-				}
-				&:last-child {
-					@include mobile {
-						margin-bottom: 60px;
-					}
-				}
-				p {
-					margin-bottom: 10px;
-					width: 100%;
-				}
-
-				span[class^="icon-"] {
-					font-size: 40px;
-					margin-right: 10px;
-					@include tablet_portrait {
-						margin-right: 5px;
-					}
-				}
+			&:last-child {
+				margin-bottom: 0;
 			}
 		}
 	}
 
+	&:after {
+		content: '';
+		right: initial;
+		left: -50px;
+		top: initial;
+		bottom: -20px;
+		width: 290px; // sully
+    	height: 350px; // sully
+	}
+}
+
+.mns-event-date {
+	@include ft($f_txt, 20px, 700, $c_main, normal);
+	text-transform: uppercase;
+	margin-bottom: 15px;
+	display: block;
+}
+
+.mns-indic {
+	text-align: left;
+}
+
+.mns-content-agenda-detail {
+	@include mobile {
+		padding: 0;
+		order: 1;
+	}
+
+	a {
+		color: #8399ad;
+		text-decoration: underline;
+		@include an(all, 0.3);
+		&:hover {
+			color: $c_main;
+		}
+	}
+
+	h1 {
+		font-size: 48px;
+		line-height: 54px;
+		width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.mns-title-detail-actu {
+		@include ft($f_txt, 16px, 700, $c_main, normal);
+		padding-bottom: 10px;
+		border-bottom: 1px solid $c_filet;
+		text-transform: uppercase;
+		display: block;
+		margin-bottom: 25px;
+	}
+
+	.mns-wrapper-info-more {
+		position: relative;
+		padding: 15px 0 30px 0;
+		clear: both;
+		@include mobile {
+			padding: 15px 0 0 0;
+		}
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		.mns-info-more {
+			margin: 10px 0 25px 0;
+			@include mobile {
+				margin-bottom: 30px;
+			}
+			> * {
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+			&:nth-child(3) {
+				clear: both;
+			}
+			&:last-child {
+				@include mobile {
+					margin-bottom: 60px;
+				}
+			}
+			p {
+				margin-bottom: 10px;
+				width: 100%;
+			}
+
+			span[class^="icon-"] {
+				font-size: 40px;
+				margin-right: 10px;
+				@include tablet_portrait {
+					margin-right: 5px;
+				}
+			}
+		}
+	}
 }

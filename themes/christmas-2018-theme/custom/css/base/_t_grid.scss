@@ -5,9 +5,10 @@
 	position: relative;
 	transform: translate3d(0, 0, 0);
 	overflow: hidden;
-	&:before{
+	&:before {
 		content: '';
 		@extend .gradient-top;
+		z-index: 100;
 	}
 	@include tablet_portrait {
 		height: calc(100vh - 250px);

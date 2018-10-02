@@ -99,13 +99,13 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- PortÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©e -->
+			<!-- PortÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©e -->
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
 				<liferay-ui:message key="scope-explanations" />
 				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
 			</aui:fieldset>
 			
-			<!-- PrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©filtre -->
+			<!-- PrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©filtre -->
 			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
 				<liferay-ui:message key="prefilter-explanations" />
 				<label><liferay-ui:message key="categories" /></label>
@@ -124,7 +124,7 @@
 				</p>
 			</aui:fieldset>
 
-			<!-- CritÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¨res de recherche -->
+			<!-- CritÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¨res de recherche -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="search-criterias">
 				<liferay-ui:message key="vocabularies-explanations" />
@@ -188,13 +188,13 @@
 				</p>
 			</aui:fieldset>
 			
-			<!-- Affichage par dÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©faut -->
+			<!-- Affichage par dÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©faut -->
 			<aui:fieldset collapsed="true" collapsible="true" label="default-display">
 				<liferay-ui:message key="default-display-explanations" />
-				<!-- Ne pas afficher de rÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©sultats avant que l'utilisateur n'ait fait de recherche -->
+				<!-- Ne pas afficher de rÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©sultats avant que l'utilisateur n'ait fait de recherche -->
 				<aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="hide-results-before-search" />
 				
-				<!-- Tri par dÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©faut -->
+				<!-- Tri par dÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©faut -->
 				<aui:select name="defaultSortField">
 					<aui:option value="modified_sortable" selected="${defaultSortField eq 'modified_sortable'}">
 						<liferay-ui:message key="modification-date" />
@@ -225,7 +225,7 @@
 					</aui:option>
 				</aui:select>
 				
-				<!-- Filtre par date par dÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©faut --> 
+				<!-- Filtre par date par dÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©faut --> 
 				<aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
 			</aui:fieldset>
 			
@@ -258,6 +258,9 @@
 					</aui:option>
 					<aui:option value="christmas-2018" selected="${searchForm eq 'christmas-2018'}">
 						<liferay-ui:message key="christmas-2018" />
+					</aui:option>
+					<aui:option value="christmas-2018-experience" selected="${searchForm eq 'christmas-2018-experience'}">
+						<liferay-ui:message key="christmas-2018-experience" />
 					</aui:option>
 					<aui:option value="strasbourg-agenda" selected="${searchForm eq 'strasbourg-agenda'}">
 						<liferay-ui:message key="strasbourg-agenda" />

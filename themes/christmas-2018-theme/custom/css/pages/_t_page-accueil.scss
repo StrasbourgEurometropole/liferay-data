@@ -6,15 +6,6 @@
 /***************************/
 /***************************/
 
-.mns-page-accueil{
-	overflow: hidden;
-	header.mns-header{
-		&:before{
-			z-index: 100;
-		}
-	}
-}
-
 /* Section Texte d'introduction Page d'accueil */
 .mns-home-intro {
 	text-align: center;
@@ -466,7 +457,8 @@
 }
 
 /* Section Agenda */
-.mns-section-agenda {
+// sully
+.mns-section-agenda-home {
 	overflow-x: hidden;
 	transform: translate3d(0, 0, 0);
 	h2 {

@@ -77,7 +77,15 @@ $('.mns-questions-pagination .mns-next').on('click', function (e) {
     nb_questions = $('.mns-questions-dots a').length;
     num_question = $('.mns-questions-dots a.current').data('num_question') + 1;
     if(num_question > nb_questions) {
-        $('#mns-moteur_experientiel').submit();
+        var str = "";
+        $("input[type='radio']:checked").each(
+          function() {
+           var value = $(this).attr('value');
+           str = $.grep([str, value], Boolean).join(",");
+          }); 
+
+        window.location.assign("/web/christmas-2018/recherche-experience?p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=0&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds="+str);
+       // $('#mns-moteur_experientiel').submit();
     } else {
         change_question(num_question);
     }
