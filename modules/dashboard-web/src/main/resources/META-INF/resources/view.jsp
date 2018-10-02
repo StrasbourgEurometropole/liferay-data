@@ -22,63 +22,69 @@
         <div id="pro-onglet-activite">
             <div class="pro-title-dashboard col-xs-12"><h1><liferay-ui:message key="dashboard.front.myactivity"/></h1><span></span></div>
 
-            <div class="col-lg-3 col-sm-6 col-xs-12">
-                <a href="#pro-link-listing-projet" class="pro-item pro-item-projet">
-                    <div class="pro-item-center">
-                        <span class="pro-number">${projectFollowedsCount}</span>
-                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.project"/></span>
-                    </div>
-                </a>
-                <a href="#pro-link-listing-event" class="pro-item pro-item-agenda">
-                    <div class="pro-item-center">
-                        <span class="pro-number">${eventCount}</span>
-                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.event"/></span>
-                    </div>
-                    <div class="pro-link-dashboard"><span class="pro-txt"><liferay-ui:message key="dashboard.front.event.goto"/></span></div>
-                </a>
-            </div>
 
             <div class="col-lg-3 col-sm-6 col-xs-12">
-                <div class="pro-item pro-item-petition">
-                    <div class="pro-item-center">
-                        <span class="pro-number">${petitionsFiledCount+petitionSignedCount}</span>
-                        <span class="pro-txt"><liferay-ui:message key="dashboard.front.petition"/></span>
-                    </div>
-                    <div class="pro-link-dashboard">
-                        <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>${petitionSignedCount}</strong> <liferay-ui:message key="dashboard.front.petition.signed"/></a>
-                        <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>${petitionsFiledCount}</strong> <liferay-ui:message key="dashboard.front.petition.filed"/></a>
-                    </div>
-                </div>
+                    <a href="#pro-link-listing-projet" class="pro-item pro-item-projet">
+                        <div class="pro-item-center">
+                            <span class="pro-number">${projectFollowedsCount}</span>
+                            <span class="pro-txt"><liferay-ui:message key="dashboard.front.project"/></span>
+                        </div>
+                    </a>
+                    <a href="#pro-link-listing-event" class="pro-item pro-item-agenda">
+                        <div class="pro-item-center">
+                            <span class="pro-number">${eventCount}</span>
+                            <span class="pro-txt"><liferay-ui:message key="dashboard.front.event"/></span>
+                        </div>
+                        <div class="pro-link-dashboard"><span class="pro-txt"><liferay-ui:message key="dashboard.front.event.goto"/></span></div>
+                    </a>
             </div>
 
-            <div class="col-lg-3 col-sm-6 col-xs-12">
-                <div class="pro-item pro-item-initiative">
-                    <div class="pro-item-center">
-                        <div>
-                            <span class="icon-ico-initiative"></span>
-                            <span class="pro-txt"><liferay-ui:message key="dashboard.front.initiative"/></span>
+
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="pro-item pro-item-petition">
+                        <div class="pro-item-center">
+                            <span class="pro-number">${petitionsFiledCount+petitionSignedCount}</span>
+                            <span class="pro-txt"><liferay-ui:message key="dashboard.front.petition"/></span>
+                        </div>
+                        <div class="pro-link-dashboard">
+                            <a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>${petitionSignedCount}</strong> <liferay-ui:message key="dashboard.front.petition.signed"/></a>
+                            <a href="#pro-link-listing-petition-depose" class="pro-txt"><strong>${petitionsFiledCount}</strong> <liferay-ui:message key="dashboard.front.petition.filed"/></a>
                         </div>
                     </div>
-                    <div class="pro-bloc-link-dashboard">
-                        <a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>0</strong><span><liferay-ui:message key="dashboard.front.initiative.signed"/></span></a>
-                        <a href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>0</strong><span><liferay-ui:message key="dashboard.front.initiative.filed"/></span></a>
-                    </div>
                 </div>
-            </div>
 
-            <div class="col-lg-3 col-sm-6 col-xs-12">
-                <div class="pro-item pro-item-budget">
-                    <div class="pro-item-center">
-                        <p></p>
+            <c:if test="${initiativeFiledCount+initiativeAidesCount ne 0}">
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="pro-item pro-item-initiative">
+                        <div class="pro-item-center">
+                            <div>
+                                <span class="icon-ico-initiative"></span>
+                                <span class="pro-txt"><liferay-ui:message key="dashboard.front.initiative"/></span>
+                            </div>
+                        </div>
+                        <div class="pro-bloc-link-dashboard">
+                            <a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>${initiativeFiledCount}</strong><span><liferay-ui:message key="dashboard.front.initiative.signed"/></span></a>
+                            <a href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>${initiativeAidesCount}</strong><span><liferay-ui:message key="dashboard.front.initiative.aidees"/></span></a>
+                        </div>
                     </div>
-                    <span class="pro-title"><liferay-ui:message key="dashboard.front.budget"/></span>
-                    <div class="pro-link-dashboard">
-                        <a href="#pro-link-listing-projet-soumis" class="pro-txt"><strong>0</strong> <span><liferay-ui:message key="dashboard.front.budget.voted"/></span></a>
-                        <a href="#pro-link-listing-projet-vote" class="pro-txt"><strong>0</strong> <span><liferay-ui:message key="dashboard.front.budget.filed"/></span></a>
-                    </div>
-                    <div class="pro-info-vote"><span><liferay-ui:message key="dashboard.front.budget.reliquat"/> 0 <liferay-ui:message key="dashboard.front.budget.reliquat2"/></span></div>
                 </div>
-            </div>
+            </c:if>
+
+            <c:if test="${budgetFiledCount+initiativeFiledCount ne 0}">
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="pro-item pro-item-budget">
+                        <div class="pro-item-center">
+                            <p></p>
+                        </div>
+                        <span class="pro-title"><liferay-ui:message key="dashboard.front.budget"/></span>
+                        <div class="pro-link-dashboard">
+                            <a href="#pro-link-listing-projet-soumis" class="pro-txt"><strong>${budgetFiledCount}</strong> <span><liferay-ui:message key="dashboard.front.budget.filed"/></span></a>
+                            <a href="#pro-link-listing-projet-vote" class="pro-txt"><strong>${initiativeFiledCount}</strong> <span><liferay-ui:message key="dashboard.front.budget.voted"/></span></a>
+                        </div>
+                        <div class="pro-info-vote"><span><liferay-ui:message key="dashboard.front.budget.reliquat"/>${voteLeft}<liferay-ui:message key="dashboard.front.budget.reliquat2"/></span></div>
+                    </div>
+                </div>
+            </c:if>
         </div>
 
 
@@ -162,7 +168,7 @@
 <c:if test="${projectFollowedsCount != 0}">
     <section id="pro-link-listing-projet" class="pro-bloc-slider">
         <div class="container">
-            <h2><liferay-ui:message key="dashboard.thumbnail.project.title"/></h2>
+            <h2><liferay-ui:message key="dashboard.thumbnail.project.title"/> (${projectFollowedsCount}) </h2>
             <a href="${homeURL}projets" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.project.link.title'/>" >
                 <liferay-ui:message key="dashboard.thumbnail.project.link"/>
             </a>
@@ -184,11 +190,17 @@
                             </div>
                         </a>
                         <ul>
-                            <li><a href="${projectFollowed.detailURL}#pro-link-participation" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getParticipations())} <liferay-ui:message key="dashboard.thumbnail.project.participation"/></a></li>
-                            <li><a href="${projectFollowed.detailURL}#pro-link-evenement" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getEvents())} <liferay-ui:message key="dashboard.thumbnail.project.events"/></a></li>
-                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.budget"/></a></li>
-                            <li><a href="${projectFollowed.detailURL}#pro-link-petition" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getPetitions())} <liferay-ui:message key="dashboard.thumbnail.project.petition"/></a></li>
-                            <li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.initiative"/></a></li>
+                            <c:if test="${fn:length(projectFollowed.getParticipations()) != 0}">
+                                <li><a href="${projectFollowed.detailURL}#pro-link-participation" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getParticipations())} <liferay-ui:message key="dashboard.thumbnail.project.participation"/></a></li>
+                            </c:if>
+                            <c:if test="${fn:length(projectFollowed.getEvents()) != 0}">
+                                <li><a href="${projectFollowed.detailURL}#pro-link-evenement" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getEvents())} <liferay-ui:message key="dashboard.thumbnail.project.events"/></a></li>
+                            </c:if>
+                            <c:if test="${fn:length(projectFollowed.getPetitions()) != 0}">
+                                <li><a href="${projectFollowed.detailURL}#pro-link-petition" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">${fn:length(projectFollowed.getPetitions())} <liferay-ui:message key="dashboard.thumbnail.project.petition"/></a></li>
+                            </c:if>
+                                <!--<li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.budget"/></a></li>-->
+                                <!--<li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.initiative"/></a></li>-->
                         </ul>
                     </div>
                 </c:forEach>
@@ -197,7 +209,7 @@
     </section>
 </c:if>
 <div class="pro-wrapper-list-dashboard">
-    <c:if test="${eventCount} != 0">
+    <c:if test="${eventCount != 0}">
         <section id="pro-link-listing-event" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <h2>Mon agenda (${eventCount})</h2>
@@ -211,13 +223,13 @@
                             <div>
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
-                                    <span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>
-                                    <p>À : Espace des associations de Strasbourg au centre ville</p>
-                                    <a href="detail-event.html" title="lien de la page"><h3>Titre de l’Évènement</h3></a>
+                                    <span class="pro-time">Le <time datetime="2018-01-10">${event.getEventScheduleDisplay(locale)}</time></span>
+                                    <p><liferay-ui:message key="dashboard.thumbnail.agenda.a"/> ${event.getPlaceAlias(locale)}</p>
+                                    <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${event.getTitle(locale)}</h3></a>
                                 </div>
                                 <div class="pro-footer-event">
-                                    <span class="pro-btn-action">Je participe</span>
-                                    <span class="pro-number"><strong>37</strong> Participants-es</span>
+                                    <span class="pro-btn-action"><liferay-ui:message key="dashboard.thumbnail.agenda.participe"/></span>
+                                    <span class="pro-number"><strong>${event.getNbEventParticipations()}</strong> <liferay-ui:message key="dashboard.thumbnail.agenda.participant"/></span>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +266,7 @@
                                     <div class="pro-progress-container">
                                         <div style="width:${petitionSigned.getPourcentageSignature()}%"></div>
                                     </div>
-                                    <p class="pro-txt-progress"><strong>${petitionSigned.getNombreSignature()}</strong><liferay-ui:message key="dashboard.thumbnail.petition.progress"/> ${petitionSigned.getQuotaSignature()} <liferay-ui:message key="dashboard.thumbnail.petition.progress2"/></p>
+                                    <p class="pro-txt-progress"><strong>${petitionSigned.getNombreSignature()} </strong><liferay-ui:message key="dashboard.thumbnail.petition.progress"/> ${petitionSigned.getQuotaSignature()} <liferay-ui:message key="dashboard.thumbnail.petition.progress2"/></p>
                                 </div>
                             </div>
                         </div>

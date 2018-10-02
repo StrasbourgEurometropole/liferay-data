@@ -15,15 +15,11 @@
 package eu.strasbourg.service.project.service.persistence;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Signataire;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.List;
@@ -1175,6 +1171,197 @@ public class SignataireUtil {
 		return getPersistence()
 				   .countByPetitionIdAndSignataireName(petitionId,
 			signataireName);
+	}
+
+	/**
+	* Returns all the signataires where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @return the matching signataires
+	*/
+	public static List<Signataire> findByPetitionIdAndPublikUserId(
+		long petitionId, java.lang.String publikUserId) {
+		return getPersistence()
+				   .findByPetitionIdAndPublikUserId(petitionId, publikUserId);
+	}
+
+	/**
+	* Returns a range of all the signataires where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignataireModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param start the lower bound of the range of signataires
+	* @param end the upper bound of the range of signataires (not inclusive)
+	* @return the range of matching signataires
+	*/
+	public static List<Signataire> findByPetitionIdAndPublikUserId(
+		long petitionId, java.lang.String publikUserId, int start, int end) {
+		return getPersistence()
+				   .findByPetitionIdAndPublikUserId(petitionId, publikUserId,
+			start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the signataires where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignataireModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param start the lower bound of the range of signataires
+	* @param end the upper bound of the range of signataires (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching signataires
+	*/
+	public static List<Signataire> findByPetitionIdAndPublikUserId(
+		long petitionId, java.lang.String publikUserId, int start, int end,
+		OrderByComparator<Signataire> orderByComparator) {
+		return getPersistence()
+				   .findByPetitionIdAndPublikUserId(petitionId, publikUserId,
+			start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the signataires where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignataireModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param start the lower bound of the range of signataires
+	* @param end the upper bound of the range of signataires (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching signataires
+	*/
+	public static List<Signataire> findByPetitionIdAndPublikUserId(
+		long petitionId, java.lang.String publikUserId, int start, int end,
+		OrderByComparator<Signataire> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByPetitionIdAndPublikUserId(petitionId, publikUserId,
+			start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first signataire in the ordered set where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching signataire
+	* @throws NoSuchSignataireException if a matching signataire could not be found
+	*/
+	public static Signataire findByPetitionIdAndPublikUserId_First(
+		long petitionId, java.lang.String publikUserId,
+		OrderByComparator<Signataire> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchSignataireException {
+		return getPersistence()
+				   .findByPetitionIdAndPublikUserId_First(petitionId,
+			publikUserId, orderByComparator);
+	}
+
+	/**
+	* Returns the first signataire in the ordered set where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching signataire, or <code>null</code> if a matching signataire could not be found
+	*/
+	public static Signataire fetchByPetitionIdAndPublikUserId_First(
+		long petitionId, java.lang.String publikUserId,
+		OrderByComparator<Signataire> orderByComparator) {
+		return getPersistence()
+				   .fetchByPetitionIdAndPublikUserId_First(petitionId,
+			publikUserId, orderByComparator);
+	}
+
+	/**
+	* Returns the last signataire in the ordered set where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching signataire
+	* @throws NoSuchSignataireException if a matching signataire could not be found
+	*/
+	public static Signataire findByPetitionIdAndPublikUserId_Last(
+		long petitionId, java.lang.String publikUserId,
+		OrderByComparator<Signataire> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchSignataireException {
+		return getPersistence()
+				   .findByPetitionIdAndPublikUserId_Last(petitionId,
+			publikUserId, orderByComparator);
+	}
+
+	/**
+	* Returns the last signataire in the ordered set where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching signataire, or <code>null</code> if a matching signataire could not be found
+	*/
+	public static Signataire fetchByPetitionIdAndPublikUserId_Last(
+		long petitionId, java.lang.String publikUserId,
+		OrderByComparator<Signataire> orderByComparator) {
+		return getPersistence()
+				   .fetchByPetitionIdAndPublikUserId_Last(petitionId,
+			publikUserId, orderByComparator);
+	}
+
+	/**
+	* Returns the signataires before and after the current signataire in the ordered set where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* @param signataireId the primary key of the current signataire
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next signataire
+	* @throws NoSuchSignataireException if a signataire with the primary key could not be found
+	*/
+	public static Signataire[] findByPetitionIdAndPublikUserId_PrevAndNext(
+		long signataireId, long petitionId, java.lang.String publikUserId,
+		OrderByComparator<Signataire> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchSignataireException {
+		return getPersistence()
+				   .findByPetitionIdAndPublikUserId_PrevAndNext(signataireId,
+			petitionId, publikUserId, orderByComparator);
+	}
+
+	/**
+	* Removes all the signataires where petitionId = &#63; and publikUserId = &#63; from the database.
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	*/
+	public static void removeByPetitionIdAndPublikUserId(long petitionId,
+		java.lang.String publikUserId) {
+		getPersistence()
+			.removeByPetitionIdAndPublikUserId(petitionId, publikUserId);
+	}
+
+	/**
+	* Returns the number of signataires where petitionId = &#63; and publikUserId = &#63;.
+	*
+	* @param petitionId the petition ID
+	* @param publikUserId the publik user ID
+	* @return the number of matching signataires
+	*/
+	public static int countByPetitionIdAndPublikUserId(long petitionId,
+		java.lang.String publikUserId) {
+		return getPersistence()
+				   .countByPetitionIdAndPublikUserId(petitionId, publikUserId);
 	}
 
 	/**

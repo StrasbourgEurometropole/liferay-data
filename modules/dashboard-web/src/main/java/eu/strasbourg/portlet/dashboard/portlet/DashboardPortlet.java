@@ -77,6 +77,7 @@ public class DashboardPortlet extends MVCPortlet {
         //TODO Mock des budgets participatif à implémenter
         List<Project> budgetFiled = new ArrayList<>();
         List<Project> budgetVoted = new ArrayList<>();
+        List<Project> voteLeft = new ArrayList<>();
 
         renderRequest.setAttribute("petitionsFiledCount",petitionFiledList.size());
         renderRequest.setAttribute("petitionSignedCount",petitionSignedList.size());
@@ -85,6 +86,7 @@ public class DashboardPortlet extends MVCPortlet {
         renderRequest.setAttribute("initiativeAidesCount",initiativesAides.size());
         renderRequest.setAttribute("budgetFiledCount",budgetFiled.size());
         renderRequest.setAttribute("budgetVotedCount",budgetVoted.size());
+        renderRequest.setAttribute("voteLeft",voteLeft.size());
         renderRequest.setAttribute("eventCount",events.size());
         renderRequest.setAttribute("petitionsFiled",petitionFiledList);
         renderRequest.setAttribute("petitionSigned",petitionSignedList);
