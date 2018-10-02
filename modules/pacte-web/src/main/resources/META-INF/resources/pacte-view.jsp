@@ -36,7 +36,83 @@
                         <p><liferay-ui:message key="pacte.content.preambule.paragraphe.cinq"/></p>
                     </div>
                 </div>
+
+                <div class="col-sm-6">
+                    <div class="pro-annexes">
+                        <h3><liferay-ui:message key="pacte.content.annexe"/></h3>
+                        <ul>
+                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">Calendrier prévisionnel de mise en œuvre des principales actions du pacte pour la démocratie à Strasbourg.pdf<span class="pro-poids">
+                            <liferay-ui:message key="pacte.content.annexe.weight"/> 283ko</span></a>
+                            </li>
+                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">Préambule des élèves des collèges du Parc et de Kléber.pdf<span class="pro-poids">
+                             <liferay-ui:message key="pacte.content.annexe.weight"/> 263ko</span></a>
+                            </li>
+                            <li><a href="#" download title="<liferay-ui:message key='pacte.content.annexe.title'/>">Projet de délibération.pdf<span class="pro-poids">
+                             <liferay-ui:message key="pacte.content.annexe.weight"/> 380ko</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+            <div class="pro-wrapper-pacte">
+                <div>
+                    <div class="pro-wrapper">
+                        <span class="pro-big-letter">P</span>
+                        <h2><liferay-ui:message key="pacte.content.valeurs"/></h2>
+                        <h3><liferay-ui:message key="pacte.content.valeurs.subtitle"/></h3>
+                        <p><liferay-ui:message key="pacte.content.valeurs.content"/></p>
+                    </div>
+
+                    <div class="pro-wrapper">
+                        <span class="pro-big-letter pro-big-letter-a">A</span>
+                        <h2><liferay-ui:message key="pacte.content.principes"/></h2>
+                        <h3><liferay-ui:message key="pacte.content.principes.subtitle1"/></h3>
+                        <p><liferay-ui:message key="pacte.content.principes.subtitle1.content1"/></p>
+                        <p><liferay-ui:message key="pacte.content.principes.subtitle1.content2"/></p>
+
+                        <h3><liferay-ui:message key="pacte.content.principes.subtitle2"/></h3>
+                        <p><liferay-ui:message key="pacte.content.principes.subtitle2.content1"/></p>
+                        <p><liferay-ui:message key="pacte.content.principes.subtitle2.content2"/></p>
+
+                        <h3><liferay-ui:message key="pacte.content.principes.subtitle3"/></h3>
+                        <p><liferay-ui:message key="pacte.content.principes.subtitle3.content1"/></p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="pro-wrapper">
+                        <span class="pro-big-letter">C</span>
+                        <h2><liferay-ui:message key="pacte.content.engagements"/></h2>
+                        <h3><liferay-ui:message key="pacte.content.engagements.subtitle1"/></h3>
+                        <p><liferay-ui:message key="pacte.content.engagements.subtitle1.content"/></p>
+
+                        <h3><liferay-ui:message key="pacte.content.engagements.subtitle2"/></h3>
+                        <p><liferay-ui:message key="pacte.content.engagements.subtitle2.content"/></p>
+
+                        <h3><liferay-ui:message key="pacte.content.engagements.subtitle3"/></h3>
+                        <p><liferay-ui:message key="pacte.content.engagements.subtitle3.content1"/></p>
+                        <p><liferay-ui:message key="pacte.content.engagements.subtitle3.content2"/></p>
+                        <p><liferay-ui:message key="pacte.content.engagements.subtitle3.content3"/></p>
+                    </div>
+
+                    <div class="pro-wrapper">
+                        <span class="pro-big-letter pro-big-letter-t">T</span>
+                        <h2><liferay-ui:message key="pacte.content.effectivite"/></h2>
+                        <p><liferay-ui:message key="pacte.content.effectivite.content1"/></p>
+                        <p><liferay-ui:message key="pacte.content.effectivite.content2"/></p>
+                        <p><liferay-ui:message key="pacte.content.effectivite.content3"/></p>
+                    </div>
+
+                    <span class="pro-big-letter pro-big-letter-e">E</span>
+                </div>
+            </div>
+
+
+
+
+
+
         </div>
     </section>
 
