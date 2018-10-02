@@ -288,7 +288,12 @@
                         <p><a href="page-signataire.html">${nbSignataires} <liferay-ui:message key="pacte.adhere.personnes"/></a> <liferay-ui:message key="pacte.adhere"/></p>
                         <span class="pro-you"><liferay-ui:message key="pacte.adhere.and.you"/></span>
                     </div>
-                    <a href="#" onclick="callServeResource();" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
+                    <c:if test="${hasUserSigned}">
+                        <a id="SignerPacte" href="#" class="pro-btn-signer active"><liferay-ui:message key="pacte.already.adhere"/></a>
+                    </c:if>
+                    <c:if test="${!hasUserSigned}">
+                        <a id="SignerPacte" href="#" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -307,7 +312,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key="modal.quit.description" /></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirmQuit" onclick="callServeResource();" type="submit" class="pro-btn" value="R�silier"/>
+                    <input id="buttonConfirmQuit" onclick="callServeResource();" type="submit" class="pro-btn" value="<liferay-ui:message key='modal.quit.resilier'/>"/>
                     <input id="buttonCancelQuit" type="reset" class="pro-btn"  data-dismiss="modal" value="Annuler"/>
                 </div>
             </div>
@@ -322,8 +327,7 @@ $(document).ready(function(){
 });
 
 $("#SignerPacte").click(function(e){
-    var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
-    if($(selector).hasClass('active')){
+    if($(this).hasClass('active')){
         console.log("oki doki");
         e.preventDefault();
         $("#modalQuitPacte").modal('show');
@@ -344,24 +348,13 @@ function callServeResource() {
                     },
                     on: {
                         success: function(e) {
-                            var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
                             e.preventDefault();
-                            $(selector).toggleClass('active');
-                            if($(selector).hasClass('active')){
-                                $('h3',selector).text('<liferay-ui:message key="pacte-adhere" />');
-                                $('span',selector).css('display','none');
-                                if($(selector).hasClass('pro-disabled')){
-                                    $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
-                                    $('span',selector).css('display','block');
-                                }
-                            }
-                            else if($(selector).hasClass('pro-disabled')){
-                                $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
-                                $('span',selector).css('display','block');
+                            $("#SignerPacte").toggleClass('active');
+                            if($("#SignerPacte").hasClass('active')){
+                                $("#SignerPacte").text('<liferay-ui:message key="pacte.already.adhere" />');
                             }
                             else{
-                                $('h3',selector).text('Signer');
-                                $('span',selector).css('display','block');
+                                $("#SignerPacte").text('pacte.sign');
                             }
                         }
                      }
