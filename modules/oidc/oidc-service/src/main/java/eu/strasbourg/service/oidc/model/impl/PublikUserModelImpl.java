@@ -15,10 +15,8 @@
 package eu.strasbourg.service.oidc.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -30,14 +28,11 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.PublikUserModel;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

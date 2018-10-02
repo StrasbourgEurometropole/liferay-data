@@ -94,10 +94,17 @@
             <div class="pro-menu-right">
                 <ul>
                     <li class="pro-tooltip">
-                        <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
-                            <span class="icon-ico-user"></span>
-                        </a>
-                        <span class="tooltiptext">Tableau de bord</span>
+                        <#if request.session.getAttribute("publik_logged_in")!false>
+                            <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
+                                <span class="icon-ico-user"></span>
+                            </a>
+                            <span class="tooltiptext">Tableau de bord</span>
+                            <#else>
+                            <a href="" data-toggle="modal" data-target="#myModal" aria-label="connectez-vous" title="connectez-vous avant">
+                                <span class="icon-ico-user"></span>
+                            </a>
+                            <span class="tooltiptext">connectez-vous</span>
+                        </#if>
                     </li>
                     <li class="pro-tooltip">
                         <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">

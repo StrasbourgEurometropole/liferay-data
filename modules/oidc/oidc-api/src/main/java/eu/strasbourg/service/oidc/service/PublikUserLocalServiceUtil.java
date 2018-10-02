@@ -15,9 +15,7 @@
 package eu.strasbourg.service.oidc.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -354,6 +352,15 @@ public class PublikUserLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* méthode permettant de récupererer le nombre de signataire.
+	*
+	* @return le nombre de signataire.
+	*/
+	public static long getCountUserHasSignedPacte() {
+		return getService().getCountUserHasSignedPacte();
 	}
 
 	public static PublikUserLocalService getService() {

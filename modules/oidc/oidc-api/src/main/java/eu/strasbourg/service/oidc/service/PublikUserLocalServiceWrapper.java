@@ -15,7 +15,6 @@
 package eu.strasbourg.service.oidc.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -378,6 +377,16 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _publikUserLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* méthode permettant de récupererer le nombre de signataire.
+	*
+	* @return le nombre de signataire.
+	*/
+	@Override
+	public long getCountUserHasSignedPacte() {
+		return _publikUserLocalService.getCountUserHasSignedPacte();
 	}
 
 	@Override
