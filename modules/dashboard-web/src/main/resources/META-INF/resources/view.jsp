@@ -230,7 +230,7 @@
                                 <div>
                                     <div class="pro-header-event">
                                         <span class="pro-ico"><span class="icon-ico-debat"></span></span>
-                                        <span class="pro-time">Le <time datetime="2018-01-10">${event.getEventScheduleDisplay(locale)}</time></span>
+                                        <span class="pro-time"><time datetime="2018-01-10">${event.getEventScheduleDisplay(locale)}</time></span>
                                         <p><liferay-ui:message key="dashboard.thumbnail.agenda.a"/> ${event.getPlaceAlias(locale)}</p>
                                         <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${event.getTitle(locale)}</h3></a>
                                     </div>
