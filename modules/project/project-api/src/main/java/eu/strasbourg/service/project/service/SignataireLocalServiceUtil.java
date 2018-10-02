@@ -15,7 +15,9 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.osgi.util.ServiceTrackerFactory;
+
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -272,11 +274,11 @@ public class SignataireLocalServiceUtil {
 	}
 
 	public static java.util.List<eu.strasbourg.service.project.model.Signataire> findSignatairesByPetitionIdAndPublikUserId(
-		long petitionId, java.lang.String signataireName)
+		long petitionId, java.lang.String publikUserId)
 		throws javax.portlet.PortletException {
 		return getService()
 				   .findSignatairesByPetitionIdAndPublikUserId(petitionId,
-			signataireName);
+			publikUserId);
 	}
 
 	public static java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataireByPublikId(
