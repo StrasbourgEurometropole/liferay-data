@@ -47,7 +47,7 @@
                         <#if entry.getPlaceZipCode()?has_content>${entry.getPlaceZipCode()}</#if>
                         <#if entry.getPlaceCity(locale)?has_content>${entry.getPlaceCity(locale)}</#if>
                     </p>
-                    <h1>>${entry.getTitle(locale)}</h1>
+                    <h1>${entry.getTitle(locale)}</h1>
                     <div class="pro-meta">
                         <#if entry.getTerritoryLabel(locale)?has_content>
                             <span>${entry.getTerritoryLabel(locale)}</span>
