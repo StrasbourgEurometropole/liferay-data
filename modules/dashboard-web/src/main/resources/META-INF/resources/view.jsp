@@ -223,13 +223,13 @@
                             <div>
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
-                                    <span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>
-                                    <p>À : Espace des associations de Strasbourg au centre ville</p>
-                                    <a href="detail-event.html" title="lien de la page"><h3>Titre de l’Évènement</h3></a>
+                                    <span class="pro-time">Le <time datetime="2018-01-10">${event.getEventScheduleDisplay(locale)}</time></span>
+                                    <p><liferay-ui:message key="dashboard.thumbnail.agenda.a"/> ${event.getPlaceAlias(locale)}</p>
+                                    <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${event.getTitle(locale)}</h3></a>
                                 </div>
                                 <div class="pro-footer-event">
-                                    <span class="pro-btn-action">Je participe</span>
-                                    <span class="pro-number"><strong>37</strong> Participants-es</span>
+                                    <span class="pro-btn-action"><liferay-ui:message key="dashboard.thumbnail.agenda.participe"/></span>
+                                    <span class="pro-number"><strong>${event.getNbEventParticipations()}</strong> <liferay-ui:message key="dashboard.thumbnail.agenda.participant"/></span>
                                 </div>
                             </div>
                         </div>
