@@ -525,8 +525,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 	/**
 	* Retourne la version JSON de l'entité
-	*
-	* @throws PortletException
 	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON(

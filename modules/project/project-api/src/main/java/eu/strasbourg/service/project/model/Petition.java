@@ -258,8 +258,6 @@ public interface Petition extends PetitionModel, PersistedModel {
 
 	/**
 	* Retourne la version JSON de l'entité
-	*
-	* @throws PortletException
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		java.lang.String publikUserId);
