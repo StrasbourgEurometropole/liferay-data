@@ -6,7 +6,6 @@
 <div id="content" class="pro-page-pacte">
     <section class="container">
         <div class="row">
-
             <div class="col-xs-12 pro-wrapper-title">
                 <h1><span><liferay-ui:message key="pacte.content.title.le"/></span><liferay-ui:message key="pacte.content.title.pacte"/></h1>
                 <span class="pro-surtitre"><liferay-ui:message key="pacte.content.title.subtitle"/></span>
