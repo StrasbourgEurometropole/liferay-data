@@ -43,13 +43,13 @@
                     <div class="pro-right">
                         
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion" title="Mon compte">
+                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion connexion-active" title="Mon compte">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
                                 </span>    
                             </a>
-                            <a class="nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+                            <a class="nav-logout connexion-active" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                 </span>  
@@ -85,7 +85,8 @@
                         </li>
                         <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
                         <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions citoyennes</a></li>
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions</a></li>
+                        <li><a href="https://demarches.strasbourg.eu/interventions-signalements/" target="_blank" title="Avertir">Avertir</a></li>
                     </ul>
                 </nav>
             </div>
