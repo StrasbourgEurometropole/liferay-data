@@ -182,7 +182,6 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 identifiants = districts.stream()
                         .map(AssetCategoryModel::getCategoryId)
                         .collect(Collectors.toList());
-
             }else {
                 identifiants.add(quartierId);
             }
