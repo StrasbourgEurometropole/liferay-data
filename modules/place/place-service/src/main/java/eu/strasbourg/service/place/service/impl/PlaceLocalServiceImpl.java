@@ -260,7 +260,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 			}
 
 			// On récupère les données temps réel
-			if (!place.getRTEnabled().equals("NO")) {
+			if (!place.getRTExternalId().equals("NO")) {
 				switch (place.getRTType()) {
 					case "1":
 						try {
