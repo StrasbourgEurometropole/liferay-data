@@ -48,6 +48,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import javax.portlet.PortletException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -62,8 +63,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-
-import javax.portlet.PortletException;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
@@ -242,6 +241,8 @@ public class PetitionImpl extends PetitionBaseImpl {
         // Instanciation des variables
         Date todayDate = new Date();
         Date expirationDate = this.getExpirationDate();
+        if (expirationDate==null)
+            expirationDate = todayDate;
 
         // Calcul du nombre de millisecondes entre les deux dates et
         // conversion en nombre de jours
