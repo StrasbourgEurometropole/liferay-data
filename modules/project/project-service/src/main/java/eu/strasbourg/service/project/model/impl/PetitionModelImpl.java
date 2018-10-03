@@ -174,9 +174,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long STATUS_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long TITLE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -1166,7 +1167,17 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public void setPublikId(String publikId) {
+		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
+
+		if (_originalPublikId == null) {
+			_originalPublikId = _publikId;
+		}
+
 		_publikId = publikId;
+	}
+
+	public String getOriginalPublikId() {
+		return GetterUtil.getString(_originalPublikId);
 	}
 
 	@JSON
@@ -1426,6 +1437,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionModelImpl._originalStatus = petitionModelImpl._status;
 
 		petitionModelImpl._setOriginalStatus = false;
+
+		petitionModelImpl._originalPublikId = petitionModelImpl._publikId;
 
 		petitionModelImpl._columnBitmask = 0;
 	}
@@ -1986,6 +1999,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _consultationPlacesText;
 	private String _consultationPlacesBody;
 	private String _publikId;
+	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
 	private long _columnBitmask;

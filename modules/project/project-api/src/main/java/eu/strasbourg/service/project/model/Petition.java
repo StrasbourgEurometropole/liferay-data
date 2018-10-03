@@ -246,6 +246,8 @@ public interface Petition extends PetitionModel, PersistedModel {
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 
+	public java.lang.String getPublicationDateFr();
+
 	/**
 	* Retourne la version JSON de l'entité
 	*/

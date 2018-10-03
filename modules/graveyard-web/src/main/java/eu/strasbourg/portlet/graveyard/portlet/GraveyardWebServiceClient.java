@@ -18,12 +18,13 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 public class GraveyardWebServiceClient {
 
 	public static GraveyardResponse getResponse(String name, String firstName, Date birthDateStart, Date birthDateEnd,
-			Date deathDateStart, Date deathDateEnd, String deathPlace, String graveyard) {
+			Date deathDateStart, Date deathDateEnd, String deathPlace, String graveyard, String limit) {
 		GraveyardResponse graveyardResponse = new GraveyardResponse();
 
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("prenom", firstName);
 		params.put("nom", name);
+		params.put("limite", limit);
 		if (Validator.isNotNull(deathDateStart)) {
 			params.put("date_debut", new SimpleDateFormat("dd/MM/yyyy").format(deathDateStart));
 		}

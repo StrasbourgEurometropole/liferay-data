@@ -575,6 +575,12 @@ public class PetitionImpl extends PetitionBaseImpl {
 //		return false;
 //    }
 
+    @Override
+    public String getPublicationDateFr(){
+        Date date = this.getPublicationDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
     /**
      * Retourne la version JSON de l'entité
      */
@@ -599,5 +605,4 @@ public class PetitionImpl extends PetitionBaseImpl {
 
         return jsonPetition;
     }
-
 }

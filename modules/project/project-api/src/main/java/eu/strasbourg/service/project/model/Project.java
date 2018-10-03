@@ -57,7 +57,7 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne la liste des follower au projet
 	*/
-	public java.util.List<ProjectFollowed> getProjectFollower();
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> getProjectFollower();
 
 	/**
 	* Retourne le nombre de follower au projet
@@ -77,7 +77,7 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne la liste des lieux placit liés au projet
 	*/
-	public java.util.List<PlacitPlace> getPlacitPlaces();
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 
 	/**
 	* Retourne les noms des lieux placit au projet
@@ -141,7 +141,7 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne la liste des entrées timelines du projet
 	*/
-	public java.util.List<ProjectTimeline> getProjectTimelines();
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getProjectTimelines();
 
 	public java.lang.String getProjectStatus(java.util.Locale locale);
 
@@ -158,7 +158,9 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne la liste des participations du projet
 	*/
-	public java.util.List<Participation> getParticipations();
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getParticipations();
+
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getPetitions();
 
 	/**
 	* Retourne la liste des évènements du projet

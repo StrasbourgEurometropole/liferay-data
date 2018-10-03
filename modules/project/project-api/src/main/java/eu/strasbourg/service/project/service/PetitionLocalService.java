@@ -259,6 +259,13 @@ public interface PetitionLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Petition> getByGroupId(long groupId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getPetitionByPublikUserID(java.lang.String publikId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getPetitionBySignatairePublikId(
+		java.lang.String publikId);
+
 	/**
 	* Returns a range of all the petitions.
 	*

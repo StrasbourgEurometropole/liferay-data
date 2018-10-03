@@ -67,6 +67,11 @@ public class ProjectFollowedServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> findProjectFollowedByPublikUserId(
+		java.lang.String publikId) {
+		return getService().findProjectFollowedByPublikUserId(publikId);
+	}
+
 	public static ProjectFollowedService getService() {
 		return _serviceTracker.getService();
 	}

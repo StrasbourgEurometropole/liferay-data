@@ -850,6 +850,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getProDureeFR();
 	}
 
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _petition.getPublicationDateFr();
+	}
+
 	/**
 	* Returns the publik ID of this petition.
 	*

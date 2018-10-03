@@ -300,6 +300,11 @@ public class ProjectLocalServiceUtil {
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Project> findProjectFollowedByProjectId(
+		java.lang.String publicId) {
+		return getService().findProjectFollowedByProjectId(publicId);
+	}
+
 	/**
 	* Renvoie la liste des vocabulaires rattachés à un projet
 	*/

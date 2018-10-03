@@ -63,7 +63,6 @@ public class SignPetitionActionCommand implements MVCActionCommand {
     private String phone;
     private String mobile;
     private String lastname;
-    private String firstname;
     private String email;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -96,7 +95,6 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             phone = ParamUtil.getString(request, "phone");
             mobile = ParamUtil.getString(request, "mobile");
             lastname = ParamUtil.getString(request, "username");
-            firstname = ParamUtil.getString(request, "firstname");
             email = ParamUtil.getString(request, "mail");
 
             boolean isValid = validate(request);
@@ -189,8 +187,8 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             message = "la p&eacute;tition est null";
         }
         List<Signataire> signataireList = SignataireLocalServiceUtil.
-                findSignatairesByPetitionIdAndSignataireName(petition.getPetitionId(), user.getLastName());
-        Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getUserId() == signataire.getUserId()).findAny().orElse(null);
+                findSignatairesByPetitionIdAndPublikUserId(petition.getPetitionId(), user.getPublikId());
+        Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getPublikId().equals(signataire.getPublikUserId())).findAny().orElse(null);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime birthTime = new Timestamp(birthday.getTime()).toLocalDateTime();
         long period = ChronoUnit.YEARS.between(birthTime,now);

@@ -54,7 +54,7 @@
             background-repeat: no-repeat;
             margin: 0 auto;
             margin-bottom: 20px;
-            background-image: url( svg-bg-uri($svg-wave, $core-color) );
+            background-image: url( svg-bg-uri($svg-wave, #dddddd) );
 
             @include RWD(mobile){
                 width: 43px;

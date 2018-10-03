@@ -14,9 +14,13 @@
 	
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
-		
+
 		<aui:fieldset>
 			<aui:input name="contactURL" value="${contactURL}" type="text" label="contact-URL" />
+		</aui:fieldset>
+
+		<aui:fieldset>
+			<aui:input name="limit" value="${limit}" type="text" label="limit-result" />
 		</aui:fieldset>
 		
 		<aui:button-row>

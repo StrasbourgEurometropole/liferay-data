@@ -174,7 +174,7 @@ function createParticipationThumbnail(participation) {
 		        '<div>' +
 		            '<div class="pro-header-participation">' +
 		                '<figure role="group">' +
-		                    '<img src="' + participation.imageURL + '" width="40" height="40" alt="Image de la participation"/>' +
+		                    '<img src="' + participation.authorImageURL + '" width="40" height="40" alt="Image de la participation"/>' +
 		                '</figure>' +
 		                '<p>Concertation publiée par :</p>' +
 		                '<p><strong>' + participation.author + '</strong></p>' +
