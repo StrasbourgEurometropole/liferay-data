@@ -1,16 +1,22 @@
 <!-- DETAIL D'UN EVENEMENT -->
 
-<!-- Recuperation de la localisation de l'utilisateur -->
+<#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<!-- Recuperation de l'URL de "base" du site -->
+<#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des coordonnées GPS -->
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+
+<#-- L'utilisateur participe-t-il ? -->
+<#assign isUserPartActive = entry.isUserParticipates(userID)?then("active", "") >
+
+<#-- Recuperation des coordonnées GPS -->
 <#assign eventPlaceMercatorX = 0 />
 <#assign eventPlaceMercatorY = 0 />
 
@@ -20,6 +26,9 @@
     <#assign eventPlaceMercatorX = eventPlaceMercators[0] />
     <#assign eventPlaceMercatorY = eventPlaceMercators[1] />
 </#if>
+
+<#-- Recuperation de la version JSON de l'événement -->
+<#assign eventJSON = entry.toJSON(userID) />
 
 <div class="pro-page-detail">
 
@@ -38,7 +47,7 @@
                         <#if entry.getPlaceZipCode()?has_content>${entry.getPlaceZipCode()}</#if>
                         <#if entry.getPlaceCity(locale)?has_content>${entry.getPlaceCity(locale)}</#if>
                     </p>
-                    <h1>>${entry.getTitle(locale)}</h1>
+                    <h1>${entry.getTitle(locale)}</h1>
                     <div class="pro-meta">
                         <#if entry.getTerritoryLabel(locale)?has_content>
                             <span>${entry.getTerritoryLabel(locale)}</span>
@@ -118,18 +127,20 @@
                             <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
                             <#if entry.isFinished() >
-                                <a class="pro-btn-action">
+                                <a class="pro-btn-action ${isUserPartActive}">
                                     Événement terminé
                                 </a>
                             <#elseif request.session.getAttribute("has_pact_signed")!false >
-                                <a href="#Participe" class="pro-btn-action"
+                                <a href="#Participe" 
+                                    class="pro-btn-action ${isUserPartActive}"
                                     data-eventid="${entry.eventId}"
                                     data-groupid="${entry.groupId}"
                                     title="Je participe">
                                     Je participe
                                 </a>
                             <#else>
-                                <a class="pro-btn-action" name="#Pact-sign">
+                                <a class="pro-btn-action ${isUserPartActive}" 
+                                    name="#Pact-sign">
                                     Je participe
                                 </a>
                             </#if>
@@ -194,14 +205,19 @@
     />
 
 	
-	<!-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
+	<#-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
 
 </div>
 
 <script>
 
+    var leafletMap = null;
+
+    // Préparation des données concernant les entités à afficher
     var eventMercatorX = ${eventPlaceMercatorX};
     var eventMercatorY = ${eventPlaceMercatorY};
+    var eventJSON = ${eventJSON};
+    eventJSON.link = '${homeURL}detail-evenement/-/entity/id/${entry.eventId}';
 
     $(document).ready(function() {
 
@@ -209,19 +225,20 @@
         // Notes : voir dans le theme placit "override/custom.js"
         if (eventMercatorX && eventMercatorX.length != 0) {
 
-            //Création de la carte au centre de strasbourg
+            // Création de la carte au centre de strasbourg
             leafletMap = getLeafletMap()
 
             // Définition des marqueurs
-            var eventIcon = getMarkerIcon('event');
+            var eventMarker = getEventMarker(eventJSON);
 
             // Ajout du marqueur sur la map
-            var marker = L.marker([eventMercatorY, eventMercatorX], {icon: eventIcon}).addTo(leafletMap);
+           eventMarker.addTo(leafletMap);
         
             // Centre la carte sur les pins
             var bounds = [];
+
             // Ajout des coordonnées du marker dans le bounds
-            bounds.push(marker.getLatLng());
+            bounds.push(eventMarker.getLatLng());
             leafletMap.fitBounds(bounds);
         }
 
@@ -233,24 +250,9 @@
             $(this).addClass("col-lg-10 col-lg-offset-1");
         });
 
-        var eventid = ${entry.eventId};
-
-        // Recherche si l'utilisateur participe a l'evenement
-        Liferay.Service(
-            '/agenda.eventparticipation/is-user-participates',
-            {
-                eventId: eventid
-            },
-            function(obj) {
-                // En cas de succès, on effectue la modification des éléments visuels
-                // selon la réponse et le type de l'élément
-                if (obj.hasOwnProperty('success')) {
-                    if (obj['success'] == 'true') {
-                        $("[href='#Participe']").toggleClass('active');
-                    }
-                }
-            }
-        );
+        if (eventJSON.isUserPart) {
+            $("[href='#Participe']").toggleClass('active');
+        }
 
     });
 

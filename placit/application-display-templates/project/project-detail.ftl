@@ -1,37 +1,35 @@
 <!-- DETAIL D'UN PROJET -->
 
-<!-- Recuperation de l'URL de "base" du site -->
+<#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des entités lies au projet -->
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+
+<#-- Recuperation des entités lies au projet -->
 <#assign projectPlaces = entry.getPlacitPlaces() />
 <#assign projectEvents = entry.getEvents() />
 <#assign projectParticipations = entry.getParticipations() />
 
-<!-- Initialisation des conteneurs de coordonnees GPS -->
-<#assign projectPlaceMercators = [] />
-<#assign eventPlaceMercators = [] />
-<#assign participationPlaceMercators = [] />
+<#-- Initialisation des conteneurs de vignettes -->
+<#assign projectJSON = entry.toJSON(userID) />
+<#assign projectPlacesMercators = [] />
+<#assign eventsJSON = [] />
+<#assign participationsJSON = [] />
 
-<!-- Recuperation des coordonnées de chaque entité liées -->
-<#list projectPlaces as place >
-    <#assign projectPlaceMercators = projectPlaceMercators + [place.getMercators()] />
-</#list>
-
+<#-- Recuperation des données JSON de chaque entité liées -->
 <#list projectEvents as event >
-    <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+    <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
 </#list>
 
 <#list projectParticipations as participation >
-    <#list participation.getPlacitPlaces() as place >
-        <#assign participationPlaceMercators = participationPlaceMercators + [place.getMercators()] />
-    </#list>
+    <#assign participationsJSON = participationsJSON + [participation.toJSON(themeDisplay)] />
     <#list participation.getEvents() as event >
-        <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+         <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
     </#list>
 </#list>
 
@@ -105,49 +103,41 @@
 
 </aside>
  
- <style>
- .pro-page-detail.pro-page-detail-projet section>.pro-wrapper{
-     left : 0px;
- }
+<style>
+    .pro-page-detail.pro-page-detail-projet section>.pro-wrapper{
+        left : 0px;
+    }
+     
+    .pro-page-detail.pro-page-detail-projet aside{
+        margin-top : 124px;
+    }
+    .pro-page-detail.pro-page-detail-projet .pro-wrapper .portlet-body>* {
+        margin: 0;
+        padding: 7px 0;
+    }
+    .pro-btn-action.active:after{
+        opacity: 0;
+    }
+     
+    .col-sm-4 {
+    	z-index : 50;
+    }
+</style>
  
- .pro-page-detail.pro-page-detail-projet aside{
-     margin-top : 124px;
- }
- .pro-page-detail.pro-page-detail-projet .pro-wrapper .portlet-body>* {
-    margin: 0;
-    padding: 7px 0;
- }
- .pro-btn-action.active:after{
-    opacity: 0;
- }
- 
- .col-sm-4 {
-	z-index : 50;
- }
- </style>
- 
- <script>
-    var projectPlaceMercators = [
-        <#list projectPlaceMercators as placeMercators>
-            <#if placeMercators?size == 2>
-                [${placeMercators[1]}, ${placeMercators[0]}],
-            </#if>
+<script>
+    // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
+    var projectJSON = ${projectJSON};
+    projectJSON.link = '${homeURL}' + projectJSON.detailURL;
+
+    var eventsJSON = [
+        <#list eventsJSON as eventJSON>
+            ${eventJSON},
         </#list>
     ];
 
-    var participationPlaceMercators = [
-        <#list participationPlaceMercators as placeMercators>
-            <#if placeMercators?size == 2>
-                [${placeMercators[1]}, ${placeMercators[0]}],
-            </#if>
-        </#list>
-    ];
-
-    var eventPlaceMercators = [
-        <#list eventPlaceMercators as placeMercators>
-            <#if placeMercators?size == 2>
-                [${placeMercators[1]}, ${placeMercators[0]}],
-            </#if>
+    var participationsJSON = [
+        <#list participationsJSON as participationJSON>
+            ${participationJSON},
         </#list>
     ];
 
@@ -181,7 +171,7 @@
         // Notes : voir dans le theme placit "override/custom.js"
 
         //Création de la carte au centre de strasbourg
-        leafletMap = getLeafletMap()
+        leafletMap = getLeafletMap();
 
         // Définition des marqueurs
         var projectMarkerIcon = getMarkerIcon('project');
@@ -197,22 +187,43 @@
         var bounds = [];
         var marker;
 
-        for(var i= 0; i < projectPlaceMercators.length; i++) {
-            marker = L.marker(projectPlaceMercators[i], {icon: projectMarkerIcon});
+        for(var i= 0; i < projectJSON.placitPlaces.length; i++) {
+            marker = getProjectMarker(
+                projectJSON,
+                [projectJSON.placitPlaces[i].mercatorY, projectJSON.placitPlaces[i].mercatorX]
+            );
             // Ajout des coordonnées du marker dans le bounds
             bounds.push(marker.getLatLng());
             // Ajout du marker dans la map
             projectMarkers.push(marker.addTo(leafletMap));
         }
-        for(var i= 0; i < participationPlaceMercators.length; i++) {
-            marker = L.marker(participationPlaceMercators[i], {icon: participationMarkerIcon});
-            bounds.push(marker.getLatLng());
-            participationMarkers.push(marker.addTo(leafletMap));
-        }
-        for(var i= 0; i < eventPlaceMercators.length; i++) {
-            marker = L.marker(eventPlaceMercators[i], {icon: eventMarkerIcon});
+
+        for(var i= 0; i < eventsJSON.length; i++) {
+            // notes : la participation à l'événement à été ajoutée dans le tableau lors du parcours
+            // des évenements, d'où le [0] pour avoir le JSON et le [1] pour la participation à l'évenements
+            var eventJSON = eventsJSON[i];
+            // Ajout du lien vers le détail (effectué ici pour éviter le double parcours)
+            eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id;
+
+            marker = getEventMarker(eventJSON);
             bounds.push(marker.getLatLng());
             eventMarkers.push(marker.addTo(leafletMap));
+        }
+
+        for(var i= 0; i < participationsJSON.length; i++) {
+            var participationJSON = participationsJSON[i];
+            participationJSON.link = '${homeURL}detail-participation/-/entity/id/' + participationJSON.participationId;
+
+            for(var j= 0; j < participationJSON.placitPlaces.length; j++) {
+                marker = getParticipationMarker(
+                    participationJSON,
+                    [participationJSON.placitPlaces[j].mercatorY, participationJSON.placitPlaces[j].mercatorX]
+                );
+                // Ajout des coordonnées du marker dans le bounds
+                bounds.push(marker.getLatLng());
+                // Ajout du marker dans la map
+                participationMarkers.push(marker.addTo(leafletMap));
+            }
         }
             
         leafletMap.fitBounds(bounds);

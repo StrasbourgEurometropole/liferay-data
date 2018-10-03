@@ -1,48 +1,51 @@
 <!-- DETAIL D'UNE PARTICIPATION -->
 
-<!-- Recuperation de la localisation de l'utilisateur -->
+<#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<!-- Recuperation du gestionnaire de fichiers Liferay -->
+<#-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<!-- Recuperation du créateur de la participation -->
+<#-- Recuperation du créateur de la participation -->
 <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
 <#assign user = UserLocalService.getUser(entry.getAssetEntry().userId) />
 
-<!-- Recuperation de l'URL de "base" du site -->
+<#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation du status de la participation (terminee, bientot, etc.) -->
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+
+<#-- Recuperation du status de la participation (terminee, bientot, etc.) -->
 <#assign participationStatus = entry.getParticipationStatus() />
 
-<!-- Recuperation du type de la participation (information, concertation, etc.) -->
+<#-- Recuperation du type de la participation (information, concertation, etc.) -->
 <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
-<!-- Recuperation de la couleur hexa correspondant au type de la participation -->
+<#-- Recuperation de la couleur hexa correspondant au type de la participation -->
 <#assign participationColor = entry.getTypeCategoryColor() />
 
-<!-- Recuperation des thématiques de la participation -->
+<#-- Recuperation des thématiques de la participation -->
 <#if entry.getThematicCategories()??>
     <#assign participationThematics = entry.getThematicCategories() />
 </#if>
 
-<!-- Recuperation des evenements lies a la participation -->
+<#-- Recuperation des evenements lies a la participation -->
 <#assign participationEvents = entry.getEvents() />
 
-<!-- Recuperation des lieux lies a la participation -->
+<#-- Recuperation des lieux lies a la participation -->
 <#assign participationPlaces = entry.getPlacitPlaces() />
 
-<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+<#-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
 <#assign instanceId = themeDisplay.getPortletDisplay().getId() />
 
-<!-- Initialisation des conteneurs de coordonnees GPS -->
-<#assign participationPlaceMercators = [] />
-<#assign eventPlaceMercators = [] />
+<#-- Initialisation des conteneurs de vignettes -->
+<#assign participationJSON = entry.toJSON(themeDisplay) />
+<#assign eventsJSON = [] />
 
 <div class="pro-page-detail pro-page-detail-participation">
 
@@ -152,9 +155,6 @@
                                     	<!-- Item lieu -->
                                         <#if participationPlaces?has_content>
                                             <#list participationPlaces as place >
-
-                                                <#assign participationPlaceMercators = participationPlaceMercators + [place.getMercators()] />
-
                                                 <div class="col-md-4 col-sm-6">
                                                     <a>
                                                         <figure class="fit-cover">
@@ -309,7 +309,8 @@
                 <#if participationEvents?has_content>
                     <#list participationEvents as event >
 
-                        <#assign eventPlaceMercators = eventPlaceMercators + [event.getMercators()] />
+                        <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
+                        <#assign isUserPartActive = entry.isUserParticipates(userID)?then("active", "") />
                         
                         <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
                             <div>
@@ -324,18 +325,19 @@
                                 </div>
                                 <div class="pro-footer-event">
                                     <#if event.isFinished() >
-                                        <span class="pro-btn-action">
+                                        <span class="pro-btn-action ${isUserPartActive}">
                                             Événement terminé
                                         </span>
                                     <#elseif request.session.getAttribute("has_pact_signed")!false >
-                                        <span class="pro-btn-action"
+                                        <span class="pro-btn-action ${isUserPartActive}"
                                             name="#Participe-${instanceId}"
                                             data-eventid="${event.eventId}"
                                             data-groupid="${event.groupId}">
                                             Je participe
                                         </span>
                                     <#else>
-                                        <span class="pro-btn-action" name="#Pact-sign">
+                                        <span class="pro-btn-action ${isUserPartActive}" 
+                                            name="#Pact-sign">
                                             Je participe
                                         </span>
                                     </#if>
@@ -365,19 +367,13 @@
 </#if>
 
 <script>
-    var participationPlaceMercators = [
-        <#list participationPlaceMercators as placeMercators>
-            <#if placeMercators?size == 2>
-                [${placeMercators[1]}, ${placeMercators[0]}],
-            </#if>
-        </#list>
-    ];
+    // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
+    var participationJSON = ${participationJSON};
+    participationJSON.link = '${homeURL}detail-participation/-/entity/id/${entry.participationId}';
 
-    var eventPlaceMercators = [
-        <#list eventPlaceMercators as placeMercators>
-            <#if placeMercators?size == 2>
-                [${placeMercators[1]}, ${placeMercators[0]}],
-            </#if>
+    var eventsJSON = [
+        <#list eventsJSON as eventJSON>
+            ${eventJSON},
         </#list>
     ];
 
@@ -401,49 +397,31 @@
         var bounds = [];
         var marker;
 
-        for(var i= 0; i < participationPlaceMercators.length; i++) {
-            marker = L.marker(participationPlaceMercators[i], {icon: participationMarkerIcon});
+        for(var i= 0; i < participationJSON.placitPlaces.length; i++) {
+            marker = getParticipationMarker(
+                participationJSON,
+                [participationJSON.placitPlaces[i].mercatorY, participationJSON.placitPlaces[i].mercatorX]
+            );
             // Ajout des coordonnées du marker dans le bounds
             bounds.push(marker.getLatLng());
             // Ajout du marker dans la map
             participationMarkers.push(marker.addTo(leafletMap));
         }
-        for(var i= 0; i < eventPlaceMercators.length; i++) {
-            marker = L.marker(eventPlaceMercators[i], {icon: eventMarkerIcon});
+
+        for(var i= 0; i < eventsJSON.length; i++) {
+            // notes : la participation à l'événement à été ajoutée dans le tableau lors du parcours
+            // des évenements, d'où le [0] pour avoir le JSON et le [1] pour la participation à l'évenements
+            var eventJSON = eventsJSON[i];
+            // Ajout du lien vers le détail (effectué ici pour éviter le double parcours)
+            eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id;
+
+            marker = getEventMarker(eventJSON);
             bounds.push(marker.getLatLng());
             eventMarkers.push(marker.addTo(leafletMap));
         }
-            
+        
         leafletMap.fitBounds(bounds);
 
     });
 
-    $(document).ready(function() {
-        $("span[name='#Participe-${instanceId}']").each(function() {
-
-            // Sauvegarde de l'élément
-            var element = $(this);
-            
-            // Récupération des attributs du like
-            var eventid = $(this).data("eventid");
-
-            // Recherche si l'utilisateur participe a l'evenement
-            Liferay.Service(
-                '/agenda.eventparticipation/is-user-participates',
-                {
-                    eventId: eventid
-                },
-                function(obj) {
-                    // En cas de succès, on effectue la modification des éléments visuels
-                    // selon la réponse et le type de l'élément
-                    if (obj.hasOwnProperty('success')) {
-                        if (obj['success'] == 'true') {
-                            element.toggleClass('active');
-                        }
-                    }
-                }
-            );
-
-        });
-    });
 </script>
