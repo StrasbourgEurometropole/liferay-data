@@ -10,6 +10,9 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+<#-- L'utilisateur participe-t-il ? -->
+<#assign isUserFollowsActive = entry.isUserFollows(userID)?then("active", "") >
+
 <#-- Recuperation des entités lies au projet -->
 <#assign projectPlaces = entry.getPlacitPlaces() />
 <#assign projectEvents = entry.getEvents() />
@@ -72,7 +75,7 @@
     <div class="pro-compteur">
         <span class="pro-compt">${entry.getNbFollowerLabel()}</span>
         <p>Citoyens(nes) suivent ce projet</p>
-        <a href="#Suivre" class="pro-btn-action" 
+        <a href="#Suivre" class="pro-btn-action ${isUserFollowsActive}" 
             data-projectid="${entry.projectId}" 
             data-groupid="${entry.groupId}"
             title="Suivre ce projet">

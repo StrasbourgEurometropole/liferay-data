@@ -1,46 +1,41 @@
 <!-- DETAIL D'UNE PETITION -->
 
-<!-- Recuperation de la localisation de l'utilisateur -->
+<#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<!-- Recuperation du gestionnaire de fichiers Liferay -->
+<#-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<!-- Recuperation de l'URL de "base" du site -->
+<#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 
-<!-- Recuperation des thématiques de la petition -->
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+
+<#-- Recuperation des thématiques de la petition -->
 <#if entry.getThematicCategories()??>
     <#assign petitionThematics = entry.getThematicCategories() />
 </#if>
 
-<!-- Recuperation des thématiques de la petition -->
+<#-- Recuperation des thématiques de la petition -->
 <#if entry.getProjectCategory()??>
     <#assign petitionProject = entry.getProjectCategory() />
 </#if>
 
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
 
-<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+<#-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
 <#assign instanceId = themeDisplay.getPortletDisplay().getId() />
-
-<!-- Initialisation des conteneurs de coordonnees GPS et recuperation des lieux lies a la petition -->
-<#assign petitionPlaceMercators = [] />
-
-<!-- Recuperation des lieux lies a la petition -->
-<#assign petitionPlaces = entry.getPlacitPlaces() />
 
 <#assign signataireNeeded = entry.getSignataireNeeded() />
 <#assign isJudgeable = entry.isJudgeable() />
 
-<#list petitionPlaces as place >
-    <#assign petitionPlaceMercators = petitionPlaceMercators + [place.getMercators()] />
-</#list>
-
+<#-- Initialisation des conteneurs de vignettes -->
+<#assign petitionJSON = entry.toJSON(userID) />
 
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
@@ -310,13 +305,9 @@
 </div>
 
 <script>
-    var petitionPlaceMercators = [
-        <#list petitionPlaceMercators as placeMercators>
-            <#if placeMercators?size == 2>
-                [${placeMercators[1]}, ${placeMercators[0]}],
-            </#if>
-        </#list>
-    ];
+    // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
+    var petitionJSON = ${petitionJSON};
+    petitionJSON.link = '${homeURL}detail-petition/-/entity/id/${entry.petitionId}';
 
     $(document).ready(function() {
         // Gestion de la carte interactive
@@ -335,8 +326,11 @@
         var bounds = [];
         var marker;
 
-        for(var i= 0; i < petitionPlaceMercators.length; i++) {
-            marker = L.marker(petitionPlaceMercators[i], {icon: petitionMarkerIcon});
+        for(var i= 0; i < petitionJSON.placitPlaces.length; i++) {
+            marker = getPetitionMarker(
+                petitionJSON,
+                [petitionJSON.placitPlaces[i].mercatorY, petitionJSON.placitPlaces[i].mercatorX]
+            );
             // Ajout des coordonnées du marker dans le bounds
             bounds.push(marker.getLatLng());
             // Ajout du marker dans la map
