@@ -512,6 +512,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
+    @Override
 	public List<Event> findEventByUserPublikId(String publikId){
 		List<EventParticipation> resultList = eventParticipationLocalService.getByPublikUser(publikId);
 		List<Event> eventList = resultList.stream().map(result -> {
