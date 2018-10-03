@@ -116,7 +116,7 @@ public class EditProjectDisplayContext {
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
 		return _themeDisplay.getPermissionChecker().hasPermission(
-		this._themeDisplay.getCompanyGroupId(),
+		this._themeDisplay.getScopeGroupId(),
 			StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO,
 			actionId);
 	}
