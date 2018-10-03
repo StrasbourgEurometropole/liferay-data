@@ -13,8 +13,6 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
-import eu.strasbourg.service.oidc.model.PublikUser;
-import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
@@ -58,7 +56,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
      */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
-    private static final String CITY_NAME = "Strasbourg";
+    public static final String CITY_NAME = "Strasbourg";
     public static final String REDIRECT_URL_PARAM = "redirectURL";
 
     @Override
