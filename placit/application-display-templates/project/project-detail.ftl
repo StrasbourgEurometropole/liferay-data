@@ -79,7 +79,11 @@
             data-projectid="${entry.projectId}" 
             data-groupid="${entry.groupId}"
             title="Suivre ce projet">
-            Suivre ce projet
+            <#if isUserFollowsActive?has_content>
+                Projet suivi
+            <#else>
+                Suivre ce projet
+            </#if>
         </a>
     </div>
 
@@ -149,26 +153,6 @@
         // Déplacement du bloc de la fiche entité
         $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
         $(".portlet-content>.portlet-title-text").hide();
-
-        var projectid = ${entry.projectId};
-
-        // Recherche si l'utilisateur suit le projet
-        Liferay.Service(
-            '/project.projectfollowed/is-follower',
-            {
-                projectId: projectid
-            },
-            function(obj) {
-                // En cas de succès, on effectue la modification des éléments visuels
-                // selon la réponse et le type de l'élément
-                if (obj.hasOwnProperty('success')) {
-                    if (obj['success'] == 'true') {
-                        $("[href='#Suivre']").toggleClass('active');
-                        $("[href='#Suivre']").text("Projet suivi");
-                    }
-                }
-            }
-        );
 
         // Gestion de la carte interactive
         // Notes : voir dans le theme placit "override/custom.js"
