@@ -41,6 +41,7 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -561,6 +562,18 @@ public class PetitionImpl extends PetitionBaseImpl {
     public List<PlacitPlace> getPlacitPlaces() {
         return PlacitPlaceLocalServiceUtil.getByPetition(this.getPetitionId());
     }
+    
+    /**
+     * Demande si l'utilisateur demandé a signe la petition
+     */
+//    @Override
+//    public boolean hasUserSigned(String publikUserId) {
+//    	if (!publikUserId.isEmpty()) {
+//			if (ProjectFollowedLocalServiceUtil.getByPublikUserIdAndProjectId(publikUserId, this.getPetitionId()) != null)
+//				return true;
+//		}
+//		return false;
+//    }
 
     /**
      * Retourne la version JSON de l'entité

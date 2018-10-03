@@ -679,6 +679,154 @@ public class EventImpl extends EventBaseImpl {
 	public JSONObject toJSON() {
 		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
 
+        jsonEvent.put("id", this.getEventId());
+        jsonEvent.put("externalId", this.getIdSource());
+
+        jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+
+        if (Validator.isNotNull(this.getSubtitle())) {
+               jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
+        }
+
+        Map<Locale, String> descriptionMap = this.getDescriptionMap();
+        Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
+        for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
+               String description = descriptionEntry.getValue().replace("\"/documents/",
+                             "\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+               descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
+        }
+        jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
+
+        String imageURL = this.getImageURL();
+        if (!imageURL.startsWith("http")) {
+               imageURL = StrasbourgPropsUtil.getURL() + this.getImageURL();
+        }
+        jsonEvent.put("imageURL", imageURL);
+
+        jsonEvent.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
+
+        if (Validator.isNotNull(this.getPlaceSIGId())) {
+               jsonEvent.put("placeSIGId", this.getPlaceSIGId());
+        } else {
+               JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+               jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+                jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
+               jsonPlace.put("streetName", this.getPlaceStreetName());
+               jsonPlace.put("zipCode", this.getPlaceZipCode());
+               jsonPlace.put("city", this.getPlaceCity());
+               jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
+               jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+               jsonPlace.put("accessForBlind", this.getAccessForBlind());
+               jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
+               jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
+               jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+               jsonPlace.put("accessForElder", this.getAccessForElder());
+               jsonEvent.put("place", jsonPlace);
+        }
+
+        if (Validator.isNotNull(this.getPromoter())) {
+               jsonEvent.put("promoter", this.getPromoter());
+        }
+
+        if (Validator.isNotNull(this.getPhone())) {
+               jsonEvent.put("phone", this.getPhone());
+        }
+
+        if (Validator.isNotNull(this.getEmail())) {
+               jsonEvent.put("mail", this.getEmail());
+        }
+
+        if (Validator.isNotNull(this.getWebsiteURL())) {
+               jsonEvent.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
+        }
+
+        if (Validator.isNotNull(this.getWebsiteName())) {
+               jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+        }
+
+        jsonEvent.put("freeEntry", this.getFree());
+
+        if (Validator.isNotNull(this.getPrice())) {
+               jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+        }
+
+        JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+        for (EventPeriod period : this.getEventPeriods()) {
+               JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+
+               DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+               periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
+               periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+
+               if (Validator.isNotNull(period.getTimeDetail())) {
+                      periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+               }
+               periodsJSON.put(periodJSON);
+        }
+
+        jsonEvent.put("periods", periodsJSON);
+
+        JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
+        for (Manifestation manifestation : this.getPublishedManifestations()) {
+               jsonManifestations.put(manifestation.getManifestationId());
+        }
+        if (jsonManifestations.length() > 0) {
+               jsonEvent.put("manifestations", jsonManifestations);
+        }
+
+        JSONArray jsonCategories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getCategories());
+        if (jsonCategories.length() > 0) {
+               jsonEvent.put("categories", jsonCategories);
+        }
+
+        JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
+        if (jsonThemes.length() > 0) {
+               jsonEvent.put("themes", jsonThemes);
+        }
+
+        JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+        if (jsonTypes.length() > 0) {
+               jsonEvent.put("types", jsonTypes);
+        }
+
+        JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
+        if (jsonTerritories.length() > 0) {
+               jsonEvent.put("territories", jsonTerritories);
+        }
+
+        JSONArray jsonPublics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getPublics());
+        if (jsonPublics.length() > 0) {
+               jsonEvent.put("publics", jsonPublics);
+        }
+
+        JSONArray jsonServices = AssetVocabularyHelper.getExternalIdsJSONArray(this.getServices());
+        if (jsonServices.length() > 0) {
+               jsonEvent.put("services", jsonServices);
+        }
+
+        jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+        
+        List<String> mercators = this.getMercators();
+        jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
+        jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+        
+        jsonEvent.put("firstDate", this.getFirstStartDate());
+        jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+        jsonEvent.put("nbPart", this.getNbEventParticipations());
+
+        return jsonEvent;
+
+	}
+	
+	/**
+	 * Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
+	 * en incluant l'escape des caractères / balises pouvant casser l'utilisation des données et le split
+	 * de l'HTML en général
+	 */
+	@Override
+	public JSONObject toJSON(String publikUserID) {
+		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
+
 		jsonEvent.put("id", this.getEventId());
 		jsonEvent.put("externalId", this.getIdSource());
 
@@ -846,17 +994,6 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("firstDate", this.getFirstStartDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
-
-		return jsonEvent;
-	}
-	
-	/**
-	 * Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
-	 * en incluant l'escape des cararcères / balises pouvant casser l'utilisation des données
-	 */
-	@Override
-	public JSONObject toJSON(String publikUserID) {
-		JSONObject jsonEvent = this.toJSON();
 		
 		jsonEvent.put("isUserPart", this.isUserParticipates(publikUserID));
 		
