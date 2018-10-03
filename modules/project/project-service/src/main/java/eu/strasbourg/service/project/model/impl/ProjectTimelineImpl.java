@@ -60,7 +60,7 @@ public class ProjectTimelineImpl extends ProjectTimelineBaseImpl {
 		// Champs : Autres
 		jsonProjectTimeline.put("startDay", this.getStartDay());
 		jsonProjectTimeline.put("date", dateFormat.format(this.getDate()));
-		jsonProjectTimeline.put("title", HtmlUtil.escapeJS(this.getTitle()));
+		jsonProjectTimeline.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
 		jsonProjectTimeline.put("link", this.getLink());
 		
 		return jsonProjectTimeline;

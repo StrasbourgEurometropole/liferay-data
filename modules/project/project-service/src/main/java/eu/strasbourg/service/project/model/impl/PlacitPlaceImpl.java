@@ -313,7 +313,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 		jsonPlacitPlace.put("id", this.getPlacitPlaceId());
 		
 		// Champs : Autres
-		jsonPlacitPlace.put("completeAddress", HtmlUtil.escapeJS(this.getCompleteAddress(Locale.FRENCH)));
+		jsonPlacitPlace.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonPlacitPlace.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonPlacitPlace.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
 		jsonPlacitPlace.put("imageURL", this.getImageURL());

@@ -30,8 +30,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -544,15 +542,15 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		jsonParticipation.put("createDate", dateFormat.format(this.getCreateDate()));
 
 		// Champs : Header
-		jsonParticipation.put("title", HtmlUtil.escapeJS(this.getTitle()));
-		jsonParticipation.put("author", HtmlUtil.escapeJS(this.getAuthorFullName()));
+		jsonParticipation.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+		jsonParticipation.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthorFullName())));
 		jsonParticipation.put("authorImageURL", this.getImageAuthorURL(themeDisplay));
 
 		// Champs : Contact
-		jsonParticipation.put("contactName", HtmlUtil.escapeJS(this.getContactName()));
-		jsonParticipation.put("contactLine1", HtmlUtil.escapeJS(this.getContactLine1()));
-		jsonParticipation.put("contactLine2", HtmlUtil.escapeJS(this.getContactLine2()));
-		jsonParticipation.put("contactPhoneNumber", HtmlUtil.escapeJS(this.getContactPhoneNumber()));
+		jsonParticipation.put("contactName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactName())));
+		jsonParticipation.put("contactLine1", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactLine1())));
+		jsonParticipation.put("contactLine2", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactLine2())));
+		jsonParticipation.put("contactPhoneNumber", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactPhoneNumber())));
 
 		// Champs : Médias
 		jsonParticipation.put("videoUrl", this.getVideoUrl());
@@ -560,11 +558,11 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		jsonParticipation.put("mediaChoice", this.getMediaChoice());
 
 		// Champs : Description
-		jsonParticipation.put("descriptionChapeau", HtmlUtil.escapeJS(this.getDescriptionChapeau()));
-		jsonParticipation.put("descriptionBody", HtmlUtil.escapeJS(this.getDescriptionBody()));
+		jsonParticipation.put("descriptionChapeau", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDescriptionChapeau())));
+		jsonParticipation.put("descriptionBody", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDescriptionBody())));
 
 		// Champs : Description
-		jsonParticipation.put("consultationPlacesBody", HtmlUtil.escapeJS(this.getConsultationPlacesBody()));
+		jsonParticipation.put("consultationPlacesBody", HtmlUtil.stripHtml(HtmlUtil.escape(this.getConsultationPlacesBody())));
 
 		// Champs : Dates
 		jsonParticipation.put("publicationDate", this.getPublicationDate());
@@ -610,7 +608,5 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 		return jsonParticipation;
 	}
-
-	private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 
 }

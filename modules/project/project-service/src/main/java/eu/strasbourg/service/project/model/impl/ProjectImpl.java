@@ -397,26 +397,26 @@ public class ProjectImpl extends ProjectBaseImpl {
 		jsonProject.put("id", this.getProjectId());
 
 		// Champs : Header
-		jsonProject.put("title", HtmlUtil.escapeJS(this.getTitle()));
+		jsonProject.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
 		jsonProject.put("imageURL", this.getImageURL());
-		jsonProject.put("description", HtmlUtil.escapeJS(this.getDescription()));
+		jsonProject.put("description", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDescription())));
 		jsonProject.put("detailURL", this.getDetailURL());
 
 		// Champs : En bref
-		jsonProject.put("budget", HtmlUtil.escapeJS(this.getBudget()));
-		jsonProject.put("label", HtmlUtil.escapeJS(this.getLabel()));
-		jsonProject.put("duration", HtmlUtil.escapeJS(this.getDuration()));
-		jsonProject.put("partners", HtmlUtil.escapeJS(this.getPartners()));
+		jsonProject.put("budget", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudget())));
+		jsonProject.put("label", HtmlUtil.stripHtml(HtmlUtil.escape(this.getLabel())));
+		jsonProject.put("duration", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDuration())));
+		jsonProject.put("partners", HtmlUtil.stripHtml(HtmlUtil.escape(this.getPartners())));
 		
 		// Champs : Contact
-		jsonProject.put("contactName", HtmlUtil.escapeJS(this.getContactName()));
-		jsonProject.put("contactLine1", HtmlUtil.escapeJS(this.getContactLine1()));
-		jsonProject.put("contactLine2", HtmlUtil.escapeJS(this.getContactLine2()));
+		jsonProject.put("contactName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactName())));
+		jsonProject.put("contactLine1", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactLine1())));
+		jsonProject.put("contactLine2", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactLine2())));
 		jsonProject.put("contactPhoneNumber", this.getContactPhoneNumber());
 
 		// Champs : Autres
-		jsonProject.put("districtLabel", HtmlUtil.escapeJS(this.getDistrictLabel(Locale.FRENCH)));
-		jsonProject.put("thematicsLabel", HtmlUtil.escapeJS(this.getThematicsLabel(Locale.FRENCH)));
+		jsonProject.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+		jsonProject.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
 		jsonProject.put("nbFollowers", this.getNbFollower());
 		
 		// Lieux placit

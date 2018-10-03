@@ -333,7 +333,6 @@ public class EventImpl extends EventBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -354,7 +353,6 @@ public class EventImpl extends EventBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -690,7 +688,7 @@ public class EventImpl extends EventBaseImpl {
 				this.getTitleMap()
 				.entrySet()
 				.stream()
-				.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
+				.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 
 		// Meme procédé
 		if (Validator.isNotNull(this.getSubtitle())) {
@@ -698,7 +696,7 @@ public class EventImpl extends EventBaseImpl {
 					this.getSubtitleMap()
 					.entrySet()
 					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 		}
 
 		Map<Locale, String> descriptionMap = this.getDescriptionMap();
@@ -706,7 +704,7 @@ public class EventImpl extends EventBaseImpl {
 		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
 			String description = descriptionEntry.getValue().replace("\"/documents/",
 					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
-			description = HtmlUtil.escapeJS(description);
+			description = HtmlUtil.stripHtml(HtmlUtil.escape(description));
 			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
 		}
 		
@@ -718,7 +716,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 		jsonEvent.put("imageURL", imageURL);
 
-		jsonEvent.put("imageCopyright", HtmlUtil.escapeJS(this.getImageCopyright(Locale.getDefault())));
+		jsonEvent.put("imageCopyright", HtmlUtil.stripHtml(HtmlUtil.escape(this.getImageCopyright(Locale.getDefault()))));
 
 		if (Validator.isNotNull(this.getPlaceSIGId())) {
 			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
@@ -728,21 +726,21 @@ public class EventImpl extends EventBaseImpl {
 					this.getPlaceNameMap()
 					.entrySet()
 					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
-			jsonPlace.put("streetName", HtmlUtil.escapeJS(this.getPlaceStreetName()));
+			jsonPlace.put("streetName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getPlaceStreetName())));
 			jsonPlace.put("zipCode", this.getPlaceZipCode());
-			jsonPlace.put("city", HtmlUtil.escapeJS(this.getPlaceCity()));
+			jsonPlace.put("city", HtmlUtil.stripHtml(HtmlUtil.escape(this.getPlaceCity())));
 			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(
 					this.getAccessMap()
 					.entrySet()
 					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(
 					this.getAccessForDisabledMap()
 					.entrySet()
 					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 			jsonPlace.put("accessForBlind", this.getAccessForBlind());
 			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
 			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
@@ -752,7 +750,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		if (Validator.isNotNull(this.getPromoter())) {
-			jsonEvent.put("promoter", HtmlUtil.escapeJS(this.getPromoter()));
+			jsonEvent.put("promoter", HtmlUtil.stripHtml(HtmlUtil.escape(this.getPromoter())));
 		}
 
 		if (Validator.isNotNull(this.getPhone())) {
@@ -772,7 +770,7 @@ public class EventImpl extends EventBaseImpl {
 					this.getWebsiteNameMap()
 					.entrySet()
 					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS((e.getValue()))))));
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape((e.getValue())))))));
 		}
 
 		jsonEvent.put("freeEntry", this.getFree());
@@ -782,7 +780,7 @@ public class EventImpl extends EventBaseImpl {
 					this.getPriceMap()
 					.entrySet()
 					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 		}
 
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
@@ -846,7 +844,7 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
 		
 		jsonEvent.put("firstDate", this.getFirstStartDate());
-		jsonEvent.put("completeAddress", HtmlUtil.escapeJS(this.getCompleteAddress(Locale.FRENCH)));
+		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
 		return jsonEvent;

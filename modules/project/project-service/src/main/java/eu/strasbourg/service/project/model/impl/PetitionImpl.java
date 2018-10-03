@@ -574,11 +574,11 @@ public class PetitionImpl extends PetitionBaseImpl {
         jsonPetition.put("id", this.getPetitionId());
         jsonPetition.put("createDate", dateFormat.format(this.getCreateDate()));
         jsonPetition.put("imageURL", this.getImageURL());
-        jsonPetition.put("userName", HtmlUtil.escapeJS(this.getUserName()));
+        jsonPetition.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonPetition.put("nbApprovedComments", this.getNbApprovedComments());
         jsonPetition.put("frontStatusFR", this.getFrontStatusFR());
-        jsonPetition.put("districtLabel", HtmlUtil.escapeJS(this.getDistrictLabel(Locale.FRENCH)));
-        jsonPetition.put("title", HtmlUtil.escapeJS(this.getTitle()));
+        jsonPetition.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+        jsonPetition.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonPetition.put("proDureeFR", this.getProDureeFR());
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
         jsonPetition.put("nombreSignature", this.getNombreSignature());
