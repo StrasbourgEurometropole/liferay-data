@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -543,28 +544,27 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		jsonParticipation.put("createDate", dateFormat.format(this.getCreateDate()));
 
 		// Champs : Header
-		jsonParticipation.put("title", this.getTitle());
-		jsonParticipation.put("author", this.getAuthorFullName());
+		jsonParticipation.put("title", HtmlUtil.escapeJS(this.getTitle()));
+		jsonParticipation.put("author", HtmlUtil.escapeJS(this.getAuthorFullName()));
 		jsonParticipation.put("authorImageURL", this.getImageAuthorURL(themeDisplay));
 
 		// Champs : Contact
-		jsonParticipation.put("contactName", this.getContactName());
-		jsonParticipation.put("contactLine1", this.getContactLine1());
-		jsonParticipation.put("contactLine2", this.getContactLine2());
-		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
+		jsonParticipation.put("contactName", HtmlUtil.escapeJS(this.getContactName()));
+		jsonParticipation.put("contactLine1", HtmlUtil.escapeJS(this.getContactLine1()));
+		jsonParticipation.put("contactLine2", HtmlUtil.escapeJS(this.getContactLine2()));
+		jsonParticipation.put("contactPhoneNumber", HtmlUtil.escapeJS(this.getContactPhoneNumber()));
 
 		// Champs : Médias
 		jsonParticipation.put("videoUrl", this.getVideoUrl());
 		jsonParticipation.put("imageURL", this.getImageURL());
 		jsonParticipation.put("mediaChoice", this.getMediaChoice());
-		jsonParticipation.put("contactPhoneNumber", this.getContactPhoneNumber());
 
 		// Champs : Description
-		jsonParticipation.put("descriptionChapeau", this.getDescriptionChapeau());
-		jsonParticipation.put("descriptionBody", this.getDescriptionBody());
+		jsonParticipation.put("descriptionChapeau", HtmlUtil.escapeJS(this.getDescriptionChapeau()));
+		jsonParticipation.put("descriptionBody", HtmlUtil.escapeJS(this.getDescriptionBody()));
 
 		// Champs : Description
-		jsonParticipation.put("consultationPlacesBody", this.getConsultationPlacesBody());
+		jsonParticipation.put("consultationPlacesBody", HtmlUtil.escapeJS(this.getConsultationPlacesBody()));
 
 		// Champs : Dates
 		jsonParticipation.put("publicationDate", this.getPublicationDate());

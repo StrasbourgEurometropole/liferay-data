@@ -19,7 +19,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -31,6 +30,7 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
@@ -79,7 +79,8 @@ public class PetitionImpl extends PetitionBaseImpl {
      * Never reference this class directly. All methods that expect a petition model instance should use the {@link eu.strasbourg.service.project.model.Petition} interface instead.
      */
 
-    public static final String COMPLETED = "completed";
+	private static final long serialVersionUID = 7130010047007775840L;
+	public static final String COMPLETED = "completed";
     public static final String DRAFT = "Brouillon";
     public static final String FAILED = "failed";
 
@@ -313,7 +314,6 @@ public class PetitionImpl extends PetitionBaseImpl {
         // Group Id global
         long globalGroupId = 0;
 
-        List<Long[]> prefilterCategoriesIds = new ArrayList<>();
         String[] prefilterTagsNames = {};
 
         Hits hits = SearchHelper.getGlobalSearchHits(searchContext, className,
@@ -569,17 +569,16 @@ public class PetitionImpl extends PetitionBaseImpl {
     public JSONObject toJSON() {
         // Initialisation des variables tempons et résultantes
         JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
-        JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         jsonPetition.put("id", this.getPetitionId());
         jsonPetition.put("createDate", dateFormat.format(this.getCreateDate()));
         jsonPetition.put("imageURL", this.getImageURL());
-        jsonPetition.put("userName", this.getUserName());
+        jsonPetition.put("userName", HtmlUtil.escapeJS(this.getUserName()));
         jsonPetition.put("nbApprovedComments", this.getNbApprovedComments());
         jsonPetition.put("frontStatusFR", this.getFrontStatusFR());
-        jsonPetition.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
-        jsonPetition.put("title", this.getTitle());
+        jsonPetition.put("districtLabel", HtmlUtil.escapeJS(this.getDistrictLabel(Locale.FRENCH)));
+        jsonPetition.put("title", HtmlUtil.escapeJS(this.getTitle()));
         jsonPetition.put("proDureeFR", this.getProDureeFR());
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
         jsonPetition.put("nombreSignature", this.getNombreSignature());

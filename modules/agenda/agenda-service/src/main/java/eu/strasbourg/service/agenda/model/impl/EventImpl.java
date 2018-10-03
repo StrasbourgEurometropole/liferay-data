@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -683,10 +684,21 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("id", this.getEventId());
 		jsonEvent.put("externalId", this.getIdSource());
 
-		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		// Ce truc imbitable utilisant le meilleur de ce que propose Java 8
+		// vous propose d'appliquer la fonction escape à l'ensemble de la map
+		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(
+				this.getTitleMap()
+				.entrySet()
+				.stream()
+				.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
 
+		// Meme procédé
 		if (Validator.isNotNull(this.getSubtitle())) {
-			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
+			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(
+					this.getSubtitleMap()
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
 		}
 
 		Map<Locale, String> descriptionMap = this.getDescriptionMap();
@@ -694,8 +706,10 @@ public class EventImpl extends EventBaseImpl {
 		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
 			String description = descriptionEntry.getValue().replace("\"/documents/",
 					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+			description = HtmlUtil.escapeJS(description);
 			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
 		}
+		
 		jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
 
 		String imageURL = this.getImageURL();
@@ -704,19 +718,31 @@ public class EventImpl extends EventBaseImpl {
 		}
 		jsonEvent.put("imageURL", imageURL);
 
-		jsonEvent.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
+		jsonEvent.put("imageCopyright", HtmlUtil.escapeJS(this.getImageCopyright(Locale.getDefault())));
 
 		if (Validator.isNotNull(this.getPlaceSIGId())) {
 			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(
+					this.getPlaceNameMap()
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
 			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
-			jsonPlace.put("streetName", this.getPlaceStreetName());
+			jsonPlace.put("streetName", HtmlUtil.escapeJS(this.getPlaceStreetName()));
 			jsonPlace.put("zipCode", this.getPlaceZipCode());
-			jsonPlace.put("city", this.getPlaceCity());
-			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
-			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+			jsonPlace.put("city", HtmlUtil.escapeJS(this.getPlaceCity()));
+			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(
+					this.getAccessMap()
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
+			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(
+					this.getAccessForDisabledMap()
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
 			jsonPlace.put("accessForBlind", this.getAccessForBlind());
 			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
 			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
@@ -726,7 +752,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		if (Validator.isNotNull(this.getPromoter())) {
-			jsonEvent.put("promoter", this.getPromoter());
+			jsonEvent.put("promoter", HtmlUtil.escapeJS(this.getPromoter()));
 		}
 
 		if (Validator.isNotNull(this.getPhone())) {
@@ -742,13 +768,21 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		if (Validator.isNotNull(this.getWebsiteName())) {
-			jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+			jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(
+					this.getWebsiteNameMap()
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS((e.getValue()))))));
 		}
 
 		jsonEvent.put("freeEntry", this.getFree());
 
 		if (Validator.isNotNull(this.getPrice())) {
-			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(
+					this.getPriceMap()
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.escapeJS(e.getValue())))));
 		}
 
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
@@ -812,7 +846,7 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
 		
 		jsonEvent.put("firstDate", this.getFirstStartDate());
-		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+		jsonEvent.put("completeAddress", HtmlUtil.escapeJS(this.getCompleteAddress(Locale.FRENCH)));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
 		return jsonEvent;
@@ -820,22 +854,13 @@ public class EventImpl extends EventBaseImpl {
 	
 	/**
 	 * Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
+	 * en incluant l'escape des cararcères / balises pouvant casser l'utilisation des données
 	 */
 	@Override
 	public JSONObject toJSON(String publikUserID) {
 		JSONObject jsonEvent = this.toJSON();
 		
 		jsonEvent.put("isUserPart", this.isUserParticipates(publikUserID));
-		
-		Map<Locale, String> descriptionMap = this.getDescriptionMap();
-		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
-		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
-			String description = descriptionEntry.getValue().replace("\"/documents/",
-					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
-			description = HtmlUtil.escape(description);
-			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
-		}
-		jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
 		
 		return jsonEvent;
 	}
