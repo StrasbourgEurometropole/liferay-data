@@ -420,7 +420,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Petition.class.getName())) {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
 				
-				JSONObject jsonPetition = petition.toJSON();
+				JSONObject jsonPetition = petition.toJSON(publikUserId);
 				
 				jsonPetition.put(
 					ATTRIBUTE_CLASSNAME,

@@ -389,6 +389,7 @@ function getProjectMarker(project, mercators) {
                 '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
             '</a>' + 
         '</div>'
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -479,7 +480,7 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
-        ,{maxHeight: 280, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -500,29 +501,32 @@ function getInitiativePopUp(mercators, link) {
 /**
 * Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
 */
-function getPetitionMarker(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+function getPetitionMarker(petition, mercators) {
 
     var petitionMarkerIcon = getMarkerIcon("petition");
-    var marker = L.marker(mercators, {icon: petitionMarkerIcon})
+    var marker = L.marker(mercators, {icon: petitionMarkerIcon});
 
     marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' +
+        '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
             '<div class="pro-header-petition">' +
-                '<figure role="group"></figure> ' +
-                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' +
+                '<figure role="group">' +
+                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+                '</figure>' +
+                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
             '</div>' +
             '<div class="pro-content-petition">' +
-                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
-                '<span class="pro-duree">' + durationLabel + '</span></span>' +
+                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
+                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
+                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
                 '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' +
+                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
                 '</div>' +
-                '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;

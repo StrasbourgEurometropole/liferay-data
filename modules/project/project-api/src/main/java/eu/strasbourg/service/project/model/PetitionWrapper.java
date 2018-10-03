@@ -361,6 +361,17 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Demande si l'utilisateur demandé a signe la petition
+	*
+	* @throws PortletException
+	*/
+	@Override
+	public boolean hasUserSigned(java.lang.String publikUserId)
+		throws javax.portlet.PortletException {
+		return _petition.hasUserSigned(publikUserId);
+	}
+
+	/**
 	* Returns <code>true</code> if this petition is approved.
 	*
 	* @return <code>true</code> if this petition is approved; <code>false</code> otherwise
@@ -514,10 +525,13 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 	/**
 	* Retourne la version JSON de l'entité
+	*
+	* @throws PortletException
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _petition.toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId) {
+		return _petition.toJSON(publikUserId);
 	}
 
 	@Override

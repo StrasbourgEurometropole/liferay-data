@@ -359,12 +359,6 @@ public class EventLocalServiceWrapper implements EventLocalService,
 		return _eventLocalService.findByPlaceSIGId(placeSIGId);
 	}
 
-	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Event> findEventByUserPublikId(
-		java.lang.String publikId) {
-		return _eventLocalService.findEventByUserPublikId(publikId);
-	}
-
 	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/

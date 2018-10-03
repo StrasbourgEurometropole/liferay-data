@@ -11160,6 +11160,17 @@ var th_maps = {
  });
  */
 
+$('.pro-page-carte .pro-group').each(function(){
+
+    $('.pro-item > input',this).on('click',function(){
+       $('.pro-switch',this).find('input').prop('checked',true);
+    });
+
+
+    $('.pro-remove-chk',this).on('click',function(){
+        $(this).parent().find('input:checked').prop('checked',false);
+    });
+});
 $('.pro-reponse').click(function(e){
     e.preventDefault();
     $('.pro-reagir').find(':text').focus();
@@ -11187,6 +11198,13 @@ $('.pro-remove').on('click',function(){
     $(this).parents('.pro-group').find('input:text').val('');
 
     $(this).parents('.pro-group').find('select').prop('selectedIndex', 0).selectric('refresh');
+	
+	
+	// Utilisé pour les recherches ajax
+    if($(this).hasClass('dynamic')){
+        // Renvoi la liste des entités demandées
+        getSelectedEntries();
+    }
 });
 $('[data-frmval]').each(function(){
     this.setAttribute('placeholder',this.getAttribute('data-frmval'));
@@ -11369,7 +11387,6 @@ $('#quartiers').on('change', function () {
 // Bloc video
 $('.pro-bloc-video').each(function() {
 
-
 	var mask = $('.mask-video',this);
 	var vidContainer = $('.embed-container', this);
 
@@ -11384,7 +11401,7 @@ $('.pro-bloc-video').each(function() {
 		var iframe  ='<iframe src="' + urlVideo + '" width="1280px"  height="auto"></iframe>';
 
 
-		$('a[href*="play"]').click(function (e) {
+		$(mask).click(function (e) {
 			e.preventDefault();
 			vidContainer.append(iframe);
 
@@ -11958,6 +11975,7 @@ function getProjectMarker(project, mercators) {
                 '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
             '</a>' + 
         '</div>'
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -12048,7 +12066,7 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
-        ,{maxHeight: 280, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -12069,29 +12087,32 @@ function getInitiativePopUp(mercators, link) {
 /**
 * Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
 */
-function getPetitionMarker(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+function getPetitionMarker(petition, mercators) {
 
     var petitionMarkerIcon = getMarkerIcon("petition");
-    var marker = L.marker(mercators, {icon: petitionMarkerIcon})
+    var marker = L.marker(mercators, {icon: petitionMarkerIcon});
 
     marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' +
+        '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
             '<div class="pro-header-petition">' +
-                '<figure role="group"></figure> ' +
-                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' +
+                '<figure role="group">' +
+                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+                '</figure>' +
+                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
             '</div>' +
             '<div class="pro-content-petition">' +
-                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
-                '<span class="pro-duree">' + durationLabel + '</span></span>' +
+                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
+                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
+                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
                 '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' +
+                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
                 '</div>' +
-                '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -13146,726 +13167,732 @@ function moveMenuOnResize(){
  */
 
 
-/**
- * Turn the globals into local variables.
- */
-;(function (window, $, undefined) {
-    if (!window.profilePicture) {
-        window.profilePicture = profilePicture;
-    }
+
+if($('.pro-bloc-dashboard').length > 0) {
 
     /**
-     * Component
+     * Turn the globals into local variables.
      */
-    function profilePicture(cssSelector, imageFilePath, options) {
-        var self = this;
-        /**
-         * Map the DOM elements
-         */
-        self.element = $(cssSelector);
-        self.canvas = $(cssSelector + ' .photo__frame .photo__canvas')[0];
-        self.photoImg = $(cssSelector + ' .photo__frame img');
-        self.photoHelper = $(cssSelector + ' .photo__helper');
-        self.photoLoading = $(cssSelector + ' .photo__frame .message.is-loading');
-        self.photoOptions = $(cssSelector + ' .photo__options');
-        self.photoFrame = $(cssSelector + ' .photo__frame');
-        self.photoArea = $(cssSelector + ' .photo');
-        self.zoomControl = $(cssSelector + ' input[type=range]');
-        /**
-         * Image info to post to the API
-         */
-        self.model = {
-            imageSrc: null,
-            width: null,
-            height: null,
-            originalWidth: null,
-            originalHeight: null,
-            y: null,
-            x: null,
-            zoom: 1,
-            cropWidth: null,
-            cropHeight: null
-        };
-
-
-        /**
-         * Plugin options
-         */
-        self.options = {};
-        /**
-         * Plugins defaults
-         */
-        self.defaults = {};
-        self.defaults.imageHelper = true;
-        self.defaults.imageHelperColor = 'rgba(255,255,255,.90)';
-        /**
-         * Callbacks
-         */
-        self.defaults.onChange = null;
-        self.defaults.onZoomChange = null;
-        self.defaults.onImageSizeChange = null;
-        self.defaults.onPositionChange = null;
-        self.defaults.onLoad = null;
-        self.defaults.onRemove = null;
-        self.defaults.onError = null;
-        /**
-         * Zoom default options
-         */
-        self.defaults.zoom = {
-            initialValue: 1,
-            minValue: 0.1,
-            maxValue: 2,
-            step: 0.01
-        };
-        /**
-         * Image default options
-         */
-        self.defaults.image = {
-            originalWidth: 0,
-            originalHeight: 0,
-            originaly: 0,
-            originalX: 0,
-            minWidth: 350,
-            minHeight: 350,
-            maxWidth: 1000,
-            maxHeight: 1000
-        };
-
-        /**
-         * Zoom controls
-         */
-        self.zoom = $(cssSelector + ' .zoom');
-
-        /**
-         * Call the constructor
-         */
-        init(cssSelector, imageFilePath, options);
-
-        /**
-         * Return public methods
-         */
-        return {
-            getData: getData,
-            getAsDataURL: getAsDataURL,
-            removeImage: removeImage
-        };
-
-
-        /**
-         * Constructor
-         * Register all components and options.
-         * Can load a preset image
-         */
-        function init(cssSelector, imageFilePath, options) {
-            /**
-             * Start canvas
-             */
-            self.canvas.width = self.photoFrame.outerWidth();
-            self.canvas.height = self.photoFrame.outerHeight();
-            self.canvasContext = self.canvas.getContext('2d');
-            /**
-             * Show the right text
-             */
-            if (isMobile()) {
-                self.photoArea.addClass('is-mobile');
-            } else {
-                self.photoArea.addClass('is-desktop');
-            }
-            /**
-             * Merge the defaults with the user options
-             */
-            self.options = $.extend({}, self.defaults, options);
-
-            /**
-             * Enable/disable the image helper
-             */
-            if (self.options.imageHelper) {
-                registerImageHelper();
-            }
-
-            registerDropZoneEvents();
-            registerImageDragEvents();
-            registerZoomEvents();
-
-            /**
-             * Start
-             */
-            if (imageFilePath) {
-                processFile(imageFilePath);
-            } else {
-                self.photoArea.addClass('photo--empty');
-            }
+    ;
+    (function (window, $, undefined) {
+        if (!window.profilePicture) {
+            window.profilePicture = profilePicture;
         }
 
         /**
-         * Check if the user's device is a smartphone/tablet
+         * Component
          */
-        function isMobile() {
-            return navigator.userAgent.match(/BlackBerry|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
-        }
-
-        /**
-         * Return the model
-         */
-        function getData() {
-            return model;
-        }
-
-        /**
-         * Set the model
-         */
-        function setModel(model) {
-            self.model = model;
-        }
-
-        /**
-         * Set the image to a canvas
-         */
-        function processFile(imageUrl) {
-            function isDataURL(s) {
-                s = s.toString();
-                return !!s.match(isDataURL.regex);
-            }
-
-            isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-
-            var image = new Image();
-            if (!isDataURL(imageUrl)) {
-                image.crossOrigin = 'anonymous';
-            }
-            self.photoArea.addClass('photo--loading');
-            image.onload = function () {
-                var ratio,
-                    newH, newW,
-                    w = this.width, h = this.height;
-
-                if (w < self.options.image.minWidth ||
-                    h < self.options.image.minHeight) {
-                    self.photoArea.addClass('photo--error--image-size photo--empty');
-                    setModel({});
-
-                    /**
-                     * Call the onError callback
-                     */
-                    if (typeof self.options.onError === 'function') {
-                        self.options.onError('image-size');
-                    }
-
-                    self.photoArea.removeClass('photo--loading');
-                    return;
-                } else {
-                    self.photoArea.removeClass('photo--error--image-size');
-                }
-
-                self.photoArea.removeClass('photo--empty photo--error--file-type photo--loading');
-
-                var frameRatio = self.options.image.maxHeight / self.options.image.maxWidth;
-                var imageRatio = self.model.height / self.model.width;
-
-                if (frameRatio > imageRatio) {
-                    newH = self.options.image.maxHeight;
-                    ratio = (newH / h);
-                    newW = parseFloat(w) * ratio;
-                } else {
-                    newW = self.options.image.maxWidth;
-                    ratio = (newW / w);
-                    newH = parseFloat(h) * ratio;
-                }
-                h = newH;
-                w = newW;
-
-                self.model.imageSrc = image;
-                self.model.originalHeight = h;
-                self.model.originalWidth = w;
-                self.model.height = h;
-                self.model.width = w;
-                self.model.cropWidth = self.photoFrame.outerWidth();
-                self.model.cropHeight = self.photoFrame.outerHeight();
-                self.model.x = 0;
-                self.model.y = 0;
-                self.photoOptions.removeClass('hide');
-                fitToFrame();
-                render();
-
-                /**
-                 * Call the onLoad callback
-                 */
-                if (typeof self.options.onLoad === 'function') {
-                    self.options.onLoad(self.model);
-                }
-
+        function profilePicture(cssSelector, imageFilePath, options) {
+            var self = this;
+            /**
+             * Map the DOM elements
+             */
+            self.element = $(cssSelector);
+            self.canvas = $(cssSelector + ' .photo__frame .photo__canvas')[0];
+            self.photoImg = $(cssSelector + ' .photo__frame img');
+            self.photoHelper = $(cssSelector + ' .photo__helper');
+            self.photoLoading = $(cssSelector + ' .photo__frame .message.is-loading');
+            self.photoOptions = $(cssSelector + ' .photo__options');
+            self.photoFrame = $(cssSelector + ' .photo__frame');
+            self.photoArea = $(cssSelector + ' .photo');
+            self.zoomControl = $(cssSelector + ' input[type=range]');
+            /**
+             * Image info to post to the API
+             */
+            self.model = {
+                imageSrc: null,
+                width: null,
+                height: null,
+                originalWidth: null,
+                originalHeight: null,
+                y: null,
+                x: null,
+                zoom: 1,
+                cropWidth: null,
+                cropHeight: null
             };
 
-            image.src = imageUrl;
-        }
-
-        /**
-         * Remove the image and reset the component state
-         */
-        function removeImage() {
-            self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
-            self.canvasContext.save();
-            self.photoArea.addClass('photo--empty');
-            self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-            self.imageHelperCanvasContext.save();
-            setModel({});
 
             /**
-             * Call the onRemove callback
+             * Plugin options
              */
-            if (typeof self.options.onRemove === 'function') {
-                self.options.onRemove(self.model);
-            }
-        }
+            self.options = {};
+            /**
+             * Plugins defaults
+             */
+            self.defaults = {};
+            self.defaults.imageHelper = true;
+            self.defaults.imageHelperColor = 'rgba(255,255,255,.90)';
+            /**
+             * Callbacks
+             */
+            self.defaults.onChange = null;
+            self.defaults.onZoomChange = null;
+            self.defaults.onImageSizeChange = null;
+            self.defaults.onPositionChange = null;
+            self.defaults.onLoad = null;
+            self.defaults.onRemove = null;
+            self.defaults.onError = null;
+            /**
+             * Zoom default options
+             */
+            self.defaults.zoom = {
+                initialValue: 1,
+                minValue: 0.1,
+                maxValue: 2,
+                step: 0.01
+            };
+            /**
+             * Image default options
+             */
+            self.defaults.image = {
+                originalWidth: 0,
+                originalHeight: 0,
+                originaly: 0,
+                originalX: 0,
+                minWidth: 350,
+                minHeight: 350,
+                maxWidth: 1000,
+                maxHeight: 1000
+            };
 
-        /**
-         * Register the file drop zone events
-         */
-        function registerDropZoneEvents() {
-            var target = null;
             /**
-             * Stop event propagation to all dropzone related events.
+             * Zoom controls
              */
-            self.element.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
-            });
+            self.zoom = $(cssSelector + ' .zoom');
 
             /**
-             * Register the events when the file is out or dropped on the dropzone
+             * Call the constructor
              */
-            self.element.on('dragend dragleave drop', function (e) {
-                if (target === e.target) {
-                    self.element.removeClass('is-dragover');
-                }
-            });
-            /**
-             * Register the events when the file is over the dropzone
-             */
-            self.element.on('dragover dragenter', function (e) {
-                target = e.target;
-                self.element.addClass('is-dragover');
-            });
-            /**
-             * On a file is selected, calls the readFile method.
-             * It is allowed to select just one file - we're forcing it here.
-             */
-            self.element.on('change', 'input[type=file]', function (e) {
-                if (this.files && this.files.length) {
-                    readFile(this.files[0]);
-                    this.value = '';
-                }
-            });
-            /**
-             * Handle the click to the hidden input file so we can browser files.
-             */
-            self.element.on('click', '.photo--empty .photo__frame', function (e) {
-                $(cssSelector + ' input[type=file]').trigger('click');
+            init(cssSelector, imageFilePath, options);
 
-            });
             /**
-             * Register the remove action to the remove button.
+             * Return public methods
              */
-            self.element.on('click', '.remove', function (e) {
-                removeImage();
-            });
-            /**
-             * Register the drop element to the container component
-             */
-            self.element.on('drop', function (e) {
-                readFile(e.originalEvent.dataTransfer.files[0]);
-            });
+            return {
+                getData: getData,
+                getAsDataURL: getAsDataURL,
+                removeImage: removeImage
+            };
 
 
             /**
-             * Only into the DropZone scope.
-             * Read a file using the FileReader API.
-             * Validates file type.
+             * Constructor
+             * Register all components and options.
+             * Can load a preset image
              */
-            function readFile(file) {
-                self.photoArea.removeClass('photo--error photo--error--file-type photo--error-image-size');
+            function init(cssSelector, imageFilePath, options) {
                 /**
-                 * Validate file type
+                 * Start canvas
                  */
-                if (!file.type.match('image.*')) {
-                    self.photoArea.addClass('photo--error--file-type');
-                    /**
-                     * Call the onError callback
-                     */
-                    if (typeof self.options.onError === 'function') {
-                        self.options.onError('file-type');
-                    }
-                    return;
+                self.canvas.width = self.photoFrame.outerWidth();
+                self.canvas.height = self.photoFrame.outerHeight();
+                self.canvasContext = self.canvas.getContext('2d');
+                /**
+                 * Show the right text
+                 */
+                if (isMobile()) {
+                    self.photoArea.addClass('is-mobile');
+                } else {
+                    self.photoArea.addClass('is-desktop');
+                }
+                /**
+                 * Merge the defaults with the user options
+                 */
+                self.options = $.extend({}, self.defaults, options);
+
+                /**
+                 * Enable/disable the image helper
+                 */
+                if (self.options.imageHelper) {
+                    registerImageHelper();
                 }
 
-                var reader;
-                reader = new FileReader();
-                reader.onloadstart = function () {
-                    self.photoArea.addClass('photo--loading');
-                }
-                reader.onloadend = function (data) {
-                    self.photoImg.css({left: 0, top: 0});
-                    var base64Image = data.target.result;
-                    processFile(base64Image, file.type);
-                }
-                reader.onerror = function () {
-                    self.photoArea.addClass('photo--error');
-                    /**
-                     * Call the onError callback
-                     */
-                    if (typeof self.options.onError === 'function') {
-                        self.options.onError('unknown');
-                    }
-                }
-                reader.readAsDataURL(file);
-            }
-        }
+                registerDropZoneEvents();
+                registerImageDragEvents();
+                registerZoomEvents();
 
-        /**
-         * Register the image drag events
-         */
-        function registerImageDragEvents() {
-            var $dragging, x, y, clientX, clientY;
-            if (self.options.imageHelper) {
-                self.photoHelper.on("mousedown touchstart", dragStart)
-                    .css('cursor', 'move');
-            } else {
-                self.photoFrame.on("mousedown touchstart", dragStart);
+                /**
+                 * Start
+                 */
+                if (imageFilePath) {
+                    processFile(imageFilePath);
+                } else {
+                    self.photoArea.addClass('photo--empty');
+                }
             }
 
             /**
-             * Stop dragging
+             * Check if the user's device is a smartphone/tablet
              */
-            $(window).on("mouseup touchend", function (e) {
-                if ($dragging) {
-                    /**
-                     * Call the onPositionChange callback
-                     */
-                    if (typeof self.options.onPositionChange === 'function') {
-                        self.options.onPositionChange(self.model);
-                    }
-                    /**
-                     * Call the onChange callback
-                     */
-                    if (typeof self.options.onChange === 'function') {
-                        self.options.onChange(self.model);
-                    }
-                }
-                $dragging = null;
-            });
-            /**
-             * Drag the image inside the container
-             */
-            $(window).on("mousemove touchmove", function (e) {
+            function isMobile() {
+                return navigator.userAgent.match(/BlackBerry|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
+            }
 
-                if ($dragging) {
+            /**
+             * Return the model
+             */
+            function getData() {
+                return model;
+            }
+
+            /**
+             * Set the model
+             */
+            function setModel(model) {
+                self.model = model;
+            }
+
+            /**
+             * Set the image to a canvas
+             */
+            function processFile(imageUrl) {
+                function isDataURL(s) {
+                    s = s.toString();
+                    return !!s.match(isDataURL.regex);
+                }
+
+                isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+
+                var image = new Image();
+                if (!isDataURL(imageUrl)) {
+                    image.crossOrigin = 'anonymous';
+                }
+                self.photoArea.addClass('photo--loading');
+                image.onload = function () {
+                    var ratio,
+                        newH, newW,
+                        w = this.width, h = this.height;
+
+                    if (w < self.options.image.minWidth ||
+                        h < self.options.image.minHeight) {
+                        self.photoArea.addClass('photo--error--image-size photo--empty');
+                        setModel({});
+
+                        /**
+                         * Call the onError callback
+                         */
+                        if (typeof self.options.onError === 'function') {
+                            self.options.onError('image-size');
+                        }
+
+                        self.photoArea.removeClass('photo--loading');
+                        return;
+                    } else {
+                        self.photoArea.removeClass('photo--error--image-size');
+                    }
+
+                    self.photoArea.removeClass('photo--empty photo--error--file-type photo--loading');
+
+                    var frameRatio = self.options.image.maxHeight / self.options.image.maxWidth;
+                    var imageRatio = self.model.height / self.model.width;
+
+                    if (frameRatio > imageRatio) {
+                        newH = self.options.image.maxHeight;
+                        ratio = (newH / h);
+                        newW = parseFloat(w) * ratio;
+                    } else {
+                        newW = self.options.image.maxWidth;
+                        ratio = (newW / w);
+                        newH = parseFloat(h) * ratio;
+                    }
+                    h = newH;
+                    w = newW;
+
+                    self.model.imageSrc = image;
+                    self.model.originalHeight = h;
+                    self.model.originalWidth = w;
+                    self.model.height = h;
+                    self.model.width = w;
+                    self.model.cropWidth = self.photoFrame.outerWidth();
+                    self.model.cropHeight = self.photoFrame.outerHeight();
+                    self.model.x = 0;
+                    self.model.y = 0;
+                    self.photoOptions.removeClass('hide');
+                    fitToFrame();
+                    render();
+
+                    /**
+                     * Call the onLoad callback
+                     */
+                    if (typeof self.options.onLoad === 'function') {
+                        self.options.onLoad(self.model);
+                    }
+
+                };
+
+                image.src = imageUrl;
+            }
+
+            /**
+             * Remove the image and reset the component state
+             */
+            function removeImage() {
+                self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
+                self.canvasContext.save();
+                self.photoArea.addClass('photo--empty');
+                self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+                self.imageHelperCanvasContext.save();
+                setModel({});
+
+                /**
+                 * Call the onRemove callback
+                 */
+                if (typeof self.options.onRemove === 'function') {
+                    self.options.onRemove(self.model);
+                }
+            }
+
+            /**
+             * Register the file drop zone events
+             */
+            function registerDropZoneEvents() {
+                var target = null;
+                /**
+                 * Stop event propagation to all dropzone related events.
+                 */
+                self.element.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
                     e.preventDefault();
-                    var refresh = false;
+                    e.stopPropagation();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                });
+
+                /**
+                 * Register the events when the file is out or dropped on the dropzone
+                 */
+                self.element.on('dragend dragleave drop', function (e) {
+                    if (target === e.target) {
+                        self.element.removeClass('is-dragover');
+                    }
+                });
+                /**
+                 * Register the events when the file is over the dropzone
+                 */
+                self.element.on('dragover dragenter', function (e) {
+                    target = e.target;
+                    self.element.addClass('is-dragover');
+                });
+                /**
+                 * On a file is selected, calls the readFile method.
+                 * It is allowed to select just one file - we're forcing it here.
+                 */
+                self.element.on('change', 'input[type=file]', function (e) {
+                    if (this.files && this.files.length) {
+                        readFile(this.files[0]);
+                        this.value = '';
+                    }
+                });
+                /**
+                 * Handle the click to the hidden input file so we can browser files.
+                 */
+                self.element.on('click', '.photo--empty .photo__frame', function (e) {
+                    $(cssSelector + ' input[type=file]').trigger('click');
+
+                });
+                /**
+                 * Register the remove action to the remove button.
+                 */
+                self.element.on('click', '.remove', function (e) {
+                    removeImage();
+                });
+                /**
+                 * Register the drop element to the container component
+                 */
+                self.element.on('drop', function (e) {
+                    readFile(e.originalEvent.dataTransfer.files[0]);
+                });
+
+
+                /**
+                 * Only into the DropZone scope.
+                 * Read a file using the FileReader API.
+                 * Validates file type.
+                 */
+                function readFile(file) {
+                    self.photoArea.removeClass('photo--error photo--error--file-type photo--error-image-size');
+                    /**
+                     * Validate file type
+                     */
+                    if (!file.type.match('image.*')) {
+                        self.photoArea.addClass('photo--error--file-type');
+                        /**
+                         * Call the onError callback
+                         */
+                        if (typeof self.options.onError === 'function') {
+                            self.options.onError('file-type');
+                        }
+                        return;
+                    }
+
+                    var reader;
+                    reader = new FileReader();
+                    reader.onloadstart = function () {
+                        self.photoArea.addClass('photo--loading');
+                    }
+                    reader.onloadend = function (data) {
+                        self.photoImg.css({left: 0, top: 0});
+                        var base64Image = data.target.result;
+                        processFile(base64Image, file.type);
+                    }
+                    reader.onerror = function () {
+                        self.photoArea.addClass('photo--error');
+                        /**
+                         * Call the onError callback
+                         */
+                        if (typeof self.options.onError === 'function') {
+                            self.options.onError('unknown');
+                        }
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            /**
+             * Register the image drag events
+             */
+            function registerImageDragEvents() {
+                var $dragging, x, y, clientX, clientY;
+                if (self.options.imageHelper) {
+                    self.photoHelper.on("mousedown touchstart", dragStart)
+                        .css('cursor', 'move');
+                } else {
+                    self.photoFrame.on("mousedown touchstart", dragStart);
+                }
+
+                /**
+                 * Stop dragging
+                 */
+                $(window).on("mouseup touchend", function (e) {
+                    if ($dragging) {
+                        /**
+                         * Call the onPositionChange callback
+                         */
+                        if (typeof self.options.onPositionChange === 'function') {
+                            self.options.onPositionChange(self.model);
+                        }
+                        /**
+                         * Call the onChange callback
+                         */
+                        if (typeof self.options.onChange === 'function') {
+                            self.options.onChange(self.model);
+                        }
+                    }
+                    $dragging = null;
+                });
+                /**
+                 * Drag the image inside the container
+                 */
+                $(window).on("mousemove touchmove", function (e) {
+
+                    if ($dragging) {
+                        e.preventDefault();
+                        var refresh = false;
+                        clientX = e.clientX;
+                        clientY = e.clientY;
+                        if (e.touches) {
+                            clientX = e.touches[0].clientX
+                            clientY = e.touches[0].clientY
+                        }
+
+                        var dy = (clientY) - y;
+                        var dx = (clientX) - x;
+                        dx = Math.min(dx, 0);
+                        dy = Math.min(dy, 0);
+                        /**
+                         * Limit the area to drag horizontally
+                         */
+                        if (self.model.width + dx >= self.model.cropWidth) {
+                            self.model.x = dx;
+                            refresh = true;
+                        }
+                        if (self.model.height + dy >= self.model.cropHeight) {
+                            self.model.y = dy;
+                            refresh = true;
+                        }
+                        if (refresh) {
+                            render();
+                        }
+                    }
+                    ;
+                });
+
+                function dragStart(e) {
+                    $dragging = true;
                     clientX = e.clientX;
                     clientY = e.clientY;
                     if (e.touches) {
                         clientX = e.touches[0].clientX
                         clientY = e.touches[0].clientY
                     }
+                    x = clientX - self.model.x;
+                    y = clientY - self.model.y;
+                }
+            }
 
-                    var dy = (clientY) - y;
-                    var dx = (clientX) - x;
-                    dx = Math.min(dx, 0);
-                    dy = Math.min(dy, 0);
+            /**
+             * Register the zoom control events
+             */
+            function registerZoomEvents() {
+
+                self.zoomControl
+                    .attr('min', self.options.zoom.minValue)
+                    .attr('max', self.options.zoom.maxValue)
+                    .attr('step', self.options.zoom.step)
+                    .val(self.options.zoom.initialValue)
+                    .on('input', zoomChange);
+
+                function zoomChange(e) {
+                    self.model.zoom = Number(this.value);
+                    updateZoomIndicator();
+                    scaleImage();
                     /**
-                     * Limit the area to drag horizontally
+                     * Call the onPositionChange callback
                      */
-                    if (self.model.width + dx >= self.model.cropWidth) {
-                        self.model.x = dx;
-                        refresh = true;
-                    }
-                    if (self.model.height + dy >= self.model.cropHeight) {
-                        self.model.y = dy;
-                        refresh = true;
-                    }
-                    if (refresh) {
-                        render();
+                    if (typeof self.options.onZoomChange === 'function') {
+                        self.options.onZoomChange(self.model);
                     }
                 }
-                ;
+            }
+
+            /**
+             * Set the image to the center of the frame
+             */
+            function centerImage() {
+                var x = Math.abs(self.model.x - ((self.model.width - self.model.cropWidth) / 2));
+                var y = Math.abs(self.model.y - ((self.model.height - self.model.cropHeight) / 2));
+                x = self.model.x - x;
+                y = self.model.y - y;
+                x = Math.min(x, 0);
+                y = Math.min(y, 0);
+
+                if (self.model.width + (x) < self.model.cropWidth) {
+                    /**
+                     * Calculates to handle the empty space on the right side
+                     */
+                    x = Math.abs((self.model.width - self.model.cropWidth)) * -1;
+                }
+                if (self.model.height + (y) < self.model.cropHeight) {
+                    /**
+                     * Calculates to handle the empty space on bottom
+                     */
+                    y = Math.abs((self.model.height - self.model.cropHeight)) * -1;
+                }
+                self.model.x = x;
+                self.model.y = y;
+            }
+
+            /**
+             * Calculates the new image's position based in its new size
+             */
+            function getPosition(newWidth, newHeight) {
+
+                var deltaY = (self.model.y - (self.model.cropHeight / 2)) / self.model.height;
+                var deltaX = (self.model.x - (self.model.cropWidth / 2)) / self.model.width;
+                var y = (deltaY * newHeight + (self.model.cropHeight / 2));
+                var x = (deltaX * newWidth + (self.model.cropWidth / 2));
+
+                x = Math.min(x, 0);
+                y = Math.min(y, 0);
+
+                if (newWidth + (x) < self.model.cropWidth) {
+                    /**
+                     * Calculates to handle the empty space on the right side
+                     */
+                    x = Math.abs((newWidth - self.model.cropWidth)) * -1;
+
+                }
+                if (newHeight + (y) < self.model.cropHeight) {
+                    /**
+                     * Calculates to handle the empty space on bottom
+                     */
+                    y = Math.abs((newHeight - self.model.cropHeight)) * -1;
+                }
+                return {x: x, y: y};
+            }
+
+            /**
+             * Resize the image
+             */
+            function scaleImage() {
+                /**
+                 * Calculates the image position to keep it centered
+                 */
+                var newWidth = self.model.originalWidth * self.model.zoom;
+                var newHeight = self.model.originalHeight * self.model.zoom;
+
+                var position = getPosition(newWidth, newHeight);
+
+                /**
+                 * Set the model
+                 */
+                self.model.width = newWidth;
+                self.model.height = newHeight;
+                self.model.x = position.x;
+                self.model.y = position.y;
+                updateZoomIndicator();
+                render();
+
+                /**
+                 * Call the onImageSizeChange callback
+                 */
+                if (typeof self.options.onImageSizeChange === 'function') {
+                    self.options.onImageSizeChange(self.model);
+                }
+            }
+
+            /**
+             * Updates the icon state from the slider
+             */
+            function updateZoomIndicator() {
+                /**
+                 * Updates the zoom icon state
+                 */
+                if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('min')).toFixed(2)) {
+                    self.zoomControl.addClass('zoom--minValue');
+                } else {
+                    self.zoomControl.removeClass('zoom--minValue');
+                }
+                if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('max')).toFixed(2)) {
+                    self.zoomControl.addClass('zoom--maxValue');
+                } else {
+                    self.zoomControl.removeClass('zoom--maxValue');
+                }
+            }
+
+            /**
+             * Resize and position the image to fit into the frame
+             */
+            function fitToFrame() {
+                var newHeight, newWidth, scaleRatio;
+
+                var frameRatio = self.model.cropHeight / self.model.cropWidth;
+                var imageRatio = self.model.height / self.model.width;
+
+                if (frameRatio > imageRatio) {
+                    newHeight = self.model.cropHeight;
+                    scaleRatio = (newHeight / self.model.height);
+                    newWidth = parseFloat(self.model.width) * scaleRatio;
+                } else {
+                    newWidth = self.model.cropWidth;
+                    scaleRatio = (newWidth / self.model.width);
+                    newHeight = parseFloat(self.model.height) * scaleRatio;
+                }
+                self.model.zoom = scaleRatio;
+
+                self.zoomControl
+                    .attr('min', scaleRatio)
+                    .attr('max', self.options.zoom.maxValue - scaleRatio)
+                    .val(scaleRatio);
+
+                self.model.height = newHeight;
+                self.model.width = newWidth;
+                updateZoomIndicator();
+                centerImage();
+            }
+
+            /**
+             * Update image's position and size
+             */
+            function render() {
+                self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
+                self.canvasContext.save();
+                self.canvasContext.globalCompositeOperation = "destination-over";
+                self.canvasContext.drawImage(self.model.imageSrc, self.model.x, self.model.y, self.model.width, self.model.height);
+                self.canvasContext.restore();
+
+                if (self.options.imageHelper) {
+                    updateHelper();
+                }
+                /**
+                 * Call the onChange callback
+                 */
+                if (typeof self.options.onChange === 'function') {
+                    self.options.onChange(self.model);
+                }
+            }
+
+            /**
+             * Updates the image helper attributes
+             */
+            function updateHelper() {
+                var x = self.model.x + self.photoFrame.position().left;
+                var y = self.model.y + self.photoFrame.position().top;
+                /**
+                 * Clear
+                 */
+                self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+                self.imageHelperCanvasContext.save();
+                self.imageHelperCanvasContext.globalCompositeOperation = "destination-over";
+                /**
+                 * Draw the helper
+                 */
+                self.imageHelperCanvasContext.beginPath();
+                self.imageHelperCanvasContext.rect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+                self.imageHelperCanvasContext.fillStyle = self.options.imageHelperColor;
+                self.imageHelperCanvasContext.fill('evenodd');
+                /**
+                 * Draw the image
+                 */
+                self.imageHelperCanvasContext.drawImage(self.model.imageSrc, x, y, self.model.width, self.model.height);
+                self.imageHelperCanvasContext.restore();
+            }
+
+            /**
+             * Creates the canvas for the image helper
+             */
+            function registerImageHelper() {
+                var canvas = document.createElement('canvas');
+                canvas.className = "canvas--helper";
+                canvas.width = self.photoHelper.outerWidth();
+                canvas.height = self.photoHelper.outerHeight();
+
+                self.photoHelper.prepend(canvas);
+
+                self.imageHelperCanvas = canvas;
+                self.imageHelperCanvasContext = canvas.getContext('2d');
+                self.imageHelperCanvasContext.mozImageSmoothingEnabled = false;
+                self.imageHelperCanvasContext.msImageSmoothingEnabled = false;
+                self.imageHelperCanvasContext.imageSmoothingEnabled = false;
+            }
+
+            /**
+             * Return the image cropped as Base64 data URL
+             */
+            function getAsDataURL(quality) {
+                if (!quality) {
+                    quality = 1;
+                }
+                return self.canvas.toDataURL(quality);
+            }
+        }
+    })(window, jQuery);
+
+
+    $(function () {
+
+        /**
+         * DEMO
+         */
+        var p = new profilePicture('.profile', null,
+            {
+                imageHelper: true,
+                onRemove: function (type) {
+                    $('.preview').hide().attr('src', '');
+                },
+                onError: function (type) {
+                    console.log('Error type: ' + type);
+                }
             });
 
-            function dragStart(e) {
-                $dragging = true;
-                clientX = e.clientX;
-                clientY = e.clientY;
-                if (e.touches) {
-                    clientX = e.touches[0].clientX
-                    clientY = e.touches[0].clientY
-                }
-                x = clientX - self.model.x;
-                y = clientY - self.model.y;
-            }
-        }
 
-        /**
-         * Register the zoom control events
-         */
-        function registerZoomEvents() {
-
-            self.zoomControl
-                .attr('min', self.options.zoom.minValue)
-                .attr('max', self.options.zoom.maxValue)
-                .attr('step', self.options.zoom.step)
-                .val(self.options.zoom.initialValue)
-                .on('input', zoomChange);
-
-            function zoomChange(e) {
-                self.model.zoom = Number(this.value);
-                updateZoomIndicator();
-                scaleImage();
-                /**
-                 * Call the onPositionChange callback
-                 */
-                if (typeof self.options.onZoomChange === 'function') {
-                    self.options.onZoomChange(self.model);
-                }
-            }
-        }
-
-        /**
-         * Set the image to the center of the frame
-         */
-        function centerImage() {
-            var x = Math.abs(self.model.x - ((self.model.width - self.model.cropWidth) / 2));
-            var y = Math.abs(self.model.y - ((self.model.height - self.model.cropHeight) / 2));
-            x = self.model.x - x;
-            y = self.model.y - y;
-            x = Math.min(x, 0);
-            y = Math.min(y, 0);
-
-            if (self.model.width + (x) < self.model.cropWidth) {
-                /**
-                 * Calculates to handle the empty space on the right side
-                 */
-                x = Math.abs((self.model.width - self.model.cropWidth)) * -1;
-            }
-            if (self.model.height + (y) < self.model.cropHeight) {
-                /**
-                 * Calculates to handle the empty space on bottom
-                 */
-                y = Math.abs((self.model.height - self.model.cropHeight)) * -1;
-            }
-            self.model.x = x;
-            self.model.y = y;
-        }
-
-        /**
-         * Calculates the new image's position based in its new size
-         */
-        function getPosition(newWidth, newHeight) {
-
-            var deltaY = (self.model.y - (self.model.cropHeight / 2)) / self.model.height;
-            var deltaX = (self.model.x - (self.model.cropWidth / 2)) / self.model.width;
-            var y = (deltaY * newHeight + (self.model.cropHeight / 2));
-            var x = (deltaX * newWidth + (self.model.cropWidth / 2));
-
-            x = Math.min(x, 0);
-            y = Math.min(y, 0);
-
-            if (newWidth + (x) < self.model.cropWidth) {
-                /**
-                 * Calculates to handle the empty space on the right side
-                 */
-                x = Math.abs((newWidth - self.model.cropWidth)) * -1;
-
-            }
-            if (newHeight + (y) < self.model.cropHeight) {
-                /**
-                 * Calculates to handle the empty space on bottom
-                 */
-                y = Math.abs((newHeight - self.model.cropHeight)) * -1;
-            }
-            return {x: x, y: y};
-        }
-
-        /**
-         * Resize the image
-         */
-        function scaleImage() {
-            /**
-             * Calculates the image position to keep it centered
-             */
-            var newWidth = self.model.originalWidth * self.model.zoom;
-            var newHeight = self.model.originalHeight * self.model.zoom;
-
-            var position = getPosition(newWidth, newHeight);
-
-            /**
-             * Set the model
-             */
-            self.model.width = newWidth;
-            self.model.height = newHeight;
-            self.model.x = position.x;
-            self.model.y = position.y;
-            updateZoomIndicator();
-            render();
-
-            /**
-             * Call the onImageSizeChange callback
-             */
-            if (typeof self.options.onImageSizeChange === 'function') {
-                self.options.onImageSizeChange(self.model);
-            }
-        }
-
-        /**
-         * Updates the icon state from the slider
-         */
-        function updateZoomIndicator() {
-            /**
-             * Updates the zoom icon state
-             */
-            if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('min')).toFixed(2)) {
-                self.zoomControl.addClass('zoom--minValue');
-            } else {
-                self.zoomControl.removeClass('zoom--minValue');
-            }
-            if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('max')).toFixed(2)) {
-                self.zoomControl.addClass('zoom--maxValue');
-            } else {
-                self.zoomControl.removeClass('zoom--maxValue');
-            }
-        }
-
-        /**
-         * Resize and position the image to fit into the frame
-         */
-        function fitToFrame() {
-            var newHeight, newWidth, scaleRatio;
-
-            var frameRatio = self.model.cropHeight / self.model.cropWidth;
-            var imageRatio = self.model.height / self.model.width;
-
-            if (frameRatio > imageRatio) {
-                newHeight = self.model.cropHeight;
-                scaleRatio = (newHeight / self.model.height);
-                newWidth = parseFloat(self.model.width) * scaleRatio;
-            } else {
-                newWidth = self.model.cropWidth;
-                scaleRatio = (newWidth / self.model.width);
-                newHeight = parseFloat(self.model.height) * scaleRatio;
-            }
-            self.model.zoom = scaleRatio;
-
-            self.zoomControl
-                .attr('min', scaleRatio)
-                .attr('max', self.options.zoom.maxValue - scaleRatio)
-                .val(scaleRatio);
-
-            self.model.height = newHeight;
-            self.model.width = newWidth;
-            updateZoomIndicator();
-            centerImage();
-        }
-
-        /**
-         * Update image's position and size
-         */
-        function render() {
-            self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
-            self.canvasContext.save();
-            self.canvasContext.globalCompositeOperation = "destination-over";
-            self.canvasContext.drawImage(self.model.imageSrc, self.model.x, self.model.y, self.model.width, self.model.height);
-            self.canvasContext.restore();
-
-            if (self.options.imageHelper) {
-                updateHelper();
-            }
-            /**
-             * Call the onChange callback
-             */
-            if (typeof self.options.onChange === 'function') {
-                self.options.onChange(self.model);
-            }
-        }
-
-        /**
-         * Updates the image helper attributes
-         */
-        function updateHelper() {
-            var x = self.model.x + self.photoFrame.position().left;
-            var y = self.model.y + self.photoFrame.position().top;
-            /**
-             * Clear
-             */
-            self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-            self.imageHelperCanvasContext.save();
-            self.imageHelperCanvasContext.globalCompositeOperation = "destination-over";
-            /**
-             * Draw the helper
-             */
-            self.imageHelperCanvasContext.beginPath();
-            self.imageHelperCanvasContext.rect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-            self.imageHelperCanvasContext.fillStyle = self.options.imageHelperColor;
-            self.imageHelperCanvasContext.fill('evenodd');
-            /**
-             * Draw the image
-             */
-            self.imageHelperCanvasContext.drawImage(self.model.imageSrc, x, y, self.model.width, self.model.height);
-            self.imageHelperCanvasContext.restore();
-        }
-
-        /**
-         * Creates the canvas for the image helper
-         */
-        function registerImageHelper() {
-            var canvas = document.createElement('canvas');
-            canvas.className = "canvas--helper";
-            canvas.width = self.photoHelper.outerWidth();
-            canvas.height = self.photoHelper.outerHeight();
-
-            self.photoHelper.prepend(canvas);
-
-            self.imageHelperCanvas = canvas;
-            self.imageHelperCanvasContext = canvas.getContext('2d');
-            self.imageHelperCanvasContext.mozImageSmoothingEnabled = false;
-            self.imageHelperCanvasContext.msImageSmoothingEnabled = false;
-            self.imageHelperCanvasContext.imageSmoothingEnabled = false;
-        }
-
-        /**
-         * Return the image cropped as Base64 data URL
-         */
-        function getAsDataURL(quality) {
-            if (!quality) {
-                quality = 1;
-            }
-            return self.canvas.toDataURL(quality);
-        }
-    }
-})(window, jQuery);
-
-
-$(function () {
-
-    /**
-     * DEMO
-     */
-    var p = new profilePicture('.profile', null,
-        {
-            imageHelper: true,
-            onRemove: function (type) {
-                $('.preview').hide().attr('src', '');
-            },
-            onError: function (type) {
-                console.log('Error type: ' + type);
-            }
+        $('#previewBtn').on('click', function () {
+            $('.preview').show().attr('src', p.getAsDataURL());
         });
 
 
-    $('#previewBtn').on('click', function () {
-        $('.preview').show().attr('src', p.getAsDataURL());
     });
 
-
-});
+}
 // Si User et sur IE / EDGE alors on ajoute la classe IE au body
 if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer'){
     $('#th-global').addClass('ie');

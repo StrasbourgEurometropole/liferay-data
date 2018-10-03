@@ -213,6 +213,8 @@ public class SearchAssetPortlet extends MVCPortlet {
             this._response = resourceResponse;
 
             String resourceID = resourceRequest.getResourceID();
+            
+            String publikUserId =  this.getPublikID(resourceRequest);
 
             // Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
             // et réaction au type de la demande
@@ -346,7 +348,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
                             JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
                             jsonProject.put("class", className);
-                            json = project.toJSON(this.getPublikID(resourceRequest));
+                            json = project.toJSON(publikUserId);
                             json.put("nbParticipations", project.getParticipations().size());
                             json.put("nbEvents", project.getEvents().size());
                             JSONArray jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
@@ -383,7 +385,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Petition petition = PetitionLocalServiceUtil.fetchPetition(entry.getClassPK());
                             JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
                             jsonPetition.put("class", className);
-                            json = petition.toJSON();
+                            json = petition.toJSON(publikUserId);
                             jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
                             thematicCategories = petition.getThematicCategories();
                             for (AssetCategory assetCategory : thematicCategories) {

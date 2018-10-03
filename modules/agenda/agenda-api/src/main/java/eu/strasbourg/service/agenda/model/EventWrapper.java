@@ -555,6 +555,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 	/**
 	* Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
+	* en incluant l'escape des caractères / balises pouvant casser l'utilisation des données et le split
+	* de l'HTML en général
 	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON(

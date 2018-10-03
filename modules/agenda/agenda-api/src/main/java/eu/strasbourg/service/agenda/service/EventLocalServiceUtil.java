@@ -343,11 +343,6 @@ public class EventLocalServiceUtil {
 		return getService().findByPlaceSIGId(placeSIGId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findEventByUserPublikId(
-		java.lang.String publikId) {
-		return getService().findEventByUserPublikId(publikId);
-	}
-
 	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/

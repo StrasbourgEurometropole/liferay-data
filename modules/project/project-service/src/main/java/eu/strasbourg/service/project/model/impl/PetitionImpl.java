@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -41,7 +42,6 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -62,6 +62,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import javax.portlet.PortletException;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
@@ -565,15 +567,16 @@ public class PetitionImpl extends PetitionBaseImpl {
     
     /**
      * Demande si l'utilisateur demandé a signe la petition
+     * @throws PortletException 
      */
-//    @Override
-//    public boolean hasUserSigned(String publikUserId) {
-//    	if (!publikUserId.isEmpty()) {
-//			if (ProjectFollowedLocalServiceUtil.getByPublikUserIdAndProjectId(publikUserId, this.getPetitionId()) != null)
-//				return true;
-//		}
-//		return false;
-//    }
+    @Override
+    public boolean hasUserSigned(String publikUserId) throws PortletException {
+    	if (!publikUserId.isEmpty()) {
+			if (!SignataireLocalServiceUtil.findSignatairesByPetitionIdAndPublikUserId(this.getPetitionId(), publikUserId).isEmpty())
+				return true;
+		}
+		return false;
+    }
 
     @Override
     public String getPublicationDateFr(){
@@ -581,15 +584,17 @@ public class PetitionImpl extends PetitionBaseImpl {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
     }
+    
     /**
      * Retourne la version JSON de l'entité
      */
     @Override
-    public JSONObject toJSON() {
+    public JSONObject toJSON(String publikUserId) {
         // Initialisation des variables tempons et résultantes
         JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
+        JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
+        
         jsonPetition.put("id", this.getPetitionId());
         jsonPetition.put("createDate", dateFormat.format(this.getCreateDate()));
         jsonPetition.put("imageURL", this.getImageURL());
@@ -602,7 +607,14 @@ public class PetitionImpl extends PetitionBaseImpl {
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
         jsonPetition.put("nombreSignature", this.getNombreSignature());
         jsonPetition.put("quotaSignature", this.getQuotaSignature());
+        
+	     // Lieux placit
+ 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+ 			jsonPlacitPlaces.put(placitPlace.toJSON());
+ 		}
+ 		jsonPetition.put("placitPlaces", jsonPlacitPlaces);
 
         return jsonPetition;
     }
+    
 }

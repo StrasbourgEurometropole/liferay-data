@@ -103,7 +103,7 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
 	public List<Signataire> findSignatairesByPetitionIdAndPublikUserId(long petitionId, String publikUserId) throws PortletException {
     	if (petitionId==0||publikUserId==null||publikUserId.isEmpty())
     		throw new PortletException("erreur dans les parametres d'entrée");
-		return signatairePersistence.findByPetitionIdAndPublikUserId(petitionId,publikUserId);
+		return signatairePersistence.findByPetitionIdAndPublikUserId(petitionId, publikUserId);
 	}
 
     @Override
