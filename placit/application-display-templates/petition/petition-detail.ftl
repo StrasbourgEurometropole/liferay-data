@@ -16,6 +16,9 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+<#-- L'utilisateur participe-t-il ? -->
+<#assign hasUserSigned = entry.hasUserSigned(userID)?then("active", "") >
+
 <#-- Recuperation des thématiques de la petition -->
 <#if entry.getThematicCategories()??>
     <#assign petitionThematics = entry.getThematicCategories() />
@@ -222,12 +225,22 @@
                             <div class="pro-wrapper-links-petition">
                                 <#if isUserloggedIn>
                                     <#if isJudgeable>
-                                        <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">
-                                            Signer la pétition
-                                        </a>
+                                        <#if hasUserSigned?has_content>
+                                            <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal">
+                                                Petition signée
+                                            </a>
+                                        <#else>
+                                            <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">
+                                                Signer la pétition
+                                            </a>
+                                        </#if>
                                     <#else>
-                                        <a id="signButton" href="#popin" class="pro-btn-yellow" title="La pétition est terminée" data-toggle="modal">
-                                            Vous ne pouvez plus signer
+                                        <a id="signButton" href="#popin" class="pro-btn-yellow  ${hasUserSigned}" title="La pétition est terminée" data-toggle="modal">
+                                            <#if hasUserSigned?has_content>
+                                                Petition signée et terminée
+                                            <#else>
+                                                Vous ne pouvez plus signer
+                                            </#if>
                                         </a>
                                     </#if>
                                 <#else>
