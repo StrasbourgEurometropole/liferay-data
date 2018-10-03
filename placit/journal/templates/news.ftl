@@ -95,7 +95,7 @@
 		defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
 		portletProviderAction=portletProviderAction.VIEW
 		portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
-		instanceId="article${.now?long}"
+		instanceId="article${journalArticleId}"
 		/>
 
 <style>
