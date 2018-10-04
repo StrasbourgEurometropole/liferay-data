@@ -335,8 +335,9 @@
         // Ajout des marqueurs sur la map
         var petitionMarkers = [];
         
-        // Centre la carte sur les pins
-        var bounds = [];
+        // Création du cluster permettant le regroupement de points et le centrage
+        var markersCluster = L.markerClusterGroup();
+
         var marker;
 
         for(var i= 0; i < petitionJSON.placitPlaces.length; i++) {
@@ -344,13 +345,15 @@
                 petitionJSON,
                 [petitionJSON.placitPlaces[i].mercatorY, petitionJSON.placitPlaces[i].mercatorX]
             );
-            // Ajout des coordonnées du marker dans le bounds
-            bounds.push(marker.getLatLng());
-            // Ajout du marker dans la map
-            petitionMarkers.push(marker.addTo(leafletMap));
+
+            // Ajout du point dans le Cluster de marqueurs
+            markersCluster.addLayer(marker);
+            // Ajout du marker dans le tempon
+            petitionMarkers.push(marker);
         }
             
-        leafletMap.fitBounds(bounds);
+        leafletMap.addLayer(markersCluster);
+        leafletMap.fitBounds(markersCluster.getBounds());
     });
 </script>
 

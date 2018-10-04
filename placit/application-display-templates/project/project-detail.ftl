@@ -170,8 +170,9 @@
         var participationMarkers = [];
         var eventMarkers = [];
         
-        // Centre la carte sur les pins
-        var bounds = [];
+        // Création du cluster permettant le regroupement de points et le centrage
+        var markersCluster = L.markerClusterGroup();
+
         var marker;
 
         for(var i= 0; i < projectJSON.placitPlaces.length; i++) {
@@ -179,10 +180,11 @@
                 projectJSON,
                 [projectJSON.placitPlaces[i].mercatorY, projectJSON.placitPlaces[i].mercatorX]
             );
-            // Ajout des coordonnées du marker dans le bounds
-            bounds.push(marker.getLatLng());
-            // Ajout du marker dans la map
-            projectMarkers.push(marker.addTo(leafletMap));
+
+            // Ajout du point dans le Cluster de marqueurs
+            markersCluster.addLayer(marker);
+            // Ajout du marker dans le tempon
+            projectMarkers.push(marker);
         }
 
         for(var i= 0; i < eventsJSON.length; i++) {
@@ -192,9 +194,8 @@
             // Ajout du lien vers le détail (effectué ici pour éviter le double parcours)
             eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id;
 
-            marker = getEventMarker(eventJSON);
-            bounds.push(marker.getLatLng());
-            eventMarkers.push(marker.addTo(leafletMap));
+            markersCluster.addLayer(marker);
+            eventMarkers.push(marker);
         }
 
         for(var i= 0; i < participationsJSON.length; i++) {
@@ -206,13 +207,14 @@
                     participationJSON,
                     [participationJSON.placitPlaces[j].mercatorY, participationJSON.placitPlaces[j].mercatorX]
                 );
-                // Ajout des coordonnées du marker dans le bounds
-                bounds.push(marker.getLatLng());
-                // Ajout du marker dans la map
-                participationMarkers.push(marker.addTo(leafletMap));
+
+                markersCluster.addLayer(marker);
+                participationMarkers.push(marker);
             }
         }
-            
-        leafletMap.fitBounds(bounds);
+        
+        leafletMap.addLayer(markersCluster);
+        leafletMap.fitBounds(markersCluster.getBounds());
+
     });
 </script>

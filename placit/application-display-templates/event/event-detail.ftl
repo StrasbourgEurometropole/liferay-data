@@ -230,16 +230,15 @@
 
             // Définition des marqueurs
             var eventMarker = getEventMarker(eventJSON);
+            
+            // Création du cluster permettant le regroupement de points et le centrage
+            var markersCluster = L.markerClusterGroup();
 
-            // Ajout du marqueur sur la map
-           eventMarker.addTo(leafletMap);
-        
-            // Centre la carte sur les pins
-            var bounds = [];
+            // Ajout du point dans le Cluster de marqueurs
+            markersCluster.addLayer(eventMarker);
 
-            // Ajout des coordonnées du marker dans le bounds
-            bounds.push(eventMarker.getLatLng());
-            leafletMap.fitBounds(bounds);
+            leafletMap.addLayer(markersCluster);
+            leafletMap.fitBounds(markersCluster.getBounds());
         }
 
     });

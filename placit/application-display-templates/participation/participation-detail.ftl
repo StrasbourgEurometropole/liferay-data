@@ -310,7 +310,7 @@
                     <#list participationEvents as event >
 
                         <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
-                        <#assign isUserPartActive = entry.isUserParticipates(userID)?then("active", "") />
+                        <#assign isUserPartActive = event.isUserParticipates(userID)?then("active", "") />
                         
                         <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
                             <div>
@@ -393,8 +393,9 @@
         var participationMarkers = [];
         var eventMarkers = [];
         
-        // Centre la carte sur les pins
-        var bounds = [];
+        // Création du cluster permettant le regroupement de points et le centrage
+        var markersCluster = L.markerClusterGroup();
+
         var marker;
 
         for(var i= 0; i < participationJSON.placitPlaces.length; i++) {
@@ -402,10 +403,11 @@
                 participationJSON,
                 [participationJSON.placitPlaces[i].mercatorY, participationJSON.placitPlaces[i].mercatorX]
             );
-            // Ajout des coordonnées du marker dans le bounds
-            bounds.push(marker.getLatLng());
-            // Ajout du marker dans la map
-            participationMarkers.push(marker.addTo(leafletMap));
+
+            // Ajout du point dans le Cluster de marqueurs
+            markersCluster.addLayer(marker);
+            // Ajout du marker dans le tempon
+            participationMarkers.push(marker);
         }
 
         for(var i= 0; i < eventsJSON.length; i++) {
@@ -416,11 +418,13 @@
             eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id;
 
             marker = getEventMarker(eventJSON);
-            bounds.push(marker.getLatLng());
-            eventMarkers.push(marker.addTo(leafletMap));
+
+            markersCluster.addLayer(marker);
+            eventMarkers.push(marker);
         }
         
-        leafletMap.fitBounds(bounds);
+        leafletMap.addLayer(markersCluster);
+        leafletMap.fitBounds(markersCluster.getBounds());
 
     });
 
