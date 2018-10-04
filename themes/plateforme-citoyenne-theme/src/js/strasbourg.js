@@ -11198,13 +11198,6 @@ $('.pro-remove').on('click',function(){
     $(this).parents('.pro-group').find('input:text').val('');
 
     $(this).parents('.pro-group').find('select').prop('selectedIndex', 0).selectric('refresh');
-	
-	
-	// Utilisé pour les recherches ajax
-    if($(this).hasClass('dynamic')){
-        // Renvoi la liste des entités demandées
-        getSelectedEntries();
-    }
 });
 $('[data-frmval]').each(function(){
     this.setAttribute('placeholder',this.getAttribute('data-frmval'));
@@ -11401,7 +11394,7 @@ $('.pro-bloc-video').each(function() {
 		var iframe  ='<iframe src="' + urlVideo + '" width="1280px"  height="auto"></iframe>';
 
 
-		$(mask).click(function (e) {
+		$('.pro-btn-video, .btn-ytbe',this).click(function (e) {
 			e.preventDefault();
 			vidContainer.append(iframe);
 
@@ -15326,6 +15319,39 @@ function goToPage(wi, index){
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
     
 }
+
+/* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
+$('.pro-remove').on('click',function(){
+    
+    // Utilisé pour les recherches ajax
+    if($(this).hasClass('dynamic')){
+        // Renvoi la liste des entités demandées
+        getSelectedEntries();
+    }
+});
+//méthode permettant de confirmer la fermeture de la popup en ouvrant une nouvelle popup.
+$("#closingButton").click(function(event){
+   event.preventDefault();
+   var temp = $(document.activeElement).parent().parent().parent().parent();
+   var zindex = $(".fade.in").css("z-index");
+   $("#modalQuitPetition").modal("show");
+   $("#modalQuitPetition").css('z-index',zindex+1)
+   $("#buttonConfirmQuit").click(function(event){
+        $("#modalQuitPetition").modal("hide");
+        temp.modal('hide');
+   });
+});
+$("#closingButton2").click(function(event){
+   event.preventDefault();
+   var temp = $(document.activeElement).parent().parent().parent().parent();
+   var zindex = $(".fade.in").css("z-index");
+   $("#modalQuitPetition").modal("show");
+   $("#modalQuitPetition").css('z-index',zindex+1)
+   $("#buttonConfirmQuit").click(function(event){
+        $("#modalQuitPetition").modal("hide");
+        temp.modal('hide');
+   });
+});
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 
     var footer = $('footer').offset().top;
@@ -16617,8 +16643,8 @@ document.addEventListener('scroll',function(){
     lastscrolltop = st;
 });
 
-/*
-$('.pro-bloc-card-event').on('click',function(e){
+
+/*$('.pro-bloc-card-event').on('click',function(e){
     e.preventDefault();
    $(this).find('pro-btn-action').toggleClass('active');
 });
@@ -16909,29 +16935,6 @@ $('.owl-timeline').each(function () {
     });
 
 
-});
-//méthode permettant de confirmer la fermeture de la popup en ouvrant une nouvelle popup.
-$("#closingButton").click(function(event){
-   event.preventDefault();
-   var temp = $(document.activeElement).parent().parent().parent().parent();
-   var zindex = $(".fade.in").css("z-index");
-   $("#modalQuitPetition").modal("show");
-   $("#modalQuitPetition").css('z-index',zindex+1)
-   $("#buttonConfirmQuit").click(function(event){
-        $("#modalQuitPetition").modal("hide");
-        temp.modal('hide');
-   });
-});
-$("#closingButton2").click(function(event){
-   event.preventDefault();
-   var temp = $(document.activeElement).parent().parent().parent().parent();
-   var zindex = $(".fade.in").css("z-index");
-   $("#modalQuitPetition").modal("show");
-   $("#modalQuitPetition").css('z-index',zindex+1)
-   $("#buttonConfirmQuit").click(function(event){
-        $("#modalQuitPetition").modal("hide");
-        temp.modal('hide');
-   });
 });
 function isTouchDevice() {
     return 'ontouchstart' in document.documentElement;
