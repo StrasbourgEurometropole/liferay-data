@@ -6,7 +6,7 @@ var entityType = {
 	THEMATIC : 'vocabulary_2',
 }
 
-var sortField = "publishDate_sortable";
+var sortField = "localized_title_fr_FR_sortable";
 var sortType = "asc";
 
 
@@ -85,9 +85,9 @@ function sortVideo(type) {
     sortType = type;
     // change l'affichage du tri
     if(type == "asc"){
-        $('#sortType').text = "Tri A-Z";
+        $('#sortType').text("Tri A-Z");
     }else{
-        $('#sortType').text = "Tri Z-A";
+        $('#sortType').text("Tri Z-A");
     }
     getSelectedEntries();
 }
