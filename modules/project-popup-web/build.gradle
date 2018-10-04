@@ -8,6 +8,7 @@ dependencies {
 	compile group: "jstl", name: "jstl", version: "1.2"
 	compile group: "org.osgi", name: "org.osgi.compendium", version: "5.0.0"
 	compile group: "com.liferay", name: "com.liferay.portal.configuration.metatype", version: "2.0.0"
+	compile 'org.apache.commons:commons-text:1.4'
 
 	compile project (':modules:utils')
 	compile project (':modules:project:project-api')

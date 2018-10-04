@@ -87,7 +87,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
-			{ "author", Types.VARCHAR },
 			{ "contactName", Types.VARCHAR },
 			{ "contactLine1", Types.VARCHAR },
 			{ "contactLine2", Types.VARCHAR },
@@ -121,7 +120,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("author", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactLine1", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactLine2", Types.VARCHAR);
@@ -140,7 +138,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,imageId LONG,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,imageId LONG,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Participation";
 	public static final String ORDER_BY_JPQL = " ORDER BY participation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Participation.title ASC";
@@ -187,7 +185,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
-		model.setAuthor(soapModel.getAuthor());
 		model.setContactName(soapModel.getContactName());
 		model.setContactLine1(soapModel.getContactLine1());
 		model.setContactLine2(soapModel.getContactLine2());
@@ -281,7 +278,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("author", getAuthor());
 		attributes.put("contactName", getContactName());
 		attributes.put("contactLine1", getContactLine1());
 		attributes.put("contactLine2", getContactLine2());
@@ -383,12 +379,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 		if (title != null) {
 			setTitle(title);
-		}
-
-		String author = (String)attributes.get("author");
-
-		if (author != null) {
-			setAuthor(author);
 		}
 
 		String contactName = (String)attributes.get("contactName");
@@ -723,22 +713,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		_columnBitmask = -1L;
 
 		_title = title;
-	}
-
-	@JSON
-	@Override
-	public String getAuthor() {
-		if (_author == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _author;
-		}
-	}
-
-	@Override
-	public void setAuthor(String author) {
-		_author = author;
 	}
 
 	@JSON
@@ -1113,7 +1087,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		participationImpl.setStatusByUserName(getStatusByUserName());
 		participationImpl.setStatusDate(getStatusDate());
 		participationImpl.setTitle(getTitle());
-		participationImpl.setAuthor(getAuthor());
 		participationImpl.setContactName(getContactName());
 		participationImpl.setContactLine1(getContactLine1());
 		participationImpl.setContactLine2(getContactLine2());
@@ -1280,14 +1253,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			participationCacheModel.title = null;
 		}
 
-		participationCacheModel.author = getAuthor();
-
-		String author = participationCacheModel.author;
-
-		if ((author != null) && (author.length() == 0)) {
-			participationCacheModel.author = null;
-		}
-
 		participationCacheModel.contactName = getContactName();
 
 		String contactName = participationCacheModel.contactName;
@@ -1413,7 +1378,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1441,8 +1406,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getStatusDate());
 		sb.append(", title=");
 		sb.append(getTitle());
-		sb.append(", author=");
-		sb.append(getAuthor());
 		sb.append(", contactName=");
 		sb.append(getContactName());
 		sb.append(", contactLine1=");
@@ -1482,7 +1445,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(94);
+		StringBundler sb = new StringBundler(91);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Participation");
@@ -1539,10 +1502,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
 		sb.append(getTitle());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>author</column-name><column-value><![CDATA[");
-		sb.append(getAuthor());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>contactName</column-name><column-value><![CDATA[");
@@ -1637,7 +1596,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _author;
 	private String _contactName;
 	private String _contactLine1;
 	private String _contactLine2;

@@ -27,6 +27,10 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import eu.strasbourg.service.project.model.ProjectFollowed;
+
+import java.util.List;
+
 /**
  * Provides the remote service interface for ProjectFollowed. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -69,4 +73,7 @@ public interface ProjectFollowedService extends BaseService {
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
+
+	public List<ProjectFollowed> findProjectFollowedByPublikUserId(
+		java.lang.String publikId);
 }

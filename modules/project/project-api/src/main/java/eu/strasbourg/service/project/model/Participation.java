@@ -59,6 +59,13 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
+	public java.lang.String getImageAuthorURL(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	public java.lang.String getAuthorFullName()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
 	/**
 	* Retourne la liste des like/dislike de l'entité
 	*
@@ -144,8 +151,7 @@ public interface Participation extends ParticipationModel, PersistedModel {
 		java.util.Locale locale);
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
@@ -160,8 +166,8 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
 	/**
-	* Retourne la couleur hexa du type de la participation contenu dans la propriete
-	* 'code_color' de la categorie associee
+	* Retourne la couleur hexa du type de la participation contenu dans la
+	* propriete 'code_color' de la categorie associee
 	*/
 	public java.lang.String getTypeCategoryColor();
 
@@ -171,26 +177,30 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
 	/**
-	* Retourne les catégories 'Territoire' correspondant aux pays de la participation
+	* Retourne les catégories 'Territoire' correspondant aux pays de la
+	* participation
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
-	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la participation
+	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la
+	* participation
 	*
 	* @return : null si vide, sinon la liste des catégories
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories();
 
 	/**
-	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de
+	* la participation
 	*
 	* @return : null si vide, sinon la liste des catégories
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
-	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la participation
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la
+	* participation
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	*/
@@ -209,12 +219,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	/**
 	* Retourne le status de la participation selon la temporalité actuelle
 	*
-	* @return le status suivant l'ordre :
-	[soon_arrived] : date du jour antérieur à la date de publication
-	[new] : 7 jour après la publication
+	* @return le status suivant l'ordre : [soon_arrived] : date du jour antérieur à
+	la date de publication [new] : 7 jour après la publication
 	[in_progress] : toute la durée de la période de participation
-	[soon_finished] : 7 jours avant l'expiration
-	[finished] : date du jour postérieur à la date d'expiration
+	[soon_finished] : 7 jours avant l'expiration [finished] : date du
+	jour postérieur à la date d'expiration
 	*/
 	public java.lang.String getParticipationStatus();
 
@@ -250,6 +259,10 @@ public interface Participation extends ParticipationModel, PersistedModel {
 
 	/**
 	* Retourne la version JSON de l'entité
+	*
+	* @throws PortalException
 	*/
-	public com.liferay.portal.kernel.json.JSONObject toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

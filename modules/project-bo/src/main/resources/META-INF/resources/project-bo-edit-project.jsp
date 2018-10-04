@@ -48,7 +48,7 @@
 				<%-- Champ : Description --%>
 				<aui:input name="description" required="true" />
 				
-				<%-- Selecteur : Image interne ou externe ? --%>	
+				<%-- Selecteur : Image interne ou externe ? --%>
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"
@@ -56,7 +56,7 @@
 				
 				<%-- Champ : Image interne --%>
 				<div class="internalImage" <c:if test="${(empty dc.project.imageId or dc.project.imageId eq 0) and not empty dc.project.externalImageURL }">style="display: none;"</c:if>>
-					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="true"/>
+					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="false"/>
 				</div>
 				
 				<%-- Groupe de champs : Image externe --%>
@@ -74,7 +74,7 @@
 					
 				</div>
 				
-				<%-- Champ : opacitÃ© de l'image --%>
+				<%-- Champ : opacitÃÂÃÂ© de l'image --%>
 				<c:if test="${empty dc.project}">
 					<aui:input name="opacityImage" required="false" helpMessage="opacityHelp" value="1.00" />
 				</c:if>

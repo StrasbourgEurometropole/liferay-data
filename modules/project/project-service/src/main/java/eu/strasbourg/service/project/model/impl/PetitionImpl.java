@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
@@ -47,6 +48,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import javax.portlet.PortletException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -85,6 +87,7 @@ public class PetitionImpl extends PetitionBaseImpl {
      *
      * Never reference this class directly. All methods that expect a petition model instance should use the {@link eu.strasbourg.service.project.model.Petition} interface instead.
      */
+    private static final long serialVersionUID = 7130010047007775840L;
 
     public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -241,6 +244,8 @@ public class PetitionImpl extends PetitionBaseImpl {
         // Instanciation des variables
         Date todayDate = new Date();
         Date expirationDate = this.getExpirationDate();
+        if (expirationDate==null)
+            expirationDate = todayDate;
 
         // Calcul du nombre de millisecondes entre les deux dates et
         // conversion en nombre de jours
@@ -316,7 +321,6 @@ public class PetitionImpl extends PetitionBaseImpl {
         // Group Id global
         long globalGroupId = 0;
 
-        List<Long[]> prefilterCategoriesIds = new ArrayList<>();
         String[] prefilterTagsNames = {};
 
         Hits hits = SearchHelper.getGlobalSearchHits(searchContext, className,
@@ -566,10 +570,30 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
     /**
+     * Demande si l'utilisateur demandé a signe la petition
+     * @throws PortletException
+     */
+    @Override
+    public boolean hasUserSigned(String publikUserId) throws PortletException {
+    	if (!publikUserId.isEmpty()) {
+			if (!SignataireLocalServiceUtil.findSignatairesByPetitionIdAndPublikUserId(this.getPetitionId(), publikUserId).isEmpty())
+				return true;
+		}
+		return false;
+    }
+
+    @Override
+    public String getPublicationDateFr(){
+        Date date = this.getPublicationDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
+
+    /**
      * Retourne la version JSON de l'entité
      */
     @Override
-    public JSONObject toJSON() {
+    public JSONObject toJSON(String publikUserId) {
         // Initialisation des variables tempons et résultantes
         JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
@@ -578,15 +602,21 @@ public class PetitionImpl extends PetitionBaseImpl {
         jsonPetition.put("id", this.getPetitionId());
         jsonPetition.put("createDate", dateFormat.format(this.getCreateDate()));
         jsonPetition.put("imageURL", this.getImageURL());
-        jsonPetition.put("userName", this.getUserName());
+        jsonPetition.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonPetition.put("nbApprovedComments", this.getNbApprovedComments());
         jsonPetition.put("frontStatusFR", this.getFrontStatusFR());
-        jsonPetition.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
-        jsonPetition.put("title", this.getTitle());
+        jsonPetition.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+        jsonPetition.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonPetition.put("proDureeFR", this.getProDureeFR());
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
         jsonPetition.put("nombreSignature", this.getNombreSignature());
         jsonPetition.put("quotaSignature", this.getQuotaSignature());
+
+	     // Lieux placit
+ 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+ 			jsonPlacitPlaces.put(placitPlace.toJSON());
+ 		}
+ 		jsonPetition.put("placitPlaces", jsonPlacitPlaces);
 
         return jsonPetition;
     }

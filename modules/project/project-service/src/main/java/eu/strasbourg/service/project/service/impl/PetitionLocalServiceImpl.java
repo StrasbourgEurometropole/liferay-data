@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
@@ -427,5 +428,30 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 	    if (temp.size()<3)
 	        return temp;
 	    else return temp.stream().limit(3).collect(Collectors.toList());
+    }
+
+    public List<Petition> getPetitionByPublikUserID(String publikId){
+        List<Petition> petitionList = petitionPersistence.findByPublikId(publikId);
+        return petitionList.stream()
+                .filter(PetitionModel::isApproved)
+                .collect(Collectors.toList());
+    }
+
+    public List<Petition> getPetitionBySignatairePublikId(String publikId){
+        List<Signataire> signataires = signataireLocalService.getSignataireByPublikId(publikId);
+        List<Petition> petitionList = signataires.stream()
+                .map(signataire -> {
+                    Petition petition=null;
+                    try {
+                        petition = getPetition(signataire.getPetitionId());
+                    } catch (PortalException e) {
+                        _log.error(e);
+                    }
+                    return petition;
+                })
+                .collect(Collectors.toList());
+        return petitionList.stream()
+                .filter(PetitionModel::isApproved)
+                .collect(Collectors.toList());
     }
 }

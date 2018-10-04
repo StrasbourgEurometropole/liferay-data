@@ -61,6 +61,8 @@ public class PetitionSoap implements Serializable {
 		soapModel.setPetitionnaireCity(model.getPetitionnaireCity());
 		soapModel.setPetitionnairePhone(model.getPetitionnairePhone());
 		soapModel.setPetitionnaireEmail(model.getPetitionnaireEmail());
+		soapModel.setIsSupported(model.getIsSupported());
+		soapModel.setSupportedBy(model.getSupportedBy());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
@@ -338,6 +340,26 @@ public class PetitionSoap implements Serializable {
 		_petitionnaireEmail = petitionnaireEmail;
 	}
 
+	public boolean getIsSupported() {
+		return _isSupported;
+	}
+
+	public boolean isIsSupported() {
+		return _isSupported;
+	}
+
+	public void setIsSupported(boolean isSupported) {
+		_isSupported = isSupported;
+	}
+
+	public String getSupportedBy() {
+		return _supportedBy;
+	}
+
+	public void setSupportedBy(String supportedBy) {
+		_supportedBy = supportedBy;
+	}
+
 	public String getVideoUrl() {
 		return _videoUrl;
 	}
@@ -441,6 +463,8 @@ public class PetitionSoap implements Serializable {
 	private String _petitionnaireCity;
 	private String _petitionnairePhone;
 	private String _petitionnaireEmail;
+	private boolean _isSupported;
+	private String _supportedBy;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

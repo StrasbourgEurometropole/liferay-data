@@ -299,6 +299,12 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 			end);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> findByPublikUserId(
+		java.lang.String publikUserId) {
+		return _initiativeLocalService.findByPublikUserId(publikUserId);
+	}
+
 	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/

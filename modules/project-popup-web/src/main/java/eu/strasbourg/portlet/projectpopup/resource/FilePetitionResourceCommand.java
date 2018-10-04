@@ -1,10 +1,12 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -22,6 +24,7 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -36,6 +39,11 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
@@ -98,6 +106,8 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    	LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
+        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         boolean result = false;
         String message = "";
         publikID = getPublikID(request);
@@ -108,25 +118,25 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
         dateFormat = new SimpleDateFormat(PATTERN);
         birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
-        address = ParamUtil.getString(request, ADDRESS);
-        city = ParamUtil.getString(request, CITY);
+        address = escapeHtml4(ParamUtil.getString(request, ADDRESS));
+        city = escapeHtml4(ParamUtil.getString(request, CITY));
         postalcode = ParamUtil.getLong(request, POSTALCODE);
-        phone = ParamUtil.getString(request, PHONE);
-        mobile = ParamUtil.getString(request, MOBILE);
-        lastname = ParamUtil.getString(request, LASTNAME);
-        firstname = ParamUtil.getString(request, FIRSTNAME);
-        email = ParamUtil.getString(request, EMAIL);
-        lieu = ParamUtil.getString(request,LIEU);
-        title = ParamUtil.getString(request, PETITIONTITLE);
-        description = ParamUtil.getString(request, PETITIONDESCRIPTION);
+        phone = escapeHtml4(ParamUtil.getString(request, PHONE));
+        mobile = escapeHtml4(ParamUtil.getString(request, MOBILE));
+        lastname = escapeHtml4(ParamUtil.getString(request, LASTNAME));
+        firstname = escapeHtml4(ParamUtil.getString(request, FIRSTNAME));
+        email = escapeHtml4(ParamUtil.getString(request, EMAIL));
+        lieu = escapeHtml4(ParamUtil.getString(request,LIEU));
+        title = escapeHtml4(ParamUtil.getString(request, PETITIONTITLE));
+        description = escapeHtml4(ParamUtil.getString(request, PETITIONDESCRIPTION));
         projectId = ParamUtil.getLong(request, PROJECT);
         quartierId = ParamUtil.getLong(request, QUARTIER);
         themeId = ParamUtil.getLong(request, THEME);
 
         boolean isValid = validate(request);
         if (!isValid)
-            message = "la validation des champs n'est pas pass&eacute;e";
-
+            message = LanguageUtil.get(originalRequest, "general-error");
+        
         boolean savedInfo = false;
         if (message.isEmpty()) {
             boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
@@ -166,6 +176,27 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
+            List<Long> identifiants = null;
+            if (quartierId==0) {
+                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+                assert districts != null;
+                identifiants = districts.stream()
+                        .map(AssetCategoryModel::getCategoryId)
+                        .collect(Collectors.toList());
+            }else {
+                identifiants.add(quartierId);
+            }
+            if (projectId!=0) {
+                identifiants.add(projectId);
+            }
+            if (themeId!=0) {
+                identifiants.add(themeId);
+            }
+            long[] ids = new long[identifiants.size()];
+            for (int i = 0; i < identifiants.size(); i++) {
+                ids[i]=identifiants.get(i);
+            }
+            sc.setAssetCategoryIds(ids);
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
@@ -181,24 +212,12 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnairePostalCode(postalcode);
             petition.setPetitionnairePhone("" + phone);
             petition.setPetitionnaireEmail(email);
+            petition.setPublikId(publikID);
             petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
             AssetEntry assetEntry = petition.getAssetEntry();
             if (assetEntry == null)
                 throw new PortalException("aucune assetCategory pour la pétition"
                         + petition.getPetitionId());
-            long entryId = assetEntry.getEntryId();
-            if (projectId!=0) {
-                AssetCategoryLocalServiceUtil
-                        .addAssetEntryAssetCategory(entryId, projectId);
-            }
-            if (quartierId!=0) {
-                AssetCategoryLocalServiceUtil
-                        .addAssetEntryAssetCategory(entryId, quartierId);
-            }
-            if (themeId!=0) {
-                AssetCategoryLocalServiceUtil
-                        .addAssetEntryAssetCategory(entryId, themeId);
-            }
         } catch (PortalException e) {
             _log.error(e);
             throw new PortletException(e);

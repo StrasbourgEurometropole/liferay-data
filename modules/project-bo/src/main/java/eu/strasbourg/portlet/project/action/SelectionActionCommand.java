@@ -1,12 +1,5 @@
 package eu.strasbourg.portlet.project.action;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -14,12 +7,19 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
+import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
 
 @Component(
 	immediate = true,
@@ -50,6 +50,9 @@ public class SelectionActionCommand implements MVCActionCommand {
 					if (tab.equals("participations")) {
 						_participationLocalService.removeParticipation(entryId);
 					}
+					if (tab.equals("petitions")) {
+						_petitionLocalService.removePetition(entryId);
+					}
 					break;
 				case "publish":
 					if (tab.equals("projects")) {
@@ -60,6 +63,10 @@ public class SelectionActionCommand implements MVCActionCommand {
 						Participation participation = _participationLocalService.getParticipation(entryId);
 						_participationLocalService.updateStatus(participation, WorkflowConstants.STATUS_APPROVED);
 					}
+					if (tab.equals("petitions")) {
+						Petition petition = _petitionLocalService.getPetition(entryId);
+						_petitionLocalService.updateStatus(petition, WorkflowConstants.STATUS_APPROVED);
+					}
 					break;
 				case "unpublish":
 					if (tab.equals("projects")) {
@@ -69,6 +76,10 @@ public class SelectionActionCommand implements MVCActionCommand {
 					if (tab.equals("participations")) {
 						Participation participation = _participationLocalService.getParticipation(entryId);
 						_participationLocalService.updateStatus(participation, WorkflowConstants.STATUS_DRAFT);
+					}
+					if (tab.equals("petitions")) {
+						Petition petition = _petitionLocalService.getPetition(entryId);
+						_petitionLocalService.updateStatus(petition, WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}
@@ -88,10 +99,17 @@ public class SelectionActionCommand implements MVCActionCommand {
 	protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
 		_participationLocalService = participationLocalService;
 	}
+
+	@Reference(unbind = "-")
+	protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
+		_petitionLocalService = petitionLocalService;
+	}
 	
 	private ProjectLocalService _projectLocalService;
 	
 	private ParticipationLocalService _participationLocalService;
+
+	private PetitionLocalService _petitionLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 

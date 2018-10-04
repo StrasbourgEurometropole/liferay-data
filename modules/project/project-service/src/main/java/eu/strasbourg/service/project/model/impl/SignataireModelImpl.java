@@ -147,9 +147,10 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long PETITIONID_COLUMN_BITMASK = 4L;
-	public static final long SIGNATAIRENAME_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long SIGNATAIREID_COLUMN_BITMASK = 32L;
+	public static final long PUBLIKUSERID_COLUMN_BITMASK = 8L;
+	public static final long SIGNATAIRENAME_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long SIGNATAIREID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -816,7 +817,17 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
+		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
+
+		if (_originalPublikUserId == null) {
+			_originalPublikUserId = _publikUserId;
+		}
+
 		_publikUserId = publikUserId;
+	}
+
+	public String getOriginalPublikUserId() {
+		return GetterUtil.getString(_originalPublikUserId);
 	}
 
 	@JSON
@@ -1058,6 +1069,8 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		signataireModelImpl._setModifiedDate = false;
 
 		signataireModelImpl._originalSignataireName = signataireModelImpl._signataireName;
+
+		signataireModelImpl._originalPublikUserId = signataireModelImpl._publikUserId;
 
 		signataireModelImpl._originalPetitionId = signataireModelImpl._petitionId;
 
@@ -1424,6 +1437,7 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 	private String _city;
 	private Date _signatureDate;
 	private String _publikUserId;
+	private String _originalPublikUserId;
 	private long _petitionId;
 	private long _originalPetitionId;
 	private boolean _setOriginalPetitionId;

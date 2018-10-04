@@ -67,7 +67,6 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="author" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactLine1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactLine2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -115,6 +114,8 @@
 		<property name="petitionnaireCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnairePhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="isSupported" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="supportedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />

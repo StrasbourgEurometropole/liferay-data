@@ -277,7 +277,10 @@ function getLeafletMap() {
         zoom: 13,
         minZoom: 12,
         zoomControl: false,
-        attributionControl: false
+        attributionControl: false,
+        fullscreenControl: {
+            pseudoFullscreen: false // if true, fullscreen to page width and height
+        }
     });
 
     // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
@@ -374,13 +377,22 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 * Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
 */
 function getProjectMarker(project, mercators) {
-
-
     var projectMarkerIcon = getMarkerIcon("project");
     var marker = L.marker(mercators, {icon: projectMarkerIcon});
 
-    return marker;
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-projet" data-linkall="a">' +
+            '<a href="' + project.link + 'detail-projet.php"></a><div class="pro-header-projet">' +
+                '<p>Quartier(s) concerné(s) :</p><p><strong>' + project.districtLabel + '</strong></p></div> ' +
+                '<div class="pro-content-projet"><h3>' + project.title + '</h3>' +
+                '<div class="pro-wrap-thematique"><span>' + project.thematicsLabel + '</span></div></div> ' +
+                '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
+            '</a>' + 
+        '</div>'
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+    );
 
+    return marker;
 }
 
 /**
@@ -421,7 +433,7 @@ function getParticipationMarker(participation, mercators) {
             '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
             '<div>' +
                 '<div class="pro-header-participation">' + 
-                    '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+                    '<figure><img src="' + participation.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
                     '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
                     '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
                 '</div>' +
@@ -468,7 +480,7 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
-        ,{maxHeight: 280, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -489,29 +501,32 @@ function getInitiativePopUp(mercators, link) {
 /**
 * Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
 */
-function getPetitionMarker(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+function getPetitionMarker(petition, mercators) {
 
     var petitionMarkerIcon = getMarkerIcon("petition");
-    var marker = L.marker(mercators, {icon: petitionMarkerIcon})
+    var marker = L.marker(mercators, {icon: petitionMarkerIcon});
 
     marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' +
+        '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
             '<div class="pro-header-petition">' +
-                '<figure role="group"></figure> ' +
-                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' +
+                '<figure role="group">' +
+                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+                '</figure>' +
+                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
             '</div>' +
             '<div class="pro-content-petition">' +
-                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
-                '<span class="pro-duree">' + durationLabel + '</span></span>' +
+                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
+                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
+                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
                 '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' +
+                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
                 '</div>' +
-                '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
+        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
     );
 
     return marker;
@@ -736,10 +751,8 @@ function createParticipation(participation){
         '<div class="item pro-bloc-card-participation vignette type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
             '<div>' +
                 '<div class="pro-header-participation">' +
-                    '<figure role="group">';
-                        if(participation.imageURL != ""){
-                            vignette += '<img src="' + participation.imageURL + '" width="40" height="40" alt="Image participation"/>';
-                        }
+                    '<figure role="group">';                       
+                            vignette += '<img src="' + participation.authorImageURL + '" width="40" height="40" alt="Image participation"/>';                       
     vignette +=     '</figure>' +
                     '<p>Participation publiée par :</p>' +
                     '<p><strong>' + participation.author + '</strong></p>' +

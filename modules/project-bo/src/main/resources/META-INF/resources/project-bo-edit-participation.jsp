@@ -44,9 +44,6 @@
 
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
-				
-				<%-- Champ : Auteur --%>
-				<aui:input name="author" required="true" />
 			
 			</aui:fieldset>
 			
@@ -85,7 +82,7 @@
 				
 				<%-- Champ : Image interne --%>
 				<div class="internalImage" <c:if test="${(empty dc.participation.imageId or dc.participation.imageId eq 0) and not empty dc.participation.externalImageURL }">style="display: none;"</c:if>>
-					<strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.participation.imageId}" global="true" />
+					<strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.participation.imageId}" global="false" />
 				</div>
 				
 				<%-- Groupe de champs : Image externe --%>
