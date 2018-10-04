@@ -38,6 +38,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
 @Component(immediate = true, property = {"javax.portlet.name=" + StrasbourgPortletKeys.CONTACT_FORM_WEB,
         "mvc.command.name=contact"}, service = MVCActionCommand.class)
 public class ContactFormContactAction implements MVCActionCommand {
@@ -57,22 +59,22 @@ public class ContactFormContactAction implements MVCActionCommand {
         }
 
         // On récupère les informations du mail à envoyer
-        String emailFrom = ParamUtil.getString(request, "emailFrom");
+        String emailFrom = escapeHtml4(ParamUtil.getString(request, "emailFrom"));
         String emailTo = portletConfiguration.email();
-        String content = ParamUtil.getString(request, "content");
-        String firstName = ParamUtil.getString(request, "firstName");
-        String lastName = ParamUtil.getString(request, "lastName");
-        String object = ParamUtil.getString(request, "contact.object");
-        String phone = ParamUtil.getString(request, "contact.phone");
+        String content = escapeHtml4(ParamUtil.getString(request, "content"));
+        String firstName = escapeHtml4(ParamUtil.getString(request, "firstName"));
+        String lastName = escapeHtml4(ParamUtil.getString(request, "lastName"));
+        String object = escapeHtml4(ParamUtil.getString(request, "contact.object"));
+        String phone = escapeHtml4(ParamUtil.getString(request, "contact.phone"));
         //adaptation du formulaire pour placit
         if (emailFrom==null||emailFrom.isEmpty())
-            emailFrom = ParamUtil.getString(request, "contact.mail");
+            emailFrom = escapeHtml4(ParamUtil.getString(request, "contact.mail"));
         if (content==null||content.isEmpty())
-            content = ParamUtil.getString(request, "contact.request");
+            content = escapeHtml4(ParamUtil.getString(request, "contact.request"));
         if (firstName==null||firstName.isEmpty())
-            firstName = ParamUtil.getString(request, "contact.firstname");
+            firstName = escapeHtml4(ParamUtil.getString(request, "contact.firstname"));
         if (lastName==null||lastName.isEmpty())
-            lastName = ParamUtil.getString(request, "contact.lastname");
+            lastName = escapeHtml4(ParamUtil.getString(request, "contact.lastname"));
 
 
         // Validation

@@ -43,8 +43,6 @@ import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Signataire;
-import eu.strasbourg.service.project.model.impl.ParticipationImpl;
-import eu.strasbourg.service.project.model.impl.PetitionImpl;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
@@ -59,6 +57,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
 /**
  * The implementation of the petition local service.
  *
@@ -175,29 +179,22 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                     }
                 }
                 String petitionStatus = petition.getPetitionStatus();
-                switch (petitionStatus) {
-                    case ParticipationImpl.SOON_FINISHED:
-                        addedCategory = AssetVocabularyHelper.getCategory("bientot terminee", groupId);
-                        break;
-                    case "new":
-                        addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
-                        break;
-                    case ParticipationImpl.IN_PROGRESS:
-                        addedCategory = AssetVocabularyHelper.getCategory("en cours", groupId);
-                        break;
-                    case PetitionImpl.COMPLETED:
-                        addedCategory = AssetVocabularyHelper.getCategory("Aboutie", groupId);
-                        break;
-                    case PetitionImpl.FAILED:
-                        addedCategory = AssetVocabularyHelper.getCategory("Non aboutie", groupId);
-                        break;
-                    case ParticipationImpl.SOON_ARRIVED:
-                        addedCategory = AssetVocabularyHelper.getCategory("a venir", groupId);
-                        break;
-                    default:
-                        addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
-                        break;
-                }// Si il y a eu changement de statut
+                if (SOON_FINISHED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("bientot terminee", groupId);
+                else if (IN_PROGRESS.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("en cours", groupId);
+                else if (NEW.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
+                else if (COMPLETED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("Aboutie", groupId);
+                else if (FAILED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("Non aboutie", groupId);
+                else if (SOON_ARRIVED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("a venir", groupId);
+                else
+                    addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
+
+                // Si il y a eu changement de statut
                 boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();
                 if (isChanged) {
                     AssetVocabularyHelper.removeCategoryToAssetEntry(removedCategory, entry);

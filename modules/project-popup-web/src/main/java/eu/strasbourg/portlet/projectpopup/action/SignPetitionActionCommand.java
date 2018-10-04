@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_URL_PARAM;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
@@ -89,13 +90,13 @@ public class SignPetitionActionCommand implements MVCActionCommand {
 
             user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
             birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-            address = ParamUtil.getString(request, "address");
-            city = ParamUtil.getString(request, "city");
+            address = escapeHtml4(ParamUtil.getString(request, "address"));
+            city = escapeHtml4(ParamUtil.getString(request, "city"));
             postalcode = ParamUtil.getLong(request, "postalcode");
-            phone = ParamUtil.getString(request, "phone");
-            mobile = ParamUtil.getString(request, "mobile");
-            lastname = ParamUtil.getString(request, "username");
-            email = ParamUtil.getString(request, "mail");
+            phone = escapeHtml4(ParamUtil.getString(request, "phone"));
+            mobile = escapeHtml4(ParamUtil.getString(request, "mobile"));
+            lastname = escapeHtml4(ParamUtil.getString(request, "username"));
+            email = escapeHtml4(ParamUtil.getString(request, "mail"));
 
             boolean isValid = validate(request);
             if (!isValid)
