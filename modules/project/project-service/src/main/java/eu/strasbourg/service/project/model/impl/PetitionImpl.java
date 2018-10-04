@@ -143,6 +143,8 @@ public class PetitionImpl extends PetitionBaseImpl {
         Double nombreSignature = (double) getNombreSignature();
         Double quotaSignature = (double) getQuotaSignature();
         double result = nombreSignature / quotaSignature;
+        if (result>1)
+            result = 1;
         return result * 100;
     }
 
