@@ -15,7 +15,7 @@ $('.pro-bloc-video').each(function() {
 		var iframe  ='<iframe src="' + urlVideo + '" width="1280px"  height="auto"></iframe>';
 
 
-		$(mask).click(function (e) {
+		$('.pro-btn-video, .btn-ytbe',this).click(function (e) {
 			e.preventDefault();
 			vidContainer.append(iframe);
 

@@ -1056,3 +1056,13 @@ function goToPage(wi, index){
     wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
     
 }
+
+/* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
+$('.pro-remove').on('click',function(){
+    
+    // Utilisé pour les recherches ajax
+    if($(this).hasClass('dynamic')){
+        // Renvoi la liste des entités demandées
+        getSelectedEntries();
+    }
+});
