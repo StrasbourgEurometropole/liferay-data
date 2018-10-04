@@ -65,49 +65,39 @@ public class TwitterClient {
 				tweet.setUsername(status.getUser().getName());
 				tweet.setRetweet(status.getRetweetedStatus() != null);
 				tweet.setUrl("https://twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId());
+
+				MediaEntity[] medias = null;
+
 				if (tweet.isRetweet()) {
 					tweet.setRetweetUserName(status.getRetweetedStatus().getUser().getName());
 					tweet.setRetweetScreenName(status.getRetweetedStatus().getUser().getScreenName());
 					tweet.setContent(status.getRetweetedStatus().getText());
 
 					// Checks for images posted using twitter API
-					MediaEntity[] medias = status.getRetweetedStatus().getMediaEntities();
-					if (medias.length > 0) {
-						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
-								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
-								break;
-							}
-						}
-					}
+					medias = status.getRetweetedStatus().getMediaEntities();
 
 				} else {
 					tweet.setContent(status.getText());
 
 					// Checks for images posted using twitter API
-					MediaEntity[] medias = status.getMediaEntities();
-					if (medias != null) {
-						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
-								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
-								break;
-							}
-						}
-					}
+					medias = status.getMediaEntities();
 				}
 
 				if(Validator.isNull(tweet.getImageURL()) && Validator.isNotNull(status.getQuotedStatus())){
 					// Checks for images posted using twitter API
-					MediaEntity[] medias = status.getQuotedStatus().getMediaEntities();
-					if (medias.length > 0) {
-						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
-								tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
-								break;
-							}
+					medias = status.getQuotedStatus().getMediaEntities();
+				}
+
+
+				if (medias != null && medias.length > 0) {
+					for (MediaEntity media : medias) {
+						if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
+							tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 						}
 					}
 				}
+
+
 				tweets.add(tweet);
 				i++;
 				if (i >= count) {
