@@ -12,6 +12,12 @@
 		</aui:form>
 	</div>
 </div>
+<div class="small-container mns-m-filtres-search row">
+    <div class="col-xs-12">
+        <span class="label">Je viens...,Pendant...,Pour un(e)... ?</span>
+        <span id="search-mobile-filtres" class="btn-filtre">Recherchez</span>
+    </div>
+</div>
 
 <aui:form method="post" name="fm">
 	<!-- RÃ©sultats -->
@@ -20,11 +26,10 @@
 		<div class="mns-page-experience">
 			<div class="container mns-listing-exp">
 	            <div class="row" data-egalize=".mns-bloc-exp">
-	        	
 		        	<liferay-ui:search-container-results results="${dc.entries}" />
 		        	<liferay-ui:search-container-row
 						className="com.liferay.asset.kernel.model.AssetEntry"
-						modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
+						modelVar="entry" keyProperty="entryId" rowIdProperty="entryId" indexVar="index">
 							<c:set var="className" value="${entry.className}" />
 							<c:choose>
 								<c:when test="${fn:contains(className, 'JournalArticle')}">
@@ -47,87 +52,30 @@
 									assetRendererFactory="${entry.assetRendererFactory}"
 									template="abstract"
 								/>
+								
+								
+								
 							</liferay-ddm:template-renderer>
+							  
+							<c:if test="${(dc.entriesCount gt 6 and index eq 4) or (dc.entriesCount gt 3 and dc.entriesCount lt 7 and index eq (dc.entriesCount - 4)) or (dc.entriesCount lt 4 and index eq 0) }">
+								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;"> 
+									<liferay-portlet:runtime
+						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						            instanceId="first-wc-display" />
+						        </div>
+							</c:if>
+							<c:if test="${(dc.entriesCount gt 7 and index eq 7) or (dc.entriesCount lt 8 and index eq (dc.entriesCount - 1)) }">
+								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;"> 
+									<liferay-portlet:runtime
+						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						            instanceId="second-wc-display" />
+						        </div>
+							</c:if>						
+							
 					</liferay-ui:search-container-row>
 				</div>
-			</div>
-		</div>
-					
-		<!-- Export -->
-		<c:if test="${dc.displayExport}">
-			<div class="btn-line">
-				<a href="${dc.exportResourceURL}" title="<liferay-ui:message key="print" />" target="_blank">
-					<button type="button" class="seu-btn-square--filled--second">
-						<span class="seu-flexbox">
-							<span class="seu-btn-text"><liferay-ui:message key="print" /></span>
-							<span class="seu-btn-arrow"></span>
-						</span> 
-					</button>
-				</a>
-			</div>
-		</c:if>
-		
-		<!-- Pagination -->
-		<c:if test="${dc.pager.lastPage > 1}">
-            <ul class="seu-pagination unstyled">
-            	<!-- Page prÃ©cÃ©dente -->
-                <li class="seu-pagin-prev disabled seu-pagin-item">
-					<c:if test="${not dc.pager.onFirstPage}">
-	                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
-							href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
-	                        <span class="seu-flexbox">
-	                            <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
-	                            <span class="seu-btn-arrow"></span>
-	                        </span>
-	                    </a>
-               		</c:if>
-                </li>
-                <c:forEach var="page" items="${dc.pager.pages}">
-                	<c:choose>
-                		<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
-                			<!-- Lien vers page -->
-	                		<li class="seu-pagin-item">
-			                    <a data-page="${page.index}" href="${dc.getURLForPage(page.index)}">
-			                        <span class="seu-flexbox">
-			                            <span class="seu-btn-text">${page.label}</span>
-			                        </span>
-			                    </a>
-			                </li>
-                		</c:when>
-                		<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
-                			<!-- Page en cours -->
-	                		<li class="seu-pagin-item seu-is-active">
-		                        <span class="seu-flexbox">
-		                            <span class="seu-btn-text">${page.label}</span>
-		                        </span>
-		                    </li>
-		                </c:when>
-                		<c:otherwise>
-		                	<!-- Texte -->
-	                		<li class="seu-pagin-item">
-		                        <span class="seu-flexbox">
-		                            <span class="seu-btn-text">${page.label}</span>
-		                        </span>
-		                    </li>
-                		</c:otherwise>
-                	</c:choose>
-                </c:forEach>
-                
-                <!-- Page suivante -->
-                <li class="seu-pagin-next seu-pagin-item">
-					<c:if test="${not dc.pager.onLastPage}">
-	                    <a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="go-to-next-page" />" 
-	                    	data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
-	                        <span class="seu-flexbox">
-	                            <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
-	                            <span class="seu-btn-arrow"></span>
-	                        </span>
-	                    </a>
-              	 	</c:if>
-                </li>
-            </ul>
-    	</c:if>
-           
-	</liferay-ui:search-container>
-</aui:form>
-
+				<liferay-ui:search-paginator searchContainer="${dc.searchContainer}" />
+			</liferay-ui:search-container>
+		</aui:form>
+	</div>
+</div>

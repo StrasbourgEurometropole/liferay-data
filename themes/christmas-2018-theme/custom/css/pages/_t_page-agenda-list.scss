@@ -18,6 +18,7 @@
 		&.mns-show{
 			@include mobile{
 				display: block;
+				margin: 0px 10px;
 			}
 		}
 		.mns-affiner {
