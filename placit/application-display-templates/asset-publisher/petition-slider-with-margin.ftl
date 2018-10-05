@@ -1,4 +1,4 @@
-<!-- SLIDER DE PETITIONS SANS MARGE -->
+<!-- SLIDER DE PETITIONS AVEC MARGE -->
 
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
