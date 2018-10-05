@@ -197,10 +197,14 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 ids[i]=identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
+            //creation du userName
+            StringBuilder username = new StringBuilder(user.getFirstName());
+            username.append(" ").append(user.getLastName());
+
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
-            petition.setUserName(user.getUserName());
+            petition.setUserName(username.toString());
             petition.setQuotaSignature(signatureNumber);
             petition.setUserId(user.getUserId());
             petition.setPetitionnaireAdresse(address);
