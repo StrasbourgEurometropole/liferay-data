@@ -20,7 +20,7 @@ public class Media {
 	    		returnDate = LocalDate.parse(element.element("DueDate").getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	    	}
 	    	if(Validator.isNotNull(element.element("RequestDateTime"))) {
-	    		requestDate = LocalDate.parse(element.element("RequestDateTime").getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"));
+	    		requestDate = LocalDate.parse(element.element("RequestDateTime").getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy kk:mm:ss"));
 	    	}
 	}
 

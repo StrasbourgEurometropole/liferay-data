@@ -18,6 +18,8 @@ public interface AdictService {
 	public AssetCategory getDistrictByAddress(String address) throws Exception;
 	public List<String> getSchoolsByAddress(String address) throws Exception;
 	public JSONObject getCoordinatesForZone(String x, String y, String sectorType);
+	public JSONObject getCoordinatesForDistrict();
+	public JSONObject getCoordinatesForDistrict(String sigID);
 	public JSONObject getTraffic();
 	public JSONObject getAlerts();
 }

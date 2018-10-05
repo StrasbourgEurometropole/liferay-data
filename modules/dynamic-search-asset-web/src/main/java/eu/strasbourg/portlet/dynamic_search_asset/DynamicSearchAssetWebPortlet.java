@@ -348,7 +348,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 				jsonEvent.put(
 					ATTRIBUTE_IS_USER_PARTICIPATE, 
-					publikUserId != "" ? event.isUserParticipate(publikUserId) : false
+					publikUserId != "" ? event.isUserParticipates(publikUserId) : false
 				);
 				
 				jsonResponse.put(jsonEvent);
@@ -360,7 +360,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Project.class.getName())) {
 				Project project = ProjectLocalServiceUtil.getProject(assetEntry.getClassPK());
 				
-				JSONObject jsonProject = project.toJSON();
+				JSONObject jsonProject = project.toJSON(publikUserId);
 				
 				jsonProject.put(
 					ATTRIBUTE_CLASSNAME,
@@ -420,7 +420,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Petition.class.getName())) {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
 				
-				JSONObject jsonPetition = petition.toJSON();
+				JSONObject jsonPetition = petition.toJSON(publikUserId);
 				
 				jsonPetition.put(
 					ATTRIBUTE_CLASSNAME,

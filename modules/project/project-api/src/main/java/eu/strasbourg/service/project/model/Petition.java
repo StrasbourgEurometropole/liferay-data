@@ -247,7 +247,18 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 
 	/**
+	* Demande si l'utilisateur demandé a signe la petition
+	*
+	* @throws PortletException
+	*/
+	public boolean hasUserSigned(java.lang.String publikUserId)
+		throws javax.portlet.PortletException;
+
+	public java.lang.String getPublicationDateFr();
+
+	/**
 	* Retourne la version JSON de l'entité
 	*/
-	public com.liferay.portal.kernel.json.JSONObject toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId);
 }

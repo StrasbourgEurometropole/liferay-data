@@ -262,10 +262,18 @@ public interface Event extends EventModel, PersistedModel {
 	/**
 	* Demande si l'utilisateur demandé participe à l'événement
 	*/
-	public boolean isUserParticipate(java.lang.String publikUserId);
+	public boolean isUserParticipates(java.lang.String publikUserId);
 
 	/**
 	* Retourne la version JSON de l'événenement
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
+	/**
+	* Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
+	* en incluant l'escape des caractères / balises pouvant casser l'utilisation des données et le split
+	* de l'HTML en général
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserID);
 }

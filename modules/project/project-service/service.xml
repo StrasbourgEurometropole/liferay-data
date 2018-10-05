@@ -5,8 +5,7 @@
 	<author>Cedric Henry</author>
 	<namespace>project</namespace>
 
-	<entity local-service="true" cache-enabled="true" name="Project"
-		remote-service="true" uuid="true">
+	<entity local-service="true" cache-enabled="true" name="Project" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 		<column name="projectId" primary="true" type="long" />
@@ -71,8 +70,7 @@
 
 	</entity>
 
-	<entity local-service="true" cache-enabled="true" name="Participation"
-		remote-service="true" uuid="true">
+	<entity local-service="true" cache-enabled="true" name="Participation" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 		<column name="participationId" primary="true" type="long" />
@@ -141,8 +139,7 @@
 
 	</entity>
 
-	<entity name="ProjectTimeline" local-service="true"
-		remote-service="true">
+	<entity name="ProjectTimeline" local-service="true" remote-service="true">
 
 		<!-- PK fields -->
 		<column name="projectTimelineId" primary="true" type="long" />
@@ -169,8 +166,7 @@
 
 	</entity>
 
-	<entity name="PlacitPlace" local-service="true" remote-service="true"
-		uuid="true">
+	<entity name="PlacitPlace" local-service="true" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 		<column name="placitPlaceId" primary="true" type="long" />
@@ -225,8 +221,7 @@
 
 	</entity>
 
-	<entity local-service="true" name="ProjectFollowed"
-		remote-service="true" uuid="false">
+	<entity local-service="true" name="ProjectFollowed" remote-service="true" uuid="false">
 
 		<!-- PK fields -->
 		<column name="projectFollowedId" primary="true" type="long" />
@@ -253,8 +248,7 @@
 
 	</entity>
 
-    <entity local-service="true" name="Petition" remote-service="true"
-            uuid="true">
+    <entity local-service="true" name="Petition" remote-service="true" uuid="true">
 
         <!-- PK fields -->
         <column name="petitionId" primary="true" type="long" />
@@ -284,7 +278,7 @@
         <column name="expirationDate" type="Date" />
         <column name="quotaSignature" type="long" />
 
-		<!-- main fields -->
+		<!-- petitionnaire fields -->
 		<column name="petitionnaireLastname" type="String" />
 		<column name="petitionnaireFirstname" type="String" />
 		<column name="petitionnaireBirthday" type="Date" />
@@ -293,13 +287,17 @@
 		<column name="petitionnaireCity" type="String" />
 		<column name="petitionnairePhone" type="String" />
 		<column name="petitionnaireEmail" type="String" />
+		
+		<!-- Support fields -->
+		<column name="isSupported" type="boolean" />
+		<column name="supportedBy" type="String" />
 
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
 		<column name="externalImageURL" type="String" />
 		<column name="externalImageCopyright" type="String" />
 		<column name="mediaChoice" type="boolean" />
-
+		
 		<!-- Lieux de consultation -->
 		<column name="consultationPlacesText" type="String" />
 		<column name="consultationPlacesBody" type="String" />
@@ -385,6 +383,10 @@
             <finder-column name="petitionId" />
             <finder-column name="signataireName" />
         </finder>
+        <finder name="PetitionIdAndPublikUserId" return-type="Collection">
+            <finder-column name="petitionId" />
+            <finder-column name="publikUserId" />
+        </finder>
         <!-- References -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
@@ -445,6 +447,9 @@
 		<!-- Finder methods -->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="publikId" return-type="Collection">
+			<finder-column name="publikId" />
 		</finder>
 
 		<!-- References -->

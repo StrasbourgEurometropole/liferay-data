@@ -33,7 +33,7 @@
                         <div class="form-group form-triple">
                             <label for="territoire"><liferay-ui:message key="modal.filepetition.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected ></option>
+                                <option value="0" selected ><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>

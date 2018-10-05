@@ -110,7 +110,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		place.setAccessForDeficient(false);
 		place.setAccessForElder(false);
 		place.setAccessForWheelchair(false);
-		place.setDisplayEvents(false);
+		place.setDisplayEvents(true);
 		place.setSubjectToPublicHoliday(false);
 		place.setRTEnabled(false);
 
@@ -260,7 +260,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 			}
 
 			// On récupère les données temps réel
-			if (!place.getRTEnabled().equals("NO")) {
+			if (!place.getRTExternalId().equals("NO")) {
 				switch (place.getRTType()) {
 					case "1":
 						try {

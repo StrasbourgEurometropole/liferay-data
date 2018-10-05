@@ -9,4 +9,5 @@ dependencies {
 	compile project (':modules:utils')
 	compile project (':modules:oidc:oidc-api')
 	compile project (':modules:project:project-api')
+	compile project(":modules:agenda:agenda-api")
 }

@@ -1,4 +1,5 @@
 create index IX_F2897552 on project_Initiative (groupId);
+create index IX_8561E7B8 on project_Initiative (publikId[$COLUMN_LENGTH:75$]);
 create index IX_C528BE4C on project_Initiative (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_F62467CE on project_Initiative (uuid_[$COLUMN_LENGTH:75$], groupId);
 
@@ -35,6 +36,7 @@ create index IX_2A9E13B0 on project_ProjectFollowed (publikUserId[$COLUMN_LENGTH
 create index IX_6F4E9C8A on project_ProjectTimeline (projectId);
 
 create index IX_86C956F3 on project_Signataire (groupId);
+create index IX_2FAA258F on project_Signataire (petitionId, publikUserId[$COLUMN_LENGTH:75$]);
 create index IX_E8FC746E on project_Signataire (petitionId, signataireName[$COLUMN_LENGTH:75$]);
 create index IX_501057A2 on project_Signataire (publikUserId[$COLUMN_LENGTH:75$]);
 create index IX_B66621CB on project_Signataire (uuid_[$COLUMN_LENGTH:75$], companyId);

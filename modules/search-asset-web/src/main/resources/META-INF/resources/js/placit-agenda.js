@@ -118,11 +118,15 @@ function sortVideo(type) {
 
 // Initialisation des "pointeurs" vers les elements utiles
 var leafletMap = null;
-eventMarkers = []
+var markersCluster = null;
+eventMarkers = [];
 
 // Mettre à jour 
 function updateLeafletMap () {
-	$('.pro-bloc-listing-event > form  a').each(function () {
+	eventMarkers = [];
+	markersCluster.clearLayers();
+	
+	$('.pro-bloc-listing-event > form  a').each(function () {		
 		var mercators = [$(this).data('lat'), $(this).data('lng')];
 		
 		if (mercators[0] != "0" && mercators[1] != "0") {
@@ -132,11 +136,13 @@ function updateLeafletMap () {
 			var title = $('h3', this).text();
 			
 			var marker = getEventListingMarker(mercators, link, publishDate, place, title);
-			marker.addTo(leafletMap);
+			
+			markersCluster.addLayer(marker);
 			
 			eventMarkers.push(eventMarkers);
 		}
 	});
+	
 }
 
 $(document).ready(function() {
@@ -145,7 +151,6 @@ $(document).ready(function() {
 
     //Création de la carte au centre de strasbourg
     leafletMap = L.map('mapid', {
-        // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
         center: [48.573, 7.752],
         maxBounds: [[48.42, 7.52], [48.72, 7.94]],
         minZoom: 13,
@@ -157,8 +162,13 @@ $(document).ready(function() {
 
     // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
     var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-        layers: 'gct_fond_de_carte_couleur'
+        layers: 'monstrasbourg'
     }).addTo(leafletMap);
+    
+    // Création du cluster permettant le regroupement de points et le centrage
+    markersCluster = L.markerClusterGroup();
+    
+	leafletMap.addLayer(markersCluster);
     
     // Récuperation et placement des points
     updateLeafletMap();

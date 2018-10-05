@@ -34,15 +34,13 @@
                 <div class="col-md-9 pro-wrapper-listing-video">
                     <div class="pro-wrapper">
                         <h2><liferay-ui:message key="eu.all-videos" /></h2>
-                        <c:if test="${dc.configuration.displayDateSorting()}">
-                            <div class="pro-sort pro-dropdown">
-                                <a href="#">Tri A-Z</a>
-                                <ul>
-                                    <li><a href="javascript:sortVideo('asc');">Tri A-Z</a></li>
-                                    <li><a href="javascript:sortVideo('desc');">Tri Z-A</a></li>
-                                </ul>
-                            </div>
-                        </c:if>
+                        <div class="pro-sort pro-dropdown">
+                            <a id="sortType" href="#">Tri A-Z</a>
+                            <ul>
+                                <li><a href="javascript:sortVideo('asc');">Tri A-Z</a></li>
+                                <li><a href="javascript:sortVideo('desc');">Tri Z-A</a></li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="row pro-listing-video" data-egalize="> * > a">

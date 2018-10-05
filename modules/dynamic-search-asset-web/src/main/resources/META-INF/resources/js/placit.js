@@ -174,7 +174,7 @@ function createParticipationThumbnail(participation) {
 		        '<div>' +
 		            '<div class="pro-header-participation">' +
 		                '<figure role="group">' +
-		                    '<img src="' + participation.imageURL + '" width="40" height="40" alt="Image de la participation"/>' +
+		                    '<img src="' + participation.authorImageURL + '" width="40" height="40" alt="Image de la participation"/>' +
 		                '</figure>' +
 		                '<p>Concertation publiée par :</p>' +
 		                '<p><strong>' + participation.author + '</strong></p>' +
@@ -370,4 +370,12 @@ $("input[id^='dynamic_search_type_']").change(function(event) {
 	if (dynamicSearch && $(this).val().length > 2) {
 		searchRequest();
 	}
+});
+
+/**
+ * Reinitialise le contenu du champ de recherche
+ * @note Utile dans le cas d'un retour à la page précédente
+ */
+$(document).ready(function() {
+	$("input[name='dynamic-search-keywords']").val("");
 });

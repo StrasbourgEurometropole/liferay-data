@@ -1,30 +1,31 @@
 package eu.strasbourg.portlet.dashboard.portlet;
 
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.portlet.dashboard.utils.DashBoardUtils;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.ProjectFollowed;
-import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
-import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,36 +47,53 @@ import java.util.List;
         service = Portlet.class
 )
 public class DashboardPortlet extends MVCPortlet {
+
+    /**
+     * le log
+     */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+    private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
+    private static final String CITY_NAME = "Strasbourg";
+    public static final String REDIRECT_URL_PARAM = "redirectURL";
 
     @Override
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-        String publicId = getPublikID(renderRequest);
-        _log.info("je passe par le render");
+        String publicId = DashBoardUtils.getPublikID(renderRequest);
+
         if (Validator.isNotNull(publicId)) {
             PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publicId);
+            JSONObject userConnected = PublikApiClient.getUserDetails(publicId);
             renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
             renderRequest.setAttribute("isUserloggedIn", true);
-            renderRequest.setAttribute("user",user);
+            renderRequest.setAttribute("userConnected",userConnected);
         } else renderRequest.setAttribute("isUserloggedIn", false);
 
-        List<Petition> petitionList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
-        List<Signataire> signataireList = SignataireLocalServiceUtil.getSignataireByPublikId(publicId);
-        List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);
+        List<Petition> petitionFiledList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
+        List<Petition> petitionSignedList = PetitionLocalServiceUtil.getPetitionBySignatairePublikId(publicId);
+        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publicId);
+        List<Event> events = EventLocalServiceUtil.findEventByUserPublikId(publicId);
+        List<Initiative>initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
+        List<Initiative> initiativesAides=new ArrayList<>();
+        //TODO Mock des budgets participatif à implémenter
+        List<Project> budgetFiled = new ArrayList<>();
+        List<Project> budgetVoted = new ArrayList<>();
+        List<Project> voteLeft = new ArrayList<>();
 
-        renderRequest.setAttribute("petitionCount",petitionList.size());
-        renderRequest.setAttribute("signataireCount",signataireList.size());
+        renderRequest.setAttribute("petitionsFiledCount",petitionFiledList.size());
+        renderRequest.setAttribute("petitionSignedCount",petitionSignedList.size());
         renderRequest.setAttribute("projectFollowedsCount",projectFolloweds.size());
+        renderRequest.setAttribute("initiativeFiledCount",initiativesFiled.size());
+        renderRequest.setAttribute("initiativeAidesCount",initiativesAides.size());
+        renderRequest.setAttribute("budgetFiledCount",budgetFiled.size());
+        renderRequest.setAttribute("budgetVotedCount",budgetVoted.size());
+        renderRequest.setAttribute("voteLeft",voteLeft.size());
+        renderRequest.setAttribute("eventCount",events.size());
+        renderRequest.setAttribute("petitionsFiled",petitionFiledList);
+        renderRequest.setAttribute("petitionSigned",petitionSignedList);
+        renderRequest.setAttribute("projectFolloweds",projectFolloweds);
+        renderRequest.setAttribute("event",events);
 
         super.render(renderRequest, renderResponse);
     }
 
-    // Récupération du publik ID avec la session
-    private String getPublikID(PortletRequest resourceRequest) {
-
-        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-
-        return SessionParamUtil.getString(originalRequest, "publik_internal_id");
-    }
 }

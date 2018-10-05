@@ -233,8 +233,11 @@ function getSelectedMarkerElements(entityName) {
 
 
 $(document).ready(function() {
-	//Création de la carte au centre de strasbourg
+	// Création de la carte au centre de strasbourg
     leafletMap = getLeafletMap()
+    
+    // Cachage du bouton de zoom de map
+    $('.leaflet-control-fullscreen-button').hide();
 });
 
 /**
