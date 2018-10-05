@@ -560,6 +560,25 @@
                 mymap.closePopup();
             });
 
+
+            // Affichage de la zone
+            // if (window.coordinateZone) {
+            //     // Récupération des coordonnées de la zone
+            //     requestsInProgress++;
+            //     showLoadingIcon();
+            //     // Convertion des données geoJSON en polygon
+            //     var coordinates = L.geoJson(window.coordinateZone, {
+            //         style: "color: '#ff0000'"
+            //     }).addTo(mymap);
+            //
+            //     // centrer la carte sur le quartier
+            //     var bounds = [];
+            //     window.coordinateZone.geometry.coordinates[0][0].forEach(function(e){bounds.push([e[1],e[0]]);});
+            //     mymap.fitBounds(bounds);
+            //     requestsInProgress--;
+            //     maybeHideLoadingIcon();
+            // }
+
             function saveUserConfig() {
                 AUI().use('aui-io-request', function(A) {
                     A.io.request(window.interestPointUrl, {
