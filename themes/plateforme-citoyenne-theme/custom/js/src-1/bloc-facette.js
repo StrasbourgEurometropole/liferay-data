@@ -20,11 +20,4 @@ $('.pro-remove').on('click',function(){
     $(this).parents('.pro-group').find('input:text').val('');
 
     $(this).parents('.pro-group').find('select').prop('selectedIndex', 0).selectric('refresh');
-	
-	
-	// Utilisé pour les recherches ajax
-    if($(this).hasClass('dynamic')){
-        // Renvoi la liste des entités demandées
-        getSelectedEntries();
-    }
 });

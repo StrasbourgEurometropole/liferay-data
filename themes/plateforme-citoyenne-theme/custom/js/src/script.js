@@ -38,8 +38,8 @@ document.addEventListener('scroll',function(){
     lastscrolltop = st;
 });
 
-/*
-$('.pro-bloc-card-event').on('click',function(e){
+
+/*$('.pro-bloc-card-event').on('click',function(e){
     e.preventDefault();
    $(this).find('pro-btn-action').toggleClass('active');
 });
