@@ -3,21 +3,20 @@ Bundle-Version: 1.31.0
 Web-ContextPath: /searchassetweb
 Bundle-ClassPath:\
   .,\
- lib/itext.jar, lib/crypto.jar, lib/jcp.jar, lib/bcprov.jar, lib/bcmail.jar, lib/junit.jar, lib/ham.jar, lib/bcprovext.jar, lib/bctsp.jar,\
- lib/commons-io.jar, lib/xmlworker.jar
- 
- 
+ lib/kernel.jar, lib/layout.jar, lib/io.jar, lib/forms.jar, lib/pdfa.jar, lib/svg.jar, \
+    lib/bcpkix-jdk15on.jar, lib/bcprov-jdk15on.jar, lib/html2pdf.jar, lib/styled-xml-parser.jar
+
+
 -includeresource:\
- lib/itext.jar=itextpdf-5.5.10.jar,\
- lib/xmlworker.jar=xmlworker-5.5.10.jar,\
- lib/crypto.jar=jsr105-api-1.0.1.jar,\
- lib/jcp.jar=xmlsec-1.5.1.jar,\
- lib/bcprov.jar=bcprov-jdk15-1.46.jar,\
- lib/bcmail.jar=bcmail-jdk15-1.46.jar,\
- lib/junit.jar=junit-4.12.jar,\
- lib/ham.jar=hamcrest-core-1.3.jar,\
- lib/bcprovext.jar=bcprov-ext-jdk14-1.47.jar,\
- lib/bctsp.jar=bctsp-jdk15-1.46.jar,\
- lib/commons-io.jar=commons-io-2.0.1.jar
+ lib/kernel.jar=kernel-7.1.3.jar,\
+ lib/layout.jar=layout-7.1.3.jar,\
+ lib/io.jar=io-7.1.3.jar,\
+ lib/forms.jar=forms-7.1.3.jar,\
+ lib/pdfa.jar=pdfa-7.1.3.jar,\
+ lib/bcpkix-jdk15on.jar=bcpkix-jdk15on-1.49.jar,\
+ lib/bcprov-jdk15on.jar=bcprov-jdk15on-1.49.jar,\
+ lib/html2pdf.jar=html2pdf-2.1.0.jar,\
+ lib/styled-xml-parser.jar=styled-xml-parser-7.1.3.jar,\
+ lib/svg.jar=svg-7.1.3.jar
  
  
