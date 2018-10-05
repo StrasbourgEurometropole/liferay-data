@@ -64,7 +64,7 @@
 				float: left;
 				&:after {
 					content: '';
-					background: url(../images/deco-duo-content.png) no-repeat center center /contain;
+					background: url(../images/deco-duo-content.png) no-repeat center center/contain;
 					position: absolute;
 					bottom: -20px;
 					right: -30px;
@@ -90,7 +90,7 @@
 				}
 				&:before {
 					content: '';
-					background: url(../images/deco-duo-content.png) no-repeat center center /contain;
+					background: url(../images/deco-duo-content.png) no-repeat center center/contain;
 					position: absolute;
 					top: -20px;
 					left: -50px;

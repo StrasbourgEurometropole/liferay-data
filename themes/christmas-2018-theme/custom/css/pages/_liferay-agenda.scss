@@ -9,8 +9,12 @@
   .lfr-pagination-config {
     display: none !important;
   }
-  .taglib-page-iterator {
+  .taglib-page-iterator-wrapper {
     padding-top: 100px;
+    clear: both;
+    height: auto;
+    overflow: hidden;
+    width: auto;
   }
   .search-asset-results > * {
     height: 580px;

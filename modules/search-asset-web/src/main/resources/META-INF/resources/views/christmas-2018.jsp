@@ -56,7 +56,9 @@
 							</div>
 					</liferay-ui:search-container-row>
 				</div>
-				<liferay-ui:search-paginator searchContainer="${dc.searchContainer}" />
+				<div class="taglib-page-iterator-wrapper">
+					<liferay-ui:search-paginator searchContainer="${dc.searchContainer}" />
+				</div>
 			</liferay-ui:search-container>
 		</aui:form>
 		<liferay-util:include page="/form-footers/${dc.searchForm}-form-footer.jsp" servletContext="<%=application %>" />

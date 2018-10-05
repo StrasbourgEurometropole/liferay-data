@@ -18,7 +18,11 @@
 	}
 	
 	> div:nth-child(3) ~ div {
-		display: none;
+		.mns-bloc-social-wall {
+			@include mobile{
+				display: none;
+			}
+		}
 	}
 
 	> div:nth-last-child(-n+5) {

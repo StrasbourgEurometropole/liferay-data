@@ -42,11 +42,6 @@ h2.portlet-title-text {
   display: none;
 }
 
- .mns-wrapper-duo-content .col-md-6 img {
-  width: auto !important;
-  height: auto !important;
-}
-
 .navbar .navbar-collapse:after, .navbar .navbar-collapse:before {
   display: table !important;
 }
@@ -69,4 +64,29 @@ h2.portlet-title-text {
     border: 2px solid #ebded3;
     border-radius: 21px;
     background: none;
+}
+
+.pager li > a, .pager li > span {
+  border: 2px solid #ebded3;
+  border-radius: 21px;
+  background: none;
+
+  margin: 0 5px;
+  font-family: "playfair",serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  line-height: normal;
+  position: relative;
+}
+
+.taglib-page-iterator {
+    position: relative;
+    border-top: 1px solid #d8dae4;
+    border-bottom: 1px solid #d8dae4;
+    padding: 10px 0;
+    margin-bottom: 30px;
+  .lfr-pagination-buttons {
+    line-height: 46px;
+  }
 }
