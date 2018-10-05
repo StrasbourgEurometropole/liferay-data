@@ -14539,7 +14539,7 @@ function getLeafletMap() {
         minZoom: 13,
         zoom: 13,
         minZoom: 12,
-        zoomControl: false,
+        zoomControl: true,
         attributionControl: false,
         fullscreenControl: {
             pseudoFullscreen: false // if true, fullscreen to page width and height
