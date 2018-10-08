@@ -9,6 +9,6 @@
     <!--</div>-->
     <div class="container mns-center">
         ${page.getDescription(locale)}
-        <a href="#" class="mns-btn-chevron"><@liferay_ui.message key="christmas-ready" /></a>
+        <a href="/experientel" class="mns-btn-chevron"><@liferay_ui.message key="christmas-ready" /></a>
     </div>
 </header>
