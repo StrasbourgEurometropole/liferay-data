@@ -344,6 +344,14 @@ public class CommentLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les commentaires d'un utilisateur
+	*/
+	public static java.util.List<eu.strasbourg.service.comment.model.Comment> getByPublikId(
+		java.lang.String publikId) {
+		return getService().getByPublikId(publikId);
+	}
+
+	/**
 	* Returns a range of all the comments.
 	*
 	* <p>

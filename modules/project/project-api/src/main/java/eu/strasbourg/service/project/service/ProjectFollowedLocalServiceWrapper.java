@@ -240,6 +240,15 @@ public class ProjectFollowedLocalServiceWrapper
 	}
 
 	/**
+	* Retourne tous les projets suivis par un utilisateur
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> getByPublikId(
+		java.lang.String publikId) {
+		return _projectFollowedLocalService.getByPublikId(publikId);
+	}
+
+	/**
 	* Returns a range of all the project followeds.
 	*
 	* <p>

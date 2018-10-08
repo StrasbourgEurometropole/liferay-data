@@ -67,12 +67,23 @@
 					href="${editPublikUserURL}" name="email" truncate="true" orderable="true"
 					value="${publikUser.email}" />
 				
-				<%-- Colonne : Date de modification --%>
+				<%-- Colonne : Date de bannissement --%>
 				<fmt:formatDate value="${publikUser.banishDate}"
 					var="formattedBanishDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="banish-date" truncate="true" orderable="true"
 					value="${formattedBanishDate}" />
+				
+				<%-- URL : definit le lien vers la page d'historique de l'entite selectionnee --%>
+				<liferay-portlet:resourceURL var="historicPublikUserURL" id="exportHistoricText">
+					<portlet:param name="publikUserLiferayId" value="${publikUser.publikUserLiferayId}" />
+				</liferay-portlet:resourceURL>
+				
+				<%-- URL : definit le lien vers la page d'editionanonymisation de l'entite selectionnee --%>
+				<liferay-portlet:renderURL varImpl="anonymisedInfosURL">
+					<portlet:param name="cmd" value="anonymisedInfos" />
+					<portlet:param name="publikUserLiferayId" value="${publikUser.publikUserLiferayId}" />
+				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
@@ -80,6 +91,10 @@
 						<c:if test="${dc.hasPermission('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editPublikUserURL}" />
 						</c:if>
+						<form method="POST" action="${historicPublikUserURL}">
+							<liferay-ui:icon message="historic" url="${historicPublikUserURL}" />
+						</form>
+						<liferay-ui:icon message="anonymised" url="${anonymisedInfosURL}" />
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 

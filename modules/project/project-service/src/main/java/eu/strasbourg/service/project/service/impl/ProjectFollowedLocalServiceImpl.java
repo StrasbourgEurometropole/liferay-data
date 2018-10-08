@@ -58,4 +58,12 @@ public class ProjectFollowedLocalServiceImpl
 	public List<ProjectFollowed> getByProjectId(long projectId) {
 		return this.projectFollowedPersistence.findByProjectId(projectId);
 	}
+	
+	/**
+	 * Retourne tous les projets suivis par un utilisateur
+	 */
+	@Override
+	public List<ProjectFollowed> getByPublikId(String publikId) {
+		return this.projectFollowedPersistence.findByPublikUserId(publikId);
+	}
 }

@@ -208,6 +208,12 @@ public interface ProjectFollowedLocalService extends BaseLocalService,
 	public List<ProjectFollowed> getByProjectId(long projectId);
 
 	/**
+	* Retourne tous les projets suivis par un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ProjectFollowed> getByPublikId(java.lang.String publikId);
+
+	/**
 	* Returns a range of all the project followeds.
 	*
 	* <p>
