@@ -118,7 +118,10 @@
 				
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
-				
+
+				<%-- Checkbox : envoi à tout les suiveurs--%>
+				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
+
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Lieux de consultation --%>
