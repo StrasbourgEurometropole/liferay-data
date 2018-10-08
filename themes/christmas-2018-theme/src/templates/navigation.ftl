@@ -68,7 +68,7 @@
                     </#if>
                 </#list>
                 <li>
-                    <a href="#" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
+                    <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
                 </li>
             </ul>
         </div>
