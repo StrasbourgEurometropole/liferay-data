@@ -121,7 +121,7 @@
                                 <div class="pro-bookmark">
                                     <div>
                                         <span class="icon-ico-cathedrale"></span>
-                                        <p>${entry.supportedBy}</p>
+                                        <p>Pétition soutenue par${entry.supportedBy}</p>
                                     </div>
                                 </div>
                             </#if>
