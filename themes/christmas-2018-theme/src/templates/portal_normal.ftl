@@ -39,8 +39,8 @@
                 <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/christmas-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
             </div>
             <div>
-                <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
-                <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
+                <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a>
+                <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
                 <a href="#" class="hidden-xs hidden-sm menu-search"><span class="icon-search"></span></a>
                 <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
                 <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>

@@ -4,12 +4,12 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
-<#assign typeNoel = assetVocabularyHelper.getVocabulary("type noel", themeDisplay.scopeGroupId) />
-<#assign listTypeNoel = typeNoel.getCategories() />
-<#assign tauxNoel = assetVocabularyHelper.getVocabulary("taux noel", themeDisplay.scopeGroupId) />
-<#assign listTauxNoel = tauxNoel.getCategories() />
-<#assign dureeNoel = assetVocabularyHelper.getVocabulary("duree noel", themeDisplay.scopeGroupId) />
-<#assign listDureeNoel = dureeNoel.getCategories() />
+<#assign listTypeNoel = assetVocabularyHelper.getSortedCategories("type noel", themeDisplay.scopeGroupId) />
+
+<#assign listTauxNoel = assetVocabularyHelper.getSortedCategories("taux noel", themeDisplay.scopeGroupId) />
+
+<#assign listDureeNoel = assetVocabularyHelper.getSortedCategories("duree noel", themeDisplay.scopeGroupId) />
+
 
 
 
@@ -21,7 +21,7 @@
         </figure>
         <div class="mns-caption">
             <h1><@liferay_ui.message key='ready-for' /> <span><@liferay_ui.message key='magic' /></span></h1>
-            <a href="#step1" class="mns-btn">C'est parti !</a>
+            <a href="#step1" class="mns-btn"><@liferay_ui.message key='let-s-go' /></a>
         </div>
     </div>
 
@@ -124,9 +124,9 @@
                     <span class="hide" data-type="question-label" data-num_question="3"><@liferay_ui.message key='your-journey-is' /></span>
                     <!-- Images -->
                     <div class="label-wrapper">
-                        <label class="label" for="rep_3_1"><span>1</span><span class="mns-day">jour</span></label>
-                        <label class="label" for="rep_3_2"><span>2</span><span class="mns-day">jours</span></label>
-                        <label class="label" for="rep_3_3"><span>3</span><span class="mns-day">jours</span></label>
+                        <label class="label" for="rep_3_1"><span>1</span><span class="mns-day"><@liferay_ui.message key='day' /></span></label>
+                        <label class="label" for="rep_3_2"><span>2</span><span class="mns-day"><@liferay_ui.message key='days' /></span></label>
+                        <label class="label" for="rep_3_3"><span>3</span><span class="mns-day"><@liferay_ui.message key='days' /></span></label>
                     </div>
                     <!-- Wrapper Arrow -->
                     <div class="mns-wrapper-arrows mns-small-grid">
