@@ -1,18 +1,15 @@
 package eu.strasbourg.portlet.tipi_portlet;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import java.io.IOException;
 
 /**
  * @author 01i454

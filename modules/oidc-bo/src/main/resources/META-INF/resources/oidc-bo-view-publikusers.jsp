@@ -10,6 +10,14 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
+<%-- Composant : definit la liste des messages d'erreur --%>
+<liferay-ui:error key="anonym-user-unfound" message="anonym-user-unfound" />
+<liferay-ui:error key="no-anonym-user-id" message="no-anonym-user-id" />
+<liferay-ui:error key="user-unfound" message="user-unfound" />
+<liferay-ui:error key="no-user-id" message="no-user-id" />
+<%-- Composant : definit la liste des messages de réalisation --%>
+<liferay-ui:success key="anonymised" message="anonymised" />
+
 <%-- Composant : barre de filtres et de gestion des entite --%>
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="publikUsersSearchContainer">
 
@@ -79,9 +87,9 @@
 					<portlet:param name="publikUserLiferayId" value="${publikUser.publikUserLiferayId}" />
 				</liferay-portlet:resourceURL>
 				
-				<%-- URL : definit le lien vers la page d'editionanonymisation de l'entite selectionnee --%>
+				<%-- URL : definit le lien vers la page d'anonymisation de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="anonymisedInfosURL">
-					<portlet:param name="cmd" value="anonymisedInfos" />
+					<portlet:param name="cmd" value="anonymisedUser" />
 					<portlet:param name="publikUserLiferayId" value="${publikUser.publikUserLiferayId}" />
 				</liferay-portlet:renderURL>
 
@@ -91,9 +99,7 @@
 						<c:if test="${dc.hasPermission('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editPublikUserURL}" />
 						</c:if>
-						<form method="POST" action="${historicPublikUserURL}">
-							<liferay-ui:icon message="historic" url="${historicPublikUserURL}" />
-						</form>
+						<liferay-ui:icon message="historic" url="${historicPublikUserURL}" />
 						<liferay-ui:icon message="anonymised" url="${anonymisedInfosURL}" />
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>

@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventModel;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
@@ -491,7 +492,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		agendaImporter.doImport();
 		return true;
 	}
-
+	
 	@Override
 	public Event findBySourceAndIdSource(String source, String idSource) {
 		try {
@@ -499,20 +500,6 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		} catch (NoSuchEventException e) {
 			return null;
 		}
-	}
-
-	@Override
-	public List<Event> findEventByUserPublikId(String publikId){
-		List<EventParticipation> resultList = eventParticipationLocalService.getByPublikUser(publikId);
-		return resultList.stream().map(result -> {
-			Event event = null;
-			try {
-				event = getEvent(result.getEventId());
-			} catch (PortalException e) {
-				e.printStackTrace();
-			}
-			return event;
-		}).collect(Collectors.toList());
 	}
 
 	/**
@@ -524,4 +511,21 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
+
+    @Override
+	public List<Event> findEventByUserPublikId(String publikId){
+		List<EventParticipation> resultList = eventParticipationLocalService.getByPublikUser(publikId);
+		List<Event> eventList = resultList.stream().map(result -> {
+			Event event = null;
+			try {
+				event = getEvent(result.getEventId());
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+			return event;
+		}).collect(Collectors.toList());
+		return eventList.stream()
+				.filter(EventModel::isApproved)
+				.collect(Collectors.toList());
+	}
 }

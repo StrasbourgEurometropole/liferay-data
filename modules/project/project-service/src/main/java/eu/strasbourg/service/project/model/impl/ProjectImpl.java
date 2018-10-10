@@ -14,6 +14,11 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -22,7 +27,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.agenda.model.Event;
@@ -43,12 +48,6 @@ import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
@@ -367,6 +366,16 @@ public class ProjectImpl extends ProjectBaseImpl {
 	}
 	
 	/**
+	 * Retourne une chaine des 'Thematics' sépararée d'un '-'
+	 */
+	@Override
+	public String getThematicsLabel(Locale locale) {
+		List<AssetCategory> thematics = this.getThematicCategories();
+		String thematicTitle = AssetVocabularyHelper.getThematicTitle(locale, thematics);
+		return thematicTitle;
+	}
+	
+	/**
 	 * Retourne les commentaires de l'entité
 	 */
 	@Override
@@ -385,44 +394,55 @@ public class ProjectImpl extends ProjectBaseImpl {
 				this.getAssetEntry().getEntryId(),
 				WorkflowConstants.STATUS_APPROVED).size();
 	}
+	
+	/**
+	 * Demande si l'utilisateur demandé suit le projet
+	 */
+	@Override
+	public boolean isUserFollows(String publikUserId) {
+		if (!publikUserId.isEmpty()) {
+			if (ProjectFollowedLocalServiceUtil.getByPublikUserIdAndProjectId(publikUserId, this.getProjectId()) != null)
+				return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Retourne la version JSON de l'entité
 	 */
 	@Override
-	public JSONObject toJSON() {
+	public JSONObject toJSON(String publikUserId) {
 		// Initialisation des variables tempons et résultantes
 		JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
-		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
-		JSONObject jsonPlacitPlace;
 		JSONArray jsonProjectTimelines = JSONFactoryUtil.createJSONArray();
-		JSONObject jsonProjectTimeline;
 
 		// Champs de gestion
 		jsonProject.put("id", this.getProjectId());
 
 		// Champs : Header
-		jsonProject.put("title", this.getTitle());
+		jsonProject.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
 		jsonProject.put("imageURL", this.getImageURL());
-		jsonProject.put("description", this.getDescription());
+		jsonProject.put("description", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDescription())));
 		jsonProject.put("detailURL", this.getDetailURL());
 
 		// Champs : En bref
-		jsonProject.put("budget", this.getBudget());
-		jsonProject.put("label", this.getLabel());
-		jsonProject.put("duration", this.getDuration());
-		jsonProject.put("partners", this.getPartners());
-
+		jsonProject.put("budget", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudget())));
+		jsonProject.put("label", HtmlUtil.stripHtml(HtmlUtil.escape(this.getLabel())));
+		jsonProject.put("duration", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDuration())));
+		jsonProject.put("partners", HtmlUtil.stripHtml(HtmlUtil.escape(this.getPartners())));
+		
 		// Champs : Contact
-		jsonProject.put("contactName", this.getContactName());
-		jsonProject.put("contactLine1", this.getContactLine1());
-		jsonProject.put("contactLine2", this.getContactLine2());
+		jsonProject.put("contactName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactName())));
+		jsonProject.put("contactLine1", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactLine1())));
+		jsonProject.put("contactLine2", HtmlUtil.stripHtml(HtmlUtil.escape(this.getContactLine2())));
 		jsonProject.put("contactPhoneNumber", this.getContactPhoneNumber());
 
 		// Champs : Autres
-		jsonProject.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
-
+		jsonProject.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+		jsonProject.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
+		jsonProject.put("nbFollowers", this.getNbFollower());
+		
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
 			jsonPlacitPlaces.put(placitPlace.toJSON());

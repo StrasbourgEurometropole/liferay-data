@@ -383,6 +383,10 @@
             <finder-column name="petitionId" />
             <finder-column name="signataireName" />
         </finder>
+        <finder name="PetitionIdAndPublikUserId" return-type="Collection">
+            <finder-column name="petitionId" />
+            <finder-column name="publikUserId" />
+        </finder>
         <!-- References -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />

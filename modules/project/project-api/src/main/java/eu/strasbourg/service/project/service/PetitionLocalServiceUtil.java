@@ -298,6 +298,11 @@ public class PetitionLocalServiceUtil {
 		return getService().getByGroupId(groupId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getByPublikUserID(
+		java.lang.String publikId) {
+		return getService().getByPublikUserID(publikId);
+	}
+
 	public static java.util.List<eu.strasbourg.service.project.model.Petition> getPetitionByPublikUserID(
 		java.lang.String publikId) {
 		return getService().getPetitionByPublikUserID(publikId);

@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_URL_PARAM;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
@@ -63,7 +64,6 @@ public class SignPetitionActionCommand implements MVCActionCommand {
     private String phone;
     private String mobile;
     private String lastname;
-    private String firstname;
     private String email;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -90,14 +90,13 @@ public class SignPetitionActionCommand implements MVCActionCommand {
 
             user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
             birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-            address = ParamUtil.getString(request, "address");
-            city = ParamUtil.getString(request, "city");
+            address = escapeHtml4(ParamUtil.getString(request, "address"));
+            city = escapeHtml4(ParamUtil.getString(request, "city"));
             postalcode = ParamUtil.getLong(request, "postalcode");
-            phone = ParamUtil.getString(request, "phone");
-            mobile = ParamUtil.getString(request, "mobile");
-            lastname = ParamUtil.getString(request, "username");
-            firstname = ParamUtil.getString(request, "firstname");
-            email = ParamUtil.getString(request, "mail");
+            phone = escapeHtml4(ParamUtil.getString(request, "phone"));
+            mobile = escapeHtml4(ParamUtil.getString(request, "mobile"));
+            lastname = escapeHtml4(ParamUtil.getString(request, "username"));
+            email = escapeHtml4(ParamUtil.getString(request, "mail"));
 
             boolean isValid = validate(request);
             if (!isValid)
@@ -189,8 +188,8 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             message = "la p&eacute;tition est null";
         }
         List<Signataire> signataireList = SignataireLocalServiceUtil.
-                findSignatairesByPetitionIdAndSignataireName(petition.getPetitionId(), user.getLastName());
-        Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getUserId() == signataire.getUserId()).findAny().orElse(null);
+                findSignatairesByPetitionIdAndPublikUserId(petition.getPetitionId(), user.getPublikId());
+        Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getPublikId().equals(signataire.getPublikUserId())).findAny().orElse(null);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime birthTime = new Timestamp(birthday.getTime()).toLocalDateTime();
         long period = ChronoUnit.YEARS.between(birthTime,now);

@@ -352,6 +352,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Demande si l'utilisateur demandé suit le projet
+	*/
+	@Override
+	public boolean isUserFollows(java.lang.String publikUserId) {
+		return _project.isUserFollows(publikUserId);
+	}
+
+	/**
 	* Retourne l'asset category du projet (normalement du même non que le projet)
 	*/
 	@Override
@@ -376,8 +384,9 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* Retourne la version JSON de l'entité
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _project.toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId) {
+		return _project.toJSON(publikUserId);
 	}
 
 	@Override
@@ -636,6 +645,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _project.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	@Override
+	public java.lang.String getThematicsLabel(java.util.Locale locale) {
+		return _project.getThematicsLabel(locale);
 	}
 
 	/**

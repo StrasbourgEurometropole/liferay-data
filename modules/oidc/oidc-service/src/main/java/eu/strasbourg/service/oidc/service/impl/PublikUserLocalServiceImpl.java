@@ -14,9 +14,6 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -30,7 +27,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
@@ -38,6 +34,10 @@ import eu.strasbourg.service.notification.service.UserNotificationStatusLocalSer
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the publik user local service.
@@ -256,6 +256,20 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 
 
 		return user;
+	}
+
+	private List<PublikUser> getUserHasSignedPacte(){
+		List<PublikUser> publikUserList = getAllPublikUsers();
+		return publikUserList.stream().filter(publikUser -> publikUser.getPactSignature()!=null).collect(Collectors.toList());
+	}
+
+	/**
+	 * méthode permettant de récupererer le nombre de signataire.
+	 * @return le nombre de signataire.
+	 */
+	public long getCountUserHasSignedPacte(){
+		List<PublikUser> publikUserList = getUserHasSignedPacte();
+		return publikUserList.size();
 	}
 
 }

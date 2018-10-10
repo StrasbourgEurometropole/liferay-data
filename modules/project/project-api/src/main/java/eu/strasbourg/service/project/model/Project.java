@@ -173,6 +173,11 @@ public interface Project extends ProjectModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
 	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
+
+	/**
 	* Retourne les commentaires de l'entité
 	*/
 	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
@@ -183,7 +188,13 @@ public interface Project extends ProjectModel, PersistedModel {
 	public int getNbApprovedComments();
 
 	/**
+	* Demande si l'utilisateur demandé suit le projet
+	*/
+	public boolean isUserFollows(java.lang.String publikUserId);
+
+	/**
 	* Retourne la version JSON de l'entité
 	*/
-	public com.liferay.portal.kernel.json.JSONObject toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId);
 }

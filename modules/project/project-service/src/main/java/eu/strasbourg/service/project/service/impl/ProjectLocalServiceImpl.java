@@ -336,7 +336,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	@Override
 	public List<Project> findProjectFollowedByProjectId(String publicId){
 		List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);
-		return projectFolloweds.stream().map(project -> {
+		List<Project> projectList = projectFolloweds.stream().map(project -> {
 			Project result = null;
 			try {
 				result = projectLocalService.getProject(project.getProjectId());
@@ -345,6 +345,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			}
 			return result;
 		}).collect(Collectors.toList());
+		return projectList.stream().filter(project -> project.isApproved()).collect(Collectors.toList());
 	}
 
 	/**

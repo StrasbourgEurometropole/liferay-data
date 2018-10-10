@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -15,18 +16,22 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.EventParticipationLocalService;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.office.exporter.api.HistoricPublikUserTextExporter;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 
 @Component(immediate = true, property = {}, service = HistoricPublikUserTextExporter.class)
 public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTextExporter {
@@ -38,27 +43,34 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 			PublikUser publikUser = PublikUserLocalServiceUtil.fetchPublikUser(publikUserIdsStr);
 			if (publikUser != null) {
 				try {
+					String ligne = "Historique d'action de : " + publikUser.getFirstName() + " "
+							+ publikUser.getLastName();
+					os.write(ligne.getBytes());
+					os.write(System.getProperty("line.separator").getBytes());
+					os.write(System.getProperty("line.separator").getBytes());
+
 					// Récupération du pacte
 					if (Validator.isNotNull(publikUser.getPactSignature())) {
 						DateFormat df = DateFormat.getDateInstance(DateFormat.FULL);
-						String ligne = "Pacte signé le : " + df.format(publikUser.getPactSignature());
+						ligne = "Pacte signé le : " + df.format(publikUser.getPactSignature());
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 					}
 
 					// Récupération des projets suivis
-					List<ProjectFollowed> projectsFollowed = ProjectFollowedLocalServiceUtil.getByPublikId(publikUser.getPublikId()).stream()
+					List<ProjectFollowed> projectsFollowed = ProjectFollowedLocalServiceUtil
+							.getByPublikId(publikUser.getPublikId()).stream()
 							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!projectsFollowed.isEmpty()) {
-						String ligne = "Projets suivis :";
+						ligne = "Projet(s) suivi(s) :";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (ProjectFollowed projectFollowed : projectsFollowed) {
 							// récupération du projet
 							Project project = ProjectLocalServiceUtil.fetchProject(projectFollowed.getProjectId());
-							if(Validator.isNotNull(project)) {
+							if (Validator.isNotNull(project)) {
 								ligne = projectFollowed.getCreateDate() + " - " + project.getTitle();
 							} else {
 								ligne = projectFollowed.getCreateDate() + " - " + projectFollowed.getProjectId();
@@ -70,24 +82,67 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 					}
 
 					// Récupération des participation à des évènements
-					List<EventParticipation> eventParticipations = EventParticipationLocalServiceUtil.getByPublikUser(publikUser.getPublikId()).stream()
+					List<EventParticipation> eventParticipations = EventParticipationLocalServiceUtil
+							.getByPublikUser(publikUser.getPublikId()).stream()
 							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!eventParticipations.isEmpty()) {
-						String ligne = "Participation à des évènements :";
+						ligne = "Participation(s) aux évènements :";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (EventParticipation eventParticipation : eventParticipations) {
 							// récupération de l'évènement
 							Event event = EventLocalServiceUtil.fetchEvent(eventParticipation.getEventId());
-							if(Validator.isNotNull(event)) {
-								ligne = eventParticipation.getCreateDate() + " - " + event.getTitle();
+							if (Validator.isNotNull(event)) {
+								ligne = eventParticipation.getCreateDate() + " - " + event.getTitle(Locale.FRANCE);
 							} else {
 								ligne = eventParticipation.getCreateDate() + " - " + eventParticipation.getEventId();
 							}
 							os.write(ligne.getBytes());
 							os.write(System.getProperty("line.separator").getBytes());
 						}
+						os.write(System.getProperty("line.separator").getBytes());
+					}
+
+					// Récupération des pétitions
+					List<Petition> petitions = PetitionLocalServiceUtil.getByPublikUserID(publikUser.getPublikId())
+							.stream().sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
+							.collect(Collectors.toList());
+					if (!petitions.isEmpty()) {
+						ligne = "Pétition(s) :";
+						os.write(ligne.getBytes());
+						os.write(System.getProperty("line.separator").getBytes());
+						for (Petition petition : petitions) {
+							ligne = petition.getCreateDate() + " - " + petition.getTitle();
+							if (petition.isApproved())
+								ligne += " : Approuvé";
+							os.write(ligne.getBytes());
+							os.write(System.getProperty("line.separator").getBytes());
+						}
+						os.write(System.getProperty("line.separator").getBytes());
+					}
+
+					// Récupération des signatures aux pétitions
+					List<Signataire> signataires = SignataireLocalServiceUtil
+							.getSignataireByPublikId(publikUser.getPublikId()).stream()
+							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
+							.collect(Collectors.toList());
+					if (!signataires.isEmpty()) {
+						ligne = "Pétition(s) signée(s) :";
+						os.write(ligne.getBytes());
+						os.write(System.getProperty("line.separator").getBytes());
+						for (Signataire signataire : signataires) {
+							// récupération de l'évènement
+							Petition petition = PetitionLocalServiceUtil.fetchPetition(signataire.getPetitionId());
+							if (Validator.isNotNull(petition)) {
+								ligne = signataire.getCreateDate() + " - " + petition.getTitle();
+							} else {
+								ligne = signataire.getCreateDate() + " - " + signataire.getPetitionId();
+							}
+							os.write(ligne.getBytes());
+							os.write(System.getProperty("line.separator").getBytes());
+						}
+						os.write(System.getProperty("line.separator").getBytes());
 					}
 
 					// Récupération des commentaires
@@ -95,11 +150,30 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!comments.isEmpty()) {
-						String ligne = "Commentaires :";
+						ligne = "Commentaire(s) :";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (Comment comment : comments) {
-							ligne = comment.getCreateDate() + " - " + comment.getComment();
+							ligne = comment.getCreateDate() + " - " + comment.getComment() + " - "
+									+ comment.getAssetEntryTitle();
+							os.write(ligne.getBytes());
+							os.write(System.getProperty("line.separator").getBytes());
+						}
+						os.write(System.getProperty("line.separator").getBytes());
+					}
+
+					// Récupération des likes/dislikes
+					List<Like> likes = LikeLocalServiceUtil.getByPublikUser(publikUser.getPublikId());
+					if (!likes.isEmpty()) {
+						ligne = "Like(s)/Dislike(s) :";
+						os.write(ligne.getBytes());
+						os.write(System.getProperty("line.separator").getBytes());
+						for (Like like : likes) {
+							ligne = like.getTitle() + " - ";
+							if (like.isIsDislike())
+								ligne += "n'aime pas";
+							else
+								ligne += "aime";
 							os.write(ligne.getBytes());
 							os.write(System.getProperty("line.separator").getBytes());
 						}
