@@ -10,7 +10,8 @@
 
     <#if entries?has_content>
          <div class="row">
-            <div class="small-container">
+            <div class="small-container mns-thematiques">
+                <h2><@liferay_ui.message key="eu.thematics" /></h2>
                 <div class="row mns-p-wrapper-list-actu" data-egalize=".mns-bloc-actu > a">
                 <#list entries as currentPage>
                     <div class="col-sm-4 col-xs-12">
