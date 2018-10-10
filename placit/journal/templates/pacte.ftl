@@ -141,168 +141,25 @@
                 <div class="col-xs-12"><h2>Les articles du Pacte</h2></div>
 
                 <div class="panel-group col-sm-9" id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h3 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" title="Nom de l'article">
-                                    Article 1 : le droit de participer
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                <p>Le pacte garantit le droit pour les citoyens-nes d’agir dans les domaines relevant des compétences de la Ville.</p>
-                                <h4>Le droit de pétition citoyenne</h4>
-                                <p>Le pacte reconnaît le droit pour les citoyens-nes de déposer une pétition.</p>
-                                <p>Si celle-ci recueille le nombre de signatures requis, elle fera l’objet d’un débat et d’un vote en conseil municipal.</p>
-                                <p>Les modalités de mise en œuvre des pétitions citoyennes feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet
-                                    citoyen.</p>
-                                <h4>Le droit à un budget participatif</h4>
-                                <p>La Ville s’engage à mettre en place un budget participatif permettant la réalisation de projets d’initiative citoyenne.</p>
-                                <p>Les modalités de mise en œuvre du budget participatif feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet citoyen.</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h3 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" title="Nom de l'article">
-                                    Article 2 : le droit d’agir
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                            <div class="panel-body">
-                                <p>Le pacte garantit le droit pour les citoyens-nes d’agir dans les domaines relevant des compétences de la Ville.</p>
-                                <h4>Le droit de pétition citoyenne</h4>
-                                <p>Le pacte reconnaît le droit pour les citoyens-nes de déposer une pétition.</p>
-                                <p>Si celle-ci recueille le nombre de signatures requis, elle fera l’objet d’un débat et d’un vote en conseil municipal.</p>
-                                <p>Les modalités de mise en œuvre des pétitions citoyennes feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet
-                                    citoyen.</p>
-                                <h4>Le droit à un budget participatif</h4>
-                                <p>La Ville s’engage à mettre en place un budget participatif permettant la réalisation de projets d’initiative citoyenne.</p>
-                                <p>Les modalités de mise en œuvre du budget participatif feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet citoyen.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <#list articleTitle.getSiblings() as cur_title>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h3 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" title="Nom de l'article">
-                                    Article 3 : le droit d’initiative citoyenne
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                            <div class="panel-body">
-                                <p>Le pacte garantit le droit pour les citoyens-nes d’agir dans les domaines relevant des compétences de la Ville.</p>
-                                <h4>Le droit de pétition citoyenne</h4>
-                                <p>Le pacte reconnaît le droit pour les citoyens-nes de déposer une pétition.</p>
-                                <p>Si celle-ci recueille le nombre de signatures requis, elle fera l’objet d’un débat et d’un vote en conseil municipal.</p>
-                                <p>Les modalités de mise en œuvre des pétitions citoyennes feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet
-                                    citoyen.</p>
-                                <h4>Le droit à un budget participatif</h4>
-                                <p>La Ville s’engage à mettre en place un budget participatif permettant la réalisation de projets d’initiative citoyenne.</p>
-                                <p>Les modalités de mise en œuvre du budget participatif feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet citoyen.</p>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading${cur_title?index}">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${cur_title?index}" aria-expanded="true" aria-controls="collapse${cur_title?index}" title="Nom de l'article">
+                                        ${cur_title.getData()}
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse${cur_title?index}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading${cur_title?index}">
+                                <div class="panel-body">
+                                    ${cur_title.getChild("articleContent").getData()}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingFour">
-                            <h3 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour" title="Nom de l'article">
-                                    Article 4 : le droit à l’accès au numérique
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                            <div class="panel-body">
-                                <p>Le pacte garantit le droit pour les citoyens-nes d’agir dans les domaines relevant des compétences de la Ville.</p>
-                                <h4>Le droit de pétition citoyenne</h4>
-                                <p>Le pacte reconnaît le droit pour les citoyens-nes de déposer une pétition.</p>
-                                <p>Si celle-ci recueille le nombre de signatures requis, elle fera l’objet d’un débat et d’un vote en conseil municipal.</p>
-                                <p>Les modalités de mise en œuvre des pétitions citoyennes feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet
-                                    citoyen.</p>
-                                <h4>Le droit à un budget participatif</h4>
-                                <p>La Ville s’engage à mettre en place un budget participatif permettant la réalisation de projets d’initiative citoyenne.</p>
-                                <p>Les modalités de mise en œuvre du budget participatif feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet citoyen.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingFive">
-                            <h3 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive" title="Nom de l'article">
-                                    Article 5 : l’Europe de Strasbourg
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
-                            <div class="before"></div>
-                            <div class="panel-body">
-                                <p>Le pacte garantit le droit pour les citoyens-nes d’agir dans les domaines relevant des compétences de la Ville.</p>
-                                <h4>Le droit de pétition citoyenne</h4>
-                                <p>Le pacte reconnaît le droit pour les citoyens-nes de déposer une pétition.</p>
-                                <p>Si celle-ci recueille le nombre de signatures requis, elle fera l’objet d’un débat et d’un vote en conseil municipal.</p>
-                                <p>Les modalités de mise en œuvre des pétitions citoyennes feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet
-                                    citoyen.</p>
-                                <h4>Le droit à un budget participatif</h4>
-                                <p>La Ville s’engage à mettre en place un budget participatif permettant la réalisation de projets d’initiative citoyenne.</p>
-                                <p>Les modalités de mise en œuvre du budget participatif feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet citoyen.</p>
-                            </div>
-                            <div class="after"></div>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingSix">
-                            <h3 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix" title="Nom de l'article">
-                                    Article 6 : les actrices et les acteurs du pacte
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
-                            <div class="panel-body">
-                                <p>Le pacte garantit le droit pour les citoyens-nes d’agir dans les domaines relevant des compétences de la Ville.</p>
-                                <h4>Le droit de pétition citoyenne</h4>
-                                <p>Le pacte reconnaît le droit pour les citoyens-nes de déposer une pétition.</p>
-                                <p>Si celle-ci recueille le nombre de signatures requis, elle fera l’objet d’un débat et d’un vote en conseil municipal.</p>
-                                <p>Les modalités de mise en œuvre des pétitions citoyennes feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet
-                                    citoyen.</p>
-                                <h4>Le droit à un budget participatif</h4>
-                                <p>La Ville s’engage à mettre en place un budget participatif permettant la réalisation de projets d’initiative citoyenne.</p>
-                                <p>Les modalités de mise en œuvre du budget participatif feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet citoyen.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingSeven">
-                            <h3 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" title="Nom de l'article">
-                                    Article 7 : exécution du pacte
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
-                            <div class="panel-body">
-                                <p>Le pacte garantit le droit pour les citoyens-nes d’agir dans les domaines relevant des compétences de la Ville.</p>
-                                <h4>Le droit de pétition citoyenne</h4>
-                                <p>Le pacte reconnaît le droit pour les citoyens-nes de déposer une pétition.</p>
-                                <p>Si celle-ci recueille le nombre de signatures requis, elle fera l’objet d’un débat et d’un vote en conseil municipal.</p>
-                                <p>Les modalités de mise en œuvre des pétitions citoyennes feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet
-                                    citoyen.</p>
-                                <h4>Le droit à un budget participatif</h4>
-                                <p>La Ville s’engage à mettre en place un budget participatif permettant la réalisation de projets d’initiative citoyenne.</p>
-                                <p>Les modalités de mise en œuvre du budget participatif feront l’objet d’une délibération co-construite avec les citoyens-nes dans le cadre du Sommet citoyen.</p>
-                            </div>
-                        </div>
-                    </div>
+                    </#list>
 
                 </div>
 
