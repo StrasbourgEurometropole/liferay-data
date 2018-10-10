@@ -160,6 +160,7 @@
                         <li><a href="page-standard-cover-video.html" title="Lien vers la page des pétitions citoyennes">Pétitions
                             citoyennes</a></li>
                         <li><a href="page-standard.html" title="Lien vers la page Avertir">Avertir</a></li>
+                        <li><a href="plan-du-site" title="Lien vers le plan du site">Plan du site</a></li>
                     </ul>
                 </div>
             </div>
