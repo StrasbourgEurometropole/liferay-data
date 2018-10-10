@@ -223,6 +223,47 @@ public class AdictServiceImpl implements AdictService {
     }
 
     /**
+     * Retourne les coordonnées des quartiers
+     */
+    @Override
+    public JSONObject getCoordinatesForDistrict() {
+        JSONObject json = null;
+        try {
+            String adictSectorBaseURL = StrasbourgPropsUtil.getAdictSectorBaseURL();
+            adictSectorBaseURL= "http://adict.strasbourg.eu/api/v1.0/secteurs?token=aa72a01e643db472f3e7843ac1f3e48c";
+            json = JSONHelper.readJsonFromURL(
+                    adictSectorBaseURL + "&srid=4326&sector_type=quartier_elus&radius=-1");
+        } catch (Exception e) {
+            log.error(e);
+        }
+
+        return json;
+    }
+
+    /**
+     * Retourne les coordonnées d'un quartier
+     */
+    @Override
+    public JSONObject getCoordinatesForDistrict(String sigID) {
+        JSONObject json = null;
+        try {
+            JSONArray features = getCoordinatesForDistrict().getJSONArray("features");
+            for (int i = 0; i < features.length(); i++) {
+                JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
+                String description = properties.getString("description");
+                if(sigID.equals(description)){
+                    json = features.getJSONObject(i);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            log.error(e);
+        }
+
+        return json;
+    }
+
+    /**
      * Retourne les segments d'info-trafic
      */
     @Override

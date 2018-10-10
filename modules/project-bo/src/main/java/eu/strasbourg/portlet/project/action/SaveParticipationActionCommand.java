@@ -1,18 +1,5 @@
 package eu.strasbourg.portlet.project.action;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -26,12 +13,22 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component(
 	immediate = true,
@@ -88,10 +85,6 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Titre
 			String title = ParamUtil.getString(request, "title");
 			participation.setTitle(title);
-
-			// Auteur
-			String author = ParamUtil.getString(request, "author");
-			participation.setAuthor(author);
 			
 			// ---------------------------------------------------------------
 			// -------------------------- CONTACT ----------------------------
@@ -278,12 +271,6 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
-		// Auteur
-		if (Validator.isNull(ParamUtil.getString(request, "author"))) {
-			SessionErrors.add(request, "author-error");
-			isValid = false;
-		}
-		
 		// Date de publication
 		if (Validator.isNull(ParamUtil.getDate(request, "publicationDate", dateFormat))) {
 			SessionErrors.add(request, "publicationDate-error");

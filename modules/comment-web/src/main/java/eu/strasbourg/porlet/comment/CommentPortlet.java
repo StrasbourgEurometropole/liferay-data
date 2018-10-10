@@ -55,6 +55,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
 /**
  * @author romain.vergnais
  */
@@ -203,7 +205,7 @@ public class CommentPortlet extends MVCPortlet {
 					comment.setAssetEntryId(entryID);
 					comment.setUrlProjectCommentaire(url.toString());
 					comment.setUserName(comment.getFullPublikUserName());
-					comment.setComment(message);
+					comment.setComment(escapeHtml4(message));
 					comment.setUserQuality(userQuality);
 
 					// Si le message est une reponse
@@ -231,7 +233,7 @@ public class CommentPortlet extends MVCPortlet {
 				}
 				
 				// Redirection (évite double requête POST si l'utilisateur actualise sa page)
-		        response.sendRedirect(redirectURL);
+		        response.sendRedirect(redirectURL + "#" + comment.getCommentId());
 				
 			}
 		} catch (Exception e) {
@@ -248,10 +250,9 @@ public class CommentPortlet extends MVCPortlet {
 		String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
 		
         Comment comment = _commentLocalService.getComment(ParamUtil.getLong(request, "commentId"));
-        if (isSameUser(request,comment)){
-            comment.setStatus(WorkflowConstants.STATUS_DENIED);
-            _commentLocalService.updateComment(comment);
-        }
+
+        comment.setStatus(WorkflowConstants.STATUS_DENIED);
+        _commentLocalService.updateComment(comment);
         
         response.sendRedirect(redirectURL);
 	}
@@ -276,7 +277,7 @@ public class CommentPortlet extends MVCPortlet {
         AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
         SignalementLocalServiceUtil.updateSignalement(signalement,sc,userPublikId);
         
-        response.sendRedirect(redirectURL);
+        response.sendRedirect(redirectURL  + "#" + comment.getCommentId());
     }
 
 	/**
@@ -472,7 +473,7 @@ public class CommentPortlet extends MVCPortlet {
 		
 		return true;
 	}
-	
+
 	@Reference(unbind = "-")
 	protected void setCommentLocalService(CommentLocalService commentLocalService) {
 		_commentLocalService = commentLocalService;

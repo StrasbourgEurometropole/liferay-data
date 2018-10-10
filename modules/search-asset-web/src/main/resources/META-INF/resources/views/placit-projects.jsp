@@ -30,22 +30,21 @@
 
             <!-- Résultat -->
             <aui:form method="post" name="fm">
-                    <div class="col-md-9 pro-wrapper-listing-video">
-                        <div class="pro-wrapper">
-                            <h2><liferay-ui:message key="eu.all-projects" /></h2>
-                            <div class="pro-sort pro-dropdown">
-                                <a href="#">Tri A-Z</a>
-                                <ul>
-                                    <li><a href="javascript:sortVideo('asc');">Tri A-Z</a></li>
-                                    <li><a href="javascript:sortVideo('desc');">Tri Z-A</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="row pro-listing-video pro-listing-project" data-egalize="> * > a">
+                <div class="col-md-9 pro-wrapper-listing-video">
+                    <div class="pro-wrapper">
+                        <h2><liferay-ui:message key="eu.all-projects" /></h2>
+                        <div class="pro-sort pro-dropdown">
+                            <a id="sortType" href="#">Tri A-Z</a>
+                            <ul>
+                                <li><a href="javascript:sortVideo('asc');">Tri A-Z</a></li>
+                                <li><a href="javascript:sortVideo('desc');">Tri Z-A</a></li>
+                            </ul>
                         </div>
                     </div>
 
+                    <div class="row pro-listing-video pro-listing-project" data-egalize="> * > a">
+                    </div>
+                </div>
             </aui:form>
         </div>
     </section>

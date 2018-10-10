@@ -1,14 +1,36 @@
-Lors d'une livraison du thème par thuria, il y a quelques fichiers à ne pas écraser :
+Lors d'une livraison du thème par thuria, il y a quelques fichiers à ne pas écraser ou supprimer :
 
 Les librairies js suivantes :
 
 - js/libs/jquery.selectric.min.js
 - js/libs/pikaday.js
 - js/libs/owlcarousel2-a11ylayer.js
+- js/libs-plugins/*
 - js/src-1/bloc-pickaday.js
 - custom/overide.js
 
 Le point d'entré sass strasbourg.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
+
+Le fichier js/src/scipt.js
+    Le code suivant a été commenté afin de gérer individuellement les actions sur les boutons d'intéraction
+
+    $('.pro-bloc-card-event').on('click',function(e){
+        e.preventDefault();
+       $(this).find('pro-btn-action').toggleClass('active');
+    });
+
+    $('.pro-btn-signer').on('click',function(e){
+        e.preventDefault();
+       $(this).toggleClass('active');
+    });
+
+
+    // Call To Action -- Ajout de la Classe Active
+    $('.pro-btn-action').on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).toggleClass('active');
+    });
 
 
 Le fichier js/src-1/bloc-prefooter.js :
@@ -50,26 +72,6 @@ Le fichier js/src-1/bloc-vignette.js :
         $(this).toggleClass('active');
     });
 
-Le fichier js/src/scipt.js
-    Le code suivant a été commenté afin de gérer individuellement les actions sur les boutons d'intéraction
-
-    $('.pro-bloc-card-event').on('click',function(e){
-        e.preventDefault();
-       $(this).find('pro-btn-action').toggleClass('active');
-    });
-
-    $('.pro-btn-signer').on('click',function(e){
-        e.preventDefault();
-       $(this).toggleClass('active');
-    });
-
-
-    // Call To Action -- Ajout de la Classe Active
-    $('.pro-btn-action').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).toggleClass('active');
-    });
 
 Le fichier js/src-1/bloc-pickaday.js
     Le code suivant a été complété afin de gérer la recherche en ajax

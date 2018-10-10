@@ -66,7 +66,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -94,8 +94,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
-		sb.append(", author=");
-		sb.append(author);
 		sb.append(", contactName=");
 		sb.append(contactName);
 		sb.append(", contactLine1=");
@@ -192,13 +190,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		}
 		else {
 			participationImpl.setTitle(title);
-		}
-
-		if (author == null) {
-			participationImpl.setAuthor(StringPool.BLANK);
-		}
-		else {
-			participationImpl.setAuthor(author);
 		}
 
 		if (contactName == null) {
@@ -329,7 +320,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		author = objectInput.readUTF();
 		contactName = objectInput.readUTF();
 		contactLine1 = objectInput.readUTF();
 		contactLine2 = objectInput.readUTF();
@@ -396,13 +386,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		}
 		else {
 			objectOutput.writeUTF(title);
-		}
-
-		if (author == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(author);
 		}
 
 		if (contactName == null) {
@@ -510,7 +493,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
-	public String author;
 	public String contactName;
 	public String contactLine1;
 	public String contactLine2;

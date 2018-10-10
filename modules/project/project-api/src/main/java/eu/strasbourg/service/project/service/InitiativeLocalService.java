@@ -251,6 +251,8 @@ public interface InitiativeLocalService extends BaseLocalService,
 	public List<Initiative> findByKeyword(java.lang.String keyword,
 		long groupId, int start, int end);
 
+	public List<Initiative> findByPublikUserId(java.lang.String publikUserId);
+
 	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/

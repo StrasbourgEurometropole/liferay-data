@@ -1,22 +1,5 @@
 package eu.strasbourg.portlet.contact.action;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -33,177 +16,210 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.osgi.service.component.annotations.Component;
 
-@Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.CONTACT_FORM_WEB,
-		"mvc.command.name=contact" }, service = MVCActionCommand.class)
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
+@Component(immediate = true, property = {"javax.portlet.name=" + StrasbourgPortletKeys.CONTACT_FORM_WEB,
+        "mvc.command.name=contact"}, service = MVCActionCommand.class)
 public class ContactFormContactAction implements MVCActionCommand {
 
-	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
+    private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-	@Override
-	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		ContactFormConfiguration portletConfiguration = null;
-		try {
-			portletConfiguration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(ContactFormConfiguration.class);
-		} catch (ConfigurationException e) {
-			SessionErrors.add(request, "unknown-error");
-			return false;
-		}
+    @Override
+    public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        ContactFormConfiguration portletConfiguration = null;
+        try {
+            portletConfiguration = themeDisplay.getPortletDisplay()
+                    .getPortletInstanceConfiguration(ContactFormConfiguration.class);
+        } catch (ConfigurationException e) {
+            SessionErrors.add(request, "unknown-error");
+            return false;
+        }
 
-		// On récupère les informations du mail à envoyer
-		String emailFrom = ParamUtil.getString(request, "emailFrom");
-		String emailTo = portletConfiguration.email();
-		String content = ParamUtil.getString(request, "content");
-		String firstName = ParamUtil.getString(request, "firstName");
-		String lastName = ParamUtil.getString(request, "lastName");
+        // On récupère les informations du mail à envoyer
+        String emailFrom = escapeHtml4(ParamUtil.getString(request, "emailFrom"));
+        String emailTo = portletConfiguration.email();
+        String content = escapeHtml4(ParamUtil.getString(request, "content"));
+        String firstName = escapeHtml4(ParamUtil.getString(request, "firstName"));
+        String lastName = escapeHtml4(ParamUtil.getString(request, "lastName"));
+        String object = escapeHtml4(ParamUtil.getString(request, "contact.object"));
+        String phone = escapeHtml4(ParamUtil.getString(request, "contact.phone"));
+        //adaptation du formulaire pour placit
+        if (emailFrom==null||emailFrom.isEmpty())
+            emailFrom = escapeHtml4(ParamUtil.getString(request, "contact.mail"));
+        if (content==null||content.isEmpty())
+            content = escapeHtml4(ParamUtil.getString(request, "contact.request"));
+        if (firstName==null||firstName.isEmpty())
+            firstName = escapeHtml4(ParamUtil.getString(request, "contact.firstname"));
+        if (lastName==null||lastName.isEmpty())
+            lastName = escapeHtml4(ParamUtil.getString(request, "contact.lastname"));
 
-		// Validation
-		boolean hasError = false;
-		String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
-		if (!RecaptchaHelper.verify(gRecaptchaResponse)) {
-			// Recaptcha
-			SessionErrors.add(request, "recaptcha-error");
-			hasError = true;
-		}
-		if (Validator.isNull(emailFrom)) {
-			// Email obligatoires
-			SessionErrors.add(request, "email-error");
-			hasError = true;
-		}
-		if (Validator.isNull(firstName)) {
-			// Prénom obligatoires
-			SessionErrors.add(request, "firstname-error");
-			hasError = true;
-		}
-		if (Validator.isNull(lastName)) {
-			// Nom obligatoires
-			SessionErrors.add(request, "lastname-error");
-			hasError = true;
-		}
-		if (Validator.isNull(content)) {
-			// Message obligatoires
-			SessionErrors.add(request, "content-error");
-			hasError = true;
-		}
-		if (!Validator.isEmailAddress(emailFrom)) {
-			// Validité de l'adresse mail
-			SessionErrors.add(request, "invalid-mail");
-			hasError = true;
-		}
-		if (hasError) {
-			return false;
-		}
 
-		// Envoi du mail au service
-		Map<String, Object> context = new HashMap<>();
-		context.put("website", themeDisplay.getScopeGroup().getName(request.getLocale()));
-		String formName = LocalizationUtil.getLocalization(portletConfiguration.title(),
-				LocaleUtil.toLanguageId(themeDisplay.getLocale()));
-		context.put("formName", formName);
-		context.put("firstName", firstName);
-		context.put("lastName", lastName);
-		context.put("content", content);
-		context.put("emailFrom", emailFrom);
+        // Validation
+        boolean hasError = false;
+        String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+        String placit= ParamUtil.getString(request, "placit");
+        if (placit.isEmpty()&&!RecaptchaHelper.verify(gRecaptchaResponse)) {
+            // Recaptcha
+            SessionErrors.add(request, "recaptcha-error");
+            hasError = true;
+        }
+        if (Validator.isNull(emailFrom)) {
+            // Email obligatoires
+            SessionErrors.add(request, "email-error");
+            hasError = true;
+        }
+        if (Validator.isNull(firstName)) {
+            // Prénom obligatoires
+            SessionErrors.add(request, "firstname-error");
+            hasError = true;
+        }
+        if (Validator.isNull(lastName)) {
+            // Nom obligatoires
+            SessionErrors.add(request, "lastname-error");
+            hasError = true;
+        }
+        if (Validator.isNull(content)) {
+            // Message obligatoires
+            SessionErrors.add(request, "content-error");
+            hasError = true;
+        }
+        if (!Validator.isEmailAddress(emailFrom)) {
+            // Validité de l'adresse mail
+            SessionErrors.add(request, "invalid-mail");
+            hasError = true;
+        }
+        if (hasError) {
+            return false;
+        }
 
-		LocalDateTime dateTime = LocalDateTime.now();
-		String date = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		String time = dateTime.format(DateTimeFormatter.ofPattern("hh:mm"));
-		context.put("date", date);
-		context.put("time", time);
+        // Envoi du mail au service
+        Map<String, Object> context = new HashMap<>();
+        context.put("website", themeDisplay.getScopeGroup().getName(request.getLocale()));
+        String formName = LocalizationUtil.getLocalization(portletConfiguration.title(),
+                LocaleUtil.toLanguageId(themeDisplay.getLocale()));
+        context.put("formName", formName);
+        context.put("firstName", firstName);
+        context.put("lastName", lastName);
+        context.put("content", content);
+        context.put("emailFrom", emailFrom);
+        if (object != null && !object.isEmpty())
+            context.put("object", object);
+        if (phone != null && !phone.isEmpty())
+            context.put("phone", phone);
 
-		Configuration configuration = new Configuration(Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-		boolean success = false;
-		try {
-			Template subjectTemplate = configuration.getTemplate("contact-mail-subject.ftl");
-			Template bodyTemplate = configuration.getTemplate("contact-mail-body.ftl");
-			StringWriter subjectWriter = new StringWriter();
-			StringWriter bodyWriter = new StringWriter();
-			subjectTemplate.process(context, subjectWriter);
-			bodyTemplate.process(context, bodyWriter);
+        LocalDateTime dateTime = LocalDateTime.now();
+        String date = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String time = dateTime.format(DateTimeFormatter.ofPattern("hh:mm"));
+        context.put("date", date);
+        context.put("time", time);
 
-			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
-					themeDisplay.getScopeGroup().getName(request.getLocale()));
+        Configuration configuration = new Configuration(Configuration.getVersion());
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
+        configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+        boolean success = false;
+        try {
+            Template subjectTemplate = configuration.getTemplate("contact-mail-subject.ftl");
+            Template bodyTemplate = configuration.getTemplate("contact-mail-body.ftl");
+            StringWriter subjectWriter = new StringWriter();
+            StringWriter bodyWriter = new StringWriter();
+            subjectTemplate.process(context, subjectWriter);
+            bodyTemplate.process(context, bodyWriter);
 
-			InternetAddress[] toAddresses = new InternetAddress[0];
-			for (String toAddress : emailTo.split(",")) {
-				try {
-					InternetAddress address = new InternetAddress(toAddress);
-					toAddresses = ArrayUtil.append(toAddresses, address);
-				} catch (AddressException ex) {
-					log.error(ex);
-				}
-			}
-			success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
-		} catch (Exception e) {
-			log.error(e);
-		}
-		if (success) {
-			SessionMessages.add(request, "mail-success");
-		} else {
-			SessionErrors.add(request, "unknown-error");
-			return false;
-		}
+            InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+                    themeDisplay.getScopeGroup().getName(request.getLocale()));
 
-		// Envoi du mail au destinataire
-		boolean sendCopy = ParamUtil.getBoolean(request, "sendCopy");
-		if (sendCopy) {
-			ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
-			try {
-				String headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
-				String footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
-				context.put("headerImage", headerImage);
-				context.put("footerImage", footerImage);
-			} catch (Exception ex) {
-				log.error("Missing expando field");
-			}
+            InternetAddress[] toAddresses = new InternetAddress[0];
+            for (String toAddress : emailTo.split(",")) {
+                try {
+                    InternetAddress address = new InternetAddress(toAddress);
+                    toAddresses = ArrayUtil.append(toAddresses, address);
+                } catch (AddressException ex) {
+                    log.error(ex);
+                }
+            }
+            success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
+        } catch (Exception e) {
+            log.error(e);
+        }
+        if (success) {
+            SessionMessages.add(request, "mail-success");
+        } else {
+            SessionErrors.add(request, "unknown-error");
+            return false;
+        }
 
-			try {
-				String locale = request.getLocale().toString();
-				if (!locale.equals("fr_FR") && !locale.equals("en_US") && !locale.equals("de_DE")) {
-					locale = "fr_FR";
-				}
-				Template subjectTemplate = configuration
-						.getTemplate("contact-mail-copy-subject-" + request.getLocale().toString() + ".ftl");
-				Template bodyTemplate = configuration
-						.getTemplate("contact-mail-copy-body-" + request.getLocale().toString() + ".ftl");
-				StringWriter subjectWriter = new StringWriter();
-				StringWriter bodyWriter = new StringWriter();
-				subjectTemplate.process(context, subjectWriter);
-				bodyTemplate.process(context, bodyWriter);
-				InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
-						themeDisplay.getScopeGroup().getName(request.getLocale()));
-				InternetAddress to = new InternetAddress(emailFrom);
-				InternetAddress[] toAddresses = new InternetAddress[] { to };
-				MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
+        // Envoi du mail au destinataire
+        boolean sendCopy = ParamUtil.getBoolean(request, "sendCopy");
+        if (sendCopy) {
+            ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
+            try {
+                String headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
+                String footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
+                context.put("headerImage", headerImage);
+                context.put("footerImage", footerImage);
+            } catch (Exception ex) {
+                log.error("Missing expando field");
+            }
 
-			} catch (Exception e) {
-				log.error(e);
-			}
-		}
+            try {
+                String locale = request.getLocale().toString();
+                if (!locale.equals("fr_FR") && !locale.equals("en_US") && !locale.equals("de_DE")) {
+                    locale = "fr_FR";
+                }
+                Template subjectTemplate = configuration
+                        .getTemplate("contact-mail-copy-subject-" + request.getLocale().toString() + ".ftl");
+                Template bodyTemplate = configuration
+                        .getTemplate("contact-mail-copy-body-" + request.getLocale().toString() + ".ftl");
+                StringWriter subjectWriter = new StringWriter();
+                StringWriter bodyWriter = new StringWriter();
+                subjectTemplate.process(context, subjectWriter);
+                bodyTemplate.process(context, bodyWriter);
+                InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+                        themeDisplay.getScopeGroup().getName(request.getLocale()));
+                InternetAddress to = new InternetAddress(emailFrom);
+                InternetAddress[] toAddresses = new InternetAddress[]{to};
+                MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
 
-		// Redirection (évite double requête POST si l'utilisateur actualise sa
-		// page)
-		String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-		PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
-				PortletRequest.RENDER_PHASE);
-		renderUrl.setParameter("mailSent", "true");
-		try {
-			response.sendRedirect(renderUrl.toString());
-		} catch (IOException e) {
-			log.error(e);
-		}
-		return true;
-	}
+            } catch (Exception e) {
+                log.error(e);
+            }
+        }
+
+        // Redirection (évite double requête POST si l'utilisateur actualise sa
+        // page)
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+                PortletRequest.RENDER_PHASE);
+        renderUrl.setParameter("mailSent", "true");
+        try {
+            response.sendRedirect(renderUrl.toString());
+        } catch (IOException e) {
+            log.error(e);
+        }
+        return true;
+    }
 
 }

@@ -127,6 +127,15 @@ public class ProjectFollowedLocalServiceUtil {
 	}
 
 	/**
+	* Retourne le suivi d'un utilisateur et d'un projet donné
+	*/
+	public static eu.strasbourg.service.project.model.ProjectFollowed getByPublikUserIdAndProjectId(
+		java.lang.String publikUserId, long projectId) {
+		return getService()
+				   .getByPublikUserIdAndProjectId(publikUserId, projectId);
+	}
+
+	/**
 	* Returns the project followed with the primary key.
 	*
 	* @param projectFollowedId the primary key of the project followed

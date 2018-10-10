@@ -103,8 +103,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
     @Override
     public void render(RenderRequest renderRequest,
-                       RenderResponse renderResponse)
-            throws IOException, PortletException {
+                       RenderResponse renderResponse) {
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
                     .getAttribute(WebKeys.THEME_DISPLAY);
@@ -126,7 +125,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             // On envoie a la jsp la map className / layout qui fait
             // correspondre à chaque type d'asset une page de détail
             int i = 0;
-            Map<String, Long> className_layoutId = new HashMap<String, Long>();
+            Map<String, Long> className_layoutId = new HashMap<>();
             for (String className : this._configuration.assetClassNames()
                     .split(",")) {
                 String layoutFriendlyURL = this._configuration.layoutsFriendlyURLs()
@@ -213,6 +212,8 @@ public class SearchAssetPortlet extends MVCPortlet {
             this._response = resourceResponse;
 
             String resourceID = resourceRequest.getResourceID();
+            
+            String publikUserId =  this.getPublikID(resourceRequest);
 
             // Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
             // et réaction au type de la demande
@@ -320,8 +321,6 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
                 }
 
-                long delta = this._configuration.delta();
-
                 // Recherche des vidéos
                 List<AssetEntry> entries = searchEntries();
 
@@ -346,7 +345,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
                             JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
                             jsonProject.put("class", className);
-                            json = project.toJSON();
+                            json = project.toJSON(publikUserId);
                             json.put("nbParticipations", project.getParticipations().size());
                             json.put("nbEvents", project.getEvents().size());
                             JSONArray jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
@@ -362,11 +361,10 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Participation participation = ParticipationLocalServiceUtil.fetchParticipation(entry.getClassPK());
                             JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
                             jsonParticipation.put("class", className);
-                            json = participation.toJSON();
+                            json = participation.toJSON(this._themeDisplay);
                             json.put("todayExpirationDifferenceDays", participation.getTodayExpirationDifferenceDays());
                             json.put("isJudgeable", participation.isJudgeable());
                             json.put("groupId", participation.getGroupId());
-                            HttpServletRequest request = PortalUtil.getHttpServletRequest(resourceRequest);
                             LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
                             HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
                             json.put("hasPactSigned", originalRequest.getSession().getAttribute("has_pact_signed"));
@@ -383,7 +381,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             Petition petition = PetitionLocalServiceUtil.fetchPetition(entry.getClassPK());
                             JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
                             jsonPetition.put("class", className);
-                            json = petition.toJSON();
+                            json = petition.toJSON(publikUserId);
                             jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
                             thematicCategories = petition.getThematicCategories();
                             for (AssetCategory assetCategory : thematicCategories) {
@@ -394,13 +392,6 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonPetition.put("json", json);
                             jsonEntries.put(jsonPetition);
                             break;
-                        /*case "eu.strasbourg.service.project.model.Signataire":
-                            Signataire signataire = SignataireLocalServiceUtil.fetchSignataire(entry.getClassPK());
-                            JSONObject jsonSignataire = JSONFactoryUtil.createJSONObject();
-                            jsonSignataire.put("class", className);
-                            jsonSignataire.put("json", signataire.toJSON());
-                            jsonEntries.put(jsonSignataire);
-                            break;*/
                         case "eu.strasbourg.service.video.model.Video":
                             Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
                             JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
@@ -447,7 +438,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
             } else { // pour l'export PDF
                 String exportType = this._configuration.exportType();
-                ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse, exportType);
+                ExportPDF.printPDF(resourceRequest, resourceResponse, exportType);
             }
         } catch (Exception e2) {
             _log.error(e2);
@@ -458,7 +449,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     /**
      * Effectue concrètement la recherche
      */
-    private List<AssetEntry> searchEntries() throws PortalException {
+    private List<AssetEntry> searchEntries() {
         HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(this._request);
 
         SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
@@ -481,7 +472,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 
         // Préfiltre catégories
         String prefilterCategoriesIdsString = this._configuration.prefilterCategoriesIds();
-        List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
+        List<Long[]> prefilterCategoriesIds = new ArrayList<>();
         for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
             Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
                     .toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
@@ -493,7 +484,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         String[] prefilterTagsNames = StringUtil.split(prefilterTagsNamesString);
 
         // Champ date
-        boolean dateField = this._startDay == -1 ? false : this._configuration.dateField();
+        boolean dateField = this._startDay != -1 && this._configuration.dateField();
         String dateFieldName = this._configuration.defaultSortField();
         LocalDate fromDate = null;
         LocalDate toDate = null;
@@ -518,7 +509,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                 prefilterTagsNames, idSIGPlace, this._themeDisplay.getLocale(), -1,
                 -1, sortField, isSortDesc);
 
-        List<AssetEntry> results = new ArrayList<AssetEntry>();
+        List<AssetEntry> results = new ArrayList<>();
         if (this._hits != null) {
             int i = 0;
             for (float s : this._hits.getScores()) {
@@ -536,7 +527,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     results.add(entry);
                 }
             }
-            long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
+            SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
                     globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
                     prefilterCategoriesIds, prefilterTagsNames, idSIGPlace, this._themeDisplay.getLocale());
         }
@@ -569,8 +560,8 @@ public class SearchAssetPortlet extends MVCPortlet {
      * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
      */
     private List<Long[]> getFilterCategoriesIds() {
-        List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
-        List<Long> categoriesIds = new ArrayList<Long>();
+        List<Long[]> filterCategoriesIds = new ArrayList<>();
+        List<Long> categoriesIds = new ArrayList<>();
 
         // On récupère les états s'il y en a
         for (long state : this._states) {
@@ -603,7 +594,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les quartiers s'il y en a
-        categoriesIds = new ArrayList<Long>();
+        categoriesIds = new ArrayList<>();
         for (long district : this._districts) {
             if (district > 0) {
                 categoriesIds.add(district);
@@ -614,7 +605,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         // On récupère les thématiques s'il y en a
-        categoriesIds = new ArrayList<Long>();
+        categoriesIds = new ArrayList<>();
         for (long thematic : this._thematics) {
             if (thematic > 0) {
                 categoriesIds.add(thematic);
@@ -792,7 +783,7 @@ public class SearchAssetPortlet extends MVCPortlet {
      * Retourne le type de classement des résultats (croissant ou décroissant)
      */
     public String getSortType() {
-        if (this.getSortField() == "score") {
+        if (this.getSortField().equals("score")) {
             return "desc";
         } else {
             String sortTypeFromParam = this._sortFieldAndType;

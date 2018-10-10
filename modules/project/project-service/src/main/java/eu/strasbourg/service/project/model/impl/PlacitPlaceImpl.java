@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,7 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.adict.AdictService;
@@ -314,7 +313,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 		jsonPlacitPlace.put("id", this.getPlacitPlaceId());
 		
 		// Champs : Autres
-		jsonPlacitPlace.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+		jsonPlacitPlace.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonPlacitPlace.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonPlacitPlace.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
 		jsonPlacitPlace.put("imageURL", this.getImageURL());

@@ -192,7 +192,7 @@ public class PoiServiceImpl implements PoiService {
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
 
 		for (AssetEntry entry : entriesForFiltersAndPrefilters) {
-			if (entry.getVisible() && entry.getListable()
+			if(entry.getAssetRenderer() != null && entry.getAssetRenderer().getStatus() == WorkflowConstants.STATUS_APPROVED && entry.getVisible() && entry.getListable()
 					&& (classNames.contains(entry.getClassName()) || classNames.equals("all"))) {
 				if (entry.getClassName().equals(Event.class.getName())) {
 					Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
@@ -236,7 +236,7 @@ public class PoiServiceImpl implements PoiService {
 		List<AssetEntry> entries = new ArrayList<>();
 
 		for (AssetEntry entry : entriesForFilters) {
-			if (entry.getVisible() && entry.getListable()
+			if (entry.getAssetRenderer() != null && entry.getAssetRenderer().getStatus() == WorkflowConstants.STATUS_APPROVED && entry.getVisible() && entry.getListable()
 					&& (classNames.contains(entry.getClassName()) || classNames.equals("all"))) {
 				if (entry.getClassName().equals(Event.class.getName())) {
 					Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());

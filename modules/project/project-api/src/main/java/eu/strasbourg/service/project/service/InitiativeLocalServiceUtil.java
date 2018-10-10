@@ -280,6 +280,11 @@ public class InitiativeLocalServiceUtil {
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> findByPublikUserId(
+		java.lang.String publikUserId) {
+		return getService().findByPublikUserId(publikUserId);
+	}
+
 	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/

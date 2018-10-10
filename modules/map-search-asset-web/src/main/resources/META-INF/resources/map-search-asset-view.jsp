@@ -12,7 +12,7 @@
 <portlet:resourceURL id="changeSubEntitiesSelection" var="changeSubEntitiesSelectionURL">
 </portlet:resourceURL>
 
-<!-- Conteneur de la page de carte intéractive  -->
+<!-- Conteneur de la page de carte interactive  -->
 <div class="pro-page-carte">
 
 	<!-- Vignette de formulaire -->
@@ -90,6 +90,12 @@
 	
 	<!-- Map Leaflet -->
 	<div class="bloc-iframe pro-wrapper-map leaflet-map" id="mapid" ></div>
+
+	<!--  Boutons de controle du zoom -->
+    <div class="pro-control" style="z-index:10;">
+        <a href="#plus" id="pro-plus" title="Zoom plus sur la carte" aria-label="Zoom plus sur la carte"><span class="icon-plus"></span></a>
+        <a href="#moins" id="pro-moins" title="Zoom moins sur la carte" aria-label="Zoom moins sur la carte"><span class="icon-minus"></span></a>
+    </div>
 
 	<!-- Affichage du menu en format mobile -->
 	<div class="pro-menu-carte-mobile">
