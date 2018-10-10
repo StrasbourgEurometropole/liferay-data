@@ -6,10 +6,13 @@
 </#if>
 
 <div class="mns-page-experience">
-    <div class="mns-header-fullpage">
+    <div class="mns-header mns-header-fullpage">
         <figure class="fit-cover">
                 <img src="${page.expandoBridge.getAttribute('image')}" width="1600" height="900" alt="Détail d'une expérience">
             </figure>
+            <div class="container mns-caption">
+                ${page.getDescription(locale)}
+            </div>
         <div class="small-container mns-wrapper-bread">
             <div class="mns-breadcrumbs">
                 <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
