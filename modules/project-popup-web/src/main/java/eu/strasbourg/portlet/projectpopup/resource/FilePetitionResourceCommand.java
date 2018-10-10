@@ -200,9 +200,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
-            petition.setUserName(user.getUserName());
             petition.setQuotaSignature(signatureNumber);
-            petition.setUserId(user.getUserId());
             petition.setPetitionnaireAdresse(address);
             petition.setPetitionnaireBirthday(birthday);
             petition.setPetitionnaireCity(city);

@@ -46,7 +46,8 @@
 				<aui:input name="title" required="true" />
 				
 				<%-- Champ : Auteur --%>
-				<aui:input name="userName" required="true" />
+				<aui:input name="petitionnaireFirstname" required="true" />
+				<aui:input name="petitionnaireLastname" required="true" />
 
 				<%-- Champ : quota Signataire --%>
 				<aui:input name="quotaSignature" required="true" type="number" readonly="true"
