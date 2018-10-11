@@ -1,6 +1,6 @@
 create table project_BudgetParticipatif (
 	uuid_ VARCHAR(75) null,
-	BudgetParticipatifId LONG not null primary key,
+	budgetParticipatifId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
 	userId LONG,
@@ -168,7 +168,8 @@ create table project_Phase (
 	isActive BOOLEAN,
 	beginDate DATE null,
 	endDate DATE null,
-	publikId VARCHAR(75) null
+	publikId VARCHAR(75) null,
+	budgetParticipatifId LONG
 );
 
 create table project_PlacitPlace (
