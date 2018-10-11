@@ -63,11 +63,11 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
+import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
-import eu.strasbourg.service.project.service.persistence.PhasePersistence;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
@@ -120,27 +120,27 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 	/**
 	 * Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	 *
-	 * @param BudgetParticipatifId the primary key for the new budget participatif
+	 * @param budgetParticipatifId the primary key for the new budget participatif
 	 * @return the new budget participatif
 	 */
 	@Override
 	public BudgetParticipatif createBudgetParticipatif(
-		long BudgetParticipatifId) {
-		return budgetParticipatifPersistence.create(BudgetParticipatifId);
+		long budgetParticipatifId) {
+		return budgetParticipatifPersistence.create(budgetParticipatifId);
 	}
 
 	/**
 	 * Deletes the budget participatif with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param BudgetParticipatifId the primary key of the budget participatif
+	 * @param budgetParticipatifId the primary key of the budget participatif
 	 * @return the budget participatif that was removed
 	 * @throws PortalException if a budget participatif with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public BudgetParticipatif deleteBudgetParticipatif(
-		long BudgetParticipatifId) throws PortalException {
-		return budgetParticipatifPersistence.remove(BudgetParticipatifId);
+		long budgetParticipatifId) throws PortalException {
+		return budgetParticipatifPersistence.remove(budgetParticipatifId);
 	}
 
 	/**
@@ -240,8 +240,8 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 	}
 
 	@Override
-	public BudgetParticipatif fetchBudgetParticipatif(long BudgetParticipatifId) {
-		return budgetParticipatifPersistence.fetchByPrimaryKey(BudgetParticipatifId);
+	public BudgetParticipatif fetchBudgetParticipatif(long budgetParticipatifId) {
+		return budgetParticipatifPersistence.fetchByPrimaryKey(budgetParticipatifId);
 	}
 
 	/**
@@ -260,14 +260,14 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 	/**
 	 * Returns the budget participatif with the primary key.
 	 *
-	 * @param BudgetParticipatifId the primary key of the budget participatif
+	 * @param budgetParticipatifId the primary key of the budget participatif
 	 * @return the budget participatif
 	 * @throws PortalException if a budget participatif with the primary key could not be found
 	 */
 	@Override
-	public BudgetParticipatif getBudgetParticipatif(long BudgetParticipatifId)
+	public BudgetParticipatif getBudgetParticipatif(long budgetParticipatifId)
 		throws PortalException {
-		return budgetParticipatifPersistence.findByPrimaryKey(BudgetParticipatifId);
+		return budgetParticipatifPersistence.findByPrimaryKey(budgetParticipatifId);
 	}
 
 	@Override
@@ -278,7 +278,7 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(BudgetParticipatif.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("BudgetParticipatifId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("budgetParticipatifId");
 
 		return actionableDynamicQuery;
 	}
@@ -292,7 +292,7 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 		indexableActionableDynamicQuery.setModelClass(BudgetParticipatif.class);
 
 		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
-			"BudgetParticipatifId");
+			"budgetParticipatifId");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -303,7 +303,7 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(BudgetParticipatif.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("BudgetParticipatifId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("budgetParticipatifId");
 	}
 
 	@Override
@@ -522,6 +522,44 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the budget phase local service.
+	 *
+	 * @return the budget phase local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetPhaseLocalService getBudgetPhaseLocalService() {
+		return budgetPhaseLocalService;
+	}
+
+	/**
+	 * Sets the budget phase local service.
+	 *
+	 * @param budgetPhaseLocalService the budget phase local service
+	 */
+	public void setBudgetPhaseLocalService(
+		eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService) {
+		this.budgetPhaseLocalService = budgetPhaseLocalService;
+	}
+
+	/**
+	 * Returns the budget phase persistence.
+	 *
+	 * @return the budget phase persistence
+	 */
+	public BudgetPhasePersistence getBudgetPhasePersistence() {
+		return budgetPhasePersistence;
+	}
+
+	/**
+	 * Sets the budget phase persistence.
+	 *
+	 * @param budgetPhasePersistence the budget phase persistence
+	 */
+	public void setBudgetPhasePersistence(
+		BudgetPhasePersistence budgetPhasePersistence) {
+		this.budgetPhasePersistence = budgetPhasePersistence;
+	}
+
+	/**
 	 * Returns the initiative local service.
 	 *
 	 * @return the initiative local service
@@ -670,43 +708,6 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 	 */
 	public void setPetitionPersistence(PetitionPersistence petitionPersistence) {
 		this.petitionPersistence = petitionPersistence;
-	}
-
-	/**
-	 * Returns the phase local service.
-	 *
-	 * @return the phase local service
-	 */
-	public eu.strasbourg.service.project.service.PhaseLocalService getPhaseLocalService() {
-		return phaseLocalService;
-	}
-
-	/**
-	 * Sets the phase local service.
-	 *
-	 * @param phaseLocalService the phase local service
-	 */
-	public void setPhaseLocalService(
-		eu.strasbourg.service.project.service.PhaseLocalService phaseLocalService) {
-		this.phaseLocalService = phaseLocalService;
-	}
-
-	/**
-	 * Returns the phase persistence.
-	 *
-	 * @return the phase persistence
-	 */
-	public PhasePersistence getPhasePersistence() {
-		return phasePersistence;
-	}
-
-	/**
-	 * Sets the phase persistence.
-	 *
-	 * @param phasePersistence the phase persistence
-	 */
-	public void setPhasePersistence(PhasePersistence phasePersistence) {
-		this.phasePersistence = phasePersistence;
 	}
 
 	/**
@@ -1180,6 +1181,10 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 	protected BudgetParticipatifLocalService budgetParticipatifLocalService;
 	@BeanReference(type = BudgetParticipatifPersistence.class)
 	protected BudgetParticipatifPersistence budgetParticipatifPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetPhaseLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService;
+	@BeanReference(type = BudgetPhasePersistence.class)
+	protected BudgetPhasePersistence budgetPhasePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
 	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
 	@BeanReference(type = InitiativePersistence.class)
@@ -1196,10 +1201,6 @@ public abstract class BudgetParticipatifLocalServiceBaseImpl
 	protected eu.strasbourg.service.project.service.PetitionLocalService petitionLocalService;
 	@BeanReference(type = PetitionPersistence.class)
 	protected PetitionPersistence petitionPersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.PhaseLocalService.class)
-	protected eu.strasbourg.service.project.service.PhaseLocalService phaseLocalService;
-	@BeanReference(type = PhasePersistence.class)
-	protected PhasePersistence phasePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.PlacitPlaceLocalService.class)
 	protected eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService;
 	@BeanReference(type = PlacitPlacePersistence.class)

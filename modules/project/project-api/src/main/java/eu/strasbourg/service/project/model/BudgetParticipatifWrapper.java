@@ -61,7 +61,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("BudgetParticipatifId", getBudgetParticipatifId());
+		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
@@ -109,10 +109,10 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 			setUuid(uuid);
 		}
 
-		Long BudgetParticipatifId = (Long)attributes.get("BudgetParticipatifId");
+		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
 
-		if (BudgetParticipatifId != null) {
-			setBudgetParticipatifId(BudgetParticipatifId);
+		if (budgetParticipatifId != null) {
+			setBudgetParticipatifId(budgetParticipatifId);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -923,11 +923,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	/**
 	* Sets the budget participatif ID of this budget participatif.
 	*
-	* @param BudgetParticipatifId the budget participatif ID of this budget participatif
+	* @param budgetParticipatifId the budget participatif ID of this budget participatif
 	*/
 	@Override
-	public void setBudgetParticipatifId(long BudgetParticipatifId) {
-		_budgetParticipatif.setBudgetParticipatifId(BudgetParticipatifId);
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_budgetParticipatif.setBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	@Override

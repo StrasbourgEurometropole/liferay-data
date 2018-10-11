@@ -75,7 +75,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	public static final String TABLE_NAME = "project_BudgetParticipatif";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
-			{ "BudgetParticipatifId", Types.BIGINT },
+			{ "budgetParticipatifId", Types.BIGINT },
 			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
@@ -116,7 +116,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("BudgetParticipatifId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("budgetParticipatifId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
@@ -154,7 +154,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,BudgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(75) null,citoyenPostalCode LONG,citoyenCity VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(75) null,hasCopyright BOOLEAN,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,placeTextArea VARCHAR(75) null,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,isCrush BOOLEAN,crushComment VARCHAR(75) null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(75) null,citoyenPostalCode LONG,citoyenCity VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(75) null,hasCopyright BOOLEAN,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,placeTextArea VARCHAR(75) null,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,isCrush BOOLEAN,crushComment VARCHAR(75) null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.title ASC";
@@ -260,7 +260,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public long getPrimaryKey() {
-		return _BudgetParticipatifId;
+		return _budgetParticipatifId;
 	}
 
 	@Override
@@ -270,7 +270,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _BudgetParticipatifId;
+		return _budgetParticipatifId;
 	}
 
 	@Override
@@ -293,7 +293,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("BudgetParticipatifId", getBudgetParticipatifId());
+		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
@@ -344,10 +344,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			setUuid(uuid);
 		}
 
-		Long BudgetParticipatifId = (Long)attributes.get("BudgetParticipatifId");
+		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
 
-		if (BudgetParticipatifId != null) {
-			setBudgetParticipatifId(BudgetParticipatifId);
+		if (budgetParticipatifId != null) {
+			setBudgetParticipatifId(budgetParticipatifId);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -591,12 +591,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	@JSON
 	@Override
 	public long getBudgetParticipatifId() {
-		return _BudgetParticipatifId;
+		return _budgetParticipatifId;
 	}
 
 	@Override
-	public void setBudgetParticipatifId(long BudgetParticipatifId) {
-		_BudgetParticipatifId = BudgetParticipatifId;
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_budgetParticipatifId = budgetParticipatifId;
 	}
 
 	@JSON
@@ -1440,7 +1440,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.uuid = null;
 		}
 
-		budgetParticipatifCacheModel.BudgetParticipatifId = getBudgetParticipatifId();
+		budgetParticipatifCacheModel.budgetParticipatifId = getBudgetParticipatifId();
 
 		budgetParticipatifCacheModel.groupId = getGroupId();
 
@@ -1671,7 +1671,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
-		sb.append(", BudgetParticipatifId=");
+		sb.append(", budgetParticipatifId=");
 		sb.append(getBudgetParticipatifId());
 		sb.append(", groupId=");
 		sb.append(getGroupId());
@@ -1761,7 +1761,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getUuid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>BudgetParticipatifId</column-name><column-value><![CDATA[");
+			"<column><column-name>budgetParticipatifId</column-name><column-value><![CDATA[");
 		sb.append(getBudgetParticipatifId());
 		sb.append("]]></column-value></column>");
 		sb.append(
@@ -1916,7 +1916,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		};
 	private String _uuid;
 	private String _originalUuid;
-	private long _BudgetParticipatifId;
+	private long _budgetParticipatifId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;

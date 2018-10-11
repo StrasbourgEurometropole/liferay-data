@@ -94,9 +94,9 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	/**
 	 * Sets the budget participatif ID of this budget participatif.
 	 *
-	 * @param BudgetParticipatifId the budget participatif ID of this budget participatif
+	 * @param budgetParticipatifId the budget participatif ID of this budget participatif
 	 */
-	public void setBudgetParticipatifId(long BudgetParticipatifId);
+	public void setBudgetParticipatifId(long budgetParticipatifId);
 
 	/**
 	 * Returns the group ID of this budget participatif.

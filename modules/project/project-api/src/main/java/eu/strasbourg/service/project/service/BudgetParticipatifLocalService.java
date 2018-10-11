@@ -100,11 +100,11 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	/**
 	* Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	*
-	* @param BudgetParticipatifId the primary key for the new budget participatif
+	* @param budgetParticipatifId the primary key for the new budget participatif
 	* @return the new budget participatif
 	*/
 	public BudgetParticipatif createBudgetParticipatif(
-		long BudgetParticipatifId);
+		long budgetParticipatifId);
 
 	/**
 	* Deletes the budget participatif from the database. Also notifies the appropriate model listeners.
@@ -119,16 +119,16 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	/**
 	* Deletes the budget participatif with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param BudgetParticipatifId the primary key of the budget participatif
+	* @param budgetParticipatifId the primary key of the budget participatif
 	* @return the budget participatif that was removed
 	* @throws PortalException if a budget participatif with the primary key could not be found
 	*/
 	@Indexable(type = IndexableType.DELETE)
 	public BudgetParticipatif deleteBudgetParticipatif(
-		long BudgetParticipatifId) throws PortalException;
+		long budgetParticipatifId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public BudgetParticipatif fetchBudgetParticipatif(long BudgetParticipatifId);
+	public BudgetParticipatif fetchBudgetParticipatif(long budgetParticipatifId);
 
 	/**
 	* Returns the budget participatif matching the UUID and group.
@@ -144,12 +144,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	/**
 	* Returns the budget participatif with the primary key.
 	*
-	* @param BudgetParticipatifId the primary key of the budget participatif
+	* @param budgetParticipatifId the primary key of the budget participatif
 	* @return the budget participatif
 	* @throws PortalException if a budget participatif with the primary key could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public BudgetParticipatif getBudgetParticipatif(long BudgetParticipatifId)
+	public BudgetParticipatif getBudgetParticipatif(long budgetParticipatifId)
 		throws PortalException;
 
 	/**

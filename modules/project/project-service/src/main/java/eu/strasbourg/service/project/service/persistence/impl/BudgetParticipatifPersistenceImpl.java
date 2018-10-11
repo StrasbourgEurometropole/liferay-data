@@ -405,7 +405,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Returns the budget participatifs before and after the current budget participatif in the ordered set where uuid = &#63;.
 	 *
-	 * @param BudgetParticipatifId the primary key of the current budget participatif
+	 * @param budgetParticipatifId the primary key of the current budget participatif
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next budget participatif
@@ -413,10 +413,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 */
 	@Override
 	public BudgetParticipatif[] findByUuid_PrevAndNext(
-		long BudgetParticipatifId, String uuid,
+		long budgetParticipatifId, String uuid,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
-		BudgetParticipatif budgetParticipatif = findByPrimaryKey(BudgetParticipatifId);
+		BudgetParticipatif budgetParticipatif = findByPrimaryKey(budgetParticipatifId);
 
 		Session session = null;
 
@@ -1240,7 +1240,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Returns the budget participatifs before and after the current budget participatif in the ordered set where uuid = &#63; and companyId = &#63;.
 	 *
-	 * @param BudgetParticipatifId the primary key of the current budget participatif
+	 * @param budgetParticipatifId the primary key of the current budget participatif
 	 * @param uuid the uuid
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1249,10 +1249,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 */
 	@Override
 	public BudgetParticipatif[] findByUuid_C_PrevAndNext(
-		long BudgetParticipatifId, String uuid, long companyId,
+		long budgetParticipatifId, String uuid, long companyId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
-		BudgetParticipatif budgetParticipatif = findByPrimaryKey(BudgetParticipatifId);
+		BudgetParticipatif budgetParticipatif = findByPrimaryKey(budgetParticipatifId);
 
 		Session session = null;
 
@@ -1791,7 +1791,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Returns the budget participatifs before and after the current budget participatif in the ordered set where groupId = &#63;.
 	 *
-	 * @param BudgetParticipatifId the primary key of the current budget participatif
+	 * @param budgetParticipatifId the primary key of the current budget participatif
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next budget participatif
@@ -1799,10 +1799,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 */
 	@Override
 	public BudgetParticipatif[] findByGroupId_PrevAndNext(
-		long BudgetParticipatifId, long groupId,
+		long budgetParticipatifId, long groupId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
-		BudgetParticipatif budgetParticipatif = findByPrimaryKey(BudgetParticipatifId);
+		BudgetParticipatif budgetParticipatif = findByPrimaryKey(budgetParticipatifId);
 
 		Session session = null;
 
@@ -2332,7 +2332,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Returns the budget participatifs before and after the current budget participatif in the ordered set where status = &#63; and groupId = &#63;.
 	 *
-	 * @param BudgetParticipatifId the primary key of the current budget participatif
+	 * @param budgetParticipatifId the primary key of the current budget participatif
 	 * @param status the status
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -2341,10 +2341,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 */
 	@Override
 	public BudgetParticipatif[] findByStatusAndGroupId_PrevAndNext(
-		long BudgetParticipatifId, int status, long groupId,
+		long budgetParticipatifId, int status, long groupId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
-		BudgetParticipatif budgetParticipatif = findByPrimaryKey(BudgetParticipatifId);
+		BudgetParticipatif budgetParticipatif = findByPrimaryKey(budgetParticipatifId);
 
 		Session session = null;
 
@@ -2870,7 +2870,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Returns the budget participatifs before and after the current budget participatif in the ordered set where publikId = &#63;.
 	 *
-	 * @param BudgetParticipatifId the primary key of the current budget participatif
+	 * @param budgetParticipatifId the primary key of the current budget participatif
 	 * @param publikId the publik ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next budget participatif
@@ -2878,10 +2878,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 */
 	@Override
 	public BudgetParticipatif[] findByPublikId_PrevAndNext(
-		long BudgetParticipatifId, String publikId,
+		long budgetParticipatifId, String publikId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
-		BudgetParticipatif budgetParticipatif = findByPrimaryKey(BudgetParticipatifId);
+		BudgetParticipatif budgetParticipatif = findByPrimaryKey(budgetParticipatifId);
 
 		Session session = null;
 
@@ -3260,15 +3260,15 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	 *
-	 * @param BudgetParticipatifId the primary key for the new budget participatif
+	 * @param budgetParticipatifId the primary key for the new budget participatif
 	 * @return the new budget participatif
 	 */
 	@Override
-	public BudgetParticipatif create(long BudgetParticipatifId) {
+	public BudgetParticipatif create(long budgetParticipatifId) {
 		BudgetParticipatif budgetParticipatif = new BudgetParticipatifImpl();
 
 		budgetParticipatif.setNew(true);
-		budgetParticipatif.setPrimaryKey(BudgetParticipatifId);
+		budgetParticipatif.setPrimaryKey(budgetParticipatifId);
 
 		String uuid = PortalUUIDUtil.generate();
 
@@ -3282,14 +3282,14 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Removes the budget participatif with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param BudgetParticipatifId the primary key of the budget participatif
+	 * @param budgetParticipatifId the primary key of the budget participatif
 	 * @return the budget participatif that was removed
 	 * @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	 */
 	@Override
-	public BudgetParticipatif remove(long BudgetParticipatifId)
+	public BudgetParticipatif remove(long budgetParticipatifId)
 		throws NoSuchBudgetParticipatifException {
-		return remove((Serializable)BudgetParticipatifId);
+		return remove((Serializable)budgetParticipatifId);
 	}
 
 	/**
@@ -3660,14 +3660,14 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Returns the budget participatif with the primary key or throws a {@link NoSuchBudgetParticipatifException} if it could not be found.
 	 *
-	 * @param BudgetParticipatifId the primary key of the budget participatif
+	 * @param budgetParticipatifId the primary key of the budget participatif
 	 * @return the budget participatif
 	 * @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	 */
 	@Override
-	public BudgetParticipatif findByPrimaryKey(long BudgetParticipatifId)
+	public BudgetParticipatif findByPrimaryKey(long budgetParticipatifId)
 		throws NoSuchBudgetParticipatifException {
-		return findByPrimaryKey((Serializable)BudgetParticipatifId);
+		return findByPrimaryKey((Serializable)budgetParticipatifId);
 	}
 
 	/**
@@ -3721,12 +3721,12 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	/**
 	 * Returns the budget participatif with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param BudgetParticipatifId the primary key of the budget participatif
+	 * @param budgetParticipatifId the primary key of the budget participatif
 	 * @return the budget participatif, or <code>null</code> if a budget participatif with the primary key could not be found
 	 */
 	@Override
-	public BudgetParticipatif fetchByPrimaryKey(long BudgetParticipatifId) {
-		return fetchByPrimaryKey((Serializable)BudgetParticipatifId);
+	public BudgetParticipatif fetchByPrimaryKey(long budgetParticipatifId) {
+		return fetchByPrimaryKey((Serializable)budgetParticipatifId);
 	}
 
 	@Override
@@ -4045,7 +4045,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_BUDGETPARTICIPATIF = "SELECT budgetParticipatif FROM BudgetParticipatif budgetParticipatif";
-	private static final String _SQL_SELECT_BUDGETPARTICIPATIF_WHERE_PKS_IN = "SELECT budgetParticipatif FROM BudgetParticipatif budgetParticipatif WHERE BudgetParticipatifId IN (";
+	private static final String _SQL_SELECT_BUDGETPARTICIPATIF_WHERE_PKS_IN = "SELECT budgetParticipatif FROM BudgetParticipatif budgetParticipatif WHERE budgetParticipatifId IN (";
 	private static final String _SQL_SELECT_BUDGETPARTICIPATIF_WHERE = "SELECT budgetParticipatif FROM BudgetParticipatif budgetParticipatif WHERE ";
 	private static final String _SQL_COUNT_BUDGETPARTICIPATIF = "SELECT COUNT(budgetParticipatif) FROM BudgetParticipatif budgetParticipatif";
 	private static final String _SQL_COUNT_BUDGETPARTICIPATIF_WHERE = "SELECT COUNT(budgetParticipatif) FROM BudgetParticipatif budgetParticipatif WHERE ";

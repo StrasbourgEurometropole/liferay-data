@@ -119,7 +119,7 @@ public class BudgetParticipatifSoap implements Serializable {
 	}
 
 	public long getPrimaryKey() {
-		return _BudgetParticipatifId;
+		return _budgetParticipatifId;
 	}
 
 	public void setPrimaryKey(long pk) {
@@ -135,11 +135,11 @@ public class BudgetParticipatifSoap implements Serializable {
 	}
 
 	public long getBudgetParticipatifId() {
-		return _BudgetParticipatifId;
+		return _budgetParticipatifId;
 	}
 
-	public void setBudgetParticipatifId(long BudgetParticipatifId) {
-		_BudgetParticipatifId = BudgetParticipatifId;
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_budgetParticipatifId = budgetParticipatifId;
 	}
 
 	public long getGroupId() {
@@ -435,7 +435,7 @@ public class BudgetParticipatifSoap implements Serializable {
 	}
 
 	private String _uuid;
-	private long _BudgetParticipatifId;
+	private long _budgetParticipatifId;
 	private long _groupId;
 	private long _companyId;
 	private long _userId;

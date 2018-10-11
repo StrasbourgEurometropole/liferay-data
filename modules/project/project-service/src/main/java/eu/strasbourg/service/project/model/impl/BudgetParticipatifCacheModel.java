@@ -52,7 +52,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 		BudgetParticipatifCacheModel budgetParticipatifCacheModel = (BudgetParticipatifCacheModel)obj;
 
-		if (BudgetParticipatifId == budgetParticipatifCacheModel.BudgetParticipatifId) {
+		if (budgetParticipatifId == budgetParticipatifCacheModel.budgetParticipatifId) {
 			return true;
 		}
 
@@ -61,7 +61,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, BudgetParticipatifId);
+		return HashUtil.hash(0, budgetParticipatifId);
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", BudgetParticipatifId=");
-		sb.append(BudgetParticipatifId);
+		sb.append(", budgetParticipatifId=");
+		sb.append(budgetParticipatifId);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", companyId=");
@@ -158,7 +158,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setUuid(uuid);
 		}
 
-		budgetParticipatifImpl.setBudgetParticipatifId(BudgetParticipatifId);
+		budgetParticipatifImpl.setBudgetParticipatifId(budgetParticipatifId);
 		budgetParticipatifImpl.setGroupId(groupId);
 		budgetParticipatifImpl.setCompanyId(companyId);
 		budgetParticipatifImpl.setUserId(userId);
@@ -355,7 +355,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		BudgetParticipatifId = objectInput.readLong();
+		budgetParticipatifId = objectInput.readLong();
 
 		groupId = objectInput.readLong();
 
@@ -414,7 +414,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(BudgetParticipatifId);
+		objectOutput.writeLong(budgetParticipatifId);
 
 		objectOutput.writeLong(groupId);
 
@@ -592,7 +592,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	}
 
 	public String uuid;
-	public long BudgetParticipatifId;
+	public long budgetParticipatifId;
 	public long groupId;
 	public long companyId;
 	public long userId;

@@ -147,14 +147,14 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	/**
 	* Returns the budget participatifs before and after the current budget participatif in the ordered set where uuid = &#63;.
 	*
-	* @param BudgetParticipatifId the primary key of the current budget participatif
+	* @param budgetParticipatifId the primary key of the current budget participatif
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next budget participatif
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
 	public BudgetParticipatif[] findByUuid_PrevAndNext(
-		long BudgetParticipatifId, java.lang.String uuid,
+		long budgetParticipatifId, java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
 
@@ -342,7 +342,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	/**
 	* Returns the budget participatifs before and after the current budget participatif in the ordered set where uuid = &#63; and companyId = &#63;.
 	*
-	* @param BudgetParticipatifId the primary key of the current budget participatif
+	* @param budgetParticipatifId the primary key of the current budget participatif
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -350,7 +350,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
 	public BudgetParticipatif[] findByUuid_C_PrevAndNext(
-		long BudgetParticipatifId, java.lang.String uuid, long companyId,
+		long budgetParticipatifId, java.lang.String uuid, long companyId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
 
@@ -477,14 +477,14 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	/**
 	* Returns the budget participatifs before and after the current budget participatif in the ordered set where groupId = &#63;.
 	*
-	* @param BudgetParticipatifId the primary key of the current budget participatif
+	* @param budgetParticipatifId the primary key of the current budget participatif
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next budget participatif
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
 	public BudgetParticipatif[] findByGroupId_PrevAndNext(
-		long BudgetParticipatifId, long groupId,
+		long budgetParticipatifId, long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
 
@@ -622,7 +622,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	/**
 	* Returns the budget participatifs before and after the current budget participatif in the ordered set where status = &#63; and groupId = &#63;.
 	*
-	* @param BudgetParticipatifId the primary key of the current budget participatif
+	* @param budgetParticipatifId the primary key of the current budget participatif
 	* @param status the status
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -630,7 +630,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
 	public BudgetParticipatif[] findByStatusAndGroupId_PrevAndNext(
-		long BudgetParticipatifId, int status, long groupId,
+		long budgetParticipatifId, int status, long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
 
@@ -758,14 +758,14 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	/**
 	* Returns the budget participatifs before and after the current budget participatif in the ordered set where publikId = &#63;.
 	*
-	* @param BudgetParticipatifId the primary key of the current budget participatif
+	* @param budgetParticipatifId the primary key of the current budget participatif
 	* @param publikId the publik ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next budget participatif
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
 	public BudgetParticipatif[] findByPublikId_PrevAndNext(
-		long BudgetParticipatifId, java.lang.String publikId,
+		long budgetParticipatifId, java.lang.String publikId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
 
@@ -802,19 +802,19 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	/**
 	* Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	*
-	* @param BudgetParticipatifId the primary key for the new budget participatif
+	* @param budgetParticipatifId the primary key for the new budget participatif
 	* @return the new budget participatif
 	*/
-	public BudgetParticipatif create(long BudgetParticipatifId);
+	public BudgetParticipatif create(long budgetParticipatifId);
 
 	/**
 	* Removes the budget participatif with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param BudgetParticipatifId the primary key of the budget participatif
+	* @param budgetParticipatifId the primary key of the budget participatif
 	* @return the budget participatif that was removed
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
-	public BudgetParticipatif remove(long BudgetParticipatifId)
+	public BudgetParticipatif remove(long budgetParticipatifId)
 		throws NoSuchBudgetParticipatifException;
 
 	public BudgetParticipatif updateImpl(BudgetParticipatif budgetParticipatif);
@@ -822,20 +822,20 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	/**
 	* Returns the budget participatif with the primary key or throws a {@link NoSuchBudgetParticipatifException} if it could not be found.
 	*
-	* @param BudgetParticipatifId the primary key of the budget participatif
+	* @param budgetParticipatifId the primary key of the budget participatif
 	* @return the budget participatif
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
-	public BudgetParticipatif findByPrimaryKey(long BudgetParticipatifId)
+	public BudgetParticipatif findByPrimaryKey(long budgetParticipatifId)
 		throws NoSuchBudgetParticipatifException;
 
 	/**
 	* Returns the budget participatif with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param BudgetParticipatifId the primary key of the budget participatif
+	* @param budgetParticipatifId the primary key of the budget participatif
 	* @return the budget participatif, or <code>null</code> if a budget participatif with the primary key could not be found
 	*/
-	public BudgetParticipatif fetchByPrimaryKey(long BudgetParticipatifId);
+	public BudgetParticipatif fetchByPrimaryKey(long budgetParticipatifId);
 
 	@Override
 	public java.util.Map<java.io.Serializable, BudgetParticipatif> fetchByPrimaryKeys(

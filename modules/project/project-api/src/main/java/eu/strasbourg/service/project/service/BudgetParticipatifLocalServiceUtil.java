@@ -87,12 +87,12 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	* Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	*
-	* @param BudgetParticipatifId the primary key for the new budget participatif
+	* @param budgetParticipatifId the primary key for the new budget participatif
 	* @return the new budget participatif
 	*/
 	public static eu.strasbourg.service.project.model.BudgetParticipatif createBudgetParticipatif(
-		long BudgetParticipatifId) {
-		return getService().createBudgetParticipatif(BudgetParticipatifId);
+		long budgetParticipatifId) {
+		return getService().createBudgetParticipatif(budgetParticipatifId);
 	}
 
 	/**
@@ -109,19 +109,19 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	* Deletes the budget participatif with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param BudgetParticipatifId the primary key of the budget participatif
+	* @param budgetParticipatifId the primary key of the budget participatif
 	* @return the budget participatif that was removed
 	* @throws PortalException if a budget participatif with the primary key could not be found
 	*/
 	public static eu.strasbourg.service.project.model.BudgetParticipatif deleteBudgetParticipatif(
-		long BudgetParticipatifId)
+		long budgetParticipatifId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().deleteBudgetParticipatif(BudgetParticipatifId);
+		return getService().deleteBudgetParticipatif(budgetParticipatifId);
 	}
 
 	public static eu.strasbourg.service.project.model.BudgetParticipatif fetchBudgetParticipatif(
-		long BudgetParticipatifId) {
-		return getService().fetchBudgetParticipatif(BudgetParticipatifId);
+		long budgetParticipatifId) {
+		return getService().fetchBudgetParticipatif(budgetParticipatifId);
 	}
 
 	/**
@@ -140,14 +140,14 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	* Returns the budget participatif with the primary key.
 	*
-	* @param BudgetParticipatifId the primary key of the budget participatif
+	* @param budgetParticipatifId the primary key of the budget participatif
 	* @return the budget participatif
 	* @throws PortalException if a budget participatif with the primary key could not be found
 	*/
 	public static eu.strasbourg.service.project.model.BudgetParticipatif getBudgetParticipatif(
-		long BudgetParticipatifId)
+		long budgetParticipatifId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getBudgetParticipatif(BudgetParticipatifId);
+		return getService().getBudgetParticipatif(budgetParticipatifId);
 	}
 
 	/**
