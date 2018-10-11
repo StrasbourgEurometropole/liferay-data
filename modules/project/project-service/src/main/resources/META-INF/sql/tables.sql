@@ -1,3 +1,43 @@
+create table project_BudgetParticipatif (
+	uuid_ VARCHAR(75) null,
+	BudgetParticipatifId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	title VARCHAR(75) null,
+	description VARCHAR(75) null,
+	budget LONG,
+	motif VARCHAR(75) null,
+	citoyenLastname VARCHAR(75) null,
+	citoyenFirstname VARCHAR(75) null,
+	citoyenAdresse VARCHAR(75) null,
+	citoyenPostalCode LONG,
+	citoyenCity VARCHAR(75) null,
+	citoyenPhone VARCHAR(75) null,
+	citoyenMobile VARCHAR(75) null,
+	citoyenEmail VARCHAR(75) null,
+	hasCopyright BOOLEAN,
+	videoUrl VARCHAR(75) null,
+	externalImageURL VARCHAR(75) null,
+	externalImageCopyright VARCHAR(75) null,
+	mediaChoice BOOLEAN,
+	placeTextArea VARCHAR(75) null,
+	consultationPlacesText VARCHAR(75) null,
+	consultationPlacesBody VARCHAR(75) null,
+	isCrush BOOLEAN,
+	crushComment VARCHAR(75) null,
+	publikId VARCHAR(75) null,
+	imageId LONG,
+	filesIds VARCHAR(75) null
+);
+
 create table project_Initiative (
 	uuid_ VARCHAR(75) null,
 	initiativeId LONG not null primary key,
@@ -107,6 +147,28 @@ create table project_Petition (
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null
+);
+
+create table project_Phase (
+	uuid_ VARCHAR(75) null,
+	PhaseId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	name VARCHAR(75) null,
+	description VARCHAR(75) null,
+	numberOfVote LONG,
+	isActive BOOLEAN,
+	beginDate DATE null,
+	endDate DATE null,
+	publikId VARCHAR(75) null
 );
 
 create table project_PlacitPlace (

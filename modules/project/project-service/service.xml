@@ -331,7 +331,8 @@
         <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
     </entity>
 
-    <entity local-service="true" name="Signataire" remote-service="true"
+
+	<entity local-service="true" name="Signataire" remote-service="true"
             uuid="true">
 
 		<!-- PK fields -->
@@ -392,7 +393,7 @@
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
     </entity>
-	
+
 	<entity local-service="true" cache-enabled="true" name="Initiative"
 		remote-service="true" uuid="true">
 
@@ -425,7 +426,7 @@
 		<column name="externalImageURL" type="String" />
 		<column name="externalImageCopyright" type="String" />
 		<column name="mediaChoice" type="boolean" />
-		
+
 		<!-- Links with other entities -->
 		<column name="assetEntryId" type="long" />
 		<column name="publikId" type="String" />
@@ -435,7 +436,7 @@
 		<!-- Lieux de consultation -->
 		<column name="consultationPlacesText" type="String" />
 		<column name="consultationPlacesBody" type="String" />
-		
+
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />
 
@@ -490,4 +491,141 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
+
+	<entity local-service="true" name="BudgetParticipatif" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="BudgetParticipatifId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- main fields -->
+		<column name="title" type="String" />
+		<column name="description" type="String" />
+		<column name="budget" type="long" />
+		<column name="motif" type="String" />
+
+		<!-- citoyen fields -->
+		<column name="citoyenLastname" type="String" />
+		<column name="citoyenFirstname" type="String" />
+		<column name="citoyenAdresse" type="String" />
+		<column name="citoyenPostalCode" type="long" />
+		<column name="citoyenCity" type="String" />
+		<column name="citoyenPhone" type="String" />
+		<column name="citoyenMobile" type="String" />
+		<column name="citoyenEmail" type="String" />
+		<column name="hasCopyright" type="boolean" />
+
+		<!-- Medias -->
+		<column name="videoUrl" type="String" />
+		<column name="externalImageURL" type="String" />
+		<column name="externalImageCopyright" type="String" />
+		<column name="mediaChoice" type="boolean" />
+
+		<!-- Lieux de consultation -->
+		<column name="placeTextArea" type="String" />
+		<column name="consultationPlacesText" type="String" />
+		<column name="consultationPlacesBody" type="String" />
+
+		<!-- coup de coeur -->
+		<column name="isCrush" type="boolean" />
+		<column name="crushComment" type="String" />
+
+		<!-- Links with other entities -->
+		<column name="publikId" type="String" />
+		<column name="imageId" type="long" />
+		<column name="filesIds" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="StatusAndGroupId" return-type="Collection">
+			<finder-column name="status" />
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+
+	<entity local-service="true" name="Phase" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="PhaseId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- main fields -->
+		<column name="name" type="String" />
+		<column name="description" type="String" />
+		<column name="numberOfVote" type="long" />
+		<column name="isActive" type="boolean" />
+
+		<!-- Phase de dépot -->
+		<column name="beginDate" type="Date" />
+		<column name="endDate" type="Date" />
+
+		<!-- Links with other entities -->
+		<column name="publikId" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="name" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+
 </service-builder>

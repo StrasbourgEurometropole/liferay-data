@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl" id="eu.strasbourg.service.project.service.BudgetParticipatifLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl" id="eu.strasbourg.service.project.service.BudgetParticipatifService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.InitiativeLocalServiceImpl" id="eu.strasbourg.service.project.service.InitiativeLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.InitiativeServiceImpl" id="eu.strasbourg.service.project.service.InitiativeService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.InitiativePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.InitiativePersistence" parent="basePersistence" />
@@ -13,6 +16,9 @@
 	<bean class="eu.strasbourg.service.project.service.impl.PetitionLocalServiceImpl" id="eu.strasbourg.service.project.service.PetitionLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.PetitionServiceImpl" id="eu.strasbourg.service.project.service.PetitionService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.PetitionPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PetitionPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.impl.PhaseLocalServiceImpl" id="eu.strasbourg.service.project.service.PhaseLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.PhaseServiceImpl" id="eu.strasbourg.service.project.service.PhaseService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.PhasePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PhasePersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.PlacitPlaceLocalServiceImpl" id="eu.strasbourg.service.project.service.PlacitPlaceLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.PlacitPlaceServiceImpl" id="eu.strasbourg.service.project.service.PlacitPlaceService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.PlacitPlacePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence" parent="basePersistence" />

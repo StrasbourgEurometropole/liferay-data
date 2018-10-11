@@ -1,3 +1,9 @@
+create index IX_163FE495 on project_BudgetParticipatif (groupId);
+create index IX_D87960D5 on project_BudgetParticipatif (publikId[$COLUMN_LENGTH:75$]);
+create index IX_A415ED6F on project_BudgetParticipatif (status, groupId);
+create index IX_3577CA69 on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_2C11D72B on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], groupId);
+
 create index IX_F2897552 on project_Initiative (groupId);
 create index IX_8561E7B8 on project_Initiative (publikId[$COLUMN_LENGTH:75$]);
 create index IX_C528BE4C on project_Initiative (uuid_[$COLUMN_LENGTH:75$], companyId);
@@ -15,6 +21,11 @@ create index IX_EFA96A on project_Petition (publikId[$COLUMN_LENGTH:75$]);
 create index IX_F58DC33A on project_Petition (status, groupId);
 create index IX_12FAADFE on project_Petition (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2EB29C00 on project_Petition (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_F451EBCF on project_Phase (groupId);
+create index IX_BCA840DB on project_Phase (publikId[$COLUMN_LENGTH:75$]);
+create index IX_6661446F on project_Phase (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_66FE1AB1 on project_Phase (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_EEC80B2C on project_PlacitPlace (groupId);
 create index IX_BFA6C339 on project_PlacitPlace (initiativeId);
