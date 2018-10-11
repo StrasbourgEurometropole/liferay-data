@@ -38,6 +38,29 @@ create table project_BudgetParticipatif (
 	filesIds VARCHAR(75) null
 );
 
+create table project_BudgetPhase (
+	uuid_ VARCHAR(75) null,
+	budgetPhaseId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	name VARCHAR(75) null,
+	description VARCHAR(75) null,
+	numberOfVote LONG,
+	isActive BOOLEAN,
+	beginDate DATE null,
+	endDate DATE null,
+	publikId VARCHAR(75) null,
+	budgetParticipatifId LONG
+);
+
 create table project_Initiative (
 	uuid_ VARCHAR(75) null,
 	initiativeId LONG not null primary key,
@@ -147,29 +170,6 @@ create table project_Petition (
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null
-);
-
-create table project_Phase (
-	uuid_ VARCHAR(75) null,
-	PhaseId LONG not null primary key,
-	groupId LONG,
-	companyId LONG,
-	userId LONG,
-	userName VARCHAR(75) null,
-	createDate DATE null,
-	modifiedDate DATE null,
-	status INTEGER,
-	statusByUserId LONG,
-	statusByUserName VARCHAR(75) null,
-	statusDate DATE null,
-	name VARCHAR(75) null,
-	description VARCHAR(75) null,
-	numberOfVote LONG,
-	isActive BOOLEAN,
-	beginDate DATE null,
-	endDate DATE null,
-	publikId VARCHAR(75) null,
-	budgetParticipatifId LONG
 );
 
 create table project_PlacitPlace (

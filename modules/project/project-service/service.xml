@@ -574,10 +574,10 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
 
-	<entity local-service="true" name="Phase" remote-service="true" uuid="true">
+	<entity local-service="true" name="BudgetPhase" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
-		<column name="PhaseId" primary="true" type="long" />
+		<column name="budgetPhaseId" primary="true" type="long" />
 
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
