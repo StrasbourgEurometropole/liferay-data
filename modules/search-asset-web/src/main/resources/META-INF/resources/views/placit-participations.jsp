@@ -15,10 +15,14 @@
                 </div>
 
                 <div class="pro-wrapper-sort">
-                    <span class="pro-legend"><liferay-ui:message key="eu.legend-participations" /></span>
+                     <span class="pro-legend">
+                     	<a href="${dc.getHomeURL()}explications-participations" class="link-participations-legend">
+                     		<liferay-ui:message key="eu.legend-participations" />
+                     	</a>
+                     </span>
                 </div>
 
-                <!-- Résultat -->
+                <!-- Resultat -->
                 <div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">
                         <aui:form method="post" name="fm">
