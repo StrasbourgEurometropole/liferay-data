@@ -63,11 +63,11 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
+import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
-import eu.strasbourg.service.project.service.persistence.PhasePersistence;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
@@ -512,6 +512,44 @@ public abstract class PetitionLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the budget phase local service.
+	 *
+	 * @return the budget phase local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetPhaseLocalService getBudgetPhaseLocalService() {
+		return budgetPhaseLocalService;
+	}
+
+	/**
+	 * Sets the budget phase local service.
+	 *
+	 * @param budgetPhaseLocalService the budget phase local service
+	 */
+	public void setBudgetPhaseLocalService(
+		eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService) {
+		this.budgetPhaseLocalService = budgetPhaseLocalService;
+	}
+
+	/**
+	 * Returns the budget phase persistence.
+	 *
+	 * @return the budget phase persistence
+	 */
+	public BudgetPhasePersistence getBudgetPhasePersistence() {
+		return budgetPhasePersistence;
+	}
+
+	/**
+	 * Sets the budget phase persistence.
+	 *
+	 * @param budgetPhasePersistence the budget phase persistence
+	 */
+	public void setBudgetPhasePersistence(
+		BudgetPhasePersistence budgetPhasePersistence) {
+		this.budgetPhasePersistence = budgetPhasePersistence;
+	}
+
+	/**
 	 * Returns the initiative local service.
 	 *
 	 * @return the initiative local service
@@ -660,43 +698,6 @@ public abstract class PetitionLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setPetitionPersistence(PetitionPersistence petitionPersistence) {
 		this.petitionPersistence = petitionPersistence;
-	}
-
-	/**
-	 * Returns the phase local service.
-	 *
-	 * @return the phase local service
-	 */
-	public eu.strasbourg.service.project.service.PhaseLocalService getPhaseLocalService() {
-		return phaseLocalService;
-	}
-
-	/**
-	 * Sets the phase local service.
-	 *
-	 * @param phaseLocalService the phase local service
-	 */
-	public void setPhaseLocalService(
-		eu.strasbourg.service.project.service.PhaseLocalService phaseLocalService) {
-		this.phaseLocalService = phaseLocalService;
-	}
-
-	/**
-	 * Returns the phase persistence.
-	 *
-	 * @return the phase persistence
-	 */
-	public PhasePersistence getPhasePersistence() {
-		return phasePersistence;
-	}
-
-	/**
-	 * Sets the phase persistence.
-	 *
-	 * @param phasePersistence the phase persistence
-	 */
-	public void setPhasePersistence(PhasePersistence phasePersistence) {
-		this.phasePersistence = phasePersistence;
 	}
 
 	/**
@@ -1170,6 +1171,10 @@ public abstract class PetitionLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService;
 	@BeanReference(type = BudgetParticipatifPersistence.class)
 	protected BudgetParticipatifPersistence budgetParticipatifPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetPhaseLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService;
+	@BeanReference(type = BudgetPhasePersistence.class)
+	protected BudgetPhasePersistence budgetPhasePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
 	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
 	@BeanReference(type = InitiativePersistence.class)
@@ -1186,10 +1191,6 @@ public abstract class PetitionLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected PetitionLocalService petitionLocalService;
 	@BeanReference(type = PetitionPersistence.class)
 	protected PetitionPersistence petitionPersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.PhaseLocalService.class)
-	protected eu.strasbourg.service.project.service.PhaseLocalService phaseLocalService;
-	@BeanReference(type = PhasePersistence.class)
-	protected PhasePersistence phasePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.PlacitPlaceLocalService.class)
 	protected eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService;
 	@BeanReference(type = PlacitPlacePersistence.class)
