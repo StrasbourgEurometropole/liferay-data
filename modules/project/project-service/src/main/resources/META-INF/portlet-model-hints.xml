@@ -3,7 +3,7 @@
 <model-hints>
 	<model name="eu.strasbourg.service.project.model.BudgetParticipatif">
 		<field name="uuid" type="String" />
-		<field name="BudgetParticipatifId" type="long" />
+		<field name="budgetParticipatifId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />
@@ -201,6 +201,7 @@
 		<field name="beginDate" type="Date" />
 		<field name="endDate" type="Date" />
 		<field name="publikId" type="String" />
+		<field name="budgetParticipatifId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.PlacitPlace">
 		<field name="uuid" type="String" />

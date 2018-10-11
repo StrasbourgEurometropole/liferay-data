@@ -495,7 +495,7 @@
 	<entity local-service="true" name="BudgetParticipatif" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
-		<column name="BudgetParticipatifId" primary="true" type="long" />
+		<column name="budgetParticipatifId" primary="true" type="long" />
 
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
@@ -607,6 +607,7 @@
 
 		<!-- Links with other entities -->
 		<column name="publikId" type="String" />
+		<column name="budgetParticipatifId" type="long" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -617,6 +618,9 @@
 
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="budgetParticipatifId" return-type="Collection">
+			<finder-column name="budgetParticipatifId" />
 		</finder>
 		<finder name="PublikId" return-type="Collection">
 			<finder-column name="publikId" />
