@@ -355,7 +355,7 @@ public class PetitionLocalServiceUtil {
 	}
 
 	/**
-	* Retourne tous les petitions publiés d'un groupe
+	* Retourne tous les petitions publiées d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.Petition> getPublishedByGroupId(
 		long groupId) {

@@ -378,7 +378,7 @@ public class PetitionLocalServiceWrapper implements PetitionLocalService,
 	}
 
 	/**
-	* Retourne tous les petitions publiés d'un groupe
+	* Retourne tous les petitions publiées d'un groupe
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.Petition> getPublishedByGroupId(

@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.impl.ParticipationImpl;
 import eu.strasbourg.service.project.model.impl.PetitionImpl;
@@ -324,12 +325,13 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
     }
 
     /**
-     * Retourne tous les petitions publiés d'un groupe
+     * Retourne tous les petitions publiées d'un groupe
      */
     @Override
     public List<Petition> getPublishedByGroupId(long groupId) {
         return this.petitionPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
     }
+    
     @Override
     public List<Petition> findByKeyword(String keyword, long groupId, int start, int end){
 		DynamicQuery dynamicQuery = dynamicQuery();
