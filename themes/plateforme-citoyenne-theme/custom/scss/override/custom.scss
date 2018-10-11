@@ -434,6 +434,15 @@ aside .leaflet-map {
 	}
 }
 
+#pro-header .pro-top-header .container .pro-right a.connexion-black {
+    background: #2d2d2d !important;
+    color: #fff !important;
+}
+
+#pro-header .pro-top-header .container .pro-right a.connexion-black:hover {
+    color: #ffed00 !important;
+}
+
 #pro-header .pro-top-header .container .pro-right a.connexion-active {
     background: #2d2d2d !important;
     color: #fff !important;
@@ -449,4 +458,20 @@ aside .leaflet-map {
 
 #th-global #pro-header .pro-top-header .container .pro-right .nav-logout:hover .picto{
    background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffed00' viewBox='0 0 380.2 380.2'%3E%3Cpath d='M324.5 55.7C288.6 19.8 240.9 0 190.1 0 139.3 0 91.6 19.8 55.7 55.7 19.8 91.6 0 139.3 0 190.1c0 50.8 19.8 98.5 55.7 134.4 35.9 35.9 83.6 55.7 134.4 55.7 50.8 0 98.5-19.8 134.4-55.7 35.9-35.9 55.7-83.6 55.7-134.4 0-50.8-19.8-98.5-55.7-134.4zm-15.3 253.5c-31.8 31.8-74.2 49.4-119.1 49.4-45 0-87.3-17.5-119.1-49.4C5.3 243.5 5.3 136.6 71 71c31.8-31.8 74.2-49.4 119.1-49.4 45 0 87.3 17.5 119.1 49.4 65.7 65.6 65.7 172.5 0 238.2zm0 0'/%3E%3Cpath d='M273.8 106.3c-4.2-4.2-11-4.2-15.3 0L190 174.8l-68.5-68.5c-4.2-4.2-11-4.2-15.3 0-4.2 4.2-4.2 11 0 15.3l68.5 68.5-68.5 68.5c-4.2 4.2-4.2 11 0 15.3 2.1 2.1 4.9 3.2 7.6 3.2 2.7 0 5.5-1 7.6-3.2l68.5-68.5 68.5 68.5c2.1 2.1 4.9 3.2 7.6 3.2 2.8 0 5.5-1 7.6-3.2 4.2-4.2 4.2-11 0-15.3l-68.3-68.5 68.5-68.5c4.3-4.2 4.3-11 0-15.3zm0 0'/%3E%3C/svg%3E") !important;
+}
+
+// Liens vers les images du contenu d'explication
+.pro-page-budget-participatif .pro-wrapper-content .pro-preambule:before {
+	background: url(/o/plateforme-citoyenne-theme/images/background/bg-yellow.png);
+}
+.pro-page-budget-participatif .pro-wrapper-content:before {
+    background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
+}
+
+// Style du lien vers la légende des participations
+.link-participations-legend {
+	color: #fff;
+}
+.link-participations-legend:hover {
+	color: #ffed00;
 }
