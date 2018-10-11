@@ -214,7 +214,9 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnaireFirstname(firstname);
             petition.setPetitionnaireLastname(lastname);
             petition.setPetitionnairePostalCode(postalcode);
-            petition.setPetitionnairePhone("" + phone);
+            petition.setPetitionnairePhone(phone);
+            if (phone.isEmpty()&&!mobile.isEmpty())
+                petition.setPetitionnairePhone(mobile);
             petition.setPetitionnaireEmail(email);
             petition.setPublikId(publikID);
             petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
