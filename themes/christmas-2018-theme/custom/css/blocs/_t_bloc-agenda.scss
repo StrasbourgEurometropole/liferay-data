@@ -1,0 +1,115 @@
+/***************************/
+/***************************/
+
+/* -- BLOC AGENDA -- */
+
+/***************************/
+/***************************/
+
+.mns-bloc-agenda {
+	position: relative;
+	margin: 65px 0 40px;
+	@include mobile {
+		margin: 65px 0 0;
+	}
+	a {
+		display: block;
+		@include an(all, 0.3);
+		> div {
+			padding: 15px 0;
+			.mns-indic{
+				text-align: center;
+			}
+		}
+		> img {
+			width: 100%;
+		}
+
+		&:hover {
+			transform: translateY(-20px);
+			img {
+				box-shadow: 0 -20px 28px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.22);
+			}
+			.basic-link {
+				opacity: 1;
+			}
+		}
+		.no-hover & {
+			&:hover {
+				transform: none;
+				img {
+					box-shadow: none;
+				}
+			}
+			.basic-link {
+				opacity: 1;
+			}
+		}
+	}
+	.date {
+		background: $c_main;
+		@include ft($f_txt, 14px, 400, $c_white, normal);
+		position: absolute;
+		top: 20px;
+		left: -10px;
+		z-index: 5;
+		padding: 15px;
+	}
+
+	img {
+		object-fit: cover;
+		height: 400px;
+		max-width: 260px;
+		width: 100%;
+		margin-bottom: 0;
+		@include desktop {
+			height: 350px;
+			max-width: 100%;
+		}
+		@include mobile {
+			height: 400px;
+		}
+	}
+
+	h4, h3 {
+		@include ft($f_hx, 18px, 700, $c_txt, normal);
+		text-align: center;
+		width: 75%;
+		margin: auto;
+		padding: 10px 0;
+		display: block;
+		clear: both;
+		@include mobile {
+			width: 90%;
+			font-size: 24px;
+		}
+	}
+	.basic-link {
+		text-align: center;
+		opacity: 0;
+	}
+}
+
+.mns-wrapper-video {
+	padding: 50px 15px;
+	@include mobile {
+		padding: 15px;
+	}
+	p {
+		@include ft($f_txt, 14px, 400, #808080, 21px);
+		text-align: right;
+		width: 40%;
+		margin-top: 10px;
+		margin-bottom: 0;
+		float: right;
+		@include desktop {
+			width: 50%;
+		}
+		@include tablet_portrait {
+			width: 75%;
+		}
+		@include mobile {
+			width: 90%;
+		}
+	}
+}

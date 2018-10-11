@@ -1,0 +1,176 @@
+/***************************/
+/***************************/
+
+/* -- BLOC TESTIMONIAL -- */
+
+/***************************/
+/***************************/
+
+.mns-testimonial {
+	padding: 100px 0 50px 0;
+	position: relative;
+	transform: translate3d(0, 0, 0);
+	@include mobile {
+		padding: 100px 0 30px 0;
+	}
+	.img-cote-left {
+		position: absolute;
+		top: 40px;
+		left: -90px;
+	}
+
+	.img-cote-right {
+		position: absolute;
+		bottom: 85px;
+		right: 20px;
+		width: 130px;
+		transform: rotate(180deg);
+		z-index: 10;
+	}
+
+	.owl-nav {
+		margin-top: 0;
+	}
+
+
+	/* NOUVEAU STYLE POUR LA PAGE EXPERIENCE */
+	&.mns-testimonial-experience{
+		padding: 50px 0;
+		@include desktop{
+			padding: 80px 15px 50px 15px;
+		}
+		.img-cote-left{
+			top: 20px;
+			@include mobile{
+				width: 50%;
+				left: 0;
+				top: 30px;
+			}
+		}
+		.img-cote-right{
+			right: 0;
+			bottom: 105px;
+		}
+		.owl-carousel{
+			.item{
+				font-size: 0;
+				padding: 20px 0 40px 0;
+				@include mobile{
+					-js-display: flex;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex-direction: column;
+				}
+				> * {
+					display: inline-block;
+					vertical-align: middle;
+					@include mobile{
+						display: block;
+					}
+				}
+				blockquote{
+					@include ft($f_spe, 28px, 400, $c_txt, 36px);
+					text-transform: uppercase;
+					padding: 0;
+					margin-bottom: 10px;
+					border: none;
+					padding-right: 40px;
+					padding-top: 40px;
+					@include mobile{
+						padding: 0;
+						font-size: 20px;
+						line-height: 28px;
+						text-align: center;
+					}
+				}
+				.mns-name{
+					@include ft($f_txt, 15px, 700, $c_txt, 26px);
+					display: block;
+					position: relative;
+					@include mobile{
+						text-align: center;
+					}
+				}
+				.mns-txt{
+					width: calc(100% - 230px);
+					@include mobile{
+						width: 100%;
+						order: 2;
+					}
+				}
+				.mns-img{
+					position: relative;
+					&:before{
+						content: '';
+						background: url(../images/deco-figure-testi-2x.png);
+						background-size: contain;
+						background-repeat: no-repeat;
+						position: absolute;
+						left: 75px;
+						right: 0;
+						top: -15px;
+						height: 50px;
+						z-index: 100;
+					}
+					@include mobile{
+						margin-bottom: 40px;
+					}
+				}
+				figure{
+					background: none;
+					width: 210px;
+					height: 210px;
+					border: 20px solid $c_white;
+					transform: rotate(7deg);
+					box-shadow: 0 0 10px rgba($c_dark,0.1);
+					@include aspect-ratio(1,1);
+					img{
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						width: 100%;
+						height: 100%;
+					}
+				}
+			}
+		}
+	}
+}
+
+.mns-bloc-testi {
+	border: none;
+	padding: 0;
+	@include mobile {
+		text-align: center;
+	}
+	.title {
+		@include ft($f_hx, 22px, 700, $c_txt, 30px);
+		margin-bottom: 20px;
+	}
+	p {
+		font-size: 15px;
+	}
+	.info-testi {
+		font-weight: 700;
+	}
+
+	.text-content {
+		padding-top: 20px;
+	}
+	figure {
+		background: none;
+	}
+	img {
+		border-radius: 50%;
+		@include mobile {
+			width: 70%;
+			margin: auto;
+		}
+	}
+	a {
+		font-size: 14px;
+	}
+}

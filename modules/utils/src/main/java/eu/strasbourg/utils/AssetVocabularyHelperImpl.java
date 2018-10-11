@@ -79,4 +79,14 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	public String getThematicTitle(Locale locale, List<AssetCategory> assetCategories) {
 		return AssetVocabularyHelper.getThematicTitle(locale, assetCategories);
 	}
+	
+	/**
+	 * Retourne la liste des catégories du vocabulaire passé en paramètre, sans
+	 * les catégories enfants triées par la valeur de la propriété "order" de
+	 * chaque catégorie
+	 */
+	@Override
+	public List<AssetCategory> getSortedCategories(String vocabulary, long groupId) {
+		return AssetVocabularyHelper.getSortedCategories(vocabulary, groupId);
+	}
 }
