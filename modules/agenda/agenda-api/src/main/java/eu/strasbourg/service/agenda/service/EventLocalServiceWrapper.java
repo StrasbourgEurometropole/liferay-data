@@ -378,6 +378,15 @@ public class EventLocalServiceWrapper implements EventLocalService,
 	}
 
 	/**
+	* Retourne les resultats possèdant en etiquette l'une appelation demandee
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getByTagsWithOrSelection(
+		java.util.List<java.lang.String> tagLabels) {
+		return _eventLocalService.getByTagsWithOrSelection(tagLabels);
+	}
+
+	/**
 	* Returns a range of all the events.
 	*
 	* <p>

@@ -360,6 +360,14 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les resultats possèdant en etiquette l'une appelation demandee
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> getByTagsWithOrSelection(
+		java.util.List<java.lang.String> tagLabels) {
+		return getService().getByTagsWithOrSelection(tagLabels);
+	}
+
+	/**
 	* Returns a range of all the events.
 	*
 	* <p>
