@@ -80,8 +80,8 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
             if (!isValid)
                 throw new PortletException("la validation des champs n'est pas pass&eacute;e");
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-            String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyy-dd-MM");
+            String dateNaiss = sdf.format(birthday);
             PublikApiClient.setAllUserDetails(publikID, user.getLastName(), address, "" + postalcode, city, dateNaiss, phone, mobile);
 
             try {

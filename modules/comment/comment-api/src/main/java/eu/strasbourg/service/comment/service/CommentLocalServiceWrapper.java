@@ -367,6 +367,15 @@ public class CommentLocalServiceWrapper implements CommentLocalService,
 	}
 
 	/**
+	* Retourne tous les commentaires d'un utilisateur
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getByPublikId(
+		java.lang.String publikId) {
+		return _commentLocalService.getByPublikId(publikId);
+	}
+
+	/**
 	* Returns a range of all the comments.
 	*
 	* <p>

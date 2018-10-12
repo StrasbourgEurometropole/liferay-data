@@ -14,6 +14,19 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
+
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -49,17 +62,8 @@ import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 /**
  * The implementation of the event local service.
@@ -481,6 +485,30 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+	
+	/**
+	 * Retourne les resultats possèdant en etiquette l'une appelation demandee
+	 */
+	@Override
+	public List<Event> getByTagsWithOrSelection (List <String> tagLabels) {
+		List<Event> results = new ArrayList<Event>();
+		List<String> eventAssetTags;
+		AssetEntry eventAsset;
+		
+		for (Event event : eventPersistence.findAll()) {
+			eventAsset = event.getAssetEntry();
+			
+			eventAssetTags =  Arrays.asList(eventAsset.getTagNames());
+			
+			// Y'a t'il un element en commum entre les deux listes d'etiquette
+			if (!Collections.disjoint(eventAssetTags, tagLabels)) {
+				results.add(event);
+			}
+		}
+		
+		return results;
+	}
+	
 
 	/**
 	 * Lance l'import des événements
@@ -502,16 +530,6 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}
 	}
 
-	/**
-	 * Lance une recherche par placeSIGId
-	 */
-	@Override
-	public List<Event> findByPlaceSIGId(String placeSIGId) {
-		return eventPersistence.findByPlaceSIGId(placeSIGId);
-	}
-
-	private final Log _log = LogFactoryUtil.getLog(this.getClass());
-
     @Override
 	public List<Event> findEventByUserPublikId(String publikId){
 		List<EventParticipation> resultList = eventParticipationLocalService.getByPublikUser(publikId);
@@ -528,4 +546,14 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				.filter(EventModel::isApproved)
 				.collect(Collectors.toList());
 	}
+    
+    /**
+	 * Lance une recherche par placeSIGId
+	 */
+	@Override
+	public List<Event> findByPlaceSIGId(String placeSIGId) {
+		return eventPersistence.findByPlaceSIGId(placeSIGId);
+	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

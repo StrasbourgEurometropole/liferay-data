@@ -156,8 +156,9 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long TITLE_COLUMN_BITMASK = 8L;
+	public static final long STATUS_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long TITLE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -640,7 +641,19 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -1175,6 +1188,10 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 		participationModelImpl._setModifiedDate = false;
 
+		participationModelImpl._originalStatus = participationModelImpl._status;
+
+		participationModelImpl._setOriginalStatus = false;
+
 		participationModelImpl._columnBitmask = 0;
 	}
 
@@ -1592,6 +1609,8 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
