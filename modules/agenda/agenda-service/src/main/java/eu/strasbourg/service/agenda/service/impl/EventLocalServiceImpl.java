@@ -14,18 +14,37 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+
+import javax.imageio.ImageIO;
+
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.image.ImageToolUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Image;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -40,6 +59,8 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
+
+import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventModel;
@@ -48,18 +69,7 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import eu.strasbourg.utils.FileEntryHelper;
 
 /**
  * The implementation of the event local service.
@@ -125,8 +135,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		event.setStatusDate(sc.getModifiedDate());
 		event.setImageHeight(0);
 		event.setImageWidth(0);
-		
-	/*	if(event.getImageId() == null || event.getImageId() == 0) {
+	/*	
+		if(event.getImageId() == null || event.getImageId() == 0) {
 			URL url = new URL(event.getExternalImageURL());
 	        final BufferedImage bi = ImageIO.read(url);
 			event.setImageHeight(bi.getHeight());
@@ -135,11 +145,19 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		else {
 			String imageURL = FileEntryHelper.getFileEntryURL(event.getImageId());
 			
-			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
-			URL url = new URL(completeImageURL);
-	        final BufferedImage bi = ImageIO.read(url);
-			event.setImageHeight(bi.getHeight());
-			event.setImageWidth(bi.getWidth());
+			DLFileEntry dlFile = FileEntryHelper.getFileEntryByRelativeURL(imageURL);
+			InputStream in = dlFile.getContentStream();
+			
+			Image img = ImageToolUtil.getImage(in);
+			
+			//String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
+			//URL url = new URL(completeImageURL);
+	        //final BufferedImage bi = ImageIO.read(url);
+			//event.setImageHeight(bi.getHeight());
+			//event.setImageWidth(bi.getWidth());
+			
+			event.setImageHeight(img.getHeight());
+			event.setImageWidth(img.getWidth());
 		}*/
 		
 		// On classe les périodes par date de début, ce qui va nous
