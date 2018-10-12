@@ -15,15 +15,11 @@
 package eu.strasbourg.service.project.service.persistence;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.List;
@@ -1135,6 +1131,180 @@ public class PlacitPlaceUtil {
 	*/
 	public static int countByPetition(long petitionId) {
 		return getPersistence().countByPetition(petitionId);
+	}
+
+	/**
+	* Returns all the placit places where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @return the matching placit places
+	*/
+	public static List<PlacitPlace> findByBudgetParticipatif(
+		long budgetParticipatifId) {
+		return getPersistence().findByBudgetParticipatif(budgetParticipatifId);
+	}
+
+	/**
+	* Returns a range of all the placit places where budgetParticipatifId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlacitPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param start the lower bound of the range of placit places
+	* @param end the upper bound of the range of placit places (not inclusive)
+	* @return the range of matching placit places
+	*/
+	public static List<PlacitPlace> findByBudgetParticipatif(
+		long budgetParticipatifId, int start, int end) {
+		return getPersistence()
+				   .findByBudgetParticipatif(budgetParticipatifId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the placit places where budgetParticipatifId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlacitPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param start the lower bound of the range of placit places
+	* @param end the upper bound of the range of placit places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching placit places
+	*/
+	public static List<PlacitPlace> findByBudgetParticipatif(
+		long budgetParticipatifId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+		return getPersistence()
+				   .findByBudgetParticipatif(budgetParticipatifId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the placit places where budgetParticipatifId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlacitPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param start the lower bound of the range of placit places
+	* @param end the upper bound of the range of placit places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching placit places
+	*/
+	public static List<PlacitPlace> findByBudgetParticipatif(
+		long budgetParticipatifId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByBudgetParticipatif(budgetParticipatifId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first placit place in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching placit place
+	* @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	*/
+	public static PlacitPlace findByBudgetParticipatif_First(
+		long budgetParticipatifId,
+		OrderByComparator<PlacitPlace> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchPlacitPlaceException {
+		return getPersistence()
+				   .findByBudgetParticipatif_First(budgetParticipatifId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first placit place in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching placit place, or <code>null</code> if a matching placit place could not be found
+	*/
+	public static PlacitPlace fetchByBudgetParticipatif_First(
+		long budgetParticipatifId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+		return getPersistence()
+				   .fetchByBudgetParticipatif_First(budgetParticipatifId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last placit place in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching placit place
+	* @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	*/
+	public static PlacitPlace findByBudgetParticipatif_Last(
+		long budgetParticipatifId,
+		OrderByComparator<PlacitPlace> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchPlacitPlaceException {
+		return getPersistence()
+				   .findByBudgetParticipatif_Last(budgetParticipatifId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last placit place in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching placit place, or <code>null</code> if a matching placit place could not be found
+	*/
+	public static PlacitPlace fetchByBudgetParticipatif_Last(
+		long budgetParticipatifId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+		return getPersistence()
+				   .fetchByBudgetParticipatif_Last(budgetParticipatifId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the placit places before and after the current placit place in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param placitPlaceId the primary key of the current placit place
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next placit place
+	* @throws NoSuchPlacitPlaceException if a placit place with the primary key could not be found
+	*/
+	public static PlacitPlace[] findByBudgetParticipatif_PrevAndNext(
+		long placitPlaceId, long budgetParticipatifId,
+		OrderByComparator<PlacitPlace> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchPlacitPlaceException {
+		return getPersistence()
+				   .findByBudgetParticipatif_PrevAndNext(placitPlaceId,
+			budgetParticipatifId, orderByComparator);
+	}
+
+	/**
+	* Removes all the placit places where budgetParticipatifId = &#63; from the database.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	*/
+	public static void removeByBudgetParticipatif(long budgetParticipatifId) {
+		getPersistence().removeByBudgetParticipatif(budgetParticipatifId);
+	}
+
+	/**
+	* Returns the number of placit places where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @return the number of matching placit places
+	*/
+	public static int countByBudgetParticipatif(long budgetParticipatifId) {
+		return getPersistence().countByBudgetParticipatif(budgetParticipatifId);
 	}
 
 	/**

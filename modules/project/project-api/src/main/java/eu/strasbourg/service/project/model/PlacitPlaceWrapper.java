@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +73,7 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
 		attributes.put("petitionId", getPetitionId());
+		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 		attributes.put("initiativeId", getInitiativeId());
 		attributes.put("placeSIGId", getPlaceSIGId());
 
@@ -185,6 +182,12 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 
 		if (petitionId != null) {
 			setPetitionId(petitionId);
+		}
+
+		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
+
+		if (budgetParticipatifId != null) {
+			setBudgetParticipatifId(budgetParticipatifId);
 		}
 
 		Long initiativeId = (Long)attributes.get("initiativeId");
@@ -579,6 +582,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	}
 
 	/**
+	* Returns the budget participatif ID of this placit place.
+	*
+	* @return the budget participatif ID of this placit place
+	*/
+	@Override
+	public long getBudgetParticipatifId() {
+		return _placitPlace.getBudgetParticipatifId();
+	}
+
+	/**
 	* Returns the company ID of this placit place.
 	*
 	* @return the company ID of this placit place
@@ -704,6 +717,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 		_placitPlace.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	/**
+	* Sets the budget participatif ID of this placit place.
+	*
+	* @param budgetParticipatifId the budget participatif ID of this placit place
+	*/
+	@Override
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_placitPlace.setBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	@Override
