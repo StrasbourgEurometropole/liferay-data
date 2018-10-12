@@ -51,7 +51,7 @@ public class ViewPetitionsDisplayContext extends ViewListBaseDisplayContext<Peti
 
 
     /**
-     * Retourne la liste des participations correspondant à la recherche lancée en ignorant la pagination
+     * Retourne la liste des pétitions correspondante à la recherche lancée en ignorant la pagination
      */
     private List<Petition> getAllPetitions() throws PortalException {
         Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
@@ -61,7 +61,7 @@ public class ViewPetitionsDisplayContext extends ViewListBaseDisplayContext<Peti
     }
 
     /**
-     * Retourne la liste des PK de toutes les petitions
+     * Retourne la liste des PK de toutes les pétitions
      * @return liste de PK (ex: "1,5,7,8")
      */
     public String getAllPetitionIds() throws PortalException {

@@ -15,6 +15,27 @@ jQuery(function() {
 		setConditionalValidators();
 	});
 	
+	Liferay.on('allPortletsReady', setConditionalValidators);
+	
+	function setConditionalValidators() {
+		// Validation des champos obligatoires conditionnels
+		AUI().use('liferay-form', function() {
+			if (!!window.editPetition) {
+				var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+				
+				if (jQuery('.internalImage').is(':visible')) {
+					rules[namespace + 'imageId'].required = true;
+					rules[namespace + 'externalImageURL'].required = false;
+					rules[namespace + 'externalImageCopyright'].required = false;
+				} else {
+					rules[namespace + 'imageId'].required = false;
+					rules[namespace + 'externalImageURL'].required = true;
+					rules[namespace + 'externalImageCopyright'].required = true;
+				}
+			}
+		});
+	}
+	
 	// Lieux répétables
 	AUI().use('liferay-auto-fields', function(Y) {
 		if (!!document.getElementById('place-fields')) {

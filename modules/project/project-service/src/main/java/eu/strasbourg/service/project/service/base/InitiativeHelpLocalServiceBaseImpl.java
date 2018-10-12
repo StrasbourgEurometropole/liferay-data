@@ -15,9 +15,11 @@
 package eu.strasbourg.service.project.service.base;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -42,6 +44,7 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalService;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
@@ -56,9 +59,11 @@ import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the initiative help local service.

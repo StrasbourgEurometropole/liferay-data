@@ -437,6 +437,11 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Petition> getByPublikUserID(String publikId){
+        return petitionPersistence.findByPublikId(publikId);
+    }
+
     public List<Petition> getPetitionBySignatairePublikId(String publikId){
         List<Signataire> signataires = signataireLocalService.getSignataireByPublikId(publikId);
         List<Petition> petitionList = signataires.stream()
