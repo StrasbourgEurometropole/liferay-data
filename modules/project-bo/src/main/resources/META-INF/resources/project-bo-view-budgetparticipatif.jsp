@@ -40,7 +40,7 @@
 		<%-- Composant : partie gestion (affichee apres une selection) --%>
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<c:if test="${dc.hasPermission('EDIT_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
@@ -49,13 +49,13 @@
 						icon="times" label="unpublish" />
 				</c:if>
 			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 			<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
 			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
-		
+
 </liferay-frontend:management-bar>
 
 <%-- Composant : tableau de visualisation des entites --%>
@@ -69,7 +69,7 @@
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.project.model.BudgetParticipatif" modelVar="budgetParticipatif"
 				keyProperty="budgetParticipatifId" rowIdProperty="budgetParticipatifId">
-				
+
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
 				<liferay-portlet:renderURL varImpl="editBudgetParticipatifURL">
 					<portlet:param name="cmd" value="editBudgetParticipatif" />
@@ -82,34 +82,23 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
-				
+
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${budgetParticipatif.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
-				
+
 				<%-- Colonne : Createur --%>
                 <liferay-ui:search-container-column-text name="user">
                     ${budgetParticipatif.userName}
                 </liferay-ui:search-container-column-text>
 
-                <%-- Colonne : nombre signature --%>
-				<liferay-ui:search-container-column-text name="signatureCount">
-					${budgetParticipatif.nombreSignature}
-				</liferay-ui:search-container-column-text>
-
-				<%-- Colonne : Statut --%>
-				<liferay-ui:search-container-column-text name="status">
-					<aui:workflow-status markupView="lexicon" showIcon="false"
-						showLabel="false" status="${budgetParticipatif.status}" />
-				</liferay-ui:search-container-column-text>
-
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('EDIT_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editBudgetParticipatifURL}" />
 						</c:if>
 
@@ -118,7 +107,7 @@
 							<portlet:param name="tab" value="budgetParticipatifs" />
 							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteBudgetParticipatifURL}" />
 						</c:if>
 					</liferay-ui:icon-menu>
@@ -135,7 +124,7 @@
 	<liferay-portlet:resourceURL var="exportBudgetParticipatifsXlsxURL" id="exportBudgetParticipatifsXlsx">
     	</liferay-portlet:resourceURL>
     	<form method="POST" action="${exportBudgetParticipatifsXlsxURL}">
-    		<aui:input type="hidden" name="budgetParticipatifIds" value="${dc.allBudgetParticipatifIds}" />
+    		<aui:input type="hidden" name="budgetParticipatifIds" value="${dc.budgetParticipatifsIds}" />
     		<aui:button-row>
     			<aui:button cssClass="btn-lg" type="submit"
     				value="export-budgetParticipatifs-xlsx" />
@@ -145,12 +134,13 @@
 </div>
 
 <%-- Composant : bouton d'ajout d'entite --%>
+<!--
 <liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+	<c:if test="${dc.hasPermission('ADD_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 		<liferay-frontend:add-menu-item title="Ajouter un budget participatif" url="${addBudgetParticipatifURL}" />
 	</c:if>
 </liferay-frontend:add-menu>
-
+-->
 <%-- URL : defini le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
