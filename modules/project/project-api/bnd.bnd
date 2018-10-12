@@ -1,5 +1,5 @@
 Bundle-Name: project-api
-Bundle-SymbolicName: project.api
+Bundle-SymbolicName: eu.strasbourg.service.project.api
 Bundle-Version: 1.0.0
 Export-Package:\
 	eu.strasbourg.service.project.constants,\
