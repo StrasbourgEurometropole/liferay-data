@@ -15700,7 +15700,7 @@ function callbackCarteInteractive(macarte) {
         '</div></a></div>', markerInitiative, 247);
 
     contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet" data-linkall="a">' +
-        '<a href="detail-projet.php"></a><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
+        '<a href="detail-projet.php"><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
         '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
         '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
         '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +

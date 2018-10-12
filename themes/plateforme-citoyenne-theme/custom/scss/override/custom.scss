@@ -464,14 +464,25 @@ aside .leaflet-map {
 .pro-page-budget-participatif .pro-wrapper-content .pro-preambule:before {
 	background: url(/o/plateforme-citoyenne-theme/images/background/bg-yellow.png);
 }
+
 .pro-page-budget-participatif .pro-wrapper-content:before {
     background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
 }
 
 // Style du lien vers la légende des participations
 .link-participations-legend {
-	color: #fff;
+	color: black;
 }
+
 .link-participations-legend:hover {
 	color: #ffed00;
+}
+
+//changement du z-index pour les pop-ups
+.fade.in{
+	z-index: 1200;
+}
+
+.fontWhite{
+    color:#fff
 }

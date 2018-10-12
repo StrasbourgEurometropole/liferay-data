@@ -382,7 +382,7 @@ function getProjectMarker(project, mercators) {
     
     marker.bindPopup(
         '<div class="item pro-bloc-card-projet" data-linkall="a">' +
-            '<a href="' + project.link + '"></a><div class="pro-header-projet">' +
+            '<a href="' + project.link + '"><div class="pro-header-projet">' +
                 '<p>Quartier(s) concerné(s) :</p><p><strong>' + project.districtLabel + '</strong></p></div> ' +
                 '<div class="pro-content-projet"><h3>' + project.title + '</h3>' +
                 '<div class="pro-wrap-thematique"><span>' + project.thematicsLabel + '</span></div></div> ' +

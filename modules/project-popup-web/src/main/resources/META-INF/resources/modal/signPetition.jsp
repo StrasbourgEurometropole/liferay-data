@@ -22,9 +22,9 @@
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
                         <ul style="font-size : 10pt">  
-                        	<li><liferay-ui:message key="modal.signpetition.information"/></li>
-                        	<li><liferay-ui:message key="modal.signpetition.information2"/></li>
-                        	<li><liferay-ui:message key="modal.signpetition.information3"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information2"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information3"/></li>
                         </ul>
                         <a href="/cnil" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
                     </div>
@@ -81,17 +81,21 @@
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="signlegalage" value="legalage">
-                        <label for="signlegalage"><liferay-ui:message key="modal.legalage"/></label>
+                        <label for="signlegalage"  class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage2"/>
+                        </label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="signcnil" value="cnil">
-                        <label for="signcnil"><liferay-ui:message key="modal.cnil"/></label>
+                        <label for="signcnil"  class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil"/>
+                        </label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
-                    <p><i><liferay-ui:message key="modal.signpetition.condition"/></i></p>
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions2"/></i></p>
                 </div>
                 <input type="hidden" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div id="signalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>

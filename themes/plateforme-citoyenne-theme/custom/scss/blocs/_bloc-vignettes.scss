@@ -277,13 +277,17 @@
 
 			.pro-wrap-thematique {
 				margin-top: 10px;
+				overflow: hidden;
+				white-space: nowrap;
+				max-width: 100%;
+				display: block;
+				text-overflow: ellipsis;
 				&:after {
 					content: '';
 					display: block;
 					clear: both;
 				}
 				> span {
-					float: left;
 					@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
 					margin-bottom: 5px;
 					&:after {
@@ -2518,13 +2522,17 @@
 
 		.pro-wrap-thematique{
 			margin-top: 10px;
+			overflow: hidden;
+			white-space: nowrap;
+			max-width: 100%;
+			display: block;
+			text-overflow: ellipsis;
 			&:after {
 				content: '';
 				display: block;
 				clear: both;
 			}
 			> span {
-				float: left;
 				@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
 				margin-bottom: 5px;
 				&:after {
