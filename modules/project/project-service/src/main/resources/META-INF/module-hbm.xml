@@ -213,6 +213,7 @@
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="participationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="petitionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="budgetParticipatifId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="initiativeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="placeSIGId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>

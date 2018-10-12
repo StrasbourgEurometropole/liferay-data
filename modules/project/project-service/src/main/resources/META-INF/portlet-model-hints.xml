@@ -223,6 +223,7 @@
 		<field name="projectId" type="long" />
 		<field name="participationId" type="long" />
 		<field name="petitionId" type="long" />
+		<field name="budgetParticipatifId" type="long" />
 		<field name="initiativeId" type="long" />
 		<field name="placeSIGId" type="String" />
 	</model>

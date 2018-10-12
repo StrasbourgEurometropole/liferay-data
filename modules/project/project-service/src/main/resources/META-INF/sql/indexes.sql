@@ -28,12 +28,7 @@ create index IX_F58DC33A on project_Petition (status, groupId);
 create index IX_12FAADFE on project_Petition (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2EB29C00 on project_Petition (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_7A750F93 on project_Phase (budgetParticipatifId);
-create index IX_F451EBCF on project_Phase (groupId);
-create index IX_BCA840DB on project_Phase (publikId[$COLUMN_LENGTH:75$]);
-create index IX_6661446F on project_Phase (uuid_[$COLUMN_LENGTH:75$], companyId);
-create unique index IX_66FE1AB1 on project_Phase (uuid_[$COLUMN_LENGTH:75$], groupId);
-
+create index IX_98BB8F56 on project_PlacitPlace (budgetParticipatifId);
 create index IX_EEC80B2C on project_PlacitPlace (groupId);
 create index IX_BFA6C339 on project_PlacitPlace (initiativeId);
 create index IX_8FD2F0EE on project_PlacitPlace (participationId);

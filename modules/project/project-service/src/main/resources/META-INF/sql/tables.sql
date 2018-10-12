@@ -190,6 +190,7 @@ create table project_PlacitPlace (
 	projectId LONG,
 	participationId LONG,
 	petitionId LONG,
+	budgetParticipatifId LONG,
 	initiativeId LONG,
 	placeSIGId VARCHAR(75) null
 );

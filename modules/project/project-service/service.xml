@@ -191,6 +191,7 @@
 		<column name="projectId" type="long" />
 		<column name="participationId" type="long" />
 		<column name="petitionId" type="long" />
+		<column name="budgetParticipatifId" type="long" />
 		<column name="initiativeId" type="long" />
 		<column name="placeSIGId" type="String" />
 
@@ -206,6 +207,9 @@
 		</finder>
 		<finder name="Petition" return-type="Collection">
 			<finder-column name="petitionId" />
+		</finder>
+		<finder name="BudgetParticipatif" return-type="Collection">
+			<finder-column name="budgetParticipatifId" />
 		</finder>
 		<finder name="Initiative" return-type="Collection">
 			<finder-column name="initiativeId" />

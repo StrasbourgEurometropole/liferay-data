@@ -24,7 +24,7 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
 
     public BudgetParticipatifIndexer() {
         setFilterSearch(true);
-        setPermissionAware();
+        setPermissionAware(true);
     }
 
     @Override

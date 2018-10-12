@@ -61,7 +61,7 @@ public class ViewPetitionsDisplayContext extends ViewListBaseDisplayContext<Peti
     }
 
     /**
-     * Retourne la liste des PK de toutes les participations
+     * Retourne la liste des PK de toutes les petitions
      * @return liste de PK (ex: "1,5,7,8")
      */
     public String getAllPetitionIds() throws PortalException {
