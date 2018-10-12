@@ -93,4 +93,28 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
+	
+	public AssetVocabulary getTypesNoel(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.TYPE_NOEL, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
+	
+	public AssetVocabulary getTauxNoel(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.TAUX_NOEL, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
+	
+	public AssetVocabulary getDureesNoel(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.DUREE_NOEL, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
 }

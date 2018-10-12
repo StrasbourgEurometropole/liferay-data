@@ -68,6 +68,7 @@ public class SearchAssetDisplayContext {
 			this.initEntries();
 		} else {
 			this._entries = new ArrayList<AssetEntry>();
+			this._entriesCount = 0;
 		}
 		// Gestion du log
 		if (this.isUserSearch()) {
@@ -249,6 +250,7 @@ public class SearchAssetDisplayContext {
 		}
 		
 		this._entries = results;
+		this._entriesCount = this._entries.size();
 	}
 
 	/**
@@ -472,6 +474,13 @@ public class SearchAssetDisplayContext {
 	 */
 	public List<AssetEntry> getEntries() throws PortalException {
 		return this._entries;
+	}
+	
+	/**
+	 * Retourne le nombre de résultats de la recherche
+	 */
+	public int getEntriesCount() throws PortalException {
+		return this._entriesCount;
 	}
 
 	/**
@@ -884,5 +893,6 @@ public class SearchAssetDisplayContext {
 	private List<String> _classNames;
 	private Hits _hits;
 	private boolean _displayExport;
+	private int _entriesCount;
 
 }
