@@ -12,8 +12,6 @@
 <portlet:resourceURL id="changeSubEntitiesSelection" var="changeSubEntitiesSelectionURL">
 </portlet:resourceURL>
 
-<link rel="stylesheet" href="/o/mapsearchassetweb/css/map-search-asset-view.css" />
-
 <!-- Conteneur de la page de carte interactive  -->
 <div class="pro-page-carte">
 
