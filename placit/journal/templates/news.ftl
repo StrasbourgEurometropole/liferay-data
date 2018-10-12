@@ -72,7 +72,7 @@
 	<#assign thematique = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scop, "Thématique") />
 	<#assign quartier = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scopGlobal, "Territoire") />
 
-	<#assign preferencesMap = {"anyAssetType" : "${classNameId}", "classNameIds" : "${classNameId}", "displayStyle" : "ddmTemplate_1809516", "anyClassTypeJournalArticleAssetRendererFactory" : "1807609",
+	<#assign preferencesMap = {"anyAssetType" : "${classNameId}", "classNameIds" : "${classNameId}", "displayStyle" : "${sliderTemplate}", "anyClassTypeJournalArticleAssetRendererFactory" : "${typeActualite}",
 	"classTypeIdsJournalArticleAssetRendererFactory" : "${typeActualite}", "classTypeIds" : "${typeActualite}", "delta" : "4"}	/>	
 	
 	<#-- On suggere les actualite avec la meme thematique que l'entite affichee -->
