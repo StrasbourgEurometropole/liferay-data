@@ -9,7 +9,7 @@
             </figure>
             <div class="mns-info-pratiques mns-info-test">
                 <div class="mns-sec-info">
-                    <h3 class="mns-title-info">Infos & Contact</h3>
+                    <h3 class="mns-title-info"><@liferay_ui.message key="eu.infos-and-contact" /></h3>
                     <p>${entry.getPlaceAlias(locale)} 
                         <br> 
                         <#if entry.getPlaceAddress(locale)?has_content>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="mns-info-more col-sm-6">
                     <#if entry.free == 1 || entry.getPrice(locale)?has_content>
-                        <span class="mns-title-detail-actu">Tarifs</span>
+                        <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.prices" /></span>
                         <#if entry.free == 1>
                             <div class="free-event">
                                 <@liferay_ui.message key="eu.free-event" />
@@ -69,7 +69,7 @@
                 </div>
                 <div class="mns-info-more col-sm-6">
                     <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
-                        <span class="mns-title-detail-actu">Services aux Handicapés</span>
+                        <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.services-for-disabled" /></span>
                         <#if entry.accessForBlind>
                             <span class="icon-ico-1"></span>
                         </#if>
@@ -92,7 +92,7 @@
                 </div>
                 <div class="mns-info-more col-sm-6">
                     <#if entry.getAccess(locale)?has_content>
-                        <span class="mns-title-detail-actu">Accès</span>
+                        <span class="mns-title-detail-actu"><@liferay_ui.message key="access" /></span>
                         <p>${entry.getAccess(locale)}</p>
                     </#if>
                 </div>
