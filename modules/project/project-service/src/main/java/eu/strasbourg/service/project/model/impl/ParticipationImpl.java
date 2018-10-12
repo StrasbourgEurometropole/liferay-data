@@ -52,6 +52,21 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FINISHED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
+
 /**
  * The extended model implementation for the Participation service. Represents a
  * row in the &quot;project_Participation&quot; database table, with each column
@@ -69,12 +84,6 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 public class ParticipationImpl extends ParticipationBaseImpl {
 
 	private static final long serialVersionUID = 1311330918138728472L;
-
-	public static final String SOON_ARRIVED = "soon_arrived";
-	public static final String NEW = "new";
-	public static final String IN_PROGRESS = "in_progress";
-	public static final String SOON_FINISHED = "soon_finished";
-	public static final String FINISHED = "finished";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -106,7 +115,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne la liste des like/dislike de l'entité
-	 * 
+	 *
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
@@ -116,7 +125,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne la liste des likes de l'entité
-	 * 
+	 *
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
@@ -126,7 +135,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne la liste des dislikes de l'entité
-	 * 
+	 *
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
@@ -136,7 +145,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne le nombre de likes/dislikes de l'entité
-	 * 
+	 *
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
@@ -146,7 +155,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne le nombre de likes de l'entité
-	 * 
+	 *
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
@@ -156,7 +165,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne le nombre de dislikes de l'entité
-	 * 
+	 *
 	 * @see eu.strasbourg.service.like.model.LikeType
 	 */
 	@Override
@@ -314,7 +323,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	/**
 	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la
 	 * participation
-	 * 
+	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
 	@Override
@@ -336,7 +345,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	/**
 	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de
 	 * la participation
-	 * 
+	 *
 	 * @return : null si vide, sinon la liste des catégories
 	 */
 	@Override
@@ -358,7 +367,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	/**
 	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la
 	 * participation
-	 * 
+	 *
 	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	 */
 	@Override
@@ -389,7 +398,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne le status de la participation selon la temporalité actuelle
-	 * 
+	 *
 	 * @return le status suivant l'ordre : [soon_arrived] : date du jour antérieur à
 	 *         la date de publication [new] : 7 jour après la publication
 	 *         [in_progress] : toute la durée de la période de participation
@@ -419,15 +428,15 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		expirationDateMinus = cal.getTime();
 
 		if (todayDate.before(publicationDate)) {
-			return SOON_ARRIVED;
+			return SOON_ARRIVED.getName();
 		} else if (todayDate.after(expirationDate)) {
-			return FINISHED;
+			return FINISHED.getName();
 		} else if (todayDate.after(expirationDateMinus)) {
-			return SOON_FINISHED;
+			return SOON_FINISHED.getName();
 		} else if (todayDate.before(publicationDatePlus)) {
-			return NEW;
+			return NEW.getName();
 		} else {
-			return IN_PROGRESS;
+			return IN_PROGRESS.getName();
 		}
 	}
 
@@ -483,21 +492,13 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	@Override
 	public String getStatusDetailLabel() {
 		String result = "";
-
-		switch (this.getParticipationStatus()) {
-		case SOON_ARRIVED:
+		String participationStatus = this.getParticipationStatus();
+		if (SOON_ARRIVED.getName().equals(participationStatus))
 			result = "Commence dans " + this.getTodayPublicationDifferenceDays() + " jour(s)";
-			break;
-		case NEW:
-		case IN_PROGRESS:
-		case SOON_FINISHED:
+		else if (SOON_FINISHED.getName().equals(participationStatus))
 			result = "Fin dans " + this.getTodayExpirationDifferenceDays() + "jour(s)";
-			break;
-		case FINISHED:
+		else if (FINISHED.getName().equals(participationStatus))
 			result = "Finie";
-			break;
-		}
-
 		return result;
 	}
 
@@ -527,7 +528,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 	/**
 	 * Retourne la version JSON de l'entité
-	 * 
+	 *
 	 * @throws PortalException
 	 */
 	@Override

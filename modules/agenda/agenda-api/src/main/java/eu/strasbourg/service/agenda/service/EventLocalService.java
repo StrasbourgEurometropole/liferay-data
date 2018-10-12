@@ -296,6 +296,8 @@ public interface EventLocalService extends BaseLocalService,
 	*/
 	public List<Event> findByPlaceSIGId(java.lang.String placeSIGId);
 
+	public List<Event> findEventByUserPublikId(java.lang.String publikId);
+
 	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/

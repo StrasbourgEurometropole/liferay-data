@@ -652,6 +652,163 @@ public class CommentUtil {
 	}
 
 	/**
+	* Returns all the comments where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the matching comments
+	*/
+	public static List<Comment> findByPublikId(java.lang.String publikId) {
+		return getPersistence().findByPublikId(publikId);
+	}
+
+	/**
+	* Returns a range of all the comments where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @return the range of matching comments
+	*/
+	public static List<Comment> findByPublikId(java.lang.String publikId,
+		int start, int end) {
+		return getPersistence().findByPublikId(publikId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the comments where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching comments
+	*/
+	public static List<Comment> findByPublikId(java.lang.String publikId,
+		int start, int end, OrderByComparator<Comment> orderByComparator) {
+		return getPersistence()
+				   .findByPublikId(publikId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the comments where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching comments
+	*/
+	public static List<Comment> findByPublikId(java.lang.String publikId,
+		int start, int end, OrderByComparator<Comment> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByPublikId(publikId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first comment in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching comment
+	* @throws NoSuchCommentException if a matching comment could not be found
+	*/
+	public static Comment findByPublikId_First(java.lang.String publikId,
+		OrderByComparator<Comment> orderByComparator)
+		throws eu.strasbourg.service.comment.exception.NoSuchCommentException {
+		return getPersistence().findByPublikId_First(publikId, orderByComparator);
+	}
+
+	/**
+	* Returns the first comment in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching comment, or <code>null</code> if a matching comment could not be found
+	*/
+	public static Comment fetchByPublikId_First(java.lang.String publikId,
+		OrderByComparator<Comment> orderByComparator) {
+		return getPersistence()
+				   .fetchByPublikId_First(publikId, orderByComparator);
+	}
+
+	/**
+	* Returns the last comment in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching comment
+	* @throws NoSuchCommentException if a matching comment could not be found
+	*/
+	public static Comment findByPublikId_Last(java.lang.String publikId,
+		OrderByComparator<Comment> orderByComparator)
+		throws eu.strasbourg.service.comment.exception.NoSuchCommentException {
+		return getPersistence().findByPublikId_Last(publikId, orderByComparator);
+	}
+
+	/**
+	* Returns the last comment in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching comment, or <code>null</code> if a matching comment could not be found
+	*/
+	public static Comment fetchByPublikId_Last(java.lang.String publikId,
+		OrderByComparator<Comment> orderByComparator) {
+		return getPersistence().fetchByPublikId_Last(publikId, orderByComparator);
+	}
+
+	/**
+	* Returns the comments before and after the current comment in the ordered set where publikId = &#63;.
+	*
+	* @param commentId the primary key of the current comment
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next comment
+	* @throws NoSuchCommentException if a comment with the primary key could not be found
+	*/
+	public static Comment[] findByPublikId_PrevAndNext(long commentId,
+		java.lang.String publikId, OrderByComparator<Comment> orderByComparator)
+		throws eu.strasbourg.service.comment.exception.NoSuchCommentException {
+		return getPersistence()
+				   .findByPublikId_PrevAndNext(commentId, publikId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the comments where publikId = &#63; from the database.
+	*
+	* @param publikId the publik ID
+	*/
+	public static void removeByPublikId(java.lang.String publikId) {
+		getPersistence().removeByPublikId(publikId);
+	}
+
+	/**
+	* Returns the number of comments where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the number of matching comments
+	*/
+	public static int countByPublikId(java.lang.String publikId) {
+		return getPersistence().countByPublikId(publikId);
+	}
+
+	/**
 	* Returns all the comments where assetEntryId = &#63; and status = &#63;.
 	*
 	* @param assetEntryId the asset entry ID

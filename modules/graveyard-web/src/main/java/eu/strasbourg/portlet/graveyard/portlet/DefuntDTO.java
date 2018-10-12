@@ -7,6 +7,7 @@ import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
 public class DefuntDTO {
 
 	public String firstName;
+	public String birthName;
 	public String name;
 	public String birthDate;
 	public String deathDate;
@@ -19,7 +20,8 @@ public class DefuntDTO {
 	public GraveyardMapping graveyardMapping;
 	
 	public DefuntDTO(JSONObject json) {
-	    	name = json.getString("nom");
+			name = json.getString("nom");
+			birthName = json.getString("nom_naissance");
 	    	firstName = json.getString("prenom");
 	    	birthDate = json.getString("date_naissance");
 	    	deathDate = json.getString("date_deces");
@@ -34,6 +36,14 @@ public class DefuntDTO {
 
 	public DefuntDTO() {
 	    }
+
+	public String getBirthName() {
+		return birthName;
+	}
+
+	public void setBirthName(String birthName) {
+		this.birthName = birthName;
+	}
 
 	public String getFirstName() {
 		return firstName;

@@ -55,6 +55,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
 /**
  * @author romain.vergnais
  */
@@ -203,7 +205,7 @@ public class CommentPortlet extends MVCPortlet {
 					comment.setAssetEntryId(entryID);
 					comment.setUrlProjectCommentaire(url.toString());
 					comment.setUserName(comment.getFullPublikUserName());
-					comment.setComment(message);
+					comment.setComment(escapeHtml4(message));
 					comment.setUserQuality(userQuality);
 
 					// Si le message est une reponse
@@ -471,7 +473,7 @@ public class CommentPortlet extends MVCPortlet {
 		
 		return true;
 	}
-	
+
 	@Reference(unbind = "-")
 	protected void setCommentLocalService(CommentLocalService commentLocalService) {
 		_commentLocalService = commentLocalService;

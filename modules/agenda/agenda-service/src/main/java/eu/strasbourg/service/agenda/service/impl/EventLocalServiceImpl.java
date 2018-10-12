@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -52,14 +53,17 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventModel;
+import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
+
+
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the event local service.
@@ -526,7 +530,24 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}
 	}
 
-	/**
+    @Override
+	public List<Event> findEventByUserPublikId(String publikId){
+		List<EventParticipation> resultList = eventParticipationLocalService.getByPublikUser(publikId);
+		List<Event> eventList = resultList.stream().map(result -> {
+			Event event = null;
+			try {
+				event = getEvent(result.getEventId());
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+			return event;
+		}).collect(Collectors.toList());
+		return eventList.stream()
+				.filter(EventModel::isApproved)
+				.collect(Collectors.toList());
+	}
+    
+    /**
 	 * Lance une recherche par placeSIGId
 	 */
 	@Override

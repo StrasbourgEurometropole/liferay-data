@@ -1,15 +1,5 @@
 package eu.strasbourg.portlet.project;
 
-import java.io.IOException;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.expando.kernel.service.ExpandoValueLocalServiceUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
@@ -19,7 +9,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.project.display.context.EditInitiativeDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
@@ -28,6 +17,13 @@ import eu.strasbourg.portlet.project.display.context.ViewInitiativesDisplayConte
 import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
 
 /**
  * @author cedric.henry
