@@ -15,6 +15,8 @@ var plugins = require('gulp-load-plugins')({
 var rename = require('gulp-rename');
 var globSass = require('gulp-sass-glob-import');
 
+const uglify = require('gulp-uglify');
+
 liferayThemeTasks.registerTasks({
 	gulp: gulp
 });
@@ -45,5 +47,6 @@ gulp.task('js', function(){
         .pipe(plugins.include())
         .on('error', console.log)
         //.pipe(plugins.sourcemaps.write('.'))
+        .pipe(uglify())
         .pipe(gulp.dest('src/js/'));
 });
