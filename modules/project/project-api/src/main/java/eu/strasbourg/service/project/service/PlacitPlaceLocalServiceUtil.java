@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -301,6 +299,14 @@ public class PlacitPlaceLocalServiceUtil {
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
 		return getService().getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne les lieux d'une participation
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByBudgetParticipatif(
+		long budgetParticipatifId) {
+		return getService().getByBudgetParticipatif(budgetParticipatifId);
 	}
 
 	/**

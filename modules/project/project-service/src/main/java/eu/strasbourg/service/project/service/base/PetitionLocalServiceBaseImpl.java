@@ -62,6 +62,8 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalService;
+import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
+import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
@@ -469,6 +471,82 @@ public abstract class PetitionLocalServiceBaseImpl extends BaseLocalServiceImpl
 	@Override
 	public Petition updatePetition(Petition petition) {
 		return petitionPersistence.update(petition);
+	}
+
+	/**
+	 * Returns the budget participatif local service.
+	 *
+	 * @return the budget participatif local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetParticipatifLocalService getBudgetParticipatifLocalService() {
+		return budgetParticipatifLocalService;
+	}
+
+	/**
+	 * Sets the budget participatif local service.
+	 *
+	 * @param budgetParticipatifLocalService the budget participatif local service
+	 */
+	public void setBudgetParticipatifLocalService(
+		eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService) {
+		this.budgetParticipatifLocalService = budgetParticipatifLocalService;
+	}
+
+	/**
+	 * Returns the budget participatif persistence.
+	 *
+	 * @return the budget participatif persistence
+	 */
+	public BudgetParticipatifPersistence getBudgetParticipatifPersistence() {
+		return budgetParticipatifPersistence;
+	}
+
+	/**
+	 * Sets the budget participatif persistence.
+	 *
+	 * @param budgetParticipatifPersistence the budget participatif persistence
+	 */
+	public void setBudgetParticipatifPersistence(
+		BudgetParticipatifPersistence budgetParticipatifPersistence) {
+		this.budgetParticipatifPersistence = budgetParticipatifPersistence;
+	}
+
+	/**
+	 * Returns the budget phase local service.
+	 *
+	 * @return the budget phase local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetPhaseLocalService getBudgetPhaseLocalService() {
+		return budgetPhaseLocalService;
+	}
+
+	/**
+	 * Sets the budget phase local service.
+	 *
+	 * @param budgetPhaseLocalService the budget phase local service
+	 */
+	public void setBudgetPhaseLocalService(
+		eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService) {
+		this.budgetPhaseLocalService = budgetPhaseLocalService;
+	}
+
+	/**
+	 * Returns the budget phase persistence.
+	 *
+	 * @return the budget phase persistence
+	 */
+	public BudgetPhasePersistence getBudgetPhasePersistence() {
+		return budgetPhasePersistence;
+	}
+
+	/**
+	 * Sets the budget phase persistence.
+	 *
+	 * @param budgetPhasePersistence the budget phase persistence
+	 */
+	public void setBudgetPhasePersistence(
+		BudgetPhasePersistence budgetPhasePersistence) {
+		this.budgetPhasePersistence = budgetPhasePersistence;
 	}
 
 	/**
@@ -1089,6 +1167,14 @@ public abstract class PetitionLocalServiceBaseImpl extends BaseLocalServiceImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetParticipatifLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService;
+	@BeanReference(type = BudgetParticipatifPersistence.class)
+	protected BudgetParticipatifPersistence budgetParticipatifPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetPhaseLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService;
+	@BeanReference(type = BudgetPhasePersistence.class)
+	protected BudgetPhasePersistence budgetPhasePersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
 	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
 	@BeanReference(type = InitiativePersistence.class)

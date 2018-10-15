@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 public class EditPetitionDisplayContext {
 
-
 	/**
 	 * le log
 	 */
