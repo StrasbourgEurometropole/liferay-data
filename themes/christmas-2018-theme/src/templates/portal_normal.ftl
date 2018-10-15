@@ -47,11 +47,11 @@
                 <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
             </div>
         </div>
-        <#assign isExperientiel = layout.getFriendlyURL() == "/experientel" />
+        <#assign isExperientiel = layout.getFriendlyURL() == "/experientiel" />
         <#if !isExperientiel>
             <#include "${full_templates_path}/navigation.ftl" />
         <#else>
-            <#include "${full_templates_path}/experientel.ftl" />
+            <#include "${full_templates_path}/experientiel.ftl" />
         </#if>
     </header>
     <main>
