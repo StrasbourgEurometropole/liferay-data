@@ -12,24 +12,15 @@
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
 <div class="pro-page-budget-participatif">
-    
+
     <section class="container">
         <div class="row">
-            
+
             <div class="col-xs-12 pro-wrapper-title">
                 <h1>${rightTitle.getData()}</h1>
             </div>
-            
+
             <div class="pro-wrapper-content">
-                <div class="col-xs-12">
-                    <div id="breadcrumb">
-                        <span>
-                            <span>
-                                <a href="${homeURL}">Accueil</a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
 
                 <div class="col-sm-6">
                     <div class="pro-preambule">
