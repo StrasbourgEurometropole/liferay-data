@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<portlet:resourceURL id="entrySelectionParticipation" var="participationsSelectionURL">
+<portlet:resourceURL id="entrySelectionBudgetParticipatif" var="participationsSelectionURL">
 </portlet:resourceURL>
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
@@ -134,15 +134,15 @@
 <!-- Recherche par types -->
 <div class="pro-group">
     <div class="pro-header">
-        <h4><liferay-ui:message key="eu.participation.types" /></h4>
+        <h4><liferay-ui:message key="eu.budgetParticipatif.types" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset id="types_fieldset" class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par type de participation</legend>
+        <legend aria-hidden="true" class="hide">Choix par type de budgetParticipatif</legend>
 		
-		<c:set var="participationTypesVocabulary" value="${vocabularyAccessor.getParticipationTypes(groupID)}" />
+		<c:set var="budgetParticipatifTypesVocabulary" value="${vocabularyAccessor.getBudgetParticipatifTypes(groupID)}" />
 		<c:forEach
-			items="${dc.getDropdownRootCategories(participationTypesVocabulary)}"
+			items="${dc.getDropdownRootCategories(budgetParticipatifTypesVocabulary)}"
 			var="category"
 			varStatus="catStatus">
 			<aui:input type="checkbox" name="vocabulary_3"
@@ -168,11 +168,11 @@
 	<script>
 		var porletNamespace = '<portlet:namespace/>';
 
-        var participationsSelectionURL = '${participationsSelectionURL}';
+        var budgetParticipatifsSelectionURL = '${budgetParticipatifsSelectionURL}';
 	</script>
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/placit-participation.js"></script>
+	<script src="/o/searchassetweb/js/placit-budgetParticipatif.js"></script>
 
 </liferay-util:html-bottom>

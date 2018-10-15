@@ -2,8 +2,8 @@
 <portlet:resourceURL id="fileBudget" var="fileBudgetURL">
 </portlet:resourceURL>
 <!-- DEPOSER UN NOUVEAU BUDGET -->
-<!-- HTML pour la modal de petition -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalProjet" tabindex="-1" role="dialog" aria-labelledby="modalProjet">
+<!-- HTML pour la modal de budget -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalBudget" tabindex="-1" role="dialog" aria-labelledby="modalProjet">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="pro-modal-top">
@@ -137,19 +137,19 @@
         </div><!-- /.modal -->
 
 
-<!-- CONFIRMATION NOUVELLE PETITION -->
-<!-- HTML pour la modal de confirmation de nouvelle pÃÂ©tition -->
+<!-- CONFIRMATION NOUVEAU BUDGET -->
+<!-- HTML pour la modal de confirmation de nouvelle pétition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='confirm-petition'/></h3>
+                <h3><liferay-ui:message key='confirm-budget'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='file-petition-ok'/></h4>
+                <h4><liferay-ui:message key='file-budget-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
                 </div>
             </div>
         </div>
@@ -157,38 +157,38 @@
 </div>
 
 
-<!-- ERREUR NOUVELLE PETITION -->
+<!-- ERREUR NOUVELLE BUDGET -->
 <!-- HTML pour la modal d'erreur de nouvelle pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorBudget" tabindex="-1" role="dialog" aria-labelledby="modalErrorBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='error-petition'/></h3>
+                <h3><liferay-ui:message key='error-budget'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- CONFIRMATION QUITTER PETITION -->
+<!-- CONFIRMATION QUITTER BUDGET -->
 <!-- HTML pour la modal de quitter le formulaire de pÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitBudget" tabindex="-1" role="dialog" aria-labelledby="modalQuitBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='quit-petition'/></h3>
+                <h3><liferay-ui:message key='quit-budget'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='file-petition-quit'/></h4>
+                <h4><liferay-ui:message key='file-budget-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-quit"/> />
                 </div>
             </div>
         </div>
@@ -220,8 +220,8 @@
 
         var response = validateForm();
         if (response){
-            var petitionTitleValue = $("#"+namespace+"petitiontitle").val();
-            var petitionDescriptionValue = $("#"+namespace+"petitiondescription").val();
+            var budgetTitleValue = $("#"+namespace+"budgettitle").val();
+            var budgetDescriptionValue = $("#"+namespace+"budgetdescription").val();
             var birthdayValue = $("#"+namespace+"birthday").val();
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
@@ -231,7 +231,7 @@
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
-            var consultationPlacesTextValue = $("#"+namespace+"petitionlieux").val();
+            var consultationPlacesTextValue = $("#"+namespace+"budgetlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var firstNameValue = $("#"+namespace+"firstname").val();
@@ -241,8 +241,8 @@
                     method : 'POST',
                     dataType: 'json',
                     data:{
-                        <portlet:namespace/>petitiontitle:petitionTitleValue,
-                        <portlet:namespace/>petitiondescription:petitionDescriptionValue,
+                        <portlet:namespace/>budgettitle:budgetTitleValue,
+                        <portlet:namespace/>budgetdescription:budgetDescriptionValue,
                         <portlet:namespace/>birthday:birthdayValue,
                         <portlet:namespace/>address:addressValue,
                         <portlet:namespace/>city:cityValue,
@@ -295,9 +295,9 @@
 
     function resetValues()
     {
-        $("#"+namespace+"petitiontitle").val("");
-        $("#"+namespace+"petitiondescription").val("");
-        $("#"+namespace+"petitionlieux").val("");
+        $("#"+namespace+"budgettitle").val("");
+        $("#"+namespace+"budgetdescription").val("");
+        $("#"+namespace+"budgetlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();
         $("#"+namespace+"quartier option[value='0']").prop('selected', true);
@@ -306,8 +306,8 @@
         $("#"+namespace+"theme").selectric();
         $('#checkboxSaveInfo #save-info').prop('checked', false);
         $('#checkboxSaveInfo').hide();
-        $("#file-petition-legalage").prop("checked", false);
-        $("#file-petition-cnil").prop("checked", false);
+        $("#file-budget-legalage").prop("checked", false);
+        $("#file-budget-cnil").prop("checked", false);
         $("#"+namespace+"birthday").val(saved_dateNaiss);
         $("#"+namespace+"city").val(saved_city);
         $("#"+namespace+"address").val(saved_address);
@@ -331,25 +331,25 @@
     function validateForm()
     {
         var result = true;
-        var petitiontitle = $("#"+namespace+"petitiontitle").val();
-        var petitiondescription = $("#"+namespace+"petitiondescription").val();
+        var budgettitle = $("#"+namespace+"budgettitle").val();
+        var budgetdescription = $("#"+namespace+"budgetdescription").val();
         var birthday = $("#"+namespace+"birthday").val();
         var city = $("#"+namespace+"city").val();
         var address = $("#"+namespace+"address").val();
         var postalcode = $("#"+namespace+"postalcode").val();
-        var legalage = $("#file-petition-legalage").is(":checked");
-        var cnil = $("#file-petition-cnil").is(":checked");
+        var legalage = $("#file-budget-legalage").is(":checked");
+        var cnil = $("#file-budget-cnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
-        if (petitiontitle==null || petitiontitle==""){
-            $("#"+namespace+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (budgettitle==null || budgettitle==""){
+            $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"petitiontitle").css({ "box-shadow" : "" });
+        }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
 
-        if (petitiondescription==null || petitiondescription==""){
-            $("#"+namespace+"petitiondescription").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (budgetdescription==null || budgetdescription==""){
+            $("#"+namespace+"budgetdescription").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"petitiondescription").css({ "box-shadow" : "" });
+        }else $("#"+namespace+"budgetdescription").css({ "box-shadow" : "" });
 
         if (birthday==null || birthday==""){
             $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
