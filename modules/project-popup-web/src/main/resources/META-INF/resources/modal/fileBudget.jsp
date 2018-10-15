@@ -3,135 +3,138 @@
 </portlet:resourceURL>
 <!-- DEPOSER UN NOUVEAU BUDGET -->
 <!-- HTML pour la modal de petition -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalBudget" tabindex="-1" role="dialog" aria-labelledby="modalBudget">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key="modal.filepetition.title"/></h3>
-                <button id="closingButton" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalProjet" tabindex="-1" role="dialog" aria-labelledby="modalProjet">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="pro-modal-top">
+                        <h3>Soumettre un projet</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                    </div>
 
-            <form id="form-file-petition">
-                <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
-                    <div class="form-group">
-                        <aui:input id="petitiontitle" name="title" label="modal.filepetition.information.title" required="true" value=""/>
-                    </div>
-                    <div class="form-group">
-                        <aui:input id="petitiondescription" type="textarea" name="description" label="modal.filepetition.information.description" required="true" value=""/>
-                    </div>
-                    <div class="pro-row">
-                        <div class="form-group form-triple">
-                            <label for="petition"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
-                            <select id="<portlet:namespace />project" name="<portlet:namespace />project">
-                                <option value="0" selected ></option>
-                                <c:forEach var="project" items="${projects}">
-                                    <option value="${project.categoryId}">${project.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="form-group form-triple">
-                            <label for="territoire"><liferay-ui:message key="modal.filepetition.information.territoire"/></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected ><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
-                                <c:forEach var="quartier" items="${quartiers}">
-                                    <option value="${quartier.categoryId}">${quartier.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="form-group form-triple">
-                            <label for="thematique"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
-                            <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
-                                <option value="0" selected ></option>
-                                <c:forEach var="theme" items="${thematics}">
-                                    <option value="${theme.categoryId}">${theme.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <aui:input id="petitionlieux" name="consultationPlacesText" label="modal.filepetition.information.lieu" value=""/>
-                    </div>
-                    <div class="pro-txt-form">
-                        <p><liferay-ui:message key="modal.filepetition.information.mayor"/></p>
-                    </div>
-                </div>
-                <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filepetition.user"/></h4>
-                    <div class="pro-row">
-                        <div class="form-group form-triple">
-                            <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
-                        </div>
-                        <div class="form-group form-triple">
-                            <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
-                        </div>
-                        <div class="form-group form-triple">
-	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
-	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
-					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkValues();" onChange="checkValues();"/>
-                        </div>
-                    </div>
-                    <div class="pro-row">
-                        <div class="form-group form-half">
-                            <aui:input id="address" name="address" label="modal.user.address" required="true" onInput="checkValues();"/>
-                        </div>
-                        <div class="form-group form-half">
-                            <div class="form-city">
-                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" onInput="checkValues();"/>
+                    <form>
+                        <div class="pro-wrapper">
+                            <h4>Informations sur le projet</h4>
+                            <div class="form-group">
+                                <label for="titre">Titre du projet <span class="required">*</span></label>
+                                <input type="text" class="form-control" id="titre"/>
                             </div>
-                            <div class="form-code">
-                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValues();"/>
+                            <div class="form-group">
+                                <label for="description">Description <span>*</span></label>
+                                <textarea id="description" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="pro-row">
+                                <div class="form-group form-half">
+                                    <label for="quartiers">Quartiers</label>
+                                    <select id="quartiers">
+                                        <option>Krutenau</option>
+                                        <option>Wacken</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-half">
+                                    <label for="lieux">Lieux</label>
+                                    <input type="text" class="form-control" id="lieux"/>
+                                </div>
+                            </div>
+                            <div class="pro-row">
+                                <div class="form-group form-half">
+                                    <label for="thematiques">Thématiques</label>
+                                    <select id="thematiques">
+                                        <option>Thématique 1</option>
+                                        <option>Thématique 2</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-half">
+                                    <label for="projets">Projets</label>
+                                    <select id="projets">
+                                        <option>Projets 1</option>
+                                        <option>Projets 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lieux">Lieu(x)</label>
+                                <input type="text" class="form-control" id="lieux"/>
+                            </div>
+                            <div class="pro-row">
+                                <div class="form-group form-two-tiers">
+                                    <label for="photo">Ajouter une photo</label>
+                                    <div class="input-group input-file" name="Fichier1">
+                                        <input type="text" id="photo" class="form-control"/>
+                                        <span class="input-group-btn"><button class="btn btn-default btn-choose" type="button">Parcourir</button></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pro-row">
+                                <div class="form-group form-two-tiers">
+                                    <label for="video">Ajouter une vidéo</label>
+                                    <input type="text" class="form-control" id="video" placeholder="Lien youtube, viméo, dailymotion"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <aui:input type="email" name="mail" disabled="true" label="modal.user.mail" required="true" value="${userConnected.get('email')}"/>
-                    </div>
-                    <div class="pro-row">
-                        <div class="form-group form-half">
-                            <aui:input type="number" id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" onInput="checkValues();"/>
+                        <div class="pro-wrapper">
+                            <h4>Informations sur le pétitionnaire</h4>
+                            <div class="pro-row">
+                                <div class="form-group form-half">
+                                    <label for="nom">Nom <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="nom" placeholder="Dupond"/>
+                                </div>
+                                <div class="form-group form-half">
+                                    <label for="prenom">Prénom <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="prenom" placeholder="Jean"/>
+                                </div>
+                            </div>
+                            <div class="pro-row">
+                                <div class="form-group form-half">
+                                    <label for="adresse">Adresse <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="adresse"/>
+                                </div>
+                                <div class="form-group form-half">
+                                    <div class="form-city">
+                                        <label for="city">Ville <span class="required">*</span></label>
+                                        <input type="text" class="form-control" id="city"/>
+                                    </div>
+                                    <div class="form-code">
+                                        <label for="code">Code postal <span class="required">*</span></label>
+                                        <input type="text" class="form-control" id="code"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Adresse mail <span class="required">*</span></label>
+                                <input type="email" class="form-control" id="email" placeholder="jean.dupond@gmail.com">
+                            </div>
+                            <div class="pro-row">
+                                <div class="form-group form-half">
+                                    <label for="tel_fixe">Téléphone Fixe</label>
+                                    <input type="text" class="form-control" id="tel_fixe"/>
+                                </div>
+                                <div class="form-group form-half">
+                                    <label for="tel_mobile">Téléphone mobile</label>
+                                    <input type="text" class="form-control" id="tel_mobile"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group form-half">
-                            <aui:input type="number" id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" onInput="checkValues();"/>
+                        <div class="pro-optin form-checkbox">
+                            <div>
+                                <input type="checkbox" id="optin" value="optin">
+                                <label for="optin">Je dispose des droits lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua.</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group form-checkbox" id="checkboxSaveInfo">
-                        <div>
-                            <input type="checkbox" id="save-info" value="save-info">
-                            <label for="save-info"><liferay-ui:message key="modal.save.info"/></label>
+                        <div class="pro-optin form-checkbox">
+                            <div>
+                                <input type="checkbox" id="optin-2" value="optin">
+                                <label for="optin-2">Un participant au budget participatif je certifie lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                                    labore et dolore magna aliqua.</label>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="pro-optin form-checkbox">
-                    <div>
-                        <input type="checkbox" id="file-petition-legalage" value="legalage">
-                        <label for="file-petition-legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
-                        </label>
-                    </div>
-                </div>
-                <div class="pro-optin form-checkbox" >
-                    <div>
-                        <input type="checkbox" id="file-petition-cnil" value="cnil">
-                        <label for="file-petition-cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
-                        </label>
-                    </div>
-                </div>
-                <div class="pro-info-supp">
-                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions"/></i></p>
-                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contact"/></p>
-                </div>
-                <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
-                <div class="pro-form-submit">
-                    <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filepetition.submit"/></button>
-                </div>
-            </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                        <div class="pro-form-submit">
+                            <button type="submit" class="btn btn-default">Soumettre le projet</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
 
 <!-- CONFIRMATION NOUVELLE PETITION -->

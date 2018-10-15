@@ -480,9 +480,34 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.isScheduled();
 	}
 
+	/**
+	* Retourne le projet de la participation (
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _budgetParticipatif.getProjectCategory();
+	}
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _budgetParticipatif.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _budgetParticipatif.getExpandoBridge();
+	}
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId) {
+		return _budgetParticipatif.toJSON(publikUserId);
 	}
 
 	@Override
@@ -639,6 +664,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getDescription() {
 		return _budgetParticipatif.getDescription();
+	}
+
+	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	@Override
+	public java.lang.String getDistrictLabel(java.util.Locale locale) {
+		return _budgetParticipatif.getDistrictLabel(locale);
 	}
 
 	/**
@@ -809,6 +844,40 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public Date getStatusDate() {
 		return _budgetParticipatif.getStatusDate();
+	}
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _budgetParticipatif.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à la participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+		return _budgetParticipatif.getPlacitPlaces();
+	}
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
+		return _budgetParticipatif.getTerritoryCategories();
+	}
+
+	/**
+	* Retourne les thematiques de la participation (
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _budgetParticipatif.getThematicCategories();
 	}
 
 	/**

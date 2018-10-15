@@ -225,7 +225,7 @@
 					</aui:option>
 				</aui:select>
 				
-				<!-- Filtre par date par dÃÂÃÂÃÂÃÂ©faut --> 
+				<!-- Filtre par date par defaut -->
 				<aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
 			</aui:fieldset>
 			
@@ -282,6 +282,9 @@
                     </aui:option>
 					<aui:option value="placit-petitions" selected="${searchForm eq 'placit-petitions'}">
 						<liferay-ui:message key="placit-petitions" />
+					</aui:option>
+					<aui:option value="placit-budgetParticipatif" selected="${searchForm eq 'placit-budgetParticipatif'}">
+						<liferay-ui:message key="placit-budgetParticipatif" />
 					</aui:option>
 					<aui:option value="placit-initiatives" selected="${searchForm eq 'placit-initiatives'}">
 						<liferay-ui:message key="placit-initiatives" />
