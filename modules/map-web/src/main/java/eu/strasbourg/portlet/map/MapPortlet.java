@@ -83,6 +83,10 @@ public class MapPortlet extends MVCPortlet {
             boolean openInNewTab = false; // Ouvertures du détail des POIS dans la même fenêtre par défaut
             String typesContenu = ""; // Les type de contenus
             String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
+            String zoom = ""; // Zoom de la carte
+            String cadrageX = ""; // Cadrage de la carte
+            String cadrageY = ""; // Cadrage de la carte
+            boolean showPictos = false; // Affichage des pictos dans la zone de configuration
             boolean showConfig = true; // Affichage de la zone de configuration
             boolean showList = true; // Affichage de la liste à droite
             String prefilterCategoriesIdsString = ""; // Les catégories masquées et cochées
@@ -99,13 +103,17 @@ public class MapPortlet extends MVCPortlet {
             List<AssetCategory> categories = null; // Les catégories actives
             List<Interest> interests = null; // Les intérêts actifs
             AssetCategory district = null;
-            JSONObject coordinateZone = null;
+            JSONObject coordinateZone = JSONFactoryUtil.createJSONObject();
 
             // Est-ce que la config du portlet est défini ?
             if (configuration.hasConfig()) {
                 hasConfig = true;
                 mode = configuration.mode();
                 groupId = configuration.groupId();
+                zoom = configuration.zoom();
+                cadrageX = configuration.cadrageX();
+                cadrageY = configuration.cadrageY();
+                showPictos = configuration.showPictos();
                 openInNewTab = configuration.openInNewTab();
                 // Chargement de la configuration globale pour le mode widget
                 if (configuration.widgetMod()) {
@@ -165,9 +173,9 @@ public class MapPortlet extends MVCPortlet {
                                 }
                             }
                         }
-                        if (district != null) {
-                            coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
-                        }
+//                        if (district != null) {
+//                            coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
+//                        }
                     }
 
                     interestsIdsString = configuration.interestsIds();
@@ -349,6 +357,10 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("widgetMod", widgetMod);
             request.setAttribute("defaultConfig", configuration.defaultConfig());
             request.setAttribute("groupId", groupId);
+            request.setAttribute("zoom", zoom);
+            request.setAttribute("cadrageX", cadrageX);
+            request.setAttribute("cadrageY", cadrageY);
+            request.setAttribute("showPictos", showPictos);
             request.setAttribute("openInNewTab", openInNewTab);
             request.setAttribute("typesContenu", typesContenu);
             request.setAttribute("eventExplanationText", eventExplanationText);

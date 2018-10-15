@@ -76,22 +76,29 @@
 						</aui:select>
 					</div>
 					<div class="asset-type-configuration">
-						<aui:input type="checkbox" 
-							name="searchDocument" 
-							value="${searchDocument}" 
-							label="file" 
-							inlineField="true" />
+						<aui:input type="checkbox"
+								   name="searchDocument"
+								   value="${searchDocument}"
+								   label="file"
+								   inlineField="true" />
 						<aui:select name="documentTemplateKey"
-							inlineField="true">
+									inlineField="true">
 							<aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
 							<c:forEach var="template"
-								items="${documentTemplatesList}">
+									   items="${documentTemplatesList}">
 								<aui:option value="${template.templateKey}"
-									selected="${documentTemplateKey eq template.templateKey}">
+											selected="${documentTemplateKey eq template.templateKey}">
 									${template.getName(locale)}
 								</aui:option>
 							</c:forEach>
 						</aui:select>
+					</div>
+					<div class="asset-type-configuration">
+						<aui:input type="checkbox"
+								   name="searchDemarche"
+								   value="${searchDemarche}"
+								   label="procedure"
+								   inlineField="true" />
 					</div>
 				</div>
 				<div>

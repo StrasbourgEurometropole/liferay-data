@@ -68,9 +68,9 @@
             //Création de la carte au centre de strasbourg
             var mymap = L.map('mapid', {
                 // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-                center: [48.573, 7.752],
+                center: [((window.cadrageX != "")?window.cadrageX:48.573) , ((window.cadrageY != "")?window.cadrageY:7.752)],
                 maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-                zoom: 13,
+                zoom: (window.zoom != "")?window.zoom:13,
                 minZoom: 11,
                 zoomControl: false,
                 attributionControl: false
@@ -560,24 +560,23 @@
                 mymap.closePopup();
             });
 
-
             // Affichage de la zone
-            // if (window.coordinateZone) {
-            //     // Récupération des coordonnées de la zone
-            //     requestsInProgress++;
-            //     showLoadingIcon();
-            //     // Convertion des données geoJSON en polygon
-            //     var coordinates = L.geoJson(window.coordinateZone, {
-            //         style: "color: '#ff0000'"
-            //     }).addTo(mymap);
-            //
-            //     // centrer la carte sur le quartier
-            //     var bounds = [];
-            //     window.coordinateZone.geometry.coordinates[0][0].forEach(function(e){bounds.push([e[1],e[0]]);});
-            //     mymap.fitBounds(bounds);
-            //     requestsInProgress--;
-            //     maybeHideLoadingIcon();
-            // }
+            if (window.coordinateZone.geometry != undefined) {
+                // Récupération des coordonnées de la zone
+                requestsInProgress++;
+                showLoadingIcon();
+                // Convertion des données geoJSON en polygon
+                var coordinates = L.geoJson(window.coordinateZone, {
+                    style: "color: '#ff0000'"
+                }).addTo(mymap);
+
+                // centrer la carte sur le quartier
+                var bounds = [];
+                window.coordinateZone.geometry.coordinates[0][0].forEach(function(e){bounds.push([e[1],e[0]]);});
+                mymap.fitBounds(bounds);
+                requestsInProgress--;
+                maybeHideLoadingIcon();
+            }
 
             function saveUserConfig() {
                 AUI().use('aui-io-request', function(A) {

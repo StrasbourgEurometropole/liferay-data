@@ -64,6 +64,9 @@
 			                                	${category.getTitle(locale)}
 		
 												<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
+												<c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
+													<img src="${category.getDescription(locale)}" width="35px">
+												</c:if>
 			                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
 			                                </label>
 			                            </div>
