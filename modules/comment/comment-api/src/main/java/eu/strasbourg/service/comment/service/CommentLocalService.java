@@ -299,6 +299,12 @@ public interface CommentLocalService extends BaseLocalService,
 	public List<Comment> getByParentCommentId(long parentCommentId, int status);
 
 	/**
+	* Retourne tous les commentaires d'un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Comment> getByPublikId(java.lang.String publikId);
+
+	/**
 	* Returns a range of all the comments.
 	*
 	* <p>

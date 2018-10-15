@@ -47,6 +47,9 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
 		<finder name="AssetEntryId" return-type="Collection">
 			<finder-column name="assetEntryId" />
 			<finder-column name="status" />

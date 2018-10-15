@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
@@ -425,6 +426,14 @@ public class ParticipationLocalServiceImpl
     public List<Participation> getByGroupId(long groupId) {
         return this.participationPersistence.findByGroupId(groupId);
     }
+    
+    /**
+	 * Retourne toutes les participation publiées d'un groupe
+	 */
+	@Override
+	public List<Participation> getPublishedByGroupId(long groupId) {
+		return this.participationPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	}
 
     /**
      * Recherche par mot clés

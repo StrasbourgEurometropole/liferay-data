@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 
 import java.io.IOException;
@@ -148,6 +149,14 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 	@Override
 	public List<Initiative> getByGroupId(long groupId) {
 		return this.initiativePersistence.findByGroupId(groupId);
+	}
+	
+	/**
+	 * Retourne toutes les initiatives publiées d'un groupe
+	 */
+	@Override
+	public List<Initiative> getPublishedByGroupId(long groupId) {
+		return this.initiativePersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
 	}
 	
 	/**

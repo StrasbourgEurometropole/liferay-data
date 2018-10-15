@@ -206,7 +206,7 @@ public class CommentPortlet extends MVCPortlet {
 					comment.setUrlProjectCommentaire(url.toString());
 					comment.setUserName(comment.getFullPublikUserName());
 					comment.setComment(escapeHtml4(message));
-					comment.setUserQuality(userQuality);
+					comment.setUserQuality(escapeHtml4(userQuality));
 
 					// Si le message est une reponse
 					if (parentCommentId != 0) {

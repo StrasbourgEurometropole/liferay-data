@@ -14539,7 +14539,7 @@ function getLeafletMap() {
         minZoom: 13,
         zoom: 13,
         minZoom: 12,
-        zoomControl: false,
+        zoomControl: true,
         attributionControl: false,
         fullscreenControl: {
             pseudoFullscreen: false // if true, fullscreen to page width and height
@@ -14623,7 +14623,7 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
         '<a target="_blank" href="' + link + '" id="map-inte-container">' +
             '<div class="map-inte-content">' +
                 '<div class="map-inte-header">' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
+                    '<span class="pro-time">Publiée <time datetime="2018-01-10">' + publishDate + '</time></span>' +
                     '<p>' + place + '</p>' +
                 '</div>' +
                 '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
@@ -14642,17 +14642,17 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 function getProjectMarker(project, mercators) {
     var projectMarkerIcon = getMarkerIcon("project");
     var marker = L.marker(mercators, {icon: projectMarkerIcon});
-
+    
     marker.bindPopup(
         '<div class="item pro-bloc-card-projet" data-linkall="a">' +
-            '<a href="' + project.link + 'detail-projet.php"></a><div class="pro-header-projet">' +
+            '<a href="' + project.link + '"><div class="pro-header-projet">' +
                 '<p>Quartier(s) concerné(s) :</p><p><strong>' + project.districtLabel + '</strong></p></div> ' +
                 '<div class="pro-content-projet"><h3>' + project.title + '</h3>' +
                 '<div class="pro-wrap-thematique"><span>' + project.thematicsLabel + '</span></div></div> ' +
                 '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
             '</a>' + 
         '</div>'
-        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
     );
 
     return marker;
@@ -14710,7 +14710,7 @@ function getParticipationMarker(participation, mercators) {
             '</div></a>' + 
         '</div>' + 
         colorHack
-        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
     );
 
     return marker;
@@ -14743,7 +14743,7 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
-        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
     );
 
     return marker;
@@ -14789,7 +14789,7 @@ function getPetitionMarker(petition, mercators) {
                 '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
-        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
     );
 
     return marker;
@@ -15700,7 +15700,7 @@ function callbackCarteInteractive(macarte) {
         '</div></a></div>', markerInitiative, 247);
 
     contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet" data-linkall="a">' +
-        '<a href="detail-projet.php"></a><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
+        '<a href="detail-projet.php"><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
         '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
         '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
         '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
