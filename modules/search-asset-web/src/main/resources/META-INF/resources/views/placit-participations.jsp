@@ -70,7 +70,7 @@
                 <div class="pro-widget-participation">
                     <h4><liferay-ui:message key="eu.less.commented-fe" /></h4>
                     <c:forEach var="participationLess" items="${participationListLessCommented}">
-                        <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationMost.participationId}" title="Lien vers Titre d'une participation">
+                        <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationLess.participationId}" title="Lien vers Titre d'une participation">
                             <div class="pro-meta">
                                 <span>${participationLess.getDistrictLabel(locale)}</span>
                                 <span>${participationLess.getThematicsLabel(locale)}</span>
