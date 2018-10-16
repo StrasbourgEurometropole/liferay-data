@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.LongStream;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -36,9 +32,12 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.PlacitPlaceLocalServiceBaseImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the placit place local service.
@@ -83,6 +82,14 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 	@Override
 	public List<PlacitPlace> getByInitiative(long initiativeId) {
 		return this.placitPlacePersistence.findByInitiative(initiativeId);
+	}
+
+	/**
+	 * Retourne les lieux d'une participation
+	 */
+	@Override
+	public List<PlacitPlace> getByBudgetParticipatif(long budgetParticipatifId) {
+		return this.placitPlacePersistence.findByPetition(budgetParticipatifId);
 	}
 
 	/**
