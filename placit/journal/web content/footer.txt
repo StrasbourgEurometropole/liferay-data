@@ -76,9 +76,7 @@
                         <ul>
                             <li><a href="/web/participer/pacte" title="Signature du pacte">Le Pacte</a></li>
                             <li><a href="/web/participer/contact" title="formulaire de contact">Nous contacter</a></li>
-                            <li><a href="/web/participer/legal" title="Mention légale">Mentions légales</a></li>
-                            <li><a href="/web/participer/glossaire" title="le glossaire">Glossaire &amp; règles
-                                d'utilisation</a></li>
+                            <li><a href="/web/participer/glossaire" title="le glossaire">Glossaire &amp; règles d'utilisation</a></li>
                         </ul>
                     </div>
 
@@ -150,17 +148,12 @@
                 </a>
 
                     <ul>
-                        <li><a href="index.html" title="Lien vers la Page du Portail Citoyen">Le portail citoyen</a>
-                        </li>
-                        <li><a href="page-informer.html" title="Lien vers la Page s'informer">S'informer</a></li>
-                        <li><a href="listing-participation.html"
-                               title="Lien vers la Page du Listing des participations">Participer</a></li>
-                        <li><a href="page-standard.html" title="Lien vers la page des initiatives citoyennes">Initiatives
-                            citoyennes</a></li>
-                        <li><a href="page-standard-cover-video.html" title="Lien vers la page des pétitions citoyennes">Pétitions
-                            citoyennes</a></li>
-                        <li><a href="page-standard.html" title="Lien vers la page Avertir">Avertir</a></li>
-                        <li><a href="plan-du-site" title="Lien vers le plan du site">Plan du site</a></li>
+                        <li><a href="/web/participer" title="Lien vers la Page du Portail Citoyen">Le portail citoyen</a></li>
+                        <li><a href="/web/participer/informer" title="Lien vers la Page s'informer">S'informer</a></li>
+                        <li><a href="/web/participer/participations" title="Lien vers la Page du Listing des participations">Participer</a></li>
+                        <li><a href="/web/participer/petitions" title="Lien vers la page des pétitions citoyennes">Pétitions citoyennes</a></li>
+                        <li><a href="https://demarches.strasbourg.eu/interventions-signalements/" title="Lien vers la page Avertir">Avertir</a></li>
+                        <li><a href="/web/participer/plan-du-site" title="Lien vers le plan du site">Plan du site</a></li>
                     </ul>
                 </div>
             </div>
