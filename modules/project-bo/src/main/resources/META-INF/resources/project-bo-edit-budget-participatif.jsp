@@ -3,20 +3,20 @@
 
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="budgetParticipatifURL">
-	<portlet:param name="tab" value="budget participatif" />
+	<portlet:param name="tab" value="budgets-participatifs" />
 </liferay-portlet:renderURL>
 
 <%-- URL : definit le lien menant vers la suppression de l'entite --%>
 <liferay-portlet:actionURL name="deleteBudgetParticipatif" var="deleteBudgetParticipatifURL">
 	<portlet:param name="cmd" value="deleteBudgetParticipatif" />
-	<portlet:param name="tab" value="budget participatif" />
+	<portlet:param name="tab" value="budgets-participatifs" />
 	<portlet:param name="budgetParticipatifId" value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.budgetParticipatifId : ''}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveBudgetParticipatif" varImpl="saveBudgetParticipatifURL">
 	<portlet:param name="cmd" value="saveBudgetParticipatif" />
-	<portlet:param name="tab" value="budgetParticipatifs" />
+	<portlet:param name="tab" value="budgets-participatifs" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

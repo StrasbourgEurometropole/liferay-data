@@ -2,7 +2,7 @@
 
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="budgetParticipatifURL">
-	<portlet:param name="tab" value="Budget Participatif" />
+	<portlet:param name="tab" value="budgets-participatifs" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
@@ -13,7 +13,7 @@
 <%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
 <liferay-portlet:renderURL varImpl="addBudgetParticipatifURL">
 	<portlet:param name="cmd" value="editBudgetParticipatif" />
-	<portlet:param name="mvcPath" value="/project-bo-edit-budgetParticipatif.jsp" />
+	<portlet:param name="mvcPath" value="/project-bo-edit-budget-participatif.jsp" />
 	<portlet:param name="returnURL" value="${budgetParticipatifURL}" />
 </liferay-portlet:renderURL>
 
@@ -75,7 +75,7 @@
 					<portlet:param name="cmd" value="editBudgetParticipatif" />
 					<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 					<portlet:param name="returnURL" value="${budgetParticipatifURL}" />
-					<portlet:param name="mvcPath" value="/project-bo-edit-budgetParticipatif.jsp" />
+					<portlet:param name="mvcPath" value="/project-bo-edit-budget-participatif.jsp" />
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Titre --%>
@@ -104,7 +104,7 @@
 
 						<liferay-portlet:actionURL name="deleteBudgetParticipatif" var="deleteBudgetParticipatifURL">
 							<portlet:param name="cmd" value="deleteBudgetParticipatif" />
-							<portlet:param name="tab" value="budgetParticipatifs" />
+							<portlet:param name="tab" value="budgets-participatifs" />
 							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -121,15 +121,15 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:resourceURL var="exportBudgetParticipatifsXlsxURL" id="exportBudgetParticipatifsXlsx">
-    	</liferay-portlet:resourceURL>
-    	<form method="POST" action="${exportBudgetParticipatifsXlsxURL}">
-    		<aui:input type="hidden" name="budgetParticipatifIds" value="${dc.budgetParticipatifsIds}" />
-    		<aui:button-row>
-    			<aui:button cssClass="btn-lg" type="submit"
-    				value="export-budgetParticipatifs-xlsx" />
-    		</aui:button-row>
-    	</form>
+	<liferay-portlet:resourceURL var="exportBudgetParticipatifsXlsxURL" id="exportBudgetsParticipatifsXlsx">
+    </liferay-portlet:resourceURL>
+    
+   	<form method="POST" action="${exportBudgetParticipatifsXlsxURL}">
+   		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
+   		<aui:button-row>
+   			<aui:button cssClass="btn-lg" type="submit" value="export-budgetParticipatifs-xlsx" />
+   		</aui:button-row>
+   	</form>
 
 </div>
 
@@ -144,7 +144,7 @@
 <%-- URL : defini le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
-	<portlet:param name="tab" value="budget participatif" />
+	<portlet:param name="tab" value="budgets-participatifs" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
@@ -155,7 +155,7 @@
 <%-- URL : defini le lien vers l'action de publication --%>
 <liferay-portlet:actionURL name="selectionAction" var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="tab" value="budget participatif" />
+	<portlet:param name="tab" value="budgets-participatifs" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
@@ -166,7 +166,7 @@
 <%-- URL : defini le lien vers l'action de depublication --%>
 <liferay-portlet:actionURL name="selectionAction" var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
-	<portlet:param name="tab" value="budget participatif" />
+	<portlet:param name="tab" value="budgets-participatifs" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />

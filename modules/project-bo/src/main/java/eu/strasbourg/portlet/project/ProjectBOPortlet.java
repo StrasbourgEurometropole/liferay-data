@@ -88,7 +88,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		} else if (cmd.equals("editBudgetParticipatif") || fromAjaxBudgetParticipatif) {
 			EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-			title = "Budget Participatif";
+			title = "budgets-participatifs";
 		} else if (cmd.equals("editInitiative") || fromAjaxPetition) {
 			EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
@@ -104,7 +104,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		} else if (tab.equals("budget participatif")){
 			ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-			title = "budget participatif";
+			title = "budgets-participatifs";
 		} else if (tab.equals("initiatives")){
 			ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
