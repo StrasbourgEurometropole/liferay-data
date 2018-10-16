@@ -101,7 +101,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 			ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "petitions";
-		} else if (tab.equals("budget participatif")){
+		} else if (tab.equals("budgets-participatifs")){
 			ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "budgets-participatifs";

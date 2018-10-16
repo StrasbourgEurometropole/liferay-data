@@ -82,7 +82,7 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
-
+				
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${budgetParticipatif.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -127,7 +127,7 @@
    	<form method="POST" action="${exportBudgetParticipatifsXlsxURL}">
    		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
    		<aui:button-row>
-   			<aui:button cssClass="btn-lg" type="submit" value="export-budgetParticipatifs-xlsx" />
+   			<aui:button cssClass="btn-lg" type="submit" value="export-budgets-participatifs-xlsx" />
    		</aui:button-row>
    	</form>
 
