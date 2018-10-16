@@ -707,6 +707,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _budgetParticipatif.getImageURL();
+	}
+
+	/**
 	* Returns the motif of this budget participatif.
 	*
 	* @return the motif of this budget participatif
@@ -844,6 +852,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public Date getStatusDate() {
 		return _budgetParticipatif.getStatusDate();
+	}
+
+	/**
+	* retourne les catégories
+	*
+	* @return
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _budgetParticipatif.getCategories();
 	}
 
 	/**

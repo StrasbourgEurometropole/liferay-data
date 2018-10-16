@@ -215,9 +215,6 @@
 		<finder name="BudgetParticipatif" return-type="Collection">
 			<finder-column name="budgetParticipatifId" />
 		</finder>
-		<finder name="BudgetParticipatif" return-type="Collection">
-			<finder-column name="budgetParticipatifId" />
-		</finder>
 		<finder name="Initiative" return-type="Collection">
 			<finder-column name="initiativeId" />
 		</finder>
