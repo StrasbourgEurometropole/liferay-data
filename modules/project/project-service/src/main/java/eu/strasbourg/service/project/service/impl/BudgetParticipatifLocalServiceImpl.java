@@ -65,8 +65,6 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 		BudgetParticipatif budget = this.budgetParticipatifLocalService
 				.createBudgetParticipatif(pk);
 		budget.setGroupId(sc.getScopeGroupId());
-		budget.setUserName(user.getFullName());
-		budget.setUserId(sc.getUserId());
 		budget.setStatus(WorkflowConstants.STATUS_DRAFT);
 		return budget;
 	}

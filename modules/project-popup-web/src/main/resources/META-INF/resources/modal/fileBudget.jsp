@@ -18,7 +18,7 @@
                         <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetdescription" type="textarea" name="description" label="modal.filebudget.information.description" value=""/>
+                        <aui:input id="budgetdescription" type="textarea" name="description" required="true" label="modal.filebudget.information.description" value=""/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" required="true" value=""/>
+                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" value=""/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -164,7 +164,7 @@
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
             </div>
         </div>
@@ -229,6 +229,8 @@
             var consultationPlacesTextValue = $("#"+namespace+"budgetlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
+            var photoValue = $("#"+namespace+"budgetPhoto").val();
+            var videoValue = $("#"+namespace+"budgetVideo").val();
             var firstNameValue = $("#"+namespace+"firstname").val();
             var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
@@ -247,6 +249,8 @@
                         <portlet:namespace />project:projectValue,
                         <portlet:namespace />quartier:quartierValue,
                         <portlet:namespace />theme:themeValue,
+                        <portlet:namespace />photo:photoValue,
+                        <portlet:namespace />video:videoValue,
                         <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
                         <portlet:namespace />saveinfo:saveInfoValue,
                         <portlet:namespace />lastname:lastNameValue,
@@ -334,27 +338,33 @@
         var cnil = $("#file-budget-cnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
-        if (budgettitle==null || budgettitle==""){
+        if (budgettitle===null || budgettitle===""){
             $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
 
-        if (budgetdescription==null || budgetdescription==""){
+        if (budgetdescription===null || budgetdescription===""){
             $("#"+namespace+"budgetdescription").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"budgetdescription").css({ "box-shadow" : "" });
 
-        if (city==null || city==""){
+        if (city===null || city===""){
             $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
-        if (address==null || address==""){
+        if (city.toUpperCase()!=="STRASBOURG"){
+            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            alert("Vous devez vivre &agrave; Strasbourg pour pouvoir soumettre ce formulaire.");
+            result = false;
+        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+
+        if (address===null || address===""){
             $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"address").css({ "box-shadow" : "" });
 
-        if (postalcode==null || postalcode==""){
+        if (postalcode===null || postalcode===""){
             $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else if(!regex.test(postalcode)){

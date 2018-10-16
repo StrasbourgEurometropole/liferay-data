@@ -63,14 +63,15 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
+    private static final String CONSULTATIONPLACETEXT = "consultationPlacesText";
     private static final String BUDGETTITLE = "budgettitle";
     private static final String BUDGETDESCRIPTION = "budgetdescription";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
-    private static final String PHOTO = "budgetPhoto";
-    private static final String VIDEO = "budgetVideo";
+    private static final String PHOTO = "photo";
+    private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
     private static final String LASTNAME = "lastname";
     private static final String FIRSTNAME = "firstname";
@@ -94,6 +95,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private String photo;
     private String video;
     private String title;
+    private String placeText;
     private String description;
     private String lieu;
     private long projectId;
@@ -117,7 +119,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         else
             user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
         dateFormat = new SimpleDateFormat(PATTERN);
-        birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
         address = escapeHtml4(ParamUtil.getString(request, ADDRESS));
         city = escapeHtml4(ParamUtil.getString(request, CITY));
         postalcode = ParamUtil.getLong(request, POSTALCODE);
@@ -129,6 +130,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         lieu = escapeHtml4(ParamUtil.getString(request,LIEU));
         photo = escapeHtml4(ParamUtil.getString(request,PHOTO));
         video = escapeHtml4(ParamUtil.getString(request,VIDEO));
+        placeText = escapeHtml4(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
         copyright = escapeHtml4(ParamUtil.getString(request,COPYRIGHT));
         title = escapeHtml4(ParamUtil.getString(request, BUDGETTITLE));
         description = escapeHtml4(ParamUtil.getString(request, BUDGETDESCRIPTION));
@@ -209,6 +211,14 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenCity(city);
             budgetParticipatif.setCitoyenEmail(user.getEmail());
             budgetParticipatif.setCitoyenMobile(mobile);
+            if (!photo.isEmpty()&&!copyright.isEmpty()){
+                budgetParticipatif.setExternalImageURL(photo);
+                budgetParticipatif.setHasCopyright(true);
+                budgetParticipatif.setExternalImageCopyright(copyright);
+            }
+            if (!video.isEmpty())
+                budgetParticipatif.setVideoUrl(video);
+            budgetParticipatif.setPlaceTextArea(placeText);
             budgetParticipatif.setCitoyenPhone(phone);
             budgetParticipatif.setPublikId(publikID);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
@@ -236,15 +246,13 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             isValid = false;
         }
 
-        // birthday
-        if (Validator.isNull(birthday)) {
-            isValid = false;
-        }
-
         // city
         if (Validator.isNull(city)) {
             isValid = false;
         }
+
+        if (!"STRASBOURG".equals(city.toUpperCase()))
+            isValid = false;
 
         // address
         if (Validator.isNull(address)) {
