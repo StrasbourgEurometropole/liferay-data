@@ -18,7 +18,7 @@
     <div class="container">
         
         <div class="col-lg-10 col-lg-offset-1">
-            <h2>Les participations (${entries?size})</h2>
+            <h2>Participer (${entries?size})</h2>
             <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Voir Toutes les participations</a>
         </div>
 

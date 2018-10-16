@@ -18,8 +18,8 @@
     <div class="container">
 
         <div class="col-lg-10 col-lg-offset-1">
-            <h2>L’agenda (${entries?size})</h2>
-            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
+            <h2>L’agenda</h2>
+            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Tout voir</a>
         </div>
 
         <div class="col-lg-10 col-lg-offset-1">

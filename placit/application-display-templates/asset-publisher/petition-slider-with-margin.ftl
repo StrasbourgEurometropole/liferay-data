@@ -17,7 +17,7 @@
 <div class="container">
     <div class="col-lg-10 col-lg-offset-1">
         <h2>Les pétitions (${entries?size})</h2>
-        <a href="${themeDisplay.getPortalURL()}${homeURL}petitions" class="pro-btn" title="Lien vers la page du Listing des pétitions">Toutes les pétitions</a>
+        <a href="${themeDisplay.getPortalURL()}${homeURL}petitions" class="pro-btn" title="Lien vers la page du Listing des pétitions">Tout voir</a>
     </div>
     <div class="col-lg-10 col-lg-offset-1">
         <div class="owl-carousel owl-opacify owl-theme owl-cards">

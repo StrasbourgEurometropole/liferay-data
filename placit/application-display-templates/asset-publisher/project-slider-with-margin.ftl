@@ -41,7 +41,7 @@
                     </#list>
                 </select>
             </form>
-            <a href="${homeURL}projets" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
+            <a href="${homeURL}projets" class="pro-btn" title="Lien vers la page de tous les projets">Tout voir</a>
         </div>
 
         <div class="col-lg-10 col-lg-offset-1">
