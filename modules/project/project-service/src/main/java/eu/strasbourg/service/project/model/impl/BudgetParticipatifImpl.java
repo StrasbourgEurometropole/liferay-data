@@ -96,9 +96,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public List<PlacitPlace> getPlacitPlaces() {
-		return PlacitPlaceLocalServiceUtil.getByParticipation(this.getBudgetParticipatifId());
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via
-	 * l'assetEntry)
+		return PlacitPlaceLocalServiceUtil.getByBudgetParticipatif(this.getBudgetParticipatifId());
+	}
+
+	/**
+	 * retourne les catégories
+	 * @return
 	 */
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
@@ -144,17 +147,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			}
 		}
 		return districts;
-	}
-
-	/**
-	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
-	 *
-	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
-	 */
-	@Override
-	public String getDistrictLabel(Locale locale) {
-		List<AssetCategory> districts = getDistrictCategories();
-		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
 	}
 
 	/**
