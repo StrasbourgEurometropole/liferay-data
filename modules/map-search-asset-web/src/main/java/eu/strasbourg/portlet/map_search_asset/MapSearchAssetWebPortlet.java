@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.map_search_asset;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -18,8 +19,10 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -60,29 +63,24 @@ import org.osgi.service.component.annotations.Component;
 public class MapSearchAssetWebPortlet extends MVCPortlet {
 	
 	private static final String CITY_NAME = "Strasbourg";
-	private static final String ATTRIBUTE_IS_MARKEABLE = "isMarkeable";
 	private static final String ATTRIBUTE_LINK = "link";
-	private static final String ATTRIBUTE_IS_USER_PARTICIPATE = "isUserPart";
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
+	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
+//	private static final String DETAIL_INITIATIVE_URL = "detail-inititative/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	private static final String JSON_OBJECT_PROJECTS = "projects";
 	private static final String JSON_OBJECT_PARTICIPATIONS = "participations";
+	private static final String JSON_OBJECT_PETITIONS = "petitions";
+//	private static final String JSON_OBJECT_INITIATIVE = "initiatives";
 	private static final String JSON_OBJECT_EVENTS = "events";
 	private static final String RESSSOURCE_CHANGE_DISTRICT = "changeDistrictSelection";
-	private static final String RESSSOURCE_CHANGE_PROJECTS = "changeProjectsSelection";
-	private static final String RESSSOURCE_CHANGE_PARTICIPATION = "changeParticipationsSelection";
-	private static final String RESSSOURCE_CHANGE_SUB_ENTITIES = "changeSubEntitiesSelection";
-	
-	// Listes des IDs des entités séléctionnées en front
-	private long selectedDistrictCategoryId;
-	private List<Long> selectedProjectIds;
-	private List<Long> selectedParticipationIds;
-	private List<Long> selectedEventIds;
 	
 	// Listes des entités à afficher en front
 	private List<AssetCategory> districtCategories;
 	private List<Project> projects;
 	private List<Participation> participations;
+	private List<Petition> petitions;
+//	private List<Initiative> initiatives;
 	private List<Event> events;
 	
 	/**
@@ -90,9 +88,6 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 */
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
-		// Recuperation du contexte de la requete
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		long groupId = new Long(themeDisplay.getLayout().getGroupId());
 		
 		// Recuperation et attribution des informations de l'utilisateur
 		String publikUserId = getPublikID(request);
@@ -106,17 +101,8 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		this.districtCategories = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
 		request.setAttribute("districtCategories", this.districtCategories);
 		
-		// Recuperation et attribution des projets
-		this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
-		request.setAttribute("projects", this.projects);
-		
-		// Initialisation des variables tempons
-		this.selectedDistrictCategoryId = -1;
-		this.selectedProjectIds = new ArrayList<Long>();
-		this.selectedParticipationIds = new ArrayList<Long>();
-		this.selectedEventIds = new ArrayList<Long>();
-		this.participations = new ArrayList<Participation>();
-		this.events = new ArrayList<Event>();
+		// Initialise la liste des entites sur l'ensemble des quartiers
+		this.refreshEntitiesSelectionByDistrict(request, -1);
 		
 		super.render(request, response);
 	}
@@ -134,8 +120,6 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		try {
 			// Recuperation du contexte de la requete
-			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			long groupId = new Long(themeDisplay.getLayout().getGroupId());
 			String resourceID = request.getResourceID();			
 			
 			// ---------------------------------------------------------------
@@ -143,172 +127,11 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			// ---------------------------------------------------------------
 			if (resourceID.equals(RESSSOURCE_CHANGE_DISTRICT)) { 
 				
-				this.selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrictId");
+				long selectedDistrictCategoryId = ParamUtil.getLong(request, "selectedDistrictId");
 				
-				// Réinitialisation des éléments enfants
-				this.participations.clear();
-				this.events.clear();
-				
-				if (this.selectedDistrictCategoryId > 0) {
-					this.projects = ProjectLocalServiceUtil.findByCategoryIds(new long[] {this.selectedDistrictCategoryId});
-				} else {
-					this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
-				}
-				
-				// Récupération des éléments "enfants" en adaptant les séléctions
-				List<Long> tempSelectedProjects = new ArrayList<Long>();
-				for (Project project : this.projects) {
-					if (this.selectedProjectIds.contains(project.getProjectId())) {
-						tempSelectedProjects.add(project.getProjectId());
-					}
-				}
-				this.selectedProjectIds = tempSelectedProjects;
-				
-				for (Long projectId : this.selectedProjectIds) {
-					Project project = ProjectLocalServiceUtil.fetchProject(projectId);
-					this.participations = this.mergeLists(this.participations, project.getParticipations());
-				}
-				
-				List<Long> tempSelectedParticipations = new ArrayList<Long>();
-				for (Participation participation : this.participations) {
-					if (this.selectedParticipationIds.contains(participation.getParticipationId())) {
-						tempSelectedParticipations.add(participation.getParticipationId());
-					}
-				}
-				this.selectedParticipationIds = tempSelectedParticipations;
-				
-				for (Long participationId : this.selectedParticipationIds) {
-					Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-					this.events = this.mergeLists(this.events, participation.getEvents());
-				}
-				
-				List<Long> tempSelectedEvents = new ArrayList<Long>();
-				for (Event event : this.events) {
-					if (this.selectedEventIds.contains(event.getEventId())) 
-						tempSelectedEvents.add(event.getEventId());
-				}
-				this.selectedEventIds = tempSelectedEvents;
-				
+				this.refreshEntitiesSelectionByDistrict(request, selectedDistrictCategoryId);
 				
 			} 
-			// ---------------------------------------------------------------
-			// -------- REQUETE : Nouvelle sélection de projets  -------------
-			// ---------------------------------------------------------------
-			else if (resourceID.equals(RESSSOURCE_CHANGE_PROJECTS)) { 
-				
-				String requestSelectedProjectIds = ParamUtil.getString(request, "selectedProjectIds");
-				
-				// Réinitialisation des éléments concernés
-				this.selectedProjectIds.clear();
-				this.participations.clear();
-				this.events.clear();
-				
-				if (requestSelectedProjectIds != "") {
-					
-					// Parcours des Ids
-					for (String requestSelectedProjectId : requestSelectedProjectIds.split(",")) {
-						long projectId = Long.parseLong((requestSelectedProjectId));
-						
-						Project project = ProjectLocalServiceUtil.fetchProject(projectId);
-						
-						if (project != null) {
-							this.selectedProjectIds.add(projectId);
-							this.participations = this.mergeLists(this.participations, project.getParticipations());
-						}
-					}
-				
-				
-					// Récupération des éléments "enfants" en adaptant les séléctions
-					List<Long> tempSelectedParticipations = new ArrayList<Long>();
-					for (Participation participation : this.participations) {
-						if (this.selectedParticipationIds.contains(participation.getParticipationId())) {
-							tempSelectedParticipations.add(participation.getParticipationId());
-						}
-					}
-					this.selectedParticipationIds = tempSelectedParticipations;
-					
-					for (Long participationId : this.selectedParticipationIds) {
-						Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-						this.events = this.mergeLists(this.events, participation.getEvents());
-					}
-					
-					List<Long> tempSelectedEvents = new ArrayList<Long>();
-					for (Event event : this.events) {
-						if (this.selectedEventIds.contains(event.getEventId())) 
-							tempSelectedEvents.add(event.getEventId());
-					}
-					this.selectedEventIds = tempSelectedEvents;
-				
-				} else {
-					this.selectedParticipationIds.clear();
-					this.selectedEventIds.clear();
-				}
-				
-			}
-			// ---------------------------------------------------------------
-			// -------- REQUETE : Nouvelle sélection de participations  ------
-			// ---------------------------------------------------------------
-			else if (resourceID.equals(RESSSOURCE_CHANGE_PARTICIPATION)) {
-				
-				String requestSelectedParticipationIds = ParamUtil.getString(request, "selectedParticipationIds");
-				
-				// Réinitialisation des éléments concernés
-				this.selectedParticipationIds.clear();
-				this.events.clear();
-				
-				if (requestSelectedParticipationIds != "") {
-					
-					// Parcours des Ids
-					for (String requestSelectedParticipationId : requestSelectedParticipationIds.split(",")) {
-						long participationId = Long.parseLong((requestSelectedParticipationId));
-						
-						Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-						
-						if (participation != null) {
-							this.selectedParticipationIds.add(participationId);
-							this.events = this.mergeLists(this.events, participation.getEvents());
-						}
-					}
-					
-					// Récupération des éléments "enfants" en adaptant les séléctions
-					List<Long> tempSelectedEvents = new ArrayList<Long>();
-					for (Event event : this.events) {
-						if (this.selectedEventIds.contains(event.getEventId())) 
-							tempSelectedEvents.add(event.getEventId());
-					}
-					this.selectedEventIds = tempSelectedEvents;
-					
-				} else {
-					this.selectedEventIds.clear();
-				}
-				
-			} 
-			// ---------------------------------------------------------------
-			// -------- REQUETE : Nouvelle sélection d'entités dépendantes des participations
-			// ---------------------------------------------------------------
-			else if (resourceID.equals(RESSSOURCE_CHANGE_SUB_ENTITIES)) {
-				
-				String requestSelectedEventIds = ParamUtil.getString(request, "selectedEventIds");
-				
-				// Réinitialisation des éléments concernés
-				this.selectedEventIds.clear();
-				
-				if (requestSelectedEventIds != "") {
-					
-					// Parcours des Ids
-					for (String requestSelectedEventId : requestSelectedEventIds.split(",")) {
-						long eventId = Long.parseLong((requestSelectedEventId));
-						
-						Event event = EventLocalServiceUtil.fetchEvent(eventId);
-						
-						if (event != null) {
-							this.selectedEventIds.add(eventId);
-						}
-					}
-					
-				}
-				
-			}
 			
 			JSONObject jsonResponse = this.constructJSONSelection(request);
 			
@@ -320,6 +143,85 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			_log.error(e);
 		}
 		super.serveResource(request, response);
+	}
+	
+	/**
+	 * Met a jour la liste des entites selon le quartier demande
+	 */
+	private void refreshEntitiesSelectionByDistrict(PortletRequest request, long districtCategoryId) {
+		
+		// Recuperation du contexte de la requete
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = new Long(themeDisplay.getLayout().getGroupId());
+		
+		// Recuperation des entites publiees
+		this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
+		this.participations = ParticipationLocalServiceUtil.getPublishedByGroupId(groupId);
+		this.petitions = PetitionLocalServiceUtil.getPublishedByGroupId(groupId);
+//		this.initiatives = InitiativeLocalServiceUtil.getPublishedByGroupId(groupId);
+		List<String> tagLabels =  new ArrayList<String>();
+		tagLabels.add("participer");
+		this.events = EventLocalServiceUtil.getByTagsWithOrSelection(tagLabels);
+		
+		if (districtCategoryId > 0) {
+			
+			// Inititalisation des listes filrees
+			// @notes methode preferable a un retrait dans le parcours ou encore la copie  dans une
+			// liste tempon pouvant provoquer des erreurs intempestives a cause des references d'objet
+			// TODO : Trouver une solution propre a un retrait en parcours
+			List<Project> filteredProjects = new ArrayList<Project>();
+			List<Participation> filteredParticipations = new ArrayList<Participation>();
+			List<Petition> filteredPetitions = new ArrayList<Petition>();
+//			List<Initiative> filteredInitiatives = new ArrayList<Initiative>();
+			List<Event> filteredEvents = new ArrayList<Event>();
+			
+			try {
+				AssetCategory districtCategory = AssetCategoryLocalServiceUtil.getAssetCategory(districtCategoryId);
+				
+				for (Project project : new ArrayList<Project>(this.projects)) {
+					if (project.getDistrictCategories().contains(districtCategory)) {
+						filteredProjects.add(project);
+					}
+				}
+				for (Participation participation : new ArrayList<Participation>(this.participations)) {
+					if (participation.getDistrictCategories().contains(districtCategory)) {
+						filteredParticipations.add(participation);
+					}
+				}
+				for (Petition petition : new ArrayList<Petition>(this.petitions)) {
+					if (petition.getDistrictCategories().contains(districtCategory)) {
+						filteredPetitions.add(petition);
+					}
+				}
+//				for (Initiative initiative : new ArrayList<Initiative>(this.initiatives)) {
+//					if (initiative.getDistrictCategories().contains(districtCategory)) {
+//						filteredInitiatives.add(initiative);
+//					}
+//				}
+				for (Event event : new ArrayList<Event>(this.events)) {
+					if (event.getCategories().contains(districtCategory)) {
+						filteredEvents.add(event);
+					}
+				}
+				
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+			
+			this.projects = filteredProjects;
+			this.participations = filteredParticipations;
+			this.petitions = filteredPetitions;
+//			this.initiatives = filteredInitiatives;
+			this.events = filteredEvents;
+			
+		}
+		
+		request.setAttribute("projects", this.projects);
+		request.setAttribute("participations", this.participations);
+		request.setAttribute("petitions", this.petitions);
+//		request.setAttribute("initiatives", this.initiatives);
+		request.setAttribute("events", this.events);
+
 	}
 	
 	/**
@@ -352,11 +254,6 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		for (Project project : this.projects) {
 			// Récupération du JSON de l'entité
 			JSONObject jsonProject = project.toJSON(publikUserId);
-			// Si l'entité est dans la liste de celles séléctionnées
-			jsonProject.put(
-				ATTRIBUTE_IS_MARKEABLE, 
-				this.selectedProjectIds.contains(project.getProjectId()) ? true : false
-			);
 			jsonProject.put(
 				ATTRIBUTE_LINK, 
 				this.getHomeURL(request) + project.getDetailURL()
@@ -371,10 +268,6 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		for (Participation participation : this.participations) {
 			JSONObject jsonParticipation = participation.toJSON(themeDisplay);
 			jsonParticipation.put(
-				ATTRIBUTE_IS_MARKEABLE, 
-				this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
-			);
-			jsonParticipation.put(
 				ATTRIBUTE_LINK, 
 				this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
 			);
@@ -382,22 +275,37 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		}
 		jsonResponse.put(JSON_OBJECT_PARTICIPATIONS, jsonParticipations);
 		
+		// Gestion des petitions
+		JSONArray jsonPetitions = JSONFactoryUtil.createJSONArray();
+		for (Petition petition : this.petitions) {
+			JSONObject jsonPetition = petition.toJSON(publikUserId);
+			jsonPetition.put(
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + DETAIL_PETITION_URL + petition.getPetitionId()
+			);
+			jsonPetitions.put(jsonPetition);
+		}
+		jsonResponse.put(JSON_OBJECT_PETITIONS, jsonPetitions);
+				
+		// Gestion des initiatives
+//		JSONArray jsonInitiatives = JSONFactoryUtil.createJSONArray();
+//		for (Initiative initiative : this.initiatives) {
+//			JSONObject jsonInitiative = initiative.toJSON(themeDisplay);
+//			jsonInitiative.put(
+//				ATTRIBUTE_LINK, 
+//				this.getHomeURL(request) + DETAIL_INITIATIVE_URL + initiative.getInititativeId()
+//			);
+//			jsonInitiatives.put(jsonInitiative);
+//		}
+//		jsonResponse.put(JSON_OBJECT_INITIATIVE, jsonInitiatives);
+		
 		// Gestion des événements
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : this.events) {
-			JSONObject jsonEvent = event.toJSON();
-			
-			jsonEvent.put(
-				ATTRIBUTE_IS_MARKEABLE, 
-				this.selectedEventIds.contains(event.getEventId()) ? true : false
-			);
+			JSONObject jsonEvent = event.toJSON(publikUserId);
 			jsonEvent.put(
 				ATTRIBUTE_LINK, 
 				this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
-			);
-			jsonEvent.put(
-				ATTRIBUTE_IS_USER_PARTICIPATE, 
-				publikUserId != "" ? event.isUserParticipates(publikUserId) : false
 			);
 			jsonEvents.put(jsonEvent);
 		}

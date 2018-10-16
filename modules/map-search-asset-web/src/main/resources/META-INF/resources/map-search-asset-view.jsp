@@ -3,14 +3,7 @@
 <portlet:resourceURL id="changeDistrictSelection" var="changeDistrictSelectionURL">
 </portlet:resourceURL>
 
-<portlet:resourceURL id="changeProjectsSelection" var="changeProjectsSelectionURL">
-</portlet:resourceURL>
-
-<portlet:resourceURL id="changeParticipationsSelection" var="changeParticipationsSelectionURL">
-</portlet:resourceURL>
-
-<portlet:resourceURL id="changeSubEntitiesSelection" var="changeSubEntitiesSelectionURL">
-</portlet:resourceURL>
+<link rel="stylesheet" href="/o/mapsearchassetweb/css/map-search-asset-view.css" />
 
 <!-- Conteneur de la page de carte interactive  -->
 <div class="pro-page-carte">
@@ -39,15 +32,15 @@
 					<!-- Selecteur de projets -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
-	                        <label for="Projets"><liferay-ui:message key="projects" /></label>
-	                        <input type="checkbox" id="Projets"/>
+	                        <label for="projects_printator_mk1"><liferay-ui:message key="projects" /></label>
+	                        <input type="checkbox" id="projects_printator_mk1" checked />
 	                        <div class="pro-switch pro-round"></div>
 						
 	                        <fieldset id="projects_fieldset" class="pro-wrapper-chk" >
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="projects" /></legend>
 	    						<c:forEach items="${projects}" var="project" varStatus="loop" >
-		                            <div>
-		                                <input type="checkbox" id="project_${loop.index}" class="hide-checkbox" value="${project.getProjectId()}">
+ 		                            <div>
+		                                <input checked type="checkbox" id="project_${loop.index}" class="hide-checkbox" value="${project.getProjectId()}">
 		                                <label for="project_${loop.index}">${project.getTitle()}</label>
 		                            </div>
 		                        </c:forEach>
@@ -58,13 +51,37 @@
 	                <!-- Selecteur de participations -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
-	                        <label for="participation"><liferay-ui:message key="participations" /></label>
-	                        <input type="checkbox" id="participation"/>
+	                        <label for="participations_printator_mk1"><liferay-ui:message key="participations" /></label>
+	                        <input type="checkbox" id="participations_printator_mk1" checked />
 	                        <div class="pro-switch pro-round"></div>
 	
 	                        <fieldset id="participations_fieldset" class="pro-wrapper-chk">
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="participations" /></legend>
-	                           	
+	                           	<c:forEach items="${participations}" var="participation" varStatus="loop" >
+		                            <div>
+		                                <input checked type="checkbox" id="participation_${loop.index}" class="hide-checkbox" value="${participation.getParticipationId()}">
+		                                <label for="participation_${loop.index}">${participation.getTitle()}</label>
+		                            </div>
+		                        </c:forEach>
+	                        </fieldset>
+	                    </div>
+	                </div>
+	                
+	                <!-- Selecteur de petitions -->
+	                <div class="pro-group">
+	                    <div class="pro-item">
+	                        <label for="petitions_printator_mk1"><liferay-ui:message key="petitions" /></label>
+	                        <input type="checkbox" id="petitions_printator_mk1" checked />
+	                        <div class="pro-switch pro-round"></div>
+	
+	                        <fieldset id="petitions_fieldset" class="pro-wrapper-chk">
+	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="petitions" /></legend>
+	                           	<c:forEach items="${petitions}" var="petition" varStatus="loop" >
+		                            <div>
+		                                <input checked type="checkbox" id="petition_${loop.index}" class="hide-checkbox" value="${petition.getPetitionId()}">
+		                                <label for="petition_${loop.index}">${petition.getTitle()}</label>
+		                            </div>
+		                        </c:forEach>
 	                        </fieldset>
 	                    </div>
 	                </div>
@@ -72,13 +89,18 @@
 					<!-- Selecteur d'evenements -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
-	                        <label for="Evenements"><liferay-ui:message key="events" /></label>
-	                        <input type="checkbox" id="Evenements"/>
+	                        <label for="events_printator_mk1"><liferay-ui:message key="events" /></label>
+	                        <input type="checkbox" id="events_printator_mk1" checked />
 	                        <div class="pro-switch pro-round"></div>
-	
+							
 	                        <fieldset id="events_fieldset" class="pro-wrapper-chk">
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="events" /></legend>
-	                            
+	                            <c:forEach items="${events}" var="event" varStatus="loop" >
+		                            <div>
+		                                <input checked type="checkbox" id="event_${loop.index}" class="hide-checkbox" value="${event.getEventId()}">
+		                                <label for="event_${loop.index}">${event.getTitle(locale)}</label>
+		                            </div>
+		                        </c:forEach>
 	                        </fieldset>
 	                    </div>
 	                </div>
@@ -125,9 +147,6 @@
 		var porletNamespace = '<portlet:namespace/>';
 		
 		var changeDistrictSelectionURL = '${changeDistrictSelectionURL}';
-		var changeProjectsSelectionURL = '${changeProjectsSelectionURL}';
-		var changeParticipationsSelectionURL = '${changeParticipationsSelectionURL}';
-		var changeSubEntitiesSelectionURL = '${changeSubEntitiesSelectionURL}';
 	</script>
 </liferay-util:html-top>
 
