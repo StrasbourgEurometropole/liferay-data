@@ -48,7 +48,7 @@
 
 
                 <div class="pro-widget-participation">
-                    <h4><liferay-ui:message key="eu.most.commented" /></h4>
+                    <h4><liferay-ui:message key="eu.most.commented-fe" /></h4>
                     <c:forEach var="participationMost" items="${participationListMostCommented}">
                         <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationMost.participationId}" title="Lien vers Titre d'une participation">
                             <div class="pro-meta">
@@ -68,7 +68,7 @@
                     </c:forEach>
                 </div>
                 <div class="pro-widget-participation">
-                    <h4><liferay-ui:message key="eu.less.commented" /></h4>
+                    <h4><liferay-ui:message key="eu.less.commented-fe" /></h4>
                     <c:forEach var="participationLess" items="${participationListLessCommented}">
                         <a href="${dc.getHomeURL()}detail-participation/-/entity/id/${participationMost.participationId}" title="Lien vers Titre d'une participation">
                             <div class="pro-meta">
