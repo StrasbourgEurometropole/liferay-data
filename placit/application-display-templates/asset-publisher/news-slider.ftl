@@ -16,9 +16,8 @@
 <section class="pro-bloc-select">
     <div class="container">
         <div class="pro-intro">
-            <h2>S’informer</h2>
-            <p>L'actualité de la participation citoyenne à strasbourg et dans l'Eurométropole.</p>
-            <a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Voir Toutes les actus</a>
+            <h2>Actualités</h2>
+            <a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Tout voir</a>
         </div>
 
         <div class="row">

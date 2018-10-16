@@ -18,8 +18,8 @@
     <div class="container">
         
         <div>
-            <h2>Les participations (${entries?size})</h2>
-            <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Voir Toutes les participations</a>
+            <h2>Participer (${entries?size})</h2>
+            <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
         </div>
 
         <div>
