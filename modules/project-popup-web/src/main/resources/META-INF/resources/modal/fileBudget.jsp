@@ -4,137 +4,132 @@
 <!-- DEPOSER UN NOUVEAU BUDGET -->
 <!-- HTML pour la modal de budget -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalBudget" tabindex="-1" role="dialog" aria-labelledby="modalProjet">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="pro-modal-top">
-                        <h3>Soumettre un projet</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-                    </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key="modal.filebudget.title"/></h3>
+                <button id="closingButton" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
 
-                    <form>
-                        <div class="pro-wrapper">
-                            <h4>Informations sur le projet</h4>
-                            <div class="form-group">
-                                <label for="titre">Titre du projet <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="titre"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description <span>*</span></label>
-                                <textarea id="description" class="form-control" rows="3"></textarea>
-                            </div>
-                            <div class="pro-row">
-                                <div class="form-group form-half">
-                                    <label for="quartiers">Quartiers</label>
-                                    <select id="quartiers">
-                                        <option>Krutenau</option>
-                                        <option>Wacken</option>
-                                    </select>
-                                </div>
-                                <div class="form-group form-half">
-                                    <label for="lieux">Lieux</label>
-                                    <input type="text" class="form-control" id="lieux"/>
-                                </div>
-                            </div>
-                            <div class="pro-row">
-                                <div class="form-group form-half">
-                                    <label for="thematiques">Thématiques</label>
-                                    <select id="thematiques">
-                                        <option>Thématique 1</option>
-                                        <option>Thématique 2</option>
-                                    </select>
-                                </div>
-                                <div class="form-group form-half">
-                                    <label for="projets">Projets</label>
-                                    <select id="projets">
-                                        <option>Projets 1</option>
-                                        <option>Projets 2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="lieux">Lieu(x)</label>
-                                <input type="text" class="form-control" id="lieux"/>
-                            </div>
-                            <div class="pro-row">
-                                <div class="form-group form-two-tiers">
-                                    <label for="photo">Ajouter une photo</label>
-                                    <div class="input-group input-file" name="Fichier1">
-                                        <input type="text" id="photo" class="form-control"/>
-                                        <span class="input-group-btn"><button class="btn btn-default btn-choose" type="button">Parcourir</button></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro-row">
-                                <div class="form-group form-two-tiers">
-                                    <label for="video">Ajouter une vidéo</label>
-                                    <input type="text" class="form-control" id="video" placeholder="Lien youtube, viméo, dailymotion"/>
-                                </div>
+            <form>
+                <div class="pro-wrapper">
+                    <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
+                    <div class="form-group">
+                        <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" required="true" value=""/>
+                    </div>
+                    <div class="form-group">
+                        <aui:input id="budgetdescription" type="textarea" name="description" label="modal.filebudget.information.description" value=""/>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
+                                <option value="0" selected></option>
+                                <c:forEach var="quartier" items="${quartiers}">
+                                    <option value="${quartier.categoryId}">${quartier.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group form-half">
+                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" required="true" value=""/>
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <label for="thematiques"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
+                            <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
+                                <option value="0" selected></option>
+                                <c:forEach var="theme" items="${thematics}">
+                                    <option value="${theme.categoryId}">${theme.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group form-half">
+                            <label for="projets"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
+                            <select id="<portlet:namespace />project" name="<portlet:namespace />project">
+                                <option value="0" selected ></option>
+                                <c:forEach var="project" items="${projects}">
+                                    <option value="${project.categoryId}">${project.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <aui:input id="copyright" name="copyright" label="modal.filebudget.copyright" value=""/>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-two-tiers">
+                            <div class="input-group input-file" name="Fichier1">
+                                <aui:input id="budgetPhoto" name="budgetPhoto" cssClass="form-control" label="modal.filebudget.information.picture" value=""/>
+                                <span class="browsePicture input-group-btn"><button class="btn btn-default btn-choose" type="button">Parcourir</button></span>
                             </div>
                         </div>
-                        <div class="pro-wrapper">
-                            <h4>Informations sur le pétitionnaire</h4>
-                            <div class="pro-row">
-                                <div class="form-group form-half">
-                                    <label for="nom">Nom <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="nom" placeholder="Dupond"/>
-                                </div>
-                                <div class="form-group form-half">
-                                    <label for="prenom">Prénom <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="prenom" placeholder="Jean"/>
-                                </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-two-tiers">
+                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.filebudget.information.video" value=""/>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-wrapper">
+                    <h4><liferay-ui:message key="modal.filebudget.user"/></h4>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <aui:input name="username" label="modal.user.username" required="true" disabled="true"  value="${userConnected.get('last_name')}"/>
+                        </div>
+                        <div class="form-group form-half">
+                            <aui:input name="firstname" label="modal.user.firstname" required="true" disabled="true"  value="${userConnected.get('first_name')}"/>
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <aui:input name="address" label="modal.user.address" required="true" />
+                        </div>
+                        <div class="form-group form-half">
+                            <div class="form-city">
+                                <aui:input name="city" label="modal.user.city" required="true" />
                             </div>
-                            <div class="pro-row">
-                                <div class="form-group form-half">
-                                    <label for="adresse">Adresse <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="adresse"/>
-                                </div>
-                                <div class="form-group form-half">
-                                    <div class="form-city">
-                                        <label for="city">Ville <span class="required">*</span></label>
-                                        <input type="text" class="form-control" id="city"/>
-                                    </div>
-                                    <div class="form-code">
-                                        <label for="code">Code postal <span class="required">*</span></label>
-                                        <input type="text" class="form-control" id="code"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Adresse mail <span class="required">*</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="jean.dupond@gmail.com">
-                            </div>
-                            <div class="pro-row">
-                                <div class="form-group form-half">
-                                    <label for="tel_fixe">Téléphone Fixe</label>
-                                    <input type="text" class="form-control" id="tel_fixe"/>
-                                </div>
-                                <div class="form-group form-half">
-                                    <label for="tel_mobile">Téléphone mobile</label>
-                                    <input type="text" class="form-control" id="tel_mobile"/>
-                                </div>
+                            <div class="form-code">
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true"/>
                             </div>
                         </div>
-                        <div class="pro-optin form-checkbox">
-                            <div>
-                                <input type="checkbox" id="optin" value="optin">
-                                <label for="optin">Je dispose des droits lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua.</label>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <aui:input name="mail" label="modal.user.mail" required="true" disabled="true" value="${userConnected.get('email')}"/>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <aui:input name="phone" label="modal.user.phone" value=""/>
                         </div>
-                        <div class="pro-optin form-checkbox">
-                            <div>
-                                <input type="checkbox" id="optin-2" value="optin">
-                                <label for="optin-2">Un participant au budget participatif je certifie lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                                    labore et dolore magna aliqua.</label>
-                            </div>
+                        <div class="form-group form-half">
+                            <aui:input name="mobile" label="modal.user.mobile" value=""/>
                         </div>
-                        <div class="pro-form-submit">
-                            <button type="submit" class="btn btn-default">Soumettre le projet</button>
-                        </div>
-                    </form>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                    </div>
+                </div>
+                <div class="pro-optin form-checkbox">
+                    <div>
+                        <input type="checkbox" id="file-budget-legalage" value="legalage">
+                        <label for="file-budget-legalage" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="pro-optin form-checkbox" >
+                    <div>
+                        <input type="checkbox" id="file-budget-cnil" value="cnil">
+                        <label for="file-budget-cnil" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
+                        </label>
+                    </div>
+                </div>
+                <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div class="pro-form-submit">
+                    <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filebudget.submit"/></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 <!-- CONFIRMATION NOUVEAU BUDGET -->
@@ -149,7 +144,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-budget-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
             </div>
         </div>
@@ -158,7 +153,7 @@
 
 
 <!-- ERREUR NOUVELLE BUDGET -->
-<!-- HTML pour la modal d'erreur de nouvelle pÃÂ©tition -->
+<!-- HTML pour la modal d'erreur de nouvelle budget -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorBudget" tabindex="-1" role="dialog" aria-labelledby="modalErrorBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -177,7 +172,7 @@
 </div>
 
 <!-- CONFIRMATION QUITTER BUDGET -->
-<!-- HTML pour la modal de quitter le formulaire de pÃÂ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de budget -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitBudget" tabindex="-1" role="dialog" aria-labelledby="modalQuitBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -222,12 +217,12 @@
         if (response){
             var budgetTitleValue = $("#"+namespace+"budgettitle").val();
             var budgetDescriptionValue = $("#"+namespace+"budgetdescription").val();
-            var birthdayValue = $("#"+namespace+"birthday").val();
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
             var postalcodeValue = $("#"+namespace+"postalcode").val();
             var phoneValue = $("#"+namespace+"phone").val();
             var mobileValue = $("#"+namespace+"mobile").val();
+            var copyrightValue = $("#"+namespace+"copyright").val();
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
@@ -243,12 +238,12 @@
                     data:{
                         <portlet:namespace/>budgettitle:budgetTitleValue,
                         <portlet:namespace/>budgetdescription:budgetDescriptionValue,
-                        <portlet:namespace/>birthday:birthdayValue,
                         <portlet:namespace/>address:addressValue,
                         <portlet:namespace/>city:cityValue,
                         <portlet:namespace/>postalcode:postalcodeValue,
                         <portlet:namespace/>phone:phoneValue,
                         <portlet:namespace/>mobile:mobileValue,
+                        <portlet:namespace/>copyright:copyrightValue,
                         <portlet:namespace />project:projectValue,
                         <portlet:namespace />quartier:quartierValue,
                         <portlet:namespace />theme:themeValue,
@@ -264,7 +259,6 @@
                             if(data.result){
                                 $('#modalBudget').modal('hide');
                                 if(data.savedInfo){
-                                    saved_dateNaiss = $("#"+namespace+"birthday").val();
                                     saved_city = $("#"+namespace+"city").val();
                                     saved_address = $("#"+namespace+"address").val();
                                     saved_zipCode = $("#"+namespace+"postalcode").val();
@@ -298,6 +292,7 @@
         $("#"+namespace+"budgettitle").val("");
         $("#"+namespace+"budgetdescription").val("");
         $("#"+namespace+"budgetlieux").val("");
+        $("#"+namespace+"copyright").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();
         $("#"+namespace+"quartier option[value='0']").prop('selected', true);
@@ -308,7 +303,6 @@
         $('#checkboxSaveInfo').hide();
         $("#file-budget-legalage").prop("checked", false);
         $("#file-budget-cnil").prop("checked", false);
-        $("#"+namespace+"birthday").val(saved_dateNaiss);
         $("#"+namespace+"city").val(saved_city);
         $("#"+namespace+"address").val(saved_address);
         $("#"+namespace+"postalcode").val(saved_zipCode);
@@ -317,7 +311,7 @@
     }
 
     function checkValues(){
-        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
+        if($("#"+namespace+"address").val() != saved_address ||
         $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
         $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
             $('#checkboxSaveInfo #save-info').prop('checked', true);
@@ -333,7 +327,6 @@
         var result = true;
         var budgettitle = $("#"+namespace+"budgettitle").val();
         var budgetdescription = $("#"+namespace+"budgetdescription").val();
-        var birthday = $("#"+namespace+"birthday").val();
         var city = $("#"+namespace+"city").val();
         var address = $("#"+namespace+"address").val();
         var postalcode = $("#"+namespace+"postalcode").val();
@@ -350,11 +343,6 @@
             $("#"+namespace+"budgetdescription").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"budgetdescription").css({ "box-shadow" : "" });
-
-        if (birthday==null || birthday==""){
-            $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespace+"birthday").css({ "box-shadow" : "" });
 
         if (city==null || city==""){
             $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });

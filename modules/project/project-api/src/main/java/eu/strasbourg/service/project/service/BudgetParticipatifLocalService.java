@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -92,6 +93,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public BudgetParticipatif addBudgetParticipatif(
 		BudgetParticipatif budgetParticipatif);
+
+	/**
+	* Crée une participation vide avec une PK, non ajouté à la base de donnée
+	*/
+	public BudgetParticipatif createBudgetParticipatif(ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
@@ -159,6 +166,17 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public BudgetParticipatif getBudgetParticipatifByUuidAndGroupId(
 		java.lang.String uuid, long groupId) throws PortalException;
+
+	/**
+	* Méthode de mise à jour d'un budget
+	*
+	* @param budget le budget
+	* @param sc le service context
+	* @return le budget
+	* @throws PortalException exception
+	*/
+	public BudgetParticipatif updateBudgetParticipatif(
+		BudgetParticipatif budget, ServiceContext sc) throws PortalException;
 
 	/**
 	* Updates the budget participatif in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

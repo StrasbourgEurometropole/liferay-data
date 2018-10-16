@@ -219,6 +219,12 @@ aside .leaflet-map {
     vertical-align: super;
 }
 
+// affichage des petites étoiles dans la popup modalBudget.
+#modalBudget .text-warning{
+    font-size: 35%;
+    vertical-align: super;
+}
+
 // affichage des petites étoiles dans la popup modalPetition.
 #form-save-profil .text-warning{
     color:#ff0000;
@@ -458,4 +464,8 @@ aside .leaflet-map {
 
 .fontWhite{
     color:#fff
+}
+
+.browsePicture {
+    padding-top : 16px;
 }
