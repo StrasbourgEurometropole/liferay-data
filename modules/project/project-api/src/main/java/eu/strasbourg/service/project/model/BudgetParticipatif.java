@@ -59,6 +59,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	* Retourne le projet de la participation (
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
 	* Retourne l'AssetEntry rattaché cet item
@@ -99,4 +102,38 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		java.lang.String publikUserId);
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId);
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageURL();
+
+	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	public java.lang.String getDistrictLabel(java.util.Locale locale);
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
+
+	/**
+	* Retourne la liste des lieux placit liés à la petition
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 }

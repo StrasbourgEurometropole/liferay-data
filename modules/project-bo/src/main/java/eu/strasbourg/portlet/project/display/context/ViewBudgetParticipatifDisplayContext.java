@@ -51,7 +51,7 @@ public class ViewBudgetParticipatifDisplayContext extends ViewListBaseDisplayCon
      * Retourne la liste des PK de tous les budgets
      * @return liste de PK (ex: "1,5,7,8")
      */
-    public String getBudgetParticipatifsIds() throws PortalException {
+    public String getBudgetParticipatifIds() throws PortalException {
         StringBuilder budgetIds = new StringBuilder();
         for (BudgetParticipatif budgetParticipatif : this.getBudgetParticipatifs()) {
             if (budgetIds.length() > 0) {

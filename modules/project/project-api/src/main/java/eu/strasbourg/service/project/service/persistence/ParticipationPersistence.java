@@ -504,6 +504,151 @@ public interface ParticipationPersistence extends BasePersistence<Participation>
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns all the participations where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the matching participations
+	*/
+	public java.util.List<Participation> findByStatusAndGroupId(int status,
+		long groupId);
+
+	/**
+	* Returns a range of all the participations where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of participations
+	* @param end the upper bound of the range of participations (not inclusive)
+	* @return the range of matching participations
+	*/
+	public java.util.List<Participation> findByStatusAndGroupId(int status,
+		long groupId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the participations where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of participations
+	* @param end the upper bound of the range of participations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching participations
+	*/
+	public java.util.List<Participation> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Participation> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the participations where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ParticipationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of participations
+	* @param end the upper bound of the range of participations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching participations
+	*/
+	public java.util.List<Participation> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Participation> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first participation in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching participation
+	* @throws NoSuchParticipationException if a matching participation could not be found
+	*/
+	public Participation findByStatusAndGroupId_First(int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Participation> orderByComparator)
+		throws NoSuchParticipationException;
+
+	/**
+	* Returns the first participation in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching participation, or <code>null</code> if a matching participation could not be found
+	*/
+	public Participation fetchByStatusAndGroupId_First(int status,
+		long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Participation> orderByComparator);
+
+	/**
+	* Returns the last participation in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching participation
+	* @throws NoSuchParticipationException if a matching participation could not be found
+	*/
+	public Participation findByStatusAndGroupId_Last(int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Participation> orderByComparator)
+		throws NoSuchParticipationException;
+
+	/**
+	* Returns the last participation in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching participation, or <code>null</code> if a matching participation could not be found
+	*/
+	public Participation fetchByStatusAndGroupId_Last(int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Participation> orderByComparator);
+
+	/**
+	* Returns the participations before and after the current participation in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param participationId the primary key of the current participation
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next participation
+	* @throws NoSuchParticipationException if a participation with the primary key could not be found
+	*/
+	public Participation[] findByStatusAndGroupId_PrevAndNext(
+		long participationId, int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Participation> orderByComparator)
+		throws NoSuchParticipationException;
+
+	/**
+	* Removes all the participations where status = &#63; and groupId = &#63; from the database.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	*/
+	public void removeByStatusAndGroupId(int status, long groupId);
+
+	/**
+	* Returns the number of participations where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the number of matching participations
+	*/
+	public int countByStatusAndGroupId(int status, long groupId);
+
+	/**
 	* Caches the participation in the entity cache if it is enabled.
 	*
 	* @param participation the participation

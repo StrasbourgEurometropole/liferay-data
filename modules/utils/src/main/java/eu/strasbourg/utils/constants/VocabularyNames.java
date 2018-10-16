@@ -34,4 +34,7 @@ public class VocabularyNames {
 	public static final String SIGNALEMENT_CATEGORIE = "Signalements Categorie";
 	public static final String PROJECT = "projet";
 	public static final String INITIATIVE_STATUS = "statut de l'initiative";
+	public static final String TYPE_NOEL = "type noel";
+	public static final String TAUX_NOEL = "taux noel";
+	public static final String DUREE_NOEL = "duree noel";
 }

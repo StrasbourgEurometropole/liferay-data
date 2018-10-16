@@ -118,17 +118,17 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
         dateFormat = new SimpleDateFormat(PATTERN);
         birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
-        address = escapeHtml4(ParamUtil.getString(request, ADDRESS));
-        city = escapeHtml4(ParamUtil.getString(request, CITY));
+        address = ParamUtil.getString(request, ADDRESS);
+        city = ParamUtil.getString(request, CITY);
         postalcode = ParamUtil.getLong(request, POSTALCODE);
-        phone = escapeHtml4(ParamUtil.getString(request, PHONE));
-        mobile = escapeHtml4(ParamUtil.getString(request, MOBILE));
-        lastname = escapeHtml4(ParamUtil.getString(request, LASTNAME));
-        firstname = escapeHtml4(ParamUtil.getString(request, FIRSTNAME));
-        email = escapeHtml4(ParamUtil.getString(request, EMAIL));
-        lieu = escapeHtml4(ParamUtil.getString(request,LIEU));
-        title = escapeHtml4(ParamUtil.getString(request, PETITIONTITLE));
-        description = escapeHtml4(ParamUtil.getString(request, PETITIONDESCRIPTION));
+        phone = ParamUtil.getString(request, PHONE);
+        mobile = ParamUtil.getString(request, MOBILE);
+        lastname = ParamUtil.getString(request, LASTNAME);
+        firstname = ParamUtil.getString(request, FIRSTNAME);
+        email = ParamUtil.getString(request, EMAIL);
+        lieu = ParamUtil.getString(request,LIEU);
+        title = ParamUtil.getString(request, PETITIONTITLE);
+        description = ParamUtil.getString(request, PETITIONDESCRIPTION).replace("\n", "<br>");
         projectId = ParamUtil.getLong(request, PROJECT);
         quartierId = ParamUtil.getLong(request, QUARTIER);
         themeId = ParamUtil.getLong(request, THEME);
@@ -197,16 +197,11 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 ids[i]=identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
-            //creation du userName
-            StringBuilder username = new StringBuilder(user.getFirstName());
-            username.append(" ").append(user.getLastName());
 
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
-            petition.setUserName(username.toString());
             petition.setQuotaSignature(signatureNumber);
-            petition.setUserId(user.getUserId());
             petition.setPetitionnaireAdresse(address);
             petition.setPetitionnaireBirthday(birthday);
             petition.setPetitionnaireCity(city);
@@ -215,7 +210,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnaireLastname(lastname);
             petition.setPetitionnairePostalCode(postalcode);
             petition.setPetitionnairePhone(phone);
-            if (phone.isEmpty()&&!mobile.isEmpty())
+            if (!mobile.isEmpty())
                 petition.setPetitionnairePhone(mobile);
             petition.setPetitionnaireEmail(email);
             petition.setPublikId(publikID);

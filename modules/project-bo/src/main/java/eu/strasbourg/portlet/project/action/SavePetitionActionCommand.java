@@ -107,7 +107,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
 			Date expirationDate = ParamUtil.getDate(request, "expirationDate", dateFormat);
 			String title = ParamUtil.getString(request, "title");
-			String author = ParamUtil.getString(request, "userName");
+			String prenomPetitionnaire = ParamUtil.getString(request, "petitionnaireFirstname");
+			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
 			int fakeSignataire = ParamUtil.getInteger(request, "nbFakeSignataire");
 
 
@@ -119,7 +120,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			petition.setTitle(title);
 
 			// Auteur
-			petition.setUserName(author);
+			petition.setPetitionnaireFirstname(prenomPetitionnaire);
+			petition.setPetitionnaireLastname(nomPetitionnaire);
 
 			// quota-signature
 			petition.setQuotaSignature(quotasSignature);
@@ -257,7 +259,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 		}
 
 		// Auteur
-		if (Validator.isNull(ParamUtil.getString(request, "userName"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "petitionnaireFirstname")) && Validator.isNull(ParamUtil.getString(request, "petitionnaireLastname"))) {
 			SessionErrors.add(request, "author-error");
 			isValid = false;
 		}

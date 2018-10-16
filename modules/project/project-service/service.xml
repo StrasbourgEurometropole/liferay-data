@@ -131,6 +131,10 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
+		<finder name="StatusAndGroupId" return-type="Collection">
+			<finder-column name="status" />
+			<finder-column name="groupId" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -207,6 +211,9 @@
 		</finder>
 		<finder name="Petition" return-type="Collection">
 			<finder-column name="petitionId" />
+		</finder>
+		<finder name="BudgetParticipatif" return-type="Collection">
+			<finder-column name="budgetParticipatifId" />
 		</finder>
 		<finder name="BudgetParticipatif" return-type="Collection">
 			<finder-column name="budgetParticipatifId" />
@@ -397,7 +404,6 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
-
 	<entity local-service="true" cache-enabled="true" name="Initiative"
 			remote-service="true" uuid="true">
 
@@ -455,6 +461,10 @@
 		</finder>
 		<finder name="publikId" return-type="Collection">
 			<finder-column name="publikId" />
+		</finder>
+		<finder name="StatusAndGroupId" return-type="Collection">
+			<finder-column name="status" />
+			<finder-column name="groupId" />
 		</finder>
 
 		<!-- References -->

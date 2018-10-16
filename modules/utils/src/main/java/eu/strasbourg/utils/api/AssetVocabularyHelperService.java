@@ -63,4 +63,11 @@ public interface AssetVocabularyHelperService {
      * @return les titres
      */
     String getThematicTitle(Locale locale, List<AssetCategory> assetCategories);
+    
+    /**
+	 * Retourne la liste des catégories du vocabulaire passé en paramètre, sans
+	 * les catégories enfants triées par la valeur de la propriété "order" de
+	 * chaque catégorie
+	 */
+	List<AssetCategory> getSortedCategories(String vocabulary, long groupId);
 }

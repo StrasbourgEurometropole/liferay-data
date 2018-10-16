@@ -142,9 +142,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long LEVEL_COLUMN_BITMASK = 8L;
 	public static final long PARENTCOMMENTID_COLUMN_BITMASK = 16L;
-	public static final long STATUS_COLUMN_BITMASK = 32L;
-	public static final long UUID_COLUMN_BITMASK = 64L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 32L;
+	public static final long STATUS_COLUMN_BITMASK = 64L;
+	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -727,7 +728,17 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public void setPublikId(String publikId) {
+		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
+
+		if (_originalPublikId == null) {
+			_originalPublikId = _publikId;
+		}
+
 		_publikId = publikId;
+	}
+
+	public String getOriginalPublikId() {
+		return GetterUtil.getString(_originalPublikId);
 	}
 
 	@JSON
@@ -989,6 +1000,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentModelImpl._originalAssetEntryId = commentModelImpl._assetEntryId;
 
 		commentModelImpl._setOriginalAssetEntryId = false;
+
+		commentModelImpl._originalPublikId = commentModelImpl._publikId;
 
 		commentModelImpl._originalParentCommentId = commentModelImpl._parentCommentId;
 
@@ -1292,6 +1305,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private long _originalAssetEntryId;
 	private boolean _setOriginalAssetEntryId;
 	private String _publikId;
+	private String _originalPublikId;
 	private long _parentCommentId;
 	private long _originalParentCommentId;
 	private boolean _setOriginalParentCommentId;

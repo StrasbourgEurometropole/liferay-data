@@ -1,0 +1,174 @@
+/***************************/
+/***************************/
+
+/* -- PAGE AGENDA LIST -- */
+
+/***************************/
+/***************************/
+
+.mns-p-list-agenda {
+	margin: 35px auto;
+	@include mobile {
+		margin: 25px auto;
+	}
+	.mns-z-filtres-search {
+		@include mobile {
+			display: none;
+		}
+		&.mns-show{
+			@include mobile{
+				display: block;
+				margin: 0px 10px;
+			}
+		}
+		.mns-affiner {
+			text-align: left;
+			border-bottom: 0;
+			padding-top: 0;
+			padding-left: 0;
+			@include mobile{
+				display: none;
+			}
+			> .mns-more {
+				width: 100%;
+			}
+		}
+
+		.mns-label-top {
+			padding-bottom: 5px;
+			border-bottom: 1px solid $c_filet;
+			margin-bottom: 15px;
+			label {
+				@include ft($f_hx, 18px, 700, $c_txt, 26px);
+				user-select: none;
+			}
+			span.mns-remove {
+				position: absolute;
+				right: 15px;
+				@include ft($f_txt, 12px, 400, $c_txt, 26px);
+				@include addTransition();
+				&:hover{
+					cursor: pointer;
+					color: $c_main;
+				}
+			}
+		}
+
+		input[type="text"] {
+			margin: 0;
+			width: 100%;
+			height: 38px;
+			line-height: 40px;
+			overflow: hidden;
+			padding: 0 30px 0 10px;
+			text-overflow: ellipsis;
+		}
+		.between-form {
+			@include ft($f_txt, 14px, 400, $c_txt, 36px);
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			margin: 0;
+			@include desktop {
+				position: relative;
+				left: 0;
+				transform: none;
+				display: block;
+			}
+		}
+
+		.form-group {
+			margin-bottom: 30px;
+			font-size: 0;
+		}
+
+		.checkbox {
+			display: block;
+			.form-group.form-inline.input-checkbox-wrapper {
+                > label {
+                    position: relative;
+                    display: block;
+                    padding: 5px 0;
+                    overflow: hidden;
+                    padding-left: 30px;
+                    @include addTransition();
+                    input[type="checkbox"]:checked {
+                        font-weight: 700;
+                    }
+                    &:hover, &:focus{
+                        color: $c_main;
+                    }
+                    .cr{
+                        top: 5px;
+                    }
+                }
+			}
+		}
+
+		.mns-submit {
+			input {
+				width: 230px;
+				font-size: 16px;
+				@include tablet_portrait {
+					width: 100%;
+					font-size: 12px;
+				}
+			}
+		}
+
+		.mns-ico-date {
+			position: relative;
+			display: inline-block;
+			width: 42%;
+			margin: 0;
+			text-overflow: ellipsis;
+			@include desktop {
+				width: 100%;
+			}
+			
+			&:last-child{
+				float: right;
+				@include desktop{
+					float: none;
+				}
+			}
+
+			&:after {
+				content: "\e910";
+				font-family: 'icomoon' !important;
+				speak: none;
+				font-style: normal;
+				font-weight: normal;
+				font-variant: normal;
+				text-transform: none;
+				line-height: 1;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				color: $c_main;
+				right: 10px;
+				font-size: 18px;
+			}
+		}
+	}
+
+	.mns-z-list-agenda {
+		> div > div > div {
+			margin-bottom: 0;
+			&:nth-child(-n+3) {
+				margin-top: 10px;
+			}
+
+			.cover {
+				max-width: 100%;
+			}
+		}
+		> div {
+			@include mobile {
+				padding: 0;
+			}
+		}
+	}
+}

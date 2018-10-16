@@ -15,6 +15,10 @@
 	<portlet:param name="tab" value="petitions" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL var="budgetParticipatifURL">
+	<portlet:param name="tab" value="budgets-participatifs" />
+</liferay-portlet:renderURL>
+
 <liferay-portlet:renderURL var="initiativesURL">
 	<portlet:param name="tab" value="initiatives" />
 </liferay-portlet:renderURL>
@@ -44,6 +48,10 @@
 		<aui:nav-item href="${petitionsURL}" label="petitions"
 			selected="${tab eq 'petitions'}" />
 	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${budgetParticipatifURL}" label="budgets-participatifs"
+			selected="${tab eq 'budgets-participatifs'}" />
+	</aui:nav>
 <!-- 	<aui:nav cssClass="navbar-nav"> -->
 <%-- 		<aui:nav-item href="${initiativesURL}" label="initiatives" --%>
 <%-- 			selected="${tab eq 'initiatives'}" /> --%>
@@ -68,6 +76,10 @@
     </c:when>
     <c:when test="${tab eq 'petitions'}">
 		<liferay-util:include page="/project-bo-view-petitions.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'budgets-participatifs'}">
+		<liferay-util:include page="/project-bo-view-budgets-participatifs.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
     <c:when test="${tab eq 'initiatives'}">

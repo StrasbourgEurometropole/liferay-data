@@ -298,6 +298,11 @@ public class PetitionLocalServiceUtil {
 		return getService().getByGroupId(groupId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Petition> getByPublikUserID(
+		java.lang.String publikId) {
+		return getService().getByPublikUserID(publikId);
+	}
+
 	public static java.util.List<eu.strasbourg.service.project.model.Petition> getPetitionByPublikUserID(
 		java.lang.String publikId) {
 		return getService().getPetitionByPublikUserID(publikId);
@@ -355,7 +360,7 @@ public class PetitionLocalServiceUtil {
 	}
 
 	/**
-	* Retourne tous les petitions publiés d'un groupe
+	* Retourne tous les petitions publiées d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.Petition> getPublishedByGroupId(
 		long groupId) {

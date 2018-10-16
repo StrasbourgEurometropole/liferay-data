@@ -23,10 +23,12 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.text.SimpleDateFormat;
@@ -95,6 +97,33 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	@Override
 	public List<PlacitPlace> getPlacitPlaces() {
 		return PlacitPlaceLocalServiceUtil.getByParticipation(this.getBudgetParticipatifId());
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper
+				.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageURL() {
+		if (Validator.isNotNull(this.getExternalImageURL())) {
+			return this.getExternalImageURL();
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
+	}
+
+	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	 *
+	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	 */
+	public String getDistrictLabel(Locale locale) {
+		List<AssetCategory> districts = getDistrictCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
 	}
 
 	/**
@@ -146,7 +175,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		jsonBudget.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
 		jsonBudget.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
 		jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
-		jsonBudget.put("nombreSignature", this.getNombreSoutien());
 
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {

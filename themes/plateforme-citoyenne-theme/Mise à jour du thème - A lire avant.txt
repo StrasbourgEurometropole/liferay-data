@@ -82,12 +82,3 @@ Le fichier js/src-1/bloc-pickaday.js
         getSelectedEntries();
     }
 
-Le fichier js/src-1/bloc-facette.js
-    Le code suivant a été complété afin de gérer la recherche en ajax
-
-    // Utilisé pour les recherches ajax
-    if($(this).hasClass('dynamic')){
-        // Renvoi la liste des entités demandées
-        getSelectedEntries();
-    }
-

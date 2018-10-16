@@ -1,0 +1,174 @@
+/* Header Page List Agenda */
+.mns-header-agenda {
+	height: calc(100vh - 160px);
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+	&:before {
+		content: '';
+		@extend .gradient-top;
+	}
+	@include desktop {
+		height: calc(100vh - 100px);
+	}
+	@include tablet_portrait {
+		height: auto;
+	}
+	@include mobile {
+		height: 500px;
+	}
+
+	.owl-carousel {
+		height: 100%;
+		.owl-stage-outer {
+			height: 100%;
+			.owl-stage {
+				height: 100%;
+				.owl-item {
+					height: 100%;
+					.item {
+						height: 100%;
+						a {
+							display: block;
+						}
+						img {
+							object-fit: cover;
+							height: 100%;
+							@include mobile {
+								object-fit: cover;
+								height: 500px;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.caption {
+			position: absolute;
+			max-width: 1200px;
+			width: 100%;
+			top: 50%;
+			left: 0;
+			right: 0;
+			transform: translateY(-50%);
+			bottom: initial;
+			text-align: left;
+			z-index: 10;
+			> * {
+				max-width: 80%;
+				@include mobile {
+					max-width: 100%;
+				}
+			}
+			@media screen and (min-width: 768px) {
+				width: 750px;
+			}
+			@media screen and (min-width: 992px) {
+				width: 970px;
+			}
+			@media screen and (min-width: 1200px) {
+				width: 1200px;
+			}
+
+			.mns-slider-date-event {
+				@include ft($f_txt, 20px, 700, $c_white, 42px);
+				text-transform: uppercase;
+				@include mobile {
+					font-size: 12px;
+					line-height: normal;
+				}
+			}
+			h2 {
+				@include ft($f_hx, 48px, 700, $c_white, 54px);
+				margin-bottom: 10px;
+				@include tablet_portrait {
+					font-size: 36px;
+					line-height: normal;
+					margin-bottom: 5px;
+
+				}
+				@include mobile {
+					font-size: 24px;
+					line-height: normal;
+				}
+			}
+			p {
+				color: $c_white;
+				margin-bottom: 10px;
+				@include mobile {
+					margin-bottom: 0;
+				}
+			}
+			.basic-link {
+				@include addTransition();
+				&:hover, &:focus {
+					color: $c_white;
+				}
+				@include mobile {
+					position: relative;
+					top: 30px;
+				}
+				@media screen and (max-width: 320px) {
+					top: 25px;
+				}
+			}
+		}
+	}
+
+	#owl-full .owl-nav {
+		left: 0;
+		right: 0;
+		bottom: 20px;
+		max-width: 1200px;
+		margin: auto;
+		padding: 0 15px;
+		text-align: left;
+		@media screen and (min-width: 768px) {
+			width: 750px;
+		}
+		@media screen and (min-width: 992px) {
+			width: 970px;
+		}
+		@media screen and (min-width: 1200px) {
+			width: 1200px;
+		}
+		&:before {
+			content: none;
+		}
+		@include mobile {
+			bottom: 60px;
+		}
+		span {
+			color: $c_white;
+		}
+		> div {
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+	}
+
+	.mns-wrapper-bread {
+		position: absolute;
+		left: 0;
+		right: 0;
+		.mns-breadcrumbs {
+			height: 40px;
+			z-index: 1000;
+			padding: 0 15px;
+			left: 110px;
+			right: 0;
+			text-align: left;
+			top: -66px;
+			@include mobile {
+				top: -60px;
+				width: calc(100% - 140px);
+			}
+			> a {
+				line-height: 40px;
+			}
+		}
+	}
+
+}
