@@ -187,12 +187,17 @@
 
         &__group{
             position: absolute;
-            bottom: 10px;
+            top: 10px;
             left: 10px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             height: calc(100% - 20px);
+
+            @include RWD(mobile){
+                height: calc(100% - 160px);
+            }
+
             .aroundme__ui{
                 border-radius: 0;
 
