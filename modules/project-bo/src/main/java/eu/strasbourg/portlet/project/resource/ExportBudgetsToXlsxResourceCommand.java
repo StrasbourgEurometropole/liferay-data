@@ -26,7 +26,7 @@ import java.util.List;
 	},
 	service = MVCResourceCommand.class
 )
-public class ExportBudgetsParticipatifsToXlsxResourceCommand implements MVCResourceCommand {
+public class ExportBudgetsToXlsxResourceCommand implements MVCResourceCommand {
 
 	/**
 	 * le log
@@ -42,18 +42,13 @@ public class ExportBudgetsParticipatifsToXlsxResourceCommand implements MVCResou
 
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
-		
 		resourceResponse.setContentType("application/force-download");
         resourceResponse.setProperty("content-disposition","attachment; filename=BudgetsParticipatifs.xlsx");
-        
         String budgetsParticipatifsIds = ParamUtil.getString(resourceRequest,"budgetsParticipatifsIds");
-        
         List<BudgetParticipatif> budgetsParticipatifs = new ArrayList<>();
-        
         // Recupertation des budgets associes
         for (String budgetParticipatifId : budgetsParticipatifsIds.split(",")) {
         	BudgetParticipatif budgetParticipatif;
-        	
 			try {
 				budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(Long.parseLong(budgetParticipatifId));
 				budgetsParticipatifs.add(budgetParticipatif);
@@ -61,7 +56,6 @@ public class ExportBudgetsParticipatifsToXlsxResourceCommand implements MVCResou
 				_log.error("probleme lors de l'écriture en fichier : ",e);
 			}
 		}
-        
         try {
         	budgetsParticipatifsXlsxExporter.exportBudgetsParticipatifs(resourceResponse.getPortletOutputStream(), budgetsParticipatifs);
             resourceResponse.getPortletOutputStream().flush();

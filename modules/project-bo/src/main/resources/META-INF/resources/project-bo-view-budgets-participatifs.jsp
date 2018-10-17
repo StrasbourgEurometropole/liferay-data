@@ -121,9 +121,9 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:resourceURL var="exportBudgetParticipatifsXlsxURL" id="exportBudgetsXlsx">
+	<liferay-portlet:resourceURL var="exportBudgetsXlsxURL" id="exportBudgetsXlsx">
     	</liferay-portlet:resourceURL>
-    	<form method="POST" action="${exportBudgetParticipatifsXlsxURL}">
+    	<form method="POST" action="${exportBudgetsXlsxURL}">
     		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
     		<aui:button-row>
     			<aui:button cssClass="btn-lg" type="submit"
