@@ -247,9 +247,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             isValid = false;
         }
 
-        if (!"STRASBOURG".equals(city.toUpperCase()))
-            isValid = false;
-
         // address
         if (Validator.isNull(address)) {
             isValid = false;
