@@ -1,0 +1,277 @@
+{
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "label": {
+        "fr_FR": "Titre bloc de droite"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "html",
+      "fieldNamespace": "ddm",
+      "indexType": "text",
+      "localizable": true,
+      "name": "rightTitle",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "ddm-text-html",
+      "nestedFields": [
+        {
+          "label": {
+            "fr_FR": "Annexes à télécharger"
+          },
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "style": {
+            "fr_FR": ""
+          },
+          "tip": {
+            "fr_FR": ""
+          },
+          "dataType": "document-library",
+          "fieldNamespace": "ddm",
+          "indexType": "keyword",
+          "localizable": true,
+          "name": "files",
+          "readOnly": false,
+          "repeatable": true,
+          "required": false,
+          "showLabel": true,
+          "type": "ddm-documentlibrary"
+        },
+        {
+          "label": {
+            "fr_FR": "HTML des boutons / liens"
+          },
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "style": {
+            "fr_FR": ""
+          },
+          "tip": {
+            "fr_FR": ""
+          },
+          "dataType": "html",
+          "fieldNamespace": "ddm",
+          "indexType": "text",
+          "localizable": true,
+          "name": "linksContent",
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "type": "ddm-text-html"
+        }
+      ]
+    },
+    {
+      "label": {
+        "fr_FR": "Titre bloc de gauche"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "html",
+      "fieldNamespace": "ddm",
+      "indexType": "text",
+      "localizable": true,
+      "name": "leftTitle",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "ddm-text-html",
+      "nestedFields": [
+        {
+          "label": {
+            "fr_FR": "Texte bloc de gauche"
+          },
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "style": {
+            "fr_FR": ""
+          },
+          "tip": {
+            "fr_FR": ""
+          },
+          "dataType": "html",
+          "fieldNamespace": "ddm",
+          "indexType": "text",
+          "localizable": true,
+          "name": "leftText",
+          "readOnly": false,
+          "repeatable": false,
+          "required": true,
+          "showLabel": true,
+          "type": "ddm-text-html"
+        }
+      ]
+    },
+    {
+      "label": {
+        "fr_FR": "Titre bloc du bas"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "string",
+      "indexType": "keyword",
+      "localizable": true,
+      "name": "underTitle",
+      "readOnly": false,
+      "repeatable": false,
+      "required": true,
+      "showLabel": true,
+      "type": "text",
+      "nestedFields": [
+        {
+          "label": {
+            "fr_FR": "Contenu n°1"
+          },
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "style": {
+            "fr_FR": ""
+          },
+          "tip": {
+            "fr_FR": ""
+          },
+          "dataType": "html",
+          "fieldNamespace": "ddm",
+          "indexType": "text",
+          "localizable": true,
+          "name": "underContent1",
+          "readOnly": false,
+          "repeatable": false,
+          "required": true,
+          "showLabel": true,
+          "type": "ddm-text-html"
+        },
+        {
+          "label": {
+            "fr_FR": "Contenu n°2"
+          },
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "style": {
+            "fr_FR": ""
+          },
+          "tip": {
+            "fr_FR": ""
+          },
+          "dataType": "html",
+          "fieldNamespace": "ddm",
+          "indexType": "text",
+          "localizable": true,
+          "name": "underContent2",
+          "readOnly": false,
+          "repeatable": false,
+          "required": true,
+          "showLabel": true,
+          "type": "ddm-text-html"
+        },
+        {
+          "label": {
+            "fr_FR": "Contenu n°3"
+          },
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "style": {
+            "fr_FR": ""
+          },
+          "tip": {
+            "fr_FR": ""
+          },
+          "dataType": "html",
+          "fieldNamespace": "ddm",
+          "indexType": "text",
+          "localizable": true,
+          "name": "underContent3",
+          "readOnly": false,
+          "repeatable": false,
+          "required": true,
+          "showLabel": true,
+          "type": "ddm-text-html"
+        },
+        {
+          "label": {
+            "fr_FR": "Contenu n°4"
+          },
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "style": {
+            "fr_FR": ""
+          },
+          "tip": {
+            "fr_FR": ""
+          },
+          "dataType": "html",
+          "fieldNamespace": "ddm",
+          "indexType": "text",
+          "localizable": true,
+          "name": "underContent4",
+          "readOnly": false,
+          "repeatable": false,
+          "required": true,
+          "showLabel": true,
+          "type": "ddm-text-html"
+        }
+      ]
+    },
+    {
+      "label": {
+        "fr_FR": "Contenu de l'avant pied de page"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "html",
+      "fieldNamespace": "ddm",
+      "indexType": "text",
+      "localizable": true,
+      "name": "prefooterContent",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "ddm-text-html"
+    }
+  ]
+}
