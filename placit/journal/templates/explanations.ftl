@@ -1,6 +1,13 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign httpServletRequest = serviceContext.getRequest()>
+
+<#-- Récupération de l'utilisateur -->
+<#assign hasSigned = httpServletRequest.getSession().getAttribute("has_pact_signed")!false />
+<#assign isUserloggedIn = httpServletRequest.getSession().getAttribute("publik_logged_in")!false />
+
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -37,7 +44,7 @@
 
                                 <#if file.getData()?has_content >
 
-                                    <#assign fileEntry = fileEntryHelper.getFileEntryByRelativeURL(file.getData()) />    
+                                    <#assign fileEntry = fileEntryHelper.getFileEntryByRelativeURL(file.getData()) />
                                     <#assign title = fileEntryHelper.getFileTitle(fileEntry.getFileEntryId(), locale) />
                                     <#assign size = fileEntryHelper.getReadableFileEntrySize(fileEntry.getFileEntryId(), locale) />
 
@@ -119,15 +126,50 @@
         </div>
     </section>
 
-
-    <#if prefooterContent.getData() !="" >
+    <#if isUserloggedIn && hasSigned >
         <div class="pro-bloc-prefooter pro-sticky-bar">
             <div class="container">
                 <div class="col-xs-12 aligncenter pro-wrapper-btn">
-                     ${prefooterContent.getData()}
+                    <div class="pro-bloc-prefooter pro-sticky-bar">
+                        <div class="container">
+                            <div class="col-xs-12 aligncenter pro-wrapper-btn">
+                                <a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <#elseif isUserloggedIn>
+        <div class="pro-bloc-prefooter pro-sticky-bar">
+            <div class="container">
+                <div class="col-xs-12 aligncenter pro-wrapper-btn">
+                    <div class="pro-bloc-prefooter pro-sticky-bar">
+                        <div class="container">
+                            <div class="col-xs-12 aligncenter pro-wrapper-btn">
+                                <a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez signer le pacte</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <#else>
+        <div class="pro-bloc-prefooter pro-sticky-bar">
+            <div class="container">
+                <div class="col-xs-12 aligncenter pro-wrapper-btn">
+                    <div class="pro-bloc-prefooter pro-sticky-bar">
+                        <div class="container">
+                            <div class="col-xs-12 aligncenter pro-wrapper-btn">
+                                <a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez vous connecter</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </#if>
-
 </div>
+
+
+

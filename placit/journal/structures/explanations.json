@@ -248,30 +248,6 @@
                     "type": "ddm-text-html"
                 }
             ]
-        },
-        {
-            "label": {
-                "fr_FR": "Contenu de l'avant pied de page"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "html",
-            "fieldNamespace": "ddm",
-            "indexType": "text",
-            "localizable": true,
-            "name": "prefooterContent",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "ddm-text-html"
         }
     ]
 }
