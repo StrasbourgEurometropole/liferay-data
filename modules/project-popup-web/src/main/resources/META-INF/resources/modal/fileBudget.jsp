@@ -80,6 +80,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
+	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
+	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
                             <aui:input name="address" label="modal.user.address" required="true" onInput="checkValues();" />
                         </div>
                         <div class="form-group form-half">
@@ -247,6 +251,7 @@
                         <portlet:namespace/>postalcode:postalcodeValue,
                         <portlet:namespace/>phone:phoneValue,
                         <portlet:namespace/>mobile:mobileValue,
+                        <portlet:namespace/>birthday:saved_dateNaiss,
                         <portlet:namespace />project:projectValue,
                         <portlet:namespace />quartier:quartierValue,
                         <portlet:namespace />theme:themeValue,
