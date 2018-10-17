@@ -1,6 +1,67 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.project.model.BudgetParticipatif">
+		<field name="uuid" type="String" />
+		<field name="budgetParticipatifId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="description" type="String" />
+		<field name="budget" type="long" />
+		<field name="motif" type="String" />
+		<field name="citoyenLastname" type="String" />
+		<field name="citoyenFirstname" type="String" />
+		<field name="citoyenAdresse" type="String" />
+		<field name="citoyenPostalCode" type="long" />
+		<field name="citoyenCity" type="String" />
+		<field name="citoyenPhone" type="String" />
+		<field name="citoyenMobile" type="String" />
+		<field name="citoyenEmail" type="String" />
+		<field name="hasCopyright" type="boolean" />
+		<field name="videoUrl" type="String" />
+		<field name="externalImageURL" type="String" />
+		<field name="externalImageCopyright" type="String" />
+		<field name="mediaChoice" type="boolean" />
+		<field name="placeTextArea" type="String" />
+		<field name="consultationPlacesText" type="String" />
+		<field name="consultationPlacesBody" type="String" />
+		<field name="isCrush" type="boolean" />
+		<field name="crushComment" type="String" />
+		<field name="publikId" type="String" />
+		<field name="imageId" type="long" />
+		<field name="filesIds" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.BudgetPhase">
+		<field name="uuid" type="String" />
+		<field name="budgetPhaseId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="numberOfVote" type="long" />
+		<field name="isActive" type="boolean" />
+		<field name="beginDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="publikId" type="String" />
+		<field name="budgetParticipatifId" type="long" />
+	</model>
 	<model name="eu.strasbourg.service.project.model.Initiative">
 		<field name="uuid" type="String" />
 		<field name="initiativeId" type="long" />
@@ -162,6 +223,7 @@
 		<field name="projectId" type="long" />
 		<field name="participationId" type="long" />
 		<field name="petitionId" type="long" />
+		<field name="budgetParticipatifId" type="long" />
 		<field name="initiativeId" type="long" />
 		<field name="placeSIGId" type="String" />
 	</model>

@@ -272,6 +272,12 @@ public interface PlacitPlaceLocalService extends BaseLocalService,
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
 	/**
+	* Retourne les lieux d'une participation
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PlacitPlace> getByBudgetParticipatif(long budgetParticipatifId);
+
+	/**
 	* Retourne tous les lieux Placit d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

@@ -358,6 +358,12 @@
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
+        if (city.toUpperCase()!=="STRASBOURG"){
+            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            alert("Vous devez vivre a Strasbourg pour pouvoir soumettre ce formulaire.");
+            result = false;
+        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+
         if (address==null || address==""){
             $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;

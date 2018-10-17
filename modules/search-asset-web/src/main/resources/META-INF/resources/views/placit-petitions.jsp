@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="pro-widget-participation">
-                    <h4><liferay-ui:message key="eu.most.commented" /></h4>
+                    <h4><liferay-ui:message key="eu.most.commented-fe" /></h4>
                     <c:forEach var="petitionMost" items="${petitionListMostCommented}">
                         <a href="${dc.getHomeURL()}detail-petition/-/entity/id/${petitionMost.petitionId}" title="Lien vers Titre de la petition">
                             <div class="pro-meta">
