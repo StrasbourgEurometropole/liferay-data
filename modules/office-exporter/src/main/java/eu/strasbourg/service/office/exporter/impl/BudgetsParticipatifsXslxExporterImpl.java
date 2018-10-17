@@ -1,24 +1,27 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.osgi.service.component.annotations.Component;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-
-import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-
+@Component(
+		immediate = true,
+		service = BudgetsParticipatifsXlsxExporter.class
+)
 public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatifsXlsxExporter {
 	
 	private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",

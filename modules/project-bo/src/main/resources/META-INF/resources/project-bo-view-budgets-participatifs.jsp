@@ -121,15 +121,15 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:resourceURL var="exportBudgetParticipatifsXlsxURL" id="exportBudgetsParticipatifsXlsx">
-    </liferay-portlet:resourceURL>
-    
-   	<form method="POST" action="${exportBudgetParticipatifsXlsxURL}">
-   		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
-   		<aui:button-row>
-   			<aui:button cssClass="btn-lg" type="submit" value="export-budgets-participatifs-xlsx" />
-   		</aui:button-row>
-   	</form>
+	<liferay-portlet:resourceURL var="exportBudgetsXlsxURL" id="exportBudgetsXlsx">
+    	</liferay-portlet:resourceURL>
+    	<form method="POST" action="${exportBudgetsXlsxURL}">
+    		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
+    		<aui:button-row>
+    			<aui:button cssClass="btn-lg" type="submit"
+    				value="export-budgets-participatifs-xlsx" />
+    		</aui:button-row>
+    	</form>
 
 </div>
 
@@ -194,7 +194,6 @@
 					.getElementsByName('<portlet:namespace />selectionIds')[0];
 			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
 					'<portlet:namespace />allRowIds');
-
 			submitForm(form, '${publishSelectionURL}');
 		}
 	}

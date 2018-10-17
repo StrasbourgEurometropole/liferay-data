@@ -76,7 +76,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String LASTNAME = "lastname";
     private static final String FIRSTNAME = "firstname";
     private static final String EMAIL = "email";
-    private static final String COPYRIGHT = "copyright";
     private static final String PATTERN = "dd/MM/yyyy";
 
     private String publikID;
@@ -91,7 +90,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private String lastname;
     private String firstname;
     private String email;
-    private String copyright;
     private String photo;
     private String video;
     private String title;
@@ -131,7 +129,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         photo = escapeHtml4(ParamUtil.getString(request,PHOTO));
         video = escapeHtml4(ParamUtil.getString(request,VIDEO));
         placeText = escapeHtml4(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
-        copyright = escapeHtml4(ParamUtil.getString(request,COPYRIGHT));
         title = escapeHtml4(ParamUtil.getString(request, BUDGETTITLE));
         description = escapeHtml4(ParamUtil.getString(request, BUDGETDESCRIPTION));
         projectId = ParamUtil.getLong(request, PROJECT);
@@ -211,10 +208,9 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenCity(city);
             budgetParticipatif.setCitoyenEmail(user.getEmail());
             budgetParticipatif.setCitoyenMobile(mobile);
-            if (!photo.isEmpty()&&!copyright.isEmpty()){
+            if (!photo.isEmpty()){
                 budgetParticipatif.setExternalImageURL(photo);
                 budgetParticipatif.setHasCopyright(true);
-                budgetParticipatif.setExternalImageCopyright(copyright);
             }
             if (!video.isEmpty())
                 budgetParticipatif.setVideoUrl(video);

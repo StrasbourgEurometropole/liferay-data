@@ -54,9 +54,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <aui:input id="copyright" name="copyright" label="modal.filebudget.copyright" value=""/>
-                    </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <div class="input-group input-file" name="Fichier1">
@@ -83,14 +80,14 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" />
+                            <aui:input name="address" label="modal.user.address" required="true" onInput="checkValues();" />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" />
+                                <aui:input name="city" label="modal.user.city" required="true" onInput="checkValues();" />
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" onInput="checkValues();"/>
                             </div>
                         </div>
                     </div>
@@ -99,10 +96,16 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" value=""/>
+                            <aui:input name="phone" label="modal.user.phone" value="" onInput="checkValues();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input name="mobile" label="modal.user.mobile" value=""/>
+                            <aui:input name="mobile" label="modal.user.mobile" value="" onInput="checkValues();"/>
+                        </div>
+                    </div>
+                    <div class="form-group form-checkbox" id="checkboxSaveInfo">
+                        <div>
+                            <input type="checkbox" id="save-info" value="save-info">
+                            <label for="save-info"><liferay-ui:message key="modal.save.info"/></label>
                         </div>
                     </div>
                 </div>
@@ -222,7 +225,6 @@
             var postalcodeValue = $("#"+namespace+"postalcode").val();
             var phoneValue = $("#"+namespace+"phone").val();
             var mobileValue = $("#"+namespace+"mobile").val();
-            var copyrightValue = $("#"+namespace+"copyright").val();
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
@@ -245,7 +247,6 @@
                         <portlet:namespace/>postalcode:postalcodeValue,
                         <portlet:namespace/>phone:phoneValue,
                         <portlet:namespace/>mobile:mobileValue,
-                        <portlet:namespace/>copyright:copyrightValue,
                         <portlet:namespace />project:projectValue,
                         <portlet:namespace />quartier:quartierValue,
                         <portlet:namespace />theme:themeValue,
@@ -296,7 +297,6 @@
         $("#"+namespace+"budgettitle").val("");
         $("#"+namespace+"budgetdescription").val("");
         $("#"+namespace+"budgetlieux").val("");
-        $("#"+namespace+"copyright").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();
         $("#"+namespace+"quartier option[value='0']").prop('selected', true);
@@ -309,6 +309,8 @@
         $("#file-budget-cnil").prop("checked", false);
         $("#"+namespace+"city").val(saved_city);
         $("#"+namespace+"address").val(saved_address);
+        $("#"+namespace+"budgetPhoto").val("");
+        $("#"+namespace+"budgetVideo").val("");
         $("#"+namespace+"postalcode").val(saved_zipCode);
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
@@ -350,12 +352,6 @@
 
         if (city===null || city===""){
             $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
-
-        if (city.toUpperCase()!=="STRASBOURG"){
-            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
-            alert("Vous devez vivre &agrave; Strasbourg pour pouvoir soumettre ce formulaire.");
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
