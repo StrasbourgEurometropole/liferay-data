@@ -383,16 +383,18 @@ public class SaveProjectActionCommand implements MVCActionCommand {
      */
     private String getHomeURL(PortletRequest request) {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        StringBuilder result = new StringBuilder(request.getServerName());
+        result.append(":").append(request.getServerPort()).append("/");
         if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
                 || themeDisplay.getScopeGroup().isStagingGroup()) {
             try {
-                return "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
+                result.append("web").append(themeDisplay.getLayout().getGroup().getFriendlyURL()).append("/");
             } catch (PortalException e) {
-                return "/web/";
+            	_log.error("erreur lors de la creation de l'url : ",e);
+                result.append("web/");
             }
-        } else {
-            return "/";
         }
+        return result.toString();
     }
 
     @Reference(unbind = "-")

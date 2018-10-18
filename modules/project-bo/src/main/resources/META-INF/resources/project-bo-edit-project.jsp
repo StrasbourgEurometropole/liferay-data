@@ -74,7 +74,7 @@
 					
 				</div>
 				
-				<%-- Champ : opacitÃÂÃÂ© de l'image --%>
+				<%-- Champ : opacite de l'image --%>
 				<c:if test="${empty dc.project}">
 					<aui:input name="opacityImage" required="false" helpMessage="opacityHelp" value="1.00" />
 				</c:if>
