@@ -43,13 +43,13 @@
                     <div class="pro-right">
                         
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion" title="Mon compte">
+                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion connexion-active" title="Mon compte">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
                                 </span>    
                             </a>
-                            <a class="nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+                            <a class="nav-logout connexion-active" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                 </span>  
@@ -59,7 +59,7 @@
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">Connexion</span>
-                                </span>    
+                                </span>
                             </a>
                         </#if>
                         <ul>
@@ -85,8 +85,9 @@
                         </li>
                         <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
                         <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>
-						<li><a href="${themeDisplay.getPortalURL()}${homeURL}videos" title="Vidéos">Vidéos</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions citoyennes</a></li>
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions</a></li>
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}budget-participatif" title="Budget participatif">Budget participatif</a></li>
+                        <li><a href="https://demarches.strasbourg.eu/interventions-signalements/" target="_blank" title="Avertir">Avertir</a></li>
                     </ul>
                 </nav>
             </div>
@@ -94,6 +95,19 @@
             <!-- Menu de navigation : icones de droite -->
             <div class="pro-menu-right">
                 <ul>
+                    <li class="pro-tooltip">
+                        <#if request.session.getAttribute("publik_logged_in")!false>
+                            <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
+                                <span class="icon-ico-user"></span>
+                            </a>
+                            <span class="tooltiptext">Tableau de bord</span>
+                            <#else>
+                            <a href="" data-toggle="modal" data-target="#myModal" aria-label="connectez-vous" title="connectez-vous avant">
+                                <span class="icon-ico-user"></span>
+                            </a>
+                            <span class="tooltiptext">connectez-vous</span>
+                        </#if>
+                    </li>
                     <li class="pro-tooltip">
                         <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">
                             <span class="icon-ico-map"></span>

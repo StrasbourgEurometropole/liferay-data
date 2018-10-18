@@ -251,9 +251,12 @@ public interface SignataireLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
-	public List<Signataire> findSignatairesByPetitionIdAndSignataireName(
-		long petitionId, java.lang.String signataireName)
+	public List<Signataire> findSignatairesByPetitionIdAndPublikUserId(
+		long petitionId, java.lang.String publikUserId)
 		throws PortletException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Signataire> getSignataireByPublikId(java.lang.String publikId);
 
 	/**
 	* Returns a range of all the signataires.

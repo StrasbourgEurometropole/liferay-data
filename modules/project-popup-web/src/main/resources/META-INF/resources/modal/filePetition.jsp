@@ -33,7 +33,7 @@
                         <div class="form-group form-triple">
                             <label for="territoire"><liferay-ui:message key="modal.filepetition.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected ></option>
+                                <option value="0" selected ><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -48,6 +48,9 @@
                                 </c:forEach>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <aui:input id="petitionlieux" name="consultationPlacesText" label="modal.filepetition.information.lieu" value=""/>
                     </div>
                     <div class="pro-txt-form">
                         <p><liferay-ui:message key="modal.filepetition.information.mayor"/></p>
@@ -104,18 +107,22 @@
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="file-petition-legalage" value="legalage">
-                        <label for="file-petition-legalage"><liferay-ui:message key="modal.legalage"/></label>
+                        <label for="file-petition-legalage" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                        </label>
                     </div>
                 </div>
-                <div class="pro-optin form-checkbox">
+                <div class="pro-optin form-checkbox" >
                     <div>
                         <input type="checkbox" id="file-petition-cnil" value="cnil">
-                        <label for="file-petition-cnil"><liferay-ui:message key="modal.cnil"/></label>
+                        <label for="file-petition-cnil" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
+                        </label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
-                    <p><i><liferay-ui:message key="modal.filepetition.condition"/></i></p>
-                    <p><liferay-ui:message key="modal.filepetition.contact"/></p>
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions"/></i></p>
+                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contact"/></p>
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <div class="pro-form-submit">
@@ -221,6 +228,7 @@
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
+            var consultationPlacesTextValue = $("#"+namespace+"petitionlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var firstNameValue = $("#"+namespace+"firstname").val();
@@ -241,6 +249,7 @@
                         <portlet:namespace />project:projectValue,
                         <portlet:namespace />quartier:quartierValue,
                         <portlet:namespace />theme:themeValue,
+                        <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
                         <portlet:namespace />saveinfo:saveInfoValue,
                         <portlet:namespace />lastname:lastNameValue,
                         <portlet:namespace />firstname:firstNameValue,
@@ -285,6 +294,7 @@
     {
         $("#"+namespace+"petitiontitle").val("");
         $("#"+namespace+"petitiondescription").val("");
+        $("#"+namespace+"petitionlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();
         $("#"+namespace+"quartier option[value='0']").prop('selected', true);

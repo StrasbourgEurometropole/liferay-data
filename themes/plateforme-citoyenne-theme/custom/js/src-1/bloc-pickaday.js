@@ -3,6 +3,19 @@
 $('.frm_date').each(function(){
     var picker = new Pikaday({ 
     	field: this,
+    	value : function(date,field){
+    	    var valueInput = field.value;
+    	    if (valueInput!==""){
+    	        var arrayDate = valueInput.split('/');
+    	        if (arrayDate.length ===3){
+    	             const day = parseInt(parts[0], 10);
+                     const month = parseInt(parts[1] - 1, 10);
+                     const year = parseInt(parts[1], 10);
+                     date = new Date(year, month, day);
+                     return date;
+    	        }
+    	    }
+    	},
     	format: 'D/M/YYYY',
     	toString: function(date, format) {
 	        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
@@ -15,7 +28,7 @@ $('.frm_date').each(function(){
 	        const parts = dateString.split('/');
 	        const day = parseInt(parts[0], 10);
 	        const month = parseInt(parts[1] - 1, 10);
-	        const year = parseInt(parts[1], 10);
+	        const year = parseInt(parts[2], 10);
 	        return new Date(year, month, day);
     	},	
 	    onSelect: function(date) {

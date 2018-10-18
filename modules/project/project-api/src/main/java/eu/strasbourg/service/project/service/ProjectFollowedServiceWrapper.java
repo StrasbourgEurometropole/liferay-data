@@ -61,6 +61,12 @@ public class ProjectFollowedServiceWrapper implements ProjectFollowedService,
 	}
 
 	@Override
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> findProjectFollowedByPublikUserId(
+		java.lang.String publikId) {
+		return _projectFollowedService.findProjectFollowedByPublikUserId(publikId);
+	}
+
+	@Override
 	public ProjectFollowedService getWrappedService() {
 		return _projectFollowedService;
 	}

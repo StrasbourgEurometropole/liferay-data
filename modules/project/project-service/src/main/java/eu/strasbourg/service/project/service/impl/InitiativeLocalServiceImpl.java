@@ -14,9 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -33,10 +30,13 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * The implementation of the initiative local service.
@@ -152,6 +152,14 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Retourne toutes les initiatives publiées d'un groupe
+	 */
+	@Override
+	public List<Initiative> getPublishedByGroupId(long groupId) {
+		return this.initiativePersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	}
+	
+	/**
 	 * Supprime une initiative
 	 */
 	@Override
@@ -238,6 +246,11 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 		}
 
 		return initiativePersistence.countWithDynamicQuery(dynamicQuery);
+	}
+
+	public List<Initiative> findByPublikUserId(String publikUserId){
+		List<Initiative> result = initiativePersistence.findBypublikId(publikUserId);
+		return result;
 	}
 	
 	/**

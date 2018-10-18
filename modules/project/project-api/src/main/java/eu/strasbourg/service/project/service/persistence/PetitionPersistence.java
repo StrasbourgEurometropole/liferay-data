@@ -643,6 +643,138 @@ public interface PetitionPersistence extends BasePersistence<Petition> {
 	public int countByStatusAndGroupId(int status, long groupId);
 
 	/**
+	* Returns all the petitions where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the matching petitions
+	*/
+	public java.util.List<Petition> findByPublikId(java.lang.String publikId);
+
+	/**
+	* Returns a range of all the petitions where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of petitions
+	* @param end the upper bound of the range of petitions (not inclusive)
+	* @return the range of matching petitions
+	*/
+	public java.util.List<Petition> findByPublikId(java.lang.String publikId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the petitions where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of petitions
+	* @param end the upper bound of the range of petitions (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching petitions
+	*/
+	public java.util.List<Petition> findByPublikId(java.lang.String publikId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Petition> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the petitions where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of petitions
+	* @param end the upper bound of the range of petitions (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching petitions
+	*/
+	public java.util.List<Petition> findByPublikId(java.lang.String publikId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Petition> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first petition in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching petition
+	* @throws NoSuchPetitionException if a matching petition could not be found
+	*/
+	public Petition findByPublikId_First(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Petition> orderByComparator)
+		throws NoSuchPetitionException;
+
+	/**
+	* Returns the first petition in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching petition, or <code>null</code> if a matching petition could not be found
+	*/
+	public Petition fetchByPublikId_First(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Petition> orderByComparator);
+
+	/**
+	* Returns the last petition in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching petition
+	* @throws NoSuchPetitionException if a matching petition could not be found
+	*/
+	public Petition findByPublikId_Last(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Petition> orderByComparator)
+		throws NoSuchPetitionException;
+
+	/**
+	* Returns the last petition in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching petition, or <code>null</code> if a matching petition could not be found
+	*/
+	public Petition fetchByPublikId_Last(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Petition> orderByComparator);
+
+	/**
+	* Returns the petitions before and after the current petition in the ordered set where publikId = &#63;.
+	*
+	* @param petitionId the primary key of the current petition
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next petition
+	* @throws NoSuchPetitionException if a petition with the primary key could not be found
+	*/
+	public Petition[] findByPublikId_PrevAndNext(long petitionId,
+		java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Petition> orderByComparator)
+		throws NoSuchPetitionException;
+
+	/**
+	* Removes all the petitions where publikId = &#63; from the database.
+	*
+	* @param publikId the publik ID
+	*/
+	public void removeByPublikId(java.lang.String publikId);
+
+	/**
+	* Returns the number of petitions where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the number of matching petitions
+	*/
+	public int countByPublikId(java.lang.String publikId);
+
+	/**
 	* Caches the petition in the entity cache if it is enabled.
 	*
 	* @param petition the petition

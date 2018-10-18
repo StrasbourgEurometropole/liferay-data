@@ -4,5 +4,11 @@
 <p><strong>Nom</strong> : ${lastName}</p>
 <p><strong>Prénom</strong> : ${firstName}</p>
 <p><strong>Mail</strong> : ${emailFrom}</p>
+<#if phone?has_content>
+	<p><strong>Téléphone</strong> : ${phone}</p>
+</#if>
+<#if object?has_content>
+	<p><strong>Objet</strong> : ${object}</p>
+</#if>
 <p><strong>Message</strong> :</p>
 <p>${content}</p>

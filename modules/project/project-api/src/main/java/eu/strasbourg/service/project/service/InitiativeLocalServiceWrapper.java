@@ -299,6 +299,12 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 			end);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> findByPublikUserId(
+		java.lang.String publikUserId) {
+		return _initiativeLocalService.findByPublikUserId(publikUserId);
+	}
+
 	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/
@@ -355,6 +361,15 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.project.model.Initiative> orderByComparator) {
 		return _initiativeLocalService.getInitiativesByUuidAndCompanyId(uuid,
 			companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne toutes les initiatives publiées d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> getPublishedByGroupId(
+		long groupId) {
+		return _initiativeLocalService.getPublishedByGroupId(groupId);
 	}
 
 	/**

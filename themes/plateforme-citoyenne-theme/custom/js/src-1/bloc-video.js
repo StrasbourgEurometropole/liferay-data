@@ -1,7 +1,6 @@
 // Bloc video
 $('.pro-bloc-video').each(function() {
 
-
 	var mask = $('.mask-video',this);
 	var vidContainer = $('.embed-container', this);
 
@@ -16,7 +15,7 @@ $('.pro-bloc-video').each(function() {
 		var iframe  ='<iframe src="' + urlVideo + '" width="1280px"  height="auto"></iframe>';
 
 
-		$('a[href*="play"]').click(function (e) {
+		$('.pro-btn-video, .btn-ytbe',this).click(function (e) {
 			e.preventDefault();
 			vidContainer.append(iframe);
 

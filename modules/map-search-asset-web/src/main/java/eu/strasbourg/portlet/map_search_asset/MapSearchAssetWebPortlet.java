@@ -340,16 +340,18 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 * 				[{...}],
 	 * 		}
 	 */
-	private JSONObject constructJSONSelection(ResourceRequest request) {
+	private JSONObject constructJSONSelection(ResourceRequest request) throws PortalException {
 		String publikUserId = this.getPublikID(request);
 		
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		
 		// Gestion des projets
 		JSONArray jsonProjects = JSONFactoryUtil.createJSONArray();
 		for (Project project : this.projects) {
 			// Récupération du JSON de l'entité
-			JSONObject jsonProject = project.toJSON();
+			JSONObject jsonProject = project.toJSON(publikUserId);
 			// Si l'entité est dans la liste de celles séléctionnées
 			jsonProject.put(
 				ATTRIBUTE_IS_MARKEABLE, 
@@ -367,7 +369,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		// Gestion des participations
 		JSONArray jsonParticipations = JSONFactoryUtil.createJSONArray();
 		for (Participation participation : this.participations) {
-			JSONObject jsonParticipation = participation.toJSON();
+			JSONObject jsonParticipation = participation.toJSON(themeDisplay);
 			jsonParticipation.put(
 				ATTRIBUTE_IS_MARKEABLE, 
 				this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
@@ -395,7 +397,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			);
 			jsonEvent.put(
 				ATTRIBUTE_IS_USER_PARTICIPATE, 
-				publikUserId != "" ? event.isUserParticipate(publikUserId) : false
+				publikUserId != "" ? event.isUserParticipates(publikUserId) : false
 			);
 			jsonEvents.put(jsonEvent);
 		}

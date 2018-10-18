@@ -205,7 +205,7 @@
 								<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
 								<input type="hidden" id="editCommentId" name="<portlet:namespace />editCommentId"/>
 
-								<input type="submit" class="pro-btn-yellow" value="Envoyer" />
+								<input id="sendNewComment" type="submit" class="pro-btn-yellow" value="Envoyer" />
 							</form>
 						</div>
 					</div>
@@ -305,4 +305,26 @@
 		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
 
+    $("#sendNewComment").click(function(e){
+        e.preventDefault();
+        var message = $("#message").val();
+        var inQualityOf = $("#inQualityOf").val();
+        var responseMessage = escapeHtml(message);
+        var responseinQualityOf = escapeHtml(inQualityOf);
+        $("#message").val(responseMessage);
+        $("#inQualityOf").val(responseinQualityOf);
+        $("#form-comments").submit();
+    });
+
+    function escapeHtml(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
 </aui:script>

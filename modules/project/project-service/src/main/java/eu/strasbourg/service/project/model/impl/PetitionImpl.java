@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
@@ -47,6 +48,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import javax.portlet.PortletException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -61,6 +63,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
@@ -78,10 +87,7 @@ public class PetitionImpl extends PetitionBaseImpl {
      *
      * Never reference this class directly. All methods that expect a petition model instance should use the {@link eu.strasbourg.service.project.model.Petition} interface instead.
      */
-
-    public static final String COMPLETED = "completed";
-    public static final String DRAFT = "Brouillon";
-    public static final String FAILED = "failed";
+    private static final long serialVersionUID = 7130010047007775840L;
 
     public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -137,6 +143,8 @@ public class PetitionImpl extends PetitionBaseImpl {
         Double nombreSignature = (double) getNombreSignature();
         Double quotaSignature = (double) getQuotaSignature();
         double result = nombreSignature / quotaSignature;
+        if (result>1)
+            result = 1;
         return result * 100;
     }
 
@@ -238,6 +246,8 @@ public class PetitionImpl extends PetitionBaseImpl {
         // Instanciation des variables
         Date todayDate = new Date();
         Date expirationDate = this.getExpirationDate();
+        if (expirationDate==null)
+            expirationDate = todayDate;
 
         // Calcul du nombre de millisecondes entre les deux dates et
         // conversion en nombre de jours
@@ -313,7 +323,6 @@ public class PetitionImpl extends PetitionBaseImpl {
         // Group Id global
         long globalGroupId = 0;
 
-        List<Long[]> prefilterCategoriesIds = new ArrayList<>();
         String[] prefilterTagsNames = {};
 
         Hits hits = SearchHelper.getGlobalSearchHits(searchContext, className,
@@ -473,7 +482,7 @@ public class PetitionImpl extends PetitionBaseImpl {
      */
     @Override
     public String getPetitionStatus() {
-        String result = ParticipationImpl.NEW;
+        String result = NEW.getName();
         if (getPublicationDate() != null && getExpirationDate() != null) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expirationTime = new Timestamp(getExpirationDate().getTime()).toLocalDateTime();
@@ -481,19 +490,19 @@ public class PetitionImpl extends PetitionBaseImpl {
             boolean isExpired = now.isAfter(expirationTime);
             boolean quotaSignatureAtteint = getNombreSignature() >= getQuotaSignature();
             if (now.isBefore(publicationTime))
-                result = ParticipationImpl.SOON_ARRIVED;
+                result = SOON_ARRIVED.getName();
             else if (quotaSignatureAtteint)
-                result = COMPLETED;
+                result = COMPLETED.getName();
             else if (isExpired)
-                result = FAILED;
+                result = FAILED.getName();
             else {
                 long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
                 long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
                 if (periodNews <= 7)
-                    result = ParticipationImpl.NEW;
+                    result = NEW.getName();
                 else if (periodTemp <= 7)
-                    result = ParticipationImpl.SOON_FINISHED;
-                else result = ParticipationImpl.IN_PROGRESS;
+                    result = SOON_FINISHED.getName();
+                else result = IN_PROGRESS.getName();
             }
         }
 
@@ -509,15 +518,15 @@ public class PetitionImpl extends PetitionBaseImpl {
     public String getFrontStatusFR() {
         String result;
         String status = this.getPetitionStatus();
-        if (ParticipationImpl.SOON_ARRIVED.equals(status))
+        if (SOON_ARRIVED.getName().equals(status))
             result = "&Agrave; venir";
-        else if (COMPLETED.equals(status)) {
+        else if (COMPLETED.getName().equals(status)) {
             result = "Aboutie";
-        } else if (FAILED.equals(status)) {
+        } else if (FAILED.getName().equals(status)) {
             result = "Non aboutie";
-        } else if (ParticipationImpl.NEW.equals(status)) {
+        } else if (NEW.getName().equals(status)) {
             result = "Nouvelle";
-        } else if (ParticipationImpl.SOON_FINISHED.equals(status)) {
+        } else if (SOON_FINISHED.getName().equals(status)) {
             result = "Bient&ocirc;t termin&eacute;e";
         } else result = "En cours";
         return result;
@@ -531,7 +540,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     @Override
     public String getPetitionStatusExcel() {
         String result = this.getFrontStatusFR();
-        if (ParticipationImpl.SOON_FINISHED.equals(this.getPetitionStatus()))
+        if (SOON_FINISHED.getName().equals(this.getPetitionStatus()))
             result = "bientot terminee";
         return result;
     }
@@ -545,8 +554,8 @@ public class PetitionImpl extends PetitionBaseImpl {
     public String getProDureeFR() {
         String result;
         String status = this.getPetitionStatus();
-        if (COMPLETED.equals(status) ||
-                FAILED.equals(status)) {
+        if (COMPLETED.getName().equals(status) ||
+                FAILED.getName().equals(status)) {
             result = "Termin&eacute;e";
         } else if (this.getTodayExpirationDifferenceDays() == 0)
             result = "Se termine aujourd'hui";
@@ -563,10 +572,30 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
     /**
+     * Demande si l'utilisateur demandé a signe la petition
+     * @throws PortletException
+     */
+    @Override
+    public boolean hasUserSigned(String publikUserId) throws PortletException {
+    	if (!publikUserId.isEmpty()) {
+			if (!SignataireLocalServiceUtil.findSignatairesByPetitionIdAndPublikUserId(this.getPetitionId(), publikUserId).isEmpty())
+				return true;
+		}
+		return false;
+    }
+
+    @Override
+    public String getPublicationDateFr(){
+        Date date = this.getPublicationDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
+
+    /**
      * Retourne la version JSON de l'entité
      */
     @Override
-    public JSONObject toJSON() {
+    public JSONObject toJSON(String publikUserId) {
         // Initialisation des variables tempons et résultantes
         JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
@@ -575,15 +604,21 @@ public class PetitionImpl extends PetitionBaseImpl {
         jsonPetition.put("id", this.getPetitionId());
         jsonPetition.put("createDate", dateFormat.format(this.getCreateDate()));
         jsonPetition.put("imageURL", this.getImageURL());
-        jsonPetition.put("userName", this.getUserName());
+        jsonPetition.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonPetition.put("nbApprovedComments", this.getNbApprovedComments());
         jsonPetition.put("frontStatusFR", this.getFrontStatusFR());
-        jsonPetition.put("districtLabel", this.getDistrictLabel(Locale.FRENCH));
-        jsonPetition.put("title", this.getTitle());
+        jsonPetition.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+        jsonPetition.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonPetition.put("proDureeFR", this.getProDureeFR());
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
         jsonPetition.put("nombreSignature", this.getNombreSignature());
         jsonPetition.put("quotaSignature", this.getQuotaSignature());
+
+	     // Lieux placit
+ 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+ 			jsonPlacitPlaces.put(placitPlace.toJSON());
+ 		}
+ 		jsonPetition.put("placitPlaces", jsonPlacitPlaces);
 
         return jsonPetition;
     }

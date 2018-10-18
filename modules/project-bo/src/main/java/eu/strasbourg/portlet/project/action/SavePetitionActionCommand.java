@@ -98,13 +98,17 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String externalImageCopyright = ParamUtil.getString(request,
 					"externalImageCopyright");
 			String description = ParamUtil.getString(request, "description");
+			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
+			String supportedBy = ParamUtil.getString(request, "supportedBy");
+			
 			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
 			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
 			String filesIds = ParamUtil.getString(request, "filesIds");
 			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
 			Date expirationDate = ParamUtil.getDate(request, "expirationDate", dateFormat);
 			String title = ParamUtil.getString(request, "title");
-			String author = ParamUtil.getString(request, "userName");
+			String prenomPetitionnaire = ParamUtil.getString(request, "petitionnaireFirstname");
+			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
 			int fakeSignataire = ParamUtil.getInteger(request, "nbFakeSignataire");
 
 
@@ -116,7 +120,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			petition.setTitle(title);
 
 			// Auteur
-			petition.setUserName(author);
+			petition.setPetitionnaireFirstname(prenomPetitionnaire);
+			petition.setPetitionnaireLastname(nomPetitionnaire);
 
 			// quota-signature
 			petition.setQuotaSignature(quotasSignature);
@@ -146,6 +151,13 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			petition.setDescription(description);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DESCRIPTION ------------------------
+			// ---------------------------------------------------------------
+
+			petition.setIsSupported(isSupported);
+			petition.setSupportedBy(supportedBy);
 
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
@@ -247,7 +259,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 		}
 
 		// Auteur
-		if (Validator.isNull(ParamUtil.getString(request, "userName"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "petitionnaireFirstname")) && Validator.isNull(ParamUtil.getString(request, "petitionnaireLastname"))) {
 			SessionErrors.add(request, "author-error");
 			isValid = false;
 		}

@@ -501,6 +501,282 @@ public interface InitiativePersistence extends BasePersistence<Initiative> {
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns all the initiatives where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the matching initiatives
+	*/
+	public java.util.List<Initiative> findBypublikId(java.lang.String publikId);
+
+	/**
+	* Returns a range of all the initiatives where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of initiatives
+	* @param end the upper bound of the range of initiatives (not inclusive)
+	* @return the range of matching initiatives
+	*/
+	public java.util.List<Initiative> findBypublikId(
+		java.lang.String publikId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the initiatives where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of initiatives
+	* @param end the upper bound of the range of initiatives (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching initiatives
+	*/
+	public java.util.List<Initiative> findBypublikId(
+		java.lang.String publikId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the initiatives where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of initiatives
+	* @param end the upper bound of the range of initiatives (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching initiatives
+	*/
+	public java.util.List<Initiative> findBypublikId(
+		java.lang.String publikId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first initiative in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching initiative
+	* @throws NoSuchInitiativeException if a matching initiative could not be found
+	*/
+	public Initiative findBypublikId_First(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException;
+
+	/**
+	* Returns the first initiative in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
+	*/
+	public Initiative fetchBypublikId_First(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator);
+
+	/**
+	* Returns the last initiative in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching initiative
+	* @throws NoSuchInitiativeException if a matching initiative could not be found
+	*/
+	public Initiative findBypublikId_Last(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException;
+
+	/**
+	* Returns the last initiative in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
+	*/
+	public Initiative fetchBypublikId_Last(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator);
+
+	/**
+	* Returns the initiatives before and after the current initiative in the ordered set where publikId = &#63;.
+	*
+	* @param initiativeId the primary key of the current initiative
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next initiative
+	* @throws NoSuchInitiativeException if a initiative with the primary key could not be found
+	*/
+	public Initiative[] findBypublikId_PrevAndNext(long initiativeId,
+		java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException;
+
+	/**
+	* Removes all the initiatives where publikId = &#63; from the database.
+	*
+	* @param publikId the publik ID
+	*/
+	public void removeBypublikId(java.lang.String publikId);
+
+	/**
+	* Returns the number of initiatives where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the number of matching initiatives
+	*/
+	public int countBypublikId(java.lang.String publikId);
+
+	/**
+	* Returns all the initiatives where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the matching initiatives
+	*/
+	public java.util.List<Initiative> findByStatusAndGroupId(int status,
+		long groupId);
+
+	/**
+	* Returns a range of all the initiatives where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of initiatives
+	* @param end the upper bound of the range of initiatives (not inclusive)
+	* @return the range of matching initiatives
+	*/
+	public java.util.List<Initiative> findByStatusAndGroupId(int status,
+		long groupId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the initiatives where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of initiatives
+	* @param end the upper bound of the range of initiatives (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching initiatives
+	*/
+	public java.util.List<Initiative> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the initiatives where status = &#63; and groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param start the lower bound of the range of initiatives
+	* @param end the upper bound of the range of initiatives (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching initiatives
+	*/
+	public java.util.List<Initiative> findByStatusAndGroupId(int status,
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first initiative in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching initiative
+	* @throws NoSuchInitiativeException if a matching initiative could not be found
+	*/
+	public Initiative findByStatusAndGroupId_First(int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException;
+
+	/**
+	* Returns the first initiative in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
+	*/
+	public Initiative fetchByStatusAndGroupId_First(int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator);
+
+	/**
+	* Returns the last initiative in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching initiative
+	* @throws NoSuchInitiativeException if a matching initiative could not be found
+	*/
+	public Initiative findByStatusAndGroupId_Last(int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException;
+
+	/**
+	* Returns the last initiative in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
+	*/
+	public Initiative fetchByStatusAndGroupId_Last(int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator);
+
+	/**
+	* Returns the initiatives before and after the current initiative in the ordered set where status = &#63; and groupId = &#63;.
+	*
+	* @param initiativeId the primary key of the current initiative
+	* @param status the status
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next initiative
+	* @throws NoSuchInitiativeException if a initiative with the primary key could not be found
+	*/
+	public Initiative[] findByStatusAndGroupId_PrevAndNext(long initiativeId,
+		int status, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Initiative> orderByComparator)
+		throws NoSuchInitiativeException;
+
+	/**
+	* Removes all the initiatives where status = &#63; and groupId = &#63; from the database.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	*/
+	public void removeByStatusAndGroupId(int status, long groupId);
+
+	/**
+	* Returns the number of initiatives where status = &#63; and groupId = &#63;.
+	*
+	* @param status the status
+	* @param groupId the group ID
+	* @return the number of matching initiatives
+	*/
+	public int countByStatusAndGroupId(int status, long groupId);
+
+	/**
 	* Caches the initiative in the entity cache if it is enabled.
 	*
 	* @param initiative the initiative

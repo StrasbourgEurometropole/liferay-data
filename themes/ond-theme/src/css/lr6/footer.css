@@ -149,8 +149,8 @@
 }
 .footer .footer-top .social-network ul li a:hover {
     opacity: 0.4;
-    filter: progid_DXImageTransform.Microsoft.Alpha(Opacity=40);
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+ /*   filter: progid_DXImageTransform.Microsoft.Alpha(Opacity=40);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";*/
 }
 .footer .footer-top .social-network ul li a.btn-fb {
     background-position: top left;

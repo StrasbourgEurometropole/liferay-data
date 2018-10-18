@@ -76,6 +76,14 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Retourne tous les commentaires d'un utilisateur
+	 */
+	@Override
+	public List<Comment> getByPublikId(String publikId) {
+		return this.commentPersistence.findByPublikId(publikId);
+	}
+	
+	/**
 	 * Retourne tous les commentaires d'un asset entry
 	 */
 	@Override

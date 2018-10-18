@@ -1,5 +1,5 @@
-<!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pétition -->
+<!-- CONFIRMATION QUITTER -->
+<!-- HTML pour confirmer l'annulation d'un formulaire -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4>Êtes-vous sure ? toutes vos modifications ne seront pas enregistrées.</h4>
+                <h4>Êtes-vous sure ? les données renseignées seront perdues.</h4>
                 <div class="centerButtonValidation">
                     <input id="buttonConfirmQuit" type="submit" class="pro-btn" value="Quitter"/>
                 </div>

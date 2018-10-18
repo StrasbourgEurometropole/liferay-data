@@ -1,10 +1,10 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<div class="col-xs-12">
+<div>
 	<div class="mns-affiner">
       <span class="mns-more hidden-xs"><liferay-ui:message key="refine-your-search" /></span>
     </div>
-	
+
 	<!-- Champ date -->
 	<c:if test="${dc.dateField}">
 		<div class="form-group date-selection">

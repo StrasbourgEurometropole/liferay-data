@@ -16,13 +16,17 @@
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
             	<button id="closingButton2" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            	
+
             </div>
             <form id="form-sign-petition" method="post" action="${signPetitionURL}">
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
-                        <p><liferay-ui:message key="modal.signpetition.information"/></p>
-                        <a href="#" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
+                        <ul style="font-size : 10pt">  
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information2"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information3"/></li>
+                        </ul>
+                        <a href="/cnil" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
                     </div>
                 </div>
                 <div class="pro-wrapper">
@@ -77,20 +81,27 @@
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="signlegalage" value="legalage">
-                        <label for="signlegalage"><liferay-ui:message key="modal.legalage"/></label>
+                        <label for="signlegalage"  class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage2"/>
+                        </label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="signcnil" value="cnil">
-                        <label for="signcnil"><liferay-ui:message key="modal.cnil"/></label>
+                        <label for="signcnil"  class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil"/>
+                        </label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
-                    <p><i><liferay-ui:message key="modal.signpetition.condition"/></i></p>
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions2"/></i></p>
                 </div>
                 <input type="hidden" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div id="signalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="signalertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
+                <div id="signalertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
+                <div id="signalertLegalage" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
                 <div class="pro-form-submit">
                     <button id="sendSign" type="submit" class="btn btn-default"><liferay-ui:message key="modal.signpetition.submit"/></button>
                 </div>
@@ -128,6 +139,18 @@
         }
     });
 
+    function getAge(dateString) {
+        var from = dateString.split("/");
+        var today = new Date();
+        var birthDate = new Date(from[2],from[1]-1,from[0]);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+    }
+
     $(document).ready(function(){
         $('#checkboxSignSaveInfo').hide();
     });
@@ -138,7 +161,8 @@
 
     function resetSignValues()
     {
-        $("#signsave-info").prop("checked", false);
+        $('#checkboxSignSaveInfo #signsave-info').prop('checked', false);
+        $('#checkboxSignSaveInfo').hide();
         $("#file-petition-legalage").prop("checked", false);
         $("#file-petition-cnil").prop("checked", false);
         $("#"+namespaceSign+"signbirthday").val(saved_signdateNaiss);
@@ -179,6 +203,7 @@
         var signlegalage = $("#signlegalage").is(":checked");
         var signcnil = $("#signcnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var age = getAge(signBirthday);
 
         if (signBirthday==null || signBirthday==""){
             $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -213,6 +238,27 @@
         if (!result)
             $("#signalert").removeClass("hidden");
         else $("#signalert").addClass("hidden");
+        if (signCity.toLowerCase()!=="strasbourg"){
+            $("#signalertcity").removeClass("hidden");
+            $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#signalertcity").addClass("hidden");
+
+        if (signPostalcode!=="67000"
+            &&signPostalcode!=="67100"
+            &&signPostalcode!=="67200"){
+            $("#signalertPostalCode").removeClass("hidden");
+            $("#"+namespaceSign+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#signalertPostalCode").addClass("hidden");
+
+        if(age<16){
+            $("#signalertLegalage").removeClass("hidden");
+            $("#"+namespaceSign+"signbirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }
+        else $("#signalertLegalage").addClass("hidden");
+
         return result;
     }
 </script>

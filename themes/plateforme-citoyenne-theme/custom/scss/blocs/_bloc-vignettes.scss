@@ -277,13 +277,17 @@
 
 			.pro-wrap-thematique {
 				margin-top: 10px;
+				overflow: hidden;
+				white-space: nowrap;
+				max-width: 100%;
+				display: block;
+				text-overflow: ellipsis;
 				&:after {
 					content: '';
 					display: block;
 					clear: both;
 				}
 				> span {
-					float: left;
 					@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
 					margin-bottom: 5px;
 					&:after {
@@ -1012,6 +1016,7 @@
 		display: block;
 		border: 1px solid rgba($c_dark, 0.25);
 		border-radius: 4px;
+		background: $c_white;
 		@include addTransition();
 	}
 
@@ -1106,7 +1111,7 @@
 // CARD BLOC PARTICIPATION
 // ==========================================================================
 .pro-encart-theme {
-	@include ft($f_hx, 0.875em, 700, $c_white, 1.786em);
+	@include ft($f_hx, 0.875em, 700, $c_white, 1.885em);
 	display: inline-block;
 	height: 25px;
 	border-radius: 4px;
@@ -1270,7 +1275,7 @@
 
 			span:not(.pro-encart-theme) {
 				position: relative;
-				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
+				@include ft($f_hx, 0.938em, 400, $c_main, 1.885em);
 				padding: 1px 9px;
 				border-radius: 5px;
 				background: $c_dark;
@@ -2517,13 +2522,17 @@
 
 		.pro-wrap-thematique{
 			margin-top: 10px;
+			overflow: hidden;
+			white-space: nowrap;
+			max-width: 100%;
+			display: block;
+			text-overflow: ellipsis;
 			&:after {
 				content: '';
 				display: block;
 				clear: both;
 			}
 			> span {
-				float: left;
 				@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
 				margin-bottom: 5px;
 				&:after {

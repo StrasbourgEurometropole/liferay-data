@@ -251,6 +251,8 @@ public interface InitiativeLocalService extends BaseLocalService,
 	public List<Initiative> findByKeyword(java.lang.String keyword,
 		long groupId, int start, int end);
 
+	public List<Initiative> findByPublikUserId(java.lang.String publikUserId);
+
 	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/
@@ -296,6 +298,12 @@ public interface InitiativeLocalService extends BaseLocalService,
 	public List<Initiative> getInitiativesByUuidAndCompanyId(
 		java.lang.String uuid, long companyId, int start, int end,
 		OrderByComparator<Initiative> orderByComparator);
+
+	/**
+	* Retourne toutes les initiatives publiées d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getPublishedByGroupId(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.
