@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +50,7 @@ public class PlacitPlaceSoap implements Serializable {
 		soapModel.setProjectId(model.getProjectId());
 		soapModel.setParticipationId(model.getParticipationId());
 		soapModel.setPetitionId(model.getPetitionId());
+		soapModel.setBudgetParticipatifId(model.getBudgetParticipatifId());
 		soapModel.setInitiativeId(model.getInitiativeId());
 		soapModel.setPlaceSIGId(model.getPlaceSIGId());
 
@@ -241,6 +241,14 @@ public class PlacitPlaceSoap implements Serializable {
 		_petitionId = petitionId;
 	}
 
+	public long getBudgetParticipatifId() {
+		return _budgetParticipatifId;
+	}
+
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_budgetParticipatifId = budgetParticipatifId;
+	}
+
 	public long getInitiativeId() {
 		return _initiativeId;
 	}
@@ -274,6 +282,7 @@ public class PlacitPlaceSoap implements Serializable {
 	private long _projectId;
 	private long _participationId;
 	private long _petitionId;
+	private long _budgetParticipatifId;
 	private long _initiativeId;
 	private String _placeSIGId;
 }

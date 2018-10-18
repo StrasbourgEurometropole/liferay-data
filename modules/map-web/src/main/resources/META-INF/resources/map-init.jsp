@@ -33,6 +33,6 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.mode = '${mode}';
         window.linkCategoryId = '${trafficCategoryId}';
         window.linkInterestId = '${trafficInterestId}';
-        window.coordinateZone = ${coordinateZone};
+        window.coordinateZone = '${coordinateZone}';
     </aui:script>
 </liferay-util:body-top>

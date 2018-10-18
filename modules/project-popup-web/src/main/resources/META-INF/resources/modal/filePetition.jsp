@@ -107,18 +107,22 @@
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="file-petition-legalage" value="legalage">
-                        <label for="file-petition-legalage"><liferay-ui:message key="modal.legalage"/></label>
+                        <label for="file-petition-legalage" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                        </label>
                     </div>
                 </div>
-                <div class="pro-optin form-checkbox">
+                <div class="pro-optin form-checkbox" >
                     <div>
                         <input type="checkbox" id="file-petition-cnil" value="cnil">
-                        <label for="file-petition-cnil"><liferay-ui:message key="modal.cnil"/></label>
+                        <label for="file-petition-cnil" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
+                        </label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
-                    <p><i><liferay-ui:message key="modal.filepetition.condition"/></i></p>
-                    <p><liferay-ui:message key="modal.filepetition.contact"/></p>
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions"/></i></p>
+                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contact"/></p>
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <div class="pro-form-submit">
@@ -351,6 +355,12 @@
 
         if (city==null || city==""){
             $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+
+        if (city.toUpperCase()!=="STRASBOURG"){
+            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            alert("Vous devez vivre a Strasbourg pour pouvoir soumettre ce formulaire.");
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 

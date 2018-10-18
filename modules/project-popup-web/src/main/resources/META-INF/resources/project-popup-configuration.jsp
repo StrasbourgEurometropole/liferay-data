@@ -40,6 +40,9 @@
 					<aui:option value="submitInitiative" selected="${popupTemplateId eq 'submitInitiative'}">
 						<liferay-ui:message key="submitInitiative" />
 					</aui:option>
+					<aui:option value="fileBudget" selected="${popupTemplateId eq 'fileBudget'}">
+						<liferay-ui:message key="fileBudget" />
+					</aui:option>
 				</aui:select>
 			</aui:fieldset>
 

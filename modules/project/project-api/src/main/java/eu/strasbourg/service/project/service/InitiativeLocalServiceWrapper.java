@@ -364,6 +364,15 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 	}
 
 	/**
+	* Retourne toutes les initiatives publiées d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> getPublishedByGroupId(
+		long groupId) {
+		return _initiativeLocalService.getPublishedByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

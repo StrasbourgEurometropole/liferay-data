@@ -22,8 +22,10 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -586,6 +588,37 @@ public class AssetVocabularyHelper {
 					.collect(Collectors.joining(" - ")));
 		}
 		return result.toString();
+	}
+	
+	/**
+	 * Retourne la liste des catégories du vocabulaire passé en paramètre, sans
+	 * les catégories enfants triées par la valeur de la propriété "order" de
+	 * chaque catégorie
+	 */
+	public static List<AssetCategory> getSortedCategories(String vocabulary, long groupId) {
+		List<AssetCategory> categories = getVocabulary(vocabulary, groupId).getCategories();
+
+		// trie des catégories par la propriété order si elle existe
+		Map<String, AssetCategory> order_category = new HashMap<String, AssetCategory>();
+		List<AssetCategory> categoriesWithoutOrder = new ArrayList<AssetCategory>();
+		for (AssetCategory assetCategory : categories) {
+			if (assetCategory != null) {
+				String orderString = AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "order");
+				if (orderString.equals("")) {
+					categoriesWithoutOrder.add(assetCategory);
+				} else {
+					order_category.put(orderString, assetCategory);
+				}
+			}
+		}
+
+		List<AssetCategory> sortedCategories = new ArrayList<AssetCategory>();
+		for (AssetCategory assetCategory : order_category.values()) {
+			sortedCategories.add(assetCategory);
+		}
+		sortedCategories.addAll(categoriesWithoutOrder);
+
+		return sortedCategories;
 	}
 
 		private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");

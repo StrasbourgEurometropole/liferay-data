@@ -15,19 +15,16 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
 
 /**
@@ -66,7 +63,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(39);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -102,6 +99,8 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		sb.append(participationId);
 		sb.append(", petitionId=");
 		sb.append(petitionId);
+		sb.append(", budgetParticipatifId=");
+		sb.append(budgetParticipatifId);
 		sb.append(", initiativeId=");
 		sb.append(initiativeId);
 		sb.append(", placeSIGId=");
@@ -181,6 +180,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		placitPlaceImpl.setProjectId(projectId);
 		placitPlaceImpl.setParticipationId(participationId);
 		placitPlaceImpl.setPetitionId(petitionId);
+		placitPlaceImpl.setBudgetParticipatifId(budgetParticipatifId);
 		placitPlaceImpl.setInitiativeId(initiativeId);
 
 		if (placeSIGId == null) {
@@ -223,6 +223,8 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 		participationId = objectInput.readLong();
 
 		petitionId = objectInput.readLong();
+
+		budgetParticipatifId = objectInput.readLong();
 
 		initiativeId = objectInput.readLong();
 		placeSIGId = objectInput.readUTF();
@@ -294,6 +296,8 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 
 		objectOutput.writeLong(petitionId);
 
+		objectOutput.writeLong(budgetParticipatifId);
+
 		objectOutput.writeLong(initiativeId);
 
 		if (placeSIGId == null) {
@@ -321,6 +325,7 @@ public class PlacitPlaceCacheModel implements CacheModel<PlacitPlace>,
 	public long projectId;
 	public long participationId;
 	public long petitionId;
+	public long budgetParticipatifId;
 	public long initiativeId;
 	public String placeSIGId;
 }

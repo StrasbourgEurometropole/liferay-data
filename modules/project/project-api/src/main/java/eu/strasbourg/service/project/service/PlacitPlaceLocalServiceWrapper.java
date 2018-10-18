@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -323,6 +322,15 @@ public class PlacitPlaceLocalServiceWrapper implements PlacitPlaceLocalService,
 	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
 		return _placitPlaceLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne les lieux d'une participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByBudgetParticipatif(
+		long budgetParticipatifId) {
+		return _placitPlaceLocalService.getByBudgetParticipatif(budgetParticipatifId);
 	}
 
 	/**

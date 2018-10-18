@@ -41,7 +41,7 @@
                            <div class="pro-people">
                                <figure role="group">
                                    <c:if test="${1 == 2}">
-                                       <img src="${publikUser.getImageURL()}" width="75" height="75" alt="Arrière plan page standard"/>
+                                       <img src="${publikUser.getImageURL()}" width="75" height="75" alt="ArriÃ¨re plan page standard"/>
                                    </c:if>
                                </figure>
                                <div>
@@ -53,7 +53,7 @@
                                        </span>
                                    </c:if>
                                    <p class="pro-name">${publikUser.lastName} ${publikUser.firstName}</p>
-                                   <span class="pro-fonction">TOTO</span>
+                                   <span class="pro-fonction"></span>
                                </div>
                            </div>
                            <div class="pro-state-signature">

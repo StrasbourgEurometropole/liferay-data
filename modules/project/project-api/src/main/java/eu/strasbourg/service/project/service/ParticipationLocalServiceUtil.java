@@ -377,6 +377,14 @@ public class ParticipationLocalServiceUtil {
 	}
 
 	/**
+	* Retourne toutes les participation publiées d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Participation> getPublishedByGroupId(
+		long groupId) {
+		return getService().getPublishedByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
