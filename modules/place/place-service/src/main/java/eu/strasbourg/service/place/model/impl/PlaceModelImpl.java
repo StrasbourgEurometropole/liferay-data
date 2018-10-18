@@ -112,6 +112,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "exceptionalSchedule", Types.CLOB },
 			{ "displayEvents", Types.BOOLEAN },
 			{ "additionalInformation", Types.CLOB },
+			{ "contenuTooltipCarto", Types.CLOB },
 			{ "phone", Types.VARCHAR },
 			{ "mail", Types.VARCHAR },
 			{ "siteURL", Types.VARCHAR },
@@ -175,6 +176,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("exceptionalSchedule", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("displayEvents", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("additionalInformation", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("contenuTooltipCarto", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("siteURL", Types.VARCHAR);
@@ -204,7 +206,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -273,6 +275,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setExceptionalSchedule(soapModel.getExceptionalSchedule());
 		model.setDisplayEvents(soapModel.getDisplayEvents());
 		model.setAdditionalInformation(soapModel.getAdditionalInformation());
+		model.setContenuTooltipCarto(soapModel.getContenuTooltipCarto());
 		model.setPhone(soapModel.getPhone());
 		model.setMail(soapModel.getMail());
 		model.setSiteURL(soapModel.getSiteURL());
@@ -396,6 +399,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("exceptionalSchedule", getExceptionalSchedule());
 		attributes.put("displayEvents", getDisplayEvents());
 		attributes.put("additionalInformation", getAdditionalInformation());
+		attributes.put("contenuTooltipCarto", getContenuTooltipCarto());
 		attributes.put("phone", getPhone());
 		attributes.put("mail", getMail());
 		attributes.put("siteURL", getSiteURL());
@@ -627,6 +631,13 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		if (additionalInformation != null) {
 			setAdditionalInformation(additionalInformation);
+		}
+
+		String contenuTooltipCarto = (String)attributes.get(
+				"contenuTooltipCarto");
+
+		if (contenuTooltipCarto != null) {
+			setContenuTooltipCarto(contenuTooltipCarto);
 		}
 
 		String phone = (String)attributes.get("phone");
@@ -1884,6 +1895,113 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
+	public String getContenuTooltipCarto() {
+		if (_contenuTooltipCarto == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _contenuTooltipCarto;
+		}
+	}
+
+	@Override
+	public String getContenuTooltipCarto(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getContenuTooltipCarto(languageId);
+	}
+
+	@Override
+	public String getContenuTooltipCarto(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getContenuTooltipCarto(languageId, useDefault);
+	}
+
+	@Override
+	public String getContenuTooltipCarto(String languageId) {
+		return LocalizationUtil.getLocalization(getContenuTooltipCarto(),
+			languageId);
+	}
+
+	@Override
+	public String getContenuTooltipCarto(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getContenuTooltipCarto(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getContenuTooltipCartoCurrentLanguageId() {
+		return _contenuTooltipCartoCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getContenuTooltipCartoCurrentValue() {
+		Locale locale = getLocale(_contenuTooltipCartoCurrentLanguageId);
+
+		return getContenuTooltipCarto(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getContenuTooltipCartoMap() {
+		return LocalizationUtil.getLocalizationMap(getContenuTooltipCarto());
+	}
+
+	@Override
+	public void setContenuTooltipCarto(String contenuTooltipCarto) {
+		_contenuTooltipCarto = contenuTooltipCarto;
+	}
+
+	@Override
+	public void setContenuTooltipCarto(String contenuTooltipCarto, Locale locale) {
+		setContenuTooltipCarto(contenuTooltipCarto, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setContenuTooltipCarto(String contenuTooltipCarto,
+		Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(contenuTooltipCarto)) {
+			setContenuTooltipCarto(LocalizationUtil.updateLocalization(
+					getContenuTooltipCarto(), "ContenuTooltipCarto",
+					contenuTooltipCarto, languageId, defaultLanguageId));
+		}
+		else {
+			setContenuTooltipCarto(LocalizationUtil.removeLocalization(
+					getContenuTooltipCarto(), "ContenuTooltipCarto", languageId));
+		}
+	}
+
+	@Override
+	public void setContenuTooltipCartoCurrentLanguageId(String languageId) {
+		_contenuTooltipCartoCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setContenuTooltipCartoMap(
+		Map<Locale, String> contenuTooltipCartoMap) {
+		setContenuTooltipCartoMap(contenuTooltipCartoMap,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setContenuTooltipCartoMap(
+		Map<Locale, String> contenuTooltipCartoMap, Locale defaultLocale) {
+		if (contenuTooltipCartoMap == null) {
+			return;
+		}
+
+		setContenuTooltipCarto(LocalizationUtil.updateLocalization(
+				contenuTooltipCartoMap, getContenuTooltipCarto(),
+				"ContenuTooltipCarto", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
 	public String getPhone() {
 		if (_phone == null) {
 			return StringPool.BLANK;
@@ -3042,6 +3160,17 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			}
 		}
 
+		Map<Locale, String> contenuTooltipCartoMap = getContenuTooltipCartoMap();
+
+		for (Map.Entry<Locale, String> entry : contenuTooltipCartoMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> siteURLMap = getSiteURLMap();
 
 		for (Map.Entry<Locale, String> entry : siteURLMap.entrySet()) {
@@ -3219,6 +3348,17 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 				defaultLocale, defaultLocale);
 		}
 
+		String contenuTooltipCarto = getContenuTooltipCarto(defaultLocale);
+
+		if (Validator.isNull(contenuTooltipCarto)) {
+			setContenuTooltipCarto(getContenuTooltipCarto(
+					modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setContenuTooltipCarto(getContenuTooltipCarto(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
+
 		String siteURL = getSiteURL(defaultLocale);
 
 		if (Validator.isNull(siteURL)) {
@@ -3335,6 +3475,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setExceptionalSchedule(getExceptionalSchedule());
 		placeImpl.setDisplayEvents(getDisplayEvents());
 		placeImpl.setAdditionalInformation(getAdditionalInformation());
+		placeImpl.setContenuTooltipCarto(getContenuTooltipCarto());
 		placeImpl.setPhone(getPhone());
 		placeImpl.setMail(getMail());
 		placeImpl.setSiteURL(getSiteURL());
@@ -3667,6 +3808,15 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			placeCacheModel.additionalInformation = null;
 		}
 
+		placeCacheModel.contenuTooltipCarto = getContenuTooltipCarto();
+
+		String contenuTooltipCarto = placeCacheModel.contenuTooltipCarto;
+
+		if ((contenuTooltipCarto != null) &&
+				(contenuTooltipCarto.length() == 0)) {
+			placeCacheModel.contenuTooltipCarto = null;
+		}
+
 		placeCacheModel.phone = getPhone();
 
 		String phone = placeCacheModel.phone;
@@ -3823,7 +3973,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(119);
+		StringBundler sb = new StringBundler(121);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3889,6 +4039,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getDisplayEvents());
 		sb.append(", additionalInformation=");
 		sb.append(getAdditionalInformation());
+		sb.append(", contenuTooltipCarto=");
+		sb.append(getContenuTooltipCarto());
 		sb.append(", phone=");
 		sb.append(getPhone());
 		sb.append(", mail=");
@@ -3950,7 +4102,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(181);
+		StringBundler sb = new StringBundler(184);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -4083,6 +4235,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(
 			"<column><column-name>additionalInformation</column-name><column-value><![CDATA[");
 		sb.append(getAdditionalInformation());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>contenuTooltipCarto</column-name><column-value><![CDATA[");
+		sb.append(getContenuTooltipCarto());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>phone</column-name><column-value><![CDATA[");
@@ -4248,6 +4404,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private boolean _displayEvents;
 	private String _additionalInformation;
 	private String _additionalInformationCurrentLanguageId;
+	private String _contenuTooltipCarto;
+	private String _contenuTooltipCartoCurrentLanguageId;
 	private String _phone;
 	private String _mail;
 	private String _siteURL;
