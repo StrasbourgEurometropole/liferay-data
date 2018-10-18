@@ -101,9 +101,6 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		this.districtCategories = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
 		request.setAttribute("districtCategories", this.districtCategories);
 		
-		// Initialise la liste des entites sur l'ensemble des quartiers
-		this.refreshEntitiesSelectionByDistrict(request, -1);
-		
 		super.render(request, response);
 	}
 	

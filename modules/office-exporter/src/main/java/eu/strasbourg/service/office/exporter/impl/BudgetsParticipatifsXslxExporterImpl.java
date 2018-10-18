@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -19,6 +20,10 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 
+@Component(
+        immediate = true,
+        service = BudgetsParticipatifsXlsxExporter.class
+)
 public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatifsXlsxExporter {
 	
 	private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",

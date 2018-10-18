@@ -2,16 +2,19 @@
 var leafletMap = null;
 var markersCluster = null;
 
+// Listes des entités
 var projects = null;
 var participations = null;
 var petitions = null;
 var events = null;
 
+// Listes des marqueurs
 var projectMarkers = [];
 var participationMarkers = [];
 var petitionMarkers = [];
 var eventMarkers = [];
 
+// Listes de éléments sélectionées
 var selectedProjectIds = [];
 var selectedParticipationIds = [];
 var selectedPetitionIds = [];
@@ -21,7 +24,6 @@ var entityType = {
 		PROJECT : 'project',
 		PARTICIPATION : 'participation',
 		PETITION : 'petition',
-		INITIATIVE : 'initiative',
 		EVENT : 'event'
 }
 
@@ -54,13 +56,11 @@ function removeFilterElements() {
  */
 function removeMarkerElements(entityName) {
     
-    var entityName = (typeof entityName !== 'undefined') ? entityName : entityType.PROJECT;
-    
 	switch (entityName) {
 		case entityType.PROJECT:
 			if (projectMarkers != null) {
 				projectMarkers.forEach(function(projectMarker) {
-					leafletMap.removeLayer(projectMarker);
+					markersCluster.removeLayer(projectMarker);
 				});
 				projectMarkers = [];
 			}
@@ -69,16 +69,25 @@ function removeMarkerElements(entityName) {
 		case entityType.PARTICIPATION:
 			if (participationMarkers != null) {
 				participationMarkers.forEach(function(participationMarker) {
-					leafletMap.removeLayer(participationMarker);
+					markersCluster.removeLayer(participationMarker);
 				});
 				participationMarkers = [];
+			}
+			break;
+		
+		case entityType.PETITION:
+			if (petitionMarkers != null) {
+				petitionMarkers.forEach(function(petitionMarker) {
+					markersCluster.removeLayer(petitionMarker);
+				});
+				petitionMarkers = [];
 			}
 			break;
 			
 		case entityType.EVENT:
 			if (eventMarkers != null) {
 				eventMarkers.forEach(function(eventMarker) {
-					leafletMap.removeLayer(eventMarker);
+					markersCluster.removeLayer(eventMarker);
 				});
 				eventMarkers = [];
 			}
@@ -89,65 +98,88 @@ function removeMarkerElements(entityName) {
 /**
  * Mise à jour de la liste des filtres
  */ 
-function updateFilterElements() {
+function updateFilterElements(onReady) {
 	
+	// Suppression des anciens filtres
     removeFilterElements();
+    
+    // Initialisation de la nouvelle sauvegarde des éléments séléctionnés
+    var refreshedSelectedProjectIds = [];
+    var refreshedSelectedParticipationIds = [];
+    var refreshedSelectedPetitionIds = [];
+    var refreshedSelectedEventIds = [];
+    
+    var checker;
 	
 	if (projects != null) {
 		projects.forEach(function(project, index) {
+			checker =  "";
+			if (onReady || selectedProjectIds.indexOf(project.id) > -1) {
+				$("input[id='project_" + index + "']").prop('checked', true);
+				checker = "checked";
+			}
 			$("fieldset[id='projects_fieldset']").append(
 				"<div>" + 
-                    "<input type='checkbox' id='project_" + index + "' class='hide-checkbox' value='" + project.id + "'>" +
-                    "<label for='project_" + index + "'>" + project.title + "</label>" +
+                    "<input type='checkbox' id='project_" + project.id + "' class='hide-checkbox' value='" + project.id + "' " + checker + ">" +
+                    "<label for='project_" + project.id + "'>" + project.title + "</label>" +
                 "</div>"
 			);
-			if (selectedProjectIds.indexOf(project.id) != -1) {
-				$("input[id='project_" + index + "']").prop('checked', true);
-			}
 		});
 	}
 
 	if (participations != null) {
 		participations.forEach(function(participation, index) {
+			checker =  "";
+			if (onReady ||selectedParticipationIds.indexOf(participation.id) > -1) {
+				refreshedSelectedParticipationIds.push(participation.id);
+				checker = "checked";
+			}
 			$("fieldset[id='participations_fieldset']").append(
 				"<div>" + 
-                    "<input type='checkbox' id='participation_" + index + "' class='hide-checkbox' value='" + participation.id + "'>" +
-                    "<label for='participation_" + index + "'>" + participation.title + "</label>" +
+                    "<input type='checkbox' id='participation_" + participation.id + "' class='hide-checkbox' value='" + participation.id + "' " + checker + ">" +
+                    "<label for='participation_" + participation.id + "'>" + participation.title + "</label>" +
                 "</div>"
 			);
-			if (selectedParticipationIds.indexOf(participation.id) != -1) {
-				$("input[id='participation_" + index + "']").prop('checked', true);
-			}
 		});
 	}
 
 	if (petitions != null) {
 		petitions.forEach(function(petition, index) {
+			checker =  "";
+			if (onReady ||selectedPetitionIds.indexOf(petition.id) > -1) {
+				refreshedSelectedPetitionIds.push(petition.id);
+				checker = "checked";
+			}
 			$("fieldset[id='petitions_fieldset']").append(
 				"<div>" + 
-	                "<input type='checkbox' id='petition_" + index + "' class='hide-checkbox' value='" + petition.id + "'>" +
-	                "<label for='petition_" + index + "'>" + petition.title + "</label>" +
+	                "<input type='checkbox' id='petition_" + petition.id + "' class='hide-checkbox' value='" + petition.id + "' " + checker + ">" +
+	                "<label for='petition_" + petition.id + "'>" + petition.title + "</label>" +
 	            "</div>"
 			);
-			if (selectedPetitionIds.indexOf(petition.id) != -1) {
-				$("input[id='petition_" + index + "']").prop('checked', true);
-			}
 		});
 	}
 
 	if (events != null) {
 		events.forEach(function(event, index) {
+			checker =  "";
+			if (onReady ||selectedEventIds.indexOf(event.id) > -1) {
+				refreshedSelectedEventIds.push(event.id);
+				checker = "checked";
+			}
 			$("fieldset[id='events_fieldset']").append(
 				"<div>" + 
-                    "<input type='checkbox' id='event_" + index + "' class='hide-checkbox' value='" + event.id + "'>" +
-                    "<label for='event_" + index + "'>" + event.title.fr_FR + "</label>" +
+                    "<input type='checkbox' id='event_" + event.id + "' class='hide-checkbox' value='" + event.id + "' " + checker + ">" +
+                    "<label for='event_" + event.id + "'>" + event.title.fr_FR + "</label>" +
                 "</div>"
 			);
-			if (selectedEventIds.indexOf(event.id) != -1) {
-				$("input[id='event_" + index + "']").prop('checked', true);
-			}
 		});
 	}
+	
+	// Mise à jour de la sauvegarde des éléments sélectionnés
+	selectedProjectIds = refreshedSelectedProjectIds;
+	selectedParticipationIds = refreshedSelectedParticipationIds;
+	selectedPetitionIds = refreshedSelectedPetitionIds;
+	selectedEventIds = refreshedSelectedEventIds;
 
 }
 
@@ -157,7 +189,6 @@ function updateFilterElements() {
  */
 function updateMarkerElements(entityName) {
     
-    var entityName = (typeof entityName !== 'undefined') ? entityName : entityType.PROJECT;
 	removeMarkerElements(entityName);
 	
 	switch (entityName) {
@@ -166,7 +197,7 @@ function updateMarkerElements(entityName) {
 				// Parcours des projets
 				projects.forEach(function(project) {
 					// Le projet doit-il être affiché ?
-					if (project.isMarkeable) {
+					if (checkPrintatorState(entityType.PROJECT) && checkMarkerState(entityType.PROJECT, project.id)) {
 						// Parcours des lieux du projet
 						project.placitPlaces.forEach(function(placitPlace) {
 							// Le lieux est-il repérable ?
@@ -174,7 +205,7 @@ function updateMarkerElements(entityName) {
 								// Création du marqueur
 								var marker = getProjectMarker(project, [placitPlace.mercatorY, placitPlace.mercatorX]);
 								// Ajout du marqueur sur la carte
-								marker.addTo(leafletMap);
+								markersCluster.addLayer(marker);
 								// Ajout du marqueur dans le tableau de références
 								projectMarkers.push(marker);
 							}
@@ -188,63 +219,70 @@ function updateMarkerElements(entityName) {
 			// Même processus que l'entité Project
 			if (participations != null) {
 				participations.forEach(function(participation, index) {
-					if (participation.isMarkeable) {
+					if (checkPrintatorState(entityType.PARTICIPATION) && checkMarkerState(entityType.PARTICIPATION, participation.id)) {
 						participation.placitPlaces.forEach(function(placitPlace) {
 							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
 								var marker = getParticipationMarker(participation, [placitPlace.mercatorY, placitPlace.mercatorX]);
-								marker.addTo(leafletMap);
+								markersCluster.addLayer(marker);
 								participationMarkers.push(marker);
 							}
 						});
 					}
 				});
 			}
+			break;
 			
 		case entityType.PETITION:
 			// Même processus que l'entité Project
 			if (petitions != null) {
 				petitions.forEach(function(petition, index) {
-					if (petition.isMarkeable) {
+					if (checkPrintatorState(entityType.PETITION) && checkMarkerState(entityType.PETITION, petition.id)) {
 						petition.placitPlaces.forEach(function(placitPlace) {
 							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
 								var marker = getPetitionMarker(petition, [placitPlace.mercatorY, placitPlace.mercatorX]);
-								marker.addTo(leafletMap);
+								markersCluster.addLayer(marker);
 								petitionMarkers.push(marker);
 							}
 						});
 					}
 				});
 			}
-	
+			break;
+			
 		case entityType.EVENT:
 			// Même processus que l'entité Project
 			if (events != null) {
 				events.forEach(function(event, index) {
-					if (event.isMarkeable) {
+					if (checkPrintatorState(entityType.EVENT) && checkMarkerState(entityType.EVENT, event.id)) {
 						if (event.mercatorY != 0 && event.mercatorX != 0) {
 							var marker = getEventMarker(event);
-							marker.addTo(leafletMap);
+							markersCluster.addLayer(marker);
 							eventMarkers.push(marker);
 						}
 					}
 				});
 			}
+			break;
 	}
 }
 
 /**
- * Renvoi la liste des IDs des entités demandées
- * @param entityName Nom de l'entité à sonder
- * @return liste des IDs sous forme d'une chaine de caractères séparée par des ","
+ * Vérification de l'état de la checkbox d'affichage d'un type entité
+ * @param 	entityName : Nom de l'entité à sonder
+ * @returns Booléen
  */
-function getSelectedMarkerElements(entityName) {
-	var results = "";
-	
-	$("input[id^='" + entityName + "_']:checked").each(function() {
-		results =  results.concat(this.value, ',');
-	});
-	
-	return results;
+function checkPrintatorState(entityName) {
+	return $("input[id^='" + entityName + "s_printator_mk1']").is(':checked');
+}
+
+/**
+ * Renvoi la liste des IDs des entités demandées
+ * @param 	entityName : Nom de l'entité à sonder
+ * 			entityId : PK de l'élément à sonder
+ * @returns Booléen
+ */
+function checkMarkerState(entityName, entityId) {
+	return $("input[id^='" + entityName + "_" + entityId + "']").is(':checked');
 }
 
 /**
@@ -272,16 +310,51 @@ function saveSelectedFilters() {
 
 }
 
-
-
 $(document).ready(function() {
 	// Création de la carte au centre de strasbourg
     leafletMap = getLeafletMap();
     markersCluster = L.markerClusterGroup();
+    leafletMap.addLayer(markersCluster);
     
-    // Cachage du bouton de zoom de map
+    // Cache du bouton de zoom de map
     $('.leaflet-control-fullscreen-button').hide();
+    
+    // Requête d'affichage de l'ensemble des filtres et marqueurs
+    refreshEntitiesSelectionByDistrict(-1, true);
 });
+
+/**
+ * Mettre à jour l'ensemble des éléménts (entités, filtres, marqueurs) selon le quartier choisi
+ * @param districtId Identifiant de la catégorie du teritoire demandé en filtre
+ */
+function refreshEntitiesSelectionByDistrict(districtId, onReady = false) {
+	AUI().use('aui-io-request', function(A) {
+		A.io.request(changeDistrictSelectionURL, {
+			method : 'post',
+			dataType: 'json',
+			data : {
+				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedDistrictId : districtId
+			},
+			on: {
+                success: function(e) {
+                	saveSelectedFilters();
+                	
+                	var data = this.get('responseData');
+                	projects = data.projects;
+                	participations = data.participations;
+                	petitions = data.petitions;
+                	events = data.events;
+                	
+                	updateFilterElements(onReady);
+                	
+                	for (var key in entityType) {
+                		updateMarkerElements(entityType[key]);
+                	}
+			 	}
+			 }
+		});
+	});
+}
 
 /**
  * Lors d'une selection de quartier
@@ -289,31 +362,23 @@ $(document).ready(function() {
 $('#district').change(function() {
 	var selectedDistrictId = this.value;
 	
-	saveSelectedFilters();
-	
-	AUI().use('aui-io-request', function(A) {
-		A.io.request(changeDistrictSelectionURL, {
-			method : 'post',
-			dataType: 'json',
-			data : {
-				_eu_strasbourg_portlet_map_search_asset_MapSearchAssetPortlet_selectedDistrictId : selectedDistrictId
-			},
-			on: {
-                success: function(e) {
-                	var data = this.get('responseData');
-                	projects = data.projects;
-                	participations = data.participations;
-                	petitions = data.petitions;
-                	events = data.events;
-                	
-                	updateFilterElements();
-			 	}
-			 }
-		});
-	});
+	refreshEntitiesSelectionByDistrict(selectedDistrictId, false);
 });
 
+/**
+ * Lors d'un acordeonage ou desacordeaonage d'une liste
+ */
+$("input[id$='_printator_mk1']").change(function() {
+	var selectedEntity = this.value;
+	
+	updateMarkerElements(selectedEntity);
+});
 
-
-
-
+/**
+ * Lors du clic sur une itération d'entité
+ */
+$(document).on('change', "fieldset[id$='_fieldset'] > div > input", function(){
+	var selectedEntity = this.id.substring(0, this.id.indexOf("_"));
+	
+	updateMarkerElements(selectedEntity);
+});
