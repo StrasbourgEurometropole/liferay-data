@@ -32,18 +32,6 @@ public interface MapConfiguration {
 	@Meta.AD(name = "eventExplanationXML", deflt = "", required = false)
 	public String eventExplanationXML();
 
-	@Meta.AD(name = "zoom", deflt = "", required = false)
-	public String zoom();
-
-	@Meta.AD(name = "cadrageX", deflt = "", required = false)
-	public String cadrageX();
-
-	@Meta.AD(name = "cadrageY", deflt = "", required = false)
-	public String cadrageY();
-
-	@Meta.AD(name = "showPictos", required = false)
-	public boolean showPictos();
-
 	@Meta.AD(name = "showConfig", required = false)
 	public boolean showConfig();
 	

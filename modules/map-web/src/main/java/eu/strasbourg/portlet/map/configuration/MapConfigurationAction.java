@@ -78,19 +78,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			setPreference(request, "mode", mode);
 			System.out.println("MODE : " + mode);
 
-			//Affichage commun
-			// Zoom
-			String zoom = ParamUtil.getString(request, "zoom");
-			setPreference(request, "zoom", zoom);
-			// cadrage
-			String cadrageX = ParamUtil.getString(request, "cadrageX");
-			setPreference(request, "cadrageX", cadrageX);
-			String cadrageY = ParamUtil.getString(request, "cadrageY");
-			setPreference(request, "cadrageY", cadrageY);
-			// Affichage des pictos dans la config
-			String showPictos = ParamUtil.getString(request, "showPictos");
-			setPreference(request, "showPictos", showPictos);
-
 			// Widget mod
 			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
 			
@@ -390,16 +377,6 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Cooredonnées d'une zone
 			request.setAttribute("coordinateZone", JSONFactoryUtil.createJSONObject());
-
-			// Zoom
-			request.setAttribute("zoom", configuration.zoom());
-
-			// Cadrage
-			request.setAttribute("cadrageX", configuration.cadrageX());
-			request.setAttribute("cadrageY", configuration.cadrageY());
-
-			// Choix afficher picto dans la zone de config
-			request.setAttribute("showPictos", configuration.showPictos());
 
 			// Choix afficher la zone de config
 			request.setAttribute("showConfig", configuration.showConfig());

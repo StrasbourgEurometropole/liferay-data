@@ -42,23 +42,6 @@
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true" label="display-label">
 
-				<!-- Niveau de zoom de la carte -->
-				<div>
-					<aui:input type="text" name="zoom" value="${zoom}" label="zoom" />
-				</div>
-
-				<!-- Cadrage de la carte -->
-				<div>
-                    <label><liferay-ui:message key="cadrage"/></label>
-                    <aui:input type="text" name="cadrageX" value="${cadrageX}" label="X" />
-                    <aui:input type="text" name="cadrageY" value="${cadrageY}" label="Y" />
-				</div>
-
-				<!-- Choix de l'affichage des pictos dans la configuration -->
-				<div>
-					<aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
-				</div>
-
 				<div class="noWidgetMode">
 					<!-- Choix de l'affichage de la zone de configuration -->
 					<div>
