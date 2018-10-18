@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
@@ -56,6 +57,9 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "budget-part-consultation-places-body"),
                 LanguageUtil.get(bundle, "budget-part-is-crush"),
                 LanguageUtil.get(bundle, "budget-part-crush-comment"),
+                LanguageUtil.get(bundle, "budget-part-categories-thematic"),
+                LanguageUtil.get(bundle, "budget-part-categories-quartiers"),
+                //LanguageUtil.get(bundle, "budget-part-categories-projet"),
                 LanguageUtil.get(bundle, "budget-part-create-date"),
                 LanguageUtil.get(bundle, "budget-part-user-name"),
                 LanguageUtil.get(bundle, "budget-part-modified-date")
@@ -84,6 +88,9 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     budgetParticipatif.getConsultationPlacesBody(),
                     budgetParticipatif.getIsCrush(),
                     budgetParticipatif.getCrushComment(),
+                    budgetParticipatif.getThematicTitle(Locale.FRANCE),
+                    budgetParticipatif.getDistrictLabel(Locale.FRANCE),
+                    //budgetParticipatif.getProjectTitle(Locale.FRANCE),
                     dateFormat.format(budgetParticipatif.getCreateDate()),
                     budgetParticipatif.getUserName(),
                     dateFormat.format(budgetParticipatif.getModifiedDate())

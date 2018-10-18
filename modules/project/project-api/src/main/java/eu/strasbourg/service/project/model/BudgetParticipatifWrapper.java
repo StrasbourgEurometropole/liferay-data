@@ -734,6 +734,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getPlaceTextArea();
 	}
 
+	@Override
+	public java.lang.String getProjectTitle(java.util.Locale locale) {
+		return _budgetParticipatif.getProjectTitle(locale);
+	}
+
 	/**
 	* Returns the publik ID of this budget participatif.
 	*
@@ -762,6 +767,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _budgetParticipatif.getStatusByUserUuid();
+	}
+
+	@Override
+	public java.lang.String getThematicTitle(java.util.Locale locale) {
+		return _budgetParticipatif.getThematicTitle(locale);
 	}
 
 	/**
