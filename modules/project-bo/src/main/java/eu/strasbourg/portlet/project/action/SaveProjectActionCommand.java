@@ -192,14 +192,16 @@ public class SaveProjectActionCommand implements MVCActionCommand {
                     urlBuilded.append(project.getDetailURL());
 
                     //récupération des images
-                    String headerImage = "/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png";
-                    String btnImage ="/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png";
+					StringBuilder hostUrl = new StringBuilder("http://");
+					hostUrl.append(request.getServerName()).append(":").append(request.getServerPort());
+					StringBuilder headerImage = new StringBuilder(hostUrl).append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+					StringBuilder btnImage =new StringBuilder(hostUrl).append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
 
                     //préparation du template de mail
                     Map<String, Object> context = new HashMap<>();
                     context.put("link", urlBuilded.toString());
-                    context.put("headerImage", headerImage);
-                    context.put("footerImage", btnImage);
+                    context.put("headerImage", headerImage.toString());
+                    context.put("footerImage", btnImage.toString());
                     Configuration configuration = new Configuration(Configuration.getVersion());
                     configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
                     configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
