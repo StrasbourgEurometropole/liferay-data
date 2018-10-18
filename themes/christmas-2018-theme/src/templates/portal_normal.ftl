@@ -18,6 +18,24 @@
     <@liferay_util["include"] page=top_head_include />
     
     <link href="/o/christmas-2018-theme/css/style.css" rel="stylesheet">
+
+  <script>
+      window.userFavorites = [
+      ];
+    <#if request.session.getAttribute("publik_logged_in")!false>
+      <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
+      <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.userFavorites = [
+        <#list favorites as favorite>
+          {
+            entityId: ${favorite.entityId},
+            typeId: ${favorite.typeId}
+          }<#sep>,</#sep>
+        </#list>
+      ];
+    </#if>
+
+  </script>
     
   </head>
 

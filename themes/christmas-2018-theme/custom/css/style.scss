@@ -49,9 +49,14 @@
 
 // Style des blocs modulables
 // ==========================================================================
+@import "blocs/_atom-btn-square";
+@import "blocs/_grids-distribution";
+@import "blocs/_media-queries";
+@import "blocs/_round-decimal";
 @import "blocs/_t_bloc-texte";
 @import "blocs/_t_bloc-actu";
 @import "blocs/_t_bloc-agenda";
+@import "blocs/_t_bloc-aroundme";
 @import "blocs/_t_bloc-social-wall";
 @import "blocs/_t_bloc-testi";
 @import "blocs/_t_form";

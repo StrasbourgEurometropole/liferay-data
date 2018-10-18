@@ -62,7 +62,11 @@
 			                                >
 			                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
 			                                	${category.getTitle(locale)}
-		
+
+												<c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
+													<img src="${category.getDescription(locale)}" width="35px">
+												</c:if>
+
 												<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
 			                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
 			                                </label>

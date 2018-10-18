@@ -91,6 +91,20 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Choix "nouvel onglet, onglet courant"
 			String openInNewTab = ParamUtil.getString(request, "openInNewTab");
 			setPreference(request, "openInNewTab", openInNewTab);
+
+			// Zoom
+			String zoom = ParamUtil.getString(request, "zoom");
+			setPreference(request, "zoom", zoom);
+
+			// cadrage
+			String cadrageX = ParamUtil.getString(request, "cadrageX");
+			setPreference(request, "cadrageX", cadrageX);
+			String cadrageY = ParamUtil.getString(request, "cadrageY");
+			setPreference(request, "cadrageY", cadrageY);
+
+			// Affichage des pictos dans la config
+			String showPictos = ParamUtil.getString(request, "showPictos");
+			setPreference(request, "showPictos", showPictos);
 			
 			if(mode.equals("widget")) {
 				// Texte introduction en mode widget
@@ -361,6 +375,16 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Choix "nouvel onglet, onglet courant"
 			request.setAttribute("openInNewTab", configuration.openInNewTab());
+
+			// Zoom
+			request.setAttribute("zoom", configuration.zoom());
+
+			// Cadrage
+			request.setAttribute("cadrageX", configuration.cadrageX());
+			request.setAttribute("cadrageY", configuration.cadrageY());
+
+			// Choix afficher picto dans la zone de config
+			request.setAttribute("showPictos", configuration.showPictos());
 
 			// Types de contenu
 			String[] typesContenu = ParamUtil.getStringValues(request, "typesContenu");

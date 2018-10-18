@@ -447,57 +447,61 @@ public class PoiServiceImpl implements PoiService {
 			properties.put("type", FavoriteLocalServiceUtil.getFavoriteTypeByClass(place.getModelClassName()));
 			properties.put("id", place.getPlaceId());
 
-			// Horaires
-			if (place.hasScheduleTable()) {
-				// récupère les horaires en cours
-				GregorianCalendar now = new GregorianCalendar();
-				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
-				if (currentSchedules.size() > 0) {
-					PlaceSchedule currentSchedule = currentSchedules.get(0);
-					String schedule = "";
-					String opened = "";
-					if (currentSchedule.isAlwaysOpen()) {
-						schedule = "7j/7, 24h/24";
-						opened = "Ouvert";
-					} else if (place.isOpenNow()) {
-						opened = "Ouvert";
-						for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
-							if (schedule.length() > 0) {
-								schedule += "<br>";
+			// Horaires et temps réel, ou contenu du tooltip carto
+			if(!place.getContenuTooltipCarto(Locale.FRANCE).isEmpty()){
+				properties.put("contenu", place.getContenuTooltipCarto(Locale.FRANCE));
+			}else {
+				if (place.hasScheduleTable()) {
+					// récupère les horaires en cours
+					GregorianCalendar now = new GregorianCalendar();
+					List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
+					if (currentSchedules.size() > 0) {
+						PlaceSchedule currentSchedule = currentSchedules.get(0);
+						String schedule = "";
+						String opened = "";
+						if (currentSchedule.isAlwaysOpen()) {
+							schedule = "7j/7, 24h/24";
+							opened = "Ouvert";
+						} else if (place.isOpenNow()) {
+							opened = "Ouvert";
+							for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
+								if (schedule.length() > 0) {
+									schedule += "<br>";
+								}
+								String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+								String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+								schedule += startString + " - " + endString;
 							}
-							String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							schedule += startString + " - " + endString;
-						}
-					} else {
-						opened = "Ferm&eacute;";
-						// on récupère le prochain horaire d'ouverture
-						PlaceSchedule nextOpening = place.getNextScheduleOpening(now, 2, Locale.FRENCH);
-						if (nextOpening == null) {
-							opened = "Ferm&eacute; en ce moment";
-							schedule += "";
 						} else {
-							Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
-							String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							schedule += "R&eacute;ouverture ";
-							int diff = nextOpening.getStartDate().compareTo(now.getTime());
-							if (diff > 0) {
-								now.add(GregorianCalendar.DAY_OF_YEAR, 1);
-								if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
-									schedule += "demain ";
-								} else {
-									schedule += "apr&egrave;s-demain ";
+							opened = "Ferm&eacute;";
+							// on récupère le prochain horaire d'ouverture
+							PlaceSchedule nextOpening = place.getNextScheduleOpening(now, 2, Locale.FRENCH);
+							if (nextOpening == null) {
+								opened = "Ferm&eacute; en ce moment";
+								schedule += "";
+							} else {
+								Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
+								String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+								String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+								schedule += "R&eacute;ouverture ";
+								int diff = nextOpening.getStartDate().compareTo(now.getTime());
+								if (diff > 0) {
+									now.add(GregorianCalendar.DAY_OF_YEAR, 1);
+									if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
+										schedule += "demain ";
+									} else {
+										schedule += "apr&egrave;s-demain ";
+									}
+								}
+								schedule += "&agrave; " + startString;
+								if (diff == 0) {
+									schedule += " jusqu'&agrave; " + endString;
 								}
 							}
-							schedule += "&agrave; " + startString;
-							if (diff == 0) {
-								schedule += " jusqu'&agrave; " + endString;
-							}
 						}
+						properties.put("opened", opened);
+						properties.put("schedules", schedule);
 					}
-					properties.put("opened", opened);
-					properties.put("schedules", schedule);
 				}
 			}
 
@@ -525,7 +529,7 @@ public class PoiServiceImpl implements PoiService {
 			properties.put("icon", icon);
 
 			// Temps réel
-			if (place.getRTEnabled()) { // (place.isEnabled()) {
+			if (place.getRTEnabled()) {
 				OccupationState occupation = place.getRealTime();
 				String title = "";
 				String frequentation = "";
