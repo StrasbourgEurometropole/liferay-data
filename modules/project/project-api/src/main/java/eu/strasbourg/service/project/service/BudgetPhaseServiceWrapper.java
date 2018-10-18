@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**

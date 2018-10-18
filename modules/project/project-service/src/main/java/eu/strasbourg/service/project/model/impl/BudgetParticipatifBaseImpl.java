@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 

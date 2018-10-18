@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
@@ -29,7 +27,6 @@ import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;

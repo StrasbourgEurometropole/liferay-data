@@ -15,12 +15,9 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -35,15 +32,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetPhaseModel;
 import eu.strasbourg.service.project.model.BudgetPhaseSoap;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

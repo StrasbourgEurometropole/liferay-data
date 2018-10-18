@@ -15,12 +15,9 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -38,15 +35,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.PlacitPlaceModel;
 import eu.strasbourg.service.project.model.PlacitPlaceSoap;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

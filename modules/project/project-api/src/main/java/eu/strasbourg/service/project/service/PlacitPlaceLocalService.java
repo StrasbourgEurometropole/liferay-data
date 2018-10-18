@@ -15,11 +15,8 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -40,11 +37,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
