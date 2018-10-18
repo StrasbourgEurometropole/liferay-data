@@ -14,7 +14,7 @@
 <section id="graveyard">
 	<div class="seu-container graveyard-web">
 		
-		<aui:form name="fm" action="${rechercheURL}#result" class="generic-form toValidate">
+		<aui:form name="fm" action="${rechercheURL}" class="generic-form toValidate">
 	
 	        <div class="webform-layout-box">
 				<!-- Nom -->
@@ -160,10 +160,10 @@
 		<c:if test="${not empty error}">
 			<div class="seu-error-messages">${error}</div>
 		</c:if>
-	
+
 		<!-- Résultats -->
-		<div id="result">
-            <c:if test="${empty error and not empty dc and not empty dc.graveyard}">
+        <c:if test="${empty error and not empty dc and not empty dc.graveyard}">
+            <div id="result">
                 <!-- Messages d'erreur au niveau du lien -->
                 <c:if test="${dc.graveyard.err eq 1}">
                     <div class="seu-error-messages">${dc.graveyard.err_desc}</div>
@@ -343,8 +343,8 @@
                         </div>
                     </c:if>
                 </c:if>
-            </c:if>
-	    </div>
+            </div>
+        </c:if>
 	</div>
 </section>
 
@@ -377,6 +377,9 @@
 	            $('#deathRange').hide();
 			}
         });
+        if($("#result").length > 0) {
+            $('html,body').animate({scrollTop: $("#result").offset().top});
+        }
 	});
 
 </script>
