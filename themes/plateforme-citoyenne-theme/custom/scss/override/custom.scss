@@ -219,6 +219,12 @@ aside .leaflet-map {
     vertical-align: super;
 }
 
+// affichage des petites étoiles dans la popup modalBudget.
+#modalBudget .text-warning{
+    font-size: 35%;
+    vertical-align: super;
+}
+
 // affichage des petites étoiles dans la popup modalPetition.
 #form-save-profil .text-warning{
     color:#ff0000;
@@ -485,4 +491,14 @@ aside .leaflet-map {
 
 .fontWhite{
     color:#fff
+}// Liens vers les images du contenu d'explication
+.pro-page-budget-participatif .pro-wrapper-content .pro-preambule:before {
+	background: url(/o/plateforme-citoyenne-theme/images/background/bg-yellow.png);
+}
+
+.browsePicture {
+    padding-top : 16px;
+}
+.pro-page-budget-participatif .pro-wrapper-content:before {
+    background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
 }

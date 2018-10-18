@@ -197,6 +197,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 ids[i]=identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
+
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(title);
             petition.setDescription(description);
@@ -208,7 +209,9 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
             petition.setPetitionnaireFirstname(firstname);
             petition.setPetitionnaireLastname(lastname);
             petition.setPetitionnairePostalCode(postalcode);
-            petition.setPetitionnairePhone("" + phone);
+            petition.setPetitionnairePhone(phone);
+            if (!mobile.isEmpty())
+                petition.setPetitionnairePhone(mobile);
             petition.setPetitionnaireEmail(email);
             petition.setPublikId(publikID);
             petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
