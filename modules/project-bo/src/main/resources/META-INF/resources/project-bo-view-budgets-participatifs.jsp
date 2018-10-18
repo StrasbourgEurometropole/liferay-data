@@ -79,10 +79,15 @@
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Titre --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
+				<liferay-ui:search-container-column-text
 					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
-				
+
+				<%-- Colonne : Createur --%>
+                <liferay-ui:search-container-column-text name="author">
+                    ${budgetParticipatif.author}
+                </liferay-ui:search-container-column-text>
+
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${budgetParticipatif.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -90,10 +95,16 @@
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 
-				<%-- Colonne : Createur --%>
+				<%-- Colonne : Utilisateur liferay --%>
                 <liferay-ui:search-container-column-text name="user">
                     ${budgetParticipatif.userName}
                 </liferay-ui:search-container-column-text>
+
+				<%-- Colonne : Statut --%>
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${budgetParticipatif.status}" />
+				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>

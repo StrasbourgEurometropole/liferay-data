@@ -556,6 +556,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return new BudgetParticipatifWrapper((BudgetParticipatif)_budgetParticipatif.clone());
 	}
 
+	@Override
+	public java.lang.String getAuthor() {
+		return _budgetParticipatif.getAuthor();
+	}
+
 	/**
 	* Returns the citoyen adresse of this budget participatif.
 	*

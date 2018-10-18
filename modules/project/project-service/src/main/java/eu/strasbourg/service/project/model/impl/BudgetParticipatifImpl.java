@@ -162,6 +162,11 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return districts;
     }
 
+    @Override
+    public String getAuthor(){
+        return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
+    }
+
     /**
      * Retourne la version JSON de l'entité
      */
