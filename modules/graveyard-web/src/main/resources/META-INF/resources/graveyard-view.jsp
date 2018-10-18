@@ -186,12 +186,6 @@
                     <c:if test="${empty dc.graveyard.erreur}">
                         <div class="graveyard-response rte">
                             <p>
-                                <div>
-                                    <liferay-ui:message key="before-98" />
-                                    <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                        <liferay-ui:message key="graveyard.contact" />
-                                    </a>
-                                </div>
                                 <c:choose>
                                     <c:when test="${dc.graveyard.count == '0'}">
                                         <liferay-ui:message key="no-tot" />
@@ -340,6 +334,12 @@
                                     </liferay-ui:search-container>
                                 </aui:form>
                             </c:if>
+                            <div>
+                                <liferay-ui:message key="before-98" />
+                                <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
+                                    <liferay-ui:message key="graveyard.contact" />
+                                </a>
+                            </div>
                         </div>
                     </c:if>
                 </c:if>
