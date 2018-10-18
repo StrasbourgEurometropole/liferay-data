@@ -66,19 +66,9 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 
     public String getProjectTitle(Locale locale) {
         AssetCategory project = getProjectCategory();
-        StringBuilder result = new StringBuilder();
-        if (project != null && !project.getName().isEmpty())
-            result.append(project.getName());
-        return result.toString();
+        return (project != null) ? project.getName() : "";
     }
 
-/*
-    public String getProjectTitle(Locale locale) {
-        AssetCategory project = getProjectCategory();
-        String result = (project != null) ? project.getTitle(locale) : "";
-        return result;
-    }
-*/
 
     /**
      * Retourne l'AssetEntry rattaché cet item

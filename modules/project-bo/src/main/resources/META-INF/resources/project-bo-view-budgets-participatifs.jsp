@@ -80,7 +80,7 @@
 
 				<%-- Colonne : Titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="title" truncate="true" orderable="true"
+					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
 				
 				<%-- Colonne : Date de modification --%>
