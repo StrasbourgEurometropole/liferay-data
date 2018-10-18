@@ -110,7 +110,7 @@
 							</p>
 						</c:if>
 						
-						<!-- Réponse du commentaire -->
+						<!-- Reponse du commentaire -->
 						<div class="pro-comment-response" style="padding-left: 50px">
 							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
 							

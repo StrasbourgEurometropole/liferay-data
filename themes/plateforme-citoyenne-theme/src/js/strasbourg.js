@@ -14652,7 +14652,7 @@ function getProjectMarker(project, mercators) {
                 '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
             '</a>' + 
         '</div>'
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
     );
 
     return marker;
@@ -14710,7 +14710,7 @@ function getParticipationMarker(participation, mercators) {
             '</div></a>' + 
         '</div>' + 
         colorHack
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 280, minWidth: 477, maxWidth: 487}
     );
 
     return marker;
@@ -14743,7 +14743,7 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 270, minWidth: 441, maxWidth: 451}
     );
 
     return marker;
@@ -14789,7 +14789,7 @@ function getPetitionMarker(petition, mercators) {
                 '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
     );
 
     return marker;
