@@ -100,7 +100,7 @@
 							<liferay-ui:icon message="edit" url="${editPublikUserURL}" />
 						</c:if>
 						<liferay-ui:icon message="historic" url="${historicPublikUserURL}" />
-						<liferay-ui:icon message="anonymised" url="${anonymisedInfosURL}" />
+						<liferay-ui:icon message="anonymise" url="${anonymisedInfosURL}" />
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 

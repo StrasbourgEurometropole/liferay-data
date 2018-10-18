@@ -15,7 +15,9 @@
 package eu.strasbourg.service.project.service.persistence;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 
