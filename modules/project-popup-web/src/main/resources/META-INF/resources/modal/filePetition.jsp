@@ -125,6 +125,9 @@
                     <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contact"/></p>
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="filealertLegalage" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
+                <div id="filealertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
+                <div id="filealertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
                 <div class="pro-form-submit">
                     <button id="sendPetition" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filepetition.submit"/></button>
                 </div>
@@ -313,6 +316,18 @@
         $("#"+namespace+"mobile").val(saved_mobile);
     }
 
+    function getAge(dateString) {
+        var from = dateString.split("/");
+        var today = new Date();
+        var birthDate = new Date(from[2],from[1]-1,from[0]);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+    }
+
     function checkValues(){
         if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
         $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
@@ -336,6 +351,7 @@
         var postalcode = $("#"+namespace+"postalcode").val();
         var legalage = $("#file-petition-legalage").is(":checked");
         var cnil = $("#file-petition-cnil").is(":checked");
+        var age = getAge(birthday);
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (petitiontitle==null || petitiontitle==""){
@@ -358,6 +374,12 @@
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
+        if (city.toLowerCase()!=="strasbourg"){
+            $("#filealertcity").removeClass("hidden");
+            $("#"+namespaceSign+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#filealertcity").addClass("hidden");
+
         if (address==null || address==""){
             $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
@@ -373,11 +395,26 @@
         }
         else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
 
+        if (postalcode!=="67000"
+            &&postalcode!=="67100"
+            &&postalcode!=="67200"){
+            $("#filealertPostalCode").removeClass("hidden");
+            $("#"+namespaceSign+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        } else $("#filealertPostalCode").addClass("hidden");
+
         if (!legalage)
             result = false;
 
         if (!cnil)
             result = false;
+
+        if(age<16){
+            $("#filealertLegalage").removeClass("hidden");
+            $("#"+namespaceSign+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }
+        else $("#filealertLegalage").addClass("hidden");
 
         if (!result)
             $("#sendalert").removeClass("hidden");

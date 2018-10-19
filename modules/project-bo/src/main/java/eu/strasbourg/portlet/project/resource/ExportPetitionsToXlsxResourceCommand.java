@@ -15,8 +15,13 @@ import java.io.IOException;
 /**
  * @author alexandre.quere
  */
-@Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO,
-        "mvc.command.name=exportPetitionsXlsx" }, service = MVCResourceCommand.class)
+@Component(
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO,
+        "mvc.command.name=exportPetitionsXlsx"
+        },
+        service = MVCResourceCommand.class)
 public class ExportPetitionsToXlsxResourceCommand implements MVCResourceCommand {
 
     private PetitionsXlsxExporter petitionsXlsxExporter;

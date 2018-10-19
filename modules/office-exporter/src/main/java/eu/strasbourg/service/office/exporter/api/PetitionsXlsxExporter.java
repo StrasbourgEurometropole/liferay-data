@@ -6,9 +6,6 @@ import eu.strasbourg.service.project.model.Petition;
 import java.io.OutputStream;
 import java.util.List;
 
-/**
- * @author alexandre.quere
- */
 @ProviderType
 public interface PetitionsXlsxExporter {
 

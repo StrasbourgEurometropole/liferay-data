@@ -1,18 +1,8 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
-import org.osgi.service.component.annotations.Component;
-
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
@@ -32,6 +22,15 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component(immediate = true, property = {}, service = HistoricPublikUserTextExporter.class)
 public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTextExporter {
@@ -43,7 +42,7 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 			PublikUser publikUser = PublikUserLocalServiceUtil.fetchPublikUser(publikUserIdsStr);
 			if (publikUser != null) {
 				try {
-					String ligne = "Historique d'action de : " + publikUser.getFirstName() + " "
+					String ligne =  LanguageUtil.get(bundle,"historique") + " :  " + publikUser.getFirstName() + " "
 							+ publikUser.getLastName();
 					os.write(ligne.getBytes());
 					os.write(System.getProperty("line.separator").getBytes());
@@ -52,7 +51,7 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 					// Récupération du pacte
 					if (Validator.isNotNull(publikUser.getPactSignature())) {
 						DateFormat df = DateFormat.getDateInstance(DateFormat.FULL);
-						ligne = "Pacte signé le : " + df.format(publikUser.getPactSignature());
+						ligne = LanguageUtil.get(bundle,"pacte") + " : " + df.format(publikUser.getPactSignature());
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
@@ -64,7 +63,7 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!projectsFollowed.isEmpty()) {
-						ligne = "Projet(s) suivi(s) :";
+						ligne = LanguageUtil.get(bundle,"projets") + " : ";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (ProjectFollowed projectFollowed : projectsFollowed) {
@@ -87,7 +86,7 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!eventParticipations.isEmpty()) {
-						ligne = "Participation(s) aux évènements :";
+						ligne = LanguageUtil.get(bundle,"participations") + " : ";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (EventParticipation eventParticipation : eventParticipations) {
@@ -109,13 +108,13 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 							.stream().sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!petitions.isEmpty()) {
-						ligne = "Pétition(s) :";
+						ligne = LanguageUtil.get(bundle,"petitions") + " : ";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (Petition petition : petitions) {
 							ligne = petition.getCreateDate() + " - " + petition.getTitle();
 							if (petition.isApproved())
-								ligne += " : Approuvé";
+								ligne += " : " + LanguageUtil.get(bundle,"approuved");
 							os.write(ligne.getBytes());
 							os.write(System.getProperty("line.separator").getBytes());
 						}
@@ -128,7 +127,7 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!signataires.isEmpty()) {
-						ligne = "Pétition(s) signée(s) :";
+						ligne = LanguageUtil.get(bundle,"petitions-signed") + " : ";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (Signataire signataire : signataires) {
@@ -150,7 +149,7 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 							.sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
 							.collect(Collectors.toList());
 					if (!comments.isEmpty()) {
-						ligne = "Commentaire(s) :";
+						ligne = LanguageUtil.get(bundle,"commentaires") + " : ";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (Comment comment : comments) {
@@ -165,15 +164,15 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 					// Récupération des likes/dislikes
 					List<Like> likes = LikeLocalServiceUtil.getByPublikUser(publikUser.getPublikId());
 					if (!likes.isEmpty()) {
-						ligne = "Like(s)/Dislike(s) :";
+						ligne = LanguageUtil.get(bundle,"likes-dislikes") + " : ";
 						os.write(ligne.getBytes());
 						os.write(System.getProperty("line.separator").getBytes());
 						for (Like like : likes) {
 							ligne = like.getTitle() + " - ";
 							if (like.isIsDislike())
-								ligne += "n'aime pas";
+								ligne += LanguageUtil.get(bundle,"dislike");
 							else
-								ligne += "aime";
+								ligne += LanguageUtil.get(bundle,"like");
 							os.write(ligne.getBytes());
 							os.write(System.getProperty("line.separator").getBytes());
 						}

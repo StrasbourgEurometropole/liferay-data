@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -47,114 +47,171 @@ import java.util.Locale;
  */
 @ProviderType
 public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
+    /*
+     * NOTE FOR DEVELOPERS:
+     *
+     * Never reference this class directly. All methods that expect a budget participatif model instance should use the {@link eu.strasbourg.service.project.model.BudgetParticipatif} interface instead.
+     */
+    public BudgetParticipatifImpl() {
+    }
 
-	private static final long serialVersionUID = -5369832133992557886L;
+    /**
+     * Retourne le projet de la participation (
+     */
+    @Override
+    public AssetCategory getProjectCategory() {
+        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.PROJECT)
+                .get(0);
+    }
 
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. All methods that expect a budget participatif model instance should use the {@link eu.strasbourg.service.project.model.BudgetParticipatif} interface instead.
-	 */
-	public BudgetParticipatifImpl() {
-	}
+    public String getProjectTitle(Locale locale) {
+        AssetCategory project = getProjectCategory();
+        return (project != null) ? project.getName() : "";
+    }
 
-	/**
-	 * Retourne les catégories 'Territoire' correspondant aux pays de la petition
-	 */
-	public List<AssetCategory> getTerritoryCategories() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.TERRITORY);
-	}
 
-	/**
-	 * Retourne l'AssetEntry rattaché cet item
-	 */
-	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(BudgetParticipatif.class.getName(),
-				this.getBudgetParticipatifId());
-	}
+    /**
+     * Retourne l'AssetEntry rattaché cet item
+     */
+    @Override
+    public AssetEntry getAssetEntry() {
+        return AssetEntryLocalServiceUtil.fetchEntry(BudgetParticipatif.class.getName(),
+                this.getBudgetParticipatifId());
+    }
 
-	/**
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via
-	 * l'assetEntry)
-	 */
-	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper
-				.getAssetEntryCategories(this.getAssetEntry());
-	}
+    /**
+     * Retourne les thematiques de la participation (
+     */
+    @Override
+    public List<AssetCategory> getThematicCategories() {
+        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.THEMATIC);
+    }
 
-	/**
-	 * Retourne la version JSON de l'entité
-	 */
-	@Override
-	public JSONObject toJSON(String publikUserId) {
-		// Initialisation des variables tempons et résultantes
-		JSONObject jsonBudgetParticipatif = JSONFactoryUtil.createJSONObject();
-		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    @Override
+    public String getThematicTitle(Locale locale) {
+        List<AssetCategory> thematics = getThematicCategories();
+        return AssetVocabularyHelper.getThematicTitle(locale, thematics);
+    }
 
-		jsonBudgetParticipatif.put("id", this.getBudgetParticipatifId());
-		jsonBudgetParticipatif.put("createDate", dateFormat.format(this.getCreateDate()));
-		jsonBudgetParticipatif.put("imageURL", this.getImageURL());
-		jsonBudgetParticipatif.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
-		jsonBudgetParticipatif.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
-		jsonBudgetParticipatif.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+    /**
+     * Retourne les catégories 'Territoire' correspondant aux pays de la petition
+     */
+    @Override
+    public List<AssetCategory> getTerritoryCategories() {
+        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.TERRITORY);
+    }
 
-		// Lieux placit
-		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
-			jsonPlacitPlaces.put(placitPlace.toJSON());
-		}
-		jsonBudgetParticipatif.put("placitPlaces", jsonPlacitPlaces);
+    /**
+     * Retourne la liste des lieux placit liés à la participation
+     */
+    @Override
+    public List<PlacitPlace> getPlacitPlaces() {
+        return PlacitPlaceLocalServiceUtil.getByBudgetParticipatif(this.getBudgetParticipatifId());
+    }
 
-		return jsonBudgetParticipatif;
-	}
+    /**
+     * retourne les catégories
+     *
+     * @return
+     */
+    public List<AssetCategory> getCategories() {
+        return AssetVocabularyHelper
+                .getAssetEntryCategories(this.getAssetEntry());
+    }
 
-	/**
-	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
-	 */
-	public String getImageURL() {
-		if (Validator.isNotNull(this.getExternalImageURL())) {
-			return this.getExternalImageURL();
-		} else {
-			return FileEntryHelper.getFileEntryURL(this.getImageId());
-		}
-	}
+    /**
+     * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+     */
+    public String getImageURL() {
+        if (Validator.isNotNull(this.getExternalImageURL())) {
+            return this.getExternalImageURL();
+        } else {
+            return FileEntryHelper.getFileEntryURL(this.getImageId());
+        }
+    }
 
-	/**
-	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
-	 *
-	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
-	 */
-	public String getDistrictLabel(Locale locale) {
-		List<AssetCategory> districts = getDistrictCategories();
-		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
-	}
+    /**
+     * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+     *
+     * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+     */
+    public String getDistrictLabel(Locale locale) {
+        List<AssetCategory> districts = getDistrictCategories();
+        return AssetVocabularyHelper.getDistrictTitle(locale, districts);
+    }
 
-	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
-	 *
-	 * @return : null si vide, sinon la liste des catégories
-	 */
-	public List<AssetCategory> getDistrictCategories() {
-		List<AssetCategory> territories = getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<>();
-		for (AssetCategory territory : territories) {
-			try {
-				if (territory.getAncestors().size() == 2) {
-					districts.add(territory);
-				}
-			} catch (PortalException ignored) {
-			}
-		}
-		return districts;
-	}
+    /**
+     * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+     *
+     * @return : null si vide, sinon la liste des catégories
+     */
+    @Override
+    public List<AssetCategory> getDistrictCategories() {
+        List<AssetCategory> territories = getTerritoryCategories();
+        List<AssetCategory> districts = new ArrayList<>();
+        for (AssetCategory territory : territories) {
+            try {
+                if (territory.getAncestors().size() == 2) {
+                    districts.add(territory);
+                }
+            } catch (PortalException ignored) {
+            }
+        }
+        return districts;
+    }
 
-	/**
-	 * Retourne la liste des lieux placit liés à la petition
-	 */
-	public List<PlacitPlace> getPlacitPlaces() {
-		List<PlacitPlace> resultList = PlacitPlaceLocalServiceUtil.getByBudgetParticipatif(this.getBudgetParticipatifId());
-		return null;
-	}
+    public AssetCategory getTypeCategory() {
+        return AssetVocabularyHelper
+                .getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS).get(0);
+    }
 
+    public String getTypeCategoryColor() {
+        long categoryId = this.getTypeCategory().getCategoryId();
+        return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
+    }
+
+    @Override
+    public String getAuthor(){
+        return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
+    }
+
+    /**
+     * Retourne la version JSON de l'entité
+     */
+    @Override
+    public JSONObject toJSON(String publikUserId) {
+        // Initialisation des variables tempons et résultantes
+        JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
+        AssetCategory projectCategory = this.getProjectCategory();
+        JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        jsonBudget.put("id", this.getBudgetParticipatifId());
+        jsonBudget.put("createDate", dateFormat.format(this.getCreateDate()));
+        jsonBudget.put("imageURL", this.getExternalImageURL());
+        jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
+        jsonBudget.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+        jsonBudget.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
+        jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+
+        // Lieux placit
+        for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+            jsonPlacitPlaces.put(placitPlace.toJSON());
+        }
+        jsonBudget.put("placitPlaces", jsonPlacitPlaces);
+
+        // Liste des Ids des catégories Thématiques
+        JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
+        if (jsonThematics.length() > 0) {
+            jsonBudget.put("thematics", jsonThematics);
+        }
+
+        return jsonBudget;
+    }
+
+    private long getNombreSoutien() {
+        return 0;
+    }
 }

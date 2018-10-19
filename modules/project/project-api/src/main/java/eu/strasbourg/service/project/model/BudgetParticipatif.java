@@ -56,9 +56,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 		};
 
 	/**
-	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	* Retourne le projet de la participation (
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	public java.lang.String getProjectTitle(java.util.Locale locale);
 
 	/**
 	* Retourne l'AssetEntry rattaché cet item
@@ -66,16 +68,28 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
+	* Retourne les thematiques de la participation (
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
+
+	public java.lang.String getThematicTitle(java.util.Locale locale);
 
 	/**
-	* Retourne la version JSON de l'entité
+	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
 	*/
-	public com.liferay.portal.kernel.json.JSONObject toJSON(
-		java.lang.String publikUserId);
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
+
+	/**
+	* Retourne la liste des lieux placit liés à la participation
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
+
+	/**
+	* retourne les catégories
+	*
+	* @return
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
@@ -96,8 +110,15 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
+
+	public java.lang.String getTypeCategoryColor();
+
+	public java.lang.String getAuthor();
+
 	/**
-	* Retourne la liste des lieux placit liés à la petition
+	* Retourne la version JSON de l'entité
 	*/
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId);
 }

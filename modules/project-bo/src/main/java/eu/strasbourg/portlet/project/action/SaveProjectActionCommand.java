@@ -1,20 +1,7 @@
 package eu.strasbourg.portlet.project.action;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -22,19 +9,46 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.ProjectFollowedModel;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
+import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
+import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component(
 	immediate = true,
@@ -47,8 +61,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class SaveProjectActionCommand implements MVCActionCommand {
 
 	@Override
-	public boolean processAction(ActionRequest request, ActionResponse response)
-			throws PortletException {
+	public boolean processAction(ActionRequest request, ActionResponse response) {
 		
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
@@ -158,6 +171,66 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			// Contact : numéro de téléphone
 			String contactPhoneNumber = ParamUtil.getString(request, "contactPhoneNumber");
 			project.setContactPhoneNumber(contactPhoneNumber);
+
+			//envoi de mail
+			boolean sendMail = ParamUtil.getBoolean(request,"cheboxMail");
+			if (sendMail){
+				_log.info("envoi de mail utilisateur");
+
+				//Récupération des personnes qui suivent le projet
+                List<ProjectFollowed> projectFolloweds = ProjectFollowedLocalServiceUtil.getByProjectId(project.getProjectId());
+                List<String> publikUserIds = projectFolloweds.stream()
+                        .map(ProjectFollowedModel::getPublikUserId)
+                        .collect(Collectors.toList());
+                List<JSONObject> publikUsers = publikUserIds.stream()
+                        .map(publikID -> PublikApiClient.getUserDetails(publikID))
+                        .collect(Collectors.toList());
+                List<String> mails = publikUsers.stream().map(user -> user.getString("email")).collect(Collectors.toList());
+                if (!mails.isEmpty()) {
+                    //récupération de l'url du projet
+                    StringBuilder urlBuilded = new StringBuilder(getHomeURL(request));
+                    urlBuilded.append(project.getDetailURL());
+
+                    //récupération des images
+					StringBuilder hostUrl = new StringBuilder("http://");
+					hostUrl.append(request.getServerName()).append(":").append(request.getServerPort());
+					StringBuilder headerImage = new StringBuilder(hostUrl).append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+					StringBuilder btnImage =new StringBuilder(hostUrl).append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+
+                    //préparation du template de mail
+                    Map<String, Object> context = new HashMap<>();
+                    context.put("link", urlBuilded.toString());
+                    context.put("headerImage", headerImage.toString());
+                    context.put("footerImage", btnImage.toString());
+                    Configuration configuration = new Configuration(Configuration.getVersion());
+                    configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
+                    configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+                    boolean success = false;
+                    Template subjectTemplate = configuration.getTemplate("contact-mail-copy-subject-fr_FR.ftl");
+                    Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
+                    StringWriter subjectWriter = new StringWriter();
+                    StringWriter bodyWriter = new StringWriter();
+                    subjectTemplate.process(context, subjectWriter);
+                    bodyTemplate.process(context, bodyWriter);
+                    ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+                    InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+                            themeDisplay.getScopeGroup().getName(request.getLocale()));
+                    InternetAddress[] toAddresses = new InternetAddress[0];
+                    for (String mail : mails) {
+                        InternetAddress address = new InternetAddress(mail);
+                        toAddresses = ArrayUtil.append(toAddresses, address);
+                    }
+                    //envoi du mail aux utilisateurs
+                    success = MailHelper.sendMailWithHTML(fromAddress,toAddresses,subjectWriter.toString(),bodyWriter.toString());
+                    if (success) {
+                        SessionMessages.add(request, "mail-success");
+                    } else {
+                        SessionErrors.add(request, "unknown-error");
+                        return false;
+                    }
+                }
+
+			}
 			
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
@@ -272,10 +345,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 
 			_projectLocalService.updateProject(project, sc);
 
-		} catch (PortalException e) {
+		} catch (PortalException | TemplateException | IOException | AddressException e) {
 			_log.error(e);
 		}
-		return true;
+        return true;
 	}
 	
 	/**
@@ -306,8 +379,27 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		
 		return isValid;
 	}
-	
-	@Reference(unbind = "-")
+
+    /**
+     * Récupération de l'URL de base du site pour le lien vers les pages des entités
+     */
+    private String getHomeURL(PortletRequest request) {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        StringBuilder result = new StringBuilder(request.getServerName());
+        result.append(":").append(request.getServerPort()).append("/");
+        if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
+                || themeDisplay.getScopeGroup().isStagingGroup()) {
+            try {
+                result.append("web").append(themeDisplay.getLayout().getGroup().getFriendlyURL()).append("/");
+            } catch (PortalException e) {
+            	_log.error("erreur lors de la creation de l'url : ",e);
+                result.append("web/");
+            }
+        }
+        return result.toString();
+    }
+
+    @Reference(unbind = "-")
 	protected void setProjectLocalService(ProjectLocalService projectLocalService) {
 		_projectLocalService = projectLocalService;
 	}

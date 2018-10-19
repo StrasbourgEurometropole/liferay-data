@@ -6,7 +6,6 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -38,9 +37,12 @@ import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration
 import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalService;
@@ -94,12 +96,18 @@ public class SearchAssetPortlet extends MVCPortlet {
     private PetitionLocalService _petitionLocalService;
 
     /**
+     * interface des budgets
+     */
+    private BudgetParticipatifLocalService _budgetParticipatifLocalService;
+
+    /**
      * interface des participation
      */
     private ParticipationLocalService _participationLocalService;
 
     public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
     public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
+    public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
 
     @Override
     public void render(RenderRequest renderRequest,
@@ -398,6 +406,13 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonVideo.put("class", className);
                             jsonVideo.put("json", video.toJSON());
                             jsonEntries.put(jsonVideo);
+                            break;
+                        case "eu.strasbourg.service.project.model.BudgetParticipatif":
+                            BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(entry.getClassPK());
+                            JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
+                            jsonBudget.put("class", className);
+                            jsonBudget.put("json", budgetParticipatif.toJSON(publikUserId));
+                            jsonEntries.put(jsonBudget);
                             break;
                         case "com.liferay.journal.model.JournalArticle":
                             JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
@@ -823,6 +838,11 @@ public class SearchAssetPortlet extends MVCPortlet {
     @Reference(unbind = "-")
     protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
         _petitionLocalService = petitionLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setBudgetParticipatifLocalService(BudgetParticipatifLocalService budgetParticipatifLocalService) {
+        _budgetParticipatifLocalService = budgetParticipatifLocalService;
     }
 
     @Reference(unbind = "-")

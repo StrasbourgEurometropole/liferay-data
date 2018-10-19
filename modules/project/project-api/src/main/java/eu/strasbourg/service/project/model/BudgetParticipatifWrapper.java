@@ -481,6 +481,19 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne le projet de la participation (
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _budgetParticipatif.getProjectCategory();
+	}
+
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
+		return _budgetParticipatif.getTypeCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -546,6 +559,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.Object clone() {
 		return new BudgetParticipatifWrapper((BudgetParticipatif)_budgetParticipatif.clone());
+	}
+
+	@Override
+	public java.lang.String getAuthor() {
+		return _budgetParticipatif.getAuthor();
 	}
 
 	/**
@@ -726,6 +744,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getPlaceTextArea();
 	}
 
+	@Override
+	public java.lang.String getProjectTitle(java.util.Locale locale) {
+		return _budgetParticipatif.getProjectTitle(locale);
+	}
+
 	/**
 	* Returns the publik ID of this budget participatif.
 	*
@@ -756,6 +779,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getStatusByUserUuid();
 	}
 
+	@Override
+	public java.lang.String getThematicTitle(java.util.Locale locale) {
+		return _budgetParticipatif.getThematicTitle(locale);
+	}
+
 	/**
 	* Returns the title of this budget participatif.
 	*
@@ -764,6 +792,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getTitle() {
 		return _budgetParticipatif.getTitle();
+	}
+
+	@Override
+	public java.lang.String getTypeCategoryColor() {
+		return _budgetParticipatif.getTypeCategoryColor();
 	}
 
 	/**
@@ -847,8 +880,9 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
+	* retourne les catégories
+	*
+	* @return
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
@@ -866,7 +900,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne la liste des lieux placit liés à la petition
+	* Retourne la liste des lieux placit liés à la participation
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
@@ -879,6 +913,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
 		return _budgetParticipatif.getTerritoryCategories();
+	}
+
+	/**
+	* Retourne les thematiques de la participation (
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _budgetParticipatif.getThematicCategories();
 	}
 
 	/**

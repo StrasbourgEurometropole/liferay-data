@@ -83,6 +83,15 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Crée une participation vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.project.model.BudgetParticipatif createBudgetParticipatif(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createBudgetParticipatif(sc);
+	}
+
+	/**
 	* Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	*
 	* @param budgetParticipatifId the primary key for the new budget participatif
@@ -160,6 +169,21 @@ public class BudgetParticipatifLocalServiceUtil {
 		java.lang.String uuid, long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getBudgetParticipatifByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
+	* Méthode de mise à jour d'un budget
+	*
+	* @param budget le budget
+	* @param sc le service context
+	* @return le budget
+	* @throws PortalException exception
+	*/
+	public static eu.strasbourg.service.project.model.BudgetParticipatif updateBudgetParticipatif(
+		eu.strasbourg.service.project.model.BudgetParticipatif budget,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateBudgetParticipatif(budget, sc);
 	}
 
 	/**
