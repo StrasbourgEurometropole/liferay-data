@@ -488,6 +488,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getProjectCategory();
 	}
 
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
+		return _budgetParticipatif.getTypeCategory();
+	}
+
 	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
@@ -787,6 +792,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getTitle() {
 		return _budgetParticipatif.getTitle();
+	}
+
+	@Override
+	public java.lang.String getTypeCategoryColor() {
+		return _budgetParticipatif.getTypeCategoryColor();
 	}
 
 	/**

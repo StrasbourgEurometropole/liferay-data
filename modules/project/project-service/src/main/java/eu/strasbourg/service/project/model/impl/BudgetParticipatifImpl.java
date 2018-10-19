@@ -162,6 +162,16 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return districts;
     }
 
+    public AssetCategory getTypeCategory() {
+        return AssetVocabularyHelper
+                .getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS).get(0);
+    }
+
+    public String getTypeCategoryColor() {
+        long categoryId = this.getTypeCategory().getCategoryId();
+        return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
+    }
+
     @Override
     public String getAuthor(){
         return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();

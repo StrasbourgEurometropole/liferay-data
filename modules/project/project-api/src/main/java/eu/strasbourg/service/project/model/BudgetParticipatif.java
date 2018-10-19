@@ -110,6 +110,10 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
+
+	public java.lang.String getTypeCategoryColor();
+
 	public java.lang.String getAuthor();
 
 	/**
