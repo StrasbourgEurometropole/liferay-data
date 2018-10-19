@@ -137,12 +137,6 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         themeId = ParamUtil.getLong(request, THEME);
 
         boolean isValid = validate(request);
-        if (isValid)
-            isValid = checkCity(city);
-        if (isValid)
-            isValid = checkPostalCode(postalcode);
-        if (isValid)
-            isValid = checkLegalAge(birthday);
 
         if (!isValid)
             message = LanguageUtil.get(originalRequest, "general-error");
@@ -288,6 +282,12 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(postalcode)) {
             isValid = false;
         }
+        if (isValid)
+            isValid = checkCity(city);
+        if (isValid)
+            isValid = checkPostalCode(postalcode);
+        if (isValid)
+            isValid = checkLegalAge(birthday);
 
         return isValid;
     }

@@ -103,13 +103,6 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             email = escapeHtml4(ParamUtil.getString(request, "mail"));
 
             boolean isValid = validate(request);
-            if (isValid)
-                isValid = checkCity(city);
-            if (isValid)
-                isValid = checkPostalCode(postalcode);
-            if (isValid)
-                isValid = checkLegalAge(birthday);
-
             if (!isValid)
                 throw new PortletException("la validation des champs n'est pas pass&eacute;e");
 
@@ -189,6 +182,13 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             SessionErrors.add(request, "postalcode-error");
             isValid = false;
         }
+
+        if (isValid)
+            isValid = checkCity(city);
+        if (isValid)
+            isValid = checkPostalCode(postalcode);
+        if (isValid)
+            isValid = checkLegalAge(birthday);
 
         return isValid;
     }
