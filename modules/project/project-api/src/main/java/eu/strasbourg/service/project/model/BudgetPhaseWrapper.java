@@ -74,8 +74,9 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		attributes.put("isActive", getIsActive());
 		attributes.put("beginDate", getBeginDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("beginVoteDate", getBeginVoteDate());
+		attributes.put("endVoteDate", getEndVoteDate());
 		attributes.put("publikId", getPublikId());
-		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 
 		return attributes;
 	}
@@ -190,16 +191,22 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 			setEndDate(endDate);
 		}
 
+		Date beginVoteDate = (Date)attributes.get("beginVoteDate");
+
+		if (beginVoteDate != null) {
+			setBeginVoteDate(beginVoteDate);
+		}
+
+		Date endVoteDate = (Date)attributes.get("endVoteDate");
+
+		if (endVoteDate != null) {
+			setEndVoteDate(endVoteDate);
+		}
+
 		String publikId = (String)attributes.get("publikId");
 
 		if (publikId != null) {
 			setPublikId(publikId);
-		}
-
-		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
-
-		if (budgetParticipatifId != null) {
-			setBudgetParticipatifId(budgetParticipatifId);
 		}
 	}
 
@@ -470,6 +477,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
+	* Returns the begin vote date of this budget phase.
+	*
+	* @return the begin vote date of this budget phase
+	*/
+	@Override
+	public Date getBeginVoteDate() {
+		return _budgetPhase.getBeginVoteDate();
+	}
+
+	/**
 	* Returns the create date of this budget phase.
 	*
 	* @return the create date of this budget phase
@@ -490,6 +507,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
+	* Returns the end vote date of this budget phase.
+	*
+	* @return the end vote date of this budget phase
+	*/
+	@Override
+	public Date getEndVoteDate() {
+		return _budgetPhase.getEndVoteDate();
+	}
+
+	/**
 	* Returns the modified date of this budget phase.
 	*
 	* @return the modified date of this budget phase
@@ -507,16 +534,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public Date getStatusDate() {
 		return _budgetPhase.getStatusDate();
-	}
-
-	/**
-	* Returns the budget participatif ID of this budget phase.
-	*
-	* @return the budget participatif ID of this budget phase
-	*/
-	@Override
-	public long getBudgetParticipatifId() {
-		return _budgetPhase.getBudgetParticipatifId();
 	}
 
 	/**
@@ -605,13 +622,13 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
-	* Sets the budget participatif ID of this budget phase.
+	* Sets the begin vote date of this budget phase.
 	*
-	* @param budgetParticipatifId the budget participatif ID of this budget phase
+	* @param beginVoteDate the begin vote date of this budget phase
 	*/
 	@Override
-	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_budgetPhase.setBudgetParticipatifId(budgetParticipatifId);
+	public void setBeginVoteDate(Date beginVoteDate) {
+		_budgetPhase.setBeginVoteDate(beginVoteDate);
 	}
 
 	/**
@@ -667,6 +684,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public void setEndDate(Date endDate) {
 		_budgetPhase.setEndDate(endDate);
+	}
+
+	/**
+	* Sets the end vote date of this budget phase.
+	*
+	* @param endVoteDate the end vote date of this budget phase
+	*/
+	@Override
+	public void setEndVoteDate(Date endVoteDate) {
+		_budgetPhase.setEndVoteDate(endVoteDate);
 	}
 
 	@Override

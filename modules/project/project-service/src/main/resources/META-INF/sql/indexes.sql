@@ -1,10 +1,10 @@
+create index IX_7C6D150C on project_BudgetParticipatif (budgetPhaseId);
 create index IX_163FE495 on project_BudgetParticipatif (groupId);
 create index IX_D87960D5 on project_BudgetParticipatif (publikId[$COLUMN_LENGTH:75$]);
 create index IX_A415ED6F on project_BudgetParticipatif (status, groupId);
 create index IX_3577CA69 on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2C11D72B on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_BFF51ECE on project_BudgetPhase (budgetParticipatifId);
 create index IX_60E2B8B4 on project_BudgetPhase (groupId);
 create index IX_E2311096 on project_BudgetPhase (publikId[$COLUMN_LENGTH:75$]);
 create index IX_27A8292A on project_BudgetPhase (uuid_[$COLUMN_LENGTH:75$], companyId);

@@ -63,7 +63,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -139,6 +139,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(imageId);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
+		sb.append(", budgetPhaseId=");
+		sb.append(budgetPhaseId);
 		sb.append("}");
 
 		return sb.toString();
@@ -343,6 +345,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setFilesIds(filesIds);
 		}
 
+		budgetParticipatifImpl.setBudgetPhaseId(budgetPhaseId);
+
 		budgetParticipatifImpl.resetOriginalValues();
 
 		return budgetParticipatifImpl;
@@ -399,6 +403,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
+
+		budgetPhaseId = objectInput.readLong();
 	}
 
 	@Override
@@ -586,6 +592,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		else {
 			objectOutput.writeUTF(filesIds);
 		}
+
+		objectOutput.writeLong(budgetPhaseId);
 	}
 
 	public String uuid;
@@ -625,4 +633,5 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public String publikId;
 	public long imageId;
 	public String filesIds;
+	public long budgetPhaseId;
 }

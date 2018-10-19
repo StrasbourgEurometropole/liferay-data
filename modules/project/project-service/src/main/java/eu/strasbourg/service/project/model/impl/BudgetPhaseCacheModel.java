@@ -63,7 +63,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -101,10 +101,12 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		sb.append(beginDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
+		sb.append(", beginVoteDate=");
+		sb.append(beginVoteDate);
+		sb.append(", endVoteDate=");
+		sb.append(endVoteDate);
 		sb.append(", publikId=");
 		sb.append(publikId);
-		sb.append(", budgetParticipatifId=");
-		sb.append(budgetParticipatifId);
 		sb.append("}");
 
 		return sb.toString();
@@ -195,14 +197,26 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 			budgetPhaseImpl.setEndDate(new Date(endDate));
 		}
 
+		if (beginVoteDate == Long.MIN_VALUE) {
+			budgetPhaseImpl.setBeginVoteDate(null);
+		}
+		else {
+			budgetPhaseImpl.setBeginVoteDate(new Date(beginVoteDate));
+		}
+
+		if (endVoteDate == Long.MIN_VALUE) {
+			budgetPhaseImpl.setEndVoteDate(null);
+		}
+		else {
+			budgetPhaseImpl.setEndVoteDate(new Date(endVoteDate));
+		}
+
 		if (publikId == null) {
 			budgetPhaseImpl.setPublikId(StringPool.BLANK);
 		}
 		else {
 			budgetPhaseImpl.setPublikId(publikId);
 		}
-
-		budgetPhaseImpl.setBudgetParticipatifId(budgetParticipatifId);
 
 		budgetPhaseImpl.resetOriginalValues();
 
@@ -237,9 +251,9 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		isActive = objectInput.readBoolean();
 		beginDate = objectInput.readLong();
 		endDate = objectInput.readLong();
+		beginVoteDate = objectInput.readLong();
+		endVoteDate = objectInput.readLong();
 		publikId = objectInput.readUTF();
-
-		budgetParticipatifId = objectInput.readLong();
 	}
 
 	@Override
@@ -302,6 +316,8 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		objectOutput.writeBoolean(isActive);
 		objectOutput.writeLong(beginDate);
 		objectOutput.writeLong(endDate);
+		objectOutput.writeLong(beginVoteDate);
+		objectOutput.writeLong(endVoteDate);
 
 		if (publikId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -309,8 +325,6 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		else {
 			objectOutput.writeUTF(publikId);
 		}
-
-		objectOutput.writeLong(budgetParticipatifId);
 	}
 
 	public String uuid;
@@ -331,6 +345,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 	public boolean isActive;
 	public long beginDate;
 	public long endDate;
+	public long beginVoteDate;
+	public long endVoteDate;
 	public String publikId;
-	public long budgetParticipatifId;
 }

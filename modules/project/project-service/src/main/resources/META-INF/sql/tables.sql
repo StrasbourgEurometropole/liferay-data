@@ -12,7 +12,7 @@ create table project_BudgetParticipatif (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(75) null,
-	description VARCHAR(75) null,
+	description TEXT null,
 	budget LONG,
 	motif VARCHAR(75) null,
 	citoyenLastname VARCHAR(75) null,
@@ -32,10 +32,11 @@ create table project_BudgetParticipatif (
 	consultationPlacesText VARCHAR(75) null,
 	consultationPlacesBody VARCHAR(75) null,
 	isCrush BOOLEAN,
-	crushComment VARCHAR(75) null,
+	crushComment TEXT null,
 	publikId VARCHAR(75) null,
 	imageId LONG,
-	filesIds VARCHAR(75) null
+	filesIds VARCHAR(75) null,
+	budgetPhaseId LONG
 );
 
 create table project_BudgetPhase (
@@ -57,8 +58,9 @@ create table project_BudgetPhase (
 	isActive BOOLEAN,
 	beginDate DATE null,
 	endDate DATE null,
-	publikId VARCHAR(75) null,
-	budgetParticipatifId LONG
+	beginVoteDate DATE null,
+	endVoteDate DATE null,
+	publikId VARCHAR(75) null
 );
 
 create table project_Initiative (

@@ -70,6 +70,7 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
+		soapModel.setBudgetPhaseId(model.getBudgetPhaseId());
 
 		return soapModel;
 	}
@@ -433,6 +434,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_filesIds = filesIds;
 	}
 
+	public long getBudgetPhaseId() {
+		return _budgetPhaseId;
+	}
+
+	public void setBudgetPhaseId(long budgetPhaseId) {
+		_budgetPhaseId = budgetPhaseId;
+	}
+
 	private String _uuid;
 	private long _budgetParticipatifId;
 	private long _groupId;
@@ -470,4 +479,5 @@ public class BudgetParticipatifSoap implements Serializable {
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
+	private long _budgetPhaseId;
 }

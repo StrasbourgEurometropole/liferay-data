@@ -3106,6 +3106,525 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "budgetParticipatif.publikId IS NULL";
 	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "budgetParticipatif.publikId = ?";
 	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(budgetParticipatif.publikId IS NULL OR budgetParticipatif.publikId = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_BUDGETPHASEID =
+		new FinderPath(BudgetParticipatifModelImpl.ENTITY_CACHE_ENABLED,
+			BudgetParticipatifModelImpl.FINDER_CACHE_ENABLED,
+			BudgetParticipatifImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBybudgetPhaseId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPHASEID =
+		new FinderPath(BudgetParticipatifModelImpl.ENTITY_CACHE_ENABLED,
+			BudgetParticipatifModelImpl.FINDER_CACHE_ENABLED,
+			BudgetParticipatifImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBybudgetPhaseId",
+			new String[] { Long.class.getName() },
+			BudgetParticipatifModelImpl.BUDGETPHASEID_COLUMN_BITMASK |
+			BudgetParticipatifModelImpl.TITLE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_BUDGETPHASEID = new FinderPath(BudgetParticipatifModelImpl.ENTITY_CACHE_ENABLED,
+			BudgetParticipatifModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBybudgetPhaseId",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the budget participatifs where budgetPhaseId = &#63;.
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @return the matching budget participatifs
+	 */
+	@Override
+	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId) {
+		return findBybudgetPhaseId(budgetPhaseId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the budget participatifs where budgetPhaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetParticipatifModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @param start the lower bound of the range of budget participatifs
+	 * @param end the upper bound of the range of budget participatifs (not inclusive)
+	 * @return the range of matching budget participatifs
+	 */
+	@Override
+	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId,
+		int start, int end) {
+		return findBybudgetPhaseId(budgetPhaseId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget participatifs where budgetPhaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetParticipatifModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @param start the lower bound of the range of budget participatifs
+	 * @param end the upper bound of the range of budget participatifs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching budget participatifs
+	 */
+	@Override
+	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId,
+		int start, int end,
+		OrderByComparator<BudgetParticipatif> orderByComparator) {
+		return findBybudgetPhaseId(budgetPhaseId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget participatifs where budgetPhaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetParticipatifModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @param start the lower bound of the range of budget participatifs
+	 * @param end the upper bound of the range of budget participatifs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching budget participatifs
+	 */
+	@Override
+	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId,
+		int start, int end,
+		OrderByComparator<BudgetParticipatif> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPHASEID;
+			finderArgs = new Object[] { budgetPhaseId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_BUDGETPHASEID;
+			finderArgs = new Object[] {
+					budgetPhaseId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<BudgetParticipatif> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<BudgetParticipatif>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (BudgetParticipatif budgetParticipatif : list) {
+					if ((budgetPhaseId != budgetParticipatif.getBudgetPhaseId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_BUDGETPARTICIPATIF_WHERE);
+
+			query.append(_FINDER_COLUMN_BUDGETPHASEID_BUDGETPHASEID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(BudgetParticipatifModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(budgetPhaseId);
+
+				if (!pagination) {
+					list = (List<BudgetParticipatif>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<BudgetParticipatif>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first budget participatif in the ordered set where budgetPhaseId = &#63;.
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget participatif
+	 * @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
+	 */
+	@Override
+	public BudgetParticipatif findBybudgetPhaseId_First(long budgetPhaseId,
+		OrderByComparator<BudgetParticipatif> orderByComparator)
+		throws NoSuchBudgetParticipatifException {
+		BudgetParticipatif budgetParticipatif = fetchBybudgetPhaseId_First(budgetPhaseId,
+				orderByComparator);
+
+		if (budgetParticipatif != null) {
+			return budgetParticipatif;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("budgetPhaseId=");
+		msg.append(budgetPhaseId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchBudgetParticipatifException(msg.toString());
+	}
+
+	/**
+	 * Returns the first budget participatif in the ordered set where budgetPhaseId = &#63;.
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
+	 */
+	@Override
+	public BudgetParticipatif fetchBybudgetPhaseId_First(long budgetPhaseId,
+		OrderByComparator<BudgetParticipatif> orderByComparator) {
+		List<BudgetParticipatif> list = findBybudgetPhaseId(budgetPhaseId, 0,
+				1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last budget participatif in the ordered set where budgetPhaseId = &#63;.
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget participatif
+	 * @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
+	 */
+	@Override
+	public BudgetParticipatif findBybudgetPhaseId_Last(long budgetPhaseId,
+		OrderByComparator<BudgetParticipatif> orderByComparator)
+		throws NoSuchBudgetParticipatifException {
+		BudgetParticipatif budgetParticipatif = fetchBybudgetPhaseId_Last(budgetPhaseId,
+				orderByComparator);
+
+		if (budgetParticipatif != null) {
+			return budgetParticipatif;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("budgetPhaseId=");
+		msg.append(budgetPhaseId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchBudgetParticipatifException(msg.toString());
+	}
+
+	/**
+	 * Returns the last budget participatif in the ordered set where budgetPhaseId = &#63;.
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
+	 */
+	@Override
+	public BudgetParticipatif fetchBybudgetPhaseId_Last(long budgetPhaseId,
+		OrderByComparator<BudgetParticipatif> orderByComparator) {
+		int count = countBybudgetPhaseId(budgetPhaseId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<BudgetParticipatif> list = findBybudgetPhaseId(budgetPhaseId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the budget participatifs before and after the current budget participatif in the ordered set where budgetPhaseId = &#63;.
+	 *
+	 * @param budgetParticipatifId the primary key of the current budget participatif
+	 * @param budgetPhaseId the budget phase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next budget participatif
+	 * @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
+	 */
+	@Override
+	public BudgetParticipatif[] findBybudgetPhaseId_PrevAndNext(
+		long budgetParticipatifId, long budgetPhaseId,
+		OrderByComparator<BudgetParticipatif> orderByComparator)
+		throws NoSuchBudgetParticipatifException {
+		BudgetParticipatif budgetParticipatif = findByPrimaryKey(budgetParticipatifId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			BudgetParticipatif[] array = new BudgetParticipatifImpl[3];
+
+			array[0] = getBybudgetPhaseId_PrevAndNext(session,
+					budgetParticipatif, budgetPhaseId, orderByComparator, true);
+
+			array[1] = budgetParticipatif;
+
+			array[2] = getBybudgetPhaseId_PrevAndNext(session,
+					budgetParticipatif, budgetPhaseId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected BudgetParticipatif getBybudgetPhaseId_PrevAndNext(
+		Session session, BudgetParticipatif budgetParticipatif,
+		long budgetPhaseId,
+		OrderByComparator<BudgetParticipatif> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_BUDGETPARTICIPATIF_WHERE);
+
+		query.append(_FINDER_COLUMN_BUDGETPHASEID_BUDGETPHASEID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(BudgetParticipatifModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(budgetPhaseId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(budgetParticipatif);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<BudgetParticipatif> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the budget participatifs where budgetPhaseId = &#63; from the database.
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 */
+	@Override
+	public void removeBybudgetPhaseId(long budgetPhaseId) {
+		for (BudgetParticipatif budgetParticipatif : findBybudgetPhaseId(
+				budgetPhaseId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(budgetParticipatif);
+		}
+	}
+
+	/**
+	 * Returns the number of budget participatifs where budgetPhaseId = &#63;.
+	 *
+	 * @param budgetPhaseId the budget phase ID
+	 * @return the number of matching budget participatifs
+	 */
+	@Override
+	public int countBybudgetPhaseId(long budgetPhaseId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_BUDGETPHASEID;
+
+		Object[] finderArgs = new Object[] { budgetPhaseId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_BUDGETPARTICIPATIF_WHERE);
+
+			query.append(_FINDER_COLUMN_BUDGETPHASEID_BUDGETPHASEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(budgetPhaseId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_BUDGETPHASEID_BUDGETPHASEID_2 = "budgetParticipatif.budgetPhaseId = ?";
 
 	public BudgetParticipatifPersistenceImpl() {
 		setModelClass(BudgetParticipatif.class);
@@ -3463,6 +3982,12 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
 				args);
 
+			args = new Object[] { budgetParticipatifModelImpl.getBudgetPhaseId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_BUDGETPHASEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPHASEID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -3563,6 +4088,27 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
 					args);
 			}
+
+			if ((budgetParticipatifModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPHASEID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						budgetParticipatifModelImpl.getOriginalBudgetPhaseId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_BUDGETPHASEID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPHASEID,
+					args);
+
+				args = new Object[] {
+						budgetParticipatifModelImpl.getBudgetPhaseId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_BUDGETPHASEID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPHASEID,
+					args);
+			}
 		}
 
 		entityCache.putResult(BudgetParticipatifModelImpl.ENTITY_CACHE_ENABLED,
@@ -3625,6 +4171,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setPublikId(budgetParticipatif.getPublikId());
 		budgetParticipatifImpl.setImageId(budgetParticipatif.getImageId());
 		budgetParticipatifImpl.setFilesIds(budgetParticipatif.getFilesIds());
+		budgetParticipatifImpl.setBudgetPhaseId(budgetParticipatif.getBudgetPhaseId());
 
 		return budgetParticipatifImpl;
 	}
