@@ -21,7 +21,7 @@
 
 			<div class="pro-intro">
 				<h2>Cela pourrait vous interesser</h2>
-				<a href="${homeURL}videos" class="pro-btn">Voir Toutes les vidéos</a>
+				<a href="${homeURL}videos" class="pro-btn">Tout voir</a>
 			</div>
 
 			<div class="row">
