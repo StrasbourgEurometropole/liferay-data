@@ -171,45 +171,39 @@
         </div>
     </div>
 	
-	<#-- Desactivee le temps de réécrire la fonctionnalité -->
-	<#-- Initialisation des class util-->
-	<#--
+	<!-- Initialisation des class util-->
 	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
 	<#assign AssetVocabularyLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil"] />
 	<#assign classNameId = PortalUtil.getClassNameId("eu.strasbourg.service.agenda.model.Event") />	
 	<#assign scop = themeDisplay.getCompanyGroupId() />
 	<#assign i = 0 />
 	<#assign themeAgenda = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scop, "Theme agenda") />
-	-->
-	<#-- initialisation de la variable de configuration -->
-	<#--
+
+	<!-- initialisation de la variable de configuration -->
 	<#assign preferencesMap = {"scopeIds": "Group_${scop}", "classNameIds" : "${classNameId}",
 	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />	
-	-->
-	
-	<#-- On suggere les event avec le meme theme agenda que l'entite affichee -->
-	<#--
+
+	<!-- On suggere les event avec le meme theme agenda que l'entite affichee -->
 	<#list entry.getCategories() as cat >
 		<#if cat.getVocabularyId() == themeAgenda.getVocabularyId()>
 			<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${cat.getCategoryId()}"} >
 			<#assign i++ />
 		</#if>	
 	</#list>
-	-->
 	
 	<#--
 	<#list entry.getAssetEntry().getTags() as tag >
 		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetTags", "queryValues${i}" : "${tag.getName()}"} >
 		<#assign i++ />
 	</#list>-->
-	<#--
+	
     <@liferay_portlet["runtime"]
 	defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
     portletProviderAction=portletProviderAction.VIEW
     portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
 	instanceId="event${entry.eventId}"
     />
-	-->
+
 	
 	<#-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
 
@@ -232,7 +226,7 @@
         if (eventMercatorX && eventMercatorX.length != 0) {
 
             // Création de la carte au centre de strasbourg
-            leafletMap = getLeafletMap()
+            leafletMap = getLeafletMap();
 
             // Définition des marqueurs
             var eventMarker = getEventMarker(eventJSON);
