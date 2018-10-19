@@ -14,8 +14,8 @@
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
-<liferay-portlet:actionURL name="saveBudgetParticipatif" varImpl="saveBudgetParticipatifURL">
-	<portlet:param name="cmd" value="saveBudgetParticipatif" />
+<liferay-portlet:actionURL name="actionBudgetParticipatif" varImpl="updateBudgetParticipatifURL">
+	<portlet:param name="cmd" value="updateBudgetParticipatif" />
 	<portlet:param name="tab" value="budgets-participatifs" />
 </liferay-portlet:actionURL>
 
@@ -30,7 +30,7 @@
 	<liferay-ui:error key="place-error" message="place-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
-	<aui:form action="${saveBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
+	<aui:form action="${updateBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.budgetParticipatif}" model="<%=BudgetParticipatif.class %>" />
@@ -85,9 +85,6 @@
 
 				<%-- Champ : mobile --%>
 				<aui:input name="citoyenMobile" required="true" />
-
-				<%-- Champ : copyright --%>
-				<aui:input name="citoyenEmail" required="true" />
 
 			</aui:fieldset>
 
@@ -233,7 +230,6 @@
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
-
 	</aui:form>
 	
 </div>
