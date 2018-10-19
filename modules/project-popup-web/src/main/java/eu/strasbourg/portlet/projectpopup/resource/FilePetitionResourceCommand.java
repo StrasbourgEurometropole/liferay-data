@@ -38,12 +38,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
@@ -134,6 +137,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         themeId = ParamUtil.getLong(request, THEME);
 
         boolean isValid = validate(request);
+
         if (!isValid)
             message = LanguageUtil.get(originalRequest, "general-error");
         
@@ -227,6 +231,24 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         return true;
     }
 
+    private boolean checkLegalAge(Date birthday) {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Instant instant = birthday.toInstant();
+        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+        LocalDate current = LocalDate.now(defaultZoneId);
+        int result = Period.between(localDate, current).getYears();
+        return result >= 16;
+    }
+
+    private boolean checkPostalCode(long postalcode) {
+        int param = Math.toIntExact(postalcode);
+        return param == 67000 || param == 67100 || param == 67200;
+    }
+
+    private boolean checkCity(String city) {
+        return "strasbourg".equals(city.toLowerCase());
+    }
+
     private boolean validate(ResourceRequest request) {
         boolean isValid = true;
         DateFormat dateFormat = new SimpleDateFormat(PATTERN);
@@ -260,6 +282,12 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(postalcode)) {
             isValid = false;
         }
+        if (isValid)
+            isValid = checkCity(city);
+        if (isValid)
+            isValid = checkPostalCode(postalcode);
+        if (isValid)
+            isValid = checkLegalAge(birthday);
 
         return isValid;
     }
