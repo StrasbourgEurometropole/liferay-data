@@ -47,6 +47,9 @@ import java.util.Locale;
  */
 @ProviderType
 public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
+
+	private static final long serialVersionUID = -5369832133992557886L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -149,7 +152,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	/**
 	 * Retourne la liste des lieux placit liés à la petition
 	 */
-
 	public List<PlacitPlace> getPlacitPlaces() {
 		List<PlacitPlace> resultList = PlacitPlaceLocalServiceUtil.getByBudgetParticipatif(this.getBudgetParticipatifId());
 		return null;
