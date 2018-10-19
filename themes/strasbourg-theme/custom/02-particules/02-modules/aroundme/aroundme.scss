@@ -257,6 +257,7 @@
         }
         &__list{
             .grid-item{
+                margin: auto;
                 margin-bottom: 15px;
             }
         }
@@ -592,7 +593,7 @@
         margin: 0;
     }
     .leaflet-popup-tip {
-        background: #31455d;
+        background: $core-color;
     }
     .leaflet-div-icon {
         background: none;
@@ -764,7 +765,7 @@
                 }
             }
             .crowded-label{
-                color: #31455d;
+                color: $core-color;
                 font-size: 1.3rem;
                 font-family: $main-font;
             }
