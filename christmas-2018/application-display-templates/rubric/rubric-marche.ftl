@@ -19,7 +19,7 @@
                             <a href="${homeURL}${currentPage.friendlyURL?remove_beginning('/')}">
                                 <figure class="mns-bloc-top-img">
                                     <#if currentPage.expandoBridge.getAttribute('image')?has_content>
-                                        <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="${currentPage.getName(locale)}" width="450" height="300" />
+                                        <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="${currentPage.getName(locale)}" width="290" height="195" />
                                     </#if>
                                 </figure>
                                 <div class="mns-bloc-content-actu">
