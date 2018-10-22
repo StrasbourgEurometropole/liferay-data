@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-8 mns-content-agenda-detail" data-egalize=".mns-info-more">
+        <div class="col-sm-8 mns-content-agenda-detail">
             <div class="col-xs-12" style="float: none;">
                 <span class="mns-event-date">${entry.getEventScheduleDisplay(locale)}</span>
                 <h1>${entry.getTitle(locale)}</h1>
