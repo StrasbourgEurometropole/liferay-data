@@ -15,6 +15,7 @@ import java.util.Locale;
  */
 public class BudgetParticipatifAssetRenderer extends BaseJSPAssetRenderer<BudgetParticipatif> {
 
+	public static final String TYPE = "budgetParticipatif";
     private BudgetParticipatif _entry;
 
     public BudgetParticipatifAssetRenderer(BudgetParticipatif _entry) {
@@ -67,7 +68,7 @@ public class BudgetParticipatifAssetRenderer extends BaseJSPAssetRenderer<Budget
         request.setAttribute("detailPortletName", StrasbourgPortletKeys.ENTITY_DETAIL_WEB);
         return super.include(request, response, template);
     }
-
+    
     public BudgetParticipatif getBudgetParticipatif(){
         return this._entry;
     }

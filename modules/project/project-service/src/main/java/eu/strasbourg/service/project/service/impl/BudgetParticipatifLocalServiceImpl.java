@@ -14,6 +14,11 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -26,6 +31,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 
 /**
@@ -113,6 +119,38 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 		} else {
 			indexer.reindex(budget);
 		}
+	}
+	
+	/**
+	 * Recherche par mot clés
+	 */
+	@Override
+	public List<BudgetParticipatif> findByKeyword(String keyword, long groupId, int start, int end) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		if (keyword.length() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (groupId > 0) {
+			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+		
+		return budgetParticipatifPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+	}
+	
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	@Override
+	public long findByKeywordCount(String keyword, long groupId) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+		if (keyword.length() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (groupId > 0) {
+			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+		return budgetParticipatifPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
 }

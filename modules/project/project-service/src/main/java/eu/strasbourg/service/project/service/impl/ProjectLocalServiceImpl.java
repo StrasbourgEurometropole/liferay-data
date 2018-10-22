@@ -78,6 +78,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	 */
 
 	public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.class);
+	
 	/**
 	 * Crée un projet vide avec une PK, non ajouté à la base de donnée
 	 */

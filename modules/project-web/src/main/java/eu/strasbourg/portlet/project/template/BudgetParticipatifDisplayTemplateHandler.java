@@ -16,11 +16,11 @@ import java.util.Map;
  * @author alexandre.quere
  */
 @Component(
-        immediate = true,
-        property = {
-                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
-        },
-        service = TemplateHandler.class
+    immediate = true,
+    property = {
+    		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
+    },
+    service = TemplateHandler.class
 )
 public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
 
