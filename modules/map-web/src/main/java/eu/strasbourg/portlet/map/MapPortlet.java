@@ -173,9 +173,9 @@ public class MapPortlet extends MVCPortlet {
                                 }
                             }
                         }
-                        if (district != null) {
-                            coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
-                        }
+//                        if (district != null) {
+//                            coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
+//                        }
                     }
 
                     interestsIdsString = configuration.interestsIds();

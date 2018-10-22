@@ -20,8 +20,6 @@
     <link href="/o/christmas-2018-theme/css/style.css" rel="stylesheet">
 
   <script>
-      window.userFavorites = [
-      ];
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
       <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
@@ -57,6 +55,39 @@
                 <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/christmas-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
             </div>
             <div>
+                <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+                <#if request.session.getAttribute("publik_logged_in")!false>
+                  <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
+                  <div class="nav-account nav-btn">
+                    <button id="trigger-account-menu" onClick="javascript: location='${layoutHelper.getDashboardURL()}';">
+                      <span class="flexbox">
+                        <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
+                        <span class="picto">
+                            <#if (notifCount > 0)>
+                                <span class="notif-amount">${notifCount}</span>
+                            </#if>
+                        </span>
+                        <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none;" title="<@liferay_ui.message key='eu.dashboard' />">
+                          <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
+                        </a>
+                        <span class="arrow" style="display: none;"></span>
+                      </span>
+                    </button>
+                    <!-- Menu connecté -->
+                    <@liferay_portlet["runtime"]
+                      portletProviderAction=portletProviderAction.VIEW
+                      portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                      instanceId="loggedinmenu"
+                      settingsScope="group" />
+                  </div>
+                <#else>
+                  <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay_ui.message key='eu.login.strasbourg' />">
+                    <span class="flexbox">
+                      <span class="picto"></span>
+                      <span class="text"><@liferay_ui.message key='eu.login.strasbourg' /></span>
+                    </span>    
+                  </a>
+                </#if>
                 <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a>
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
                 <a href="#" class="hidden-xs hidden-sm menu-search"><span class="icon-search"></span></a>

@@ -9,29 +9,22 @@
     transition: all, 0.5s;
     overflow: hidden;
 
-
-    .seu-flexbox{
+    .flexbox{
         display: flex;
         align-items: center;
         justify-content: center;
     }
     
-    .seu-btn-text{
+    .btn-text{
         font-family: $f_txt;
         font-size: 1.4rem;
         text-transform: uppercase;
         font-weight: 400;
         transition: all, 0.3s;
         margin-right: 20px;
-        width: 100%;
     }
 
-    &.seu-prev .seu-btn-text {
-        margin-right: 0;
-        margin-left: 20px;
-    }
-
-    .seu-btn-arrow{
+    .btn-arrow{
         content: '';
         display: inline-block;
         width: 20px;
@@ -39,10 +32,7 @@
         background-size: 14px;
         background-position: center;
         background-repeat: no-repeat;
-    }
-
-    &.seu-prev .seu-btn-arrow {
-        transform: rotateZ(180deg);
+        flex-shrink: 0;
     }
 
     &:hover, &:focus{
@@ -81,17 +71,17 @@
             &:before{
                 background-color: #FFFFFF;
             }
-            .seu-btn-text{
+            .btn-text{
                 color: #FFFFFF;
             }  
-            .seu-btn-arrow{
+            .btn-arrow{
                 background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
             }
             &:hover, &:focus{
-                .seu-btn-text{
+                .btn-text{
                     color: $c_main;
                 }
-                .seu-btn-arrow{
+                .btn-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
                 }
             }
@@ -103,21 +93,21 @@
             &:before{
                 background-color: $c_main;
             }
-            .seu-flexbox{
+            .flexbox{
                 display: flex;
                 align-items: center;
             }
-            .seu-btn-text{
+            .btn-text{
                 color: $c_main;
             }  
-            .seu-btn-arrow{
+            .btn-arrow{
                 background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
             }
             &:hover, &:focus{
-                .seu-btn-text{
+                .btn-text{
                     color: $c_grey;
                 }
-                .seu-btn-arrow{
+                .btn-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, $c_grey) );
                 }
             }
@@ -151,17 +141,17 @@
             &:before{
                 background-color: #FFFFFF;
             }
-            .seu-btn-text{
+            .btn-text{
                 color: #FFFFFF;
             }
-            .seu-btn-arrow{
+            .btn-arrow{
                 background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
             }
             &:hover, &:focus{
-                .seu-btn-text{
+                .btn-text{
                     color: $c_main;
                 }
-                .seu-btn-arrow{
+                .btn-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
                 }
             }
@@ -171,17 +161,17 @@
             &:before{
                 background-color: $c_main;
             }
-            .seu-btn-text{
+            .btn-text{
                 color: $c_main;
             }
-            .seu-btn-arrow{
+            .btn-arrow{
                 background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
             }
             &:hover, &:focus{
-                .seu-btn-text{
+                .btn-text{
                     color: #FFFFFF;
                 }
-                .seu-btn-arrow{
+                .btn-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
                 }
             }
@@ -191,18 +181,18 @@
             &:before{
                 background-color: #7e7e7e;
             }
-            .seu-btn-text{
+            .btn-text{
                 color: #7e7e7e;
             }
-            .seu-btn-arrow{
+            .btn-arrow{
                 background-image: url( svg-bg-uri($svg-arrow1, #7e7e7e) );
             }
 
             &:hover, &:focus{
-                .seu-btn-text{
+                .btn-text{
                     color: #FFFFFF;
                 }
-                .seu-btn-arrow{
+                .btn-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, #ffffff) );
                 }
             }
@@ -211,44 +201,44 @@
 }
 
 // Déclarations pour des classes transverse au site
-.seu-btn-square{
-    &.seu-filled{
-        &.seu-core{
+.btn-square{
+    &.filled{
+        &.core{
             @extend %atom-btn-square--filled--core;
         } 
-        &.seu-second{
+        &.second{
             @extend %atom-btn-square--filled--second;
         } 
     }
 
     // Boutons avec bordure
-    &.seu-bordered{ 
-        &.seu-core{ 
+    &.bordered{ 
+        &.core{ 
             @extend %atom-btn-square--bordered--core;
         }
-        &.seu-white{ 
+        &.white{ 
             @extend %atom-btn-square--bordered--white;
         }
-        &.seu-grey{
+        &.grey{
             @extend %atom-btn-square--bordered--grey;
         }
     }
 }
 
 //~#BUTTONS
-.seu-btn-square--filled--core{
+.btn-square--filled--core{
     @extend %atom-btn-square--filled--core;
 }
-.seu-btn-square--filled--second{
+.btn-square--filled--second{
     @extend %atom-btn-square--filled--second;
 }
-.seu-btn-square--bordered--core{
+.btn-square--bordered--core{
     @extend %atom-btn-square--bordered--core;
 }
-.seu-btn-square--bordered--white{
+.btn-square--bordered--white{
     @extend %atom-btn-square--bordered--white;
 }
-.seu-btn-square--bordered--grey{
+.btn-square--bordered--grey{
     @extend %atom-btn-square--bordered--grey;
 }
 //#BUTTONS

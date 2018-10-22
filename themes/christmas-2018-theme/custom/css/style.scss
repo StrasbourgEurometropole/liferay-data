@@ -5,7 +5,14 @@
 
 // Base Styles
 //=====================================
+@import "base/_svg-factory";
+@import "base/_atom-btn-square";
+@import "base/_grids-distribution";
+@import "base/_media-queries";
+@import "base/_quark-animation-hoverBar";
+@import "base/_round-decimal";
 @import "base/_t_base";
+@import "base/_t_favorites";
 @import "base/_t_grid";
 @import "base/_t_libs";
 @import "base/_t_mixins";
@@ -49,14 +56,11 @@
 
 // Style des blocs modulables
 // ==========================================================================
-@import "blocs/_atom-btn-square";
-@import "blocs/_grids-distribution";
-@import "blocs/_media-queries";
-@import "blocs/_round-decimal";
 @import "blocs/_t_bloc-texte";
 @import "blocs/_t_bloc-actu";
 @import "blocs/_t_bloc-agenda";
 @import "blocs/_t_bloc-aroundme";
+@import "blocs/_t_bloc-favConfirm";
 @import "blocs/_t_bloc-social-wall";
 @import "blocs/_t_bloc-testi";
 @import "blocs/_t_form";

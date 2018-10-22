@@ -64,7 +64,7 @@
 			                                	${category.getTitle(locale)}
 
 												<c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
-													<img src="${category.getDescription(locale)}" width="35px">
+													<img src="${category.getDescription(locale)}" style="height: 25px; width: 17px;">
 												</c:if>
 
 												<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
