@@ -15,9 +15,11 @@
 package eu.strasbourg.service.project.service.base;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
+
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -25,6 +27,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -56,6 +59,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
@@ -70,9 +74,11 @@ import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the petition local service.

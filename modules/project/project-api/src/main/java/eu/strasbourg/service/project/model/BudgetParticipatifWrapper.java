@@ -15,12 +15,16 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.expando.kernel.model.ExpandoBridge;
+
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -537,6 +541,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _budgetParticipatif.getNbApprovedComments();
+	}
+
+	/**
 	* Returns the status of this budget participatif.
 	*
 	* @return the status of this budget participatif
@@ -880,6 +892,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _budgetParticipatif.getApprovedComments();
+	}
+
+	/**
 	* retourne les catégories
 	*
 	* @return
@@ -900,7 +920,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne la liste des lieux placit liés
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {

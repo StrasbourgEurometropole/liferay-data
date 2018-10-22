@@ -4,6 +4,7 @@ package eu.strasbourg.service.project.constants;
  * @author alexandre.quere
  */
 public enum ParticiperCategories {
+	
     COMPLETED("completed"),
     FAILED("failed"),
     SOON_ARRIVED("soon_arrived"),
@@ -32,4 +33,5 @@ public enum ParticiperCategories {
     public String getName() {
         return name;
     }
+    
 }

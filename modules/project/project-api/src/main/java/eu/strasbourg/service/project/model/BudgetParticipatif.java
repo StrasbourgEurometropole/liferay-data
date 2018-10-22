@@ -15,6 +15,7 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
@@ -80,7 +81,7 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne la liste des lieux placit liés
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 
@@ -115,6 +116,16 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getTypeCategoryColor();
 
 	public java.lang.String getAuthor();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
 
 	/**
 	* Retourne la version JSON de l'entité

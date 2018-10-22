@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineService;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;

@@ -24,6 +24,10 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
@@ -47,7 +51,10 @@ import java.util.Locale;
  */
 @ProviderType
 public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
-    /*
+	
+	private static final long serialVersionUID = -2427479225001060332L;
+
+	/*
      * NOTE FOR DEVELOPERS:
      *
      * Never reference this class directly. All methods that expect a budget participatif model instance should use the {@link eu.strasbourg.service.project.model.BudgetParticipatif} interface instead.
@@ -104,7 +111,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
     /**
-     * Retourne la liste des lieux placit liés à la participation
+     * Retourne la liste des lieux placit liés
      */
     @Override
     public List<PlacitPlace> getPlacitPlaces() {
@@ -134,7 +141,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 
     /**
      * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
-     *
      * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
      */
     public String getDistrictLabel(Locale locale) {
@@ -144,7 +150,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 
     /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
-     *
      * @return : null si vide, sinon la liste des catégories
      */
     @Override
@@ -176,6 +181,24 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getAuthor(){
         return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
     }
+    
+    /**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil
+				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
+	}
 
     /**
      * Retourne la version JSON de l'entité
