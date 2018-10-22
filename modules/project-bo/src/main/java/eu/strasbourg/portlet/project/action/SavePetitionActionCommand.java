@@ -24,7 +24,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.text.DateFormat;
@@ -50,8 +49,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	@Override
-	public boolean processAction(ActionRequest request, ActionResponse response) 
-			throws PortletException {
+	public boolean processAction(ActionRequest request, ActionResponse response) {
 
 		// Défini le format de date à utiliser pour les champs temporels
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -111,7 +109,6 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
 			int fakeSignataire = ParamUtil.getInteger(request, "nbFakeSignataire");
 
-
 			// ---------------------------------------------------------------
 			// -------------------------- GENERALITES ------------------------
 			// ---------------------------------------------------------------
@@ -164,12 +161,12 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			petition.setConsultationPlacesBody(consultationPlacesBody);
+			if (fakeSignataire>0)
+				SignataireLocalServiceUtil.createFakeSignataire(petitionId,fakeSignataire);
 
 			for (PlacitPlace placitPlace : petition.getPlacitPlaces()){
 				_placitPlaceLocalService.removePlacitPlace(placitPlace.getPlacitPlaceId());
 			}
-			if (fakeSignataire>0)
-				SignataireLocalServiceUtil.createFakeSignataire(petitionId,fakeSignataire);
 			for (String placitPlacesIndexe : placitPlacesIndexesString.split(",")){
 				String placeSIGId = ParamUtil.getString(request, "placeSIGId" + placitPlacesIndexe);
 				String placeName = ParamUtil.getString(request, "placeName" + placitPlacesIndexe);

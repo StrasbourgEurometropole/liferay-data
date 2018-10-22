@@ -61,6 +61,8 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
+	public java.lang.String getProjectTitle(java.util.Locale locale);
+
 	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
@@ -71,13 +73,15 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
+	public java.lang.String getThematicTitle(java.util.Locale locale);
+
 	/**
 	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne la liste des lieux placit liés
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 
@@ -106,6 +110,22 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	* @return : null si vide, sinon la liste des catégories
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
+
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
+
+	public java.lang.String getTypeCategoryColor();
+
+	public java.lang.String getAuthor();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
 
 	/**
 	* Retourne la version JSON de l'entité

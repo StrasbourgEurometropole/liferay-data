@@ -52,15 +52,6 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
 import static eu.strasbourg.service.project.constants.ParticiperCategories.FINISHED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;

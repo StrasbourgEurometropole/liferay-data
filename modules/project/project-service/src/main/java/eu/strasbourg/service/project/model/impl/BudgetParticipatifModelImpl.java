@@ -87,7 +87,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
-			{ "description", Types.VARCHAR },
+			{ "description", Types.CLOB },
 			{ "budget", Types.BIGINT },
 			{ "motif", Types.VARCHAR },
 			{ "citoyenLastname", Types.VARCHAR },
@@ -107,10 +107,11 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "consultationPlacesText", Types.VARCHAR },
 			{ "consultationPlacesBody", Types.VARCHAR },
 			{ "isCrush", Types.BOOLEAN },
-			{ "crushComment", Types.VARCHAR },
+			{ "crushComment", Types.CLOB },
 			{ "publikId", Types.VARCHAR },
 			{ "imageId", Types.BIGINT },
-			{ "filesIds", Types.VARCHAR }
+			{ "filesIds", Types.VARCHAR },
+			{ "budgetPhaseId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -128,7 +129,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("budget", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("motif", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenLastname", Types.VARCHAR);
@@ -148,13 +149,14 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("consultationPlacesText", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("isCrush", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("crushComment", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("crushComment", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("budgetPhaseId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(75) null,citoyenPostalCode LONG,citoyenCity VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(75) null,hasCopyright BOOLEAN,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,placeTextArea VARCHAR(75) null,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,isCrush BOOLEAN,crushComment VARCHAR(75) null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(75) null,citoyenPostalCode LONG,citoyenCity VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(75) null,hasCopyright BOOLEAN,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,placeTextArea VARCHAR(75) null,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.title ASC";
@@ -170,12 +172,13 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.BudgetParticipatif"),
 			true);
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
-	public static final long STATUS_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long TITLE_COLUMN_BITMASK = 32L;
+	public static final long BUDGETPHASEID_COLUMN_BITMASK = 1L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 8L;
+	public static final long STATUS_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long TITLE_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -227,6 +230,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setPublikId(soapModel.getPublikId());
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
+		model.setBudgetPhaseId(soapModel.getBudgetPhaseId());
 
 		return model;
 	}
@@ -329,6 +333,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
+		attributes.put("budgetPhaseId", getBudgetPhaseId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -561,6 +566,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
+		}
+
+		Long budgetPhaseId = (Long)attributes.get("budgetPhaseId");
+
+		if (budgetPhaseId != null) {
+			setBudgetPhaseId(budgetPhaseId);
 		}
 	}
 
@@ -1193,6 +1204,29 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		_filesIds = filesIds;
 	}
 
+	@JSON
+	@Override
+	public long getBudgetPhaseId() {
+		return _budgetPhaseId;
+	}
+
+	@Override
+	public void setBudgetPhaseId(long budgetPhaseId) {
+		_columnBitmask |= BUDGETPHASEID_COLUMN_BITMASK;
+
+		if (!_setOriginalBudgetPhaseId) {
+			_setOriginalBudgetPhaseId = true;
+
+			_originalBudgetPhaseId = _budgetPhaseId;
+		}
+
+		_budgetPhaseId = budgetPhaseId;
+	}
+
+	public long getOriginalBudgetPhaseId() {
+		return _originalBudgetPhaseId;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -1347,6 +1381,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setPublikId(getPublikId());
 		budgetParticipatifImpl.setImageId(getImageId());
 		budgetParticipatifImpl.setFilesIds(getFilesIds());
+		budgetParticipatifImpl.setBudgetPhaseId(getBudgetPhaseId());
 
 		budgetParticipatifImpl.resetOriginalValues();
 
@@ -1424,6 +1459,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifModelImpl._setOriginalStatus = false;
 
 		budgetParticipatifModelImpl._originalPublikId = budgetParticipatifModelImpl._publikId;
+
+		budgetParticipatifModelImpl._originalBudgetPhaseId = budgetParticipatifModelImpl._budgetPhaseId;
+
+		budgetParticipatifModelImpl._setOriginalBudgetPhaseId = false;
 
 		budgetParticipatifModelImpl._columnBitmask = 0;
 	}
@@ -1662,12 +1701,14 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.filesIds = null;
 		}
 
+		budgetParticipatifCacheModel.budgetPhaseId = getBudgetPhaseId();
+
 		return budgetParticipatifCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1743,6 +1784,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getImageId());
 		sb.append(", filesIds=");
 		sb.append(getFilesIds());
+		sb.append(", budgetPhaseId=");
+		sb.append(getBudgetPhaseId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1750,7 +1793,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(115);
+		StringBundler sb = new StringBundler(118);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetParticipatif");
@@ -1904,6 +1947,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			"<column><column-name>filesIds</column-name><column-value><![CDATA[");
 		sb.append(getFilesIds());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>budgetPhaseId</column-name><column-value><![CDATA[");
+		sb.append(getBudgetPhaseId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1960,6 +2007,9 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
+	private long _budgetPhaseId;
+	private long _originalBudgetPhaseId;
+	private boolean _setOriginalBudgetPhaseId;
 	private long _columnBitmask;
 	private BudgetParticipatif _escapedModel;
 }

@@ -74,7 +74,7 @@
 					
 				</div>
 				
-				<%-- Champ : opacitÃÂÃÂ© de l'image --%>
+				<%-- Champ : opacite de l'image --%>
 				<c:if test="${empty dc.project}">
 					<aui:input name="opacityImage" required="false" helpMessage="opacityHelp" value="1.00" />
 				</c:if>
@@ -118,7 +118,10 @@
 				
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
-				
+
+				<%-- Checkbox : envoi à tout les suiveurs--%>
+				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
+
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Lieux de consultation --%>

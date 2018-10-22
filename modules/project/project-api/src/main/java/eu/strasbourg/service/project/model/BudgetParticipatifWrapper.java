@@ -97,6 +97,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
+		attributes.put("budgetPhaseId", getBudgetPhaseId());
 
 		return attributes;
 	}
@@ -327,6 +328,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		if (filesIds != null) {
 			setFilesIds(filesIds);
 		}
+
+		Long budgetPhaseId = (Long)attributes.get("budgetPhaseId");
+
+		if (budgetPhaseId != null) {
+			setBudgetPhaseId(budgetPhaseId);
+		}
 	}
 
 	/**
@@ -492,6 +499,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getProjectCategory();
 	}
 
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
+		return _budgetParticipatif.getTypeCategory();
+	}
+
 	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
@@ -536,6 +548,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _budgetParticipatif.getNbApprovedComments();
+	}
+
+	/**
 	* Returns the status of this budget participatif.
 	*
 	* @return the status of this budget participatif
@@ -558,6 +578,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.Object clone() {
 		return new BudgetParticipatifWrapper((BudgetParticipatif)_budgetParticipatif.clone());
+	}
+
+	@Override
+	public java.lang.String getAuthor() {
+		return _budgetParticipatif.getAuthor();
 	}
 
 	/**
@@ -738,6 +763,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getPlaceTextArea();
 	}
 
+	@Override
+	public java.lang.String getProjectTitle(java.util.Locale locale) {
+		return _budgetParticipatif.getProjectTitle(locale);
+	}
+
 	/**
 	* Returns the publik ID of this budget participatif.
 	*
@@ -768,6 +798,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getStatusByUserUuid();
 	}
 
+	@Override
+	public java.lang.String getThematicTitle(java.util.Locale locale) {
+		return _budgetParticipatif.getThematicTitle(locale);
+	}
+
 	/**
 	* Returns the title of this budget participatif.
 	*
@@ -776,6 +811,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getTitle() {
 		return _budgetParticipatif.getTitle();
+	}
+
+	@Override
+	public java.lang.String getTypeCategoryColor() {
+		return _budgetParticipatif.getTypeCategoryColor();
 	}
 
 	/**
@@ -859,6 +899,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _budgetParticipatif.getApprovedComments();
+	}
+
+	/**
 	* retourne les catégories
 	*
 	* @return
@@ -879,7 +927,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne la liste des lieux placit liés
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
@@ -920,6 +968,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public long getBudgetParticipatifId() {
 		return _budgetParticipatif.getBudgetParticipatifId();
+	}
+
+	/**
+	* Returns the budget phase ID of this budget participatif.
+	*
+	* @return the budget phase ID of this budget participatif
+	*/
+	@Override
+	public long getBudgetPhaseId() {
+		return _budgetParticipatif.getBudgetPhaseId();
 	}
 
 	/**
@@ -1015,6 +1073,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
 		_budgetParticipatif.setBudgetParticipatifId(budgetParticipatifId);
+	}
+
+	/**
+	* Sets the budget phase ID of this budget participatif.
+	*
+	* @param budgetPhaseId the budget phase ID of this budget participatif
+	*/
+	@Override
+	public void setBudgetPhaseId(long budgetPhaseId) {
+		_budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
 	}
 
 	@Override

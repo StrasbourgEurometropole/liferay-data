@@ -14,8 +14,8 @@
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
-<liferay-portlet:actionURL name="saveBudgetParticipatif" varImpl="saveBudgetParticipatifURL">
-	<portlet:param name="cmd" value="saveBudgetParticipatif" />
+<liferay-portlet:actionURL name="actionBudgetParticipatif" varImpl="updateBudgetParticipatifURL">
+	<portlet:param name="cmd" value="updateBudgetParticipatif" />
 	<portlet:param name="tab" value="budgets-participatifs" />
 </liferay-portlet:actionURL>
 
@@ -30,7 +30,7 @@
 	<liferay-ui:error key="place-error" message="place-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
-	<aui:form action="${saveBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
+	<aui:form action="${updateBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.budgetParticipatif}" model="<%=BudgetParticipatif.class %>" />
@@ -44,9 +44,47 @@
 
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
-				
+
+				<%-- Champ : Corps de la description --%>
+				<aui:input name="description" required="true" />
+
+				<%-- Champ : Budget --%>
+				<aui:input name="budget" required="false" />
+
+				<%-- Champ : Motif --%>
+				<aui:input name="motif" required="false" />
+
 				<%-- Champ : Auteur --%>
 				<aui:input name="userName" required="true" />
+
+			</aui:fieldset>
+
+			<%-- Groupe de champs : Citoyen --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
+
+				<%-- Champ : Nom --%>
+				<aui:input name="citoyenLastname" required="true" />
+
+				<%-- Champ : Prenom --%>
+				<aui:input name="citoyenFirstname" required="true" />
+
+				<%-- Champ : Adresse --%>
+				<aui:input name="citoyenAdresse" required="false" />
+
+				<%-- Champ : Code postal --%>
+				<aui:input name="citoyenPostalCode" required="false" />
+
+				<%-- Champ : Ville --%>
+				<aui:input name="citoyenCity" required="false" />
+
+				<%-- Champ : Adresse mail --%>
+				<aui:input name="citoyenEmail" required="true" />
+
+				<%-- Champ : téléphone --%>
+				<aui:input name="citoyenPhone" required="false" />
+
+				<%-- Champ : mobile --%>
+				<aui:input name="citoyenMobile" required="true" />
 
 			</aui:fieldset>
 
@@ -84,19 +122,6 @@
 
 			</aui:fieldset>
 
-            <%-- Groupe de champs : Description --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-describe">
-
-				<%-- Champ : Corps de la description --%>
-				<aui:input name="description" required="false" />
-
-			</aui:fieldset>
-			
-			<%-- Groupe de champs : Soutien --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-support">
-
-			</aui:fieldset>
-
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
 
@@ -126,17 +151,7 @@
 						</div>
 					</c:forEach>
 
-					<aui:input type="hidden" name="placeIndexes" value="${dc.defaultPlaceIndexes}" />
                 </div>
-			</aui:fieldset>
-
-            <%-- Groupe de champs : Documents a telecharger --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-document">
-
-				<%-- Champ : Selection des documents --%>
-				<strasbourg-picker:file label="eu.documents" name="filesIds"
-					required="false" multiple="true" value="${dc.budgetParticipatif.filesIds}" />
-
 			</aui:fieldset>
 
             <%-- Groupe de champs : vocabulaire --%>
@@ -171,21 +186,20 @@
 
 			</aui:fieldset>
 
-            <%-- Groupe de champs : Autre --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-other">
+            <%-- Groupe de champs : Coup de coeur --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="crush">
 
-				<%-- Champ : nombre signataire --%>
-                <div class="form-group input-Date-wrapper">
-                    <label class="control-label"><liferay-ui:message key="nb-fake-signataires" /></label>
-				    <input class="field form-control lfr-input-text" type="text" name="<portlet:namespace />nbFakeSignataire"
-				    value="${dc.getCountFakeSignataires()}"/>
-                </div >
+				<%-- Champ : est un coup de coeur --%>
+			    <aui:input name="isCrush" label="isCrush" type="toggle-switch"
+			        value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.isCrush : false}" />
 
-				<%-- Champ : Date de publication --%>
-				<aui:input name="publicationDate" required="false" />
+				<%-- Champ : Corps de la description --%>
+				<aui:input name="crushComment" required="false" />
 
-				<%-- Champ : Date d'expiration --%>
-				<aui:input name="expirationDate" required="false" />
+			</aui:fieldset>
+
+            <%-- Groupe de champs : Phases --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="Phases">
 
 			</aui:fieldset>
 
@@ -197,7 +211,7 @@
 			<aui:input type="hidden" name="workflowAction" value="" />
 			
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
-			<c:if test="${(dc.hasPermission('ADD_PETITION') and empty dc.budgetParticipatif or dc.hasPermission('EDIT_PETITION') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${(dc.hasPermission('ADD_BUDGET') and empty dc.budgetParticipatif or dc.hasPermission('EDIT_BUDGET') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
@@ -208,7 +222,7 @@
 			</c:if>
 			
 			<%-- Test : Verification des droits de supression --%>
-			<c:if test="${not empty dc.budgetParticipatif && dc.hasPermission('DELETE_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${not empty dc.budgetParticipatif && dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
@@ -216,7 +230,6 @@
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
-
 	</aui:form>
 	
 </div>
