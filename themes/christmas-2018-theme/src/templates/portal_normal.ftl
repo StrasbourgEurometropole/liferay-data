@@ -68,6 +68,22 @@
        
     </main>
     <#if !isExperientiel>
+    <!-- Bouton de partage -->
+    <div class="mns-share-button fadein">
+        <input class="toggle-input" id="toggle-input" type="checkbox">
+        <label for="toggle-input" class="toggle"></label>
+        <ul class="network-list">
+            <li class="facebook">
+                <a href="https://www.facebook.com/Marche.Noel.Strasbourg/">Share on Facebook</a>
+                <span>230</span>
+            </li>
+            <li class="twitter">
+                <a href="https://twitter.com/strasbourg?lang=fr">Share on Twitter</a>
+                <span>320</span>
+            </li>
+        </ul>
+    </div>
+
     <!-- Footer -->
         <footer id="mns-footer">
             <@liferay_portlet["runtime"]
