@@ -226,7 +226,7 @@
         if (eventMercatorX && eventMercatorX.length != 0) {
 
             // Création de la carte au centre de strasbourg
-            leafletMap = getLeafletMap()
+            leafletMap = getLeafletMap();
 
             // Définition des marqueurs
             var eventMarker = getEventMarker(eventJSON);
