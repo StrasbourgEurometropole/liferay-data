@@ -16,6 +16,8 @@ package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -30,6 +32,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -40,6 +43,7 @@ import eu.strasbourg.service.project.model.BudgetPhase;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for BudgetPhase. Methods of this
@@ -95,6 +99,12 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public BudgetPhase addBudgetPhase(BudgetPhase budgetPhase);
+
+	/**
+	* Crée une phase vide avec une PK, non ajouté à la base de donnée
+	*/
+	public BudgetPhase createBudgetPhase(ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Creates a new budget phase with the primary key. Does not add the budget phase to the database.
@@ -162,6 +172,12 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 		long groupId) throws PortalException;
 
 	/**
+	* Supprime une phase
+	*/
+	public BudgetPhase removeBudgetPhase(long budgetPhaseId)
+		throws PortalException;
+
+	/**
 	* Updates the budget phase in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param budgetPhase the budget phase
@@ -169,6 +185,21 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public BudgetPhase updateBudgetPhase(BudgetPhase budgetPhase);
+
+	/**
+	* Met à jour une phase et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public BudgetPhase updateBudgetPhase(BudgetPhase budgetPhase,
+		ServiceContext sc) throws PortalException;
+
+	/**
+	* Met à jour le statut de la phase par le framework workflow
+	*/
+	public BudgetPhase updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of budget phases.
@@ -225,6 +256,12 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Renvoie la liste des vocabulaires rattachés à uen phase
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
+
+	/**
 	* Returns a range of all the budget phases.
 	*
 	* <p>
@@ -265,6 +302,12 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 		OrderByComparator<BudgetPhase> orderByComparator);
 
 	/**
+	* Retourne toutes les phases d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetPhase> getByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -281,4 +324,10 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut de la phase "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(BudgetPhase budgetPhase, int status)
+		throws PortalException;
 }

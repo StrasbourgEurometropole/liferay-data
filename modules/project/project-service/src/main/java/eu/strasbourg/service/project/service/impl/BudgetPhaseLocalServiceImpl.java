@@ -14,6 +14,34 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
+
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.base.BudgetPhaseLocalServiceBaseImpl;
 
 /**
@@ -36,4 +64,222 @@ public class BudgetPhaseLocalServiceImpl extends BudgetPhaseLocalServiceBaseImpl
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil} to access the budget phase local service.
 	 */
+	
+public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.class);
+	
+	/**
+	 * Crée une phase vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public BudgetPhase createBudgetPhase(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = counterLocalService.increment();
+
+		BudgetPhase budgetPhase = this.budgetPhaseLocalService.createBudgetPhase(pk);
+
+		budgetPhase.setGroupId(sc.getScopeGroupId());
+		budgetPhase.setUserName(user.getFullName());
+		budgetPhase.setUserId(sc.getUserId());
+
+		budgetPhase.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return budgetPhase;
+	}
+
+	/**
+	 * Met à jour une phase et l'enregistre en base de données
+	 * @throws IOException
+	 */
+	@Override
+	public BudgetPhase updateBudgetPhase(BudgetPhase budgetPhase, ServiceContext sc)
+			throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		
+		budgetPhase.setStatusByUserId(sc.getUserId());
+		budgetPhase.setStatusByUserName(user.getFullName());
+		budgetPhase.setStatusDate(sc.getModifiedDate());
+
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			budgetPhase.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			budgetPhase.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
+		
+		budgetPhase = this.budgetPhaseLocalService.updateBudgetPhase(budgetPhase);
+		
+		this.updateAssetEntry(budgetPhase, sc);
+		this.reindex(budgetPhase, false);
+
+		return budgetPhase;
+	}
+
+	/**
+	 * Met à jour l'AssetEntry rattachée à la phase
+	 */
+	private void updateAssetEntry(BudgetPhase budgetPhase, ServiceContext sc)
+			throws PortalException {
+		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
+				sc.getScopeGroupId(), // Group ID
+				budgetPhase.getCreateDate(), // Date of creation
+				budgetPhase.getModifiedDate(), // Date of modification
+				BudgetPhase.class.getName(), // Class name
+				budgetPhase.getPrimaryKey(), // Class PK
+				budgetPhase.getUuid(), // UUID
+				0, // Class type ID
+				sc.getAssetCategoryIds(), // Categories IDs
+				sc.getAssetTagNames(), // Tags IDs
+				true, // Listable
+				budgetPhase.isApproved(), // Visible
+				budgetPhase.getCreateDate(), // Start date
+				null, // End date
+				budgetPhase.getCreateDate(), // Publication date
+				null, // Date of expiration
+				ContentTypes.TEXT_HTML, // Content type
+				budgetPhase.getName(), // Title
+				budgetPhase.getDescription(), // Description
+				budgetPhase.getDescription(), // Summary
+				null, // URL
+				null, // Layout uuid
+				0, // Width
+				0, // Height
+				null); // Priority
+
+		// Réindexe le projet
+		this.reindex(budgetPhase, false);
+	}
+
+	/**
+	 * Met à jour le statut de la phase par le framework workflow
+	 */
+	@Override
+	public BudgetPhase updateStatus(long userId, long entryId, int status,
+								ServiceContext sc, Map<String, Serializable> workflowContext)
+			throws PortalException {
+		
+		Date now = new Date();
+		
+		// Statut de l'entité
+		BudgetPhase budgetPhase = this.getBudgetPhase(entryId);
+		budgetPhase.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			budgetPhase.setStatusByUserId(user.getUserId());
+			budgetPhase.setStatusByUserName(user.getFullName());
+		}
+		budgetPhase.setStatusDate(new Date());
+		budgetPhase = this.budgetPhaseLocalService.updateBudgetPhase(budgetPhase);
+
+		// Statut de l'entry
+		AssetEntry entry = this.assetEntryLocalService
+				.getEntry(BudgetPhase.class.getName(), budgetPhase.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
+		this.assetEntryLocalService.updateAssetEntry(entry);
+
+		this.reindex(budgetPhase, false);
+
+		return budgetPhase;
+	}
+
+	/**
+	 * Met à jour le statut de la phase "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(BudgetPhase budgetPhase, int status) throws PortalException {
+		this.updateStatus(budgetPhase.getUserId(), budgetPhase.getBudgetPhaseId(), status, null,
+				null);
+	}
+
+	/**
+	 * Supprime une phase
+	 */
+	@Override
+	public BudgetPhase removeBudgetPhase(long budgetPhaseId) throws PortalException {
+		
+		AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(BudgetPhase.class.getName(), budgetPhaseId);
+
+		if (entry != null) {
+			// Delete the link with categories
+			for (long categoryId : entry.getCategoryIds()) {
+				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+						categoryId, entry.getEntryId());
+			}
+
+			// Delete the link with tags
+			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (int i = 0; i < tagIds.length; i++) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
+						entry.getEntryId());
+			}
+
+			// Supprime lien avec les autres entries
+			List<AssetLink> links = this.assetLinkLocalService
+					.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Delete the AssetEntry
+			AssetEntryLocalServiceUtil.deleteEntry(BudgetPhase.class.getName(),
+					budgetPhaseId);
+		}
+
+		// Supprime le projet
+		BudgetPhase budgetPhase = budgetPhasePersistence.remove(budgetPhaseId);
+
+		// Delete the index
+		this.reindex(budgetPhase, true);
+
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+				budgetPhase.getCompanyId(), budgetPhase.getGroupId(), BudgetPhase.class.getName(),
+				budgetPhase.getBudgetPhaseId());
+
+		return budgetPhase;
+	}
+
+	/**
+	 * Reindex la phase dans le moteur de recherche
+	 */
+	private void reindex(BudgetPhase budgetPhase, boolean delete) throws SearchException {
+		Indexer<BudgetPhase> indexer = IndexerRegistryUtil
+				.nullSafeGetIndexer(BudgetPhase.class);
+		if (delete) {
+			indexer.delete(budgetPhase);
+		} else {
+			indexer.reindex(budgetPhase);
+		}
+	}
+
+	/**
+	 * Renvoie la liste des vocabulaires rattachés à uen phase
+	 */
+	@Override
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+				.getAssetVocabularies(-1, -1);
+		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
+		long classNameId = ClassNameLocalServiceUtil
+				.getClassNameId(BudgetPhase.class);
+		for (AssetVocabulary vocabulary : vocabularies) {
+			if (vocabulary.getGroupId() == groupId
+					&& LongStream.of(vocabulary.getSelectedClassNameIds())
+					.anyMatch(c -> c == classNameId)) {
+				attachedVocabularies.add(vocabulary);
+			}
+		}
+		return attachedVocabularies;
+	}
+
+	/**
+	 * Retourne toutes les phases d'un groupe
+	 */
+	@Override
+	public List<BudgetPhase> getByGroupId(long groupId) {
+		return this.budgetPhasePersistence.findByGroupId(groupId);
+	}
+	
 }

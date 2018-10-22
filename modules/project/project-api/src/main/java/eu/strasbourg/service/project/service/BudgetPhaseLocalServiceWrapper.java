@@ -84,6 +84,16 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	}
 
 	/**
+	* Crée une phase vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetPhase createBudgetPhase(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _budgetPhaseLocalService.createBudgetPhase(sc);
+	}
+
+	/**
 	* Creates a new budget phase with the primary key. Does not add the budget phase to the database.
 	*
 	* @param budgetPhaseId the primary key for the new budget phase
@@ -172,6 +182,16 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	}
 
 	/**
+	* Supprime une phase
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetPhase removeBudgetPhase(
+		long budgetPhaseId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _budgetPhaseLocalService.removeBudgetPhase(budgetPhaseId);
+	}
+
+	/**
 	* Updates the budget phase in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param budgetPhase the budget phase
@@ -181,6 +201,32 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	public eu.strasbourg.service.project.model.BudgetPhase updateBudgetPhase(
 		eu.strasbourg.service.project.model.BudgetPhase budgetPhase) {
 		return _budgetPhaseLocalService.updateBudgetPhase(budgetPhase);
+	}
+
+	/**
+	* Met à jour une phase et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetPhase updateBudgetPhase(
+		eu.strasbourg.service.project.model.BudgetPhase budgetPhase,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _budgetPhaseLocalService.updateBudgetPhase(budgetPhase, sc);
+	}
+
+	/**
+	* Met à jour le statut de la phase par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetPhase updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _budgetPhaseLocalService.updateStatus(userId, entryId, status,
+			sc, workflowContext);
 	}
 
 	/**
@@ -257,6 +303,15 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	}
 
 	/**
+	* Renvoie la liste des vocabulaires rattachés à uen phase
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _budgetPhaseLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
 	* Returns a range of all the budget phases.
 	*
 	* <p>
@@ -306,6 +361,15 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	}
 
 	/**
+	* Retourne toutes les phases d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetPhase> getByGroupId(
+		long groupId) {
+		return _budgetPhaseLocalService.getByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -330,6 +394,16 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _budgetPhaseLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Met à jour le statut de la phase "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.project.model.BudgetPhase budgetPhase, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_budgetPhaseLocalService.updateStatus(budgetPhase, status);
 	}
 
 	@Override
