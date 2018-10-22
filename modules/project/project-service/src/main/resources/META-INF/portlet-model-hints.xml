@@ -15,7 +15,9 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
-		<field name="description" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="budget" type="long" />
 		<field name="motif" type="String" />
 		<field name="citoyenLastname" type="String" />
@@ -35,10 +37,13 @@
 		<field name="consultationPlacesText" type="String" />
 		<field name="consultationPlacesBody" type="String" />
 		<field name="isCrush" type="boolean" />
-		<field name="crushComment" type="String" />
+		<field name="crushComment" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
+		<field name="budgetPhaseId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.BudgetPhase">
 		<field name="uuid" type="String" />
@@ -59,8 +64,9 @@
 		<field name="isActive" type="boolean" />
 		<field name="beginDate" type="Date" />
 		<field name="endDate" type="Date" />
+		<field name="beginVoteDate" type="Date" />
+		<field name="endVoteDate" type="Date" />
 		<field name="publikId" type="String" />
-		<field name="budgetParticipatifId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Initiative">
 		<field name="uuid" type="String" />

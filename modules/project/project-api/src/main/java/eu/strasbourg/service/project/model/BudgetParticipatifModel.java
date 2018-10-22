@@ -683,6 +683,20 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setFilesIds(String filesIds);
 
 	/**
+	 * Returns the budget phase ID of this budget participatif.
+	 *
+	 * @return the budget phase ID of this budget participatif
+	 */
+	public long getBudgetPhaseId();
+
+	/**
+	 * Sets the budget phase ID of this budget participatif.
+	 *
+	 * @param budgetPhaseId the budget phase ID of this budget participatif
+	 */
+	public void setBudgetPhaseId(long budgetPhaseId);
+
+	/**
 	 * Returns <code>true</code> if this budget participatif is approved.
 	 *
 	 * @return <code>true</code> if this budget participatif is approved; <code>false</code> otherwise

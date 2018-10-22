@@ -97,6 +97,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
+		attributes.put("budgetPhaseId", getBudgetPhaseId());
 
 		return attributes;
 	}
@@ -326,6 +327,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
+		}
+
+		Long budgetPhaseId = (Long)attributes.get("budgetPhaseId");
+
+		if (budgetPhaseId != null) {
+			setBudgetPhaseId(budgetPhaseId);
 		}
 	}
 
@@ -964,6 +971,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Returns the budget phase ID of this budget participatif.
+	*
+	* @return the budget phase ID of this budget participatif
+	*/
+	@Override
+	public long getBudgetPhaseId() {
+		return _budgetParticipatif.getBudgetPhaseId();
+	}
+
+	/**
 	* Returns the citoyen postal code of this budget participatif.
 	*
 	* @return the citoyen postal code of this budget participatif
@@ -1056,6 +1073,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
 		_budgetParticipatif.setBudgetParticipatifId(budgetParticipatifId);
+	}
+
+	/**
+	* Sets the budget phase ID of this budget participatif.
+	*
+	* @param budgetPhaseId the budget phase ID of this budget participatif
+	*/
+	@Override
+	public void setBudgetPhaseId(long budgetPhaseId) {
+		_budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
 	}
 
 	@Override
