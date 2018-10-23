@@ -309,22 +309,9 @@
         e.preventDefault();
         var message = $("#message").val();
         var inQualityOf = $("#inQualityOf").val();
-        var responseMessage = escapeHtml(message);
-        var responseinQualityOf = escapeHtml(inQualityOf);
-        $("#message").val(responseMessage);
-        $("#inQualityOf").val(responseinQualityOf);
+        $("#message").val(message);
+        $("#inQualityOf").val(inQualityOf);
         $("#form-comments").submit();
     });
 
-    function escapeHtml(text) {
-        var map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        };
-
-        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-    }
 </aui:script>
