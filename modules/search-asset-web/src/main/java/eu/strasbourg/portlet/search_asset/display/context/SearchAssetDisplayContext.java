@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
 import eu.strasbourg.service.search.log.model.SearchLog;
@@ -219,11 +220,14 @@ public class SearchAssetDisplayContext {
 		
 		// Lieu (pour la recherche agenda)
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+
+		// Recherche les procédures/démarches ?
+		boolean searchProcedure = this._configuration.searchDemarche();
 		
 		// Recherche
 		this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
 				keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-				prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
+				prefilterTagsNames,idSIGPlace, searchProcedure, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (this._hits != null) {
@@ -241,11 +245,22 @@ public class SearchAssetDisplayContext {
 						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (entry != null) {
 					results.add(entry);
+				} else {
+					// recherche de démarches (procédures)
+					// les demarches n'ayant pas d'asset entry, il faut le créer pour pouvoir l'envoyer à searchContainer
+					if (Validator.isNotNull(document.getField("type")) && document.getField("type").getValue().equals("procedure")) {
+						AssetEntry procedureEntry = new AssetEntryImpl();
+						procedureEntry.setTitle(document.getField("title").getValue());
+						procedureEntry.setUrl(document.getField("url").getValue());
+						procedureEntry.setDescription(document.getField("description").getValue());
+						procedureEntry.setClassName("Procedure");
+						results.add(procedureEntry);
+					}
 				}
 			}
 			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
-					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale());
+					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, true, this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
 		

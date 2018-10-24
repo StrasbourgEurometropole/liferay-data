@@ -83,4 +83,7 @@ public interface SearchAssetConfiguration {
 	
 	@Meta.AD(name = "exportType", required = false)
 	public String exportType();
+
+	@Meta.AD(name = "searchDemarche", required = false)
+	public boolean searchDemarche();
 }

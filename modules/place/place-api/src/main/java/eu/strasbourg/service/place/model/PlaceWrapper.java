@@ -91,6 +91,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("exceptionalSchedule", getExceptionalSchedule());
 		attributes.put("displayEvents", getDisplayEvents());
 		attributes.put("additionalInformation", getAdditionalInformation());
+		attributes.put("contenuTooltipCarto", getContenuTooltipCarto());
 		attributes.put("phone", getPhone());
 		attributes.put("mail", getMail());
 		attributes.put("siteURL", getSiteURL());
@@ -319,6 +320,13 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 
 		if (additionalInformation != null) {
 			setAdditionalInformation(additionalInformation);
+		}
+
+		String contenuTooltipCarto = (String)attributes.get(
+				"contenuTooltipCarto");
+
+		if (contenuTooltipCarto != null) {
+			setContenuTooltipCarto(contenuTooltipCarto);
 		}
 
 		String phone = (String)attributes.get("phone");
@@ -1376,6 +1384,74 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getCity(locale);
 	}
 
+	/**
+	* Returns the contenu tooltip carto of this place.
+	*
+	* @return the contenu tooltip carto of this place
+	*/
+	@Override
+	public java.lang.String getContenuTooltipCarto() {
+		return _place.getContenuTooltipCarto();
+	}
+
+	/**
+	* Returns the localized contenu tooltip carto of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized contenu tooltip carto of this place
+	*/
+	@Override
+	public java.lang.String getContenuTooltipCarto(java.lang.String languageId) {
+		return _place.getContenuTooltipCarto(languageId);
+	}
+
+	/**
+	* Returns the localized contenu tooltip carto of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized contenu tooltip carto of this place
+	*/
+	@Override
+	public java.lang.String getContenuTooltipCarto(
+		java.lang.String languageId, boolean useDefault) {
+		return _place.getContenuTooltipCarto(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized contenu tooltip carto of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized contenu tooltip carto of this place
+	*/
+	@Override
+	public java.lang.String getContenuTooltipCarto(java.util.Locale locale) {
+		return _place.getContenuTooltipCarto(locale);
+	}
+
+	/**
+	* Returns the localized contenu tooltip carto of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized contenu tooltip carto of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getContenuTooltipCarto(java.util.Locale locale,
+		boolean useDefault) {
+		return _place.getContenuTooltipCarto(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getContenuTooltipCartoCurrentLanguageId() {
+		return _place.getContenuTooltipCartoCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getContenuTooltipCartoCurrentValue() {
+		return _place.getContenuTooltipCartoCurrentValue();
+	}
+
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _place.getDefaultLanguageId();
@@ -2407,6 +2483,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Returns a map of the locales and localized contenu tooltip cartos of this place.
+	*
+	* @return the locales and localized contenu tooltip cartos of this place
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getContenuTooltipCartoMap() {
+		return _place.getContenuTooltipCartoMap();
+	}
+
+	/**
 	* Retourne une map de titre et d'URL des documents de ce lieu
 	*/
 	@Override
@@ -3138,6 +3224,71 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_place.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the contenu tooltip carto of this place.
+	*
+	* @param contenuTooltipCarto the contenu tooltip carto of this place
+	*/
+	@Override
+	public void setContenuTooltipCarto(java.lang.String contenuTooltipCarto) {
+		_place.setContenuTooltipCarto(contenuTooltipCarto);
+	}
+
+	/**
+	* Sets the localized contenu tooltip carto of this place in the language.
+	*
+	* @param contenuTooltipCarto the localized contenu tooltip carto of this place
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setContenuTooltipCarto(java.lang.String contenuTooltipCarto,
+		java.util.Locale locale) {
+		_place.setContenuTooltipCarto(contenuTooltipCarto, locale);
+	}
+
+	/**
+	* Sets the localized contenu tooltip carto of this place in the language, and sets the default locale.
+	*
+	* @param contenuTooltipCarto the localized contenu tooltip carto of this place
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setContenuTooltipCarto(java.lang.String contenuTooltipCarto,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_place.setContenuTooltipCarto(contenuTooltipCarto, locale, defaultLocale);
+	}
+
+	@Override
+	public void setContenuTooltipCartoCurrentLanguageId(
+		java.lang.String languageId) {
+		_place.setContenuTooltipCartoCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized contenu tooltip cartos of this place from the map of locales and localized contenu tooltip cartos.
+	*
+	* @param contenuTooltipCartoMap the locales and localized contenu tooltip cartos of this place
+	*/
+	@Override
+	public void setContenuTooltipCartoMap(
+		Map<java.util.Locale, java.lang.String> contenuTooltipCartoMap) {
+		_place.setContenuTooltipCartoMap(contenuTooltipCartoMap);
+	}
+
+	/**
+	* Sets the localized contenu tooltip cartos of this place from the map of locales and localized contenu tooltip cartos, and sets the default locale.
+	*
+	* @param contenuTooltipCartoMap the locales and localized contenu tooltip cartos of this place
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setContenuTooltipCartoMap(
+		Map<java.util.Locale, java.lang.String> contenuTooltipCartoMap,
+		java.util.Locale defaultLocale) {
+		_place.setContenuTooltipCartoMap(contenuTooltipCartoMap, defaultLocale);
 	}
 
 	/**
