@@ -95,6 +95,10 @@ h2.portlet-title-text {
   height: 195px;
 }
 
-.portlet-barebone header{
-  transform: none !important;
+.portlet-barebone {
+  min-height: 100px;
+
+  header{
+    transform: none !important;
+  }
 }
