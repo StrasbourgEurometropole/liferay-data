@@ -80,7 +80,7 @@
 				<%-- Champ : Adresse mail --%>
 				<aui:input name="citoyenEmail" required="true" />
 
-				<%-- Champ : téléphone --%>
+				<%-- Champ : tÃ©lÃ©phone --%>
 				<aui:input name="citoyenPhone" required="false" />
 
 				<%-- Champ : mobile --%>
@@ -211,7 +211,7 @@
 			<aui:input type="hidden" name="workflowAction" value="" />
 			
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
-			<c:if test="${(dc.hasPermission('ADD_BUDGET') and empty dc.budgetParticipatif or dc.hasPermission('EDIT_BUDGET') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${(dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty dc.budgetParticipatif or dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
@@ -222,7 +222,7 @@
 			</c:if>
 			
 			<%-- Test : Verification des droits de supression --%>
-			<c:if test="${not empty dc.budgetParticipatif && dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${not empty dc.budgetParticipatif && dc.hasPermission('DELETE_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			

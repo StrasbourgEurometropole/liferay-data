@@ -53,14 +53,13 @@ create table project_BudgetPhase (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	name VARCHAR(75) null,
-	description VARCHAR(75) null,
+	description TEXT null,
 	numberOfVote LONG,
 	isActive BOOLEAN,
 	beginDate DATE null,
 	endDate DATE null,
 	beginVoteDate DATE null,
-	endVoteDate DATE null,
-	publikId VARCHAR(75) null
+	endVoteDate DATE null
 );
 
 create table project_Initiative (

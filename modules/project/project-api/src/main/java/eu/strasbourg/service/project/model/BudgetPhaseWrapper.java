@@ -80,7 +80,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		attributes.put("endDate", getEndDate());
 		attributes.put("beginVoteDate", getBeginVoteDate());
 		attributes.put("endVoteDate", getEndVoteDate());
-		attributes.put("publikId", getPublikId());
 
 		return attributes;
 	}
@@ -206,12 +205,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		if (endVoteDate != null) {
 			setEndVoteDate(endVoteDate);
 		}
-
-		String publikId = (String)attributes.get("publikId");
-
-		if (publikId != null) {
-			setPublikId(publikId);
-		}
 	}
 
 	/**
@@ -329,6 +322,14 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		return _budgetPhase.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _budgetPhase.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _budgetPhase.getExpandoBridge();
@@ -398,16 +399,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public java.lang.String getName() {
 		return _budgetPhase.getName();
-	}
-
-	/**
-	* Returns the publik ID of this budget phase.
-	*
-	* @return the publik ID of this budget phase
-	*/
-	@Override
-	public java.lang.String getPublikId() {
-		return _budgetPhase.getPublikId();
 	}
 
 	/**
@@ -538,6 +529,15 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public Date getStatusDate() {
 		return _budgetPhase.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _budgetPhase.getCategories();
 	}
 
 	/**
@@ -784,16 +784,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_budgetPhase.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	/**
-	* Sets the publik ID of this budget phase.
-	*
-	* @param publikId the publik ID of this budget phase
-	*/
-	@Override
-	public void setPublikId(java.lang.String publikId) {
-		_budgetPhase.setPublikId(publikId);
 	}
 
 	/**

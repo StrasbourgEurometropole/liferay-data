@@ -18,59 +18,30 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.model.ProjectTimeline;
-import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-public class EditProjectDisplayContext {
+public class EditBudgetPhaseDisplayContext {
 	
-	private Project _project;
+	private BudgetPhase _budgetPhase;
 	private List<AssetCategory> _cities;
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
 	
-	public EditProjectDisplayContext(RenderRequest request,RenderResponse response) {
+	public EditBudgetPhaseDisplayContext(RenderRequest request,RenderResponse response) {
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
-	public Project getProject() {
-		long projectId = ParamUtil.getLong(_request, "projectId");
-		if (_project == null && projectId > 0) {
-			_project = ProjectLocalServiceUtil.fetchProject(projectId);
+	public BudgetPhase getBudgetPhase() {
+		long budgetPhaseId = ParamUtil.getLong(_request, "budgetPhaseId");
+		if (_budgetPhase == null && budgetPhaseId > 0) {
+			_budgetPhase = BudgetPhaseLocalServiceUtil.fetchBudgetPhase(budgetPhaseId);
 		}
-		return _project;
-	}
-		
-	public String getDefaultTimelineIndexes() throws PortalException {
-		if (this.getProject() != null) {
-			List<ProjectTimeline> timelines = this.getProject().getProjectTimelines();
-			String indexes = "0";
-			for (int i = 1; i <= timelines.size(); i++) {
-				indexes += "," + i;
-			}
-			return indexes;
-		}
-		return "";
-	}
-	
-	/**
-	 * Renvoie les indexes des lieux par défaut
-	 */
-	public String getDefaultPlaceIndexes() throws PortalException {
-		if (this.getProject() != null) {
-			List<PlacitPlace> places = this.getProject().getPlacitPlaces();
-			String indexes = "0";
-			for (int i = 1; i <= places.size(); i++) {
-				indexes += "," + i;
-			}
-			return indexes;
-		}
-		return "";
+		return _budgetPhase;
 	}
 	
 	/**
@@ -106,7 +77,7 @@ public class EditProjectDisplayContext {
 	public boolean isWorkflowEnabled() {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getCompanyGroupId(),
-			Project.class.getName());
+			BudgetPhase.class.getName());
 	}
 		
 	/**

@@ -59,14 +59,15 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="name" type="String" />
-		<field name="description" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="numberOfVote" type="long" />
 		<field name="isActive" type="boolean" />
 		<field name="beginDate" type="Date" />
 		<field name="endDate" type="Date" />
 		<field name="beginVoteDate" type="Date" />
 		<field name="endVoteDate" type="Date" />
-		<field name="publikId" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Initiative">
 		<field name="uuid" type="String" />

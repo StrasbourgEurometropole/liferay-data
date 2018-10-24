@@ -333,7 +333,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	public List<Project> getPublishedByGroupId(long groupId) {
 		return this.projectPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
 	}
-
+	
 	@Override
 	public List<Project> findProjectFollowedByProjectId(String publicId){
 		List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);

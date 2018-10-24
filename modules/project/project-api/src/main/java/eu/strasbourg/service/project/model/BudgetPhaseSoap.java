@@ -54,7 +54,6 @@ public class BudgetPhaseSoap implements Serializable {
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setBeginVoteDate(model.getBeginVoteDate());
 		soapModel.setEndVoteDate(model.getEndVoteDate());
-		soapModel.setPublikId(model.getPublikId());
 
 		return soapModel;
 	}
@@ -271,14 +270,6 @@ public class BudgetPhaseSoap implements Serializable {
 		_endVoteDate = endVoteDate;
 	}
 
-	public String getPublikId() {
-		return _publikId;
-	}
-
-	public void setPublikId(String publikId) {
-		_publikId = publikId;
-	}
-
 	private String _uuid;
 	private long _budgetPhaseId;
 	private long _groupId;
@@ -299,5 +290,4 @@ public class BudgetPhaseSoap implements Serializable {
 	private Date _endDate;
 	private Date _beginVoteDate;
 	private Date _endVoteDate;
-	private String _publikId;
 }

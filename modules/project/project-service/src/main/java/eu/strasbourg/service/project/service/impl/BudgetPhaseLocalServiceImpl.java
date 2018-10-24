@@ -282,4 +282,13 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 		return this.budgetPhasePersistence.findByGroupId(groupId);
 	}
 	
+	/**
+	 * Retourne les phases d'un groupe ayant un statut actif (champ isActive et non le 
+	 * statut du workFlow Liferay)
+	 */
+	@Override
+	public List<BudgetPhase> getByIsActiveAndGroupId(boolean isActive, long groupId) {
+		return this.budgetPhasePersistence.findByIsActiveAndGroupId(isActive, groupId);
+	}
+	
 }

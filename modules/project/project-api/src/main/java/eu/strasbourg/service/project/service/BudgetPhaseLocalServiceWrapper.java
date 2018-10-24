@@ -370,6 +370,17 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	}
 
 	/**
+	* Retourne les phases d'un groupe ayant un statut actif (champ isActive et non le
+	* statut du workFlow Liferay)
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetPhase> getByIsActiveAndGroupId(
+		boolean isActive, long groupId) {
+		return _budgetPhaseLocalService.getByIsActiveAndGroupId(isActive,
+			groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

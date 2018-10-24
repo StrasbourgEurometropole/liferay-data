@@ -308,6 +308,14 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 	public List<BudgetPhase> getByGroupId(long groupId);
 
 	/**
+	* Retourne les phases d'un groupe ayant un statut actif (champ isActive et non le
+	* statut du workFlow Liferay)
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetPhase> getByIsActiveAndGroupId(boolean isActive,
+		long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

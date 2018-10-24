@@ -71,14 +71,13 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="numberOfVote" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="isActive" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="beginDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="beginVoteDate" type="org.hibernate.type.TimestampType" />
 		<property name="endVoteDate" type="org.hibernate.type.TimestampType" />
-		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.InitiativeImpl" table="project_Initiative">
 		<id name="initiativeId" type="long">

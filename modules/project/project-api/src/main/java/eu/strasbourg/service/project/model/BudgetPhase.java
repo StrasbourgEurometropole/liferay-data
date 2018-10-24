@@ -53,4 +53,15 @@ public interface BudgetPhase extends BudgetPhaseModel, PersistedModel {
 				return BudgetPhase.class;
 			}
 		};
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 }

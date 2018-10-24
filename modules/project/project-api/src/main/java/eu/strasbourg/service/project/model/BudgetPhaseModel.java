@@ -414,21 +414,6 @@ public interface BudgetPhaseModel extends BaseModel<BudgetPhase>, GroupedModel,
 	public void setEndVoteDate(Date endVoteDate);
 
 	/**
-	 * Returns the publik ID of this budget phase.
-	 *
-	 * @return the publik ID of this budget phase
-	 */
-	@AutoEscape
-	public String getPublikId();
-
-	/**
-	 * Sets the publik ID of this budget phase.
-	 *
-	 * @param publikId the publik ID of this budget phase
-	 */
-	public void setPublikId(String publikId);
-
-	/**
 	 * Returns <code>true</code> if this budget phase is approved.
 	 *
 	 * @return <code>true</code> if this budget phase is approved; <code>false</code> otherwise
