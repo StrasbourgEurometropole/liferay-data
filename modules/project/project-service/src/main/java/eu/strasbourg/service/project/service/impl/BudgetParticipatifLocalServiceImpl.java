@@ -67,11 +67,14 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 	public BudgetParticipatif createBudgetParticipatif(ServiceContext sc)
 			throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		
 		long pk = counterLocalService.increment();
-		BudgetParticipatif budget = this.budgetParticipatifLocalService
-				.createBudgetParticipatif(pk);
+		
+		BudgetParticipatif budget = this.budgetParticipatifLocalService.createBudgetParticipatif(pk);
+		
 		budget.setGroupId(sc.getScopeGroupId());
 		budget.setStatus(WorkflowConstants.STATUS_DRAFT);
+		
 		return budget;
 	}
 
@@ -83,7 +86,15 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 	 * @throws PortalException exception
 	 */
 	public BudgetParticipatif updateBudgetParticipatif(BudgetParticipatif budget, ServiceContext sc) throws PortalException {
-		if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		
+		if (user != null) {
+			budget.setStatusByUserId(sc.getUserId());
+			budget.setStatusByUserName(user.getFullName());
+			budget.setStatusDate(sc.getModifiedDate());
+		}
+		
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH){
 			budget.setStatus(WorkflowConstants.STATUS_APPROVED);
 		}else {
 			budget.setStatus(WorkflowConstants.STATUS_DRAFT);
