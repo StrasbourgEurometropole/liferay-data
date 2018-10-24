@@ -19,8 +19,8 @@
 </div>
 
 <style>
-    #mns-global .mns-header-single h1,
-    #mns-global .mns-header-standard h1 {
+    .page-header-portlet .mns-header-single h1,
+    .page-header-portlet .mns-header-standard h1 {
         display: none;
     }
 </style>
