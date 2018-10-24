@@ -300,6 +300,12 @@ public interface InitiativeLocalService extends BaseLocalService,
 		OrderByComparator<Initiative> orderByComparator);
 
 	/**
+	* Retourne toutes les initiatives publiées d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getPublishedByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

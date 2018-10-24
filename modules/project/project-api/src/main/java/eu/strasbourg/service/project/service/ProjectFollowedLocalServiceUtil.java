@@ -236,6 +236,14 @@ public class ProjectFollowedLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les projets suivis par un utilisateur
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> getByPublikId(
+		java.lang.String publikId) {
+		return getService().getByPublikId(publikId);
+	}
+
+	/**
 	* Returns a range of all the project followeds.
 	*
 	* <p>

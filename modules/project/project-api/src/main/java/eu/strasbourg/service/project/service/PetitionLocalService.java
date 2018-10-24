@@ -260,6 +260,9 @@ public interface PetitionLocalService extends BaseLocalService,
 	public List<Petition> getByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getByPublikUserID(java.lang.String publikId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Petition> getPetitionByPublikUserID(java.lang.String publikId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -307,7 +310,7 @@ public interface PetitionLocalService extends BaseLocalService,
 		OrderByComparator<Petition> orderByComparator);
 
 	/**
-	* Retourne tous les petitions publiés d'un groupe
+	* Retourne tous les petitions publiées d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Petition> getPublishedByGroupId(long groupId);

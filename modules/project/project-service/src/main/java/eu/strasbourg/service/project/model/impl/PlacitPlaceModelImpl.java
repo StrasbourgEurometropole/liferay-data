@@ -97,6 +97,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 			{ "projectId", Types.BIGINT },
 			{ "participationId", Types.BIGINT },
 			{ "petitionId", Types.BIGINT },
+			{ "budgetParticipatifId", Types.BIGINT },
 			{ "initiativeId", Types.BIGINT },
 			{ "placeSIGId", Types.VARCHAR }
 		};
@@ -120,11 +121,12 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("participationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("petitionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("budgetParticipatifId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("initiativeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("placeSIGId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,petitionId LONG,initiativeId LONG,placeSIGId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,petitionId LONG,budgetParticipatifId LONG,initiativeId LONG,placeSIGId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_PlacitPlace";
 	public static final String ORDER_BY_JPQL = " ORDER BY placitPlace.placitPlaceId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_PlacitPlace.placitPlaceId ASC";
@@ -140,15 +142,16 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.PlacitPlace"),
 			true);
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long INITIATIVEID_COLUMN_BITMASK = 4L;
-	public static final long PARTICIPATIONID_COLUMN_BITMASK = 8L;
-	public static final long PETITIONID_COLUMN_BITMASK = 16L;
-	public static final long PLACESIGID_COLUMN_BITMASK = 32L;
-	public static final long PROJECTID_COLUMN_BITMASK = 64L;
-	public static final long UUID_COLUMN_BITMASK = 128L;
-	public static final long PLACITPLACEID_COLUMN_BITMASK = 256L;
+	public static final long BUDGETPARTICIPATIFID_COLUMN_BITMASK = 1L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long INITIATIVEID_COLUMN_BITMASK = 8L;
+	public static final long PARTICIPATIONID_COLUMN_BITMASK = 16L;
+	public static final long PETITIONID_COLUMN_BITMASK = 32L;
+	public static final long PLACESIGID_COLUMN_BITMASK = 64L;
+	public static final long PROJECTID_COLUMN_BITMASK = 128L;
+	public static final long UUID_COLUMN_BITMASK = 256L;
+	public static final long PLACITPLACEID_COLUMN_BITMASK = 512L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -180,6 +183,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		model.setProjectId(soapModel.getProjectId());
 		model.setParticipationId(soapModel.getParticipationId());
 		model.setPetitionId(soapModel.getPetitionId());
+		model.setBudgetParticipatifId(soapModel.getBudgetParticipatifId());
 		model.setInitiativeId(soapModel.getInitiativeId());
 		model.setPlaceSIGId(soapModel.getPlaceSIGId());
 
@@ -263,6 +267,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
 		attributes.put("petitionId", getPetitionId());
+		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 		attributes.put("initiativeId", getInitiativeId());
 		attributes.put("placeSIGId", getPlaceSIGId());
 
@@ -374,6 +379,12 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 		if (petitionId != null) {
 			setPetitionId(petitionId);
+		}
+
+		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
+
+		if (budgetParticipatifId != null) {
+			setBudgetParticipatifId(budgetParticipatifId);
 		}
 
 		Long initiativeId = (Long)attributes.get("initiativeId");
@@ -784,6 +795,29 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 	@JSON
 	@Override
+	public long getBudgetParticipatifId() {
+		return _budgetParticipatifId;
+	}
+
+	@Override
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_columnBitmask |= BUDGETPARTICIPATIFID_COLUMN_BITMASK;
+
+		if (!_setOriginalBudgetParticipatifId) {
+			_setOriginalBudgetParticipatifId = true;
+
+			_originalBudgetParticipatifId = _budgetParticipatifId;
+		}
+
+		_budgetParticipatifId = budgetParticipatifId;
+	}
+
+	public long getOriginalBudgetParticipatifId() {
+		return _originalBudgetParticipatifId;
+	}
+
+	@JSON
+	@Override
 	public long getInitiativeId() {
 		return _initiativeId;
 	}
@@ -947,6 +981,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		placitPlaceImpl.setProjectId(getProjectId());
 		placitPlaceImpl.setParticipationId(getParticipationId());
 		placitPlaceImpl.setPetitionId(getPetitionId());
+		placitPlaceImpl.setBudgetParticipatifId(getBudgetParticipatifId());
 		placitPlaceImpl.setInitiativeId(getInitiativeId());
 		placitPlaceImpl.setPlaceSIGId(getPlaceSIGId());
 
@@ -1034,6 +1069,10 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		placitPlaceModelImpl._originalPetitionId = placitPlaceModelImpl._petitionId;
 
 		placitPlaceModelImpl._setOriginalPetitionId = false;
+
+		placitPlaceModelImpl._originalBudgetParticipatifId = placitPlaceModelImpl._budgetParticipatifId;
+
+		placitPlaceModelImpl._setOriginalBudgetParticipatifId = false;
 
 		placitPlaceModelImpl._originalInitiativeId = placitPlaceModelImpl._initiativeId;
 
@@ -1132,6 +1171,8 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 		placitPlaceCacheModel.petitionId = getPetitionId();
 
+		placitPlaceCacheModel.budgetParticipatifId = getBudgetParticipatifId();
+
 		placitPlaceCacheModel.initiativeId = getInitiativeId();
 
 		placitPlaceCacheModel.placeSIGId = getPlaceSIGId();
@@ -1147,7 +1188,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(39);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1183,6 +1224,8 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		sb.append(getParticipationId());
 		sb.append(", petitionId=");
 		sb.append(getPetitionId());
+		sb.append(", budgetParticipatifId=");
+		sb.append(getBudgetParticipatifId());
 		sb.append(", initiativeId=");
 		sb.append(getInitiativeId());
 		sb.append(", placeSIGId=");
@@ -1194,7 +1237,7 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.PlacitPlace");
@@ -1269,6 +1312,10 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 		sb.append(getPetitionId());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>budgetParticipatifId</column-name><column-value><![CDATA[");
+		sb.append(getBudgetParticipatifId());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>initiativeId</column-name><column-value><![CDATA[");
 		sb.append(getInitiativeId());
 		sb.append("]]></column-value></column>");
@@ -1316,6 +1363,9 @@ public class PlacitPlaceModelImpl extends BaseModelImpl<PlacitPlace>
 	private long _petitionId;
 	private long _originalPetitionId;
 	private boolean _setOriginalPetitionId;
+	private long _budgetParticipatifId;
+	private long _originalBudgetParticipatifId;
+	private boolean _setOriginalBudgetParticipatifId;
 	private long _initiativeId;
 	private long _originalInitiativeId;
 	private boolean _setOriginalInitiativeId;

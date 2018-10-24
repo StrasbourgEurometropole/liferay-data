@@ -332,6 +332,12 @@ public interface ParticipationLocalService extends BaseLocalService,
 		OrderByComparator<Participation> orderByComparator);
 
 	/**
+	* Retourne toutes les participation publiées d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Participation> getPublishedByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

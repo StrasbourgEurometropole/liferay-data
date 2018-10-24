@@ -340,6 +340,14 @@ public class InitiativeLocalServiceUtil {
 	}
 
 	/**
+	* Retourne toutes les initiatives publiées d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getPublishedByGroupId(
+		long groupId) {
+		return getService().getPublishedByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

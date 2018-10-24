@@ -304,6 +304,14 @@ public class PlacitPlaceLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les lieux d'une participation
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByBudgetParticipatif(
+		long budgetParticipatifId) {
+		return getService().getByBudgetParticipatif(budgetParticipatifId);
+	}
+
+	/**
 	* Retourne tous les lieux Placit d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByGroupId(
