@@ -81,6 +81,10 @@ public class MapPortlet extends MVCPortlet {
             boolean widgetMod = false;
             long groupId = -1; // Group du site dans lequel on doit afficher le détail du POI
             boolean openInNewTab = false; // Ouvertures du détail des POIS dans la même fenêtre par défaut
+            String zoom = ""; // Zoom de la carte
+            String cadrageX = ""; // Cadrage de la carte
+            String cadrageY = ""; // Cadrage de la carte
+            boolean showPictos = false; // Affichage des pictos dans la zone de configuration
             String typesContenu = ""; // Les type de contenus
             String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
             boolean showConfig = true; // Affichage de la zone de configuration
@@ -107,6 +111,10 @@ public class MapPortlet extends MVCPortlet {
                 mode = configuration.mode();
                 groupId = configuration.groupId();
                 openInNewTab = configuration.openInNewTab();
+                zoom = configuration.zoom();
+                cadrageX = configuration.cadrageX();
+                cadrageY = configuration.cadrageY();
+                showPictos = configuration.showPictos();
                 // Chargement de la configuration globale pour le mode widget
                 if (configuration.widgetMod()) {
                     ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
@@ -350,6 +358,10 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("defaultConfig", configuration.defaultConfig());
             request.setAttribute("groupId", groupId);
             request.setAttribute("openInNewTab", openInNewTab);
+            request.setAttribute("zoom", zoom);
+            request.setAttribute("cadrageX", cadrageX);
+            request.setAttribute("cadrageY", cadrageY);
+            request.setAttribute("showPictos", showPictos);
             request.setAttribute("typesContenu", typesContenu);
             request.setAttribute("eventExplanationText", eventExplanationText);
             request.setAttribute("showConfig", showConfig);

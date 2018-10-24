@@ -48,6 +48,7 @@ create table place_Place (
 	exceptionalSchedule TEXT null,
 	displayEvents BOOLEAN,
 	additionalInformation TEXT null,
+	contenuTooltipCarto TEXT null,
 	phone VARCHAR(75) null,
 	mail VARCHAR(75) null,
 	siteURL STRING null,

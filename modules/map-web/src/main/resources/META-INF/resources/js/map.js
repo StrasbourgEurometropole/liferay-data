@@ -68,9 +68,9 @@
             //Création de la carte au centre de strasbourg
             var mymap = L.map('mapid', {
                 // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-                center: [48.573,7.752],
+                center: [((window.cadrageX != "")?window.cadrageX:48.573) , ((window.cadrageY != "")?window.cadrageY:7.752)],
                 maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-                zoom: 13,
+                zoom: (window.zoom != "")?window.zoom:13,
                 minZoom: 11,
                 zoomControl: false,
                 attributionControl: false
@@ -100,7 +100,7 @@
             $('.filtres--poi').append($('.list-markers .filtres__list'));
 
             // Création de la popup pour chaque POI
-            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url", "type"];
+            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url", "type", "contenu"];
             var popupMarkup =
                 '<div class="aroundme__infowindow infowindow">' +
                 '     <button class="infowindow__close"></button>' +
@@ -118,6 +118,7 @@
                 '             <div class="infowindow__right">' +
                 '                 <div class="infowindow__amount"></div>' +
                 '             </div>' +
+                '             <div class="infowindow__contenu"></div>' +
                 '         </div>' +
                 '         <div class="infowindow__bottom">' +
                 '                 <div class="infowindow__type"></div>' +
@@ -128,18 +129,22 @@
             var onEachFeature = function(feature, layer) {
                 var popupElement = $.parseHTML(popupMarkup);
                 if (feature.properties) {
+                    var hasContenu = false;
                     var hasOpened = false;
                     var hasAmount = false;
                     poi_infos_to_display.forEach(function(info_to_display) { // Pour chaque infos qu'on est censé avoir dans le poi
                         $(popupElement).find('.infowindow__' + info_to_display).html(''); // On reset le champ dans l'infowindow
                         if (info_to_display in feature.properties && feature.properties[info_to_display] !== '') { // Si cette info est bien renseignée
                             var formated_info = '';
-                            if (info_to_display == 'amount') {
-                            	var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
+                            if (info_to_display == 'contenu') {
+                                formated_info = feature.properties[info_to_display];
+                                hasContenu = true;
+                            } else if (info_to_display == 'amount') {
+                                var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
                                 frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
                                 frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
                                 if (feature.properties[info_to_display]["label"] == "available-spots"){
-                                	frequentation += feature.properties[info_to_display]["frequentation"];
+                                    frequentation += feature.properties[info_to_display]["frequentation"];
                                 }
                                 frequentation += '</div>';
                                 formated_info = frequentation;
@@ -193,10 +198,16 @@
                             $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
                         }
                     });
-                    if(!hasOpened){
+                    if(!hasOpened && !hasContenu){
                     	$(popupElement).find('.infowindow__middle').remove(); // On cache le champ dans l'infowindow
-                    }else if(!hasAmount){
-                    	$(popupElement).find('.infowindow__right').remove(); // On cache le champ dans l'infowindow
+                    }else {
+                        if(hasContenu){
+                            $(popupElement).find('.infowindow__left').remove(); // On cache le champ des horaires dans l'infowindow
+                            $(popupElement).find('.infowindow__right').remove(); // On cache le champ du temps réel dans l'infowindow
+                        }else if(!hasAmount){
+                            $(popupElement).find('.infowindow__contenu').remove(); // On cache le champ du contenu dans l'infowindow
+                            $(popupElement).find('.infowindow__right').remove(); // On cache le champ du temps réel dans l'infowindow
+                        }
                     }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
