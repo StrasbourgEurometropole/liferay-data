@@ -14,12 +14,14 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -36,8 +39,18 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -61,6 +74,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -999,5 +1013,68 @@ public class EventImpl extends EventBaseImpl {
 		
 		return jsonEvent;
 	}
+	
+	/**
+     * Retourne X suggestions max pour un événement
+     *
+     * @param locale        la locale de la région
+     * @param nbSuggestions le nombre de suggestions.
+     * @return la liste d'événements.
+     */
+    @Override
+    public List<Event> getSuggestions(Locale locale, int nbSuggestions) {
+        List<Event> suggestions = new ArrayList<>();
+        
+        long[] assetCategoryIds = {};
+        String[] assetTagNames = {};
+        Map<String, Serializable> attributes = new HashMap<>();
+        Layout layout = null;
+        long scopeGroupId = 0;
+        TimeZone timeZone = TimeZone.getDefault();
+        SearchContext searchContext = SearchContextFactory
+                .getInstance(assetCategoryIds, assetTagNames, attributes, this.getCompanyId(), "", layout, locale, scopeGroupId, timeZone, this.getUserId());
+
+        // Construction de la requète
+		BooleanQuery query = new BooleanQueryImpl();
+        Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+        
+        // ClassNames
+        String[] className = {Event.class.getName()};
+
+        // Group Id
+        long groupId = this.getGroupId();
+
+        // Group Id global
+        long globalGroupId = 0;
+
+        String[] prefilterTagsNames = {};
+
+        Hits hits = SearchHelper.getGlobalSearchHits(searchContext, className,
+                groupId, globalGroupId, false, "", false, "",
+                null, null, new ArrayList<>(), new ArrayList<>(), prefilterTagsNames, locale, -1, -1,
+                "", true);
+
+        if (hits != null) {
+            List<Event> events = new ArrayList<>();
+            for (Document document : hits.getDocs()) {
+            	Event event = EventLocalServiceUtil.fetchEvent(
+                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                if (event != null && event.getEventId() != this.getEventId()) {
+                    if (WorkflowConstants.STATUS_APPROVED == event.getStatus())
+                        events.add(event);
+                }
+            }
+            Collections.shuffle(events);
+            if (events.size() > nbSuggestions) {
+                for (int j = 0; j < nbSuggestions; j++) {
+                    suggestions.add(events.get(j));
+                }
+            } else {
+                suggestions = events;
+            }
+        }
+
+        return suggestions;
+    }
 	
 }

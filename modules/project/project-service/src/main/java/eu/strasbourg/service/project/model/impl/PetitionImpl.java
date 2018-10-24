@@ -285,7 +285,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 
 
     /**
-     * Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+     * Retourne 10 suggestions max pour une pétition
      *
      * @param locale la locale de la région
      * @return la liste de pétition.
@@ -296,7 +296,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
     /**
-     * Retourne X suggestions max pour un thème appartenant à la vidéo en cours
+     * Retourne X suggestions max pour une pétition
      *
      * @param locale        la locale de la région
      * @param nbSuggestions le nombre de suggestions.

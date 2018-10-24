@@ -1923,6 +1923,19 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne X suggestions max pour un événement
+	*
+	* @param locale        la locale de la région
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste d'événements.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
+		java.util.Locale locale, int nbSuggestions) {
+		return _event.getSuggestions(locale, nbSuggestions);
+	}
+
+	/**
 	* Retourne les territoires de l'événement
 	*/
 	@Override

@@ -276,4 +276,14 @@ public interface Event extends EventModel, PersistedModel {
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		java.lang.String publikUserID);
+
+	/**
+	* Retourne X suggestions max pour un événement
+	*
+	* @param locale        la locale de la région
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste d'événements.
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
+		java.util.Locale locale, int nbSuggestions);
 }
