@@ -1128,6 +1128,108 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 		Map<Locale, String> additionalInformationMap, Locale defaultLocale);
 
 	/**
+	 * Returns the contenu tooltip carto of this place.
+	 *
+	 * @return the contenu tooltip carto of this place
+	 */
+	public String getContenuTooltipCarto();
+
+	/**
+	 * Returns the localized contenu tooltip carto of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized contenu tooltip carto of this place
+	 */
+	@AutoEscape
+	public String getContenuTooltipCarto(Locale locale);
+
+	/**
+	 * Returns the localized contenu tooltip carto of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized contenu tooltip carto of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getContenuTooltipCarto(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized contenu tooltip carto of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized contenu tooltip carto of this place
+	 */
+	@AutoEscape
+	public String getContenuTooltipCarto(String languageId);
+
+	/**
+	 * Returns the localized contenu tooltip carto of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized contenu tooltip carto of this place
+	 */
+	@AutoEscape
+	public String getContenuTooltipCarto(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getContenuTooltipCartoCurrentLanguageId();
+
+	@AutoEscape
+	public String getContenuTooltipCartoCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized contenu tooltip cartos of this place.
+	 *
+	 * @return the locales and localized contenu tooltip cartos of this place
+	 */
+	public Map<Locale, String> getContenuTooltipCartoMap();
+
+	/**
+	 * Sets the contenu tooltip carto of this place.
+	 *
+	 * @param contenuTooltipCarto the contenu tooltip carto of this place
+	 */
+	public void setContenuTooltipCarto(String contenuTooltipCarto);
+
+	/**
+	 * Sets the localized contenu tooltip carto of this place in the language.
+	 *
+	 * @param contenuTooltipCarto the localized contenu tooltip carto of this place
+	 * @param locale the locale of the language
+	 */
+	public void setContenuTooltipCarto(String contenuTooltipCarto, Locale locale);
+
+	/**
+	 * Sets the localized contenu tooltip carto of this place in the language, and sets the default locale.
+	 *
+	 * @param contenuTooltipCarto the localized contenu tooltip carto of this place
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setContenuTooltipCarto(String contenuTooltipCarto,
+		Locale locale, Locale defaultLocale);
+
+	public void setContenuTooltipCartoCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized contenu tooltip cartos of this place from the map of locales and localized contenu tooltip cartos.
+	 *
+	 * @param contenuTooltipCartoMap the locales and localized contenu tooltip cartos of this place
+	 */
+	public void setContenuTooltipCartoMap(
+		Map<Locale, String> contenuTooltipCartoMap);
+
+	/**
+	 * Sets the localized contenu tooltip cartos of this place from the map of locales and localized contenu tooltip cartos, and sets the default locale.
+	 *
+	 * @param contenuTooltipCartoMap the locales and localized contenu tooltip cartos of this place
+	 * @param defaultLocale the default locale
+	 */
+	public void setContenuTooltipCartoMap(
+		Map<Locale, String> contenuTooltipCartoMap, Locale defaultLocale);
+
+	/**
 	 * Returns the phone of this place.
 	 *
 	 * @return the phone of this place
