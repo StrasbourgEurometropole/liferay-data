@@ -147,7 +147,7 @@
 <%-- Composant : bouton d'ajout d'entite --%>
 <!--
 <liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+	<c:if test="${dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 		<liferay-frontend:add-menu-item title="Ajouter un budget participatif" url="${addBudgetParticipatifURL}" />
 	</c:if>
 </liferay-frontend:add-menu>

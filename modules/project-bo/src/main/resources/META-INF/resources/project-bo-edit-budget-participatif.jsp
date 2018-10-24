@@ -54,43 +54,40 @@
 				<%-- Champ : Motif --%>
 				<aui:input name="motif" required="false" />
 
-				<%-- Champ : Auteur --%>
-				<aui:input name="userName" required="true" />
-
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Citoyen --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
 
 				<%-- Champ : Nom --%>
-				<aui:input name="citoyenLastname" required="true" />
-
+				<aui:input name="citoyenLastname" label="last-name" disabled="true" />
+				
 				<%-- Champ : Prenom --%>
-				<aui:input name="citoyenFirstname" required="true" />
+				<aui:input name="citoyenFirstname" label="first-name" disabled="true" />
 
 				<%-- Champ : Adresse --%>
-				<aui:input name="citoyenAdresse" required="false" />
+				<aui:input name="citoyenAdresse" label="address" disabled="true" />
 
 				<%-- Champ : Code postal --%>
-				<aui:input name="citoyenPostalCode" required="false" />
+				<aui:input name="citoyenPostalCode" label="postal-code" disabled="true"/>
 
 				<%-- Champ : Ville --%>
-				<aui:input name="citoyenCity" required="false" />
+				<aui:input name="citoyenCity" label="city" disabled="true"/>
 
 				<%-- Champ : Adresse mail --%>
-				<aui:input name="citoyenEmail" required="true" />
+				<aui:input name="citoyenEmail" label="email" disabled="true"/>
 
-				<%-- Champ : tÃ©lÃ©phone --%>
-				<aui:input name="citoyenPhone" required="false" />
+				<%-- Champ : telephone --%>
+				<aui:input name="citoyenPhone" label="phone" disabled="true"/>
 
 				<%-- Champ : mobile --%>
-				<aui:input name="citoyenMobile" required="true" />
+				<aui:input name="citoyenMobile" label="mobile" disabled="true"/>
 
 			</aui:fieldset>
 
             <%-- Groupe de champs : video/image --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-video">
-
+				
 				<%-- Champ : Choix du media --%>
 				<aui:input name="mediaChoice" label="media-preference" type="toggle-switch"
 					value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.mediaChoice : true}" />
@@ -111,7 +108,7 @@
 
                 <%-- Groupe de champs : Image externe --%>
                 <div class="externalImage" <c:if test="${(not empty dc.budgetParticipatif.imageId and dc.budgetParticipatif.imageId gt 0) or empty dc.budgetParticipatif.externalImageURL }">style="display: none;"</c:if>>
-
+				
                     <%-- Champ : URL de l'image externe --%>
                     <aui:input name="externalImageURL" helpMessage="help-image-size"/>
 
@@ -151,6 +148,7 @@
 						</div>
 					</c:forEach>
 
+					<aui:input type="hidden" name="placeIndexes" value="${dc.defaultPlaceIndexes}" />
                 </div>
 			</aui:fieldset>
 
@@ -254,7 +252,7 @@
 	<script>
 		define.amd = define._amd;
 	</script>
-	<script src="/o/projectbo/js/project-bo-edit-budgetParticipatif.js" type="text/javascript"></script>
+	<script src="/o/projectbo/js/project-bo-edit-budget-participatif.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>

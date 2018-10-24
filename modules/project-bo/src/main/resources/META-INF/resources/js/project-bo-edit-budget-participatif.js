@@ -1,41 +1,9 @@
 //On garde une référence globale
-var timelineAutoFields = undefined;
 var placeAutoFields = undefined;
 
-// Champs conditionnelles
+//Champs conditionnelles
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_";
-	
-	$('[name=imageType]').on('click change', function(e) {
-		var classOfDivToShow = e.target.value;
-		var classOfDivToHide = 'internalImageexternalImage'.replace(classOfDivToShow, '');
-		$('.internalImage, .externalImage').hide();	
-		$('.' + classOfDivToShow).show();
-		$('.' + classOfDivToHide + ' input').val('');
-		$('.' + classOfDivToHide + ' .image-thumbnail').remove();
-		setConditionalValidators();
-	});
-	
-	Liferay.on('allPortletsReady', setConditionalValidators);
-	
-	function setConditionalValidators() {
-		// Validation des champos obligatoires conditionnels
-		AUI().use('liferay-form', function() {
-			if (!!window.editProject) {
-				var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-				
-				if (jQuery('.internalImage').is(':visible')) {
-					rules[namespace + 'imageId'].required = true;
-					rules[namespace + 'externalImageURL'].required = false;
-					rules[namespace + 'externalImageCopyright'].required = false;
-				} else {
-					rules[namespace + 'imageId'].required = false;
-					rules[namespace + 'externalImageURL'].required = true;
-					rules[namespace + 'externalImageCopyright'].required = true;
-				}
-			}
-		});
-	}
 	
 	// Autofield sur les champs répétables
 	AUI().use('liferay-auto-fields', function(Y) {
@@ -46,17 +14,7 @@ jQuery(function() {
 				contentBox : '#place-fields',
 				fieldIndexes : namespace + 'placeIndexes',
 				namespace : namespace,
-				url: getProjectPlaceRowURL
-			}).render();
-		}
-		
-		if (!!document.getElementById('timeline-fields')) {
-			// Création de l'autofield sur les timelines
-			timelineAutoFields = new Liferay.AutoFields({
-				contentBox : '#timeline-fields',
-				fieldIndexes : namespace + 'projectTimelineIndexes',
-				namespace : namespace,
-				url : getProjectTimelineRowJSPURL
+				url: getBudgetParticipatifPlaceRowURL
 			}).render();
 		}
 		
@@ -116,12 +74,11 @@ jQuery(function() {
 		jQuery('#place-' + index + ' .place-autocomplete-input-wrapper input').autocomplete(
 				options);
 	});
-
+	
 });
 
 //Soumission du formulaire
 function submitForm(event) {
 	placeAutoFields.save(event.target);
-	timelineAutoFields.save(event.target);
 	return true;
 }
