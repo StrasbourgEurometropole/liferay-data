@@ -12,6 +12,7 @@
     <script src="/o/mapweb/js/leaflet.js"></script>
     <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
+    <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
     <script>
         define.amd = define._amd;

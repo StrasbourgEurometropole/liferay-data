@@ -576,9 +576,19 @@
                 // Récupération des coordonnées de la zone
                 requestsInProgress++;
                 showLoadingIcon();
+
                 // Convertion des données geoJSON en polygon
                 var coordinates = L.geoJson(window.coordinateZone, {
-                    style: "color: '#ff0000'"
+                    // Add invert: true to invert the geometries in the GeoJSON file
+                    invert: true,
+                    style: function (feature) { // Style option
+                        return {
+                            'weight': 1,
+                            'color': '#31455d',
+                            'fillColor': 'black',
+                            'fillOpacity': 0.2
+                        }
+                    }
                 }).addTo(mymap);
 
                 // centrer la carte sur le quartier
