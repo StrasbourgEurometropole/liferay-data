@@ -110,7 +110,7 @@
 							</p>
 						</c:if>
 						
-						<!-- Reponse du commentaire -->
+						<!-- RÃ©ponse du commentaire -->
 						<div class="pro-comment-response" style="padding-left: 50px">
 							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
 							
@@ -304,13 +304,15 @@
 
 		$(document).scrollTop($("#pro-link-commentaire").offset().top);
 	});
-
+	
     $("#sendNewComment").click(function(e){
         e.preventDefault();
         var message = $("#message").val();
         var inQualityOf = $("#inQualityOf").val();
-        $("#message").val(message);
-        $("#inQualityOf").val(inQualityOf);
+        var responseMessage = message;
+        var responseinQualityOf = inQualityOf;
+        $("#message").val(responseMessage);
+        $("#inQualityOf").val(responseinQualityOf);
         $("#form-comments").submit();
     });
 

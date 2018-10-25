@@ -12,6 +12,7 @@
     <script src="/o/mapweb/js/leaflet.js"></script>
     <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
+    <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
     <script>
         define.amd = define._amd;
@@ -62,7 +63,11 @@
 			                                >
 			                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
 			                                	${category.getTitle(locale)}
-		
+
+												<c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
+													<img src="${category.getDescription(locale)}" style="height: 25px; width: 17px;">
+												</c:if>
+
 												<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
 			                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
 			                                </label>

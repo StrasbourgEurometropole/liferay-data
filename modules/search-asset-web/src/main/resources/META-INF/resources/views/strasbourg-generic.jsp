@@ -56,20 +56,44 @@
 									<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
 								</c:when>
 							</c:choose>
-							<liferay-ddm:template-renderer
-							    className="${className}"
-							    contextObjects="${dc.getTemplateContextObjects(entry)}"
-							    displayStyle="${dc.templatesMap[entry.className]}"
-							    displayStyleGroupId="${themeDisplay.scopeGroupId}"
-							    entries="${dc.templateEntries }"
-							>
-								<liferay-ui:asset-display
-									assetEntry="${entry}"
-									assetRenderer="${entry.assetRenderer}"
-									assetRendererFactory="${entry.assetRendererFactory}"
-									template="abstract"
-								/>
-							</liferay-ddm:template-renderer>
+							<c:if test="${!entry.className.equals('Procedure')}">
+								<liferay-ddm:template-renderer
+									className="${className}"
+									contextObjects="${dc.getTemplateContextObjects(entry)}"
+									displayStyle="${dc.templatesMap[entry.className]}"
+									displayStyleGroupId="${themeDisplay.scopeGroupId}"
+									entries="${dc.templateEntries }"
+								>
+									<liferay-ui:asset-display
+										assetEntry="${entry}"
+										assetRenderer="${entry.assetRenderer}"
+										assetRendererFactory="${entry.assetRendererFactory}"
+										template="abstract"
+									/>
+								</liferay-ddm:template-renderer>
+							</c:if>
+							<c:if test="${entry.className.equals('Procedure')}" >
+								<%-- Les procédure n'ayant pas de template, la vignette est crée directement ici --%>
+								<div class="wi-search-result wi-search-generic wi-search-procedure">
+									<div class="seu-result-left">
+										<div class="seu-result-icon"></div>
+									</div>
+									<div class="seu-result-right">
+										<a class="seu-result-content" href="${entry.url}">
+											<h2 class="seu-result-title">${entry.title}</h2>
+											<div class="seu-result-catcher">
+												<c:set var="description" value="${entry.description.replaceAll(\"<[^>]*>\", \"\")}" />
+												<c:if test="${description.length() > 100}">
+													${description.substring(0,100)}...
+												</c:if>
+												<c:if test="${description.length() <= 100}">
+													${description}
+												</c:if>
+											</div>
+										</a>
+									</div>
+								</div>
+							</c:if>
 					</liferay-ui:search-container-row>
 				</ul>
 							

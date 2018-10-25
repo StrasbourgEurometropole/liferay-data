@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -58,14 +59,14 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand{
         PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-        String address = ParamUtil.getString(request, "address");
-        String city = ParamUtil.getString(request, "city");
+        String address = HtmlUtil.stripHtml(ParamUtil.getString(request, "address"));
+        String city = HtmlUtil.stripHtml(ParamUtil.getString(request, "city"));
         long postalcode = ParamUtil.getLong(request, "postalcode");
         if (postalcode==0)
             throw new PortletException("le code postal n'est pas compatible");
-        String phone = ParamUtil.getString(request, "phone");
-        String title = ParamUtil.getString(request, "title");
-        String description = ParamUtil.getString(request, "description");
+        String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, "phone"));
+        String title = HtmlUtil.stripHtml(ParamUtil.getString(request, "title"));
+        String description = HtmlUtil.stripHtml(ParamUtil.getString(request, "description"));
         long projectId = ParamUtil.getLong(request, "project");
         long quartierId = ParamUtil.getLong(request, "quartier");
         long themeId = ParamUtil.getLong(request, "theme");

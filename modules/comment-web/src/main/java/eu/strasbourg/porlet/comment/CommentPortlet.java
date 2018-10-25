@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -178,10 +179,10 @@ public class CommentPortlet extends MVCPortlet {
 				Long editCommentId = ParamUtil.getLong(request, "editCommentId");
 
 				// Recuperation du message du commentaire
-				String message = ParamUtil.getString(request, "message");
+				String message = HtmlUtil.stripHtml(ParamUtil.getString(request, "message"));
 
 				// Recuperation de la qualité de l'utilisateur
-				String userQuality = ParamUtil.getString(request, "inQualityOf");
+				String userQuality = HtmlUtil.stripHtml(ParamUtil.getString(request, "inQualityOf"));
 				
 				// Recuperation de l'URL de redirection
 				String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);

@@ -24,7 +24,7 @@
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
-                                <option value="0" selected></option>
+                                <option value="0" selected><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -106,10 +106,12 @@
                             <aui:input name="mobile" label="modal.user.mobile" value="" onInput="checkValues();"/>
                         </div>
                     </div>
-                    <div class="form-group form-checkbox" id="checkboxSaveInfo">
+                    <div class="form-group form-checkbox" id="checkboxSaveInfo" >
                         <div>
-                            <input type="checkbox" id="save-info" value="save-info">
-                            <label for="save-info"><liferay-ui:message key="modal.save.info"/></label>
+                            <input type="checkbox" id="save-info" value="info">
+                            <label for="save-info">
+                            	<liferay-ui:message key="modal.save.info"/>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -140,7 +142,7 @@
 
 
 <!-- CONFIRMATION NOUVEAU BUDGET -->
-<!-- HTML pour la modal de confirmation de nouvelle pétition -->
+<!-- HTML pour la modal de confirmation de nouvelle petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -56,7 +56,6 @@
                                 <#list nav_item.getChildren() as nav_child>
                                     <li>
                                         <a href="${nav_child.getURL()}">
-                                            <span class='icon-chevron-thin-right'></span> 
                                             ${nav_child.getName()}
                                         </a>
                                     </li>

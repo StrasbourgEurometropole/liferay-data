@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -94,13 +95,13 @@ public class SignPetitionActionCommand implements MVCActionCommand {
 
             user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
             birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-            address = escapeHtml4(ParamUtil.getString(request, "address"));
-            city = escapeHtml4(ParamUtil.getString(request, "city"));
+            address = HtmlUtil.stripHtml(ParamUtil.getString(request, "address"));
+            city = HtmlUtil.stripHtml(ParamUtil.getString(request, "city"));
             postalcode = ParamUtil.getLong(request, "postalcode");
-            phone = escapeHtml4(ParamUtil.getString(request, "phone"));
-            mobile = escapeHtml4(ParamUtil.getString(request, "mobile"));
-            lastname = escapeHtml4(ParamUtil.getString(request, "username"));
-            email = escapeHtml4(ParamUtil.getString(request, "mail"));
+            phone = HtmlUtil.stripHtml(ParamUtil.getString(request, "phone"));
+            mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, "mobile"));
+            lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, "username"));
+            email = HtmlUtil.stripHtml(ParamUtil.getString(request, "mail"));
 
             boolean isValid = validate(request);
             if (!isValid)

@@ -187,12 +187,17 @@
 
         &__group{
             position: absolute;
-            bottom: 10px;
+            top: 10px;
             left: 10px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             height: calc(100% - 20px);
+
+            @include RWD(mobile){
+                height: calc(100% - 160px);
+            }
+
             .aroundme__ui{
                 border-radius: 0;
 
@@ -252,7 +257,9 @@
         }
         &__list{
             .grid-item{
-                margin-bottom: 15px;
+                padding-bottom: 15px;
+                min-height: 32px;
+                margin: auto;
             }
         }
         &__item{
@@ -587,7 +594,7 @@
         margin: 0;
     }
     .leaflet-popup-tip {
-        background: #31455d;
+        background: $core-color;
     }
     .leaflet-div-icon {
         background: none;
@@ -759,7 +766,7 @@
                 }
             }
             .crowded-label{
-                color: #31455d;
+                color: $core-color;
                 font-size: 1.3rem;
                 font-family: $main-font;
             }
