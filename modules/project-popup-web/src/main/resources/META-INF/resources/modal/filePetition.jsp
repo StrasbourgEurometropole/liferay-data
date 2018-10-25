@@ -1,8 +1,9 @@
 <%@ include file="/project-popup-init.jsp" %>
 <portlet:resourceURL id="filePetition" var="filePetitionURL">
 </portlet:resourceURL>
+
 <!-- DEPOSER UNE NOUVELLE PETITION -->
-<!-- HTML pour la modal de pÃÂ©tition -->
+<!-- HTML pour la modal de petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalPetition" tabindex="-1" role="dialog" aria-labelledby="modalPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -135,7 +136,7 @@
 
 
 <!-- CONFIRMATION NOUVELLE PETITION -->
-<!-- HTML pour la modal de confirmation de nouvelle pÃÂ©tition -->
+<!-- HTML pour la modal de confirmation de nouvelle pÃÂÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerPetition" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -155,7 +156,7 @@
 
 
 <!-- ERREUR NOUVELLE PETITION -->
-<!-- HTML pour la modal d'erreur de nouvelle pÃÂ©tition -->
+<!-- HTML pour la modal d'erreur de nouvelle pÃÂÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorPetition" tabindex="-1" role="dialog" aria-labelledby="modalErrorPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -174,7 +175,7 @@
 </div>
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃÂ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de pÃÂÃÂ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
