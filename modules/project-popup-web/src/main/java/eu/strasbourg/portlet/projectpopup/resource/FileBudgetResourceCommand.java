@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -35,13 +36,11 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
 import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPublikID;
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
@@ -81,7 +80,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private String publikID;
     private PublikUser user;
     private DateFormat dateFormat;
-    private Date birthday;
     private String address;
     private String city;
     private long postalcode;
@@ -111,29 +109,29 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         boolean result = false;
         String message = "";
-        publikID = getPublikID(request);
-        if (publikID == null || publikID.isEmpty())
+        this.publikID = getPublikID(request);
+        if (this.publikID == null || this.publikID.isEmpty())
             message = "utilisateur non enregistr&eacute;/identifi&eacute;";
         else
-            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
-        dateFormat = new SimpleDateFormat(PATTERN);
-        address = escapeHtml4(ParamUtil.getString(request, ADDRESS));
-        city = escapeHtml4(ParamUtil.getString(request, CITY));
-        postalcode = ParamUtil.getLong(request, POSTALCODE);
-        phone = escapeHtml4(ParamUtil.getString(request, PHONE));
-        mobile = escapeHtml4(ParamUtil.getString(request, MOBILE));
-        lastname = escapeHtml4(ParamUtil.getString(request, LASTNAME));
-        firstname = escapeHtml4(ParamUtil.getString(request, FIRSTNAME));
-        email = escapeHtml4(ParamUtil.getString(request, EMAIL));
-        lieu = escapeHtml4(ParamUtil.getString(request,LIEU));
-        photo = escapeHtml4(ParamUtil.getString(request,PHOTO));
-        video = escapeHtml4(ParamUtil.getString(request,VIDEO));
-        placeText = escapeHtml4(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
-        title = escapeHtml4(ParamUtil.getString(request, BUDGETTITLE));
-        description = escapeHtml4(ParamUtil.getString(request, BUDGETDESCRIPTION));
-        projectId = ParamUtil.getLong(request, PROJECT);
-        quartierId = ParamUtil.getLong(request, QUARTIER);
-        themeId = ParamUtil.getLong(request, THEME);
+        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        this.dateFormat = new SimpleDateFormat(PATTERN);
+        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+        this.postalcode = ParamUtil.getLong(request, POSTALCODE);
+        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        this.lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
+        this.firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
+        this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
+        this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
+        this.photo = HtmlUtil.stripHtml(ParamUtil.getString(request,PHOTO));
+        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request,VIDEO));
+        this.placeText = HtmlUtil.stripHtml(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
+        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
+        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETDESCRIPTION));
+        this.projectId = ParamUtil.getLong(request, PROJECT);
+        this.quartierId = ParamUtil.getLong(request, QUARTIER);
+        this.themeId = ParamUtil.getLong(request, THEME);
 
         boolean isValid = validate();
         if (!isValid)
@@ -144,8 +142,17 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (saveInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-                String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
-                PublikApiClient.setAllUserDetails(publikID, user.getLastName(), address, "" + postalcode, city, dateNaiss, phone, mobile);
+                String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
+                PublikApiClient.setAllUserDetails(
+                		this.publikID, 
+                		this.user.getLastName(), 
+                		this.address, 
+                		"" + this.postalcode, 
+                		this.city, 
+                		dateNaiss, 
+                		this.phone, 
+                		this.mobile
+                );
             }
             result = sendBudget(request);
         }
@@ -174,8 +181,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         try {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<>();
-            if (quartierId==0) {
+            List<Long> identifiants = new ArrayList<Long>();
+            if (this.quartierId==0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
                 assert districts != null;
                 identifiants = districts.stream()
@@ -184,10 +191,10 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             }else {
                 identifiants.add(quartierId);
             }
-            if (projectId!=0) {
+            if (this.projectId!=0) {
                 identifiants.add(projectId);
             }
-            if (themeId!=0) {
+            if (this.themeId!=0) {
                 identifiants.add(themeId);
             }
             long[] ids = new long[identifiants.size()];
@@ -197,26 +204,26 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             sc.setAssetCategoryIds(ids);
 
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
-            budgetParticipatif.setTitle(title);
-            budgetParticipatif.setDescription(description);
-            budgetParticipatif.setUserId(user.getUserId());
-            budgetParticipatif.setConsultationPlacesText(lieu);
-            budgetParticipatif.setCitoyenFirstname(user.getFirstName());
-            budgetParticipatif.setCitoyenLastname(user.getLastName());
-            budgetParticipatif.setCitoyenAdresse(address);
-            budgetParticipatif.setCitoyenPostalCode(postalcode);
-            budgetParticipatif.setCitoyenCity(city);
-            budgetParticipatif.setCitoyenEmail(user.getEmail());
-            budgetParticipatif.setCitoyenMobile(mobile);
-            if (!photo.isEmpty()){
-                budgetParticipatif.setExternalImageURL(photo);
+            budgetParticipatif.setTitle(this.title);
+            budgetParticipatif.setDescription(this.description);
+            budgetParticipatif.setUserId(this.user.getUserId());
+            budgetParticipatif.setConsultationPlacesText(this.lieu);
+            budgetParticipatif.setCitoyenFirstname(this.user.getFirstName());
+            budgetParticipatif.setCitoyenLastname(this.user.getLastName());
+            budgetParticipatif.setCitoyenAdresse(this.address);
+            budgetParticipatif.setCitoyenPostalCode(this.postalcode);
+            budgetParticipatif.setCitoyenCity(this.city);
+            budgetParticipatif.setCitoyenEmail(this.user.getEmail());
+            budgetParticipatif.setCitoyenMobile(this.mobile);
+            if (!this.photo.isEmpty()){
+                budgetParticipatif.setExternalImageURL(this.photo);
                 budgetParticipatif.setHasCopyright(true);
             }
-            if (!video.isEmpty())
-                budgetParticipatif.setVideoUrl(video);
-            budgetParticipatif.setPlaceTextArea(placeText);
-            budgetParticipatif.setCitoyenPhone(phone);
-            budgetParticipatif.setPublikId(publikID);
+            if (!this.video.isEmpty())
+                budgetParticipatif.setVideoUrl(this.video);
+            budgetParticipatif.setPlaceTextArea(this.placeText);
+            budgetParticipatif.setCitoyenPhone(this.phone);
+            budgetParticipatif.setPublikId(this.publikID);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
             AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
             if (assetEntry == null)
@@ -233,27 +240,27 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private boolean validate() {
         boolean isValid = true;
         // title
-        if (Validator.isNull(title)) {
+        if (Validator.isNull(this.title)) {
             isValid = false;
         }
 
         // description
-        if (Validator.isNull(description)) {
+        if (Validator.isNull(this.description)) {
             isValid = false;
         }
 
         // city
-        if (Validator.isNull(city)) {
+        if (Validator.isNull(this.city)) {
             isValid = false;
         }
 
         // address
-        if (Validator.isNull(address)) {
+        if (Validator.isNull(this.address)) {
             isValid = false;
         }
 
         // postalcode
-        if (Validator.isNull(postalcode)) {
+        if (Validator.isNull(this.postalcode)) {
             isValid = false;
         }
 

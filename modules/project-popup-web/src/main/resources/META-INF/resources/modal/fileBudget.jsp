@@ -24,7 +24,7 @@
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
-                                <option value="0" selected></option>
+                                <option value="0" selected><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -140,7 +140,7 @@
 
 
 <!-- CONFIRMATION NOUVEAU BUDGET -->
-<!-- HTML pour la modal de confirmation de nouvelle pétition -->
+<!-- HTML pour la modal de confirmation de nouvelle pÃ©tition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
