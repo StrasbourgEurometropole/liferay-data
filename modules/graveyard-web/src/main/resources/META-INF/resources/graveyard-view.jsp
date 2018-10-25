@@ -131,7 +131,7 @@
 				</div>
 	
 				<!-- Localisation de la concession -->
-	            <div class="form-group list">
+	            <div class="form-group list" >
 	                <div class="form-label"><label for="concession"><liferay-ui:message key="graveyard.concession" /></label></div>
 	                <div class="form-field">
 	                    <select id="concession" class="toCustomSelect silencedSelect" name="<portlet:namespace />concession">
@@ -378,7 +378,7 @@
 			}
         });
         if($("#result").length > 0) {
-            $('html,body').animate({scrollTop: $("#result").offset().top});
+            $('html,body').animate({scrollTop: $("#result").offset().top - (($('.seu-nav-bottom #seu-main-menu').length > 0)?115:55)});
         }
 	});
 
