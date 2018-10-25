@@ -106,10 +106,12 @@
                             <aui:input name="mobile" label="modal.user.mobile" value="" onInput="checkValues();"/>
                         </div>
                     </div>
-                    <div class="form-group form-checkbox" id="checkboxSaveInfo">
+                    <div class="form-group form-checkbox" id="checkboxSaveInfo" >
                         <div>
-                            <input type="checkbox" id="save-info" value="save-info">
-                            <label for="save-info"><liferay-ui:message key="modal.save.info"/></label>
+                            <input type="checkbox" id="save-info" value="info">
+                            <label for="save-info">
+                            	<liferay-ui:message key="modal.save.info"/>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -140,7 +142,7 @@
 
 
 <!-- CONFIRMATION NOUVEAU BUDGET -->
-<!-- HTML pour la modal de confirmation de nouvelle pÃ©tition -->
+<!-- HTML pour la modal de confirmation de nouvelle petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
