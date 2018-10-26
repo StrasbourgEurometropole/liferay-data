@@ -1,4 +1,4 @@
-//On garde une référence globale
+//  On garde une référence globale
 var placeAutoFields = undefined;
 
 //Champs conditionnelles

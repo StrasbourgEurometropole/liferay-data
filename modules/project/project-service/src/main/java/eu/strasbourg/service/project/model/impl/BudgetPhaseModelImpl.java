@@ -121,7 +121,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		TABLE_COLUMNS_MAP.put("endVoteDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,description TEXT null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(400) null,description TEXT null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetPhase";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetPhase.beginDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetPhase.beginDate DESC";

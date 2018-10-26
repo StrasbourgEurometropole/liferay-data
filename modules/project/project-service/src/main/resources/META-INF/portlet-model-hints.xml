@@ -14,7 +14,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="title" type="String" />
+		<field name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
@@ -22,18 +24,28 @@
 		<field name="motif" type="String" />
 		<field name="citoyenLastname" type="String" />
 		<field name="citoyenFirstname" type="String" />
-		<field name="citoyenAdresse" type="String" />
+		<field name="citoyenAdresse" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="citoyenPostalCode" type="long" />
-		<field name="citoyenCity" type="String" />
+		<field name="citoyenCity" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="citoyenPhone" type="String" />
 		<field name="citoyenMobile" type="String" />
-		<field name="citoyenEmail" type="String" />
+		<field name="citoyenEmail" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="hasCopyright" type="boolean" />
-		<field name="videoUrl" type="String" />
+		<field name="videoUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="externalImageURL" type="String" />
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
-		<field name="placeTextArea" type="String" />
+		<field name="placeTextArea" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="consultationPlacesText" type="String" />
 		<field name="consultationPlacesBody" type="String" />
 		<field name="isCrush" type="boolean" />
@@ -58,7 +70,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="name" type="String" />
+		<field name="name" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
@@ -179,11 +193,15 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="title" type="String" />
+		<field name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="placeTextArea" type="String" />
+		<field name="placeTextArea" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="filesDownload" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
@@ -191,14 +209,22 @@
 		<field name="petitionnaireLastname" type="String" />
 		<field name="petitionnaireFirstname" type="String" />
 		<field name="petitionnaireBirthday" type="Date" />
-		<field name="petitionnaireAdresse" type="String" />
+		<field name="petitionnaireAdresse" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="petitionnairePostalCode" type="long" />
-		<field name="petitionnaireCity" type="String" />
+		<field name="petitionnaireCity" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="petitionnairePhone" type="String" />
-		<field name="petitionnaireEmail" type="String" />
+		<field name="petitionnaireEmail" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="isSupported" type="boolean" />
 		<field name="supportedBy" type="String" />
-		<field name="videoUrl" type="String" />
+		<field name="videoUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="externalImageURL" type="String">
 			<hint name="max-length">400</hint>
 		</field>
