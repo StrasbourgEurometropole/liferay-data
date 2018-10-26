@@ -46,15 +46,15 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
  * @author alexandre.quere
  */
 @Component(
-    immediate = true,
-    property = {
-            "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
-            "mvc.command.name=fileBudget"
-    },
-    service = MVCResourceCommand.class
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
+                "mvc.command.name=fileBudget"
+        },
+        service = MVCResourceCommand.class
 )
 public class FileBudgetResourceCommand implements MVCResourceCommand {
-	
+
     private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
     private static final String CITY = "city";
@@ -148,14 +148,14 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
                 		this.address, 
                 		"" + this.postalcode, 
                 		this.city, 
-                		dateNaiss,
+                		dateNaiss, 
                 		this.phone,
                 		this.mobile
                 );
             }
             result = sendBudget(request);
         }
-
+        
         // Récupération du json des entités
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
