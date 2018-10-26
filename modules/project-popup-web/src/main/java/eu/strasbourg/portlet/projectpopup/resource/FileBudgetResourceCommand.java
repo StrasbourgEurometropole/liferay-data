@@ -55,7 +55,6 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
 )
 public class FileBudgetResourceCommand implements MVCResourceCommand {
 
-
     private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
     private static final String CITY = "city";

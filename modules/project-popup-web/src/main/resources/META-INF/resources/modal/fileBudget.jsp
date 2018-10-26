@@ -15,7 +15,7 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filebudget.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" required="true" value=""/>
+                        <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="budgetdescription" type="textarea" name="description" required="true" label="modal.filebudget.information.description" value=""/>
@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" value=""/>
+                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" maxlength="256" value=""/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.filebudget.information.video" value=""/>
+                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.filebudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
                 </div>
@@ -84,14 +84,14 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input name="address" label="modal.user.address" required="true" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
                             </div>
                         </div>
                     </div>
@@ -100,10 +100,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" value="" onInput="checkValues();"/>
+                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValues();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input name="mobile" label="modal.user.mobile" value="" onInput="checkValues();"/>
+                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValues();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo" >
