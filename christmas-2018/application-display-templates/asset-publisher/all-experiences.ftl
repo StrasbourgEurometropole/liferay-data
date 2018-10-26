@@ -1,4 +1,6 @@
 <#setting locale = locale />
+
+<!-- Liste d'expérience -->
 <div class="container mns-content-list-actu">
     <div class="row" data-egalize=".mns-bloc-actu > a">
         <#list entries as curEntry>
