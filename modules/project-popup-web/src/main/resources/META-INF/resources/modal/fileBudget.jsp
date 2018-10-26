@@ -13,7 +13,7 @@
 
             <form>
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
+                    <h4><liferay-ui:message key="modal.filebudget.information"/></h4>
                     <div class="form-group">
                         <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" required="true" value=""/>
                     </div>
@@ -24,7 +24,7 @@
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
-                                <option value="0" selected><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
+                                <option value="0" selected><liferay-ui:message key="modal.filebudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="thematiques"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
+                            <label for="thematiques"><liferay-ui:message key="modal.filebudget.information.thematique"/></label>
                             <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <option value="0" selected></option>
                                 <c:forEach var="theme" items="${thematics}">
@@ -45,7 +45,7 @@
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <label for="projets"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
+                            <label for="projets"><liferay-ui:message key="modal.filebudget.information.projet"/></label>
                             <select id="<portlet:namespace />project" name="<portlet:namespace />project">
                                 <option value="0" selected ></option>
                                 <c:forEach var="project" items="${projects}">
@@ -142,7 +142,7 @@
 
 
 <!-- CONFIRMATION NOUVEAU BUDGET -->
-<!-- HTML pour la modal de confirmation de nouvelle petition -->
+<!-- HTML pour la modal de confirmation de soumission du projet -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -153,7 +153,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-budget-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
                 </div>
             </div>
         </div>
@@ -173,7 +173,7 @@
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
                 </div>
             </div>
         </div>
