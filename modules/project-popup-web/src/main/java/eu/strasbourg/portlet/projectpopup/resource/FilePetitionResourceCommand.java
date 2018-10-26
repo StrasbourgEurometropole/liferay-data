@@ -149,7 +149,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 		this.user.getLastName(), 
                 		this.address, 
                 		"" + this.postalcode,
-                		this.city, 
+                		this.city,
                 		dateNaiss, 
                 		this.phone, 
                 		this.mobile

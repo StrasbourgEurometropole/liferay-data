@@ -87,7 +87,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
                 user = PublikApiClient.getUserDetails(publikID);
 
             // Récupération des quartiers
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+            List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
 
             // Récupération des thematics
             List<AssetCategory> thematics = assetVocabularyAccessor.getThematics(groupId).getCategories();

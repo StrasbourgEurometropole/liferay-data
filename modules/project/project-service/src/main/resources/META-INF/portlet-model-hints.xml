@@ -308,12 +308,18 @@
 		<field name="signataireName" type="String" />
 		<field name="signataireFirstname" type="String" />
 		<field name="birthday" type="Date" />
-		<field name="address" type="String" />
-		<field name="mail" type="String" />
+		<field name="address" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="mail" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="postalCode" type="long" />
 		<field name="mobilePhone" type="String" />
 		<field name="phone" type="String" />
-		<field name="city" type="String" />
+		<field name="city" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="signatureDate" type="Date" />
 		<field name="publikUserId" type="String" />
 		<field name="petitionId" type="long" />
