@@ -149,13 +149,13 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
                 		"" + this.postalcode, 
                 		this.city, 
                 		dateNaiss, 
-                		this.phone, 
+                		this.phone,
                 		this.mobile
                 );
             }
             result = sendBudget(request);
         }
-
+        
         // Récupération du json des entités
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);

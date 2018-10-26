@@ -147,7 +147,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-petition-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="btn btn-default" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
             </div>
         </div>
@@ -167,7 +167,7 @@
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="btn btn-default" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
             </div>
         </div>
@@ -175,7 +175,7 @@
 </div>
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -186,7 +186,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-petition-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="btn btn-default" value=<liferay-ui:message key="button-petition-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-quit"/> />
                 </div>
             </div>
         </div>
@@ -200,8 +200,8 @@
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
 	var saved_dateNaiss = "${formattedDate}";
-	var saved_phone = "${userConnected.get('phone')}";
-	var saved_mobile = "${userConnected.get('mobile')}";
+	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : "";
+	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : "";
 	
     $(document).ready(function(){
         $('#modalConfirmerPetition').modal('hide');

@@ -153,7 +153,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-budget-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-ok"/> />
                 </div>
             </div>
         </div>
@@ -173,7 +173,7 @@
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-ok"/> />
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-budget-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-quit"/> />
                 </div>
             </div>
         </div>
@@ -206,8 +206,8 @@
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
 	var saved_dateNaiss = "${formattedDate}";
-	var saved_phone = "${userConnected.get('phone')}";
-	var saved_mobile = "${userConnected.get('mobile')}";
+	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
+	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
     $(document).ready(function(){
         $('#modalConfirmerBudget').modal('hide');

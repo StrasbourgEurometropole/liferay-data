@@ -111,7 +111,7 @@
 </div><!-- /.modal -->
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃÂÃÂ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -122,7 +122,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-petition-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-quit"/> />
                 </div>
             </div>
         </div>
@@ -190,8 +190,8 @@
     var saved_signzipCode = "${userConnected.get('zipcode')}";
     var saved_signcity = "${userConnected.get('city')}";
     var saved_signdateNaiss = "${formattedDate}";
-    var saved_signphone = "${userConnected.get('phone')}";
-    var saved_signmobile = "${userConnected.get('mobile')}";
+    var saved_signphone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : "";
+	var saved_signmobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : "";
 
     function validateSignForm()
     {
