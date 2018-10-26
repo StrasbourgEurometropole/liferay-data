@@ -303,6 +303,16 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetPhase> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _budgetPhaseLocalService.findByKeyword(keyword, groupId, start,
+			end);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à uen phase
 	*/
 	@Override
@@ -405,6 +415,14 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _budgetPhaseLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _budgetPhaseLocalService.findByKeywordCount(keyword, groupId);
 	}
 
 	/**

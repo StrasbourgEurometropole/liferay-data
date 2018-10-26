@@ -24,8 +24,8 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 
 @Component(
 	property = { 
@@ -33,7 +33,7 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 	},
 	service = ItemSelectorView.class
 )
-public class BudgetParticipatifItemSelectorView implements ItemSelectorView<BudgetParticipatifItemSelectorCriterion> {
+public class BudgetPhaseItemSelectorView implements ItemSelectorView<BudgetPhaseItemSelectorCriterion> {
 
 	private ServletContext _servletContext;
 	
@@ -51,8 +51,8 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 	}
 
 	@Override
-	public Class<BudgetParticipatifItemSelectorCriterion> getItemSelectorCriterionClass() {
-		return BudgetParticipatifItemSelectorCriterion.class;
+	public Class<BudgetPhaseItemSelectorCriterion> getItemSelectorCriterionClass() {
+		return BudgetPhaseItemSelectorCriterion.class;
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Budgets Participatifs";
+		return "Budget phases";
 	}
 
 	@Override
@@ -78,8 +78,8 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 	@Override
 	public void renderHTML(ServletRequest servletRequest,
 		ServletResponse servletResponse,
-		BudgetParticipatifItemSelectorCriterion itemSelectorCriterion,
-		PortletURL portletURL, String itemSelectedBudgetParticipatifName, boolean search)
+		BudgetPhaseItemSelectorCriterion itemSelectorCriterion,
+		PortletURL portletURL, String itemSelectedBudgetPhaseName, boolean search)
 		throws IOException, ServletException {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest
@@ -100,26 +100,26 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 		String keywords = GetterUtil
 			.getString(servletRequest.getParameter("keywords"));
 
-		List<BudgetParticipatif> budgetsParticipatifs = BudgetParticipatifLocalServiceUtil.findByKeyword(keywords,
+		List<BudgetPhase> budgetPhases = BudgetPhaseLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
 			((delta * cur) + delta));
 
-		long budgetsParticipatifsCount = BudgetParticipatifLocalServiceUtil.findByKeywordCount(
+		long budgetPhasesCount = BudgetPhaseLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());
 
-		servletRequest.setAttribute("total", budgetsParticipatifsCount);
-		servletRequest.setAttribute("budgetsParticipatifs", budgetsParticipatifs);
+		servletRequest.setAttribute("total", budgetPhasesCount);
+		servletRequest.setAttribute("budgetPhases", budgetPhases);
 		servletRequest.setAttribute("portletURL", portletURL);
-		servletRequest.setAttribute("itemSelectedProjectName", itemSelectedBudgetParticipatifName);
+		servletRequest.setAttribute("itemSelectedProjectName", itemSelectedBudgetPhaseName);
 		servletRequest.setAttribute("multiple", multiple);
 
 		ServletContext servletContext = getServletContext();
 		
 		RequestDispatcher requestDispatcher = servletContext
 			.getRequestDispatcher(
-				"/budget-participatif/item-selector/budget-participatif-item-selector.jsp");
+				"/budget-phase/item-selector/budget-phase-item-selector.jsp");
 
 		requestDispatcher.include(servletRequest, servletResponse);
 	}
-	
+
 }

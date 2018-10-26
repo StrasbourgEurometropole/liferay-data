@@ -51,7 +51,7 @@ public class BudgetParticipatifAssetRendererFactory extends BaseAssetRendererFac
     }
     
     @Reference(unbind = "-")
-    protected void setInterestLocalService(BudgetParticipatifLocalService BudgetParticipatifLocalService) {
+    protected void setBudgetParticipatifocalService(BudgetParticipatifLocalService BudgetParticipatifLocalService) {
         _budgetParticipatifLocalService = BudgetParticipatifLocalService;
     }
 }

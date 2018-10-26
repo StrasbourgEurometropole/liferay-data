@@ -1,20 +1,19 @@
 package eu.strasbourg.portlet.project.template;
 
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
-import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
-import com.liferay.portal.kernel.template.TemplateHandler;
-import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * @author alexandre.quere
- */
+import org.osgi.service.component.annotations.Component;
+
+import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
+import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableGroup;
+
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
 @Component(
     immediate = true,
     property = {
@@ -22,16 +21,16 @@ import java.util.Map;
     },
     service = TemplateHandler.class
 )
-public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
+public class BudgetPhaseDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
 
-    @Override
+	@Override
     public String getClassName() {
-        return BudgetParticipatif.class.getName();
+        return BudgetPhase.class.getName();
     }
 
     @Override
     public String getName(Locale locale) {
-        return "Template Budget participatif";
+        return "Template Budget phase";
     }
 
     @Override
@@ -46,18 +45,18 @@ public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplay
                 classPK, language, locale);
 
 
-        TemplateVariableGroup fieldsTemplateVariableGroup =
-                templateVariableGroups.get("fields");
+        TemplateVariableGroup fieldsTemplateVariableGroup = templateVariableGroups.get("fields");
         fieldsTemplateVariableGroup.empty();
 
         fieldsTemplateVariableGroup.addCollectionVariable(
-                "BudgetsParticipatifs", List.class, PortletDisplayTemplateManager.ENTRIES,
-                "BudgetParticipatif", BudgetParticipatif.class, "currentBudgetParticipatif", "getTitle(locale)");
+                "BudgetPhases", List.class, PortletDisplayTemplateManager.ENTRIES,
+                "BudgetPhase", BudgetPhase.class, "currentBudgetPhase", "getTitle(locale)"
+        );
 
-        fieldsTemplateVariableGroup.addVariable("BudgetParticipatif", BudgetParticipatif.class, "entry");
+        fieldsTemplateVariableGroup.addVariable("BudgetPhase", BudgetPhase.class, "entry");
         fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 
         return templateVariableGroups;
     }
-    
+
 }
