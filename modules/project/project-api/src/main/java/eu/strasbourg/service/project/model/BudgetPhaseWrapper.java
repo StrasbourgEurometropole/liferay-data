@@ -72,7 +72,7 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
-		attributes.put("name", getName());
+		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("numberOfVote", getNumberOfVote());
 		attributes.put("isActive", getIsActive());
@@ -158,10 +158,10 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 			setStatusDate(statusDate);
 		}
 
-		String name = (String)attributes.get("name");
+		String title = (String)attributes.get("title");
 
-		if (name != null) {
-			setName(name);
+		if (title != null) {
+			setTitle(title);
 		}
 
 		String description = (String)attributes.get("description");
@@ -392,16 +392,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
-	* Returns the name of this budget phase.
-	*
-	* @return the name of this budget phase
-	*/
-	@Override
-	public java.lang.String getName() {
-		return _budgetPhase.getName();
-	}
-
-	/**
 	* Returns the status by user name of this budget phase.
 	*
 	* @return the status by user name of this budget phase
@@ -419,6 +409,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _budgetPhase.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the title of this budget phase.
+	*
+	* @return the title of this budget phase
+	*/
+	@Override
+	public java.lang.String getTitle() {
+		return _budgetPhase.getTitle();
 	}
 
 	/**
@@ -746,16 +746,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		_budgetPhase.setModifiedDate(modifiedDate);
 	}
 
-	/**
-	* Sets the name of this budget phase.
-	*
-	* @param name the name of this budget phase
-	*/
-	@Override
-	public void setName(java.lang.String name) {
-		_budgetPhase.setName(name);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_budgetPhase.setNew(n);
@@ -834,6 +824,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_budgetPhase.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the title of this budget phase.
+	*
+	* @param title the title of this budget phase
+	*/
+	@Override
+	public void setTitle(java.lang.String title) {
+		_budgetPhase.setTitle(title);
 	}
 
 	/**

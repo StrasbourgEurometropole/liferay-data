@@ -293,19 +293,19 @@ public interface BudgetPhaseModel extends BaseModel<BudgetPhase>, GroupedModel,
 	public void setStatusDate(Date statusDate);
 
 	/**
-	 * Returns the name of this budget phase.
+	 * Returns the title of this budget phase.
 	 *
-	 * @return the name of this budget phase
+	 * @return the title of this budget phase
 	 */
 	@AutoEscape
-	public String getName();
+	public String getTitle();
 
 	/**
-	 * Sets the name of this budget phase.
+	 * Sets the title of this budget phase.
 	 *
-	 * @param name the name of this budget phase
+	 * @param title the title of this budget phase
 	 */
-	public void setName(String name);
+	public void setTitle(String title);
 
 	/**
 	 * Returns the description of this budget phase.

@@ -84,9 +84,9 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			// -------------------------- GENERALITES ------------------------
 			// ---------------------------------------------------------------
 
-			// Nom
-			String name = ParamUtil.getString(request, "name");
-			budgetPhase.setName(name);
+			// Titre
+			String title = ParamUtil.getString(request, "title");
+			budgetPhase.setTitle(title);
 
 			// Description
 			String description = ParamUtil.getString(request, "description");
@@ -143,14 +143,15 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = new Long(themeDisplay.getLayout().getGroupId());
+		long budgetPhaseId = ParamUtil.getLong(request, "budgetPhaseId");
 		
 		boolean isValid = true;
 		// Défini le format de date à utiliser pour les champs temporels 
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		// Nom de la phase
-		if (Validator.isNull(ParamUtil.getString(request, "name"))) {
-			SessionErrors.add(request, "name-error");
+		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+			SessionErrors.add(request, "title-error");
 			isValid = false;
 		}
 		
@@ -179,9 +180,19 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 		Boolean isActive = ParamUtil.getBoolean(request, "isActive");
 		if (isActive) {
 			List<BudgetPhase> activeBudgets = _budgetPhaseLocalService.getByIsActiveAndGroupId(isActive, groupId);
+			
 			if (activeBudgets.size() > 0) {
-				SessionErrors.add(request, "is-active-error");
-				isValid = false;
+				// Si c'est une nouvelle phase
+				if (budgetPhaseId == 0) {
+					SessionErrors.add(request, "is-active-error");
+					isValid = false;
+				}
+				// Sinon, s'il y'a plus de une phase active ou que la premiere trouvee ne correspond pas 
+				// a la courrante, il y'a un souci de coherance de l'action menee
+				else if (activeBudgets.size() > 1 || activeBudgets.get(0).getBudgetPhaseId() != budgetPhaseId) {
+						SessionErrors.add(request, "is-active-error");
+						isValid = false;
+				}
 			}
 		}
 		

@@ -43,8 +43,8 @@
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 			
-				<%-- Champ : Nom --%>
-				<aui:input name="name" required="true" />
+				<%-- Champ : Titre --%>
+				<aui:input name="title" required="true" />
 				
 				<%-- Champ : Description --%>
 				<aui:input name="description" required="false" />

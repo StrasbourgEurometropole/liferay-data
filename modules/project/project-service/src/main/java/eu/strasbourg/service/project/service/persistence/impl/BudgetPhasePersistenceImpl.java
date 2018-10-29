@@ -2992,7 +2992,7 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 		budgetPhaseImpl.setStatusByUserId(budgetPhase.getStatusByUserId());
 		budgetPhaseImpl.setStatusByUserName(budgetPhase.getStatusByUserName());
 		budgetPhaseImpl.setStatusDate(budgetPhase.getStatusDate());
-		budgetPhaseImpl.setName(budgetPhase.getName());
+		budgetPhaseImpl.setTitle(budgetPhase.getTitle());
 		budgetPhaseImpl.setDescription(budgetPhase.getDescription());
 		budgetPhaseImpl.setNumberOfVote(budgetPhase.getNumberOfVote());
 		budgetPhaseImpl.setIsActive(budgetPhase.isIsActive());

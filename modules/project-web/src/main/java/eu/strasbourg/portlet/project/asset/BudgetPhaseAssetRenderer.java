@@ -79,7 +79,7 @@ public class BudgetPhaseAssetRenderer extends BaseJSPAssetRenderer<BudgetPhase> 
 
     @Override
     public String getTitle(Locale locale) {
-        return _entry.getName();
+        return _entry.getTitle();
     }
 
 

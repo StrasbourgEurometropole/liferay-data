@@ -87,7 +87,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
-			{ "name", Types.VARCHAR },
+			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
 			{ "numberOfVote", Types.BIGINT },
 			{ "isActive", Types.BOOLEAN },
@@ -111,7 +111,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("numberOfVote", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
@@ -121,7 +121,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		TABLE_COLUMNS_MAP.put("endVoteDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(400) null,description TEXT null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetPhase";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetPhase.beginDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetPhase.beginDate DESC";
@@ -168,7 +168,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		model.setStatusByUserId(soapModel.getStatusByUserId());
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
-		model.setName(soapModel.getName());
+		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
 		model.setNumberOfVote(soapModel.getNumberOfVote());
 		model.setIsActive(soapModel.getIsActive());
@@ -252,7 +252,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
-		attributes.put("name", getName());
+		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("numberOfVote", getNumberOfVote());
 		attributes.put("isActive", getIsActive());
@@ -341,10 +341,10 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			setStatusDate(statusDate);
 		}
 
-		String name = (String)attributes.get("name");
+		String title = (String)attributes.get("title");
 
-		if (name != null) {
-			setName(name);
+		if (title != null) {
+			setTitle(title);
 		}
 
 		String description = (String)attributes.get("description");
@@ -609,18 +609,18 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 
 	@JSON
 	@Override
-	public String getName() {
-		if (_name == null) {
+	public String getTitle() {
+		if (_title == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _name;
+			return _title;
 		}
 	}
 
 	@Override
-	public void setName(String name) {
-		_name = name;
+	public void setTitle(String title) {
+		_title = title;
 	}
 
 	@JSON
@@ -854,7 +854,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		budgetPhaseImpl.setStatusByUserId(getStatusByUserId());
 		budgetPhaseImpl.setStatusByUserName(getStatusByUserName());
 		budgetPhaseImpl.setStatusDate(getStatusDate());
-		budgetPhaseImpl.setName(getName());
+		budgetPhaseImpl.setTitle(getTitle());
 		budgetPhaseImpl.setDescription(getDescription());
 		budgetPhaseImpl.setNumberOfVote(getNumberOfVote());
 		budgetPhaseImpl.setIsActive(getIsActive());
@@ -1010,12 +1010,12 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			budgetPhaseCacheModel.statusDate = Long.MIN_VALUE;
 		}
 
-		budgetPhaseCacheModel.name = getName();
+		budgetPhaseCacheModel.title = getTitle();
 
-		String name = budgetPhaseCacheModel.name;
+		String title = budgetPhaseCacheModel.title;
 
-		if ((name != null) && (name.length() == 0)) {
-			budgetPhaseCacheModel.name = null;
+		if ((title != null) && (title.length() == 0)) {
+			budgetPhaseCacheModel.title = null;
 		}
 
 		budgetPhaseCacheModel.description = getDescription();
@@ -1097,8 +1097,8 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		sb.append(getStatusByUserName());
 		sb.append(", statusDate=");
 		sb.append(getStatusDate());
-		sb.append(", name=");
-		sb.append(getName());
+		sb.append(", title=");
+		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
 		sb.append(", numberOfVote=");
@@ -1175,8 +1175,8 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		sb.append(getStatusDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>name</column-name><column-value><![CDATA[");
-		sb.append(getName());
+			"<column><column-name>title</column-name><column-value><![CDATA[");
+		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
@@ -1234,7 +1234,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private String _name;
+	private String _title;
 	private String _description;
 	private long _numberOfVote;
 	private boolean _isActive;

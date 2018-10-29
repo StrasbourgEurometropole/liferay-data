@@ -46,7 +46,7 @@ public class BudgetPhaseSoap implements Serializable {
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
-		soapModel.setName(model.getName());
+		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setNumberOfVote(model.getNumberOfVote());
 		soapModel.setIsActive(model.getIsActive());
@@ -202,12 +202,12 @@ public class BudgetPhaseSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
-	public String getName() {
-		return _name;
+	public String getTitle() {
+		return _title;
 	}
 
-	public void setName(String name) {
-		_name = name;
+	public void setTitle(String title) {
+		_title = title;
 	}
 
 	public String getDescription() {
@@ -282,7 +282,7 @@ public class BudgetPhaseSoap implements Serializable {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private String _name;
+	private String _title;
 	private String _description;
 	private long _numberOfVote;
 	private boolean _isActive;

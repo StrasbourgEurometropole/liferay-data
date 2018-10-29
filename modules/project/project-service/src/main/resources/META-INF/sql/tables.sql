@@ -52,7 +52,7 @@ create table project_BudgetPhase (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	name VARCHAR(400) null,
+	title VARCHAR(75) null,
 	description TEXT null,
 	numberOfVote LONG,
 	isActive BOOLEAN,
