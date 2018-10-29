@@ -78,10 +78,10 @@ s
 					<portlet:param name="mvcPath" value="/project-bo-edit-budget-phase.jsp" />
 				</liferay-portlet:renderURL>
 
-				<%-- Colonne : Nom --%>
+				<%-- Colonne : Titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editBudgetPhaseURL}" name="name" truncate="true" orderable="true"
-					value="${budgetPhase.name}" />
+					href="${editBudgetPhaseURL}" name="title" truncate="true" orderable="true"
+					value="${budgetPhase.title}" />
 				
 				<%-- Colonne : Active --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"

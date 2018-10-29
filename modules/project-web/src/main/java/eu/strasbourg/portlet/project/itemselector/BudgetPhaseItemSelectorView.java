@@ -110,7 +110,7 @@ public class BudgetPhaseItemSelectorView implements ItemSelectorView<BudgetPhase
 		servletRequest.setAttribute("total", budgetPhasesCount);
 		servletRequest.setAttribute("budgetPhases", budgetPhases);
 		servletRequest.setAttribute("portletURL", portletURL);
-		servletRequest.setAttribute("itemSelectedProjectName", itemSelectedBudgetPhaseName);
+		servletRequest.setAttribute("itemSelectedBudgetPhaseName", itemSelectedBudgetPhaseName);
 		servletRequest.setAttribute("multiple", multiple);
 
 		ServletContext servletContext = getServletContext();

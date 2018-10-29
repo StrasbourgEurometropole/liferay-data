@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -76,9 +75,9 @@ public class BudgetPhaseIndexer extends BaseIndexer<BudgetPhase> {
 			assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
-		titleFieldMap.put(Locale.FRANCE, budgetPhase.getName());
-		titleFieldMap.put(Locale.GERMANY, budgetPhase.getName());
-		titleFieldMap.put(Locale.ENGLISH, budgetPhase.getName());
+		titleFieldMap.put(Locale.FRANCE, budgetPhase.getTitle());
+		titleFieldMap.put(Locale.GERMANY, budgetPhase.getTitle());
+		titleFieldMap.put(Locale.ENGLISH, budgetPhase.getTitle());
 		document.addLocalizedText(Field.TITLE, titleFieldMap);
 		
 		Map<Locale, String> descriptionFieldMap = new HashMap<Locale, String>();

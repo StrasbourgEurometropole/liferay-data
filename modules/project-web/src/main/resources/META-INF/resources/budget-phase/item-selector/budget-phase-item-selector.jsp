@@ -32,7 +32,7 @@
 
 		<liferay-ui:search-container-row
 			className="eu.strasbourg.service.project.model.BudgetPhase"
-			modelVar="budgetPhase" cssClass="budget-phases-row" keyProperty="budgetPhaseId" rowIdProperty="budgetPhaseId"
+			modelVar="budgetPhase" cssClass="budget-phase-row" keyProperty="budgetPhaseId" rowIdProperty="budgetPhaseId"
 		>
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="title" truncate="true"
@@ -56,7 +56,7 @@
 	</liferay-ui:search-container>
 </div>
 <aui:script>
-	$('.budget-phase-row input[type=checkbox]').on('change', function() {
+	$(".budget-phase-row input[type=checkbox]").on('change', function() {
 		var multiple = ${multiple};
 		if (!multiple) {
 			if (this.checked) {

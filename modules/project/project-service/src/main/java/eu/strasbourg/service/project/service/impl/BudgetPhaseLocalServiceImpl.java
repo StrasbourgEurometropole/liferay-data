@@ -139,7 +139,7 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 				budgetPhase.getCreateDate(), // Publication date
 				null, // Date of expiration
 				ContentTypes.TEXT_HTML, // Content type
-				budgetPhase.getName(), // Title
+				budgetPhase.getTitle(), // Title
 				budgetPhase.getDescription(), // Description
 				budgetPhase.getDescription(), // Summary
 				null, // URL

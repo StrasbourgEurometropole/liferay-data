@@ -92,8 +92,8 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
-		sb.append(", name=");
-		sb.append(name);
+		sb.append(", title=");
+		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", numberOfVote=");
@@ -167,11 +167,11 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 			budgetPhaseImpl.setStatusDate(new Date(statusDate));
 		}
 
-		if (name == null) {
-			budgetPhaseImpl.setName(StringPool.BLANK);
+		if (title == null) {
+			budgetPhaseImpl.setTitle(StringPool.BLANK);
 		}
 		else {
-			budgetPhaseImpl.setName(name);
+			budgetPhaseImpl.setTitle(title);
 		}
 
 		if (description == null) {
@@ -237,7 +237,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
-		name = objectInput.readUTF();
+		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 
 		numberOfVote = objectInput.readLong();
@@ -290,11 +290,11 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 
 		objectOutput.writeLong(statusDate);
 
-		if (name == null) {
+		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(name);
+			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
@@ -325,7 +325,7 @@ public class BudgetPhaseCacheModel implements CacheModel<BudgetPhase>,
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
-	public String name;
+	public String title;
 	public String description;
 	public long numberOfVote;
 	public boolean isActive;

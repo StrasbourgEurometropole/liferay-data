@@ -152,7 +152,29 @@
                 </div>
 			</aui:fieldset>
 
-            <%-- Groupe de champs : vocabulaire --%>
+            <%-- Groupe de champs : Coup de coeur --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="crush">
+
+				<%-- Champ : est un coup de coeur --%>
+			    <aui:input name="isCrush" label="is-crush" type="toggle-switch"
+			        value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.isCrush : false}" />
+
+				<%-- Champ : Corps de la description --%>
+				<aui:input name="crushComment" required="false" />
+
+			</aui:fieldset>
+
+            <%-- Groupe de champs : Phases --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="phase-selection">
+			
+				<strasbourg-picker:entity label="eu.budgetPhase" name="budgetPhaseId"
+					value="${dc.budgetParticipatif.budgetPhaseId}"
+					type="eu.strasbourg.service.project.model.BudgetPhase"
+					multiple="false" />	
+				
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : vocabulaire --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-vocabulary">
 
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
@@ -181,23 +203,6 @@
 
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
 				<aui:input name="tags" type="assetTags" />
-
-			</aui:fieldset>
-
-            <%-- Groupe de champs : Coup de coeur --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="crush">
-
-				<%-- Champ : est un coup de coeur --%>
-			    <aui:input name="isCrush" label="isCrush" type="toggle-switch"
-			        value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.isCrush : false}" />
-
-				<%-- Champ : Corps de la description --%>
-				<aui:input name="crushComment" required="false" />
-
-			</aui:fieldset>
-
-            <%-- Groupe de champs : Phases --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="Phases">
 
 			</aui:fieldset>
 
