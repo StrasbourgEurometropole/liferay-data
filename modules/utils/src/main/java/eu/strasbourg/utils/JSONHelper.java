@@ -104,7 +104,7 @@ public class JSONHelper {
                 throw new IOException();
             }
         } catch (Exception e) {
-            // TODO: handle exception
+        	LogFactoryUtil.getLog(JSONHelper.class).error(e.getMessage());
         } finally {
             httpURLConnection.disconnect();
         }
@@ -151,7 +151,7 @@ public class JSONHelper {
                 throw new IOException();
             }
         } catch (Exception e) {
-            // TODO: handle exception
+        	LogFactoryUtil.getLog(JSONHelper.class).error(e.getMessage());
         } finally {
             httpURLConnection.disconnect();
         }

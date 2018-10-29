@@ -131,31 +131,6 @@
     </fieldset>
 </div>
 
-<!-- Recherche par types -->
-<div class="pro-group">
-    <div class="pro-header">
-        <h4><liferay-ui:message key="eu.budgetParticipatif.types" /></h4>
-        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
-    </div>
-    <fieldset id="types_fieldset" class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par type de budgetParticipatif</legend>
-		
-		<c:set var="budgetParticipatifTypesVocabulary" value="${vocabularyAccessor.getBudgetParticipatifTypes(groupID)}" />
-		<c:forEach
-			items="${dc.getDropdownRootCategories(budgetParticipatifTypesVocabulary)}"
-			var="category"
-			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_3"
-				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_3_${catStatus.index}"
-				label="${category.getTitle(locale)}"
-				cssClass="move-to-grand-parent" />
-		</c:forEach>
-		
-    </fieldset>
-</div>
-
 <script>
 	$(document).ready(function() {
 		$('.move-to-grand-parent').each(function() {
