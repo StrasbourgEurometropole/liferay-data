@@ -13,9 +13,9 @@
 
             <form>
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
+                    <h4><liferay-ui:message key="modal.filebudget.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" required="true" value=""/>
+                        <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="budgetdescription" type="textarea" name="description" required="true" label="modal.filebudget.information.description" value=""/>
@@ -24,19 +24,19 @@
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
-                                <option value="0" selected><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
+                                <option value="0" selected><liferay-ui:message key="modal.filebudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" value=""/>
+                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" maxlength="256" value=""/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="thematiques"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
+                            <label for="thematiques"><liferay-ui:message key="modal.filebudget.information.thematique"/></label>
                             <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <option value="0" selected></option>
                                 <c:forEach var="theme" items="${thematics}">
@@ -45,7 +45,7 @@
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <label for="projets"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
+                            <label for="projets"><liferay-ui:message key="modal.filebudget.information.projet"/></label>
                             <select id="<portlet:namespace />project" name="<portlet:namespace />project">
                                 <option value="0" selected ></option>
                                 <c:forEach var="project" items="${projects}">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.filebudget.information.video" value=""/>
+                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.filebudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
                 </div>
@@ -84,14 +84,14 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input name="address" label="modal.user.address" required="true" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
                             </div>
                         </div>
                     </div>
@@ -100,10 +100,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" value="" onInput="checkValues();"/>
+                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValues();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input name="mobile" label="modal.user.mobile" value="" onInput="checkValues();"/>
+                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValues();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo" >
@@ -142,7 +142,7 @@
 
 
 <!-- CONFIRMATION NOUVEAU BUDGET -->
-<!-- HTML pour la modal de confirmation de nouvelle petition -->
+<!-- HTML pour la modal de confirmation de soumission du projet -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -173,7 +173,7 @@
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-ok"/> />
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-budget-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-budget-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-quit"/> />
                 </div>
             </div>
         </div>
@@ -206,8 +206,8 @@
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
 	var saved_dateNaiss = "${formattedDate}";
-	var saved_phone = "${userConnected.get('phone')}";
-	var saved_mobile = "${userConnected.get('mobile')}";
+	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
+	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
     $(document).ready(function(){
         $('#modalConfirmerBudget').modal('hide');

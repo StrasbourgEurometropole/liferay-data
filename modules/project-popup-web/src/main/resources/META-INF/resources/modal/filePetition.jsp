@@ -16,7 +16,7 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="petitiontitle" name="title" label="modal.filepetition.information.title" required="true" value=""/>
+                        <aui:input id="petitiontitle" name="title" label="modal.filepetition.information.title" required="true" maxlength="256" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="petitiondescription" type="textarea" name="description" label="modal.filepetition.information.description" required="true" value=""/>
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <aui:input id="petitionlieux" name="consultationPlacesText" label="modal.filepetition.information.lieu" value=""/>
+                        <aui:input id="petitionlieux" name="consultationPlacesText" label="modal.filepetition.information.lieu" maxlength="256" value=""/>
                     </div>
                     <div class="pro-txt-form">
                         <p><liferay-ui:message key="modal.filepetition.information.mayor"/></p>
@@ -71,19 +71,19 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input id="address" name="address" label="modal.user.address" required="true" onInput="checkValues();"/>
+                            <aui:input id="address" name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" onInput="checkValues();"/>
+                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" maxlength="256" onInput="checkValues();"/>
                             </div>
                             <div class="form-code">
-                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValues();"/>
+                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" maxlength="5" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValues();"/>
                             </div>
                         </div>
                     </div>
@@ -92,10 +92,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input type="number" id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" onInput="checkValues();"/>
+                            <aui:input id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" maxlength="20" onInput="checkValues();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input type="number" id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" onInput="checkValues();"/>
+                            <aui:input id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkValues();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo">
@@ -136,7 +136,7 @@
 
 
 <!-- CONFIRMATION NOUVELLE PETITION -->
-<!-- HTML pour la modal de confirmation de nouvelle pÃÂÃÂ©tition -->
+<!-- HTML pour la modal de confirmation de nouvelle petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerPetition" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -147,7 +147,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-petition-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@
 
 
 <!-- ERREUR NOUVELLE PETITION -->
-<!-- HTML pour la modal d'erreur de nouvelle pÃÂÃÂ©tition -->
+<!-- HTML pour la modal d'erreur de nouvelle petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorPetition" tabindex="-1" role="dialog" aria-labelledby="modalErrorPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -167,7 +167,7 @@
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
             </div>
         </div>
@@ -175,7 +175,7 @@
 </div>
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃÂÃÂ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -186,7 +186,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-petition-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-quit"/> />
                 </div>
             </div>
         </div>
@@ -200,14 +200,14 @@
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
 	var saved_dateNaiss = "${formattedDate}";
-	var saved_phone = "${userConnected.get('phone')}";
-	var saved_mobile = "${userConnected.get('mobile')}";
-
+	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : "";
+	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : "";
+	
     $(document).ready(function(){
         $('#modalConfirmerPetition').modal('hide');
         $('#modalErrorPetition').modal('hide');
         $('#checkboxSaveInfo').hide();
-
+		
         $('#buttonDeposer').click(function(event){
             resetValues();
         });
