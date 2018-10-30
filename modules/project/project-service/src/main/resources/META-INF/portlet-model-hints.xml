@@ -40,14 +40,9 @@
 		<field name="videoUrl" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="externalImageURL" type="String" />
-		<field name="externalImageCopyright" type="String" />
-		<field name="mediaChoice" type="boolean" />
 		<field name="placeTextArea" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="consultationPlacesText" type="String" />
-		<field name="consultationPlacesBody" type="String" />
 		<field name="isCrush" type="boolean" />
 		<field name="crushComment" type="String">
 			<hint-collection name="EDITOR" />

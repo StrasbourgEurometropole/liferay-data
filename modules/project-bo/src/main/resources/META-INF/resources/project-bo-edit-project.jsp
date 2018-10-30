@@ -119,7 +119,7 @@
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
 
-				<%-- Checkbox : envoi à tout les suiveurs--%>
+				<%-- Checkbox : envoi Ã  tout les suiveurs--%>
 				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
 
 			</aui:fieldset>
@@ -162,7 +162,7 @@
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
 				
-				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+				<%-- Hack pour ajouter une validation sur les vocabulaires obligatoires --%>
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">

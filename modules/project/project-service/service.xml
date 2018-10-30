@@ -540,17 +540,12 @@
 		<column name="citoyenMobile" type="String" />
 		<column name="citoyenEmail" type="String" />
 		<column name="hasCopyright" type="boolean" />
-
+		
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
-		<column name="externalImageURL" type="String" />
-		<column name="externalImageCopyright" type="String" />
-		<column name="mediaChoice" type="boolean" />
 
 		<!-- Lieux de consultation -->
 		<column name="placeTextArea" type="String" />
-		<column name="consultationPlacesText" type="String" />
-		<column name="consultationPlacesBody" type="String" />
 
 		<!-- coup de coeur -->
 		<column name="isCrush" type="boolean" />
@@ -566,9 +561,8 @@
 		<order by="asc">
 			<order-column name="title" />
 		</order>
-
+		
 		<!-- Finder methods -->
-
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>

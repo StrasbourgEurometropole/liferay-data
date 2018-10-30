@@ -31,7 +31,8 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 
 /**
@@ -72,6 +73,11 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 		
 		BudgetParticipatif budget = this.budgetParticipatifLocalService.createBudgetParticipatif(pk);
 		
+		if (user != null) {
+			budget.setUserName(user.getFullName());
+			budget.setUserId(sc.getUserId());
+		}
+		
 		budget.setGroupId(sc.getScopeGroupId());
 		budget.setStatus(WorkflowConstants.STATUS_DRAFT);
 		
@@ -87,11 +93,20 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 	 */
 	public BudgetParticipatif updateBudgetParticipatif(BudgetParticipatif budget, ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		long groupId = sc.getThemeDisplay().getLayout().getGroupId();
 		
 		if (user != null) {
 			budget.setStatusByUserId(sc.getUserId());
 			budget.setStatusByUserName(user.getFullName());
 			budget.setStatusDate(sc.getModifiedDate());
+		}
+		
+		// Si la phase n'est pas definie, definir celle qui est active (si elle existe)
+		if (budget.getBudgetPhaseId() < 1) {
+			List<BudgetPhase> budgetPhaseActive = BudgetPhaseLocalServiceUtil.getByIsActiveAndGroupId(true, groupId);
+			if (budgetPhaseActive.size() > 0) {
+				budget.setBudgetPhaseId(budgetPhaseActive.get(0).getBudgetPhaseId());
+			}
 		}
 		
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH){

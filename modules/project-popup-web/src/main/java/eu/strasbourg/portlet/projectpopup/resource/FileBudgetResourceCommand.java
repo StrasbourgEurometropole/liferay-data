@@ -214,7 +214,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenEmail(this.user.getEmail());
             budgetParticipatif.setCitoyenMobile(this.mobile);
             if (!this.photo.isEmpty()){
-                budgetParticipatif.setExternalImageURL(this.photo);
                 budgetParticipatif.setHasCopyright(true);
             }
             if (!this.video.isEmpty())
