@@ -117,6 +117,10 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 
 	public java.lang.String getAuthor();
 
+	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
+
+	public java.lang.String getPhaseTitleLabel();
+
 	/**
 	* Retourne les commentaires de l'entité
 	*/

@@ -23,13 +23,14 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -123,6 +124,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      *
      * @return
      */
+    @Override
     public List<AssetCategory> getCategories() {
         return AssetVocabularyHelper
                 .getAssetEntryCategories(this.getAssetEntry());
@@ -131,18 +133,16 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     /**
      * Retourne l'URL de l'image à partir de l'id du DLFileEntry
      */
+    @Override
     public String getImageURL() {
-        if (Validator.isNotNull(this.getExternalImageURL())) {
-            return this.getExternalImageURL();
-        } else {
-            return FileEntryHelper.getFileEntryURL(this.getImageId());
-        }
+        return FileEntryHelper.getFileEntryURL(this.getImageId());
     }
 
     /**
      * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
      * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
      */
+    @Override
     public String getDistrictLabel(Locale locale) {
         List<AssetCategory> districts = getDistrictCategories();
         return AssetVocabularyHelper.getDistrictTitle(locale, districts);
@@ -167,11 +167,13 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return districts;
     }
 
+    @Override
     public AssetCategory getTypeCategory() {
         return AssetVocabularyHelper
                 .getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS).get(0);
     }
-
+    
+    @Override
     public String getTypeCategoryColor() {
         long categoryId = this.getTypeCategory().getCategoryId();
         return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
@@ -180,6 +182,28 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     @Override
     public String getAuthor(){
         return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
+    }
+    
+    @Override
+    public BudgetPhase getPhase() {
+    	if (this.getBudgetPhaseId() > 0) {
+			try {
+				return BudgetPhaseLocalServiceUtil.getBudgetPhase(this.getBudgetPhaseId());
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+    	}
+    	return null;
+    }
+    
+    @Override
+    public String getPhaseTitleLabel() {
+        BudgetPhase budgetPhase = this.getPhase();
+        if (budgetPhase != null) {
+        	return budgetPhase.getTitle();
+        } else {
+        	return "Aucune phase";
+        }
     }
     
     /**
@@ -213,7 +237,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 
         jsonBudget.put("id", this.getBudgetParticipatifId());
         jsonBudget.put("createDate", dateFormat.format(this.getCreateDate()));
-        jsonBudget.put("imageURL", this.getExternalImageURL());
+        jsonBudget.put("imageURL", this.getImageURL());
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonBudget.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonBudget.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");

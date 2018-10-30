@@ -82,10 +82,15 @@
 				<liferay-ui:search-container-column-text
 					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
-
+				
 				<%-- Colonne : Createur --%>
                 <liferay-ui:search-container-column-text name="author">
                     ${budgetParticipatif.author}
+                </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Phase --%>
+                <liferay-ui:search-container-column-text name="phase">
+                    ${budgetParticipatif.phaseTitleLabel}
                 </liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Date de modification --%>

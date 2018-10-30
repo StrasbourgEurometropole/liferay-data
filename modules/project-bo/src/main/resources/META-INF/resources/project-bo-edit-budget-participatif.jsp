@@ -14,8 +14,8 @@
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
-<liferay-portlet:actionURL name="actionBudgetParticipatif" varImpl="updateBudgetParticipatifURL">
-	<portlet:param name="cmd" value="updateBudgetParticipatif" />
+<liferay-portlet:actionURL name="saveBudgetParticipatif" varImpl="saveBudgetParticipatifURL">
+	<portlet:param name="cmd" value="saveBudgetParticipatif" />
 	<portlet:param name="tab" value="budgets-participatifs" />
 </liferay-portlet:actionURL>
 
@@ -30,7 +30,7 @@
 	<liferay-ui:error key="place-error" message="place-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
-	<aui:form action="${updateBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
+	<aui:form action="${saveBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.budgetParticipatif}" model="<%=BudgetParticipatif.class %>" />
@@ -87,42 +87,21 @@
 
             <%-- Groupe de champs : video/image --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-video">
-				
-				<%-- Champ : Choix du media --%>
-				<aui:input name="mediaChoice" label="media-preference" type="toggle-switch"
-					value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.mediaChoice : true}" />
 
 				<%-- Champ : URL de la video --%>
 				<aui:input name="videoUrl" required="false" />
-
-			    <%-- Selecteur : Image interne ou externe ? --%>
-                <label><input type="radio" value="internalImage" name="imageType"
-                    <c:if test="${(not empty dc.budgetParticipatif.imageId and dc.budgetParticipatif.imageId gt 0) or empty dc.budgetParticipatif.externalImageURL }">checked</c:if>> Image interne</label><br>
-                <label><input type="radio" value="externalImage" name="imageType"
-                    <c:if test="${(empty dc.budgetParticipatif.imageId or dc.budgetParticipatif.imageId eq 0) and not empty dc.budgetParticipatif.externalImageURL }">checked</c:if>> Image externe</label><br><br>
-
+				
                 <%-- Champ : Image interne --%>
-                <div class="internalImage" <c:if test="${(empty dc.budgetParticipatif.imageId or dc.budgetParticipatif.imageId eq 0) and not empty dc.budgetParticipatif.externalImageURL }">style="display: none;"</c:if>>
+                <div class="internalImage" >
                     <strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.budgetParticipatif.imageId}" global="false"/>
                 </div>
-
-                <%-- Groupe de champs : Image externe --%>
-                <div class="externalImage" <c:if test="${(not empty dc.budgetParticipatif.imageId and dc.budgetParticipatif.imageId gt 0) or empty dc.budgetParticipatif.externalImageURL }">style="display: none;"</c:if>>
 				
-                    <%-- Champ : URL de l'image externe --%>
-                    <aui:input name="externalImageURL" helpMessage="help-image-size"/>
-
-                    <%-- Champ : Copyright de l'image externe --%>
-                    <aui:input name="externalImageCopyright"/>
-
-                </div>
-
 			</aui:fieldset>
 
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
 
-				<aui:input name="consultationPlacesText" required="false" />
+				<aui:input name="placeTextArea" required="false" />
 
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">
@@ -166,6 +145,8 @@
 
             <%-- Groupe de champs : Phases --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="phase-selection">
+				
+				<p><liferay-ui:message key='phase-explanation' /></p>
 			
 				<strasbourg-picker:entity label="eu.budgetPhase" name="budgetPhaseId"
 					value="${dc.budgetParticipatif.budgetPhaseId}"
