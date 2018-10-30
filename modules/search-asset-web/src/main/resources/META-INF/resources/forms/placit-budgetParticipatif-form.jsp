@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<portlet:resourceURL id="entrySelectionBudgetParticipatif" var="participationsSelectionURL">
+<portlet:resourceURL id="entrySelectionBudgetParticipatif" var="budgetParticipatifsSelectionURL">
 </portlet:resourceURL>
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />

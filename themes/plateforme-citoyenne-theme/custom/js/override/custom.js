@@ -572,6 +572,10 @@ function getResult(searchPage, data) {
             if(json.class == "com.liferay.journal.model.JournalArticle"){
                 listing += createNews(json.json);
             }
+			
+			if(json.class == "eu.strasbourg.service.project.model.BudgetParticipatif"){
+                listing += createBudgetParticipatif(json.json);
+            }
         });
         listing += '</div>';
         $('.pro-listing-' + searchPage).html(listing);
