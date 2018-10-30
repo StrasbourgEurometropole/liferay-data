@@ -86,12 +86,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("citoyenEmail", getCitoyenEmail());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
-		attributes.put("externalImageURL", getExternalImageURL());
-		attributes.put("externalImageCopyright", getExternalImageCopyright());
-		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("placeTextArea", getPlaceTextArea());
-		attributes.put("consultationPlacesText", getConsultationPlacesText());
-		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("isCrush", getIsCrush());
 		attributes.put("crushComment", getCrushComment());
 		attributes.put("publikId", getPublikId());
@@ -260,43 +255,10 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 			setVideoUrl(videoUrl);
 		}
 
-		String externalImageURL = (String)attributes.get("externalImageURL");
-
-		if (externalImageURL != null) {
-			setExternalImageURL(externalImageURL);
-		}
-
-		String externalImageCopyright = (String)attributes.get(
-				"externalImageCopyright");
-
-		if (externalImageCopyright != null) {
-			setExternalImageCopyright(externalImageCopyright);
-		}
-
-		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
-
-		if (mediaChoice != null) {
-			setMediaChoice(mediaChoice);
-		}
-
 		String placeTextArea = (String)attributes.get("placeTextArea");
 
 		if (placeTextArea != null) {
 			setPlaceTextArea(placeTextArea);
-		}
-
-		String consultationPlacesText = (String)attributes.get(
-				"consultationPlacesText");
-
-		if (consultationPlacesText != null) {
-			setConsultationPlacesText(consultationPlacesText);
-		}
-
-		String consultationPlacesBody = (String)attributes.get(
-				"consultationPlacesBody");
-
-		if (consultationPlacesBody != null) {
-			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
 		Boolean isCrush = (Boolean)attributes.get("isCrush");
@@ -354,16 +316,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public boolean getIsCrush() {
 		return _budgetParticipatif.getIsCrush();
-	}
-
-	/**
-	* Returns the media choice of this budget participatif.
-	*
-	* @return the media choice of this budget participatif
-	*/
-	@Override
-	public boolean getMediaChoice() {
-		return _budgetParticipatif.getMediaChoice();
 	}
 
 	/**
@@ -456,16 +408,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.isIsCrush();
 	}
 
-	/**
-	* Returns <code>true</code> if this budget participatif is media choice.
-	*
-	* @return <code>true</code> if this budget participatif is media choice; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isMediaChoice() {
-		return _budgetParticipatif.isMediaChoice();
-	}
-
 	@Override
 	public boolean isNew() {
 		return _budgetParticipatif.isNew();
@@ -539,6 +481,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public eu.strasbourg.service.project.model.BudgetParticipatif toUnescapedModel() {
 		return new BudgetParticipatifWrapper(_budgetParticipatif.toUnescapedModel());
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.BudgetPhase getPhase() {
+		return _budgetParticipatif.getPhase();
 	}
 
 	@Override
@@ -656,26 +603,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Returns the consultation places body of this budget participatif.
-	*
-	* @return the consultation places body of this budget participatif
-	*/
-	@Override
-	public java.lang.String getConsultationPlacesBody() {
-		return _budgetParticipatif.getConsultationPlacesBody();
-	}
-
-	/**
-	* Returns the consultation places text of this budget participatif.
-	*
-	* @return the consultation places text of this budget participatif
-	*/
-	@Override
-	public java.lang.String getConsultationPlacesText() {
-		return _budgetParticipatif.getConsultationPlacesText();
-	}
-
-	/**
 	* Returns the crush comment of this budget participatif.
 	*
 	* @return the crush comment of this budget participatif
@@ -706,26 +633,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Returns the external image copyright of this budget participatif.
-	*
-	* @return the external image copyright of this budget participatif
-	*/
-	@Override
-	public java.lang.String getExternalImageCopyright() {
-		return _budgetParticipatif.getExternalImageCopyright();
-	}
-
-	/**
-	* Returns the external image url of this budget participatif.
-	*
-	* @return the external image url of this budget participatif
-	*/
-	@Override
-	public java.lang.String getExternalImageURL() {
-		return _budgetParticipatif.getExternalImageURL();
-	}
-
-	/**
 	* Returns the files IDs of this budget participatif.
 	*
 	* @return the files IDs of this budget participatif
@@ -751,6 +658,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getMotif() {
 		return _budgetParticipatif.getMotif();
+	}
+
+	@Override
+	public java.lang.String getPhaseTitleLabel() {
+		return _budgetParticipatif.getPhaseTitleLabel();
 	}
 
 	/**
@@ -1181,28 +1093,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Sets the consultation places body of this budget participatif.
-	*
-	* @param consultationPlacesBody the consultation places body of this budget participatif
-	*/
-	@Override
-	public void setConsultationPlacesBody(
-		java.lang.String consultationPlacesBody) {
-		_budgetParticipatif.setConsultationPlacesBody(consultationPlacesBody);
-	}
-
-	/**
-	* Sets the consultation places text of this budget participatif.
-	*
-	* @param consultationPlacesText the consultation places text of this budget participatif
-	*/
-	@Override
-	public void setConsultationPlacesText(
-		java.lang.String consultationPlacesText) {
-		_budgetParticipatif.setConsultationPlacesText(consultationPlacesText);
-	}
-
-	/**
 	* Sets the create date of this budget participatif.
 	*
 	* @param createDate the create date of this budget participatif
@@ -1246,27 +1136,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_budgetParticipatif.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	/**
-	* Sets the external image copyright of this budget participatif.
-	*
-	* @param externalImageCopyright the external image copyright of this budget participatif
-	*/
-	@Override
-	public void setExternalImageCopyright(
-		java.lang.String externalImageCopyright) {
-		_budgetParticipatif.setExternalImageCopyright(externalImageCopyright);
-	}
-
-	/**
-	* Sets the external image url of this budget participatif.
-	*
-	* @param externalImageURL the external image url of this budget participatif
-	*/
-	@Override
-	public void setExternalImageURL(java.lang.String externalImageURL) {
-		_budgetParticipatif.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -1317,16 +1186,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setIsCrush(boolean isCrush) {
 		_budgetParticipatif.setIsCrush(isCrush);
-	}
-
-	/**
-	* Sets whether this budget participatif is media choice.
-	*
-	* @param mediaChoice the media choice of this budget participatif
-	*/
-	@Override
-	public void setMediaChoice(boolean mediaChoice) {
-		_budgetParticipatif.setMediaChoice(mediaChoice);
 	}
 
 	/**

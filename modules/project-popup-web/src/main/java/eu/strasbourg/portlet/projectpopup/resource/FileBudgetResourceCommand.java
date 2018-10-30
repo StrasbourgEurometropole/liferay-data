@@ -206,7 +206,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setTitle(this.title);
             budgetParticipatif.setDescription(this.description);
             budgetParticipatif.setUserId(this.user.getUserId());
-            budgetParticipatif.setConsultationPlacesText(this.lieu);
             budgetParticipatif.setCitoyenFirstname(this.user.getFirstName());
             budgetParticipatif.setCitoyenLastname(this.user.getLastName());
             budgetParticipatif.setCitoyenAdresse(this.address);
@@ -215,7 +214,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenEmail(this.user.getEmail());
             budgetParticipatif.setCitoyenMobile(this.mobile);
             if (!this.photo.isEmpty()){
-                budgetParticipatif.setExternalImageURL(this.photo);
                 budgetParticipatif.setHasCopyright(true);
             }
             if (!this.video.isEmpty())

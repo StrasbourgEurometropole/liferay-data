@@ -42,12 +42,7 @@
 		<property name="citoyenEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="hasCopyright" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="consultationPlacesText" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="consultationPlacesBody" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="isCrush" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="crushComment" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />

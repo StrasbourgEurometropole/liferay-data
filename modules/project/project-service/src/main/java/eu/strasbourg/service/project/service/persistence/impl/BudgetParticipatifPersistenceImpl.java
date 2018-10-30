@@ -4164,12 +4164,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setCitoyenEmail(budgetParticipatif.getCitoyenEmail());
 		budgetParticipatifImpl.setHasCopyright(budgetParticipatif.isHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(budgetParticipatif.getVideoUrl());
-		budgetParticipatifImpl.setExternalImageURL(budgetParticipatif.getExternalImageURL());
-		budgetParticipatifImpl.setExternalImageCopyright(budgetParticipatif.getExternalImageCopyright());
-		budgetParticipatifImpl.setMediaChoice(budgetParticipatif.isMediaChoice());
 		budgetParticipatifImpl.setPlaceTextArea(budgetParticipatif.getPlaceTextArea());
-		budgetParticipatifImpl.setConsultationPlacesText(budgetParticipatif.getConsultationPlacesText());
-		budgetParticipatifImpl.setConsultationPlacesBody(budgetParticipatif.getConsultationPlacesBody());
 		budgetParticipatifImpl.setIsCrush(budgetParticipatif.isIsCrush());
 		budgetParticipatifImpl.setCrushComment(budgetParticipatif.getCrushComment());
 		budgetParticipatifImpl.setPublikId(budgetParticipatif.getPublikId());
