@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -351,6 +349,11 @@ public class BudgetParticipatifLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	public static void removeBudgetParticipatif(long budgetId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeBudgetParticipatif(budgetId);
 	}
 
 	public static BudgetParticipatifLocalService getService() {

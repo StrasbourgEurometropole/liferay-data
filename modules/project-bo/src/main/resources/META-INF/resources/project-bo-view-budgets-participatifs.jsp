@@ -124,7 +124,6 @@
 						</c:if>
 
 						<liferay-portlet:actionURL name="deleteBudgetParticipatif" var="deleteBudgetParticipatifURL">
-							<portlet:param name="cmd" value="deleteBudgetParticipatif" />
 							<portlet:param name="tab" value="budgets-participatifs" />
 							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 						</liferay-portlet:actionURL>
