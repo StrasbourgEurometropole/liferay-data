@@ -268,6 +268,22 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
+	* Renvoie si la phase est en période de dépot
+	*/
+	@Override
+	public boolean isInDepositPeriod() {
+		return _budgetPhase.isInDepositPeriod();
+	}
+
+	/**
+	* Renvoie si la phase est en période de vote
+	*/
+	@Override
+	public boolean isInVotingPeriod() {
+		return _budgetPhase.isInVotingPeriod();
+	}
+
+	/**
 	* Returns <code>true</code> if this budget phase is inactive.
 	*
 	* @return <code>true</code> if this budget phase is inactive; <code>false</code> otherwise

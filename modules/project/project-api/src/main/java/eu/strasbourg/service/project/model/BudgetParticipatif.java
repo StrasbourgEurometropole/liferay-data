@@ -76,9 +76,17 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getThematicTitle(java.util.Locale locale);
 
 	/**
-	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	* Retourne les catégories 'Territoire' correspondant aux pays du budget
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
+
+	/**
+	* Retourne les catégories 'Statut BP' du budget participatif
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory();
+
+	public java.lang.String getBudgetParticipatifStatusTitle(
+		java.util.Locale locale);
 
 	/**
 	* Retourne la liste des lieux placit liés
@@ -116,6 +124,16 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getTypeCategoryColor();
 
 	public java.lang.String getAuthor();
+
+	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	public boolean isJudgeable();
+
+	/**
+	* Est en periode de vote
+	*/
+	public boolean isVotable();
 
 	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
 
