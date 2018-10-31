@@ -34,6 +34,7 @@ import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.text.SimpleDateFormat;
@@ -103,12 +104,36 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
     /**
-     * Retourne les catégories 'Territoire' correspondant aux pays de la petition
+     * Retourne les catégories 'Territoire' correspondant aux pays du budget
      */
     @Override
     public List<AssetCategory> getTerritoryCategories() {
         return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
                 VocabularyNames.TERRITORY);
+    }
+    
+    /**
+     * Retourne les catégories 'Statut BP' du budget participatif
+     */
+    @Override
+    public AssetCategory getBudgetParticipatifStatusCategory() {
+    	List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+    }
+    
+    @Override
+    public String getBudgetParticipatifStatusTitle(Locale locale) {
+        AssetCategory budgetParticipatifStatusCategory = this.getBudgetParticipatifStatusCategory();
+        if (budgetParticipatifStatusCategory != null) {
+        	return budgetParticipatifStatusCategory.getTitle(locale);
+        } else {
+        	return "";
+        }
     }
 
     /**
@@ -183,6 +208,27 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getAuthor(){
         return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
     }
+    
+    /**
+	 * Peut apporter une reaction (commenter, liker, participer) a l'entite
+	 */
+	@Override
+	public boolean isJudgeable() {
+		return true;
+	}
+	
+	/**
+	 * Est en periode de vote
+	 */
+	@Override
+	public boolean isVotable() {
+		BudgetPhase budgetPhase = this.getPhase();
+		if (budgetPhase != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
     
     @Override
     public BudgetPhase getPhase() {

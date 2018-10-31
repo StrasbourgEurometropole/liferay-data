@@ -83,27 +83,32 @@
 					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
 				
-				<%-- Colonne : Createur --%>
-                <liferay-ui:search-container-column-text name="author">
+				<%-- Colonne : Depositaire (Publik) --%>
+                <liferay-ui:search-container-column-text name="depositary">
                     ${budgetParticipatif.author}
                 </liferay-ui:search-container-column-text>
                 
                 <%-- Colonne : Phase --%>
-                <liferay-ui:search-container-column-text name="phase">
+                <liferay-ui:search-container-column-text name="budget-phase">
                     ${budgetParticipatif.phaseTitleLabel}
                 </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Statut --%>
+                <liferay-ui:search-container-column-text name="status">
+                    ${budgetParticipatif.getBudgetParticipatifStatusTitle(locale)}
+                </liferay-ui:search-container-column-text>
 
-				<%-- Colonne : Date de modification --%>
+				<%-- Colonne : Administrateur liferay --%>
+                <liferay-ui:search-container-column-text name="administrator">
+                    ${budgetParticipatif.statusByUserName}
+                </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${budgetParticipatif.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
-
-				<%-- Colonne : Utilisateur liferay --%>
-                <liferay-ui:search-container-column-text name="user">
-                    ${budgetParticipatif.userName}
-                </liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Statut --%>
 				<liferay-ui:search-container-column-text name="status">

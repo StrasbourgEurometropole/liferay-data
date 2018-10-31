@@ -408,6 +408,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.isIsCrush();
 	}
 
+	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	@Override
+	public boolean isJudgeable() {
+		return _budgetParticipatif.isJudgeable();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _budgetParticipatif.isNew();
@@ -431,6 +439,22 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public boolean isScheduled() {
 		return _budgetParticipatif.isScheduled();
+	}
+
+	/**
+	* Est en periode de vote
+	*/
+	@Override
+	public boolean isVotable() {
+		return _budgetParticipatif.isVotable();
+	}
+
+	/**
+	* Retourne les catégories 'Statut BP' du budget participatif
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory() {
+		return _budgetParticipatif.getBudgetParticipatifStatusCategory();
 	}
 
 	/**
@@ -530,6 +554,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getAuthor() {
 		return _budgetParticipatif.getAuthor();
+	}
+
+	@Override
+	public java.lang.String getBudgetParticipatifStatusTitle(
+		java.util.Locale locale) {
+		return _budgetParticipatif.getBudgetParticipatifStatusTitle(locale);
 	}
 
 	/**
@@ -847,7 +877,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	* Retourne les catégories 'Territoire' correspondant aux pays du budget
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {

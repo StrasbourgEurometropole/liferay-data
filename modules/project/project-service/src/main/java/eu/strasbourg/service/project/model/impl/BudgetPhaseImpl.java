@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -64,5 +65,36 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
 	}
+	
+	/**
+	 * Renvoie si la phase est en période de dépot
+	 */
+	@Override
+	public boolean isInDepositPeriod() {
+		Date today = new Date();
+		if (this.getIsActive() 
+				&& today.compareTo(this.getBeginDate()) >= 0 
+				&& today.compareTo(this.getEndDate()) <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Renvoie si la phase est en période de vote
+	 */
+	@Override
+	public boolean isInVotingPeriod() {
+		Date today = new Date();
+		if (this.getIsActive() 
+				&& today.compareTo(this.getBeginVoteDate()) >= 0 
+				&& today.compareTo(this.getEndVoteDate()) <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	
 }
