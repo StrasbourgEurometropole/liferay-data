@@ -275,8 +275,9 @@
                         <portlet:namespace />email:emailValue
                     },
                     on: {
-                        success: function(e) {
-                            var data = this.get('responseData');
+                        complete: function(e) {
+                            // var data = this.get('responseData');
+                            var data = JSON.parse(e.details[1].responseText);
                             console.log(data)
                             if(data.result){
                                 $('#modalBudget').modal('hide');
