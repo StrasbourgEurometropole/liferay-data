@@ -10,11 +10,11 @@
     padding: 50px 70px;
     border-radius: 7px;
 
-    @include RWD(tablet){
+    @include tablet_portrait{
         padding: 30px 40px;
     }
 
-    @include RWD(mobile){
+    @include mobile{
         padding: 20px;
         width: calc(100% - 40px);
         
@@ -27,7 +27,7 @@
         font-size: 1.7rem;
         color: #505050;
 
-        @include RWD(mobile){
+        @include mobile{
             margin-bottom: 2em;
         }
     }
@@ -36,7 +36,7 @@
         display: flex;
         justify-content: space-between;
 
-        @include RWD(mobile){
+        @include mobile{
             flex-direction: column-reverse;
 
             button + button{

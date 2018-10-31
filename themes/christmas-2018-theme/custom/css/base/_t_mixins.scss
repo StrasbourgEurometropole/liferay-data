@@ -73,6 +73,13 @@
 		@content;
 	}
 }
+@mixin not_tablet_portrait
+{
+	@media screen and (min-width: #{$breakpoint_tp})
+	{
+		@content;
+	}
+}
 @mixin tablet_portrait
 {
 	@media screen and (max-width: #{$breakpoint_tp})

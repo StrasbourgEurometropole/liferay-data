@@ -29,7 +29,39 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="mns-top-header mns-top-header-mobile">
                     <div>
-                        <!-- a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
+                        <#if request.session.getAttribute("publik_logged_in")!false>
+                          <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
+                          <div class="nav-account nav-btn">
+                            <button id="trigger-account-menu" onClick="javascript: location='${layoutHelper.getDashboardURL()}';">
+                              <span class="flexbox">
+                                <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
+                                <span class="picto">
+                                    <#if (notifCount > 0)>
+                                        <span class="notif-amount">${notifCount}</span>
+                                    </#if>
+                                </span>
+                                <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none; width: auto;" title="<@liferay_ui.message key='eu.dashboard' />">
+                                  <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
+                                </a>
+                                <span class="arrow" style="display: none;"></span>
+                              </span>
+                            </button>
+                            <!-- Menu connecté -->
+                            <@liferay_portlet["runtime"]
+                              portletProviderAction=portletProviderAction.VIEW
+                              portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                              instanceId="loggedinmenu"
+                              settingsScope="group" />
+                            </div>
+                        <#else>
+                          <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay_ui.message key='eu.login.strasbourg' />">
+                            <span class="flexbox">
+                              <span class="picto"></span>
+                              <span class="text"><@liferay_ui.message key='eu.login.strasbourg' /></span>
+                            </span>    
+                          </a>
+                        </#if>
+                        <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a>
                         <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
                         <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
                         <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>

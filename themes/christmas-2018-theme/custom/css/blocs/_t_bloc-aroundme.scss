@@ -49,7 +49,7 @@
         &__top{
             transition: all, 0.5s;
             z-index: 6;
-            @include RWD(mobile){
+            @include mobile{
                 height: 100%;
                 position: absolute;
                 left: 0;
@@ -64,7 +64,7 @@
             width: 100%;
             position: relative;
 
-            @include RWD(mobile){
+            @include mobile{
                 height: 400px;
             }
             .aroundme__map{
@@ -136,7 +136,7 @@
                 background-color: #f5f5f5;
                 z-index: 2;
                 transform: translateX(-100%);
-                @include RWD(mobile){
+                @include mobile{
                     top: 33%;
                     transform: translateX(-100%) translateY(-50%);
                     width: 50px;
@@ -170,14 +170,14 @@
                 background-image: url( svg-bg-uri($svg-filled-close, $c_grey) );
                 content: '';
                 display: none;
-                @include RWD(mobile){
+                @include mobile{
                     display: block;
                 }
             }
         }
         .top__trigger{
             display: none;
-            @include RWD(mobile){
+            @include mobile{
                 display: block;
             }
 
@@ -207,7 +207,7 @@
                 border-bottom-right-radius: 5px;
                 border-bottom-left-radius: 5px;
                 background-color: $c_main;
-                @include RWD(mobile){
+                @include mobile{
                     height: 50px;
                 }
             }
@@ -262,7 +262,7 @@
                 justify-content: flex-end;
                 height: calc(100% - 20px);
 
-                @include RWD(mobile){
+                @include mobile{
                     height: calc(100% - 160px);
                 }
 
@@ -307,7 +307,7 @@
             min-height: 100%;
             padding: 30px;
 
-            @include RWD(mobile){
+            @include mobile{
                 padding: 20px;
             }
 
@@ -433,7 +433,7 @@
                 align-items: center;
                 justify-content: flex-end;
                 margin-top: 10px;
-                @include RWD(mobile){
+                @include mobile{
                     display: block;
                 }
             }
@@ -459,12 +459,12 @@
                     background-repeat: no-repeat;
                     margin-right: 7px;
                 }
-                @include RWD(mobile){
+                @include mobile{
                     width: 100%;
                 }
                 & + .filtres__btn{
                     margin-left: 30px;
-                    @include RWD(mobile){
+                    @include mobile{
                         margin-left: 0;
                         margin-top: 20px;
                     }
@@ -505,7 +505,7 @@
                             display: none;
                             margin-right: 5px;;
                         }
-                        @include RWD(mobile){
+                        @include mobile{
                             display: flex;
                             align-items: center;
                             .icon{
@@ -514,13 +514,13 @@
                         }
                     }
                     &__list{
-                        @include RWD(desktop){
+                        @include desktop{
                             @include grid-distribution(3, 30, grid-item);
                         }
-                        @include RWD(tablet_only){
+                        @include tablet_portrait{
                             @include grid-distribution(3, 30, grid-item);
                         }
-                        @include RWD(mobile){
+                        @include mobile{
                             @include grid-distribution(1, 0, grid-item);
                         }
                     }
@@ -574,7 +574,7 @@
                 .filtres{
                     &__title{
                         color: $c_main;
-                        @include RWD(desktop){
+                        @include desktop{
                             display: none;
                         }
                         display: flex;
@@ -688,7 +688,7 @@
         }
         .leaflet-popup-content {
             margin: 0;
-            @include RWD(mobile){
+            @include mobile{
                 width: 272px !important;
             }
         }
@@ -720,7 +720,7 @@
                 transform: translate(-50%, -100%);
             }
 
-            @include RWD(mobile){
+            @include mobile{
                 position: absolute;
                 top: 50% !important;
                 left: 50% !important;
@@ -749,7 +749,7 @@
             &__content{
                 padding: 30px;
                 padding-bottom: 0px;
-                @include RWD(mobile){
+                @include mobile{
                     padding: 20px;
                 }
             }
@@ -902,7 +902,7 @@
                 transform: translateY(0);
             }
             // En mobile, si le paneau latéral est ouvert, remonte le panneau top pour faire disparaitre le trigger (pour éviter d'avoir à jouer avec les zindex)
-            @include RWD(mobile){
+            @include mobile{
                 #aroundme__top{
                     transform: translateY(0);
                 }
@@ -926,7 +926,7 @@
             }
 
             // En mobile, si le paneau latéral est ouvert, remonte le panneau top pour faire disparaitre le trigger (pour éviter d'avoir à jouer avec les zindex)
-            @include RWD(mobile){
+            @include mobile{
                 #aroundme__top{
                     transform: translateY(-100%) translateY(-50px);
                 }
@@ -947,7 +947,7 @@
                 }
                 
             }
-            @include RWD(mobile){
+            @include mobile{
                 #aroundme__top{
                     transform: translateY(-100%) translateY(-50px);
                 }
