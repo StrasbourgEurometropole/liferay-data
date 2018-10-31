@@ -11,7 +11,7 @@
                 <button id="closingButton" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form>
+            <aui:form name="uploadForm" enctype="multipart/form-data">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filebudget.information"/></h4>
                     <div class="form-group">
@@ -56,10 +56,13 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <div class="input-group input-file" name="Fichier1">
-                                <aui:input id="budgetPhoto" name="budgetPhoto" cssClass="form-control" label="modal.filebudget.information.picture" value=""/>
-                                <span class="browsePicture input-group-btn"><button class="btn btn-default btn-choose" type="button">Parcourir</button></span>
-                            </div>
+                            <span class="browsePicture input-group-btn">
+                                <aui:input name="budgetPhoto" type="file"
+                                    cssClass="btn btn-default btn-choose">
+                                </aui:input>
+                                <!-- Permet de récupérer l'id de l'image posté par l'utilisateur -->
+                                <aui:input type="hidden" name="webImageId" />
+                            </span>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -135,7 +138,7 @@
                 <div class="pro-form-submit">
                     <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filebudget.submit"/></button>
                 </div>
-            </form>
+            </aui:form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -242,12 +245,18 @@
             var firstNameValue = $("#"+namespace+"firstname").val();
             var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
+                var uploadForm = A.one("#<portlet:namespace />uploadForm");
                 A.io.request('${fileBudgetURL}', {
                     method : 'POST',
+                    form: {
+                        id: uploadForm,
+                        upload: true
+                    },
+	                sync: true,
                     dataType: 'json',
                     data:{
-                        <portlet:namespace/>budgettitle:budgetTitleValue,
-                        <portlet:namespace/>budgetdescription:budgetDescriptionValue,
+                        <portlet:namespace/>title:budgetTitleValue,
+                        <portlet:namespace/>description:budgetDescriptionValue,
                         <portlet:namespace/>address:addressValue,
                         <portlet:namespace/>city:cityValue,
                         <portlet:namespace/>postalcode:postalcodeValue,
@@ -268,6 +277,7 @@
                     on: {
                         success: function(e) {
                             var data = this.get('responseData');
+                            console.log(data)
                             if(data.result){
                                 $('#modalBudget').modal('hide');
                                 if(data.savedInfo){
