@@ -84,11 +84,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
                 VocabularyNames.THEMATIC);
     }
 
-    @Override
-    public String getThematicTitle(Locale locale) {
-        List<AssetCategory> thematics = getThematicCategories();
-        return AssetVocabularyHelper.getThematicTitle(locale, thematics);
-    }
+    /**
+	 * Retourne une chaine des 'Thematics' sépararée d'un '-'
+	 */
+	@Override
+	public String getThematicsLabel(Locale locale) {
+		List<AssetCategory> thematics = this.getThematicCategories();
+		String thematicTitle = AssetVocabularyHelper.getThematicTitle(locale, thematics);
+		return thematicTitle;
+	}
 
     /**
      * Retourne les catégories 'Territoire' correspondant aux pays du budget
@@ -207,9 +211,9 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 * Retourne la titre du projet du BP
 	 */
 	@Override
-	public String getProjectCategoryTitle(Locale locale) {
+	public String getProjectName() {
         AssetCategory project = getProjectCategory();
-        return (project != null) ? project.getTitle(locale) : "";
+        return (project != null) ? project.getTitle(Locale.FRANCE) : "";
     }
 
     @Override
@@ -295,11 +299,10 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     /**
      * Retourne la version JSON de l'entité
      */
-    @Override
     public JSONObject toJSON(String publikUserId) {
+    	
         // Initialisation des variables tempons et résultantes
         JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
-        AssetCategory projectCategory = this.getProjectCategory();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -307,9 +310,19 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("createDate", dateFormat.format(this.getCreateDate()));
         jsonBudget.put("imageURL", this.getImageURL());
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
-        jsonBudget.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
-        jsonBudget.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
+        jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+        jsonBudget.put("isCrush", this.getIsCrush());
+        
+        // Champs : Catégorisations
+        jsonBudget.put("BPStatus", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudgetParticipatifStatusTitle(Locale.FRENCH))));
+        jsonBudget.put("districtsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+        jsonBudget.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
+        jsonBudget.put("projectName", this.getProjectName());
+        
+        // Champs : Intéractivités
+        jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
+        jsonBudget.put("nbSupports", this.getNbSupports());
 
         // Lieux placit
         for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
@@ -326,7 +339,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return jsonBudget;
     }
 
-    private long getNombreSoutien() {
+    private long getNbSupports() {
         return 0;
     }
 }

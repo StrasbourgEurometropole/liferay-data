@@ -66,7 +66,10 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
-	public java.lang.String getThematicTitle(java.util.Locale locale);
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
 
 	/**
 	* Retourne les catégories 'Territoire' correspondant aux pays du budget
@@ -122,7 +125,7 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	/**
 	* Retourne la titre du projet du BP
 	*/
-	public java.lang.String getProjectCategoryTitle(java.util.Locale locale);
+	public java.lang.String getProjectName();
 
 	public java.lang.String getAuthor();
 

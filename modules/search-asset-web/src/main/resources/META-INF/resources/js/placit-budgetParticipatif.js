@@ -2,14 +2,13 @@
 var projetsBP = null;
 
 var entityType = {
-	STATE : 'vocabulary_0',
+	BP_STATUS : 'vocabulary_0',
 	DISTRICT : 'vocabulary_1',
 	THEMATIC : 'vocabulary_2',
 }
 
 var sortField = "publishDate_sortable";
 var sortType = "asc";
-
 
 $(document).ready(function(){
     getSelectedEntries();
@@ -35,8 +34,8 @@ function getSelectedMarkerElements(entityName) {
  * @return
  */
 function getSelectedEntries() {
+	
 	var selectedKeyWords = $('#name')[0].value;
-
     var selectedStartDay ;
     var selectedStartMonth ;
     var selectedStartYear;
@@ -51,7 +50,7 @@ function getSelectedEntries() {
         selectedEndMonth = $('input[data-name="toMonth"]')[0].value;
         selectedEndYear = $('input[data-name="toYear"]')[0].value;
 	}
-	var selectedStates = getSelectedMarkerElements(entityType.STATE);
+	var selectedBPStatus = getSelectedMarkerElements(entityType.BP_STATUS);
 	var selectedDistricts = getSelectedMarkerElements(entityType.DISTRICT);
 	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
 
@@ -67,7 +66,7 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndDay : selectedEndDay,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStates : selectedStates,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedBPStatus : selectedBPStatus,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
@@ -75,7 +74,7 @@ function getSelectedEntries() {
 			on: {
                 success: function(e) {
                 	var data = this.get('responseData');
-                	getResult('budgetBP', data);
+                	getResult('budget', data);
 			 	}
 			}
 		});
@@ -88,7 +87,7 @@ $('#name').on('input',function() {
 });
 
 // Lors d'une selection d'état
-$("fieldset[id='states_fieldset'] input").change(function() {
+$("fieldset[id='bp_status_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
 

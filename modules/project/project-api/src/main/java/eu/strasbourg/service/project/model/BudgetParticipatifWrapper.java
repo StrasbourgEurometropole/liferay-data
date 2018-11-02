@@ -719,8 +719,8 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	* Retourne la titre du projet du BP
 	*/
 	@Override
-	public java.lang.String getProjectCategoryTitle(java.util.Locale locale) {
-		return _budgetParticipatif.getProjectCategoryTitle(locale);
+	public java.lang.String getProjectName() {
+		return _budgetParticipatif.getProjectName();
 	}
 
 	/**
@@ -753,9 +753,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getStatusByUserUuid();
 	}
 
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
 	@Override
-	public java.lang.String getThematicTitle(java.util.Locale locale) {
-		return _budgetParticipatif.getThematicTitle(locale);
+	public java.lang.String getThematicsLabel(java.util.Locale locale) {
+		return _budgetParticipatif.getThematicsLabel(locale);
 	}
 
 	/**

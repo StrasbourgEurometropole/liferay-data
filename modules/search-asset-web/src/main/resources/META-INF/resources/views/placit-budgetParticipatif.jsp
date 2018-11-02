@@ -32,7 +32,6 @@
                             <div class="pro-listing-budget">
                             </div>
                         </aui:form>
-
                     </div>
                 </div>
             </div>

@@ -15,6 +15,7 @@ public enum ParticiperCategories {
     BP_SUBMITTED("Depose"),
     BP_ACCEPTABLE("Recevable"),
     BP_NON_ACCEPTABLE("Non recevable"),
+    BP_IN_FEASIBILITY_STUDIES("En cours d'étude de faisabilité"),
     BP_FEASIBLE("Faisable"),
     BP_NON_FEASIBLE("Non faisable"),
     BP_LAUREAT("Laureat"),

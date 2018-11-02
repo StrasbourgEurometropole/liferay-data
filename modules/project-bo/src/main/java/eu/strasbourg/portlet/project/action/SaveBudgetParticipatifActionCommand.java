@@ -151,6 +151,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
  			
  			// Puis on cree les nouveaux
  			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
+ 			
  			for (String placitPlacesIndexe : placitPlacesIndexesString.split(",")) {
  				
  				// Recupere les valeurs de test pour savoir si il existe des lieux placit
