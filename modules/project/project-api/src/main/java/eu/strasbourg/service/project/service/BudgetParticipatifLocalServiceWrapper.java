@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -378,6 +377,12 @@ public class BudgetParticipatifLocalServiceWrapper
 	public long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return _budgetParticipatifLocalService.findByKeywordCount(keyword,
 			groupId);
+	}
+
+	@Override
+	public void removeBudgetParticipatif(long budgetId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_budgetParticipatifLocalService.removeBudgetParticipatif(budgetId);
 	}
 
 	@Override
