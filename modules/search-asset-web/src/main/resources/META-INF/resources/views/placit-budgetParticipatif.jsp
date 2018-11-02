@@ -24,6 +24,48 @@
                         </c:otherwise>
                     </c:choose>
  				</div>
+ 				
+ 				<div class="row pro-wrapper-listing-participation">
+                    <div class="col-xs-12">
+                        <!-- Resultats -->
+                        <aui:form method="post" name="fm">
+                            <div class="pro-listing-budget">
+                            </div>
+                        </aui:form>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 pro-wrapper-aside">
+	                <div class="pro-bloc-facette pro-bloc-facette-participation">
+	                    <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
+	
+	                    <!-- Formulaire -->
+	                    <aui:form action="${searchActionURL}" method="get" name="fm"
+	                        id="search-asset-form">
+	                        <liferay-portlet:renderURLParams varImpl="searchActionURL" />
+	                        <liferay-util:include page="/forms/placit-budgetParticipatif-form.jsp"
+	                            servletContext="<%=application%>" />
+	                    </aui:form>
+	                </div>
+	                 
+            	</div>
+            
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pro-pagination">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-xs-4 pull-left">
+                    <p class="hidden-xs"></p>
+                </div>
+
+                <!-- Pagination : liens de navigation -->
+                <div class="col-sm-6 col-xs-8 pull-right">
+                </div>
             </div>
         </div>
     </div>

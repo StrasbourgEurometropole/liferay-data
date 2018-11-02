@@ -153,7 +153,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-budget-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
             </div>
         </div>
