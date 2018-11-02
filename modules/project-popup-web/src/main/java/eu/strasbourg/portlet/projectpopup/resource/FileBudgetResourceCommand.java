@@ -143,7 +143,13 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.themeId = ParamUtil.getLong(request, THEME);
         Long webImageId = ParamUtil.getLong(request, "webImageId");
 
-        boolean isValid = validate();
+        boolean isValid = false;
+        try {
+            isValid = validate(request);
+        } catch (PortalException e) {
+            _log.error(e);
+            throw new PortletException(e);
+        }
         if (!isValid)
             message = LanguageUtil.get(originalRequest, "general-error");
 
@@ -258,32 +264,47 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
                 .getAttribute(WebKeys.THEME_DISPLAY);
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-        File budgetPhoto = uploadRequest.getFile("budgetPhoto");
-        _log.info("budgetPhoto : [" + budgetPhoto + "]");
+        if (validateFileName(request)){
+            File budgetPhoto = uploadRequest.getFile("budgetPhoto");
+            _log.info("budgetPhoto : [" + budgetPhoto + "]");
+            if (budgetPhoto != null && budgetPhoto.exists()) {
+                _log.info("Going to write the file contents");
 
-        if (budgetPhoto != null && budgetPhoto.exists()) {
-            _log.info("Going to write the file contents");
-            byte[] imageBytes = FileUtil.getBytes(budgetPhoto);
-            DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
-                    DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-                    "budget participatif");
-            DLFolder folder = DLFolderLocalServiceUtil
-                    .getFolder(themeDisplay.getScopeGroupId(),
-                            folderparent.getFolderId(),
-                            "uploads");
-            FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                    sc.getUserId(), folder.getRepositoryId(),
-                    folder.getFolderId(), budgetPhoto.getName(),
-                    MimeTypesUtil.getContentType(budgetPhoto),
-                    budgetPhoto.getName(), title,
-                    "", imageBytes, sc);
-            budgetParticipatif.setImageId(fileEntry.getFileEntryId());
+                byte[] imageBytes = FileUtil.getBytes(budgetPhoto);
+                DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                        "budget participatif");
+                DLFolder folder = DLFolderLocalServiceUtil
+                        .getFolder(themeDisplay.getScopeGroupId(),
+                                folderparent.getFolderId(),
+                                "uploads");
+                FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
+                        sc.getUserId(), folder.getRepositoryId(),
+                        folder.getFolderId(), budgetPhoto.getName(),
+                        MimeTypesUtil.getContentType(budgetPhoto),
+                        budgetPhoto.getName(), title,
+                        "", imageBytes, sc);
+                budgetParticipatif.setImageId(fileEntry.getFileEntryId());
 
+            }
+            return budgetParticipatif;
         }
-        return budgetParticipatif;
+        else {
+            throw new PortalException("le fichier n'est pas une image");
+        }
     }
 
-    private boolean validate() {
+    private boolean validateFileName(ResourceRequest request) throws PortalException {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request
+            .getAttribute(WebKeys.THEME_DISPLAY);
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        String fileName = uploadRequest.getFileName("budgetPhoto");
+        String type = fileName.substring(fileName.lastIndexOf("."));
+        return type.equals("jpg") || type.equals("jpeg") || type.equals("png");
+    }
+
+    private boolean validate(ResourceRequest request) throws PortalException {
         boolean isValid = true;
         // title
         if (Validator.isNull(this.title)) {
@@ -309,6 +330,9 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(this.postalcode)) {
             isValid = false;
         }
+
+        if (!validateFileName(request))
+            isValid=false;
 
         return isValid;
     }
