@@ -15478,6 +15478,12 @@ jQuery(function() {
 			} else if (type_facture == "water") {
 				appCode = "EA";
 				clientNumber = "007964";
+			} else if (type_facture == "reom") {
+				appCode = "RC";
+				clientNumber = "021529";
+			} else if (type_facture == "rs") {
+				appCode = "RZ";
+				clientNumber = "002902";
 			}
 		  	url += 'numcli=' + clientNumber;
 			if (url.indexOf('saisie=T') === -1) { // En prod
@@ -15495,7 +15501,10 @@ jQuery(function() {
 			window.open(url,'_blank','height=750, width=1050, toolbar=no, menubar=no,scrollbars=yes, resizable=yes, location=no, directories=no, status=no'); 
 			return false; 
 	    } else {
-	      jQuery('.errors').html(errorMessage).show();
+            jQuery('#formFactures .errors').html(errorMessage).show();
+            jQuery('html, body').animate({
+                scrollTop: (jQuery('#formFactures .errors').offset().top)
+            },500);
 	    }
     });
 });
@@ -15546,6 +15555,23 @@ function formatRef(ref)
 
   return ref;
 }
+(function ($) {
+    $('.family .btn-minus').on('click', function() {
+        var num = $(this).parent().attr("name");
+        $('#family' + num).addClass("hide");
+        //$('#family' + num).hide();
+        $(this).addClass("hide");
+        $(this).parent().children(".btn-more").removeClass("hide");
+    });
+    $('.family .btn-more').on('click', function() {
+        var num = $(this).parent().attr("name");
+        $('#family' + num).removeClass("hide");
+        //$('#family' + num).show();
+        $(this).addClass("hide");
+        $(this).parent().children(".btn-minus").removeClass("hide");
+    });
+ }(jQuery));
+
 function destroyPopinMediatheque(){
     $('#dissociateConfirm').remove().off('clickdissociateConfirm');
     $('.mseu').off('click.dissociateconfirm').removeClass('overlayed');
@@ -15698,6 +15724,30 @@ $(document).ready(function(){
                     megaSlider(list_mega[index], category);
                     list_mega[index].$slider.removeClass('animate-out');
                     list_mega[index].can_animate = true;
+
+
+                        // On modfie les boutons correspondant sur la page
+                        // var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
+                        jQuery('.add-favorites').each(function(index, favoriteButton) {
+                            var favoriteButtonJq = jQuery(favoriteButton);
+                            var entityId = Number(favoriteButtonJq.data('id'));
+                            var type = Number(favoriteButtonJq.data('type'));
+                            var isFavorite = false;
+                            for (var i = 0; i < window.userFavorites.length; i++) {
+                                if (window.userFavorites[i].entityId === entityId && window.userFavorites[i].typeId === type) {
+                                    isFavorite =  true;
+                                    break;
+                                }
+                            }
+                            if (isFavorite) {
+                                favoriteButtonJq.addClass('liked');
+                                favoriteButton.textContent = Liferay.Language.get('eu.remove-from-favorite');
+                            }else{
+                                favoriteButtonJq.removeClass('liked');
+                                favoriteButton.children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
+                            }
+                        });
+
                 }, 800);
             }
         });
@@ -15799,7 +15849,7 @@ function megaSlider(slider, category){
         });
 
         function attachNavEvents(){
-            if(environment != 'desktop' || windowHeight < 750 || $('html.mseu').hasClass('mobile') || $('html.mseu').hasClass('tablet')){
+            if(environment != 'desktop' || windowHeight < 700 || $('html.mseu').hasClass('mobile') || $('html.mseu').hasClass('tablet')){
                 $menu
                 .off('mouseleave mouseenter focus click')
                 .on('click', function(e){

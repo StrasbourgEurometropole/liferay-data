@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
+
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
  *
@@ -63,21 +65,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     public BudgetParticipatifImpl() {
     }
-
-    /**
-     * Retourne le projet de la participation (
-     */
-    @Override
-    public AssetCategory getProjectCategory() {
-        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.PROJECT)
-                .get(0);
-    }
-
-    public String getProjectTitle(Locale locale) {
-        AssetCategory project = getProjectCategory();
-        return (project != null) ? project.getName() : "";
-    }
-
 
     /**
      * Retourne l'AssetEntry rattaché cet item
@@ -191,17 +178,38 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
         return districts;
     }
-
-    @Override
-    public AssetCategory getTypeCategory() {
-        return AssetVocabularyHelper
-                .getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS).get(0);
-    }
     
     @Override
-    public String getTypeCategoryColor() {
-        long categoryId = this.getTypeCategory().getCategoryId();
-        return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
+    public String getBudgetParticipatifStatusCategoryColor() {
+        AssetCategory statusCategory = this.getBudgetParticipatifStatusCategory();
+        if (statusCategory != null) {
+        	return AssetVocabularyHelper.getCategoryProperty(statusCategory.getCategoryId(), "color_code");
+        } else {
+        	return "";
+        }
+    }
+    
+    /**
+	 * Retourne la categorie projet du BP
+	 */
+	@Override
+	public AssetCategory getProjectCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+	}
+	
+	/**
+	 * Retourne la titre du projet du BP
+	 */
+	@Override
+	public String getProjectCategoryTitle(Locale locale) {
+        AssetCategory project = getProjectCategory();
+        return (project != null) ? project.getTitle(locale) : "";
     }
 
     @Override
@@ -224,10 +232,10 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	public boolean isVotable() {
 		BudgetPhase budgetPhase = this.getPhase();
 		if (budgetPhase != null) {
-			return true;
-		} else {
-			return false;
+			if (budgetPhase.isInVotingPeriod())
+				return true;
 		}
+		return false;
 	}
     
     @Override
@@ -250,6 +258,20 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         } else {
         	return "Aucune phase";
         }
+    }
+    
+    /**
+     * Le budget a-t-il ete evalue par l'administration ?
+     * @note : doit alors posseder l'un des statuts adequat
+     */
+    @Override
+    public boolean hasBeenEvaluated() {
+        AssetCategory bpStatus = this.getBudgetParticipatifStatusCategory();
+        if (StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_NON_FEASIBLE.getName()) 
+        		|| StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_FEASIBLE.getName())) {
+        	return true;
+        }
+        return false;
     }
     
     /**

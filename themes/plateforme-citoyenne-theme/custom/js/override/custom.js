@@ -335,6 +335,13 @@ function getMarkerIcon(entityType) {
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
+        case 'budget-participatif':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-initiative.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
         default:
             return new L.Icon({
                 iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-map-inte-2x-v2.png',
@@ -487,18 +494,6 @@ function getEventMarker(event) {
 }
 
 /**
-* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
-*/
-function getInitiativePopUp(mercators, link) {
-
-    var initiativeMarkerIcon = getMarkerIcon("initiative");
-    var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
-
-    return marker;
-
-}
-
-/**
 * Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
 */
 function getPetitionMarker(petition, mercators) {
@@ -528,6 +523,53 @@ function getPetitionMarker(petition, mercators) {
         '</div></a></div>'
         ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
     );
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
+*/
+function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
+
+    var budgetParticipatifMarkerIcon = getMarkerIcon("budget-participatif");
+    var marker = L.marker(mercators, {icon: budgetParticipatifMarkerIcon});
+
+    /*marker.bindPopup(
+        '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
+            '<div class="pro-header-petition">' +
+                '<figure role="group">' +
+                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+                '</figure>' +
+                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
+            '</div>' +
+            '<div class="pro-content-petition">' +
+                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
+                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
+                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+            '</div> ' +
+            '<div class="pro-footer-petition">' +
+                '<div class="pro-progress-bar">' +
+                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
+                '</div>' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
+            '</div>' +
+        '</div></a></div>'
+        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
+    );*/
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
+*/
+function getInitiativePopUp(mercators, link) {
+
+    var initiativeMarkerIcon = getMarkerIcon("initiative");
+    var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
 
     return marker;
 
@@ -567,6 +609,10 @@ function getResult(searchPage, data) {
 
             if(json.class == "eu.strasbourg.service.project.model.Petition"){
                 listing += createPetition(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.BudgetParticipatif"){
+                listing += createBudgetParticipatif(json.json);
             }
 
             if(json.class == "com.liferay.journal.model.JournalArticle"){
@@ -924,6 +970,55 @@ function createNews(news){
  * @return
 */
 function createPetition(petition){
+    var vignette = 
+    '<div class="item pro-bloc-card-petition vignette" data-linkall="a">' +
+        '<div class="pro-header-petition">' +
+            '<figure role="group">' +
+                (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+            '</figure>' +
+            '<p>Pétition publiée par :</p>' +
+            '<p><strong>' + petition.userName + ' adressé à : Ville de Strasbourg</strong></p>' +
+            '<div class="pro-number-comm">' +
+                '<span>' + petition.nbApprovedComments + '</span>' +
+                '<p>Commentaire(s)</p>' +
+            '</div>' +
+        '</div>' +
+        '<div class="pro-content-petition">' +
+            '<div class="pro-wrapper-meta">' +
+                '<div class="pro-statut"><span>' + petition.frontStatusFR + '</span></div>' +
+                '<div class="pro-meta">' +
+                    '<!-- Liste des quartiers de la Petition -->' +
+                    '<span>' + petition.districtLabel + '</span>' +
+                    '<!-- Liste des thématiques de la Petition -->';
+                    for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
+                        vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+
+                    }
+    vignette +=
+                    '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' +
+                '</div>' +
+            '</div>' +
+            '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
+            '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+        '</div>' +
+        '<div class="pro-footer-petition">' +
+            '<div class="pro-progress-bar">' +
+                '<div class="pro-progress-container">' +
+                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
+                '</div>' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette budget participatif
+ * @return
+*/
+function createBudgetParticipatif(budgetParticipatif){
     var vignette = 
     '<div class="item pro-bloc-card-petition vignette" data-linkall="a">' +
         '<div class="pro-header-petition">' +
