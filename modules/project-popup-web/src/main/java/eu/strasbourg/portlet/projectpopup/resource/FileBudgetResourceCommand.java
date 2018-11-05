@@ -301,7 +301,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName("budgetPhoto");
         String type = fileName.substring(fileName.lastIndexOf("."));
-        return type.equals("jpg") || type.equals("jpeg") || type.equals("png");
+        return type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
     }
 
     private boolean validate(ResourceRequest request) throws PortalException {
