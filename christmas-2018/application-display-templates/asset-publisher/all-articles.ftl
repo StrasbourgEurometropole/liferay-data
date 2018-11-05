@@ -14,11 +14,6 @@
                 <div class="col-sm-4">
                     <div class="mns-bloc-actu">
                         <a href="${viewURL}" style="min-height: 673px;" >
-                            <figure class="mns-bloc-top-img">
-                                <#if image?has_content>
-                                    <img src="${image}" alt="${title}" width="370" height="250" />
-                                </#if>
-                            </figure>
                             <div class="mns-bloc-content-actu">
                                 <h4>${title}</h4>
                                 <p>${text?replace("<[^>]*>", "", "r")[0..*250]}...</p>
