@@ -362,10 +362,11 @@
         var postalcode = $("#"+namespace+"postalcode").val();
         var legalage = $("#file-budget-legalage").is(":checked");
         var cnil = $("#file-budget-cnil").is(":checked");
+        var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
-        if ($("#"+namespace+"budgetPhoto").val()!=null){
-            var ext = $("#"+namespace+"budgetPhoto").val().split(".").pop().toLowerCase();
+        if (photo!=null && photo!==""){
+            var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
             $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
