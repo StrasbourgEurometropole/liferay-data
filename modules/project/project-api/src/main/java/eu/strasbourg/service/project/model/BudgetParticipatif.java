@@ -57,13 +57,6 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 		};
 
 	/**
-	* Retourne le projet de la participation (
-	*/
-	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
-
-	public java.lang.String getProjectTitle(java.util.Locale locale);
-
-	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
@@ -73,7 +66,10 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
-	public java.lang.String getThematicTitle(java.util.Locale locale);
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
 
 	/**
 	* Retourne les catégories 'Territoire' correspondant aux pays du budget
@@ -119,9 +115,17 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
-	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
+	public java.lang.String getBudgetParticipatifStatusCategoryColor();
 
-	public java.lang.String getTypeCategoryColor();
+	/**
+	* Retourne la categorie projet du BP
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	* Retourne la titre du projet du BP
+	*/
+	public java.lang.String getProjectName();
 
 	public java.lang.String getAuthor();
 
@@ -138,6 +142,13 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
 
 	public java.lang.String getPhaseTitleLabel();
+
+	/**
+	* Le budget a-t-il ete evalue par l'administration ?
+	*
+	* @note : doit alors posseder l'un des statuts adequat
+	*/
+	public boolean hasBeenEvaluated();
 
 	/**
 	* Retourne les commentaires de l'entité

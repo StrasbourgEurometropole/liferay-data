@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
+
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
  *
@@ -65,21 +67,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
     /**
-     * Retourne le projet de la participation (
-     */
-    @Override
-    public AssetCategory getProjectCategory() {
-        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.PROJECT)
-                .get(0);
-    }
-
-    public String getProjectTitle(Locale locale) {
-        AssetCategory project = getProjectCategory();
-        return (project != null) ? project.getName() : "";
-    }
-
-
-    /**
      * Retourne l'AssetEntry rattaché cet item
      */
     @Override
@@ -97,11 +84,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
                 VocabularyNames.THEMATIC);
     }
 
-    @Override
-    public String getThematicTitle(Locale locale) {
-        List<AssetCategory> thematics = getThematicCategories();
-        return AssetVocabularyHelper.getThematicTitle(locale, thematics);
-    }
+    /**
+	 * Retourne une chaine des 'Thematics' sépararée d'un '-'
+	 */
+	@Override
+	public String getThematicsLabel(Locale locale) {
+		List<AssetCategory> thematics = this.getThematicCategories();
+		String thematicTitle = AssetVocabularyHelper.getThematicTitle(locale, thematics);
+		return thematicTitle;
+	}
 
     /**
      * Retourne les catégories 'Territoire' correspondant aux pays du budget
@@ -191,17 +182,38 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
         return districts;
     }
-
-    @Override
-    public AssetCategory getTypeCategory() {
-        return AssetVocabularyHelper
-                .getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS).get(0);
-    }
     
     @Override
-    public String getTypeCategoryColor() {
-        long categoryId = this.getTypeCategory().getCategoryId();
-        return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
+    public String getBudgetParticipatifStatusCategoryColor() {
+        AssetCategory statusCategory = this.getBudgetParticipatifStatusCategory();
+        if (statusCategory != null) {
+        	return AssetVocabularyHelper.getCategoryProperty(statusCategory.getCategoryId(), "color_code");
+        } else {
+        	return "";
+        }
+    }
+    
+    /**
+	 * Retourne la categorie projet du BP
+	 */
+	@Override
+	public AssetCategory getProjectCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+	}
+	
+	/**
+	 * Retourne la titre du projet du BP
+	 */
+	@Override
+	public String getProjectName() {
+        AssetCategory project = getProjectCategory();
+        return (project != null) ? project.getTitle(Locale.FRANCE) : "";
     }
 
     @Override
@@ -224,10 +236,10 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	public boolean isVotable() {
 		BudgetPhase budgetPhase = this.getPhase();
 		if (budgetPhase != null) {
-			return true;
-		} else {
-			return false;
+			if (budgetPhase.isInVotingPeriod())
+				return true;
 		}
+		return false;
 	}
     
     @Override
@@ -253,6 +265,20 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
     
     /**
+     * Le budget a-t-il ete evalue par l'administration ?
+     * @note : doit alors posseder l'un des statuts adequat
+     */
+    @Override
+    public boolean hasBeenEvaluated() {
+        AssetCategory bpStatus = this.getBudgetParticipatifStatusCategory();
+        if (StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_NON_FEASIBLE.getName()) 
+        		|| StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_FEASIBLE.getName())) {
+        	return true;
+        }
+        return false;
+    }
+    
+    /**
 	 * Retourne les commentaires de l'entité
 	 */
 	@Override
@@ -273,11 +299,10 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     /**
      * Retourne la version JSON de l'entité
      */
-    @Override
     public JSONObject toJSON(String publikUserId) {
+    	
         // Initialisation des variables tempons et résultantes
         JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
-        AssetCategory projectCategory = this.getProjectCategory();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -285,9 +310,19 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("createDate", dateFormat.format(this.getCreateDate()));
         jsonBudget.put("imageURL", this.getImageURL());
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
-        jsonBudget.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
-        jsonBudget.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
+        jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+        jsonBudget.put("isCrush", this.getIsCrush());
+        
+        // Champs : Catégorisations
+        jsonBudget.put("BPStatus", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudgetParticipatifStatusTitle(Locale.FRENCH))));
+        jsonBudget.put("districtsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
+        jsonBudget.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
+        jsonBudget.put("projectName", this.getProjectName());
+        
+        // Champs : Intéractivités
+        jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
+        jsonBudget.put("nbSupports", this.getNbSupports());
 
         // Lieux placit
         for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
@@ -304,7 +339,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return jsonBudget;
     }
 
-    private long getNombreSoutien() {
+    private long getNbSupports() {
         return 0;
     }
 }

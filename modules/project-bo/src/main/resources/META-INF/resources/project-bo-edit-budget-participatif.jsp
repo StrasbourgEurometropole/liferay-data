@@ -66,22 +66,22 @@
 				<aui:input name="citoyenFirstname" label="first-name" disabled="true" />
 
 				<%-- Champ : Adresse --%>
-				<aui:input name="citoyenAdresse" label="address" disabled="true" />
+				<aui:input name="citoyenAdresse" label="address" />
 
 				<%-- Champ : Code postal --%>
-				<aui:input name="citoyenPostalCode" label="postal-code" disabled="true"/>
+				<aui:input name="citoyenPostalCode" label="postal-code" />
 
 				<%-- Champ : Ville --%>
-				<aui:input name="citoyenCity" label="city" disabled="true"/>
+				<aui:input name="citoyenCity" label="city" />
 
 				<%-- Champ : Adresse mail --%>
-				<aui:input name="citoyenEmail" label="email" disabled="true"/>
+				<aui:input name="citoyenEmail" label="email" />
 
 				<%-- Champ : telephone --%>
-				<aui:input name="citoyenPhone" label="phone" disabled="true"/>
+				<aui:input name="citoyenPhone" label="phone" />
 
 				<%-- Champ : mobile --%>
-				<aui:input name="citoyenMobile" label="mobile" disabled="true"/>
+				<aui:input name="citoyenMobile" label="mobile" />
 
 			</aui:fieldset>
 

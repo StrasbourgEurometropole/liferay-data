@@ -32,7 +32,7 @@
 
 		<liferay-ui:search-container-row
 			className="eu.strasbourg.service.project.model.BudgetParticipatif"
-			modelVar="budgetParticipatif" cssClass="budget-participatifs-row" keyProperty="budgetParticipatifId" rowIdProperty="budgetParticipatifId"
+			modelVar="budgetParticipatif" cssClass="budget-participatif-row" keyProperty="budgetParticipatifId" rowIdProperty="budgetParticipatifId"
 		>
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="title" truncate="true"

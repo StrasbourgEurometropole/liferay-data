@@ -12,17 +12,18 @@ public enum ParticiperCategories {
     IN_PROGRESS("in_progress"),
     SOON_FINISHED("soon_finished"),
     FINISHED("finished"),
-    BP_SUBMITTED("submitted"),
-    BP_ACCEPTABLE("acceptable"),
-    BP_NON_ACCEPTABLE("non_acceptabled"),
-    BP_FEASIBLE("feasible"),
-    BP_NON_FEASIBLE("non_feasible"),
-    BP_LAUREAT("laureat"),
-    BP_NON_SELECTED("selected"),
-    BP_IN_PROGRESS("bp_in_progress"),
-    BP_REALIZED("realized"),
-    BP_SUSPENDED("suspended"),
-    BP_CANCELLED("cancelled");
+    BP_SUBMITTED("Depose"),
+    BP_ACCEPTABLE("Recevable"),
+    BP_NON_ACCEPTABLE("Non recevable"),
+    BP_IN_FEASIBILITY_STUDIES("En cours d'étude de faisabilité"),
+    BP_FEASIBLE("Faisable"),
+    BP_NON_FEASIBLE("Non faisable"),
+    BP_LAUREAT("Laureat"),
+    BP_NON_SELECTED("Non retenu"),
+    BP_IN_PROGRESS("En cours de realisation"),
+    BP_REALIZED("Realise"),
+    BP_SUSPENDED("Supendu"),
+    BP_CANCELLED("Annule");
 
     private String name;
 

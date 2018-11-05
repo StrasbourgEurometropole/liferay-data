@@ -319,6 +319,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Le budget a-t-il ete evalue par l'administration ?
+	*
+	* @note : doit alors posseder l'un des statuts adequat
+	*/
+	@Override
+	public boolean hasBeenEvaluated() {
+		return _budgetParticipatif.hasBeenEvaluated();
+	}
+
+	/**
 	* Returns <code>true</code> if this budget participatif is approved.
 	*
 	* @return <code>true</code> if this budget participatif is approved; <code>false</code> otherwise
@@ -458,16 +468,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne le projet de la participation (
+	* Retourne la categorie projet du BP
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
 		return _budgetParticipatif.getProjectCategory();
-	}
-
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
-		return _budgetParticipatif.getTypeCategory();
 	}
 
 	/**
@@ -554,6 +559,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getAuthor() {
 		return _budgetParticipatif.getAuthor();
+	}
+
+	@Override
+	public java.lang.String getBudgetParticipatifStatusCategoryColor() {
+		return _budgetParticipatif.getBudgetParticipatifStatusCategoryColor();
 	}
 
 	@Override
@@ -705,9 +715,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getPlaceTextArea();
 	}
 
+	/**
+	* Retourne la titre du projet du BP
+	*/
 	@Override
-	public java.lang.String getProjectTitle(java.util.Locale locale) {
-		return _budgetParticipatif.getProjectTitle(locale);
+	public java.lang.String getProjectName() {
+		return _budgetParticipatif.getProjectName();
 	}
 
 	/**
@@ -740,9 +753,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getStatusByUserUuid();
 	}
 
+	/**
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
 	@Override
-	public java.lang.String getThematicTitle(java.util.Locale locale) {
-		return _budgetParticipatif.getThematicTitle(locale);
+	public java.lang.String getThematicsLabel(java.util.Locale locale) {
+		return _budgetParticipatif.getThematicsLabel(locale);
 	}
 
 	/**
@@ -753,11 +769,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getTitle() {
 		return _budgetParticipatif.getTitle();
-	}
-
-	@Override
-	public java.lang.String getTypeCategoryColor() {
-		return _budgetParticipatif.getTypeCategoryColor();
 	}
 
 	/**

@@ -94,34 +94,29 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
  			// -------------------------- CITOYEN ----------------------------
  			// ---------------------------------------------------------------
             
-            /**
-             * Pour le moment, rien a modifier puisque les informations citoyens n'ont pas a être 
-             * editees par l'administratuer du budget
-             */
+            // Citoyen : Adresse
+            String adresse = ParamUtil.getString(request, "citoyenAdresse");
+            budgetParticipatif.setCitoyenAdresse(adresse);
             
-//            // Citoyen : Adresse
-//            String adresse = ParamUtil.getString(request, "citoyenAdresse");
-//            budgetParticipatif.setCitoyenAdresse(adresse);
-//            
-//            // Citoyen : Code postal
-//            long postalCode = ParamUtil.getLong(request, "citoyenPostalCode");
-//            budgetParticipatif.setCitoyenPostalCode(postalCode);
-//            
-//            // Citoyen : Ville
-//            String city = ParamUtil.getString(request, "citoyenCity");
-//            budgetParticipatif.setCitoyenCity(city);
-//            
-//            // Citoyen : Email
-//            String mail = ParamUtil.getString(request, "citoyenEmail");
-//            budgetParticipatif.setCitoyenEmail(mail);
-//            
-//            // Citoyen : Telephone
-//            String phone= ParamUtil.getString(request, "citoyenPhone");
-//            budgetParticipatif.setCitoyenPhone(phone);
-//            
-//            // Citoyen : Mobile
-//            String mobile = ParamUtil.getString(request, "citoyenMobile");
-//            budgetParticipatif.setCitoyenMobile(mobile);
+            // Citoyen : Code postal
+            long postalCode = ParamUtil.getLong(request, "citoyenPostalCode");
+            budgetParticipatif.setCitoyenPostalCode(postalCode);
+            
+            // Citoyen : Ville
+            String city = ParamUtil.getString(request, "citoyenCity");
+            budgetParticipatif.setCitoyenCity(city);
+            
+            // Citoyen : Email
+            String mail = ParamUtil.getString(request, "citoyenEmail");
+            budgetParticipatif.setCitoyenEmail(mail);
+            
+            // Citoyen : Telephone
+            String phone= ParamUtil.getString(request, "citoyenPhone");
+            budgetParticipatif.setCitoyenPhone(phone);
+            
+            // Citoyen : Mobile
+            String mobile = ParamUtil.getString(request, "citoyenMobile");
+            budgetParticipatif.setCitoyenMobile(mobile);
             
             // ---------------------------------------------------------------
  			// -------------------------- IMAGE / VIDEO ----------------------
@@ -151,6 +146,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
  			
  			// Puis on cree les nouveaux
  			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
+ 			
  			for (String placitPlacesIndexe : placitPlacesIndexesString.split(",")) {
  				
  				// Recupere les valeurs de test pour savoir si il existe des lieux placit

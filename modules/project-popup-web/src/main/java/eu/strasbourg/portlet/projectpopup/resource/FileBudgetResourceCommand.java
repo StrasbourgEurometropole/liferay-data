@@ -95,8 +95,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private long postalcode;
     private String phone;
     private String mobile;
-    private String lastname;
-    private String firstname;
     private String email;
     private String photo;
     private String video;
@@ -130,8 +128,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
-        this.firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
         this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request,VIDEO));
@@ -197,7 +193,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         try {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<Long>();
+            List<Long> identifiants = new ArrayList<>();
             if (this.quartierId==0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
                 assert districts != null;
@@ -301,7 +297,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName("budgetPhoto");
         String type = fileName.substring(fileName.lastIndexOf("."));
-        return type.equals("jpg") || type.equals("jpeg") || type.equals("png");
+        return type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
     }
 
     private boolean validate(ResourceRequest request) throws PortalException {

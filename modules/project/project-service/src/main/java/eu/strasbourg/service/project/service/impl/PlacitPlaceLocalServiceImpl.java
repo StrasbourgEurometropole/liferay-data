@@ -89,7 +89,7 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 	 */
 	@Override
 	public List<PlacitPlace> getByBudgetParticipatif(long budgetParticipatifId) {
-		return this.placitPlacePersistence.findByPetition(budgetParticipatifId);
+		return this.placitPlacePersistence.findByBudgetParticipatif(budgetParticipatifId);
 	}
 
 	/**
