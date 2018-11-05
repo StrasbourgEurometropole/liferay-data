@@ -7,6 +7,18 @@
         position: relative;
     }
 
+    a.connect {
+        font-family: $f_txt;
+        font-size: $g;
+        font-weight: 700;
+        background-color: #262626;
+    }
+
+    .navbar-collapse ul li a.connect {
+        height: 100%;
+        margin-right: 15px;
+    }
+
     @include mobile{
         #navbar .mns-top-header a .flexbox{
             margin: 13px auto;
