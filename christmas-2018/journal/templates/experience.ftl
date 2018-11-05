@@ -1,4 +1,7 @@
 <#setting locale = locale />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 
 <#assign journalArticleId = .vars['reserved-article-id'].data>
@@ -25,6 +28,14 @@
                         <img src="${image.data}" width="60" height="60" alt="Nom de l'auteur de l'expérience">
                     </figure>
                 </div>
+                <a href="#" class="add-favorites"
+                    data-type="7" 
+                    data-title="${title.data}" 
+                    data-url="${currentUrl}" 
+                    data-group-id=${themeDisplay.scopeGroupId}
+                    data-id="${.vars['reserved-article-id'].data}">
+                    <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
+                </a>
                 <div class="mns-bloc-texte">
                     ${text.data}
                 </div>

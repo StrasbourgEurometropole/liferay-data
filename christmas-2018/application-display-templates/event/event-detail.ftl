@@ -1,5 +1,11 @@
 <!-- Détail événement -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
+
 <div class="small-container mns-wrapper-agenda-detail mns-fck">
     <div class="row">
         <div class="mns-aside-info col-sm-4">
@@ -30,6 +36,13 @@
             </div>
         </div>
         <div class="col-sm-8 mns-content-agenda-detail">
+            <a href="#" class="add-favorites"
+                data-type="2" 
+                data-title="${entry.getTitle(locale)}" 
+                data-url="${themeDisplay.getPortalURL()}${homeURL}event/-/entity/id/${entry.eventId}" 
+                data-id="${entry.eventId}">
+                <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
+            </a>
             <div class="col-xs-12" style="float: none;">
                 <span class="mns-event-date">${entry.getEventScheduleDisplay(locale)}</span>
                 <h1>${entry.getTitle(locale)}</h1>
