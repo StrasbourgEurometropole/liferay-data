@@ -57,7 +57,7 @@
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
-                                <aui:input name="budgetPhoto" type="file" label=""
+                                <aui:input name="budgetPhoto" type="file" label="modal.filebudget.information.picture"
                                     cssClass="btn btn-default btn-choose">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
