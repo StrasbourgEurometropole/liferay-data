@@ -84,7 +84,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     unescapeHtml4(budgetParticipatif.getPlaceTextArea()),
                     budgetParticipatif.getIsCrush(),
                     budgetParticipatif.getCrushComment(),
-                    budgetParticipatif.getThematicTitle(Locale.FRANCE),
+                    budgetParticipatif.getThematicsLabel(Locale.FRANCE),
                     budgetParticipatif.getDistrictLabel(Locale.FRANCE),
                     //budgetParticipatif.getProjectTitle(Locale.FRANCE),
                     dateFormat.format(budgetParticipatif.getCreateDate()),
