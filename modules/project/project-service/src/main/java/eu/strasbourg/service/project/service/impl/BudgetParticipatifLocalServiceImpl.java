@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -32,11 +33,13 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
 
@@ -180,8 +183,17 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         }
         updateBudgetParticipatif(budget);
         updateAssetEntry(budget, sc);
+        addCategory(sc,budget);
         reindex(budget, false);
         return budget;
+    }
+
+    private void addCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
+        AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(),sc.getScopeGroupId());
+        if (category==null){
+            throw new PortalException("aucunes catégories de connu");
+        }
+        AssetVocabularyHelper.addCategoryToAssetEntry(category,budgetParticipatif.getAssetEntry());
     }
 
     /**
