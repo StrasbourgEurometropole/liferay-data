@@ -74,7 +74,7 @@
 					
 				</div>
 				
-				<%-- Champ : opacitÃÂÃÂ© de l'image --%>
+				<%-- Champ : opacite de l'image --%>
 				<c:if test="${empty dc.project}">
 					<aui:input name="opacityImage" required="false" helpMessage="opacityHelp" value="1.00" />
 				</c:if>
@@ -118,7 +118,10 @@
 				
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
-				
+
+				<%-- Checkbox : envoi Ã  tout les suiveurs--%>
+				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
+
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Lieux de consultation --%>
@@ -159,7 +162,7 @@
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
 				
-				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+				<%-- Hack pour ajouter une validation sur les vocabulaires obligatoires --%>
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">

@@ -57,11 +57,6 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 		};
 
 	/**
-	* Retourne le projet de la participation (
-	*/
-	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
-
-	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
@@ -72,12 +67,25 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
 	/**
-	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	* Retourne une chaine des 'Thematics' sépararée d'un '-'
+	*/
+	public java.lang.String getThematicsLabel(java.util.Locale locale);
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays du budget
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne les catégories 'Statut BP' du budget participatif
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory();
+
+	public java.lang.String getBudgetParticipatifStatusTitle(
+		java.util.Locale locale);
+
+	/**
+	* Retourne la liste des lieux placit liés
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces();
 
@@ -106,6 +114,51 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	* @return : null si vide, sinon la liste des catégories
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
+
+	public java.lang.String getBudgetParticipatifStatusCategoryColor();
+
+	/**
+	* Retourne la categorie projet du BP
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	* Retourne la titre du projet du BP
+	*/
+	public java.lang.String getProjectName();
+
+	public java.lang.String getAuthor();
+
+	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	public boolean isJudgeable();
+
+	/**
+	* Est en periode de vote
+	*/
+	public boolean isVotable();
+
+	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
+
+	public java.lang.String getPhaseTitleLabel();
+
+	/**
+	* Le budget a-t-il ete evalue par l'administration ?
+	*
+	* @note : doit alors posseder l'un des statuts adequat
+	*/
+	public boolean hasBeenEvaluated();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
 
 	/**
 	* Retourne la version JSON de l'entité

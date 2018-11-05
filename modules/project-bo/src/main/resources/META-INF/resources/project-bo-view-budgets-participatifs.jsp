@@ -40,7 +40,7 @@
 		<%-- Composant : partie gestion (affichee apres une selection) --%>
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<c:if test="${dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
@@ -49,7 +49,7 @@
 						icon="times" label="unpublish" />
 				</c:if>
 			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${dc.hasPermission('DELETE_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 			<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
@@ -79,35 +79,55 @@
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Titre --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="title" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
 				
-				<%-- Colonne : Date de modification --%>
+				<%-- Colonne : Depositaire (Publik) --%>
+                <liferay-ui:search-container-column-text name="depositary">
+                    ${budgetParticipatif.author}
+                </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Phase --%>
+                <liferay-ui:search-container-column-text name="budget-phase">
+                    ${budgetParticipatif.phaseTitleLabel}
+                </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Statut --%>
+                <liferay-ui:search-container-column-text name="status">
+                    ${budgetParticipatif.getBudgetParticipatifStatusTitle(locale)}
+                </liferay-ui:search-container-column-text>
+
+				<%-- Colonne : Administrateur liferay --%>
+                <liferay-ui:search-container-column-text name="administrator">
+                    ${budgetParticipatif.statusByUserName}
+                </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${budgetParticipatif.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 
-				<%-- Colonne : Createur --%>
-                <liferay-ui:search-container-column-text name="user">
-                    ${budgetParticipatif.userName}
-                </liferay-ui:search-container-column-text>
+				<%-- Colonne : Statut --%>
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${budgetParticipatif.status}" />
+				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editBudgetParticipatifURL}" />
 						</c:if>
 
 						<liferay-portlet:actionURL name="deleteBudgetParticipatif" var="deleteBudgetParticipatifURL">
-							<portlet:param name="cmd" value="deleteBudgetParticipatif" />
 							<portlet:param name="tab" value="budgets-participatifs" />
 							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('DELETE_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteBudgetParticipatifURL}" />
 						</c:if>
 					</liferay-ui:icon-menu>
@@ -136,7 +156,7 @@
 <%-- Composant : bouton d'ajout d'entite --%>
 <!--
 <liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+	<c:if test="${dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 		<liferay-frontend:add-menu-item title="Ajouter un budget participatif" url="${addBudgetParticipatifURL}" />
 	</c:if>
 </liferay-frontend:add-menu>

@@ -60,17 +60,13 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setCitoyenEmail(model.getCitoyenEmail());
 		soapModel.setHasCopyright(model.getHasCopyright());
 		soapModel.setVideoUrl(model.getVideoUrl());
-		soapModel.setExternalImageURL(model.getExternalImageURL());
-		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
-		soapModel.setMediaChoice(model.getMediaChoice());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
-		soapModel.setConsultationPlacesText(model.getConsultationPlacesText());
-		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
 		soapModel.setIsCrush(model.getIsCrush());
 		soapModel.setCrushComment(model.getCrushComment());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
+		soapModel.setBudgetPhaseId(model.getBudgetPhaseId());
 
 		return soapModel;
 	}
@@ -338,56 +334,12 @@ public class BudgetParticipatifSoap implements Serializable {
 		_videoUrl = videoUrl;
 	}
 
-	public String getExternalImageURL() {
-		return _externalImageURL;
-	}
-
-	public void setExternalImageURL(String externalImageURL) {
-		_externalImageURL = externalImageURL;
-	}
-
-	public String getExternalImageCopyright() {
-		return _externalImageCopyright;
-	}
-
-	public void setExternalImageCopyright(String externalImageCopyright) {
-		_externalImageCopyright = externalImageCopyright;
-	}
-
-	public boolean getMediaChoice() {
-		return _mediaChoice;
-	}
-
-	public boolean isMediaChoice() {
-		return _mediaChoice;
-	}
-
-	public void setMediaChoice(boolean mediaChoice) {
-		_mediaChoice = mediaChoice;
-	}
-
 	public String getPlaceTextArea() {
 		return _placeTextArea;
 	}
 
 	public void setPlaceTextArea(String placeTextArea) {
 		_placeTextArea = placeTextArea;
-	}
-
-	public String getConsultationPlacesText() {
-		return _consultationPlacesText;
-	}
-
-	public void setConsultationPlacesText(String consultationPlacesText) {
-		_consultationPlacesText = consultationPlacesText;
-	}
-
-	public String getConsultationPlacesBody() {
-		return _consultationPlacesBody;
-	}
-
-	public void setConsultationPlacesBody(String consultationPlacesBody) {
-		_consultationPlacesBody = consultationPlacesBody;
 	}
 
 	public boolean getIsCrush() {
@@ -434,6 +386,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_filesIds = filesIds;
 	}
 
+	public long getBudgetPhaseId() {
+		return _budgetPhaseId;
+	}
+
+	public void setBudgetPhaseId(long budgetPhaseId) {
+		_budgetPhaseId = budgetPhaseId;
+	}
+
 	private String _uuid;
 	private long _budgetParticipatifId;
 	private long _groupId;
@@ -460,15 +420,11 @@ public class BudgetParticipatifSoap implements Serializable {
 	private String _citoyenEmail;
 	private boolean _hasCopyright;
 	private String _videoUrl;
-	private String _externalImageURL;
-	private String _externalImageCopyright;
-	private boolean _mediaChoice;
 	private String _placeTextArea;
-	private String _consultationPlacesText;
-	private String _consultationPlacesBody;
 	private boolean _isCrush;
 	private String _crushComment;
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
+	private long _budgetPhaseId;
 }

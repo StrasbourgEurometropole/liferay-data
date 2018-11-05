@@ -286,6 +286,16 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _budgetParticipatifLocalService.findByKeyword(keyword, groupId,
+			start, end);
+	}
+
+	/**
 	* Returns a range of all the budget participatifs.
 	*
 	* <p>
@@ -359,6 +369,21 @@ public class BudgetParticipatifLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _budgetParticipatifLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _budgetParticipatifLocalService.findByKeywordCount(keyword,
+			groupId);
+	}
+
+	@Override
+	public void removeBudgetParticipatif(long budgetId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_budgetParticipatifLocalService.removeBudgetParticipatif(budgetId);
 	}
 
 	@Override

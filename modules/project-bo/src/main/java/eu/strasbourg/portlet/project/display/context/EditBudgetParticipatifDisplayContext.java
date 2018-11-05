@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -49,7 +50,6 @@ public class EditBudgetParticipatifDisplayContext {
         long budgetParticipatifId = ParamUtil.getLong(_request, "budgetParticipatifId");
         if (_budgetParticipatif == null && budgetParticipatifId > 0)
             _budgetParticipatif = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(budgetParticipatifId);
-        _log.info("le budget : " + _budgetParticipatif);
         return _budgetParticipatif;
     }
 
@@ -65,6 +65,7 @@ public class EditBudgetParticipatifDisplayContext {
                     try {
                         return c.getAncestors().size() == 1;
                     } catch (Exception e) {
+                        _log.error("le budget : " + _budgetParticipatif,e);
                         return false;
                     }
                 }).collect(Collectors.toList());
@@ -72,6 +73,21 @@ public class EditBudgetParticipatifDisplayContext {
         }
         return this._cities;
     }
+    
+    /**
+	 * Renvoie les indexes des lieux par défaut
+	 */
+	public String getDefaultPlaceIndexes() throws PortalException {
+		if (this.getBudgetParticipatif() != null) {
+			List<PlacitPlace> places = this.getBudgetParticipatif().getPlacitPlaces();
+			String indexes = "0";
+			for (int i = 1; i <= places.size(); i++) {
+				indexes += "," + i;
+			}
+			return indexes;
+		}
+		return "";
+	}
 
     public Locale[] getAvailableLocales() {
         Set<Locale> availableLocalesSet = LanguageUtil.getSupportedLocales();

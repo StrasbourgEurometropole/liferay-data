@@ -44,12 +44,6 @@
 				name="modified-date" truncate="true"
 				value="${formattedModifiedfDate}" />
 
-			<fmt:formatDate value="${participation.modifiedDate}"
-				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="modified-date" truncate="true"
-				value="${formattedModifiedDate}" />
-
 			<liferay-ui:search-container-column-text name="">
 				<div class="data" data-id="${participation.participationId}" data-title="${participation.title}"></div>
 			</liferay-ui:search-container-column-text>

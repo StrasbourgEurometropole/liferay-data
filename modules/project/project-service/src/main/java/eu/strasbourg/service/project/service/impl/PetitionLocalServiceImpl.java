@@ -92,13 +92,43 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return super.createPetition(petitionId);
 	}
 	
+	/**
+	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Petition createPetition(ServiceContext sc)
+			throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = counterLocalService.increment();
+
+		Petition petition = this.petitionLocalService.createPetition(pk);
+
+		petition.setGroupId(sc.getScopeGroupId());
+		petition.setUserName(user.getFullName());
+		petition.setUserId(sc.getUserId());
+
+		petition.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return petition;
+	}
+	
     @Override
 	public Petition updatePetition(Petition petition, ServiceContext sc) throws PortalException {
-		if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
+    	User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		
+		if (user != null) {
+			petition.setStatusByUserId(sc.getUserId());
+			petition.setStatusByUserName(user.getFullName());
+			petition.setStatusDate(sc.getModifiedDate());
+		}
+		
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH){
 			petition.setStatus(WorkflowConstants.STATUS_APPROVED);
 		}else {
 			petition.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
+		
 		updatePetition(petition);
 		updateAssetEntry(petition,sc);
 		reindex(petition,false);
@@ -341,28 +371,6 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 		return petitionPersistence.findWithDynamicQuery(dynamicQuery,start,end);
-	}
-
-	/**
-	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public Petition createPetition(ServiceContext sc)
-			throws PortalException {
-		User user = UserLocalServiceUtil.getUser(sc.getUserId());
-
-		long pk = counterLocalService.increment();
-
-		Petition petition = this.petitionLocalService
-				.createPetition(pk);
-
-		petition.setGroupId(sc.getScopeGroupId());
-		petition.setUserName(user.getFullName());
-		petition.setUserId(sc.getUserId());
-
-		petition.setStatus(WorkflowConstants.STATUS_DRAFT);
-
-		return petition;
 	}
 
 	/**

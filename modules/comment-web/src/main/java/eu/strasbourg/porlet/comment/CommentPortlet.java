@@ -33,7 +33,9 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -84,6 +86,7 @@ public class CommentPortlet extends MVCPortlet {
 	private static final String ESCAPE_PARAM_URL_PARTTERN = "(\\?|#)";
 	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
 	private static final String PARTICIPATION_CLASSNAME = "eu.strasbourg.service.project.model.Participation";
+	private static final String PETITION_CLASSNAME = "eu.strasbourg.service.project.model.Petition";
 	private static final String REDIRECT_URL_PARAM = "redirectURL";
 	
 	
@@ -402,12 +405,20 @@ public class CommentPortlet extends MVCPortlet {
 				request.setAttribute("hasUserSigned", false);
 				request.setAttribute("isUserBanned", false);
 			}
-			
+
 			// Verification d'une participation ou l'on peut reagir
 			if (assetType.equals(PARTICIPATION_CLASSNAME)) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
-				
+
 				if (participation == null || !participation.isJudgeable()) {
+					request.setAttribute("isAssetCommentable", false);
+				}
+			}
+			// Verification d'une participation ou l'on peut reagir
+			else if (assetType.equals(PETITION_CLASSNAME)) {
+				Petition petition = PetitionLocalServiceUtil.getPetition(assetEntry.getClassPK());
+
+				if (petition == null || !petition.isJudgeable()) {
 					request.setAttribute("isAssetCommentable", false);
 				}
 			}

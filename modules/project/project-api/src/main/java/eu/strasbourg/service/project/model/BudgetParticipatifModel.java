@@ -507,57 +507,6 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setVideoUrl(String videoUrl);
 
 	/**
-	 * Returns the external image url of this budget participatif.
-	 *
-	 * @return the external image url of this budget participatif
-	 */
-	@AutoEscape
-	public String getExternalImageURL();
-
-	/**
-	 * Sets the external image url of this budget participatif.
-	 *
-	 * @param externalImageURL the external image url of this budget participatif
-	 */
-	public void setExternalImageURL(String externalImageURL);
-
-	/**
-	 * Returns the external image copyright of this budget participatif.
-	 *
-	 * @return the external image copyright of this budget participatif
-	 */
-	@AutoEscape
-	public String getExternalImageCopyright();
-
-	/**
-	 * Sets the external image copyright of this budget participatif.
-	 *
-	 * @param externalImageCopyright the external image copyright of this budget participatif
-	 */
-	public void setExternalImageCopyright(String externalImageCopyright);
-
-	/**
-	 * Returns the media choice of this budget participatif.
-	 *
-	 * @return the media choice of this budget participatif
-	 */
-	public boolean getMediaChoice();
-
-	/**
-	 * Returns <code>true</code> if this budget participatif is media choice.
-	 *
-	 * @return <code>true</code> if this budget participatif is media choice; <code>false</code> otherwise
-	 */
-	public boolean isMediaChoice();
-
-	/**
-	 * Sets whether this budget participatif is media choice.
-	 *
-	 * @param mediaChoice the media choice of this budget participatif
-	 */
-	public void setMediaChoice(boolean mediaChoice);
-
-	/**
 	 * Returns the place text area of this budget participatif.
 	 *
 	 * @return the place text area of this budget participatif
@@ -571,36 +520,6 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	 * @param placeTextArea the place text area of this budget participatif
 	 */
 	public void setPlaceTextArea(String placeTextArea);
-
-	/**
-	 * Returns the consultation places text of this budget participatif.
-	 *
-	 * @return the consultation places text of this budget participatif
-	 */
-	@AutoEscape
-	public String getConsultationPlacesText();
-
-	/**
-	 * Sets the consultation places text of this budget participatif.
-	 *
-	 * @param consultationPlacesText the consultation places text of this budget participatif
-	 */
-	public void setConsultationPlacesText(String consultationPlacesText);
-
-	/**
-	 * Returns the consultation places body of this budget participatif.
-	 *
-	 * @return the consultation places body of this budget participatif
-	 */
-	@AutoEscape
-	public String getConsultationPlacesBody();
-
-	/**
-	 * Sets the consultation places body of this budget participatif.
-	 *
-	 * @param consultationPlacesBody the consultation places body of this budget participatif
-	 */
-	public void setConsultationPlacesBody(String consultationPlacesBody);
 
 	/**
 	 * Returns the is crush of this budget participatif.
@@ -681,6 +600,20 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	 * @param filesIds the files IDs of this budget participatif
 	 */
 	public void setFilesIds(String filesIds);
+
+	/**
+	 * Returns the budget phase ID of this budget participatif.
+	 *
+	 * @return the budget phase ID of this budget participatif
+	 */
+	public long getBudgetPhaseId();
+
+	/**
+	 * Sets the budget phase ID of this budget participatif.
+	 *
+	 * @param budgetPhaseId the budget phase ID of this budget participatif
+	 */
+	public void setBudgetPhaseId(long budgetPhaseId);
 
 	/**
 	 * Returns <code>true</code> if this budget participatif is approved.
