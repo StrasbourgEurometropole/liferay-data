@@ -115,7 +115,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
                     getfield(unescapeHtml4(petition.getSupportedBy())),
                     getfield(petition.getPlaceTextArea()),
                     getfield(petition.getPetitionStatusExcel()),
-                    getfield(petition.getThematicLabel(Locale.FRANCE)),
+                    getfield(petition.getProjectTitle(Locale.FRANCE)),
                     getfield(petition.getThematicLabel(Locale.FRANCE)),
                     getfield(petition.getDistrictLabel(Locale.FRANCE))};
             petitionData = ArrayUtil.append(petitionData, petitionRow);
