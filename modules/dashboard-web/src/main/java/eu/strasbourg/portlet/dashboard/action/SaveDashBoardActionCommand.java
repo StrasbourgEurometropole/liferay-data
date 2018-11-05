@@ -83,7 +83,6 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
             SimpleDateFormat sdf = new SimpleDateFormat("yyy-dd-MM");
             String dateNaiss = sdf.format(birthday);
             PublikApiClient.setAllUserDetails(publikID, user.getLastName(), address, "" + postalcode, city, dateNaiss, phone, mobile);
-
             try {
                 response.sendRedirect(redirectURL);
             } catch (IOException e) {

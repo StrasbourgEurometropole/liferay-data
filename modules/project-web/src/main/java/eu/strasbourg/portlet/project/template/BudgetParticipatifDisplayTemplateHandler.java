@@ -16,11 +16,11 @@ import java.util.Map;
  * @author alexandre.quere
  */
 @Component(
-        immediate = true,
-        property = {
-                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
-        },
-        service = TemplateHandler.class
+    immediate = true,
+    property = {
+    		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
+    },
+    service = TemplateHandler.class
 )
 public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
 
@@ -31,7 +31,7 @@ public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplay
 
     @Override
     public String getName(Locale locale) {
-        return "Template BudgetParticipatif";
+        return "Template Budget participatif";
     }
 
     @Override
@@ -51,7 +51,7 @@ public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplay
         fieldsTemplateVariableGroup.empty();
 
         fieldsTemplateVariableGroup.addCollectionVariable(
-                "BudgetParticipatifs", List.class, PortletDisplayTemplateManager.ENTRIES,
+                "BudgetsParticipatifs", List.class, PortletDisplayTemplateManager.ENTRIES,
                 "BudgetParticipatif", BudgetParticipatif.class, "currentBudgetParticipatif", "getTitle(locale)");
 
         fieldsTemplateVariableGroup.addVariable("BudgetParticipatif", BudgetParticipatif.class, "entry");
@@ -59,4 +59,5 @@ public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplay
 
         return templateVariableGroups;
     }
+    
 }

@@ -66,7 +66,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -120,18 +120,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(hasCopyright);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
-		sb.append(", externalImageURL=");
-		sb.append(externalImageURL);
-		sb.append(", externalImageCopyright=");
-		sb.append(externalImageCopyright);
-		sb.append(", mediaChoice=");
-		sb.append(mediaChoice);
 		sb.append(", placeTextArea=");
 		sb.append(placeTextArea);
-		sb.append(", consultationPlacesText=");
-		sb.append(consultationPlacesText);
-		sb.append(", consultationPlacesBody=");
-		sb.append(consultationPlacesBody);
 		sb.append(", isCrush=");
 		sb.append(isCrush);
 		sb.append(", crushComment=");
@@ -142,6 +132,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(imageId);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
+		sb.append(", budgetPhaseId=");
+		sb.append(budgetPhaseId);
 		sb.append("}");
 
 		return sb.toString();
@@ -284,41 +276,11 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setVideoUrl(videoUrl);
 		}
 
-		if (externalImageURL == null) {
-			budgetParticipatifImpl.setExternalImageURL(StringPool.BLANK);
-		}
-		else {
-			budgetParticipatifImpl.setExternalImageURL(externalImageURL);
-		}
-
-		if (externalImageCopyright == null) {
-			budgetParticipatifImpl.setExternalImageCopyright(StringPool.BLANK);
-		}
-		else {
-			budgetParticipatifImpl.setExternalImageCopyright(externalImageCopyright);
-		}
-
-		budgetParticipatifImpl.setMediaChoice(mediaChoice);
-
 		if (placeTextArea == null) {
 			budgetParticipatifImpl.setPlaceTextArea(StringPool.BLANK);
 		}
 		else {
 			budgetParticipatifImpl.setPlaceTextArea(placeTextArea);
-		}
-
-		if (consultationPlacesText == null) {
-			budgetParticipatifImpl.setConsultationPlacesText(StringPool.BLANK);
-		}
-		else {
-			budgetParticipatifImpl.setConsultationPlacesText(consultationPlacesText);
-		}
-
-		if (consultationPlacesBody == null) {
-			budgetParticipatifImpl.setConsultationPlacesBody(StringPool.BLANK);
-		}
-		else {
-			budgetParticipatifImpl.setConsultationPlacesBody(consultationPlacesBody);
 		}
 
 		budgetParticipatifImpl.setIsCrush(isCrush);
@@ -345,6 +307,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		else {
 			budgetParticipatifImpl.setFilesIds(filesIds);
 		}
+
+		budgetParticipatifImpl.setBudgetPhaseId(budgetPhaseId);
 
 		budgetParticipatifImpl.resetOriginalValues();
 
@@ -388,13 +352,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 		hasCopyright = objectInput.readBoolean();
 		videoUrl = objectInput.readUTF();
-		externalImageURL = objectInput.readUTF();
-		externalImageCopyright = objectInput.readUTF();
-
-		mediaChoice = objectInput.readBoolean();
 		placeTextArea = objectInput.readUTF();
-		consultationPlacesText = objectInput.readUTF();
-		consultationPlacesBody = objectInput.readUTF();
 
 		isCrush = objectInput.readBoolean();
 		crushComment = objectInput.readUTF();
@@ -402,6 +360,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
+
+		budgetPhaseId = objectInput.readLong();
 	}
 
 	@Override
@@ -528,41 +488,11 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(videoUrl);
 		}
 
-		if (externalImageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(externalImageURL);
-		}
-
-		if (externalImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(externalImageCopyright);
-		}
-
-		objectOutput.writeBoolean(mediaChoice);
-
 		if (placeTextArea == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(placeTextArea);
-		}
-
-		if (consultationPlacesText == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(consultationPlacesText);
-		}
-
-		if (consultationPlacesBody == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(consultationPlacesBody);
 		}
 
 		objectOutput.writeBoolean(isCrush);
@@ -589,6 +519,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		else {
 			objectOutput.writeUTF(filesIds);
 		}
+
+		objectOutput.writeLong(budgetPhaseId);
 	}
 
 	public String uuid;
@@ -617,15 +549,11 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public String citoyenEmail;
 	public boolean hasCopyright;
 	public String videoUrl;
-	public String externalImageURL;
-	public String externalImageCopyright;
-	public boolean mediaChoice;
 	public String placeTextArea;
-	public String consultationPlacesText;
-	public String consultationPlacesBody;
 	public boolean isCrush;
 	public String crushComment;
 	public String publikId;
 	public long imageId;
 	public String filesIds;
+	public long budgetPhaseId;
 }

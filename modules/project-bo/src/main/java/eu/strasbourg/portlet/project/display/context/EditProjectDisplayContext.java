@@ -33,11 +33,9 @@ public class EditProjectDisplayContext {
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
 	
-	public EditProjectDisplayContext(RenderRequest request,
-		RenderResponse response) {
+	public EditProjectDisplayContext(RenderRequest request,RenderResponse response) {
 		this._request = request;
-		this._themeDisplay = (ThemeDisplay) request
-			.getAttribute(WebKeys.THEME_DISPLAY);
+		this._themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
 	public Project getProject() {
