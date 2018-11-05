@@ -509,3 +509,8 @@ aside .leaflet-map {
 .pro-bloc-pcs-form input, .pro-bloc-pcs-form textarea {
 	line-height: 22px;
 }
+
+// Centrage du bouton de dépot d'un budget
+.pro-bloc-pcs-form .input-group-btn .btn {
+	padding: 8px 15px;
+}
