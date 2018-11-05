@@ -23,7 +23,7 @@
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <option value="0" selected><liferay-ui:message key="modal.filebudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
@@ -57,7 +57,7 @@
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
-                                <aui:input name="budgetPhoto" type="file" label=""
+                                <aui:input name="budgetPhoto" type="file" label="modal.filebudget.information.picture"
                                     cssClass="btn btn-default btn-choose">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
@@ -237,7 +237,7 @@
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
-            var consultationPlacesTextValue = $("#"+namespace+"budgetlieux").val();
+            var budgetlieuxValue = $("#"+namespace+"budgetlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var photoValue = $("#"+namespace+"budgetPhoto").val();
@@ -269,7 +269,7 @@
                             <portlet:namespace />theme:themeValue,
                             <portlet:namespace />photo:photoValue,
                             <portlet:namespace />video:videoValue,
-                            <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
+                            <portlet:namespace />budgetlieux:budgetlieuxValue,
                             <portlet:namespace />saveinfo:saveInfoValue,
                             <portlet:namespace />lastname:lastNameValue,
                             <portlet:namespace />firstname:firstNameValue,
@@ -363,12 +363,15 @@
         var legalage = $("#file-budget-legalage").is(":checked");
         var cnil = $("#file-budget-cnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
-        var ext = $("#"+namespace+"budgetPhoto").val().split(".").pop().toLowerCase();
 
-        if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-        $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+        if ($("#"+namespace+"budgetPhoto").val()!=null){
+            var ext = $("#"+namespace+"budgetPhoto").val().split(".").pop().toLowerCase();
+            if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
+            $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+                result = false;
+            }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+
+        }
 
         if (budgettitle===null || budgettitle===""){
             $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });

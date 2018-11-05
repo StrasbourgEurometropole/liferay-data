@@ -72,7 +72,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
-    private static final String CONSULTATIONPLACETEXT = "consultationPlacesText";
     private static final String BUDGETTITLE = "title";
     private static final String BUDGETDESCRIPTION = "description";
     private static final String LIEU = "budgetLieux";
@@ -82,8 +81,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
-    private static final String LASTNAME = "lastname";
-    private static final String FIRSTNAME = "firstname";
     private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
@@ -95,8 +92,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private long postalcode;
     private String phone;
     private String mobile;
-    private String lastname;
-    private String firstname;
     private String email;
     private String photo;
     private String video;
@@ -130,12 +125,9 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
-        this.firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
         this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request,VIDEO));
-        this.placeText = HtmlUtil.stripHtml(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETDESCRIPTION));
         this.projectId = ParamUtil.getLong(request, PROJECT);
@@ -197,7 +189,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         try {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<Long>();
+            List<Long> identifiants = new ArrayList<>();
             if (this.quartierId==0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
                 assert districts != null;
@@ -232,7 +224,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenMobile(this.mobile);
             if (!this.video.isEmpty())
                 budgetParticipatif.setVideoUrl(this.video);
-            budgetParticipatif.setPlaceTextArea(this.placeText);
+            budgetParticipatif.setPlaceTextArea(this.lieu);
             budgetParticipatif.setCitoyenPhone(this.phone);
             budgetParticipatif.setPublikId(this.publikID);
             budgetParticipatif = uploadFile(budgetParticipatif,request);
@@ -301,7 +293,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName("budgetPhoto");
         String type = fileName.substring(fileName.lastIndexOf("."));
-        return type.equals("jpg") || type.equals("jpeg") || type.equals("png");
+        return type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
     }
 
     private boolean validate(ResourceRequest request) throws PortalException {
