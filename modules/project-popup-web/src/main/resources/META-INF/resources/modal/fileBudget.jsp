@@ -23,7 +23,7 @@
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <option value="0" selected><liferay-ui:message key="modal.filebudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
