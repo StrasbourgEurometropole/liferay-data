@@ -72,7 +72,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
-    private static final String CONSULTATIONPLACETEXT = "consultationPlacesText";
     private static final String BUDGETTITLE = "title";
     private static final String BUDGETDESCRIPTION = "description";
     private static final String LIEU = "budgetLieux";
@@ -82,8 +81,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
-    private static final String LASTNAME = "lastname";
-    private static final String FIRSTNAME = "firstname";
     private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
@@ -131,7 +128,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request,VIDEO));
-        this.placeText = HtmlUtil.stripHtml(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETDESCRIPTION));
         this.projectId = ParamUtil.getLong(request, PROJECT);
@@ -228,7 +224,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenMobile(this.mobile);
             if (!this.video.isEmpty())
                 budgetParticipatif.setVideoUrl(this.video);
-            budgetParticipatif.setPlaceTextArea(this.placeText);
+            budgetParticipatif.setPlaceTextArea(this.lieu);
             budgetParticipatif.setCitoyenPhone(this.phone);
             budgetParticipatif.setPublikId(this.publikID);
             budgetParticipatif = uploadFile(budgetParticipatif,request);
