@@ -15,16 +15,12 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -503,6 +499,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne les catégories 'Projets' correspondant aux pays de la petition
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategories() {
+		return _petition.getProjectCategories();
+	}
+
+	/**
 	* Retourne le projet de la petition (
 	*/
 	@Override
@@ -860,6 +864,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getProDureeFR() {
 		return _petition.getProDureeFR();
+	}
+
+	@Override
+	public java.lang.String getProjectTitle(java.util.Locale locale) {
+		return _petition.getProjectTitle(locale);
 	}
 
 	@Override
