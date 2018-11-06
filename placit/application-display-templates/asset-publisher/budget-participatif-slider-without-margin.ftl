@@ -31,22 +31,31 @@
                         <#-- Recuperation de l'entite -->
                         <#assign entry = curEntry.getAssetRenderer().getBudgetParticipatif() />
 
+                        <#-- Recuperation de la couleur hexa correspondant au type de la participation -->
+                        <#assign statusColor = entry.getBudgetParticipatifStatusCategoryColor() />
+
+                        <#assign imageURL = entry.getImageURL() />
+
                         <div class="item pro-bloc-card-budget pro-theme-faisabilite" data-linkall="a">
                             <div class="pro-header-budget">
-                                <figure role="group">
-                                    <img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/>
-                                </figure>
+                                <#if imageURL?has_content >
+                                    <figure role="group">
+                                        <img src="${entry.getImageURL()}" width="40" height="40" alt="Image du budget participatif"/>
+                                    </figure>
+                                </#if>
                                 <p>Idée déposée par :</p>
                                 <p><strong>${entry.getAuthor()}</strong></p>
                                 <div class="pro-info-top-right">
-                                    <span class="pro-encart-theme">En cours d’étude de faisabilité</span>
+                                    <span class="pro-encart-theme" style="background : #${statusColor}">
+                                        ${entry.getBudgetParticipatifStatusTitle(locale)}
+                                    </span>
                                 </div>
                             </div>
                             <div class="pro-content-budget">
                                 <a href="${homeURL}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}" title="lien de la page de détail">
                                     <h3>${entry.title}</h3>
                                 </a>
-                                <p>Projet adressée à <u>${entry.getDitrictLabel(locale)}</u></p>
+                                <p>Projet adressée à <u>${entry.getDistrictLabel(locale)}</u></p>
                                 <span class="pro-time">
                                     Publiée le <time datetime="${entry.createDate?date?string['dd/MM/yyyy']}">${entry.createDate?date?string['dd/MM/yyyy']}</time>
                                 </span>
