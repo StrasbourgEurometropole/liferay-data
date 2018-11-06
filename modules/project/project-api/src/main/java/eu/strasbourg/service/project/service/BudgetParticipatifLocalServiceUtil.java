@@ -198,6 +198,27 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* mise a jour du status
+	*
+	* @param userId               l'identifiant de l'utilisateur
+	* @param budgetParticipatifId l'identifiant du budget
+	* @param status               le status
+	* @param serviceContext       le service context
+	* @param workflowContext      le context du workflow
+	* @return le budget
+	* @throws PortalException
+	*/
+	public static eu.strasbourg.service.project.model.BudgetParticipatif updateStatus(
+		long userId, long budgetParticipatifId, int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, budgetParticipatifId, status,
+			serviceContext, workflowContext);
+	}
+
+	/**
 	* Returns the number of budget participatifs.
 	*
 	* @return the number of budget participatifs
@@ -354,6 +375,15 @@ public class BudgetParticipatifLocalServiceUtil {
 	public static void removeBudgetParticipatif(long budgetId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().removeBudgetParticipatif(budgetId);
+	}
+
+	/**
+	* Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(budgetParticipatif, status);
 	}
 
 	public static BudgetParticipatifLocalService getService() {
