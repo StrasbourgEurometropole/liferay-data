@@ -60,6 +60,13 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
+	* Retourne les catégories 'Projets' correspondant aux pays de la petition
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategories();
+
+	public java.lang.String getProjectTitle(java.util.Locale locale);
+
+	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
 	*
 	* @return : null si vide, sinon la liste des catégories
