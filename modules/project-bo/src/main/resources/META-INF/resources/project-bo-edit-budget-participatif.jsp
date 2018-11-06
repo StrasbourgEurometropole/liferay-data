@@ -14,8 +14,8 @@
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
-<liferay-portlet:actionURL name="actionBudgetParticipatif" varImpl="updateBudgetParticipatifURL">
-	<portlet:param name="cmd" value="updateBudgetParticipatif" />
+<liferay-portlet:actionURL name="saveBudgetParticipatif" varImpl="saveBudgetParticipatifURL">
+	<portlet:param name="cmd" value="saveBudgetParticipatif" />
 	<portlet:param name="tab" value="budgets-participatifs" />
 </liferay-portlet:actionURL>
 
@@ -30,7 +30,7 @@
 	<liferay-ui:error key="place-error" message="place-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
-	<aui:form action="${updateBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
+	<aui:form action="${saveBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.budgetParticipatif}" model="<%=BudgetParticipatif.class %>" />
@@ -54,78 +54,54 @@
 				<%-- Champ : Motif --%>
 				<aui:input name="motif" required="false" />
 
-				<%-- Champ : Auteur --%>
-				<aui:input name="userName" required="true" />
-
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Citoyen --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
 
 				<%-- Champ : Nom --%>
-				<aui:input name="citoyenLastname" required="true" />
-
+				<aui:input name="citoyenLastname" label="last-name" disabled="true" />
+				
 				<%-- Champ : Prenom --%>
-				<aui:input name="citoyenFirstname" required="true" />
+				<aui:input name="citoyenFirstname" label="first-name" disabled="true" />
 
 				<%-- Champ : Adresse --%>
-				<aui:input name="citoyenAdresse" required="false" />
+				<aui:input name="citoyenAdresse" label="address" />
 
 				<%-- Champ : Code postal --%>
-				<aui:input name="citoyenPostalCode" required="false" />
+				<aui:input name="citoyenPostalCode" label="postal-code" />
 
 				<%-- Champ : Ville --%>
-				<aui:input name="citoyenCity" required="false" />
+				<aui:input name="citoyenCity" label="city" />
 
 				<%-- Champ : Adresse mail --%>
-				<aui:input name="citoyenEmail" required="true" />
+				<aui:input name="citoyenEmail" label="email" />
 
-				<%-- Champ : téléphone --%>
-				<aui:input name="citoyenPhone" required="false" />
+				<%-- Champ : telephone --%>
+				<aui:input name="citoyenPhone" label="phone" />
 
 				<%-- Champ : mobile --%>
-				<aui:input name="citoyenMobile" required="true" />
+				<aui:input name="citoyenMobile" label="mobile" />
 
 			</aui:fieldset>
 
             <%-- Groupe de champs : video/image --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-video">
 
-				<%-- Champ : Choix du media --%>
-				<aui:input name="mediaChoice" label="media-preference" type="toggle-switch"
-					value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.mediaChoice : true}" />
-
 				<%-- Champ : URL de la video --%>
 				<aui:input name="videoUrl" required="false" />
-
-			    <%-- Selecteur : Image interne ou externe ? --%>
-                <label><input type="radio" value="internalImage" name="imageType"
-                    <c:if test="${(not empty dc.budgetParticipatif.imageId and dc.budgetParticipatif.imageId gt 0) or empty dc.budgetParticipatif.externalImageURL }">checked</c:if>> Image interne</label><br>
-                <label><input type="radio" value="externalImage" name="imageType"
-                    <c:if test="${(empty dc.budgetParticipatif.imageId or dc.budgetParticipatif.imageId eq 0) and not empty dc.budgetParticipatif.externalImageURL }">checked</c:if>> Image externe</label><br><br>
-
+				
                 <%-- Champ : Image interne --%>
-                <div class="internalImage" <c:if test="${(empty dc.budgetParticipatif.imageId or dc.budgetParticipatif.imageId eq 0) and not empty dc.budgetParticipatif.externalImageURL }">style="display: none;"</c:if>>
+                <div class="internalImage" >
                     <strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.budgetParticipatif.imageId}" global="false"/>
                 </div>
-
-                <%-- Groupe de champs : Image externe --%>
-                <div class="externalImage" <c:if test="${(not empty dc.budgetParticipatif.imageId and dc.budgetParticipatif.imageId gt 0) or empty dc.budgetParticipatif.externalImageURL }">style="display: none;"</c:if>>
-
-                    <%-- Champ : URL de l'image externe --%>
-                    <aui:input name="externalImageURL" helpMessage="help-image-size"/>
-
-                    <%-- Champ : Copyright de l'image externe --%>
-                    <aui:input name="externalImageCopyright"/>
-
-                </div>
-
+				
 			</aui:fieldset>
 
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
 
-				<aui:input name="consultationPlacesText" required="false" />
+				<aui:input name="placeTextArea" required="false" />
 
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">
@@ -151,10 +127,35 @@
 						</div>
 					</c:forEach>
 
+					<aui:input type="hidden" name="placeIndexes" value="${dc.defaultPlaceIndexes}" />
                 </div>
 			</aui:fieldset>
 
-            <%-- Groupe de champs : vocabulaire --%>
+            <%-- Groupe de champs : Coup de coeur --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="crush">
+
+				<%-- Champ : est un coup de coeur --%>
+			    <aui:input name="isCrush" label="is-crush" type="toggle-switch"
+			        value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.isCrush : false}" />
+
+				<%-- Champ : Corps de la description --%>
+				<aui:input name="crushComment" required="false" />
+
+			</aui:fieldset>
+
+            <%-- Groupe de champs : Phases --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="phase-selection">
+				
+				<p><liferay-ui:message key='phase-explanation' /></p>
+			
+				<strasbourg-picker:entity label="eu.budgetPhase" name="budgetPhaseId"
+					value="${dc.budgetParticipatif.budgetPhaseId}"
+					type="eu.strasbourg.service.project.model.BudgetPhase"
+					multiple="false" />	
+				
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : vocabulaire --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-vocabulary">
 
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
@@ -186,23 +187,6 @@
 
 			</aui:fieldset>
 
-            <%-- Groupe de champs : Coup de coeur --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="crush">
-
-				<%-- Champ : est un coup de coeur --%>
-			    <aui:input name="isCrush" label="isCrush" type="toggle-switch"
-			        value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.isCrush : false}" />
-
-				<%-- Champ : Corps de la description --%>
-				<aui:input name="crushComment" required="false" />
-
-			</aui:fieldset>
-
-            <%-- Groupe de champs : Phases --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="Phases">
-
-			</aui:fieldset>
-
 		</aui:fieldset-group>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
@@ -211,7 +195,7 @@
 			<aui:input type="hidden" name="workflowAction" value="" />
 			
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
-			<c:if test="${(dc.hasPermission('ADD_BUDGET') and empty dc.budgetParticipatif or dc.hasPermission('EDIT_BUDGET') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${(dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty dc.budgetParticipatif or dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
@@ -222,7 +206,7 @@
 			</c:if>
 			
 			<%-- Test : Verification des droits de supression --%>
-			<c:if test="${not empty dc.budgetParticipatif && dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${not empty dc.budgetParticipatif && dc.hasPermission('DELETE_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
@@ -254,7 +238,7 @@
 	<script>
 		define.amd = define._amd;
 	</script>
-	<script src="/o/projectbo/js/project-bo-edit-budgetParticipatif.js" type="text/javascript"></script>
+	<script src="/o/projectbo/js/project-bo-edit-budget-participatif.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>

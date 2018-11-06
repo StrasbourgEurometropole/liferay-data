@@ -62,6 +62,7 @@
 		<property name="exceptionalSchedule" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="displayEvents" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="additionalInformation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="contenuTooltipCarto" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="mail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="siteURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />

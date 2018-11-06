@@ -6,7 +6,7 @@ create index IX_3577CA69 on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$
 create unique index IX_2C11D72B on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_60E2B8B4 on project_BudgetPhase (groupId);
-create index IX_E2311096 on project_BudgetPhase (publikId[$COLUMN_LENGTH:75$]);
+create index IX_F22798F0 on project_BudgetPhase (isActive, groupId);
 create index IX_27A8292A on project_BudgetPhase (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_149CF22C on project_BudgetPhase (uuid_[$COLUMN_LENGTH:75$], groupId);
 

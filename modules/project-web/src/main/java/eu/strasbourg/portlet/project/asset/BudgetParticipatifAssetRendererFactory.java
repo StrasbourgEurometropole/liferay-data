@@ -14,27 +14,24 @@ import org.osgi.service.component.annotations.Reference;
  * @author alexandre.quere
  */
 @Component(
-        immediate = true,
-        property = {"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB},
-        service = AssetRendererFactory.class
+    immediate = true,
+    property = {
+    	"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
+    },
+    service = AssetRendererFactory.class
 )
 public class BudgetParticipatifAssetRendererFactory extends BaseAssetRendererFactory<BudgetParticipatif> {
 
     public static final String TYPE = "budgetParticipatif";
 
     private BudgetParticipatifLocalService _budgetParticipatifLocalService;
-
-    @Reference(unbind = "-")
-    protected void setInterestLocalService(BudgetParticipatifLocalService BudgetParticipatifLocalService) {
-        _budgetParticipatifLocalService = BudgetParticipatifLocalService;
-    }
+    
     public BudgetParticipatifAssetRendererFactory() {
         setClassName(BudgetParticipatif.class.getName());
         setLinkable(true);
         setPortletId(StrasbourgPortletKeys.PROJECT_WEB);
         setSearchable(true);
     }
-
 
     @Override
     public AssetRenderer<BudgetParticipatif> getAssetRenderer(long classPK, int type) throws PortalException {
@@ -46,11 +43,15 @@ public class BudgetParticipatifAssetRendererFactory extends BaseAssetRendererFac
         budgetParticipatifAssetRenderer.setAssetRendererType(type);
 
         return budgetParticipatifAssetRenderer;
-
     }
 
     @Override
     public String getType() {
         return TYPE;
+    }
+    
+    @Reference(unbind = "-")
+    protected void setBudgetParticipatifocalService(BudgetParticipatifLocalService BudgetParticipatifLocalService) {
+        _budgetParticipatifLocalService = BudgetParticipatifLocalService;
     }
 }

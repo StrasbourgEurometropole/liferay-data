@@ -90,3 +90,27 @@ h2.portlet-title-text {
     line-height: 46px;
   }
 }
+
+.mns-triple-actu-bloc .mns-bloc-actu img{
+  height: 250px;
+}
+
+.mns-thematiques .mns-bloc-actu img{
+  height: 195px;
+}
+
+.portlet-barebone {
+  min-height: 100px;
+
+  header{
+    transform: none !important;
+  }
+
+  .visible-interaction{
+    transform: translateY(97%);
+  }
+}
+
+ul, ol{
+    list-style-position: inside;
+}

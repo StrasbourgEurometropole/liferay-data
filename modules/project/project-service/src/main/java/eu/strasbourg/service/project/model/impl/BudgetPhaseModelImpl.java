@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -86,15 +87,14 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
-			{ "name", Types.VARCHAR },
-			{ "description", Types.VARCHAR },
+			{ "title", Types.VARCHAR },
+			{ "description", Types.CLOB },
 			{ "numberOfVote", Types.BIGINT },
 			{ "isActive", Types.BOOLEAN },
 			{ "beginDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
 			{ "beginVoteDate", Types.TIMESTAMP },
-			{ "endVoteDate", Types.TIMESTAMP },
-			{ "publikId", Types.VARCHAR }
+			{ "endVoteDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -111,21 +111,20 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("numberOfVote", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("beginDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("beginVoteDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endVoteDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,description VARCHAR(75) null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null,publikId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetPhase";
-	public static final String ORDER_BY_JPQL = " ORDER BY budgetPhase.name ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetPhase.name ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY budgetPhase.beginDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetPhase.beginDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -140,9 +139,9 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
+	public static final long ISACTIVE_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long NAME_COLUMN_BITMASK = 16L;
+	public static final long BEGINDATE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -169,7 +168,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		model.setStatusByUserId(soapModel.getStatusByUserId());
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
-		model.setName(soapModel.getName());
+		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
 		model.setNumberOfVote(soapModel.getNumberOfVote());
 		model.setIsActive(soapModel.getIsActive());
@@ -177,7 +176,6 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		model.setEndDate(soapModel.getEndDate());
 		model.setBeginVoteDate(soapModel.getBeginVoteDate());
 		model.setEndVoteDate(soapModel.getEndVoteDate());
-		model.setPublikId(soapModel.getPublikId());
 
 		return model;
 	}
@@ -254,7 +252,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
-		attributes.put("name", getName());
+		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("numberOfVote", getNumberOfVote());
 		attributes.put("isActive", getIsActive());
@@ -262,7 +260,6 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		attributes.put("endDate", getEndDate());
 		attributes.put("beginVoteDate", getBeginVoteDate());
 		attributes.put("endVoteDate", getEndVoteDate());
-		attributes.put("publikId", getPublikId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -344,10 +341,10 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			setStatusDate(statusDate);
 		}
 
-		String name = (String)attributes.get("name");
+		String title = (String)attributes.get("title");
 
-		if (name != null) {
-			setName(name);
+		if (title != null) {
+			setTitle(title);
 		}
 
 		String description = (String)attributes.get("description");
@@ -390,12 +387,6 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 
 		if (endVoteDate != null) {
 			setEndVoteDate(endVoteDate);
-		}
-
-		String publikId = (String)attributes.get("publikId");
-
-		if (publikId != null) {
-			setPublikId(publikId);
 		}
 	}
 
@@ -618,20 +609,18 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 
 	@JSON
 	@Override
-	public String getName() {
-		if (_name == null) {
+	public String getTitle() {
+		if (_title == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _name;
+			return _title;
 		}
 	}
 
 	@Override
-	public void setName(String name) {
-		_columnBitmask = -1L;
-
-		_name = name;
+	public void setTitle(String title) {
+		_title = title;
 	}
 
 	@JSON
@@ -675,7 +664,19 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 
 	@Override
 	public void setIsActive(boolean isActive) {
+		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
+
+		if (!_setOriginalIsActive) {
+			_setOriginalIsActive = true;
+
+			_originalIsActive = _isActive;
+		}
+
 		_isActive = isActive;
+	}
+
+	public boolean getOriginalIsActive() {
+		return _originalIsActive;
 	}
 
 	@JSON
@@ -686,6 +687,8 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 
 	@Override
 	public void setBeginDate(Date beginDate) {
+		_columnBitmask = -1L;
+
 		_beginDate = beginDate;
 	}
 
@@ -720,32 +723,6 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 	@Override
 	public void setEndVoteDate(Date endVoteDate) {
 		_endVoteDate = endVoteDate;
-	}
-
-	@JSON
-	@Override
-	public String getPublikId() {
-		if (_publikId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _publikId;
-		}
-	}
-
-	@Override
-	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
-		}
-
-		_publikId = publikId;
-	}
-
-	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
 	}
 
 	@Override
@@ -877,7 +854,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		budgetPhaseImpl.setStatusByUserId(getStatusByUserId());
 		budgetPhaseImpl.setStatusByUserName(getStatusByUserName());
 		budgetPhaseImpl.setStatusDate(getStatusDate());
-		budgetPhaseImpl.setName(getName());
+		budgetPhaseImpl.setTitle(getTitle());
 		budgetPhaseImpl.setDescription(getDescription());
 		budgetPhaseImpl.setNumberOfVote(getNumberOfVote());
 		budgetPhaseImpl.setIsActive(getIsActive());
@@ -885,7 +862,6 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		budgetPhaseImpl.setEndDate(getEndDate());
 		budgetPhaseImpl.setBeginVoteDate(getBeginVoteDate());
 		budgetPhaseImpl.setEndVoteDate(getEndVoteDate());
-		budgetPhaseImpl.setPublikId(getPublikId());
 
 		budgetPhaseImpl.resetOriginalValues();
 
@@ -896,7 +872,9 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 	public int compareTo(BudgetPhase budgetPhase) {
 		int value = 0;
 
-		value = getName().compareTo(budgetPhase.getName());
+		value = DateUtil.compareTo(getBeginDate(), budgetPhase.getBeginDate());
+
+		value = value * -1;
 
 		if (value != 0) {
 			return value;
@@ -958,7 +936,9 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 
 		budgetPhaseModelImpl._setModifiedDate = false;
 
-		budgetPhaseModelImpl._originalPublikId = budgetPhaseModelImpl._publikId;
+		budgetPhaseModelImpl._originalIsActive = budgetPhaseModelImpl._isActive;
+
+		budgetPhaseModelImpl._setOriginalIsActive = false;
 
 		budgetPhaseModelImpl._columnBitmask = 0;
 	}
@@ -1030,12 +1010,12 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			budgetPhaseCacheModel.statusDate = Long.MIN_VALUE;
 		}
 
-		budgetPhaseCacheModel.name = getName();
+		budgetPhaseCacheModel.title = getTitle();
 
-		String name = budgetPhaseCacheModel.name;
+		String title = budgetPhaseCacheModel.title;
 
-		if ((name != null) && (name.length() == 0)) {
-			budgetPhaseCacheModel.name = null;
+		if ((title != null) && (title.length() == 0)) {
+			budgetPhaseCacheModel.title = null;
 		}
 
 		budgetPhaseCacheModel.description = getDescription();
@@ -1086,20 +1066,12 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			budgetPhaseCacheModel.endVoteDate = Long.MIN_VALUE;
 		}
 
-		budgetPhaseCacheModel.publikId = getPublikId();
-
-		String publikId = budgetPhaseCacheModel.publikId;
-
-		if ((publikId != null) && (publikId.length() == 0)) {
-			budgetPhaseCacheModel.publikId = null;
-		}
-
 		return budgetPhaseCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1125,8 +1097,8 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		sb.append(getStatusByUserName());
 		sb.append(", statusDate=");
 		sb.append(getStatusDate());
-		sb.append(", name=");
-		sb.append(getName());
+		sb.append(", title=");
+		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
 		sb.append(", numberOfVote=");
@@ -1141,8 +1113,6 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		sb.append(getBeginVoteDate());
 		sb.append(", endVoteDate=");
 		sb.append(getEndVoteDate());
-		sb.append(", publikId=");
-		sb.append(getPublikId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1150,7 +1120,7 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetPhase");
@@ -1205,8 +1175,8 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 		sb.append(getStatusDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>name</column-name><column-value><![CDATA[");
-		sb.append(getName());
+			"<column><column-name>title</column-name><column-value><![CDATA[");
+		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
@@ -1236,10 +1206,6 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 			"<column><column-name>endVoteDate</column-name><column-value><![CDATA[");
 		sb.append(getEndVoteDate());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>publikId</column-name><column-value><![CDATA[");
-		sb.append(getPublikId());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1268,16 +1234,16 @@ public class BudgetPhaseModelImpl extends BaseModelImpl<BudgetPhase>
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private String _name;
+	private String _title;
 	private String _description;
 	private long _numberOfVote;
 	private boolean _isActive;
+	private boolean _originalIsActive;
+	private boolean _setOriginalIsActive;
 	private Date _beginDate;
 	private Date _endDate;
 	private Date _beginVoteDate;
 	private Date _endVoteDate;
-	private String _publikId;
-	private String _originalPublikId;
 	private long _columnBitmask;
 	private BudgetPhase _escapedModel;
 }

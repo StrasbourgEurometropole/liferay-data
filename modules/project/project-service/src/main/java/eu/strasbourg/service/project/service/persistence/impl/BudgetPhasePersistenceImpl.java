@@ -107,7 +107,7 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] { String.class.getName() },
 			BudgetPhaseModelImpl.UUID_COLUMN_BITMASK |
-			BudgetPhaseModelImpl.NAME_COLUMN_BITMASK);
+			BudgetPhaseModelImpl.BEGINDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetPhaseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
@@ -907,7 +907,7 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 			new String[] { String.class.getName(), Long.class.getName() },
 			BudgetPhaseModelImpl.UUID_COLUMN_BITMASK |
 			BudgetPhaseModelImpl.COMPANYID_COLUMN_BITMASK |
-			BudgetPhaseModelImpl.NAME_COLUMN_BITMASK);
+			BudgetPhaseModelImpl.BEGINDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetPhaseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
@@ -1493,7 +1493,7 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] { Long.class.getName() },
 			BudgetPhaseModelImpl.GROUPID_COLUMN_BITMASK |
-			BudgetPhaseModelImpl.NAME_COLUMN_BITMASK);
+			BudgetPhaseModelImpl.BEGINDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetPhaseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
@@ -1980,83 +1980,95 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "budgetPhase.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID = new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ISACTIVEANDGROUPID =
+		new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetPhaseModelImpl.FINDER_CACHE_ENABLED, BudgetPhaseImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByIsActiveAndGroupId",
 			new String[] {
-				String.class.getName(),
+				Boolean.class.getName(), Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID =
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ISACTIVEANDGROUPID =
 		new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetPhaseModelImpl.FINDER_CACHE_ENABLED, BudgetPhaseImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
-			new String[] { String.class.getName() },
-			BudgetPhaseModelImpl.PUBLIKID_COLUMN_BITMASK |
-			BudgetPhaseModelImpl.NAME_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKID = new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByIsActiveAndGroupId",
+			new String[] { Boolean.class.getName(), Long.class.getName() },
+			BudgetPhaseModelImpl.ISACTIVE_COLUMN_BITMASK |
+			BudgetPhaseModelImpl.GROUPID_COLUMN_BITMASK |
+			BudgetPhaseModelImpl.BEGINDATE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ISACTIVEANDGROUPID = new FinderPath(BudgetPhaseModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetPhaseModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
-			new String[] { String.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByIsActiveAndGroupId",
+			new String[] { Boolean.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the budget phases where publikId = &#63;.
+	 * Returns all the budget phases where isActive = &#63; and groupId = &#63;.
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @return the matching budget phases
 	 */
 	@Override
-	public List<BudgetPhase> findByPublikId(String publikId) {
-		return findByPublikId(publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+	public List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId) {
+		return findByIsActiveAndGroupId(isActive, groupId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the budget phases where publikId = &#63;.
+	 * Returns a range of all the budget phases where isActive = &#63; and groupId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param start the lower bound of the range of budget phases
 	 * @param end the upper bound of the range of budget phases (not inclusive)
 	 * @return the range of matching budget phases
 	 */
 	@Override
-	public List<BudgetPhase> findByPublikId(String publikId, int start, int end) {
-		return findByPublikId(publikId, start, end, null);
+	public List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId, int start, int end) {
+		return findByIsActiveAndGroupId(isActive, groupId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the budget phases where publikId = &#63;.
+	 * Returns an ordered range of all the budget phases where isActive = &#63; and groupId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param start the lower bound of the range of budget phases
 	 * @param end the upper bound of the range of budget phases (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching budget phases
 	 */
 	@Override
-	public List<BudgetPhase> findByPublikId(String publikId, int start,
-		int end, OrderByComparator<BudgetPhase> orderByComparator) {
-		return findByPublikId(publikId, start, end, orderByComparator, true);
+	public List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId, int start, int end,
+		OrderByComparator<BudgetPhase> orderByComparator) {
+		return findByIsActiveAndGroupId(isActive, groupId, start, end,
+			orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the budget phases where publikId = &#63;.
+	 * Returns an ordered range of all the budget phases where isActive = &#63; and groupId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param start the lower bound of the range of budget phases
 	 * @param end the upper bound of the range of budget phases (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -2064,8 +2076,9 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	 * @return the ordered range of matching budget phases
 	 */
 	@Override
-	public List<BudgetPhase> findByPublikId(String publikId, int start,
-		int end, OrderByComparator<BudgetPhase> orderByComparator,
+	public List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId, int start, int end,
+		OrderByComparator<BudgetPhase> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -2074,12 +2087,16 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID;
-			finderArgs = new Object[] { publikId };
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ISACTIVEANDGROUPID;
+			finderArgs = new Object[] { isActive, groupId };
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID;
-			finderArgs = new Object[] { publikId, start, end, orderByComparator };
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ISACTIVEANDGROUPID;
+			finderArgs = new Object[] {
+					isActive, groupId,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<BudgetPhase> list = null;
@@ -2090,7 +2107,8 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (BudgetPhase budgetPhase : list) {
-					if (!Objects.equals(publikId, budgetPhase.getPublikId())) {
+					if ((isActive != budgetPhase.getIsActive()) ||
+							(groupId != budgetPhase.getGroupId())) {
 						list = null;
 
 						break;
@@ -2103,28 +2121,18 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_BUDGETPHASE_WHERE);
 
-			boolean bindPublikId = false;
+			query.append(_FINDER_COLUMN_ISACTIVEANDGROUPID_ISACTIVE_2);
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
-			}
-			else {
-				bindPublikId = true;
-
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
-			}
+			query.append(_FINDER_COLUMN_ISACTIVEANDGROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2146,9 +2154,9 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (bindPublikId) {
-					qPos.add(publikId);
-				}
+				qPos.add(isActive);
+
+				qPos.add(groupId);
 
 				if (!pagination) {
 					list = (List<BudgetPhase>)QueryUtil.list(q, getDialect(),
@@ -2181,30 +2189,34 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	}
 
 	/**
-	 * Returns the first budget phase in the ordered set where publikId = &#63;.
+	 * Returns the first budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching budget phase
 	 * @throws NoSuchBudgetPhaseException if a matching budget phase could not be found
 	 */
 	@Override
-	public BudgetPhase findByPublikId_First(String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator)
+	public BudgetPhase findByIsActiveAndGroupId_First(boolean isActive,
+		long groupId, OrderByComparator<BudgetPhase> orderByComparator)
 		throws NoSuchBudgetPhaseException {
-		BudgetPhase budgetPhase = fetchByPublikId_First(publikId,
-				orderByComparator);
+		BudgetPhase budgetPhase = fetchByIsActiveAndGroupId_First(isActive,
+				groupId, orderByComparator);
 
 		if (budgetPhase != null) {
 			return budgetPhase;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("publikId=");
-		msg.append(publikId);
+		msg.append("isActive=");
+		msg.append(isActive);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -2212,17 +2224,18 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	}
 
 	/**
-	 * Returns the first budget phase in the ordered set where publikId = &#63;.
+	 * Returns the first budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching budget phase, or <code>null</code> if a matching budget phase could not be found
 	 */
 	@Override
-	public BudgetPhase fetchByPublikId_First(String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator) {
-		List<BudgetPhase> list = findByPublikId(publikId, 0, 1,
-				orderByComparator);
+	public BudgetPhase fetchByIsActiveAndGroupId_First(boolean isActive,
+		long groupId, OrderByComparator<BudgetPhase> orderByComparator) {
+		List<BudgetPhase> list = findByIsActiveAndGroupId(isActive, groupId, 0,
+				1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2232,30 +2245,34 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	}
 
 	/**
-	 * Returns the last budget phase in the ordered set where publikId = &#63;.
+	 * Returns the last budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching budget phase
 	 * @throws NoSuchBudgetPhaseException if a matching budget phase could not be found
 	 */
 	@Override
-	public BudgetPhase findByPublikId_Last(String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator)
+	public BudgetPhase findByIsActiveAndGroupId_Last(boolean isActive,
+		long groupId, OrderByComparator<BudgetPhase> orderByComparator)
 		throws NoSuchBudgetPhaseException {
-		BudgetPhase budgetPhase = fetchByPublikId_Last(publikId,
-				orderByComparator);
+		BudgetPhase budgetPhase = fetchByIsActiveAndGroupId_Last(isActive,
+				groupId, orderByComparator);
 
 		if (budgetPhase != null) {
 			return budgetPhase;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("publikId=");
-		msg.append(publikId);
+		msg.append("isActive=");
+		msg.append(isActive);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -2263,23 +2280,24 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	}
 
 	/**
-	 * Returns the last budget phase in the ordered set where publikId = &#63;.
+	 * Returns the last budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching budget phase, or <code>null</code> if a matching budget phase could not be found
 	 */
 	@Override
-	public BudgetPhase fetchByPublikId_Last(String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator) {
-		int count = countByPublikId(publikId);
+	public BudgetPhase fetchByIsActiveAndGroupId_Last(boolean isActive,
+		long groupId, OrderByComparator<BudgetPhase> orderByComparator) {
+		int count = countByIsActiveAndGroupId(isActive, groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<BudgetPhase> list = findByPublikId(publikId, count - 1, count,
-				orderByComparator);
+		List<BudgetPhase> list = findByIsActiveAndGroupId(isActive, groupId,
+				count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2289,17 +2307,19 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	}
 
 	/**
-	 * Returns the budget phases before and after the current budget phase in the ordered set where publikId = &#63;.
+	 * Returns the budget phases before and after the current budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	 *
 	 * @param budgetPhaseId the primary key of the current budget phase
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next budget phase
 	 * @throws NoSuchBudgetPhaseException if a budget phase with the primary key could not be found
 	 */
 	@Override
-	public BudgetPhase[] findByPublikId_PrevAndNext(long budgetPhaseId,
-		String publikId, OrderByComparator<BudgetPhase> orderByComparator)
+	public BudgetPhase[] findByIsActiveAndGroupId_PrevAndNext(
+		long budgetPhaseId, boolean isActive, long groupId,
+		OrderByComparator<BudgetPhase> orderByComparator)
 		throws NoSuchBudgetPhaseException {
 		BudgetPhase budgetPhase = findByPrimaryKey(budgetPhaseId);
 
@@ -2310,13 +2330,13 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 
 			BudgetPhase[] array = new BudgetPhaseImpl[3];
 
-			array[0] = getByPublikId_PrevAndNext(session, budgetPhase,
-					publikId, orderByComparator, true);
+			array[0] = getByIsActiveAndGroupId_PrevAndNext(session,
+					budgetPhase, isActive, groupId, orderByComparator, true);
 
 			array[1] = budgetPhase;
 
-			array[2] = getByPublikId_PrevAndNext(session, budgetPhase,
-					publikId, orderByComparator, false);
+			array[2] = getByIsActiveAndGroupId_PrevAndNext(session,
+					budgetPhase, isActive, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -2328,35 +2348,25 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 		}
 	}
 
-	protected BudgetPhase getByPublikId_PrevAndNext(Session session,
-		BudgetPhase budgetPhase, String publikId,
+	protected BudgetPhase getByIsActiveAndGroupId_PrevAndNext(Session session,
+		BudgetPhase budgetPhase, boolean isActive, long groupId,
 		OrderByComparator<BudgetPhase> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
+			query = new StringBundler(5 +
 					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_BUDGETPHASE_WHERE);
 
-		boolean bindPublikId = false;
+		query.append(_FINDER_COLUMN_ISACTIVEANDGROUPID_ISACTIVE_2);
 
-		if (publikId == null) {
-			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-		}
-		else if (publikId.equals(StringPool.BLANK)) {
-			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
-		}
-		else {
-			bindPublikId = true;
-
-			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
-		}
+		query.append(_FINDER_COLUMN_ISACTIVEANDGROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2426,9 +2436,9 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		if (bindPublikId) {
-			qPos.add(publikId);
-		}
+		qPos.add(isActive);
+
+		qPos.add(groupId);
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(budgetPhase);
@@ -2449,50 +2459,42 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 	}
 
 	/**
-	 * Removes all the budget phases where publikId = &#63; from the database.
+	 * Removes all the budget phases where isActive = &#63; and groupId = &#63; from the database.
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 */
 	@Override
-	public void removeByPublikId(String publikId) {
-		for (BudgetPhase budgetPhase : findByPublikId(publikId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+	public void removeByIsActiveAndGroupId(boolean isActive, long groupId) {
+		for (BudgetPhase budgetPhase : findByIsActiveAndGroupId(isActive,
+				groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(budgetPhase);
 		}
 	}
 
 	/**
-	 * Returns the number of budget phases where publikId = &#63;.
+	 * Returns the number of budget phases where isActive = &#63; and groupId = &#63;.
 	 *
-	 * @param publikId the publik ID
+	 * @param isActive the is active
+	 * @param groupId the group ID
 	 * @return the number of matching budget phases
 	 */
 	@Override
-	public int countByPublikId(String publikId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKID;
+	public int countByIsActiveAndGroupId(boolean isActive, long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ISACTIVEANDGROUPID;
 
-		Object[] finderArgs = new Object[] { publikId };
+		Object[] finderArgs = new Object[] { isActive, groupId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_BUDGETPHASE_WHERE);
 
-			boolean bindPublikId = false;
+			query.append(_FINDER_COLUMN_ISACTIVEANDGROUPID_ISACTIVE_2);
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
-			}
-			else {
-				bindPublikId = true;
-
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
-			}
+			query.append(_FINDER_COLUMN_ISACTIVEANDGROUPID_GROUPID_2);
 
 			String sql = query.toString();
 
@@ -2505,9 +2507,9 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (bindPublikId) {
-					qPos.add(publikId);
-				}
+				qPos.add(isActive);
+
+				qPos.add(groupId);
 
 				count = (Long)q.uniqueResult();
 
@@ -2526,9 +2528,8 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "budgetPhase.publikId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "budgetPhase.publikId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(budgetPhase.publikId IS NULL OR budgetPhase.publikId = '')";
+	private static final String _FINDER_COLUMN_ISACTIVEANDGROUPID_ISACTIVE_2 = "budgetPhase.isActive = ? AND ";
+	private static final String _FINDER_COLUMN_ISACTIVEANDGROUPID_GROUPID_2 = "budgetPhase.groupId = ?";
 
 	public BudgetPhasePersistenceImpl() {
 		setModelClass(BudgetPhase.class);
@@ -2862,10 +2863,14 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
 				args);
 
-			args = new Object[] { budgetPhaseModelImpl.getPublikId() };
+			args = new Object[] {
+					budgetPhaseModelImpl.getIsActive(),
+					budgetPhaseModelImpl.getGroupId()
+				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ISACTIVEANDGROUPID,
+				args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ISACTIVEANDGROUPID,
 				args);
 
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
@@ -2930,19 +2935,25 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 			}
 
 			if ((budgetPhaseModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID.getColumnBitmask()) != 0) {
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ISACTIVEANDGROUPID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-						budgetPhaseModelImpl.getOriginalPublikId()
+						budgetPhaseModelImpl.getOriginalIsActive(),
+						budgetPhaseModelImpl.getOriginalGroupId()
 					};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ISACTIVEANDGROUPID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ISACTIVEANDGROUPID,
 					args);
 
-				args = new Object[] { budgetPhaseModelImpl.getPublikId() };
+				args = new Object[] {
+						budgetPhaseModelImpl.getIsActive(),
+						budgetPhaseModelImpl.getGroupId()
+					};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ISACTIVEANDGROUPID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ISACTIVEANDGROUPID,
 					args);
 			}
 		}
@@ -2981,7 +2992,7 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 		budgetPhaseImpl.setStatusByUserId(budgetPhase.getStatusByUserId());
 		budgetPhaseImpl.setStatusByUserName(budgetPhase.getStatusByUserName());
 		budgetPhaseImpl.setStatusDate(budgetPhase.getStatusDate());
-		budgetPhaseImpl.setName(budgetPhase.getName());
+		budgetPhaseImpl.setTitle(budgetPhase.getTitle());
 		budgetPhaseImpl.setDescription(budgetPhase.getDescription());
 		budgetPhaseImpl.setNumberOfVote(budgetPhase.getNumberOfVote());
 		budgetPhaseImpl.setIsActive(budgetPhase.isIsActive());
@@ -2989,7 +3000,6 @@ public class BudgetPhasePersistenceImpl extends BasePersistenceImpl<BudgetPhase>
 		budgetPhaseImpl.setEndDate(budgetPhase.getEndDate());
 		budgetPhaseImpl.setBeginVoteDate(budgetPhase.getBeginVoteDate());
 		budgetPhaseImpl.setEndVoteDate(budgetPhase.getEndVoteDate());
-		budgetPhaseImpl.setPublikId(budgetPhase.getPublikId());
 
 		return budgetPhaseImpl;
 	}

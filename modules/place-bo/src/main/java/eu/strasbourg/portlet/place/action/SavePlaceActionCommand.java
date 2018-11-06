@@ -130,6 +130,9 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			Map<Locale, String> characteristics = LocalizationUtil.getLocalizationMap(request, "characteristics");
 			place.setCharacteristicsMap(characteristics);
 
+			Map<Locale, String> contenuTooltipCarto = LocalizationUtil.getLocalizationMap(request, "contenuTooltipCarto");
+			place.setContenuTooltipCartoMap(contenuTooltipCarto);
+
 			// ---------------------------------------------------------------
 			// ---------------------------- MEDIA ----------------------------
 			// ---------------------------------------------------------------

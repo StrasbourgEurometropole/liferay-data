@@ -100,12 +100,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "citoyenEmail", Types.VARCHAR },
 			{ "hasCopyright", Types.BOOLEAN },
 			{ "videoUrl", Types.VARCHAR },
-			{ "externalImageURL", Types.VARCHAR },
-			{ "externalImageCopyright", Types.VARCHAR },
-			{ "mediaChoice", Types.BOOLEAN },
 			{ "placeTextArea", Types.VARCHAR },
-			{ "consultationPlacesText", Types.VARCHAR },
-			{ "consultationPlacesBody", Types.VARCHAR },
 			{ "isCrush", Types.BOOLEAN },
 			{ "crushComment", Types.CLOB },
 			{ "publikId", Types.VARCHAR },
@@ -142,12 +137,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("citoyenEmail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("hasCopyright", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("consultationPlacesText", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("isCrush", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("crushComment", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
@@ -156,7 +146,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("budgetPhaseId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(75) null,citoyenPostalCode LONG,citoyenCity VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(75) null,hasCopyright BOOLEAN,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,placeTextArea VARCHAR(75) null,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,placeTextArea VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.title ASC";
@@ -219,12 +209,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setCitoyenEmail(soapModel.getCitoyenEmail());
 		model.setHasCopyright(soapModel.getHasCopyright());
 		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setMediaChoice(soapModel.getMediaChoice());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
-		model.setConsultationPlacesText(soapModel.getConsultationPlacesText());
-		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
 		model.setIsCrush(soapModel.getIsCrush());
 		model.setCrushComment(soapModel.getCrushComment());
 		model.setPublikId(soapModel.getPublikId());
@@ -322,12 +307,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("citoyenEmail", getCitoyenEmail());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
-		attributes.put("externalImageURL", getExternalImageURL());
-		attributes.put("externalImageCopyright", getExternalImageCopyright());
-		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("placeTextArea", getPlaceTextArea());
-		attributes.put("consultationPlacesText", getConsultationPlacesText());
-		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("isCrush", getIsCrush());
 		attributes.put("crushComment", getCrushComment());
 		attributes.put("publikId", getPublikId());
@@ -499,43 +479,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			setVideoUrl(videoUrl);
 		}
 
-		String externalImageURL = (String)attributes.get("externalImageURL");
-
-		if (externalImageURL != null) {
-			setExternalImageURL(externalImageURL);
-		}
-
-		String externalImageCopyright = (String)attributes.get(
-				"externalImageCopyright");
-
-		if (externalImageCopyright != null) {
-			setExternalImageCopyright(externalImageCopyright);
-		}
-
-		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
-
-		if (mediaChoice != null) {
-			setMediaChoice(mediaChoice);
-		}
-
 		String placeTextArea = (String)attributes.get("placeTextArea");
 
 		if (placeTextArea != null) {
 			setPlaceTextArea(placeTextArea);
-		}
-
-		String consultationPlacesText = (String)attributes.get(
-				"consultationPlacesText");
-
-		if (consultationPlacesText != null) {
-			setConsultationPlacesText(consultationPlacesText);
-		}
-
-		String consultationPlacesBody = (String)attributes.get(
-				"consultationPlacesBody");
-
-		if (consultationPlacesBody != null) {
-			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
 		Boolean isCrush = (Boolean)attributes.get("isCrush");
@@ -1023,55 +970,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@JSON
 	@Override
-	public String getExternalImageURL() {
-		if (_externalImageURL == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _externalImageURL;
-		}
-	}
-
-	@Override
-	public void setExternalImageURL(String externalImageURL) {
-		_externalImageURL = externalImageURL;
-	}
-
-	@JSON
-	@Override
-	public String getExternalImageCopyright() {
-		if (_externalImageCopyright == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _externalImageCopyright;
-		}
-	}
-
-	@Override
-	public void setExternalImageCopyright(String externalImageCopyright) {
-		_externalImageCopyright = externalImageCopyright;
-	}
-
-	@JSON
-	@Override
-	public boolean getMediaChoice() {
-		return _mediaChoice;
-	}
-
-	@JSON
-	@Override
-	public boolean isMediaChoice() {
-		return _mediaChoice;
-	}
-
-	@Override
-	public void setMediaChoice(boolean mediaChoice) {
-		_mediaChoice = mediaChoice;
-	}
-
-	@JSON
-	@Override
 	public String getPlaceTextArea() {
 		if (_placeTextArea == null) {
 			return StringPool.BLANK;
@@ -1084,38 +982,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
 		_placeTextArea = placeTextArea;
-	}
-
-	@JSON
-	@Override
-	public String getConsultationPlacesText() {
-		if (_consultationPlacesText == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _consultationPlacesText;
-		}
-	}
-
-	@Override
-	public void setConsultationPlacesText(String consultationPlacesText) {
-		_consultationPlacesText = consultationPlacesText;
-	}
-
-	@JSON
-	@Override
-	public String getConsultationPlacesBody() {
-		if (_consultationPlacesBody == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _consultationPlacesBody;
-		}
-	}
-
-	@Override
-	public void setConsultationPlacesBody(String consultationPlacesBody) {
-		_consultationPlacesBody = consultationPlacesBody;
 	}
 
 	@JSON
@@ -1370,12 +1236,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setCitoyenEmail(getCitoyenEmail());
 		budgetParticipatifImpl.setHasCopyright(getHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(getVideoUrl());
-		budgetParticipatifImpl.setExternalImageURL(getExternalImageURL());
-		budgetParticipatifImpl.setExternalImageCopyright(getExternalImageCopyright());
-		budgetParticipatifImpl.setMediaChoice(getMediaChoice());
 		budgetParticipatifImpl.setPlaceTextArea(getPlaceTextArea());
-		budgetParticipatifImpl.setConsultationPlacesText(getConsultationPlacesText());
-		budgetParticipatifImpl.setConsultationPlacesBody(getConsultationPlacesBody());
 		budgetParticipatifImpl.setIsCrush(getIsCrush());
 		budgetParticipatifImpl.setCrushComment(getCrushComment());
 		budgetParticipatifImpl.setPublikId(getPublikId());
@@ -1628,49 +1489,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.videoUrl = null;
 		}
 
-		budgetParticipatifCacheModel.externalImageURL = getExternalImageURL();
-
-		String externalImageURL = budgetParticipatifCacheModel.externalImageURL;
-
-		if ((externalImageURL != null) && (externalImageURL.length() == 0)) {
-			budgetParticipatifCacheModel.externalImageURL = null;
-		}
-
-		budgetParticipatifCacheModel.externalImageCopyright = getExternalImageCopyright();
-
-		String externalImageCopyright = budgetParticipatifCacheModel.externalImageCopyright;
-
-		if ((externalImageCopyright != null) &&
-				(externalImageCopyright.length() == 0)) {
-			budgetParticipatifCacheModel.externalImageCopyright = null;
-		}
-
-		budgetParticipatifCacheModel.mediaChoice = getMediaChoice();
-
 		budgetParticipatifCacheModel.placeTextArea = getPlaceTextArea();
 
 		String placeTextArea = budgetParticipatifCacheModel.placeTextArea;
 
 		if ((placeTextArea != null) && (placeTextArea.length() == 0)) {
 			budgetParticipatifCacheModel.placeTextArea = null;
-		}
-
-		budgetParticipatifCacheModel.consultationPlacesText = getConsultationPlacesText();
-
-		String consultationPlacesText = budgetParticipatifCacheModel.consultationPlacesText;
-
-		if ((consultationPlacesText != null) &&
-				(consultationPlacesText.length() == 0)) {
-			budgetParticipatifCacheModel.consultationPlacesText = null;
-		}
-
-		budgetParticipatifCacheModel.consultationPlacesBody = getConsultationPlacesBody();
-
-		String consultationPlacesBody = budgetParticipatifCacheModel.consultationPlacesBody;
-
-		if ((consultationPlacesBody != null) &&
-				(consultationPlacesBody.length() == 0)) {
-			budgetParticipatifCacheModel.consultationPlacesBody = null;
 		}
 
 		budgetParticipatifCacheModel.isCrush = getIsCrush();
@@ -1708,7 +1532,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(77);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1762,18 +1586,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getHasCopyright());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
-		sb.append(", externalImageURL=");
-		sb.append(getExternalImageURL());
-		sb.append(", externalImageCopyright=");
-		sb.append(getExternalImageCopyright());
-		sb.append(", mediaChoice=");
-		sb.append(getMediaChoice());
 		sb.append(", placeTextArea=");
 		sb.append(getPlaceTextArea());
-		sb.append(", consultationPlacesText=");
-		sb.append(getConsultationPlacesText());
-		sb.append(", consultationPlacesBody=");
-		sb.append(getConsultationPlacesBody());
 		sb.append(", isCrush=");
 		sb.append(getIsCrush());
 		sb.append(", crushComment=");
@@ -1793,7 +1607,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(118);
+		StringBundler sb = new StringBundler(103);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetParticipatif");
@@ -1904,28 +1718,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getVideoUrl());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>externalImageURL</column-name><column-value><![CDATA[");
-		sb.append(getExternalImageURL());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>externalImageCopyright</column-name><column-value><![CDATA[");
-		sb.append(getExternalImageCopyright());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>mediaChoice</column-name><column-value><![CDATA[");
-		sb.append(getMediaChoice());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>placeTextArea</column-name><column-value><![CDATA[");
 		sb.append(getPlaceTextArea());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>consultationPlacesText</column-name><column-value><![CDATA[");
-		sb.append(getConsultationPlacesText());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>consultationPlacesBody</column-name><column-value><![CDATA[");
-		sb.append(getConsultationPlacesBody());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>isCrush</column-name><column-value><![CDATA[");
@@ -1995,12 +1789,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private String _citoyenEmail;
 	private boolean _hasCopyright;
 	private String _videoUrl;
-	private String _externalImageURL;
-	private String _externalImageCopyright;
-	private boolean _mediaChoice;
 	private String _placeTextArea;
-	private String _consultationPlacesText;
-	private String _consultationPlacesBody;
 	private boolean _isCrush;
 	private String _crushComment;
 	private String _publikId;

@@ -1,4 +1,4 @@
-//On garde une référence globale aux ²
+//  On garde une référence globale
 var timelineAutoFields = undefined;
 var placeAutoFields = undefined;
 

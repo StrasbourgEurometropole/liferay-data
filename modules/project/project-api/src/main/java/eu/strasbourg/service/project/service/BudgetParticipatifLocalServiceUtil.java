@@ -177,7 +177,7 @@ public class BudgetParticipatifLocalServiceUtil {
 	* Méthode de mise à jour d'un budget
 	*
 	* @param budget le budget
-	* @param sc le service context
+	* @param sc     le service context
 	* @return le budget
 	* @throws PortalException exception
 	*/
@@ -268,6 +268,14 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
 	* Returns a range of all the budget participatifs.
 	*
 	* <p>
@@ -336,6 +344,18 @@ public class BudgetParticipatifLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	public static void removeBudgetParticipatif(long budgetId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeBudgetParticipatif(budgetId);
 	}
 
 	public static BudgetParticipatifLocalService getService() {

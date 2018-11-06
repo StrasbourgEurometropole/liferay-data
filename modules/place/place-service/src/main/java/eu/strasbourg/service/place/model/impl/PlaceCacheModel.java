@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(119);
+		StringBundler sb = new StringBundler(121);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -131,6 +131,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(displayEvents);
 		sb.append(", additionalInformation=");
 		sb.append(additionalInformation);
+		sb.append(", contenuTooltipCarto=");
+		sb.append(contenuTooltipCarto);
 		sb.append(", phone=");
 		sb.append(phone);
 		sb.append(", mail=");
@@ -374,6 +376,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			placeImpl.setAdditionalInformation(additionalInformation);
 		}
 
+		if (contenuTooltipCarto == null) {
+			placeImpl.setContenuTooltipCarto(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setContenuTooltipCarto(contenuTooltipCarto);
+		}
+
 		if (phone == null) {
 			placeImpl.setPhone(StringPool.BLANK);
 		}
@@ -548,6 +557,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 		displayEvents = objectInput.readBoolean();
 		additionalInformation = objectInput.readUTF();
+		contenuTooltipCarto = objectInput.readUTF();
 		phone = objectInput.readUTF();
 		mail = objectInput.readUTF();
 		siteURL = objectInput.readUTF();
@@ -753,6 +763,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			objectOutput.writeUTF(additionalInformation);
 		}
 
+		if (contenuTooltipCarto == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(contenuTooltipCarto);
+		}
+
 		if (phone == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -915,6 +932,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String exceptionalSchedule;
 	public boolean displayEvents;
 	public String additionalInformation;
+	public String contenuTooltipCarto;
 	public String phone;
 	public String mail;
 	public String siteURL;

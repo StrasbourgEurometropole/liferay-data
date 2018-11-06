@@ -175,7 +175,7 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* Méthode de mise à jour d'un budget
 	*
 	* @param budget le budget
-	* @param sc le service context
+	* @param sc     le service context
 	* @return le budget
 	* @throws PortalException exception
 	*/
@@ -247,6 +247,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par mot clés
+	*/
+	public List<BudgetParticipatif> findByKeyword(java.lang.String keyword,
+		long groupId, int start, int end);
+
+	/**
 	* Returns a range of all the budget participatifs.
 	*
 	* <p>
@@ -303,4 +309,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	public void removeBudgetParticipatif(long budgetId)
+		throws PortalException;
 }

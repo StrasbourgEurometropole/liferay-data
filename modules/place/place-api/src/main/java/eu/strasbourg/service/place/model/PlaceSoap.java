@@ -66,6 +66,7 @@ public class PlaceSoap implements Serializable {
 		soapModel.setExceptionalSchedule(model.getExceptionalSchedule());
 		soapModel.setDisplayEvents(model.getDisplayEvents());
 		soapModel.setAdditionalInformation(model.getAdditionalInformation());
+		soapModel.setContenuTooltipCarto(model.getContenuTooltipCarto());
 		soapModel.setPhone(model.getPhone());
 		soapModel.setMail(model.getMail());
 		soapModel.setSiteURL(model.getSiteURL());
@@ -409,6 +410,14 @@ public class PlaceSoap implements Serializable {
 		_additionalInformation = additionalInformation;
 	}
 
+	public String getContenuTooltipCarto() {
+		return _contenuTooltipCarto;
+	}
+
+	public void setContenuTooltipCarto(String contenuTooltipCarto) {
+		_contenuTooltipCarto = contenuTooltipCarto;
+	}
+
 	public String getPhone() {
 		return _phone;
 	}
@@ -657,6 +666,7 @@ public class PlaceSoap implements Serializable {
 	private String _exceptionalSchedule;
 	private boolean _displayEvents;
 	private String _additionalInformation;
+	private String _contenuTooltipCarto;
 	private String _phone;
 	private String _mail;
 	private String _siteURL;

@@ -11,16 +11,17 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 @Component(
-		immediate = true,
-		property = {"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB},
-		service = AssetRendererFactory.class
-	)
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
+	},
+	service = AssetRendererFactory.class
+)
 public class ProjectAssetRendererFactory extends BaseAssetRendererFactory<Project> {
 
 	private ProjectLocalService _projectLocalService;
 
 	public static final String TYPE = "project";
-
 
 	public ProjectAssetRendererFactory() {
 		setClassName(Project.class.getName());
@@ -47,7 +48,6 @@ public class ProjectAssetRendererFactory extends BaseAssetRendererFactory<Projec
 	public String getType() {
 		return TYPE;
 	}
-
 
 	@Reference(unbind = "-")
 	protected void setInterestLocalService(ProjectLocalService projectLocalService) {

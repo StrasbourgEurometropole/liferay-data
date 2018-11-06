@@ -14,7 +14,7 @@
 <section id="graveyard">
 	<div class="seu-container graveyard-web">
 		
-		<aui:form name="fm" action="${rechercheURL}#result" class="generic-form toValidate">
+		<aui:form name="fm" action="${rechercheURL}" class="generic-form toValidate">
 	
 	        <div class="webform-layout-box">
 				<!-- Nom -->
@@ -131,7 +131,7 @@
 				</div>
 	
 				<!-- Localisation de la concession -->
-	            <div class="form-group list">
+	            <div class="form-group list" >
 	                <div class="form-label"><label for="concession"><liferay-ui:message key="graveyard.concession" /></label></div>
 	                <div class="form-field">
 	                    <select id="concession" class="toCustomSelect silencedSelect" name="<portlet:namespace />concession">
@@ -160,10 +160,10 @@
 		<c:if test="${not empty error}">
 			<div class="seu-error-messages">${error}</div>
 		</c:if>
-	
+
 		<!-- Résultats -->
-		<div id="result">
-            <c:if test="${empty error and not empty dc and not empty dc.graveyard}">
+        <c:if test="${empty error and not empty dc and not empty dc.graveyard}">
+            <div id="result">
                 <!-- Messages d'erreur au niveau du lien -->
                 <c:if test="${dc.graveyard.err eq 1}">
                     <div class="seu-error-messages">${dc.graveyard.err_desc}</div>
@@ -186,12 +186,6 @@
                     <c:if test="${empty dc.graveyard.erreur}">
                         <div class="graveyard-response rte">
                             <p>
-                                <div>
-                                    <liferay-ui:message key="before-98" />
-                                    <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                        <liferay-ui:message key="graveyard.contact" />
-                                    </a>
-                                </div>
                                 <c:choose>
                                     <c:when test="${dc.graveyard.count == '0'}">
                                         <liferay-ui:message key="no-tot" />
@@ -340,11 +334,17 @@
                                     </liferay-ui:search-container>
                                 </aui:form>
                             </c:if>
+                            <div>
+                                <liferay-ui:message key="before-98" />
+                                <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
+                                    <liferay-ui:message key="graveyard.contact" />
+                                </a>
+                            </div>
                         </div>
                     </c:if>
                 </c:if>
-            </c:if>
-	    </div>
+            </div>
+        </c:if>
 	</div>
 </section>
 
@@ -377,6 +377,9 @@
 	            $('#deathRange').hide();
 			}
         });
+        if($("#result").length > 0) {
+            $('html,body').animate({scrollTop: $("#result").offset().top - (($('.seu-nav-bottom #seu-main-menu').length > 0)?115:55)});
+        }
 	});
 
 </script>

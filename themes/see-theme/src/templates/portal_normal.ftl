@@ -11,6 +11,9 @@
   <link rel="apple-touch-icon" sizes="114x114" href="/o/see-theme/images/apple-touch-icon-114x114.jpg">
   <link rel="stylesheet" type="text/css" href="/o/see-theme/css/custom-animations.css" />
 
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,300,300italic,400italic,500italic&subset=latin,latin-ext" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" rel="stylesheet">
+
   <@liferay_util["include"] page=top_head_include />
 </head>
 <body class="${css_class}">

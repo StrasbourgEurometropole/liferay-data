@@ -138,13 +138,19 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 
 			// Recherche de documents
 			boolean searchDocument = ParamUtil.getBoolean(actionRequest,
-				"searchDocument");
+					"searchDocument");
 			String documentTemplateKey = ParamUtil.getString(actionRequest,
-				"documentTemplateKey");
+					"documentTemplateKey");
 			setPreference(actionRequest, "searchDocument",
-				String.valueOf(searchDocument));
+					String.valueOf(searchDocument));
 			setPreference(actionRequest, "documentTemplateKey",
-				documentTemplateKey);
+					documentTemplateKey);
+
+			// Recherche de démarches (procédures)
+			boolean searchDemarche = ParamUtil.getBoolean(actionRequest,
+					"searchDemarche");
+			setPreference(actionRequest, "searchDemarche",
+					String.valueOf(searchDemarche));
 
 			// VocabulariesIds
 			StringBuilder vocabulariesIdsString = new StringBuilder();
@@ -339,8 +345,13 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 
 			// Recherche de documents
 			boolean searchDocument = ParamUtil.getBoolean(request,
-				"searchDocument", configuration.searchDocument());
+					"searchDocument", configuration.searchDocument());
 			request.setAttribute("searchDocument", searchDocument);
+
+			// Recherche de démarches (procédures)
+			boolean searchDemarche = ParamUtil.getBoolean(request,
+					"searchDemarche", configuration.searchDemarche());
+			request.setAttribute("searchDemarche", searchDemarche);
 
 			// Liste des templates
 			List<List<DDMTemplate>> templatesList = new ArrayList<List<DDMTemplate>>();
@@ -367,10 +378,10 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 
 			// Liste des templates pour les documents
 			long documentClassNameId = ClassNameLocalServiceUtil
-				.getClassNameId(FileEntry.class);
+					.getClassNameId(FileEntry.class);
 			List<DDMTemplate> documentTemplates = DDMTemplateLocalServiceUtil
-				.getTemplates(themeDisplay.getScopeGroupId(),
-					documentClassNameId);
+					.getTemplates(themeDisplay.getScopeGroupId(),
+							documentClassNameId);
 			request.setAttribute("documentTemplatesList", documentTemplates);
 
 			// Templates sélectionnés
@@ -393,8 +404,8 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 
 			// Template sélectionné pour les documents
 			long documentTemplateKey = ParamUtil.getLong(request,
-				"documentTemplateKey",
-				GetterUtil.getLong(configuration.documentTemplateKey()));
+					"documentTemplateKey",
+					GetterUtil.getLong(configuration.documentTemplateKey()));
 			request.setAttribute("documentTemplateKey", documentTemplateKey);
 
 			// Layouts

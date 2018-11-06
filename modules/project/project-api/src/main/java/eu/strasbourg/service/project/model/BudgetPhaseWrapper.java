@@ -72,7 +72,7 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
-		attributes.put("name", getName());
+		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("numberOfVote", getNumberOfVote());
 		attributes.put("isActive", getIsActive());
@@ -80,7 +80,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		attributes.put("endDate", getEndDate());
 		attributes.put("beginVoteDate", getBeginVoteDate());
 		attributes.put("endVoteDate", getEndVoteDate());
-		attributes.put("publikId", getPublikId());
 
 		return attributes;
 	}
@@ -159,10 +158,10 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 			setStatusDate(statusDate);
 		}
 
-		String name = (String)attributes.get("name");
+		String title = (String)attributes.get("title");
 
-		if (name != null) {
-			setName(name);
+		if (title != null) {
+			setTitle(title);
 		}
 
 		String description = (String)attributes.get("description");
@@ -205,12 +204,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 
 		if (endVoteDate != null) {
 			setEndVoteDate(endVoteDate);
-		}
-
-		String publikId = (String)attributes.get("publikId");
-
-		if (publikId != null) {
-			setPublikId(publikId);
 		}
 	}
 
@@ -275,6 +268,22 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
+	* Renvoie si la phase est en période de dépot
+	*/
+	@Override
+	public boolean isInDepositPeriod() {
+		return _budgetPhase.isInDepositPeriod();
+	}
+
+	/**
+	* Renvoie si la phase est en période de vote
+	*/
+	@Override
+	public boolean isInVotingPeriod() {
+		return _budgetPhase.isInVotingPeriod();
+	}
+
+	/**
 	* Returns <code>true</code> if this budget phase is inactive.
 	*
 	* @return <code>true</code> if this budget phase is inactive; <code>false</code> otherwise
@@ -327,6 +336,14 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public boolean isScheduled() {
 		return _budgetPhase.isScheduled();
+	}
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _budgetPhase.getAssetEntry();
 	}
 
 	@Override
@@ -391,26 +408,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
-	* Returns the name of this budget phase.
-	*
-	* @return the name of this budget phase
-	*/
-	@Override
-	public java.lang.String getName() {
-		return _budgetPhase.getName();
-	}
-
-	/**
-	* Returns the publik ID of this budget phase.
-	*
-	* @return the publik ID of this budget phase
-	*/
-	@Override
-	public java.lang.String getPublikId() {
-		return _budgetPhase.getPublikId();
-	}
-
-	/**
 	* Returns the status by user name of this budget phase.
 	*
 	* @return the status by user name of this budget phase
@@ -428,6 +425,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _budgetPhase.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the title of this budget phase.
+	*
+	* @return the title of this budget phase
+	*/
+	@Override
+	public java.lang.String getTitle() {
+		return _budgetPhase.getTitle();
 	}
 
 	/**
@@ -538,6 +545,15 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public Date getStatusDate() {
 		return _budgetPhase.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _budgetPhase.getCategories();
 	}
 
 	/**
@@ -746,16 +762,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		_budgetPhase.setModifiedDate(modifiedDate);
 	}
 
-	/**
-	* Sets the name of this budget phase.
-	*
-	* @param name the name of this budget phase
-	*/
-	@Override
-	public void setName(java.lang.String name) {
-		_budgetPhase.setName(name);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_budgetPhase.setNew(n);
@@ -784,16 +790,6 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_budgetPhase.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	/**
-	* Sets the publik ID of this budget phase.
-	*
-	* @param publikId the publik ID of this budget phase
-	*/
-	@Override
-	public void setPublikId(java.lang.String publikId) {
-		_budgetPhase.setPublikId(publikId);
 	}
 
 	/**
@@ -844,6 +840,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_budgetPhase.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the title of this budget phase.
+	*
+	* @param title the title of this budget phase
+	*/
+	@Override
+	public void setTitle(java.lang.String title) {
+		_budgetPhase.setTitle(title);
 	}
 
 	/**

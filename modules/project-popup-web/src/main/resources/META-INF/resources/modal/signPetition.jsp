@@ -8,7 +8,7 @@
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
-<!-- HTML pour la modal d'une pÃÂ©tition -->
+<!-- HTML pour la modal d'une petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -44,7 +44,7 @@
 					            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 	                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="signbirthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
+                            <aui:input id="signbirthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" maxlength="10" placeholder="jj/mm/aaaa" onInput="checkSignValues();" onChange="checkSignValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -53,10 +53,10 @@
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-				                <aui:input id="signcity" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" onInput="checkSignValues();"/>
+				                <aui:input id="signcity" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" maxlength="256" onInput="checkSignValues();"/>
                             </div>
                             <div class="form-code">
-                                <aui:input id="signpostalcode" name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX" onInput="checkSignValues();"/>
+                                <aui:input id="signpostalcode" name="postalcode" label="modal.user.postalcode" required="true" placeholder="67XXX" maxlength="5" onInput="checkSignValues();"/>
                             </div>
                         </div>
                     </div>
@@ -65,10 +65,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input type="number" id="signphone" name="phone" label="modal.user.phone" placeholder="0611111111" onInput="checkSignValues();"/>
+                            <aui:input type="number" id="signphone" name="phone" label="modal.user.phone" placeholder="0611111111" maxlength="20" onInput="checkSignValues();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input type="number" id="signmobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" onInput="checkSignValues();"/>
+                            <aui:input type="number" id="signmobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkSignValues();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSignSaveInfo">
@@ -111,7 +111,7 @@
 </div><!-- /.modal -->
 
 <!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de pÃÂ©tition -->
+<!-- HTML pour la modal de quitter le formulaire de petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -122,7 +122,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-petition-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-quit"/> />
                 </div>
             </div>
         </div>
@@ -190,8 +190,8 @@
     var saved_signzipCode = "${userConnected.get('zipcode')}";
     var saved_signcity = "${userConnected.get('city')}";
     var saved_signdateNaiss = "${formattedDate}";
-    var saved_signphone = "${userConnected.get('phone')}";
-    var saved_signmobile = "${userConnected.get('mobile')}";
+    var saved_signphone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : "";
+	var saved_signmobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : "";
 
     function validateSignForm()
     {
