@@ -42,6 +42,7 @@ import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalService
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the budget participatif local service.
@@ -153,8 +154,9 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 
     /**
      * Méthode de mise à jour d'un budget
+     *
      * @param budget le budget
-     * @param sc le service context
+     * @param sc     le service context
      * @return le budget
      * @throws PortalException exception
      */
@@ -181,19 +183,55 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         } else {
             budget.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
+        updateCategory(sc, budget);
         updateBudgetParticipatif(budget);
         updateAssetEntry(budget, sc);
-        addCategory(sc,budget);
         reindex(budget, false);
         return budget;
     }
 
-    private void addCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
-        AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(),sc.getScopeGroupId());
-        if (category==null){
+    /**
+     * méthode permettant de mettre à jour la catégory d'un budget
+     *
+     * @param sc                 le service context
+     * @param budgetParticipatif le budget
+     * @throws PortalException l'exception
+     */
+    private void updateCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
+        AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+                BudgetParticipatif.class.getName(), budgetParticipatif.getBudgetParticipatifId());
+        if (entry != null) {
+            List<AssetCategory> categories = entry.getCategories();
+            categories = categories.stream().filter(cat -> 1982551L == cat.getVocabularyId()).collect(Collectors.toList());
+            if (categories.isEmpty()) {
+                addCategoryDepose(sc);
+            }
+        } else addCategoryDepose(sc);
+    }
+
+    /**
+     * méthode permettant d'ajouter la catégory déposé sur un nouveau budget
+     *
+     * @param sc le service context
+     * @throws PortalException l'exception.
+     */
+    private void addCategoryDepose(ServiceContext sc) throws PortalException {
+        AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), sc.getScopeGroupId());
+        if (category == null) {
             throw new PortalException("aucunes catégories de connu");
         }
-        AssetVocabularyHelper.addCategoryToAssetEntry(category,budgetParticipatif.getAssetEntry());
+        long[] ids = sc.getAssetCategoryIds();
+        if (ids.length != 0) {
+            long[] newIds = new long[ids.length + 1];
+            System.arraycopy(ids, 0, newIds, 0, ids.length);
+            newIds[ids.length] = category.getCategoryId();
+            sc.setAssetCategoryIds(newIds);
+        } else {
+            ids = new long[1];
+            ids[0] = category.getCategoryId();
+            sc.setAssetCategoryIds(ids);
+        }
+
     }
 
     /**

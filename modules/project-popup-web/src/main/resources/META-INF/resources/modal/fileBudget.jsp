@@ -269,7 +269,7 @@
                             <portlet:namespace />theme:themeValue,
                             <portlet:namespace />photo:photoValue,
                             <portlet:namespace />video:videoValue,
-                            <portlet:namespace />budgetlieux:budgetlieuxValue,
+                            <portlet:namespace />budgetLieux:budgetlieuxValue,
                             <portlet:namespace />saveinfo:saveInfoValue,
                             <portlet:namespace />lastname:lastNameValue,
                             <portlet:namespace />firstname:firstNameValue,
