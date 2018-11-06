@@ -78,10 +78,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
-    private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
-    private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
     private String publikID;
@@ -92,11 +90,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private long postalcode;
     private String phone;
     private String mobile;
-    private String email;
-    private String photo;
     private String video;
     private String title;
-    private String placeText;
     private String description;
     private String lieu;
     private long projectId;
@@ -125,7 +120,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
@@ -133,7 +127,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
-        Long webImageId = ParamUtil.getLong(request, "webImageId");
 
         boolean isValid = false;
         try {
@@ -170,7 +163,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         jsonResponse.put("result", result);
         jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", savedInfo);
-
+        
         // Recuperation de l'élément d'écriture de la réponse
         PrintWriter writer = null;
         try {
@@ -185,7 +178,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private boolean sendBudget(ResourceRequest request) throws PortletException {
         ServiceContext sc;
         BudgetParticipatif budgetParticipatif;
-
+        
         try {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
@@ -210,7 +203,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
                 ids[i] = identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
-
+            
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
             budgetParticipatif.setTitle(this.title);
             budgetParticipatif.setDescription(this.description);
@@ -262,7 +255,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             _log.info("budgetPhoto : [" + budgetPhoto + "]");
             if (budgetPhoto != null && budgetPhoto.exists()) {
                 _log.info("Going to write the file contents");
-
+                
                 byte[] imageBytes = FileUtil.getBytes(budgetPhoto);
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
@@ -288,9 +281,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
     private boolean validateFileName(ResourceRequest request) throws PortalException {
         boolean result = true;
-        ThemeDisplay themeDisplay = (ThemeDisplay) request
-                .getAttribute(WebKeys.THEME_DISPLAY);
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName("budgetPhoto");
         if (fileName != null && !fileName.isEmpty()) {
