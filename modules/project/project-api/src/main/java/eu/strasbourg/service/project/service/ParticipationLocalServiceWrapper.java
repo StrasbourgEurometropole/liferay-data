@@ -405,7 +405,7 @@ public class ParticipationLocalServiceWrapper
 	}
 
 	/**
-	* Retourne toutes les participation publiées d'un groupe
+	* Retourne toutes les participation publiees d'un groupe
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.Participation> getPublishedByGroupId(

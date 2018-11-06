@@ -345,6 +345,15 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getPublishedByGroupId(
+		long groupId) {
+		return _budgetParticipatifLocalService.getPublishedByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

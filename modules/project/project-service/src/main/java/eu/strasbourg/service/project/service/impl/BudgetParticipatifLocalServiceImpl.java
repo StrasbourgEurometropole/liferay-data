@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
@@ -222,6 +223,14 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
             indexer.reindex(budget);
         }
     }
+    
+    /**
+	 * Retourne tous les budgets participatifs publies d'un groupe
+	 */
+	@Override
+	public List<BudgetParticipatif> getPublishedByGroupId(long groupId) {
+		return this.budgetParticipatifPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	}
 
     /**
      * Recherche par mot clés

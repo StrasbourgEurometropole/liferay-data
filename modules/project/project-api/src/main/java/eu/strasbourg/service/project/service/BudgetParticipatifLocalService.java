@@ -293,6 +293,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		OrderByComparator<BudgetParticipatif> orderByComparator);
 
 	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getPublishedByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
