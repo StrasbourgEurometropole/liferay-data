@@ -51,30 +51,6 @@
                     "required": false,
                     "showLabel": true,
                     "type": "ddm-documentlibrary"
-                },
-                {
-                    "label": {
-                        "fr_FR": "HTML des boutons / liens"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "html",
-                    "fieldNamespace": "ddm",
-                    "indexType": "text",
-                    "localizable": true,
-                    "name": "linksContent",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "ddm-text-html"
                 }
             ]
         },

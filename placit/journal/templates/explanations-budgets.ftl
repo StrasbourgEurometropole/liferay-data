@@ -60,11 +60,16 @@
                             </#list>
                         </ul>
 
-                        <#if rightTitle.getChild("linksContent").getData() !="" >
-                            <div class="pro-wrapper-btn">
-                                ${rightTitle.getChild("linksContent").getData()}
-                            </div>
-                        </#if>
+                       <div class="pro-wrapper-btn">
+							<#if isUserloggedIn && hasSigned >
+								<a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
+							<#elseif isUserloggedIn>
+								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez signer le pacte</a>
+							<#else>
+								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez vous connecter</a>
+							</#if>
+								<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>										
+						</div>
 
                     </div>
 
@@ -126,49 +131,26 @@
         </div>
     </section>
 
-    <#if isUserloggedIn && hasSigned >
-        <div class="pro-bloc-prefooter pro-sticky-bar">
-            <div class="container">
-                <div class="col-xs-12 aligncenter pro-wrapper-btn">
-                    <div class="pro-bloc-prefooter pro-sticky-bar">
-                        <div class="container">
-                            <div class="col-xs-12 aligncenter pro-wrapper-btn">
-                                <a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <#elseif isUserloggedIn>
-        <div class="pro-bloc-prefooter pro-sticky-bar">
-            <div class="container">
-                <div class="col-xs-12 aligncenter pro-wrapper-btn">
-                    <div class="pro-bloc-prefooter pro-sticky-bar">
-                        <div class="container">
-                            <div class="col-xs-12 aligncenter pro-wrapper-btn">
-                                <a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez signer le pacte</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <#else>
-        <div class="pro-bloc-prefooter pro-sticky-bar">
-            <div class="container">
-                <div class="col-xs-12 aligncenter pro-wrapper-btn">
-                    <div class="pro-bloc-prefooter pro-sticky-bar">
-                        <div class="container">
-                            <div class="col-xs-12 aligncenter pro-wrapper-btn">
-                                <a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez vous connecter</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </#if>
+    <div class="pro-bloc-prefooter pro-sticky-bar">
+		<div class="container">
+			<div class="col-xs-12 aligncenter pro-wrapper-btn">
+				<div class="pro-bloc-prefooter pro-sticky-bar">
+					<div class="container">
+						<div class="col-xs-12 aligncenter pro-wrapper-btn">
+							<#if isUserloggedIn && hasSigned >
+								<a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
+							<#elseif isUserloggedIn>
+								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez signer le pacte</a>
+							<#else>
+								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez vous connecter</a>
+							</#if>
+								<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
