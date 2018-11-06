@@ -288,9 +288,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
     private boolean validateFileName(ResourceRequest request) throws PortalException {
         boolean result = true;
-        ThemeDisplay themeDisplay = (ThemeDisplay) request
-                .getAttribute(WebKeys.THEME_DISPLAY);
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName("budgetPhoto");
         if (fileName != null && !fileName.isEmpty()) {

@@ -42,6 +42,7 @@ import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalService
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the budget participatif local service.
@@ -183,17 +184,23 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         }
         updateBudgetParticipatif(budget);
         updateAssetEntry(budget, sc);
-        addCategory(sc,budget);
+        updateCategory(sc,budget);
         reindex(budget, false);
         return budget;
     }
 
-    private void addCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
-        AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(),sc.getScopeGroupId());
-        if (category==null){
-            throw new PortalException("aucunes catégories de connu");
+    private void updateCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
+        AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+                BudgetParticipatif.class.getName(), budgetParticipatif.getBudgetParticipatifId());
+        List<AssetCategory> categories = entry.getCategories();
+        categories = categories.stream().filter(cat -> 1982551L ==cat.getVocabularyId()).collect(Collectors.toList());
+        if (categories.isEmpty()) {
+            AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), sc.getScopeGroupId());
+            if (category == null) {
+                throw new PortalException("aucunes catégories de connu");
+            }
+            AssetVocabularyHelper.addCategoryToAssetEntry(category, budgetParticipatif.getAssetEntry());
         }
-        AssetVocabularyHelper.addCategoryToAssetEntry(category,budgetParticipatif.getAssetEntry());
     }
 
     /**
