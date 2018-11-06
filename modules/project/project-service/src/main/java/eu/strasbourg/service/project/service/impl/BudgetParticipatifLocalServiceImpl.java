@@ -40,9 +40,9 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The implementation of the budget participatif local service.
@@ -198,11 +198,11 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
      * @throws PortalException l'exception
      */
     private void updateCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
+
         AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
                 BudgetParticipatif.class.getName(), budgetParticipatif.getBudgetParticipatifId());
         if (entry != null) {
-            List<AssetCategory> categories = entry.getCategories();
-            categories = categories.stream().filter(cat -> 1982551L == cat.getVocabularyId()).collect(Collectors.toList());
+            List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry, VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
             if (categories.isEmpty()) {
                 addCategoryDepose(sc);
             }
