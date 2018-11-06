@@ -186,7 +186,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<Long>();
+            List<Long> identifiants = new ArrayList<>();
             if (this.quartierId == 0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
                 assert districts != null;

@@ -104,21 +104,6 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
 
     /**
-     * Retourne les catégories 'Projets' correspondant aux pays de la petition
-     */
-    @Override
-    public AssetCategory getProjectCategories() {
-        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-                VocabularyNames.PROJECT).get(0);
-    }
-
-    @Override
-    public String getProjectTitle(Locale locale) {
-        AssetCategory project = getProjectCategory();
-        return (project != null) ? project.getName() : "";
-    }
-
-    /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
      *
      * @return : null si vide, sinon la liste des catégories
