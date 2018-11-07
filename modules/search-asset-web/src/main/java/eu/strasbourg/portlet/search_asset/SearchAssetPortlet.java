@@ -169,18 +169,18 @@ public class SearchAssetPortlet extends MVCPortlet {
 
             } else if (className.equals(PETITION)) {
 
-                //récuperer des objets des champs les plus/les moins.
+                // Recuperer des objets des champs les plus/les moins.
                 List<Petition> petitionListMostSigned = _petitionLocalService
                         .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
                 List<Petition> petitionListLessSigned = _petitionLocalService
                         .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
                 List<Petition> petitionListMostCommented = _petitionLocalService
                         .getTheMostCommented(themeDisplay.getScopeGroupId());
-
+                
                 renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
                 renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
                 renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
-
+                
             } else if (className.equals(BUDGET)) {
             	
             	List<BudgetParticipatif> budgetListMostSigned = null;
@@ -191,7 +191,6 @@ public class SearchAssetPortlet extends MVCPortlet {
             	renderRequest.setAttribute("budgetListMostCommented", budgetListMostCommented);
             	renderRequest.setAttribute("budgetListIsCrush", budgetListIsCrush);
             }
-            
             
             if (Validator.isNotNull(userPublikId)) {
                 renderRequest.setAttribute("isUserloggedIn", true);
