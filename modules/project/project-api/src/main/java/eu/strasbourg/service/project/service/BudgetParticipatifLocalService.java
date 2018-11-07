@@ -310,6 +310,16 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		OrderByComparator<BudgetParticipatif> orderByComparator);
 
 	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus commentes
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus commentes triee.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getMostCommented(long groupId, int delta);
+
+	/**
 	* Retourne tous les budgets participatifs publies d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

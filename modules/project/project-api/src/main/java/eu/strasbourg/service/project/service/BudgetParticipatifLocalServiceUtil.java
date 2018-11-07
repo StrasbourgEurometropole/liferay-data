@@ -344,6 +344,18 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus commentes
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus commentes triee.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostCommented(
+		long groupId, int delta) {
+		return getService().getMostCommented(groupId, delta);
+	}
+
+	/**
 	* Retourne tous les budgets participatifs publies d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getPublishedByGroupId(
