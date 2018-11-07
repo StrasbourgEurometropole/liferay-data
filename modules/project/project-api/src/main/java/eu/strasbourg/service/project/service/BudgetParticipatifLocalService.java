@@ -41,6 +41,7 @@ import eu.strasbourg.service.project.model.BudgetParticipatif;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for BudgetParticipatif. Methods of this
@@ -193,6 +194,22 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		BudgetParticipatif budgetParticipatif);
 
 	/**
+	* mise a jour du status
+	*
+	* @param userId               l'identifiant de l'utilisateur
+	* @param budgetParticipatifId l'identifiant du budget
+	* @param status               le status
+	* @param serviceContext       le service context
+	* @param workflowContext      le context du workflow
+	* @return le budget
+	* @throws PortalException
+	*/
+	public BudgetParticipatif updateStatus(long userId,
+		long budgetParticipatifId, int status, ServiceContext serviceContext,
+		Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
+
+	/**
 	* Returns the number of budget participatifs.
 	*
 	* @return the number of budget participatifs
@@ -316,5 +333,11 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
 	public void removeBudgetParticipatif(long budgetId)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(BudgetParticipatif budgetParticipatif, int status)
 		throws PortalException;
 }

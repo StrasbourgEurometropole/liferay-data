@@ -62,7 +62,7 @@
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
-		<liferay-ui:search-container id="budgetParticipatifSearchContainer"
+		<liferay-ui:search-container id="budgetParticipatifsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 			<liferay-ui:search-container-results results="${dc.budgetParticipatifs}" />
 
@@ -79,7 +79,7 @@
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Titre --%>
-				<liferay-ui:search-container-column-text
+				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
 				
