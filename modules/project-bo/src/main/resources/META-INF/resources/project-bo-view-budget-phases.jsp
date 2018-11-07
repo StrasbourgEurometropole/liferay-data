@@ -16,8 +16,8 @@
 	<portlet:param name="mvcPath" value="/project-bo-edit-budget-phase.jsp" />
 	<portlet:param name="returnURL" value="${budgetPhasesURL}" />
 </liferay-portlet:renderURL>
-s
-<%-- Composant : barre de filtres et de gestion des entite --%>
+
+<%-- Composant : barre de filtres et de gestion des entites --%>
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="budgetPhasesSearchContainer">
 
 		<%-- Composant : partie filtres et selection --%>

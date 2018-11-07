@@ -103,8 +103,6 @@ public class PetitionImpl extends PetitionBaseImpl {
                 VocabularyNames.TERRITORY);
     }
 
-
-
     /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
      *
