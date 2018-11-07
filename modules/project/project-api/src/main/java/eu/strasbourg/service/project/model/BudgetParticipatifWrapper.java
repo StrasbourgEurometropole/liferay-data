@@ -479,6 +479,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la categorie projet du BP
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getStatutBPCategory() {
+		return _budgetParticipatif.getStatutBPCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -754,6 +762,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _budgetParticipatif.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne la titre du statut du BP
+	*/
+	@Override
+	public java.lang.String getStatutBPName() {
+		return _budgetParticipatif.getStatutBPName();
 	}
 
 	/**

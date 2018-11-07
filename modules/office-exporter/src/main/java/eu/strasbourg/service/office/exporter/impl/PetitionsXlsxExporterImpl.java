@@ -144,7 +144,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
     }
 
     private String getfield(String param) {
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != null && !param.isEmpty())
             result = param;
         return result;
@@ -152,7 +152,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
 
     private String getfield(Date param) {
         DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != null)
             result = dateFormat.format(param);
         return result;
@@ -163,16 +163,16 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
     }
 
     private String getfield(long param) {
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != 0L)
             result = String.valueOf(param);
         return result;
     }
 
     private String getfield(int param) {
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != 0)
-            result = String.valueOf(result);
+            result = String.valueOf(param);
         return result;
     }
 
