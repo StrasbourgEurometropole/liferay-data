@@ -28,6 +28,7 @@
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="place-error" message="place-error" />
+	<liferay-ui:error key="motif-error" message="motif-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveBudgetParticipatifURL}" method="post" name="fm" onSubmit="submitForm(event);">
