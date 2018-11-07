@@ -102,7 +102,7 @@
                         <#if sibling?counter = 8 >
                             <img src="/o/christmas-2018-theme/images/deco-elipse-grey.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-8" />
                         </#if>
-                        <#if sibling?counter = 9 >
+                        <#if sibling?counter = 10 >
                             <img src="/o/christmas-2018-theme/images/deco-elipse-beige.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-10" />
                         </#if>
                         <a href="${sibling.children[3].data}">
