@@ -36,6 +36,7 @@
 		<field name="citoyenEmail" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="citoyenBirthday" type="Date" />
 		<field name="hasCopyright" type="boolean" />
 		<field name="videoUrl" type="String">
 			<hint name="max-length">400</hint>

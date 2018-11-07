@@ -47,6 +47,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,6 +88,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private String publikID;
     private PublikUser user;
     private DateFormat dateFormat;
+    private Date birthday;
     private String address;
     private String city;
     private long postalcode;
@@ -125,6 +127,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
         this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
@@ -147,8 +150,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
         boolean savedInfo = false;
         if (message.isEmpty()) {
-            boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
-            if (saveInfo) {
+            savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+            if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
                 String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
                 PublikApiClient.setAllUserDetails(
@@ -222,6 +225,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenCity(this.city);
             budgetParticipatif.setCitoyenEmail(this.user.getEmail());
             budgetParticipatif.setCitoyenMobile(this.mobile);
+            budgetParticipatif.setCitoyenBirthday(this.birthday);
             if (!this.video.isEmpty())
                 budgetParticipatif.setVideoUrl(this.video);
             budgetParticipatif.setPlaceTextArea(this.lieu);
@@ -306,6 +310,11 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
         // description
         if (Validator.isNull(this.description)) {
+            isValid = false;
+        }
+
+        // birthday
+        if (Validator.isNull(this.birthday)) {
             isValid = false;
         }
 

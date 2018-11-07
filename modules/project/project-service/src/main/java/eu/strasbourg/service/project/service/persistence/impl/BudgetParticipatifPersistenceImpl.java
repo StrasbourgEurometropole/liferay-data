@@ -15,7 +15,6 @@
 package eu.strasbourg.service.project.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -38,7 +37,6 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.impl.BudgetParticipatifImpl;
@@ -46,9 +44,7 @@ import eu.strasbourg.service.project.model.impl.BudgetParticipatifModelImpl;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -4162,6 +4158,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setCitoyenPhone(budgetParticipatif.getCitoyenPhone());
 		budgetParticipatifImpl.setCitoyenMobile(budgetParticipatif.getCitoyenMobile());
 		budgetParticipatifImpl.setCitoyenEmail(budgetParticipatif.getCitoyenEmail());
+		budgetParticipatifImpl.setCitoyenBirthday(budgetParticipatif.getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(budgetParticipatif.isHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(budgetParticipatif.getVideoUrl());
 		budgetParticipatifImpl.setPlaceTextArea(budgetParticipatif.getPlaceTextArea());

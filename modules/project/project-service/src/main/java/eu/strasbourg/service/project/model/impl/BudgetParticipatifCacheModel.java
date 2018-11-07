@@ -15,19 +15,16 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
 
 /**
@@ -66,7 +63,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(69);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -116,6 +113,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(citoyenMobile);
 		sb.append(", citoyenEmail=");
 		sb.append(citoyenEmail);
+		sb.append(", citoyenBirthday=");
+		sb.append(citoyenBirthday);
 		sb.append(", hasCopyright=");
 		sb.append(hasCopyright);
 		sb.append(", videoUrl=");
@@ -267,6 +266,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setCitoyenEmail(citoyenEmail);
 		}
 
+		if (citoyenBirthday == Long.MIN_VALUE) {
+			budgetParticipatifImpl.setCitoyenBirthday(null);
+		}
+		else {
+			budgetParticipatifImpl.setCitoyenBirthday(new Date(citoyenBirthday));
+		}
+
 		budgetParticipatifImpl.setHasCopyright(hasCopyright);
 
 		if (videoUrl == null) {
@@ -349,6 +355,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		citoyenPhone = objectInput.readUTF();
 		citoyenMobile = objectInput.readUTF();
 		citoyenEmail = objectInput.readUTF();
+		citoyenBirthday = objectInput.readLong();
 
 		hasCopyright = objectInput.readBoolean();
 		videoUrl = objectInput.readUTF();
@@ -479,6 +486,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(citoyenEmail);
 		}
 
+		objectOutput.writeLong(citoyenBirthday);
+
 		objectOutput.writeBoolean(hasCopyright);
 
 		if (videoUrl == null) {
@@ -547,6 +556,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public String citoyenPhone;
 	public String citoyenMobile;
 	public String citoyenEmail;
+	public long citoyenBirthday;
 	public boolean hasCopyright;
 	public String videoUrl;
 	public String placeTextArea;

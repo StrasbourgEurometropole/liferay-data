@@ -23,6 +23,7 @@ create table project_BudgetParticipatif (
 	citoyenPhone VARCHAR(75) null,
 	citoyenMobile VARCHAR(75) null,
 	citoyenEmail VARCHAR(400) null,
+	citoyenBirthday DATE null,
 	hasCopyright BOOLEAN,
 	videoUrl VARCHAR(400) null,
 	placeTextArea VARCHAR(400) null,

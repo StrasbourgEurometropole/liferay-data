@@ -15,12 +15,9 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -35,15 +32,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetParticipatifModel;
 import eu.strasbourg.service.project.model.BudgetParticipatifSoap;
 
 import java.io.Serializable;
-
 import java.sql.Types;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -98,6 +92,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "citoyenPhone", Types.VARCHAR },
 			{ "citoyenMobile", Types.VARCHAR },
 			{ "citoyenEmail", Types.VARCHAR },
+			{ "citoyenBirthday", Types.TIMESTAMP },
 			{ "hasCopyright", Types.BOOLEAN },
 			{ "videoUrl", Types.VARCHAR },
 			{ "placeTextArea", Types.VARCHAR },
@@ -135,6 +130,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("citoyenPhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenMobile", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenEmail", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("citoyenBirthday", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("hasCopyright", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
@@ -146,7 +142,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("budgetPhaseId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,placeTextArea VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,placeTextArea VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.title ASC";
@@ -207,6 +203,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setCitoyenPhone(soapModel.getCitoyenPhone());
 		model.setCitoyenMobile(soapModel.getCitoyenMobile());
 		model.setCitoyenEmail(soapModel.getCitoyenEmail());
+		model.setCitoyenBirthday(soapModel.getCitoyenBirthday());
 		model.setHasCopyright(soapModel.getHasCopyright());
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
@@ -305,6 +302,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("citoyenPhone", getCitoyenPhone());
 		attributes.put("citoyenMobile", getCitoyenMobile());
 		attributes.put("citoyenEmail", getCitoyenEmail());
+		attributes.put("citoyenBirthday", getCitoyenBirthday());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("placeTextArea", getPlaceTextArea());
@@ -465,6 +463,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		if (citoyenEmail != null) {
 			setCitoyenEmail(citoyenEmail);
+		}
+
+		Date citoyenBirthday = (Date)attributes.get("citoyenBirthday");
+
+		if (citoyenBirthday != null) {
+			setCitoyenBirthday(citoyenBirthday);
 		}
 
 		Boolean hasCopyright = (Boolean)attributes.get("hasCopyright");
@@ -937,6 +941,17 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@JSON
 	@Override
+	public Date getCitoyenBirthday() {
+		return _citoyenBirthday;
+	}
+
+	@Override
+	public void setCitoyenBirthday(Date citoyenBirthday) {
+		_citoyenBirthday = citoyenBirthday;
+	}
+
+	@JSON
+	@Override
 	public boolean getHasCopyright() {
 		return _hasCopyright;
 	}
@@ -1234,6 +1249,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setCitoyenPhone(getCitoyenPhone());
 		budgetParticipatifImpl.setCitoyenMobile(getCitoyenMobile());
 		budgetParticipatifImpl.setCitoyenEmail(getCitoyenEmail());
+		budgetParticipatifImpl.setCitoyenBirthday(getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(getHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(getVideoUrl());
 		budgetParticipatifImpl.setPlaceTextArea(getPlaceTextArea());
@@ -1479,6 +1495,15 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.citoyenEmail = null;
 		}
 
+		Date citoyenBirthday = getCitoyenBirthday();
+
+		if (citoyenBirthday != null) {
+			budgetParticipatifCacheModel.citoyenBirthday = citoyenBirthday.getTime();
+		}
+		else {
+			budgetParticipatifCacheModel.citoyenBirthday = Long.MIN_VALUE;
+		}
+
 		budgetParticipatifCacheModel.hasCopyright = getHasCopyright();
 
 		budgetParticipatifCacheModel.videoUrl = getVideoUrl();
@@ -1532,7 +1557,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(69);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1582,6 +1607,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getCitoyenMobile());
 		sb.append(", citoyenEmail=");
 		sb.append(getCitoyenEmail());
+		sb.append(", citoyenBirthday=");
+		sb.append(getCitoyenBirthday());
 		sb.append(", hasCopyright=");
 		sb.append(getHasCopyright());
 		sb.append(", videoUrl=");
@@ -1607,7 +1634,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(103);
+		StringBundler sb = new StringBundler(106);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetParticipatif");
@@ -1710,6 +1737,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getCitoyenEmail());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>citoyenBirthday</column-name><column-value><![CDATA[");
+		sb.append(getCitoyenBirthday());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>hasCopyright</column-name><column-value><![CDATA[");
 		sb.append(getHasCopyright());
 		sb.append("]]></column-value></column>");
@@ -1787,6 +1818,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private String _citoyenPhone;
 	private String _citoyenMobile;
 	private String _citoyenEmail;
+	private Date _citoyenBirthday;
 	private boolean _hasCopyright;
 	private String _videoUrl;
 	private String _placeTextArea;

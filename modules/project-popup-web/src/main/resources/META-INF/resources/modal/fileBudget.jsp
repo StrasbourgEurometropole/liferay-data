@@ -75,11 +75,18 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filebudget.user"/></h4>
                     <div class="pro-row">
-                        <div class="form-group form-half">
-                            <aui:input name="username" label="modal.user.username" required="true" disabled="true"  value="${userConnected.get('last_name')}"/>
+                        <div class="form-group form-triple">
+                            <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
                         </div>
-                        <div class="form-group form-half">
-                            <aui:input name="firstname" label="modal.user.firstname" required="true" disabled="true"  value="${userConnected.get('first_name')}"/>
+                        <div class="form-group form-triple">
+                            <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
+                        </div>
+                        <div class="form-group form-triple">
+	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
+	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -232,6 +239,7 @@
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
             var postalcodeValue = $("#"+namespace+"postalcode").val();
+            var birthdayValue = $("#"+namespace+"birthday").val();
             var phoneValue = $("#"+namespace+"phone").val();
             var mobileValue = $("#"+namespace+"mobile").val();
             var projectValue = $("#"+namespace+"project").val();
@@ -263,7 +271,7 @@
                             <portlet:namespace/>postalcode:postalcodeValue,
                             <portlet:namespace/>phone:phoneValue,
                             <portlet:namespace/>mobile:mobileValue,
-                            <portlet:namespace/>birthday:saved_dateNaiss,
+                            <portlet:namespace/>birthday:birthdayValue,
                             <portlet:namespace />project:projectValue,
                             <portlet:namespace />quartier:quartierValue,
                             <portlet:namespace />theme:themeValue,
@@ -282,6 +290,7 @@
                                 if(data.result){
                                     $('#modalBudget').modal('hide');
                                     if(data.savedInfo){
+                                        saved_dateNaiss = birthdayValue;
                                         saved_city = $("#"+namespace+"city").val();
                                         saved_address = $("#"+namespace+"address").val();
                                         saved_zipCode = $("#"+namespace+"postalcode").val();
@@ -338,10 +347,11 @@
         $("#"+namespace+"postalcode").val(saved_zipCode);
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
+        $("#"+namespace+"birthday").val(saved_dateNaiss);
     }
 
     function checkValues(){
-        if($("#"+namespace+"address").val() != saved_address ||
+        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
         $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
         $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
             $('#checkboxSaveInfo #save-info').prop('checked', true);
