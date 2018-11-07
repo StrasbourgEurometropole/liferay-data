@@ -700,6 +700,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getMotif();
 	}
 
+	/**
+	* Retourne le nombre de soutien sous le format 6 digits pour l'affichage
+	*
+	* @return le nombre sous le format '000124'
+	*/
+	@Override
+	public java.lang.String getNbSupportsBoard() {
+		return _budgetParticipatif.getNbSupportsBoard();
+	}
+
 	@Override
 	public java.lang.String getPhaseTitleLabel() {
 		return _budgetParticipatif.getPhaseTitleLabel();
@@ -885,6 +895,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
 		return _budgetParticipatif.getPlacitPlaces();
+	}
+
+	/**
+	* Retourne les soutiens du budget participatif
+	*
+	* @return Liste des soutiens
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getSupports() {
+		return _budgetParticipatif.getSupports();
 	}
 
 	/**

@@ -29,8 +29,10 @@ import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -295,7 +297,32 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		return CommentLocalServiceUtil
 				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
 	}
-
+	
+	/**
+	 * Retourne les soutiens du budget participatif
+	 * @return Liste des soutiens
+	 */
+	public List<BudgetSupport> getSupports() {
+        return BudgetSupportLocalServiceUtil.getBudgetSupportsByBudgetParticipatifId(this.getBudgetParticipatifId());
+    }
+	
+	/**
+	 * Retourne le nombre de soutien
+	 */
+	private long getNbSupports() {
+		return (long) BudgetSupportLocalServiceUtil.countBudgetSupportByBudgetParticipatifId(this.getBudgetParticipatifId());
+    }
+	
+	/**
+     * Retourne le nombre de soutien sous le format 6 digits pour l'affichage
+     * @return le nombre sous le format '000124'
+     */
+    @Override
+    public String getNbSupportsBoard() {
+        long nbResult = getNbSupports();
+        return String.format("%06d", nbResult);
+    }
+    
     /**
      * Retourne la version JSON de l'entité
      */
@@ -339,7 +366,4 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return jsonBudget;
     }
 
-    private long getNbSupports() {
-        return 0;
-    }
 }
