@@ -133,9 +133,10 @@
                             <div class="form-group form-third">
                                 <c:if test="${userConnected.get('birthdate') ne 'null'}">
                                     <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
-                                    <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
                                 </c:if>
-                                <aui:input name="birthday" cssClass="frm_date" label="dashboard.account.profile.birthday" required="true" placeholder="jj/mm/aaaa" value="${formattedDate}"/>
+                                <aui:input name="birthday" cssClass="frm_date"
+                                    label="dashboard.account.profile.birthday" required="true" placeholder="jj/mm/aaaa"
+                                    value="${parsedStatusDate}"/>
                             </div>
                         </div>
                         <div class="pro-row">
