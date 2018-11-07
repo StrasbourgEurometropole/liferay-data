@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -35,12 +33,11 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 
 import java.io.Serializable;
-
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for BudgetParticipatif. Methods of this
@@ -175,7 +172,7 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* Méthode de mise à jour d'un budget
 	*
 	* @param budget le budget
-	* @param sc le service context
+	* @param sc     le service context
 	* @return le budget
 	* @throws PortalException exception
 	*/
@@ -191,6 +188,22 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public BudgetParticipatif updateBudgetParticipatif(
 		BudgetParticipatif budgetParticipatif);
+
+	/**
+	* mise a jour du status
+	*
+	* @param userId               l'identifiant de l'utilisateur
+	* @param budgetParticipatifId l'identifiant du budget
+	* @param status               le status
+	* @param serviceContext       le service context
+	* @param workflowContext      le context du workflow
+	* @return le budget
+	* @throws PortalException
+	*/
+	public BudgetParticipatif updateStatus(long userId,
+		long budgetParticipatifId, int status, ServiceContext serviceContext,
+		Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of budget participatifs.
@@ -316,5 +329,11 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
 	public void removeBudgetParticipatif(long budgetId)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(BudgetParticipatif budgetParticipatif, int status)
 		throws PortalException;
 }
