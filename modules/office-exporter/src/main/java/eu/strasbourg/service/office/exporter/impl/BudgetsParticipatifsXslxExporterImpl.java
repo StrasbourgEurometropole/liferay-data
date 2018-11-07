@@ -15,6 +15,7 @@ import org.osgi.service.component.annotations.Component;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -42,6 +43,8 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
         Object[][] budgetParticipatifData = {{
                 LanguageUtil.get(bundle, "budget-part-title"),
                 LanguageUtil.get(bundle, "budget-part-description"),
+                LanguageUtil.get(bundle, "budget-part-create-date"),
+                LanguageUtil.get(bundle, "budget-part-modified-date"),
                 LanguageUtil.get(bundle, "budget-part-budget"),
                 LanguageUtil.get(bundle, "budget-part-motif"),
                 LanguageUtil.get(bundle, "budget-part-lastname"),
@@ -56,40 +59,35 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "budget-part-is-crush"),
                 LanguageUtil.get(bundle, "budget-part-crush-comment"),
                 LanguageUtil.get(bundle, "thematic"),
-                LanguageUtil.get(bundle, "quartiers"),
-                //LanguageUtil.get(bundle, "budget-part-categories-projet"),
-                LanguageUtil.get(bundle, "budget-part-create-date"),
-                LanguageUtil.get(bundle, "budget-part-user-name"),
-                LanguageUtil.get(bundle, "budget-part-modified-date")
+                LanguageUtil.get(bundle, "districts"),
+                LanguageUtil.get(bundle, "project"),
+                LanguageUtil.get(bundle, "budget-part-user-name")
         }};
 
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
         for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
-
-            DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-
             Object[] budgetParticipatifRow = {
-                    unescapeHtml4(budgetParticipatif.getTitle()),
-                    unescapeHtml4(budgetParticipatif.getDescription()),
-                    budgetParticipatif.getBudget(),
-                    unescapeHtml4(budgetParticipatif.getMotif()),
-                    unescapeHtml4(budgetParticipatif.getCitoyenLastname()),
-                    unescapeHtml4(budgetParticipatif.getCitoyenFirstname()),
-                    unescapeHtml4(budgetParticipatif.getCitoyenAdresse()),
-                    Math.toIntExact(budgetParticipatif.getCitoyenPostalCode()),
-                    budgetParticipatif.getCitoyenCity(),
-                    budgetParticipatif.getCitoyenPhone(),
-                    budgetParticipatif.getCitoyenMobile(),
-                    budgetParticipatif.getCitoyenEmail(),
-                    unescapeHtml4(budgetParticipatif.getPlaceTextArea()),
-                    budgetParticipatif.getIsCrush(),
-                    budgetParticipatif.getCrushComment(),
-                    budgetParticipatif.getThematicsLabel(Locale.FRANCE),
-                    budgetParticipatif.getDistrictLabel(Locale.FRANCE),
-                    //budgetParticipatif.getProjectTitle(Locale.FRANCE),
-                    dateFormat.format(budgetParticipatif.getCreateDate()),
-                    budgetParticipatif.getUserName(),
-                    dateFormat.format(budgetParticipatif.getModifiedDate())
+                    getfield(unescapeHtml4(budgetParticipatif.getTitle())),
+                    getfield(unescapeHtml4(budgetParticipatif.getDescription())),
+                    getfield(budgetParticipatif.getCreateDate()),
+                    getfield(budgetParticipatif.getModifiedDate()),
+                    getfield(budgetParticipatif.getBudget()),
+                    getfield(unescapeHtml4(budgetParticipatif.getMotif())),
+                    getfield(unescapeHtml4(budgetParticipatif.getCitoyenLastname())),
+                    getfield(unescapeHtml4(budgetParticipatif.getCitoyenFirstname())),
+                    getfield(unescapeHtml4(budgetParticipatif.getCitoyenAdresse())),
+                    getfield(Math.toIntExact(budgetParticipatif.getCitoyenPostalCode())),
+                    getfield(budgetParticipatif.getCitoyenCity()),
+                    getfield(budgetParticipatif.getCitoyenPhone()),
+                    getfield(budgetParticipatif.getCitoyenMobile()),
+                    getfield(budgetParticipatif.getCitoyenEmail()),
+                    getfield(unescapeHtml4(budgetParticipatif.getPlaceTextArea())),
+                    getfield(budgetParticipatif.getIsCrush()),
+                    getfield(budgetParticipatif.getCrushComment()),
+                    getfield(budgetParticipatif.getThematicsLabel(Locale.FRANCE)),
+                    getfield(budgetParticipatif.getDistrictLabel(Locale.FRANCE)),
+                    getfield(budgetParticipatif.getProjectName()),
+                    getfield(budgetParticipatif.getUserName())
             };
 
             budgetParticipatifData = ArrayUtil.append(budgetParticipatifData, budgetParticipatifRow);
@@ -123,6 +121,39 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
             e.printStackTrace();
         }
 
+    }
+
+    private String getfield(Date param) {
+        DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
+        String result = LanguageUtil.get(bundle, "undefined");
+        if (param != null)
+            result = dateFormat.format(param);
+        return result;
+    }
+
+    private String getfield(String param) {
+        String result = LanguageUtil.get(bundle, "undefined");
+        if (param != null && !param.isEmpty())
+            result = param;
+        return result;
+    }
+
+    private String getfield(boolean param) {
+        return param ? "oui" : "non";
+    }
+
+    private String getfield(long param) {
+        String result = LanguageUtil.get(bundle, "undefined");
+        if (param != 0L)
+            result = String.valueOf(param);
+        return result;
+    }
+
+    private String getfield(int param) {
+        String result = LanguageUtil.get(bundle, "undefined");
+        if (param != 0)
+            result = String.valueOf(result);
+        return result;
     }
 
 }

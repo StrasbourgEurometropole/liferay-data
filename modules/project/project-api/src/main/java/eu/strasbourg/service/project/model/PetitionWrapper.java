@@ -499,14 +499,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne les catégories 'Projets' correspondant aux pays de la petition
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getProjectCategories() {
-		return _petition.getProjectCategories();
-	}
-
-	/**
 	* Retourne le projet de la petition (
 	*/
 	@Override

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -64,16 +65,18 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Petitions");
         Object[][] petitionData = {{LanguageUtil.get(bundle, "title"),
+                LanguageUtil.get(bundle, "create-date"),
                 LanguageUtil.get(bundle, "modification-date"),
                 LanguageUtil.get(bundle, "user-liferay"),
                 LanguageUtil.get(bundle, "signataire-count"),
                 LanguageUtil.get(bundle, "description"),
                 LanguageUtil.get(bundle, "petition-publication-date"),
                 LanguageUtil.get(bundle, "petition-expiration-date"),
-                LanguageUtil.get(bundle, "petition-lastname"),
-                LanguageUtil.get(bundle, "petition-firstname"),
+                LanguageUtil.get(bundle, "lastname"),
+                LanguageUtil.get(bundle, "firstname"),
                 LanguageUtil.get(bundle, "address"),
                 LanguageUtil.get(bundle, "postal-code"),
+                LanguageUtil.get(bundle, "birthday"),
                 LanguageUtil.get(bundle, "city"),
                 LanguageUtil.get(bundle, "phone"),
                 LanguageUtil.get(bundle, "email"),
@@ -82,36 +85,30 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
                 LanguageUtil.get(bundle, "petition-consultation-place-text"),
                 LanguageUtil.get(bundle, "petition-status"),
                 LanguageUtil.get(bundle, "thematic"),
-                LanguageUtil.get(bundle, "quartiers")}};
+                LanguageUtil.get(bundle, "project"),
+                LanguageUtil.get(bundle, "districts")}};
 
         for (Petition petition : petitions) {
-            DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
             String languageId = LocaleUtil.toLanguageId(Locale.FRANCE);
             String title = LocalizationUtil.getLocalization(petition.getTitle(), languageId);
-            String dateModified = dateFormat.format(petition.getModifiedDate());
-            String publicationDate="";
-            if (petition.getPublicationDate()!=null)
-                publicationDate = dateFormat.format(petition.getPublicationDate());
-            String expirationDate="";
-            if (petition.getPublicationDate()!=null)
-                expirationDate = dateFormat.format(petition.getExpirationDate());
             String nombreSignataire = String.valueOf(petition.getNombreSignature());
-            String codePostal = String.valueOf(petition.getPetitionnairePostalCode());
-            String isSupported = (petition.isIsSupported() ? "true" : "false");
-            Object[] petitionRow = {getfield(title), getfield(dateModified),
+            Object[] petitionRow = {getfield(title),
+                    getfield(petition.getCreateDate()),
+                    getfield(petition.getModifiedDate()),
                     getfield(petition.getUserName()),
-                    nombreSignataire,
+                    getfield(nombreSignataire),
                     getfield(petition.getDescription()),
-                    getfield(publicationDate),
-                    getfield(expirationDate),
+                    getfield(petition.getPublicationDate()),
+                    getfield(petition.getExpirationDate()),
                     getfield(unescapeHtml4(petition.getPetitionnaireLastname())),
                     getfield(unescapeHtml4(petition.getPetitionnaireFirstname())),
                     getfield(unescapeHtml4(petition.getPetitionnaireAdresse())),
-                    codePostal,
+                    getfield(petition.getPetitionnairePostalCode()),
+                    getfield(petition.getPetitionnaireBirthday()),
                     getfield(unescapeHtml4(petition.getPetitionnaireCity())),
                     getfield(unescapeHtml4(petition.getPetitionnairePhone())),
                     getfield(unescapeHtml4(petition.getPetitionnaireEmail())),
-                    isSupported,
+                    getfield(petition.isIsSupported()),
                     getfield(unescapeHtml4(petition.getSupportedBy())),
                     getfield(petition.getPlaceTextArea()),
                     getfield(petition.getPetitionStatusExcel()),
@@ -152,4 +149,31 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
             result = param;
         return result;
     }
+
+    private String getfield(Date param) {
+        DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
+        String result = LanguageUtil.get(bundle, "undefined");
+        if (param != null)
+            result = dateFormat.format(param);
+        return result;
+    }
+
+    private String getfield(boolean param) {
+        return param ? "oui" : "non";
+    }
+
+    private String getfield(long param) {
+        String result = LanguageUtil.get(bundle, "undefined");
+        if (param != 0L)
+            result = String.valueOf(param);
+        return result;
+    }
+
+    private String getfield(int param) {
+        String result = LanguageUtil.get(bundle, "undefined");
+        if (param != 0)
+            result = String.valueOf(result);
+        return result;
+    }
+
 }
