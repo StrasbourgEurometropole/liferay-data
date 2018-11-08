@@ -123,9 +123,19 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
 	/**
+	* Retourne la categorie projet du BP
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getStatutBPCategory();
+
+	/**
 	* Retourne la titre du projet du BP
 	*/
 	public java.lang.String getProjectName();
+
+	/**
+	* Retourne la titre du statut du BP
+	*/
+	public java.lang.String getStatutBPName();
 
 	public java.lang.String getAuthor();
 

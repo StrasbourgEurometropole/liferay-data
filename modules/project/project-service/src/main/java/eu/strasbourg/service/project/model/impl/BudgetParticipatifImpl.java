@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -44,7 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
 
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
@@ -208,14 +208,37 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         	return null;
         }
 	}
-	
+
+    /**
+	 * Retourne la categorie projet du BP
+	 */
+	@Override
+	public AssetCategory getStatutBPCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+	}
+
 	/**
 	 * Retourne la titre du projet du BP
 	 */
 	@Override
 	public String getProjectName() {
         AssetCategory project = getProjectCategory();
-        return (project != null) ? project.getTitle(Locale.FRANCE) : "";
+        return (project != null) ? project.getName() : "";
+    }
+
+	/**
+	 * Retourne la titre du statut du BP
+	 */
+	@Override
+	public String getStatutBPName() {
+        AssetCategory statut = getStatutBPCategory();
+        return (statut != null) ? statut.getName() : "";
     }
 
     @Override
@@ -353,6 +376,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         // Champs : Intéractivités
         jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
         jsonBudget.put("nbSupports", this.getNbSupports());
+        jsonBudget.put("projet",this.getProjectName());
 
         // Lieux placit
         for (PlacitPlace placitPlace : this.getPlacitPlaces()) {

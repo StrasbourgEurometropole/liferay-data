@@ -17,7 +17,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -31,7 +30,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +43,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
+import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPublikID;
 
 /**
  * @author alexandre.quere
@@ -140,10 +139,10 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         
         boolean savedInfo = false;
         if (message.isEmpty()) {
-            boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
-            if (saveInfo) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-                String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
+            savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+            if (savedInfo) {
+                SimpleDateFormat sdf = new SimpleDateFormat(PATTERN);
+                String dateNaiss = sdf.format(birthday);
                 PublikApiClient.setAllUserDetails(
                 		this.publikID, 
                 		this.user.getLastName(), 
@@ -272,13 +271,5 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
         return isValid;
     }
-    
-    /**
-     * Récupération du publik ID avec la session
-     */
-    private String getPublikID(PortletRequest request) {
-        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-        return SessionParamUtil.getString(originalRequest, "publik_internal_id");
-    }
+
 }

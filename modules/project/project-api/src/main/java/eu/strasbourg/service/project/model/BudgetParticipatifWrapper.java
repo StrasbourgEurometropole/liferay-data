@@ -84,6 +84,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("citoyenPhone", getCitoyenPhone());
 		attributes.put("citoyenMobile", getCitoyenMobile());
 		attributes.put("citoyenEmail", getCitoyenEmail());
+		attributes.put("citoyenBirthday", getCitoyenBirthday());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("placeTextArea", getPlaceTextArea());
@@ -241,6 +242,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (citoyenEmail != null) {
 			setCitoyenEmail(citoyenEmail);
+		}
+
+		Date citoyenBirthday = (Date)attributes.get("citoyenBirthday");
+
+		if (citoyenBirthday != null) {
+			setCitoyenBirthday(citoyenBirthday);
 		}
 
 		Boolean hasCopyright = (Boolean)attributes.get("hasCopyright");
@@ -473,6 +480,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
 		return _budgetParticipatif.getProjectCategory();
+	}
+
+	/**
+	* Retourne la categorie projet du BP
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getStatutBPCategory() {
+		return _budgetParticipatif.getStatutBPCategory();
 	}
 
 	/**
@@ -764,6 +779,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la titre du statut du BP
+	*/
+	@Override
+	public java.lang.String getStatutBPName() {
+		return _budgetParticipatif.getStatutBPName();
+	}
+
+	/**
 	* Retourne une chaine des 'Thematics' sépararée d'un '-'
 	*/
 	@Override
@@ -829,6 +852,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String toXmlString() {
 		return _budgetParticipatif.toXmlString();
+	}
+
+	/**
+	* Returns the citoyen birthday of this budget participatif.
+	*
+	* @return the citoyen birthday of this budget participatif
+	*/
+	@Override
+	public Date getCitoyenBirthday() {
+		return _budgetParticipatif.getCitoyenBirthday();
 	}
 
 	/**
@@ -1071,6 +1104,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setCitoyenAdresse(java.lang.String citoyenAdresse) {
 		_budgetParticipatif.setCitoyenAdresse(citoyenAdresse);
+	}
+
+	/**
+	* Sets the citoyen birthday of this budget participatif.
+	*
+	* @param citoyenBirthday the citoyen birthday of this budget participatif
+	*/
+	@Override
+	public void setCitoyenBirthday(Date citoyenBirthday) {
+		_budgetParticipatif.setCitoyenBirthday(citoyenBirthday);
 	}
 
 	/**

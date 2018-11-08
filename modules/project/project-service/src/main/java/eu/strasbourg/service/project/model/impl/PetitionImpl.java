@@ -103,6 +103,11 @@ public class PetitionImpl extends PetitionBaseImpl {
                 VocabularyNames.TERRITORY);
     }
 
+    public String getProjectTitle(Locale locale) {
+        AssetCategory project = getProjectCategory();
+        return (project != null) ? project.getName() : "";
+    }
+
     /**
      * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
      *
@@ -613,6 +618,7 @@ public class PetitionImpl extends PetitionBaseImpl {
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
         jsonPetition.put("nombreSignature", this.getNombreSignature());
         jsonPetition.put("quotaSignature", this.getQuotaSignature());
+        jsonPetition.put("projectTitle",this.getProjectTitle(Locale.FRANCE));
 
 	     // Lieux placit
  		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {

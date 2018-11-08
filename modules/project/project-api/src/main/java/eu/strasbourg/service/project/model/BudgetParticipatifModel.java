@@ -471,6 +471,20 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setCitoyenEmail(String citoyenEmail);
 
 	/**
+	 * Returns the citoyen birthday of this budget participatif.
+	 *
+	 * @return the citoyen birthday of this budget participatif
+	 */
+	public Date getCitoyenBirthday();
+
+	/**
+	 * Sets the citoyen birthday of this budget participatif.
+	 *
+	 * @param citoyenBirthday the citoyen birthday of this budget participatif
+	 */
+	public void setCitoyenBirthday(Date citoyenBirthday);
+
+	/**
 	 * Returns the has copyright of this budget participatif.
 	 *
 	 * @return the has copyright of this budget participatif

@@ -41,6 +41,7 @@
 		<property name="citoyenPhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenMobile" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="citoyenBirthday" type="org.hibernate.type.TimestampType" />
 		<property name="hasCopyright" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />

@@ -47,6 +47,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,20 +79,26 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
+    private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
+    private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
     private String publikID;
     private PublikUser user;
     private DateFormat dateFormat;
+    private Date birthday;
     private String address;
     private String city;
     private long postalcode;
     private String phone;
     private String mobile;
+    private String email;
+    private String photo;
     private String video;
     private String title;
+    private String placeText;
     private String description;
     private String lieu;
     private long projectId;
@@ -120,6 +127,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+        this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
@@ -127,6 +136,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
+        Long webImageId = ParamUtil.getLong(request, "webImageId");
 
         boolean isValid = false;
         try {
@@ -140,8 +150,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
         boolean savedInfo = false;
         if (message.isEmpty()) {
-            boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
-            if (saveInfo) {
+            savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+            if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
                 String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
                 PublikApiClient.setAllUserDetails(
@@ -163,7 +173,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         jsonResponse.put("result", result);
         jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", savedInfo);
-        
+
         // Recuperation de l'élément d'écriture de la réponse
         PrintWriter writer = null;
         try {
@@ -178,7 +188,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private boolean sendBudget(ResourceRequest request) throws PortletException {
         ServiceContext sc;
         BudgetParticipatif budgetParticipatif;
-        
+
         try {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
@@ -203,7 +213,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
                 ids[i] = identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
-            
+
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
             budgetParticipatif.setTitle(this.title);
             budgetParticipatif.setDescription(this.description);
@@ -215,6 +225,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenCity(this.city);
             budgetParticipatif.setCitoyenEmail(this.user.getEmail());
             budgetParticipatif.setCitoyenMobile(this.mobile);
+            budgetParticipatif.setCitoyenBirthday(this.birthday);
             if (!this.video.isEmpty())
                 budgetParticipatif.setVideoUrl(this.video);
             budgetParticipatif.setPlaceTextArea(this.lieu);
@@ -255,7 +266,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             _log.info("budgetPhoto : [" + budgetPhoto + "]");
             if (budgetPhoto != null && budgetPhoto.exists()) {
                 _log.info("Going to write the file contents");
-                
+
                 byte[] imageBytes = FileUtil.getBytes(budgetPhoto);
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
@@ -299,6 +310,11 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
         // description
         if (Validator.isNull(this.description)) {
+            isValid = false;
+        }
+
+        // birthday
+        if (Validator.isNull(this.birthday)) {
             isValid = false;
         }
 

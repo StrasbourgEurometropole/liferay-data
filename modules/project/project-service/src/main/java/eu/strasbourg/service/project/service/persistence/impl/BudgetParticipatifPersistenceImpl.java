@@ -4162,6 +4162,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setCitoyenPhone(budgetParticipatif.getCitoyenPhone());
 		budgetParticipatifImpl.setCitoyenMobile(budgetParticipatif.getCitoyenMobile());
 		budgetParticipatifImpl.setCitoyenEmail(budgetParticipatif.getCitoyenEmail());
+		budgetParticipatifImpl.setCitoyenBirthday(budgetParticipatif.getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(budgetParticipatif.isHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(budgetParticipatif.getVideoUrl());
 		budgetParticipatifImpl.setPlaceTextArea(budgetParticipatif.getPlaceTextArea());
