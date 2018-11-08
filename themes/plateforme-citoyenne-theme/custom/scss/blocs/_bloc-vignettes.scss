@@ -367,7 +367,6 @@
 	}
 }
 
-
 .pro-bloc-card-projet {
 	position: relative;
 	display: block;
@@ -388,19 +387,18 @@
 		}
 	}
 
-
-	.pro-encart-coeur{
+	.pro-encart-coeur {
 		position: absolute;
 		top: 90px;
 		right: 0;
 		background: $c_main;
-		@include tablet_landscape{
+		@include tablet_landscape {
 			top: 65px;
 		}
-		@include mobile{
+		@include mobile {
 			top: 20px;
 		}
-		&:before{
+		&:before {
 			content: '';
 			position: absolute;
 			top: 0;
@@ -410,25 +408,25 @@
 			height: 36px;
 			border-radius: 50%;
 			background: $c_white;
-			@include mobile{
+			@include mobile {
 				content: none;
 			}
 		}
-		span:not(.icon-ico-coeur){
+		span:not(.icon-ico-coeur) {
 			display: inline-block;
 			@include ft($f_txt, 0.688em, 700, $c_txt, 1.273em);
 			padding: 11px 0 11px 45px;
-			@include mobile{
+			@include mobile {
 				display: none;
 			}
 		}
-		span.icon-ico-coeur{
+		span.icon-ico-coeur {
 			font-size: 1.125em;
 			line-height: 14px;
 			margin-left: 10px;
 			float: right;
 			padding: 11px 30px 11px 0;
-			@include mobile{
+			@include mobile {
 				padding: 11px 15px;
 				margin: 0;
 			}
@@ -511,12 +509,12 @@
 			white-space: nowrap;
 		}
 
-		.pro-meta{
+		.pro-meta {
 			margin: 20px 0 0 0;
-			span{
+			span {
 				font-size: 0.875em;
 				line-height: 1em;
-				&:after{
+				&:after {
 					height: 13px;
 				}
 			}
@@ -598,7 +596,7 @@
 			}
 		}
 
-		.pro-wrap-thematique{
+		.pro-wrap-thematique {
 			margin-top: 5px;
 			height: 25px;
 			overflow: hidden;
@@ -989,7 +987,7 @@
 	display: block;
 	&:hover {
 		> * {
-			box-shadow: 0px 20px 40px 0px rgba(0,0,0,0.2);
+			box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
 			transform: translateY(-20px);
 			transform: translate3d(0, -20px, 0);
 		}
@@ -1005,7 +1003,7 @@
 	&:focus {
 		> * {
 			box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-			h3{
+			h3 {
 				text-decoration: underline;
 			}
 		}
@@ -1078,10 +1076,10 @@
 			}
 		}
 
-		a{
+		a {
 			display: block;
-			&:focus{
-				h3{
+			&:focus {
+				h3 {
 					text-decoration: underline;
 				}
 			}
@@ -1198,7 +1196,7 @@
 	&:hover {
 		cursor: pointer;
 		> * {
-			box-shadow: 0px 20px 40px 0px rgba(0,0,0,0.2);
+			box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
 			transform: translateY(-20px);
 			transform: translate3d(0, -20px, 0);
 		}
@@ -1398,17 +1396,24 @@
 				float: left;
 				line-height: 40px;
 				margin-right: 20px;
+				position: relative;
+				top: 7.5px;
+				&:after{
+					content: '';
+			 		display: block;
+					clear: both;
+				}
 				@include mobile {
 					float: none;
 					display: block;
 					margin-bottom: 10px;
+					top: 0;
 				}
 				> * {
 					@include ft($f_txt, 0.750em, 700, $c_txt, 2em);
 					width: 65px;
 					height: 25px;
-					display: inline-block;
-					vertical-align: middle;
+					float: left;
 					background: $c_main;
 					border-radius: 4px;
 					text-align: center;
@@ -1422,10 +1427,13 @@
 						position: relative;
 						top: -2px;
 					}
-					&:hover, &:focus, &.active{
+					&:hover, &:focus, &.active {
 						background: $c_dark;
 						color: $c_main;
 					}
+				}
+				.pro-like {
+					margin-right: 4px;
 				}
 				.pro-dislike {
 					&:before {
@@ -1457,17 +1465,24 @@
 				float: left;
 				line-height: 40px;
 				margin-right: 20px;
+				position: relative;
+				top: 7.5px;
+				&:after{
+					content: '';
+					display: block;
+					clear: both;
+				}
 				@include mobile {
 					float: none;
 					display: block;
 					margin-bottom: 10px;
+					top: 0;
 				}
 				> * {
 					@include ft($f_txt, 0.750em, 700, $c_txt, 2em);
 					width: 65px;
 					height: 25px;
-					display: inline-block;
-					vertical-align: middle;
+					float: left;
 					background: #f5f5f5;
 					border-radius: 4px;
 					text-align: center;
@@ -1491,6 +1506,9 @@
 					&:hover {
 						cursor: default;
 					}
+				}
+				.pro-like {
+					margin-right: 4px;
 				}
 				.pro-dislike {
 					&:before {
@@ -1551,6 +1569,9 @@
 						position: relative;
 						top: -2px;
 					}
+				}
+				.pro-like {
+					margin-right: 4px;
 				}
 				.pro-dislike {
 					&:before {
@@ -1687,7 +1708,7 @@
 
 	&:hover {
 		cursor: pointer;
-		box-shadow: 0px 20px 40px 0px rgba(0,0,0,0.2);
+		box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
 		transform: translateY(-20px);
 		transform: translate3d(0, -20px, 0);
 		.no-hover & {
@@ -2217,28 +2238,27 @@
 				background: #ff3c58;
 			}
 		}
-		.pro-footer-budget{
-			background: rgba($c_txt,0.1);
-			p{
+		.pro-footer-budget {
+			background: rgba($c_txt, 0.1);
+			p {
 				color: #4c4c4c;
 				font-weight: 700;
 			}
 		}
 	}
 
-
-	.pro-encart-coeur{
+	.pro-encart-coeur {
 		position: absolute;
 		top: 90px;
 		right: 0;
 		background: $c_main;
-		@include tablet_landscape{
+		@include tablet_landscape {
 			top: 65px;
 		}
-		@include mobile{
+		@include mobile {
 			top: 20px;
 		}
-		&:before{
+		&:before {
 			content: '';
 			position: absolute;
 			top: 0;
@@ -2248,25 +2268,25 @@
 			height: 36px;
 			border-radius: 50%;
 			background: $c_white;
-			@include mobile{
+			@include mobile {
 				content: none;
 			}
 		}
-		span:not(.icon-ico-coeur){
+		span:not(.icon-ico-coeur) {
 			display: inline-block;
 			@include ft($f_txt, 0.688em, 700, $c_txt, 1.273em);
 			padding: 11px 0 11px 45px;
-			@include mobile{
+			@include mobile {
 				display: none;
 			}
 		}
-		span.icon-ico-coeur{
+		span.icon-ico-coeur {
 			font-size: 1.125em;
 			line-height: 14px;
 			margin-left: 10px;
 			float: right;
 			padding: 11px 30px 11px 0;
-			@include mobile{
+			@include mobile {
 				padding: 11px 15px;
 				margin: 0;
 			}
@@ -2349,12 +2369,12 @@
 			white-space: nowrap;
 		}
 
-		.pro-meta{
+		.pro-meta {
 			margin: 20px 0 0 0;
-			span{
+			span {
 				font-size: 0.875em;
 				line-height: 1em;
-				&:after{
+				&:after {
 					height: 13px;
 				}
 			}
@@ -2459,10 +2479,6 @@
 	}
 }
 
-
-
-
-
 // CARD BLOC INITIATIVE
 // ==========================================================================
 .pro-bloc-card-vignette-projet {
@@ -2474,7 +2490,7 @@
 
 	&:hover {
 		cursor: pointer;
-		box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
+		box-shadow: 0px 0 20px 0px rgba(0, 0, 0, 0.2);
 		.no-hover & {
 			box-shadow: none;
 		}
@@ -2520,7 +2536,7 @@
 			}
 		}
 
-		.pro-wrap-thematique{
+		.pro-wrap-thematique {
 			margin-top: 10px;
 			overflow: hidden;
 			white-space: nowrap;

@@ -1,6 +1,7 @@
 if ($(window).width() < 992) {
     $('.pro-affiner').on('click',function(){
         $(this).next().toggleClass('is-display');
+        $(this).toggleClass('menu-is-display');
     });
 }
 
