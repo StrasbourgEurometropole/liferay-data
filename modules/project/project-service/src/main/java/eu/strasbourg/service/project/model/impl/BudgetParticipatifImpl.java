@@ -206,7 +206,21 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         	return null;
         }
 	}
-	
+
+    /**
+	 * Retourne la categorie projet du BP
+	 */
+	@Override
+	public AssetCategory getStatutBPCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+	}
+
 	/**
 	 * Retourne la titre du projet du BP
 	 */
@@ -214,6 +228,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	public String getProjectName() {
         AssetCategory project = getProjectCategory();
         return (project != null) ? project.getName() : "";
+    }
+
+	/**
+	 * Retourne la titre du statut du BP
+	 */
+	@Override
+	public String getStatutBPName() {
+        AssetCategory statut = getStatutBPCategory();
+        return (statut != null) ? statut.getName() : "";
     }
 
     @Override

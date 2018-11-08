@@ -41,6 +41,8 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
 
         // Initialisation des colonnes
         Object[][] budgetParticipatifData = {{
+                LanguageUtil.get(bundle, "budget-part-phase"),
+                LanguageUtil.get(bundle, "budget-part-statut"),
                 LanguageUtil.get(bundle, "budget-part-title"),
                 LanguageUtil.get(bundle, "budget-part-description"),
                 LanguageUtil.get(bundle, "budget-part-create-date"),
@@ -61,12 +63,14 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "thematic"),
                 LanguageUtil.get(bundle, "districts"),
                 LanguageUtil.get(bundle, "project"),
-                LanguageUtil.get(bundle, "budget-part-user-name")
+                LanguageUtil.get(bundle, "user-liferay")
         }};
 
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
         for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
             Object[] budgetParticipatifRow = {
+                    getfield(unescapeHtml4(budgetParticipatif.getPhaseTitleLabel())),
+                    getfield(unescapeHtml4(budgetParticipatif.getStatutBPName())),
                     getfield(unescapeHtml4(budgetParticipatif.getTitle())),
                     getfield(unescapeHtml4(budgetParticipatif.getDescription())),
                     getfield(budgetParticipatif.getCreateDate()),
@@ -76,7 +80,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     getfield(unescapeHtml4(budgetParticipatif.getCitoyenLastname())),
                     getfield(unescapeHtml4(budgetParticipatif.getCitoyenFirstname())),
                     getfield(unescapeHtml4(budgetParticipatif.getCitoyenAdresse())),
-                    getfield(Math.toIntExact(budgetParticipatif.getCitoyenPostalCode())),
+                    getfield(budgetParticipatif.getCitoyenPostalCode()),
                     getfield(budgetParticipatif.getCitoyenCity()),
                     getfield(budgetParticipatif.getCitoyenPhone()),
                     getfield(budgetParticipatif.getCitoyenMobile()),
@@ -91,7 +95,6 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
             };
 
             budgetParticipatifData = ArrayUtil.append(budgetParticipatifData, budgetParticipatifRow);
-
         }
 
         // Parcours et ajout des donnees dans les cellules
@@ -125,14 +128,14 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
 
     private String getfield(Date param) {
         DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != null)
             result = dateFormat.format(param);
         return result;
     }
 
     private String getfield(String param) {
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != null && !param.isEmpty())
             result = param;
         return result;
@@ -143,16 +146,16 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
     }
 
     private String getfield(long param) {
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != 0L)
             result = String.valueOf(param);
         return result;
     }
 
     private String getfield(int param) {
-        String result = LanguageUtil.get(bundle, "undefined");
+        String result = "";
         if (param != 0)
-            result = String.valueOf(result);
+            result = String.valueOf(Math.toIntExact(param));
         return result;
     }
 

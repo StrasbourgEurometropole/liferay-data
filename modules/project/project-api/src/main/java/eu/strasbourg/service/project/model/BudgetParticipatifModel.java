@@ -15,9 +15,7 @@
 package eu.strasbourg.service.project.model;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +26,6 @@ import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
 /**
@@ -469,6 +466,20 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	 * @param citoyenEmail the citoyen email of this budget participatif
 	 */
 	public void setCitoyenEmail(String citoyenEmail);
+
+	/**
+	 * Returns the citoyen birthday of this budget participatif.
+	 *
+	 * @return the citoyen birthday of this budget participatif
+	 */
+	public Date getCitoyenBirthday();
+
+	/**
+	 * Sets the citoyen birthday of this budget participatif.
+	 *
+	 * @param citoyenBirthday the citoyen birthday of this budget participatif
+	 */
+	public void setCitoyenBirthday(Date citoyenBirthday);
 
 	/**
 	 * Returns the has copyright of this budget participatif.

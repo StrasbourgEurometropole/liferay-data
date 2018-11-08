@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,6 +57,7 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setCitoyenPhone(model.getCitoyenPhone());
 		soapModel.setCitoyenMobile(model.getCitoyenMobile());
 		soapModel.setCitoyenEmail(model.getCitoyenEmail());
+		soapModel.setCitoyenBirthday(model.getCitoyenBirthday());
 		soapModel.setHasCopyright(model.getHasCopyright());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
@@ -314,6 +314,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_citoyenEmail = citoyenEmail;
 	}
 
+	public Date getCitoyenBirthday() {
+		return _citoyenBirthday;
+	}
+
+	public void setCitoyenBirthday(Date citoyenBirthday) {
+		_citoyenBirthday = citoyenBirthday;
+	}
+
 	public boolean getHasCopyright() {
 		return _hasCopyright;
 	}
@@ -418,6 +426,7 @@ public class BudgetParticipatifSoap implements Serializable {
 	private String _citoyenPhone;
 	private String _citoyenMobile;
 	private String _citoyenEmail;
+	private Date _citoyenBirthday;
 	private boolean _hasCopyright;
 	private String _videoUrl;
 	private String _placeTextArea;
