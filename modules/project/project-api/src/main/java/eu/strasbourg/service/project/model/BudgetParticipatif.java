@@ -171,6 +171,20 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public int getNbApprovedComments();
 
 	/**
+	* Retourne les soutiens du budget participatif
+	*
+	* @return Liste des soutiens
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getSupports();
+
+	/**
+	* Retourne le nombre de soutien sous le format 6 digits pour l'affichage
+	*
+	* @return le nombre sous le format '000124'
+	*/
+	public java.lang.String getNbSupportsBoard();
+
+	/**
 	* Retourne la version JSON de l'entité
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(

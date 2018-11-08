@@ -67,6 +67,19 @@
 	                        </fieldset>
 	                    </div>
 	                </div>
+	                
+	                <!-- Selecteur de budgets participatifs -->
+	                <div class="pro-group">
+	                    <div class="pro-item">
+	                        <label for="budgets_printator_mk1"><liferay-ui:message key="budgets-participatifs" /></label>
+	                        <input type="checkbox" id="budgets_printator_mk1" value="budget" checked />
+	                        <div class="pro-switch pro-round"></div>
+	                        
+	                        <fieldset id="budgets_fieldset" class="pro-wrapper-chk">
+	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="budgets-participatifs" /></legend>
+	                        </fieldset>
+	                    </div>
+	                </div>
 					
 					<!-- Selecteur d'evenements -->
 	                <div class="pro-group">

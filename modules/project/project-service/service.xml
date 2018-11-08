@@ -638,5 +638,62 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
+	
+	<entity local-service="true" name="BudgetSupport" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="budgetSupportId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- main fields -->
+		<column name="citoyenLastName" type="String" />
+		<column name="citoyenFirstname" type="String" />
+		<column name="citoyenBirthday" type="Date" />
+		<column name="citoyenAddress" type="String" />
+		<column name="citoyenMail" type="String" />
+		<column name="citoyenPostalCode" type="long" />
+		<column name="citoyenMobilePhone" type="String" />
+		<column name="citoyenPhone" type="String" />
+		<column name="citoyenCity" type="String" />
+		<column name="citoyenSignatureDate" type="Date" />
+		
+		<!-- Links with other entities -->
+		<column name="publikUserId" type="String" />
+		<column name="budgetParticipatifId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="BudgetParticipatif" return-type="Collection">
+			<finder-column name="budgetParticipatifId" />
+		</finder>
+		<finder name="PublikUserId" return-type="Collection">
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="BudgetParticipatifIdAndPublikUserId" return-type="Collection">
+			<finder-column name="budgetParticipatifId" />
+			<finder-column name="publikUserId" />
+		</finder>
+		
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
+	</entity>
 
 </service-builder>

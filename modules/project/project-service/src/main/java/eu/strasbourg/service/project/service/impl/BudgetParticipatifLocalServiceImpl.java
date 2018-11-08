@@ -43,9 +43,12 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the budget participatif local service.
@@ -264,6 +267,59 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         } else {
             indexer.reindex(budget);
         }
+    }
+    
+    /**
+	 * Retourne tous les budgets participatifs publies d'un groupe
+	 */
+	@Override
+	public List<BudgetParticipatif> getPublishedByGroupId(long groupId) {
+		return this.budgetParticipatifPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	}
+	
+	 /**
+     * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
+     *
+     * @param groupId ID du site
+     * @return Liste des budgets participatifs triee par nombre de commentaires
+     */
+    private List<BudgetParticipatif> getSortedByNbComments(long groupId) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByGroupId(groupId);
+        
+        // Verification d'un retour vide
+        if (budgetsParticipatifs == null || budgetsParticipatifs.isEmpty())
+            return new ArrayList<>();
+        
+        budgetsParticipatifs = budgetsParticipatifs
+        		.stream()
+        		.filter(budgetParticipatif -> budgetParticipatif.getStatus() == 0)
+        		.collect(Collectors.toList());
+        
+        // Creation du comparateur
+        Comparator<BudgetParticipatif> reversedMostPopularSizeComparator = Comparator
+        		.comparingInt(BudgetParticipatif::getNbApprovedComments)
+        		.reversed();
+        
+        return budgetsParticipatifs
+                .stream()
+                .sorted(reversedMostPopularSizeComparator)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Recuperer le nombre voulu des budgets participatifs les plus commentes
+     * @param groupId ID du site
+     * @param delta Nombre de resultats max voulu
+     * @return Liste des budgets participatifs les plus commentes triee.
+     */
+    public List<BudgetParticipatif> getMostCommented(long groupId, int delta) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbComments(groupId);
+        
+        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
+        if (budgetsParticipatifs.size() < delta)
+            return budgetsParticipatifs;
+        else 
+        	return budgetsParticipatifs.stream().limit(delta).collect(Collectors.toList());
     }
 
     /**
