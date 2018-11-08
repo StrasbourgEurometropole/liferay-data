@@ -272,7 +272,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
         return isValid;
     }
-
+    
     /**
      * Récupération du publik ID avec la session
      */

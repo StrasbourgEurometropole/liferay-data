@@ -135,7 +135,7 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public boolean isJudgeable();
 
 	/**
-	* Est en periode de vote
+	* Est en periode et capacite de vote
 	*/
 	public boolean isVotable();
 

@@ -452,7 +452,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Est en periode de vote
+	* Est en periode et capacite de vote
 	*/
 	@Override
 	public boolean isVotable() {

@@ -232,13 +232,16 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	}
 	
 	/**
-	 * Est en periode de vote
+	 * Est en periode et capacite de vote
 	 */
 	@Override
 	public boolean isVotable() {
 		BudgetPhase budgetPhase = this.getPhase();
-		if (budgetPhase != null) {
-			if (budgetPhase.isInVotingPeriod())
+		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
+		
+		if (budgetPhase != null && BPStatus != null) {
+			if (budgetPhase.isInVotingPeriod() 
+					&& StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_FEASIBLE.getName()))
 				return true;
 		}
 		return false;
