@@ -221,6 +221,16 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	public static int countBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return getService()
+				   .countBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
+	}
+
+	/**
 	* Returns the number of budget participatifs.
 	*
 	* @return the number of budget participatifs
@@ -341,6 +351,24 @@ public class BudgetParticipatifLocalServiceUtil {
 		return getService()
 				   .getBudgetParticipatifsByUuidAndCompanyId(uuid, companyId,
 			start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return getService()
+				   .getBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs d'une phase donnee
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByBudgetPhase(
+		long budgetPhaseId) {
+		return getService().getByBudgetPhase(budgetPhaseId);
 	}
 
 	/**

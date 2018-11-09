@@ -123,19 +123,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
 	/**
-	* Retourne la categorie projet du BP
-	*/
-	public com.liferay.asset.kernel.model.AssetCategory getStatutBPCategory();
-
-	/**
 	* Retourne la titre du projet du BP
 	*/
 	public java.lang.String getProjectName();
-
-	/**
-	* Retourne la titre du statut du BP
-	*/
-	public java.lang.String getStatutBPName();
 
 	public java.lang.String getAuthor();
 
@@ -176,6 +166,21 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	* @return Liste des soutiens
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getSupports();
+
+	/**
+	* Retourne le nombre de soutien
+	*/
+	public long getNbSupports();
+
+	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	*/
+	public int getNbSupportOfUser(java.lang.String publikUserId);
+
+	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	*/
+	public int getNbSupportOfUserInActivePhase(java.lang.String publikUserId);
 
 	/**
 	* Retourne le nombre de soutien sous le format 6 digits pour l'affichage

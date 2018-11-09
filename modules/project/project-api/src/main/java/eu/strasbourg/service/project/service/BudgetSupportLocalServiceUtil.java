@@ -266,6 +266,20 @@ public class BudgetSupportLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer les soutiens d'un budgte et d'un utilisateur donne
+	*
+	* @param budgetParticipatifId ID du budget participatif.
+	* @param publikId ID publik de l'utilsiateur
+	* @return Liste des soutiens
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
+		long budgetParticipatifId, java.lang.String publikUserId) {
+		return getService()
+				   .getBudgetSupportByBudgetParticipatifIdAndPublikUserId(budgetParticipatifId,
+			publikUserId);
+	}
+
+	/**
 	* Recuperer les soutiens d'un utilisateur donne
 	*
 	* @param publikId ID publik de l'utilsiateur

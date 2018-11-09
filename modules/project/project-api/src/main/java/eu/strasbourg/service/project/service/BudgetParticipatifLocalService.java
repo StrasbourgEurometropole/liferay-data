@@ -210,6 +210,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	public int countBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId);
+
+	/**
 	* Returns the number of budget participatifs.
 	*
 	* @return the number of budget participatifs
@@ -308,6 +314,19 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	public List<BudgetParticipatif> getBudgetParticipatifsByUuidAndCompanyId(
 		java.lang.String uuid, long companyId, int start, int end,
 		OrderByComparator<BudgetParticipatif> orderByComparator);
+
+	/**
+	* Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId);
+
+	/**
+	* Retourne tous les budgets participatifs d'une phase donnee
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId);
 
 	/**
 	* Recuperer le nombre voulu des budgets participatifs les plus commentes

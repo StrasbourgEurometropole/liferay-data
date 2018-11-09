@@ -98,13 +98,4 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 		}
 	}
 	
-	/**
-	 * Renvoi les budgets participatifs soutenus par un utilisateur pour cette phase
-	 */
-//	@Override
-//	public List<BudgetParticipatif> getBudgetSupportedByPublikUser(String publikUserId) {
-//		List<BudgetParticipatif> budgetsParticipatifs = BudgetParticipatifLocalServiceUtil
-//	}
-	
-	
 }

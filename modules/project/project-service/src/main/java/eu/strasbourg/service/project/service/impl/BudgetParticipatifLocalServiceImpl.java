@@ -36,7 +36,9 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -320,6 +322,55 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
             return budgetsParticipatifs;
         else 
         	return budgetsParticipatifs.stream().limit(delta).collect(Collectors.toList());
+    }
+    
+    /**
+	 * Retourne tous les budgets participatifs d'une phase donnee
+     */
+    public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId) {
+        return this.budgetParticipatifPersistence.findByBudgetPhaseId(budgetPhaseId);
+    }
+    
+    /**
+	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+     */
+    public List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+    	// Recuperation des soutiens de l'utilisateur
+    	List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserId(publikUserId);
+    	
+    	List<BudgetParticipatif> budgetParticipatifs = new ArrayList<BudgetParticipatif>();
+    	
+    	try {
+	    	// Recuperation de budgets correspondants
+	    	for (BudgetSupport budgetSupport : budgetSupports) {
+	    		BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
+	    		
+	    		// Verification d'une phase existante pour les dits budgets
+	    		if (budgetParticipatif.getPhase() != null) {
+	    			budgetParticipatifs.add(budgetParticipatif);
+	    		}
+	    	}
+	    	
+	    	// Tri sur ceux correspondant a la phase donnee
+	    	budgetParticipatifs = budgetParticipatifs
+	        		.stream()
+	        		.filter(budgetParticipatif -> budgetParticipatif.getPhase().getBudgetPhaseId() == budgetPhaseId)
+	        		.collect(Collectors.toList());
+	    	
+    	} catch (PortalException e) {
+    		_log.error("Erreur lors du retour des budgets soutenus par un utilisateur dans une phase donnee \n:" + e.getStackTrace());
+		}
+    	
+    	return budgetParticipatifs;
+    }
+    
+    /**
+	 * Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+     */
+    public int countBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+    	List<BudgetParticipatif> budgetParticipatif = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
+    	
+    	return budgetParticipatif.size();
     }
 
     /**

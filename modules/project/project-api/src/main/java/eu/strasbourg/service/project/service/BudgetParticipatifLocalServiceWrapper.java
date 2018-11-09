@@ -233,6 +233,16 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	@Override
+	public int countBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return _budgetParticipatifLocalService.countBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
+	}
+
+	/**
 	* Returns the number of budget participatifs.
 	*
 	* @return the number of budget participatifs
@@ -363,6 +373,25 @@ public class BudgetParticipatifLocalServiceWrapper
 		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.project.model.BudgetParticipatif> orderByComparator) {
 		return _budgetParticipatifLocalService.getBudgetParticipatifsByUuidAndCompanyId(uuid,
 			companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return _budgetParticipatifLocalService.getBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs d'une phase donnee
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByBudgetPhase(
+		long budgetPhaseId) {
+		return _budgetParticipatifLocalService.getByBudgetPhase(budgetPhaseId);
 	}
 
 	/**
