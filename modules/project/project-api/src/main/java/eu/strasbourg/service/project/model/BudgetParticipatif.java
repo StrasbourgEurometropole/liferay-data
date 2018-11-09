@@ -149,6 +149,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public boolean isVotable();
 
+	/**
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	*/
+	public boolean isNotDoable();
+
 	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
 
 	public java.lang.String getPhaseTitleLabel();
@@ -178,11 +183,18 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getSupports();
 
 	/**
+	* Retourne le nombre de soutien
+	*/
+	public long getNbSupports();
+
+	/**
 	* Retourne le nombre de soutien sous le format 6 digits pour l'affichage
 	*
 	* @return le nombre sous le format '000124'
 	*/
 	public java.lang.String getNbSupportsBoard();
+
+	public java.lang.String getPublicationDateFr();
 
 	/**
 	* Retourne la version JSON de l'entité

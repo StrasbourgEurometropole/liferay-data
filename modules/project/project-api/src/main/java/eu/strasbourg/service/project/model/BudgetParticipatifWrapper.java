@@ -439,6 +439,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	*/
+	@Override
+	public boolean isNotDoable() {
+		return _budgetParticipatif.isNotDoable();
+	}
+
+	/**
 	* Returns <code>true</code> if this budget participatif is pending.
 	*
 	* @return <code>true</code> if this budget participatif is pending; <code>false</code> otherwise
@@ -748,6 +756,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getProjectName();
 	}
 
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _budgetParticipatif.getPublicationDateFr();
+	}
+
 	/**
 	* Returns the publik ID of this budget participatif.
 	*
@@ -1024,6 +1037,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public long getImageId() {
 		return _budgetParticipatif.getImageId();
+	}
+
+	/**
+	* Retourne le nombre de soutien
+	*/
+	@Override
+	public long getNbSupports() {
+		return _budgetParticipatif.getNbSupports();
 	}
 
 	/**

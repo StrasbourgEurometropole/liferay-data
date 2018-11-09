@@ -296,6 +296,11 @@ public class BudgetParticipatifLocalServiceUtil {
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetParticipatifByPublikUserID(
+		java.lang.String publikId) {
+		return getService().getBudgetParticipatifByPublikUserID(publikId);
+	}
+
 	/**
 	* Returns a range of all the budget participatifs.
 	*

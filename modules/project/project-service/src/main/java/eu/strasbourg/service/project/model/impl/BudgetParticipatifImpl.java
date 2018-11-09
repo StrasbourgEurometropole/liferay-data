@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetSupport;
@@ -40,8 +41,12 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
@@ -266,6 +271,20 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		}
 		return false;
 	}
+	
+	/**
+	 *  Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	 */
+	@Override
+	public boolean isNotDoable() {
+		return Stream.of(
+	    		ParticiperCategories.BP_NON_ACCEPTABLE.getName(),
+	    		ParticiperCategories.BP_NON_FEASIBLE.getName(),
+	    		ParticiperCategories.BP_NON_SELECTED.getName(),	               		
+	    		ParticiperCategories.BP_CANCELLED.getName(),
+	    		ParticiperCategories.BP_SUSPENDED.getName()
+	    		).anyMatch(x -> x.equals(this.getBudgetParticipatifStatusCategory().getName()));
+	}
     
     @Override
     public BudgetPhase getPhase() {
@@ -332,7 +351,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	/**
 	 * Retourne le nombre de soutien
 	 */
-	private long getNbSupports() {
+	public long getNbSupports() {
 		return (long) BudgetSupportLocalServiceUtil.countBudgetSupportByBudgetParticipatifId(this.getBudgetParticipatifId());
     }
 	
@@ -344,6 +363,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getNbSupportsBoard() {
         long nbResult = getNbSupports();
         return String.format("%06d", nbResult);
+    }
+    
+    public String getPublicationDateFr(){
+        Date date = this.getAssetEntry().getPublishDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
     }
     
     /**

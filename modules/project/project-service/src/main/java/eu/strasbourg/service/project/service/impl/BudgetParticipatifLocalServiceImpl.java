@@ -35,7 +35,10 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetParticipatifModel;
 import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
@@ -397,6 +400,13 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         assetEntryLocalService.updateAssetEntry(entry);
         reindex(budgetParticipatif, false);
         return budgetParticipatif;
+    }
+    
+    public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(String publikId){
+        List<BudgetParticipatif> bpList = budgetParticipatifPersistence.findByPublikId(publikId);
+        return bpList.stream()
+                .filter(BudgetParticipatifModel::isApproved)
+                .collect(Collectors.toList());
     }
 
 }
