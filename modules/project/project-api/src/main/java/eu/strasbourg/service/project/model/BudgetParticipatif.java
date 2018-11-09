@@ -123,19 +123,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
 	/**
-	* Retourne la categorie projet du BP
-	*/
-	public com.liferay.asset.kernel.model.AssetCategory getStatutBPCategory();
-
-	/**
 	* Retourne la titre du projet du BP
 	*/
 	public java.lang.String getProjectName();
-
-	/**
-	* Retourne la titre du statut du BP
-	*/
-	public java.lang.String getStatutBPName();
 
 	public java.lang.String getAuthor();
 
@@ -145,14 +135,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public boolean isJudgeable();
 
 	/**
-	* Est en periode de vote
+	* Est en periode et capacite de vote
 	*/
 	public boolean isVotable();
-
-	/**
-	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
-	*/
-	public boolean isNotDoable();
 
 	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
 
@@ -188,13 +173,21 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public long getNbSupports();
 
 	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	*/
+	public int getNbSupportOfUser(java.lang.String publikUserId);
+
+	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	*/
+	public int getNbSupportOfUserInActivePhase(java.lang.String publikUserId);
+
+	/**
 	* Retourne le nombre de soutien sous le format 6 digits pour l'affichage
 	*
 	* @return le nombre sous le format '000124'
 	*/
 	public java.lang.String getNbSupportsBoard();
-
-	public java.lang.String getPublicationDateFr();
 
 	/**
 	* Retourne la version JSON de l'entité

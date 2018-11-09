@@ -1020,9 +1020,9 @@ public class BudgetParticipatifUtil {
 	* @param budgetPhaseId the budget phase ID
 	* @return the matching budget participatifs
 	*/
-	public static List<BudgetParticipatif> findBybudgetPhaseId(
+	public static List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId) {
-		return getPersistence().findBybudgetPhaseId(budgetPhaseId);
+		return getPersistence().findByBudgetPhaseId(budgetPhaseId);
 	}
 
 	/**
@@ -1037,9 +1037,9 @@ public class BudgetParticipatifUtil {
 	* @param end the upper bound of the range of budget participatifs (not inclusive)
 	* @return the range of matching budget participatifs
 	*/
-	public static List<BudgetParticipatif> findBybudgetPhaseId(
+	public static List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId, int start, int end) {
-		return getPersistence().findBybudgetPhaseId(budgetPhaseId, start, end);
+		return getPersistence().findByBudgetPhaseId(budgetPhaseId, start, end);
 	}
 
 	/**
@@ -1055,11 +1055,11 @@ public class BudgetParticipatifUtil {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching budget participatifs
 	*/
-	public static List<BudgetParticipatif> findBybudgetPhaseId(
+	public static List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId, int start, int end,
 		OrderByComparator<BudgetParticipatif> orderByComparator) {
 		return getPersistence()
-				   .findBybudgetPhaseId(budgetPhaseId, start, end,
+				   .findByBudgetPhaseId(budgetPhaseId, start, end,
 			orderByComparator);
 	}
 
@@ -1077,12 +1077,12 @@ public class BudgetParticipatifUtil {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching budget participatifs
 	*/
-	public static List<BudgetParticipatif> findBybudgetPhaseId(
+	public static List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId, int start, int end,
 		OrderByComparator<BudgetParticipatif> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
-				   .findBybudgetPhaseId(budgetPhaseId, start, end,
+				   .findByBudgetPhaseId(budgetPhaseId, start, end,
 			orderByComparator, retrieveFromCache);
 	}
 
@@ -1094,12 +1094,12 @@ public class BudgetParticipatifUtil {
 	* @return the first matching budget participatif
 	* @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
 	*/
-	public static BudgetParticipatif findBybudgetPhaseId_First(
+	public static BudgetParticipatif findByBudgetPhaseId_First(
 		long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException {
 		return getPersistence()
-				   .findBybudgetPhaseId_First(budgetPhaseId, orderByComparator);
+				   .findByBudgetPhaseId_First(budgetPhaseId, orderByComparator);
 	}
 
 	/**
@@ -1109,11 +1109,11 @@ public class BudgetParticipatifUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
 	*/
-	public static BudgetParticipatif fetchBybudgetPhaseId_First(
+	public static BudgetParticipatif fetchByBudgetPhaseId_First(
 		long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator) {
 		return getPersistence()
-				   .fetchBybudgetPhaseId_First(budgetPhaseId, orderByComparator);
+				   .fetchByBudgetPhaseId_First(budgetPhaseId, orderByComparator);
 	}
 
 	/**
@@ -1124,12 +1124,12 @@ public class BudgetParticipatifUtil {
 	* @return the last matching budget participatif
 	* @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
 	*/
-	public static BudgetParticipatif findBybudgetPhaseId_Last(
+	public static BudgetParticipatif findByBudgetPhaseId_Last(
 		long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException {
 		return getPersistence()
-				   .findBybudgetPhaseId_Last(budgetPhaseId, orderByComparator);
+				   .findByBudgetPhaseId_Last(budgetPhaseId, orderByComparator);
 	}
 
 	/**
@@ -1139,11 +1139,11 @@ public class BudgetParticipatifUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
 	*/
-	public static BudgetParticipatif fetchBybudgetPhaseId_Last(
+	public static BudgetParticipatif fetchByBudgetPhaseId_Last(
 		long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator) {
 		return getPersistence()
-				   .fetchBybudgetPhaseId_Last(budgetPhaseId, orderByComparator);
+				   .fetchByBudgetPhaseId_Last(budgetPhaseId, orderByComparator);
 	}
 
 	/**
@@ -1155,12 +1155,12 @@ public class BudgetParticipatifUtil {
 	* @return the previous, current, and next budget participatif
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
-	public static BudgetParticipatif[] findBybudgetPhaseId_PrevAndNext(
+	public static BudgetParticipatif[] findByBudgetPhaseId_PrevAndNext(
 		long budgetParticipatifId, long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException {
 		return getPersistence()
-				   .findBybudgetPhaseId_PrevAndNext(budgetParticipatifId,
+				   .findByBudgetPhaseId_PrevAndNext(budgetParticipatifId,
 			budgetPhaseId, orderByComparator);
 	}
 
@@ -1169,8 +1169,8 @@ public class BudgetParticipatifUtil {
 	*
 	* @param budgetPhaseId the budget phase ID
 	*/
-	public static void removeBybudgetPhaseId(long budgetPhaseId) {
-		getPersistence().removeBybudgetPhaseId(budgetPhaseId);
+	public static void removeByBudgetPhaseId(long budgetPhaseId) {
+		getPersistence().removeByBudgetPhaseId(budgetPhaseId);
 	}
 
 	/**
@@ -1179,8 +1179,8 @@ public class BudgetParticipatifUtil {
 	* @param budgetPhaseId the budget phase ID
 	* @return the number of matching budget participatifs
 	*/
-	public static int countBybudgetPhaseId(long budgetPhaseId) {
-		return getPersistence().countBybudgetPhaseId(budgetPhaseId);
+	public static int countByBudgetPhaseId(long budgetPhaseId) {
+		return getPersistence().countByBudgetPhaseId(budgetPhaseId);
 	}
 
 	/**

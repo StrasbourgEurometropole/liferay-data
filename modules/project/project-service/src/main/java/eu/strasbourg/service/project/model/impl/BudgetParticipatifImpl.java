@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
@@ -31,6 +32,7 @@ import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
@@ -48,8 +50,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
 
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
@@ -64,7 +65,7 @@ import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NO
 public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	
 	private static final long serialVersionUID = -2427479225001060332L;
-
+	
 	/*
      * NOTE FOR DEVELOPERS:
      *
@@ -213,37 +214,14 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         	return null;
         }
 	}
-
-    /**
-	 * Retourne la categorie projet du BP
-	 */
-	@Override
-	public AssetCategory getStatutBPCategory() {
-		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
-        if (assetCategories.size() > 0) {
-        	return assetCategories.get(0);
-        } else {
-        	return null;
-        }
-	}
-
+	
 	/**
 	 * Retourne la titre du projet du BP
 	 */
 	@Override
 	public String getProjectName() {
         AssetCategory project = getProjectCategory();
-        return (project != null) ? project.getName() : "";
-    }
-
-	/**
-	 * Retourne la titre du statut du BP
-	 */
-	@Override
-	public String getStatutBPName() {
-        AssetCategory statut = getStatutBPCategory();
-        return (statut != null) ? statut.getName() : "";
+        return (project != null) ? project.getTitle(Locale.FRANCE) : "";
     }
 
     @Override
@@ -260,13 +238,16 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	}
 	
 	/**
-	 * Est en periode de vote
+	 * Est en periode et capacite de vote
 	 */
 	@Override
 	public boolean isVotable() {
 		BudgetPhase budgetPhase = this.getPhase();
-		if (budgetPhase != null) {
-			if (budgetPhase.isInVotingPeriod())
+		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
+		
+		if (budgetPhase != null && BPStatus != null) {
+			if (budgetPhase.isInVotingPeriod() 
+					&& StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_FEASIBLE.getName()))
 				return true;
 		}
 		return false;
@@ -344,6 +325,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 * Retourne les soutiens du budget participatif
 	 * @return Liste des soutiens
 	 */
+	@Override
 	public List<BudgetSupport> getSupports() {
         return BudgetSupportLocalServiceUtil.getBudgetSupportsByBudgetParticipatifId(this.getBudgetParticipatifId());
     }
@@ -351,9 +333,37 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	/**
 	 * Retourne le nombre de soutien
 	 */
+	@Override
 	public long getNbSupports() {
 		return (long) BudgetSupportLocalServiceUtil.countBudgetSupportByBudgetParticipatifId(this.getBudgetParticipatifId());
     }
+	
+	/**
+	 * Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	 */
+	@Override
+	public int getNbSupportOfUser(String publikUserId) {
+		return BudgetSupportLocalServiceUtil
+				.getBudgetSupportByBudgetParticipatifIdAndPublikUserId(this.getBudgetParticipatifId(), publikUserId)
+				.size();
+	}
+	
+	/**
+	 * Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	 */
+	@Override
+	public int getNbSupportOfUserInActivePhase(String publikUserId) {
+		List<BudgetPhase> activePhases = BudgetPhaseLocalServiceUtil.getByIsActiveAndGroupId(true, this.getGroupId());
+		
+		if (activePhases.size() > 0) {
+			return BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
+						publikUserId,
+						activePhases.get(0).getBudgetPhaseId()
+					);
+		}
+		
+		return 0;
+	}
 	
 	/**
      * Retourne le nombre de soutien sous le format 6 digits pour l'affichage
@@ -388,6 +398,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonBudget.put("isCrush", this.getIsCrush());
+        jsonBudget.put("BPStatusColor", this.getBudgetParticipatifStatusCategoryColor());
         
         // Champs : Catégorisations
         jsonBudget.put("BPStatus", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudgetParticipatifStatusTitle(Locale.FRENCH))));
@@ -398,7 +409,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         // Champs : Intéractivités
         jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
         jsonBudget.put("nbSupports", this.getNbSupports());
-        jsonBudget.put("projet",this.getProjectName());
 
         // Lieux placit
         for (PlacitPlace placitPlace : this.getPlacitPlaces()) {

@@ -574,7 +574,7 @@
 		<finder name="PublikId" return-type="Collection">
 			<finder-column name="publikId" />
 		</finder>
-		<finder name="budgetPhaseId" return-type="Collection">
+		<finder name="BudgetPhaseId" return-type="Collection">
 			<finder-column name="budgetPhaseId" />
 		</finder>
 

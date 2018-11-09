@@ -467,7 +467,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Est en periode de vote
+	* Est en periode et capacite de vote
 	*/
 	@Override
 	public boolean isVotable() {
@@ -488,14 +488,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
 		return _budgetParticipatif.getProjectCategory();
-	}
-
-	/**
-	* Retourne la categorie projet du BP
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getStatutBPCategory() {
-		return _budgetParticipatif.getStatutBPCategory();
 	}
 
 	/**
@@ -552,6 +544,22 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public int getNbApprovedComments() {
 		return _budgetParticipatif.getNbApprovedComments();
+	}
+
+	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	*/
+	@Override
+	public int getNbSupportOfUser(java.lang.String publikUserId) {
+		return _budgetParticipatif.getNbSupportOfUser(publikUserId);
+	}
+
+	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	*/
+	@Override
+	public int getNbSupportOfUserInActivePhase(java.lang.String publikUserId) {
+		return _budgetParticipatif.getNbSupportOfUserInActivePhase(publikUserId);
 	}
 
 	/**
@@ -789,14 +797,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _budgetParticipatif.getStatusByUserUuid();
-	}
-
-	/**
-	* Retourne la titre du statut du BP
-	*/
-	@Override
-	public java.lang.String getStatutBPName() {
-		return _budgetParticipatif.getStatutBPName();
 	}
 
 	/**
