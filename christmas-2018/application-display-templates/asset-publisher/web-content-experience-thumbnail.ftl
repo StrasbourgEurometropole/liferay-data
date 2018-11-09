@@ -32,7 +32,7 @@
 <div class="col-md-4 col-sm-6 col-xs-12">
     <a href="${detailURLFilter}" class="mns-bloc-exp" style="min-height: 391px;">
       <div class="mns-img">
-          <figure>
+          <figure class="fit-cover">
               <img src="${image}" width="375" height="280" alt="${title}">
           </figure>
           <div class="mns-wrap-tag">

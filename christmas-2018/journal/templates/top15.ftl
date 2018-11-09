@@ -36,7 +36,7 @@
                             </figure>
                         </a>
                     </div>
-                <#elseif sibling?counter = 9 >
+                <#elseif sibling?counter gte 9 >
                     <div class="col-lg-6 col-sm-offset-1 col-md-7 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-12 text-right order-2">
                         <span>${sibling.data}</span>
                         <h2>${sibling.children[0].data}</h2>
@@ -79,7 +79,7 @@
             </div>
         <#else>
             <div class="row">
-                <#if sibling?counter != 8 && sibling?counter != 10 >
+                <#if sibling?counter lte 6 >
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <a href="${sibling.children[3].data}">
                             <#if sibling?counter = 6 >
@@ -101,7 +101,8 @@
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                         <#if sibling?counter = 8 >
                             <img src="/o/christmas-2018-theme/images/deco-elipse-grey.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-8" />
-                        <#else >
+                        </#if>
+                        <#if sibling?counter = 10 >
                             <img src="/o/christmas-2018-theme/images/deco-elipse-beige.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-10" />
                         </#if>
                         <a href="${sibling.children[3].data}">
