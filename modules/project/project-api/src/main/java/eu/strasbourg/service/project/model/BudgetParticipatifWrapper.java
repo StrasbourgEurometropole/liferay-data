@@ -592,6 +592,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getAuthor();
 	}
 
+	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _budgetParticipatif.getAuthorImageURL();
+	}
+
 	@Override
 	public java.lang.String getBudgetParticipatifStatusCategoryColor() {
 		return _budgetParticipatif.getBudgetParticipatifStatusCategoryColor();

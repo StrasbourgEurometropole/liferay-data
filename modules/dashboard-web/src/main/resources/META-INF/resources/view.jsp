@@ -601,7 +601,7 @@
 								<div class="pro-header-budget">
 									<figure>
 										<img
-											src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
+											src="${budgetFiled.getAuthorImageURL()}"
 											width="40" height="40" alt="Nom de l'utilisateur" />
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
@@ -675,7 +675,7 @@
 								<div class="pro-header-budget">
 									<figure>
 										<img
-											src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
+											src="${budgetVoted.getAuthorImageURL()}"
 											width="40" height="40" alt="Nom de l'utilisateur" />
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>

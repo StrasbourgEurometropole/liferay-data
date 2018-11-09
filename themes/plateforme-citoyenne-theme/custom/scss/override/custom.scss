@@ -624,3 +624,20 @@ aside .leaflet-map {
 .leaflet-popup-tip-container {
     display : none;
 }
+
+.leaflet-popup .leaflet-popup-content-wrapper {
+	padding: 0;
+	box-shadow: none;
+	.leaflet-popup-content{
+		margin: 0;
+	}
+}
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-budget:hover {
+	-webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    -webkit-box-shadow: none;
+    box-shadow: none
+}

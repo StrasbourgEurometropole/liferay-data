@@ -102,6 +102,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	public java.lang.String getAuthorImageURL();
+
+	/**
 	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
@@ -138,6 +143,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	* Est en periode et capacite de vote
 	*/
 	public boolean isVotable();
+
+	/**
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	*/
+	public boolean isNotDoable();
 
 	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
 
@@ -188,6 +198,8 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	* @return le nombre sous le format '000124'
 	*/
 	public java.lang.String getNbSupportsBoard();
+
+	public java.lang.String getPublicationDateFr();
 
 	/**
 	* Retourne la version JSON de l'entité
