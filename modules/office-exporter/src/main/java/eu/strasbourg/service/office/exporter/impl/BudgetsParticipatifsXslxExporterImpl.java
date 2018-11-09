@@ -70,7 +70,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
         for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
             Object[] budgetParticipatifRow = {
                     getfield(unescapeHtml4(budgetParticipatif.getPhaseTitleLabel())),
-                    getfield(unescapeHtml4(budgetParticipatif.getStatutBPName())),
+                    getfield(unescapeHtml4(budgetParticipatif.getBudgetParticipatifStatusTitle(Locale.FRANCE))),
                     getfield(unescapeHtml4(budgetParticipatif.getTitle())),
                     getfield(unescapeHtml4(budgetParticipatif.getDescription())),
                     getfield(budgetParticipatif.getCreateDate()),

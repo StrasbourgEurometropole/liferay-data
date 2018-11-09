@@ -93,10 +93,7 @@
                     ${budgetParticipatif.phaseTitleLabel}
                 </liferay-ui:search-container-column-text>
                 
-                <%-- Colonne : Statut --%>
-                <liferay-ui:search-container-column-text name="status">
-                    ${budgetParticipatif.getBudgetParticipatifStatusTitle(locale)}
-                </liferay-ui:search-container-column-text>
+                
 
 				<%-- Colonne : Administrateur liferay --%>
                 <liferay-ui:search-container-column-text name="administrator">
@@ -109,9 +106,14 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
+					
+				<%-- Colonne : Statut BP --%>
+                <liferay-ui:search-container-column-text name="status-bp">
+                    ${budgetParticipatif.getBudgetParticipatifStatusTitle(locale)}
+                </liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Statut --%>
-				<liferay-ui:search-container-column-text name="status">
+				<liferay-ui:search-container-column-text name="status-liferay">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${budgetParticipatif.status}" />
 				</liferay-ui:search-container-column-text>
