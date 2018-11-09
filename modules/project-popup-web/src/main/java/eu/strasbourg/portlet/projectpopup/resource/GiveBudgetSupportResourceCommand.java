@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -76,10 +78,6 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-		
-		// Recuperation du contexte de la requete
-		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
@@ -182,68 +180,77 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * @return Si la requete est tangible
 	 */
 	private boolean validate(ResourceRequest request) {
-        boolean isValid = true;
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-        	isValid = false;
             this.message = "Utilisateur non enregistr&eacute;/identifi&eacute;";
+            return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
         	
         	if (this.user.isBanned()) {
         		this.message = "Vous ne pouvez soutenir ce projet";
-        		isValid = false;
+        		return false;
         	} else if (this.user.getPactSignature() == null) {
         		this.message = "Vous devez signer le Pacte pour soutenir ce projet";
-        		isValid = false;
+        		return false;
         	}
         }
         
         // budget participatif
         try {
-			this.budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(this.entryID);
+            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryID);
+			this.budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
 			
 			if (this.budgetParticipatif != null) {
 				if (!this.budgetParticipatif.isVotable()) {
-					isValid = false;
 					this.message = "Ce budget participatif n'est pas en p&eacute;riode de vote";
+					return false;
 				}
 			} else {
 				this.message = "Erreur lors de la r&eacute;cuperation du budget participatif";
-				isValid = false;
+				return false;
 			}
 		} catch (PortalException e1) {
 			_log.error(e1);
 			this.message = "Erreur lors de la r&eacute;cuperation du budget participatif";
-			isValid = false;
+			return false;
 		}
+        
+        // nombre de votes de l'utilisateur
+        int nbVote = BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
+        		this.publikID,
+        		this.budgetParticipatif.getPhase().getBudgetPhaseId());
+        if (nbVote >= 5) {
+        	this.message = "Vous ne pouvez plus voter pour cette p&eacute;riode";
+			return false;
+        }
         
         // birthday
         if (Validator.isNull(this.birthday)) {
-            isValid = false;
             this.message = "error";
+            return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            isValid = false;
             this.message = "error";
+            return false;
         }
 
         // address
         if (Validator.isNull(this.address)) {
-            isValid = false;
             this.message = "error";
+            return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            isValid = false;
             this.message = "error";
+            return false;
         }
         
-        return isValid;
+        return true;
     }
 	
 	/**

@@ -337,7 +337,7 @@ function getMarkerIcon(entityType) {
             });
         case 'budget-participatif':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-initiative.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-budget.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
@@ -529,44 +529,44 @@ function getPetitionMarker(petition, mercators) {
 }
 
 /**
-* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
+* Retourne le marqueurs de leaflet d'un budget participatif sur la carte intéractive
 */
 function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 
     var budgetParticipatifMarkerIcon = getMarkerIcon("budget-participatif");
     var marker = L.marker(mercators, {icon: budgetParticipatifMarkerIcon});
 
-    /*marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
-            '<div class="pro-header-petition">' +
-                '<figure role="group">' +
-                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
-                '</figure>' +
-                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
-            '</div>' +
-            '<div class="pro-content-petition">' +
-                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
-                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
-            '</div> ' +
-            '<div class="pro-footer-petition">' +
-                '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-budget pro-theme-faisabilite">' +
+            '<a href="' + budgetParticipatif.link + '">' +
+                '<div class="pro-header-budget">' +
+                    '<figure role="group">' + 
+                        '<img src="' + budgetParticipatif.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' + 
+                    '</figure>' +
+                    '<p>Idée déposée par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
+                    '<div class="pro-info-top-right">' + 
+                        '<span class="pro-encart-theme" style="background:#' + budgetParticipatif.BPStatusColor + ';">' + budgetParticipatif.BPStatus + '</span>' + 
+                    '</div>' + 
                 '</div>' +
-                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
-            '</div>' +
-        '</div></a></div>'
-        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
-    );*/
+                '<div class="pro-content-budget">' + 
+                    '<h3>' + budgetParticipatif.title + '</h3>' + 
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' + 
+                '</div> ' +            
+                '<div class="pro-footer-budget">' + 
+                    '<p><strong>' + budgetParticipatif.nbSupports + '</strong> Citoyens-nes soutiennent cette idée</p>' +
+                '</div>' +
+            '</a>' +
+        '</div>'
+        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
+    );
 
     return marker;
-
 }
 
 /**
 * Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getInitiativePopUp(mercators, link) {
+function getInitiativeMarker(mercators, link) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
     var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
