@@ -12,6 +12,13 @@
 		padding: 20px 0;
 		position: relative;
 		margin-bottom: 30px;
+		&.menu-is-display{
+			> span{
+				@include tablet_portrait{
+					transform: none;
+				}
+			}
+		}
 		&:before {
 			content: '';
 			background: url(../../assets/images/background/small-rec-black.png);
@@ -38,6 +45,10 @@
 			@include tablet_portrait {
 				display: inline-block;
 				vertical-align: middle;
+				transform: rotate(-90deg);
+				position: relative;
+				top: -2px;
+				@include addTransition();
 			}
 		}
 	}

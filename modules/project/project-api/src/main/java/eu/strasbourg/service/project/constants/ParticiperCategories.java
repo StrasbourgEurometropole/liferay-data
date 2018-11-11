@@ -22,7 +22,7 @@ public enum ParticiperCategories {
     BP_NON_SELECTED("Non retenu"),
     BP_IN_PROGRESS("En cours de realisation"),
     BP_REALIZED("Realise"),
-    BP_SUSPENDED("Supendu"),
+    BP_SUSPENDED("Suspendu"),
     BP_CANCELLED("Annule");
 
     private String name;

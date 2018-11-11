@@ -18,9 +18,11 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
@@ -62,17 +64,26 @@ import org.osgi.service.component.annotations.Component;
 )
 public class MapSearchAssetWebPortlet extends MVCPortlet {
 	
+	// Constante de la ville ou chercher les quartiers
 	private static final String CITY_NAME = "Strasbourg";
-	private static final String ATTRIBUTE_LINK = "link";
+	
+	// Constantes des liens vers les détails
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
+	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
 //	private static final String DETAIL_INITIATIVE_URL = "detail-inititative/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
+	
+	// Constantes des objets / attributs JSON
 	private static final String JSON_OBJECT_PROJECTS = "projects";
 	private static final String JSON_OBJECT_PARTICIPATIONS = "participations";
 	private static final String JSON_OBJECT_PETITIONS = "petitions";
+	private static final String JSON_OBJECT_BUDGETS_PARTICIPATIFS = "budgets";
 //	private static final String JSON_OBJECT_INITIATIVE = "initiatives";
 	private static final String JSON_OBJECT_EVENTS = "events";
+	private static final String ATTRIBUTE_LINK = "link";
+	
+	// Constante des ID de requete
 	private static final String RESSSOURCE_CHANGE_DISTRICT = "changeDistrictSelection";
 	
 	// Listes des entités à afficher en front
@@ -80,6 +91,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	private List<Project> projects;
 	private List<Participation> participations;
 	private List<Petition> petitions;
+	private List<BudgetParticipatif> budgetsParticipatifs;
 //	private List<Initiative> initiatives;
 	private List<Event> events;
 	
@@ -155,6 +167,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
 		this.participations = ParticipationLocalServiceUtil.getPublishedByGroupId(groupId);
 		this.petitions = PetitionLocalServiceUtil.getPublishedByGroupId(groupId);
+		this.budgetsParticipatifs = BudgetParticipatifLocalServiceUtil.getPublishedByGroupId(groupId);
 //		this.initiatives = InitiativeLocalServiceUtil.getPublishedByGroupId(groupId);
 		List<String> tagLabels =  new ArrayList<String>();
 		tagLabels.add("participer");
@@ -169,6 +182,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			List<Project> filteredProjects = new ArrayList<Project>();
 			List<Participation> filteredParticipations = new ArrayList<Participation>();
 			List<Petition> filteredPetitions = new ArrayList<Petition>();
+			List<BudgetParticipatif> filteredBudgetsParticipatifs = new ArrayList<BudgetParticipatif>();
 //			List<Initiative> filteredInitiatives = new ArrayList<Initiative>();
 			List<Event> filteredEvents = new ArrayList<Event>();
 			
@@ -190,6 +204,11 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 						filteredPetitions.add(petition);
 					}
 				}
+				for (BudgetParticipatif budgetPaticipatif : new ArrayList<BudgetParticipatif>(this.budgetsParticipatifs)) {
+					if (budgetPaticipatif.getDistrictCategories().contains(districtCategory)) {
+						filteredBudgetsParticipatifs.add(budgetPaticipatif);
+					}
+				}
 //				for (Initiative initiative : new ArrayList<Initiative>(this.initiatives)) {
 //					if (initiative.getDistrictCategories().contains(districtCategory)) {
 //						filteredInitiatives.add(initiative);
@@ -208,6 +227,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			this.projects = filteredProjects;
 			this.participations = filteredParticipations;
 			this.petitions = filteredPetitions;
+			this.budgetsParticipatifs = filteredBudgetsParticipatifs;
 //			this.initiatives = filteredInitiatives;
 			this.events = filteredEvents;
 			
@@ -216,6 +236,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		request.setAttribute("projects", this.projects);
 		request.setAttribute("participations", this.participations);
 		request.setAttribute("petitions", this.petitions);
+		request.setAttribute("budgets-participatifs", this.budgetsParticipatifs);
 //		request.setAttribute("initiatives", this.initiatives);
 		request.setAttribute("events", this.events);
 
@@ -283,6 +304,18 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			jsonPetitions.put(jsonPetition);
 		}
 		jsonResponse.put(JSON_OBJECT_PETITIONS, jsonPetitions);
+		
+		// Gestion des budgets participatifs
+		JSONArray jsonBudgetsParticipatifs = JSONFactoryUtil.createJSONArray();
+		for (BudgetParticipatif budgetParticipatif : this.budgetsParticipatifs) {
+			JSONObject jsonBudgetParticipatif = budgetParticipatif.toJSON(publikUserId);
+			jsonBudgetParticipatif.put(
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + DETAIL_BUDGET_PARTICIPATIF_URL + budgetParticipatif.getBudgetParticipatifId()
+			);
+			jsonBudgetsParticipatifs.put(jsonBudgetParticipatif);
+		}
+		jsonResponse.put(JSON_OBJECT_BUDGETS_PARTICIPATIFS, jsonBudgetsParticipatifs);
 				
 		// Gestion des initiatives
 //		JSONArray jsonInitiatives = JSONFactoryUtil.createJSONArray();
