@@ -22,15 +22,15 @@
                 	<!-- Champs : nom, prénom, date de naissance -->
                     <div class="pro-row">
                         <div class="form-group form-triple">
-                            <aui:input name="username" disabled="true" 
-                            	label="modal.user.username" required="true" 
+                            <aui:input name="username" id="supportUsername"
+                            	label="modal.user.username" disabled="true" 
                             	value="${userConnected.get('last_name')}"
                             />
 				            <aui:input type="hidden" name="lastname" value="${userConnected.get('last_name')}"/>
                         </div>
                         <div class="form-group form-triple">
-                            <aui:input name="firstname" disabled="true" 
-                            	label="modal.user.firstname" required="true"
+                            <aui:input name="firstname" id="supportFirstname" 
+                            	label="modal.user.firstname" disabled="true" 
                             	value="${userConnected.get('first_name')}"
                             />
                         </div>
@@ -39,19 +39,19 @@
 					            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 	                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="supportbirthday" name="birthday" 
+                            <aui:input id="supportBirthday" name="birthday" 
                             	cssClass="frm_date" label="modal.user.birthday" 
                             	required="true" maxlength="10" placeholder="jj/mm/aaaa" 
-                            	onInput="checkSignValues();" onChange="checkSignValues();"
+                            	onInput="checkSignValues();" onChange="checkSupportValues();"
                             />
                         </div>
                     </div>
                     
                     <!-- Champ : email -->
                     <div class="form-group">
-                        <aui:input type="email" id="supportmail" 
+                        <aui:input type="email" id="supportEmail" 
                         	name="mail" disabled="true" 
-                        	label="modal.user.mail"  required="true" 
+                        	label="modal.user.mail" 
                         	value="${userConnected.get('email')}"
                         />
                     </div>
@@ -59,24 +59,24 @@
                     <!-- Champs : adresse -->
                     <div class="pro-row">
                         <div class="form-group form-half">
-				            <aui:input id="supportaddress" name="address" 
+				            <aui:input id="supportAddress" name="address" 
 					            label="modal.user.address" required="true" 
-					            onInput="checkSignValues();"
+					            onInput="checkSupportValues();"
 					        />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-				                <aui:input id="supportcity" name="city" 
+				                <aui:input id="supportCity" name="city" 
 				                	label="modal.user.city" required="true" 
 				                	placeholder="Strasbourg" maxlength="256" 
-				                	onInput="checkSignValues();"
+				                	onInput="checkSupportValues();"
 				                />
                             </div>
                             <div class="form-code">
-                                <aui:input id="supportpostalcode" name="postalcode" 
+                                <aui:input type="number" id="supportPostalCode" name="postalcode" 
                                 	label="modal.user.postalcode" required="true" 
                                 	placeholder="67XXX" maxlength="5" 
-                                	onInput="checkSignValues();"
+                                	onInput="checkSupportValues();"
                                 />
                             </div>
                         </div>
@@ -85,21 +85,21 @@
                     <!-- Champs : telephones -->
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input type="number" id="supportphone" name="phone" 
+                            <aui:input type="text" id="supportPhone" name="phone" 
                             	label="modal.user.phone" placeholder="0611111111" 
-                            	maxlength="20" onInput="checkSignValues();"
+                            	maxlength="20" onInput="checkSupportValues();"
                             />
                         </div>
                         <div class="form-group form-half">
-                            <aui:input type="number" id="supportmobile" name="mobile" 
+                            <aui:input type="text" id="supportMobile" name="mobile" 
                             	label="modal.user.mobile" placeholder="0611111111" 
-                            	maxlength="20" onInput="checkSignValues();"
+                            	maxlength="20" onInput="checkSupportValues();"
                             />
                         </div>
                     </div>
                     
                     <!-- Champ : demande de la mise à jour des informations dans publik -->
-                    <div class="form-group form-checkbox" id="checkboxSignSaveInfo">
+                    <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="signsave-info" value="save-info">
                             <label for="signsave-info"><liferay-ui:message key="modal.save.info"/></label>
@@ -111,19 +111,29 @@
                 <!-- Condition de soumission -->
                 <div class="pro-optin form-checkbox">
                     <div>
+                        <input type="checkbox" id="giveSupportLegalAge" value="legalage">
+                        <label for="giveSupportLegalAge" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="pro-optin form-checkbox">
+                    <div>
                         <input type="checkbox" id="giveBudgetSupportCondition1" value="giveBudgetSupportCondition1">
                         <label for="giveBudgetSupportCondition1"  class="fontWhite">
+                        	<liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_supportCondition1"/>
                         </label>
                     </div>
                 </div>
                 
                 <!-- Champ caché : ID -->
-                <input type="hidden" name="<portlet:namespace />entryId" value="${entryId}"/>
+                <input type="hidden" id="<portlet:namespace />entryId" name="entryId" value="${entryId}"/>
                 
                 <!-- Alert d'erreur -->
-                <div id="signalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
-                <div id="signalertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
-                <div id="signalertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
+                <div id="supportAlert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="supportAlertCity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
+                <div id="supportAlertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
+                <div id="supportAlertLegalAge" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
                 
                 <!-- Bonton de soumission -->
                 <div class="pro-form-submit">
@@ -211,31 +221,32 @@
 	*/
 	function resetValues() {
 		// Champs informations utilisateur
-		$("#"+namespace+"birthday").val(saved_dateNaiss);
-        $("#"+namespace+"address").val(saved_address);
-        $("#"+namespace+"city").val(saved_city);
-        $("#"+namespace+"postalcode").val(saved_zipCode);
-        $("#"+namespace+"phone").val(saved_phone);
-        $("#"+namespace+"mobile").val(saved_mobile);
+		$("#"+namespace+"supportBirthday").val(saved_dateNaiss);
+        $("#"+namespace+"supportAddress").val(saved_address);
+        $("#"+namespace+"supportCity").val(saved_city);
+        $("#"+namespace+"supportPostalCode").val(saved_zipCode);
+        $("#"+namespace+"supportPhone").val(saved_phone);
+        $("#"+namespace+"supportMobile").val(saved_mobile);
         
         // Chebox de conditions et de sauvegade des informations
-        $('#checkboxSaveInfo #save-info').prop('checked', false);
-        $('#checkboxSaveInfo').hide();
-        $("#giveBudgetSupportCondition1").prop("checked", false);
+        $('#checkboxSupportSaveInfo #save-info').prop('checked', false);
+        $('#checkboxSupportSaveInfo').hide();
+        $("#giveSupportLegalAge").prop("checked", false);
+        $("#giveBudgetSupportCondition1").prop("checked", false);        
     }
 	
 	/*
 	* Affiche la demande de sauvegarde des informations dans Publik
 	*/
-	function checkValues(){
-        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address 
-        		|| $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode 
-        		|| $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
-            $('#checkboxSaveInfo #save-info').prop('checked', true);
-            $('#checkboxSaveInfo').show();
+	function checkSupportValues(){
+        if($("#"+namespace+"supportBirthday").val() != saved_dateNaiss || $("#"+namespace+"supportAddress").val() != saved_address 
+        		|| $("#"+namespace+"supportCity").val() != saved_city || $("#"+namespace+"supportPostalCode").val() != saved_zipCode
+        		|| $("#"+namespace+"supportPhone").val() != saved_phone || $("#"+namespace+"supportMobile").val() != saved_mobile){
+            $('#checkboxSupportSaveInfo #save-info').prop('checked', true);
+            $('#checkboxSupportSaveInfo').show();
         } else {
-            $('#checkboxSaveInfo #save-info').prop('checked', false);
-            $('#checkboxSaveInfo').hide();
+            $('#checkboxSupportSaveInfo #save-info').prop('checked', false);
+            $('#checkboxSupportSaveInfo').hide();
         }
     }
 	
@@ -263,11 +274,12 @@
         var isValid = true;
 
 		// Recuperation des inforamtions du formulaire
-        var birthday = $("#"+namespace+"birthday").val();
+        var birthday = $("#"+namespace+"supportBirthday").val();
         var age = getAge(birthday);
-        var city = $("#"+namespace+"city").val();
-        var address = $("#"+namespace+"address").val();
-        var postalcode = $("#"+namespace+"postalcode").val();
+        var city = $("#"+namespace+"supportCity").val();
+        var address = $("#"+namespace+"supportAddress").val();
+        var postalcode = $("#"+namespace+"supportPostalCode").val();
+        var legalAge = $("#giveSupportLegalAge").is(":checked");
         var condition1 = $("#giveBudgetSupportCondition1").is(":checked");
         
         // Regex de confirmite des champs
@@ -275,63 +287,91 @@
 
         // Champ : date de naissance
         if (birthday==null || birthday=="") {
-            $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespace+"supportBirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#"+namespace+"birthday").css({ "box-shadow" : "" });
+        } else $("#"+namespace+"supportBirthday").css({ "box-shadow" : "" });
         
         if(age<16){
-            $("#filealertLegalage").removeClass("hidden");
-            $("#"+namespaceSign+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#supportAlertLegalAge").removeClass("hidden");
+            $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
         }
-        else $("#filealertLegalage").addClass("hidden");
+        else $("#supportAlertLegalAge").addClass("hidden");
 
      	// Champ : ville
         if (city==null || city=="") {
-            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespace+"supportCity").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#"+namespace+"city").css({ "box-shadow" : "" });
+        } else $("#"+namespace+"supportCity").css({ "box-shadow" : "" });
 
         if (city.toLowerCase()!=="strasbourg") {
-            $("#filealertcity").removeClass("hidden");
-            $("#"+namespaceSign+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#supportAlertCity").removeClass("hidden");
+            $("#"+namespace+"supportCity").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#filealertcity").addClass("hidden");
+        } else $("#supportAlertCity").addClass("hidden");
 
      	// Champ : adresse
         if (address==null || address=="") {
-            $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespace+"supportAddress").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#"+namespace+"address").css({ "box-shadow" : "" });
+        } else $("#"+namespace+"supportAddress").css({ "box-shadow" : "" });
 
      	// Champ : code postal
         if (postalcode==null || postalcode=="") {
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespace+"supportPostalCode").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
         } else if (!regex.test(postalcode)) {
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespace+"supportPostalCode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             isValid = false;
-        } else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
+        } else $("#"+namespace+"supportPostalCode").css({ "box-shadow" : "" });
 
         if (postalcode!=="67000" && postalcode!=="67100" && postalcode!=="67200") {
-            $("#filealertPostalCode").removeClass("hidden");
-            $("#"+namespaceSign+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#supportAlertPostalCode").removeClass("hidden");
+            $("#"+namespace+"supportPostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#filealertPostalCode").addClass("hidden");
+        } else $("#supportAlertPostalCode").addClass("hidden");
 
+        if (!legalAge)
+        	isValid = false;
+        
         if (!condition1)
         	isValid = false;
 
-        if (!result)
-            $("#sendalert").removeClass("hidden");
-        else $("#sendalert").addClass("hidden");
+        if (!isValid)
+            $("#supportAlert").removeClass("hidden");
+        else $("#supportAlert").addClass("hidden");
         
         return isValid;
     }
 	
 	/*
-	* Lors du click sur  la soumission d'une demande de soutien
+	* Lors du chargement de la page
+	*/
+	$(document).ready(function(){
+        $('#modalConfirmSupport').modal('hide');
+        $('#modalErrorSupport').modal('hide');
+        $('#modalQuitSupport').modal('hide');
+        $('#checkboxSupportSaveInfo').hide();
+    });
+	
+	/*
+	* Lors du click sur le bouton de vote
+	*/
+	$(document).on("click", "[href='#Support']", function(e) {
+		$("#modalSupport").modal('show');
+		resetValues();
+	});
+
+	/*
+	* Lors d'un click sur les boutons confirmer des modals
+	*/
+    $('#modalQuitSupport #buttonConfirm, #modalConfirmSupport #buttonConfirm, #modalErrorSupport #buttonConfirm').click(function(event){
+        $(this).parents('.pro-modal').modal('hide');
+    });
+	
+	/*
+	* Lors du click sur la soumission d'une demande de soutien
 	*/
 	 $("#submitBudgetSupport").click(function(event){
 	        event.preventDefault();
@@ -341,12 +381,13 @@
 	        
 	        if (isValid) {
 	        	// Recuperation des informations
-	            var birthdayValue = $("#"+namespace+"birthday").val();
-	            var addressValue = $("#"+namespace+"address").val();
-	            var cityValue = $("#"+namespace+"city").val();
-	            var postalcodeValue = $("#"+namespace+"postalcode").val();
-	            var phoneValue = $("#"+namespace+"phone").val();
-	            var mobileValue = $("#"+namespace+"mobile").val();
+	        	var entryId = $("#"+namespace+"entryId").val();
+	            var birthdayValue = $("#"+namespace+"supportBirthday").val();
+	            var addressValue = $("#"+namespace+"supportAddress").val();
+	            var cityValue = $("#"+namespace+"supportCity").val();
+	            var postalcodeValue = $("#"+namespace+"supportPostalCode").val();
+	            var phoneValue = $("#"+namespace+"supportPhone").val();
+	            var mobileValue = $("#"+namespace+"supportMobile").val();
 	            var saveInfoValue = $("#save-info").is(":checked");
 	            
 	            // Requete Ajax
@@ -355,13 +396,14 @@
 	                    method : 'POST',
 	                    dataType: 'json',
 	                    data:{
-	                        <portlet:namespace/>birthday:birthdayValue,
-	                        <portlet:namespace/>address:addressValue,
-	                        <portlet:namespace/>city:cityValue,
-	                        <portlet:namespace/>postalcode:postalcodeValue,
-	                        <portlet:namespace/>phone:phoneValue,
-	                        <portlet:namespace/>mobile:mobileValue,
-	                        <portlet:namespace />saveinfo:saveInfoValue,
+	                    	<portlet:namespace/>entryId : entryId,
+	                        <portlet:namespace/>birthday : birthdayValue,
+	                        <portlet:namespace/>address : addressValue,
+	                        <portlet:namespace/>city : cityValue,
+	                        <portlet:namespace/>postalcode : postalcodeValue,
+	                        <portlet:namespace/>phone : phoneValue,
+	                        <portlet:namespace/>mobile : mobileValue,
+	                        <portlet:namespace />saveinfo : saveInfoValue,
 	                    },
 	                    on: {
 	                        success: function(e) {
@@ -372,17 +414,22 @@
 	                            if(data.result){
 	                                $('#modalSupport').modal('hide');
 	                                if(data.savedInfo){
-	                                    saved_dateNaiss = $("#"+namespace+"birthday").val();
-	                                    saved_city = $("#"+namespace+"city").val();
-	                                    saved_address = $("#"+namespace+"address").val();
-	                                    saved_zipCode = $("#"+namespace+"postalcode").val();
-	                                    if($("#"+namespace+"phone").val() != "")
-	                                        saved_phone = $("#"+namespace+"phone").val();
-	                                    if($("#"+namespace+"mobile").val() != "")
-	                                        saved_mobile = $("#"+namespace+"mobile").val();
+	                                    saved_dateNaiss = $("#"+namespace+"supportBirthday").val();
+	                                    saved_city = $("#"+namespace+"supportCity").val();
+	                                    saved_address = $("#"+namespace+"supportAddress").val();
+	                                    saved_zipCode = $("#"+namespace+"supportPostalCode").val();
+	                                    if($("#"+namespace+"supportPhone").val() != "")
+	                                        saved_phone = $("#"+namespace+"supportPhone").val();
+	                                    if($("#"+namespace+"supportMobile").val() != "")
+	                                        saved_mobile = $("#"+namespace+"supportMobile").val();
 	                                }
 	                                $('#modalConfirmSupport').modal('show');
-	                            } 
+	                            }
+	                            
+	                         	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
+                                if (data.userSupportsInfo) {
+                                	
+                                }
 	                            
 	                            // Erreur ou refus de la requete
 	                            else{

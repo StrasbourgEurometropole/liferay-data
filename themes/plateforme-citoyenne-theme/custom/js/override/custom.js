@@ -1085,7 +1085,7 @@ function createBudgetParticipatif(budgetParticipatif){
                 crush +
             '</div>' +
             '<div class="pro-content-budget">' +
-                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien de le détail du budget"><h3>' + budgetParticipatif.title + '</h3></a>' +
+                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
                 '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' +
             '</div>' +
             '<div class="pro-footer-budget">' + footer +

@@ -17,7 +17,8 @@ var entityClassName = {
 		EDITION_GALLERY : 'eu.strasbourg.service.edition.model.EditionGallery',
 		PROJECT : 'eu.strasbourg.service.project.model.Project',
 		PARTICIPATION : 'eu.strasbourg.service.project.model.Participation',
-		PETITION : 'eu.strasbourg.service.project.model.Petition'
+		PETITION : 'eu.strasbourg.service.project.model.Petition',
+		BUDGET : 'eu.strasbourg.service.project.model.BudgetParticipatif'
 }
 
 /**
@@ -232,6 +233,48 @@ function createPetitionThumbnail(petition) {
 }
 
 /**
+ * Creation d'une vignette représentant un projet citoyen (Budget participatif)
+ */
+function createBudgetParticipatifThumbnail(bp) {
+	
+	// Classe CSS du statut du budget
+    var cssClassBPStatus = "";
+	var footer = "";
+	
+	if(bp.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + bp.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
+	
+	var bpThumbnail =
+			'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+			    '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '"  data-linkall="a">' +
+			        '<div class="pro-header-budget">' +
+			            '<figure role="group">' +
+			                '<img src="' + bp.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+			            '</figure>' +
+			            '<p>Projet déposé par :</p>' +
+			            '<p><strong>' + bp.author + '</strong></p>' +
+			        '</div>' +
+			        '<div class="pro-content-budget">' +
+			            '<a href="' + bp.link + '" title="lien détail du projet citoyen"><h3>' + bp.title + '</h3></a>' +
+			            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + bp.createDate + '</time>' +
+			        '</div>' +
+			        '<div class="pro-footer-budget">' + footer +		            
+			        '</div>' +
+			    '</div>' +
+			'</div>';
+
+	addThumbnail(bpThumbnail);
+}
+
+/**
  * Creation d'une vignette représentant un événement donné
  */
 function createEventThumbnail(event) {
@@ -309,6 +352,9 @@ function updateResultThumbnails() {
 				break;
 			case entityClassName.PETITION :
 				createPetitionThumbnail(entry);
+				break;
+			case entityClassName.BUDGET :
+				createBudgetParticipatifThumbnail(entry);
 				break;
 			default :
 				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);
