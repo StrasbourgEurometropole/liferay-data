@@ -12,6 +12,14 @@
 
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+<#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
+
+<#-- Récuperation du statut BP et affichage ou non du motif si le budget n'est pas retenu pour la réalisation -->
+<#assign statusBP = entry.getBudgetParticipatifStatusTitle(locale) >
+<#assign motifPrintable = false >
+<#if statusBP == "Non faisable" || statusBP == "Non recevable" || statusBP == "Non retenu" || statusBP == "Annulé" || statusBP == "Suspendu" && entry.motif?has_content >
+    <#assign motifPrintable = true >
+</#if>
 
 <#-- Recuperation de la couleur hexa correspondant au type de la participation -->
 <#assign statusColor = entry.getBudgetParticipatifStatusCategoryColor() />
@@ -22,6 +30,9 @@
 <#-- Récupération des liens médias de l'entité -->
 <#assign videoURL = entry.videoUrl />
 <#assign imageURL = entry.getImageURL() />
+
+<#-- L'entité est elle en période de vote -->
+<#assign isVotable = entry.isVotable() />
 
 <div class="pro-page-detail pro-page-detail-initiative">
 
@@ -104,9 +115,13 @@
                             </div>
                         </#if>
 
-                        <#if entry.getBudgetParticipatifStatusTitle(locale) == "Non faisable" && entry.motif?has_content >
+                        <#if motifPrintable >
                             <div class="pro-highlight pro-bloc-texte pro-theme-non-faisable">
-                                <div class="pro-statut"><span>Pourquoi ce projet est-il non faisable ?</span></div>
+                                <div class="pro-statut">
+                                    <span style="background : #${statusColor}">
+                                        Pourquoi ce projet est-il non "${statusBP}" ?
+                                    </span>
+                                </div>
                                 <p>${entry.motif}</p>
                             </div>
                         </#if>
@@ -139,10 +154,19 @@
 
                         <!-- Bloc : actions -->
                         <div class="pro-wrapper-aside-budget">
-                            <#-- <p><strong>3200</strong> Citoyens-nes soutiennent cette idée</p>
-                            <a href="#Voter" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
-                            <p class="pro-txt-vote">Il vous reste <strong>4</strong> possibilités de voter pour un projet</p>
-                            <a href="#RetirerVoter" class="pro-btn-yellow">Retirer vote</a> -->
+                            <p><strong>${entry.getNbSupports()}</strong> Citoyens-nes soutiennent cette idée</p>
+
+                            <#if isVotable>
+                                <#if isUserloggedIn>
+                                    <a href="#Support" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
+                                    <p class="pro-txt-vote">Il vous reste <strong>${5 - entry.getNbSupportOfUser(userID)}</strong> possibilités de voter pour un projet</p>
+                                    <#-- <a href="#RetirerVoter" class="pro-btn-yellow">Retirer vote</a> -->
+                                <#else>
+                                    <a href="#Pact-sign" name="Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
+                                    <p class="pro-txt-vote">Il vous reste <strong>5</strong> possibilités de voter pour un projet</p>
+                                </#if>
+                            </#if>
+                            
                             <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                         </div>
                     </aside>
@@ -162,7 +186,7 @@
     // Variable pointeur
     var budgetParticipatifMarkers = [];
 
-     $(document).ready(function() {
+    $(document).ready(function() {
         // Gestion de la carte interactive
         // Notes : voir dans le theme placit "override/custom.js"
 
@@ -191,5 +215,4 @@
         leafletMap.fitBounds(markersCluster.getBounds());
 
     });
-
 </script>
