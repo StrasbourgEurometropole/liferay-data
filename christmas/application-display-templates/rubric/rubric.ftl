@@ -8,8 +8,13 @@
 </#if>
 <div class="container mns-triple-actu-bloc">
     <#if entries?has_content>
-        <div class="row" data-egalize=".mns-bloc-actu > a">
-            <#list entries as currentPage>
+        <#assign hasPage = false />
+        <#list entries as currentPage>
+            <#if !currentPage.isHidden()>
+                <#if !hasPage>
+                    <div class="row" data-egalize=".mns-bloc-actu > a">
+                    <#assign hasPage = true />
+                </#if>
                 <div class="col-sm-4">
                     <div class="mns-bloc-actu">
                         <a href="${homeURL}${currentPage.friendlyURL?remove_beginning('/')}">
@@ -39,7 +44,10 @@
                         </a>
                     </div>
                 </div>
-            </#list>
-        </div>
+            </#if>
+        </#list>
+        <#if hasPage>
+            </div>
+        </#if>
     </#if>
 </div>
