@@ -1017,16 +1017,16 @@ public class EventImpl extends EventBaseImpl {
 			//utilisation de l'indexer de l'entite event (Permet de rechercher uniquement des event)
 			Indexer indexer = IndexerRegistryUtil.getIndexer(Event.class.getName());
 			
-			//BooleanQuery query = new BooleanQueryImpl();
-			//query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-			//query.addRequiredTerm("visible", true);
+			BooleanQuery query = new BooleanQueryImpl();
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm("visible", true);
 			
 			
-			//BooleanQuery tagQuery = new BooleanQueryImpl();
-			//tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf("participer"));
-			//query.add(tagQuery, BooleanClauseOccur.MUST);
+			BooleanQuery tagQuery = new BooleanQueryImpl();
+			tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf("participer"));
+			query.add(tagQuery, BooleanClauseOccur.MUST);
 			
-			//indexer.postProcessContextQuery(query, searchContext);
+			indexer.postProcessContextQuery(query, searchContext);
 			
 			//Lance la recherche elasticSearch
 		    Hits hits = indexer.search(searchContext);
