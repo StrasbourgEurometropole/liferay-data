@@ -22,9 +22,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
