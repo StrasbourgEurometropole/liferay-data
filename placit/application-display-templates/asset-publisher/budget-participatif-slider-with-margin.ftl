@@ -16,9 +16,9 @@
         <div class="container">
 
             <div class="col-lg-10 col-lg-offset-1">
-                <h2>Les idées</h2>
+                <h2>Les projets citoyens</h2>
                 <div class="pro-wrapper">
-                    <a href="${homeURL}budgets-participatifs" class="pro-btn">Tout voir</a>
+                    <a href="${homeURL}budgets-participatifs" class="pro-btn">Voir tous les projets</a>
                 </div>
             </div>
 
@@ -34,16 +34,22 @@
                         <#-- Recuperation de la couleur hexa correspondant au type de la participation -->
                         <#assign statusColor = entry.getBudgetParticipatifStatusCategoryColor() />
 
-                        <#assign imageURL = entry.getImageURL() />
+                        <#assign imageURL = entry.getAuthorImageURL()() />
+						
+						<#if entry.isNotDoable()>
+							<#assign classFaisable = "pro-theme-non-faisable"/>
+						<#else>
+							<#assign classFaisable = "pro-theme-faisable" />
+						</#if>
 
-                        <div class="item pro-bloc-card-budget pro-theme-faisabilite" data-linkall="a">
+                        <div class="item pro-bloc-card-budget ${classFaisable} data-linkall="a">
                             <div class="pro-header-budget">
                                 <#if imageURL?has_content >
                                     <figure role="group">
-                                        <img src="${entry.getImageURL()}" width="40" height="40" alt="Image du budget participatif"/>
+                                        <img src="${imageURL}" width="40" height="40" alt="Image du budget participatif"/>
                                     </figure>
                                 </#if>
-                                <p>Idée déposée par :</p>
+                                <p>Projet déposé par :</p>
                                 <p><strong>${entry.getAuthor()}</strong></p>
                                 <div class="pro-info-top-right">
                                     <span class="pro-encart-theme" style="background : #${statusColor}">
@@ -55,13 +61,19 @@
                                 <a href="${homeURL}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}" title="lien de la page de détail">
                                     <h3>${entry.title}</h3>
                                 </a>
-                                <p>Projet adressée à <u>${entry.getDistrictLabel(locale)}</u></p>
+                                <p>Projet adressée à <u>la ville de Strasbourg</u></p>
                                 <span class="pro-time">
                                     Publiée le <time datetime="${entry.createDate?date?string['dd/MM/yyyy']}">${entry.createDate?date?string['dd/MM/yyyy']}</time>
                                 </span>
                             </div>
                             <div class="pro-footer-budget">
-                                <p><strong>0</strong> Citoyens-nes soutiennent cette idée</p>
+                                <p>
+									<#if entry.isNotDoable()>
+										Ce projet a été étudié et déclaré non-faisable
+									<#else>
+										<strong>${entry.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet
+									</#if>									
+								</p>
                             </div>
                         </div>
 
