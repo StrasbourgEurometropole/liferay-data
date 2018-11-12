@@ -78,7 +78,6 @@ create table project_BudgetSupport (
 	citoyenMobilePhone VARCHAR(75) null,
 	citoyenPhone VARCHAR(75) null,
 	citoyenCity VARCHAR(75) null,
-	citoyenSignatureDate DATE null,
 	publikUserId VARCHAR(75) null,
 	budgetParticipatifId LONG
 );

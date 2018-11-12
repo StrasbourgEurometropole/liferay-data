@@ -65,6 +65,9 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
     // Variables tempons
     private String publikID;
     private PublikUser user;
+    private int nbUserSupports;
+    private int nbUserEntrySupports;
+    private int nbEntrySupports;
     private long entryID;
     private BudgetParticipatif budgetParticipatif;
     private DateFormat dateFormat;
@@ -75,7 +78,6 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
     private String phone;
     private String mobile;
     private String message;
-    
 
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
@@ -120,6 +122,10 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             }
             result = sendBudgetSupport(request);
             
+            // Recuperation du nombre de vote de l'utilisateur pour l'entite courante
+            this.nbUserEntrySupports = this.budgetParticipatif.getNbSupportOfUser(this.publikID);
+            this.nbEntrySupports = (int) this.budgetParticipatif.getNbSupports();
+            this.nbUserSupports++;
         }
         
         // Récupération du json des entités
@@ -127,6 +133,14 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         jsonResponse.put("result", result);
         jsonResponse.put("message", this.message);
         jsonResponse.put("savedInfo", saveInfo);
+        
+        JSONObject updatedSupportsInfo = JSONFactoryUtil.createJSONObject();
+        
+        updatedSupportsInfo.put("nbUserSupports", this.nbUserSupports);
+        updatedSupportsInfo.put("nbUserEntrySupports", this.nbUserEntrySupports);
+        updatedSupportsInfo.put("nbEntrySupports", this.nbEntrySupports);
+        
+        jsonResponse.put("updatedSupportsInfo", updatedSupportsInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
         PrintWriter writer = null;
@@ -165,6 +179,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             	budgetSupport.setCitoyenMobilePhone(this.mobile);
             budgetSupport.setCitoyenMail(this.user.getEmail());
             budgetSupport.setPublikUserId(this.publikID);
+            budgetSupport.setBudgetParticipatifId(this.budgetParticipatif.getBudgetParticipatifId());
             budgetSupport = BudgetSupportLocalServiceUtil.updateBudgetSupport(budgetSupport);
 
         } catch (PortalException e) {
@@ -219,10 +234,10 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 		}
         
         // nombre de votes de l'utilisateur
-        int nbVote = BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
+        this.nbUserSupports = BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
         		this.publikID,
         		this.budgetParticipatif.getPhase().getBudgetPhaseId());
-        if (nbVote >= 5) {
+        if (this.nbUserSupports >= 5) {
         	this.message = "Vous ne pouvez plus voter pour cette p&eacute;riode";
 			return false;
         }

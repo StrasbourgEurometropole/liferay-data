@@ -4200,7 +4200,6 @@ public class BudgetSupportPersistenceImpl extends BasePersistenceImpl<BudgetSupp
 		budgetSupportImpl.setCitoyenMobilePhone(budgetSupport.getCitoyenMobilePhone());
 		budgetSupportImpl.setCitoyenPhone(budgetSupport.getCitoyenPhone());
 		budgetSupportImpl.setCitoyenCity(budgetSupport.getCitoyenCity());
-		budgetSupportImpl.setCitoyenSignatureDate(budgetSupport.getCitoyenSignatureDate());
 		budgetSupportImpl.setPublikUserId(budgetSupport.getPublikUserId());
 		budgetSupportImpl.setBudgetParticipatifId(budgetSupport.getBudgetParticipatifId());
 

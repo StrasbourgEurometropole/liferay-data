@@ -668,7 +668,6 @@
 		<column name="citoyenMobilePhone" type="String" />
 		<column name="citoyenPhone" type="String" />
 		<column name="citoyenCity" type="String" />
-		<column name="citoyenSignatureDate" type="Date" />
 		
 		<!-- Links with other entities -->
 		<column name="publikUserId" type="String" />
