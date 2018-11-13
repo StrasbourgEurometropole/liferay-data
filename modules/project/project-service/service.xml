@@ -672,6 +672,11 @@
 		<!-- Links with other entities -->
 		<column name="publikUserId" type="String" />
 		<column name="budgetParticipatifId" type="long" />
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="createDate" />
+		</order>
 
 		<!-- Finder methods -->
 		<finder name="GroupId" return-type="Collection">

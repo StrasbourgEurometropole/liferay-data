@@ -109,7 +109,8 @@ public class BudgetSupportPersistenceImpl extends BasePersistenceImpl<BudgetSupp
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
 			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByUuid", new String[] { String.class.getName() },
-			BudgetSupportModelImpl.UUID_COLUMN_BITMASK);
+			BudgetSupportModelImpl.UUID_COLUMN_BITMASK |
+			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
@@ -910,7 +911,8 @@ public class BudgetSupportPersistenceImpl extends BasePersistenceImpl<BudgetSupp
 			"findByUuid_C",
 			new String[] { String.class.getName(), Long.class.getName() },
 			BudgetSupportModelImpl.UUID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.COMPANYID_COLUMN_BITMASK);
+			BudgetSupportModelImpl.COMPANYID_COLUMN_BITMASK |
+			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
@@ -1496,7 +1498,8 @@ public class BudgetSupportPersistenceImpl extends BasePersistenceImpl<BudgetSupp
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
 			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByGroupId", new String[] { Long.class.getName() },
-			BudgetSupportModelImpl.GROUPID_COLUMN_BITMASK);
+			BudgetSupportModelImpl.GROUPID_COLUMN_BITMASK |
+			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
@@ -2001,7 +2004,8 @@ public class BudgetSupportPersistenceImpl extends BasePersistenceImpl<BudgetSupp
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
 			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByBudgetParticipatif", new String[] { Long.class.getName() },
-			BudgetSupportModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK);
+			BudgetSupportModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK |
+			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_BUDGETPARTICIPATIF = new FinderPath(BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2524,7 +2528,8 @@ public class BudgetSupportPersistenceImpl extends BasePersistenceImpl<BudgetSupp
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
 			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByPublikUserId", new String[] { String.class.getName() },
-			BudgetSupportModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			BudgetSupportModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
+			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
@@ -3084,7 +3089,8 @@ public class BudgetSupportPersistenceImpl extends BasePersistenceImpl<BudgetSupp
 			"findByBudgetParticipatifIdAndPublikUserId",
 			new String[] { Long.class.getName(), String.class.getName() },
 			BudgetSupportModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			BudgetSupportModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
+			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_BUDGETPARTICIPATIFIDANDPUBLIKUSERID =
 		new FinderPath(BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,

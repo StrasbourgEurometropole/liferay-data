@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -124,8 +125,8 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	public static final String TABLE_SQL_CREATE = "create table project_BudgetSupport (uuid_ VARCHAR(75) null,budgetSupportId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,citoyenLastName VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenBirthday DATE null,citoyenAddress VARCHAR(75) null,citoyenMail VARCHAR(75) null,citoyenPostalCode LONG,citoyenMobilePhone VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenCity VARCHAR(75) null,publikUserId VARCHAR(75) null,budgetParticipatifId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetSupport";
-	public static final String ORDER_BY_JPQL = " ORDER BY budgetSupport.budgetSupportId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetSupport.budgetSupportId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY budgetSupport.createDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetSupport.createDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -143,7 +144,7 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 8L;
 	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long BUDGETSUPPORTID_COLUMN_BITMASK = 32L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -489,6 +490,8 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask = -1L;
+
 		_createDate = createDate;
 	}
 
@@ -903,17 +906,18 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	@Override
 	public int compareTo(BudgetSupport budgetSupport) {
-		long primaryKey = budgetSupport.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = DateUtil.compareTo(getCreateDate(),
+				budgetSupport.getCreateDate());
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override
