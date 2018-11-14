@@ -22,7 +22,7 @@
             <form id="form-give-budget-support">
                 <div class="pro-wrapper">
                 
-                	<!-- Champs : nom, prÃ©nom, date de naissance -->
+                	<!-- Champs : nom, prÃÂ©nom, date de naissance -->
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" id="supportUsername"
@@ -45,7 +45,7 @@
                             <aui:input id="supportBirthday" name="birthday" 
                             	cssClass="frm_date" label="modal.user.birthday" 
                             	required="true" maxlength="10" placeholder="jj/mm/aaaa" 
-                            	onInput="checkSignValues();" onChange="checkSupportValues();"
+                            	onInput="checkSupportValues();" onChange="checkSupportValues();"
                             />
                         </div>
                     </div>
@@ -101,11 +101,11 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise Ã  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise ÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
-                            <input type="checkbox" name="<portlet:namespace />saveinfo" id="signsave-info" value="save-info">
-                            <label for="signsave-info"><liferay-ui:message key="modal.save.info"/></label>
+                            <input type="checkbox" name="<portlet:namespace />saveinfo" id="supportsave-info" value="save-info">
+                            <label for="supportsave-info"><liferay-ui:message key="modal.save.info"/></label>
                         </div>
                     </div>
                     
@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 
-                <!-- Champ cachÃ© : ID -->
+                <!-- Champ cachÃÂ© : ID -->
                 <input type="hidden" id="<portlet:namespace />entryId" name="entryId" value="${entryId}"/>
                 
                 <!-- Alert d'erreur -->
@@ -484,7 +484,7 @@
 							}
                         	
                         	// Modal de confirmation de succes
-							$('#modalConfirmRemoveSupport').modal('show');
+							$('#modalConfirmSupport').modal('show');
 						}
                      
 						// Erreur ou refus de la requete

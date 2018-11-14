@@ -111,7 +111,7 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 	private boolean removeBudgetSupport(ResourceRequest request) throws PortletException {
         BudgetSupportLocalServiceUtil.removeBudgetSupport(this.budgetSupport.getBudgetSupportId());
 
-        _log.info("Soutien retiré : " + this.budgetSupport);
+        _log.info("Soutien retire : " + this.budgetSupport);
         return true;
     }
 	
@@ -124,7 +124,7 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 		
 		// Utilisateur
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non enregistr&eacute;/identifi&eacute;";
+            this.message = "Utilisateur non recconu";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);

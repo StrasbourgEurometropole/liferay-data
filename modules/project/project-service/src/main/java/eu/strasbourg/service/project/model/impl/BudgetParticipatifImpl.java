@@ -223,13 +223,27 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getAuthor(){
         return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
     }
-    
-    /**
-	 * Peut apporter une reaction (commenter, liker, participer) a l'entite
+	
+	/**
+	 * A deja fait l'oeuvre d'un vote et/ou d'une decision administrative
 	 */
 	@Override
-	public boolean isJudgeable() {
-		return true;
+	public boolean hasBeenVoted() {
+		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
+		
+		if (BPStatus != null) {
+			if (StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_LAUREAT.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_IN_PROGRESS.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_SUSPENDED.getName())
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_CANCELLED.getName())) 
+				return true;
+		}
+		return false;
 	}
 	
 	/**
