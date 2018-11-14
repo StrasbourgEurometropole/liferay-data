@@ -70,7 +70,14 @@
 						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 						            instanceId="second-wc-display" />
 						        </div>
-							</c:if>						
+							</c:if>
+							<c:if test="${(dc.entriesCount gt 8 and index eq 8) or (dc.entriesCount lt 9 and index eq (dc.entriesCount - 1)) }">
+								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
+									<liferay-portlet:runtime
+						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						            instanceId="third-wc-display" />
+						        </div>
+							</c:if>
 							
 					</liferay-ui:search-container-row>
 				</div>
