@@ -73,7 +73,10 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
             // Recuperation du nombre de vote de l'utilisateur pour l'entite courante
             this.nbUserEntrySupports = this.budgetParticipatif.getNbSupportOfUser(this.publikID);
             this.nbEntrySupports = (int) this.budgetParticipatif.getNbSupports();
-            this.nbUserSupports--;
+            this.nbUserSupports =  BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
+				                		this.publikID,
+				                		this.budgetParticipatif.getPhase().getBudgetPhaseId()
+				                	);
         }
         
         // Récupération du json des entités
@@ -106,10 +109,9 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * @return Si la demande s'est bien passee
 	 */
 	private boolean removeBudgetSupport(ResourceRequest request) throws PortletException {
-
         BudgetSupportLocalServiceUtil.removeBudgetSupport(this.budgetSupport.getBudgetSupportId());
 
-        _log.info("Soutien retiré : " + this.budgetSupport);
+        _log.info("Soutien retire : " + this.budgetSupport);
         return true;
     }
 	
@@ -122,7 +124,7 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 		
 		// Utilisateur
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non enregistr&eacute;/identifi&eacute;";
+            this.message = "Utilisateur non recconu";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);

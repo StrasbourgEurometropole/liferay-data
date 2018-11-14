@@ -135,9 +135,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getAuthor();
 
 	/**
-	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	* A deja fait l'oeuvre d'un vote et/ou d'une decision administrative
 	*/
-	public boolean isJudgeable();
+	public boolean hasBeenVoted();
 
 	/**
 	* Est en periode et capacite de vote
