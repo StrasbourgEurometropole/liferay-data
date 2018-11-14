@@ -73,7 +73,10 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
             // Recuperation du nombre de vote de l'utilisateur pour l'entite courante
             this.nbUserEntrySupports = this.budgetParticipatif.getNbSupportOfUser(this.publikID);
             this.nbEntrySupports = (int) this.budgetParticipatif.getNbSupports();
-            this.nbUserSupports--;
+            this.nbUserSupports =  BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
+				                		this.publikID,
+				                		this.budgetParticipatif.getPhase().getBudgetPhaseId()
+				                	);
         }
         
         // Récupération du json des entités
@@ -106,7 +109,6 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * @return Si la demande s'est bien passee
 	 */
 	private boolean removeBudgetSupport(ResourceRequest request) throws PortletException {
-
         BudgetSupportLocalServiceUtil.removeBudgetSupport(this.budgetSupport.getBudgetSupportId());
 
         _log.info("Soutien retiré : " + this.budgetSupport);
