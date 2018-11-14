@@ -200,9 +200,8 @@
 </liferay-portlet:actionURL>
 
 <%-- URL : defini le lien vers l'action de changement de statut a : Faisable --%>
-<liferay-portlet:actionURL name="selectionAction" var="feasibleSelectionURL">
-	<portlet:param name="cmd" value="unpublish" />
-	<portlet:param name="tab" value="budgets-participatifs" />
+<liferay-portlet:actionURL name="selectionBudgetParticipatifAction" var="feasibleSelectionURL">
+	<portlet:param name="cmd" value="feasible" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
