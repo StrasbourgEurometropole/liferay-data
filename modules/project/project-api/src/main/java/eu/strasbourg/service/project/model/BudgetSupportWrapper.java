@@ -79,7 +79,6 @@ public class BudgetSupportWrapper implements BudgetSupport,
 		attributes.put("citoyenMobilePhone", getCitoyenMobilePhone());
 		attributes.put("citoyenPhone", getCitoyenPhone());
 		attributes.put("citoyenCity", getCitoyenCity());
-		attributes.put("citoyenSignatureDate", getCitoyenSignatureDate());
 		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 
@@ -200,12 +199,6 @@ public class BudgetSupportWrapper implements BudgetSupport,
 
 		if (citoyenCity != null) {
 			setCitoyenCity(citoyenCity);
-		}
-
-		Date citoyenSignatureDate = (Date)attributes.get("citoyenSignatureDate");
-
-		if (citoyenSignatureDate != null) {
-			setCitoyenSignatureDate(citoyenSignatureDate);
 		}
 
 		String publikUserId = (String)attributes.get("publikUserId");
@@ -498,16 +491,6 @@ public class BudgetSupportWrapper implements BudgetSupport,
 	}
 
 	/**
-	* Returns the citoyen signature date of this budget support.
-	*
-	* @return the citoyen signature date of this budget support
-	*/
-	@Override
-	public Date getCitoyenSignatureDate() {
-		return _budgetSupport.getCitoyenSignatureDate();
-	}
-
-	/**
 	* Returns the create date of this budget support.
 	*
 	* @return the create date of this budget support
@@ -725,16 +708,6 @@ public class BudgetSupportWrapper implements BudgetSupport,
 	@Override
 	public void setCitoyenPostalCode(long citoyenPostalCode) {
 		_budgetSupport.setCitoyenPostalCode(citoyenPostalCode);
-	}
-
-	/**
-	* Sets the citoyen signature date of this budget support.
-	*
-	* @param citoyenSignatureDate the citoyen signature date of this budget support
-	*/
-	@Override
-	public void setCitoyenSignatureDate(Date citoyenSignatureDate) {
-		_budgetSupport.setCitoyenSignatureDate(citoyenSignatureDate);
 	}
 
 	/**

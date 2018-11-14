@@ -98,7 +98,6 @@
 		<property name="citoyenMobilePhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenPhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="citoyenSignatureDate" type="org.hibernate.type.TimestampType" />
 		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="budgetParticipatifId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>

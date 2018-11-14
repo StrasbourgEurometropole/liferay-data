@@ -66,6 +66,13 @@
 		@content;
 	}
 }
+@mixin not_tablet_landscape
+{
+	@media screen and (min-width: #{$breakpoint_tl})
+	{
+		@content;
+	}
+}
 @mixin tablet_landscape
 {
 	@media screen and (max-width: #{$breakpoint_tl})
@@ -73,9 +80,23 @@
 		@content;
 	}
 }
+@mixin not_tablet_portrait
+{
+	@media screen and (min-width: #{$breakpoint_tp})
+	{
+		@content;
+	}
+}
 @mixin tablet_portrait
 {
 	@media screen and (max-width: #{$breakpoint_tp})
+	{
+		@content;
+	}
+}
+@mixin not_mobile
+{
+	@media screen and (min-width: #{$breakpoint_mo})
 	{
 		@content;
 	}
