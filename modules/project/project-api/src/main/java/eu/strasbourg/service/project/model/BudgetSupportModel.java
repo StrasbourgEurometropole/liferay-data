@@ -374,20 +374,6 @@ public interface BudgetSupportModel extends BaseModel<BudgetSupport>,
 	public void setCitoyenCity(String citoyenCity);
 
 	/**
-	 * Returns the citoyen signature date of this budget support.
-	 *
-	 * @return the citoyen signature date of this budget support
-	 */
-	public Date getCitoyenSignatureDate();
-
-	/**
-	 * Sets the citoyen signature date of this budget support.
-	 *
-	 * @param citoyenSignatureDate the citoyen signature date of this budget support
-	 */
-	public void setCitoyenSignatureDate(Date citoyenSignatureDate);
-
-	/**
 	 * Returns the publik user ID of this budget support.
 	 *
 	 * @return the publik user ID of this budget support

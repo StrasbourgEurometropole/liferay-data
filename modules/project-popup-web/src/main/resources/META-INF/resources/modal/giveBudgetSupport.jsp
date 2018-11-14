@@ -268,8 +268,7 @@
 	/*
 	* Verifie la conformite des elements avant l'envoie du formulaire
 	*/
-	function validateForm()
-    {
+	function validateForm() {
 		// Valeur de retour "juste" par defaut
         var isValid = true;
 
@@ -346,6 +345,99 @@
     }
 	
 	/*
+	* Appel a la soumission du formulaire d'un nouveau soutien
+	*/
+	function sendSupport() {
+		// Verification du formulaire
+        var isValid = validateForm();
+        
+        if (isValid) {
+        	// Recuperation des informations
+        	var entryId = $("#"+namespace+"entryId").val();
+            var birthdayValue = $("#"+namespace+"supportBirthday").val();
+            var addressValue = $("#"+namespace+"supportAddress").val();
+            var cityValue = $("#"+namespace+"supportCity").val();
+            var postalcodeValue = $("#"+namespace+"supportPostalCode").val();
+            var phoneValue = $("#"+namespace+"supportPhone").val();
+            var mobileValue = $("#"+namespace+"supportMobile").val();
+            var saveInfoValue = $("#save-info").is(":checked");
+            
+            // Requete Ajax
+            AUI().use('aui-io-request', function(A) {
+                A.io.request('${giveBudgetSupportURL}', {
+                    method : 'POST',
+                    dataType: 'json',
+                    data:{
+                    	<portlet:namespace/>entryId : entryId,
+                        <portlet:namespace/>birthday : birthdayValue,
+                        <portlet:namespace/>address : addressValue,
+                        <portlet:namespace/>city : cityValue,
+                        <portlet:namespace/>postalcode : postalcodeValue,
+                        <portlet:namespace/>phone : phoneValue,
+                        <portlet:namespace/>mobile : mobileValue,
+                        <portlet:namespace />saveinfo : saveInfoValue,
+                    },
+                    on: {
+                        success: function(e) {
+                        	
+                            var data = this.get('responseData');
+                            
+                            // Succes de la requete
+                            if (data.result) {
+                            	
+                            	// Cache du formulaire
+                                $('#modalSupport').modal('hide');
+                            	
+                            	// Sauvegarde des nouvelles informations de l'utilisateur
+                                if (data.savedInfo) {
+                                    saved_dateNaiss = $("#"+namespace+"supportBirthday").val();
+                                    saved_city = $("#"+namespace+"supportCity").val();
+                                    saved_address = $("#"+namespace+"supportAddress").val();
+                                    saved_zipCode = $("#"+namespace+"supportPostalCode").val();
+                                    if($("#"+namespace+"supportPhone").val() != "")
+                                        saved_phone = $("#"+namespace+"supportPhone").val();
+                                    if($("#"+namespace+"supportMobile").val() != "")
+                                        saved_mobile = $("#"+namespace+"supportMobile").val();
+                                }
+                            	
+                             	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
+                                if (data.updatedSupportsInfo) {
+                                	// Modification des textes des labels et bouton
+                                	$('#nbUserSupports').text(5 - data.updatedSupportsInfo.nbUserSupports);
+                                	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
+                                	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
+                                	
+                                	// Cache du bouton si plus aucun vote disponible
+                                	if (data.updatedSupportsInfo.nbUserSupports >= 5) {
+                                		$("[href='#Support']").hide();
+                                	}
+                                	
+                                	// Mise a jour du tempon data dans la balise href de la demande du vote 
+                                	// notes : permet l'affichage ou non du formulaire
+                                	$("[href='#Support']").data('nbsupports', data.updatedSupportsInfo.nbUserEntrySupports);
+                                	
+                                	// Affichage dans tous les cas du boutons de retrait
+                                	$("[href='#RemoveSupport']").show();
+                                }
+                             	
+                             	// Modal de confirmation de succes
+                                $('#modalConfirmSupport').modal('show');
+                            }
+                          
+                            // Erreur ou refus de la requete
+                            else {
+                                $("#modalErrorSupport h4").text(data.message);
+                                $('#modalErrorSupport').modal('show');
+                            }
+                            
+                        }
+                    }
+                });
+             });
+        }
+	}
+	
+	/*
 	* Lors du chargement de la page
 	*/
 	$(document).ready(function(){
@@ -358,9 +450,20 @@
 	/*
 	* Lors du click sur le bouton de vote
 	*/
-	$(document).on("click", "[href='#Support']", function(e) {
-		$("#modalSupport").modal('show');
+	$(document).on("click", "[href='#Support']", function(event) {
+		event.preventDefault();
 		resetValues();
+		// Si il y'a deja eu un vote de l'utilisateur, pas de formulaire
+		if (parseInt($("[href='#Support']").data('nbsupports'), 10)  >= 1) {
+			// Autocohe des checkbox pour valider la soumission
+			$('#checkboxSupportSaveInfo #save-info').prop('checked', false);
+			$('#giveSupportLegalAge').prop('checked', true);
+			$('#giveBudgetSupportCondition1').prop('checked', true);
+			
+			sendSupport();
+		} else {
+			$("#modalSupport").modal('show');
+		}
 	});
 
 	/*
@@ -374,74 +477,8 @@
 	* Lors du click sur la soumission d'une demande de soutien
 	*/
 	 $("#submitBudgetSupport").click(function(event){
-	        event.preventDefault();
-
-	        // Verification du formulaire
-	        var isValid = validateForm();
-	        
-	        if (isValid) {
-	        	// Recuperation des informations
-	        	var entryId = $("#"+namespace+"entryId").val();
-	            var birthdayValue = $("#"+namespace+"supportBirthday").val();
-	            var addressValue = $("#"+namespace+"supportAddress").val();
-	            var cityValue = $("#"+namespace+"supportCity").val();
-	            var postalcodeValue = $("#"+namespace+"supportPostalCode").val();
-	            var phoneValue = $("#"+namespace+"supportPhone").val();
-	            var mobileValue = $("#"+namespace+"supportMobile").val();
-	            var saveInfoValue = $("#save-info").is(":checked");
-	            
-	            // Requete Ajax
-	            AUI().use('aui-io-request', function(A) {
-	                A.io.request('${giveBudgetSupportURL}', {
-	                    method : 'POST',
-	                    dataType: 'json',
-	                    data:{
-	                    	<portlet:namespace/>entryId : entryId,
-	                        <portlet:namespace/>birthday : birthdayValue,
-	                        <portlet:namespace/>address : addressValue,
-	                        <portlet:namespace/>city : cityValue,
-	                        <portlet:namespace/>postalcode : postalcodeValue,
-	                        <portlet:namespace/>phone : phoneValue,
-	                        <portlet:namespace/>mobile : mobileValue,
-	                        <portlet:namespace />saveinfo : saveInfoValue,
-	                    },
-	                    on: {
-	                        success: function(e) {
-	                        	
-	                            var data = this.get('responseData');
-	                            
-	                            // Succes de la requete
-	                            if(data.result){
-	                                $('#modalSupport').modal('hide');
-	                                if(data.savedInfo){
-	                                    saved_dateNaiss = $("#"+namespace+"supportBirthday").val();
-	                                    saved_city = $("#"+namespace+"supportCity").val();
-	                                    saved_address = $("#"+namespace+"supportAddress").val();
-	                                    saved_zipCode = $("#"+namespace+"supportPostalCode").val();
-	                                    if($("#"+namespace+"supportPhone").val() != "")
-	                                        saved_phone = $("#"+namespace+"supportPhone").val();
-	                                    if($("#"+namespace+"supportMobile").val() != "")
-	                                        saved_mobile = $("#"+namespace+"supportMobile").val();
-	                                }
-	                                $('#modalConfirmSupport').modal('show');
-	                            }
-	                            
-	                         	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
-                                if (data.userSupportsInfo) {
-                                	
-                                }
-	                            
-	                            // Erreur ou refus de la requete
-	                            else{
-	                                $("#modalErrorSupport h4").text(data.message);
-	                                $('#modalErrorSupport').modal('show');
-	                            }
-	                            
-	                        }
-	                    }
-	                });
-	             });
-	        }
-	    });
+	 	event.preventDefault();
+	 	sendSupport();
+	 });
 	
 </script>
