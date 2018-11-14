@@ -23,6 +23,7 @@ create table project_BudgetParticipatif (
 	citoyenPhone VARCHAR(75) null,
 	citoyenMobile VARCHAR(75) null,
 	citoyenEmail VARCHAR(400) null,
+	citoyenBirthday DATE null,
 	hasCopyright BOOLEAN,
 	videoUrl VARCHAR(400) null,
 	placeTextArea VARCHAR(400) null,
@@ -55,6 +56,31 @@ create table project_BudgetPhase (
 	endDate DATE null,
 	beginVoteDate DATE null,
 	endVoteDate DATE null
+);
+
+create table project_BudgetSupport (
+	uuid_ VARCHAR(75) null,
+	budgetSupportId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	citoyenLastName VARCHAR(75) null,
+	citoyenFirstname VARCHAR(75) null,
+	citoyenBirthday DATE null,
+	citoyenAddress VARCHAR(75) null,
+	citoyenMail VARCHAR(75) null,
+	citoyenPostalCode LONG,
+	citoyenMobilePhone VARCHAR(75) null,
+	citoyenPhone VARCHAR(75) null,
+	citoyenCity VARCHAR(75) null,
+	citoyenSignatureDate DATE null,
+	publikUserId VARCHAR(75) null,
+	budgetParticipatifId LONG
 );
 
 create table project_Initiative (

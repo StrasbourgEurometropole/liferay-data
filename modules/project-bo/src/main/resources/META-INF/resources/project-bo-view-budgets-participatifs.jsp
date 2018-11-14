@@ -42,6 +42,9 @@
 			<c:if test="${not dc.workflowEnabled}">
 				<c:if test="${dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "feasibleSelection();"%>'
+						label="Faisable" />
+					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
 					<liferay-frontend:management-bar-button
@@ -62,7 +65,7 @@
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
-		<liferay-ui:search-container id="budgetParticipatifSearchContainer"
+		<liferay-ui:search-container id="budgetParticipatifsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 			<liferay-ui:search-container-results results="${dc.budgetParticipatifs}" />
 
@@ -79,7 +82,7 @@
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Titre --%>
-				<liferay-ui:search-container-column-text
+				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
 				
@@ -93,10 +96,7 @@
                     ${budgetParticipatif.phaseTitleLabel}
                 </liferay-ui:search-container-column-text>
                 
-                <%-- Colonne : Statut --%>
-                <liferay-ui:search-container-column-text name="status">
-                    ${budgetParticipatif.getBudgetParticipatifStatusTitle(locale)}
-                </liferay-ui:search-container-column-text>
+                
 
 				<%-- Colonne : Administrateur liferay --%>
                 <liferay-ui:search-container-column-text name="administrator">
@@ -109,9 +109,14 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
+					
+				<%-- Colonne : Statut BP --%>
+                <liferay-ui:search-container-column-text name="status-bp">
+                    ${budgetParticipatif.getBudgetParticipatifStatusTitle(locale)}
+                </liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Statut --%>
-				<liferay-ui:search-container-column-text name="status">
+				<liferay-ui:search-container-column-text name="status-liferay">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${budgetParticipatif.status}" />
 				</liferay-ui:search-container-column-text>
@@ -194,6 +199,16 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 
+<%-- URL : defini le lien vers l'action de changement de statut a : Faisable --%>
+<liferay-portlet:actionURL name="selectionBudgetParticipatifAction" var="feasibleSelectionURL">
+	<portlet:param name="cmd" value="feasible" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:actionURL>
+
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
 	function <portlet:namespace />deleteSelection() {
@@ -226,6 +241,17 @@
 					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${unpublishSelectionURL}');
+		}
+	}
+	function <portlet:namespace />feasibleSelection() {
+		if (confirm('<liferay-ui:message key="feasible-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${feasibleSelectionURL}');
 		}
 	}
 </aui:script>

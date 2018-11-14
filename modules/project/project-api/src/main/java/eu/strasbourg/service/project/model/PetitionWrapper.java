@@ -863,6 +863,11 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	@Override
+	public java.lang.String getProjectTitle(java.util.Locale locale) {
+		return _petition.getProjectTitle(locale);
+	}
+
+	@Override
 	public java.lang.String getPublicationDateFr() {
 		return _petition.getPublicationDateFr();
 	}

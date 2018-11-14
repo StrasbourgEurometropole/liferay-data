@@ -1,5 +1,11 @@
 package eu.strasbourg.portlet.project.action;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -9,6 +15,10 @@ import javax.portlet.PortletURL;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -23,10 +33,12 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -39,6 +51,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 )
 public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 
+	
+	
+	
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 		try {
@@ -47,18 +62,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 	        // Validation
  			boolean isValid = validate(request);
  			if (!isValid) {
- 				// Si pas valide : on reste sur la page d'édition
- 				PortalUtil.copyRequestParameters(request, response);
- 				
- 				ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
- 				String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
- 				PortletURL returnURL = PortletURLFactoryUtil.create(request,
- 					portletName, themeDisplay.getPlid(),
- 					PortletRequest.RENDER_PHASE);
- 	
- 				response.setRenderParameter("returnURL", returnURL.toString());
- 				response.setRenderParameter("cmd","editBudgetParticipatif");
- 				response.setRenderParameter("mvcPath","/project-bo-edit-budget-participatif.jsp");
+ 				setResponse(request, response);
  				return false;
  			}
  			
@@ -222,6 +226,39 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             Long budgetPhaseId = ParamUtil.getLong(request, "budgetPhaseId");
             budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
             
+            
+            // ---------------------------------------------------------------
+ 			// ----------------------- Contrôle du statut --------------------
+ 			// ---------------------------------------------------------------
+            
+            //Si le motif n'est pas rempli, on vérifie que le statut  n'est pas dans la liste suivante : : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+            if(Validator.isNull(motif))
+            {
+	            AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+	                    BudgetParticipatif.class.getName(), budgetParticipatif.getBudgetParticipatifId());
+	            if (entry != null) {
+	                
+	            	//Récupération des catégories de la requête
+	            	List<AssetCategory> categories = new ArrayList<AssetCategory>();
+	                for(long catid : sc.getAssetCategoryIds())
+	                	categories.add(AssetCategoryLocalServiceUtil.getAssetCategory(catid));
+	                	
+	                boolean ok = Collections.disjoint(categories, Stream.of(
+	                		AssetVocabularyHelper.getCategory(ParticiperCategories.BP_NON_ACCEPTABLE.getName(), sc.getScopeGroupId()),
+	                		AssetVocabularyHelper.getCategory(ParticiperCategories.BP_NON_FEASIBLE.getName(), sc.getScopeGroupId()),
+	                		AssetVocabularyHelper.getCategory(ParticiperCategories.BP_NON_SELECTED.getName(), sc.getScopeGroupId()),	               		
+	                		AssetVocabularyHelper.getCategory(ParticiperCategories.BP_CANCELLED.getName(), sc.getScopeGroupId()),
+	                		AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUSPENDED.getName(), sc.getScopeGroupId())
+	                		).collect(Collectors.toList()));
+	                
+	                if(!ok) {
+	                	SessionErrors.add(request, "motif-error");
+	                	setResponse(request, response);
+	                	return false;
+	                }
+	            } 
+            }
+            
             // Sauvegarde du budget
             _budgetLocalService.updateBudgetParticipatif(budgetParticipatif, sc);
             
@@ -229,6 +266,24 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             _log.error("erreur lors de la mise à jour d'un budget : ",e);
         }
         return true;
+	}
+	
+	/**
+	 * Pépare la reponse en cas d'echec de la mise à jour du BP
+	 */
+	public void setResponse(ActionRequest request, ActionResponse response) {
+		// Si pas valide : on reste sur la page d'édition
+			PortalUtil.copyRequestParameters(request, response);
+			
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+
+			response.setRenderParameter("returnURL", returnURL.toString());
+			response.setRenderParameter("cmd","editBudgetParticipatif");
+			response.setRenderParameter("mvcPath","/project-bo-edit-budget-participatif.jsp");
 	}
 	
 	/**

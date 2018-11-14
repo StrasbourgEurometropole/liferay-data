@@ -207,21 +207,9 @@ aside .leaflet-map {
     margin-top: 65px;
 }
 
-// affichage des petites étoiles dans la popup signPetition.
-#modalSigner .text-warning{
-    font-size: 35%;
-    vertical-align: super;
-}
-
-// affichage des petites étoiles dans la popup modalPetition.
-#modalPetition .text-warning{
-    font-size: 35%;
-    vertical-align: super;
-}
-
-// affichage des petites étoiles dans la popup modalBudget.
-#modalBudget .text-warning{
-    font-size: 35%;
+// affichage des petites étoiles dans les project-popup
+.pro-modal .text-warning {
+	font-size: 35%;
     vertical-align: super;
 }
 
@@ -501,6 +489,7 @@ aside .leaflet-map {
 .browsePicture {
     padding-top : 16px;
 }
+
 .pro-page-budget-participatif .pro-wrapper-content:before {
     background: url(/o/plateforme-citoyenne-theme/images/background/rec_black.png);
 }
@@ -508,4 +497,135 @@ aside .leaflet-map {
 // Modal de soumission d'un budget participatif : interligne du bloc de description
 .pro-bloc-pcs-form input, .pro-bloc-pcs-form textarea {
 	line-height: 22px;
+}
+
+// Centrage du bouton de dépot d'un budget
+.pro-bloc-pcs-form .input-group-btn .btn {
+	padding: 8px 15px;
+}
+
+// Correction des marges des contenus des popup
+.leaflet-popup.leaflet-zoom-animated {
+    overflow: visible
+}
+
+.leaflet-popup.leaflet-zoom-animated>div {
+    margin-bottom: -30px;
+}
+
+.leaflet-popup.leaflet-zoom-animated>div:after {
+    content: "\e91d";
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    bottom: -55px;
+    left: -webkit-calc(50% + 2px);
+    left: -moz-calc(50% + 2px);
+    left: calc(50% + 2px);
+    color: #fff;
+    font-size: 64px;
+    -webkit-transform: rotate(180deg) translateX(50%);
+    -moz-transform: rotate(180deg) translateX(50%);
+    -ms-transform: rotate(180deg) translateX(50%);
+    -o-transform: rotate(180deg) translateX(50%);
+    transform: rotate(180deg) translateX(50%)
+}
+
+.leaflet-popup.leaflet-zoom-animated>div>div {
+    border-radius: 0;
+    overflow: hidden !important;
+    background: #FFF
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-map-event {
+    max-width: 250px
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-petition:hover {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-petition .pro-content-petition h3 {
+    line-height: 1.5em;
+    margin-bottom: 0
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-initiative:hover {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-initiative .pro-content-initiative h3 {
+    clear: both;
+    margin-top: 20px;
+    padding-top: 10px
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-projet {
+    color: red
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-projet:hover {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-projet .pro-content-projet h3 {
+    clear: both;
+    margin-bottom: 0;
+    height: 40px
+}
+
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-projet .pro-content-projet .pro-wrap-thematique {
+    height: 21px
+}
+
+.leaflet-popup-content p {
+    margin: 0px 0 !important;
+}
+
+.leaflet-popup-tip-container {
+    display : none;
+}
+
+.leaflet-popup .leaflet-popup-content-wrapper {
+	padding: 0;
+	box-shadow: none;
+	.leaflet-popup-content{
+		margin: 0;
+	}
+}
+.leaflet-popup.leaflet-zoom-animated .pro-bloc-card-budget:hover {
+	-webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    -webkit-box-shadow: none;
+    box-shadow: none
 }

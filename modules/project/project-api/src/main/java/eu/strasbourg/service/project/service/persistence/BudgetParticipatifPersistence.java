@@ -790,7 +790,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @param budgetPhaseId the budget phase ID
 	* @return the matching budget participatifs
 	*/
-	public java.util.List<BudgetParticipatif> findBybudgetPhaseId(
+	public java.util.List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId);
 
 	/**
@@ -805,7 +805,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @param end the upper bound of the range of budget participatifs (not inclusive)
 	* @return the range of matching budget participatifs
 	*/
-	public java.util.List<BudgetParticipatif> findBybudgetPhaseId(
+	public java.util.List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId, int start, int end);
 
 	/**
@@ -821,7 +821,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching budget participatifs
 	*/
-	public java.util.List<BudgetParticipatif> findBybudgetPhaseId(
+	public java.util.List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator);
 
@@ -839,7 +839,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching budget participatifs
 	*/
-	public java.util.List<BudgetParticipatif> findBybudgetPhaseId(
+	public java.util.List<BudgetParticipatif> findByBudgetPhaseId(
 		long budgetPhaseId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator,
 		boolean retrieveFromCache);
@@ -852,7 +852,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @return the first matching budget participatif
 	* @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
 	*/
-	public BudgetParticipatif findBybudgetPhaseId_First(long budgetPhaseId,
+	public BudgetParticipatif findByBudgetPhaseId_First(long budgetPhaseId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
 
@@ -863,7 +863,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
 	*/
-	public BudgetParticipatif fetchBybudgetPhaseId_First(long budgetPhaseId,
+	public BudgetParticipatif fetchByBudgetPhaseId_First(long budgetPhaseId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator);
 
 	/**
@@ -874,7 +874,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @return the last matching budget participatif
 	* @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
 	*/
-	public BudgetParticipatif findBybudgetPhaseId_Last(long budgetPhaseId,
+	public BudgetParticipatif findByBudgetPhaseId_Last(long budgetPhaseId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
 
@@ -885,7 +885,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
 	*/
-	public BudgetParticipatif fetchBybudgetPhaseId_Last(long budgetPhaseId,
+	public BudgetParticipatif fetchByBudgetPhaseId_Last(long budgetPhaseId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator);
 
 	/**
@@ -897,7 +897,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @return the previous, current, and next budget participatif
 	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	*/
-	public BudgetParticipatif[] findBybudgetPhaseId_PrevAndNext(
+	public BudgetParticipatif[] findByBudgetPhaseId_PrevAndNext(
 		long budgetParticipatifId, long budgetPhaseId,
 		com.liferay.portal.kernel.util.OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException;
@@ -907,7 +907,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	*
 	* @param budgetPhaseId the budget phase ID
 	*/
-	public void removeBybudgetPhaseId(long budgetPhaseId);
+	public void removeByBudgetPhaseId(long budgetPhaseId);
 
 	/**
 	* Returns the number of budget participatifs where budgetPhaseId = &#63;.
@@ -915,7 +915,7 @@ public interface BudgetParticipatifPersistence extends BasePersistence<BudgetPar
 	* @param budgetPhaseId the budget phase ID
 	* @return the number of matching budget participatifs
 	*/
-	public int countBybudgetPhaseId(long budgetPhaseId);
+	public int countByBudgetPhaseId(long budgetPhaseId);
 
 	/**
 	* Caches the budget participatif in the entity cache if it is enabled.

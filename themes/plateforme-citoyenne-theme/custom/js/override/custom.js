@@ -337,7 +337,7 @@ function getMarkerIcon(entityType) {
             });
         case 'budget-participatif':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-initiative.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-budget.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
@@ -529,44 +529,57 @@ function getPetitionMarker(petition, mercators) {
 }
 
 /**
-* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
+* Retourne le marqueurs de leaflet d'un budget participatif sur la carte intéractive
 */
 function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 
     var budgetParticipatifMarkerIcon = getMarkerIcon("budget-participatif");
     var marker = L.marker(mercators, {icon: budgetParticipatifMarkerIcon});
-
-    /*marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
-            '<div class="pro-header-petition">' +
-                '<figure role="group">' +
-                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
-                '</figure>' +
-                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
-            '</div>' +
-            '<div class="pro-content-petition">' +
-                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
-                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
-            '</div> ' +
-            '<div class="pro-footer-petition">' +
-                '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
+	
+	var footer = "";
+	var cssClassBPStatus = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
+	
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '">' +
+            '<a href="' + budgetParticipatif.link + '">' +
+                '<div class="pro-header-budget">' +
+                    '<figure role="group">' + 
+                        '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' + 
+                    '</figure>' +
+                    '<p>Projet déposé par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
+                    '<div class="pro-info-top-right">' + 
+                        '<span class="pro-encart-theme" style="background:#' + budgetParticipatif.BPStatusColor + ';">' + budgetParticipatif.BPStatus + '</span>' + 
+                    '</div>' + 
                 '</div>' +
-                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
-            '</div>' +
-        '</div></a></div>'
-        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
-    );*/
+                '<div class="pro-content-budget">' + 
+                    '<h3>' + budgetParticipatif.title + '</h3>' + 
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' + 
+                '</div> ' +            
+                '<div class="pro-footer-budget">' + footer +                    
+                '</div>' +
+            '</a>' +
+        '</div>'
+        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
+    );
 
     return marker;
-
 }
 
 /**
 * Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getInitiativePopUp(mercators, link) {
+function getInitiativeMarker(mercators, link) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
     var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
@@ -1023,18 +1036,18 @@ function createBudgetParticipatif(budgetParticipatif){
 
     // Classe CSS du statut du budget
     var cssClassBPStatus = "";
-
-    switch (budgetParticipatif.BPStatus) {
-        case "Faisable" :
-            cssClassBPStatus = "pro-theme-faisable";
-            break;
-        case "Non faisable" :
-            cssClassBPStatus = "pro-theme-non-faisable";
-            break;
-        default :
-            cssClassBPStatus = "pro-theme-faisabilite";
-            break;
-    }
+	var footer = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
 
     // Favori du quartier
     var crush = "";
@@ -1056,12 +1069,12 @@ function createBudgetParticipatif(budgetParticipatif){
     spans += '</div>';
 
     var vignette =
-        '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '" data-linkall="a">' +
+        '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
             '<div class="pro-header-budget">' +
                 '<figure role="group">' +
-                    '<img src="' + budgetParticipatif.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+                    '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
                 '</figure>' +
-                '<p>Idée déposée par :</p>' +
+                '<p>Projet déposé par :</p>' +
                 '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
                 spans +
                 '<div class="pro-info-top-right">' +
@@ -1072,11 +1085,10 @@ function createBudgetParticipatif(budgetParticipatif){
                 crush +
             '</div>' +
             '<div class="pro-content-budget">' +
-                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien de le détail du budget"><h3>' + budgetParticipatif.title + '</h3></a>' +
+                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
                 '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' +
             '</div>' +
-            '<div class="pro-footer-budget">' +
-                '<p><strong>' + budgetParticipatif.nbSupports + '</strong> Citoyens-nes soutiennent cette idée</p>' +
+            '<div class="pro-footer-budget">' + footer +
             '</div>' +
         '</div>';
 

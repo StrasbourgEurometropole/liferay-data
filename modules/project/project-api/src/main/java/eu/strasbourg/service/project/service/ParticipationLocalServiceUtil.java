@@ -377,7 +377,7 @@ public class ParticipationLocalServiceUtil {
 	}
 
 	/**
-	* Retourne toutes les participation publiées d'un groupe
+	* Retourne toutes les participation publiees d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.Participation> getPublishedByGroupId(
 		long groupId) {

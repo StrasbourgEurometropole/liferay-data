@@ -84,6 +84,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("citoyenPhone", getCitoyenPhone());
 		attributes.put("citoyenMobile", getCitoyenMobile());
 		attributes.put("citoyenEmail", getCitoyenEmail());
+		attributes.put("citoyenBirthday", getCitoyenBirthday());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("placeTextArea", getPlaceTextArea());
@@ -241,6 +242,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (citoyenEmail != null) {
 			setCitoyenEmail(citoyenEmail);
+		}
+
+		Date citoyenBirthday = (Date)attributes.get("citoyenBirthday");
+
+		if (citoyenBirthday != null) {
+			setCitoyenBirthday(citoyenBirthday);
 		}
 
 		Boolean hasCopyright = (Boolean)attributes.get("hasCopyright");
@@ -432,6 +439,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	*/
+	@Override
+	public boolean isNotDoable() {
+		return _budgetParticipatif.isNotDoable();
+	}
+
+	/**
 	* Returns <code>true</code> if this budget participatif is pending.
 	*
 	* @return <code>true</code> if this budget participatif is pending; <code>false</code> otherwise
@@ -452,7 +467,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Est en periode de vote
+	* Est en periode et capacite de vote
 	*/
 	@Override
 	public boolean isVotable() {
@@ -532,6 +547,22 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	*/
+	@Override
+	public int getNbSupportOfUser(java.lang.String publikUserId) {
+		return _budgetParticipatif.getNbSupportOfUser(publikUserId);
+	}
+
+	/**
+	* Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	*/
+	@Override
+	public int getNbSupportOfUserInActivePhase(java.lang.String publikUserId) {
+		return _budgetParticipatif.getNbSupportOfUserInActivePhase(publikUserId);
+	}
+
+	/**
 	* Returns the status of this budget participatif.
 	*
 	* @return the status of this budget participatif
@@ -559,6 +590,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getAuthor() {
 		return _budgetParticipatif.getAuthor();
+	}
+
+	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _budgetParticipatif.getAuthorImageURL();
 	}
 
 	@Override
@@ -700,6 +739,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getMotif();
 	}
 
+	/**
+	* Retourne le nombre de soutien sous le format 6 digits pour l'affichage
+	*
+	* @return le nombre sous le format '000124'
+	*/
+	@Override
+	public java.lang.String getNbSupportsBoard() {
+		return _budgetParticipatif.getNbSupportsBoard();
+	}
+
 	@Override
 	public java.lang.String getPhaseTitleLabel() {
 		return _budgetParticipatif.getPhaseTitleLabel();
@@ -721,6 +770,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getProjectName() {
 		return _budgetParticipatif.getProjectName();
+	}
+
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _budgetParticipatif.getPublicationDateFr();
 	}
 
 	/**
@@ -822,6 +876,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Returns the citoyen birthday of this budget participatif.
+	*
+	* @return the citoyen birthday of this budget participatif
+	*/
+	@Override
+	public Date getCitoyenBirthday() {
+		return _budgetParticipatif.getCitoyenBirthday();
+	}
+
+	/**
 	* Returns the create date of this budget participatif.
 	*
 	* @return the create date of this budget participatif
@@ -885,6 +949,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
 		return _budgetParticipatif.getPlacitPlaces();
+	}
+
+	/**
+	* Retourne les soutiens du budget participatif
+	*
+	* @return Liste des soutiens
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getSupports() {
+		return _budgetParticipatif.getSupports();
 	}
 
 	/**
@@ -974,6 +1048,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne le nombre de soutien
+	*/
+	@Override
+	public long getNbSupports() {
+		return _budgetParticipatif.getNbSupports();
+	}
+
+	/**
 	* Returns the primary key of this budget participatif.
 	*
 	* @return the primary key of this budget participatif
@@ -1051,6 +1133,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setCitoyenAdresse(java.lang.String citoyenAdresse) {
 		_budgetParticipatif.setCitoyenAdresse(citoyenAdresse);
+	}
+
+	/**
+	* Sets the citoyen birthday of this budget participatif.
+	*
+	* @param citoyenBirthday the citoyen birthday of this budget participatif
+	*/
+	@Override
+	public void setCitoyenBirthday(Date citoyenBirthday) {
+		_budgetParticipatif.setCitoyenBirthday(citoyenBirthday);
 	}
 
 	/**

@@ -157,7 +157,8 @@ public class SearchAssetPortlet extends MVCPortlet {
             renderRequest.setAttribute("homeURL", homeURL);
 
             String className = classNameList.get(0);
-            if (className.equals(PARTICIPATION)){
+            
+            if (className.equals(PARTICIPATION)) {
 
                 List<Participation> participationListMostCommented = _participationLocalService
                         .getMostCommented(themeDisplay.getScopeGroupId());
@@ -166,21 +167,31 @@ public class SearchAssetPortlet extends MVCPortlet {
                 renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
                 renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
 
-            } else if (className.equals(PETITION)){
+            } else if (className.equals(PETITION)) {
 
-                //récuperer des objets des champs les plus/les moins.
+                // Recuperer des objets des champs les plus/les moins.
                 List<Petition> petitionListMostSigned = _petitionLocalService
                         .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
                 List<Petition> petitionListLessSigned = _petitionLocalService
                         .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
                 List<Petition> petitionListMostCommented = _petitionLocalService
                         .getTheMostCommented(themeDisplay.getScopeGroupId());
-
+                
                 renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
                 renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
                 renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
-
+                
+            } else if (className.equals(BUDGET)) {
+            	
+            	List<BudgetParticipatif> budgetListMostSigned = null;
+            	List<BudgetParticipatif> budgetListMostCommented = null;
+            	List<BudgetParticipatif> budgetListIsCrush = null;
+            	
+            	renderRequest.setAttribute("budgetListMostSigned", budgetListMostSigned);
+            	renderRequest.setAttribute("budgetListMostCommented", budgetListMostCommented);
+            	renderRequest.setAttribute("budgetListIsCrush", budgetListIsCrush);
             }
+            
             if (Validator.isNotNull(userPublikId)) {
                 renderRequest.setAttribute("isUserloggedIn", true);
             } else {

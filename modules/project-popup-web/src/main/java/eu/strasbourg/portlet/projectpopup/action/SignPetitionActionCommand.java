@@ -44,12 +44,10 @@ import java.util.Date;
 import java.util.List;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_URL_PARAM;
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
  */
-
 @Component(
         immediate = true,
         property = {

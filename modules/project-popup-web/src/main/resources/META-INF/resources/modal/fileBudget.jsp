@@ -23,7 +23,7 @@
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <option value="0" selected><liferay-ui:message key="modal.filebudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
@@ -57,11 +57,11 @@
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
-                                <aui:input name="budgetPhoto" type="file" label=""
+                                <aui:input name="budgetPhoto" type="file" label="modal.filebudget.information.picture"
                                     cssClass="btn btn-default btn-choose">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
-                                <!-- Permet de récupérer l'id de l'image posté par l'utilisateur -->
+                                <!-- Permet de recuperer l'id de l'image postee par l'utilisateur -->
                                 <aui:input type="hidden" name="webImageId" />
                             </span>
                         </div>
@@ -75,19 +75,22 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filebudget.user"/></h4>
                     <div class="pro-row">
-                        <div class="form-group form-half">
-                            <aui:input name="username" label="modal.user.username" required="true" disabled="true"  value="${userConnected.get('last_name')}"/>
+                        <div class="form-group form-triple">
+                            <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
                         </div>
-                        <div class="form-group form-half">
-                            <aui:input name="firstname" label="modal.user.firstname" required="true" disabled="true"  value="${userConnected.get('first_name')}"/>
+                        <div class="form-group form-triple">
+                            <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
                         </div>
-                    </div>
-                    <div class="pro-row">
-                        <div class="form-group form-half">
+                        <div class="form-group form-triple">
 	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
                             <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
                         </div>
                         <div class="form-group form-half">
@@ -232,12 +235,13 @@
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
             var postalcodeValue = $("#"+namespace+"postalcode").val();
+            var birthdayValue = $("#"+namespace+"birthday").val();
             var phoneValue = $("#"+namespace+"phone").val();
             var mobileValue = $("#"+namespace+"mobile").val();
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
-            var consultationPlacesTextValue = $("#"+namespace+"budgetlieux").val();
+            var budgetlieuxValue = $("#"+namespace+"budgetlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var photoValue = $("#"+namespace+"budgetPhoto").val();
@@ -263,13 +267,13 @@
                             <portlet:namespace/>postalcode:postalcodeValue,
                             <portlet:namespace/>phone:phoneValue,
                             <portlet:namespace/>mobile:mobileValue,
-                            <portlet:namespace/>birthday:saved_dateNaiss,
+                            <portlet:namespace/>birthday:birthdayValue,
                             <portlet:namespace />project:projectValue,
                             <portlet:namespace />quartier:quartierValue,
                             <portlet:namespace />theme:themeValue,
                             <portlet:namespace />photo:photoValue,
                             <portlet:namespace />video:videoValue,
-                            <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
+                            <portlet:namespace />budgetLieux:budgetlieuxValue,
                             <portlet:namespace />saveinfo:saveInfoValue,
                             <portlet:namespace />lastname:lastNameValue,
                             <portlet:namespace />firstname:firstNameValue,
@@ -282,6 +286,7 @@
                                 if(data.result){
                                     $('#modalBudget').modal('hide');
                                     if(data.savedInfo){
+                                        saved_dateNaiss = birthdayValue;
                                         saved_city = $("#"+namespace+"city").val();
                                         saved_address = $("#"+namespace+"address").val();
                                         saved_zipCode = $("#"+namespace+"postalcode").val();
@@ -338,10 +343,11 @@
         $("#"+namespace+"postalcode").val(saved_zipCode);
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
+        $("#"+namespace+"birthday").val(saved_dateNaiss);
     }
 
     function checkValues(){
-        if($("#"+namespace+"address").val() != saved_address ||
+        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
         $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
         $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
             $('#checkboxSaveInfo #save-info').prop('checked', true);
@@ -362,13 +368,17 @@
         var postalcode = $("#"+namespace+"postalcode").val();
         var legalage = $("#file-budget-legalage").is(":checked");
         var cnil = $("#file-budget-cnil").is(":checked");
+        var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
-        var ext = $("#"+namespace+"budgetPhoto").val().split(".").pop().toLowerCase();
 
-        if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-        $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+        if (photo!=null && photo!==""){
+            var ext = photo.split(".").pop().toLowerCase();
+            if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
+            $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+                result = false;
+            }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+
+        }
 
         if (budgettitle===null || budgettitle===""){
             $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
