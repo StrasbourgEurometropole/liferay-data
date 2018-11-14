@@ -243,4 +243,15 @@
 			submitForm(form, '${unpublishSelectionURL}');
 		}
 	}
+	function <portlet:namespace />feasibleSelection() {
+		if (confirm('<liferay-ui:message key="feasible-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${feasibleSelectionURL}');
+		}
+	}
 </aui:script>

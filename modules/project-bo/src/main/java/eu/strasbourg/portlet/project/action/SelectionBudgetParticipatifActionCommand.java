@@ -50,55 +50,10 @@ public class SelectionBudgetParticipatifActionCommand implements MVCActionComman
 
             for (long entryId : selectionIds) {
                 switch (ParamUtil.getString(actionRequest, "cmd")) {
-                    case "delete":
-                        if (tab.equals(PROJECTS)) {
-                            _projectLocalService.removeProject(entryId);
-                        }
-                        if (tab.equals(PARTICIPATIONS)) {
-                            _participationLocalService.removeParticipation(entryId);
-                        }
-                        if (tab.equals(PETITIONS)) {
-                            _petitionLocalService.removePetition(entryId);
-                        }
-                        if (BUDGETS.equals(tab)) {
-                            _budgetParticipatifLocalService.removeBudgetParticipatif(entryId);
-                        }
-                        break;
-                    case "publish":
-                        if (tab.equals(PROJECTS)) {
-                            Project project = _projectLocalService.getProject(entryId);
-                            _projectLocalService.updateStatus(project, WorkflowConstants.STATUS_APPROVED);
-                        }
-                        if (tab.equals(PARTICIPATIONS)) {
-                            Participation participation = _participationLocalService.getParticipation(entryId);
-                            _participationLocalService.updateStatus(participation, WorkflowConstants.STATUS_APPROVED);
-                        }
-                        if (tab.equals(PETITIONS)) {
-                            Petition petition = _petitionLocalService.getPetition(entryId);
-                            _petitionLocalService.updateStatus(petition, WorkflowConstants.STATUS_APPROVED);
-                        }
-                        if (BUDGETS.equals(tab)) {
+                    case "feasible":
                             BudgetParticipatif budgetParticipatif = _budgetParticipatifLocalService.getBudgetParticipatif(entryId);
+                            //budgetParticipatif.getAssetEntry()
                             _budgetParticipatifLocalService.updateStatus(budgetParticipatif, WorkflowConstants.STATUS_APPROVED);
-                        }
-                        break;
-                    case "unpublish":
-                        if (tab.equals(PROJECTS)) {
-                            Project project = _projectLocalService.getProject(entryId);
-                            _projectLocalService.updateStatus(project, WorkflowConstants.STATUS_DRAFT);
-                        }
-                        if (tab.equals(PARTICIPATIONS)) {
-                            Participation participation = _participationLocalService.getParticipation(entryId);
-                            _participationLocalService.updateStatus(participation, WorkflowConstants.STATUS_DRAFT);
-                        }
-                        if (tab.equals(PETITIONS)) {
-                            Petition petition = _petitionLocalService.getPetition(entryId);
-                            _petitionLocalService.updateStatus(petition, WorkflowConstants.STATUS_DRAFT);
-                        }
-                        if (BUDGETS.equals(tab)) {
-                            BudgetParticipatif budgetParticipatif = _budgetParticipatifLocalService.getBudgetParticipatif(entryId);
-                            _budgetParticipatifLocalService.updateStatus(budgetParticipatif, WorkflowConstants.STATUS_DRAFT);
-                        }
                         break;
                 }
             }
@@ -109,30 +64,9 @@ public class SelectionBudgetParticipatifActionCommand implements MVCActionComman
     }
 
     @Reference(unbind = "-")
-    protected void setProjectLocalService(ProjectLocalService projectLocalService) {
-        _projectLocalService = projectLocalService;
-    }
-
-    @Reference(unbind = "-")
-    protected void setParticipationLocalService(ParticipationLocalService participationLocalService) {
-        _participationLocalService = participationLocalService;
-    }
-
-    @Reference(unbind = "-")
-    protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
-        _petitionLocalService = petitionLocalService;
-    }
-
-    @Reference(unbind = "-")
     protected void setBudgetParticipatifLocalService(BudgetParticipatifLocalService budgetParticipatifLocalService) {
         _budgetParticipatifLocalService = budgetParticipatifLocalService;
     }
-
-    private ProjectLocalService _projectLocalService;
-
-    private ParticipationLocalService _participationLocalService;
-
-    private PetitionLocalService _petitionLocalService;
 
     private BudgetParticipatifLocalService _budgetParticipatifLocalService;
 
