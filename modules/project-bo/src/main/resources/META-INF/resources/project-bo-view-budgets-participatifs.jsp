@@ -42,6 +42,9 @@
 			<c:if test="${not dc.workflowEnabled}">
 				<c:if test="${dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "feasibleSelection();"%>'
+						label="Faisable" />
+					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
 					<liferay-frontend:management-bar-button
@@ -187,6 +190,17 @@
 
 <%-- URL : defini le lien vers l'action de depublication --%>
 <liferay-portlet:actionURL name="selectionAction" var="unpublishSelectionURL">
+	<portlet:param name="cmd" value="unpublish" />
+	<portlet:param name="tab" value="budgets-participatifs" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:actionURL>
+
+<%-- URL : defini le lien vers l'action de changement de statut a : Faisable --%>
+<liferay-portlet:actionURL name="selectionAction" var="feasibleSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="budgets-participatifs" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
