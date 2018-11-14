@@ -43,6 +43,9 @@
 					<aui:option value="fileBudget" selected="${popupTemplateId eq 'fileBudget'}">
 						<liferay-ui:message key="fileBudget" />
 					</aui:option>
+					<aui:option value="giveBudgetSupport" selected="${popupTemplateId eq 'giveBudgetSupport'}">
+						<liferay-ui:message key="giveBudgetSupport" />
+					</aui:option>
 				</aui:select>
 			</aui:fieldset>
 

@@ -177,7 +177,7 @@ public class BudgetParticipatifLocalServiceUtil {
 	* Méthode de mise à jour d'un budget
 	*
 	* @param budget le budget
-	* @param sc le service context
+	* @param sc     le service context
 	* @return le budget
 	* @throws PortalException exception
 	*/
@@ -197,6 +197,37 @@ public class BudgetParticipatifLocalServiceUtil {
 	public static eu.strasbourg.service.project.model.BudgetParticipatif updateBudgetParticipatif(
 		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif) {
 		return getService().updateBudgetParticipatif(budgetParticipatif);
+	}
+
+	/**
+	* mise a jour du status
+	*
+	* @param userId               l'identifiant de l'utilisateur
+	* @param budgetParticipatifId l'identifiant du budget
+	* @param status               le status
+	* @param serviceContext       le service context
+	* @param workflowContext      le context du workflow
+	* @return le budget
+	* @throws PortalException
+	*/
+	public static eu.strasbourg.service.project.model.BudgetParticipatif updateStatus(
+		long userId, long budgetParticipatifId, int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, budgetParticipatifId, status,
+			serviceContext, workflowContext);
+	}
+
+	/**
+	* Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	public static int countBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return getService()
+				   .countBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
 	}
 
 	/**
@@ -275,6 +306,11 @@ public class BudgetParticipatifLocalServiceUtil {
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetParticipatifByPublikUserID(
+		java.lang.String publikId) {
+		return getService().getBudgetParticipatifByPublikUserID(publikId);
+	}
+
 	/**
 	* Returns a range of all the budget participatifs.
 	*
@@ -323,6 +359,44 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return getService()
+				   .getBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs d'une phase donnee
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByBudgetPhase(
+		long budgetPhaseId) {
+		return getService().getByBudgetPhase(budgetPhaseId);
+	}
+
+	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus commentes
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus commentes triee.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostCommented(
+		long groupId, int delta) {
+		return getService().getMostCommented(groupId, delta);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getPublishedByGroupId(
+		long groupId) {
+		return getService().getPublishedByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -356,6 +430,15 @@ public class BudgetParticipatifLocalServiceUtil {
 	public static void removeBudgetParticipatif(long budgetId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().removeBudgetParticipatif(budgetId);
+	}
+
+	/**
+	* Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(budgetParticipatif, status);
 	}
 
 	public static BudgetParticipatifLocalService getService() {

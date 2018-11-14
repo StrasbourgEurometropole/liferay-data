@@ -3114,7 +3114,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		new FinderPath(BudgetParticipatifModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetParticipatifModelImpl.FINDER_CACHE_ENABLED,
 			BudgetParticipatifImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBybudgetPhaseId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByBudgetPhaseId",
 			new String[] {
 				Long.class.getName(),
 				
@@ -3125,13 +3125,13 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		new FinderPath(BudgetParticipatifModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetParticipatifModelImpl.FINDER_CACHE_ENABLED,
 			BudgetParticipatifImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBybudgetPhaseId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByBudgetPhaseId",
 			new String[] { Long.class.getName() },
 			BudgetParticipatifModelImpl.BUDGETPHASEID_COLUMN_BITMASK |
 			BudgetParticipatifModelImpl.TITLE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_BUDGETPHASEID = new FinderPath(BudgetParticipatifModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetParticipatifModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBybudgetPhaseId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByBudgetPhaseId",
 			new String[] { Long.class.getName() });
 
 	/**
@@ -3141,8 +3141,8 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @return the matching budget participatifs
 	 */
 	@Override
-	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId) {
-		return findBybudgetPhaseId(budgetPhaseId, QueryUtil.ALL_POS,
+	public List<BudgetParticipatif> findByBudgetPhaseId(long budgetPhaseId) {
+		return findByBudgetPhaseId(budgetPhaseId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
@@ -3159,9 +3159,9 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @return the range of matching budget participatifs
 	 */
 	@Override
-	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId,
+	public List<BudgetParticipatif> findByBudgetPhaseId(long budgetPhaseId,
 		int start, int end) {
-		return findBybudgetPhaseId(budgetPhaseId, start, end, null);
+		return findByBudgetPhaseId(budgetPhaseId, start, end, null);
 	}
 
 	/**
@@ -3178,10 +3178,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @return the ordered range of matching budget participatifs
 	 */
 	@Override
-	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId,
+	public List<BudgetParticipatif> findByBudgetPhaseId(long budgetPhaseId,
 		int start, int end,
 		OrderByComparator<BudgetParticipatif> orderByComparator) {
-		return findBybudgetPhaseId(budgetPhaseId, start, end,
+		return findByBudgetPhaseId(budgetPhaseId, start, end,
 			orderByComparator, true);
 	}
 
@@ -3200,7 +3200,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @return the ordered range of matching budget participatifs
 	 */
 	@Override
-	public List<BudgetParticipatif> findBybudgetPhaseId(long budgetPhaseId,
+	public List<BudgetParticipatif> findByBudgetPhaseId(long budgetPhaseId,
 		int start, int end,
 		OrderByComparator<BudgetParticipatif> orderByComparator,
 		boolean retrieveFromCache) {
@@ -3316,10 +3316,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
 	 */
 	@Override
-	public BudgetParticipatif findBybudgetPhaseId_First(long budgetPhaseId,
+	public BudgetParticipatif findByBudgetPhaseId_First(long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
-		BudgetParticipatif budgetParticipatif = fetchBybudgetPhaseId_First(budgetPhaseId,
+		BudgetParticipatif budgetParticipatif = fetchByBudgetPhaseId_First(budgetPhaseId,
 				orderByComparator);
 
 		if (budgetParticipatif != null) {
@@ -3346,9 +3346,9 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @return the first matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
 	 */
 	@Override
-	public BudgetParticipatif fetchBybudgetPhaseId_First(long budgetPhaseId,
+	public BudgetParticipatif fetchByBudgetPhaseId_First(long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator) {
-		List<BudgetParticipatif> list = findBybudgetPhaseId(budgetPhaseId, 0,
+		List<BudgetParticipatif> list = findByBudgetPhaseId(budgetPhaseId, 0,
 				1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -3367,10 +3367,10 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
 	 */
 	@Override
-	public BudgetParticipatif findBybudgetPhaseId_Last(long budgetPhaseId,
+	public BudgetParticipatif findByBudgetPhaseId_Last(long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
-		BudgetParticipatif budgetParticipatif = fetchBybudgetPhaseId_Last(budgetPhaseId,
+		BudgetParticipatif budgetParticipatif = fetchByBudgetPhaseId_Last(budgetPhaseId,
 				orderByComparator);
 
 		if (budgetParticipatif != null) {
@@ -3397,15 +3397,15 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @return the last matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
 	 */
 	@Override
-	public BudgetParticipatif fetchBybudgetPhaseId_Last(long budgetPhaseId,
+	public BudgetParticipatif fetchByBudgetPhaseId_Last(long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator) {
-		int count = countBybudgetPhaseId(budgetPhaseId);
+		int count = countByBudgetPhaseId(budgetPhaseId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<BudgetParticipatif> list = findBybudgetPhaseId(budgetPhaseId,
+		List<BudgetParticipatif> list = findByBudgetPhaseId(budgetPhaseId,
 				count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -3425,7 +3425,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
 	 */
 	@Override
-	public BudgetParticipatif[] findBybudgetPhaseId_PrevAndNext(
+	public BudgetParticipatif[] findByBudgetPhaseId_PrevAndNext(
 		long budgetParticipatifId, long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator)
 		throws NoSuchBudgetParticipatifException {
@@ -3438,12 +3438,12 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 
 			BudgetParticipatif[] array = new BudgetParticipatifImpl[3];
 
-			array[0] = getBybudgetPhaseId_PrevAndNext(session,
+			array[0] = getByBudgetPhaseId_PrevAndNext(session,
 					budgetParticipatif, budgetPhaseId, orderByComparator, true);
 
 			array[1] = budgetParticipatif;
 
-			array[2] = getBybudgetPhaseId_PrevAndNext(session,
+			array[2] = getByBudgetPhaseId_PrevAndNext(session,
 					budgetParticipatif, budgetPhaseId, orderByComparator, false);
 
 			return array;
@@ -3456,7 +3456,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		}
 	}
 
-	protected BudgetParticipatif getBybudgetPhaseId_PrevAndNext(
+	protected BudgetParticipatif getByBudgetPhaseId_PrevAndNext(
 		Session session, BudgetParticipatif budgetParticipatif,
 		long budgetPhaseId,
 		OrderByComparator<BudgetParticipatif> orderByComparator,
@@ -3570,8 +3570,8 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @param budgetPhaseId the budget phase ID
 	 */
 	@Override
-	public void removeBybudgetPhaseId(long budgetPhaseId) {
-		for (BudgetParticipatif budgetParticipatif : findBybudgetPhaseId(
+	public void removeByBudgetPhaseId(long budgetPhaseId) {
+		for (BudgetParticipatif budgetParticipatif : findByBudgetPhaseId(
 				budgetPhaseId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(budgetParticipatif);
 		}
@@ -3584,7 +3584,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 	 * @return the number of matching budget participatifs
 	 */
 	@Override
-	public int countBybudgetPhaseId(long budgetPhaseId) {
+	public int countByBudgetPhaseId(long budgetPhaseId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_BUDGETPHASEID;
 
 		Object[] finderArgs = new Object[] { budgetPhaseId };
@@ -4162,6 +4162,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setCitoyenPhone(budgetParticipatif.getCitoyenPhone());
 		budgetParticipatifImpl.setCitoyenMobile(budgetParticipatif.getCitoyenMobile());
 		budgetParticipatifImpl.setCitoyenEmail(budgetParticipatif.getCitoyenEmail());
+		budgetParticipatifImpl.setCitoyenBirthday(budgetParticipatif.getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(budgetParticipatif.isHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(budgetParticipatif.getVideoUrl());
 		budgetParticipatifImpl.setPlaceTextArea(budgetParticipatif.getPlaceTextArea());

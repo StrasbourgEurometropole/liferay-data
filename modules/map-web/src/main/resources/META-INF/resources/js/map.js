@@ -107,6 +107,7 @@
                 '     <div class="infowindow__content">' +
                 '         <div class="infowindow__visual"></div>'+
                 '         <div class="infowindow__top">' +
+                '             <div class="infowindow__categ"></div>' +
                 '             <div class="infowindow__title-block"><div class="infowindow__name"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
                 '             <div class="infowindow__address"></div>' +
                 '         </div>' +

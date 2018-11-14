@@ -14,23 +14,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.search_asset.action.ExportPDF;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
@@ -41,13 +28,7 @@ import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.ParticipationLocalService;
-import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
-import eu.strasbourg.service.project.service.PetitionLocalService;
-import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -57,25 +38,14 @@ import eu.strasbourg.utils.SearchHelper;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
+import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
         "com.liferay.portlet.display-category=Strasbourg",
@@ -157,7 +127,8 @@ public class SearchAssetPortlet extends MVCPortlet {
             renderRequest.setAttribute("homeURL", homeURL);
 
             String className = classNameList.get(0);
-            if (className.equals(PARTICIPATION)){
+            
+            if (className.equals(PARTICIPATION)) {
 
                 List<Participation> participationListMostCommented = _participationLocalService
                         .getMostCommented(themeDisplay.getScopeGroupId());
@@ -166,26 +137,50 @@ public class SearchAssetPortlet extends MVCPortlet {
                 renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
                 renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
 
-            } else if (className.equals(PETITION)){
+            } else if (className.equals(PETITION)) {
 
-                //récuperer des objets des champs les plus/les moins.
+                // Recuperer des objets des champs les plus/les moins.
                 List<Petition> petitionListMostSigned = _petitionLocalService
                         .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
                 List<Petition> petitionListLessSigned = _petitionLocalService
                         .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
                 List<Petition> petitionListMostCommented = _petitionLocalService
                         .getTheMostCommented(themeDisplay.getScopeGroupId());
-
+                
                 renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
                 renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
                 renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
-
+                
+            } else if (className.equals(BUDGET)) {
+            	
+            	List<BudgetParticipatif> budgetListMostSigned = null;
+            	List<BudgetParticipatif> budgetListMostCommented = null;
+            	List<BudgetParticipatif> budgetListIsCrush = null;
+            	
+            	renderRequest.setAttribute("budgetListMostSigned", budgetListMostSigned);
+            	renderRequest.setAttribute("budgetListMostCommented", budgetListMostCommented);
+            	renderRequest.setAttribute("budgetListIsCrush", budgetListIsCrush);
             }
+            
             if (Validator.isNotNull(userPublikId)) {
                 renderRequest.setAttribute("isUserloggedIn", true);
             } else {
                 renderRequest.setAttribute("isUserloggedIn", false);
             }
+
+            //Suppression des attributs de session
+            /*HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
+            HttpSession session = request.getSession();
+            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");
+            session.removeAttribute("PORTLET_RENDER_PARAMETERS_");
+            session.removeAttribute("LIFERAY_SHARED_VISITED_GROUP_ID_RECENT");
+            session.removeAttribute("LAST_PATH");
+            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN#CSRF");
+            session.removeAttribute("DEVICE");
+            session.removeAttribute("PREVIOUS_LAYOUT_PLID");
+            session.removeAttribute("PORTAL_PREFERENCES");
+            session.removeAttribute("HTTPS_INITIAL");
+            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");*/
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);

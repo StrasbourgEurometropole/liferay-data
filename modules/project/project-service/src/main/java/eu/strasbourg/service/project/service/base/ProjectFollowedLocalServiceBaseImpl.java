@@ -45,6 +45,7 @@ import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalService;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
+import eu.strasbourg.service.project.service.persistence.BudgetSupportPersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
 import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
@@ -400,6 +401,44 @@ public abstract class ProjectFollowedLocalServiceBaseImpl
 	public void setBudgetPhasePersistence(
 		BudgetPhasePersistence budgetPhasePersistence) {
 		this.budgetPhasePersistence = budgetPhasePersistence;
+	}
+
+	/**
+	 * Returns the budget support local service.
+	 *
+	 * @return the budget support local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetSupportLocalService getBudgetSupportLocalService() {
+		return budgetSupportLocalService;
+	}
+
+	/**
+	 * Sets the budget support local service.
+	 *
+	 * @param budgetSupportLocalService the budget support local service
+	 */
+	public void setBudgetSupportLocalService(
+		eu.strasbourg.service.project.service.BudgetSupportLocalService budgetSupportLocalService) {
+		this.budgetSupportLocalService = budgetSupportLocalService;
+	}
+
+	/**
+	 * Returns the budget support persistence.
+	 *
+	 * @return the budget support persistence
+	 */
+	public BudgetSupportPersistence getBudgetSupportPersistence() {
+		return budgetSupportPersistence;
+	}
+
+	/**
+	 * Sets the budget support persistence.
+	 *
+	 * @param budgetSupportPersistence the budget support persistence
+	 */
+	public void setBudgetSupportPersistence(
+		BudgetSupportPersistence budgetSupportPersistence) {
+		this.budgetSupportPersistence = budgetSupportPersistence;
 	}
 
 	/**
@@ -915,6 +954,10 @@ public abstract class ProjectFollowedLocalServiceBaseImpl
 	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService;
 	@BeanReference(type = BudgetPhasePersistence.class)
 	protected BudgetPhasePersistence budgetPhasePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetSupportLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetSupportLocalService budgetSupportLocalService;
+	@BeanReference(type = BudgetSupportPersistence.class)
+	protected BudgetSupportPersistence budgetSupportPersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
 	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
 	@BeanReference(type = InitiativePersistence.class)

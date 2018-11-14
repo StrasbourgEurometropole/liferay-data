@@ -3,9 +3,11 @@ package eu.strasbourg.portlet.dynamic_search_asset;
 import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
@@ -98,6 +100,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String ATTRIBUTE_IS_USER_PARTICIPATE = "isUserPart";
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
+	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	private static final String DETAIL_VIDEO_URL = "detail-video/-/entity/id/";
 	private static final String NEWS_TAG_NAME = "actualite";
@@ -432,6 +435,26 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 				
 				jsonResponse.put(jsonPetition);
+			}
+			
+			/**
+			 * AssetEntry : Budget Participatif (Projet citoyen)
+			 */
+			else if (assetClassName.equals(BudgetParticipatif.class.getName())) {
+				BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(assetEntry.getClassPK());
+				
+				JSONObject jsonBP = bp.toJSON(publikUserId);
+				
+				jsonBP.put(
+					ATTRIBUTE_CLASSNAME,
+					BudgetParticipatif.class.getName()
+				);
+				jsonBP.put(
+					ATTRIBUTE_LINK,
+					this.getHomeURL(request) + DETAIL_BUDGET_PARTICIPATIF_URL + bp.getBudgetParticipatifId()
+				);
+				
+				jsonResponse.put(jsonBP);
 			}
 			
 			/**
