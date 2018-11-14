@@ -158,7 +158,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             }
 
             //Suppression des attributs de session
-            HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
+            /*HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
             HttpSession session = request.getSession();
             session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");
             session.removeAttribute("PORTLET_RENDER_PARAMETERS_");
@@ -169,7 +169,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             session.removeAttribute("PREVIOUS_LAYOUT_PLID");
             session.removeAttribute("PORTAL_PREFERENCES");
             session.removeAttribute("HTTPS_INITIAL");
-            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");
+            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");*/
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
