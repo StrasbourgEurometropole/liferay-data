@@ -169,14 +169,15 @@
 
                                     <script>
                                         $(document).ready(function() {
-                                        // Cacher le bouton de vote si l'utilisateur a déjà utilisé les siens
-                                        if (${nbSupportOfUser} >= 5) {
-                                            $("[href='#Support']").hide();
-                                        }
-                                        // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
-                                        if (${nbSupportOfUser} < 1) {
-                                            $("[href='#RemoveSupport']").hide();
-                                        }
+                                            // Cacher le bouton de vote si l'utilisateur a déjà utilisé les siens
+                                            if (${nbSupportOfUser} >= 5) {
+                                                $("[href='#Support']").hide();
+                                            }
+                                            // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
+                                            if (${nbSupportOfUser} < 1) {
+                                                $("[href='#RemoveSupport']").hide();
+                                            }
+                                        });
                                     </script>
 
                                 <#else>
