@@ -4,9 +4,13 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
@@ -32,30 +36,36 @@ import javax.portlet.PortletException;
         service = MVCActionCommand.class
 )
 public class SelectionBudgetParticipatifActionCommand implements MVCActionCommand {
-    private static final String PROJECTS = "projects";
-    private static final String PARTICIPATIONS = "participations";
-    private static final String PETITIONS = "petitions";
-    private static final String BUDGETS = "budgets-participatifs";
-    private static final String PHASES = "phases";
 
     @Override
     public boolean processAction(ActionRequest actionRequest,
                                  ActionResponse actionResponse) throws PortletException {
 
-        String tab = ParamUtil.getString(actionRequest, "tab");
-
         try {
             long[] selectionIds = StringUtil
                     .split(ParamUtil.getString(actionRequest, "selectionIds"), 0L);
-
+            
+            ServiceContext sc = ServiceContextFactory.getInstance(actionRequest);
+            
             for (long entryId : selectionIds) {
+            	
+            	BudgetParticipatif budgetParticipatif = _budgetParticipatifLocalService.getBudgetParticipatif(entryId);
+            	
                 switch (ParamUtil.getString(actionRequest, "cmd")) {
+                    case "acceptable":
+                            budgetParticipatif.setBPStatus(budgetParticipatif, ParticiperCategories.BP_ACCEPTABLE, sc.getScopeGroupId());
+                        break;
                     case "feasible":
-                            BudgetParticipatif budgetParticipatif = _budgetParticipatifLocalService.getBudgetParticipatif(entryId);
-                            //budgetParticipatif.getAssetEntry()
-                            _budgetParticipatifLocalService.updateStatus(budgetParticipatif, WorkflowConstants.STATUS_APPROVED);
+                        budgetParticipatif.setBPStatus(budgetParticipatif, ParticiperCategories.BP_FEASIBLE, sc.getScopeGroupId());
+                        break;
+                    case "realized":
+                        budgetParticipatif.setBPStatus(budgetParticipatif, ParticiperCategories.BP_REALIZED, sc.getScopeGroupId());
+                        break;
+                    case "laureat":
+                        budgetParticipatif.setBPStatus(budgetParticipatif, ParticiperCategories.BP_LAUREAT, sc.getScopeGroupId());
                         break;
                 }
+                _budgetParticipatifLocalService.updateBudgetParticipatif(budgetParticipatif);
             }
         } catch (PortalException e) {
             _log.error(e);

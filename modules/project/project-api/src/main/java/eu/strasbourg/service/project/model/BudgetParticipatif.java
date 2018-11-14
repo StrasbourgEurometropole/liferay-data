@@ -202,6 +202,17 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getPublicationDateFr();
 
 	/**
+	* Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+	*
+	* @param budgetParticipatif
+	* @param status
+	*/
+	public void setBPStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		eu.strasbourg.service.project.constants.ParticiperCategories status,
+		long groupID);
+
+	/**
 	* Retourne la version JSON de l'entité
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(

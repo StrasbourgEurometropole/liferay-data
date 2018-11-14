@@ -1091,6 +1091,20 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+	*
+	* @param budgetParticipatif
+	* @param status
+	*/
+	@Override
+	public void setBPStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		eu.strasbourg.service.project.constants.ParticiperCategories status,
+		long groupID) {
+		_budgetParticipatif.setBPStatus(budgetParticipatif, status, groupID);
+	}
+
+	/**
 	* Sets the budget of this budget participatif.
 	*
 	* @param budget the budget of this budget participatif

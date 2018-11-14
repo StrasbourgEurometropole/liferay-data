@@ -19,6 +19,7 @@ import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NO
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -27,12 +28,12 @@ import java.util.stream.Stream;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
@@ -387,6 +388,24 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         Date date = this.getAssetEntry().getPublishDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
+    }
+    
+    /**
+     * Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+     * @param budgetParticipatif
+     * @param status
+     */
+    @Override
+    public void setBPStatus(BudgetParticipatif budgetParticipatif, ParticiperCategories status, long groupID)
+    {
+    	AssetEntry entry = budgetParticipatif.getAssetEntry();
+    	List<AssetCategory> statuses = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry, VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+    	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
+    	
+    	if(!statuses.isEmpty())
+    		AssetEntryUtil.removeAssetCategory(entry.getEntryId(), statuses.get(0));
+    	
+    	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
     }
     
     /**
