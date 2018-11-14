@@ -124,7 +124,6 @@
                             </div>
                         </#if>
 
-
                         <div class="pro-tabs">
 
                             <!-- Nav tabs -->
