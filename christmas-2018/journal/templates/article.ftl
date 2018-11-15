@@ -14,9 +14,6 @@
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
     <div class="col-xs-12">
-	    <h3>
-	        ${title.data}
-	    </h3>
 	    ${catcher.data}
 	</div>
 </div>
