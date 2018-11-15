@@ -41,6 +41,7 @@ import eu.strasbourg.service.project.model.BudgetParticipatif;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for BudgetParticipatif. Methods of this
@@ -175,7 +176,7 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* Méthode de mise à jour d'un budget
 	*
 	* @param budget le budget
-	* @param sc le service context
+	* @param sc     le service context
 	* @return le budget
 	* @throws PortalException exception
 	*/
@@ -191,6 +192,28 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public BudgetParticipatif updateBudgetParticipatif(
 		BudgetParticipatif budgetParticipatif);
+
+	/**
+	* mise a jour du status
+	*
+	* @param userId               l'identifiant de l'utilisateur
+	* @param budgetParticipatifId l'identifiant du budget
+	* @param status               le status
+	* @param serviceContext       le service context
+	* @param workflowContext      le context du workflow
+	* @return le budget
+	* @throws PortalException
+	*/
+	public BudgetParticipatif updateStatus(long userId,
+		long budgetParticipatifId, int status, ServiceContext serviceContext,
+		Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
+
+	/**
+	* Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	public int countBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId);
 
 	/**
 	* Returns the number of budget participatifs.
@@ -247,6 +270,16 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par mot clés
+	*/
+	public List<BudgetParticipatif> findByKeyword(java.lang.String keyword,
+		long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(
+		java.lang.String publikId);
+
+	/**
 	* Returns a range of all the budget participatifs.
 	*
 	* <p>
@@ -287,6 +320,35 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		OrderByComparator<BudgetParticipatif> orderByComparator);
 
 	/**
+	* Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId);
+
+	/**
+	* Retourne tous les budgets participatifs d'une phase donnee
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId);
+
+	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus commentes
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus commentes triee.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getMostCommented(long groupId, int delta);
+
+	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getPublishedByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -303,4 +365,18 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	public void removeBudgetParticipatif(long budgetId)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(BudgetParticipatif budgetParticipatif, int status)
+		throws PortalException;
 }

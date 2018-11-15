@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -33,18 +34,20 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_URL_PARAM;
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
  */
-
 @Component(
         immediate = true,
         property = {
@@ -90,13 +93,13 @@ public class SignPetitionActionCommand implements MVCActionCommand {
 
             user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
             birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-            address = escapeHtml4(ParamUtil.getString(request, "address"));
-            city = escapeHtml4(ParamUtil.getString(request, "city"));
+            address = HtmlUtil.stripHtml(ParamUtil.getString(request, "address"));
+            city = HtmlUtil.stripHtml(ParamUtil.getString(request, "city"));
             postalcode = ParamUtil.getLong(request, "postalcode");
-            phone = escapeHtml4(ParamUtil.getString(request, "phone"));
-            mobile = escapeHtml4(ParamUtil.getString(request, "mobile"));
-            lastname = escapeHtml4(ParamUtil.getString(request, "username"));
-            email = escapeHtml4(ParamUtil.getString(request, "mail"));
+            phone = HtmlUtil.stripHtml(ParamUtil.getString(request, "phone"));
+            mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, "mobile"));
+            lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, "username"));
+            email = HtmlUtil.stripHtml(ParamUtil.getString(request, "mail"));
 
             boolean isValid = validate(request);
             if (!isValid)
@@ -126,6 +129,24 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         }
 
         return result;
+    }
+
+    private boolean checkLegalAge(Date birthday) {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Instant instant = birthday.toInstant();
+        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+        LocalDate current = LocalDate.now(defaultZoneId);
+        int result = Period.between(localDate, current).getYears();
+        return result >= 16;
+    }
+
+    private boolean checkPostalCode(long postalcode) {
+        int param = Math.toIntExact(postalcode);
+        return param == 67000 || param == 67100 || param == 67200;
+    }
+
+    private boolean checkCity(String city) {
+        return "strasbourg".equals(city.toLowerCase());
     }
 
     /**
@@ -161,6 +182,13 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
+        if (isValid)
+            isValid = checkCity(city);
+        if (isValid)
+            isValid = checkPostalCode(postalcode);
+        if (isValid)
+            isValid = checkLegalAge(birthday);
+
         return isValid;
     }
 
@@ -192,9 +220,9 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getPublikId().equals(signataire.getPublikUserId())).findAny().orElse(null);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime birthTime = new Timestamp(birthday.getTime()).toLocalDateTime();
-        long period = ChronoUnit.YEARS.between(birthTime,now);
+        long period = ChronoUnit.YEARS.between(birthTime, now);
 
-        if (period<16)
+        if (period < 16)
             message = "vous devez avoir plus de 16 ans pour signer";
         else if (signataireTemp == null) {
             Signataire signataire = SignataireLocalServiceUtil.createSignataire(sc);

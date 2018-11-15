@@ -14,7 +14,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	
 
 public class ProjectAssetRenderer extends BaseJSPAssetRenderer<Project> {
-
 	
 	public static final String TYPE = "project";
 	private Project _entry;

@@ -78,6 +78,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	 */
 
 	public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.class);
+	
 	/**
 	 * Crée un projet vide avec une PK, non ajouté à la base de donnée
 	 */
@@ -332,7 +333,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	public List<Project> getPublishedByGroupId(long groupId) {
 		return this.projectPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
 	}
-
+	
 	@Override
 	public List<Project> findProjectFollowedByProjectId(String publicId){
 		List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);

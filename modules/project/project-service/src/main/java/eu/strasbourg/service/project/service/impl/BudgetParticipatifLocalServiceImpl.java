@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -14,6 +14,21 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -23,10 +38,21 @@ import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetParticipatifModel;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The implementation of the budget participatif local service.
@@ -43,76 +69,382 @@ import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalService
  * @see eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil
  */
 public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil} to access the budget participatif local service.
-	 */
+    /*
+     * NOTE FOR DEVELOPERS:
+     *
+     * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil} to access the budget participatif local service.
+     */
 
-	/**
-	 * le logger
-	 */
-	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+    /**
+     * le logger
+     */
+    public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 
-	/**
-	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
+    /**
+     * Crée une participation vide avec une PK, non ajouté à la base de donnée
+     */
+    @Override
+    public BudgetParticipatif createBudgetParticipatif(ServiceContext sc)
+            throws PortalException {
+        User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+        long pk = counterLocalService.increment();
+
+        BudgetParticipatif budget = this.budgetParticipatifLocalService.createBudgetParticipatif(pk);
+
+        if (user != null) {
+            budget.setUserName(user.getFullName());
+            budget.setUserId(sc.getUserId());
+        }
+
+        budget.setGroupId(sc.getScopeGroupId());
+        budget.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+        return budget;
+    }
+
+    @Override
+    public void removeBudgetParticipatif(long budgetId) throws PortalException {
+        AssetEntry entry = AssetEntryLocalServiceUtil
+                .fetchEntry(BudgetParticipatif.class.getName(), budgetId);
+
+        if (entry != null) {
+            // Delete the link with categories
+            for (long categoryId : entry.getCategoryIds()) {
+                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+                        categoryId, entry.getEntryId());
+            }
+
+            // Delete the link with tags
+            long[] tagIds = AssetEntryLocalServiceUtil
+                    .getAssetTagPrimaryKeys(entry.getEntryId());
+            if (tagIds != null && tagIds.length > 0) {
+                for (long tagId : tagIds) {
+                    AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagId,
+                            entry.getEntryId());
+                }
+            }
+
+            // Supprime lien avec les autres entries
+            List<AssetLink> links = this.assetLinkLocalService
+                    .getLinks(entry.getEntryId());
+            if (links != null && !links.isEmpty()) {
+                for (AssetLink link : links) {
+                    this.assetLinkLocalService.deleteAssetLink(link);
+                }
+            }
+
+            // Delete the AssetEntry
+            AssetEntryLocalServiceUtil.deleteEntry(BudgetParticipatif.class.getName(),
+                    budgetId);
+
+            // Supprime les lieux
+            List<PlacitPlace> placitPlaces = this.placitPlaceLocalService
+                    .getByBudgetParticipatif(budgetId);
+            if (placitPlaces != null && !placitPlaces.isEmpty()) {
+                for (PlacitPlace placitPlace : placitPlaces) {
+                    this.placitPlaceLocalService.removePlacitPlace(
+                            placitPlace.getPlacitPlaceId());
+                }
+            }
+
+            // Supprime le budgetParticipatif
+            BudgetParticipatif budgetParticipatif = budgetParticipatifPersistence.remove(budgetId);
+
+            // Delete the index
+            this.reindex(budgetParticipatif, true);
+
+            // Supprime ce qui a rapport au workflow
+            WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+                    budgetParticipatif.getCompanyId(), budgetParticipatif.getGroupId(), BudgetParticipatif.class.getName(),
+                    budgetParticipatif.getBudgetParticipatifId());
+            _log.info("BudgetParticipatif numero : " + budgetId + " supprimé");
+        }
+    }
+
+    /**
+     * Méthode de mise à jour d'un budget
+     *
+     * @param budget le budget
+     * @param sc     le service context
+     * @return le budget
+     * @throws PortalException exception
+     */
+    @Override
+    public BudgetParticipatif updateBudgetParticipatif(BudgetParticipatif budget, ServiceContext sc) throws PortalException {
+        User user = UserLocalServiceUtil.getUser(sc.getUserId());
+        long groupId = sc.getThemeDisplay().getLayout().getGroupId();
+
+        if (user != null) {
+            budget.setStatusByUserId(sc.getUserId());
+            budget.setStatusByUserName(user.getFullName());
+            budget.setStatusDate(sc.getModifiedDate());
+        }
+
+        // Si la phase n'est pas definie, definir celle qui est active (si elle existe)
+        if (budget.getBudgetPhaseId() < 1) {
+            List<BudgetPhase> budgetPhaseActive = BudgetPhaseLocalServiceUtil.getByIsActiveAndGroupId(true, groupId);
+            if (budgetPhaseActive.size() > 0) {
+                budget.setBudgetPhaseId(budgetPhaseActive.get(0).getBudgetPhaseId());
+            }
+        }
+
+        if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+            budget.setStatus(WorkflowConstants.STATUS_APPROVED);
+        } else {
+            budget.setStatus(WorkflowConstants.STATUS_DRAFT);
+        }
+        
+        //Dans le cas d'un dépot de projet par un citoyen (le statut n'est pas renseigné), on force le statut à déposé
+        List<AssetCategory> bpStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(budget.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+        if (bpStatus.isEmpty()) {
+            addCategoryDepose(sc);
+        }
+        
+        updateBudgetParticipatif(budget);
+        updateAssetEntry(budget, sc);
+        reindex(budget, false);
+        return budget;
+    }
+
+
+    /**
+     * méthode permettant d'ajouter la catégory déposé sur un nouveau budget
+     *
+     * @param sc le service context
+     * @throws PortalException l'exception.
+     */
+    private void addCategoryDepose(ServiceContext sc) throws PortalException {
+        AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), sc.getScopeGroupId());
+        if (category == null) {
+            throw new PortalException("aucunes catégories de connu");
+        }
+        long[] ids = sc.getAssetCategoryIds();
+        if (ids.length != 0) {
+            long[] newIds = new long[ids.length + 1];
+            System.arraycopy(ids, 0, newIds, 0, ids.length);
+            newIds[ids.length] = category.getCategoryId();
+            sc.setAssetCategoryIds(newIds);
+        } else {
+            ids = new long[1];
+            ids[0] = category.getCategoryId();
+            sc.setAssetCategoryIds(ids);
+        }
+
+    }
+
+    /**
+     * Met à jour l'AssetEntry rattachée au budgetParticipatif
+     */
+    private void updateAssetEntry(BudgetParticipatif budget, ServiceContext sc)
+            throws PortalException {
+        assetEntryLocalService.updateEntry(sc.getUserId(), sc.getScopeGroupId(), budget.getCreateDate(),
+                budget.getModifiedDate(), BudgetParticipatif.class.getName(), budget.getPrimaryKey(), budget.getUuid(),
+                0, sc.getAssetCategoryIds(), sc.getAssetTagNames(), true, budget.isApproved(),
+                budget.getCreateDate(), null, budget.getCreateDate(), null, ContentTypes.TEXT_HTML,
+                budget.getTitle(), budget.getDescription(), budget.getDescription(), null, null,
+                0, 0, null);
+        reindex(budget, false);
+    }
+
+    /**
+     * Reindex la budget dans le moteur de recherche
+     */
+    private void reindex(BudgetParticipatif budget, boolean delete) throws SearchException {
+        Indexer<BudgetParticipatif> indexer = IndexerRegistryUtil
+                .nullSafeGetIndexer(BudgetParticipatif.class);
+        if (delete) {
+            indexer.delete(budget);
+        } else {
+            indexer.reindex(budget);
+        }
+    }
+    
+    /**
+	 * Retourne tous les budgets participatifs publies d'un groupe
 	 */
-	public BudgetParticipatif createBudgetParticipatif(ServiceContext sc)
-			throws PortalException {
-		User user = UserLocalServiceUtil.getUser(sc.getUserId());
-		long pk = counterLocalService.increment();
-		BudgetParticipatif budget = this.budgetParticipatifLocalService
-				.createBudgetParticipatif(pk);
-		budget.setGroupId(sc.getScopeGroupId());
-		budget.setStatus(WorkflowConstants.STATUS_DRAFT);
-		return budget;
+	@Override
+	public List<BudgetParticipatif> getPublishedByGroupId(long groupId) {
+		return this.budgetParticipatifPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
 	}
-
-	/**
-	 * Méthode de mise à jour d'un budget
-	 * @param budget le budget
-	 * @param sc le service context
-	 * @return le budget
-	 * @throws PortalException exception
-	 */
-	public BudgetParticipatif updateBudgetParticipatif(BudgetParticipatif budget, ServiceContext sc) throws PortalException {
-		if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
-			budget.setStatus(WorkflowConstants.STATUS_APPROVED);
-		}else {
-			budget.setStatus(WorkflowConstants.STATUS_DRAFT);
+	
+	 /**
+     * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
+     *
+     * @param groupId ID du site
+     * @return Liste des budgets participatifs triee par nombre de commentaires
+     */
+    private List<BudgetParticipatif> getSortedByNbComments(long groupId) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByGroupId(groupId);
+        
+        // Verification d'un retour vide
+        if (budgetsParticipatifs == null || budgetsParticipatifs.isEmpty())
+            return new ArrayList<>();
+        
+        budgetsParticipatifs = budgetsParticipatifs
+        		.stream()
+        		.filter(budgetParticipatif -> budgetParticipatif.getStatus() == 0)
+        		.collect(Collectors.toList());
+        
+        // Creation du comparateur
+        Comparator<BudgetParticipatif> reversedMostPopularSizeComparator = Comparator
+        		.comparingInt(BudgetParticipatif::getNbApprovedComments)
+        		.reversed();
+        
+        return budgetsParticipatifs
+                .stream()
+                .sorted(reversedMostPopularSizeComparator)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Recuperer le nombre voulu des budgets participatifs les plus commentes
+     * @param groupId ID du site
+     * @param delta Nombre de resultats max voulu
+     * @return Liste des budgets participatifs les plus commentes triee.
+     */
+    public List<BudgetParticipatif> getMostCommented(long groupId, int delta) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbComments(groupId);
+        
+        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
+        if (budgetsParticipatifs.size() < delta)
+            return budgetsParticipatifs;
+        else 
+        	return budgetsParticipatifs.stream().limit(delta).collect(Collectors.toList());
+    }
+    
+    /**
+	 * Retourne tous les budgets participatifs d'une phase donnee
+     */
+    public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId) {
+        return this.budgetParticipatifPersistence.findByBudgetPhaseId(budgetPhaseId);
+    }
+    
+    /**
+	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+     */
+    public List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+    	// Recuperation des soutiens de l'utilisateur
+    	List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserId(publikUserId);
+    	
+    	List<BudgetParticipatif> budgetParticipatifs = new ArrayList<BudgetParticipatif>();
+    	
+    	try {
+	    	// Recuperation de budgets correspondants
+	    	for (BudgetSupport budgetSupport : budgetSupports) {
+	    		BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
+	    		
+	    		// Verification d'une phase existante pour les dits budgets
+	    		if (budgetParticipatif.getPhase() != null) {
+	    			budgetParticipatifs.add(budgetParticipatif);
+	    		}
+	    	}
+	    	
+	    	// Tri sur ceux correspondant a la phase donnee
+	    	budgetParticipatifs = budgetParticipatifs
+	        		.stream()
+	        		.filter(budgetParticipatif -> budgetParticipatif.getPhase().getBudgetPhaseId() == budgetPhaseId)
+	        		.collect(Collectors.toList());
+	    	
+    	} catch (PortalException e) {
+    		_log.error("Erreur lors du retour des budgets soutenus par un utilisateur dans une phase donnee \n:" + e.getStackTrace());
 		}
-		updateBudgetParticipatif(budget);
-		updateAssetEntry(budget,sc);
-		reindex(budget,false);
-		return budget;
-	}
+    	
+    	return budgetParticipatifs;
+    }
+    
+    /**
+	 * Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+     */
+    public int countBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+    	List<BudgetParticipatif> budgetParticipatif = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
+    	
+    	return budgetParticipatif.size();
+    }
 
-	/**
-	 * Met à jour l'AssetEntry rattachée au budgetParticipatif
-	 */
-	private void updateAssetEntry(BudgetParticipatif budget, ServiceContext sc)
-			throws PortalException {
-		assetEntryLocalService.updateEntry(sc.getUserId(),sc.getScopeGroupId(),budget.getCreateDate(),
-				budget.getModifiedDate(),BudgetParticipatif.class.getName(), budget.getPrimaryKey(),budget.getUuid(),
-				0,sc.getAssetCategoryIds(),sc.getAssetTagNames(),true,budget.isApproved(),
-				budget.getCreateDate(),null,budget.getCreateDate(),null, ContentTypes.TEXT_HTML,
-				budget.getTitle(),budget.getDescription(),budget.getDescription(),null,null,
-				0,0,null);
-		reindex(budget,false);
-	}
+    /**
+     * Recherche par mot clés
+     */
+    @Override
+    public List<BudgetParticipatif> findByKeyword(String keyword, long groupId, int start, int end) {
+        DynamicQuery dynamicQuery = dynamicQuery();
 
-	/**
-	 * Reindex la budget dans le moteur de recherche
-	 */
-	private void reindex(BudgetParticipatif budget, boolean delete) throws SearchException {
-		Indexer<BudgetParticipatif> indexer = IndexerRegistryUtil
-				.nullSafeGetIndexer(BudgetParticipatif.class);
-		if (delete) {
-			indexer.delete(budget);
-		} else {
-			indexer.reindex(budget);
-		}
-	}
+        if (keyword.length() > 0) {
+            dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+        }
+        if (groupId > 0) {
+            dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+        }
+
+        return budgetParticipatifPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+    }
+
+    /**
+     * Recherche par mot clés (compte)
+     */
+    @Override
+    public long findByKeywordCount(String keyword, long groupId) {
+        DynamicQuery dynamicQuery = dynamicQuery();
+        if (keyword.length() > 0) {
+            dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+        }
+        if (groupId > 0) {
+            dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+        }
+        return budgetParticipatifPersistence.countWithDynamicQuery(dynamicQuery);
+    }
+
+    /**
+     * Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
+     */
+    @Override
+    public void updateStatus(BudgetParticipatif budgetParticipatif, int status) throws PortalException {
+        this.updateStatus(budgetParticipatif.getUserId(), budgetParticipatif.getBudgetParticipatifId(),
+                status, null, null);
+    }
+
+    /**
+     * mise a jour du status
+     *
+     * @param userId               l'identifiant de l'utilisateur
+     * @param budgetParticipatifId l'identifiant du budget
+     * @param status               le status
+     * @param serviceContext       le service context
+     * @param workflowContext      le context du workflow
+     * @return le budget
+     * @throws PortalException
+     */
+    @Override
+    public BudgetParticipatif updateStatus(long userId, long budgetParticipatifId, int status,
+                                           ServiceContext serviceContext,
+                                           Map<String, Serializable> workflowContext)
+            throws PortalException {
+        Date now = new Date();
+        BudgetParticipatif budgetParticipatif = this.getBudgetParticipatif(budgetParticipatifId);
+        budgetParticipatif.setStatus(status);
+        User user = UserLocalServiceUtil.fetchUser(userId);
+        if (user != null) {
+            budgetParticipatif.setStatusByUserId(user.getUserId());
+            budgetParticipatif.setStatusByUserName(user.getFullName());
+        }
+        budgetParticipatif.setStatusDate(new Date());
+        budgetParticipatif = updateBudgetParticipatif(budgetParticipatif);
+        AssetEntry entry = assetEntryLocalService.getEntry(BudgetParticipatif.class.getName(), budgetParticipatif.getPrimaryKey());
+        entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+        if (entry.isVisible()) {
+            entry.setPublishDate(now);
+        }
+        assetEntryLocalService.updateAssetEntry(entry);
+        reindex(budgetParticipatif, false);
+        return budgetParticipatif;
+    }
+    
+    public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(String publikId){
+        List<BudgetParticipatif> bpList = budgetParticipatifPersistence.findByPublikId(publikId);
+        return bpList.stream()
+                .filter(BudgetParticipatifModel::isApproved)
+                .collect(Collectors.toList());
+    }
 
 }

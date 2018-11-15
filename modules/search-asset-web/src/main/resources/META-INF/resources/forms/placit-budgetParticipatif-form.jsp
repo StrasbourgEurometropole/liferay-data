@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<portlet:resourceURL id="entrySelectionBudgetParticipatif" var="participationsSelectionURL">
+<portlet:resourceURL id="entrySelectionBudgetParticipatif" var="budgetParticipatifsSelectionURL">
 </portlet:resourceURL>
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
@@ -57,16 +57,16 @@
 	</div>
 </c:if>
 
-<!-- Recherche par états -->
+<!-- Recherche par etats -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.state" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset id="states_fieldset" class="pro-checkbox">
+    <fieldset id="bp_status_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
         
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getPlacitStatus(groupID)}" />
+        <c:set var="statusVocabulary" value="${vocabularyAccessor.getBudgetParticipatifStatus(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(statusVocabulary)}"
 			var="category"
@@ -106,7 +106,7 @@
     </fieldset>
 </div>
 
-<!-- Recherche par thématiques -->
+<!-- Recherche par thÃÂÃÂ©matiques -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>
@@ -131,31 +131,6 @@
     </fieldset>
 </div>
 
-<!-- Recherche par types -->
-<div class="pro-group">
-    <div class="pro-header">
-        <h4><liferay-ui:message key="eu.budgetParticipatif.types" /></h4>
-        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
-    </div>
-    <fieldset id="types_fieldset" class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par type de budgetParticipatif</legend>
-		
-		<c:set var="budgetParticipatifTypesVocabulary" value="${vocabularyAccessor.getBudgetParticipatifTypes(groupID)}" />
-		<c:forEach
-			items="${dc.getDropdownRootCategories(budgetParticipatifTypesVocabulary)}"
-			var="category"
-			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_3"
-				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_3_${catStatus.index}"
-				label="${category.getTitle(locale)}"
-				cssClass="move-to-grand-parent" />
-		</c:forEach>
-		
-    </fieldset>
-</div>
-
 <script>
 	$(document).ready(function() {
 		$('.move-to-grand-parent').each(function() {
@@ -167,12 +142,10 @@
 <liferay-util:html-top>
 	<script>
 		var porletNamespace = '<portlet:namespace/>';
-
         var budgetParticipatifsSelectionURL = '${budgetParticipatifsSelectionURL}';
 	</script>
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
 	<script src="/o/searchassetweb/js/placit-budgetParticipatif.js"></script>
-
 </liferay-util:html-bottom>

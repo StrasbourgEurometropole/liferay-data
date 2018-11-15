@@ -14,7 +14,16 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The extended model implementation for the BudgetPhase service. Represents a row in the &quot;project_BudgetPhase&quot; database table, with each column mapped to a property of this class.
@@ -27,6 +36,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
+
+	private static final long serialVersionUID = 1316097781263834178L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -34,4 +46,54 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 	 */
 	public BudgetPhaseImpl() {
 	}
+	
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(BudgetPhase.class.getName(),
+			this.getBudgetPhaseId());
+	}
+	
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper
+			.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	/**
+	 * Renvoie si la phase est en période de dépot
+	 */
+	@Override
+	public boolean isInDepositPeriod() {
+		Date today = new Date();
+		if (this.getIsActive() 
+				&& today.compareTo(this.getBeginDate()) >= 0 
+				&& today.compareTo(this.getEndDate()) <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Renvoie si la phase est en période de vote
+	 */
+	@Override
+	public boolean isInVotingPeriod() {
+		Date today = new Date();
+		if (this.getIsActive() 
+				&& today.compareTo(this.getBeginVoteDate()) >= 0 
+				&& today.compareTo(this.getEndVoteDate()) <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }

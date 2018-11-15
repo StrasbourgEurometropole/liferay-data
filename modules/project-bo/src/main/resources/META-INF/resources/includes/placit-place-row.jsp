@@ -62,7 +62,7 @@
 	
 </div>
 
-<c:if test="${not empty fromAjaxParticipation or not empty fromAjaxProject}">
+<c:if test="${not empty fromAjaxParticipation or not empty fromAjaxProject or not empty fromAjaxPetition or not empty fromAjaxBudgetParticipatif}">
 	<aui:script>
 		$('#place-fields').trigger('placeCreated', ${param.index});
 	</aui:script>

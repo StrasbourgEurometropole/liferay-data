@@ -52,15 +52,6 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
 import static eu.strasbourg.service.project.constants.ParticiperCategories.FINISHED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
@@ -287,8 +278,9 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	@Override
 	public AssetCategory getProjectCategory() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.PROJECT)
-				.get(0);
+		List<AssetCategory> listProject = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.PROJECT);
+        return (listProject != null && !listProject.isEmpty()) ? listProject.get(0) : null;
 	}
 
 	/**
@@ -564,7 +556,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 
 		// Champs : Description
 		jsonParticipation.put("consultationPlacesBody", HtmlUtil.stripHtml(HtmlUtil.escape(this.getConsultationPlacesBody())));
-
+		
 		// Champs : Dates
 		jsonParticipation.put("publicationDate", this.getPublicationDate());
 		jsonParticipation.put("expirationDate", this.getExpirationDate());
@@ -578,7 +570,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		AssetCategory projectCategory = this.getProjectCategory();
 		AssetCategory statusCategory = this.getParticipationStatusCategory();
 		AssetCategory typeCategory = this.getTypeCategory();
-
+		
 		jsonParticipation.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
 		jsonParticipation.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
 		jsonParticipation.put("typeLabel", typeCategory != null ? typeCategory.getTitle(Locale.FRENCH) : "");

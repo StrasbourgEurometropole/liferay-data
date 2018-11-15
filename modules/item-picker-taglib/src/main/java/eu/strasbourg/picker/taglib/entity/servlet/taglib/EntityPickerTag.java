@@ -25,6 +25,8 @@ import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.PetitionItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.BudgetParticipatifItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.BudgetPhaseItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.InitiativeItemSelectorCriterion;
 import eu.strasbourg.portlet.project.itemselector.ParticipationItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
@@ -287,6 +289,26 @@ public class EntityPickerTag extends IncludeTag {
 						.getItemSelectorURL(
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, PetitionItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.project.model.BudgetParticipatif":
+				BudgetParticipatifItemSelectorCriterion BudgetParticipatifItemSelectorCriterion = new BudgetParticipatifItemSelectorCriterion();
+				BudgetParticipatifItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, BudgetParticipatifItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.project.model.BudgetPhase":
+				BudgetPhaseItemSelectorCriterion BudgetPhaseItemSelectorCriterion = new BudgetPhaseItemSelectorCriterion();
+				BudgetPhaseItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, BudgetPhaseItemSelectorCriterion);
 				break;
 			case "eu.strasbourg.service.project.model.Initiative":
 				InitiativeItemSelectorCriterion InitiativeItemSelectorCriterion = new InitiativeItemSelectorCriterion();

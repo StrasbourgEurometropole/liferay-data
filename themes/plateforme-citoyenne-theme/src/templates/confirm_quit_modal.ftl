@@ -10,7 +10,7 @@
             <div class="pro-wrapper">
                 <h4>Êtes-vous sure ? les données renseignées seront perdues.</h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirmQuit" type="submit" class="pro-btn" value="Quitter"/>
+                    <input id="buttonConfirmQuit" type="submit" class="pro-btn-yellow" value="Quitter"/>
                 </div>
             </div>
         </div>
