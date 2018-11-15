@@ -243,6 +243,7 @@
                         border-bottom-left-radius: 7px;
                         border-bottom-right-radius: 7px;
                         display: none;
+                        z-index: 1;
 
                         @include not_tablet_portrait{
                             display: none !important;
