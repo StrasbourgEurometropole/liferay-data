@@ -942,14 +942,13 @@ function createPetition(petition){
                 '<div class="pro-statut"><span>' + petition.frontStatusFR + '</span></div>' +
                 '<div class="pro-meta">' +
                     '<!-- Liste des quartiers de la Petition -->' +
-                    '<span>' + petition.districtLabel + '</span>' +
+                    '<span>' + (petition.districtLabel == "tout les quartiers" ? "Tous les quatiers"  : petition.districtLabel) + '</span>' +
                     '<!-- Liste des thématiques de la Petition -->';
                     for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
                         vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
-
                     }
     vignette +=
-                    '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' +
+                    (typeof petition.jsonProjectCategoryTitle["fr_FR"] != 'undefined' ? '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' : '') + 
                 '</div>' +
             '</div>' +
             '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
