@@ -12,7 +12,9 @@
 
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
+<#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
 
 <#-- Récuperation du statut BP et affichage ou non du motif si le budget n'est pas retenu pour la réalisation -->
 <#assign statusBP = entry.getBudgetParticipatifStatusTitle(locale) >
@@ -156,34 +158,38 @@
                         <div class="pro-wrapper-aside-budget">
                             <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes soutiennent cette idée</p>
 
-                            <#if isVotable>
-                                <#if isUserloggedIn>
-                                    <#assign nbSupportOfUser = entry.getNbSupportOfUser(userID) >
-                                    <#assign nbSupportOfUser = entry.getNbSupportOfUser(userID) >
+                            <#if isVotable> <#-- Est votable -->
+                                <#if isUserloggedIn && hasUserPactSign> <#-- Utilisateur connecté et ayant signé le pacte -->
+                                    <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
+                                    <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
 
-                                    <a href="#Support" data-nbsupports="${nbSupportOfUser}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
-                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${5 - entry.getNbSupportOfUserInActivePhase(userID)}</strong> possibilités de voter pour un projet</p>
+                                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
+                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${5 - nbSupportOfUserForActivePhase}</strong> possibilités de voter pour un projet</p>
                                     <a href="#RemoveSupport" class="pro-btn-yellow">
-                                        Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUser}</strong>)
+                                        Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUserForEntry}</strong>)
                                     </a>
 
                                     <script>
                                         $(document).ready(function() {
                                             // Cacher le bouton de vote si l'utilisateur a déjà utilisé les siens
-                                            if (${nbSupportOfUser} >= 5) {
+                                            if (${nbSupportOfUserForActivePhase} >= 5) {
                                                 $("[href='#Support']").hide();
                                             }
                                             // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
-                                            if (${nbSupportOfUser} < 1) {
+                                            if (${nbSupportOfUserForEntry} < 1) {
                                                 $("[href='#RemoveSupport']").hide();
                                             }
                                         });
                                     </script>
 
-                                <#else>
-                                    <a href="#Pact-sign" name="Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
+                                <#else> <#--  -->
+                                    <a href="#Pact-sign" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
                                     <p class="pro-txt-vote">Il vous reste <strong>5</strong> possibilités de voter pour un projet</p>
                                 </#if>
+                            <#elseif entry.hasBeenVoted() >
+                                <a href="#" class="pro-btn-yellow">Projet déjà évalué</a>
+                            <#else>
+                                <a href="#" class="pro-btn-yellow">Vote bientôt disponible</a>
                             </#if>
                             
                             <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
