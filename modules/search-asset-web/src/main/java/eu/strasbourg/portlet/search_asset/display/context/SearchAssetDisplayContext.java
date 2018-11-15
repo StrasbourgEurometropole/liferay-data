@@ -1,20 +1,5 @@
 package eu.strasbourg.portlet.search_asset.display.context;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceURL;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -28,22 +13,12 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
+import com.liferay.portal.kernel.util.*;
+import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
 import eu.strasbourg.service.search.log.model.SearchLog;
@@ -52,6 +27,16 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 public class SearchAssetDisplayContext {
 
@@ -68,6 +53,7 @@ public class SearchAssetDisplayContext {
 			this.initEntries();
 		} else {
 			this._entries = new ArrayList<AssetEntry>();
+			this._entriesCount = 0;
 		}
 		// Gestion du log
 		if (this.isUserSearch()) {
@@ -218,11 +204,14 @@ public class SearchAssetDisplayContext {
 		
 		// Lieu (pour la recherche agenda)
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+
+		// Recherche les procédures/démarches ?
+		boolean searchProcedure = this._configuration.searchDemarche();
 		
 		// Recherche
 		this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
 				keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-				prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
+				prefilterTagsNames,idSIGPlace, searchProcedure, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (this._hits != null) {
@@ -240,15 +229,27 @@ public class SearchAssetDisplayContext {
 						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (entry != null) {
 					results.add(entry);
+				} else {
+					// recherche de démarches (procédures)
+					// les demarches n'ayant pas d'asset entry, il faut le créer pour pouvoir l'envoyer à searchContainer
+					if (Validator.isNotNull(document.getField("type")) && document.getField("type").getValue().equals("procedure")) {
+						AssetEntry procedureEntry = new AssetEntryImpl();
+						procedureEntry.setTitle(document.getField("title").getValue());
+						procedureEntry.setUrl(document.getField("url").getValue());
+						procedureEntry.setDescription(document.getField("description").getValue());
+						procedureEntry.setClassName("Procedure");
+						results.add(procedureEntry);
+					}
 				}
 			}
 			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
-					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale());
+					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, searchProcedure, this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
-
+		
 		this._entries = results;
+		this._entriesCount = this._entries.size();
 	}
 
 	/**
@@ -472,6 +473,13 @@ public class SearchAssetDisplayContext {
 	 */
 	public List<AssetEntry> getEntries() throws PortalException {
 		return this._entries;
+	}
+	
+	/**
+	 * Retourne le nombre de résultats de la recherche
+	 */
+	public int getEntriesCount() throws PortalException {
+		return this._entriesCount;
 	}
 
 	/**
@@ -766,7 +774,7 @@ public class SearchAssetDisplayContext {
 
 		// Catégories sélectionnées par l'utilisateur
 		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
-
+		
 		// Préfiltre catégories
 		String prefilterCategoriesIdsString = this.getConfiguration().prefilterCategoriesIds();
 		List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
@@ -884,5 +892,6 @@ public class SearchAssetDisplayContext {
 	private List<String> _classNames;
 	private Hits _hits;
 	private boolean _displayExport;
+	private int _entriesCount;
 
 }

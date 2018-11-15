@@ -10,16 +10,19 @@ var participationMarkers = [];
 var eventMarkers = [];
 
 var entityType = {
-	PROJECT : 'project',
-	PARTICIPATION : 'participation',
-	EVENT : 'event',
+		PROJECT : 'project',
+		PARTICIPATION : 'participation',
+		EVENT : 'event'
 }
 
 /**
  * Supprime l'affichage des éléments selon le nom de l'entité demandée
  * @notes : Récursif selon la hiérarchie des entités 
  */
-function removeFilterElementsFrom(entityName = entityType.PROJECT) {
+function removeFilterElementsFrom(entityName) {
+    
+    var entityName = (typeof entityName !== 'undefined') ? entityName : entityType.PROJECT;
+    
 	switch (entityName) {
 		case entityType.PROJECT:
 			$("input[id^='project_']").each(function() {
@@ -47,7 +50,9 @@ function removeFilterElementsFrom(entityName = entityType.PROJECT) {
  * Supprime l'affichage des marqueurs selon le nom de l'entité demandée
  * @notes : Récursif selon la hiérarchie des entités 
  */
-function removeMarkerElementsFrom(entityName = entityType.PROJECT) {
+function removeMarkerElementsFrom(entityName) {
+    
+    var entityName = (typeof entityName !== 'undefined') ? entityName : entityType.PROJECT;
 	switch (entityName) {
 		case entityType.PROJECT:
 			if (projectMarkers != null) {
@@ -82,7 +87,9 @@ function removeMarkerElementsFrom(entityName = entityType.PROJECT) {
  * Mise à jour de la liste des filtres
  * @param entityName Nom de l'entité à partir duquel mettre à jour
  */ 
-function updateFilterElements(entityName = entityType.PROJECT) {
+function updateFilterElements(entityName) {
+    
+    var entityName = (typeof entityName !== 'undefined') ? entityName : entityType.PROJECT;
 	
 	removeFilterElementsFrom(entityName);
 	
@@ -143,7 +150,9 @@ function updateFilterElements(entityName = entityType.PROJECT) {
  * Mise à jour de la liste des filtres
  * @param entityName Nom de l'entité à partir duquel mettre à jour
  */
-function updateMarkerElements(entityName = entityType.PROJECT) {
+function updateMarkerElements(entityName) {
+    
+    var entityName = (typeof entityName !== 'undefined') ? entityName : entityType.PROJECT;
 	removeMarkerElementsFrom(entityName);
 	
 	switch (entityName) {
@@ -224,8 +233,11 @@ function getSelectedMarkerElements(entityName) {
 
 
 $(document).ready(function() {
-	//Création de la carte au centre de strasbourg
+	// Création de la carte au centre de strasbourg
     leafletMap = getLeafletMap()
+    
+    // Cachage du bouton de zoom de map
+    $('.leaflet-control-fullscreen-button').hide();
 });
 
 /**

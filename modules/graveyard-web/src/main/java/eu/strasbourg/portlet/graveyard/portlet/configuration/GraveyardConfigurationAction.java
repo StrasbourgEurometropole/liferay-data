@@ -48,6 +48,10 @@ public class GraveyardConfigurationAction
 			String contactURL = ParamUtil.getString(request, "contactURL");
 			setPreference(request, "contactURL", contactURL);
 
+			// Limite de résultat
+			String limit = ParamUtil.getString(request, "limit");
+			setPreference(request, "limit", limit);
+
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -67,6 +71,7 @@ public class GraveyardConfigurationAction
 				.getPortletDisplay().getPortletInstanceConfiguration(
 					GraveyardConfiguration.class);
 			request.setAttribute("contactURL", configuration.contactURL());
+			request.setAttribute("limit", configuration.limit());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);

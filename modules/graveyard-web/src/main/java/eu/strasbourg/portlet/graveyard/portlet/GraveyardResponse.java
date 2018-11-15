@@ -9,19 +9,19 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 public class GraveyardResponse {
-    
+
+	public String count;
+	public String err;
+	public String erreur;
+	public String code_erreur;
+	public List<DefuntDTO> defunts;
 	public String err_class;
 	public String err_desc;
-	public String data;
-    public String count;
-    public String err;
-    public String erreur;
-    public List<DefuntDTO> defunts; 
     
     public GraveyardResponse(JSONObject json) {
     	err_class = json.getString("err_class");
     	err_desc = json.getString("err_desc");
-    	data = json.getString("data");
+		code_erreur = json.getString("code_erreur");
     	count = json.getString("count");
     	err = json.getString("err");
     	erreur = json.getString("erreur");
@@ -57,12 +57,12 @@ public class GraveyardResponse {
 		this.err_desc = err_desc;
 	}
 
-	public String getData() {
-		return data;
+	public String getCodeErreur() {
+		return code_erreur;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setCodeErreur(String code_erreur) {
+		this.code_erreur = code_erreur;
 	}
 
 	public String getCount() {

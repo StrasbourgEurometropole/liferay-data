@@ -380,6 +380,16 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 			projection);
 	}
 
+	/**
+	* méthode permettant de récupererer le nombre de signataire.
+	*
+	* @return le nombre de signataire.
+	*/
+	@Override
+	public long getCountUserHasSignedPacte() {
+		return _publikUserLocalService.getCountUserHasSignedPacte();
+	}
+
 	@Override
 	public PublikUserLocalService getWrappedService() {
 		return _publikUserLocalService;

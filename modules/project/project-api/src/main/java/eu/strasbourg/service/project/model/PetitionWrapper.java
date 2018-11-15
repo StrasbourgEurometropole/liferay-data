@@ -75,17 +75,25 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
-		attributes.put("petitionStatus", getPetitionStatus());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
-		attributes.put("nombreSignature", getNombreSignature());
+		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
+		attributes.put("petitionnaireFirstname", getPetitionnaireFirstname());
+		attributes.put("petitionnaireBirthday", getPetitionnaireBirthday());
+		attributes.put("petitionnaireAdresse", getPetitionnaireAdresse());
+		attributes.put("petitionnairePostalCode", getPetitionnairePostalCode());
+		attributes.put("petitionnaireCity", getPetitionnaireCity());
+		attributes.put("petitionnairePhone", getPetitionnairePhone());
+		attributes.put("petitionnaireEmail", getPetitionnaireEmail());
+		attributes.put("isSupported", getIsSupported());
+		attributes.put("supportedBy", getSupportedBy());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("consultationPlacesText", getConsultationPlacesText());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
-		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
@@ -191,12 +199,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setFilesDownload(filesDownload);
 		}
 
-		String petitionStatus = (String)attributes.get("petitionStatus");
-
-		if (petitionStatus != null) {
-			setPetitionStatus(petitionStatus);
-		}
-
 		Date publicationDate = (Date)attributes.get("publicationDate");
 
 		if (publicationDate != null) {
@@ -215,10 +217,69 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setQuotaSignature(quotaSignature);
 		}
 
-		Long nombreSignature = (Long)attributes.get("nombreSignature");
+		String petitionnaireLastname = (String)attributes.get(
+				"petitionnaireLastname");
 
-		if (nombreSignature != null) {
-			setNombreSignature(nombreSignature);
+		if (petitionnaireLastname != null) {
+			setPetitionnaireLastname(petitionnaireLastname);
+		}
+
+		String petitionnaireFirstname = (String)attributes.get(
+				"petitionnaireFirstname");
+
+		if (petitionnaireFirstname != null) {
+			setPetitionnaireFirstname(petitionnaireFirstname);
+		}
+
+		Date petitionnaireBirthday = (Date)attributes.get(
+				"petitionnaireBirthday");
+
+		if (petitionnaireBirthday != null) {
+			setPetitionnaireBirthday(petitionnaireBirthday);
+		}
+
+		String petitionnaireAdresse = (String)attributes.get(
+				"petitionnaireAdresse");
+
+		if (petitionnaireAdresse != null) {
+			setPetitionnaireAdresse(petitionnaireAdresse);
+		}
+
+		Long petitionnairePostalCode = (Long)attributes.get(
+				"petitionnairePostalCode");
+
+		if (petitionnairePostalCode != null) {
+			setPetitionnairePostalCode(petitionnairePostalCode);
+		}
+
+		String petitionnaireCity = (String)attributes.get("petitionnaireCity");
+
+		if (petitionnaireCity != null) {
+			setPetitionnaireCity(petitionnaireCity);
+		}
+
+		String petitionnairePhone = (String)attributes.get("petitionnairePhone");
+
+		if (petitionnairePhone != null) {
+			setPetitionnairePhone(petitionnairePhone);
+		}
+
+		String petitionnaireEmail = (String)attributes.get("petitionnaireEmail");
+
+		if (petitionnaireEmail != null) {
+			setPetitionnaireEmail(petitionnaireEmail);
+		}
+
+		Boolean isSupported = (Boolean)attributes.get("isSupported");
+
+		if (isSupported != null) {
+			setIsSupported(isSupported);
+		}
+
+		String supportedBy = (String)attributes.get("supportedBy");
+
+		if (supportedBy != null) {
+			setSupportedBy(supportedBy);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -246,17 +307,18 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 			setMediaChoice(mediaChoice);
 		}
 
+		String consultationPlacesText = (String)attributes.get(
+				"consultationPlacesText");
+
+		if (consultationPlacesText != null) {
+			setConsultationPlacesText(consultationPlacesText);
+		}
+
 		String consultationPlacesBody = (String)attributes.get(
 				"consultationPlacesBody");
 
 		if (consultationPlacesBody != null) {
 			setConsultationPlacesBody(consultationPlacesBody);
-		}
-
-		Long assetEntryId = (Long)attributes.get("assetEntryId");
-
-		if (assetEntryId != null) {
-			setAssetEntryId(assetEntryId);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -279,6 +341,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the is supported of this petition.
+	*
+	* @return the is supported of this petition
+	*/
+	@Override
+	public boolean getIsSupported() {
+		return _petition.getIsSupported();
+	}
+
+	/**
 	* Returns the media choice of this petition.
 	*
 	* @return the media choice of this petition
@@ -286,6 +358,17 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public boolean getMediaChoice() {
 		return _petition.getMediaChoice();
+	}
+
+	/**
+	* Demande si l'utilisateur demandé a signe la petition
+	*
+	* @throws PortletException
+	*/
+	@Override
+	public boolean hasUserSigned(java.lang.String publikUserId)
+		throws javax.portlet.PortletException {
+		return _petition.hasUserSigned(publikUserId);
 	}
 
 	/**
@@ -359,6 +442,24 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns <code>true</code> if this petition is is supported.
+	*
+	* @return <code>true</code> if this petition is is supported; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsSupported() {
+		return _petition.isIsSupported();
+	}
+
+	/**
+	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	*/
+	@Override
+	public boolean isJudgeable() {
+		return _petition.isJudgeable();
+	}
+
+	/**
 	* Returns <code>true</code> if this petition is media choice.
 	*
 	* @return <code>true</code> if this petition is media choice; <code>false</code> otherwise
@@ -402,6 +503,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne le projet de la petition (
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _petition.getProjectCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -414,9 +523,28 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		java.lang.String publikUserId) {
+		return _petition.toJSON(publikUserId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Petition> toCacheModel() {
 		return _petition.toCacheModel();
+	}
+
+	/**
+	* méthode permettant de récupérer le pourcentage de signatures obtenu.
+	*
+	* @return le pourcentage en long.
+	*/
+	@Override
+	public double getPourcentageSignature() {
+		return _petition.getPourcentageSignature();
 	}
 
 	@Override
@@ -435,11 +563,41 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* méthode permettant de récuperer les faux signataires d'une pétitions.
+	*
+	* @return les faux signataires.
+	*/
+	@Override
+	public int getCountFakeSignataire() {
+		return _petition.getCountFakeSignataire();
+	}
+
+	/**
 	* Retourne le nombre de commentaires de l'entité
 	*/
 	@Override
 	public int getNbApprovedComments() {
 		return _petition.getNbApprovedComments();
+	}
+
+	/**
+	* Retourne le nombre de dislikes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbDislikes() {
+		return _petition.getNbDislikes();
+	}
+
+	/**
+	* Retourne le nombre de likes de l'entité
+	*
+	* @see eu.strasbourg.service.like.model.LikeType
+	*/
+	@Override
+	public int getNbLikes() {
+		return _petition.getNbLikes();
 	}
 
 	/**
@@ -450,6 +608,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public int getStatus() {
 		return _petition.getStatus();
+	}
+
+	/**
+	* Calcul la différence de jours entre la date du jour et celle d'expiration
+	*/
+	@Override
+	public int getTodayExpirationDifferenceDays() {
+		return _petition.getTodayExpirationDifferenceDays();
 	}
 
 	@Override
@@ -483,6 +649,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the consultation places text of this petition.
+	*
+	* @return the consultation places text of this petition
+	*/
+	@Override
+	public java.lang.String getConsultationPlacesText() {
+		return _petition.getConsultationPlacesText();
+	}
+
+	/**
 	* Returns the description of this petition.
 	*
 	* @return the description of this petition
@@ -490,6 +666,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getDescription() {
 		return _petition.getDescription();
+	}
+
+	/**
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	*
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	*/
+	@Override
+	public java.lang.String getDistrictLabel(java.util.Locale locale) {
+		return _petition.getDistrictLabel(locale);
 	}
 
 	/**
@@ -533,6 +719,32 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getFrontStatusFR() {
+		return _petition.getFrontStatusFR();
+	}
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _petition.getImageCopyright(locale);
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _petition.getImageURL();
+	}
+
+	/**
 	* Retourne le label de 5 digits du nombre de commentaires de l'entité
 	*/
 	@Override
@@ -541,13 +753,93 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Returns the petition status of this petition.
+	* méthode permettant d'afficher le nombre de signature.
 	*
-	* @return the petition status of this petition
+	* @return le nombre avec des zeros devant.
+	*/
+	@Override
+	public java.lang.String getNombreSignatureBoard() {
+		return _petition.getNombreSignatureBoard();
+	}
+
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
 	*/
 	@Override
 	public java.lang.String getPetitionStatus() {
 		return _petition.getPetitionStatus();
+	}
+
+	/**
+	* méthode d'affichage des information du status pour excel.
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getPetitionStatusExcel() {
+		return _petition.getPetitionStatusExcel();
+	}
+
+	/**
+	* Returns the petitionnaire adresse of this petition.
+	*
+	* @return the petitionnaire adresse of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireAdresse() {
+		return _petition.getPetitionnaireAdresse();
+	}
+
+	/**
+	* Returns the petitionnaire city of this petition.
+	*
+	* @return the petitionnaire city of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireCity() {
+		return _petition.getPetitionnaireCity();
+	}
+
+	/**
+	* Returns the petitionnaire email of this petition.
+	*
+	* @return the petitionnaire email of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireEmail() {
+		return _petition.getPetitionnaireEmail();
+	}
+
+	/**
+	* Returns the petitionnaire firstname of this petition.
+	*
+	* @return the petitionnaire firstname of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireFirstname() {
+		return _petition.getPetitionnaireFirstname();
+	}
+
+	/**
+	* Returns the petitionnaire lastname of this petition.
+	*
+	* @return the petitionnaire lastname of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnaireLastname() {
+		return _petition.getPetitionnaireLastname();
+	}
+
+	/**
+	* Returns the petitionnaire phone of this petition.
+	*
+	* @return the petitionnaire phone of this petition
+	*/
+	@Override
+	public java.lang.String getPetitionnairePhone() {
+		return _petition.getPetitionnairePhone();
 	}
 
 	/**
@@ -558,6 +850,21 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getPlaceTextArea() {
 		return _petition.getPlaceTextArea();
+	}
+
+	/**
+	* méthode de récupération du status
+	*
+	* @return le status.
+	*/
+	@Override
+	public java.lang.String getProDureeFR() {
+		return _petition.getProDureeFR();
+	}
+
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _petition.getPublicationDateFr();
 	}
 
 	/**
@@ -588,6 +895,21 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _petition.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the supported by of this petition.
+	*
+	* @return the supported by of this petition
+	*/
+	@Override
+	public java.lang.String getSupportedBy() {
+		return _petition.getSupportedBy();
+	}
+
+	@Override
+	public java.lang.String getThematicLabel(java.util.Locale locale) {
+		return _petition.getThematicLabel(locale);
 	}
 
 	/**
@@ -681,6 +1003,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the petitionnaire birthday of this petition.
+	*
+	* @return the petitionnaire birthday of this petition
+	*/
+	@Override
+	public Date getPetitionnaireBirthday() {
+		return _petition.getPetitionnaireBirthday();
+	}
+
+	/**
 	* Returns the publication date of this petition.
 	*
 	* @return the publication date of this petition
@@ -718,21 +1050,75 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne la liste des lieux placit liés à la participation
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _petition.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _petition.getFilesURLs();
+	}
+
+	/**
+	* Retourne la liste des lieux placit liés à la petition
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
 		return _petition.getPlacitPlaces();
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Signataire> getSignataires() {
+		return _petition.getSignataires();
+	}
+
 	/**
-	* Returns the asset entry ID of this petition.
+	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
 	*
-	* @return the asset entry ID of this petition
+	* @param locale la locale de la région
+	* @return la liste de pétition.
 	*/
 	@Override
-	public long getAssetEntryId() {
-		return _petition.getAssetEntryId();
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
+		java.util.Locale locale) {
+		return _petition.getSuggestions(locale);
+	}
+
+	/**
+	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @param locale        la locale de la région
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de pétition.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
+		java.util.Locale locale, int nbSuggestions) {
+		return _petition.getSuggestions(locale, nbSuggestions);
+	}
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
+		return _petition.getTerritoryCategories();
+	}
+
+	/**
+	* Retourne les thematiques de la petition (
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _petition.getThematicCategories();
 	}
 
 	/**
@@ -766,9 +1152,9 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Returns the nombre signature of this petition.
+	* Méthode permettant de retourner le nombre de signataire de la pétition
 	*
-	* @return the nombre signature of this petition
+	* @return le nombre.
 	*/
 	@Override
 	public long getNombreSignature() {
@@ -783,6 +1169,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public long getPetitionId() {
 		return _petition.getPetitionId();
+	}
+
+	/**
+	* Returns the petitionnaire postal code of this petition.
+	*
+	* @return the petitionnaire postal code of this petition
+	*/
+	@Override
+	public long getPetitionnairePostalCode() {
+		return _petition.getPetitionnairePostalCode();
 	}
 
 	/**
@@ -803,6 +1199,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public long getQuotaSignature() {
 		return _petition.getQuotaSignature();
+	}
+
+	/**
+	* méthode permettant de récuperer le nombre de signataire nécessaire pour finir la pétition.
+	*
+	* @return le nombre
+	*/
+	@Override
+	public long getSignataireNeeded() {
+		return _petition.getSignataireNeeded();
 	}
 
 	/**
@@ -830,16 +1236,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		_petition.persist();
 	}
 
-	/**
-	* Sets the asset entry ID of this petition.
-	*
-	* @param assetEntryId the asset entry ID of this petition
-	*/
-	@Override
-	public void setAssetEntryId(long assetEntryId) {
-		_petition.setAssetEntryId(assetEntryId);
-	}
-
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_petition.setCachedModel(cachedModel);
@@ -864,6 +1260,17 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	public void setConsultationPlacesBody(
 		java.lang.String consultationPlacesBody) {
 		_petition.setConsultationPlacesBody(consultationPlacesBody);
+	}
+
+	/**
+	* Sets the consultation places text of this petition.
+	*
+	* @param consultationPlacesText the consultation places text of this petition
+	*/
+	@Override
+	public void setConsultationPlacesText(
+		java.lang.String consultationPlacesText) {
+		_petition.setConsultationPlacesText(consultationPlacesText);
 	}
 
 	/**
@@ -974,6 +1381,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Sets whether this petition is is supported.
+	*
+	* @param isSupported the is supported of this petition
+	*/
+	@Override
+	public void setIsSupported(boolean isSupported) {
+		_petition.setIsSupported(isSupported);
+	}
+
+	/**
 	* Sets whether this petition is media choice.
 	*
 	* @param mediaChoice the media choice of this petition
@@ -999,16 +1416,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Sets the nombre signature of this petition.
-	*
-	* @param nombreSignature the nombre signature of this petition
-	*/
-	@Override
-	public void setNombreSignature(long nombreSignature) {
-		_petition.setNombreSignature(nombreSignature);
-	}
-
-	/**
 	* Sets the petition ID of this petition.
 	*
 	* @param petitionId the petition ID of this petition
@@ -1019,13 +1426,84 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Sets the petition status of this petition.
+	* Sets the petitionnaire adresse of this petition.
 	*
-	* @param petitionStatus the petition status of this petition
+	* @param petitionnaireAdresse the petitionnaire adresse of this petition
 	*/
 	@Override
-	public void setPetitionStatus(java.lang.String petitionStatus) {
-		_petition.setPetitionStatus(petitionStatus);
+	public void setPetitionnaireAdresse(java.lang.String petitionnaireAdresse) {
+		_petition.setPetitionnaireAdresse(petitionnaireAdresse);
+	}
+
+	/**
+	* Sets the petitionnaire birthday of this petition.
+	*
+	* @param petitionnaireBirthday the petitionnaire birthday of this petition
+	*/
+	@Override
+	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
+		_petition.setPetitionnaireBirthday(petitionnaireBirthday);
+	}
+
+	/**
+	* Sets the petitionnaire city of this petition.
+	*
+	* @param petitionnaireCity the petitionnaire city of this petition
+	*/
+	@Override
+	public void setPetitionnaireCity(java.lang.String petitionnaireCity) {
+		_petition.setPetitionnaireCity(petitionnaireCity);
+	}
+
+	/**
+	* Sets the petitionnaire email of this petition.
+	*
+	* @param petitionnaireEmail the petitionnaire email of this petition
+	*/
+	@Override
+	public void setPetitionnaireEmail(java.lang.String petitionnaireEmail) {
+		_petition.setPetitionnaireEmail(petitionnaireEmail);
+	}
+
+	/**
+	* Sets the petitionnaire firstname of this petition.
+	*
+	* @param petitionnaireFirstname the petitionnaire firstname of this petition
+	*/
+	@Override
+	public void setPetitionnaireFirstname(
+		java.lang.String petitionnaireFirstname) {
+		_petition.setPetitionnaireFirstname(petitionnaireFirstname);
+	}
+
+	/**
+	* Sets the petitionnaire lastname of this petition.
+	*
+	* @param petitionnaireLastname the petitionnaire lastname of this petition
+	*/
+	@Override
+	public void setPetitionnaireLastname(java.lang.String petitionnaireLastname) {
+		_petition.setPetitionnaireLastname(petitionnaireLastname);
+	}
+
+	/**
+	* Sets the petitionnaire phone of this petition.
+	*
+	* @param petitionnairePhone the petitionnaire phone of this petition
+	*/
+	@Override
+	public void setPetitionnairePhone(java.lang.String petitionnairePhone) {
+		_petition.setPetitionnairePhone(petitionnairePhone);
+	}
+
+	/**
+	* Sets the petitionnaire postal code of this petition.
+	*
+	* @param petitionnairePostalCode the petitionnaire postal code of this petition
+	*/
+	@Override
+	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
+		_petition.setPetitionnairePostalCode(petitionnairePostalCode);
 	}
 
 	/**
@@ -1131,6 +1609,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_petition.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the supported by of this petition.
+	*
+	* @param supportedBy the supported by of this petition
+	*/
+	@Override
+	public void setSupportedBy(java.lang.String supportedBy) {
+		_petition.setSupportedBy(supportedBy);
 	}
 
 	/**

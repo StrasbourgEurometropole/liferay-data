@@ -309,6 +309,28 @@ public class ParticipationLocalServiceUtil {
 	}
 
 	/**
+	* méthode permettant de récupérer les 3 dernieres participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Participation> getLessCommented(
+		long groupId) {
+		return getService().getLessCommented(groupId);
+	}
+
+	/**
+	* méthode permettant de récupérer les 3 premières participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Participation> getMostCommented(
+		long groupId) {
+		return getService().getMostCommented(groupId);
+	}
+
+	/**
 	* Returns a range of all the participations.
 	*
 	* <p>
@@ -352,6 +374,14 @@ public class ParticipationLocalServiceUtil {
 		return getService()
 				   .getParticipationsByUuidAndCompanyId(uuid, companyId, start,
 			end, orderByComparator);
+	}
+
+	/**
+	* Retourne toutes les participation publiées d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Participation> getPublishedByGroupId(
+		long groupId) {
+		return getService().getPublishedByGroupId(groupId);
 	}
 
 	/**

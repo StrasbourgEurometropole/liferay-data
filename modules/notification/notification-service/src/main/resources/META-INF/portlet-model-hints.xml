@@ -9,7 +9,9 @@
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="url" type="String" />
+		<field name="url" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="automatic" type="boolean" />
 		<field name="singleUser" type="boolean" />
 		<field name="singleUserId" type="String" />

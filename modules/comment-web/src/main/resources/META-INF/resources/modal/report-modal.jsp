@@ -1,4 +1,5 @@
 <portlet:actionURL var="reportComment" name="reportComment">
+	<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
 </portlet:actionURL>
 
 <!-- SIGNALER LE COMMENTAIRE -->
@@ -9,7 +10,7 @@
         
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key='comment-report-comment'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <button id="closingButton" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             
             <form id="form-signalements" method="post" action="${reportComment}">

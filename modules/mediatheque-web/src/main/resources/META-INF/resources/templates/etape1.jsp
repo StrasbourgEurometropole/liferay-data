@@ -14,7 +14,7 @@
 		${dc.demarcheText}
 	</p>
 	<liferay-portlet:renderURL varImpl="linkURL" />
-	<aui:form name="fm" action="${linkURL}" class="generic-form toValidate">
+	<aui:form name="fm" action="${linkURL}#mediatheque" class="generic-form toValidate">
 
         <div class="webform-layout-box">
 			<!-- NumÃ©ro de carte -->

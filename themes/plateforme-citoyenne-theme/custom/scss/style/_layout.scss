@@ -668,12 +668,16 @@ main {
 	right: 0;
 	background: $c_dark;
 	p{
-		@include ft($f_txt, 0.875em, 400, $c_white, 1.2em);
-		padding: 7px 0;
+		@include ft($f_txt, 1.1em, 400, $c_white, 1.3em);
+		padding: 10px 0;
 		text-transform: uppercase;
 		letter-spacing: 2px;
 		margin-bottom: 0;
 		text-align: center;
+		@include tablet_portrait{
+			font-size: 0.85em;
+			padding: 6px 0;
+		}
 	}
 }
 
@@ -681,6 +685,7 @@ main {
 
 .pro-bookmark {
 	position: absolute;
+	z-index: 100;
 	top: 0;
 	right: 30px;
 	width: 120px;

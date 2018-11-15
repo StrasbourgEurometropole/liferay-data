@@ -1,45 +1,10 @@
 <nav class="nav-top">
     <header id="pro-header" class="menu-no-header">
 
-        <!-- Barre de recherche -->
-        <div class="pro-wrapper-search-top">
-            <div class="container pro-box-search">
-                <div class="pro-wrapper-title-search">
-                    <span class="pro-rechercher">Rechercher</span>
-                    <span class="icon-ico-close"></span>
-                </div>
-                <form method="GET" action="page-search.html">
-                    <label for="pro-search" style="display: none;">Rechercher...</label>
-                    <input type="text" name="s" id="pro-search" placeholder="Effectuer une recherche...">
-                    <button type="submit" aria-label="Bouton de recherche"><span class="icon-ico-search"></span></button>
-                </form>
-                <div class="pro-wrapper-top-listing">
-                    <div class="pro-sort pro-dropdown">
-                        <a href="#">Type</a>
-                        <ul>
-                            <li><a href="#">Evènement</a></li>
-                            <li><a href="#">Participation</a></li>
-                            <li><a href="#">Idée</a></li>
-                            <li><a href="#">Actualité</a></li>
-                            <li><a href="#">Page standard</a></li>
-                            <li><a href="#">Pétition</a></li>
-                        </ul>
-                    </div>
-                    <div class="pro-sort pro-dropdown">
-                        <a href="#">Tri</a>
-                        <ul>
-                            <li><a href="#">A-Z</a></li>
-                            <li><a href="#">Z-1</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="pro-wrapper-search row" data-egalize="> *">
-                    
-
-
-                </div>
-            </div>
-        </div>
+        <@liferay_portlet["runtime"]
+        portletProviderAction=portletProviderAction.VIEW
+        portletName="eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet"
+        instanceId="BigBrotherIsWatchingYou"/>
 
         <div class="pro-wrapper-top-header">
             <div class="pro-top-header">
@@ -78,13 +43,13 @@
                     <div class="pro-right">
                         
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion" title="Mon compte">
+                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion connexion-active" title="Mon compte">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
                                 </span>    
                             </a>
-                            <a class="nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+                            <a class="nav-logout connexion-active" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                 </span>  
@@ -94,7 +59,7 @@
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">Connexion</span>
-                                </span>    
+                                </span>
                             </a>
                         </#if>
                         <ul>
@@ -119,8 +84,10 @@
                         <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a>
                         </li>
                         <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>   
-						<li><a href="${themeDisplay.getPortalURL()}${homeURL}videos" title="Vidéos">Vidéos</a></li> 						
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions</a></li>
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}budget-participatif" title="Budget participatif">Budget participatif</a></li>
+                        <li><a href="https://demarches.strasbourg.eu/interventions-signalements/" target="_blank" title="Avertir">Avertir</a></li>
                     </ul>
                 </nav>
             </div>
@@ -129,10 +96,29 @@
             <div class="pro-menu-right">
                 <ul>
                     <li class="pro-tooltip">
+                        <#if request.session.getAttribute("publik_logged_in")!false>
+                            <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
+                                <span class="icon-ico-user"></span>
+                            </a>
+                            <span class="tooltiptext">Tableau de bord</span>
+                            <#else>
+                            <a href="" data-toggle="modal" data-target="#myModal" aria-label="connectez-vous" title="connectez-vous avant">
+                                <span class="icon-ico-user"></span>
+                            </a>
+                            <span class="tooltiptext">connectez-vous</span>
+                        </#if>
+                    </li>
+                    <li class="pro-tooltip">
                         <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">
                             <span class="icon-ico-map"></span>
                         </a>
                         <span class="tooltiptext">Voir la carte</span>
+                    </li>
+                    <li class="pro-tooltip">
+                        <a href="#rechercher" aria-label="Rechercher" title="Ouvrir la barre de recherche">
+                            <span class="icon-ico-search"></span>
+                        </a>
+                        <span class="tooltiptext">Rechercher</span>
                     </li>
                 </ul>
             </div>

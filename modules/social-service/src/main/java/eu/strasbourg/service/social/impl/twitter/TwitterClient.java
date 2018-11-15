@@ -1,21 +1,16 @@
 package eu.strasbourg.service.social.impl.twitter;
 
+import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.social.twitter.Tweet;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
-
-import eu.strasbourg.service.social.twitter.Tweet;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import twitter4j.MediaEntity;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.URLEntity;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterClient {
 
@@ -37,7 +32,7 @@ public class TwitterClient {
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true).setOAuthConsumerKey(twitterConsumerKey)
 					.setOAuthConsumerSecret(twitterConsumerSecret).setOAuthAccessToken(twitterAccessToken)
-					.setOAuthAccessTokenSecret(twitterAccessTokenSecret);
+					.setOAuthAccessTokenSecret(twitterAccessTokenSecret).setTweetModeExtended(true);
 			TwitterFactory tf = new TwitterFactory(cb.build());
 			twitter = tf.getInstance();
 
@@ -70,64 +65,39 @@ public class TwitterClient {
 				tweet.setUsername(status.getUser().getName());
 				tweet.setRetweet(status.getRetweetedStatus() != null);
 				tweet.setUrl("https://twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId());
+
+				MediaEntity[] medias = null;
+
 				if (tweet.isRetweet()) {
 					tweet.setRetweetUserName(status.getRetweetedStatus().getUser().getName());
 					tweet.setRetweetScreenName(status.getRetweetedStatus().getUser().getScreenName());
 					tweet.setContent(status.getRetweetedStatus().getText());
 
 					// Checks for images posted using twitter API
-					MediaEntity[] medias = status.getRetweetedStatus().getMediaEntities();
-					if (medias.length > 0) {
-						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo")) {
-								tweet.setImageURL(media.getMediaURL().toString());
-								break;
-							}
-						}
-					}
-					// Checks for images posted using other APIs
-					else {
-						URLEntity[] entities = status.getRetweetedStatus().getURLEntities();
-						if (entities.length > 0) {
-							URLEntity entity = entities[0];
-							if (entity.getExpandedURL() != null) {
-								tweet.setImageURL(entity.getExpandedURL().toString());
-							} else {
-								if (entity.getDisplayURL() != null) {
-									tweet.setImageURL(entity.getDisplayURL().toString());
-								}
-							}
-						}
-					}
+					medias = status.getRetweetedStatus().getMediaEntities();
 
 				} else {
 					tweet.setContent(status.getText());
 
 					// Checks for images posted using twitter API
-					MediaEntity[] medias = status.getMediaEntities();
-					if (medias != null) {
-						for (MediaEntity media : medias) {
-							if (media.getType().equals("photo")) {
-								tweet.setImageURL(media.getMediaURL().toString());
-								break;
-							}
-						}
-					}
-					// Checks for images posted using other APIs
-					else {
-						URLEntity[] entities = status.getURLEntities();
-						if (entities.length > 0) {
-							URLEntity entity = entities[0];
-							if (entity.getExpandedURL() != null) {
-								tweet.setImageURL(entity.getExpandedURL().toString());
-							} else {
-								if (entity.getDisplayURL() != null) {
-									tweet.setImageURL(entity.getDisplayURL().toString());
-								}
-							}
+					medias = status.getMediaEntities();
+				}
+
+				if(Validator.isNull(tweet.getImageURL()) && Validator.isNotNull(status.getQuotedStatus())){
+					// Checks for images posted using twitter API
+					medias = status.getQuotedStatus().getMediaEntities();
+				}
+
+
+				if (medias != null && medias.length > 0) {
+					for (MediaEntity media : medias) {
+						if (media.getType().equals("photo") || media.getType().equals("video") || media.getType().equals("animated_gif")) {
+							tweet.setImageURL(media.getMediaURLHttps().toString()+":small");
 						}
 					}
 				}
+
+
 				tweets.add(tweet);
 				i++;
 				if (i >= count) {

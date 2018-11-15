@@ -166,7 +166,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 				for (Long projectId : this.selectedProjectIds) {
 					Project project = ProjectLocalServiceUtil.fetchProject(projectId);
-					this.participations.addAll(project.getParticipations());
+					this.participations = this.mergeLists(this.participations, project.getParticipations());
 				}
 				
 				List<Long> tempSelectedParticipations = new ArrayList<Long>();
@@ -179,7 +179,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				
 				for (Long participationId : this.selectedParticipationIds) {
 					Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-					this.events.addAll(participation.getEvents());
+					this.events = this.mergeLists(this.events, participation.getEvents());
 				}
 				
 				List<Long> tempSelectedEvents = new ArrayList<Long>();
@@ -213,7 +213,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 						
 						if (project != null) {
 							this.selectedProjectIds.add(projectId);
-							this.participations.addAll(project.getParticipations());
+							this.participations = this.mergeLists(this.participations, project.getParticipations());
 						}
 					}
 				
@@ -229,7 +229,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 					
 					for (Long participationId : this.selectedParticipationIds) {
 						Participation participation = ParticipationLocalServiceUtil.fetchParticipation(participationId);
-						this.events.addAll(participation.getEvents());
+						this.events = this.mergeLists(this.events, participation.getEvents());
 					}
 					
 					List<Long> tempSelectedEvents = new ArrayList<Long>();
@@ -266,7 +266,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 						
 						if (participation != null) {
 							this.selectedParticipationIds.add(participationId);
-							this.events.addAll(participation.getEvents());
+							this.events = this.mergeLists(this.events, participation.getEvents());
 						}
 					}
 					
@@ -340,22 +340,26 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 * 				[{...}],
 	 * 		}
 	 */
-	private JSONObject constructJSONSelection(ResourceRequest request) {
+	private JSONObject constructJSONSelection(ResourceRequest request) throws PortalException {
+		String publikUserId = this.getPublikID(request);
+		
 		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		
 		// Gestion des projets
 		JSONArray jsonProjects = JSONFactoryUtil.createJSONArray();
 		for (Project project : this.projects) {
 			// Récupération du JSON de l'entité
-			JSONObject jsonProject = project.toJSON();
+			JSONObject jsonProject = project.toJSON(publikUserId);
 			// Si l'entité est dans la liste de celles séléctionnées
 			jsonProject.put(
-					ATTRIBUTE_IS_MARKEABLE, 
-					this.selectedProjectIds.contains(project.getProjectId()) ? true : false
+				ATTRIBUTE_IS_MARKEABLE, 
+				this.selectedProjectIds.contains(project.getProjectId()) ? true : false
 			);
 			jsonProject.put(
-					ATTRIBUTE_LINK, 
-					this.getHomeURL(request) + "/" + project.getDetailURL()
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + project.getDetailURL()
 			);
 			// Ajout de l'entité dans le tableau de résutats correspondant
 			jsonProjects.put(jsonProject);
@@ -365,14 +369,14 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		// Gestion des participations
 		JSONArray jsonParticipations = JSONFactoryUtil.createJSONArray();
 		for (Participation participation : this.participations) {
-			JSONObject jsonParticipation = participation.toJSON();
+			JSONObject jsonParticipation = participation.toJSON(themeDisplay);
 			jsonParticipation.put(
-					ATTRIBUTE_IS_MARKEABLE, 
-					this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
+				ATTRIBUTE_IS_MARKEABLE, 
+				this.selectedParticipationIds.contains(participation.getParticipationId()) ? true : false
 			);
 			jsonParticipation.put(
-					ATTRIBUTE_LINK, 
-					this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + DETAIL_PARTICIPATION_URL + participation.getParticipationId()
 			);
 			jsonParticipations.put(jsonParticipation);
 		}
@@ -382,24 +386,38 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : this.events) {
 			JSONObject jsonEvent = event.toJSON();
-			String publikUserId = this.getPublikID(request);
+			
 			jsonEvent.put(
-					ATTRIBUTE_IS_MARKEABLE, 
-					this.selectedEventIds.contains(event.getEventId()) ? true : false
+				ATTRIBUTE_IS_MARKEABLE, 
+				this.selectedEventIds.contains(event.getEventId()) ? true : false
 			);
 			jsonEvent.put(
-					ATTRIBUTE_LINK, 
-					this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + DETAIL_EVENT_URL + event.getEventId()
 			);
 			jsonEvent.put(
-					ATTRIBUTE_IS_USER_PARTICIPATE, 
-					publikUserId != "" ? event.isUserParticipate(publikUserId) : false
+				ATTRIBUTE_IS_USER_PARTICIPATE, 
+				publikUserId != "" ? event.isUserParticipates(publikUserId) : false
 			);
 			jsonEvents.put(jsonEvent);
 		}
 		jsonResponse.put(JSON_OBJECT_EVENTS, jsonEvents);
 		
 		return  jsonResponse;
+	}
+	
+	/**
+	 * Fusion de deux listes sans obtenir de doublon
+	 * @param listA La liste contenante
+	 * @param listB La liste à ajouter
+	 * @return La liste mergé sans doublon
+	 */
+	public <T> List<T> mergeLists(List<T> listA, List<T> listB) {
+		for (T object : listB){
+		   if (!listA.contains(object))
+			   listA.add(object);
+		}
+		return listA;
 	}
 	
 	/**

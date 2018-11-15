@@ -1,5 +1,5 @@
 main{
-		padding-top: 167px;
+		padding-top: 169px;
 		@include tablet_portrait{
 			padding-top: 122px;
 		}
@@ -150,6 +150,24 @@ main{
 										content: none;
 									}
 								}
+							}
+						}
+					}
+				}
+
+				fieldset{
+					left: 0;
+					right: 0;
+					&:before{
+						top: -5px;
+						left: 23px;
+						right: auto;
+					}
+					label{
+						@include mobile{
+							color: $c_white;
+							&:hover, &:focus{
+								color: $c_main;
 							}
 						}
 					}
@@ -311,6 +329,24 @@ main{
 						}
 						&:hover, &:focus {
 							color: $c_white;
+						}
+
+						&.connexion-active{
+							background: $c_darkgrey;
+							color: $c_white;
+						}
+					}
+
+					.nav-logout{
+						&.connexion-active{
+							background: $c_darkgrey;
+							color: $c_white;
+						}
+						@include tablet_portrait{
+							position: absolute;
+							right: 20px;
+							top: 0;
+							bottom: 0;
 						}
 					}
 					ul {

@@ -3,8 +3,6 @@ package eu.strasbourg.service.like.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.strasbourg.service.like.model.LikeType;
-
 
 /**
  * Enumeration des types d'entité pouvant recevoir des like/dislike
@@ -26,7 +24,8 @@ public enum LikeType {
 	GALLERY(13,"GALLERY"),
 	PROJECT(14, "PROJECT"),
 	PARTICIPATION(15, "PARTICIPATION"),
-	COMMENT(16, "COMMENT");
+	COMMENT(16, "COMMENT"),
+	PETITION(17, "PETITION");
 	
 	private long id;
 	private String name;

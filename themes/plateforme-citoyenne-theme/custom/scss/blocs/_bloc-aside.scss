@@ -107,6 +107,11 @@ aside {
 				background: $c_txt;
 				z-index: 140;
 			}
+			&:after{
+				content: '';
+				display: block;
+				clear: both;
+			}
 
 			&.pro-compt-six {
 				span {
@@ -124,6 +129,7 @@ aside {
 				text-align: center;
 				z-index: 100;
 				border-radius: 2px;
+				float: left;
 				&:before {
 					content: '';
 					position: absolute;
@@ -187,6 +193,15 @@ aside {
 			@include ft($f_txt, 0.875em, 400, $c_white, 1.714em);
 			margin-bottom: 20px;
 			text-align: center;
+			&.pro-txt-vote{
+				margin-bottom: 14px;
+			}
+		}
+		a{
+			margin: 0 0 10px 0;
+			&:last-child{
+				margin: 0;
+			}
 		}
 	}
 

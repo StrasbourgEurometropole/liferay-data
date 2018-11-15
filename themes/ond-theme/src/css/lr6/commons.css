@@ -111,13 +111,13 @@ text-overflow: ellipsis;
 white-space: nowrap;
 }
 
-// Autocomplete
+/*// Autocomplete*/
 .autocomplete-suggestion {
     background: white;
     border-bottom: 1px solid #e6eaef;
     font-size: 15px;
     padding: 5px;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .autocomplete-suggestion:last-child {
@@ -126,14 +126,14 @@ white-space: nowrap;
 
 .autocomplete-suggestion strong {
     color: #97bf0c;
-    font-weight: normal
+    font-weight: normal;
 }
 
 .autocomplete-suggestion.autocomplete-selected {
     background: #97bf0c;
-    color: white
+    color: white;
 }
 
 .autocomplete-suggestion.autocomplete-selected strong {
-    color: white
+    color: white;
 }

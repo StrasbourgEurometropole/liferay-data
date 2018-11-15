@@ -131,6 +131,16 @@ public class ProjectFollowedLocalServiceWrapper
 	}
 
 	/**
+	* Retourne le suivi d'un utilisateur et d'un projet donné
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.ProjectFollowed getByPublikUserIdAndProjectId(
+		java.lang.String publikUserId, long projectId) {
+		return _projectFollowedLocalService.getByPublikUserIdAndProjectId(publikUserId,
+			projectId);
+	}
+
+	/**
 	* Returns the project followed with the primary key.
 	*
 	* @param projectFollowedId the primary key of the project followed
@@ -237,6 +247,15 @@ public class ProjectFollowedLocalServiceWrapper
 	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> getByProjectId(
 		long projectId) {
 		return _projectFollowedLocalService.getByProjectId(projectId);
+	}
+
+	/**
+	* Retourne tous les projets suivis par un utilisateur
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> getByPublikId(
+		java.lang.String publikId) {
+		return _projectFollowedLocalService.getByPublikId(publikId);
 	}
 
 	/**

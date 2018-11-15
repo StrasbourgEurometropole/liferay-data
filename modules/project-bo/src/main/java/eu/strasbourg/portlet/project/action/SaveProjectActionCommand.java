@@ -110,7 +110,11 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					"externalImageCopyright");
 				project.setExternalImageCopyright(externalImageCopyright);
 			}
-			
+
+			// opacité de l'image
+			Double opacityImage = ParamUtil.getDouble(request, "opacityImage");
+			project.setOpacityImage(opacityImage);
+
 			// URL détail du projet
 			String detailURL = ParamUtil.getString(request, "detailURL");
 			project.setDetailURL(detailURL);

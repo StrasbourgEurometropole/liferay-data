@@ -76,6 +76,14 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Retourne tous les commentaires d'un utilisateur
+	 */
+	@Override
+	public List<Comment> getByPublikId(String publikId) {
+		return this.commentPersistence.findByPublikId(publikId);
+	}
+	
+	/**
 	 * Retourne tous les commentaires d'un asset entry
 	 */
 	@Override
@@ -299,7 +307,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 		return comment;
 	}
 
-
     /**
      * Renvoie la liste des vocabulaires rattachés à un commentaire
      */
@@ -319,7 +326,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
         }
         return attachedVocabularies;
     }
-
 
     /**
      * Recherche par mot clés

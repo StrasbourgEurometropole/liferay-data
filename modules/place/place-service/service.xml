@@ -50,6 +50,7 @@
 		<column name="exceptionalSchedule" type="String" localized="true" />
 		<column name="displayEvents" type="boolean" />
 		<column name="additionalInformation" type="String" localized="true" />
+		<column name="contenuTooltipCarto" type="String" localized="true" />
 
 		<!-- Contact -->
 		<column name="phone" type="String" />

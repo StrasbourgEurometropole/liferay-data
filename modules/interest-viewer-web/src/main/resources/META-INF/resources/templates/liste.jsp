@@ -8,7 +8,7 @@
 
 <div class="seu-wi seu-wi-agenda" style="padding-bottom:0px"> 
 	<main class="seu-container"> 
-		<h1 style="margin-bottom:0px"><liferay-ui:message key="actu-agenda" /></h1> 
+		<h1 style="margin-bottom:0px">${title}</h1>
 		<c:if test="${not dc.hasInterest()}">
 			<p class="no-interests">${dc.getNoInterestText()}</p>
 		</c:if>
@@ -33,7 +33,20 @@
 									</div> 
 									<div> 
 										<div class="seu-picture" style="background-image: url(${dc.getJournalArticleImage(article,locale)})"></div> 
-									</div> 
+									</div>
+									<button href="#"
+									   class="add-favorites"
+									   data-type="6" data-title="${dc.getJournalArticleTitle(article,locale)}"
+									   data-url="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"
+									   data-id="${article.getArticleId()}"
+									   data-group-id="${article.getGroupId()}"
+									   style="
+										margin-bottom: 0;
+										margin-top: 20px;
+										height: auto;
+									">
+										<span><liferay-ui:message key="eu.add-to-favorite" /></span>
+									</button>
 								</a> 
 							</div> 
 						</c:forEach> 
@@ -83,9 +96,21 @@
 										<div class="seu-date-end">${firstStartDate}</div> 
 									</div> 
 	                            </c:if>
+	                            <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTitle(locale))}</div> 
 								<div class="seu-ville">${event.getPlaceAlias(locale)} - ${event.getPlaceCity(locale)}</div> 
-								<div class="item-categories" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTypeLabel(locale))}</div> 
-								<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTitle(locale))}</div> 
+								<div class="item-categories" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTypeLabel(locale))}</div>
+								<button href="#"
+								   class="add-favorites"
+								   data-type="2" data-title="${event.getTitle(locale)}"
+								   data-url="${homeURL}evenement/-/entity/id/${event.eventId}"
+								   data-id="${event.getEventId()}"
+								   style="
+										margin-bottom: 0;
+										margin-top: 20px;
+										height: auto;
+									">
+									<span><liferay-ui:message key="eu.add-to-favorite" /></span>
+								</button>
 							</a> 
 						</div> 
 					</c:forEach>

@@ -20,7 +20,7 @@
         });
 
         function attachNavEvents(){
-            if(environment != 'desktop' || windowHeight < 750 || $('html.mseu').hasClass('mobile') || $('html.mseu').hasClass('tablet')){
+            if(environment != 'desktop' || windowHeight < 700 || $('html.mseu').hasClass('mobile') || $('html.mseu').hasClass('tablet')){
                 $menu
                 .off('mouseleave mouseenter focus click')
                 .on('click', function(e){

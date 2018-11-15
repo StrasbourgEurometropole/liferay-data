@@ -65,8 +65,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter{
                 LanguageUtil.get(bundle,"modification-date"),
                 LanguageUtil.get(bundle,"user"),
                 LanguageUtil.get(bundle,"signataire-count"),
-                LanguageUtil.get(bundle,"petition-status"),
-        LanguageUtil.get(bundle,"status")}};
+                LanguageUtil.get(bundle,"petition-status")}};
 
         for (Petition petition : petitions) {
             DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
@@ -75,9 +74,8 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter{
             String title = LocalizationUtil.getLocalization(petition.getTitle(),languageId);
             Object[] petitionRow = {title,dateModified,
                     petition.getUserName(),
-                    petition.getNombreSignature(),
-                    petition.getPetitionStatus(),
-                    petition.getStatus()};
+                    petition.getNombreSignatureBoard(),
+                    petition.getPetitionStatusExcel()};
             petitionData = ArrayUtil.append(petitionData,petitionRow);
         }
         int rowIndex = 0;

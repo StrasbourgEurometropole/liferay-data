@@ -187,7 +187,7 @@
 										<c:set var="occupationState" value="${place.getRealTime('3')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
-			                                    ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}">min</c:if>
+			                                    ${occupationState.occupation}
 			                                </div>
 			                                <div class="crowded-label">
 			                                	<liferay-ui:message key="${occupationState.label}" />

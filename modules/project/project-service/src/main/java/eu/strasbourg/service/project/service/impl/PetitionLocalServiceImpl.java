@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -39,20 +40,30 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
 /**
  * The implementation of the petition local service.
  *
@@ -80,6 +91,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 	public Petition createPetition(long petitionId) {
 		return super.createPetition(petitionId);
 	}
+	
     @Override
 	public Petition updatePetition(Petition petition, ServiceContext sc) throws PortalException {
 		if (sc.getWorkflowAction()==WorkflowConstants.ACTION_PUBLISH){
@@ -90,6 +102,9 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		updatePetition(petition);
 		updateAssetEntry(petition,sc);
 		reindex(petition,false);
+		
+		this.updateAllPetitionsStatus();
+		
 		return petition;
 	}
 
@@ -148,30 +163,48 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
         int petitionUpdatedCount = 0;
         // Recupere le groupe du site via son nom
         Group group = GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL);
+        long groupId = group.getGroupId();
+        List<Petition> petitionList = getPublishedByGroupId(groupId);
 
-        List<Petition> petitionList = getPublishedByGroupId(group.getGroupId());
+        long vocId = AssetVocabularyHelper.getVocabulary(VocabularyNames.PLACIT_STATUS, groupId).getVocabularyId();
+        AssetEntry entry = null;
+        AssetCategory removedCategory = null;
+        AssetCategory addedCategory = null;
         if (petitionList != null && !petitionList.isEmpty()) {
             for (Petition petition : petitionList) {
-                if (petition.getPublicationDate() != null && petition.getExpirationDate() != null) {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime expirationTime = new Timestamp(petition.getExpirationDate().getTime()).toLocalDateTime();
-                    LocalDateTime publicationTime = new Timestamp(petition.getPublicationDate().getTime()).toLocalDateTime();
-                    boolean isExpired = now.isAfter(expirationTime);
-                    boolean quotaSignatureAtteint = petition.getNombreSignature() >= petition.getQuotaSignature();
-                    if (quotaSignatureAtteint && !isExpired)
-                        petition.setPetitionStatus("Aboutie");
-                    else if (isExpired && !quotaSignatureAtteint)
-                        petition.setPetitionStatus("Non aboutie");
-                    else {
-                        long periodTemp = ChronoUnit.DAYS.between(now, expirationTime);
-                        long periodNews = ChronoUnit.DAYS.between(publicationTime, now);
-                        if (!isExpired && periodNews <= 7)
-                            petition.setPetitionStatus("Nouveau");
-                        else if (!isExpired && periodTemp <= 7)
-                            petition.setPetitionStatus("Bient&ocirc;t termin&eacute;e");
-                        else petition.setPetitionStatus("En cours");
+                entry = petition.getAssetEntry();
+                // Cherche le precedent statut
+                for (AssetCategory cat : entry.getCategories()) {
+                    if (cat.getVocabularyId() == vocId) {
+                        removedCategory = cat;
                     }
-                    updatePetition(petition);
+                }
+                String petitionStatus = petition.getPetitionStatus();
+                if (SOON_FINISHED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("bientot terminee", groupId);
+                else if (IN_PROGRESS.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("en cours", groupId);
+                else if (NEW.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
+                else if (COMPLETED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("Aboutie", groupId);
+                else if (FAILED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("Non aboutie", groupId);
+                else if (SOON_ARRIVED.getName().equals(petitionStatus))
+                    addedCategory = AssetVocabularyHelper.getCategory("a venir", groupId);
+                else
+                    addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
+
+                // Si il y a eu changement de statut
+                boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();
+                if (isChanged) {
+                    AssetVocabularyHelper.removeCategoryToAssetEntry(removedCategory, entry);
+                }
+
+                // Ajoute la categorie
+                if ((addedCategory != null && removedCategory == null) || (addedCategory != null && isChanged)) {
+                    AssetVocabularyHelper.addCategoryToAssetEntry(addedCategory, entry);
+                    this.reindex(petition, false);
                     petitionUpdatedCount++;
                 }
             }
@@ -229,6 +262,11 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
             }
         }
 
+        List<Signataire> signataires = signataireLocalService.getSignatairesByPetitionId(petitionId);
+        if (signataires!=null&&!signataires.isEmpty()){
+            signataires.forEach(signataire -> signataireLocalService.removeSignataire(signataire.getSignataireId()));
+        }
+
         // Supprime la petition
         Petition petition = petitionPersistence.remove(petitionId);
 
@@ -284,12 +322,13 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
     }
 
     /**
-     * Retourne tous les petitions publiés d'un groupe
+     * Retourne tous les petitions publiées d'un groupe
      */
     @Override
     public List<Petition> getPublishedByGroupId(long groupId) {
         return this.petitionPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
     }
+    
     @Override
     public List<Petition> findByKeyword(String keyword, long groupId, int start, int end){
 		DynamicQuery dynamicQuery = dynamicQuery();
@@ -343,4 +382,83 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 		return petitionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
+    /**
+     * Méthode permettant de trier les petitions
+     * @return
+     */
+    @Override
+    public List<Petition> getTheMostSigned(long groupId){
+        Comparator<Petition> reversedSignaturesSizeComparator
+                = Comparator.comparingLong(Petition::getNombreSignature).reversed();
+        List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
+        if (petitionList==null||petitionList.isEmpty())
+            return new ArrayList<>();
+        else return petitionList.stream()
+                .sorted(reversedSignaturesSizeComparator)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<Petition> getTheThreeMostSigned(long groupId){
+        List<Petition> petitionList = getTheMostSigned(groupId);
+        if (petitionList.size()<3)
+            return petitionList;
+        else return petitionList.stream().limit(3).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<Petition> getTheThreeLessSigned(long groupId){
+        List<Petition> petitions = getTheMostSigned(groupId);
+        if (petitions.size()<3)
+            return petitions;
+        else return petitions.stream().skip(petitions.size()-3).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Petition> getTheMostCommented(long groupId){
+	    List<Petition> petitionList = petitionPersistence.findByStatusAndGroupId(0,groupId);
+        Comparator<Petition> reversedCommentSizeComparator
+                = Comparator.comparingInt(Petition::getNbApprovedComments).reversed();
+	    List<Petition> temp = petitionList.stream()
+                .sorted(reversedCommentSizeComparator)
+                .collect(Collectors.toList());
+	    if (temp.size()<3)
+	        return temp;
+	    else return temp.stream().limit(3).collect(Collectors.toList());
+    }
+
+    public List<Petition> getPetitionByPublikUserID(String publikId){
+        List<Petition> petitionList = petitionPersistence.findByPublikId(publikId);
+        return petitionList.stream()
+                .filter(PetitionModel::isApproved)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Petition> getByPublikUserID(String publikId){
+        return petitionPersistence.findByPublikId(publikId);
+    }
+
+    public List<Petition> getPetitionBySignatairePublikId(String publikId){
+        List<Signataire> signataires = signataireLocalService.getSignataireByPublikId(publikId);
+        List<Petition> petitionList = signataires.stream()
+                .map(signataire -> {
+                    Petition petition=null;
+                    try {
+                        petition = getPetition(signataire.getPetitionId());
+                    } catch (PortalException e) {
+                        _log.error(e);
+                    }
+                    return petition;
+                })
+                .collect(Collectors.toList());
+        return petitionList.stream()
+                .filter(PetitionModel::isApproved)
+                .collect(Collectors.toList());
+    }
 }

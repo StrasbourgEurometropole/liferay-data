@@ -1,14 +1,5 @@
 package eu.strasbourg.portlet.tipi_portlet.configuration;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -17,8 +8,15 @@ import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.tipi_portlet.configuration.PlaceScheduleConfiguration",
@@ -46,6 +44,10 @@ public class TipiPortletConfigurationAction
 			// récupère le nom du formulaire
 			String form = ParamUtil.getString(request, "form");
 			setPreference(request, "form", form);
+			
+			// récupère le complément d'info du formulaire
+			String complement = ParamUtil.getString(request, "complement");
+			setPreference(request, "complement", complement);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -65,6 +67,7 @@ public class TipiPortletConfigurationAction
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						TipiPortletConfiguration.class);
 			request.setAttribute("form", configuration.form());
+			request.setAttribute("complement", configuration.complement());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

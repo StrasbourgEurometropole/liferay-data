@@ -313,4 +313,12 @@ public interface PublikUserLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* méthode permettant de récupererer le nombre de signataire.
+	*
+	* @return le nombre de signataire.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getCountUserHasSignedPacte();
 }

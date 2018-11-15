@@ -12,6 +12,7 @@
     <script src="/o/mapweb/js/leaflet.js"></script>
     <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
+    <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
     <script>
         define.amd = define._amd;
@@ -20,7 +21,7 @@
 
 <c:if test="${!districtUser || district != null}">
 	<c:if test="${!districtUser}">
-	    <h1><liferay-ui:message key="auround-me" /></h1>
+	    <h1>${title}</h1>
 	</c:if>
 	<c:if test="${districtUser}">
 	    <h2 class="aroundme--title">
@@ -40,7 +41,7 @@
 		        <div class="top__overflow">
 		            <aui:form method="POST" action="#" name="addItemForm" id="addItemForm" cssClass="filtres filtres--category">
 						<c:if test="${typesContenu.contains('eu.strasbourg.service.agenda.model.Event')}">
-	    					<p class="info-text">${eventExplanationText}</p>
+	    					<div class="info-text">${eventExplanationText}</div>
 						</c:if>
 		                <div class="filtres__list" id="poin">
 	                        <button type="button" class="top__trigger top__trigger--close mobile-only"></button>
@@ -62,7 +63,11 @@
 			                                >
 			                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
 			                                	${category.getTitle(locale)}
-		
+
+												<c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
+													<img src="${category.getDescription(locale)}" style="height: 25px; width: 17px;">
+												</c:if>
+
 												<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
 			                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
 			                                </label>

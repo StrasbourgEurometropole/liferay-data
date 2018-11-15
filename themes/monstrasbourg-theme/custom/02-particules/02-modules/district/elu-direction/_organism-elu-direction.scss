@@ -9,7 +9,9 @@
         } 
 
         .container-left{
-            width: 50%;
+            @include RWD(desktop){
+                width: 50%;
+            }
             flex: 1;
             @include RWD(tablet){
                 order: 2;
@@ -31,7 +33,6 @@
             @include RWD(tablet_only){
                 padding: 20px;
                 display: flex;
-                background-color: $second-color;
             }
             flex-shrink: 0;
 

@@ -45,6 +45,7 @@
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
       <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.publikInternalId = '${request.session.getAttribute("publik_internal_id")}';
       window.userFavorites = [
         <#list favorites as favorite>
           {

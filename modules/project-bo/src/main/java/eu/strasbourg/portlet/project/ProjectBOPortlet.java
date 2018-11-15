@@ -9,9 +9,13 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.project.display.context.EditBudgetParticipatifDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditInitiativeDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewBudgetParticipatifDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewInitiativesDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
@@ -54,6 +58,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		Boolean fromAjaxProject = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxProject"));
 		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
 		Boolean fromAjaxPetition = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxPetition"));
+		Boolean fromAjaxBudgetParticipatif = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxBudgetParticipatif"));
 		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
@@ -76,8 +81,18 @@ public class ProjectBOPortlet extends MVCPortlet {
 			title = "participations";
 		} else if (cmd.equals("editPetition") || fromAjaxPetition) {
 			EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
+			String signatureNumber = Integer.toString((int)themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
+			renderRequest.setAttribute("signatureNumber", signatureNumber);
 			renderRequest.setAttribute("dc", dc);
 			title = "Petitions";
+		} else if (cmd.equals("editBudgetParticipatif") || fromAjaxBudgetParticipatif) {
+			EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "budgets-participatifs";
+		} else if (cmd.equals("editInitiative") || fromAjaxPetition) {
+			EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "Initiatives";		
 		} else if (tab.equals("participations")) {
 			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
 			renderRequest.setAttribute("dc", dc);
@@ -86,7 +101,16 @@ public class ProjectBOPortlet extends MVCPortlet {
 			ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "petitions";
-		}else { // Else, we are on the projects list page
+		} else if (tab.equals("budgets-participatifs")){
+			ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "budgets-participatifs";
+		} else if (tab.equals("initiatives")){
+			ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "initiatives";
+		}
+		else { // Else, we are on the projects list page
 			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "projects";

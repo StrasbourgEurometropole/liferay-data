@@ -55,16 +55,14 @@
         position: relative;
         form{
             overflow: hidden;
-            p{
-                color: #ffffff;
+
+            .filtres__list h2{
                 font-family: "MontSerrat", arial;
-                font-size: 1.4rem;
-                line-height: 1.2em;
-                font-weight: 400;
-                text-align: center;
+                font-weight: 700;
+                font-size: 1.7rem;
             }
 
-            p.info-text {
+            .info-text {
                 color: #ffffff;
                 font-family: $opensans;
                 font-size: 1.5rem;
@@ -221,12 +219,17 @@
 
         &__group{
             position: absolute;
-            bottom: 10px;
+            top: 10px;
             left: 10px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             height: calc(100% - 20px);
+
+            @include RWD(mobile){
+                height: calc(100% - 160px);
+            }
+
             .aroundme__ui{
                 border-radius: 0;
 
@@ -287,7 +290,9 @@
         }
         &__list{
             .grid-item{
-                margin-bottom: 15px;
+                padding-bottom: 15px;
+                min-height: 32px;
+                margin: auto;
             }
         }
         &__item{
@@ -599,13 +604,16 @@
             font-weight: 700;
             color: #FFFFFF;
             font-size: 0.8em;
-            height: 20px;
-            width: 20px;
+            height: 22px;
+            width: 22px;
             flex-shrink: 0;
             position: absolute;
             top: 0;
             right: 0;
             transform: translate(50%, -50%);
+            font-size: 11px;
+            text-align: center;
+            line-height: 8px;
 
             &.red{
                 background-color: $crowded-red;
@@ -643,7 +651,7 @@
         }
     }
     .leaflet-popup-tip {
-        background: #31455d;
+        background: $core-color;
     }
     .leaflet-div-icon {
         background: none;
@@ -798,6 +806,7 @@
                 width: 50px;
                 flex-shrink: 0;
                 margin: 5px auto;
+                line-height: 16px;
 
                 &.orange{
                     background-color: $crowded-orange;
@@ -821,7 +830,7 @@
                 }
             }
             .crowded-label{
-                color: #31455d;
+                color: $core-color;
                 font-size: 1.3rem;
                 font-family: $main-font;
             }

@@ -90,17 +90,25 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "description", Types.CLOB },
 			{ "placeTextArea", Types.VARCHAR },
 			{ "filesDownload", Types.VARCHAR },
-			{ "petitionStatus", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP },
 			{ "quotaSignature", Types.BIGINT },
-			{ "nombreSignature", Types.BIGINT },
+			{ "petitionnaireLastname", Types.VARCHAR },
+			{ "petitionnaireFirstname", Types.VARCHAR },
+			{ "petitionnaireBirthday", Types.TIMESTAMP },
+			{ "petitionnaireAdresse", Types.VARCHAR },
+			{ "petitionnairePostalCode", Types.BIGINT },
+			{ "petitionnaireCity", Types.VARCHAR },
+			{ "petitionnairePhone", Types.VARCHAR },
+			{ "petitionnaireEmail", Types.VARCHAR },
+			{ "isSupported", Types.BOOLEAN },
+			{ "supportedBy", Types.VARCHAR },
 			{ "videoUrl", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
 			{ "mediaChoice", Types.BOOLEAN },
+			{ "consultationPlacesText", Types.VARCHAR },
 			{ "consultationPlacesBody", Types.VARCHAR },
-			{ "assetEntryId", Types.BIGINT },
 			{ "publikId", Types.VARCHAR },
 			{ "imageId", Types.BIGINT },
 			{ "filesIds", Types.VARCHAR }
@@ -124,23 +132,31 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("filesDownload", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("petitionStatus", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("quotaSignature", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("nombreSignature", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("petitionnaireLastname", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("petitionnaireFirstname", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("petitionnaireBirthday", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("petitionnaireAdresse", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("petitionnairePostalCode", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("petitionnaireCity", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("petitionnairePhone", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("petitionnaireEmail", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("isSupported", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("supportedBy", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("consultationPlacesText", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,petitionStatus VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,nombreSignature LONG,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesBody VARCHAR(75) null,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,placeTextArea VARCHAR(75) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(75) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(75) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(75) null,isSupported BOOLEAN,supportedBy VARCHAR(75) null,videoUrl VARCHAR(75) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,consultationPlacesText VARCHAR(75) null,consultationPlacesBody VARCHAR(75) null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -158,9 +174,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long STATUS_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long TITLE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -191,17 +208,25 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setDescription(soapModel.getDescription());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setFilesDownload(soapModel.getFilesDownload());
-		model.setPetitionStatus(soapModel.getPetitionStatus());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
 		model.setQuotaSignature(soapModel.getQuotaSignature());
-		model.setNombreSignature(soapModel.getNombreSignature());
+		model.setPetitionnaireLastname(soapModel.getPetitionnaireLastname());
+		model.setPetitionnaireFirstname(soapModel.getPetitionnaireFirstname());
+		model.setPetitionnaireBirthday(soapModel.getPetitionnaireBirthday());
+		model.setPetitionnaireAdresse(soapModel.getPetitionnaireAdresse());
+		model.setPetitionnairePostalCode(soapModel.getPetitionnairePostalCode());
+		model.setPetitionnaireCity(soapModel.getPetitionnaireCity());
+		model.setPetitionnairePhone(soapModel.getPetitionnairePhone());
+		model.setPetitionnaireEmail(soapModel.getPetitionnaireEmail());
+		model.setIsSupported(soapModel.getIsSupported());
+		model.setSupportedBy(soapModel.getSupportedBy());
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
 		model.setMediaChoice(soapModel.getMediaChoice());
+		model.setConsultationPlacesText(soapModel.getConsultationPlacesText());
 		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
-		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
@@ -285,17 +310,25 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
-		attributes.put("petitionStatus", getPetitionStatus());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
-		attributes.put("nombreSignature", getNombreSignature());
+		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
+		attributes.put("petitionnaireFirstname", getPetitionnaireFirstname());
+		attributes.put("petitionnaireBirthday", getPetitionnaireBirthday());
+		attributes.put("petitionnaireAdresse", getPetitionnaireAdresse());
+		attributes.put("petitionnairePostalCode", getPetitionnairePostalCode());
+		attributes.put("petitionnaireCity", getPetitionnaireCity());
+		attributes.put("petitionnairePhone", getPetitionnairePhone());
+		attributes.put("petitionnaireEmail", getPetitionnaireEmail());
+		attributes.put("isSupported", getIsSupported());
+		attributes.put("supportedBy", getSupportedBy());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("consultationPlacesText", getConsultationPlacesText());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
-		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
@@ -404,12 +437,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			setFilesDownload(filesDownload);
 		}
 
-		String petitionStatus = (String)attributes.get("petitionStatus");
-
-		if (petitionStatus != null) {
-			setPetitionStatus(petitionStatus);
-		}
-
 		Date publicationDate = (Date)attributes.get("publicationDate");
 
 		if (publicationDate != null) {
@@ -428,10 +455,69 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			setQuotaSignature(quotaSignature);
 		}
 
-		Long nombreSignature = (Long)attributes.get("nombreSignature");
+		String petitionnaireLastname = (String)attributes.get(
+				"petitionnaireLastname");
 
-		if (nombreSignature != null) {
-			setNombreSignature(nombreSignature);
+		if (petitionnaireLastname != null) {
+			setPetitionnaireLastname(petitionnaireLastname);
+		}
+
+		String petitionnaireFirstname = (String)attributes.get(
+				"petitionnaireFirstname");
+
+		if (petitionnaireFirstname != null) {
+			setPetitionnaireFirstname(petitionnaireFirstname);
+		}
+
+		Date petitionnaireBirthday = (Date)attributes.get(
+				"petitionnaireBirthday");
+
+		if (petitionnaireBirthday != null) {
+			setPetitionnaireBirthday(petitionnaireBirthday);
+		}
+
+		String petitionnaireAdresse = (String)attributes.get(
+				"petitionnaireAdresse");
+
+		if (petitionnaireAdresse != null) {
+			setPetitionnaireAdresse(petitionnaireAdresse);
+		}
+
+		Long petitionnairePostalCode = (Long)attributes.get(
+				"petitionnairePostalCode");
+
+		if (petitionnairePostalCode != null) {
+			setPetitionnairePostalCode(petitionnairePostalCode);
+		}
+
+		String petitionnaireCity = (String)attributes.get("petitionnaireCity");
+
+		if (petitionnaireCity != null) {
+			setPetitionnaireCity(petitionnaireCity);
+		}
+
+		String petitionnairePhone = (String)attributes.get("petitionnairePhone");
+
+		if (petitionnairePhone != null) {
+			setPetitionnairePhone(petitionnairePhone);
+		}
+
+		String petitionnaireEmail = (String)attributes.get("petitionnaireEmail");
+
+		if (petitionnaireEmail != null) {
+			setPetitionnaireEmail(petitionnaireEmail);
+		}
+
+		Boolean isSupported = (Boolean)attributes.get("isSupported");
+
+		if (isSupported != null) {
+			setIsSupported(isSupported);
+		}
+
+		String supportedBy = (String)attributes.get("supportedBy");
+
+		if (supportedBy != null) {
+			setSupportedBy(supportedBy);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -459,17 +545,18 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			setMediaChoice(mediaChoice);
 		}
 
+		String consultationPlacesText = (String)attributes.get(
+				"consultationPlacesText");
+
+		if (consultationPlacesText != null) {
+			setConsultationPlacesText(consultationPlacesText);
+		}
+
 		String consultationPlacesBody = (String)attributes.get(
 				"consultationPlacesBody");
 
 		if (consultationPlacesBody != null) {
 			setConsultationPlacesBody(consultationPlacesBody);
-		}
-
-		Long assetEntryId = (Long)attributes.get("assetEntryId");
-
-		if (assetEntryId != null) {
-			setAssetEntryId(assetEntryId);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -788,22 +875,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
-	public String getPetitionStatus() {
-		if (_petitionStatus == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _petitionStatus;
-		}
-	}
-
-	@Override
-	public void setPetitionStatus(String petitionStatus) {
-		_petitionStatus = petitionStatus;
-	}
-
-	@JSON
-	@Override
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -837,13 +908,153 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
-	public long getNombreSignature() {
-		return _nombreSignature;
+	public String getPetitionnaireLastname() {
+		if (_petitionnaireLastname == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _petitionnaireLastname;
+		}
 	}
 
 	@Override
-	public void setNombreSignature(long nombreSignature) {
-		_nombreSignature = nombreSignature;
+	public void setPetitionnaireLastname(String petitionnaireLastname) {
+		_petitionnaireLastname = petitionnaireLastname;
+	}
+
+	@JSON
+	@Override
+	public String getPetitionnaireFirstname() {
+		if (_petitionnaireFirstname == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _petitionnaireFirstname;
+		}
+	}
+
+	@Override
+	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
+		_petitionnaireFirstname = petitionnaireFirstname;
+	}
+
+	@JSON
+	@Override
+	public Date getPetitionnaireBirthday() {
+		return _petitionnaireBirthday;
+	}
+
+	@Override
+	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
+		_petitionnaireBirthday = petitionnaireBirthday;
+	}
+
+	@JSON
+	@Override
+	public String getPetitionnaireAdresse() {
+		if (_petitionnaireAdresse == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _petitionnaireAdresse;
+		}
+	}
+
+	@Override
+	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
+		_petitionnaireAdresse = petitionnaireAdresse;
+	}
+
+	@JSON
+	@Override
+	public long getPetitionnairePostalCode() {
+		return _petitionnairePostalCode;
+	}
+
+	@Override
+	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
+		_petitionnairePostalCode = petitionnairePostalCode;
+	}
+
+	@JSON
+	@Override
+	public String getPetitionnaireCity() {
+		if (_petitionnaireCity == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _petitionnaireCity;
+		}
+	}
+
+	@Override
+	public void setPetitionnaireCity(String petitionnaireCity) {
+		_petitionnaireCity = petitionnaireCity;
+	}
+
+	@JSON
+	@Override
+	public String getPetitionnairePhone() {
+		if (_petitionnairePhone == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _petitionnairePhone;
+		}
+	}
+
+	@Override
+	public void setPetitionnairePhone(String petitionnairePhone) {
+		_petitionnairePhone = petitionnairePhone;
+	}
+
+	@JSON
+	@Override
+	public String getPetitionnaireEmail() {
+		if (_petitionnaireEmail == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _petitionnaireEmail;
+		}
+	}
+
+	@Override
+	public void setPetitionnaireEmail(String petitionnaireEmail) {
+		_petitionnaireEmail = petitionnaireEmail;
+	}
+
+	@JSON
+	@Override
+	public boolean getIsSupported() {
+		return _isSupported;
+	}
+
+	@JSON
+	@Override
+	public boolean isIsSupported() {
+		return _isSupported;
+	}
+
+	@Override
+	public void setIsSupported(boolean isSupported) {
+		_isSupported = isSupported;
+	}
+
+	@JSON
+	@Override
+	public String getSupportedBy() {
+		if (_supportedBy == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _supportedBy;
+		}
+	}
+
+	@Override
+	public void setSupportedBy(String supportedBy) {
+		_supportedBy = supportedBy;
 	}
 
 	@JSON
@@ -913,6 +1124,22 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
+	public String getConsultationPlacesText() {
+		if (_consultationPlacesText == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _consultationPlacesText;
+		}
+	}
+
+	@Override
+	public void setConsultationPlacesText(String consultationPlacesText) {
+		_consultationPlacesText = consultationPlacesText;
+	}
+
+	@JSON
+	@Override
 	public String getConsultationPlacesBody() {
 		if (_consultationPlacesBody == null) {
 			return StringPool.BLANK;
@@ -929,17 +1156,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
-	public long getAssetEntryId() {
-		return _assetEntryId;
-	}
-
-	@Override
-	public void setAssetEntryId(long assetEntryId) {
-		_assetEntryId = assetEntryId;
-	}
-
-	@JSON
-	@Override
 	public String getPublikId() {
 		if (_publikId == null) {
 			return StringPool.BLANK;
@@ -951,7 +1167,17 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public void setPublikId(String publikId) {
+		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
+
+		if (_originalPublikId == null) {
+			_originalPublikId = _publikId;
+		}
+
 		_publikId = publikId;
+	}
+
+	public String getOriginalPublikId() {
+		return GetterUtil.getString(_originalPublikId);
 	}
 
 	@JSON
@@ -1114,17 +1340,25 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setDescription(getDescription());
 		petitionImpl.setPlaceTextArea(getPlaceTextArea());
 		petitionImpl.setFilesDownload(getFilesDownload());
-		petitionImpl.setPetitionStatus(getPetitionStatus());
 		petitionImpl.setPublicationDate(getPublicationDate());
 		petitionImpl.setExpirationDate(getExpirationDate());
 		petitionImpl.setQuotaSignature(getQuotaSignature());
-		petitionImpl.setNombreSignature(getNombreSignature());
+		petitionImpl.setPetitionnaireLastname(getPetitionnaireLastname());
+		petitionImpl.setPetitionnaireFirstname(getPetitionnaireFirstname());
+		petitionImpl.setPetitionnaireBirthday(getPetitionnaireBirthday());
+		petitionImpl.setPetitionnaireAdresse(getPetitionnaireAdresse());
+		petitionImpl.setPetitionnairePostalCode(getPetitionnairePostalCode());
+		petitionImpl.setPetitionnaireCity(getPetitionnaireCity());
+		petitionImpl.setPetitionnairePhone(getPetitionnairePhone());
+		petitionImpl.setPetitionnaireEmail(getPetitionnaireEmail());
+		petitionImpl.setIsSupported(getIsSupported());
+		petitionImpl.setSupportedBy(getSupportedBy());
 		petitionImpl.setVideoUrl(getVideoUrl());
 		petitionImpl.setExternalImageURL(getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(getExternalImageCopyright());
 		petitionImpl.setMediaChoice(getMediaChoice());
+		petitionImpl.setConsultationPlacesText(getConsultationPlacesText());
 		petitionImpl.setConsultationPlacesBody(getConsultationPlacesBody());
-		petitionImpl.setAssetEntryId(getAssetEntryId());
 		petitionImpl.setPublikId(getPublikId());
 		petitionImpl.setImageId(getImageId());
 		petitionImpl.setFilesIds(getFilesIds());
@@ -1203,6 +1437,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionModelImpl._originalStatus = petitionModelImpl._status;
 
 		petitionModelImpl._setOriginalStatus = false;
+
+		petitionModelImpl._originalPublikId = petitionModelImpl._publikId;
 
 		petitionModelImpl._columnBitmask = 0;
 	}
@@ -1306,14 +1542,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.filesDownload = null;
 		}
 
-		petitionCacheModel.petitionStatus = getPetitionStatus();
-
-		String petitionStatus = petitionCacheModel.petitionStatus;
-
-		if ((petitionStatus != null) && (petitionStatus.length() == 0)) {
-			petitionCacheModel.petitionStatus = null;
-		}
-
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -1334,7 +1562,77 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		petitionCacheModel.quotaSignature = getQuotaSignature();
 
-		petitionCacheModel.nombreSignature = getNombreSignature();
+		petitionCacheModel.petitionnaireLastname = getPetitionnaireLastname();
+
+		String petitionnaireLastname = petitionCacheModel.petitionnaireLastname;
+
+		if ((petitionnaireLastname != null) &&
+				(petitionnaireLastname.length() == 0)) {
+			petitionCacheModel.petitionnaireLastname = null;
+		}
+
+		petitionCacheModel.petitionnaireFirstname = getPetitionnaireFirstname();
+
+		String petitionnaireFirstname = petitionCacheModel.petitionnaireFirstname;
+
+		if ((petitionnaireFirstname != null) &&
+				(petitionnaireFirstname.length() == 0)) {
+			petitionCacheModel.petitionnaireFirstname = null;
+		}
+
+		Date petitionnaireBirthday = getPetitionnaireBirthday();
+
+		if (petitionnaireBirthday != null) {
+			petitionCacheModel.petitionnaireBirthday = petitionnaireBirthday.getTime();
+		}
+		else {
+			petitionCacheModel.petitionnaireBirthday = Long.MIN_VALUE;
+		}
+
+		petitionCacheModel.petitionnaireAdresse = getPetitionnaireAdresse();
+
+		String petitionnaireAdresse = petitionCacheModel.petitionnaireAdresse;
+
+		if ((petitionnaireAdresse != null) &&
+				(petitionnaireAdresse.length() == 0)) {
+			petitionCacheModel.petitionnaireAdresse = null;
+		}
+
+		petitionCacheModel.petitionnairePostalCode = getPetitionnairePostalCode();
+
+		petitionCacheModel.petitionnaireCity = getPetitionnaireCity();
+
+		String petitionnaireCity = petitionCacheModel.petitionnaireCity;
+
+		if ((petitionnaireCity != null) && (petitionnaireCity.length() == 0)) {
+			petitionCacheModel.petitionnaireCity = null;
+		}
+
+		petitionCacheModel.petitionnairePhone = getPetitionnairePhone();
+
+		String petitionnairePhone = petitionCacheModel.petitionnairePhone;
+
+		if ((petitionnairePhone != null) && (petitionnairePhone.length() == 0)) {
+			petitionCacheModel.petitionnairePhone = null;
+		}
+
+		petitionCacheModel.petitionnaireEmail = getPetitionnaireEmail();
+
+		String petitionnaireEmail = petitionCacheModel.petitionnaireEmail;
+
+		if ((petitionnaireEmail != null) && (petitionnaireEmail.length() == 0)) {
+			petitionCacheModel.petitionnaireEmail = null;
+		}
+
+		petitionCacheModel.isSupported = getIsSupported();
+
+		petitionCacheModel.supportedBy = getSupportedBy();
+
+		String supportedBy = petitionCacheModel.supportedBy;
+
+		if ((supportedBy != null) && (supportedBy.length() == 0)) {
+			petitionCacheModel.supportedBy = null;
+		}
 
 		petitionCacheModel.videoUrl = getVideoUrl();
 
@@ -1363,6 +1661,15 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		petitionCacheModel.mediaChoice = getMediaChoice();
 
+		petitionCacheModel.consultationPlacesText = getConsultationPlacesText();
+
+		String consultationPlacesText = petitionCacheModel.consultationPlacesText;
+
+		if ((consultationPlacesText != null) &&
+				(consultationPlacesText.length() == 0)) {
+			petitionCacheModel.consultationPlacesText = null;
+		}
+
 		petitionCacheModel.consultationPlacesBody = getConsultationPlacesBody();
 
 		String consultationPlacesBody = petitionCacheModel.consultationPlacesBody;
@@ -1371,8 +1678,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 				(consultationPlacesBody.length() == 0)) {
 			petitionCacheModel.consultationPlacesBody = null;
 		}
-
-		petitionCacheModel.assetEntryId = getAssetEntryId();
 
 		petitionCacheModel.publikId = getPublikId();
 
@@ -1397,7 +1702,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1431,16 +1736,32 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getPlaceTextArea());
 		sb.append(", filesDownload=");
 		sb.append(getFilesDownload());
-		sb.append(", petitionStatus=");
-		sb.append(getPetitionStatus());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append(", expirationDate=");
 		sb.append(getExpirationDate());
 		sb.append(", quotaSignature=");
 		sb.append(getQuotaSignature());
-		sb.append(", nombreSignature=");
-		sb.append(getNombreSignature());
+		sb.append(", petitionnaireLastname=");
+		sb.append(getPetitionnaireLastname());
+		sb.append(", petitionnaireFirstname=");
+		sb.append(getPetitionnaireFirstname());
+		sb.append(", petitionnaireBirthday=");
+		sb.append(getPetitionnaireBirthday());
+		sb.append(", petitionnaireAdresse=");
+		sb.append(getPetitionnaireAdresse());
+		sb.append(", petitionnairePostalCode=");
+		sb.append(getPetitionnairePostalCode());
+		sb.append(", petitionnaireCity=");
+		sb.append(getPetitionnaireCity());
+		sb.append(", petitionnairePhone=");
+		sb.append(getPetitionnairePhone());
+		sb.append(", petitionnaireEmail=");
+		sb.append(getPetitionnaireEmail());
+		sb.append(", isSupported=");
+		sb.append(getIsSupported());
+		sb.append(", supportedBy=");
+		sb.append(getSupportedBy());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
 		sb.append(", externalImageURL=");
@@ -1449,10 +1770,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getExternalImageCopyright());
 		sb.append(", mediaChoice=");
 		sb.append(getMediaChoice());
+		sb.append(", consultationPlacesText=");
+		sb.append(getConsultationPlacesText());
 		sb.append(", consultationPlacesBody=");
 		sb.append(getConsultationPlacesBody());
-		sb.append(", assetEntryId=");
-		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
 		sb.append(", imageId=");
@@ -1466,7 +1787,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(94);
+		StringBundler sb = new StringBundler(118);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1537,10 +1858,6 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getFilesDownload());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>petitionStatus</column-name><column-value><![CDATA[");
-		sb.append(getPetitionStatus());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
@@ -1553,8 +1870,44 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getQuotaSignature());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>nombreSignature</column-name><column-value><![CDATA[");
-		sb.append(getNombreSignature());
+			"<column><column-name>petitionnaireLastname</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnaireLastname());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>petitionnaireFirstname</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnaireFirstname());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>petitionnaireBirthday</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnaireBirthday());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>petitionnaireAdresse</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnaireAdresse());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>petitionnairePostalCode</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnairePostalCode());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>petitionnaireCity</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnaireCity());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>petitionnairePhone</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnairePhone());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>petitionnaireEmail</column-name><column-value><![CDATA[");
+		sb.append(getPetitionnaireEmail());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isSupported</column-name><column-value><![CDATA[");
+		sb.append(getIsSupported());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>supportedBy</column-name><column-value><![CDATA[");
+		sb.append(getSupportedBy());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>videoUrl</column-name><column-value><![CDATA[");
@@ -1573,12 +1926,12 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getMediaChoice());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>consultationPlacesBody</column-name><column-value><![CDATA[");
-		sb.append(getConsultationPlacesBody());
+			"<column><column-name>consultationPlacesText</column-name><column-value><![CDATA[");
+		sb.append(getConsultationPlacesText());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
-		sb.append(getAssetEntryId());
+			"<column><column-name>consultationPlacesBody</column-name><column-value><![CDATA[");
+		sb.append(getConsultationPlacesBody());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publikId</column-name><column-value><![CDATA[");
@@ -1626,18 +1979,27 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
-	private String _petitionStatus;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _quotaSignature;
-	private long _nombreSignature;
+	private String _petitionnaireLastname;
+	private String _petitionnaireFirstname;
+	private Date _petitionnaireBirthday;
+	private String _petitionnaireAdresse;
+	private long _petitionnairePostalCode;
+	private String _petitionnaireCity;
+	private String _petitionnairePhone;
+	private String _petitionnaireEmail;
+	private boolean _isSupported;
+	private String _supportedBy;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
+	private String _consultationPlacesText;
 	private String _consultationPlacesBody;
-	private long _assetEntryId;
 	private String _publikId;
+	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
 	private long _columnBitmask;

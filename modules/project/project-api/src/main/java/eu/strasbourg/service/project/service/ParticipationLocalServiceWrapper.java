@@ -332,6 +332,30 @@ public class ParticipationLocalServiceWrapper
 	}
 
 	/**
+	* méthode permettant de récupérer les 3 dernieres participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getLessCommented(
+		long groupId) {
+		return _participationLocalService.getLessCommented(groupId);
+	}
+
+	/**
+	* méthode permettant de récupérer les 3 premières participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getMostCommented(
+		long groupId) {
+		return _participationLocalService.getMostCommented(groupId);
+	}
+
+	/**
 	* Returns a range of all the participations.
 	*
 	* <p>
@@ -378,6 +402,15 @@ public class ParticipationLocalServiceWrapper
 		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.project.model.Participation> orderByComparator) {
 		return _participationLocalService.getParticipationsByUuidAndCompanyId(uuid,
 			companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne toutes les participation publiées d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Participation> getPublishedByGroupId(
+		long groupId) {
+		return _participationLocalService.getPublishedByGroupId(groupId);
 	}
 
 	/**
