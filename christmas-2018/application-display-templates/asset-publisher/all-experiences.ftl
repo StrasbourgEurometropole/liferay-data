@@ -8,6 +8,7 @@
             <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
             <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
             <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
+                <#assign text = text?replace("<[^>]*>", "", "r")[0..*250] />
             <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
             <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
             <div class="col-sm-6">
@@ -18,7 +19,7 @@
                         </figure>
                         <div class="mns-bloc-content-actu">
                             <h3>${title}</h3>
-                            <p>${text?replace("<[^>]*>", "", "r")[0..*250]}...</p>
+                            <p>${text?keep_before_last(" ")}...</p>
                             <span class="link"><@liferay_ui.message key="eu.discover" /></span>
                         </div>
                     </a>
