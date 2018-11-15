@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -150,8 +151,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,budget LONG,motif VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,placeTextArea VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
-	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.title ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.title ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.modifiedDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.modifiedDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -167,10 +168,11 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	public static final long BUDGETPHASEID_COLUMN_BITMASK = 1L;
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long PUBLIKID_COLUMN_BITMASK = 8L;
-	public static final long STATUS_COLUMN_BITMASK = 16L;
-	public static final long UUID_COLUMN_BITMASK = 32L;
-	public static final long TITLE_COLUMN_BITMASK = 64L;
+	public static final long ISCRUSH_COLUMN_BITMASK = 8L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -681,6 +683,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		_columnBitmask = -1L;
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -774,8 +778,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
-
 		_title = title;
 	}
 
@@ -1019,7 +1021,19 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public void setIsCrush(boolean isCrush) {
+		_columnBitmask |= ISCRUSH_COLUMN_BITMASK;
+
+		if (!_setOriginalIsCrush) {
+			_setOriginalIsCrush = true;
+
+			_originalIsCrush = _isCrush;
+		}
+
 		_isCrush = isCrush;
+	}
+
+	public boolean getOriginalIsCrush() {
+		return _originalIsCrush;
 	}
 
 	@JSON
@@ -1275,7 +1289,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	public int compareTo(BudgetParticipatif budgetParticipatif) {
 		int value = 0;
 
-		value = getTitle().compareTo(budgetParticipatif.getTitle());
+		value = DateUtil.compareTo(getModifiedDate(),
+				budgetParticipatif.getModifiedDate());
+
+		value = value * -1;
 
 		if (value != 0) {
 			return value;
@@ -1340,6 +1357,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifModelImpl._originalStatus = budgetParticipatifModelImpl._status;
 
 		budgetParticipatifModelImpl._setOriginalStatus = false;
+
+		budgetParticipatifModelImpl._originalIsCrush = budgetParticipatifModelImpl._isCrush;
+
+		budgetParticipatifModelImpl._setOriginalIsCrush = false;
 
 		budgetParticipatifModelImpl._originalPublikId = budgetParticipatifModelImpl._publikId;
 
@@ -1829,6 +1850,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private String _videoUrl;
 	private String _placeTextArea;
 	private boolean _isCrush;
+	private boolean _originalIsCrush;
+	private boolean _setOriginalIsCrush;
 	private String _crushComment;
 	private String _publikId;
 	private String _originalPublikId;

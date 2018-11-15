@@ -384,11 +384,57 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus soutenus triee.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostSupported(
+		long groupId, int delta) {
+		return getService().getMostSupported(groupId, delta);
+	}
+
+	/**
 	* Retourne tous les budgets participatifs publies d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getPublishedByGroupId(
 		long groupId) {
 		return getService().getPublishedByGroupId(groupId);
+	}
+
+	/**
+	* Recuperer les budgets participatifs "coup de coeur" les plus recents
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs coup de coeurs recent
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getRecentIsCrushed(
+		long groupId, int delta) {
+		return getService().getRecentIsCrushed(groupId, delta);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de commentaires
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbComments(
+		long groupId) {
+		return getService().getSortedByNbComments(groupId);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de soutiens
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbSupports(
+		long groupId) {
+		return getService().getSortedByNbSupports(groupId);
 	}
 
 	/**

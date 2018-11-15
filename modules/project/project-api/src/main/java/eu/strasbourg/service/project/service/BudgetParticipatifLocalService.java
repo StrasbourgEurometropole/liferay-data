@@ -339,10 +339,48 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	public List<BudgetParticipatif> getMostCommented(long groupId, int delta);
 
 	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus soutenus triee.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getMostSupported(long groupId, int delta);
+
+	/**
 	* Retourne tous les budgets participatifs publies d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getPublishedByGroupId(long groupId);
+
+	/**
+	* Recuperer les budgets participatifs "coup de coeur" les plus recents
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs coup de coeurs recent
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta);
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de commentaires
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getSortedByNbComments(long groupId);
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de soutiens
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getSortedByNbSupports(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

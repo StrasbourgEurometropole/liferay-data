@@ -408,12 +408,62 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus soutenus triee.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostSupported(
+		long groupId, int delta) {
+		return _budgetParticipatifLocalService.getMostSupported(groupId, delta);
+	}
+
+	/**
 	* Retourne tous les budgets participatifs publies d'un groupe
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getPublishedByGroupId(
 		long groupId) {
 		return _budgetParticipatifLocalService.getPublishedByGroupId(groupId);
+	}
+
+	/**
+	* Recuperer les budgets participatifs "coup de coeur" les plus recents
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs coup de coeurs recent
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getRecentIsCrushed(
+		long groupId, int delta) {
+		return _budgetParticipatifLocalService.getRecentIsCrushed(groupId, delta);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de commentaires
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbComments(
+		long groupId) {
+		return _budgetParticipatifLocalService.getSortedByNbComments(groupId);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de soutiens
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbSupports(
+		long groupId) {
+		return _budgetParticipatifLocalService.getSortedByNbSupports(groupId);
 	}
 
 	/**
