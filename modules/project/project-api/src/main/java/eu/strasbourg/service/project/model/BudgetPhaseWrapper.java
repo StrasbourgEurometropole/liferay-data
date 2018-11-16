@@ -408,6 +408,15 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
+	* Genere le label de haut de page affichant le temps restant avant de passer a la prochaine
+	* peridode de la phase en cours
+	*/
+	@Override
+	public java.lang.String getLivePeriodLabel() {
+		return _budgetPhase.getLivePeriodLabel();
+	}
+
+	/**
 	* Returns the status by user name of this budget phase.
 	*
 	* @return the status by user name of this budget phase

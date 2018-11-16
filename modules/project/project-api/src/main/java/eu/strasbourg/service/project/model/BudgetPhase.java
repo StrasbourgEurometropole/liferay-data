@@ -74,4 +74,10 @@ public interface BudgetPhase extends BudgetPhaseModel, PersistedModel {
 	* Renvoie si la phase est en période de vote
 	*/
 	public boolean isInVotingPeriod();
+
+	/**
+	* Genere le label de haut de page affichant le temps restant avant de passer a la prochaine
+	* peridode de la phase en cours
+	*/
+	public java.lang.String getLivePeriodLabel();
 }
