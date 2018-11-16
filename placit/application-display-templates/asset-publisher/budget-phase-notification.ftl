@@ -51,7 +51,7 @@
 					var countDownDate = new Date(${referenceDate?date?string['yyyy']}, ${referenceDate?date?string['MM']}-1, ${referenceDate?date?string['dd']}).getTime();
 
 					// Créactiond e l'intervalle toutes les secondes
-					var x = setInterval(function() {
+					var interval = setInterval(function() {
 
 					    // Récupération du timestamp
 					    var now = new Date().getTime();
@@ -73,7 +73,7 @@
 					    
 					    // Si le temps est passé, message de fin
 					    if (distance < 0) {
-					        clearInterval(x);
+					        clearInterval(interval);
 					        $("#phaseText").html("Il est l'heure ...");
 					    }
 					}, 1000);

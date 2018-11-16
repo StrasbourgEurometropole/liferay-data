@@ -16,6 +16,11 @@
 	<#-- Récupération de l'ID de l'utilisateur -->
 	<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+	<#-- Récupération du contexte de navigation de l'utilisateur -->
+	<#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
+	<#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
+	<#assign isUserBanned = request.session.getAttribute("is_banish")!false />
+
 	<#-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
 	<#assign instanceId = themeDisplay.getPortletDisplay().getId() />
 
@@ -68,11 +73,15 @@
 											<span class="pro-btn-action ${isUserPartActive}">
 												Événement terminé
 											</span>
-										<#elseif request.session.getAttribute("has_pact_signed")!false >
+										<#elseif hasUserPactSign && !isUserBanned>
 											<span class="pro-btn-action ${isUserPartActive}"
 												name="#Participe-${instanceId}"
 												data-eventid="${entry.eventId}"
 												data-groupid="${entry.groupId}">
+												Je participe
+											</span>
+										<#elseif isUserBanned>
+											<span class="pro-btn-action" name="#IsBanned">
 												Je participe
 											</span>
 										<#else>

@@ -13,8 +13,10 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+<#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
 <#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
+<#assign isUserBanned = request.session.getAttribute("is_banish")!false />
 
 <#-- Récuperation du statut BP et affichage ou non du motif si le budget n'est pas retenu pour la réalisation -->
 <#assign statusBP = entry.getBudgetParticipatifStatusTitle(locale) >
@@ -159,12 +161,12 @@
                             <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes soutiennent cette idée</p>
 
                             <#if isVotable> <#-- Est votable -->
-                                <#if isUserloggedIn && hasUserPactSign> <#-- Utilisateur connecté et ayant signé le pacte -->
+                                <#if isUserloggedIn && hasUserPactSign && !isUserBanned> <#-- Utilisateur connecté et ayant signé le pacte -->
                                     <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
                                     <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
                                     
                                     <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
-                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${5 - nbSupportOfUserForActivePhase}</strong> possibilités de voter pour un projet</p>
+                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${5 - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
                                     <a href="#RemoveSupport" class="pro-btn-yellow">
                                         Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUserForEntry}</strong>)
                                     </a>
@@ -182,8 +184,10 @@
                                         });
                                     </script>
 
+                                <#elseif isUserBanned> <#--  -->
+                                    <a href="#" name="#IsBanned" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
                                 <#else> <#--  -->
-                                    <a href="#Pact-sign" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
+                                    <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
                                     <p class="pro-txt-vote">Il vous reste <strong>5</strong> possibilités de voter pour un projet</p>
                                 </#if>
                             <#elseif entry.hasBeenVoted() >

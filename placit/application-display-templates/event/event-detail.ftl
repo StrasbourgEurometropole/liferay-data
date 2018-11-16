@@ -13,6 +13,11 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+<#-- Récupération du contexte de navigation de l'utilisateur -->
+<#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
+<#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
+<#assign isUserBanned = request.session.getAttribute("is_banish")!false />
+
 <#-- L'utilisateur participe-t-il ? -->
 <#assign isUserPartActive = entry.isUserParticipates(userID)?then("active", "") >
 
@@ -130,7 +135,7 @@
                                 <a class="pro-btn-action ${isUserPartActive}">
                                     Événement terminé
                                 </a>
-                            <#elseif request.session.getAttribute("has_pact_signed")!false >
+                            <#elseif hasUserPactSign && !isUserBanned>
                                 <a href="#Participe" 
                                     class="pro-btn-action ${isUserPartActive}"
                                     data-eventid="${entry.eventId}"
@@ -138,6 +143,10 @@
                                     title="Je participe">
                                     Je participe
                                 </a>
+                            <#elseif isUserBanned>
+                                <span class="pro-btn-action" name="#IsBanned">
+                                    Je participe
+                                </span>   
                             <#else>
                                 <a class="pro-btn-action ${isUserPartActive}" 
                                     name="#Pact-sign">

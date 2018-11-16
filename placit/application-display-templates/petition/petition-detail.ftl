@@ -16,6 +16,11 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+<#-- Récupération du contexte de navigation de l'utilisateur -->
+<#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
+<#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
+<#assign isUserBanned = request.session.getAttribute("is_banish")!false />
+
 <#-- L'utilisateur participe-t-il ? -->
 <#assign hasUserSigned = entry.hasUserSigned(userID)?then("active", "") >
 
@@ -164,7 +169,7 @@
 
                         <!-- Bloc : avis -->
                         <div class="pro-push-avis">
-                            <#if isJudgeable && request.session.getAttribute("has_pact_signed")!false>
+                            <#if isJudgeable && isUserloggedIn && hasUserPactSign && !isUserBanned>
                                 <a href="#pro-approuv" class="pro-like"
                                     data-typeid="17"
                                     data-isdislike="false"
@@ -183,18 +188,18 @@
                                     title="Cliquez pour désapprouver">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
-                            <#elseif !request.session.getAttribute("has_pact_signed")?? || (request.session.getAttribute("has_pact_signed")?? && !request.session.getAttribute("has_pact_signed"))>
-                                <a class="pro-like" name="#Pact-sign">
+                            <#elseif !hasUserPactSign && !isUserBanned>
+                                <a href="#" class="pro-like" name="#Pact-sign">
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                                 </a>
-                                <a class="pro-dislike" name="#Pact-sign">
+                                <a href="#" class="pro-dislike" name="#Pact-sign">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
-                            <#elseif !isJudgeable>
-                                <a class="pro-like">
+                            <#elseif isUserBanned>
+                                <a href="#" class="pro-like" name="#IsBanned">
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                                 </a>
-                                <a class="pro-dislike">
+                                <a href="#" class="pro-dislike" name="#IsBanned">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
                             <#else>
