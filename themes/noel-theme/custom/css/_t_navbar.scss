@@ -421,7 +421,7 @@
 						text-transform: none;
 						position: relative;
 						max-width: 100%;
-						word-break: break-word;
+						word-break: normal;
 						@include an(all,0.3);
 						@include desktop{
 							padding-left: 35px;

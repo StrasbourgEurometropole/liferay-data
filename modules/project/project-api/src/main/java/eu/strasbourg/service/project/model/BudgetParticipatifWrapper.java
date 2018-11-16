@@ -336,6 +336,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* A deja fait l'oeuvre d'un vote et/ou d'une decision administrative
+	*/
+	@Override
+	public boolean hasBeenVoted() {
+		return _budgetParticipatif.hasBeenVoted();
+	}
+
+	/**
 	* Returns <code>true</code> if this budget participatif is approved.
 	*
 	* @return <code>true</code> if this budget participatif is approved; <code>false</code> otherwise
@@ -423,14 +431,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public boolean isIsCrush() {
 		return _budgetParticipatif.isIsCrush();
-	}
-
-	/**
-	* Peut apporter une reaction (commenter, liker, participer) a l'entite
-	*/
-	@Override
-	public boolean isJudgeable() {
-		return _budgetParticipatif.isJudgeable();
 	}
 
 	@Override
@@ -1088,6 +1088,20 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void persist() {
 		_budgetParticipatif.persist();
+	}
+
+	/**
+	* Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+	*
+	* @param budgetParticipatif
+	* @param status
+	*/
+	@Override
+	public void setBPStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		eu.strasbourg.service.project.constants.ParticiperCategories status,
+		long groupID) {
+		_budgetParticipatif.setBPStatus(budgetParticipatif, status, groupID);
 	}
 
 	/**

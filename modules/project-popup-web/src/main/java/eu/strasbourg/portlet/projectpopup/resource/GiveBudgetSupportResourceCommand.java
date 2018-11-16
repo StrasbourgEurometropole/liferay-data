@@ -186,7 +186,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             _log.error(e);
             throw new PortletException(e);
         }
-        _log.info("Soutien créé : " + budgetSupport);
+        _log.info("Soutien cree : " + budgetSupport);
         return true;
     }
 	
@@ -199,7 +199,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non enregistr&eacute;/identifi&eacute;";
+            this.message = "Utilisateur non recconu";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);

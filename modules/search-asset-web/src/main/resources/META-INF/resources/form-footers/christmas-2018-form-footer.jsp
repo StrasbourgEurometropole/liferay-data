@@ -9,6 +9,8 @@
 
 
 	$(document).ready(function() {
-        $('html,body').animate({scrollTop: $("#result").offset().top - ((environment == 'mobile')?140:160)});
+	    if(window.location.href.split("?").length > 1){
+            $('html,body').animate({scrollTop: $("#result").offset().top - ((environment == 'mobile')?140:160)});
+        }
 	});
 </script>

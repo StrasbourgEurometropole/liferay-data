@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,12 +26,12 @@ import java.util.stream.Stream;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
@@ -236,13 +235,27 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getAuthor(){
         return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
     }
-    
-    /**
-	 * Peut apporter une reaction (commenter, liker, participer) a l'entite
+	
+	/**
+	 * A deja fait l'oeuvre d'un vote et/ou d'une decision administrative
 	 */
 	@Override
-	public boolean isJudgeable() {
-		return true;
+	public boolean hasBeenVoted() {
+		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
+		
+		if (BPStatus != null) {
+			if (StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_LAUREAT.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_IN_PROGRESS.getName()) 
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_SUSPENDED.getName())
+					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_CANCELLED.getName())) 
+				return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -387,6 +400,24 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         Date date = this.getAssetEntry().getPublishDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
+    }
+    
+    /**
+     * Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+     * @param budgetParticipatif
+     * @param status
+     */
+    @Override
+    public void setBPStatus(BudgetParticipatif budgetParticipatif, ParticiperCategories status, long groupID)
+    {
+    	AssetEntry entry = budgetParticipatif.getAssetEntry();
+    	List<AssetCategory> statuses = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry, VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+    	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
+    	
+    	if(!statuses.isEmpty())
+    		AssetEntryUtil.removeAssetCategory(entry.getEntryId(), statuses.get(0));
+    	
+    	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
     }
     
     /**

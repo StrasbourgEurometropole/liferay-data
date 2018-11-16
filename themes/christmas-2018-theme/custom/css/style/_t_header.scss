@@ -564,7 +564,7 @@
 						position: relative;
 						max-width: 100%;
 						@include an(all, 0.3);
-						word-break: break-word;
+						word-break: normal;
 						&:hover {
 							//font-weight: 700;
 							@include desktop {
