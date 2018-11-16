@@ -2,11 +2,11 @@
 
 <#if entries?size != 0 >
 
-	<!-- Recuperation de la localisation de l'utilisateur -->
+	<#-- Recuperation de la localisation de l'utilisateur -->
 	<#setting locale = locale />
 	<#assign isPlacite = false />
 
-	<!-- Recuperation de l'URL de "base" du site -->
+	<#-- Recuperation de l'URL de "base" du site -->
 	<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
 	    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 	<#else>
@@ -16,7 +16,7 @@
 	<#-- Récupération de l'ID de l'utilisateur -->
 	<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
-	<!-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
+	<#-- Recuperation de l'id de l'instance du portlet pour separer le metier des portlets doublons -->
 	<#assign instanceId = themeDisplay.getPortletDisplay().getId() />
 
 	<#-- Compteur de résultat(s) -->
@@ -32,7 +32,7 @@
 
 	        <div class="owl-carousel owl-opacify owl-theme owl-cards">
 	        
-	            <!-- Parcours des entites de l'asset publisher -->
+	            <#-- Parcours des entites de l'asset publisher -->
 	            <#list entries as curEntry>
 				
 					<#list curEntry.getTags() as tag >
@@ -43,7 +43,7 @@
 				
 					<#if isPlacite>
 
-						<!-- Recuperation de l'entite -->
+						<#-- Recuperation de l'entite -->
 						<#assign entry = curEntry.getAssetRenderer().getEvent() />
 
 						<#-- L'utilisateur participe-t-il ? -->

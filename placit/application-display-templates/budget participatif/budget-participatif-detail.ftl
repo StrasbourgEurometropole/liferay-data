@@ -162,7 +162,7 @@
                                 <#if isUserloggedIn && hasUserPactSign> <#-- Utilisateur connecté et ayant signé le pacte -->
                                     <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
                                     <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
-
+                                    
                                     <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
                                     <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${5 - nbSupportOfUserForActivePhase}</strong> possibilités de voter pour un projet</p>
                                     <a href="#RemoveSupport" class="pro-btn-yellow">
