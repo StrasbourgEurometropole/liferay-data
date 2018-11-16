@@ -5,11 +5,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
@@ -25,9 +22,10 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+
+import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPublikID;
 
 /**
  * @author alexandre.quere
@@ -87,7 +85,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
                 user = PublikApiClient.getUserDetails(publikID);
 
             // Récupération des quartiers
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+            List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
 
             // Récupération des thematics
             List<AssetCategory> thematics = assetVocabularyAccessor.getThematics(groupId).getCategories();
@@ -114,23 +112,12 @@ public class ProjectPopupPortlet extends MVCPortlet {
     }
 
     /**
-     * Récupération du publik ID avec la session
-     */
-    private String getPublikID(PortletRequest request) {
-        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-        return SessionParamUtil.getString(originalRequest, "publik_internal_id");
-    }
-
-
-    /**
      * Recupere l'ID de l'assetEntry du detail de la page
      *
      * @throws PortalException
      */
     private long getPortletAssetEntryId(PortletRequest request) throws PortalException {
         PortletSession portletSession = request.getPortletSession();
-
         if (portletSession.getAttribute(SHARED_ASSET_ID, PortletSession.APPLICATION_SCOPE) != null) {
             return (long) portletSession.getAttribute(SHARED_ASSET_ID,
                     PortletSession.APPLICATION_SCOPE);

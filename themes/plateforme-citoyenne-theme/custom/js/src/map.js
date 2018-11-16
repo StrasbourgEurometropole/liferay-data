@@ -264,6 +264,7 @@ function callbackCarteInteractive(macarte) {
     markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
     markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
     markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
+    markerBudget = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7852629}, 'budget', 'marker');
 
 
     contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
@@ -324,17 +325,24 @@ function callbackCarteInteractive(macarte) {
         '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
         '<div class="pro-content-initiative">' +
-        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
-        '</div></div> ' +
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' + 
+        '</div></div>' +
         '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
         '</div></a></div>', markerInitiative, 247);
 
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet" data-linkall="a">' +
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet">' +
         '<a href="detail-projet.php"><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
         '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
         '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
         '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
         '</a></div>', markerProjet, 247);
+
+    contentBudget = th_maps.createInfoWindow('<div class="item pro-bloc-card-budget pro-theme-faisabilite"><a href="detail-budget.php">' +
+        '<div class="pro-header-budget"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Idée déposée par :</p><p><strong>Sylvie M.</strong></p><div class="pro-info-top-right"><span class="pro-encart-theme">En cours d’étude de faisabilité</span></div></div>' +
+        '<div class="pro-content-budget"><h3>Titre du budget participatif<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '<div class="pro-footer-budget"><p><strong>1500</strong> Citoyens-nes soutiennent cette idée</p></div></a></div>', markerBudget, 247);
+
 
 
     bounds.extend(markerParticipation.position);
@@ -343,6 +351,7 @@ function callbackCarteInteractive(macarte) {
     bounds.extend(markerPetition.position);
     bounds.extend(markerInitiative.position);
     bounds.extend(markerProjet.position);
+    bounds.extend(markerBudget.position);
     macarte.fitBounds(bounds);
 }
 
@@ -370,6 +379,11 @@ th_maps.onLoad(function () {
     });
 
     th_maps.addMarkerIcon('event', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('budget', {
         url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
         scaledSize: new google.maps.Size(75, 95)
     });

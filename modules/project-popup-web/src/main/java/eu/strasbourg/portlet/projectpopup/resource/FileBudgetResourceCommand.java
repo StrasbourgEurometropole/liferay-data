@@ -3,6 +3,10 @@ package eu.strasbourg.portlet.projectpopup.resource;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -11,11 +15,18 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.upload.UploadRequest;
+import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -30,6 +41,7 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -41,7 +53,6 @@ import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
 import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPublikID;
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * @author alexandre.quere
@@ -56,25 +67,21 @@ import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 )
 public class FileBudgetResourceCommand implements MVCResourceCommand {
 
-
     private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
     private static final String CITY = "city";
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
-    private static final String CONSULTATIONPLACETEXT = "consultationPlacesText";
-    private static final String BUDGETTITLE = "budgettitle";
-    private static final String BUDGETDESCRIPTION = "budgetdescription";
+    private static final String BUDGETTITLE = "title";
+    private static final String BUDGETDESCRIPTION = "description";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
-    private static final String PHOTO = "photo";
+    private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
-    private static final String LASTNAME = "lastname";
-    private static final String FIRSTNAME = "firstname";
     private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
@@ -87,8 +94,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private long postalcode;
     private String phone;
     private String mobile;
-    private String lastname;
-    private String firstname;
     private String email;
     private String photo;
     private String video;
@@ -111,41 +116,54 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         boolean result = false;
         String message = "";
-        publikID = getPublikID(request);
-        if (publikID == null || publikID.isEmpty())
+        this.publikID = getPublikID(request);
+        if (this.publikID == null || this.publikID.isEmpty())
             message = "utilisateur non enregistr&eacute;/identifi&eacute;";
         else
-            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
-        dateFormat = new SimpleDateFormat(PATTERN);
-        address = escapeHtml4(ParamUtil.getString(request, ADDRESS));
-        city = escapeHtml4(ParamUtil.getString(request, CITY));
-        postalcode = ParamUtil.getLong(request, POSTALCODE);
-        phone = escapeHtml4(ParamUtil.getString(request, PHONE));
-        mobile = escapeHtml4(ParamUtil.getString(request, MOBILE));
-        lastname = escapeHtml4(ParamUtil.getString(request, LASTNAME));
-        firstname = escapeHtml4(ParamUtil.getString(request, FIRSTNAME));
-        email = escapeHtml4(ParamUtil.getString(request, EMAIL));
-        lieu = escapeHtml4(ParamUtil.getString(request,LIEU));
-        photo = escapeHtml4(ParamUtil.getString(request,PHOTO));
-        video = escapeHtml4(ParamUtil.getString(request,VIDEO));
-        placeText = escapeHtml4(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
-        title = escapeHtml4(ParamUtil.getString(request, BUDGETTITLE));
-        description = escapeHtml4(ParamUtil.getString(request, BUDGETDESCRIPTION));
-        projectId = ParamUtil.getLong(request, PROJECT);
-        quartierId = ParamUtil.getLong(request, QUARTIER);
-        themeId = ParamUtil.getLong(request, THEME);
+            this.user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        this.dateFormat = new SimpleDateFormat(PATTERN);
+        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+        this.postalcode = ParamUtil.getLong(request, POSTALCODE);
+        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+        this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
+        this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
+        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
+        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
+        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETDESCRIPTION));
+        this.projectId = ParamUtil.getLong(request, PROJECT);
+        this.quartierId = ParamUtil.getLong(request, QUARTIER);
+        this.themeId = ParamUtil.getLong(request, THEME);
+        Long webImageId = ParamUtil.getLong(request, "webImageId");
 
-        boolean isValid = validate();
+        boolean isValid = false;
+        try {
+            isValid = validate(request);
+        } catch (PortalException e) {
+            _log.error(e);
+            throw new PortletException(e);
+        }
         if (!isValid)
             message = LanguageUtil.get(originalRequest, "general-error");
 
         boolean savedInfo = false;
         if (message.isEmpty()) {
-            boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
-            if (saveInfo) {
+            savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+            if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-                String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
-                PublikApiClient.setAllUserDetails(publikID, user.getLastName(), address, "" + postalcode, city, dateNaiss, phone, mobile);
+                String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
+                PublikApiClient.setAllUserDetails(
+                        this.publikID,
+                        this.user.getLastName(),
+                        this.address,
+                        "" + this.postalcode,
+                        this.city,
+                        dateNaiss,
+                        this.phone,
+                        this.mobile
+                );
             }
             result = sendBudget(request);
         }
@@ -162,7 +180,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             writer = response.getWriter();
             writer.print(jsonResponse.toString());
         } catch (IOException e) {
-            _log.error("erreur dans l'ecriture du budget : ",e);
+            _log.error("erreur dans l'ecriture du budget : ", e);
         }
         return result;
     }
@@ -175,54 +193,51 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
             List<Long> identifiants = new ArrayList<>();
-            if (quartierId==0) {
+            if (this.quartierId == 0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
                 assert districts != null;
                 identifiants = districts.stream()
                         .map(AssetCategoryModel::getCategoryId)
                         .collect(Collectors.toList());
-            }else {
+            } else {
                 identifiants.add(quartierId);
             }
-            if (projectId!=0) {
+            if (this.projectId != 0) {
                 identifiants.add(projectId);
             }
-            if (themeId!=0) {
+            if (this.themeId != 0) {
                 identifiants.add(themeId);
             }
             long[] ids = new long[identifiants.size()];
             for (int i = 0; i < identifiants.size(); i++) {
-                ids[i]=identifiants.get(i);
+                ids[i] = identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
 
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
-            budgetParticipatif.setTitle(title);
-            budgetParticipatif.setDescription(description);
-            budgetParticipatif.setUserId(user.getUserId());
-            budgetParticipatif.setConsultationPlacesText(lieu);
-            budgetParticipatif.setCitoyenFirstname(user.getFirstName());
-            budgetParticipatif.setCitoyenLastname(user.getLastName());
-            budgetParticipatif.setCitoyenAdresse(address);
-            budgetParticipatif.setCitoyenPostalCode(postalcode);
-            budgetParticipatif.setCitoyenCity(city);
-            budgetParticipatif.setCitoyenEmail(user.getEmail());
-            budgetParticipatif.setCitoyenMobile(mobile);
-            if (!photo.isEmpty()){
-                budgetParticipatif.setExternalImageURL(photo);
-                budgetParticipatif.setHasCopyright(true);
-            }
-            if (!video.isEmpty())
-                budgetParticipatif.setVideoUrl(video);
-            budgetParticipatif.setPlaceTextArea(placeText);
-            budgetParticipatif.setCitoyenPhone(phone);
-            budgetParticipatif.setPublikId(publikID);
+            budgetParticipatif.setTitle(this.title);
+            budgetParticipatif.setDescription(this.description);
+            budgetParticipatif.setUserId(this.user.getUserId());
+            budgetParticipatif.setCitoyenFirstname(this.user.getFirstName());
+            budgetParticipatif.setCitoyenLastname(this.user.getLastName());
+            budgetParticipatif.setCitoyenAdresse(this.address);
+            budgetParticipatif.setCitoyenPostalCode(this.postalcode);
+            budgetParticipatif.setCitoyenCity(this.city);
+            budgetParticipatif.setCitoyenEmail(this.user.getEmail());
+            budgetParticipatif.setCitoyenMobile(this.mobile);
+            budgetParticipatif.setCitoyenBirthday(this.birthday);
+            if (!this.video.isEmpty())
+                budgetParticipatif.setVideoUrl(this.video);
+            budgetParticipatif.setPlaceTextArea(this.lieu);
+            budgetParticipatif.setCitoyenPhone(this.phone);
+            budgetParticipatif.setPublikId(this.publikID);
+            budgetParticipatif = uploadFile(budgetParticipatif, request);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
             AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
             if (assetEntry == null)
                 throw new PortalException("aucune assetCategory pour le budget"
                         + budgetParticipatif.getBudgetParticipatifId());
-        } catch (PortalException e) {
+        } catch (PortalException | IOException e) {
             _log.error(e);
             throw new PortletException(e);
         }
@@ -230,32 +245,96 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         return true;
     }
 
-    private boolean validate() {
+    /**
+     * méthode permettant de récuperer l'image uploadée par l'utilisateur.
+     *
+     * @param budgetParticipatif le budget participatif correspondant.
+     * @param request            la request
+     * @return le budgetParticipatif avec l'imageId
+     * @throws IOException
+     * @throws PortalException
+     */
+    private BudgetParticipatif uploadFile(BudgetParticipatif budgetParticipatif,
+                                          ResourceRequest request)
+            throws IOException, PortalException {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        if (validateFileName(request)) {
+            File budgetPhoto = uploadRequest.getFile("budgetPhoto");
+            _log.info("budgetPhoto : [" + budgetPhoto + "]");
+            if (budgetPhoto != null && budgetPhoto.exists()) {
+                _log.info("Going to write the file contents");
+
+                byte[] imageBytes = FileUtil.getBytes(budgetPhoto);
+                DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                        "budget participatif");
+                DLFolder folder = DLFolderLocalServiceUtil
+                        .getFolder(themeDisplay.getScopeGroupId(),
+                                folderparent.getFolderId(),
+                                "uploads");
+                FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
+                        sc.getUserId(), folder.getRepositoryId(),
+                        folder.getFolderId(), budgetPhoto.getName(),
+                        MimeTypesUtil.getContentType(budgetPhoto),
+                        budgetPhoto.getName(), title,
+                        "", imageBytes, sc);
+                budgetParticipatif.setImageId(fileEntry.getFileEntryId());
+
+            }
+            return budgetParticipatif;
+        } else {
+            throw new PortalException("le fichier n'est pas une image");
+        }
+    }
+
+    private boolean validateFileName(ResourceRequest request) throws PortalException {
+        boolean result = true;
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        String fileName = uploadRequest.getFileName("budgetPhoto");
+        if (fileName != null && !fileName.isEmpty()) {
+            String type = fileName.substring(fileName.lastIndexOf("."));
+            result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
+        }
+        return result;
+    }
+
+    private boolean validate(ResourceRequest request) throws PortalException {
         boolean isValid = true;
         // title
-        if (Validator.isNull(title)) {
+        if (Validator.isNull(this.title)) {
             isValid = false;
         }
 
         // description
-        if (Validator.isNull(description)) {
+        if (Validator.isNull(this.description)) {
+            isValid = false;
+        }
+
+        // birthday
+        if (Validator.isNull(this.birthday)) {
             isValid = false;
         }
 
         // city
-        if (Validator.isNull(city)) {
+        if (Validator.isNull(this.city)) {
             isValid = false;
         }
 
         // address
-        if (Validator.isNull(address)) {
+        if (Validator.isNull(this.address)) {
             isValid = false;
         }
 
         // postalcode
-        if (Validator.isNull(postalcode)) {
+        if (Validator.isNull(this.postalcode)) {
             isValid = false;
         }
+
+        if (!validateFileName(request))
+            isValid = false;
 
         return isValid;
     }

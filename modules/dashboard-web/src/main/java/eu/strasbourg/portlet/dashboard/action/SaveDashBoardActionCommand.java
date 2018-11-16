@@ -37,6 +37,18 @@ import static eu.strasbourg.portlet.dashboard.portlet.DashboardPortlet.REDIRECT_
 )
 public class SaveDashBoardActionCommand implements MVCActionCommand {
 
+    private static final String BIRTHDAY = "birthday";
+    private static final String ADDRESS = "address";
+    private static final String CITY = "city";
+    private static final String POSTALCODE = "postalcode";
+    private static final String PHONE = "phone";
+    private static final String MOBILE = "mobile";
+    private static final String EMAIL = "mail";
+    private static final String USERNAME = "username";
+    private static final String FIRSTNAME = "firstname";
+    private static final String PATTERN = "dd/MM/yyyy";
+    private static final String ENTROUVERT_PATTERN = "yyy-MM-dd";
+
     private PublikUser user;
     private Date birthday;
     private String address;
@@ -47,7 +59,7 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
     private String lastname;
     private String firstname;
     private String email;
-    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private DateFormat dateFormat;
 
     /**
      * le log
@@ -65,25 +77,25 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
         if ("saveProfil".equals(action)) {
             if (publikID == null || publikID.isEmpty())
                 throw new PortletException("veuillez vous identifier/enregistrer");
+            this.dateFormat = new SimpleDateFormat(PATTERN);
             user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
-            birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-            address = ParamUtil.getString(request, "address");
-            city = ParamUtil.getString(request, "city");
-            postalcode = ParamUtil.getLong(request, "postalcode");
-            phone = ParamUtil.getString(request, "phone");
-            mobile = ParamUtil.getString(request, "mobile");
-            lastname = ParamUtil.getString(request, "username");
-            firstname = ParamUtil.getString(request, "firstname");
-            email = ParamUtil.getString(request, "mail");
+            birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+            address = ParamUtil.getString(request, ADDRESS);
+            city = ParamUtil.getString(request, CITY);
+            postalcode = ParamUtil.getLong(request, POSTALCODE);
+            phone = ParamUtil.getString(request, PHONE);
+            mobile = ParamUtil.getString(request, MOBILE);
+            lastname = ParamUtil.getString(request, USERNAME);
+            firstname = ParamUtil.getString(request, FIRSTNAME);
+            email = ParamUtil.getString(request, EMAIL);
 
             boolean isValid = validate(request);
             if (!isValid)
                 throw new PortletException("la validation des champs n'est pas pass&eacute;e");
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyy-dd-MM");
+            SimpleDateFormat sdf = new SimpleDateFormat(ENTROUVERT_PATTERN);
             String dateNaiss = sdf.format(birthday);
             PublikApiClient.setAllUserDetails(publikID, user.getLastName(), address, "" + postalcode, city, dateNaiss, phone, mobile);
-
             try {
                 response.sendRedirect(redirectURL);
             } catch (IOException e) {

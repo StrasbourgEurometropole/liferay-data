@@ -128,7 +128,7 @@ public class SignataireModelImpl extends BaseModelImpl<Signataire>
 		TABLE_COLUMNS_MAP.put("petitionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Signataire (uuid_ VARCHAR(75) null,signataireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,signataireName VARCHAR(75) null,signataireFirstname VARCHAR(75) null,birthday DATE null,address VARCHAR(75) null,mail VARCHAR(75) null,postalCode LONG,mobilePhone VARCHAR(75) null,phone VARCHAR(75) null,city VARCHAR(75) null,signatureDate DATE null,publikUserId VARCHAR(75) null,petitionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Signataire (uuid_ VARCHAR(75) null,signataireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,signataireName VARCHAR(75) null,signataireFirstname VARCHAR(75) null,birthday DATE null,address VARCHAR(400) null,mail VARCHAR(400) null,postalCode LONG,mobilePhone VARCHAR(75) null,phone VARCHAR(75) null,city VARCHAR(400) null,signatureDate DATE null,publikUserId VARCHAR(75) null,petitionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Signataire";
 	public static final String ORDER_BY_JPQL = " ORDER BY signataire.signataireId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Signataire.signataireId ASC";

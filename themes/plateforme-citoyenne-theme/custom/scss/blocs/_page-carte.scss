@@ -297,7 +297,6 @@
 				z-index: 10000;
 				@include addTransition();
 				&:hover {
-					color: $c_main;
 					cursor: pointer;
 				}
 				label {
@@ -310,7 +309,11 @@
 					@include addTransition();
 					&:hover {
 						cursor: pointer;
-						color: $c_main;
+						text-decoration: underline;
+					}
+					&:focus{
+						color: $c_txt;
+						text-decoration: underline;
 					}
 				}
 
@@ -434,7 +437,7 @@
 						display: block;
 						&:focus {
 							& + label {
-								color: $c_main;
+								text-decoration: underline;
 							}
 						}
 					}

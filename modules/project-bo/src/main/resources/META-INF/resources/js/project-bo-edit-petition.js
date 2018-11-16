@@ -1,5 +1,5 @@
-// On garde une référence globale aux ²
-var placeAutoFields;
+//  On garde une référence globale
+var placeAutoFields = undefined;;
 
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_";
@@ -111,4 +111,3 @@ function submitForm(event) {
 	placeAutoFields.save(event.target);
 	return true;
 }
-

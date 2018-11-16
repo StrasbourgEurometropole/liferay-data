@@ -13,13 +13,14 @@ import java.util.Locale;
 import java.util.Map;
 
 @Component(
-		immediate = true,
-		property = {
-	        "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
-	    },
-		service = TemplateHandler.class
-	)
+	immediate = true,
+	property = {
+			"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_WEB
+    },
+	service = TemplateHandler.class
+)
 public class ProjectDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
+	
 	@Override
 	public String getClassName() {
 		return Project.class.getName();

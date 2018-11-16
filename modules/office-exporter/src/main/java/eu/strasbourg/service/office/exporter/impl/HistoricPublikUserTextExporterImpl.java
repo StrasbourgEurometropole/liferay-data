@@ -1,19 +1,8 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
@@ -33,6 +22,15 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component(immediate = true, property = {}, service = HistoricPublikUserTextExporter.class)
 public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTextExporter {

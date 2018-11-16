@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -32,7 +33,9 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -83,6 +86,7 @@ public class CommentPortlet extends MVCPortlet {
 	private static final String ESCAPE_PARAM_URL_PARTTERN = "(\\?|#)";
 	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
 	private static final String PARTICIPATION_CLASSNAME = "eu.strasbourg.service.project.model.Participation";
+	private static final String PETITION_CLASSNAME = "eu.strasbourg.service.project.model.Petition";
 	private static final String REDIRECT_URL_PARAM = "redirectURL";
 	
 	
@@ -178,10 +182,10 @@ public class CommentPortlet extends MVCPortlet {
 				Long editCommentId = ParamUtil.getLong(request, "editCommentId");
 
 				// Recuperation du message du commentaire
-				String message = ParamUtil.getString(request, "message");
+				String message = HtmlUtil.stripHtml(ParamUtil.getString(request, "message"));
 
 				// Recuperation de la qualité de l'utilisateur
-				String userQuality = ParamUtil.getString(request, "inQualityOf");
+				String userQuality = HtmlUtil.stripHtml(ParamUtil.getString(request, "inQualityOf"));
 				
 				// Recuperation de l'URL de redirection
 				String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
@@ -401,12 +405,20 @@ public class CommentPortlet extends MVCPortlet {
 				request.setAttribute("hasUserSigned", false);
 				request.setAttribute("isUserBanned", false);
 			}
-			
+
 			// Verification d'une participation ou l'on peut reagir
 			if (assetType.equals(PARTICIPATION_CLASSNAME)) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
-				
+
 				if (participation == null || !participation.isJudgeable()) {
+					request.setAttribute("isAssetCommentable", false);
+				}
+			}
+			// Verification d'une participation ou l'on peut reagir
+			else if (assetType.equals(PETITION_CLASSNAME)) {
+				Petition petition = PetitionLocalServiceUtil.getPetition(assetEntry.getClassPK());
+
+				if (petition == null || !petition.isJudgeable()) {
 					request.setAttribute("isAssetCommentable", false);
 				}
 			}
