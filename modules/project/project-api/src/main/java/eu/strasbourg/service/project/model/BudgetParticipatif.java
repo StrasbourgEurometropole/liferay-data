@@ -135,9 +135,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getAuthor();
 
 	/**
-	* Peut apporter une reaction (commenter, liker, participer) a l'entite
+	* A deja fait l'oeuvre d'un vote et/ou d'une decision administrative
 	*/
-	public boolean isJudgeable();
+	public boolean hasBeenVoted();
 
 	/**
 	* Est en periode et capacite de vote
@@ -200,6 +200,17 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getNbSupportsBoard();
 
 	public java.lang.String getPublicationDateFr();
+
+	/**
+	* Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+	*
+	* @param budgetParticipatif
+	* @param status
+	*/
+	public void setBPStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		eu.strasbourg.service.project.constants.ParticiperCategories status,
+		long groupID);
 
 	/**
 	* Retourne la version JSON de l'entité

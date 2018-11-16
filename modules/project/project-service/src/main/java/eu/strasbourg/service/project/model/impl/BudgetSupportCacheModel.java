@@ -66,7 +66,7 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -106,8 +106,6 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		sb.append(citoyenPhone);
 		sb.append(", citoyenCity=");
 		sb.append(citoyenCity);
-		sb.append(", citoyenSignatureDate=");
-		sb.append(citoyenSignatureDate);
 		sb.append(", publikUserId=");
 		sb.append(publikUserId);
 		sb.append(", budgetParticipatifId=");
@@ -221,14 +219,6 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 			budgetSupportImpl.setCitoyenCity(citoyenCity);
 		}
 
-		if (citoyenSignatureDate == Long.MIN_VALUE) {
-			budgetSupportImpl.setCitoyenSignatureDate(null);
-		}
-		else {
-			budgetSupportImpl.setCitoyenSignatureDate(new Date(
-					citoyenSignatureDate));
-		}
-
 		if (publikUserId == null) {
 			budgetSupportImpl.setPublikUserId(StringPool.BLANK);
 		}
@@ -270,7 +260,6 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		citoyenMobilePhone = objectInput.readUTF();
 		citoyenPhone = objectInput.readUTF();
 		citoyenCity = objectInput.readUTF();
-		citoyenSignatureDate = objectInput.readLong();
 		publikUserId = objectInput.readUTF();
 
 		budgetParticipatifId = objectInput.readLong();
@@ -360,8 +349,6 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 			objectOutput.writeUTF(citoyenCity);
 		}
 
-		objectOutput.writeLong(citoyenSignatureDate);
-
 		if (publikUserId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -391,7 +378,6 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 	public String citoyenMobilePhone;
 	public String citoyenPhone;
 	public String citoyenCity;
-	public long citoyenSignatureDate;
 	public String publikUserId;
 	public long budgetParticipatifId;
 }

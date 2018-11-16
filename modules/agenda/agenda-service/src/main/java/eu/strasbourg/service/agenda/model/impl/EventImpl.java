@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.BooleanClause;
+import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
@@ -47,11 +48,9 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.SearchException;
-import com.liferay.portal.kernel.search.generic.BooleanClauseImpl;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
@@ -1015,8 +1014,8 @@ public class EventImpl extends EventBaseImpl {
 			searchContext.setGroupIds(new long[] {globalGroupId});
 			searchContext.setStart(0);
 			searchContext.setEnd(10);
-			searchContext.setAttribute(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-			searchContext.setAssetTagNames(new String[] {"participer"});
+			//searchContext.setAttribute(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			//searchContext.setAssetTagNames(new String[] {"participer"});
 			
 			
 			//utilisation de l'indexer de l'entite event (Permet de rechercher uniquement des event)
@@ -1031,9 +1030,10 @@ public class EventImpl extends EventBaseImpl {
 			tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf("participer"));
 			query.add(tagQuery, BooleanClauseOccur.MUST);
 			
-			//BooleanClause<Query>[] booleanClauses = new BooleanClauseImpl<Query>[] {tagQuery};
+			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(tagQuery, BooleanClauseOccur.MUST.getName());
 			
-			searchContext.setBooleanClauses(booleanClauses);
+			
+			searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
 			
 //			indexer.postProcessSearchQuery(query, null, searchContext);
 			

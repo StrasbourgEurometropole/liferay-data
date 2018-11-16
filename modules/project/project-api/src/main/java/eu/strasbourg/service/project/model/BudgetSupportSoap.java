@@ -53,7 +53,6 @@ public class BudgetSupportSoap implements Serializable {
 		soapModel.setCitoyenMobilePhone(model.getCitoyenMobilePhone());
 		soapModel.setCitoyenPhone(model.getCitoyenPhone());
 		soapModel.setCitoyenCity(model.getCitoyenCity());
-		soapModel.setCitoyenSignatureDate(model.getCitoyenSignatureDate());
 		soapModel.setPublikUserId(model.getPublikUserId());
 		soapModel.setBudgetParticipatifId(model.getBudgetParticipatifId());
 
@@ -260,14 +259,6 @@ public class BudgetSupportSoap implements Serializable {
 		_citoyenCity = citoyenCity;
 	}
 
-	public Date getCitoyenSignatureDate() {
-		return _citoyenSignatureDate;
-	}
-
-	public void setCitoyenSignatureDate(Date citoyenSignatureDate) {
-		_citoyenSignatureDate = citoyenSignatureDate;
-	}
-
 	public String getPublikUserId() {
 		return _publikUserId;
 	}
@@ -303,7 +294,6 @@ public class BudgetSupportSoap implements Serializable {
 	private String _citoyenMobilePhone;
 	private String _citoyenPhone;
 	private String _citoyenCity;
-	private Date _citoyenSignatureDate;
 	private String _publikUserId;
 	private long _budgetParticipatifId;
 }

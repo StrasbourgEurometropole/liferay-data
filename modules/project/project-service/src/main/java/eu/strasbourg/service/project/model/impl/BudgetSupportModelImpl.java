@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -93,7 +94,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 			{ "citoyenMobilePhone", Types.VARCHAR },
 			{ "citoyenPhone", Types.VARCHAR },
 			{ "citoyenCity", Types.VARCHAR },
-			{ "citoyenSignatureDate", Types.TIMESTAMP },
 			{ "publikUserId", Types.VARCHAR },
 			{ "budgetParticipatifId", Types.BIGINT }
 		};
@@ -119,15 +119,14 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 		TABLE_COLUMNS_MAP.put("citoyenMobilePhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenPhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenCity", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("citoyenSignatureDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budgetParticipatifId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetSupport (uuid_ VARCHAR(75) null,budgetSupportId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,citoyenLastName VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenBirthday DATE null,citoyenAddress VARCHAR(75) null,citoyenMail VARCHAR(75) null,citoyenPostalCode LONG,citoyenMobilePhone VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenCity VARCHAR(75) null,citoyenSignatureDate DATE null,publikUserId VARCHAR(75) null,budgetParticipatifId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetSupport (uuid_ VARCHAR(75) null,budgetSupportId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,citoyenLastName VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenBirthday DATE null,citoyenAddress VARCHAR(75) null,citoyenMail VARCHAR(75) null,citoyenPostalCode LONG,citoyenMobilePhone VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenCity VARCHAR(75) null,publikUserId VARCHAR(75) null,budgetParticipatifId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetSupport";
-	public static final String ORDER_BY_JPQL = " ORDER BY budgetSupport.budgetSupportId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetSupport.budgetSupportId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY budgetSupport.createDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetSupport.createDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -145,7 +144,7 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 8L;
 	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long BUDGETSUPPORTID_COLUMN_BITMASK = 32L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -179,7 +178,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 		model.setCitoyenMobilePhone(soapModel.getCitoyenMobilePhone());
 		model.setCitoyenPhone(soapModel.getCitoyenPhone());
 		model.setCitoyenCity(soapModel.getCitoyenCity());
-		model.setCitoyenSignatureDate(soapModel.getCitoyenSignatureDate());
 		model.setPublikUserId(soapModel.getPublikUserId());
 		model.setBudgetParticipatifId(soapModel.getBudgetParticipatifId());
 
@@ -265,7 +263,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 		attributes.put("citoyenMobilePhone", getCitoyenMobilePhone());
 		attributes.put("citoyenPhone", getCitoyenPhone());
 		attributes.put("citoyenCity", getCitoyenCity());
-		attributes.put("citoyenSignatureDate", getCitoyenSignatureDate());
 		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 
@@ -391,12 +388,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 			setCitoyenCity(citoyenCity);
 		}
 
-		Date citoyenSignatureDate = (Date)attributes.get("citoyenSignatureDate");
-
-		if (citoyenSignatureDate != null) {
-			setCitoyenSignatureDate(citoyenSignatureDate);
-		}
-
 		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
@@ -499,6 +490,8 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask = -1L;
+
 		_createDate = createDate;
 	}
 
@@ -720,17 +713,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	@JSON
 	@Override
-	public Date getCitoyenSignatureDate() {
-		return _citoyenSignatureDate;
-	}
-
-	@Override
-	public void setCitoyenSignatureDate(Date citoyenSignatureDate) {
-		_citoyenSignatureDate = citoyenSignatureDate;
-	}
-
-	@JSON
-	@Override
 	public String getPublikUserId() {
 		if (_publikUserId == null) {
 			return StringPool.BLANK;
@@ -914,7 +896,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 		budgetSupportImpl.setCitoyenMobilePhone(getCitoyenMobilePhone());
 		budgetSupportImpl.setCitoyenPhone(getCitoyenPhone());
 		budgetSupportImpl.setCitoyenCity(getCitoyenCity());
-		budgetSupportImpl.setCitoyenSignatureDate(getCitoyenSignatureDate());
 		budgetSupportImpl.setPublikUserId(getPublikUserId());
 		budgetSupportImpl.setBudgetParticipatifId(getBudgetParticipatifId());
 
@@ -925,17 +906,18 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	@Override
 	public int compareTo(BudgetSupport budgetSupport) {
-		long primaryKey = budgetSupport.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = DateUtil.compareTo(getCreateDate(),
+				budgetSupport.getCreateDate());
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override
@@ -1124,15 +1106,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 			budgetSupportCacheModel.citoyenCity = null;
 		}
 
-		Date citoyenSignatureDate = getCitoyenSignatureDate();
-
-		if (citoyenSignatureDate != null) {
-			budgetSupportCacheModel.citoyenSignatureDate = citoyenSignatureDate.getTime();
-		}
-		else {
-			budgetSupportCacheModel.citoyenSignatureDate = Long.MIN_VALUE;
-		}
-
 		budgetSupportCacheModel.publikUserId = getPublikUserId();
 
 		String publikUserId = budgetSupportCacheModel.publikUserId;
@@ -1148,7 +1121,7 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1188,8 +1161,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 		sb.append(getCitoyenPhone());
 		sb.append(", citoyenCity=");
 		sb.append(getCitoyenCity());
-		sb.append(", citoyenSignatureDate=");
-		sb.append(getCitoyenSignatureDate());
 		sb.append(", publikUserId=");
 		sb.append(getPublikUserId());
 		sb.append(", budgetParticipatifId=");
@@ -1201,7 +1172,7 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(70);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetSupport");
@@ -1284,10 +1255,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 		sb.append(getCitoyenCity());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>citoyenSignatureDate</column-name><column-value><![CDATA[");
-		sb.append(getCitoyenSignatureDate());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>publikUserId</column-name><column-value><![CDATA[");
 		sb.append(getPublikUserId());
 		sb.append("]]></column-value></column>");
@@ -1330,7 +1297,6 @@ public class BudgetSupportModelImpl extends BaseModelImpl<BudgetSupport>
 	private String _citoyenMobilePhone;
 	private String _citoyenPhone;
 	private String _citoyenCity;
-	private Date _citoyenSignatureDate;
 	private String _publikUserId;
 	private String _originalPublikUserId;
 	private long _budgetParticipatifId;

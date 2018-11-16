@@ -195,31 +195,19 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         } else {
             budget.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
-        updateCategory(sc, budget);
+        
+        //Dans le cas d'un dépot de projet par un citoyen (le statut n'est pas renseigné), on force le statut à déposé
+        List<AssetCategory> bpStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(budget.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+        if (bpStatus.isEmpty()) {
+            addCategoryDepose(sc);
+        }
+        
         updateBudgetParticipatif(budget);
         updateAssetEntry(budget, sc);
         reindex(budget, false);
         return budget;
     }
 
-    /**
-     * méthode permettant de mettre à jour la catégory d'un budget
-     *
-     * @param sc                 le service context
-     * @param budgetParticipatif le budget
-     * @throws PortalException l'exception
-     */
-    private void updateCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
-
-        AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-                BudgetParticipatif.class.getName(), budgetParticipatif.getBudgetParticipatifId());
-        if (entry != null) {
-            List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry, VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
-            if (categories.isEmpty()) {
-                addCategoryDepose(sc);
-            }
-        } else addCategoryDepose(sc);
-    }
 
     /**
      * méthode permettant d'ajouter la catégory déposé sur un nouveau budget
