@@ -476,10 +476,17 @@ public class SearchAssetDisplayContext {
 	}
 	
 	/**
-	 * Retourne le nombre de résultats de la recherche
+	 * Retourne le nombre de résultats de la recherche dans la page
 	 */
 	public int getEntriesCount() throws PortalException {
 		return this._entriesCount;
+	}
+
+	/**
+	 * Retourne le nombre de résultats de la recherche
+	 */
+	public int getTotal() throws PortalException {
+		return this.getSearchContainer().getTotal();
 	}
 
 	/**

@@ -3,6 +3,9 @@
 <portlet:resourceURL id="giveBudgetSupport" var="giveBudgetSupportURL">
 </portlet:resourceURL>
 
+<portlet:resourceURL id="removeBudgetSupport" var="removeBudgetSupportURL">
+</portlet:resourceURL>
+
 <!-- MODAL DE SOUTIEN D'UN BUDGET PARTICIPATIF -->
 <!-- HTML pour la modal de soutien d'un budget participatif -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSupport" tabindex="-1" role="dialog" aria-labelledby="modalSupport">
@@ -19,7 +22,7 @@
             <form id="form-give-budget-support">
                 <div class="pro-wrapper">
                 
-                	<!-- Champs : nom, prénom, date de naissance -->
+                	<!-- Champs : nom, prÃÂ©nom, date de naissance -->
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" id="supportUsername"
@@ -42,7 +45,7 @@
                             <aui:input id="supportBirthday" name="birthday" 
                             	cssClass="frm_date" label="modal.user.birthday" 
                             	required="true" maxlength="10" placeholder="jj/mm/aaaa" 
-                            	onInput="checkSignValues();" onChange="checkSupportValues();"
+                            	onInput="checkSupportValues();" onChange="checkSupportValues();"
                             />
                         </div>
                     </div>
@@ -98,11 +101,11 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise à jour des informations dans publik -->
+                    <!-- Champ : demande de la mise ÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
-                            <input type="checkbox" name="<portlet:namespace />saveinfo" id="signsave-info" value="save-info">
-                            <label for="signsave-info"><liferay-ui:message key="modal.save.info"/></label>
+                            <input type="checkbox" name="<portlet:namespace />saveinfo" id="supportsave-info" value="save-info">
+                            <label for="supportsave-info"><liferay-ui:message key="modal.save.info"/></label>
                         </div>
                     </div>
                     
@@ -126,7 +129,7 @@
                     </div>
                 </div>
                 
-                <!-- Champ caché : ID -->
+                <!-- Champ cachÃÂ© : ID -->
                 <input type="hidden" id="<portlet:namespace />entryId" name="entryId" value="${entryId}"/>
                 
                 <!-- Alert d'erreur -->
@@ -151,15 +154,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='confirm-support'/></h3>
+                <h3><liferay-ui:message key='modal.givebudgetsupport.confirm-support'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 	<span aria-hidden="true"><span class="icon-multiply"></span></span>
                 </button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='give-support-ok'/></h4>
+                <h4><liferay-ui:message key='modal.givebudgetsupport.give-support-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-support-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="modal.givebudgetsupport.button-support-ok"/> />
                 </div>
             </div>
         </div>
@@ -172,13 +175,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='error-support'/></h3>
+                <h3><liferay-ui:message key='modal.givebudgetsupport.error-support'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
                 <h4></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-support-ok"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="modal.givebudgetsupport.button-support-ok"/> />
                 </div>
             </div>
         </div>
@@ -191,13 +194,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='quit-support'/></h3>
+                <h3><liferay-ui:message key='modal.givebudgetsupport.quit-support'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='give-budget-support-quit'/></h4>
+                <h4><liferay-ui:message key='modal.givebudgetsupport.give-budget-support-quit'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-support-quit"/> />
+                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="modal.givebudgetsupport.button-support-quit"/> />
                 </div>
             </div>
         </div>
@@ -433,8 +436,67 @@
                         }
                     }
                 });
-             });
+            });
         }
+	}
+	
+	/*
+	* Appel a la soumission d'un retrait de soutient
+	*/
+	function removeSupport() {
+        
+		// Recuperation des informations
+		var entryId = $("#"+namespace+"entryId").val();
+       
+		// Requete Ajax
+		AUI().use('aui-io-request', function(A) {
+			A.io.request('${removeBudgetSupportURL}', {
+				method : 'POST',
+				dataType: 'json',
+				data:{
+					<portlet:namespace/>entryId : entryId,
+				},
+				on: {
+					success: function(e) {
+                       var data = this.get('responseData');
+                       
+                       // Succes de la requete
+                       if (data.result) {
+                  
+                        	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
+                           if (data.updatedSupportsInfo) {
+								// Modification des textes des labels et bouton
+	                           	$('#nbUserSupports').text(5 - data.updatedSupportsInfo.nbUserSupports);
+	                           	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
+	                           	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
+	                           	
+	                           	// Cache du bouton de retrait si aucun vote pour cette entite
+	                           	if (data.updatedSupportsInfo.nbUserEntrySupports < 1) {
+	                           		$("[href='#RemoveSupport']").hide();
+	                           	}
+	                           	
+	                           	// Mise a jour du tempon data dans la balise href de la demande du vote 
+	                           	// notes : permet l'affichage ou non du formulaire
+	                           	$("[href='#Support']").data('nbsupports', data.updatedSupportsInfo.nbUserEntrySupports);
+	                           	
+	                           	// Affichage dans tous les cas d'ajout
+	                           	$("[href='#Support']").show();
+							}
+                        	
+                        	// Modal de confirmation de succes
+							$('#modalConfirmSupport').modal('show');
+						}
+                     
+						// Erreur ou refus de la requete
+						else {
+							$("#modalErrorSupport h4").text(data.message);
+							$('#modalErrorSupport').modal('show');
+                       }
+                       
+                   }
+               }
+           });
+        });
 	}
 	
 	/*
@@ -455,7 +517,7 @@
 		resetValues();
 		// Si il y'a deja eu un vote de l'utilisateur, pas de formulaire
 		if (parseInt($("[href='#Support']").data('nbsupports'), 10)  >= 1) {
-			// Autocohe des checkbox pour valider la soumission
+			// Autocoche des checkbox pour valider la soumission
 			$('#checkboxSupportSaveInfo #save-info').prop('checked', false);
 			$('#giveSupportLegalAge').prop('checked', true);
 			$('#giveBudgetSupportCondition1').prop('checked', true);
@@ -464,6 +526,15 @@
 		} else {
 			$("#modalSupport").modal('show');
 		}
+	});
+	
+	/*
+	* Lors du click sur le bouton de retrait de vote
+	*/
+	$(document).on("click", "[href='#RemoveSupport']", function(event) {
+		event.preventDefault();
+		
+		removeSupport();
 	});
 
 	/*
