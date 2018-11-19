@@ -42,9 +42,7 @@
             <#list tauxNoel as taux>
               <span>${taux.getName()}</span>
             </#list>
-            <#list dureeNoel as duree>
-              <span>${duree.getName()}</span>
-            </#list>
+            <span>${dureeNoel?first .getName()}</span>
           </div>
       </div>
       <div class="mns-content">
