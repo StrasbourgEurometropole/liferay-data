@@ -432,6 +432,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 
         jsonBudget.put("id", this.getBudgetParticipatifId());
         jsonBudget.put("createDate", dateFormat.format(this.getCreateDate()));
+        jsonBudget.put("publicationDate", dateFormat.format(this.getAssetEntry().getPublishDate()));
+        
         jsonBudget.put("authorImageURL", this.getAuthorImageURL());
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));
