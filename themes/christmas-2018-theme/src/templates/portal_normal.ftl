@@ -20,9 +20,15 @@
     <link href="/o/christmas-2018-theme/css/style.css" rel="stylesheet">
 
   <script>
+    <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+    window.homeURL = '${homeURL}';
+    window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}';
+
+
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
       <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.publikInternalId = '${request.session.getAttribute("publik_internal_id")}';
       window.userFavorites = [
         <#list favorites as favorite>
           {
