@@ -77,14 +77,16 @@ $('.mns-questions-pagination .mns-next').on('click', function (e) {
     nb_questions = $('.mns-questions-dots a').length;
     num_question = $('.mns-questions-dots a.current').data('num_question') + 1;
     if(num_question > nb_questions) {
-        var str = "";
-        $("input[type='radio']:checked").each(
-          function() {
-           var value = $(this).attr('value');
-           str = $.grep([str, value], Boolean).join(",");
-          }); 
+        var voc0 = $("input[type='radio']:checked")[0].value;
+        var voc1 = $("input[type='radio']:checked")[1].value;
+        var voc2 = $("input[type='radio']:checked")[2].value; 
 
-        window.location.assign("/recherche-experience?p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=0&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds="+str);
+        window.location.assign("/recherche-experience?p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=0"
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulary_0="+voc0
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulary_1="+voc1
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulary_2="+voc2
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulariesCount=3"
+            );
        // $('#mns-moteur_experientiel').submit();
     } else {
         change_question(num_question);
