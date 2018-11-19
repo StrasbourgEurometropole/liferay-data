@@ -69,7 +69,7 @@
             border-color: black;
             background-color: black;
             &:before{
-                background-color: #FFFFFF;
+                background-color: $c_main;
             }
             .btn-text{
                 color: #FFFFFF;
@@ -82,7 +82,7 @@
             }
             &:hover, &:focus{
                 .btn-text{
-                    color: $c_main;
+                    color: white;
                 }
                 .btn-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
