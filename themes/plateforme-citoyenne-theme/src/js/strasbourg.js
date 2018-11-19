@@ -11179,6 +11179,7 @@ $('.pro-reponse').click(function(e){
 if ($(window).width() < 992) {
     $('.pro-affiner').on('click',function(){
         $(this).next().toggleClass('is-display');
+        $(this).toggleClass('menu-is-display');
     });
 }
 
@@ -14543,6 +14544,7 @@ function callbackCarteInteractive(macarte) {
     markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
     markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
     markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
+    markerBudget = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7852629}, 'budget', 'marker');
 
 
     contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
@@ -14603,17 +14605,24 @@ function callbackCarteInteractive(macarte) {
         '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
         '<div class="pro-content-initiative">' +
-        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
-        '</div></div> ' +
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' + 
+        '</div></div>' +
         '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
         '</div></a></div>', markerInitiative, 247);
 
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet" data-linkall="a">' +
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet">' +
         '<a href="detail-projet.php"><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
         '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
         '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
         '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
         '</a></div>', markerProjet, 247);
+
+    contentBudget = th_maps.createInfoWindow('<div class="item pro-bloc-card-budget pro-theme-faisabilite"><a href="detail-budget.php">' +
+        '<div class="pro-header-budget"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Idée déposée par :</p><p><strong>Sylvie M.</strong></p><div class="pro-info-top-right"><span class="pro-encart-theme">En cours d’étude de faisabilité</span></div></div>' +
+        '<div class="pro-content-budget"><h3>Titre du budget participatif<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '<div class="pro-footer-budget"><p><strong>1500</strong> Citoyens-nes soutiennent cette idée</p></div></a></div>', markerBudget, 247);
+
 
 
     bounds.extend(markerParticipation.position);
@@ -14622,6 +14631,7 @@ function callbackCarteInteractive(macarte) {
     bounds.extend(markerPetition.position);
     bounds.extend(markerInitiative.position);
     bounds.extend(markerProjet.position);
+    bounds.extend(markerBudget.position);
     macarte.fitBounds(bounds);
 }
 
@@ -14649,6 +14659,11 @@ th_maps.onLoad(function () {
     });
 
     th_maps.addMarkerIcon('event', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('budget', {
         url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
         scaledSize: new google.maps.Size(75, 95)
     });
@@ -16204,6 +16219,13 @@ function getMarkerIcon(entityType) {
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
+        case 'budget-participatif':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-budget.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
         default:
             return new L.Icon({
                 iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-map-inte-2x-v2.png',
@@ -16258,7 +16280,7 @@ function getProjectMarker(project, mercators) {
                 '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
             '</a>' + 
         '</div>'
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
     );
 
     return marker;
@@ -16316,7 +16338,7 @@ function getParticipationMarker(participation, mercators) {
             '</div></a>' + 
         '</div>' + 
         colorHack
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 280, minWidth: 477, maxWidth: 487}
     );
 
     return marker;
@@ -16349,22 +16371,10 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 270, minWidth: 441, maxWidth: 451}
     );
 
     return marker;
-}
-
-/**
-* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
-*/
-function getInitiativePopUp(mercators, link) {
-
-    var initiativeMarkerIcon = getMarkerIcon("initiative");
-    var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
-
-    return marker;
-
 }
 
 /**
@@ -16385,7 +16395,7 @@ function getPetitionMarker(petition, mercators) {
             '</div>' +
             '<div class="pro-content-petition">' +
                 '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
+                '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + 
                 '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
@@ -16395,8 +16405,68 @@ function getPetitionMarker(petition, mercators) {
                 '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
-        ,{maxHeight: 310, minWidth: 460, maxWidth: 480}
+        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
     );
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'un budget participatif sur la carte intéractive
+*/
+function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
+
+    var budgetParticipatifMarkerIcon = getMarkerIcon("budget-participatif");
+    var marker = L.marker(mercators, {icon: budgetParticipatifMarkerIcon});
+	
+	var footer = "";
+	var cssClassBPStatus = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
+	
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '">' +
+            '<a href="' + budgetParticipatif.link + '">' +
+                '<div class="pro-header-budget">' +
+                    '<figure role="group">' + 
+                        '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' + 
+                    '</figure>' +
+                    '<p>Projet déposé par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
+                    '<div class="pro-info-top-right">' + 
+                        '<span class="pro-encart-theme" style="background:#' + budgetParticipatif.BPStatusColor + ';">' + budgetParticipatif.BPStatus + '</span>' + 
+                    '</div>' + 
+                '</div>' +
+                '<div class="pro-content-budget">' + 
+                    '<h3>' + budgetParticipatif.title + '</h3>' + 
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' + 
+                '</div> ' +            
+                '<div class="pro-footer-budget">' + footer +                    
+                '</div>' +
+            '</a>' +
+        '</div>'
+        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
+    );
+
+    return marker;
+}
+
+/**
+* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
+*/
+function getInitiativeMarker(mercators, link) {
+
+    var initiativeMarkerIcon = getMarkerIcon("initiative");
+    var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
 
     return marker;
 
@@ -16438,9 +16508,14 @@ function getResult(searchPage, data) {
                 listing += createPetition(json.json);
             }
 
+            if(json.class == "eu.strasbourg.service.project.model.BudgetParticipatif"){
+                listing += createBudgetParticipatif(json.json);
+            }
+
             if(json.class == "com.liferay.journal.model.JournalArticle"){
                 listing += createNews(json.json);
             }
+			
         });
         listing += '</div>';
         $('.pro-listing-' + searchPage).html(listing);
@@ -16811,7 +16886,7 @@ function createPetition(petition){
                 '<div class="pro-statut"><span>' + petition.frontStatusFR + '</span></div>' +
                 '<div class="pro-meta">' +
                     '<!-- Liste des quartiers de la Petition -->' +
-                    '<span>' + (petition.districtLabel == "tout les quartiers" ? "Tous les quatiers"  : petition.districtLabel) + '</span>' +
+                    '<span>' + petition.districtLabel + '</span>' +
                     '<!-- Liste des thématiques de la Petition -->';
                     for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
                         vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
@@ -16821,7 +16896,7 @@ function createPetition(petition){
                 '</div>' +
             '</div>' +
             '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
-            '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+            '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
         '</div>' +
         '<div class="pro-footer-petition">' +
             '<div class="pro-progress-bar">' +
@@ -16832,6 +16907,73 @@ function createPetition(petition){
             '</div>' +
         '</div>' +
     '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette budget participatif
+ * @return
+*/
+function createBudgetParticipatif(budgetParticipatif){
+
+    // Classe CSS du statut du budget
+    var cssClassBPStatus = "";
+	var footer = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
+
+    // Favori du quartier
+    var crush = "";
+
+    if (budgetParticipatif.isCrush)
+        crush = '<div class="pro-encart-coeur"><span>Coup de cœur du conseil de quartier</span><span class="icon-ico-coeur"></span></div>';
+
+    // HTML des catégories
+    var spans = 
+        '<div class="pro-meta">' + 
+            '<span>' + budgetParticipatif.districtsLabel + '</span>';
+
+    if (budgetParticipatif.thematicsLabel != "") 
+        spans += '<span>' + budgetParticipatif.thematicsLabel + '</span>';
+
+    if (budgetParticipatif.projectName != "") 
+        spans += '<span>' + budgetParticipatif.projectName + '</span>';
+
+    spans += '</div>';
+
+    var vignette =
+        '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
+            '<div class="pro-header-budget">' +
+                '<figure role="group">' +
+                    '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+                '</figure>' +
+                '<p>Projet déposé par :</p>' +
+                '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
+                spans +
+                '<div class="pro-info-top-right">' +
+                    '<span class="pro-encart-theme">' + budgetParticipatif.BPStatus + '</span>' +
+                    '<span>' + budgetParticipatif.nbApprovedComments + '</span>' +
+                    '<p>Commentaire(s)</p>' +
+                '</div>' +
+                crush +
+            '</div>' +
+            '<div class="pro-content-budget">' +
+                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
+                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' +
+            '</div>' +
+            '<div class="pro-footer-budget">' + footer +
+            '</div>' +
+        '</div>';
 
     return vignette;
 }
