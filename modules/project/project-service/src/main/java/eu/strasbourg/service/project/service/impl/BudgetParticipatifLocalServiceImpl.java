@@ -199,7 +199,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         //Dans le cas d'un dépot de projet par un citoyen, on force le statut à déposé
 	    if(budget.getAssetEntry() == null)    
 	    	addCategoryDepose(sc);
-	    
+        
         updateBudgetParticipatif(budget);
         updateAssetEntry(budget, sc);
         reindex(budget, false);
