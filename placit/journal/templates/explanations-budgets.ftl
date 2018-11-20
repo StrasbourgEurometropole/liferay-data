@@ -4,9 +4,10 @@
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
 <#assign httpServletRequest = serviceContext.getRequest()>
 
-<#-- Récupération de l'utilisateur -->
-<#assign hasSigned = httpServletRequest.getSession().getAttribute("has_pact_signed")!false />
+<#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = httpServletRequest.getSession().getAttribute("publik_logged_in")!false />
+<#assign hasUserPactSign = httpServletRequest.getSession().getAttribute("has_pact_signed")!false />
+<#assign isUserBanned = httpServletRequest.getSession().getAttribute("is_banish")!false />
 
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
@@ -61,14 +62,14 @@
                         </ul>
 
                        <div class="pro-wrapper-btn">
-							<#if isUserloggedIn && hasSigned >
+							<#if hasUserPactSign && hasUserPactSign && !isUserBanned>
 								<a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
-							<#elseif isUserloggedIn>
-								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez signer le pacte</a>
-							<#else>
-								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez vous connecter</a>
+							<#elseif !hasUserPactSign>
+								<a class="pro-btn-yellow" name="#Pact-sign">Soumettre un projet</a>
+							<#elseif isUserBanned>
+								<a class="pro-btn-yellow" name="#IsBanned">Soumettre un projet</a>
 							</#if>
-								<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>										
+							<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>										
 						</div>
 
                     </div>
@@ -137,14 +138,14 @@
 				<div class="pro-bloc-prefooter pro-sticky-bar">
 					<div class="container">
 						<div class="col-xs-12 aligncenter pro-wrapper-btn">
-							<#if isUserloggedIn && hasSigned >
-								<a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
-							<#elseif isUserloggedIn>
-								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez signer le pacte</a>
-							<#else>
-								<a class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Veuillez vous connecter</a>
-							</#if>
-								<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>
+                            <#if hasUserPactSign && hasUserPactSign && !isUserBanned>
+                                <a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
+                            <#elseif !hasUserPactSign>
+                                <a class="pro-btn-yellow" name="#Pact-sign">Soumettre un projet</a>
+                            <#elseif isUserBanned>
+                                <a class="pro-btn-yellow" name="#IsBanned">Soumettre un projet</a>
+                            </#if>
+                            <a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>
 						</div>
 					</div>
 				</div>
@@ -152,6 +153,3 @@
 		</div>
 	</div>
 </div>
-
-
-
