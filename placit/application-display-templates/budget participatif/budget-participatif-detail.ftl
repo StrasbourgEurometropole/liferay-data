@@ -101,7 +101,9 @@
                                 <div class="pro-bloc-video bloc-standard">
                                     <div class="mask-video">
                                         <figure class="o80" role="group">
-                                            <img src="assets/images/medias/img-main-article.jpg" alt="Couverture de la vidéo" width="960" height="600"/>
+                                            <#if imageURL?has_content >
+                                                <img src="${imageURL}" alt="Couverture de la vidéo" width="960" height="600"/>
+                                            </#if>
                                         </figure>
                                         <a href="#play" class="btn-ytbe" title="Lire la vidéo">
                                             <span class="pro-btn-video" title="Lire la vidéo"><span class="icon-ico-lecteur"></span>Voir la vidéo</span>
