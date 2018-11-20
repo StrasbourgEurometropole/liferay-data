@@ -72,7 +72,7 @@
                                     <img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
                                 </figure>
                             </#if>
-                            <p>Idée déposée le
+                            <p>Projet déposé le
                                 <time>${entry.getCreateDate()?date?string['dd/MM/yyyy']}</time>
                                 par :
                             </p>
@@ -84,7 +84,7 @@
                     <span>
                         <span>
                             <a href="${homeURL}">Accueil</a>
-                            <a href="${homeURL}budgets-participatifs">Listings des idées</a>
+                            <a href="${homeURL}projets-budget-participatif">Listings des projets</a>
                             <span class="breadcrumb_last">${entry.title}</span>
                         </span>
                     </span>
@@ -158,7 +158,7 @@
 
                         <!-- Bloc : actions -->
                         <div class="pro-wrapper-aside-budget">
-                            <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes soutiennent cette idée</p>
+                            <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet</p>
 
                             <#if isVotable> <#-- Est votable -->
                                 <#if isUserloggedIn && hasUserPactSign && !isUserBanned> <#-- Utilisateur connecté et ayant signé le pacte -->
