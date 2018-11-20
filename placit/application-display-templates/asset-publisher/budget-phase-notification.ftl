@@ -25,7 +25,7 @@
 					<#-- Adaptation du champ selon la periode de la phase active -->
 					<#switch livePeriodLabel>
 					  	<#case "before-begin-deposit">
-						    avant le début des dépôt de
+						    avant le début des dépôts de projets citoyens
 						    <#assign referenceDate = phase.beginDate />
 						    <#break>
 						<#case "before-end-deposit">
