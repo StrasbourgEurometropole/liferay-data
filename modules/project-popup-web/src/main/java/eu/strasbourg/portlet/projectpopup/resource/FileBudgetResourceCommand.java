@@ -104,6 +104,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private long projectId;
     private long quartierId;
     private long themeId;
+    private String message;
 
     /**
      * le log
@@ -115,12 +116,10 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         boolean result = false;
-        String message = "";
+        this.message = "";
+        
         this.publikID = getPublikID(request);
-        if (this.publikID == null || this.publikID.isEmpty())
-            message = "utilisateur non enregistr&eacute;/identifi&eacute;";
-        else
-            this.user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        
         this.dateFormat = new SimpleDateFormat(PATTERN);
         this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
         this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
@@ -137,7 +136,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
         Long webImageId = ParamUtil.getLong(request, "webImageId");
-
+        
         boolean isValid = false;
         try {
             isValid = validate(request);
@@ -145,11 +144,11 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             _log.error(e);
             throw new PortletException(e);
         }
-        if (!isValid)
-            message = LanguageUtil.get(originalRequest, "general-error");
+        if (!isValid && this.message.isEmpty())
+            this.message = LanguageUtil.get(originalRequest, "general-error");
 
         boolean savedInfo = false;
-        if (message.isEmpty()) {
+        if (this.message.isEmpty()) {
             savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
@@ -167,11 +166,11 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             }
             result = sendBudget(request);
         }
-
+        
         // Récupération du json des entités
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", message);
+        jsonResponse.put("message", this.message);
         jsonResponse.put("savedInfo", savedInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -303,6 +302,23 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
     private boolean validate(ResourceRequest request) throws PortalException {
         boolean isValid = true;
+        
+        // utilisateur 
+        if (this.publikID == null || this.publikID.isEmpty()) {
+            this.message = "Utilisateur non recconu";
+            return false;
+        } else {
+        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
+        	
+        	if (this.user.isBanned()) {
+        		this.message = "Vous ne pouvez soutenir ce projet";
+        		return false;
+        	} else if (this.user.getPactSignature() == null) {
+        		this.message = "Vous devez signer le Pacte pour soutenir ce projet";
+        		return false;
+        	}
+        }
+        
         // title
         if (Validator.isNull(this.title)) {
             isValid = false;

@@ -246,7 +246,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		if (BPStatus != null) {
 			if (StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_LAUREAT.getName()) 
 					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
 					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()) 
 					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()) 
 					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()) 

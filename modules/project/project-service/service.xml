@@ -559,8 +559,8 @@
 		<column name="budgetPhaseId" type="long" />
 
 		<!-- Order -->
-		<order by="asc">
-			<order-column name="title" />
+		<order by="desc">
+			<order-column name="modifiedDate" />
 		</order>
 		
 		<!-- Finder methods -->
@@ -577,7 +577,12 @@
 		<finder name="BudgetPhaseId" return-type="Collection">
 			<finder-column name="budgetPhaseId" />
 		</finder>
-
+		<finder name="isCrushAndPublished" return-type="Collection">
+			<finder-column name="isCrush" />
+			<finder-column name="status" />
+			<finder-column name="groupId" />
+		</finder>
+		
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />

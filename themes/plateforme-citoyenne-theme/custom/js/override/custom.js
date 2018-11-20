@@ -97,7 +97,7 @@ $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus juger, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -171,7 +171,7 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus participer, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -189,6 +189,15 @@ $(document).on("click", "[name='#Pact-sign']", function(e) {
     e.preventDefault();
     e.stopPropagation();
     $("#myModal").modal();
+});
+
+/*
+* Demande de signature du pacte
+*/
+$(document).on("click", "[name='#IsBanned']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#modalBanned").modal();
 });
 
 /*
