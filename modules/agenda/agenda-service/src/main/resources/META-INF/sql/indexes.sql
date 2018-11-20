@@ -16,6 +16,7 @@ create index IX_8EE3FDB6 on agenda_Event (lastEndDate);
 create index IX_31077546 on agenda_Event (placeSIGId[$COLUMN_LENGTH:75$]);
 create index IX_D2CC01A3 on agenda_Event (publicationDate, status);
 create index IX_774725E6 on agenda_Event (source[$COLUMN_LENGTH:75$], idSource[$COLUMN_LENGTH:75$]);
+create index IX_11402873 on agenda_Event (status);
 create index IX_1777B627 on agenda_Event (statusDate, status);
 create index IX_E1A6B3DB on agenda_Event (title[$COLUMN_LENGTH:400$]);
 create index IX_24E39F41 on agenda_Event (uuid_[$COLUMN_LENGTH:75$], companyId);

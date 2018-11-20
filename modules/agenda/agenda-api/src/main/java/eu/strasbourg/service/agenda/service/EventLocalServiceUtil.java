@@ -437,6 +437,13 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les resultats publiés
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> getPublished() {
+		return getService().getPublished();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
