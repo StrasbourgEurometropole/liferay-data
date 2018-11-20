@@ -196,11 +196,9 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
             budget.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
         
-        //Dans le cas d'un dépot de projet par un citoyen (le statut n'est pas renseigné), on force le statut à déposé
-        List<AssetCategory> bpStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(budget.getAssetEntry(), VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
-        if (bpStatus.isEmpty()) {
-            addCategoryDepose(sc);
-        }
+        //Dans le cas d'un dépot de projet par un citoyen, on force le statut à déposé
+	    if(budget.getAssetEntry() == null)    
+	    	addCategoryDepose(sc);
         
         updateBudgetParticipatif(budget);
         updateAssetEntry(budget, sc);
