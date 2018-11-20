@@ -190,7 +190,7 @@ public class EventLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getEvent(eventId);
 	}
-
+	
 	/**
 	* Returns the event matching the UUID and group.
 	*

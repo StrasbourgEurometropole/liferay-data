@@ -82,7 +82,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
         
-        // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik
+        // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
         boolean saveInfo = false;
         
@@ -128,7 +128,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             this.nbUserSupports++;
         }
         
-        // Récupération du json des entités
+        // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
         jsonResponse.put("message", this.message);
@@ -244,25 +244,25 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         
         // birthday
         if (Validator.isNull(this.birthday)) {
-            this.message = "error";
+            this.message = "Date de naissance non valide";
             return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            this.message = "error";
+            this.message = "Ville non valide";
             return false;
         }
 
         // address
         if (Validator.isNull(this.address)) {
-            this.message = "error";
+            this.message = "Adresse non valide";
             return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            this.message = "error";
+            this.message = "Code postal non valide";
             return false;
         }
         
