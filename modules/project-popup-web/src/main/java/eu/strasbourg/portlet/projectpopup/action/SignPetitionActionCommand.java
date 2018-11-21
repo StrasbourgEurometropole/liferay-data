@@ -91,15 +91,15 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             if (publikID == null || publikID.isEmpty())
                 throw new PortletException("veuillez vous identifier/enregistrer");
 
-            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
-            birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-            address = HtmlUtil.stripHtml(ParamUtil.getString(request, "address"));
-            city = HtmlUtil.stripHtml(ParamUtil.getString(request, "city"));
-            postalcode = ParamUtil.getLong(request, "postalcode");
-            phone = HtmlUtil.stripHtml(ParamUtil.getString(request, "phone"));
-            mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, "mobile"));
-            lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, "username"));
-            email = HtmlUtil.stripHtml(ParamUtil.getString(request, "mail"));
+            this.user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+            this.birthday = ParamUtil.getDate(request, "birthday", dateFormat);
+            this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, "address"));
+            this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, "city"));
+            this.postalcode = ParamUtil.getLong(request, "postalcode");
+            this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, "phone"));
+            this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, "mobile"));
+            this.lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, "username"));
+            this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, "mail"));
 
             boolean isValid = validate(request);
             if (!isValid)
@@ -157,7 +157,23 @@ public class SignPetitionActionCommand implements MVCActionCommand {
      */
     private boolean validate(ActionRequest request) {
         boolean isValid = true;
-
+        
+        // utilisateur
+        if (this.publikID == null || this.publikID.isEmpty()) {
+        	SessionErrors.add(request, "unfound-user-error");
+        	isValid = false;
+        } else {
+        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
+        	
+        	if (this.user.isBanned()) {
+        		SessionErrors.add(request, "is-banned-error");
+        		isValid = false;
+        	} else if (this.user.getPactSignature() == null) {
+        		SessionErrors.add(request, "pact-unsigned-error");
+        		isValid = false;
+        	}
+        }
+        
         // birthday
         if (Validator.isNull(birthday)) {
             SessionErrors.add(request, "birthday-error");

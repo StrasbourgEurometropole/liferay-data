@@ -131,7 +131,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
         
-        // Verification de la validite des informations     
+        // Verification de la validite des informations
         if (validate(request)) {
         
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
@@ -233,7 +233,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     }
 
     /**
-     * méthode permettant de récuperer l'image uploadée par l'utilisateur.
+     * Recuperer l'image uploadée par l'utilisateur.
      *
      * @param budgetParticipatif le budget participatif correspondant.
      * @param request            la request

@@ -37,6 +37,8 @@ import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration
 import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
@@ -170,11 +172,20 @@ public class SearchAssetPortlet extends MVCPortlet {
             	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
             }
             
+            
+            renderRequest.setAttribute("isUserloggedIn", false);
+            renderRequest.setAttribute("hasUserPactSign", false);
+            renderRequest.setAttribute("isUserBanned", false);
+            
             if (Validator.isNotNull(userPublikId)) {
-                renderRequest.setAttribute("isUserloggedIn", true);
-            } else {
-                renderRequest.setAttribute("isUserloggedIn", false);
+            	PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(userPublikId);
+            	if (user != null) {
+            		renderRequest.setAttribute("isUserloggedIn", true);
+            		renderRequest.setAttribute("hasUserPactSign", user.getPactSignature() != null ? true : false);
+            		renderRequest.setAttribute("isUserBanned", user.isBanned());
+            	}
             }
+            
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
