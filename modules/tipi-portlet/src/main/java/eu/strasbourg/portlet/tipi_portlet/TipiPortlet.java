@@ -1,18 +1,15 @@
 package eu.strasbourg.portlet.tipi_portlet;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import java.io.IOException;
 
 /**
  * @author 01i454
@@ -39,6 +36,10 @@ public class TipiPortlet extends MVCPortlet {
 		// Type de formulaire
 		String form = prefs.getValue("form", "");
 		request.setAttribute("form", form);
+		
+		// Complément d'infos
+		String complement = prefs.getValue("complement", "");
+		request.setAttribute("complement", complement);
 
 		String appCode = "";
 		String clientNumber = "";
@@ -60,7 +61,16 @@ public class TipiPortlet extends MVCPortlet {
 				appCode = "EA";
 				clientNumber = "007964";
 				formTitle = "Facturation eau et assainissement";
+			} else if (form.equals("rs")) {
+				appCode = "RZ";
+				clientNumber = "002902";
+				formTitle = "Facturation redevance sp&eacute;ciale d&eacute;chets";
+			} else if (form.equals("reom")) {
+				appCode = "RC";
+				clientNumber = "021529";
+				formTitle = "Facturation redevance ordures m&eacute;nag&egrave;res";
 			}
+			
 		}
 		request.setAttribute("appCode", appCode);
 		request.setAttribute("clientNumber", clientNumber);

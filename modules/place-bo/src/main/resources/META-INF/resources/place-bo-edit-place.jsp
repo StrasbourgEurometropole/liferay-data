@@ -146,6 +146,8 @@
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
 				</div>
+
+				<aui:input name="contenuTooltipCarto" />
 				
 			</aui:fieldset>
 				

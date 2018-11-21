@@ -3,16 +3,9 @@
 <portlet:resourceURL id="changeDistrictSelection" var="changeDistrictSelectionURL">
 </portlet:resourceURL>
 
-<portlet:resourceURL id="changeProjectsSelection" var="changeProjectsSelectionURL">
-</portlet:resourceURL>
+<link rel="stylesheet" href="/o/mapsearchassetweb/css/map-search-asset-view.css" />
 
-<portlet:resourceURL id="changeParticipationsSelection" var="changeParticipationsSelectionURL">
-</portlet:resourceURL>
-
-<portlet:resourceURL id="changeSubEntitiesSelection" var="changeSubEntitiesSelectionURL">
-</portlet:resourceURL>
-
-<!-- Conteneur de la page de carte intÃ©ractive  -->
+<!-- Conteneur de la page de carte interactive  -->
 <div class="pro-page-carte">
 
 	<!-- Vignette de formulaire -->
@@ -39,18 +32,12 @@
 					<!-- Selecteur de projets -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
-	                        <label for="Projets"><liferay-ui:message key="projects" /></label>
-	                        <input type="checkbox" id="Projets"/>
+	                        <label for="projects_printator_mk1"><liferay-ui:message key="projects" /></label>
+	                        <input type="checkbox" id="projects_printator_mk1" value="project" checked />
 	                        <div class="pro-switch pro-round"></div>
 						
 	                        <fieldset id="projects_fieldset" class="pro-wrapper-chk" >
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="projects" /></legend>
-	    						<c:forEach items="${projects}" var="project" varStatus="loop" >
-		                            <div>
-		                                <input type="checkbox" id="project_${loop.index}" class="hide-checkbox" value="${project.getProjectId()}">
-		                                <label for="project_${loop.index}">${project.getTitle()}</label>
-		                            </div>
-		                        </c:forEach>
 	                        </fieldset>
 	                    </div>
 	                </div>
@@ -58,13 +45,38 @@
 	                <!-- Selecteur de participations -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
-	                        <label for="participation"><liferay-ui:message key="participations" /></label>
-	                        <input type="checkbox" id="participation"/>
+	                        <label for="participations_printator_mk1"><liferay-ui:message key="participations" /></label>
+	                        <input type="checkbox" id="participations_printator_mk1" value="participation" checked  />
 	                        <div class="pro-switch pro-round"></div>
 	
 	                        <fieldset id="participations_fieldset" class="pro-wrapper-chk">
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="participations" /></legend>
-	                           	
+	                        </fieldset>
+	                    </div>
+	                </div>
+	                
+	                <!-- Selecteur de petitions -->
+	                <div class="pro-group">
+	                    <div class="pro-item">
+	                        <label for="petitions_printator_mk1"><liferay-ui:message key="petitions" /></label>
+	                        <input type="checkbox" id="petitions_printator_mk1" value="petition" checked />
+	                        <div class="pro-switch pro-round"></div>
+	                        
+	                        <fieldset id="petitions_fieldset" class="pro-wrapper-chk">
+	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="petitions" /></legend>
+	                        </fieldset>
+	                    </div>
+	                </div>
+	                
+	                <!-- Selecteur de budgets participatifs -->
+	                <div class="pro-group">
+	                    <div class="pro-item">
+	                        <label for="budgets_printator_mk1"><liferay-ui:message key="budgets-participatifs" /></label>
+	                        <input type="checkbox" id="budgets_printator_mk1" value="budget" checked />
+	                        <div class="pro-switch pro-round"></div>
+	                        
+	                        <fieldset id="budgets_fieldset" class="pro-wrapper-chk">
+	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="budgets-participatifs" /></legend>
 	                        </fieldset>
 	                    </div>
 	                </div>
@@ -72,13 +84,12 @@
 					<!-- Selecteur d'evenements -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
-	                        <label for="Evenements"><liferay-ui:message key="events" /></label>
-	                        <input type="checkbox" id="Evenements"/>
+	                        <label for="events_printator_mk1"><liferay-ui:message key="events" /></label>
+	                        <input type="checkbox" id="events_printator_mk1" value="event" checked />
 	                        <div class="pro-switch pro-round"></div>
-	
+							
 	                        <fieldset id="events_fieldset" class="pro-wrapper-chk">
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="events" /></legend>
-	                            
 	                        </fieldset>
 	                    </div>
 	                </div>
@@ -125,9 +136,6 @@
 		var porletNamespace = '<portlet:namespace/>';
 		
 		var changeDistrictSelectionURL = '${changeDistrictSelectionURL}';
-		var changeProjectsSelectionURL = '${changeProjectsSelectionURL}';
-		var changeParticipationsSelectionURL = '${changeParticipationsSelectionURL}';
-		var changeSubEntitiesSelectionURL = '${changeSubEntitiesSelectionURL}';
 	</script>
 </liferay-util:html-top>
 

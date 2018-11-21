@@ -68,10 +68,10 @@
             //Création de la carte au centre de strasbourg
             var mymap = L.map('mapid', {
                 // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-                center: [48.573, 7.752],
+                center: [((window.cadrageX != "")?window.cadrageX:48.573) , ((window.cadrageY != "")?window.cadrageY:7.752)],
                 maxBounds: [[48.42, 7.52], [48.72, 7.94]],
-                zoom: 13,
-                minZoom: 10,
+                zoom: (window.zoom != "")?window.zoom:13,
+                minZoom: 11,
                 zoomControl: false,
                 attributionControl: false
             });
@@ -88,8 +88,8 @@
             });
 
             // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-            var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-                layers: 'gct_fond_de_carte_couleur'
+            var wmsLayer = L.tileLayer.wms('https://adict.strasbourg.eu/mapproxy/service?', {
+                layers: 'monstrasbourg'
             }).addTo(mymap);
 
             // Contrôle correspondant à la liste des markers
@@ -100,13 +100,14 @@
             $('.filtres--poi').append($('.list-markers .filtres__list'));
 
             // Création de la popup pour chaque POI
-            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url", "type"];
+            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url", "type", "contenu"];
             var popupMarkup =
                 '<div class="aroundme__infowindow infowindow">' +
                 '     <button class="infowindow__close"></button>' +
                 '     <div class="infowindow__content">' +
                 '         <div class="infowindow__visual"></div>'+
                 '         <div class="infowindow__top">' +
+                '             <div class="infowindow__categ"></div>' +
                 '             <div class="infowindow__title-block"><div class="infowindow__name"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
                 '             <div class="infowindow__address"></div>' +
                 '         </div>' +
@@ -118,6 +119,7 @@
                 '             <div class="infowindow__right">' +
                 '                 <div class="infowindow__amount"></div>' +
                 '             </div>' +
+                '             <div class="infowindow__contenu"></div>' +
                 '         </div>' +
                 '         <div class="infowindow__bottom">' +
                 '                 <div class="infowindow__type"></div>' +
@@ -128,18 +130,22 @@
             var onEachFeature = function(feature, layer) {
                 var popupElement = $.parseHTML(popupMarkup);
                 if (feature.properties) {
+                    var hasContenu = false;
                     var hasOpened = false;
                     var hasAmount = false;
                     poi_infos_to_display.forEach(function(info_to_display) { // Pour chaque infos qu'on est censé avoir dans le poi
                         $(popupElement).find('.infowindow__' + info_to_display).html(''); // On reset le champ dans l'infowindow
                         if (info_to_display in feature.properties && feature.properties[info_to_display] !== '') { // Si cette info est bien renseignée
                             var formated_info = '';
-                            if (info_to_display == 'amount') {
-                            	var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
+                            if (info_to_display == 'contenu') {
+                                formated_info = feature.properties[info_to_display];
+                                hasContenu = true;
+                            } else if (info_to_display == 'amount') {
+                                var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
                                 frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
                                 frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
                                 if (feature.properties[info_to_display]["label"] == "available-spots"){
-                                	frequentation += feature.properties[info_to_display]["frequentation"];
+                                    frequentation += feature.properties[info_to_display]["frequentation"];
                                 }
                                 frequentation += '</div>';
                                 formated_info = frequentation;
@@ -193,10 +199,16 @@
                             $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
                         }
                     });
-                    if(!hasOpened){
+                    if(!hasOpened && !hasContenu){
                     	$(popupElement).find('.infowindow__middle').remove(); // On cache le champ dans l'infowindow
-                    }else if(!hasAmount){
-                    	$(popupElement).find('.infowindow__right').remove(); // On cache le champ dans l'infowindow
+                    }else {
+                        if(hasContenu){
+                            $(popupElement).find('.infowindow__left').remove(); // On cache le champ des horaires dans l'infowindow
+                            $(popupElement).find('.infowindow__right').remove(); // On cache le champ du temps réel dans l'infowindow
+                        }else if(!hasAmount){
+                            $(popupElement).find('.infowindow__contenu').remove(); // On cache le champ du contenu dans l'infowindow
+                            $(popupElement).find('.infowindow__right').remove(); // On cache le champ du temps réel dans l'infowindow
+                        }
                     }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
@@ -511,6 +523,16 @@
                         }
                 	}
                 }
+                if (window.mode == "widget" && interests.length > 0) {
+                    var interestIds = interests.split(',');
+                    for (var i = 0; i < interestIds.length; i++) {
+                        if (interestIds[i] === window.linkInterestId) {
+                            addTraffic(markers);
+                            addAlerts(markers);
+                            break;
+                        }
+                    }
+                }
 
                 // Ajout à la map
                 mymap.addLayer(markers);
@@ -549,6 +571,34 @@
             $('#mapid').on('click', '.infowindow__close', function() {
                 mymap.closePopup();
             });
+
+            // Affichage de la zone
+            if (window.coordinateZone.geometry != undefined) {
+                // Récupération des coordonnées de la zone
+                requestsInProgress++;
+                showLoadingIcon();
+
+                // Convertion des données geoJSON en polygon
+                var coordinates = L.geoJson(window.coordinateZone, {
+                    // Add invert: true to invert the geometries in the GeoJSON file
+                    invert: true,
+                    style: function (feature) { // Style option
+                        return {
+                            'weight': 1,
+                            'color': '#31455d',
+                            'fillColor': 'black',
+                            'fillOpacity': 0.2
+                        }
+                    }
+                }).addTo(mymap);
+
+                // centrer la carte sur le quartier
+                var bounds = [];
+                window.coordinateZone.geometry.coordinates[0][0].forEach(function(e){bounds.push([e[1],e[0]]);});
+                mymap.fitBounds(bounds);
+                requestsInProgress--;
+                maybeHideLoadingIcon();
+            }
 
             function saveUserConfig() {
                 AUI().use('aui-io-request', function(A) {

@@ -17,7 +17,14 @@
 				<aui:option value="schoolRestaurant" label="Facturation restauration scolaire" selected="${form eq 'schoolRestaurant'}" />
 				<aui:option value="afterSchool" label="Facturation de l'accueil p&eacute;riscolaire" selected="${form eq 'afterSchool'}" />
 				<aui:option value="water" label="Facturation d'eau et d'assainissement" selected="${form eq 'water'}" />
+				<aui:option value="reom" label="Facturation redevance ordures m&eacute;nag&egrave;res" selected="${form eq 'reom'}" />
+				<aui:option value="rs" label="Facturation redevance sp&eacute;ciale d&eacute;chets" selected="${form eq 'rs'}" />				
 			</aui:select>
+			
+			<aui:fieldset>
+				<aui:input name="complement" value="${complement}" localized="true" type="editor" label="complement-text" />
+			</aui:fieldset>
+			
 			<aui:input type="hidden" name="form" />
 		</aui:fieldset>
 		

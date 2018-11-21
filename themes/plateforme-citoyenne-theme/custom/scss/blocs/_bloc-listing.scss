@@ -52,6 +52,14 @@
 			}
 		}
 	}
+
+	&.pro-listing-news{
+		.vignette{
+			&:nth-of-type(4){
+				clear: left;
+			}
+		}
+	}
 }
 
 .pro-bloc-listing-event {

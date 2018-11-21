@@ -1,0 +1,257 @@
+/***************************/
+/***************************/
+
+/* -- BLOC SOCIAL WALL -- */
+
+/***************************/
+/***************************/
+
+/* Page d'accueil Social Wall */
+.mns-list-social-wall {
+	padding: 0;
+	position: relative;
+	clear: both;
+	&:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+	
+	> div:nth-child(3) ~ div {
+		.mns-bloc-social-wall {
+			@include mobile{
+				display: none;
+			}
+		}
+	}
+
+	> div:nth-last-child(-n+5) {
+		.mns-bloc-social-wall {
+			margin-bottom: 0;
+			@include desktop {
+				margin-bottom: 40px;
+			}
+		}
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: transparent;
+			background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85));
+			clear: both;
+			pointer-events: none;
+			@include desktop {
+				content: none;
+			}
+		}
+	}
+}
+
+.mns-top-social-wall {
+	position: relative;
+	padding: 50px 0 60px 0;
+	background: $c_white;
+	margin: 0 15px;
+	&:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+	@include tablet_portrait{
+		padding: 40px 0;
+	}
+	.mns-social-noel{
+		position: relative;
+		padding: 10px 35px 0 35px;
+		@include tablet_portrait{
+			padding: 10px 15px 0 15px;
+		}
+		@include mobile{
+			padding: 20px 0;
+		}
+	}
+
+	.mns-partage{
+		position: relative;
+		padding: 10px 25px 20px 25px;
+		@include tablet_portrait{
+			padding: 10px 15px 20px 15px;
+		}
+		@include mobile{
+			padding: 40px 0 0;
+			border-top: 1px solid rgba($c_dark,0.1);
+		}
+		&:before{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -15px;
+			bottom: 0;
+			width: 1px;
+			height: 100%;
+			background: rgba($c_dark,0.1);
+			@include mobile{
+				content: none;
+			}
+		}
+	}
+}
+
+.mns-social-wall {
+	position: relative;
+	transform: translate3d(0, 0, 0);
+	padding: 45px 0 65px 0;
+	margin: 50px 0 0 0;
+	&:before{
+		content: '';
+		background: url(../images/deco-social-wall.png);
+		background-size: cover;
+		background-repeat: repeat-x;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 220px;
+	}
+	@include tablet_landscape{
+		margin: 20px 0 0 0;
+	}
+	&.mns-p-list-actu {
+		padding: 15px 0 30px 0;
+	}
+	@include mobile {
+		width: 100%;
+	}
+
+	> img{
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+	}
+	ul {
+		text-align: left;
+		width: 100%;
+		padding: 0;
+		li {
+			display: inline-block;
+			padding: 0;
+			margin: 0;
+			a{
+				display: block;
+				padding: 0 3px;
+			}
+			span {
+				font-size: 44px;
+				&.icon-facebook-with-circle {
+					color: #3b5998;
+				}
+				&.icon-instagram-with-circle {
+					color: #e95950;
+				}
+				&.icon-twitter-with-circle {
+					color: #4099FF;
+				}
+			}
+		}
+	}
+	h2 {
+		@include ft($f_hx, 60px, 700, $c_txt, normal);
+		text-align: left;
+		span {
+			color: $c_main;
+		}
+
+		@include desktop{
+			font-size: 40px;
+		}
+		@include mobile {
+			font-size: 26px;
+		}
+	}
+	h3{
+		@include ft($f_hx, 30px, 700, $c_txt, normal);
+		text-align: left;
+		margin-bottom: 13px;
+		span {
+			color: $c_main;
+		}
+
+		@include mobile {
+			font-size: 20px;
+		}
+
+	}
+	p {
+		font-size: 16px;
+		line-height: 26px;
+	}
+
+	.mns-btn{
+		background: $c_main;
+		color: $c_white;
+		text-align: center;
+		@include addTransition();
+		&:hover, &:focus{
+			background: $c_dark;
+			color: $c_white;
+		}
+	}
+}
+
+.mns-bloc-social-wall {
+	border-bottom: 1px solid $c_filet;
+	margin-bottom: 40px;
+	a {
+		display: block;
+		@include an(all, 0.3);
+		img {
+			width: 100%;
+			height: 270px; //sully
+			@include an(all, 0.3);
+		}
+		> div {
+			position: relative;
+		}
+		&:hover {
+			transform: translateY(-20px);
+			img {
+				box-shadow: 0 -20px 28px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.22);
+			}
+		}
+	}
+	span {
+		position: relative;
+		display: block;
+		height: 58px;
+		width: 58px;
+		border-radius: 50%;
+		transform: translateY(-50%);
+		left: 15px;
+		pointer-events: none;
+		img {
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+			border-radius: 50%;
+			height: 100%; //sully
+		}
+	}
+	.account {
+		position: absolute;
+		top: 35px;
+		left: 0px;
+		width: 100%;
+		text-align: right;
+		@include ft($f_txt, 14px, 400, $c_main, 22px);
+	}
+	p {
+		width: 100%;
+		text-align: left;
+		top: -10px;
+		margin-bottom: 20px;
+		max-height: 100px; //sully
+    	overflow: hidden; //sully
+	}
+}

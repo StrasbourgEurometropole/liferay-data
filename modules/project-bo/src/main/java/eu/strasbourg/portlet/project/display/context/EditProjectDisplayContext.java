@@ -33,11 +33,9 @@ public class EditProjectDisplayContext {
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
 	
-	public EditProjectDisplayContext(RenderRequest request,
-		RenderResponse response) {
+	public EditProjectDisplayContext(RenderRequest request,RenderResponse response) {
 		this._request = request;
-		this._themeDisplay = (ThemeDisplay) request
-			.getAttribute(WebKeys.THEME_DISPLAY);
+		this._themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
 	public Project getProject() {
@@ -116,7 +114,7 @@ public class EditProjectDisplayContext {
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
 		return _themeDisplay.getPermissionChecker().hasPermission(
-		this._themeDisplay.getCompanyGroupId(),
+		this._themeDisplay.getScopeGroupId(),
 			StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO,
 			actionId);
 	}

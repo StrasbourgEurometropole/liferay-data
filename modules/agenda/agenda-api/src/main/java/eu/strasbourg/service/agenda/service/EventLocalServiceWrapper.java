@@ -359,6 +359,12 @@ public class EventLocalServiceWrapper implements EventLocalService,
 		return _eventLocalService.findByPlaceSIGId(placeSIGId);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> findEventByUserPublikId(
+		java.lang.String publikId) {
+		return _eventLocalService.findEventByUserPublikId(publikId);
+	}
+
 	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
@@ -375,6 +381,15 @@ public class EventLocalServiceWrapper implements EventLocalService,
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getByGroupId(
 		long groupId) {
 		return _eventLocalService.getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne les resultats possèdant en etiquette l'une appelation demandee
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getByTagsWithOrSelection(
+		java.util.List<java.lang.String> tagLabels) {
+		return _eventLocalService.getByTagsWithOrSelection(tagLabels);
 	}
 
 	/**

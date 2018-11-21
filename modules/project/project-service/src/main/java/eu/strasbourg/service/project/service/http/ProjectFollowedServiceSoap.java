@@ -100,5 +100,20 @@ public class ProjectFollowedServiceSoap {
 		}
 	}
 
+	public static eu.strasbourg.service.project.model.ProjectFollowedSoap[] findProjectFollowedByPublikUserId(
+		java.lang.String publikId) throws RemoteException {
+		try {
+			java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> returnValue =
+				ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publikId);
+
+			return eu.strasbourg.service.project.model.ProjectFollowedSoap.toSoapModels(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ProjectFollowedServiceSoap.class);
 }

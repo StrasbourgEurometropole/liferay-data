@@ -631,6 +631,15 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne le code html nécessaire à l'affichage de la vidéo dans le header du site vidéo
+	* et de son utilisation par les différentes API
+	*/
+	@Override
+	public java.lang.String getPlayerHeaderVideo(java.util.Locale locale) {
+		return _video.getPlayerHeaderVideo(locale);
+	}
+
+	/**
 	* Retourne le texte à afficher pour les fournisseurs de la vidéo
 	*/
 	@Override

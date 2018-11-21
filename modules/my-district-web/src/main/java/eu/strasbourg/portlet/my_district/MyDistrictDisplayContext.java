@@ -49,7 +49,6 @@ public class MyDistrictDisplayContext {
     private RenderRequest request;
     private MyDistrictConfiguration configuration;
     private Boolean hasError;
-    private JSONArray coordinates;
     private String address;
     private AssetCategory district;
     private AdictService adictService;

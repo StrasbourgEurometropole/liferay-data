@@ -1,15 +1,13 @@
 package eu.strasbourg.portlet.agenda;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
-import java.io.IOException;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
+import java.io.IOException;
 
 @Component(
 	immediate = true,
@@ -28,7 +26,6 @@ public class AgendaPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest,
 		RenderResponse renderResponse) throws IOException, PortletException {
-		// TODO Auto-generated method stub
 		super.render(renderRequest, renderResponse);
 	}
 	

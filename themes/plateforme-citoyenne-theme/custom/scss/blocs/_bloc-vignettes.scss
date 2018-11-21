@@ -198,7 +198,7 @@
 			}
 			> .content {
 				h3 {
-					color: $c_main;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -277,13 +277,17 @@
 
 			.pro-wrap-thematique {
 				margin-top: 10px;
+				overflow: hidden;
+				white-space: nowrap;
+				max-width: 100%;
+				display: block;
+				text-overflow: ellipsis;
 				&:after {
 					content: '';
 					display: block;
 					clear: both;
 				}
 				> span {
-					float: left;
 					@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
 					margin-bottom: 5px;
 					&:after {
@@ -359,6 +363,285 @@
 					}
 				}
 			}
+		}
+	}
+}
+
+.pro-bloc-card-projet {
+	position: relative;
+	display: block;
+	z-index: 100;
+	border: 1px solid rgba($c_dark, 0.25);
+	border-radius: 4px;
+	background: $c_white;
+	@include addTransition();
+
+	&:hover {
+		cursor: pointer;
+		box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
+		transform: translateY(-20px);
+		transform: translate3d(0, -20px, 0);
+		.no-hover & {
+			box-shadow: none;
+			transform: none;
+		}
+	}
+
+	.pro-encart-coeur {
+		position: absolute;
+		top: 90px;
+		right: 0;
+		background: $c_main;
+		@include tablet_landscape {
+			top: 65px;
+		}
+		@include mobile {
+			top: 20px;
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: -30px;
+			width: 46px;
+			height: 36px;
+			border-radius: 50%;
+			background: $c_white;
+			@include mobile {
+				content: none;
+			}
+		}
+		span:not(.icon-ico-coeur) {
+			display: inline-block;
+			@include ft($f_txt, 0.688em, 700, $c_txt, 1.273em);
+			padding: 11px 0 11px 45px;
+			@include mobile {
+				display: none;
+			}
+		}
+		span.icon-ico-coeur {
+			font-size: 1.125em;
+			line-height: 14px;
+			margin-left: 10px;
+			float: right;
+			padding: 11px 30px 11px 0;
+			@include mobile {
+				padding: 11px 15px;
+				margin: 0;
+			}
+		}
+	}
+
+	.pro-header-projet {
+		margin-bottom: 8px;
+		padding: 15px 20px 0 20px;
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+
+		.pro-number-comm, .pro-info-top-right {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			width: auto;
+			text-align: right;
+			@include mobile {
+				position: relative;
+				top: 0;
+				right: 0;
+				margin-top: 5px;
+				margin-bottom: -10px;
+				width: 100%;
+				text-align: left;
+			}
+
+			span:not(.pro-encart-theme) {
+				position: relative;
+				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
+				padding: 1px 9px;
+				border-radius: 5px;
+				background: $c_dark;
+				margin-right: 7px;
+				z-index: 100;
+				margin-left: 25px;
+				@include mobile {
+					display: inline-block;
+					margin-left: 0;
+					margin-top: 10px;
+				}
+				&:after {
+					content: '';
+					position: absolute;
+					right: 4px;
+					bottom: -7px;
+					z-index: -1;
+					width: 0;
+					height: 0;
+					border-style: solid;
+					border-width: 15px 0px 0 16px;
+					border-color: #000000 transparent transparent transparent;
+				}
+			}
+			p {
+				@include ft($f_hx, 0.938em, 400, $c_txt, 1.867em);
+				text-transform: uppercase;
+				width: auto;
+				overflow: visible;
+				white-space: normal;
+			}
+		}
+
+		figure {
+			float: left;
+			width: 40px;
+			height: 40px;
+			overflow: hidden;
+			border-radius: 50%;
+			margin-right: 15px;
+		}
+		p {
+			@include ft($f_txt, 0.750em, 400, $c_txt, 1.233em);
+			display: inline-block;
+			width: calc(100% - 70px);
+			margin-bottom: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.pro-meta {
+			margin: 20px 0 0 0;
+			span {
+				font-size: 0.875em;
+				line-height: 1em;
+				&:after {
+					height: 13px;
+				}
+			}
+		}
+	}
+
+	.pro-content-projet {
+		padding: 0 20px 10px 20px;
+		position: relative;
+
+		.pro-wrapper-meta {
+			margin-bottom: 13px;
+			&:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			> * {
+				float: left;
+			}
+		}
+
+		.pro-meta {
+			margin-bottom: 0;
+			> span {
+				&:first-child {
+					padding-left: 0;
+				}
+				position: relative;
+				font-size: 0.875em;
+				line-height: 2em;
+				&:after {
+					height: 13px;
+					right: -1px;
+				}
+			}
+		}
+
+		.pro-statut {
+			float: left;
+			margin-right: 8px;
+			span {
+				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
+				background: $c_main;
+				border-radius: 4px;
+				text-transform: uppercase;
+				display: block;
+				padding: 3px 10px;
+			}
+		}
+
+		.pro-time {
+			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			display: block;
+			margin-bottom: 3px;
+			background: none;
+			padding: 0;
+		}
+		h3 {
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
+			text-transform: uppercase;
+			margin: 0 0 8px 0;
+			height: 50px;
+			overflow: hidden;
+		}
+
+		p {
+			@include ft($f_txt, 0.813em, 400, $c_txt, normal);
+			margin-bottom: 8px;
+		}
+
+		a {
+			&:focus {
+				h3 {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		.pro-wrap-thematique {
+			margin-top: 5px;
+			height: 25px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			&:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			> span {
+				float: left;
+				@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
+				margin-bottom: 5px;
+				&:after {
+					content: ',';
+					margin-right: 3px;
+				}
+				&:last-child {
+					&:after {
+						content: none;
+					}
+				}
+			}
+		}
+	}
+
+	.pro-footer-projet {
+		padding: 0 25px;
+		background: $c_dark;
+		height: 70px;
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		border-top: none;
+		@include mobile {
+			padding: 10px 20px;
+		}
+
+		p {
+			@include ft($f_txt, 0.875em, 400, $c_white, normal);
+			text-align: left;
+			margin: 0;
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
 		}
 	}
 }
@@ -568,6 +851,8 @@
 		}
 		p {
 			margin-bottom: 10px;
+			height: 48px;
+			overflow: hidden;
 		}
 		.link {
 			@include ft($f_txt, $s_p, 700, $c_txt, 1.200em);
@@ -702,7 +987,7 @@
 	display: block;
 	&:hover {
 		> * {
-			box-shadow: 0px 20px 40px 0px rgba(0,0,0,0.2);
+			box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
 			transform: translateY(-20px);
 			transform: translate3d(0, -20px, 0);
 		}
@@ -718,6 +1003,9 @@
 	&:focus {
 		> * {
 			box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+			h3 {
+				text-decoration: underline;
+			}
 		}
 	}
 
@@ -726,6 +1014,7 @@
 		display: block;
 		border: 1px solid rgba($c_dark, 0.25);
 		border-radius: 4px;
+		background: $c_white;
 		@include addTransition();
 	}
 
@@ -786,6 +1075,15 @@
 				margin: 0;
 			}
 		}
+
+		a {
+			display: block;
+			&:focus {
+				h3 {
+					text-decoration: underline;
+				}
+			}
+		}
 	}
 
 	.pro-footer-event {
@@ -811,7 +1109,7 @@
 // CARD BLOC PARTICIPATION
 // ==========================================================================
 .pro-encart-theme {
-	@include ft($f_hx, 0.875em, 700, $c_white, 1.786em);
+	@include ft($f_hx, 0.875em, 700, $c_white, 1.885em);
 	display: inline-block;
 	height: 25px;
 	border-radius: 4px;
@@ -898,7 +1196,7 @@
 	&:hover {
 		cursor: pointer;
 		> * {
-			box-shadow: 0px 20px 40px 0px rgba(0,0,0,0.2);
+			box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
 			transform: translateY(-20px);
 			transform: translate3d(0, -20px, 0);
 		}
@@ -975,7 +1273,7 @@
 
 			span:not(.pro-encart-theme) {
 				position: relative;
-				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
+				@include ft($f_hx, 0.938em, 400, $c_main, 1.885em);
 				padding: 1px 9px;
 				border-radius: 5px;
 				background: $c_dark;
@@ -1065,7 +1363,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -1098,17 +1396,24 @@
 				float: left;
 				line-height: 40px;
 				margin-right: 20px;
+				position: relative;
+				top: 7.5px;
+				&:after{
+					content: '';
+			 		display: block;
+					clear: both;
+				}
 				@include mobile {
 					float: none;
 					display: block;
 					margin-bottom: 10px;
+					top: 0;
 				}
 				> * {
 					@include ft($f_txt, 0.750em, 700, $c_txt, 2em);
 					width: 65px;
 					height: 25px;
-					display: inline-block;
-					vertical-align: middle;
+					float: left;
 					background: $c_main;
 					border-radius: 4px;
 					text-align: center;
@@ -1122,10 +1427,13 @@
 						position: relative;
 						top: -2px;
 					}
-					&:hover, &:focus, &.active{
+					&:hover, &:focus, &.active {
 						background: $c_dark;
 						color: $c_main;
 					}
+				}
+				.pro-like {
+					margin-right: 4px;
 				}
 				.pro-dislike {
 					&:before {
@@ -1157,17 +1465,24 @@
 				float: left;
 				line-height: 40px;
 				margin-right: 20px;
+				position: relative;
+				top: 7.5px;
+				&:after{
+					content: '';
+					display: block;
+					clear: both;
+				}
 				@include mobile {
 					float: none;
 					display: block;
 					margin-bottom: 10px;
+					top: 0;
 				}
 				> * {
 					@include ft($f_txt, 0.750em, 700, $c_txt, 2em);
 					width: 65px;
 					height: 25px;
-					display: inline-block;
-					vertical-align: middle;
+					float: left;
 					background: #f5f5f5;
 					border-radius: 4px;
 					text-align: center;
@@ -1191,6 +1506,9 @@
 					&:hover {
 						cursor: default;
 					}
+				}
+				.pro-like {
+					margin-right: 4px;
 				}
 				.pro-dislike {
 					&:before {
@@ -1251,6 +1569,9 @@
 						position: relative;
 						top: -2px;
 					}
+				}
+				.pro-like {
+					margin-right: 4px;
 				}
 				.pro-dislike {
 					&:before {
@@ -1344,10 +1665,10 @@
 			height: 48px;
 			background: $c_dark;
 			position: absolute;
+			pointer-events: none;
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			transform: translate3d(-50%, -50%, 0);
 			line-height: 48px;
 			font-size: 1.5em;
 			color: $c_main;
@@ -1368,9 +1689,10 @@
 	}
 
 	> a {
+		display: block;
 		&:focus {
 			h3 {
-				color: $c_main;
+				text-decoration: underline;
 			}
 		}
 	}
@@ -1386,7 +1708,7 @@
 
 	&:hover {
 		cursor: pointer;
-		box-shadow: 0px 20px 40px 0px rgba(0,0,0,0.2);
+		box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
 		transform: translateY(-20px);
 		transform: translate3d(0, -20px, 0);
 		.no-hover & {
@@ -1586,7 +1908,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -1808,7 +2130,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -1916,28 +2238,27 @@
 				background: #ff3c58;
 			}
 		}
-		.pro-footer-budget{
-			background: rgba($c_txt,0.1);
-			p{
+		.pro-footer-budget {
+			background: rgba($c_txt, 0.1);
+			p {
 				color: #4c4c4c;
 				font-weight: 700;
 			}
 		}
 	}
 
-
-	.pro-encart-coeur{
+	.pro-encart-coeur {
 		position: absolute;
 		top: 90px;
 		right: 0;
 		background: $c_main;
-		@include tablet_landscape{
+		@include tablet_landscape {
 			top: 65px;
 		}
-		@include mobile{
+		@include mobile {
 			top: 20px;
 		}
-		&:before{
+		&:before {
 			content: '';
 			position: absolute;
 			top: 0;
@@ -1947,25 +2268,25 @@
 			height: 36px;
 			border-radius: 50%;
 			background: $c_white;
-			@include mobile{
+			@include mobile {
 				content: none;
 			}
 		}
-		span:not(.icon-ico-coeur){
+		span:not(.icon-ico-coeur) {
 			display: inline-block;
 			@include ft($f_txt, 0.688em, 700, $c_txt, 1.273em);
 			padding: 11px 0 11px 45px;
-			@include mobile{
+			@include mobile {
 				display: none;
 			}
 		}
-		span.icon-ico-coeur{
+		span.icon-ico-coeur {
 			font-size: 1.125em;
 			line-height: 14px;
 			margin-left: 10px;
 			float: right;
 			padding: 11px 30px 11px 0;
-			@include mobile{
+			@include mobile {
 				padding: 11px 15px;
 				margin: 0;
 			}
@@ -2048,12 +2369,12 @@
 			white-space: nowrap;
 		}
 
-		.pro-meta{
+		.pro-meta {
 			margin: 20px 0 0 0;
-			span{
+			span {
 				font-size: 0.875em;
 				line-height: 1em;
-				&:after{
+				&:after {
 					height: 13px;
 				}
 			}
@@ -2130,7 +2451,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}
@@ -2158,10 +2479,6 @@
 	}
 }
 
-
-
-
-
 // CARD BLOC INITIATIVE
 // ==========================================================================
 .pro-bloc-card-vignette-projet {
@@ -2173,7 +2490,7 @@
 
 	&:hover {
 		cursor: pointer;
-		box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
+		box-shadow: 0px 0 20px 0px rgba(0, 0, 0, 0.2);
 		.no-hover & {
 			box-shadow: none;
 		}
@@ -2219,15 +2536,19 @@
 			}
 		}
 
-		.pro-wrap-thematique{
+		.pro-wrap-thematique {
 			margin-top: 10px;
+			overflow: hidden;
+			white-space: nowrap;
+			max-width: 100%;
+			display: block;
+			text-overflow: ellipsis;
 			&:after {
 				content: '';
 				display: block;
 				clear: both;
 			}
 			> span {
-				float: left;
 				@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
 				margin-bottom: 5px;
 				&:after {
@@ -2253,7 +2574,7 @@
 		a {
 			&:focus {
 				h3 {
-					color: $c_main !important;
+					text-decoration: underline;
 				}
 			}
 		}

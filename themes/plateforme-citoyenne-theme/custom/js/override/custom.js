@@ -97,7 +97,7 @@ $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus juger, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -171,7 +171,7 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus participer, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -189,6 +189,15 @@ $(document).on("click", "[name='#Pact-sign']", function(e) {
     e.preventDefault();
     e.stopPropagation();
     $("#myModal").modal();
+});
+
+/*
+* Demande de signature du pacte
+*/
+$(document).on("click", "[name='#IsBanned']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#modalBanned").modal();
 });
 
 /*
@@ -276,13 +285,16 @@ function getLeafletMap() {
         minZoom: 13,
         zoom: 13,
         minZoom: 12,
-        zoomControl: false,
-        attributionControl: false
+        zoomControl: true,
+        attributionControl: false,
+        fullscreenControl: {
+            pseudoFullscreen: false // if true, fullscreen to page width and height
+        }
     });
 
     // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-    var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-        layers: 'gct_fond_de_carte_couleur'
+    var wmsLayer = L.tileLayer.wms('https://adict.strasbourg.eu/mapproxy/service?', {
+        layers: 'monstrasbourg'
     }).addTo(leafletMap);
 
     return leafletMap;
@@ -292,7 +304,9 @@ function getLeafletMap() {
 /**
 * Retourne l'icone de marqueur selon le type de l'entité
 */
-function getMarkerIcon(entityType = "default") {
+function getMarkerIcon(entityType) {
+    
+    var entityType = (typeof entityType !== 'undefined') ? entityType : "default";
 
     switch (entityType) {
         case 'project':
@@ -330,6 +344,13 @@ function getMarkerIcon(entityType = "default") {
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
+        case 'budget-participatif':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-budget.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
         default:
             return new L.Icon({
                 iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-map-inte-2x-v2.png',
@@ -355,7 +376,7 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
         '<a target="_blank" href="' + link + '" id="map-inte-container">' +
             '<div class="map-inte-content">' +
                 '<div class="map-inte-header">' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time></span>' +
+                    '<span class="pro-time">Publiée <time datetime="2018-01-10">' + publishDate + '</time></span>' +
                     '<p>' + place + '</p>' +
                 '</div>' +
                 '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
@@ -372,13 +393,22 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 * Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
 */
 function getProjectMarker(project, mercators) {
-
-
     var projectMarkerIcon = getMarkerIcon("project");
     var marker = L.marker(mercators, {icon: projectMarkerIcon});
+    
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-projet" data-linkall="a">' +
+            '<a href="' + project.link + '"><div class="pro-header-projet">' +
+                '<p>Quartier(s) concerné(s) :</p><p><strong>' + project.districtLabel + '</strong></p></div> ' +
+                '<div class="pro-content-projet"><h3>' + project.title + '</h3>' +
+                '<div class="pro-wrap-thematique"><span>' + project.thematicsLabel + '</span></div></div> ' +
+                '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
+            '</a>' + 
+        '</div>'
+        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
+    );
 
     return marker;
-
 }
 
 /**
@@ -419,7 +449,7 @@ function getParticipationMarker(participation, mercators) {
             '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
             '<div>' +
                 '<div class="pro-header-participation">' + 
-                    '<figure><img src="' + participation.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+                    '<figure><img src="' + participation.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
                     '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
                     '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
                 '</div>' +
@@ -433,7 +463,7 @@ function getParticipationMarker(participation, mercators) {
             '</div></a>' + 
         '</div>' + 
         colorHack
-        ,{maxHeight: 310, minWidth: 480, maxWidth: 654}
+        ,{maxHeight: 280, minWidth: 477, maxWidth: 487}
     );
 
     return marker;
@@ -466,7 +496,90 @@ function getEventMarker(event) {
                 '</div>' +
             '</div></a>' +
         '</div>'
-        ,{maxHeight: 280, maxWidth: 654}
+        ,{maxHeight: 270, minWidth: 441, maxWidth: 451}
+    );
+
+    return marker;
+}
+
+/**
+* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
+*/
+function getPetitionMarker(petition, mercators) {
+
+    var petitionMarkerIcon = getMarkerIcon("petition");
+    var marker = L.marker(mercators, {icon: petitionMarkerIcon});
+
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
+            '<div class="pro-header-petition">' +
+                '<figure role="group">' +
+                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+                '</figure>' +
+                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
+            '</div>' +
+            '<div class="pro-content-petition">' +
+                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
+                '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + 
+                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+            '</div> ' +
+            '<div class="pro-footer-petition">' +
+                '<div class="pro-progress-bar">' +
+                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
+                '</div>' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
+            '</div>' +
+        '</div></a></div>'
+        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
+    );
+
+    return marker;
+
+}
+
+/**
+* Retourne le marqueurs de leaflet d'un budget participatif sur la carte intéractive
+*/
+function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
+
+    var budgetParticipatifMarkerIcon = getMarkerIcon("budget-participatif");
+    var marker = L.marker(mercators, {icon: budgetParticipatifMarkerIcon});
+	
+	var footer = "";
+	var cssClassBPStatus = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
+	
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '">' +
+            '<a href="' + budgetParticipatif.link + '">' +
+                '<div class="pro-header-budget">' +
+                    '<figure role="group">' + 
+                        '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' + 
+                    '</figure>' +
+                    '<p>Projet déposé par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
+                    '<div class="pro-info-top-right">' + 
+                        '<span class="pro-encart-theme" style="background:#' + budgetParticipatif.BPStatusColor + ';">' + budgetParticipatif.BPStatus + '</span>' + 
+                    '</div>' + 
+                '</div>' +
+                '<div class="pro-content-budget">' + 
+                    '<h3>' + budgetParticipatif.title + '</h3>' + 
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' + 
+                '</div> ' +            
+                '<div class="pro-footer-budget">' + footer +                    
+                '</div>' +
+            '</a>' +
+        '</div>'
+        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
     );
 
     return marker;
@@ -475,7 +588,7 @@ function getEventMarker(event) {
 /**
 * Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getInitiativePopUp(mercators, link) {
+function getInitiativeMarker(mercators, link) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
     var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
@@ -485,33 +598,606 @@ function getInitiativePopUp(mercators, link) {
 }
 
 /**
-* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
-*/
-function getPetitionMarker(mercators, link, author, title, place, publishDate, durationLabel, progress, nbSub, nbGoal) {
+ * Retoune le résultat
+ */
+function getResult(searchPage, data) {
+    if(data != null){
+        var nbEntries = data.entries.length;
+        // afficahge résultat
+        $('.pro-listing-' + searchPage).html('');
+        var listing = '<div class="pro-wi-grid unstyled" data-page="1">';
+        var indexGrid = 2;
+        $.each(data.entries,function(index, json) {
+            if(index > 0 && index % delta == 0){
+                listing += '</div><div class="pro-wi-grid hidden unstyled" data-page="' + indexGrid + '">';
+                indexGrid++;
+            }
 
-    var petitionMarkerIcon = getMarkerIcon("petition");
-    var marker = L.marker(mercators, {icon: petitionMarkerIcon})
+            if(json.class == "eu.strasbourg.service.video.model.Video"){
+                listing += createVideo(json.json);
+            }
 
-    marker.bindPopup(
-        '<div class="item pro-bloc-card-petition"><a href="' + link + '">' +
-            '<div class="pro-header-petition">' +
-                '<figure role="group"></figure> ' +
-                '<p>Pétition publiée par :</p><p><strong>' + author + '</strong></p>' +
-            '</div>' +
-            '<div class="pro-content-petition">' +
-                '<h3>' + title + '</h3><p>Pétition adressée à <u>' + place + '</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + publishDate + '</time> / ' +
-                '<span class="pro-duree">' + durationLabel + '</span></span>' +
-            '</div> ' +
-            '<div class="pro-footer-petition">' +
-                '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + progress +'%"></div>' +
-                '</div>' +
-                '<p class="pro-txt-progress"><strong>' + nbSub + '</strong> Signataire(s) sur ' + nbGoal + ' nécessaires</p> ' +
-            '</div>' +
-        '</div></a></div>'
-    );
+            if(json.class == "eu.strasbourg.service.project.model.Project"){
+                listing += createProject(json.json);
+            }
 
-    return marker;
+            if(json.class == "eu.strasbourg.service.project.model.Participation"){
+                listing += createParticipation(json.json);
+            }
 
+            if(json.class == "eu.strasbourg.service.agenda.model.Event"){
+                listing += createAgenda(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.Petition"){
+                listing += createPetition(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.BudgetParticipatif"){
+                listing += createBudgetParticipatif(json.json);
+            }
+
+            if(json.class == "com.liferay.journal.model.JournalArticle"){
+                listing += createNews(json.json);
+            }
+			
+        });
+        listing += '</div>';
+        $('.pro-listing-' + searchPage).html(listing);
+
+        // gestion de la pagination
+        // selecteur de page + Label
+        selecteur = '';
+        if(nbEntries > delta){
+            selecteur =
+            '<form method="get">' +
+                '<select id="change-page" name="change-page">';
+            var indexPage = 1;
+            for (indexPage; indexPage <= nbEntries / delta; indexPage++) {
+                selecteur +=
+                    '<option value="' + indexPage + '">' +
+                        'Page ' + indexPage + ' ( ' + (nbEntries < (indexPage * delta) ? nbEntries : delta) + ' )' +
+                    '</option>';
+            }
+            if((indexPage - 1) * delta < nbEntries){
+                selecteur +=
+                    '<option value="' + indexPage + '">' +
+                        'Page ' + indexPage + ' ( ' + nbEntries + ' )' +
+                    '</option>';
+            }
+            selecteur +=
+                '</select>' +
+            '</form>';
+        }
+        selecteur += '<p class="hidden-xs"></p>';
+        $('.pro-pagination .pull-left').html(selecteur);
+        $('#change-page').selectric();
+
+        // liens de navigation
+        link = '';
+        if(nbEntries > delta){
+            link =
+            '<ul>' +
+                '<!-- Lien vers la premiere page -->' +
+                '<li class="pro-disabled" >' +
+                    '<a class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing" data-action="first">Premier</a>' +
+                '</li>' +
+                '<!-- Lien vers la page precedente page -->' +
+                '<li class="pro-disabled" >' +
+                    '<a title="Lien vers la page precedente du Listing" data-action="prev">Précédent</a>' +
+                '</li>' +
+                '<!-- Lien vers la page suivante -->' +
+                '<li>' +
+                    '<a title="Lien vers la page suivante du Listing" data-action="next">Suivant</a>' +
+                '</li>' +
+                '<!-- Lien vers la derniere page -->' +
+                '<li>' +
+                    '<a class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing" data-action="last">Dernier</a>' +
+                '</li>' +
+            '</ul>';
+        }
+        $('.pro-pagination .pull-right').html(link);
+    }
+    buildPaginate();
 }
+
+/**
+* Création de la vignette vidéo
+* @return
+*/
+function createVideo(video){
+    var vignette =
+        '<div class="col-md-4 col-sm-6 col-xs-12">' +
+            '<div class="pro-card pro-card-video vignette" data-linkall="> a">' +
+                '<div class="pro-header">' +
+                    '<figure class="fit-cover" role="group">' +
+                        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + '">' +
+                    '</figure>' +
+                    '<span class="icon-ico-lecteur"></span>' +
+                '</div>' +
+                '<div class="pro-meta-avis">' +
+                    '<div class="pro-avis">' +
+                        '<a href="#pro-avis-like-pro" class="pro-like"' +
+                            'data-typeid="3" ' +
+                            'data-isdislike="false"' +
+                            'data-title="' + video.title["fr_FR"] + '"' +
+                            'data-entityid="' + video.id + '"' +
+                            'data-entitygroupid="' + video.groupId + '">' +
+                            video.nbLikes +
+                        '</a>' +
+                        '<a href="#pro-avis-dislike-pro" class="pro-dislike"' +
+                            'data-typeid="3" ' +
+                            'data-isdislike="true"' +
+                            'data-title="' + video.title["fr_FR"] + '"' +
+                            'data-entityid="' + video.id + '"' +
+                            'data-entitygroupid="' + video.groupId + '">' +
+                            video.nbDislikes +
+                        '</a>' +
+                    '</div>';
+                    if (video.nbViews != ""){
+                        vignette +=
+                        '<span class="pro-view">' +
+                            video.nbViews + ' vues' +
+                        '</span>';
+                    }
+                vignette +=
+                '</div>' +
+                '<a href="' + homeURL + 'detail-video/-/entity/id/' + video.id + '" title="Vers la page ' + video.title["fr_FR"] + '" class="pro-link-all"><h3>' + video.title["fr_FR"] + '</h3></a>' +
+            '</div>' +
+        '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette projet
+ * @return
+*/
+function createProject(project){
+    var vignette =
+        '<div class="col-md-4 col-sm-6 col-xs-12">' +
+            '<div class="item bloc-card-projet vignette">' +
+                '<a href="' + homeURL + project.detailURL + '" title="lien de la page">' +
+                    '<div class="img">' +
+                        '<figure role="group">' +
+                            '<img src=' + project.imageURL + ' alt="Image projet" width="360" height="242" class="fit-cover"/>' +
+                        '</figure>' +
+                        '<span>Voir le projet</span>' +
+                    '</div>' +
+                    '<div class="content">' +
+                        '<span class="location">' + project.districtLabel + '</span>' +
+                        '<h3>' + project.title + '</h3>' +
+                        '<div class="pro-wrap-thematique">' +
+                            '<!-- Liste des thématiques de la participation -->';
+                            for(var i = 0 ; i < project.jsonThematicCategoriesTitle.length ; i++){
+                                vignette += '<span>' + project.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+
+                            }
+    vignette +=         '</div>' +
+                    '</div>' +
+                '</a>' +
+                '<ul>' +
+                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' Participation(s) en cours</a></li>' +
+                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-evenement" title="lien de la page" tabindex="-1">' + project.nbEvents + ' Événement(s) à venir</a></li>' +
+                '</ul>' +
+            '</div>' +
+        '</div>';
+    return vignette;
+}
+
+/**
+* Création de la vignette participation
+ * @return
+*/
+function createParticipation(participation){
+    // Recuperation du status de la participation (terminee, bientot, etc.)
+    var participationStatus;
+    var proDuree;
+    switch (participation.statusCode){
+        case "new" :
+            participationStatus = "Nouvelle";
+            proDuree = "Fin dans " + participation.todayExpirationDifferenceDays + " jour(s)";
+            break;
+        case "soon_arrived" :
+            participationStatus = "À venir";
+            proDuree = "Début dans " + participation.todayPublicationDifferenceDays + " jour(s)";
+            break;
+        case "in_progress" :
+            participationStatus = "En cours";
+            proDuree = "Fin dans " + participation.todayExpirationDifferenceDays + " jour(s)";
+            break;
+        case "soon_finished" :
+            participationStatus = "Bientôt terminée";
+            proDuree = "Fin dans " + participation.todayExpirationDifferenceDays + " jour(s)";
+            break;
+        case "finished" :
+            participationStatus = "Terminée";
+            proDuree = "Terminée";
+            break;
+    }
+
+    var vignette =
+        '<div class="item pro-bloc-card-participation vignette type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
+            '<div>' +
+                '<div class="pro-header-participation">' +
+                    '<figure role="group">';                       
+                            vignette += '<img src="' + participation.authorImageURL + '" width="40" height="40" alt="Image participation"/>';                       
+    vignette +=     '</figure>' +
+                    '<p>Participation publiée par :</p>' +
+                    '<p><strong>' + participation.author + '</strong></p>' +
+                    '<div class="pro-info-top-right">' +
+                        '<span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' +
+                            participation.typeLabel +
+                        '</span>' +
+                        '<span>' + participation.nbApprovedComments + '</span>' +
+                        '<p>Commentaire(s)</p>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="pro-content-participation">' +
+                    '<div class="pro-meta">' +
+                        '<!-- Liste des quartiers de la participation -->' +
+                        '<span>' + participation.districtsLabel +'</span>' +
+                        '<!-- Liste des thématiques de la participation -->';
+                        for(var i = 0 ; i < participation.jsonThematicCategoriesTitle.length ; i++){
+                            vignette += '<span>' + participation.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+
+                        }
+    vignette +=         '<!-- Statut de la participation -->' +
+                        '<span>' + participationStatus + '</span>' +
+                        '<!-- Projet lié à la participation -->' +
+                        '<span>' + participation.projectName + '</span>' +
+                    '</div>' +
+                    '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '" title="Lien vers la page détail Participation - Lien des commentaires">' +
+                        '<h3>' + participation.title + '</h3>' +
+                    '</a>' +
+                    '<span class="pro-time">' +
+                        'Publiée le <time datetime="' + participation.createDate + '">' + participation.createDate + '</time> / <span class="pro-duree">' + proDuree + '</span>' +
+                    '</span>' +
+                '</div>' +
+                '<!-- Selection du type de template selon le status de la participation -->';
+                if (participationStatus == "À venir"){
+                    vignette +=
+                    '<div class="pro-footer-participation pro-participation-soon">' +
+                        '<div class="pro-avis">' +
+                            '<span class="pro-like">' + participation.nbLikes + '</span>' +
+                            '<span class="pro-dislike">' + participation.nbDislikes + '</span>' +
+                        '</div>' +
+                        '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">' +
+                            'Concertation bientôt disponible...' +
+                        '</a>' +
+                    '</div>';
+                }else if (participationStatus == "Nouvelle" || participationStatus == "En cours" || participationStatus == "Bientôt terminée"){
+                    vignette +=
+                    '<div class="pro-footer-participation pro-participation-in-progress">' +
+                        '<div class="pro-avis">';
+                            if (participation.isJudgeable && participation.hasPactSigned ){
+                                vignette +=
+                                '<a href="#pro-avis-like-pro" class="pro-like"' +
+                                    'data-typeid="15" ' +
+                                    'data-isdislike="false" ' +
+                                    'data-title="' + participation.title + '" ' + 
+                                    'data-entityid="' + participation.id + '" ' +
+                                    'data-entitygroupid="' + participation.groupId + '">' +
+                                    participation.nbLikes +
+                                '</a>' +
+                                '<a href="#pro-avis-dislike-pro" class="pro-dislike"' +
+                                    'data-typeid="15" ' +
+                                    'data-isdislike="true" ' +
+                                    'data-title="' + participation.title + '" ' + 
+                                    'data-entityid="' + participation.id + '" ' +
+                                    'data-entitygroupid="' + participation.groupId + '">' +
+                                    participation.nbDislikes +
+                                '</a>';
+                            }else if (participation.hasPactSigned){
+                                vignette +=
+                                '<a class="pro-like" name="#Pact-sign">' + participation.nbLikes + '</a>' +
+                                '<a class="pro-dislike" name="#Pact-sign">' + participation.nbDislikes + '</a>';
+                            }else{
+                                vignette +=
+                                '<a class="pro-like">' + participation.nbLikes + '</a>' +
+                                '<a class="pro-dislike">' + participation.nbDislikes + '</a>';
+                            }
+                    vignette +=
+                        '</div>' +
+                        '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">' +
+                            'Réagissez...' +
+                        '</a>' +
+                    '</div>';
+                }else if (participationStatus == "Terminée"){
+                    vignette +=
+                    '<div class="pro-footer-participation pro-participation-deadline">' +
+                        '<div class="pro-avis">' +
+                            '<span class="pro-like">' + participation.nbLikes + '</span>' +
+                            '<span class="pro-dislike">' + participation.nbDislikes + '</span>' +
+                        '</div>' +
+                        '<p>Participation terminée, merci de votre participation</p>' +
+                    '</div>';
+                }
+    vignette +=        
+            '</div>' +
+        '</div>' +
+        '<!-- Cree le style de couleur hexa a la volee pour l\'application de la couleur !-->';
+        if(participation.typeColor != ""){
+            vignette += 
+            '<style style="display: none" >' +
+                '.type-color-hexa-' + participation.typeColor + '>*:before {' +
+                    'background:#' + participation.typeColor + ';' +
+                '}' +
+            '</style>';
+        }
+    return vignette;
+}
+
+/**
+* Création de la vignette event (agenda)
+ * @return
+*/
+function createAgenda(agenda){
+    var vignette =
+    '<div class="vignette">' +
+        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '" title="lien de la page" class="item pro-bloc-card-event"' + 
+            'data-lat="' + agenda.mercatorY + '"' +  
+            'data-lng="' + agenda.mercatorX + '"' + 
+        '>' + 
+            '<div>' + 
+                '<div class="pro-header-event">' + 
+                    '<span class="pro-ico"><span class="icon-ico-debat"></span></span>' + 
+                    '<span class="pro-time"><time>' + agenda.eventScheduleDisplay + '</time></span>' + 
+                    '<p>À : ' + agenda.placeAlias + '</p>' + 
+                    '<h3>' + agenda.title["fr_FR"] + '</h3>' + 
+                '</div>' + 
+                '<div class="pro-footer-event">' + 
+                    '<span class="pro-number"><strong>' + agenda.nbPart + '</strong> Participant(s)</span>' + 
+                '</div>' + 
+            '</div>' + 
+        '</a>' +
+    '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette event (agenda)
+ * @return
+*/
+function createNews(news){
+    var vignette =
+    '<div class="col-md-3 col-sm-6 col-xs-12 vignette">' + 
+        '<a href="' + news.detailURL + '" title="Lien vers la page (' + news.title + ')" class="pro-bloc-actu">' +          
+            '<div class="img">' +
+                '<figure role="group">' +
+                    '<img src="' + news.thumbnail + '" alt="Image" width="360" height="174" class="fit-cover"/>' +
+                '</figure>' +
+                '<span>';
+                for(var i = 0 ; i < news.jsonVocabulariesTitle.length ; i++){
+                    vignette += news.jsonVocabulariesTitle[i]["fr_FR"] + (i != (news.jsonVocabulariesTitle.length - 1) ? ', ' : '');
+
+                }
+    vignette +=
+                '</span>' +
+            '</div>' +
+            '<div class="content">' +
+                '<span class="publication">Publiée le ' + news.modifiedDate + '</span>' +
+                '<h3>' + news.title + '</h3>' +
+                '<p>' + news.chapo + (news.chapo.length > 100 ? '...' : '') + '</p>' +
+                '<span class="link">Lire la suite</span>' +
+            '</div>' +
+        '</a>' +
+    '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette pétition
+ * @return
+*/
+function createPetition(petition){
+    var vignette = 
+    '<div class="item pro-bloc-card-petition vignette" data-linkall="a">' +
+        '<div class="pro-header-petition">' +
+            '<figure role="group">' +
+                (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+            '</figure>' +
+            '<p>Pétition publiée par :</p>' +
+            '<p><strong>' + petition.userName + ' adressé à : Ville de Strasbourg</strong></p>' +
+            '<div class="pro-number-comm">' +
+                '<span>' + petition.nbApprovedComments + '</span>' +
+                '<p>Commentaire(s)</p>' +
+            '</div>' +
+        '</div>' +
+        '<div class="pro-content-petition">' +
+            '<div class="pro-wrapper-meta">' +
+                '<div class="pro-statut"><span>' + petition.frontStatusFR + '</span></div>' +
+                '<div class="pro-meta">' +
+                    '<!-- Liste des quartiers de la Petition -->' +
+                    '<span>' + petition.districtLabel + '</span>' +
+                    '<!-- Liste des thématiques de la Petition -->';
+                    for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
+                        vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+                    }
+    vignette +=
+                    (typeof petition.jsonProjectCategoryTitle["fr_FR"] != 'undefined' ? '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' : '') + 
+                '</div>' +
+            '</div>' +
+            '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
+            '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+        '</div>' +
+        '<div class="pro-footer-petition">' +
+            '<div class="pro-progress-bar">' +
+                '<div class="pro-progress-container">' +
+                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
+                '</div>' +
+                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette budget participatif
+ * @return
+*/
+function createBudgetParticipatif(budgetParticipatif){
+
+    // Classe CSS du statut du budget
+    var cssClassBPStatus = "";
+	var footer = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
+
+    // Favori du quartier
+    var crush = "";
+
+    if (budgetParticipatif.isCrush)
+        crush = '<div class="pro-encart-coeur"><span>Coup de cœur du conseil de quartier</span><span class="icon-ico-coeur"></span></div>';
+
+    // HTML des catégories
+    var spans = 
+        '<div class="pro-meta">' + 
+            '<span>' + budgetParticipatif.districtsLabel + '</span>';
+
+    if (budgetParticipatif.thematicsLabel != "") 
+        spans += '<span>' + budgetParticipatif.thematicsLabel + '</span>';
+
+    if (budgetParticipatif.projectName != "") 
+        spans += '<span>' + budgetParticipatif.projectName + '</span>';
+
+    spans += '</div>';
+
+    var vignette =
+        '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
+            '<div class="pro-header-budget">' +
+                '<figure role="group">' +
+                    '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+                '</figure>' +
+                '<p>Projet déposé par :</p>' +
+                '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
+                spans +
+                '<div class="pro-info-top-right">' +
+                    '<span class="pro-encart-theme">' + budgetParticipatif.BPStatus + '</span>' +
+                    '<span>' + budgetParticipatif.nbApprovedComments + '</span>' +
+                    '<p>Commentaire(s)</p>' +
+                '</div>' +
+                crush +
+            '</div>' +
+            '<div class="pro-content-budget">' +
+                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
+                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' +
+            '</div>' +
+            '<div class="pro-footer-budget">' + footer +
+            '</div>' +
+        '</div>';
+
+    return vignette;
+}
+
+
+/**
+* Création de la pagination
+*/
+function buildPaginate(){
+    $('.pro-search-listing').each(function(index, widget){
+        var wi = {
+            $widget: $(widget),
+            $list: $(widget).find('.pro-wi-grid'),
+            $items: $(widget).find('.vignette')
+        }
+
+        // Récupérer le nombre de page
+        wi.items_count = wi.$items.length;
+        wi.page_count = Math.ceil(wi.items_count / delta);
+
+        goToPage(wi, 1);
+        wi.$widget.find('[data-action="first"]').on('click', function(){
+            goToPage(wi, 1);
+        });
+        wi.$widget.find('[data-action="prev"]').on('click', function(){
+            goToPage(wi, getCurrentPage(wi) - 1);
+        });
+        wi.$widget.find('[data-action="next"]').on('click', function(){
+            goToPage(wi, getCurrentPage(wi) + 1);
+        });
+        wi.$widget.find('[data-action="last"]').on('click', function(){
+            goToPage(wi, wi.page_count);
+        });
+        wi.$widget.find('#change-page').on('change', function(){
+            var target = $(this).val(); 
+            goToPage(wi, target);
+        })
+    });
+	//Permet de recharger les liens des vignettes
+    th_linkAll();
+}
+
+/**
+ * @description Récupère la page courante en se basant sur l'état de la pagination
+ * @param {*} wi 
+ */
+function getCurrentPage(wi){
+    var page = parseInt(wi.$widget.find('#change-page').val());
+    return page;
+}
+
+/**
+ * @description Affiche la page ayant l'index demandé
+ * @param {Object} wi - Objet de configuration
+ * @param {Int} index - Index de la page cible
+ */
+function goToPage(wi, index){
+    if(index <= wi.page_count){
+        // Gestion de l'affichage des résultats
+        wi.$widget.find('.pro-wi-grid').addClass('hidden');
+        wi.$widget.find('.pro-wi-grid[data-page="'+index+'"]').removeClass('hidden');
+
+        // Gestion des états first/prev/next/last pagination
+        if(index == 1){
+            wi.$widget.find('[data-action="first"]').parent('li').addClass('pro-disabled');
+            wi.$widget.find('[data-action="prev"]').parent('li').addClass('pro-disabled');
+        }else{
+            wi.$widget.find('[data-action="first"]').parent('li').removeClass('pro-disabled');
+            wi.$widget.find('[data-action="prev"]').parent('li').removeClass('pro-disabled');
+        }
+        if(index == wi.page_count){
+            wi.$widget.find('[data-action="next"]').parent('li').addClass('pro-disabled');
+            wi.$widget.find('[data-action="last"]').parent('li').addClass('pro-disabled');
+        }else{
+            wi.$widget.find('[data-action="next"]').parent('li').removeClass('pro-disabled');
+            wi.$widget.find('[data-action="last"]').parent('li').removeClass('pro-disabled');
+        }
+
+        // Gestion de l'affichage du selecteur
+        wi.$widget.find('#change-page option[value="' + index + '"]').prop('selected', true);
+        wi.$widget.find('#change-page').selectric();
+    }
+
+    // Gestion affichage du résultat de la pagination
+    var indexDernierItemPage = index * delta;
+    var pageResult = 'Affichage des résultats ' +
+                    (wi.items_count > 0 ? (index > 1 ? (indexDernierItemPage - 2) : '1') : '0') + ' - ' +
+                    (wi.items_count < indexDernierItemPage ? wi.items_count : indexDernierItemPage) +
+                    ' parmi ' + wi.items_count;
+    wi.$widget.find('.pro-pagination .pull-left .hidden-xs').text(pageResult);
+    
+}
+
+/* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
+$('.pro-remove').on('click',function(){
+    
+    // Utilisé pour les recherches ajax
+    if($(this).hasClass('dynamic')){
+        // Renvoi la liste des entités demandées
+        getSelectedEntries();
+    }
+});

@@ -48,7 +48,7 @@
 	       				<c:when test="${felecResponse.responseCode eq 4}">
 							<!-- Radiation en cours -->
 							Vous  &ecirc;tes en cours de radiation de la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg.<br>
-							La date d'effet de cette radiation est ${felecResponse.applicationDate}.
+							La date d'effet de cette radiation est le ${felecResponse.applicationDate}.
 	       				</c:when>
 	       				<c:otherwise>
 							<!-- Electeur inconnu -->
@@ -95,7 +95,7 @@
         				</c:when>
         				<c:when test="${felecResponse.responseCode eq 5}">
 							<!-- Inscription en cours -->
-							Vous &ecirc;tes en cours d'inscription sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg.Votre inscription sera effective au ${felecResponse.applicationDate}.
+							Vous &ecirc;tes en cours d'inscription sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg. Votre inscription sera effective au ${felecResponse.applicationDate}.
 							<div>A compter de cette date, vous pourrez voter au bureau de vote ${felecResponse.stationNumber}</div>
         				</c:when>
 				    </c:choose>
@@ -129,7 +129,7 @@
 				</c:if>
 				<c:if test="${felecResponse.returnCard eq 'O'}">
 					<div class="error">
-						Votre carte d'&eacute;lecteur est disponible &agrave; l'accueil du centre administratif
+						Votre carte d'&eacute;lecteur est disponible <a href="https://www.strasbourg.eu/lieu/-/entity/sig/462_SPC_38">&agrave; l'accueil du centre administratif</a>
 					</div>
 				</c:if>
 				<!-- <div align="right">

@@ -274,6 +274,24 @@ public interface ParticipationLocalService extends BaseLocalService,
 	public List<Participation> getByGroupId(long groupId);
 
 	/**
+	* méthode permettant de récupérer les 3 dernieres participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Participation> getLessCommented(long groupId);
+
+	/**
+	* méthode permettant de récupérer les 3 premières participations de la liste.
+	*
+	* @param groupId le grouptId
+	* @return la liste de participation.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Participation> getMostCommented(long groupId);
+
+	/**
 	* Returns a range of all the participations.
 	*
 	* <p>
@@ -312,6 +330,12 @@ public interface ParticipationLocalService extends BaseLocalService,
 	public List<Participation> getParticipationsByUuidAndCompanyId(
 		java.lang.String uuid, long companyId, int start, int end,
 		OrderByComparator<Participation> orderByComparator);
+
+	/**
+	* Retourne toutes les participation publiees d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Participation> getPublishedByGroupId(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

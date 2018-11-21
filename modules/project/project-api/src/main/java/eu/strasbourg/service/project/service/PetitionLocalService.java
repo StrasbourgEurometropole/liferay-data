@@ -259,6 +259,16 @@ public interface PetitionLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Petition> getByGroupId(long groupId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getByPublikUserID(java.lang.String publikId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getPetitionByPublikUserID(java.lang.String publikId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getPetitionBySignatairePublikId(
+		java.lang.String publikId);
+
 	/**
 	* Returns a range of all the petitions.
 	*
@@ -300,10 +310,30 @@ public interface PetitionLocalService extends BaseLocalService,
 		OrderByComparator<Petition> orderByComparator);
 
 	/**
-	* Retourne tous les petitions publiés d'un groupe
+	* Retourne tous les petitions publiées d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Petition> getPublishedByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getTheMostCommented(long groupId);
+
+	/**
+	* Méthode permettant de trier les petitions
+	*
+	* @return
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getTheMostSigned(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getTheThreeLessSigned(long groupId);
+
+	/**
+	* @return
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Petition> getTheThreeMostSigned(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

@@ -127,6 +127,13 @@ public interface ProjectFollowedLocalService extends BaseLocalService,
 	public ProjectFollowed fetchProjectFollowed(long projectFollowedId);
 
 	/**
+	* Retourne le suivi d'un utilisateur et d'un projet donné
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ProjectFollowed getByPublikUserIdAndProjectId(
+		java.lang.String publikUserId, long projectId);
+
+	/**
 	* Returns the project followed with the primary key.
 	*
 	* @param projectFollowedId the primary key of the project followed
@@ -206,6 +213,12 @@ public interface ProjectFollowedLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ProjectFollowed> getByProjectId(long projectId);
+
+	/**
+	* Retourne tous les projets suivis par un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ProjectFollowed> getByPublikId(java.lang.String publikId);
 
 	/**
 	* Returns a range of all the project followeds.

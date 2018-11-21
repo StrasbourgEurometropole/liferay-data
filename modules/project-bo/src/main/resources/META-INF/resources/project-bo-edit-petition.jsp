@@ -46,10 +46,12 @@
 				<aui:input name="title" required="true" />
 				
 				<%-- Champ : Auteur --%>
-				<aui:input name="userName" required="true" />
+				<aui:input name="petitionnaireFirstname" required="true" />
+				<aui:input name="petitionnaireLastname" required="true" />
 
 				<%-- Champ : quota Signataire --%>
-				<aui:input name="quotaSignature" required="true" />
+				<aui:input name="quotaSignature" required="true" type="number" readonly="true"
+					value="${not empty dc.petition ? dc.petition.quotaSignature : signatureNumber}"/>
 
 			</aui:fieldset>
 
@@ -71,17 +73,21 @@
 
                 <%-- Champ : Image interne --%>
                 <div class="internalImage" <c:if test="${(empty dc.petition.imageId or dc.petition.imageId eq 0) and not empty dc.petition.externalImageURL }">style="display: none;"</c:if>>
-                    <strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.petition.imageId}" global="true"/>
+                    <strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.petition.imageId}" global="false"/>
                 </div>
 
                 <%-- Groupe de champs : Image externe --%>
                 <div class="externalImage" <c:if test="${(not empty dc.petition.imageId and dc.petition.imageId gt 0) or empty dc.petition.externalImageURL }">style="display: none;"</c:if>>
 
                     <%-- Champ : URL de l'image externe --%>
-                    <aui:input name="externalImageURL" helpMessage="help-image-size"/>
+                    <aui:input name="externalImageURL" helpMessage="help-image-size">
+						<aui:validator name="required" errorMessage="this-field-is-required" />
+					</aui:input>
 
                     <%-- Champ : Copyright de l'image externe --%>
-                    <aui:input name="externalImageCopyright"/>
+                    <aui:input name="externalImageCopyright">
+						<aui:validator name="required" errorMessage="this-field-is-required" />
+					</aui:input>
 
                 </div>
 
@@ -94,9 +100,23 @@
 				<aui:input name="description" required="false" />
 
 			</aui:fieldset>
+			
+			<%-- Groupe de champs : Soutien --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-support">
+		
+				<%-- Champ : Est soutenue ? --%>
+				<aui:input name="isSupported" label="is-supported" type="toggle-switch"
+					value="${not empty dc.petition ? dc.petition.isSupported : true}" />
+				
+				<%-- Champ : Soutenue par --%>
+				<aui:input name="supportedBy" required="false" />
+
+			</aui:fieldset>
 
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
+
+				<aui:input name="consultationPlacesText" required="false" />
 
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">
@@ -165,16 +185,17 @@
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
 				<aui:input name="tags" type="assetTags" />
 
-				<div class="form-group input-int-wrapper">
-                    <label class="control-label"> <liferay-ui:message key="status" /> </label>
-                    <input class="field disabled form-control lfr-input-text" disabled="disabled" id="_eu_strasbourg_portlet_project_ProjectBOPortlet_status" name="_eu_strasbourg_portlet_project_ProjectBOPortlet_status"
-                           style="" type="text" value="${dc.petition.petitionStatus}" maxlength="75" aria-describedby="">
-                </div>
-
 			</aui:fieldset>
 
             <%-- Groupe de champs : Autre --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-other">
+
+				<%-- Champ : nombre signataire --%>
+                <div class="form-group input-Date-wrapper">
+                    <label class="control-label"><liferay-ui:message key="nb-fake-signataires" /></label>
+				    <input class="field form-control lfr-input-text" type="text" name="<portlet:namespace />nbFakeSignataire"
+				    value="${dc.getCountFakeSignataires()}"/>
+                </div >
 
 				<%-- Champ : Date de publication --%>
 				<aui:input name="publicationDate" required="false" />

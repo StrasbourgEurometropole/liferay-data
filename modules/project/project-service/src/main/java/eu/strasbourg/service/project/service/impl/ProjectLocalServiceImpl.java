@@ -14,12 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.LongStream;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -42,13 +36,24 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.exception.NoSuchProjectException;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.model.ProjectTimeline;
-import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
+import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
+import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 
 /**
@@ -73,6 +78,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	 */
 
 	public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.class);
+	
 	/**
 	 * Crée un projet vide avec une PK, non ajouté à la base de donnée
 	 */
@@ -326,6 +332,21 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	@Override
 	public List<Project> getPublishedByGroupId(long groupId) {
 		return this.projectPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+	}
+	
+	@Override
+	public List<Project> findProjectFollowedByProjectId(String publicId){
+		List<ProjectFollowed> projectFolloweds = ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publicId);
+		List<Project> projectList = projectFolloweds.stream().map(project -> {
+			Project result = null;
+			try {
+				result = projectLocalService.getProject(project.getProjectId());
+			} catch (PortalException e) {
+				_log.error(e);
+			}
+			return result;
+		}).collect(Collectors.toList());
+		return projectList.stream().filter(project -> project.isApproved()).collect(Collectors.toList());
 	}
 
 	/**

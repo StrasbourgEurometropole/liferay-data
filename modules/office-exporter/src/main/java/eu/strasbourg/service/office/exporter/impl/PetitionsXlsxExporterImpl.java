@@ -21,9 +21,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 
 /**
  * @author alexandre.quere
@@ -32,7 +35,7 @@ import java.util.ResourceBundle;
         immediate = true,
         service = PetitionsXlsxExporter.class
 )
-public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter{
+public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
 
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
@@ -47,38 +50,72 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter{
     @Override
     public void exportPetitions(OutputStream stream, String petitionIdsStr) {
         List<Petition> petitions = new ArrayList<>();
-        for (String petitionIdStr :petitionIdsStr.split(",")) {
-            if (Validator.isNotNull(petitionIdStr)){
+        for (String petitionIdStr : petitionIdsStr.split(",")) {
+            if (Validator.isNotNull(petitionIdStr)) {
                 Petition petition = petitionLocalService.fetchPetition(Long.valueOf(petitionIdStr));
                 if (Validator.isNotNull(petition))
                     petitions.add(petition);
             }
         }
-        exportPetitions(stream,petitions);
+        exportPetitions(stream, petitions);
     }
 
     @Override
     public void exportPetitions(OutputStream stream, List<Petition> petitions) {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Petitions");
-        Object[][] petitionData = {{LanguageUtil.get(bundle,"title"),
-                LanguageUtil.get(bundle,"modification-date"),
-                LanguageUtil.get(bundle,"user"),
-                LanguageUtil.get(bundle,"signataire-count"),
-                LanguageUtil.get(bundle,"petition-status"),
-        LanguageUtil.get(bundle,"status")}};
+        Object[][] petitionData = {{LanguageUtil.get(bundle, "title"),
+                LanguageUtil.get(bundle, "create-date"),
+                LanguageUtil.get(bundle, "modification-date"),
+                LanguageUtil.get(bundle, "user-liferay"),
+                LanguageUtil.get(bundle, "signataire-count"),
+                LanguageUtil.get(bundle, "description"),
+                LanguageUtil.get(bundle, "petition-publication-date"),
+                LanguageUtil.get(bundle, "petition-expiration-date"),
+                LanguageUtil.get(bundle, "lastname"),
+                LanguageUtil.get(bundle, "firstname"),
+                LanguageUtil.get(bundle, "address"),
+                LanguageUtil.get(bundle, "postal-code"),
+                LanguageUtil.get(bundle, "birthday"),
+                LanguageUtil.get(bundle, "city"),
+                LanguageUtil.get(bundle, "phone"),
+                LanguageUtil.get(bundle, "email"),
+                LanguageUtil.get(bundle, "petition-issupported"),
+                LanguageUtil.get(bundle, "petition-supportedby"),
+                LanguageUtil.get(bundle, "petition-consultation-place-text"),
+                LanguageUtil.get(bundle, "petition-status"),
+                LanguageUtil.get(bundle, "thematic"),
+                LanguageUtil.get(bundle, "project"),
+                LanguageUtil.get(bundle, "districts")}};
 
         for (Petition petition : petitions) {
-            DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-            String dateModified = dateFormat.format(petition.getModifiedDate());
             String languageId = LocaleUtil.toLanguageId(Locale.FRANCE);
-            String title = LocalizationUtil.getLocalization(petition.getTitle(),languageId);
-            Object[] petitionRow = {title,dateModified,
-                    petition.getUserName(),
-                    petition.getNombreSignature(),
-                    petition.getPetitionStatus(),
-                    petition.getStatus()};
-            petitionData = ArrayUtil.append(petitionData,petitionRow);
+            String title = LocalizationUtil.getLocalization(petition.getTitle(), languageId);
+            String nombreSignataire = String.valueOf(petition.getNombreSignature());
+            Object[] petitionRow = {getfield(title),
+                    getfield(petition.getCreateDate()),
+                    getfield(petition.getModifiedDate()),
+                    getfield(petition.getUserName()),
+                    getfield(nombreSignataire),
+                    getfield(petition.getDescription()),
+                    getfield(petition.getPublicationDate()),
+                    getfield(petition.getExpirationDate()),
+                    getfield(unescapeHtml4(petition.getPetitionnaireLastname())),
+                    getfield(unescapeHtml4(petition.getPetitionnaireFirstname())),
+                    getfield(unescapeHtml4(petition.getPetitionnaireAdresse())),
+                    getfield(petition.getPetitionnairePostalCode()),
+                    getfield(petition.getPetitionnaireBirthday()),
+                    getfield(unescapeHtml4(petition.getPetitionnaireCity())),
+                    getfield(unescapeHtml4(petition.getPetitionnairePhone())),
+                    getfield(unescapeHtml4(petition.getPetitionnaireEmail())),
+                    getfield(petition.isIsSupported()),
+                    getfield(unescapeHtml4(petition.getSupportedBy())),
+                    getfield(petition.getPlaceTextArea()),
+                    getfield(petition.getPetitionStatusExcel()),
+                    getfield(petition.getProjectTitle(Locale.FRANCE)),
+                    getfield(petition.getThematicLabel(Locale.FRANCE)),
+                    getfield(petition.getDistrictLabel(Locale.FRANCE))};
+            petitionData = ArrayUtil.append(petitionData, petitionRow);
         }
         int rowIndex = 0;
         int columnIndex;
@@ -105,4 +142,38 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter{
             e.printStackTrace();
         }
     }
+
+    private String getfield(String param) {
+        String result = "";
+        if (param != null && !param.isEmpty())
+            result = param;
+        return result;
+    }
+
+    private String getfield(Date param) {
+        DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
+        String result = "";
+        if (param != null)
+            result = dateFormat.format(param);
+        return result;
+    }
+
+    private String getfield(boolean param) {
+        return param ? "oui" : "non";
+    }
+
+    private String getfield(long param) {
+        String result = "";
+        if (param != 0L)
+            result = String.valueOf(param);
+        return result;
+    }
+
+    private String getfield(int param) {
+        String result = "";
+        if (param != 0)
+            result = String.valueOf(param);
+        return result;
+    }
+
 }

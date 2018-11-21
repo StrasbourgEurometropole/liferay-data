@@ -37,10 +37,9 @@
                                 </span>
                             </a>
                         </div>
-                        <p style="margin-top: 40px">Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.</p>
                 </c:if>
                 <c:if test="${!dc.address}">
-                    <p>
+                    <p style="margin-top: 40px">
                         L'adresse renseign&eacute;e dans votre profil ne correspond pas &agrave; un quartier de Strasbourg.
                         <br>Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.
                         <br>
@@ -244,9 +243,9 @@
 		                            </div>
 		                            <div class="date-end">__date_end__</div>
 		                        </div>
+		                        <div class="title dotme" data-dot="3">__title__</div>		
 		                        <div class="ville">__ville__</div>
-		                        <div class="item-categories" data-dot="3">__type__</div>
-		                        <div class="title dotme" data-dot="3">__title__</div>		                        
+		                        <div class="item-categories" data-dot="3">__type__</div>                        
 		                    </a>
 					        <a href="#" class="add-favorites"
 					            data-type="2" 
@@ -383,7 +382,7 @@
 							<a href="#" class="add-favorites"
 							   data-type="1"
 							   data-title="${townHall.getAlias(locale)}"
-							   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${townHall.getSIGid()}"
+							   data-url="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.getSIGid()}"
 							   data-id="${townHall.placeId}">
 								<span><liferay-ui:message key="eu.add-to-favorite" /></span>
 							</a>
@@ -429,10 +428,13 @@
 		</c:if>
 
 		<c:set var="sectorSchools" value="${dc.sectorSchools}"/>
-		<c:if test="${not empty sectorSchools}">
-			<div class="wi-wrapper">
-				<section id="ecoles">
-					<h2><liferay-ui:message key="sector-schools" /></h2>
+		<div class="wi-wrapper">
+			<section id="ecoles">
+				<h2><liferay-ui:message key="sector-schools" /></h2>
+				<c:if test="${empty sectorSchools}">
+					<p><liferay-ui:message key="no-school" /></p>
+				</c:if>
+				<c:if test="${not empty sectorSchools}">
                     <c:set var="error" value="${dc.hasError()}" />
                     <c:if test="${error}">
                         <!-- erreur technique -->
@@ -460,7 +462,7 @@
                                     <a href="#" class="add-favorites"
                                        data-type="1"
                                        data-title="${school.getAlias(locale)}"
-                                       data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
+                                       data-url="${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
                                        data-id="${school.placeId}">
                                         <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                                     </a>
@@ -474,8 +476,8 @@
                             </c:forEach>
                         </div>
                     </c:if>
-				</section>
-			</div>
-		</c:if>
+				</c:if>
+			</section>
+		</div>
 	</div>
 </c:if>

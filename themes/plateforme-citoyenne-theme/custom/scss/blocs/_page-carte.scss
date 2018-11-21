@@ -125,6 +125,29 @@
 			}
 		}
 
+
+		.pro-remove-chk {
+			@include ft($f_txt, $s_small, 400, $c_txt, 2em);
+			text-transform: lowercase;
+			position: relative;
+			clear: both;
+			display: block;
+			text-align: right;
+			line-height: 1.5em;
+			&:after {
+				content: "\e91b";
+				@include font();
+				float: right;
+				margin-left: 10px;
+				line-height: 21px;
+				font-size: 11px;
+			}
+			&:hover {
+				text-decoration: underline;
+				cursor: pointer;
+			}
+		}
+
 		.pro-wrapper-group {
 			overflow: hidden;
 			height: 100%;
@@ -274,7 +297,6 @@
 				z-index: 10000;
 				@include addTransition();
 				&:hover {
-					color: $c_main;
 					cursor: pointer;
 				}
 				label {
@@ -287,7 +309,11 @@
 					@include addTransition();
 					&:hover {
 						cursor: pointer;
-						color: $c_main;
+						text-decoration: underline;
+					}
+					&:focus{
+						color: $c_txt;
+						text-decoration: underline;
 					}
 				}
 
@@ -308,7 +334,7 @@
 					cursor: pointer;
 					position: absolute;
 					right: 0;
-					top: 11px;
+					top: 10px;
 					left: auto;
 					width: 40px;
 					height: 20px;
@@ -348,6 +374,8 @@
 			}
 
 			.pro-wrapper-chk {
+				position: relative;
+				z-index: 100;
 				display: none;
 				margin-top: -5px;
 				margin-bottom: 15px;
@@ -409,7 +437,7 @@
 						display: block;
 						&:focus {
 							& + label {
-								color: $c_main;
+								text-decoration: underline;
 							}
 						}
 					}

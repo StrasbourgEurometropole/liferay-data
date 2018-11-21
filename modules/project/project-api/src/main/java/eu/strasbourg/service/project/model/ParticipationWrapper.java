@@ -73,7 +73,6 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("author", getAuthor());
 		attributes.put("contactName", getContactName());
 		attributes.put("contactLine1", getContactLine1());
 		attributes.put("contactLine2", getContactLine2());
@@ -172,12 +171,6 @@ public class ParticipationWrapper implements Participation,
 
 		if (title != null) {
 			setTitle(title);
-		}
-
-		String author = (String)attributes.get("author");
-
-		if (author != null) {
-			setAuthor(author);
 		}
 
 		String contactName = (String)attributes.get("contactName");
@@ -441,10 +434,14 @@ public class ParticipationWrapper implements Participation,
 
 	/**
 	* Retourne la version JSON de l'entité
+	*
+	* @throws PortalException
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _participation.toJSON();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _participation.toJSON(themeDisplay);
 	}
 
 	@Override
@@ -547,14 +544,10 @@ public class ParticipationWrapper implements Participation,
 		return new ParticipationWrapper((Participation)_participation.clone());
 	}
 
-	/**
-	* Returns the author of this participation.
-	*
-	* @return the author of this participation
-	*/
 	@Override
-	public java.lang.String getAuthor() {
-		return _participation.getAuthor();
+	public java.lang.String getAuthorFullName()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _participation.getAuthorFullName();
 	}
 
 	/**
@@ -628,7 +621,8 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la participation
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la
+	* participation
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	*/
@@ -677,6 +671,13 @@ public class ParticipationWrapper implements Participation,
 		return _participation.getFilesIds();
 	}
 
+	@Override
+	public java.lang.String getImageAuthorURL(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _participation.getImageAuthorURL(themeDisplay);
+	}
+
 	/**
 	* Retourne le copyright de l'image principale
 	*/
@@ -704,12 +705,11 @@ public class ParticipationWrapper implements Participation,
 	/**
 	* Retourne le status de la participation selon la temporalité actuelle
 	*
-	* @return le status suivant l'ordre :
-	[soon_arrived] : date du jour antérieur à la date de publication
-	[new] : 7 jour après la publication
+	* @return le status suivant l'ordre : [soon_arrived] : date du jour antérieur à
+	la date de publication [new] : 7 jour après la publication
 	[in_progress] : toute la durée de la période de participation
-	[soon_finished] : 7 jours avant l'expiration
-	[finished] : date du jour postérieur à la date d'expiration
+	[soon_finished] : 7 jours avant l'expiration [finished] : date du
+	jour postérieur à la date d'expiration
 	*/
 	@Override
 	public java.lang.String getParticipationStatus() {
@@ -763,8 +763,8 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne la couleur hexa du type de la participation contenu dans la propriete
-	* 'code_color' de la categorie associee
+	* Retourne la couleur hexa du type de la participation contenu dans la
+	* propriete 'code_color' de la categorie associee
 	*/
 	@Override
 	public java.lang.String getTypeCategoryColor() {
@@ -880,8 +880,7 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
@@ -889,7 +888,8 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la participation
+	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la
+	* participation
 	*
 	* @return : null si vide, sinon la liste des catégories
 	*/
@@ -909,7 +909,8 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de
+	* la participation
 	*
 	* @return : null si vide, sinon la liste des catégories
 	*/
@@ -981,7 +982,8 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne les catégories 'Territoire' correspondant aux pays de la participation
+	* Retourne les catégories 'Territoire' correspondant aux pays de la
+	* participation
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
@@ -1069,16 +1071,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void persist() {
 		_participation.persist();
-	}
-
-	/**
-	* Sets the author of this participation.
-	*
-	* @param author the author of this participation
-	*/
-	@Override
-	public void setAuthor(java.lang.String author) {
-		_participation.setAuthor(author);
 	}
 
 	@Override

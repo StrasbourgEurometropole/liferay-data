@@ -1,11 +1,104 @@
 %organism-family-space{    
     @extend %molecule-home-section;
-    font-size: 1.8rem;
-    color: #5c5c5c;
+    margin-bottom: 40px;
 
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    } 
+
+    .error  {
+        background-image: url( svg-bg-uri($svg-exclamation, #5c5c5c) );
+        background-repeat: no-repeat;
+        background-size: 20px;
+        background-position: 15px 15px;
+        background-color: #FFDDDE;
+        padding: 15px 20px;
+        padding-left: 60px;
+		color: #505050;
+		font-size: 18px;
+        margin-bottom: 20px;
     }
 
-    margin-bottom: 40px;
+    .warning  {
+        background-image: url(../images/picto-message-alerte.png);
+        background-repeat: no-repeat;
+        background-size: 20px;
+        background-position: 15px 15px;
+        background-color: #FFDDDE;
+        padding: 15px 20px;
+        padding-left: 60px;
+		color: #505050;
+		font-size: 18px;
+	    margin-bottom: 25px;
+	    margin-top: -20px;
+    }
+
+    .content {
+    	font-size: 1.8rem;
+    	color: #7e7e7e;
+    	margin-bottom: 10px;
+    }
+
+    div.family{
+	    font-family: $site-font;
+	    font-weight: 700;
+	    font-size: 2.1rem;
+	    text-transform: uppercase;
+	    border-bottom: 1px solid;
+	    color: #31455d;
+	    margin-bottom: 25px;
+	    height: 35px;
+	    width: 100%;
+    	cursor: pointer;
+
+    	.btn-more{
+            background-image: url( svg-bg-uri($svg-plus, $core-color) );   
+	        content: '';
+	        display: inline-block;
+	        background-size: 25px;
+	        background-position: right;
+	        background-repeat: no-repeat;
+	        flex-shrink: 0;   
+	        width: 100%;  		
+    	}
+
+    	.btn-minus{
+            background-image: url( svg-bg-uri($svg-minus, $core-color) ); 
+	        content: '';
+	        display: inline-block;
+	        background-size: 25px;
+	        background-position: right;
+	        background-repeat: no-repeat;
+	        flex-shrink: 0; 
+	        width: 100%;      		
+    	}
+    }
+
+    @extend %skin-form-validation;
+    .webform-layout-box{
+        display: flex;
+        justify-content: space-between;
+        
+        @include RWD(mobile){
+            display: block;
+        }
+    }
+    .form-group{
+        margin-bottom: 15px;
+        width: 100%;
+
+        @include RWD(tablet_only){
+            flex: 1;
+            & + .form-group{
+                margin-left: 30px;
+            }
+        }
+    }
+    label{
+        @extend %text-form-label;
+        .required{
+            color: #ff1818;
+        }
+        margin-bottom: 5px;
+    }
 }

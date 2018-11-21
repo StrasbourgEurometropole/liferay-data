@@ -102,7 +102,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table notification_Notification (notificationId LONG not null primary key,title STRING null,description TEXT null,url VARCHAR(75) null,automatic BOOLEAN,singleUser BOOLEAN,singleUserId VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,status INTEGER,typeId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table notification_Notification (notificationId LONG not null primary key,title STRING null,description TEXT null,url VARCHAR(400) null,automatic BOOLEAN,singleUser BOOLEAN,singleUserId VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,status INTEGER,typeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table notification_Notification";
 	public static final String ORDER_BY_JPQL = " ORDER BY notification.notificationId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY notification_Notification.notificationId ASC";

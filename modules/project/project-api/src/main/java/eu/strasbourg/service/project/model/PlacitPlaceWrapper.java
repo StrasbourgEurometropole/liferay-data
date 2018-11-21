@@ -77,6 +77,8 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
 		attributes.put("petitionId", getPetitionId());
+		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
+		attributes.put("initiativeId", getInitiativeId());
 		attributes.put("placeSIGId", getPlaceSIGId());
 
 		return attributes;
@@ -184,6 +186,18 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 
 		if (petitionId != null) {
 			setPetitionId(petitionId);
+		}
+
+		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
+
+		if (budgetParticipatifId != null) {
+			setBudgetParticipatifId(budgetParticipatifId);
+		}
+
+		Long initiativeId = (Long)attributes.get("initiativeId");
+
+		if (initiativeId != null) {
+			setInitiativeId(initiativeId);
 		}
 
 		String placeSIGId = (String)attributes.get("placeSIGId");
@@ -572,6 +586,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	}
 
 	/**
+	* Returns the budget participatif ID of this placit place.
+	*
+	* @return the budget participatif ID of this placit place
+	*/
+	@Override
+	public long getBudgetParticipatifId() {
+		return _placitPlace.getBudgetParticipatifId();
+	}
+
+	/**
 	* Returns the company ID of this placit place.
 	*
 	* @return the company ID of this placit place
@@ -599,6 +623,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public long getImageId() {
 		return _placitPlace.getImageId();
+	}
+
+	/**
+	* Returns the initiative ID of this placit place.
+	*
+	* @return the initiative ID of this placit place
+	*/
+	@Override
+	public long getInitiativeId() {
+		return _placitPlace.getInitiativeId();
 	}
 
 	/**
@@ -689,6 +723,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 		_placitPlace.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
+	/**
+	* Sets the budget participatif ID of this placit place.
+	*
+	* @param budgetParticipatifId the budget participatif ID of this placit place
+	*/
+	@Override
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_placitPlace.setBudgetParticipatifId(budgetParticipatifId);
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_placitPlace.setCachedModel(cachedModel);
@@ -748,6 +792,16 @@ public class PlacitPlaceWrapper implements PlacitPlace,
 	@Override
 	public void setImageId(long imageId) {
 		_placitPlace.setImageId(imageId);
+	}
+
+	/**
+	* Sets the initiative ID of this placit place.
+	*
+	* @param initiativeId the initiative ID of this placit place
+	*/
+	@Override
+	public void setInitiativeId(long initiativeId) {
+		_placitPlace.setInitiativeId(initiativeId);
 	}
 
 	/**

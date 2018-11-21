@@ -22,19 +22,19 @@
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
-      <div class="seu-nav-account seu-nav-btn" title="Mon compte">
-        <button id="trigger-account-menu">
+      <div class="seu-nav-account seu-nav-btn">
+        <button id="trigger-account-menu" onClick="javascript: location='${layoutHelper.getDashboardURL()}';">
           <span class="seu-flexbox">
             <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
-            <#if (notifCount > 0)>
-              <span class="seu-picto">
-                <span class="notif-amount">${notifCount}</span>
-              </span>
-            </#if>
-            <a href="${layoutHelper.getPublikProfileURL()}" style="text-decoration: none;">
+            <span class="seu-picto">
+                <#if (notifCount > 0)>
+                    <span class="notif-amount">${notifCount}</span>
+                </#if>
+            </span>
+            <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none;" title="Mon tableau de bord">
               <span class="seu-text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
-            </a>    
-            <span class="seu-arrow"></span>
+            </a>
+            <span class="seu-arrow" style="display: none;"></span>
           </span>
         </button>
         <!-- Menu connecté -->
@@ -48,7 +48,7 @@
       <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="seu-nav-account seu-nav-btn" title="Connexion">
         <span class="seu-flexbox">
           <span class="seu-picto"></span>
-          <span class="seu-text">Connexion</span>
+          <span class="seu-text">Se connecter à MonStrasbourg.eu</span>
         </span>    
       </a>
     </#if>

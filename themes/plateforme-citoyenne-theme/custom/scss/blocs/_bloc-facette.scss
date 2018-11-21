@@ -12,6 +12,13 @@
 		padding: 20px 0;
 		position: relative;
 		margin-bottom: 30px;
+		&.menu-is-display{
+			> span{
+				@include tablet_portrait{
+					transform: none;
+				}
+			}
+		}
 		&:before {
 			content: '';
 			background: url(../../assets/images/background/small-rec-black.png);
@@ -38,6 +45,10 @@
 			@include tablet_portrait {
 				display: inline-block;
 				vertical-align: middle;
+				transform: rotate(-90deg);
+				position: relative;
+				top: -2px;
+				@include addTransition();
 			}
 		}
 	}
@@ -120,8 +131,8 @@
 							position: relative;
 							user-select: none;
 							display: block;
-							padding: 0;
-							@include ft($f_txt, $s_small, 400, $c_txt, 2em);
+							padding: 5px 0 5px 25px;
+							@include ft($f_txt, $s_small, 400, $c_txt, 1.5em);
 							@include addTransition();
 							&:before {
 								content: '';
@@ -136,7 +147,8 @@
 								border-radius: 2px;
 								background: #fff;
 								cursor: pointer;
-								top: 4px;
+								position: absolute;
+								top: 6px;
 							}
 							&:after {
 								content: "\e91a";
@@ -145,7 +157,7 @@
 								font-size: 14px;
 								position: absolute;
 								left: 4px;
-								top: 3px;
+								top: 5px;
 								transform: translateY(-50%);
 								transform: translate3d(0, -50%, 0);
 								cursor: pointer;
@@ -158,7 +170,7 @@
 							}
 							&:hover, &:focus {
 								cursor: pointer;
-
+								text-decoration: underline;
 							}
 						}
 						input {
@@ -171,7 +183,7 @@
 							opacity: 0;
 							&:focus {
 								& + label {
-									color: $c_main;
+									text-decoration: underline;
 								}
 							}
 						}

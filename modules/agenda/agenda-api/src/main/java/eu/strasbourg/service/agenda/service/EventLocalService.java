@@ -296,6 +296,8 @@ public interface EventLocalService extends BaseLocalService,
 	*/
 	public List<Event> findByPlaceSIGId(java.lang.String placeSIGId);
 
+	public List<Event> findEventByUserPublikId(java.lang.String publikId);
+
 	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
@@ -307,6 +309,13 @@ public interface EventLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Event> getByGroupId(long groupId);
+
+	/**
+	* Retourne les resultats possèdant en etiquette l'une appelation demandee
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Event> getByTagsWithOrSelection(
+		List<java.lang.String> tagLabels);
 
 	/**
 	* Returns a range of all the events.

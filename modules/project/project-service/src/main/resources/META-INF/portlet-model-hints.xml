@@ -1,6 +1,153 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.project.model.BudgetParticipatif">
+		<field name="uuid" type="String" />
+		<field name="budgetParticipatifId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="budget" type="long" />
+		<field name="motif" type="String" />
+		<field name="citoyenLastname" type="String" />
+		<field name="citoyenFirstname" type="String" />
+		<field name="citoyenAdresse" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="citoyenPostalCode" type="long" />
+		<field name="citoyenCity" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="citoyenPhone" type="String" />
+		<field name="citoyenMobile" type="String" />
+		<field name="citoyenEmail" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="citoyenBirthday" type="Date" />
+		<field name="hasCopyright" type="boolean" />
+		<field name="videoUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="placeTextArea" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="isCrush" type="boolean" />
+		<field name="crushComment" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="publikId" type="String" />
+		<field name="imageId" type="long" />
+		<field name="filesIds" type="String" />
+		<field name="budgetPhaseId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.BudgetPhase">
+		<field name="uuid" type="String" />
+		<field name="budgetPhaseId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="numberOfVote" type="long" />
+		<field name="isActive" type="boolean" />
+		<field name="beginDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="beginVoteDate" type="Date" />
+		<field name="endVoteDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.BudgetSupport">
+		<field name="uuid" type="String" />
+		<field name="budgetSupportId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="citoyenLastName" type="String" />
+		<field name="citoyenFirstname" type="String" />
+		<field name="citoyenBirthday" type="Date" />
+		<field name="citoyenAddress" type="String" />
+		<field name="citoyenMail" type="String" />
+		<field name="citoyenPostalCode" type="long" />
+		<field name="citoyenMobilePhone" type="String" />
+		<field name="citoyenPhone" type="String" />
+		<field name="citoyenCity" type="String" />
+		<field name="publikUserId" type="String" />
+		<field name="budgetParticipatifId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.Initiative">
+		<field name="uuid" type="String" />
+		<field name="initiativeId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="author" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="videoUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="externalImageURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="externalImageCopyright" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="mediaChoice" type="boolean" />
+		<field name="assetEntryId" type="long" />
+		<field name="publikId" type="String" />
+		<field name="imageId" type="long" />
+		<field name="filesIds" type="String" />
+		<field name="consultationPlacesText" type="String" />
+		<field name="consultationPlacesBody" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="publicationDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.InitiativeHelp">
+		<field name="initiativeHelpId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="publikUserId" type="String" />
+		<field name="initiativeId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="message" type="String" />
+	</model>
 	<model name="eu.strasbourg.service.project.model.Participation">
 		<field name="uuid" type="String" />
 		<field name="participationId" type="long" />
@@ -17,7 +164,6 @@
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="author" type="String" />
 		<field name="contactName" type="String" />
 		<field name="contactLine1" type="String">
 			<hint name="max-length">400</hint>
@@ -64,25 +210,45 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="title" type="String" />
+		<field name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="placeTextArea" type="String" />
+		<field name="placeTextArea" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="filesDownload" type="String" />
-		<field name="petitionStatus" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 		<field name="quotaSignature" type="long" />
-		<field name="nombreSignature" type="long" />
-		<field name="videoUrl" type="String" />
+		<field name="petitionnaireLastname" type="String" />
+		<field name="petitionnaireFirstname" type="String" />
+		<field name="petitionnaireBirthday" type="Date" />
+		<field name="petitionnaireAdresse" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="petitionnairePostalCode" type="long" />
+		<field name="petitionnaireCity" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="petitionnairePhone" type="String" />
+		<field name="petitionnaireEmail" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="isSupported" type="boolean" />
+		<field name="supportedBy" type="String" />
+		<field name="videoUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="externalImageURL" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
+		<field name="consultationPlacesText" type="String" />
 		<field name="consultationPlacesBody" type="String" />
-		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
@@ -107,6 +273,8 @@
 		<field name="projectId" type="long" />
 		<field name="participationId" type="long" />
 		<field name="petitionId" type="long" />
+		<field name="budgetParticipatifId" type="long" />
+		<field name="initiativeId" type="long" />
 		<field name="placeSIGId" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Project">
@@ -130,6 +298,9 @@
 		</field>
 		<field name="externalImageCopyright" type="String">
 			<hint name="max-length">400</hint>
+		</field>
+		<field name="opacityImage" type="double">
+			<hint name="default-value">1.00</hint>
 		</field>
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
@@ -170,5 +341,37 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="projectId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.Signataire">
+		<field name="uuid" type="String" />
+		<field name="signataireId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="signataireName" type="String" />
+		<field name="signataireFirstname" type="String" />
+		<field name="birthday" type="Date" />
+		<field name="address" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="mail" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="postalCode" type="long" />
+		<field name="mobilePhone" type="String" />
+		<field name="phone" type="String" />
+		<field name="city" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="signatureDate" type="Date" />
+		<field name="publikUserId" type="String" />
+		<field name="petitionId" type="long" />
 	</model>
 </model-hints>

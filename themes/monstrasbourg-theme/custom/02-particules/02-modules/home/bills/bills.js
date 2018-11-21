@@ -71,6 +71,12 @@ jQuery(function() {
 			} else if (type_facture == "water") {
 				appCode = "EA";
 				clientNumber = "007964";
+			} else if (type_facture == "reom") {
+				appCode = "RC";
+				clientNumber = "021529";
+			} else if (type_facture == "rs") {
+				appCode = "RZ";
+				clientNumber = "002902";
 			}
 		  	url += 'numcli=' + clientNumber;
 			if (url.indexOf('saisie=T') === -1) { // En prod
@@ -88,7 +94,10 @@ jQuery(function() {
 			window.open(url,'_blank','height=750, width=1050, toolbar=no, menubar=no,scrollbars=yes, resizable=yes, location=no, directories=no, status=no'); 
 			return false; 
 	    } else {
-	      jQuery('.errors').html(errorMessage).show();
+            jQuery('#formFactures .errors').html(errorMessage).show();
+            jQuery('html, body').animate({
+                scrollTop: (jQuery('#formFactures .errors').offset().top)
+            },500);
 	    }
     });
 });

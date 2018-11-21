@@ -38,6 +38,7 @@
 		box-shadow: 0 14px 29px rgba(0, 0, 22, 0.2), 0 0px 10px rgba(0, 4, 20, 0.2);
 		margin-bottom: -30px;
 		max-width: 400px;
+		min-width: 280px;
 		&:after {
 			content: "\e91d";
 			@include font();
@@ -58,35 +59,70 @@
 		}
 	}
 
-	.pro-bloc-card-map-event{
+	.pro-bloc-card-map-event {
 		max-width: 250px;
 	}
 
-
-	.pro-bloc-card-petition{
-		&:hover{
+	.pro-bloc-card-petition {
+		&:hover {
 			transform: none;
 			box-shadow: none;
 		}
-		.pro-content-petition{
-			h3{
+		.pro-content-petition {
+			h3 {
 				line-height: 1.5em;
 				margin-bottom: 0;
 			}
 		}
 	}
 
-
-	.pro-bloc-card-initiative{
-		&:hover{
+	.pro-bloc-card-initiative {
+		&:hover {
 			transform: none;
 			box-shadow: none;
 		}
-		.pro-content-initiative{
-			h3{
+		.pro-content-initiative {
+			h3 {
 				clear: both;
 				margin-top: 20px;
 				padding-top: 10px;
+			}
+		}
+	}
+
+	.pro-bloc-card-budget {
+		&:hover {
+			transform: none;
+			box-shadow: none;
+		}
+		.pro-info-top-right{
+			position: relative;
+			top: 0;
+			left: 0;
+			text-align: left;
+			width: 100%;
+			right: 0;
+			margin: 20px 0 0 0;
+			span{
+				line-height: 25px;
+			}
+		}
+	}
+
+	.pro-bloc-card-projet {
+		color: red;
+		&:hover {
+			transform: none;
+			box-shadow: none;
+		}
+		.pro-content-projet {
+			h3 {
+				clear: both;
+				margin-bottom: 0;
+				height: 40px;
+			}
+			.pro-wrap-thematique {
+				height: 21px;
 			}
 		}
 	}
@@ -103,13 +139,13 @@
 			}
 		}
 
-		.pro-header-participation{
-			.pro-info-top-right{
+		.pro-header-participation {
+			.pro-info-top-right {
 				right: 40px;
-				@include mobile{
+				@include mobile {
 					right: 0;
 				}
-				span{
+				span {
 					line-height: 25px;
 				}
 			}

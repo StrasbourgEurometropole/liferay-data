@@ -3710,6 +3710,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setExceptionalSchedule(place.getExceptionalSchedule());
 		placeImpl.setDisplayEvents(place.isDisplayEvents());
 		placeImpl.setAdditionalInformation(place.getAdditionalInformation());
+		placeImpl.setContenuTooltipCarto(place.getContenuTooltipCarto());
 		placeImpl.setPhone(place.getPhone());
 		placeImpl.setMail(place.getMail());
 		placeImpl.setSiteURL(place.getSiteURL());

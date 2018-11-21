@@ -89,6 +89,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			{ "title", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
+			{ "opacityImage", Types.DOUBLE },
 			{ "description", Types.CLOB },
 			{ "detailURL", Types.VARCHAR },
 			{ "budget", Types.VARCHAR },
@@ -119,6 +120,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("opacityImage", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("detailURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
@@ -132,7 +134,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration VARCHAR(75) null,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,opacityImage DOUBLE,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration VARCHAR(75) null,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";
@@ -182,6 +184,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		model.setTitle(soapModel.getTitle());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
+		model.setOpacityImage(soapModel.getOpacityImage());
 		model.setDescription(soapModel.getDescription());
 		model.setDetailURL(soapModel.getDetailURL());
 		model.setBudget(soapModel.getBudget());
@@ -272,6 +275,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		attributes.put("title", getTitle());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("opacityImage", getOpacityImage());
 		attributes.put("description", getDescription());
 		attributes.put("detailURL", getDetailURL());
 		attributes.put("budget", getBudget());
@@ -381,6 +385,12 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 		if (externalImageCopyright != null) {
 			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		Double opacityImage = (Double)attributes.get("opacityImage");
+
+		if (opacityImage != null) {
+			setOpacityImage(opacityImage);
 		}
 
 		String description = (String)attributes.get("description");
@@ -731,6 +741,17 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@JSON
 	@Override
+	public double getOpacityImage() {
+		return _opacityImage;
+	}
+
+	@Override
+	public void setOpacityImage(double opacityImage) {
+		_opacityImage = opacityImage;
+	}
+
+	@JSON
+	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return StringPool.BLANK;
@@ -1032,6 +1053,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		projectImpl.setTitle(getTitle());
 		projectImpl.setExternalImageURL(getExternalImageURL());
 		projectImpl.setExternalImageCopyright(getExternalImageCopyright());
+		projectImpl.setOpacityImage(getOpacityImage());
 		projectImpl.setDescription(getDescription());
 		projectImpl.setDetailURL(getDetailURL());
 		projectImpl.setBudget(getBudget());
@@ -1214,6 +1236,8 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			projectCacheModel.externalImageCopyright = null;
 		}
 
+		projectCacheModel.opacityImage = getOpacityImage();
+
 		projectCacheModel.description = getDescription();
 
 		String description = projectCacheModel.description;
@@ -1301,7 +1325,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1333,6 +1357,8 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(getExternalImageURL());
 		sb.append(", externalImageCopyright=");
 		sb.append(getExternalImageCopyright());
+		sb.append(", opacityImage=");
+		sb.append(getOpacityImage());
 		sb.append(", description=");
 		sb.append(getDescription());
 		sb.append(", detailURL=");
@@ -1362,7 +1388,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(82);
+		StringBundler sb = new StringBundler(85);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Project");
@@ -1427,6 +1453,10 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(
 			"<column><column-name>externalImageCopyright</column-name><column-value><![CDATA[");
 		sb.append(getExternalImageCopyright());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>opacityImage</column-name><column-value><![CDATA[");
+		sb.append(getOpacityImage());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
@@ -1505,6 +1535,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 	private String _title;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
+	private double _opacityImage;
 	private String _description;
 	private String _detailURL;
 	private String _budget;

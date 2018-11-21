@@ -72,4 +72,10 @@
             background-size: 45px;
         }
     }
+    &.wi-search-procedure {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-download, $core-color));
+            background-size: 25px;
+        }
+    }
 }

@@ -12,12 +12,21 @@
 				<action-key>ADD_PROJECT</action-key>
 				<action-key>ADD_PARTICIPATION</action-key>
 				<action-key>ADD_PETITION</action-key>
+				<action-key>ADD_BUDGET_PARTICIPATIF</action-key>
+				<action-key>ADD_BUDGET_PHASE</action-key>
+				<action-key>ADD_INITIATIVE</action-key>
 				<action-key>DELETE_PROJECT</action-key>
 				<action-key>DELETE_PARTICIPATION</action-key>
 				<action-key>DELETE_PETITION</action-key>
+				<action-key>DELETE_BUDGET_PARTICIPATIF</action-key>
+				<action-key>DELETE_BUDGET_PHASE</action-key>
+				<action-key>DELETE_INITATIVE</action-key>
 				<action-key>EDIT_PROJECT</action-key>
 				<action-key>EDIT_PARTICIPATION</action-key>
 				<action-key>EDIT_PETITION</action-key>
+				<action-key>EDIT_BUDGET_PARTICIPATIF</action-key>
+				<action-key>EDIT_BUDGET_PHASE</action-key>
+				<action-key>EDIT_INITIATIVE</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -30,12 +39,21 @@
 				<action-key>ADD_PROJECT</action-key>
 				<action-key>ADD_PARTICIPATION</action-key>
 				<action-key>ADD_PETITION</action-key>
+				<action-key>ADD_BUDGET_PARTICIPATIF</action-key>
+				<action-key>ADD_BUDGET_PHASE</action-key>
+				<action-key>ADD_INITIATIVE</action-key>
 				<action-key>DELETE_PROJECT</action-key>
 				<action-key>DELETE_PARTICIPATION</action-key>
 				<action-key>DELETE_PETITION</action-key>
+				<action-key>DELETE_PARTICIPATIF</action-key>
+				<action-key>DELETE_PHASE</action-key>
+				<action-key>DELETE_INITIATIVE</action-key>
 				<action-key>EDIT_PROJECT</action-key>
 				<action-key>EDIT_PARTICIPATION</action-key>
 				<action-key>EDIT_PETITION</action-key>
+				<action-key>EDIT_BUDGET_PARTICIPATIF</action-key>
+				<action-key>EDIT_BUDGET_PHASE</action-key>
+				<action-key>EDIT_INITIATIVE</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
@@ -79,6 +97,63 @@
 	</model-resource>
 	<model-resource>
 		<model-name>eu.strasbourg.service.project.model.Petition</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_project_ProjectBOPortlet</portlet-name>
+		</portlet-ref>
+		<weight>3</weight>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
+		</permissions>
+	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.project.model.BudgetParticipatif</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_project_ProjectBOPortlet</portlet-name>
+		</portlet-ref>
+		<weight>3</weight>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
+		</permissions>
+	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.project.model.BudgetPhase</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_project_ProjectBOPortlet</portlet-name>
+		</portlet-ref>
+		<weight>3</weight>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
+		</permissions>
+	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.project.model.Initiative</model-name>
 		<portlet-ref>
 			<portlet-name>eu_strasbourg_portlet_project_ProjectBOPortlet</portlet-name>
 		</portlet-ref>

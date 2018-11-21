@@ -31,7 +31,11 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.publikInternalId = '${internalId}';
         window.showTraffic = ${showTraffic};
         window.mode = '${mode}';
-        window.linkCategoryId = '${linkCategoryId}';
-        window.linkInterestId = '${linkInterestId}';
+        window.linkCategoryId = '${trafficCategoryId}';
+        window.linkInterestId = '${trafficInterestId}';
+        window.coordinateZone = ${coordinateZone};
+        window.zoom = '${zoom}';
+        window.cadrageX = '${cadrageX}';
+        window.cadrageY = '${cadrageY}';
     </aui:script>
 </liferay-util:body-top>

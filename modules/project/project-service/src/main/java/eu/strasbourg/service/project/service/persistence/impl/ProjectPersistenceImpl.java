@@ -2972,6 +2972,7 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 		projectImpl.setTitle(project.getTitle());
 		projectImpl.setExternalImageURL(project.getExternalImageURL());
 		projectImpl.setExternalImageCopyright(project.getExternalImageCopyright());
+		projectImpl.setOpacityImage(project.getOpacityImage());
 		projectImpl.setDescription(project.getDescription());
 		projectImpl.setDetailURL(project.getDetailURL());
 		projectImpl.setBudget(project.getBudget());

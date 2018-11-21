@@ -20,6 +20,7 @@
 @import "libs/selectric-custom";
 @import "libs/icomoon";
 @import "libs/pikaday";
+@import "libs/leaflet-custom";
 
 
 // Style Header + Footer + Éléments communs du site
@@ -62,6 +63,8 @@
 @import "blocs/bloc-aside";
 @import "blocs/bloc-modal";
 @import "blocs/bloc-accordion";
+@import "blocs/bloc-dashboard";
+@import "blocs/bloc-photo-profil";
 
 @import "blocs/page-search";
 @import "blocs/page-detail-participation";

@@ -11,7 +11,7 @@
 		</p>
 	
 		<liferay-portlet:renderURL varImpl="linkURL" />
-		<aui:form name="fm" action="${linkURL}" class="generic-form toValidate">
+		<aui:form name="fm" action="${linkURL}#mediatheque" class="generic-form toValidate">
 			<!-- Renvoyer le mail -->
 			<input type="hidden" id="link" name="<portlet:namespace />link" value="lier" />
 			<input type="hidden" id="number" name="<portlet:namespace />number" value="${dc.cardNumber}" />

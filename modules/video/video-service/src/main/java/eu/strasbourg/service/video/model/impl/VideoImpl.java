@@ -19,13 +19,15 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -35,13 +37,23 @@ import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
 
 /**
  * The extended model implementation for the Video service. Represents a row in
@@ -432,7 +444,7 @@ public class VideoImpl extends VideoBaseImpl {
 	 * Retourne le code html nécessaire à l'affichage de la vidéo dans le header du site vidéo
 	 * et de son utilisation par les différentes API
 	 */
-	@Override
+    @Override
 	public String getPlayerHeaderVideo(Locale locale) {
 		String player = "";
 		String videoUrl = this.getSource(locale);
@@ -629,10 +641,19 @@ public class VideoImpl extends VideoBaseImpl {
     @Override
     public JSONObject toJSON() {
         JSONObject videoJSON = JSONFactoryUtil.createJSONObject();
+        videoJSON.put("class", this.getClass().getName());
         videoJSON.put("id", this.getVideoId());
         videoJSON.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
         videoJSON.put("description", JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
         videoJSON.put("source", JSONHelper.getJSONFromI18nMap(this.getSourceMap()));
+        videoJSON.put("imageURL", this.getImageURL());
+        videoJSON.put("groupId", this.getGroupId());
+        videoJSON.put("nbLikes", this.getNbLikes());
+        videoJSON.put("nbDislikes", this.getNbDislikes());
+        String videoURL = this.getSource(Locale.FRANCE);
+        String site = this.getSiteVideo(videoURL);
+        String videoId = this.getVideoId(site, videoURL);
+        videoJSON.put("nbViews", this.getNbViews(site,videoId));
 
         Set<Locale> locales = this.getSourceMap().keySet();
         JSONObject playerJSON = JSONFactoryUtil.createJSONObject();

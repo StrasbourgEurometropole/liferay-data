@@ -103,7 +103,6 @@ L.Control.ListMarkers = L.Control.extend({
 				that.fire('item-mouseout', {layer: layer });
 			}, this);
 
-		console.log('_createItem',layer.options);
 
 		if( layer.options.hasOwnProperty(this.options.label) )
 		{
@@ -147,8 +146,8 @@ L.Control.ListMarkers = L.Control.extend({
 		    a.insertAdjacentHTML('afterend', lienFavori);
 		}
 
-		if (layer.feature.properties.listeTypes) {
-		    a.insertAdjacentHTML('afterend', '<p class="types">' + layer.feature.properties.listeTypes + '</p>');
+		if (layer.feature.properties.listeTypes || layer.feature.properties.type) {
+		    a.insertAdjacentHTML('afterend', '<p class="types">' + (layer.feature.properties.listeTypes || layer.feature.properties.type) + '</p>');
 		}
 
 		return div;
@@ -166,6 +165,9 @@ L.Control.ListMarkers = L.Control.extend({
 					if(++n < that.options.maxItems)
 						that._list.appendChild( that._createItem(layer) );
 		});
+        if(this._list.innerHTML == ''){
+            this._list.innerHTML = '<h2>Sélectionnez un centre d\'intérêt ou un type pour afficher des lieux sur la carte</h2>';
+        }
 	},
 
 	_initToggle: function () {

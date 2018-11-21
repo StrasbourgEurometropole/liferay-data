@@ -41,7 +41,7 @@
 			right: -2px;
 		}
 		&:hover, &:focus {
-			color: $c_main;
+			text-decoration: underline;
 		}
 	}
 }
@@ -192,6 +192,18 @@ figcaption {
 		padding: 0;
 		margin: 15px 0px;
 	}
+	&.open{
+		span, a{
+			&:after {
+				transform: translateY(-50%);
+				transform: translate3d(0, -50%, 0);
+			}
+		}
+	}
+	&.open ul, &.open fieldset {
+		opacity: 1;
+		display: block;
+	}
 	span, a {
 		position: relative;
 		@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
@@ -219,6 +231,11 @@ figcaption {
 			top: 50%;
 			transform: translateY(-50%);
 			transform: translate3d(0, -50%, 0);
+			@include addTransition();
+			@include mobile {
+				transform: translateY(-50%) rotate(-90deg);
+				transform: translate3d(0, -50%, 0) rotate(-90deg);
+			}
 		}
 		&:hover, &:focus {
 			cursor: pointer;
@@ -231,7 +248,7 @@ figcaption {
 		position: absolute;
 		right: -22px;
 		top: 35px;
-		width: 200px;
+		width: 250px;
 		z-index: 200;
 		border-radius: 0;
 		list-style-type: none;
@@ -283,7 +300,7 @@ figcaption {
 					padding: 6px 0;
 				}
 				&:hover, &:focus {
-					color: $c_main;
+					text-decoration: underline;
 				}
 				&:after {
 					content: none;
@@ -342,7 +359,7 @@ figcaption {
 					}
 					&:hover, &:focus {
 						cursor: pointer;
-						color: $c_main;
+						text-decoration: underline;
 
 					}
 				}
@@ -356,7 +373,7 @@ figcaption {
 					opacity: 0;
 					&:focus {
 						& + label {
-							color: $c_main;
+							text-decoration: underline;
 						}
 					}
 				}
@@ -368,12 +385,6 @@ figcaption {
 			}
 		}
 	}
-
-	&.open ul, &.open fieldset {
-		opacity: 1;
-		display: block;
-	}
-
 }
 
 .pro-meta-avis {
@@ -660,34 +671,36 @@ main {
 	}
 }
 
-
-.pro-timer{
+.pro-timer {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	background: $c_dark;
-	p{
-		@include ft($f_txt, 0.875em, 400, $c_white, 1.2em);
-		padding: 7px 0;
+	p {
+		@include ft($f_txt, 1.1em, 400, $c_white, 1.3em);
+		padding: 10px 0;
 		text-transform: uppercase;
 		letter-spacing: 2px;
 		margin-bottom: 0;
 		text-align: center;
+		@include tablet_portrait {
+			font-size: 0.85em;
+			padding: 6px 0;
+		}
 	}
 }
 
-
-
 .pro-bookmark {
 	position: absolute;
+	z-index: 100;
 	top: 0;
 	right: 30px;
 	width: 120px;
 	height: 170px;
 	background: $c_main;
 
-	&:after{
+	&:after {
 		content: '';
 		position: absolute;
 		bottom: -44px;
@@ -698,12 +711,12 @@ main {
 		background-size: 12px;
 		background: url(../images/background/bookmark.png) no-repeat center center /contain;
 	}
-	> div{
+	> div {
 		position: relative;
 		&:before {
 			content: "";
 			position: absolute;
-			border: 1px solid rgba($c_dark,0.1);
+			border: 1px solid rgba($c_dark, 0.1);
 			border-bottom: none;
 			top: 2px;
 			left: 2px;
@@ -718,7 +731,7 @@ main {
 		color: $c_dark;
 		text-align: center;
 		font-size: 45px;
-		&:after{
+		&:after {
 			content: '';
 			position: absolute;
 			left: 0;
@@ -726,11 +739,11 @@ main {
 			bottom: 0;
 			width: 70px;
 			height: 1px;
-			background: rgba($c_dark,0.1);
+			background: rgba($c_dark, 0.1);
 			margin: auto;
 		}
 	}
-	p{
+	p {
 		@include ft($f_txt, 0.688em, 700, $c_txt, 1.5em);
 		width: 100%;
 		max-width: 100%;

@@ -317,6 +317,12 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 		return _projectLocalService.findByKeyword(keyword, groupId, start, end);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> findProjectFollowedByProjectId(
+		java.lang.String publicId) {
+		return _projectLocalService.findProjectFollowedByProjectId(publicId);
+	}
+
 	/**
 	* Renvoie la liste des vocabulaires rattachés à un projet
 	*/

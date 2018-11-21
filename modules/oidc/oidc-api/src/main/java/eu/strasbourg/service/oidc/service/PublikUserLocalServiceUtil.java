@@ -356,6 +356,15 @@ public class PublikUserLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	/**
+	* méthode permettant de récupererer le nombre de signataire.
+	*
+	* @return le nombre de signataire.
+	*/
+	public static long getCountUserHasSignedPacte() {
+		return getService().getCountUserHasSignedPacte();
+	}
+
 	public static PublikUserLocalService getService() {
 		return _serviceTracker.getService();
 	}

@@ -1,15 +1,13 @@
 package eu.strasbourg.utils;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-
 import eu.strasbourg.utils.api.AssetVocabularyHelperService;
+import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Classe Helper pour tout ce qui concerne les vocabulaires
@@ -72,8 +70,23 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 		return AssetVocabularyHelper.isAllDistrict(listDistrictSizeToCompare);
 	}
 
-    @Override
-    public String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
-        return AssetVocabularyHelper.getDistrictTitle(locale, assetCategories);
-    }
+	@Override
+	public String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
+		return AssetVocabularyHelper.getDistrictTitle(locale, assetCategories);
+	}
+
+	@Override
+	public String getThematicTitle(Locale locale, List<AssetCategory> assetCategories) {
+		return AssetVocabularyHelper.getThematicTitle(locale, assetCategories);
+	}
+	
+	/**
+	 * Retourne la liste des catégories du vocabulaire passé en paramètre, sans
+	 * les catégories enfants triées par la valeur de la propriété "order" de
+	 * chaque catégorie
+	 */
+	@Override
+	public List<AssetCategory> getSortedCategories(String vocabulary, long groupId) {
+		return AssetVocabularyHelper.getSortedCategories(vocabulary, groupId);
+	}
 }

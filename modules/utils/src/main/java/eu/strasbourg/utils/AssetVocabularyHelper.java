@@ -1,11 +1,5 @@
 package eu.strasbourg.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -26,6 +20,14 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.VocabularyNames;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * Classe Helper pour tout ce qui concerne les vocabulaires
@@ -563,13 +565,60 @@ public class AssetVocabularyHelper {
 		if (assetCategories == null || assetCategories.isEmpty()) {
 			result.append("aucun quartier");
 		} else if (AssetVocabularyHelper.isAllDistrict(assetCategories.size())) {
-			result.append("tout les quartiers");
+			result.append("tous les quartiers");
 		} else {
 			result.append(assetCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))
 					.collect(Collectors.joining(" - ")));
 		}
 		return result.toString();
+	}
+
+    /**
+     * méthode permettant de récupérer les titres des thématiques
+     * @param locale la locale
+     * @param assetCategories les thematiques
+     * @return les titres
+     */
+	public static String getThematicTitle(Locale locale,List<AssetCategory> assetCategories){
+		StringBuilder result = new StringBuilder();
+		if (assetCategories != null && !assetCategories.isEmpty()) {
+			result.append(assetCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
+	
+	/**
+	 * Retourne la liste des catégories du vocabulaire passé en paramètre, sans
+	 * les catégories enfants triées par la valeur de la propriété "order" de
+	 * chaque catégorie
+	 */
+	public static List<AssetCategory> getSortedCategories(String vocabulary, long groupId) {
+		List<AssetCategory> categories = getVocabulary(vocabulary, groupId).getCategories();
+
+		// trie des catégories par la propriété order si elle existe
+		Map<String, AssetCategory> order_category = new HashMap<String, AssetCategory>();
+		List<AssetCategory> categoriesWithoutOrder = new ArrayList<AssetCategory>();
+		for (AssetCategory assetCategory : categories) {
+			if (assetCategory != null) {
+				String orderString = AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "order");
+				if (orderString.equals("")) {
+					categoriesWithoutOrder.add(assetCategory);
+				} else {
+					order_category.put(orderString, assetCategory);
+				}
+			}
+		}
+
+		List<AssetCategory> sortedCategories = new ArrayList<AssetCategory>();
+		for (AssetCategory assetCategory : order_category.values()) {
+			sortedCategories.add(assetCategory);
+		}
+		sortedCategories.addAll(categoriesWithoutOrder);
+
+		return sortedCategories;
 	}
 
 		private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");

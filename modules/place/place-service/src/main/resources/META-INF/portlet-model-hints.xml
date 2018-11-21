@@ -76,6 +76,9 @@
 		<field localized="true" name="additionalInformation" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field localized="true" name="contenuTooltipCarto" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="phone" type="String" />
 		<field name="mail" type="String" />
 		<field localized="true" name="siteURL" type="String" />

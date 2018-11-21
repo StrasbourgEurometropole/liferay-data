@@ -162,7 +162,7 @@
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
 											<liferay-ui:message key="${occupationState.getLabel()}" />
 											<c:if test="${not empty occupationState.getOccupation() and occupationState.getOccupation() != '-'}">
-												<br/>${occupationState.getOccupation()} min
+												<br/>${occupationState.getOccupation()}
 											</c:if>
 								    	</td>
 							    </c:if>

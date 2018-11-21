@@ -33,12 +33,18 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionService;
+import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
+import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
+import eu.strasbourg.service.project.service.persistence.BudgetSupportPersistence;
+import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
+import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import eu.strasbourg.service.project.service.persistence.ParticipationPersistence;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
+import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import javax.sql.DataSource;
 
@@ -61,6 +67,291 @@ public abstract class PetitionServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.project.service.PetitionServiceUtil} to access the petition remote service.
 	 */
+
+	/**
+	 * Returns the budget participatif local service.
+	 *
+	 * @return the budget participatif local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetParticipatifLocalService getBudgetParticipatifLocalService() {
+		return budgetParticipatifLocalService;
+	}
+
+	/**
+	 * Sets the budget participatif local service.
+	 *
+	 * @param budgetParticipatifLocalService the budget participatif local service
+	 */
+	public void setBudgetParticipatifLocalService(
+		eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService) {
+		this.budgetParticipatifLocalService = budgetParticipatifLocalService;
+	}
+
+	/**
+	 * Returns the budget participatif remote service.
+	 *
+	 * @return the budget participatif remote service
+	 */
+	public eu.strasbourg.service.project.service.BudgetParticipatifService getBudgetParticipatifService() {
+		return budgetParticipatifService;
+	}
+
+	/**
+	 * Sets the budget participatif remote service.
+	 *
+	 * @param budgetParticipatifService the budget participatif remote service
+	 */
+	public void setBudgetParticipatifService(
+		eu.strasbourg.service.project.service.BudgetParticipatifService budgetParticipatifService) {
+		this.budgetParticipatifService = budgetParticipatifService;
+	}
+
+	/**
+	 * Returns the budget participatif persistence.
+	 *
+	 * @return the budget participatif persistence
+	 */
+	public BudgetParticipatifPersistence getBudgetParticipatifPersistence() {
+		return budgetParticipatifPersistence;
+	}
+
+	/**
+	 * Sets the budget participatif persistence.
+	 *
+	 * @param budgetParticipatifPersistence the budget participatif persistence
+	 */
+	public void setBudgetParticipatifPersistence(
+		BudgetParticipatifPersistence budgetParticipatifPersistence) {
+		this.budgetParticipatifPersistence = budgetParticipatifPersistence;
+	}
+
+	/**
+	 * Returns the budget phase local service.
+	 *
+	 * @return the budget phase local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetPhaseLocalService getBudgetPhaseLocalService() {
+		return budgetPhaseLocalService;
+	}
+
+	/**
+	 * Sets the budget phase local service.
+	 *
+	 * @param budgetPhaseLocalService the budget phase local service
+	 */
+	public void setBudgetPhaseLocalService(
+		eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService) {
+		this.budgetPhaseLocalService = budgetPhaseLocalService;
+	}
+
+	/**
+	 * Returns the budget phase remote service.
+	 *
+	 * @return the budget phase remote service
+	 */
+	public eu.strasbourg.service.project.service.BudgetPhaseService getBudgetPhaseService() {
+		return budgetPhaseService;
+	}
+
+	/**
+	 * Sets the budget phase remote service.
+	 *
+	 * @param budgetPhaseService the budget phase remote service
+	 */
+	public void setBudgetPhaseService(
+		eu.strasbourg.service.project.service.BudgetPhaseService budgetPhaseService) {
+		this.budgetPhaseService = budgetPhaseService;
+	}
+
+	/**
+	 * Returns the budget phase persistence.
+	 *
+	 * @return the budget phase persistence
+	 */
+	public BudgetPhasePersistence getBudgetPhasePersistence() {
+		return budgetPhasePersistence;
+	}
+
+	/**
+	 * Sets the budget phase persistence.
+	 *
+	 * @param budgetPhasePersistence the budget phase persistence
+	 */
+	public void setBudgetPhasePersistence(
+		BudgetPhasePersistence budgetPhasePersistence) {
+		this.budgetPhasePersistence = budgetPhasePersistence;
+	}
+
+	/**
+	 * Returns the budget support local service.
+	 *
+	 * @return the budget support local service
+	 */
+	public eu.strasbourg.service.project.service.BudgetSupportLocalService getBudgetSupportLocalService() {
+		return budgetSupportLocalService;
+	}
+
+	/**
+	 * Sets the budget support local service.
+	 *
+	 * @param budgetSupportLocalService the budget support local service
+	 */
+	public void setBudgetSupportLocalService(
+		eu.strasbourg.service.project.service.BudgetSupportLocalService budgetSupportLocalService) {
+		this.budgetSupportLocalService = budgetSupportLocalService;
+	}
+
+	/**
+	 * Returns the budget support remote service.
+	 *
+	 * @return the budget support remote service
+	 */
+	public eu.strasbourg.service.project.service.BudgetSupportService getBudgetSupportService() {
+		return budgetSupportService;
+	}
+
+	/**
+	 * Sets the budget support remote service.
+	 *
+	 * @param budgetSupportService the budget support remote service
+	 */
+	public void setBudgetSupportService(
+		eu.strasbourg.service.project.service.BudgetSupportService budgetSupportService) {
+		this.budgetSupportService = budgetSupportService;
+	}
+
+	/**
+	 * Returns the budget support persistence.
+	 *
+	 * @return the budget support persistence
+	 */
+	public BudgetSupportPersistence getBudgetSupportPersistence() {
+		return budgetSupportPersistence;
+	}
+
+	/**
+	 * Sets the budget support persistence.
+	 *
+	 * @param budgetSupportPersistence the budget support persistence
+	 */
+	public void setBudgetSupportPersistence(
+		BudgetSupportPersistence budgetSupportPersistence) {
+		this.budgetSupportPersistence = budgetSupportPersistence;
+	}
+
+	/**
+	 * Returns the initiative local service.
+	 *
+	 * @return the initiative local service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeLocalService getInitiativeLocalService() {
+		return initiativeLocalService;
+	}
+
+	/**
+	 * Sets the initiative local service.
+	 *
+	 * @param initiativeLocalService the initiative local service
+	 */
+	public void setInitiativeLocalService(
+		eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService) {
+		this.initiativeLocalService = initiativeLocalService;
+	}
+
+	/**
+	 * Returns the initiative remote service.
+	 *
+	 * @return the initiative remote service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeService getInitiativeService() {
+		return initiativeService;
+	}
+
+	/**
+	 * Sets the initiative remote service.
+	 *
+	 * @param initiativeService the initiative remote service
+	 */
+	public void setInitiativeService(
+		eu.strasbourg.service.project.service.InitiativeService initiativeService) {
+		this.initiativeService = initiativeService;
+	}
+
+	/**
+	 * Returns the initiative persistence.
+	 *
+	 * @return the initiative persistence
+	 */
+	public InitiativePersistence getInitiativePersistence() {
+		return initiativePersistence;
+	}
+
+	/**
+	 * Sets the initiative persistence.
+	 *
+	 * @param initiativePersistence the initiative persistence
+	 */
+	public void setInitiativePersistence(
+		InitiativePersistence initiativePersistence) {
+		this.initiativePersistence = initiativePersistence;
+	}
+
+	/**
+	 * Returns the initiative help local service.
+	 *
+	 * @return the initiative help local service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeHelpLocalService getInitiativeHelpLocalService() {
+		return initiativeHelpLocalService;
+	}
+
+	/**
+	 * Sets the initiative help local service.
+	 *
+	 * @param initiativeHelpLocalService the initiative help local service
+	 */
+	public void setInitiativeHelpLocalService(
+		eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService) {
+		this.initiativeHelpLocalService = initiativeHelpLocalService;
+	}
+
+	/**
+	 * Returns the initiative help remote service.
+	 *
+	 * @return the initiative help remote service
+	 */
+	public eu.strasbourg.service.project.service.InitiativeHelpService getInitiativeHelpService() {
+		return initiativeHelpService;
+	}
+
+	/**
+	 * Sets the initiative help remote service.
+	 *
+	 * @param initiativeHelpService the initiative help remote service
+	 */
+	public void setInitiativeHelpService(
+		eu.strasbourg.service.project.service.InitiativeHelpService initiativeHelpService) {
+		this.initiativeHelpService = initiativeHelpService;
+	}
+
+	/**
+	 * Returns the initiative help persistence.
+	 *
+	 * @return the initiative help persistence
+	 */
+	public InitiativeHelpPersistence getInitiativeHelpPersistence() {
+		return initiativeHelpPersistence;
+	}
+
+	/**
+	 * Sets the initiative help persistence.
+	 *
+	 * @param initiativeHelpPersistence the initiative help persistence
+	 */
+	public void setInitiativeHelpPersistence(
+		InitiativeHelpPersistence initiativeHelpPersistence) {
+		this.initiativeHelpPersistence = initiativeHelpPersistence;
+	}
 
 	/**
 	 * Returns the participation local service.
@@ -399,6 +690,63 @@ public abstract class PetitionServiceBaseImpl extends BaseServiceImpl
 	public void setProjectTimelinePersistence(
 		ProjectTimelinePersistence projectTimelinePersistence) {
 		this.projectTimelinePersistence = projectTimelinePersistence;
+	}
+
+	/**
+	 * Returns the signataire local service.
+	 *
+	 * @return the signataire local service
+	 */
+	public eu.strasbourg.service.project.service.SignataireLocalService getSignataireLocalService() {
+		return signataireLocalService;
+	}
+
+	/**
+	 * Sets the signataire local service.
+	 *
+	 * @param signataireLocalService the signataire local service
+	 */
+	public void setSignataireLocalService(
+		eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService) {
+		this.signataireLocalService = signataireLocalService;
+	}
+
+	/**
+	 * Returns the signataire remote service.
+	 *
+	 * @return the signataire remote service
+	 */
+	public eu.strasbourg.service.project.service.SignataireService getSignataireService() {
+		return signataireService;
+	}
+
+	/**
+	 * Sets the signataire remote service.
+	 *
+	 * @param signataireService the signataire remote service
+	 */
+	public void setSignataireService(
+		eu.strasbourg.service.project.service.SignataireService signataireService) {
+		this.signataireService = signataireService;
+	}
+
+	/**
+	 * Returns the signataire persistence.
+	 *
+	 * @return the signataire persistence
+	 */
+	public SignatairePersistence getSignatairePersistence() {
+		return signatairePersistence;
+	}
+
+	/**
+	 * Sets the signataire persistence.
+	 *
+	 * @param signatairePersistence the signataire persistence
+	 */
+	public void setSignatairePersistence(
+		SignatairePersistence signatairePersistence) {
+		this.signatairePersistence = signatairePersistence;
 	}
 
 	/**
@@ -751,6 +1099,36 @@ public abstract class PetitionServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetParticipatifLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetParticipatifService.class)
+	protected eu.strasbourg.service.project.service.BudgetParticipatifService budgetParticipatifService;
+	@BeanReference(type = BudgetParticipatifPersistence.class)
+	protected BudgetParticipatifPersistence budgetParticipatifPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetPhaseLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetPhaseService.class)
+	protected eu.strasbourg.service.project.service.BudgetPhaseService budgetPhaseService;
+	@BeanReference(type = BudgetPhasePersistence.class)
+	protected BudgetPhasePersistence budgetPhasePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetSupportLocalService.class)
+	protected eu.strasbourg.service.project.service.BudgetSupportLocalService budgetSupportLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.BudgetSupportService.class)
+	protected eu.strasbourg.service.project.service.BudgetSupportService budgetSupportService;
+	@BeanReference(type = BudgetSupportPersistence.class)
+	protected BudgetSupportPersistence budgetSupportPersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
+	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeService.class)
+	protected eu.strasbourg.service.project.service.InitiativeService initiativeService;
+	@BeanReference(type = InitiativePersistence.class)
+	protected InitiativePersistence initiativePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeHelpLocalService.class)
+	protected eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeHelpService.class)
+	protected eu.strasbourg.service.project.service.InitiativeHelpService initiativeHelpService;
+	@BeanReference(type = InitiativeHelpPersistence.class)
+	protected InitiativeHelpPersistence initiativeHelpPersistence;
 	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationLocalService.class)
 	protected eu.strasbourg.service.project.service.ParticipationLocalService participationLocalService;
 	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationService.class)
@@ -787,6 +1165,12 @@ public abstract class PetitionServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.project.service.ProjectTimelineService projectTimelineService;
 	@BeanReference(type = ProjectTimelinePersistence.class)
 	protected ProjectTimelinePersistence projectTimelinePersistence;
+	@BeanReference(type = eu.strasbourg.service.project.service.SignataireLocalService.class)
+	protected eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService;
+	@BeanReference(type = eu.strasbourg.service.project.service.SignataireService.class)
+	protected eu.strasbourg.service.project.service.SignataireService signataireService;
+	@BeanReference(type = SignatairePersistence.class)
+	protected SignatairePersistence signatairePersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

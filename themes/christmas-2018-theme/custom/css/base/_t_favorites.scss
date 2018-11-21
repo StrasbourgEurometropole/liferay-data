@@ -1,0 +1,44 @@
+.add-favorites{
+    font-family: $f_txt;
+    font-size: 1.4rem;
+    color: $c_main !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    position: relative;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    text-decoration : none !important;
+    &:before{
+        content: '';
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-right: 12px;
+        flex-shrink: 0;
+        background-image: url( svg-bg-uri($svg-favoris, $c_main) );
+    }
+    &.liked{
+        &:before{
+            background-image: url( svg-bg-uri($svg-heart-filled, $c_main) );
+        }
+    }
+    span{
+        position: relative;
+    }
+    span:after{
+        @extend %animation-hoverBar-in;
+        background-color: $c_main;
+    }
+    &:hover, &:focus{
+        text-decoration: none;
+        span:after{
+            @extend %animation-hoverBar-out;
+        }
+    }
+}

@@ -83,6 +83,11 @@
 					href="${editPetitionURL}" name="title" truncate="true" orderable="true"
 					value="${petition.title}" />
 				
+				<%-- Colonne : Createur --%>
+                <liferay-ui:search-container-column-text name="created-by">
+                    ${petition.petitionnaireFirstname} ${petition.petitionnaireLastname}
+                </liferay-ui:search-container-column-text>
+				
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${petition.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -90,8 +95,8 @@
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 				
-				<%-- Colonne : Createur --%>
-                <liferay-ui:search-container-column-text name="user">
+				<%-- Colonne : Administrateur --%>
+                <liferay-ui:search-container-column-text name="administrateur">
                     ${petition.userName}
                 </liferay-ui:search-container-column-text>
 

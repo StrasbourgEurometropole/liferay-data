@@ -1,0 +1,17 @@
+%animation-hoverBar{
+    &-in{
+        content: '';
+        display: block;
+        width: 100%;
+        height: 1px;
+        transition: all, 0.3s;
+        position: absolute;
+        transform: translateY(10px);
+        opacity: 0;
+        top: calc(100% + 3px);        
+    } 
+    &-out{ 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

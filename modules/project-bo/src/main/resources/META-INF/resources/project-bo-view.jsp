@@ -15,6 +15,18 @@
 	<portlet:param name="tab" value="petitions" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL var="budgetParticipatifURL">
+	<portlet:param name="tab" value="budgets-participatifs" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL var="budgetPhasesURL">
+	<portlet:param name="tab" value="budget-phases" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL var="initiativesURL">
+	<portlet:param name="tab" value="initiatives" />
+</liferay-portlet:renderURL>
+
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
 <liferay-portlet:renderURL varImpl="searchURL">
 	<portlet:param name="cmd" value="search" />
@@ -40,7 +52,18 @@
 		<aui:nav-item href="${petitionsURL}" label="petitions"
 			selected="${tab eq 'petitions'}" />
 	</aui:nav>
-
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${budgetParticipatifURL}" label="budgets-participatifs"
+			selected="${tab eq 'budgets-participatifs'}" />
+	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${budgetPhasesURL}" label="budget-phases"
+			selected="${tab eq 'budget-phases'}" />
+	</aui:nav>
+<!-- 	<aui:nav cssClass="navbar-nav"> -->
+<%-- 		<aui:nav-item href="${initiativesURL}" label="initiatives" --%>
+<%-- 			selected="${tab eq 'initiatives'}" /> --%>
+<!-- 	</aui:nav> -->
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">
 			<liferay-ui:input-search markupView="lexicon" />
@@ -60,6 +83,18 @@
     </c:when>
     <c:when test="${tab eq 'petitions'}">
 		<liferay-util:include page="/project-bo-view-petitions.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'budgets-participatifs'}">
+		<liferay-util:include page="/project-bo-view-budgets-participatifs.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'budget-phases'}">
+		<liferay-util:include page="/project-bo-view-budget-phases.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'initiatives'}">
+		<liferay-util:include page="/project-bo-view-initiatives.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

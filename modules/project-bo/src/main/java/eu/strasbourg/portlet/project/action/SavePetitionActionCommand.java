@@ -17,13 +17,13 @@ import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.text.DateFormat;
@@ -44,11 +44,12 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 
 	private PlacitPlaceLocalService _placitPlaceLocalService;
 
+	private SignataireLocalServiceUtil _signataireLocalService;
+
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	@Override
-	public boolean processAction(ActionRequest request, ActionResponse response) 
-			throws PortletException {
+	public boolean processAction(ActionRequest request, ActionResponse response) {
 
 		// Défini le format de date à utiliser pour les champs temporels
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -81,7 +82,6 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			if (petitionId == 0) {
 				// Si elle n'existe pas (add/save), on la créé
 				petition = _petitionLocalService.createPetition(sc);
-				petition.setPetitionStatus("Brouillon");
 			} else {
 				// Si elle existe (edit), on la cherche
 				petition = _petitionLocalService.getPetition(petitionId);
@@ -96,14 +96,18 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String externalImageCopyright = ParamUtil.getString(request,
 					"externalImageCopyright");
 			String description = ParamUtil.getString(request, "description");
+			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
+			String supportedBy = ParamUtil.getString(request, "supportedBy");
+			
 			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
 			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
 			String filesIds = ParamUtil.getString(request, "filesIds");
 			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
 			Date expirationDate = ParamUtil.getDate(request, "expirationDate", dateFormat);
 			String title = ParamUtil.getString(request, "title");
-			String author = ParamUtil.getString(request, "userName");
-
+			String prenomPetitionnaire = ParamUtil.getString(request, "petitionnaireFirstname");
+			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
+			int fakeSignataire = ParamUtil.getInteger(request, "nbFakeSignataire");
 
 			// ---------------------------------------------------------------
 			// -------------------------- GENERALITES ------------------------
@@ -113,7 +117,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			petition.setTitle(title);
 
 			// Auteur
-			petition.setUserName(author);
+			petition.setPetitionnaireFirstname(prenomPetitionnaire);
+			petition.setPetitionnaireLastname(nomPetitionnaire);
 
 			// quota-signature
 			petition.setQuotaSignature(quotasSignature);
@@ -143,13 +148,21 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			petition.setDescription(description);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DESCRIPTION ------------------------
+			// ---------------------------------------------------------------
 
+			petition.setIsSupported(isSupported);
+			petition.setSupportedBy(supportedBy);
 
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
 			// ---------------------------------------------------------------
 
 			petition.setConsultationPlacesBody(consultationPlacesBody);
+			if (fakeSignataire>0)
+				SignataireLocalServiceUtil.createFakeSignataire(petitionId,fakeSignataire);
 
 			for (PlacitPlace placitPlace : petition.getPlacitPlaces()){
 				_placitPlaceLocalService.removePlacitPlace(placitPlace.getPlacitPlaceId());
@@ -243,7 +256,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 		}
 
 		// Auteur
-		if (Validator.isNull(ParamUtil.getString(request, "userName"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "petitionnaireFirstname")) && Validator.isNull(ParamUtil.getString(request, "petitionnaireLastname"))) {
 			SessionErrors.add(request, "author-error");
 			isValid = false;
 		}

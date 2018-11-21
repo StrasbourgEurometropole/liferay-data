@@ -146,7 +146,7 @@
 					Vous  &ecirc;tes en cours de radiation de la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg.
 				</div>
 				<div>
-					La date d'effet de cette radiation est ${felecResponse.applicationDate}.
+					La date d'effet de cette radiation est le ${felecResponse.applicationDate}.
 					<div>
 						<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
 					</div>

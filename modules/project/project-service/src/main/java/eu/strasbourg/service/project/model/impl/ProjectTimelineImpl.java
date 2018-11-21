@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -59,7 +60,7 @@ public class ProjectTimelineImpl extends ProjectTimelineBaseImpl {
 		// Champs : Autres
 		jsonProjectTimeline.put("startDay", this.getStartDay());
 		jsonProjectTimeline.put("date", dateFormat.format(this.getDate()));
-		jsonProjectTimeline.put("title", this.getTitle());
+		jsonProjectTimeline.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
 		jsonProjectTimeline.put("link", this.getLink());
 		
 		return jsonProjectTimeline;

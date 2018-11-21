@@ -283,8 +283,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	/**
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
-	* @param type
-	(1 = piscine, 2 = parking, 3 = mairie)
+	* @param type (1 = piscine, 2 = parking, 3 = mairie)
 	* @throws Exception
 	*/
 	public eu.strasbourg.utils.OccupationState getRealTime(
@@ -333,9 +332,8 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne les horaires des exceptions d'ouverture à partir du lundi de la
 	* semaine en cours
 	*
-	* @param surPériode
-	(false = horaires d'une journée uniquement , true = horaires
-	sur 2 mois à partir du jour + le début de la semaine)
+	* @param surPériode (false = horaires d'une journée uniquement , true = horaires
+	  sur 2 mois à partir du jour + le début de la semaine)
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
 		java.util.GregorianCalendar dateChoisie, java.lang.Boolean surPeriode,

@@ -79,7 +79,7 @@
 										${occupationState.occupation}
 									</c:when>
 									<c:when test="${isMairie}">
-										${occupationState.occupation} min
+										${occupationState.occupation}
 									</c:when>
 									<c:otherwise>
 											${occupationState.available}

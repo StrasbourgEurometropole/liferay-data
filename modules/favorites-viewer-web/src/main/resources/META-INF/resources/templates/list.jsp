@@ -147,7 +147,7 @@
 				                                    ${occupationState.available}
 										    </c:if>
 											<c:if test="${favorite.place.isMairie()}">
-				                                    ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}">min</c:if>
+				                                    ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}"></c:if>
 									    	</c:if>
 										</div>
 										<div class="favoris-teaser__crowding-label"><liferay-ui:message key="${occupationState.label}" /></div>
@@ -158,6 +158,7 @@
 
 					<liferay-portlet:actionURL name="deleteFavorite" var="deleteFavoriteURL">
 						<portlet:param name="favoriteId" value="${favorite.favoriteId}" />
+						<portlet:param name="favoriteTypeId" value="${param.favoriteTypeId}" />
 					</liferay-portlet:actionURL>
 					<a href="${deleteFavoriteURL }" class="favoris-teaser__trash" data-favconfirm="delete"><liferay-ui:message key="delete-favorite" /></a></li>
 				</c:forEach>

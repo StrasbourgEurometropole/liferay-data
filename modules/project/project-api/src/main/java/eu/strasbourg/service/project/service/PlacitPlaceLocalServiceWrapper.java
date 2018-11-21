@@ -326,12 +326,30 @@ public class PlacitPlaceLocalServiceWrapper implements PlacitPlaceLocalService,
 	}
 
 	/**
+	* Retourne les lieux d'une participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByBudgetParticipatif(
+		long budgetParticipatifId) {
+		return _placitPlaceLocalService.getByBudgetParticipatif(budgetParticipatifId);
+	}
+
+	/**
 	* Retourne tous les lieux Placit d'un groupe
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByGroupId(
 		long groupId) {
 		return _placitPlaceLocalService.getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne les lieux d'une initiative
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getByInitiative(
+		long initiativeId) {
+		return _placitPlaceLocalService.getByInitiative(initiativeId);
 	}
 
 	/**

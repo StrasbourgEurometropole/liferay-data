@@ -48,7 +48,7 @@
 				<%-- Champ : Description --%>
 				<aui:input name="description" required="true" />
 				
-				<%-- Selecteur : Image interne ou externe ? --%>	
+				<%-- Selecteur : Image interne ou externe ? --%>
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"
@@ -56,7 +56,7 @@
 				
 				<%-- Champ : Image interne --%>
 				<div class="internalImage" <c:if test="${(empty dc.project.imageId or dc.project.imageId eq 0) and not empty dc.project.externalImageURL }">style="display: none;"</c:if>>
-					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="true"/>
+					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="false"/>
 				</div>
 				
 				<%-- Groupe de champs : Image externe --%>
@@ -74,6 +74,14 @@
 					
 				</div>
 				
+				<%-- Champ : opacite de l'image --%>
+				<c:if test="${empty dc.project}">
+					<aui:input name="opacityImage" required="false" helpMessage="opacityHelp" value="1.00" />
+				</c:if>
+				<c:if test="${not empty dc.project}">
+					<aui:input name="opacityImage" required="false" helpMessage="opacityHelp" />
+				</c:if>
+
 				<%-- Champ : URL detail du projet --%>
 				<aui:input name="detailURL" required="false" helpMessage="urlHelp2"/>
 				
@@ -110,7 +118,10 @@
 				
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
-				
+
+				<%-- Checkbox : envoi Ã  tout les suiveurs--%>
+				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
+
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Lieux de consultation --%>
@@ -151,7 +162,7 @@
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
 				
-				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+				<%-- Hack pour ajouter une validation sur les vocabulaires obligatoires --%>
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">

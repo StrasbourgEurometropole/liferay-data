@@ -343,6 +343,11 @@ public class EventLocalServiceUtil {
 		return getService().findByPlaceSIGId(placeSIGId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findEventByUserPublikId(
+		java.lang.String publikId) {
+		return getService().findEventByUserPublikId(publikId);
+	}
+
 	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
@@ -357,6 +362,14 @@ public class EventLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.agenda.model.Event> getByGroupId(
 		long groupId) {
 		return getService().getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne les resultats possèdant en etiquette l'une appelation demandee
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> getByTagsWithOrSelection(
+		java.util.List<java.lang.String> tagLabels) {
+		return getService().getByTagsWithOrSelection(tagLabels);
 	}
 
 	/**

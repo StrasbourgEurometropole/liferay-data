@@ -54,7 +54,7 @@
             background-repeat: no-repeat;
             margin: 0 auto;
             margin-bottom: 20px;
-            background-image: url( svg-bg-uri($svg-wave, $core-color) );
+            background-image: url( svg-bg-uri($svg-wave, #dddddd) );
 
             @include RWD(mobile){
                 width: 43px;
@@ -66,6 +66,22 @@
             &:before{
                 margin-bottom: 5px;
             }
+        }
+    }
+}
+
+.home-section {
+    @extend %molecule-home-section;
+    margin-bottom: 40px;
+
+    .rte {
+        font-size: 1.8rem;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+
+        a {
+            color: #31455d;
+            text-decoration: underline;
         }
     }
 }

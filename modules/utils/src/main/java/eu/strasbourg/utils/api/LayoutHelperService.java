@@ -27,4 +27,6 @@ public interface LayoutHelperService {
 	public String getPublikLogoutURL(String currentCompleteURL) throws MalformedURLException, UnsupportedEncodingException;
 	
 	public String getPublikProfileURL();
+
+	public String getDashboardURL();
 }

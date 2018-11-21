@@ -17414,6 +17414,29 @@ $(document).ready(function(){
                     megaSlider(une, category);
                     une.$slider.removeClass('animate-out');
                     une.can_animate = true;
+
+                    // On modfie les boutons correspondant sur la page
+                    // var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
+                    jQuery('.seu-add-favorites').each(function(index, favoriteButton) {
+                        var favoriteButtonJq = jQuery(favoriteButton);
+                        var entityId = Number(favoriteButtonJq.data('id'));
+                        var type = Number(favoriteButtonJq.data('type'));
+                        var isFavorite = false;
+                        for (var i = 0; i < window.userFavorites.length; i++) {
+                            if (window.userFavorites[i].entityId === entityId && window.userFavorites[i].typeId === type) {
+                                isFavorite =  true;
+                                break;
+                            }
+                        }
+                        if (isFavorite) {
+                            favoriteButtonJq.addClass('liked');
+                            favoriteButton.textContent = Liferay.Language.get('eu.remove-from-favorite');
+                        }else{
+                            favoriteButtonJq.removeClass('liked');
+                            favoriteButton.children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
+                        }
+                    });
+
                 }, 800);
             }
         });
@@ -17795,6 +17818,10 @@ $(function() {
                 }
             }
         );
+        if (!window.userFavorites) {
+            window.userFavorite = [];
+        }
+        window.userFavorites.push(favoriteToAdd);
     }
 
     // On parcourt les favoris utilisateurs et on modfie les boutons correspondant sur la page
@@ -17906,23 +17933,24 @@ $(function() {
         }
 
         // On met à jour window.userFavorites
-        var userId = window.publikInternalId;
-        Liferay.Service(
-            '/favorite.favorite/get-user-favorites', {
-                userId: userId
-            },
-            function(obj) {
-                var json = '[';
-                    obj.favorites.forEach(function(favorite, index){
-                      json  += '{"entityId":' + favorite.entityId + ',"typeId": ' + favorite.typeId +'}';
-                       if (obj.favorites[index + 1]){
-                            json  += ',';
-                       }
-                    }); 
-                json  += ']'; console.log(json);
-                window.userFavorites = JSON.parse(json);
+        var userFavorites = [];
+        var isNewFavorite = true;
+        for (var i = 0; i < window.userFavorites.length; i++) {
+            var favorite = window.userFavorites[i];
+            if (favorite.entityId !== id) {
+                userFavorites.push(favorite);
+            } else {
+                isNewFavorite = false;
             }
-        );
+        }
+        if (isNewFavorite) {
+            var newFavorite = {
+                entityId: id,
+                typeId: type
+            };
+            userFavorites.push(newFavorite);
+        }
+        window.userFavorites = userFavorites;
 
         // On modfie les boutons correspondant sur la page
         var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')

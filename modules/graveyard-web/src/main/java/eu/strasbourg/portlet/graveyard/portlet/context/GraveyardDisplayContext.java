@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.graveyard.portlet.context;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +75,14 @@ public class GraveyardDisplayContext {
 		return contactURL;
 	}
 
+	public String getLimit() {
+		String limit = configuration.limit();
+		if (Validator.isNull(limit)) {
+			limit = "20";
+		}
+		return limit;
+	}
+
 	public void recherche(RenderRequest request, RenderResponse response)
 			throws IOException, PortletException {
 
@@ -109,14 +119,6 @@ public class GraveyardDisplayContext {
 
 			if (Validator.isNull(name)) {
 				error += LanguageUtil.get(httpRequest, "required") + " " + LanguageUtil.get(httpRequest, "name-required");
-			}
-			if (Validator.isNull(firstName)) {
-				if (Validator.isNull(error)) {
-					error += LanguageUtil.get(httpRequest, "required");
-				}else {
-					error += ", ";
-				}
-				error += LanguageUtil.get(httpRequest, "firstname-required");
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			if ((Validator.isNotNull(birthDateStartString) || Validator.isNotNull(birthDateEndString))
@@ -170,7 +172,7 @@ public class GraveyardDisplayContext {
 			}
 			if (SessionErrors.isEmpty(request)) {
 				GraveyardResponse graveyardResponse = GraveyardWebServiceClient.getResponse(name, firstName,
-						birthDateStart, birthDateEnd, deathDateStart, deathDateEnd, deathPlace, concession);
+						birthDateStart, birthDateEnd, deathDateStart, deathDateEnd, deathPlace, concession, this.getLimit());
 				this.setGraveyard(graveyardResponse);
 			}
 		} catch (ParseException e1) {
@@ -223,19 +225,25 @@ public class GraveyardDisplayContext {
 	public List<DefuntDTO> getResults() {
 		if (this.defunts == null) {
 			// Récupération des défunts
-			List<DefuntDTO> defunts = graveyard.getDefunts();
+			this.defunts = graveyard.getDefunts();
 
-			this.defunts = defunts;
+			// On parcours les résultats pour supprimer les décès d'avant 1998
+			List<DefuntDTO> defuntsList = new ArrayList<DefuntDTO>();
+			for (DefuntDTO defunt : this.defunts ) {
+				defuntsList.add(defunt);
+			}
+			this.defunts = defuntsList;
 		}
+
 		return this.defunts;
 	}
 
-	/**
-	 * Retourne le nombre total de résultats
-	 */
-	public int getResultCount() {
-		return getResults().size();
-	}
+    /**
+     * Retourne le nombre total de résultats
+     */
+    public int getResultCount() {
+        return getResults().size();
+    }
 
 	/**
 	 * Retourne le searchContainer

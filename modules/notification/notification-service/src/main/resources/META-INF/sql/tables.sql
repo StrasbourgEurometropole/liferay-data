@@ -2,7 +2,7 @@ create table notification_Notification (
 	notificationId LONG not null primary key,
 	title STRING null,
 	description TEXT null,
-	url VARCHAR(75) null,
+	url VARCHAR(400) null,
 	automatic BOOLEAN,
 	singleUser BOOLEAN,
 	singleUserId VARCHAR(75) null,
