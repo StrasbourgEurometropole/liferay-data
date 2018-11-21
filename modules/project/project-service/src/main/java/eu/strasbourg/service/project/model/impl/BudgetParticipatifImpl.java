@@ -158,7 +158,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     @Override
     public String getImageURL() {
-        return FileEntryHelper.getFileEntryURL(this.getImageId()).equals("") ? "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png" : FileEntryHelper.getFileEntryURL(this.getImageId());
+    	return FileEntryHelper.getFileEntryURL(this.getImageId());
     }
     
     /**

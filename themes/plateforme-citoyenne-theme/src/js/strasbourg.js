@@ -14361,7 +14361,7 @@ $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus juger, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -14435,7 +14435,7 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus participer, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -14453,6 +14453,15 @@ $(document).on("click", "[name='#Pact-sign']", function(e) {
     e.preventDefault();
     e.stopPropagation();
     $("#myModal").modal();
+});
+
+/*
+* Demande de signature du pacte
+*/
+$(document).on("click", "[name='#IsBanned']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#modalBanned").modal();
 });
 
 /*
@@ -14775,7 +14784,7 @@ function getPetitionMarker(petition, mercators) {
             '</div>' +
             '<div class="pro-content-petition">' +
                 '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
+                '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + 
                 '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
@@ -14828,7 +14837,7 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
                 '</div>' +
                 '<div class="pro-content-budget">' + 
                     '<h3>' + budgetParticipatif.title + '</h3>' + 
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' + 
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' + 
                 '</div> ' +            
                 '<div class="pro-footer-budget">' + footer +                    
                 '</div>' +
@@ -15266,7 +15275,7 @@ function createPetition(petition){
                 '<div class="pro-statut"><span>' + petition.frontStatusFR + '</span></div>' +
                 '<div class="pro-meta">' +
                     '<!-- Liste des quartiers de la Petition -->' +
-                    '<span>' + (petition.districtLabel == "tout les quartiers" ? "Tous les quatiers"  : petition.districtLabel) + '</span>' +
+                    '<span>' + petition.districtLabel + '</span>' +
                     '<!-- Liste des thématiques de la Petition -->';
                     for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
                         vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
@@ -15276,7 +15285,7 @@ function createPetition(petition){
                 '</div>' +
             '</div>' +
             '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
-            '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+            '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
         '</div>' +
         '<div class="pro-footer-petition">' +
             '<div class="pro-progress-bar">' +
@@ -15349,7 +15358,7 @@ function createBudgetParticipatif(budgetParticipatif){
             '</div>' +
             '<div class="pro-content-budget">' +
                 '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' +
+                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' +
             '</div>' +
             '<div class="pro-footer-budget">' + footer +
             '</div>' +
