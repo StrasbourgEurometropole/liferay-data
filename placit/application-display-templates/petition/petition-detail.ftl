@@ -251,7 +251,7 @@
                                 <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                             </div>
                         </div>
-                        
+
                     </aside>
                 </div>
             </article>
@@ -314,7 +314,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </#list>
 
                     </div>
@@ -360,7 +360,12 @@
         }
             
         leafletMap.addLayer(markersCluster);
-        leafletMap.fitBounds(markersCluster.getBounds());
+        
+        // Adapter le zoom si des marqueurs existent
+        if (markersCluster.getBounds().isValid()) {
+            leafletMap.fitBounds(markersCluster.getBounds());
+        }
+        
     });
 </script>
 

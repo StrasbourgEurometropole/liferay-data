@@ -215,7 +215,7 @@
     budgetParticipatifJSON.link = '${homeURL}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}';
 
     // Variable pointeur
-    var budgetParticipatifMarkers = [];
+    var budgetParticipatifMarkers = []
 
     $(document).ready(function() {
         // Gestion de la carte interactive
@@ -228,7 +228,7 @@
         var budgetParticipatifMarkerIcon = getMarkerIcon('budget-participatif');
 
         // Création du cluster permettant le regroupement de points et le centrage
-        var markersCluster = L.markerClusterGroup();
+        markersCluster = L.markerClusterGroup();
 
         for(var i= 0; i < budgetParticipatifJSON.placitPlaces.length; i++) {
             var marker = getBudgetParticipatifMarker(
@@ -243,7 +243,10 @@
         }
 
         leafletMap.addLayer(markersCluster);
-        leafletMap.fitBounds(markersCluster.getBounds());
+
+        if (markersCluster.getBounds().isValid()) {
+            leafletMap.fitBounds(markersCluster.getBounds());
+        }
 
     });
 </script>
