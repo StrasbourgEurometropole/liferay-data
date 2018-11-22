@@ -16,7 +16,7 @@
 	<div>
 		<div class="col-md-8">
 			<c:forEach var="comment" items="${comments}">
-
+				
 				<portlet:actionURL name="hideComment" var="hideComment">
 					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
 					<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
@@ -99,9 +99,11 @@
 			                            		<a class="pro-like" data-toggle="modal" data-target="#myModal">${comment.nbLikes}</a>
 				                                <a class="pro-dislike" data-toggle="modal" data-target="#myModal">${comment.nbDislikes}</a>
 				                            	<c:if test="${isAdmin}">
-													<a href="${hideComment}" title="Masquer le commentaire">
-														<liferay-ui:message key='comment-hide'/>
-													</a>
+				                            		<div class="pro-action-link">
+														<a href="${hideComment}" title="Masquer le commentaire">
+															<liferay-ui:message key='comment-hide'/>
+														</a>
+													</div>
 												</c:if>
 		                            		</c:otherwise>
 	                        			</c:choose>
@@ -127,7 +129,7 @@
 							</p>
 						</c:if>
 
-						<!-- RÃ©ponse du commentaire -->
+						<!-- Reponse du commentaire -->
 						<div class="pro-comment-response" style="padding-left: 50px">
 							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
 
@@ -147,30 +149,56 @@
 											pattern="dd MMM yyyy" />
 									</p>
 									<p id="comment-${commentAnswer.commentId}">${commentAnswer.comment}</p>
-									<c:if test="${!isUserBanned && hasUserSigned}">
-										<div class="pro-interactions">
-	                                        <div class="pro-action-link">
-	                                            <a href="#report" title="Signaler le commentaire" data-commentid="${commentAnswer.commentId}">
-	                                           		<liferay-ui:message key='comment-report'/>
-	                                            </a>
-	                                            <c:if test="${isAdmin}">
-	                                            	<a href="${hideComment}" title="Masquer le commentaire">
-	                                            		<liferay-ui:message key='comment-hide'/>
-	                                            	</a>
-	                                            </c:if>
-	                                        </div>
-	                                        <c:if test="${userPublikId eq commentAnswer.publikId}">
-		                                        <div class="pro-action-comm">
-		                                            <a href="#Modifier" data-commentid="${commentAnswer.commentId}">
-		                                            	<span class="icon-ico-modifier"></span>
-		                                            </a>
-		                                            <a href="#Supprimer" data-commentid="${commentAnswer.commentId}">
-		                                            	<span class="icon-ico-remove"></span>
-		                                            </a>
+									<div class="pro-interactions">
+									
+										<c:choose>
+											<c:when test="${isAssetCommentable}">
+												<c:choose>
+													<c:when test="${!isUserBanned && hasUserSigned}">
+				                                        <div class="pro-action-link">
+				                                            <a href="#report" title="Signaler le commentaire" data-commentid="${commentAnswer.commentId}">
+				                                           		<liferay-ui:message key='comment-report'/>
+				                                            </a>
+				                                            <c:if test="${isAdmin}">
+				                                            	<a href="${hideComment}" title="Masquer le commentaire">
+				                                            		<liferay-ui:message key='comment-hide'/>
+				                                            	</a>
+				                                            </c:if>
+				                                        </div>
+				                                        <c:if test="${userPublikId eq commentAnswer.publikId}">
+					                                        <div class="pro-action-comm">
+					                                            <a href="#Modifier" data-commentid="${commentAnswer.commentId}">
+					                                            	<span class="icon-ico-modifier"></span>
+					                                            </a>
+					                                            <a href="#Supprimer" data-commentid="${commentAnswer.commentId}">
+					                                            	<span class="icon-ico-remove"></span>
+					                                            </a>
+					                                        </div>
+					                                	</c:if>
+													</c:when>
+				                                   	<c:otherwise>
+					                            		<div class="pro-action-link">
+				                                            <c:if test="${isAdmin}">
+				                                            	<a href="${hideComment}" title="Masquer le commentaire">
+				                                            		<liferay-ui:message key='comment-hide'/>
+				                                            	</a>
+				                                            </c:if>
+				                                        </div>
+				                            		</c:otherwise>
+			                        			</c:choose>
+				                            </c:when>
+				                            <c:otherwise>
+				                            	<div class="pro-action-link">
+		                                            <c:if test="${isAdmin}">
+		                                            	<a href="${hideComment}" title="Masquer le commentaire">
+		                                            		<liferay-ui:message key='comment-hide'/>
+		                                            	</a>
+		                                            </c:if>
 		                                        </div>
-		                                	</c:if>
-	                                    </div>
-	                                </c:if>
+				                       		</c:otherwise>
+			                        	</c:choose>
+			                        </div>
+					                                
 	                                <c:if test="${commentAnswer.modifiedByUserDate != null}">
 										<p class="pro-label-edition">
 											<liferay-ui:message key='comment-edited-on' />
@@ -179,6 +207,7 @@
 											<fmt:formatDate type="date" value="${commentAnswer.modifiedByUserDate}" pattern="HH:mm:ss" />
 										</p>
 									</c:if>
+									
 								</div>
 
 							</c:forEach>
