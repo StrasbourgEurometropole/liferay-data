@@ -13,10 +13,10 @@
         data-id="${.vars['reserved-article-id'].data}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
-    <div class="col-xs-12">
+    <div class="text-center">
 	    ${catcher.data}
 	</div>
+    ${text.data}
 </div>
-${text.data}
 
 
