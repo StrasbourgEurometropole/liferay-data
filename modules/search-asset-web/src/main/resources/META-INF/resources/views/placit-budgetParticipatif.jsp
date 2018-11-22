@@ -17,10 +17,14 @@
                  <div class="pro-wrapper-sort">
                     <c:choose>
                         <c:when test='${isUserloggedIn}'>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalBudget"><liferay-ui:message key="file-budget" /></a>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalBudget">
+                            	<liferay-ui:message key="file-budget" />
+                            </a>
                         </c:when>
                         <c:otherwise>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal"><liferay-ui:message key="file-budget" /></a>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">
+                            	<liferay-ui:message key="file-budget" />
+                            </a>
                         </c:otherwise>
                     </c:choose>
  				</div>
@@ -36,20 +40,77 @@
                 </div>
             </div>
             
+            <!-- Blocs lateraux -->
             <div class="col-md-4 pro-wrapper-aside">
-	                <div class="pro-bloc-facette pro-bloc-facette-participation">
-	                    <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
-	
-	                    <!-- Formulaire -->
-	                    <aui:form action="${searchActionURL}" method="get" name="fm"
-	                        id="search-asset-form">
-	                        <liferay-portlet:renderURLParams varImpl="searchActionURL" />
-	                        <liferay-util:include page="/forms/placit-budgetParticipatif-form.jsp"
-	                            servletContext="<%=application%>" />
-	                    </aui:form>
-	                </div>
-	                 
-            	</div>
+            
+            	<!-- Bloc : formulaire -->
+                <div class="pro-bloc-facette pro-bloc-facette-participation">
+                    <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
+
+                    <!-- Formulaire -->
+                    <aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
+                        <liferay-portlet:renderURLParams varImpl="searchActionURL" />
+                        <liferay-util:include page="/forms/placit-budgetParticipatif-form.jsp" servletContext="<%=application%>" />
+                    </aui:form>
+                    
+                </div>
+                
+                <!-- Bloc : Les plus populaires -->
+                <div class="pro-widget-participation">
+                    <h4><liferay-ui:message key="eu.most.popular" /></h4>
+                    <c:forEach var="bpAside" items="${budgetsMostSupported}">
+                        <a href="${dc.getHomeURL()}detail-budget-participatif/-/entity/id/${bpAside.budgetParticipatifId}" title="Lien vers le detail du budget">
+                            <div class="pro-meta">
+                                <span>${bpAside.getDistrictLabel(locale)}</span>
+                                <span>${bpAside.getThematicsLabel(locale)}</span>
+                            </div>
+                            <h3>${bpAside.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </div>
+                
+                <!-- Bloc : Les plus commentes -->
+                <div class="pro-widget-participation">
+                    <h4><liferay-ui:message key="eu.most.commented" /></h4>
+                    <c:forEach var="bpAside" items="${budgetsMostCommented}">
+                        <a href="${dc.getHomeURL()}detail-budget-participatif/-/entity/id/${bpAside.budgetParticipatifId}" title="Lien vers le detail du budget">
+                            <div class="pro-meta">
+                                <span>${bpAside.getDistrictLabel(locale)}</span>
+                                <span>${bpAside.getThematicsLabel(locale)}</span>
+                            </div>
+                            <h3>${bpAside.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </div>
+                
+                <!-- Bloc : Les plus recents coups de coeur du conseil -->
+                <div class="pro-widget-participation">
+                    <h4><liferay-ui:message key="eu.most.iscrush" /></h4>
+                    <c:forEach var="bpAside" items="${budgetsIsCrush}">
+                        <a href="${dc.getHomeURL()}detail-budget-participatif/-/entity/id/${bpAside.budgetParticipatifId}" title="Lien vers le detail du budget">
+                            <div class="pro-meta">
+                                <span>${bpAside.getDistrictLabel(locale)}</span>
+                                <span>${bpAside.getThematicsLabel(locale)}</span>
+                            </div>
+                            <h3>${bpAside.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </div>
+                
+                
+           	</div>
             
         </div>
     </div>

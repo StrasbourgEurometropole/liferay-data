@@ -158,7 +158,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     @Override
     public String getImageURL() {
-        return FileEntryHelper.getFileEntryURL(this.getImageId()).equals("") ? "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png" : FileEntryHelper.getFileEntryURL(this.getImageId());
+    	return FileEntryHelper.getFileEntryURL(this.getImageId());
     }
     
     /**
@@ -245,7 +245,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		
 		if (BPStatus != null) {
 			if (StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_LAUREAT.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
 					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
 					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()) 
 					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()) 
@@ -432,6 +431,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 
         jsonBudget.put("id", this.getBudgetParticipatifId());
         jsonBudget.put("createDate", dateFormat.format(this.getCreateDate()));
+        jsonBudget.put("publicationDate", dateFormat.format(this.getAssetEntry().getPublishDate()));
+        
         jsonBudget.put("authorImageURL", this.getAuthorImageURL());
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));

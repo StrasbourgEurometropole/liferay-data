@@ -96,4 +96,41 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 		}
 	}
 	
+	/**
+	 * Genere le label de haut de page affichant le temps restant avant de passer a la prochaine
+	 * peridode de la phase en cours
+	 */
+	@Override
+	public String getLivePeriodLabel() {
+		if (this.getIsActive()) {
+			// Date du jour
+			Date dateNow = new Date();
+			
+			// Avant la periode de depot
+			if (dateNow.compareTo(this.getBeginDate()) <= 0) {
+				return "before-begin-deposit";
+			}
+			// Avant la date de fin de depot
+			else if (dateNow.compareTo(this.getEndDate()) <= 0) {
+				return "before-end-deposit";
+			}
+			// Avant la periode de vote
+			else if (dateNow.compareTo(this.getBeginVoteDate()) <= 0) {
+				return "before-begin-vote";
+			}
+			// Avant la date de fin de vote
+			else if (dateNow.compareTo(this.getEndVoteDate()) <= 0) {
+				return "before-end-vote";
+			} 
+			// Apres l'ensemble des periodes
+			else {
+				return "";
+			}
+		} else {
+			return "";
+		}	
+	}
+	
+	
+	
 }
