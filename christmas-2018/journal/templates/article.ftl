@@ -4,7 +4,7 @@
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <!-- Détail article -->
-<div class="mns-fck text-center container mns-p50">
+<div class="mns-fck container mns-p50">
     <a href="#" class="add-favorites"
         data-type="7" 
         data-title="${title.data}" 
