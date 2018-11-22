@@ -79,7 +79,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-@Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
+@Component(
+	immediate = true,
+	configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", 
+	property = {
         "com.liferay.portlet.display-category=Strasbourg",
         "com.liferay.portlet.instanceable=false",
         "com.liferay.portlet.css-class-wrapper=search-asset-portlet",
@@ -89,7 +92,10 @@ import java.util.Map;
         "javax.portlet.init-param.check-auth-token=false",
         "javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
         "javax.portlet.resource-bundle=content.Language",
-        "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
+        "javax.portlet.security-role-ref=power-user,user"
+	}, 
+	service = Portlet.class
+)
 public class SearchAssetPortlet extends MVCPortlet {
 
     public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
@@ -171,7 +177,6 @@ public class SearchAssetPortlet extends MVCPortlet {
             	renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
             	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
             }
-            
             
             renderRequest.setAttribute("isUserloggedIn", false);
             renderRequest.setAttribute("hasUserPactSign", false);
