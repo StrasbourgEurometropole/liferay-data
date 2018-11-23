@@ -64,9 +64,13 @@
 				className="eu.strasbourg.service.comment.model.Signalement" modelVar="signalement"
 				keyProperty="signalementId" rowIdProperty="signalementId">
 
-				<%-- Colonne : userName --%>
+				<%-- Colonne : Signaleur --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="userName" truncate="true" orderable="true" value="${signalement.userName}" />
+					name="signal-author" truncate="true" orderable="true" value="${signalement.getSignalementAuthorLabel()}" />
+					
+				<%-- Colonne : Signale --%>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="comment-author" truncate="true" orderable="true" value="${signalement.getCommentAuthorLabel()}" />
 
 				<%-- Colonne : debut du commentaire --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"

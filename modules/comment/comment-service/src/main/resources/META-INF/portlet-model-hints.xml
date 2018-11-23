@@ -48,5 +48,6 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="commentId" type="long" />
+		<field name="publikId" type="String" />
 	</model>
 </model-hints>

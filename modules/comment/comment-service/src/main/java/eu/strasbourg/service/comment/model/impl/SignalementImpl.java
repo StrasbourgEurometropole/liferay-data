@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 
 import java.util.List;
 import java.util.Locale;
@@ -56,6 +58,7 @@ public class SignalementImpl extends SignalementBaseImpl {
 	 * méthode qui permet de récupérer le commmentaire lié au signalement.
 	 * @return le commentaire.
 	 */
+	@Override
 	public Comment getComment(){
 		Comment result = null;
 		try {
@@ -67,9 +70,10 @@ public class SignalementImpl extends SignalementBaseImpl {
 	}
 
     /**
-     * méthode qui permet de récupérer le commmentaire lié au signalement.
+     * Recuperer le commmentaire lie au signalement.
      * @return le commentaire.
      */
+	@Override
     public String getCommentContent(){
         String result = "";
         try {
@@ -79,6 +83,58 @@ public class SignalementImpl extends SignalementBaseImpl {
             _log.error("Erreur dans la récupération du commentaire : ",e);
         }
         return result;
+    }
+	
+	/**
+	 * Retourne l'utilisateur auteur du commentaire
+	 */
+	@Override
+    public PublikUser getCommentAuthor() {
+		try {
+			Comment comment = CommentLocalServiceUtil.getComment(this.getCommentId());
+			PublikUser commentAuthor = PublikUserLocalServiceUtil.getByPublikUserId(comment.getPublikId());
+			
+			return commentAuthor;
+        } catch (PortalException e) {
+            _log.error("Erreur dans la recuperation de l'auteur du commentaire '" + this.getCommentId() + "'  : ",e);
+        }
+		return null;
+    }
+    
+	/**
+	 * Retourne le nom de l'auteur du commentaire
+	 */
+    @Override
+    public String getCommentAuthorLabel() {
+    	PublikUser commentAuthor = this.getCommentAuthor();
+    	
+    	if (commentAuthor != null) {
+    		return commentAuthor.getFirstName() + " " + commentAuthor.getLastName();
+    	} else {
+    		return "";
+    	}
+    }
+    
+    /**
+	 * Retourne l'utilisateur auteur du signalement
+	 */
+	@Override
+    public PublikUser getSignalementAuthor() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+    }
+    
+	/**
+	 * Retourne le nom de l'auteur du signalement
+	 */
+    @Override
+    public String getSignalementAuthorLabel() {
+    	PublikUser signalementAuthor = this.getSignalementAuthor();
+    	
+    	if (signalementAuthor != null) {
+    		return signalementAuthor.getFirstName() + " " + signalementAuthor.getLastName();
+    	} else {
+    		return "";
+    	}
     }
 
     /**

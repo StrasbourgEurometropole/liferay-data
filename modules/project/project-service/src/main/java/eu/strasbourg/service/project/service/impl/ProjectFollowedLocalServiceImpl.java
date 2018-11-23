@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.service.base.ProjectFollowedLocalServiceBaseImpl;
 

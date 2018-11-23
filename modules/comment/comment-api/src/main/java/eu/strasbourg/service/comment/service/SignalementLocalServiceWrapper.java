@@ -84,10 +84,10 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 	}
 
 	/**
-	* Méthode qui permet de creer un signalement sans le persister.
+	* Permet de creer un signalement sans le persister.
 	*
 	* @param sc le serviceContext
-	* @return le signalement généré.
+	* @return le signalement.
 	* @throws PortalException l'exception.
 	*/
 	@Override
@@ -95,21 +95,6 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _signalementLocalService.createSignalement(sc);
-	}
-
-	/**
-	* Méthode qui permet de creer un signalement sans le persister.
-	*
-	* @param sc le serviceContext
-	* @param commentId l'identifiant du commentaire lié au signalement.
-	* @return le signalement.
-	* @throws PortalException l'exception.
-	*/
-	@Override
-	public eu.strasbourg.service.comment.model.Signalement createSignalement(
-		com.liferay.portal.kernel.service.ServiceContext sc, long commentId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _signalementLocalService.createSignalement(sc, commentId);
 	}
 
 	/**
@@ -215,11 +200,9 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 	@Override
 	public eu.strasbourg.service.comment.model.Signalement updateSignalement(
 		eu.strasbourg.service.comment.model.Signalement signalement,
-		com.liferay.portal.kernel.service.ServiceContext sc,
-		java.lang.String publikUserId)
+		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _signalementLocalService.updateSignalement(signalement, sc,
-			publikUserId);
+		return _signalementLocalService.updateSignalement(signalement, sc);
 	}
 
 	/**
