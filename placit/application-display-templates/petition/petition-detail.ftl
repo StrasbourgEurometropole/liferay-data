@@ -78,7 +78,7 @@
                                 </#if>
                             </figure>
                             <p>pétition publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
-                            <p><strong>${entry.userName}</strong></p>
+                            <p><strong>${entry.getAuthorLabel()}</strong></p>
                         </div>
                     </div>
 
