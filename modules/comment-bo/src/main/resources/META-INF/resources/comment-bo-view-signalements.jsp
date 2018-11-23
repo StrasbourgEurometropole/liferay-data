@@ -68,7 +68,7 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="userName" truncate="true" orderable="true" value="${signalement.userName}" />
 
-				<%-- Colonne : début du commentaire --%>
+				<%-- Colonne : debut du commentaire --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="comment" truncate="true" value="${signalement.getCommentContent()}" />
 
@@ -89,6 +89,20 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     name="reportType" truncate="true" orderable="true"
                     value="${signalement.getCategorieName()}" />
+                
+                <%-- URL : Definit le lien vers la page d'edition du commentaire liee au signalement selectionnee --%>
+				<liferay-portlet:renderURL varImpl="editCommentURL">
+					<portlet:param name="cmd" value="editComment" />
+					<portlet:param name="commentId" value="${signalement.commentId}" />
+					<portlet:param name="returnURL" value="${signalementsURL}" />
+					<portlet:param name="mvcPath" value="/comment-bo-edit-comment.jsp" />
+				</liferay-portlet:renderURL>
+                    
+                <%-- Colonne : lien vers le BO du commentaire --%>
+				<liferay-ui:search-container-column-text cssClass="content-column" name="edit-comment-link" >
+				    <aui:button href="${editCommentURL}" value="link-comment-bo"/>
+				</liferay-ui:search-container-column-text>
+				
 			</liferay-ui:search-container-row>
 
 			<%-- Iterateur --%>

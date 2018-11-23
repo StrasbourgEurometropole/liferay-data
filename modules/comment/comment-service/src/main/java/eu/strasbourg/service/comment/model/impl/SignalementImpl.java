@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 @ProviderType
 public class SignalementImpl extends SignalementBaseImpl {
 
+	private static final long serialVersionUID = 8596405581296680527L;
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -102,6 +103,7 @@ public class SignalementImpl extends SignalementBaseImpl {
         }
         return result;
     }
+    
     /**
      * Retourne l'AssetEntry rattaché cet item
      */
