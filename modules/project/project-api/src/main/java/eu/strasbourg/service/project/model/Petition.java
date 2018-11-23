@@ -223,6 +223,11 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.lang.String getPetitionStatus();
 
 	/**
+	* Retourne le nom de du depositaire sous forme "Truc M."
+	*/
+	public java.lang.String getAuthorLabel();
+
+	/**
 	* méthode de récupération du status
 	*
 	* @return le status.

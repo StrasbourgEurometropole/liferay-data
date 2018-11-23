@@ -516,7 +516,7 @@ function getPetitionMarker(petition, mercators) {
                 '<figure role="group">' +
                     (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
                 '</figure>' +
-                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
+                '<p>Pétition publiée par :</p><p><strong>' + petition.author + '</strong></p>' +
             '</div>' +
             '<div class="pro-content-petition">' +
                 '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
@@ -987,7 +987,7 @@ function createPetition(petition){
                 (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
             '</figure>' +
             '<p>Pétition publiée par :</p>' +
-            '<p><strong>' + petition.userName + ' adressé à : Ville de Strasbourg</strong></p>' +
+            '<p><strong>' + petition.author + ' adressé à : Ville de Strasbourg</strong></p>' +
             '<div class="pro-number-comm">' +
                 '<span>' + petition.nbApprovedComments + '</span>' +
                 '<p>Commentaire(s)</p>' +
