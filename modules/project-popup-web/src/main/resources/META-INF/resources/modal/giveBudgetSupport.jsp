@@ -22,7 +22,7 @@
             <form id="form-give-budget-support">
                 <div class="pro-wrapper">
                 
-                	<!-- Champs : nom, prÃÂ©nom, date de naissance -->
+                	<!-- Champs : nom, prenom, date de naissance -->
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" id="supportUsername"
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise ÃÂ  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise ÃÂÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="supportsave-info" value="save-info">
@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 
-                <!-- Champ cachÃÂ© : ID -->
+                <!-- Champ cache : ID -->
                 <input type="hidden" id="<portlet:namespace />entryId" name="entryId" value="${entryId}"/>
                 
                 <!-- Alert d'erreur -->
@@ -306,12 +306,6 @@
             isValid = false;
         } else $("#"+namespace+"supportCity").css({ "box-shadow" : "" });
 
-        if (city.toLowerCase()!=="strasbourg") {
-            $("#supportAlertCity").removeClass("hidden");
-            $("#"+namespace+"supportCity").css({ "box-shadow" : "0 0 10px #CC0000" });
-            isValid = false;
-        } else $("#supportAlertCity").addClass("hidden");
-
      	// Champ : adresse
         if (address==null || address=="") {
             $("#"+namespace+"supportAddress").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -327,12 +321,6 @@
             alert("Merci de respecter la syntaxe d'un code postal");
             isValid = false;
         } else $("#"+namespace+"supportPostalCode").css({ "box-shadow" : "" });
-
-        if (postalcode!=="67000" && postalcode!=="67100" && postalcode!=="67200") {
-            $("#supportAlertPostalCode").removeClass("hidden");
-            $("#"+namespace+"supportPostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            isValid = false;
-        } else $("#supportAlertPostalCode").addClass("hidden");
 
         if (!legalAge)
         	isValid = false;
@@ -422,7 +410,7 @@
                                 	// Affichage dans tous les cas du boutons de retrait
                                 	$("[href='#RemoveSupport']").show();
                                 }
-                             	
+                                resetValues();
                              	// Modal de confirmation de succes
                                 $('#modalConfirmSupport').modal('show');
                             }
@@ -482,6 +470,8 @@
 	                           	// Affichage dans tous les cas d'ajout
 	                           	$("[href='#Support']").show();
 							}
+                        	
+                           resetValues();
                         	
                         	// Modal de confirmation de succes
 							$('#modalConfirmSupport').modal('show');
