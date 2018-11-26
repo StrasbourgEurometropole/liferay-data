@@ -116,7 +116,7 @@ public class SignPetitionActionCommand implements MVCActionCommand {
             		"" + this.postalcode, 
             		this.city, 
             		dateNaiss, 
-            		this.phone, 
+            		this.phone,
             		this.mobile
             );
         }

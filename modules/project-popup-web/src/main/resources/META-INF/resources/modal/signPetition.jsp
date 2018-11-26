@@ -8,6 +8,18 @@
 	<portlet:param name="cmd" value="signPetition" />
 </portlet:actionURL>
 
+<%-- Composant : definit la liste des messages d'erreur 
+(voir methode "validate") --%>
+<liferay-ui:error key="unfound-petition-error" message="unfound-petition-error" />
+<liferay-ui:error key="unfound-user-error" message="unfound-user-error" />
+<liferay-ui:error key="is-banned-error" message="is-banned-error" />
+<liferay-ui:error key="pact-unsigned-error" message="pact-unsigned-error" />
+<liferay-ui:error key="user-already-sign-error" message="user-already-sign-error" />
+<liferay-ui:error key="unfound-sign-error" message="unfound-sign-error" />
+<liferay-ui:error key="birthday-error" message="birthday-error" />
+<liferay-ui:error key="city-error" message="city-error" />
+<liferay-ui:error key="legalage-error" message="legalage-error" />
+
 <!-- HTML pour la modal d'une petition -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
     <div class="modal-dialog" role="document">
