@@ -237,20 +237,6 @@
 
         if (!result)
             $("#signalert").removeClass("hidden");
-        else $("#signalert").addClass("hidden");
-        if (signCity.toLowerCase()!=="strasbourg"){
-            $("#signalertcity").removeClass("hidden");
-            $("#"+namespaceSign+"signcity").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        } else $("#signalertcity").addClass("hidden");
-
-        if (signPostalcode!=="67000"
-            &&signPostalcode!=="67100"
-            &&signPostalcode!=="67200"){
-            $("#signalertPostalCode").removeClass("hidden");
-            $("#"+namespaceSign+"signpostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        } else $("#signalertPostalCode").addClass("hidden");
 
         if(age<16){
             $("#signalertLegalage").removeClass("hidden");
