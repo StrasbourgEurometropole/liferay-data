@@ -1,6 +1,8 @@
 <%@ include file="/project-popup-init.jsp" %>
+
 <portlet:resourceURL id="fileBudget" var="fileBudgetURL">
 </portlet:resourceURL>
+
 <!-- DEPOSER UN NOUVEAU BUDGET -->
 <!-- HTML pour la modal de budget -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalBudget" tabindex="-1" role="dialog" aria-labelledby="modalProjet">
@@ -296,6 +298,7 @@
                                             saved_mobile = $("#"+namespace+"mobile").val();
                                     }
                                     $('#modalConfirmerBudget').modal('show');
+                                    resetValues();
                                 }else{
                                     $("#modalErrorBudget h4").text(data.message);
                                     $('#modalErrorBudget').modal('show');
@@ -349,7 +352,7 @@
     function checkValues(){
         if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
         $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
-        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
+        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile) {
             $('#checkboxSaveInfo #save-info').prop('checked', true);
             $('#checkboxSaveInfo').show();
         }else{
@@ -377,7 +380,6 @@
             $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
             }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
-
         }
 
         if (budgettitle===null || budgettitle===""){
@@ -419,6 +421,7 @@
         if (!result)
             $("#sendalert").removeClass("hidden");
         else $("#sendalert").addClass("hidden");
+        
         return result;
     }
 </script>
