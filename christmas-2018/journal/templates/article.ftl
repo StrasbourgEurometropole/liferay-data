@@ -4,7 +4,7 @@
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <!-- Détail article -->
-<div class="mns-fck text-center container mns-p50">
+<div class="mns-fck container mns-p50">
     <a href="#" class="add-favorites"
         data-type="7" 
         data-title="${title.data}" 
@@ -13,10 +13,10 @@
         data-id="${.vars['reserved-article-id'].data}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
-    <div class="col-xs-12">
+    <div class="text-center">
 	    ${catcher.data}
 	</div>
+    ${text.data}
 </div>
-${text.data}
 
 

@@ -78,7 +78,7 @@
                                 </#if>
                             </figure>
                             <p>pétition publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
-                            <p><strong>${entry.userName}</strong></p>
+                            <p><strong>${entry.getAuthorLabel()}</strong></p>
                         </div>
                     </div>
 
@@ -202,13 +202,6 @@
                                 <a href="#" class="pro-dislike" name="#IsBanned">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
-                            <#else>
-                                <a class="pro-like">
-                                    <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
-                                </a>
-                                <a class="pro-dislike">
-                                    <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
-                                </a>
                             </#if>
                         </div>
 
@@ -228,29 +221,31 @@
                                 </#if>
                             </div>
                             <div class="pro-wrapper-links-petition">
-                                <#if isUserloggedIn>
-                                    <#if isJudgeable>
-                                        <#if hasUserSigned?has_content>
-                                            <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal">
-                                                Petition signée
-                                            </a>
-                                        <#else>
-                                            <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">
-                                                Signer la pétition
-                                            </a>
-                                        </#if>
-                                    <#else>
-                                        <a id="signButton" href="#popin" class="pro-btn-yellow  ${hasUserSigned}" title="La pétition est terminée" data-toggle="modal">
-                                            <#if hasUserSigned?has_content>
-                                                Petition signée et terminée
-                                            <#else>
-                                                Vous ne pouvez plus signer
-                                            </#if>
+                                <#if isJudgeable>
+                                    <#if hasUserSigned?has_content>
+                                        <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}">
+                                            Petition signée
+                                        </a>
+                                    <#elseif isUserloggedIn && hasUserPactSign && !isUserBanned >
+                                        <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">
+                                            Signer la pétition
+                                        </a>
+                                    <#elseif !hasUserPactSign && !isUserBanned>
+                                        <a id="signButton" href="#popin" class="pro-btn-yellow" name="#Pact-sign">
+                                            Signer la pétition
+                                        </a>
+                                    <#elseif isUserBanned>
+                                        <a id="signButton" href="#popin" class="pro-btn-yellow" name="#IsBanned">
+                                            Signer la pétition
                                         </a>
                                     </#if>
                                 <#else>
-                                    <a id="signButton" href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#myModal">
-                                        Signer la pétition
+                                    <a id="signButton" href="#popin" class="pro-btn-yellow  ${hasUserSigned}" title="La pétition est terminée" data-toggle="modal">
+                                        <#if hasUserSigned?has_content>
+                                            Petition signée et terminée
+                                        <#else>
+                                            Vous ne pouvez plus signer
+                                        </#if>
                                     </a>
                                 </#if>
                                 <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
@@ -273,19 +268,24 @@
                 <div class="col-lg-10 col-lg-offset-1">
                     <h2>D’autres pétitions</h2>
                     <div class="pro-wrapper">
-                        <#if isUserloggedIn>
+                        <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
                             <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
-                        <#else>
-                            <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Déposer une pétition</a>
+                        <#elseif !hasUserPactSign>
+                            <a class="pro-btn-yellow" name="#Pact-sign">Déposer une pétition</a>
+                        <#elseif isUserBanned>
+                            <a class="pro-btn-yellow" name="#IsBanned">Déposer une pétition</a>
                         </#if>
                         <a href="${homeURL}petitions" class="pro-btn">Toutes les pétitions</a>
                     </div>
                 </div>
                 <div class="col-lg-10 col-lg-offset-1">
                     <div class="owl-carousel owl-opacify owl-theme owl-cards">
+
                         <#list suggestions as suggestion >
-                            <#-- Recuperation ddu pourcentage de signataires -->
+
+                            <#-- Recuperation du pourcentage de signataires -->
                             <#assign pourcentage = suggestion.getPourcentageSignature()/>
+
                             <div class="item pro-bloc-card-petition" data-linkall="a">
                                 <div class="pro-header-petition">
                                     <figure role="group">
@@ -314,7 +314,9 @@
                                     </div>
                                 </div>
                             </div>
+
                         </#list>
+
                     </div>
                 </div>
             </div>
@@ -358,7 +360,12 @@
         }
             
         leafletMap.addLayer(markersCluster);
-        leafletMap.fitBounds(markersCluster.getBounds());
+        
+        // Adapter le zoom si des marqueurs existent
+        if (markersCluster.getBounds().isValid()) {
+            leafletMap.fitBounds(markersCluster.getBounds());
+        }
+        
     });
 </script>
 

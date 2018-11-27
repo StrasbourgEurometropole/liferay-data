@@ -274,7 +274,11 @@
             markersCluster.addLayer(eventMarker);
 
             leafletMap.addLayer(markersCluster);
-            leafletMap.fitBounds(markersCluster.getBounds());
+            
+            // Adapter le zoom si des marqueurs existent
+            if (markersCluster.getBounds().isValid()) {
+                leafletMap.fitBounds(markersCluster.getBounds());
+            }
         }
 
     });

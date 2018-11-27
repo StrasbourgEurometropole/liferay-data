@@ -56,4 +56,6 @@
 		</div>
 	</section>
 
+<#else>
+    <div style="height:25px"><div>
 </#if>

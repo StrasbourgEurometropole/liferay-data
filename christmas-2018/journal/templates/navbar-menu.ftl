@@ -3,15 +3,15 @@
     <#assign themeDisplay = serviceContext.getThemeDisplay() />
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
     <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-    <ul id="inline-account-menu" class="unstyled">
+    <ul id="inline-account-menu" class="unstyled"> 
         <#list menuNavigation.getSiblings() as menu>
-            <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}"  <#if menu.newWindow.data == "true">target="_blank"</#if> title="${menu.data} (nouvelle fenêtre)"></a></li>
+            <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}"  <#if menu.newWindow.data == "true">target="_blank"</#if> title="${menu.data} <#if menu.newWindow.data == "true">(nouvelle fenêtre)</#if>"></a></li>
         </#list>
         <li><a href="${layoutHelper.getPublikLogoutURL(currentUrl)}" title="Se déconnecter" class="account-link logout"></a></li>
     </ul>
     <ul id="account-menu" class="unstyled" style="display: none;">
         <#list menuNavigation.getSiblings() as menu>
-            <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}"  <#if menu.newWindow.data == "true">target="_blank"</#if> title="${menu.data} (nouvelle fenêtre)">${menu.getData()}</a></li>
+            <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}"  <#if menu.newWindow.data == "true">target="_blank"</#if> title="${menu.data} <#if menu.newWindow.data == "true">(nouvelle fenêtre)</#if>">${menu.getData()}</a></li>
         </#list>
         <li><a href="${layoutHelper.getPublikLogoutURL(currentUrl)}" title="Se déconnecter" class="account-link logout">Se déconnecter</a></li>
     </ul>

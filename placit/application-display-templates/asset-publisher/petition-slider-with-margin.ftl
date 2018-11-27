@@ -35,7 +35,7 @@
                         <div class="item pro-bloc-card-petition" data-linkall="a">
                             <div class="pro-header-petition">
                                 <p>Pétition publiée par :</p>
-                                <p><strong>${entry.petitionnaireFirstname} ${entry.petitionnaireLastname}</strong></p>
+                                <p><strong>${entry.getAuthorLabel()}</strong></p>
                             </div>
                             <div class="pro-content-petition">
                                 <a href="${homeURL}detail-petition/-/entity/id/${entry.petitionId}" title="lien de la page"><h3>${entry.title}</h3></a>
@@ -59,4 +59,6 @@
 
     </section>
 
+<#else>
+    <div style="height:25px"><div>
 </#if>
