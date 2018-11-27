@@ -18,7 +18,7 @@
             <div class="col-lg-10 col-lg-offset-1">
                 <h2>Les projets citoyens</h2>
                 <div class="pro-wrapper">
-                    <a href="${homeURL}budgets-participatifs" class="pro-btn">Voir tous les projets</a>
+                    <a href="${homeURL}projets-budget-participatif" class="pro-btn">Voir tous les projets</a>
                 </div>
             </div>
 

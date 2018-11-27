@@ -1,4 +1,4 @@
-<!-- DETAIL D'UNE PETITION -->
+<#-- DETAIL D'UNE PETITION -->
 
 <#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
@@ -58,9 +58,9 @@
                         <div class="pro-wrapper-meta">
                             <div class="pro-statut"><span>${entry.getFrontStatusFR()}</span></div>
                             <div class="pro-meta">
-                                <!-- Liste des quartiers de la petition -->
+                                <#-- Liste des quartiers de la petition -->
                                 <span>${entry.getDistrictLabel(locale)}</span>
-                                <!-- Liste des thématiques de la petition -->
+                                <#-- Liste des thématiques de la petition -->
                                 <#if petitionThematics?? >
                                     <#list petitionThematics as petitionThematic >
                                         <span>${petitionThematic.getTitle(locale)}</span>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="pro-header-auteur">
-                            <figure><!-- Si une image de la petition existe -->
+                            <figure><#-- Si une image de la petition existe -->
                                 <#if entry.getImageURL()?has_content>
                                     <img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
                                 </#if>
@@ -95,13 +95,13 @@
 
                 <div class="row pro-container-detail-event">
                     <div class="col-sm-8">
-                        <!-- Test du choix du media : "true"/image, "false"/video -->
+                        <#-- Test du choix du media : "true"/image, "false"/video -->
                         <#if entry.getMediaChoice() == false && entry.getVideoUrl() != "" >
                             <div class="pro-bloc-texte pro-main-img">
                                 <div class="pro-bloc-video bloc-standard">
                                     <div class="mask-video">
                                         <figure class="o80" role="group">
-                                            <!-- Si une image existe malgrès le choix d'une vidéo pour l'affichage,
+                                            <#-- Si une image existe malgrès le choix d'une vidéo pour l'affichage,
                                             on la présente en tant qu'image de couverture  -->
                                             <#if entry.getImageURL()?has_content>
                                                 <img src="${entry.getImageURL()}" alt="Couverture de la vidéo" width="960" height="600"/>
@@ -164,10 +164,10 @@
                         </div>
                     </div>
 
-                    <!-- Blocs lateraux -->
+                    <#-- Blocs lateraux -->
                     <aside class="col-sm-4">
 
-                        <!-- Bloc : avis -->
+                        <#-- Bloc : avis -->
                         <div class="pro-push-avis">
                             <#if isJudgeable && isUserloggedIn && hasUserPactSign && !isUserBanned>
                                 <a href="#pro-approuv" class="pro-like"
@@ -212,10 +212,10 @@
                             </#if>
                         </div>
 
-                        <!-- Bloc : map -->
+                        <#-- Bloc : map -->
                         <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 
-                        <!-- Bloc : compteur -->
+                        <#-- Bloc : compteur -->
                         <div class="pro-compteur">
                             <span class="pro-compt pro-compt-six">${entry.getNombreSignatureBoard()}</span>
                             <p>Citoyens(nes) ont signé</p>
@@ -263,10 +263,10 @@
         </div>
     </div>
 
-    <!-- Recuperation des thématiques de la vidéo -->
-    <#assign suggestions = entry.getSuggestions(locale, 10) />
+    <#-- Recuperation des suggéstions de la pétition -->
+    <#assign suggestions = entry.getSuggestions(request, 10) />
 
-    <!-- Liste des thématiques de la vidéo -->
+    <#-- Liste des suggéstions -->
     <#if suggestions?size gt 0 >
         <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
             <div class="container">
@@ -284,7 +284,7 @@
                 <div class="col-lg-10 col-lg-offset-1">
                     <div class="owl-carousel owl-opacify owl-theme owl-cards">
                         <#list suggestions as suggestion >
-                            <!-- Recuperation ddu pourcentage de signataires -->
+                            <#-- Recuperation ddu pourcentage de signataires -->
                             <#assign pourcentage = suggestion.getPourcentageSignature()/>
                             <div class="item pro-bloc-card-petition" data-linkall="a">
                                 <div class="pro-header-petition">

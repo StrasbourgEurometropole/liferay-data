@@ -1,4 +1,4 @@
-<!-- DETAIL D'UN EVENEMENT -->
+<#-- DETAIL D'UN EVENEMENT -->
 
 <#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
@@ -119,15 +119,15 @@
 
                     </div>
 
-                    <!-- Fiche de l'entité -->
+                    <#-- Fiche de l'entité -->
                     <aside class="col-sm-4">
 
-                        <!-- Bloc : map -->
+                        <#-- Bloc : map -->
                         <#if eventPlaceMercators?size == 2 >
                             <div class="bloc-iframe leaflet-map" id="mapid" ></div>
                         </#if>
 
-                        <!-- Bloc : compteur de participants -->
+                        <#-- Bloc : compteur de participants -->
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.getNbEventParticipationsLabel()}</span>
                             <p>Citoyens(nes) participent à l’événement</p>
@@ -155,7 +155,7 @@
                             </#if>
                         </div>
 
-                        <!-- Bloc : contact -->
+                        <#-- Bloc : contact -->
                         <div class="pro-contact">
                             <h4>Contact</h4>
                             <p>
@@ -166,7 +166,7 @@
                             <a href="tel:${entry.phone}" title="Numéro de téléphone : ${entry.phone}">${entry.phone}</a>
                         </div>
 
-                        <!-- Bloc : reservation -->
+                        <#-- Bloc : reservation -->
                         <#if entry.bookingURL?has_content>
                             <div class="pro-ticket">
                                 <#if entry.getBookingDescription(locale)?has_content>${entry.getBookingDescription(locale)}</#if>
@@ -180,42 +180,69 @@
         </div>
     </div>
 	
-	<!-- Initialisation des class util-->
-	<#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
-	<#assign AssetVocabularyLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil"] />
-	<#assign classNameId = PortalUtil.getClassNameId("eu.strasbourg.service.agenda.model.Event") />	
-	<#assign scop = themeDisplay.getCompanyGroupId() />
-	<#assign i = 0 />
-	<#assign themeAgenda = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(scop, "Theme agenda") />
-
-	<!-- initialisation de la variable de configuration -->
-	<#assign preferencesMap = {"scopeIds": "Group_${scop}", "classNameIds" : "${classNameId}",
-	"anyAssetType" : "${classNameId}", "displayStyle" : "ddmTemplate_1864994"} />	
-
-	<!-- On suggere les event avec le meme theme agenda que l'entite affichee -->
-	<#list entry.getCategories() as cat >
-		<#if cat.getVocabularyId() == themeAgenda.getVocabularyId()>
-			<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetCategories", "queryValues${i}" : "${cat.getCategoryId()}"} >
-			<#assign i++ />
-		</#if>	
-	</#list>
+	<#-- Recuperation des suggéstions de l'event -->
+    <#assign suggestions = entry.getSuggestions(request, 10) />
 	
-	<#--
-	<#list entry.getAssetEntry().getTags() as tag >
-		<#assign preferencesMap = preferencesMap + {"queryName${i}" : "assetTags", "queryValues${i}" : "${tag.getName()}"} >
-		<#assign i++ />
-	</#list>-->
-	
-    <@liferay_portlet["runtime"]
-	defaultPreferences=freeMarkerPortletPreferences.getPreferences(preferencesMap)
-    portletProviderAction=portletProviderAction.VIEW
-    portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
-	instanceId="event${entry.eventId}"
-    />
+	<#if suggestions?size gt 0 >
+		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+			<div class="container">
 
-	
-	<#-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
+				<div class="col-lg-10 col-lg-offset-1">
+					<h2>AUTRES ÉVÈNEMENTS</h2>
+					<a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">VOIR TOUT L'AGENDA</a>
+				</div>
 
+				<div class="col-lg-10 col-lg-offset-1">
+					<div class="owl-carousel owl-opacify owl-theme owl-cards">
+						<#list suggestions as suggestion>
+																				
+							<#-- L'utilisateur participe-t-il ? -->
+							<#assign isUserPartActive = suggestion.isUserParticipates(userID)?then("active", "") />
+							
+							<a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+								<div>
+									<div class="pro-header-event">
+										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
+										<span class="pro-time"><#if suggestion.firstStartDate?has_content>Le ${suggestion.firstStartDate?string("dd MMMM yyyy")}</#if></span>
+										<p>À : ${suggestion.getPlaceAlias(locale)}</p>
+										<h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+											overflow: hidden;text-overflow: ellipsis;height: 53px">
+											${suggestion.getTitle(locale)}
+										</h3>
+									</div>
+									<div class="pro-footer-event">
+										<#if suggestion.isFinished() >
+											<span class="pro-btn-action ${isUserPartActive}">
+												Événement terminé
+											</span>
+										<#elseif hasUserPactSign && !isUserBanned>
+											<span class="pro-btn-action ${isUserPartActive}"
+												data-eventid="${suggestion.eventId}"
+												data-groupid="${suggestion.groupId}">
+												Je participe
+											</span>
+										<#elseif isUserBanned>
+											<span class="pro-btn-action" name="#IsBanned">
+												Je participe
+											</span>
+										<#else>
+											<span class="pro-btn-action" name="#Pact-sign">
+												Je participe
+											</span>
+										</#if>
+										<span class="pro-number"><strong>${suggestion.getNbEventParticipations()}</strong> Participant(s)</span>
+									</div>
+								</div>
+							</a>
+						</#list>
+					</div>
+				</div>
+
+			</div>
+		</section>
+	</#if>
+	
+				
 </div>
 
 <script>
