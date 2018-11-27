@@ -555,8 +555,12 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 	}
 	else
 	{
-		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
-		cssClassBPStatus = "pro-theme-faisable";
+		if (budgetParticipatif.hasBeenVoted) {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes ont soutenus ce projet</p>";
+        } else {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+        }
+        cssClassBPStatus = "pro-theme-faisable";
 	}
 	
     marker.bindPopup(
@@ -1053,7 +1057,11 @@ function createBudgetParticipatif(budgetParticipatif){
 	}
 	else
 	{
-		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+        if (budgetParticipatif.hasBeenVoted) {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes ont soutenus ce projet</p>";
+        } else {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+        }
 		cssClassBPStatus = "pro-theme-faisable";
 	}
 

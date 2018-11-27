@@ -237,9 +237,9 @@ public class PetitionImpl extends PetitionBaseImpl {
 
         if (status == null || status.isEmpty())
             response = false;
-        else if (COMPLETED.equals(status))
+        else if (status.equals(COMPLETED))
             response = false;
-         else if (FAILED.equals(status))
+         else if (status.equals(FAILED))
             response = false;
         return response;
     }
