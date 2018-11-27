@@ -72,7 +72,12 @@
 									<#if entry.isNotDoable()>
 										Ce projet a été étudié et déclaré non-faisable
 									<#else>
-										<strong>${entry.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet
+                                        <strong>${entry.getNbSupports()}</strong> Citoyens-nes 
+                                        <#if entry.hasBeenVoted() >
+                                            ont soutenus ce projet
+                                        <#else>
+                                            soutiennent ce projet
+                                        </#if>
 									</#if>									
 								</p>
                             </div>
@@ -86,4 +91,6 @@
         </div>
     </section>
 
+<#else>
+    <div style="height:25px"><div>
 </#if>

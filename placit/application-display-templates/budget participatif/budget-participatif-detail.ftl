@@ -160,7 +160,18 @@
 
                         <!-- Bloc : actions -->
                         <div class="pro-wrapper-aside-budget">
-                            <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet</p>
+
+                            <#if entry.isNotDoable()>
+                                Ce projet a été étudié et déclaré non-faisable
+                            <#else>
+                                <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes 
+                                    <#if entry.hasBeenVoted() >
+                                        ont soutenus ce projet
+                                    <#else>
+                                        soutiennent ce projet
+                                    </#if>
+                                </p>
+                            </#if>
 
                             <#if isVotable> <#-- Est votable -->
                                 <#if isUserloggedIn && hasUserPactSign && !isUserBanned> <#-- Utilisateur connecté et ayant signé le pacte -->
@@ -244,6 +255,7 @@
 
         leafletMap.addLayer(markersCluster);
 
+        // Adapter le zoom si des marqueurs existent
         if (markersCluster.getBounds().isValid()) {
             leafletMap.fitBounds(markersCluster.getBounds());
         }

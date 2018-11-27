@@ -34,7 +34,7 @@
                         <#-- Recuperation de la couleur hexa correspondant au type de la participation -->
                         <#assign statusColor = entry.getBudgetParticipatifStatusCategoryColor() />
 
-                        <#assign imageURL = entry.getAuthorImageURL()() />
+                        <#assign imageURL = entry.getAuthorImageURL() />
 						
 						<#if entry.isNotDoable()>
 							<#assign classFaisable = "pro-theme-non-faisable"/>
@@ -69,10 +69,15 @@
                             <div class="pro-footer-budget">
                                 <p>
 									<#if entry.isNotDoable()>
-										Ce projet a été étudié et déclaré non-faisable
-									<#else>
-										<strong>${entry.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet
-									</#if>									
+                                        Ce projet a été étudié et déclaré non-faisable
+                                    <#else>
+                                        <strong>${entry.getNbSupports()}</strong> Citoyens-nes 
+                                        <#if entry.hasBeenVoted() >
+                                            ont soutenus ce projet
+                                        <#else>
+                                            soutiennent ce projet
+                                        </#if>
+                                    </#if>      									
 								</p>
                             </div>
                         </div>
