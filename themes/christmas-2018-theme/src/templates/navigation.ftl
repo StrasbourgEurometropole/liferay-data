@@ -97,9 +97,11 @@
                         <li><a href="${nav_item.getURL()}">${nav_item.getName()}</a></li>
                     </#if>
                 </#list>
-                <li>
-                    <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
-                </li>
+                <#if themeDisplay.getLocale() == "fr_FR">
+                    <li>
+                        <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
+                    </li>
+                </#if>
             </ul>
         </div>
     </div>
