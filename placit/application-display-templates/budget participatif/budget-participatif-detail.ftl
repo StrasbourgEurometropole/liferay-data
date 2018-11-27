@@ -218,6 +218,77 @@
 
         </div>
     </div>
+	
+	<#-- Recuperation des thématiques de la vidéo -->
+    <#assign suggestions = entry.getSuggestions(request, 10) />
+	
+	<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h2>D’autres projets citoyens</h2>
+                    <div class="pro-wrapper">
+                        <a href="${homeURL}projets-budget-participatif" class="pro-btn">Tous les projets</a>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="owl-carousel owl-opacify owl-theme owl-cards">
+					
+						<#list suggestions as suggestion >
+							
+							<#-- Recuperation de la couleur hexa correspondant au type de la participation -->
+							<#assign statusColor = suggestion.getBudgetParticipatifStatusCategoryColor() />
+
+							<#assign imageURL = suggestion.getAuthorImageURL() />
+							
+							<#if suggestion.isNotDoable()>
+								<#assign classFaisable = "pro-theme-non-faisable"/>
+							<#else>
+								<#assign classFaisable = "pro-theme-faisable" />
+							</#if>
+							
+							<div class="item pro-bloc-card-budget ${classFaisable} data-linkall="a">
+								<div class="pro-header-budget">
+									<#if imageURL?has_content >
+										<figure role="group">
+											<img src="${imageURL}" width="40" height="40" alt="Image du budget participatif"/>
+										</figure>
+									</#if>
+									<p>Projet déposé par :</p>
+									<p><strong>${suggestion.getAuthor()}</strong></p>
+									<div class="pro-info-top-right">
+										<span class="pro-encart-theme" style="background : #${statusColor}">
+											${suggestion.getBudgetParticipatifStatusTitle(locale)}
+										</span>
+									</div>
+								</div>
+								<div class="pro-content-budget">
+									<a href="${homeURL}detail-budget-participatif/-/entity/id/${suggestion.budgetParticipatifId}" title="lien de la page de détail">
+										<h3>${suggestion.title}</h3>
+									</a>
+									<p>Projet adressée à <u>la ville de Strasbourg</u></p>
+									<span class="pro-time">
+										Publiée le <time datetime="${suggestion.createDate?date?string['dd/MM/yyyy']}">${suggestion.createDate?date?string['dd/MM/yyyy']}</time>
+									</span>
+								</div>
+								<div class="pro-footer-budget">
+									<p>
+										<#if suggestion.isNotDoable()>
+											Ce projet a été étudié et déclaré non-faisable
+										<#else>
+											<strong>${suggestion.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet
+										</#if>									
+									</p>
+								</div>
+							</div>						
+						</#list>
+                    </div>
+                </div>
+            </div>
+        </section>
+	
+	
 </div>
 
 <script>
