@@ -66,7 +66,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -94,6 +94,8 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		sb.append(statusDate);
 		sb.append(", commentId=");
 		sb.append(commentId);
+		sb.append(", publikId=");
+		sb.append(publikId);
 		sb.append("}");
 
 		return sb.toString();
@@ -155,6 +157,13 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 
 		signalementImpl.setCommentId(commentId);
 
+		if (publikId == null) {
+			signalementImpl.setPublikId(StringPool.BLANK);
+		}
+		else {
+			signalementImpl.setPublikId(publikId);
+		}
+
 		signalementImpl.resetOriginalValues();
 
 		return signalementImpl;
@@ -182,6 +191,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		statusDate = objectInput.readLong();
 
 		commentId = objectInput.readLong();
+		publikId = objectInput.readUTF();
 	}
 
 	@Override
@@ -226,6 +236,13 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		objectOutput.writeLong(statusDate);
 
 		objectOutput.writeLong(commentId);
+
+		if (publikId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikId);
+		}
 	}
 
 	public String uuid;
@@ -241,4 +258,5 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 	public String statusByUserName;
 	public long statusDate;
 	public long commentId;
+	public String publikId;
 }

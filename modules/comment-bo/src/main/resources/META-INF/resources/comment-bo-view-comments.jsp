@@ -87,14 +87,14 @@
 														 href="${editCommentURL}" name="comment" truncate="true" orderable="true"
 														 value="${comment.comment}" />
 				
-				<%-- Colonne : Date de modification--%>
+				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${comment.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 
-				<%-- Colonne : Statut--%>
+				<%-- Colonne : Statut --%>
 				<liferay-ui:search-container-column-text name="status" orderable="true">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${comment.status}" />
@@ -105,12 +105,12 @@
                     name="reportings" truncate="true" orderable="true" align="center"
                     value="${comment.getCountSignalements()}" />
 
-				<%-- Colonne : Type de l'entité--%>
+				<%-- Colonne : Type de l'entite --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     name="entityType" truncate="true" orderable="true"
                     value="${comment.getTypeAssetEntry()}" />
 
-				<%-- Colonne : nom de l'entité--%>
+				<%-- Colonne : nom de l'entite--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
                     name="entityName" truncate="true" orderable="true"
                     value="${comment.getAssetEntryTitle()}" />

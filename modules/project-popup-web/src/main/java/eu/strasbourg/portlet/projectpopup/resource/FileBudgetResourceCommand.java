@@ -10,10 +10,8 @@ import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -40,7 +38,6 @@ import org.osgi.service.component.annotations.Component;
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -82,7 +79,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
-    private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
     private String publikID;
@@ -94,11 +90,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private long postalcode;
     private String phone;
     private String mobile;
-    private String email;
-    private String photo;
     private String video;
     private String title;
-    private String placeText;
     private String description;
     private String lieu;
     private long projectId;
@@ -113,21 +106,23 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+        this.dateFormat = new SimpleDateFormat(PATTERN);
+        
+        // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
+        boolean savedInfo = false;
         this.message = "";
         
+        // Recuperation de l'utilsiteur Publik ayant lance la demande
         this.publikID = getPublikID(request);
         
-        this.dateFormat = new SimpleDateFormat(PATTERN);
+        // Recuperation des informations du formulaire
         this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
         this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
         this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
-        this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
@@ -135,21 +130,12 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
-        Long webImageId = ParamUtil.getLong(request, "webImageId");
         
-        boolean isValid = false;
-        try {
-            isValid = validate(request);
-        } catch (PortalException e) {
-            _log.error(e);
-            throw new PortletException(e);
-        }
-        if (!isValid && this.message.isEmpty())
-            this.message = LanguageUtil.get(originalRequest, "general-error");
-
-        boolean savedInfo = false;
-        if (this.message.isEmpty()) {
-            savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+        // Verification de la validite des informations
+        if (validate(request)) {
+        
+        	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
+        	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
                 String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
@@ -164,10 +150,12 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
                         this.mobile
                 );
             }
+            
+         	// Envoi de la demande
             result = sendBudget(request);
         }
         
-        // Récupération du json des entités
+        // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
         jsonResponse.put("message", this.message);
@@ -245,7 +233,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     }
 
     /**
-     * méthode permettant de récuperer l'image uploadée par l'utilisateur.
+     * Recuperer l'image uploadée par l'utilisateur.
      *
      * @param budgetParticipatif le budget participatif correspondant.
      * @param request            la request
@@ -261,7 +249,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         if (validateFileName(request)) {
-            File budgetPhoto = uploadRequest.getFile("budgetPhoto");
+            File budgetPhoto = uploadRequest.getFile(PHOTO);
             _log.info("budgetPhoto : [" + budgetPhoto + "]");
             if (budgetPhoto != null && budgetPhoto.exists()) {
                 _log.info("Going to write the file contents");
@@ -300,8 +288,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean validate(ResourceRequest request) throws PortalException {
-        boolean isValid = true;
+    private boolean validate(ResourceRequest request) {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
@@ -314,45 +301,59 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         		this.message = "Vous ne pouvez soutenir ce projet";
         		return false;
         	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour soutenir ce projet";
+        		this.message = "Vous devez signer le Pacte pour soumettre un projet";
         		return false;
         	}
         }
         
         // title
         if (Validator.isNull(this.title)) {
-            isValid = false;
+        	this.message = "Titre non valide";
+            return false;
         }
 
         // description
         if (Validator.isNull(this.description)) {
-            isValid = false;
+        	this.message = "Description non valide";
+            return false;
         }
 
         // birthday
         if (Validator.isNull(this.birthday)) {
-            isValid = false;
+        	this.message = "Date de naissance non valide";
+            return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            isValid = false;
+        	this.message = "Ville non valide";
+            return false;
         }
 
         // address
         if (Validator.isNull(this.address)) {
-            isValid = false;
+        	this.message = "Adresse non valide";
+        	return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            isValid = false;
+        	this.message = "Code postal non valide";
+            return false;
         }
 
-        if (!validateFileName(request))
-            isValid = false;
+        try {
+			if (!validateFileName(request)) {
+				this.message = "Nom du fichier de l'image non valide";
+			    return false;
+			}
+		} catch (PortalException e) {
+			_log.error(e);
+			this.message = "Erreur lors de la lecture de du fichier de l'image";
+		    return false;
+		}
 
-        return isValid;
+        return true;
     }
 
 }

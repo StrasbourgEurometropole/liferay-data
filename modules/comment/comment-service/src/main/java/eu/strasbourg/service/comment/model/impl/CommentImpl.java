@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  */
 @ProviderType
 public class CommentImpl extends CommentBaseImpl {
-
+	
 	private static final long serialVersionUID = 6922508470027188080L;
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	/*

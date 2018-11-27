@@ -639,6 +639,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne le nom de du depositaire sous forme "Truc M."
+	*/
+	@Override
+	public java.lang.String getAuthorLabel() {
+		return _petition.getAuthorLabel();
+	}
+
+	/**
 	* Returns the consultation places body of this petition.
 	*
 	* @return the consultation places body of this petition

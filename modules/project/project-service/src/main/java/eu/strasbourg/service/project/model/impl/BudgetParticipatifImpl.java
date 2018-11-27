@@ -523,7 +523,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     public JSONObject toJSON(String publikUserId) {
     	
-        // Initialisation des variables tempons et résultantes
+        // Initialisation des variables tempons et resultantes
         JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -538,15 +538,17 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonBudget.put("isCrush", this.getIsCrush());
         jsonBudget.put("BPStatusColor", this.getBudgetParticipatifStatusCategoryColor());
+        jsonBudget.put("hasBeenVoted", this.hasBeenVoted());
+        jsonBudget.put("hasBeendEvaluated", this.hasBeenEvaluated());
         jsonBudget.put("isNotDoable", this.isNotDoable());
         
-        // Champs : Catégorisations
+        // Champs : Categorisations
         jsonBudget.put("BPStatus", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudgetParticipatifStatusTitle(Locale.FRENCH))));
         jsonBudget.put("districtsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonBudget.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
         jsonBudget.put("projectName", this.getProjectName());
         
-        // Champs : Intéractivités
+        // Champs : Interactivités
         jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
         jsonBudget.put("nbSupports", this.getNbSupports());
 

@@ -58,6 +58,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -522,7 +523,17 @@ public class PetitionImpl extends PetitionBaseImpl {
 
         return result;
     }
-
+    
+    /**
+     * Retourne le nom de du depositaire sous forme "Truc M."
+     */
+    @Override
+    public String getAuthorLabel() {
+    	return StringUtil.upperCaseFirstLetter(this.getPetitionnaireFirstname())
+				+ " "
+				+  StringUtil.toUpperCase(StringUtil.shorten(this.getPetitionnaireLastname(), 2, "."));
+    }
+    
     /**
      * méthode de récupération du status
      *
@@ -621,13 +632,14 @@ public class PetitionImpl extends PetitionBaseImpl {
         
         jsonPetition.put("imageURL", this.getImageURL());
         jsonPetition.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
+        jsonPetition.put("author", this.getAuthorLabel());
         jsonPetition.put("nbApprovedComments", this.getNbApprovedComments());
         jsonPetition.put("frontStatusFR", this.getFrontStatusFR());
         jsonPetition.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonPetition.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonPetition.put("proDureeFR", this.getProDureeFR());
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
-        jsonPetition.put("nombreSignature", this.getNombreSignature());
+        jsonPetition.put("nombreSignature", this.getNombreSignature()); 
         jsonPetition.put("quotaSignature", this.getQuotaSignature());
         jsonPetition.put("projectTitle",this.getProjectTitle(Locale.FRANCE));
 

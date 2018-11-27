@@ -116,7 +116,7 @@
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
 
-				<aui:input name="consultationPlacesText" required="false" />
+				<aui:input name="consultationPlacesText" label="place-text-area" required="false" />
 
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">

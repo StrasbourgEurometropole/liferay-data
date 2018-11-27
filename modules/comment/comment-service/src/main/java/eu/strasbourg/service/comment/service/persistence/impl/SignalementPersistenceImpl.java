@@ -2939,6 +2939,7 @@ public class SignalementPersistenceImpl extends BasePersistenceImpl<Signalement>
 		signalementImpl.setStatusByUserName(signalement.getStatusByUserName());
 		signalementImpl.setStatusDate(signalement.getStatusDate());
 		signalementImpl.setCommentId(signalement.getCommentId());
+		signalementImpl.setPublikId(signalement.getPublikId());
 
 		return signalementImpl;
 	}

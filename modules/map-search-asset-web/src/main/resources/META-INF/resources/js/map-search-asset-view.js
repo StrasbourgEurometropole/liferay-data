@@ -410,13 +410,22 @@ $('#district').change(function() {
 	refreshEntitiesSelectionByDistrict(selectedDistrictId, false);
 });
 
-/**budge
+/**
  * Lors d'un acordeonage ou desacordeaonage d'une liste
  */
 $("input[id$='_printator_mk1']").change(function() {
 	var selectedEntity = this.value;
 	
 	updateMarkerElements(selectedEntity);
+});
+
+/**
+ * Lors du clic sur un span "Tout effacer"
+ */
+$(".pro-remove-chk").click(function() {
+	var selectedEntity = $(this).parent().siblings("input[id$='_printator_mk1']").val();
+	
+	removeMarkerElements(selectedEntity);
 });
 
 /**
