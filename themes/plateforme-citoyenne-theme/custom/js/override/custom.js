@@ -1094,7 +1094,7 @@ function createBudgetParticipatif(budgetParticipatif){
                 '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
                 spans +
                 '<div class="pro-info-top-right">' +
-                    '<span class="pro-encart-theme">' + budgetParticipatif.BPStatus + '</span>' +
+                    '<span class="pro-encart-theme" style="background : #' + budgetParticipatif.BPStatusColor + ';" >' + budgetParticipatif.BPStatus + '</span>' +
                     '<span>' + budgetParticipatif.nbApprovedComments + '</span>' +
                     '<p>Commentaire(s)</p>' +
                 '</div>' +
