@@ -439,6 +439,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	*/
+	@Override
+	public boolean isNotDoable() {
+		return _budgetParticipatif.isNotDoable();
+	}
+
+	/**
 	* Returns <code>true</code> if this budget participatif is pending.
 	*
 	* @return <code>true</code> if this budget participatif is pending; <code>false</code> otherwise
@@ -582,6 +590,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getAuthor() {
 		return _budgetParticipatif.getAuthor();
+	}
+
+	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _budgetParticipatif.getAuthorImageURL();
 	}
 
 	@Override
@@ -754,6 +770,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getProjectName() {
 		return _budgetParticipatif.getProjectName();
+	}
+
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _budgetParticipatif.getPublicationDateFr();
 	}
 
 	/**
@@ -1067,6 +1088,20 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void persist() {
 		_budgetParticipatif.persist();
+	}
+
+	/**
+	* Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+	*
+	* @param budgetParticipatif
+	* @param status
+	*/
+	@Override
+	public void setBPStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		eu.strasbourg.service.project.constants.ParticiperCategories status,
+		long groupID) {
+		_budgetParticipatif.setBPStatus(budgetParticipatif, status, groupID);
 	}
 
 	/**

@@ -39,6 +39,14 @@
 									<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
 								</c:when>
 							</c:choose>
+							<c:if test="${(dc.total lt 3 and index eq 0)}">
+								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
+									<liferay-portlet:runtime
+						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						            instanceId="first-wc-display" />
+						        </div>
+							</c:if>
+
 							<liferay-ddm:template-renderer
 							    className="${className}"
 							    contextObjects="${dc.getTemplateContextObjects(entry)}"
@@ -56,21 +64,27 @@
 								
 								
 							</liferay-ddm:template-renderer>
-							  
-							<c:if test="${(dc.entriesCount gt 6 and index eq 4) or (dc.entriesCount gt 3 and dc.entriesCount lt 7 and index eq (dc.entriesCount - 4)) or (dc.entriesCount lt 4 and index eq 0) }">
+							<c:if test="${(dc.total gt 2 and dc.total lt 6 and index eq 1) or (dc.total gt 5 and index eq 4) }">
 								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;"> 
 									<liferay-portlet:runtime
 						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 						            instanceId="first-wc-display" />
 						        </div>
 							</c:if>
-							<c:if test="${(dc.entriesCount gt 7 and index eq 7) or (dc.entriesCount lt 8 and index eq (dc.entriesCount - 1)) }">
-								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;"> 
+							<c:if test="${(dc.total eq 1 and index eq 0) or (dc.total gt 1 and dc.total lt 10 and index eq (dc.total - 2)) or (dc.total gt 9 and index eq 7) }">
+								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
 									<liferay-portlet:runtime
 						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 						            instanceId="second-wc-display" />
 						        </div>
-							</c:if>						
+							</c:if>
+							<c:if test="${(dc.total lt 3 and index eq (dc.total - 1)) or (dc.total gt 2 and dc.total lt 10 and index eq (dc.total - 1)) or (dc.total gt 9 and index eq 8) }">
+								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
+									<liferay-portlet:runtime
+						            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						            instanceId="third-wc-display" />
+						        </div>
+							</c:if>
 							
 					</liferay-ui:search-container-row>
 				</div>

@@ -66,20 +66,23 @@
         }
         &--core{
             @extend %atom-btn-square--filled;            
-            border-color: $c_main;
-            background-color: $c_main;
+            border-color: black;
+            background-color: black;
             &:before{
-                background-color: #FFFFFF;
+                background-color: $c_main;
             }
             .btn-text{
                 color: #FFFFFF;
+                font-weight: 700;
+                font-size: 1.6rem;
+                text-transform: none;
             }  
             .btn-arrow{
                 background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
             }
             &:hover, &:focus{
                 .btn-text{
-                    color: $c_main;
+                    color: white;
                 }
                 .btn-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, $c_main) );

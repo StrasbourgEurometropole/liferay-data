@@ -520,7 +520,7 @@ function getPetitionMarker(petition, mercators) {
             '</div>' +
             '<div class="pro-content-petition">' +
                 '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + 
+                '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + 
                 '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
@@ -544,25 +544,38 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 
     var budgetParticipatifMarkerIcon = getMarkerIcon("budget-participatif");
     var marker = L.marker(mercators, {icon: budgetParticipatifMarkerIcon});
-
+	
+	var footer = "";
+	var cssClassBPStatus = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
+	
     marker.bindPopup(
-        '<div class="item pro-bloc-card-budget pro-theme-faisabilite">' +
+        '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '">' +
             '<a href="' + budgetParticipatif.link + '">' +
                 '<div class="pro-header-budget">' +
                     '<figure role="group">' + 
-                        '<img src="' + budgetParticipatif.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' + 
+                        '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' + 
                     '</figure>' +
-                    '<p>Idée déposée par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
+                    '<p>Projet déposé par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
                     '<div class="pro-info-top-right">' + 
                         '<span class="pro-encart-theme" style="background:#' + budgetParticipatif.BPStatusColor + ';">' + budgetParticipatif.BPStatus + '</span>' + 
                     '</div>' + 
                 '</div>' +
                 '<div class="pro-content-budget">' + 
                     '<h3>' + budgetParticipatif.title + '</h3>' + 
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' + 
+                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' + 
                 '</div> ' +            
-                '<div class="pro-footer-budget">' + 
-                    '<p><strong>' + budgetParticipatif.nbSupports + '</strong> Citoyens-nes soutiennent cette idée</p>' +
+                '<div class="pro-footer-budget">' + footer +                    
                 '</div>' +
             '</a>' +
         '</div>'
@@ -1002,14 +1015,13 @@ function createPetition(petition){
                     '<!-- Liste des thématiques de la Petition -->';
                     for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
                         vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
-
                     }
     vignette +=
-                    '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' +
+                    (typeof petition.jsonProjectCategoryTitle["fr_FR"] != 'undefined' ? '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' : '') + 
                 '</div>' +
             '</div>' +
             '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
-            '<span class="pro-time">Publiée le <time datetime="' + petition.createDate + '">' + petition.createDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+            '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
         '</div>' +
         '<div class="pro-footer-petition">' +
             '<div class="pro-progress-bar">' +
@@ -1032,18 +1044,18 @@ function createBudgetParticipatif(budgetParticipatif){
 
     // Classe CSS du statut du budget
     var cssClassBPStatus = "";
-
-    switch (budgetParticipatif.BPStatus) {
-        case "Faisable" :
-            cssClassBPStatus = "pro-theme-faisable";
-            break;
-        case "Non faisable" :
-            cssClassBPStatus = "pro-theme-non-faisable";
-            break;
-        default :
-            cssClassBPStatus = "pro-theme-faisabilite";
-            break;
-    }
+	var footer = "";
+	
+	if(budgetParticipatif.isNotDoable)
+	{
+		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		cssClassBPStatus = "pro-theme-non-faisable";
+	}
+	else
+	{
+		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		cssClassBPStatus = "pro-theme-faisable";
+	}
 
     // Favori du quartier
     var crush = "";
@@ -1065,12 +1077,12 @@ function createBudgetParticipatif(budgetParticipatif){
     spans += '</div>';
 
     var vignette =
-        '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '" data-linkall="a">' +
+        '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
             '<div class="pro-header-budget">' +
                 '<figure role="group">' +
-                    '<img src="' + budgetParticipatif.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+                    '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
                 '</figure>' +
-                '<p>Idée déposée par :</p>' +
+                '<p>Projet déposé par :</p>' +
                 '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
                 spans +
                 '<div class="pro-info-top-right">' +
@@ -1081,11 +1093,10 @@ function createBudgetParticipatif(budgetParticipatif){
                 crush +
             '</div>' +
             '<div class="pro-content-budget">' +
-                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien de le détail du budget"><h3>' + budgetParticipatif.title + '</h3></a>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.createDate + '</time></span>' +
+                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
+                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' +
             '</div>' +
-            '<div class="pro-footer-budget">' +
-                '<p><strong>' + budgetParticipatif.nbSupports + '</strong> Citoyens-nes soutiennent cette idée</p>' +
+            '<div class="pro-footer-budget">' + footer +
             '</div>' +
         '</div>';
 

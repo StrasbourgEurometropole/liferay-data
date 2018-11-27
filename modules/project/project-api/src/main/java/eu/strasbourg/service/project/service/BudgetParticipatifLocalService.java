@@ -275,6 +275,10 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	public List<BudgetParticipatif> findByKeyword(java.lang.String keyword,
 		long groupId, int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(
+		java.lang.String publikId);
+
 	/**
 	* Returns a range of all the budget participatifs.
 	*

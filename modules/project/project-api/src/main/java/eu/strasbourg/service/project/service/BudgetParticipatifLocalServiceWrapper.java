@@ -326,6 +326,12 @@ public class BudgetParticipatifLocalServiceWrapper
 			start, end);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetParticipatifByPublikUserID(
+		java.lang.String publikId) {
+		return _budgetParticipatifLocalService.getBudgetParticipatifByPublikUserID(publikId);
+	}
+
 	/**
 	* Returns a range of all the budget participatifs.
 	*

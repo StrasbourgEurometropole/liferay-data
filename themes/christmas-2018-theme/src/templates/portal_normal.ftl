@@ -20,9 +20,15 @@
     <link href="/o/christmas-2018-theme/css/style.css" rel="stylesheet">
 
   <script>
+    <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+    window.homeURL = '${homeURL}';
+    window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}';
+
+
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
       <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.publikInternalId = '${request.session.getAttribute("publik_internal_id")}';
       window.userFavorites = [
         <#list favorites as favorite>
           {
@@ -54,7 +60,7 @@
             <div>
                 <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/christmas-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
             </div>
-            <div>
+            <div class="menu">
                 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
                 <#if request.session.getAttribute("publik_logged_in")!false>
                   <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
@@ -67,7 +73,7 @@
                                 <span class="notif-amount">${notifCount}</span>
                             </#if>
                         </span>
-                        <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none;" title="<@liferay_ui.message key='eu.dashboard' />">
+                        <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none; width: auto;" title="<@liferay_ui.message key='eu.dashboard' />" class="connect">
                           <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
                         </a>
                         <span class="arrow" style="display: none;"></span>
@@ -79,9 +85,9 @@
                       portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
                       instanceId="loggedinmenu"
                       settingsScope="group" />
-                  </div>
+                    </div>
                 <#else>
-                  <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay_ui.message key='eu.login.strasbourg' />">
+                  <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
                     <span class="flexbox">
                       <span class="picto"></span>
                       <span class="text"><@liferay_ui.message key='eu.login.strasbourg' /></span>

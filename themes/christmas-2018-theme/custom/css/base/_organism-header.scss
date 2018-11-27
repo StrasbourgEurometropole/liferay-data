@@ -1,0 +1,405 @@
+#mns-header{
+
+    .flexbox{
+        display: flex;
+        align-items: center;
+        height: 100%;
+        text-decoration: none;
+
+        @include mobile{
+            justify-content: center;
+        }
+
+        .picto{
+            position: relative;
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url( svg-bg-uri($svg-account, $c_main) );
+            background-size: 20px;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+            @include tablet_portrait{
+                margin: 0;
+            }
+
+            .notif-amount{
+                position: absolute;
+                top: -7px;
+                right: -7px;
+                width: auto;
+                padding: 0 3px;
+                height: 18px;
+                color: #fff;
+                border-radius: 50%;
+                font-size: 1.1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: $c_main;
+            }
+        }
+
+        .text{
+            line-height: 1;
+            color: $c_main;
+
+            @include tablet_portrait{
+                display: none;
+            }
+            position: relative;
+            &:after{
+                background-color: #505050;
+            }
+        }
+
+        a{
+            border: none !important;
+            padding: 0px !important;
+        }
+
+        .arrow{
+            content: '';
+            @include tablet_portrait {
+                display: inline-block !important;
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+            width: 17px;
+            height: 17px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+            background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
+            transform: rotate(90deg);
+            margin-left: 20px;
+            transition: all, 0.5s;
+        }
+        &:hover, &:focus{
+            .picto{
+                background-image: url( svg-bg-uri($svg-account, $c_main) );
+
+                .notif-amount{
+                    color: $c_main;
+                }
+            }
+
+            .text{
+                color: $c_main;
+            }
+
+            .arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
+                transform:  translateY(3px) rotate(90deg);
+            }
+        }
+    }
+
+    a.connect {
+        font-family: $f_txt !important;
+        font-size: $g !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+
+        .text:after{
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            transition: all, 0.3s;
+            position: absolute;
+            transform: translateY(10px);
+            opacity: 0;
+            top: calc(100% + 3px);
+        }
+
+        &:hover{
+            .text:after{
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    }
+
+    .nav-btn{
+        padding: 0 25px;
+        display: inline-flex;
+        position: relative;
+        vertical-align: middle;
+        border-left: 1px solid #7C7C7C;
+        background-color: #262626;
+
+        @include mobile{
+            padding: 0 5px;
+            float: left;
+            margin: 13px auto;
+        }
+
+        button{
+            background: none;
+            border: none;
+            padding: 0px;
+        }
+
+        .portlet-journal-content {
+            display: inline-block;
+            height: 100%;
+            min-height: 0px;
+            vertical-align: top;
+            
+            section.portlet {
+                display: inline-block;
+                vertical-align: middle;
+                @include tablet_portrait{
+                    .portlet-content-editable{
+                        border: none;
+                    }
+                }
+
+                ul {
+                    display: flex;
+
+                    &#inline-account-menu {
+                        height: 23px;
+                        margin-left: 20px;
+                        margin-bottom: 0px;
+                        padding : 0px;
+                        padding-right: 4px;
+                        position: static;
+
+                        @include tablet_portrait{
+                            display: none;
+                        }
+
+                        li{
+                            padding: 0px;
+                            position: static;
+
+                            .account-link {
+                                border: none;
+                                padding: 0px;
+                                paddinf-right: 2px;
+
+                                &.logout {
+                                    margin-left: 30px;
+                                }
+
+                                &:before{
+                                    content: '';
+                                    display: inline-block;
+                                    width: 23px;
+                                    height: 23px;
+                                    background-size: contain;
+                                    background-position: center;
+                                    background-repeat: no-repeat;
+                                    margin-right: 15px;
+                                }
+                                &.dashboard:before{
+                                    background-image: url( svg-bg-uri($svg-dashboard, $c_main) );
+                                }
+                                &.account:before{
+                                    background-image: url( svg-bg-uri($svg-account, $c_main) );
+                                }
+                                &.notification:before{
+                                    background-image: url( svg-bg-uri($svg-notification, $c_main) );
+                                }
+                                &.logout:before{
+                                    background-image: url( svg-bg-uri($svg-close, $c_main) );
+                                }
+                                &:hover, &:focus{
+                                    &.dashboard:before{
+                                        background-image: url( svg-bg-uri($svg-dashboard, $c_main) );
+                                    }
+                                    &.account:before{
+                                        background-image: url( svg-bg-uri($svg-account, $c_main) );
+                                    }
+                                    &.notification:before{
+                                        background-image: url( svg-bg-uri($svg-notification, $c_main) );
+                                    }
+                                    &.logout:before{
+                                        background-image: url( svg-bg-uri($svg-close, $c_main) );
+                                    }
+                                }
+                            }
+                        }
+
+                        li:last-child {
+                            max-width: 40px;
+                        }
+                    }
+
+                    &#account-menu{
+                        position: absolute;
+                        top: 23px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 100%;
+                        min-width: 250px;
+                        background-color: #FFFFFF;
+                        padding: 15px 15px 25px 15px;
+                        border-bottom-left-radius: 7px;
+                        border-bottom-right-radius: 7px;
+                        display: none;
+                        z-index: 1;
+
+                        @include not_tablet_portrait{
+                            display: none !important;
+                        }
+
+                        @include mobile{
+                            top: 10px;
+                        }
+
+                        li{
+                            margin: 0px;
+
+                            .account-link{
+                                display: flex;
+                                align-items: center;
+                                font-size: 1.5rem;
+                                color: #505050 !important;
+                                font-weight: 400;
+                                font-family: $f_txt;
+                                letter-spacing: 0.03em;
+                                border: none;
+                                padding: 0;
+                                padding-left: 2px;
+                                width: 100%;
+                                &:before{
+                                    content: '';
+                                    display: inline-block;
+                                    width: 23px;
+                                    height: 23px;
+                                    background-size: contain;
+                                    background-position: center;
+                                    background-repeat: no-repeat;
+                                    margin-right: 15px;
+                                }
+                                &.dashboard:before{
+                                    background-image: url( svg-bg-uri($svg-dashboard, #505050) );
+                                }
+                                &.account:before{
+                                    background-image: url( svg-bg-uri($svg-account, #505050) );
+                                }
+                                &.notification:before{
+                                    background-image: url( svg-bg-uri($svg-notification, #505050) );
+                                }
+                                &.logout:before{
+                                    background-image: url( svg-bg-uri($svg-close, #505050) );
+                                }
+                            }
+                        }
+
+                        li + li{
+                            margin-top: 20px;
+                            &:first-child{
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            &:before {
+                height: 100%;
+                content: "";
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+        &:hover, &:focus{
+            text-decoration: none;
+
+            section.portlet #account-menu {
+                display: none;
+
+                @include mobile {
+                    display: block !important;
+                }
+            }
+        }
+    }
+
+    .mns-top-header{
+        .menu{
+            display: inline-flex; 
+            justify-content: flex-end;
+            position: relative;
+
+            a.connect {
+                background-color: #262626;
+            }
+        }
+    }
+
+    nav{
+        a.connect {
+            float: right;
+            position: relative;
+            margin-top: 15px;
+            top: 15px;
+            display: none;
+            @include mobile{
+                display: block;
+            }
+        }
+
+
+        .flexbox{
+            .picto{
+                background-image: url( svg-bg-uri($svg-account, black) );
+
+                .notif-amount{
+                    color: black;
+                }
+            }
+
+            .text{
+                color: black;
+            }
+
+            a{
+                display: none;
+            }
+
+            .arrow{
+                display: inline-block !important;
+                margin-left: 5px;
+                background-image: url( svg-bg-uri($svg-arrow1, black) );
+            }
+
+            &:hover, &:focus{
+                .picto{
+                    background-image: url( svg-bg-uri($svg-account, black) );
+
+                    .notif-amount{
+                        color: black;
+                    }
+                }
+
+                .text{
+                    color: black;
+                }
+
+                .arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, black) );
+                    transform:  translateY(3px) rotate(90deg);
+                }
+            }
+        }
+
+        .nav-btn{
+            float: right;
+            margin-top: 15px;
+            top: 15px;
+            background: none;
+            border: none;
+            display: none;
+            @include mobile{
+                display: block;
+            }
+        }
+    }
+}

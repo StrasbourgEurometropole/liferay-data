@@ -6,16 +6,16 @@
 // Base Styles
 //=====================================
 @import "base/_svg-factory";
+@import "base/_t_mixins";
 @import "base/_atom-btn-square";
 @import "base/_grids-distribution";
-@import "base/_media-queries";
+@import "base/_organism-header";
 @import "base/_quark-animation-hoverBar";
 @import "base/_round-decimal";
 @import "base/_t_base";
 @import "base/_t_favorites";
 @import "base/_t_grid";
 @import "base/_t_libs";
-@import "base/_t_mixins";
 @import "base/_t_text";
 
 
@@ -27,7 +27,6 @@
 @import "libs/_pikaday";
 @import "libs/_selectric";
 @import "libs/_t_object-fit";
-@import "libs/_svg-factory.scss";
 
 
 // Style Header + Footer + Éléments communs du site

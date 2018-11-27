@@ -14,6 +14,14 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -33,8 +41,10 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetParticipatifModel;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.PlacitPlace;
@@ -43,14 +53,6 @@ import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * The implementation of the budget participatif local service.
@@ -193,31 +195,17 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         } else {
             budget.setStatus(WorkflowConstants.STATUS_DRAFT);
         }
-        updateCategory(sc, budget);
+        
+        //Dans le cas d'un dépot de projet par un citoyen, on force le statut à déposé
+	    if(budget.getAssetEntry() == null)    
+	    	addCategoryDepose(sc);
+        
         updateBudgetParticipatif(budget);
         updateAssetEntry(budget, sc);
         reindex(budget, false);
         return budget;
     }
 
-    /**
-     * méthode permettant de mettre à jour la catégory d'un budget
-     *
-     * @param sc                 le service context
-     * @param budgetParticipatif le budget
-     * @throws PortalException l'exception
-     */
-    private void updateCategory(ServiceContext sc, BudgetParticipatif budgetParticipatif) throws PortalException {
-
-        AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-                BudgetParticipatif.class.getName(), budgetParticipatif.getBudgetParticipatifId());
-        if (entry != null) {
-            List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry, VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
-            if (categories.isEmpty()) {
-                addCategoryDepose(sc);
-            }
-        } else addCategoryDepose(sc);
-    }
 
     /**
      * méthode permettant d'ajouter la catégory déposé sur un nouveau budget
@@ -517,6 +505,13 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         assetEntryLocalService.updateAssetEntry(entry);
         reindex(budgetParticipatif, false);
         return budgetParticipatif;
+    }
+    
+    public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(String publikId){
+        List<BudgetParticipatif> bpList = budgetParticipatifPersistence.findByPublikId(publikId);
+        return bpList.stream()
+                .filter(BudgetParticipatifModel::isApproved)
+                .collect(Collectors.toList());
     }
 
 }

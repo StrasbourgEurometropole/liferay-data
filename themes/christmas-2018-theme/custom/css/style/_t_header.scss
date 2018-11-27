@@ -91,9 +91,9 @@
 					font-weight: 400;
 					text-transform: none;
 					&.mns-w-fixe-2 {
-						width: calc(100% - 150px);
+						width: calc(100% - 190px);
 						text-align: left;
-						padding-left: 30px;
+    					padding-left: 30px;
 					}
 					&.active-lang {
 						font-weight: 700;
@@ -445,7 +445,7 @@
 
 					&:hover, &:focus {
 						background: none;
-						color: $c_main;
+						color: $c_main !important;
 					}
 					&:hover:after, &.active {
 						content: '';
@@ -564,6 +564,8 @@
 						position: relative;
 						max-width: 100%;
 						@include an(all, 0.3);
+						word-break: normal;
+    					white-space: normal;
 						&:hover {
 							//font-weight: 700;
 							@include desktop {

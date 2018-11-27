@@ -14,10 +14,19 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Stream;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -25,8 +34,10 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetSupport;
@@ -39,13 +50,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
 
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
@@ -154,7 +158,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     @Override
     public String getImageURL() {
-        return FileEntryHelper.getFileEntryURL(this.getImageId());
+    	return FileEntryHelper.getFileEntryURL(this.getImageId());
+    }
+    
+    /**
+     * Retourne l'URL de l'image de l'utilisateur
+     */
+    @Override
+    public String getAuthorImageURL() {
+        return "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png";
     }
 
     /**
@@ -259,6 +271,20 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 				return true;
 		}
 		return false;
+	}
+	
+	/**
+	 *  Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	 */
+	@Override
+	public boolean isNotDoable() {
+		return Stream.of(
+	    		ParticiperCategories.BP_NON_ACCEPTABLE.getName(),
+	    		ParticiperCategories.BP_NON_FEASIBLE.getName(),
+	    		ParticiperCategories.BP_NON_SELECTED.getName(),	               		
+	    		ParticiperCategories.BP_CANCELLED.getName(),
+	    		ParticiperCategories.BP_SUSPENDED.getName()
+	    		).anyMatch(x -> x.equals(this.getBudgetParticipatifStatusCategory().getName()));
 	}
     
     @Override
@@ -369,19 +395,45 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return String.format("%06d", nbResult);
     }
     
+    public String getPublicationDateFr(){
+        Date date = this.getAssetEntry().getPublishDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
+    
+    /**
+     * Remplace le statut bp actuel par celui fournis en paramètre de la méthode
+     * @param budgetParticipatif
+     * @param status
+     */
+    @Override
+    public void setBPStatus(BudgetParticipatif budgetParticipatif, ParticiperCategories status, long groupID)
+    {
+    	AssetEntry entry = budgetParticipatif.getAssetEntry();
+    	List<AssetCategory> statuses = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry, VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+    	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
+    	
+    	if(!statuses.isEmpty())
+    		AssetEntryUtil.removeAssetCategory(entry.getEntryId(), statuses.get(0));
+    	
+    	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
+    }
+    
     /**
      * Retourne la version JSON de l'entité
      */
     public JSONObject toJSON(String publikUserId) {
     	
-        // Initialisation des variables tempons et résultantes
+        // Initialisation des variables tempons et resultantes
         JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         jsonBudget.put("id", this.getBudgetParticipatifId());
         jsonBudget.put("createDate", dateFormat.format(this.getCreateDate()));
-        jsonBudget.put("imageURL", this.getImageURL());
+        jsonBudget.put("publicationDate", dateFormat.format(this.getAssetEntry().getPublishDate()));
+        
+        jsonBudget.put("authorImageURL", this.getAuthorImageURL());
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
@@ -389,14 +441,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("BPStatusColor", this.getBudgetParticipatifStatusCategoryColor());
         jsonBudget.put("hasBeenVoted", this.hasBeenVoted());
         jsonBudget.put("hasBeendEvaluated", this.hasBeenEvaluated());
+        jsonBudget.put("isNotDoable", this.isNotDoable());
         
-        // Champs : Catégorisations
+        // Champs : Categorisations
         jsonBudget.put("BPStatus", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudgetParticipatifStatusTitle(Locale.FRENCH))));
         jsonBudget.put("districtsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonBudget.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
         jsonBudget.put("projectName", this.getProjectName());
         
-        // Champs : Intéractivités
+        // Champs : Interactivités
         jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
         jsonBudget.put("nbSupports", this.getNbSupports());
 

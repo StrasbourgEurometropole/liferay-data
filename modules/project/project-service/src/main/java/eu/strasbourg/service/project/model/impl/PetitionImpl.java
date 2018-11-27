@@ -619,6 +619,8 @@ public class PetitionImpl extends PetitionBaseImpl {
 
         jsonPetition.put("id", this.getPetitionId());
         jsonPetition.put("createDate", dateFormat.format(this.getCreateDate()));
+        jsonPetition.put("publicationDate", dateFormat.format(this.getPublicationDate()));
+        
         jsonPetition.put("imageURL", this.getImageURL());
         jsonPetition.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonPetition.put("author", this.getAuthorLabel());
