@@ -36,10 +36,12 @@
                     data-id="${.vars['reserved-article-id'].data}">
                     <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
                 </a>
-                <div class="mns-bloc-texte">
-                    ${text.data}
-                </div>
             </div>
         </div>
     </header>
+</div>
+
+<!-- Détail expérience -->
+<div class="mns-fck container experience">
+    ${text.data}
 </div>
