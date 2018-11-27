@@ -4,7 +4,7 @@
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
-  <#assign homeURL = "/" />
+  <#assign homeURL = "" />
 </#if>
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
@@ -21,7 +21,7 @@
 
   <script>
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-    window.homeURL = '${homeURL}';
+    window.homeURL = '${homeURL}/';
     window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}';
 
 

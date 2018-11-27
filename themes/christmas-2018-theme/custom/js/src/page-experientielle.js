@@ -35,10 +35,10 @@ function change_question(num_question){
     nb_questions = $('.mns-questions-dots a').length;
     mns_num_question = $('.mns-questions-dots a.current').data('num_question') + 1;
     if(mns_num_question > nb_questions) {
-        $('.mns-questions-pagination .mns-next').text('Envoyer');
+        $('.mns-questions-pagination .mns-next').text(Liferay.Language.get("send"));
     }
     else{
-        $('.mns-questions-pagination .mns-next').text('Suivant');
+        $('.mns-questions-pagination .mns-next').text(Liferay.Language.get("eu.next"));
     }
 }
 
