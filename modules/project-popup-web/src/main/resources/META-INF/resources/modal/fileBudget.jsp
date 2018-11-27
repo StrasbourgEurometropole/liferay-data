@@ -219,13 +219,14 @@
 	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
     $(document).ready(function(){
+    	resetValues();
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
         $('#checkboxSaveInfo').hide();
-
-        $('#buttonDeposer').click(function(event){
-            resetValues();
-        });
+    });
+    
+    $('#buttonDeposer').click(function(event){
+        resetValues();
     });
 
     $("#sendBudget").click(function(event){
