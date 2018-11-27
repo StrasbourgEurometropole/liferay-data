@@ -996,7 +996,7 @@ public class EventImpl extends EventBaseImpl {
 	/**
 	 * Retourne X suggestions max pour un événement
 	 *
-	 * @param request       la requete
+	 * @param request  la requete
 	 * @param nbSuggestions le nombre de suggestions.
 	 * @return la liste d'événements.
 	 */
@@ -1013,29 +1013,30 @@ public class EventImpl extends EventBaseImpl {
 			SearchContext searchContext = SearchContextFactory.getInstance(request);
 			searchContext.setGroupIds(new long[] {globalGroupId});
 			searchContext.setStart(0);
-			searchContext.setEnd(10);
-			//searchContext.setAttribute(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-			//searchContext.setAssetTagNames(new String[] {"participer"});
-			
+			searchContext.setEnd(nbSuggestions);
 			
 			//utilisation de l'indexer de l'entite event (Permet de rechercher uniquement des event)
 			Indexer indexer = IndexerRegistryUtil.getIndexer(Event.class.getName());
 			
+			//création de la query avec des filtre sur les entités publiées uniquement
 			BooleanQuery query = new BooleanQueryImpl();
 			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 			query.addRequiredTerm("visible", true);
 			
-			
+			//Ajout du filtre sur le tag "participer"
 			BooleanQuery tagQuery = new BooleanQueryImpl();
-			tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf("participer"));
+			tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, "participer");
 			query.add(tagQuery, BooleanClauseOccur.MUST);
 			
-			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(tagQuery, BooleanClauseOccur.MUST.getName());
+			//La suggestion se fait uniquement sur la même catégorie "thème"
+			for (AssetCategory category : this.getThemes()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				query.add(categoryQuery, BooleanClauseOccur.MUST);
+			}
 			
-			
+			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(query, BooleanClauseOccur.MUST.getName());
 			searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
-			
-//			indexer.postProcessSearchQuery(query, null, searchContext);
 			
 			//Lance la recherche elasticSearch
 		    Hits hits = indexer.search(searchContext);
@@ -1044,7 +1045,9 @@ public class EventImpl extends EventBaseImpl {
 		    for (Document document : hits.getDocs()) {
 		    	//récupération de l'élément en base
 	            Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-	            if(event != null)
+	            
+	            //Vérification que l'event recherché existe bien base (En théorie ne devrait pas arriver) et qu'il est différent de l'event courrant.
+	            if(event != null && event.getEventId() != this.getEventId())
 	            	suggestions.add(event);
 	        }
 		}
