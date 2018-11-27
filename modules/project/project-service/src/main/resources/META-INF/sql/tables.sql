@@ -14,7 +14,7 @@ create table project_BudgetParticipatif (
 	title VARCHAR(400) null,
 	description TEXT null,
 	budget LONG,
-	motif VARCHAR(75) null,
+	motif TEXT null,
 	citoyenLastname VARCHAR(75) null,
 	citoyenFirstname VARCHAR(75) null,
 	citoyenAdresse VARCHAR(400) null,

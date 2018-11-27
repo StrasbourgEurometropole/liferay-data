@@ -32,7 +32,7 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="budget" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="motif" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="motif" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="citoyenLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenAdresse" type="com.liferay.portal.dao.orm.hibernate.StringType" />
