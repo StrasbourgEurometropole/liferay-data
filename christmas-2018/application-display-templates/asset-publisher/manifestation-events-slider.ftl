@@ -1,4 +1,4 @@
-<!-- Slider événements -->
+<!-- Slider événements de manifestation -->
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -7,9 +7,9 @@
 </#if>
 <div class="mns-agenda-detail">
     <div class="mns-section-agenda">
-        <div class="small-container">
+        <div class="container">
             <div class="col-xs-12">
-                <h2><@liferay_ui.message key="related-events" /></h2>
+                <h2><@liferay_ui.message key="eu.the-agenda" /></h2>
                 <a href="/agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
             </div>
             <#if entries?has_content>
