@@ -60,8 +60,7 @@ public interface Event extends EventModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
@@ -92,14 +91,14 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getPublishedManifestations();
 
 	/**
-	* Retourne la liste des périodes auxquelles l'événement à lieu (classées
-	* par date de début croissante)
+	* Retourne la liste des périodes auxquelles l'événement à lieu (classées par
+	* date de début croissante)
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getEventPeriods();
 
 	/**
-	* Retourne la liste des périodes courantes et futures auxuqlles l'événement
-	* à lieu
+	* Retourne la liste des périodes courantes et futures auxuqlles l'événement à
+	* lieu
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getCurrentAndFuturePeriods();
 
@@ -109,9 +108,9 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.Date getStartDateFirstCurrentAndFuturePeriod();
 
 	/**
-	* Retourne la période principale de l'événement (de la première date de
-	* début à la dernière date de fin) sous forme de String dans la locale
-	* passée en paramètre
+	* Retourne la période principale de l'événement (de la première date de début à
+	* la dernière date de fin) sous forme de String dans la locale passée en
+	* paramètre
 	*/
 	public java.lang.String getEventScheduleDisplay(java.util.Locale locale);
 
@@ -126,14 +125,14 @@ public interface Event extends EventModel, PersistedModel {
 	public long getPlaceId();
 
 	/**
-	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du
-	* lieu lié sinon
+	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu
+	* lié sinon
 	*/
 	public java.lang.String getCity(java.util.Locale locale);
 
 	/**
-	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu
-	* lié sinon
+	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié
+	* sinon
 	*/
 	public java.lang.String getPlaceAlias(java.util.Locale locale);
 
@@ -163,8 +162,8 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getMercatorY();
 
 	/**
-	* Retourne les coordonnees mercator en axe X et Y
-	* Notes : permet de ne pas multiplier les appels
+	* Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
+	* multiplier les appels
 	*
 	* @return tableau [mercatorX, mercatorY] sinon tableau vide
 	*/
@@ -201,14 +200,13 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getNbEventParticipationsLabel();
 
 	/**
-	* Retourne true si l'événement est accessible pour au moins un type de
-	* handicap
+	* Retourne true si l'événement est accessible pour au moins un type de handicap
 	*/
 	public boolean hasAnyAccessForDisabled();
 
 	/**
-	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il
-	* existe, du lieu lié sinon
+	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe,
+	* du lieu lié sinon
 	*/
 	public java.lang.String getPlaceAddressHTML(java.util.Locale locale);
 
@@ -270,10 +268,22 @@ public interface Event extends EventModel, PersistedModel {
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
 	/**
-	* Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
-	* en incluant l'escape des caractères / balises pouvant casser l'utilisation des données et le split
-	* de l'HTML en général
+	* Retourne la version JSON de l'événenement avec la participation ou non d'un
+	* utilisateur potentiel en incluant l'escape des caractères / balises pouvant
+	* casser l'utilisation des données et le split de l'HTML en général
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		java.lang.String publikUserID);
+
+	/**
+	* Retourne X suggestions max pour un événement
+	*
+	* @param request       la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste d'événements.
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException;
 }

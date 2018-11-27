@@ -29,16 +29,34 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.search.BooleanClause;
+import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -81,17 +99,17 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 public class EventImpl extends EventBaseImpl {
 
 	private static final long serialVersionUID = -263639533491031888L;
-	
+
 	private AdictService adictService;
-	
+
 	private AdictServiceTracker adictServiceTracker;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. All methods that expect a event
-	 * model instance should use the {@link
-	 * eu.strasbourg.service.agenda.model.Event} interface instead.
+	 * Never reference this class directly. All methods that expect a event model
+	 * instance should use the {@link eu.strasbourg.service.agenda.model.Event}
+	 * interface instead.
 	 */
 	public EventImpl() {
 	}
@@ -105,8 +123,7 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via
-	 * l'assetEntry)
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
@@ -178,8 +195,8 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne la liste des périodes auxquelles l'événement à lieu (classées
-	 * par date de début croissante)
+	 * Retourne la liste des périodes auxquelles l'événement à lieu (classées par
+	 * date de début croissante)
 	 */
 	@Override
 	public List<EventPeriod> getEventPeriods() {
@@ -190,8 +207,8 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne la liste des périodes courantes et futures auxuqlles l'événement
-	 * à lieu
+	 * Retourne la liste des périodes courantes et futures auxuqlles l'événement à
+	 * lieu
 	 */
 	@Override
 	public List<EventPeriod> getCurrentAndFuturePeriods() {
@@ -211,14 +228,15 @@ public class EventImpl extends EventBaseImpl {
 	/**
 	 * Retourne la date de début de la future ou courante période de l'événement
 	 */
-	public Date getStartDateFirstCurrentAndFuturePeriod() {		
-		return getCurrentAndFuturePeriods().isEmpty() ? new Date(0):getCurrentAndFuturePeriods().get(0).getStartDate();
+	public Date getStartDateFirstCurrentAndFuturePeriod() {
+		return getCurrentAndFuturePeriods().isEmpty() ? new Date(0)
+				: getCurrentAndFuturePeriods().get(0).getStartDate();
 	}
-	
+
 	/**
-	 * Retourne la période principale de l'événement (de la première date de
-	 * début à la dernière date de fin) sous forme de String dans la locale
-	 * passée en paramètre
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
 	 */
 	@Override
 	public String getEventScheduleDisplay(Locale locale) {
@@ -241,8 +259,7 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne l'objet "Place" correspondant au lieu de l'événement, s'il
-	 * existe
+	 * Retourne l'objet "Place" correspondant au lieu de l'événement, s'il existe
 	 */
 	private Place place = null;
 
@@ -251,6 +268,7 @@ public class EventImpl extends EventBaseImpl {
 			try {
 				place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
 		}
 		return place;
@@ -266,8 +284,8 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du
-	 * lieu lié sinon
+	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu
+	 * lié sinon
 	 */
 	@Override
 	public String getCity(Locale locale) {
@@ -275,8 +293,8 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu
-	 * lié sinon
+	 * Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié
+	 * sinon
 	 */
 	@Override
 	public String getPlaceAlias(Locale locale) {
@@ -310,18 +328,16 @@ public class EventImpl extends EventBaseImpl {
 	public String getPlaceZipCode() {
 		return this.getPlace() == null ? super.getPlaceZipCode() : this.getPlace().getAddressZipCode();
 	}
-	
+
 	/**
 	 * Retourne l'adresse complete du lieu SIG ou "manuel"
 	 */
 	@Override
 	public String getCompleteAddress(Locale locale) {
-		return this.getPlaceStreetNumber() + 
-				" " + this.getPlaceStreetName() + 
-				", " + this.getPlaceZipCode() +
-				" " + this.getCity(locale);
+		return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName() + ", " + this.getPlaceZipCode() + " "
+				+ this.getCity(locale);
 	}
-	
+
 	/**
 	 * Retourne les coordonnees mercator en axe X (longitude)
 	 */
@@ -335,13 +351,13 @@ public class EventImpl extends EventBaseImpl {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			return coorResult != null ? coorResult.get(0).toString() : "";
 		} else {
 			return this.getPlace().getMercatorX();
 		}
 	}
-	
+
 	/**
 	 * Retourne les coordonnees mercator en axe Y (latitude)
 	 */
@@ -355,16 +371,17 @@ public class EventImpl extends EventBaseImpl {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			return coorResult != null ? coorResult.get(1).toString() : "";
 		} else {
 			return this.getPlace().getMercatorY();
 		}
 	}
-	
+
 	/**
-	 * Retourne les coordonnees mercator en axe X et Y 
-	 * Notes : permet de ne pas multiplier les appels
+	 * Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
+	 * multiplier les appels
+	 * 
 	 * @return tableau [mercatorX, mercatorY] sinon tableau vide
 	 */
 	@Override
@@ -378,23 +395,20 @@ public class EventImpl extends EventBaseImpl {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			if (coorResult != null) {
 				String mercatorX = coorResult.get(0).toString();
 				String mercatorY = coorResult.get(1).toString();
-				
+
 				return Arrays.asList(mercatorX, mercatorY);
 			} else {
 				return new ArrayList<String>();
 			}
 		} else {
-			return Arrays.asList(
-					this.getPlace().getMercatorX(), 
-					this.getPlace().getMercatorY()
-					);
+			return Arrays.asList(this.getPlace().getMercatorX(), this.getPlace().getMercatorY());
 		}
 	}
-	
+
 	/**
 	 * Retourne la liste des participations de l'evenement
 	 */
@@ -402,7 +416,7 @@ public class EventImpl extends EventBaseImpl {
 	public List<EventParticipation> getEventParticipations() {
 		return EventParticipationLocalServiceUtil.getByEventId(this.getEventId());
 	}
-	
+
 	/**
 	 * Retourne le nombre de participation a l'evenement
 	 */
@@ -410,34 +424,32 @@ public class EventImpl extends EventBaseImpl {
 	public int getNbEventParticipations() {
 		return EventParticipationLocalServiceUtil.getByEventId(this.getEventId()).size();
 	}
-	
+
 	/**
 	 * Retourne les commentaires de l'entité
 	 */
 	@Override
 	public List<Comment> getApprovedComments() {
-		return CommentLocalServiceUtil.getByAssetEntry(
-				this.getAssetEntry().getEntryId(),
+		return CommentLocalServiceUtil.getByAssetEntry(this.getAssetEntry().getEntryId(),
 				WorkflowConstants.STATUS_APPROVED);
 	}
-	
+
 	/**
 	 * Retourne le nombre de commentaires de l'entité
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return CommentLocalServiceUtil.getByAssetEntry(
-				this.getAssetEntry().getEntryId(),
-				WorkflowConstants.STATUS_APPROVED).size();
+		return CommentLocalServiceUtil
+				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
 	}
-	
+
 	/**
 	 * L'evenement est-il terminee ?
 	 */
 	@Override
 	public boolean isFinished() {
 		Date now = new Date();
-		
+
 		if (this.getLastEndDate() != null) {
 			if (this.getLastEndDate().compareTo(now) > 1) {
 				return true;
@@ -445,9 +457,9 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Retourne le label de 5 digits du nombre de participation a l'evenement 
+	 * Retourne le label de 5 digits du nombre de participation a l'evenement
 	 */
 	@Override
 	public String getNbEventParticipationsLabel() {
@@ -457,10 +469,10 @@ public class EventImpl extends EventBaseImpl {
 		int nbDigits = stringNum.length();
 		// Ajoute les zeros manquants avant la chaine
 		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
-		
+
 		return stringNum;
 	}
-	
+
 	/**
 	 * Retourne l'accès
 	 */
@@ -495,8 +507,7 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne true si l'événement est accessible pour au moins un type de
-	 * handicap
+	 * Retourne true si l'événement est accessible pour au moins un type de handicap
 	 */
 	@Override
 	public boolean hasAnyAccessForDisabled() {
@@ -505,8 +516,8 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne l'adresse complète du lieu, provenant du lieu interne s'il
-	 * existe, du lieu lié sinon
+	 * Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe,
+	 * du lieu lié sinon
 	 */
 	@Override
 	public String getPlaceAddressHTML(Locale locale) {
@@ -601,14 +612,14 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.TERRITORY);
 	}
-	
+
 	/**
 	 * Retourne le label des territoires de l'événement
 	 */
 	@Override
 	public String getTerritoryLabel(Locale locale) {
 		List<AssetCategory> districts = getTerritories();
-		return AssetVocabularyHelper.getDistrictTitle(locale,districts);
+		return AssetVocabularyHelper.getDistrictTitle(locale, districts);
 	}
 
 	/**
@@ -619,7 +630,7 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EVENT_SERVICE);
 	}
-	
+
 	@Override
 	public LocalDate getNextOpenDate() {
 		if (eventIsHappeningToday()) {
@@ -628,13 +639,13 @@ public class EventImpl extends EventBaseImpl {
 			for (EventPeriod period : this.getEventPeriods()) {
 				LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				if (startDate.isAfter(LocalDate.now())) {
-					return startDate;	
+					return startDate;
 				}
 			}
 		}
 		return LocalDate.MAX;
 	}
-	
+
 	private boolean eventIsHappeningToday() {
 		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
 		for (EventPeriod period : this.getEventPeriods()) {
@@ -647,7 +658,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Recupere le service du module Adict sans passer par reference
 	 */
@@ -659,7 +670,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return adictService;
 	}
-	
+
 	/**
 	 * Demande si l'utilisateur demandé participe à l'événement
 	 */
@@ -679,149 +690,149 @@ public class EventImpl extends EventBaseImpl {
 	public JSONObject toJSON() {
 		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
 
-        jsonEvent.put("id", this.getEventId());
-        jsonEvent.put("externalId", this.getIdSource());
+		jsonEvent.put("id", this.getEventId());
+		jsonEvent.put("externalId", this.getIdSource());
 
-        jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 
-        if (Validator.isNotNull(this.getSubtitle())) {
-               jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
-        }
+		if (Validator.isNotNull(this.getSubtitle())) {
+			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
+		}
 
-        Map<Locale, String> descriptionMap = this.getDescriptionMap();
-        Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
-        for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
-               String description = descriptionEntry.getValue().replace("\"/documents/",
-                             "\"" + StrasbourgPropsUtil.getURL() + "/documents/");
-               descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
-        }
-        jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
+		Map<Locale, String> descriptionMap = this.getDescriptionMap();
+		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
+		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
+			String description = descriptionEntry.getValue().replace("\"/documents/",
+					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
+		}
+		jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
 
-        String imageURL = this.getImageURL();
-        if (!imageURL.startsWith("http")) {
-               imageURL = StrasbourgPropsUtil.getURL() + this.getImageURL();
-        }
-        jsonEvent.put("imageURL", imageURL);
+		String imageURL = this.getImageURL();
+		if (!imageURL.startsWith("http")) {
+			imageURL = StrasbourgPropsUtil.getURL() + this.getImageURL();
+		}
+		jsonEvent.put("imageURL", imageURL);
 
-        jsonEvent.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
+		jsonEvent.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
 
-        if (Validator.isNotNull(this.getPlaceSIGId())) {
-               jsonEvent.put("placeSIGId", this.getPlaceSIGId());
-        } else {
-               JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-               jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
-                jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
-               jsonPlace.put("streetName", this.getPlaceStreetName());
-               jsonPlace.put("zipCode", this.getPlaceZipCode());
-               jsonPlace.put("city", this.getPlaceCity());
-               jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
-               jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
-               jsonPlace.put("accessForBlind", this.getAccessForBlind());
-               jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
-               jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
-               jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
-               jsonPlace.put("accessForElder", this.getAccessForElder());
-               jsonEvent.put("place", jsonPlace);
-        }
+		if (Validator.isNotNull(this.getPlaceSIGId())) {
+			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
+		} else {
+			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
+			jsonPlace.put("streetName", this.getPlaceStreetName());
+			jsonPlace.put("zipCode", this.getPlaceZipCode());
+			jsonPlace.put("city", this.getPlaceCity());
+			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
+			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+			jsonPlace.put("accessForBlind", this.getAccessForBlind());
+			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
+			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
+			jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+			jsonPlace.put("accessForElder", this.getAccessForElder());
+			jsonEvent.put("place", jsonPlace);
+		}
 
-        if (Validator.isNotNull(this.getPromoter())) {
-               jsonEvent.put("promoter", this.getPromoter());
-        }
+		if (Validator.isNotNull(this.getPromoter())) {
+			jsonEvent.put("promoter", this.getPromoter());
+		}
 
-        if (Validator.isNotNull(this.getPhone())) {
-               jsonEvent.put("phone", this.getPhone());
-        }
+		if (Validator.isNotNull(this.getPhone())) {
+			jsonEvent.put("phone", this.getPhone());
+		}
 
-        if (Validator.isNotNull(this.getEmail())) {
-               jsonEvent.put("mail", this.getEmail());
-        }
+		if (Validator.isNotNull(this.getEmail())) {
+			jsonEvent.put("mail", this.getEmail());
+		}
 
-        if (Validator.isNotNull(this.getWebsiteURL())) {
-               jsonEvent.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
-        }
+		if (Validator.isNotNull(this.getWebsiteURL())) {
+			jsonEvent.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
+		}
 
-        if (Validator.isNotNull(this.getWebsiteName())) {
-               jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
-        }
+		if (Validator.isNotNull(this.getWebsiteName())) {
+			jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+		}
 
-        jsonEvent.put("freeEntry", this.getFree());
+		jsonEvent.put("freeEntry", this.getFree());
 
-        if (Validator.isNotNull(this.getPrice())) {
-               jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
-        }
+		if (Validator.isNotNull(this.getPrice())) {
+			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+		}
 
-        JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
-        for (EventPeriod period : this.getEventPeriods()) {
-               JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		for (EventPeriod period : this.getEventPeriods()) {
+			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
 
-               DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
-               periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
-               periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
+			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
 
-               if (Validator.isNotNull(period.getTimeDetail())) {
-                      periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
-               }
-               periodsJSON.put(periodJSON);
-        }
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+			}
+			periodsJSON.put(periodJSON);
+		}
 
-        jsonEvent.put("periods", periodsJSON);
+		jsonEvent.put("periods", periodsJSON);
 
-        JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
-        for (Manifestation manifestation : this.getPublishedManifestations()) {
-               jsonManifestations.put(manifestation.getManifestationId());
-        }
-        if (jsonManifestations.length() > 0) {
-               jsonEvent.put("manifestations", jsonManifestations);
-        }
+		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
+		for (Manifestation manifestation : this.getPublishedManifestations()) {
+			jsonManifestations.put(manifestation.getManifestationId());
+		}
+		if (jsonManifestations.length() > 0) {
+			jsonEvent.put("manifestations", jsonManifestations);
+		}
 
-        JSONArray jsonCategories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getCategories());
-        if (jsonCategories.length() > 0) {
-               jsonEvent.put("categories", jsonCategories);
-        }
+		JSONArray jsonCategories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getCategories());
+		if (jsonCategories.length() > 0) {
+			jsonEvent.put("categories", jsonCategories);
+		}
 
-        JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
-        if (jsonThemes.length() > 0) {
-               jsonEvent.put("themes", jsonThemes);
-        }
+		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
+		if (jsonThemes.length() > 0) {
+			jsonEvent.put("themes", jsonThemes);
+		}
 
-        JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
-        if (jsonTypes.length() > 0) {
-               jsonEvent.put("types", jsonTypes);
-        }
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+		if (jsonTypes.length() > 0) {
+			jsonEvent.put("types", jsonTypes);
+		}
 
-        JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
-        if (jsonTerritories.length() > 0) {
-               jsonEvent.put("territories", jsonTerritories);
-        }
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
+		if (jsonTerritories.length() > 0) {
+			jsonEvent.put("territories", jsonTerritories);
+		}
 
-        JSONArray jsonPublics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getPublics());
-        if (jsonPublics.length() > 0) {
-               jsonEvent.put("publics", jsonPublics);
-        }
+		JSONArray jsonPublics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getPublics());
+		if (jsonPublics.length() > 0) {
+			jsonEvent.put("publics", jsonPublics);
+		}
 
-        JSONArray jsonServices = AssetVocabularyHelper.getExternalIdsJSONArray(this.getServices());
-        if (jsonServices.length() > 0) {
-               jsonEvent.put("services", jsonServices);
-        }
+		JSONArray jsonServices = AssetVocabularyHelper.getExternalIdsJSONArray(this.getServices());
+		if (jsonServices.length() > 0) {
+			jsonEvent.put("services", jsonServices);
+		}
 
-        jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
-        
-        List<String> mercators = this.getMercators();
-        jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-        jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-        
-        jsonEvent.put("firstDate", this.getFirstStartDate());
-        jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
-        jsonEvent.put("nbPart", this.getNbEventParticipations());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
 
-        return jsonEvent;
+		List<String> mercators = this.getMercators();
+		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
+		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+
+		jsonEvent.put("firstDate", this.getFirstStartDate());
+		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
+		jsonEvent.put("nbPart", this.getNbEventParticipations());
+
+		return jsonEvent;
 
 	}
-	
+
 	/**
-	 * Retourne la version JSON de l'événenement avec la participation ou non d'un utilisateur potentiel
-	 * en incluant l'escape des caractères / balises pouvant casser l'utilisation des données et le split
-	 * de l'HTML en général
+	 * Retourne la version JSON de l'événenement avec la participation ou non d'un
+	 * utilisateur potentiel en incluant l'escape des caractères / balises pouvant
+	 * casser l'utilisation des données et le split de l'HTML en général
 	 */
 	@Override
 	public JSONObject toJSON(String publikUserID) {
@@ -832,18 +843,12 @@ public class EventImpl extends EventBaseImpl {
 
 		// Ce truc imbitable utilisant le meilleur de ce que propose Java 8
 		// vous propose d'appliquer la fonction escape à l'ensemble de la map
-		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(
-				this.getTitleMap()
-				.entrySet()
-				.stream()
+		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap().entrySet().stream()
 				.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 
 		// Meme procédé
 		if (Validator.isNotNull(this.getSubtitle())) {
-			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(
-					this.getSubtitleMap()
-					.entrySet()
-					.stream()
+			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap().entrySet().stream()
 					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 		}
 
@@ -855,7 +860,7 @@ public class EventImpl extends EventBaseImpl {
 			description = HtmlUtil.stripHtml(HtmlUtil.escape(description));
 			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
 		}
-		
+
 		jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
 
 		String imageURL = this.getImageURL();
@@ -864,31 +869,24 @@ public class EventImpl extends EventBaseImpl {
 		}
 		jsonEvent.put("imageURL", imageURL);
 
-		jsonEvent.put("imageCopyright", HtmlUtil.stripHtml(HtmlUtil.escape(this.getImageCopyright(Locale.getDefault()))));
+		jsonEvent.put("imageCopyright",
+				HtmlUtil.stripHtml(HtmlUtil.escape(this.getImageCopyright(Locale.getDefault()))));
 
 		if (Validator.isNotNull(this.getPlaceSIGId())) {
 			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(
-					this.getPlaceNameMap()
-					.entrySet()
-					.stream()
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap().entrySet().stream()
 					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
 			jsonPlace.put("streetName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getPlaceStreetName())));
 			jsonPlace.put("zipCode", this.getPlaceZipCode());
 			jsonPlace.put("city", HtmlUtil.stripHtml(HtmlUtil.escape(this.getPlaceCity())));
-			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(
-					this.getAccessMap()
-					.entrySet()
-					.stream()
+			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap().entrySet().stream()
 					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
-			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(
-					this.getAccessForDisabledMap()
-					.entrySet()
-					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
+			jsonPlace.put("accessForDisabled",
+					JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap().entrySet().stream().collect(
+							Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 			jsonPlace.put("accessForBlind", this.getAccessForBlind());
 			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
 			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
@@ -914,20 +912,15 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		if (Validator.isNotNull(this.getWebsiteName())) {
-			jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(
-					this.getWebsiteNameMap()
-					.entrySet()
-					.stream()
-					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape((e.getValue())))))));
+			jsonEvent.put("websiteName",
+					JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap().entrySet().stream().collect(Collectors
+							.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape((e.getValue())))))));
 		}
 
 		jsonEvent.put("freeEntry", this.getFree());
 
 		if (Validator.isNotNull(this.getPrice())) {
-			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(
-					this.getPriceMap()
-					.entrySet()
-					.stream()
+			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap().entrySet().stream()
 					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 		}
 
@@ -986,18 +979,83 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
-		
+
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-		
+
 		jsonEvent.put("firstDate", this.getFirstStartDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
-		
+
 		jsonEvent.put("isUserPart", this.isUserParticipates(publikUserID));
-		
+
 		return jsonEvent;
 	}
-	
+
+	/**
+	 * Retourne X suggestions max pour un événement
+	 *
+	 * @param request  la requete
+	 * @param nbSuggestions le nombre de suggestions.
+	 * @return la liste d'événements.
+	 */
+	@Override
+	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions) throws SearchException, PortalException {
+		
+		List<Event> suggestions = new ArrayList<>();
+		
+		try {
+			//Récupération du scope de recherche global
+			long globalGroupId = GroupLocalServiceUtil.getCompanyGroup(PortalUtil.getDefaultCompanyId()).getGroupId(); 
+			
+			//Initialisation du seachContext
+			SearchContext searchContext = SearchContextFactory.getInstance(request);
+			searchContext.setGroupIds(new long[] {globalGroupId});
+			searchContext.setStart(0);
+			searchContext.setEnd(nbSuggestions);
+			
+			//utilisation de l'indexer de l'entite event (Permet de rechercher uniquement des event)
+			Indexer indexer = IndexerRegistryUtil.getIndexer(Event.class.getName());
+			
+			//création de la query avec des filtre sur les entités publiées uniquement
+			BooleanQuery query = new BooleanQueryImpl();
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm("visible", true);
+			
+			//Ajout du filtre sur le tag "participer"
+			BooleanQuery tagQuery = new BooleanQueryImpl();
+			tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, "participer");
+			query.add(tagQuery, BooleanClauseOccur.MUST);
+			
+			//La suggestion se fait uniquement sur la même catégorie "thème"
+			for (AssetCategory category : this.getThemes()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				query.add(categoryQuery, BooleanClauseOccur.MUST);
+			}
+			
+			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(query, BooleanClauseOccur.MUST.getName());
+			searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
+			
+			//Lance la recherche elasticSearch
+		    Hits hits = indexer.search(searchContext);
+			
+		    //Generation de notre liste de suggestion
+		    for (Document document : hits.getDocs()) {
+		    	//récupération de l'élément en base
+	            Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+	            
+	            //Vérification que l'event recherché existe bien base (En théorie ne devrait pas arriver) et qu'il est différent de l'event courrant.
+	            if(event != null && event.getEventId() != this.getEventId())
+	            	suggestions.add(event);
+	        }
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	    
+		return suggestions;
+	}
+
 }
