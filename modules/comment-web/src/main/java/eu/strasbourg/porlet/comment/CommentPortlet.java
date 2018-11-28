@@ -33,7 +33,9 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -84,6 +86,7 @@ public class CommentPortlet extends MVCPortlet {
 	private static final String ESCAPE_PARAM_URL_PARTTERN = "(\\?|#)";
 	private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
 	private static final String PARTICIPATION_CLASSNAME = "eu.strasbourg.service.project.model.Participation";
+	private static final String PETITION_CLASSNAME = "eu.strasbourg.service.project.model.Petition";
 	private static final String REDIRECT_URL_PARAM = "redirectURL";
 	
 	
@@ -144,6 +147,7 @@ public class CommentPortlet extends MVCPortlet {
 			request.setAttribute(REDIRECT_URL_PARAM, redirectURL);
 			request.setAttribute("categories",assetCategories);
 			request.setAttribute("comments", comments);
+
 			request.setAttribute("isAdmin", isAdmin);
 			request.setAttribute("entryID", entryID);
 			request.setAttribute("userPublikId", userPublikId);
@@ -268,17 +272,25 @@ public class CommentPortlet extends MVCPortlet {
         
         // Recuperation de l'URL de redirection
 		String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
+		// ... du contexte de la requete
+		ServiceContext sc = ServiceContextFactory.getInstance(request);
 		
+		// ... des informations du signalement
 		String userPublikId = getPublikID(request);
-        long result = ParamUtil.getLong(request, "commentId");
+        long commentId = ParamUtil.getLong(request, "commentId");
         long categoryId = ParamUtil.getLong(request, "categorie");
-        Comment comment = CommentLocalServiceUtil.getComment(result);
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
-        Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
-        AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
-        SignalementLocalServiceUtil.updateSignalement(signalement,sc,userPublikId);
         
-        response.sendRedirect(redirectURL  + "#" + comment.getCommentId());
+        // Initialisation du signalement
+        Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc);
+        
+        // Ajout des inforamtions du signalement
+        signalement.setPublikId(userPublikId);
+        signalement.setCommentId(commentId);
+        
+        AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(), categoryId);
+        SignalementLocalServiceUtil.updateSignalement(signalement,sc);
+        
+        response.sendRedirect(redirectURL  + "#" + commentId);
     }
 
 	/**
@@ -402,12 +414,20 @@ public class CommentPortlet extends MVCPortlet {
 				request.setAttribute("hasUserSigned", false);
 				request.setAttribute("isUserBanned", false);
 			}
-			
+
 			// Verification d'une participation ou l'on peut reagir
 			if (assetType.equals(PARTICIPATION_CLASSNAME)) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
-				
+
 				if (participation == null || !participation.isJudgeable()) {
+					request.setAttribute("isAssetCommentable", false);
+				}
+			}
+			// Verification d'une participation ou l'on peut reagir
+			else if (assetType.equals(PETITION_CLASSNAME)) {
+				Petition petition = PetitionLocalServiceUtil.getPetition(assetEntry.getClassPK());
+
+				if (petition == null || !petition.isJudgeable()) {
 					request.setAttribute("isAssetCommentable", false);
 				}
 			}

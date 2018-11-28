@@ -3,20 +3,28 @@ package eu.strasbourg.portlet.projectpopup.resource;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.upload.UploadRequest;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -30,12 +38,13 @@ import org.osgi.service.component.annotations.Component;
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,41 +70,34 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
-    private static final String CONSULTATIONPLACETEXT = "consultationPlacesText";
-    private static final String BUDGETTITLE = "budgettitle";
-    private static final String BUDGETDESCRIPTION = "budgetdescription";
+    private static final String BUDGETTITLE = "title";
+    private static final String BUDGETDESCRIPTION = "description";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
-    private static final String PHOTO = "photo";
+    private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
-    private static final String LASTNAME = "lastname";
-    private static final String FIRSTNAME = "firstname";
-    private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
     private String publikID;
     private PublikUser user;
     private DateFormat dateFormat;
+    private Date birthday;
     private String address;
     private String city;
     private long postalcode;
     private String phone;
     private String mobile;
-    private String lastname;
-    private String firstname;
-    private String email;
-    private String photo;
     private String video;
     private String title;
-    private String placeText;
     private String description;
     private String lieu;
     private long projectId;
     private long quartierId;
     private long themeId;
+    private String message;
 
     /**
      * le log
@@ -104,62 +106,59 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-        boolean result = false;
-        String message = "";
-        this.publikID = getPublikID(request);
-        if (this.publikID == null || this.publikID.isEmpty())
-            message = "utilisateur non enregistr&eacute;/identifi&eacute;";
-        else
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
         this.dateFormat = new SimpleDateFormat(PATTERN);
+        
+        // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
+        boolean result = false;
+        boolean savedInfo = false;
+        this.message = "";
+        
+        // Recuperation de l'utilsiteur Publik ayant lance la demande
+        this.publikID = getPublikID(request);
+        
+        // Recuperation des informations du formulaire
         this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
         this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
-        this.firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
-        this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
-        this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
-        this.photo = HtmlUtil.stripHtml(ParamUtil.getString(request,PHOTO));
-        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request,VIDEO));
-        this.placeText = HtmlUtil.stripHtml(ParamUtil.getString(request,CONSULTATIONPLACETEXT));
+        this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+        this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
+        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETDESCRIPTION));
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
-
-        boolean isValid = validate();
-        if (!isValid)
-            message = LanguageUtil.get(originalRequest, "general-error");
-
-        boolean savedInfo = false;
-        if (message.isEmpty()) {
-            boolean saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
-            if (saveInfo) {
+        
+        // Verification de la validite des informations
+        if (validate(request)) {
+        
+        	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
+        	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+            if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
                 String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
                 PublikApiClient.setAllUserDetails(
-                		this.publikID, 
-                		this.user.getLastName(), 
-                		this.address, 
-                		"" + this.postalcode, 
-                		this.city, 
-                		dateNaiss, 
-                		this.phone,
-                		this.mobile
+                        this.publikID,
+                        this.user.getLastName(),
+                        this.address,
+                        "" + this.postalcode,
+                        this.city,
+                        dateNaiss,
+                        this.phone,
+                        this.mobile
                 );
             }
+            
+         	// Envoi de la demande
             result = sendBudget(request);
         }
         
-        // Récupération du json des entités
+        // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", message);
+        jsonResponse.put("message", this.message);
         jsonResponse.put("savedInfo", savedInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -168,7 +167,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             writer = response.getWriter();
             writer.print(jsonResponse.toString());
         } catch (IOException e) {
-            _log.error("erreur dans l'ecriture du budget : ",e);
+            _log.error("erreur dans l'ecriture du budget : ", e);
         }
         return result;
     }
@@ -180,25 +179,25 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         try {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<Long>();
-            if (this.quartierId==0) {
+            List<Long> identifiants = new ArrayList<>();
+            if (this.quartierId == 0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
                 assert districts != null;
                 identifiants = districts.stream()
                         .map(AssetCategoryModel::getCategoryId)
                         .collect(Collectors.toList());
-            }else {
+            } else {
                 identifiants.add(quartierId);
             }
-            if (this.projectId!=0) {
+            if (this.projectId != 0) {
                 identifiants.add(projectId);
             }
-            if (this.themeId!=0) {
+            if (this.themeId != 0) {
                 identifiants.add(themeId);
             }
             long[] ids = new long[identifiants.size()];
             for (int i = 0; i < identifiants.size(); i++) {
-                ids[i]=identifiants.get(i);
+                ids[i] = identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
 
@@ -213,21 +212,19 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenCity(this.city);
             budgetParticipatif.setCitoyenEmail(this.user.getEmail());
             budgetParticipatif.setCitoyenMobile(this.mobile);
-            if (!this.photo.isEmpty()){
-                budgetParticipatif.setExternalImageURL(this.photo);
-                budgetParticipatif.setHasCopyright(true);
-            }
+            budgetParticipatif.setCitoyenBirthday(this.birthday);
             if (!this.video.isEmpty())
                 budgetParticipatif.setVideoUrl(this.video);
-            budgetParticipatif.setPlaceTextArea(this.placeText);
+            budgetParticipatif.setPlaceTextArea(this.lieu);
             budgetParticipatif.setCitoyenPhone(this.phone);
             budgetParticipatif.setPublikId(this.publikID);
+            budgetParticipatif = uploadFile(budgetParticipatif, request);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
             AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
             if (assetEntry == null)
                 throw new PortalException("aucune assetCategory pour le budget"
                         + budgetParticipatif.getBudgetParticipatifId());
-        } catch (PortalException e) {
+        } catch (PortalException | IOException e) {
             _log.error(e);
             throw new PortletException(e);
         }
@@ -235,34 +232,128 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         return true;
     }
 
-    private boolean validate() {
-        boolean isValid = true;
+    /**
+     * Recuperer l'image uploadée par l'utilisateur.
+     *
+     * @param budgetParticipatif le budget participatif correspondant.
+     * @param request            la request
+     * @return le budgetParticipatif avec l'imageId
+     * @throws IOException
+     * @throws PortalException
+     */
+    private BudgetParticipatif uploadFile(BudgetParticipatif budgetParticipatif,
+                                          ResourceRequest request)
+            throws IOException, PortalException {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        if (validateFileName(request)) {
+            File budgetPhoto = uploadRequest.getFile(PHOTO);
+            _log.info("budgetPhoto : [" + budgetPhoto + "]");
+            if (budgetPhoto != null && budgetPhoto.exists()) {
+                _log.info("Going to write the file contents");
+
+                byte[] imageBytes = FileUtil.getBytes(budgetPhoto);
+                DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                        "budget participatif");
+                DLFolder folder = DLFolderLocalServiceUtil
+                        .getFolder(themeDisplay.getScopeGroupId(),
+                                folderparent.getFolderId(),
+                                "uploads");
+                FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
+                        sc.getUserId(), folder.getRepositoryId(),
+                        folder.getFolderId(), budgetPhoto.getName(),
+                        MimeTypesUtil.getContentType(budgetPhoto),
+                        budgetPhoto.getName(), title,
+                        "", imageBytes, sc);
+                budgetParticipatif.setImageId(fileEntry.getFileEntryId());
+
+            }
+            return budgetParticipatif;
+        } else {
+            throw new PortalException("le fichier n'est pas une image");
+        }
+    }
+
+    private boolean validateFileName(ResourceRequest request) throws PortalException {
+        boolean result = true;
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        String fileName = uploadRequest.getFileName("budgetPhoto");
+        if (fileName != null && !fileName.isEmpty()) {
+            String type = fileName.substring(fileName.lastIndexOf("."));
+            result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
+        }
+        return result;
+    }
+
+    private boolean validate(ResourceRequest request) {
+        
+        // utilisateur 
+        if (this.publikID == null || this.publikID.isEmpty()) {
+            this.message = "Utilisateur non recconu";
+            return false;
+        } else {
+        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
+        	
+        	if (this.user.isBanned()) {
+        		this.message = "Vous ne pouvez soutenir ce projet";
+        		return false;
+        	} else if (this.user.getPactSignature() == null) {
+        		this.message = "Vous devez signer le Pacte pour soumettre un projet";
+        		return false;
+        	}
+        }
+        
         // title
         if (Validator.isNull(this.title)) {
-            isValid = false;
+        	this.message = "Titre non valide";
+            return false;
         }
 
         // description
         if (Validator.isNull(this.description)) {
-            isValid = false;
+        	this.message = "Description non valide";
+            return false;
+        }
+
+        // birthday
+        if (Validator.isNull(this.birthday)) {
+        	this.message = "Date de naissance non valide";
+            return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            isValid = false;
+        	this.message = "Ville non valide";
+            return false;
         }
 
         // address
         if (Validator.isNull(this.address)) {
-            isValid = false;
+        	this.message = "Adresse non valide";
+        	return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            isValid = false;
+        	this.message = "Code postal non valide";
+            return false;
         }
 
-        return isValid;
+        try {
+			if (!validateFileName(request)) {
+				this.message = "Nom du fichier de l'image non valide";
+			    return false;
+			}
+		} catch (PortalException e) {
+			_log.error(e);
+			this.message = "Erreur lors de la lecture de du fichier de l'image";
+		    return false;
+		}
+
+        return true;
     }
 
 }

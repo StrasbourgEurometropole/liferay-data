@@ -62,6 +62,14 @@ public class AssetVocabularyAccessor {
 		}		
 	}
 	
+	public AssetVocabulary getBudgetParticipatifStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.BUDGET_PARTICIPATIF_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
+	
 	public AssetVocabulary getParticipationTypes(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PARTICIPATION_TYPE, groupID);

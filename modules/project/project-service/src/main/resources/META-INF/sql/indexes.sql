@@ -1,14 +1,21 @@
+create index IX_7C6D150C on project_BudgetParticipatif (budgetPhaseId);
 create index IX_163FE495 on project_BudgetParticipatif (groupId);
+create index IX_129BAF78 on project_BudgetParticipatif (isCrush, status, groupId);
 create index IX_D87960D5 on project_BudgetParticipatif (publikId[$COLUMN_LENGTH:75$]);
 create index IX_A415ED6F on project_BudgetParticipatif (status, groupId);
 create index IX_3577CA69 on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_2C11D72B on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_BFF51ECE on project_BudgetPhase (budgetParticipatifId);
 create index IX_60E2B8B4 on project_BudgetPhase (groupId);
-create index IX_E2311096 on project_BudgetPhase (publikId[$COLUMN_LENGTH:75$]);
+create index IX_F22798F0 on project_BudgetPhase (isActive, groupId);
 create index IX_27A8292A on project_BudgetPhase (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_149CF22C on project_BudgetPhase (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_528650AD on project_BudgetSupport (budgetParticipatifId, publikUserId[$COLUMN_LENGTH:75$]);
+create index IX_193E1720 on project_BudgetSupport (groupId);
+create index IX_155DAB95 on project_BudgetSupport (publikUserId[$COLUMN_LENGTH:75$]);
+create index IX_AC32443E on project_BudgetSupport (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_D15AC240 on project_BudgetSupport (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_F2897552 on project_Initiative (groupId);
 create index IX_8561E7B8 on project_Initiative (publikId[$COLUMN_LENGTH:75$]);

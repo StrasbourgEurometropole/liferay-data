@@ -565,7 +565,7 @@ public class AssetVocabularyHelper {
 		if (assetCategories == null || assetCategories.isEmpty()) {
 			result.append("aucun quartier");
 		} else if (AssetVocabularyHelper.isAllDistrict(assetCategories.size())) {
-			result.append("tout les quartiers");
+			result.append("tous les quartiers");
 		} else {
 			result.append(assetCategories.stream()
 					.map(assetCategory -> assetCategory.getTitle(locale))

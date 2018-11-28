@@ -40,7 +40,19 @@
 		<%-- Composant : partie gestion (affichee apres une selection) --%>
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<c:if test="${dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "acceptableSelection();"%>'
+						label="Recevable" />
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "feasibleSelection();"%>'
+						label="Faisable" />
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "realizedSelection();"%>' 
+						label='realise'/>
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "laureatSelection();"%>'
+						label="laureat" />
 					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
@@ -49,7 +61,7 @@
 						icon="times" label="unpublish" />
 				</c:if>
 			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${dc.hasPermission('DELETE_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 			<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
@@ -62,7 +74,7 @@
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
-		<liferay-ui:search-container id="budgetParticipatifSearchContainer"
+		<liferay-ui:search-container id="budgetParticipatifsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 			<liferay-ui:search-container-results results="${dc.budgetParticipatifs}" />
 
@@ -80,34 +92,56 @@
 
 				<%-- Colonne : Titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="title" truncate="true" orderable="true"
+					href="${editBudgetParticipatifURL}" name="title" truncate="true" orderable="true"
 					value="${budgetParticipatif.title}" />
 				
-				<%-- Colonne : Date de modification --%>
+				<%-- Colonne : Depositaire (Publik) --%>
+                <liferay-ui:search-container-column-text name="depositary">
+                    ${budgetParticipatif.author}
+                </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Phase --%>
+                <liferay-ui:search-container-column-text name="budget-phase">
+                    ${budgetParticipatif.phaseTitleLabel}
+                </liferay-ui:search-container-column-text>
+                
+                
+
+				<%-- Colonne : Administrateur liferay --%>
+                <liferay-ui:search-container-column-text name="administrator">
+                    ${budgetParticipatif.statusByUserName}
+                </liferay-ui:search-container-column-text>
+                
+                <%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${budgetParticipatif.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
-
-				<%-- Colonne : Createur --%>
-                <liferay-ui:search-container-column-text name="user">
-                    ${budgetParticipatif.userName}
+					
+				<%-- Colonne : Statut BP --%>
+                <liferay-ui:search-container-column-text name="status-bp">
+                    ${budgetParticipatif.getBudgetParticipatifStatusTitle(locale)}
                 </liferay-ui:search-container-column-text>
+
+				<%-- Colonne : Statut --%>
+				<liferay-ui:search-container-column-text name="status-liferay">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${budgetParticipatif.status}" />
+				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editBudgetParticipatifURL}" />
 						</c:if>
 
 						<liferay-portlet:actionURL name="deleteBudgetParticipatif" var="deleteBudgetParticipatifURL">
-							<portlet:param name="cmd" value="deleteBudgetParticipatif" />
 							<portlet:param name="tab" value="budgets-participatifs" />
 							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('DELETE_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteBudgetParticipatifURL}" />
 						</c:if>
 					</liferay-ui:icon-menu>
@@ -136,7 +170,7 @@
 <%-- Composant : bouton d'ajout d'entite --%>
 <!--
 <liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_BUDGET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+	<c:if test="${dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 		<liferay-frontend:add-menu-item title="Ajouter un budget participatif" url="${addBudgetParticipatifURL}" />
 	</c:if>
 </liferay-frontend:add-menu>
@@ -166,6 +200,51 @@
 <%-- URL : defini le lien vers l'action de depublication --%>
 <liferay-portlet:actionURL name="selectionAction" var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
+	<portlet:param name="tab" value="budgets-participatifs" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:actionURL>
+
+<%-- URL : defini le lien vers l'action de changement de statut a : Faisable --%>
+<liferay-portlet:actionURL name="selectionBudgetParticipatifAction" var="acceptableSelectionURL">
+	<portlet:param name="cmd" value="acceptable" />
+	<portlet:param name="tab" value="budgets-participatifs" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:actionURL>
+
+<%-- URL : defini le lien vers l'action de changement de statut a : Faisable --%>
+<liferay-portlet:actionURL name="selectionBudgetParticipatifAction" var="feasibleSelectionURL">
+	<portlet:param name="cmd" value="feasible" />
+	<portlet:param name="tab" value="budgets-participatifs" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:actionURL>
+
+
+<%-- URL : defini le lien vers l'action de changement de statut a : Faisable --%>
+<liferay-portlet:actionURL name="selectionBudgetParticipatifAction" var="realizedSelectionURL">
+	<portlet:param name="cmd" value="realized" />
+	<portlet:param name="tab" value="budgets-participatifs" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:actionURL>
+
+<%-- URL : defini le lien vers l'action de changement de statut a : Faisable --%>
+<liferay-portlet:actionURL name="selectionBudgetParticipatifAction" var="laureatSelectionURL">
+	<portlet:param name="cmd" value="laureat" />
 	<portlet:param name="tab" value="budgets-participatifs" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
@@ -206,6 +285,50 @@
 					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${unpublishSelectionURL}');
+		}
+	}
+	function <portlet:namespace />acceptableSelection() {
+		if (confirm('<liferay-ui:message key="acceptable-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${acceptableSelectionURL}');
+		}
+	}
+	function <portlet:namespace />feasibleSelection() {
+		if (confirm('<liferay-ui:message key="feasible-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${feasibleSelectionURL}');
+		}
+	}
+	function <portlet:namespace />realizedSelection() {
+		if (confirm('<liferay-ui:message key="realized-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${realizedSelectionURL}');
+		}
+	}
+	function <portlet:namespace />laureatSelection() {
+		if (confirm('<liferay-ui:message key="laureat-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${laureatSelectionURL}');
 		}
 	}
 </aui:script>

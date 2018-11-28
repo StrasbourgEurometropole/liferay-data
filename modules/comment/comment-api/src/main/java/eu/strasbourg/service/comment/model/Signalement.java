@@ -62,11 +62,31 @@ public interface Signalement extends SignalementModel, PersistedModel {
 	public eu.strasbourg.service.comment.model.Comment getComment();
 
 	/**
-	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	* Recuperer le commmentaire lie au signalement.
 	*
 	* @return le commentaire.
 	*/
 	public java.lang.String getCommentContent();
+
+	/**
+	* Retourne l'utilisateur auteur du commentaire
+	*/
+	public eu.strasbourg.service.oidc.model.PublikUser getCommentAuthor();
+
+	/**
+	* Retourne le nom de l'auteur du commentaire
+	*/
+	public java.lang.String getCommentAuthorLabel();
+
+	/**
+	* Retourne l'utilisateur auteur du signalement
+	*/
+	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor();
+
+	/**
+	* Retourne le nom de l'auteur du signalement
+	*/
+	public java.lang.String getSignalementAuthorLabel();
 
 	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via

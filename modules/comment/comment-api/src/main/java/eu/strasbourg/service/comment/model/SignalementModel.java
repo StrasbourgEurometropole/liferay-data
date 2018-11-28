@@ -307,6 +307,21 @@ public interface SignalementModel extends BaseModel<Signalement>, GroupedModel,
 	public void setCommentId(long commentId);
 
 	/**
+	 * Returns the publik ID of this signalement.
+	 *
+	 * @return the publik ID of this signalement
+	 */
+	@AutoEscape
+	public String getPublikId();
+
+	/**
+	 * Sets the publik ID of this signalement.
+	 *
+	 * @param publikId the publik ID of this signalement
+	 */
+	public void setPublikId(String publikId);
+
+	/**
 	 * Returns <code>true</code> if this signalement is approved.
 	 *
 	 * @return <code>true</code> if this signalement is approved; <code>false</code> otherwise

@@ -46,14 +46,14 @@ public class BudgetPhaseSoap implements Serializable {
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
-		soapModel.setName(model.getName());
+		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setNumberOfVote(model.getNumberOfVote());
 		soapModel.setIsActive(model.getIsActive());
 		soapModel.setBeginDate(model.getBeginDate());
 		soapModel.setEndDate(model.getEndDate());
-		soapModel.setPublikId(model.getPublikId());
-		soapModel.setBudgetParticipatifId(model.getBudgetParticipatifId());
+		soapModel.setBeginVoteDate(model.getBeginVoteDate());
+		soapModel.setEndVoteDate(model.getEndVoteDate());
 
 		return soapModel;
 	}
@@ -202,12 +202,12 @@ public class BudgetPhaseSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
-	public String getName() {
-		return _name;
+	public String getTitle() {
+		return _title;
 	}
 
-	public void setName(String name) {
-		_name = name;
+	public void setTitle(String title) {
+		_title = title;
 	}
 
 	public String getDescription() {
@@ -254,20 +254,20 @@ public class BudgetPhaseSoap implements Serializable {
 		_endDate = endDate;
 	}
 
-	public String getPublikId() {
-		return _publikId;
+	public Date getBeginVoteDate() {
+		return _beginVoteDate;
 	}
 
-	public void setPublikId(String publikId) {
-		_publikId = publikId;
+	public void setBeginVoteDate(Date beginVoteDate) {
+		_beginVoteDate = beginVoteDate;
 	}
 
-	public long getBudgetParticipatifId() {
-		return _budgetParticipatifId;
+	public Date getEndVoteDate() {
+		return _endVoteDate;
 	}
 
-	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_budgetParticipatifId = budgetParticipatifId;
+	public void setEndVoteDate(Date endVoteDate) {
+		_endVoteDate = endVoteDate;
 	}
 
 	private String _uuid;
@@ -282,12 +282,12 @@ public class BudgetPhaseSoap implements Serializable {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private String _name;
+	private String _title;
 	private String _description;
 	private long _numberOfVote;
 	private boolean _isActive;
 	private Date _beginDate;
 	private Date _endDate;
-	private String _publikId;
-	private long _budgetParticipatifId;
+	private Date _beginVoteDate;
+	private Date _endVoteDate;
 }

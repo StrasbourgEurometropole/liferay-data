@@ -1,4 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
+
 <portlet:resourceURL id="filePetition" var="filePetitionURL">
 </portlet:resourceURL>
 
@@ -126,6 +127,9 @@
                     <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contact"/></p>
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                <div id="filealertLegalage" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
+                <div id="filealertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
+                <div id="filealertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
                 <div class="pro-form-submit">
                     <button id="sendPetition" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filepetition.submit"/></button>
                 </div>
@@ -276,6 +280,7 @@
                                 $("#modalErrorPetition h4").text(data.message);
                                 $('#modalErrorPetition').modal('show');
                             }
+                            resetValues();
                         }
                     }
                 });
@@ -314,6 +319,18 @@
         $("#"+namespace+"mobile").val(saved_mobile);
     }
 
+    function getAge(dateString) {
+        var from = dateString.split("/");
+        var today = new Date();
+        var birthDate = new Date(from[2],from[1]-1,from[0]);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+    }
+
     function checkValues(){
         if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
         $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
@@ -326,8 +343,7 @@
         }
     }
 
-    function validateForm()
-    {
+    function validateForm(){
         var result = true;
         var petitiontitle = $("#"+namespace+"petitiontitle").val();
         var petitiondescription = $("#"+namespace+"petitiondescription").val();
@@ -359,11 +375,11 @@
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
-        if (city.toUpperCase()!=="STRASBOURG"){
-            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
-            alert("Vous devez vivre a Strasbourg pour pouvoir soumettre ce formulaire.");
+        /* if (city.toLowerCase()!=="strasbourg"){
+            $("#filealertcity").removeClass("hidden");
+            $("#"+namespaceSign+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+        } else $("#filealertcity").addClass("hidden"); */
 
         if (address==null || address==""){
             $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -389,6 +405,7 @@
         if (!result)
             $("#sendalert").removeClass("hidden");
         else $("#sendalert").addClass("hidden");
+        
         return result;
     }
 </script>

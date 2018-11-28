@@ -48,7 +48,7 @@
 <c:set var="tauxVocabulary" value="${vocabularyAccessor.getTauxNoel(themeDisplay.getLayout().getGroupId())}" />
 	<label for="taux">${tauxVocabulary.getDescription(locale)}</label>
 	<div class="content">
-		<select class="" id="public" name="<portlet:namespace />vocabulary_0">
+		<select class="" id="public" name="<portlet:namespace />vocabulary_1">
              <c:forEach items="${dc.getSortedCategories(tauxVocabulary)}" var="category">
 				<c:set var="category" value="${category}" scope="request"/>
 				<c:set var="dc" value="${dc}" scope="request"/>
@@ -62,7 +62,7 @@
 <c:set var="dureeVocabulary" value="${vocabularyAccessor.getDureesNoel(themeDisplay.getLayout().getGroupId())}" />
 	<label for="duree">${dureeVocabulary.getDescription(locale)}</label>
 	<div class="content">
-		<select class="" id="public" name="<portlet:namespace />vocabulary_0">
+		<select class="" id="public" name="<portlet:namespace />vocabulary_2">
              <c:forEach items="${dc.getSortedCategories(dureeVocabulary)}" var="category">
 				<c:set var="category" value="${category}" scope="request"/>
 				<c:set var="dc" value="${dc}" scope="request"/>

@@ -16,12 +16,15 @@
 
                  <div class="pro-wrapper-sort">
                     <c:choose>
-                        <c:when test='${isUserloggedIn}'>
+                        <c:when test='${isUserloggedIn && hasUserPactSign && !isUserBanned}'>
                             <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition"><liferay-ui:message key="file-petition" /></a>
                         </c:when>
-                        <c:otherwise>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal"><liferay-ui:message key="file-petition" /></a>
-                        </c:otherwise>
+                        <c:when test='${!hasUserPactSign && !isUserBanned}'>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow" name="#Pact-sign"><liferay-ui:message key="file-petition" /></a>
+                        </c:when>
+                        <c:when test='${isUserBanned}'>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow" name="#IsBanned"><liferay-ui:message key="file-petition" /></a>
+                        </c:when>
                     </c:choose>
  				</div>
 				

@@ -14,23 +14,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.search_asset.action.ExportPDF;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
@@ -41,13 +28,7 @@ import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.ParticipationLocalService;
-import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
-import eu.strasbourg.service.project.service.PetitionLocalService;
-import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -57,25 +38,14 @@ import eu.strasbourg.utils.SearchHelper;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
+import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
         "com.liferay.portlet.display-category=Strasbourg",
@@ -90,21 +60,6 @@ import java.util.Map;
         "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
 public class SearchAssetPortlet extends MVCPortlet {
 
-    /**
-     * interface des petitions
-     */
-    private PetitionLocalService _petitionLocalService;
-
-    /**
-     * interface des budgets
-     */
-    private BudgetParticipatifLocalService _budgetParticipatifLocalService;
-
-    /**
-     * interface des participation
-     */
-    private ParticipationLocalService _participationLocalService;
-
     public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
     public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
     public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
@@ -113,8 +68,8 @@ public class SearchAssetPortlet extends MVCPortlet {
     public void render(RenderRequest renderRequest,
                        RenderResponse renderResponse) {
         try {
-            ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
-                    .getAttribute(WebKeys.THEME_DISPLAY);
+            ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+            long groupId = themeDisplay.getLayout().getGroupId();
             this._configuration = themeDisplay
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             SearchAssetConfiguration.class);
@@ -157,35 +112,53 @@ public class SearchAssetPortlet extends MVCPortlet {
             renderRequest.setAttribute("homeURL", homeURL);
 
             String className = classNameList.get(0);
-            if (className.equals(PARTICIPATION)){
-
-                List<Participation> participationListMostCommented = _participationLocalService
-                        .getMostCommented(themeDisplay.getScopeGroupId());
-                List<Participation> participationListLessCommented = _participationLocalService
-                        .getLessCommented(themeDisplay.getScopeGroupId());
+            
+            if (className.equals(PARTICIPATION)) {
+                List<Participation> participationListMostCommented = _participationLocalService.getMostCommented(groupId);
+                List<Participation> participationListLessCommented = _participationLocalService.getLessCommented(themeDisplay.getScopeGroupId());
+                
                 renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
                 renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
 
-            }else if (className.equals(PETITION)){
-
-                //récuperer des objets des champs les plus/les moins.
-                List<Petition> petitionListMostSigned = _petitionLocalService
-                        .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
-                List<Petition> petitionListLessSigned = _petitionLocalService
-                        .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
-                List<Petition> petitionListMostCommented = _petitionLocalService
-                        .getTheMostCommented(themeDisplay.getScopeGroupId());
-
+            } else if (className.equals(PETITION)) {
+                // Recuperer des objets des champs les plus/les moins.
+                List<Petition> petitionListMostSigned = _petitionLocalService.getTheThreeMostSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListLessSigned = _petitionLocalService.getTheThreeLessSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListMostCommented = _petitionLocalService.getTheMostCommented(themeDisplay.getScopeGroupId());
+                
                 renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
                 renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
                 renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
-
+                
+            } else if (className.equals(BUDGET)) {
+            	List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3);
+            	List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3);
+            	List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3);
+            	
+            	renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
+            	renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
+            	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
             }
+            
             if (Validator.isNotNull(userPublikId)) {
                 renderRequest.setAttribute("isUserloggedIn", true);
             } else {
                 renderRequest.setAttribute("isUserloggedIn", false);
             }
+
+            //Suppression des attributs de session
+            /*HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
+            HttpSession session = request.getSession();
+            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");
+            session.removeAttribute("PORTLET_RENDER_PARAMETERS_");
+            session.removeAttribute("LIFERAY_SHARED_VISITED_GROUP_ID_RECENT");
+            session.removeAttribute("LAST_PATH");
+            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN#CSRF");
+            session.removeAttribute("DEVICE");
+            session.removeAttribute("PREVIOUS_LAYOUT_PLID");
+            session.removeAttribute("PORTAL_PREFERENCES");
+            session.removeAttribute("HTTPS_INITIAL");
+            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");*/
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
@@ -237,6 +210,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
                     this._states = new long[]{};
                     this._statuts = new long[]{};
+                    this._bpStatus = new long[] {};
                     this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -254,6 +228,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._endYear = -1;
                     this._states = new long[]{};
                     this._statuts = ParamUtil.getLongValues(resourceRequest, "selectedStatut");
+                    this._bpStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -271,6 +246,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
                     this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
                     this._statuts = new long[]{};
+                    this._bpStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -288,6 +264,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
                     this._states = new long[]{};
                     this._statuts = new long[]{};
+                    this._bpStatus = new long[] {};
                     this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -305,6 +282,25 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
                     this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
                     this._statuts = new long[]{};
+                    this._bpStatus = new long[] {};
+                    this._projects = new long[]{};
+                    this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                    this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                    this._types = new long[]{};
+                    this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
+                
+                if (resourceID.equals("entrySelectionBudgetParticipatif")) {
+                    this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
+                    this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
+                    this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
+                    this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
+                    this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
+                    this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
+                    this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
+                    this._states = new long[]{};
+                    this._statuts = new long[]{};
+                    this._bpStatus = ParamUtil.getLongValues(resourceRequest, "selectedBPStatus");
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -322,6 +318,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
                     this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
                     this._statuts = new long[]{};
+                    this._bpStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -400,19 +397,19 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonPetition.put("json", json);
                             jsonEntries.put(jsonPetition);
                             break;
-                        case "eu.strasbourg.service.video.model.Video":
-                            Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
-                            JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
-                            jsonVideo.put("class", className);
-                            jsonVideo.put("json", video.toJSON());
-                            jsonEntries.put(jsonVideo);
-                            break;
                         case "eu.strasbourg.service.project.model.BudgetParticipatif":
                             BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(entry.getClassPK());
                             JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
                             jsonBudget.put("class", className);
                             jsonBudget.put("json", budgetParticipatif.toJSON(publikUserId));
                             jsonEntries.put(jsonBudget);
+                            break;
+                        case "eu.strasbourg.service.video.model.Video":
+                            Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
+                            JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
+                            jsonVideo.put("class", className);
+                            jsonVideo.put("json", video.toJSON());
+                            jsonEntries.put(jsonVideo);
                             break;
                         case "com.liferay.journal.model.JournalArticle":
                             JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
@@ -592,6 +589,16 @@ public class SearchAssetPortlet extends MVCPortlet {
         for (long statut : this._statuts) {
             if (statut > 0) {
                 categoriesIds.add(statut);
+            }
+        }
+        if (categoriesIds.size() > 0) {
+            filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+        
+        // On récupère les statuts BP s'il y en a
+        for (long bpStatus : this._bpStatus) {
+            if (bpStatus > 0) {
+                categoriesIds.add(bpStatus);
             }
         }
         if (categoriesIds.size() > 0) {
@@ -827,11 +834,27 @@ public class SearchAssetPortlet extends MVCPortlet {
     private int _endYear;
     private long[] _states;
     private long[] _statuts;
+    private long[] _bpStatus;
     private long[] _projects;
     private long[] _districts;
     private long[] _thematics;
     private long[] _types;
     private String _sortFieldAndType;
+    
+    /**
+     * interface des petitions
+     */
+    private PetitionLocalService _petitionLocalService;
+
+    /**
+     * interface des budgets
+     */
+    private BudgetParticipatifLocalService _budgetParticipatifLocalService;
+
+    /**
+     * interface des participations
+     */
+    private ParticipationLocalService _participationLocalService;
 
     private Hits _hits;
 

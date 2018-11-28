@@ -41,7 +41,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
@@ -428,7 +427,7 @@ public class ParticipationLocalServiceImpl
     }
     
     /**
-	 * Retourne toutes les participation publiées d'un groupe
+	 * Retourne toutes les participation publiees d'un groupe
 	 */
 	@Override
 	public List<Participation> getPublishedByGroupId(long groupId) {

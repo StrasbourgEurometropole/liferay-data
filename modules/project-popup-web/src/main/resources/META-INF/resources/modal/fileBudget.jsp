@@ -1,6 +1,8 @@
 <%@ include file="/project-popup-init.jsp" %>
+
 <portlet:resourceURL id="fileBudget" var="fileBudgetURL">
 </portlet:resourceURL>
+
 <!-- DEPOSER UN NOUVEAU BUDGET -->
 <!-- HTML pour la modal de budget -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalBudget" tabindex="-1" role="dialog" aria-labelledby="modalProjet">
@@ -11,7 +13,7 @@
                 <button id="closingButton" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form>
+            <aui:form name="uploadForm" enctype="multipart/form-data">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filebudget.information"/></h4>
                     <div class="form-group">
@@ -23,7 +25,7 @@
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />project">
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <option value="0" selected><liferay-ui:message key="modal.filebudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
@@ -56,10 +58,14 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <div class="input-group input-file" name="Fichier1">
-                                <aui:input id="budgetPhoto" name="budgetPhoto" cssClass="form-control" label="modal.filebudget.information.picture" value=""/>
-                                <span class="browsePicture input-group-btn"><button class="btn btn-default btn-choose" type="button">Parcourir</button></span>
-                            </div>
+                            <span class="browsePicture input-group-btn">
+                                <aui:input name="budgetPhoto" type="file" label="modal.filebudget.information.picture"
+                                    cssClass="btn btn-default btn-choose">
+							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
+                                </aui:input>
+                                <!-- Permet de recuperer l'id de l'image postee par l'utilisateur -->
+                                <aui:input type="hidden" name="webImageId" />
+                            </span>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -71,19 +77,22 @@
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.filebudget.user"/></h4>
                     <div class="pro-row">
-                        <div class="form-group form-half">
-                            <aui:input name="username" label="modal.user.username" required="true" disabled="true"  value="${userConnected.get('last_name')}"/>
+                        <div class="form-group form-triple">
+                            <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
                         </div>
-                        <div class="form-group form-half">
-                            <aui:input name="firstname" label="modal.user.firstname" required="true" disabled="true"  value="${userConnected.get('first_name')}"/>
+                        <div class="form-group form-triple">
+                            <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
                         </div>
-                    </div>
-                    <div class="pro-row">
-                        <div class="form-group form-half">
+                        <div class="form-group form-triple">
 	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
                             <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
                         </div>
                         <div class="form-group form-half">
@@ -135,7 +144,7 @@
                 <div class="pro-form-submit">
                     <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filebudget.submit"/></button>
                 </div>
-            </form>
+            </aui:form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -210,18 +219,18 @@
 	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
     $(document).ready(function(){
+    	resetValues();
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
         $('#checkboxSaveInfo').hide();
-
-        $('#buttonDeposer').click(function(event){
-            resetValues();
-        });
+    });
+    
+    $('#buttonDeposer').click(function(event){
+        resetValues();
     });
 
     $("#sendBudget").click(function(event){
         event.preventDefault();
-
         var response = validateForm();
         if (response){
             var budgetTitleValue = $("#"+namespace+"budgettitle").val();
@@ -229,12 +238,13 @@
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
             var postalcodeValue = $("#"+namespace+"postalcode").val();
+            var birthdayValue = $("#"+namespace+"birthday").val();
             var phoneValue = $("#"+namespace+"phone").val();
             var mobileValue = $("#"+namespace+"mobile").val();
             var projectValue = $("#"+namespace+"project").val();
             var quartierValue = $("#"+namespace+"quartier").val();
             var themeValue = $("#"+namespace+"theme").val();
-            var consultationPlacesTextValue = $("#"+namespace+"budgetlieux").val();
+            var budgetlieuxValue = $("#"+namespace+"budgetlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var photoValue = $("#"+namespace+"budgetPhoto").val();
@@ -242,52 +252,68 @@
             var firstNameValue = $("#"+namespace+"firstname").val();
             var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
-                A.io.request('${fileBudgetURL}', {
-                    method : 'POST',
-                    dataType: 'json',
-                    data:{
-                        <portlet:namespace/>budgettitle:budgetTitleValue,
-                        <portlet:namespace/>budgetdescription:budgetDescriptionValue,
-                        <portlet:namespace/>address:addressValue,
-                        <portlet:namespace/>city:cityValue,
-                        <portlet:namespace/>postalcode:postalcodeValue,
-                        <portlet:namespace/>phone:phoneValue,
-                        <portlet:namespace/>mobile:mobileValue,
-                        <portlet:namespace/>birthday:saved_dateNaiss,
-                        <portlet:namespace />project:projectValue,
-                        <portlet:namespace />quartier:quartierValue,
-                        <portlet:namespace />theme:themeValue,
-                        <portlet:namespace />photo:photoValue,
-                        <portlet:namespace />video:videoValue,
-                        <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
-                        <portlet:namespace />saveinfo:saveInfoValue,
-                        <portlet:namespace />lastname:lastNameValue,
-                        <portlet:namespace />firstname:firstNameValue,
-                        <portlet:namespace />email:emailValue
-                    },
-                    on: {
-                        success: function(e) {
-                            var data = this.get('responseData');
-                            if(data.result){
-                                $('#modalBudget').modal('hide');
-                                if(data.savedInfo){
-                                    saved_city = $("#"+namespace+"city").val();
-                                    saved_address = $("#"+namespace+"address").val();
-                                    saved_zipCode = $("#"+namespace+"postalcode").val();
-                                    if($("#"+namespace+"phone").val() != "")
-                                        saved_phone = $("#"+namespace+"phone").val();
-                                    if($("#"+namespace+"mobile").val() != "")
-                                        saved_mobile = $("#"+namespace+"mobile").val();
+                var uploadForm = A.one("#<portlet:namespace />uploadForm");
+                try {
+                    A.io.request('${fileBudgetURL}', {
+                        method : 'POST',
+                        form: {
+                            id: uploadForm,
+                            upload: true
+                        },
+                        sync: true,
+                        dataType: 'json',
+                        data:{
+                            <portlet:namespace/>title:budgetTitleValue,
+                            <portlet:namespace/>description:budgetDescriptionValue,
+                            <portlet:namespace/>address:addressValue,
+                            <portlet:namespace/>city:cityValue,
+                            <portlet:namespace/>postalcode:postalcodeValue,
+                            <portlet:namespace/>phone:phoneValue,
+                            <portlet:namespace/>mobile:mobileValue,
+                            <portlet:namespace/>birthday:birthdayValue,
+                            <portlet:namespace />project:projectValue,
+                            <portlet:namespace />quartier:quartierValue,
+                            <portlet:namespace />theme:themeValue,
+                            <portlet:namespace />photo:photoValue,
+                            <portlet:namespace />video:videoValue,
+                            <portlet:namespace />budgetLieux:budgetlieuxValue,
+                            <portlet:namespace />saveinfo:saveInfoValue,
+                            <portlet:namespace />lastname:lastNameValue,
+                            <portlet:namespace />firstname:firstNameValue,
+                            <portlet:namespace />email:emailValue
+                        },
+                        on: {
+                            complete: function(e) {
+                                // var data = this.get('responseData');
+                                var data = JSON.parse(e.details[1].responseText);
+                                if(data.result){
+                                    $('#modalBudget').modal('hide');
+                                    if(data.savedInfo){
+                                        saved_dateNaiss = birthdayValue;
+                                        saved_city = $("#"+namespace+"city").val();
+                                        saved_address = $("#"+namespace+"address").val();
+                                        saved_zipCode = $("#"+namespace+"postalcode").val();
+                                        if($("#"+namespace+"phone").val() != "")
+                                            saved_phone = $("#"+namespace+"phone").val();
+                                        if($("#"+namespace+"mobile").val() != "")
+                                            saved_mobile = $("#"+namespace+"mobile").val();
+                                    }
+                                    $('#modalConfirmerBudget').modal('show');
+                                    resetValues();
+                                }else{
+                                    $("#modalErrorBudget h4").text(data.message);
+                                    $('#modalErrorBudget').modal('show');
                                 }
-                                $('#modalConfirmerBudget').modal('show');
-                            }else{
-                                $("#modalErrorBudget h4").text(data.message);
-                                $('#modalErrorBudget').modal('show');
                             }
                         }
-                    }
-                });
-             });
+                    });
+                }
+                catch(error) {
+                    if(!(error instanceof TypeError)){
+                        console.log(error);
+                    } else console.log("petite erreur sans importance")
+                }
+            });
         }
     });
 
@@ -321,12 +347,13 @@
         $("#"+namespace+"postalcode").val(saved_zipCode);
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
+        $("#"+namespace+"birthday").val(saved_dateNaiss);
     }
 
     function checkValues(){
-        if($("#"+namespace+"address").val() != saved_address ||
+        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
         $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
-        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
+        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile) {
             $('#checkboxSaveInfo #save-info').prop('checked', true);
             $('#checkboxSaveInfo').show();
         }else{
@@ -345,7 +372,16 @@
         var postalcode = $("#"+namespace+"postalcode").val();
         var legalage = $("#file-budget-legalage").is(":checked");
         var cnil = $("#file-budget-cnil").is(":checked");
+        var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+
+        if (photo!=null && photo!==""){
+            var ext = photo.split(".").pop().toLowerCase();
+            if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
+            $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+                result = false;
+            }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+        }
 
         if (budgettitle===null || budgettitle===""){
             $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -386,6 +422,7 @@
         if (!result)
             $("#sendalert").removeClass("hidden");
         else $("#sendalert").addClass("hidden");
+        
         return result;
     }
 </script>

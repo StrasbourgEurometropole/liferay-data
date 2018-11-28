@@ -1,7 +1,7 @@
 .add-favorites{
-    font-family: "MontSerrat", arial;
+    font-family: $f_txt;
     font-size: 1.4rem;
-    color: $c_main;
+    color: $c_main !important;
     text-transform: uppercase;
     font-weight: 700;
     position: relative;
@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 20px;
+    text-decoration : none !important;
     &:before{
         content: '';
         display: inline-block;

@@ -12,6 +12,7 @@ dependencies {
 
   	compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.17'
   	compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
+	compileInclude 'org.apache.commons:commons-text:1.4'
   	
 	compile project (':modules:place:place-api')
 	compile project (':modules:agenda:agenda-api')

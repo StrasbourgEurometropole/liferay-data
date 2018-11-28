@@ -293,19 +293,19 @@ public interface BudgetPhaseModel extends BaseModel<BudgetPhase>, GroupedModel,
 	public void setStatusDate(Date statusDate);
 
 	/**
-	 * Returns the name of this budget phase.
+	 * Returns the title of this budget phase.
 	 *
-	 * @return the name of this budget phase
+	 * @return the title of this budget phase
 	 */
 	@AutoEscape
-	public String getName();
+	public String getTitle();
 
 	/**
-	 * Sets the name of this budget phase.
+	 * Sets the title of this budget phase.
 	 *
-	 * @param name the name of this budget phase
+	 * @param title the title of this budget phase
 	 */
-	public void setName(String name);
+	public void setTitle(String title);
 
 	/**
 	 * Returns the description of this budget phase.
@@ -386,33 +386,32 @@ public interface BudgetPhaseModel extends BaseModel<BudgetPhase>, GroupedModel,
 	public void setEndDate(Date endDate);
 
 	/**
-	 * Returns the publik ID of this budget phase.
+	 * Returns the begin vote date of this budget phase.
 	 *
-	 * @return the publik ID of this budget phase
+	 * @return the begin vote date of this budget phase
 	 */
-	@AutoEscape
-	public String getPublikId();
+	public Date getBeginVoteDate();
 
 	/**
-	 * Sets the publik ID of this budget phase.
+	 * Sets the begin vote date of this budget phase.
 	 *
-	 * @param publikId the publik ID of this budget phase
+	 * @param beginVoteDate the begin vote date of this budget phase
 	 */
-	public void setPublikId(String publikId);
+	public void setBeginVoteDate(Date beginVoteDate);
 
 	/**
-	 * Returns the budget participatif ID of this budget phase.
+	 * Returns the end vote date of this budget phase.
 	 *
-	 * @return the budget participatif ID of this budget phase
+	 * @return the end vote date of this budget phase
 	 */
-	public long getBudgetParticipatifId();
+	public Date getEndVoteDate();
 
 	/**
-	 * Sets the budget participatif ID of this budget phase.
+	 * Sets the end vote date of this budget phase.
 	 *
-	 * @param budgetParticipatifId the budget participatif ID of this budget phase
+	 * @param endVoteDate the end vote date of this budget phase
 	 */
-	public void setBudgetParticipatifId(long budgetParticipatifId);
+	public void setEndVoteDate(Date endVoteDate);
 
 	/**
 	 * Returns <code>true</code> if this budget phase is approved.

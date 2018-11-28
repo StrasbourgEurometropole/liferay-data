@@ -48,7 +48,7 @@
 		                    <c:set var="checkboxNamesCategories" value="" />
 		                    <c:forEach var="vocabularyGroups" items="${vocabularyGroups}" varStatus="groupVocabularyLoopStatus">
 		                        <h2 class="filtres__title" style="flex-basis: 100%; margin-top: 20px;">${vocabularyGroups.key}</h2>
-		                        <div class="filtres__list">
+		                        <div class="filtres__list" style="width: 100%">
 			                        <c:forEach var="category" items="${vocabularyGroups.value}" varStatus="intStatus">
 			                            <c:set var="checkboxNamesCategories" value="${checkboxNamesCategories},categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" />
 			                            <div class="filtres__item form-group grid-item categories">
@@ -64,12 +64,12 @@
 			                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
 			                                	${category.getTitle(locale)}
 
-												<c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
-													<img src="${category.getDescription(locale)}" style="height: 25px; width: 17px;">
-												</c:if>
-
 												<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
 			                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
+
+												<c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
+													<img src="${category.getDescription(locale)}">
+												</c:if>
 			                                </label>
 			                            </div>
 			                        </c:forEach>

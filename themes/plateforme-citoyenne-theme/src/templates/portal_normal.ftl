@@ -46,7 +46,7 @@
 	<#include "${full_templates_path}/nav_top.ftl" />
 
 	<#include "${full_templates_path}/modal_connexion.ftl" />
-
+	<#include "${full_templates_path}/modal_banned.ftl" />
 	<#include "${full_templates_path}/confirm_quit_modal.ftl" />
 
 	<main id="content" class="pro-overflow-visible">

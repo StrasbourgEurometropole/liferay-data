@@ -43,19 +43,19 @@
                     <div class="pro-right">
                         
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion connexion-active" title="Mon compte">
+                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion connexion-black" title="Mon compte">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
                                 </span>    
                             </a>
-                            <a class="nav-logout connexion-active" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+                            <a class="nav-logout connexion-black" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
                                 <span class="flexbox">
                                     <span class="picto"></span>
-                                </span>  
+                                </span>
                             </a>
                         <#else>
-                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="pro-btn-connexion" title="Connexion">
+                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="pro-btn-connexion connexion-black" title="Connexion">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">Connexion</span>

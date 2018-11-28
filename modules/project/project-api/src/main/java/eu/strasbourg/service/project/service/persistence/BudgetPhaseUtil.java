@@ -658,335 +658,185 @@ public class BudgetPhaseUtil {
 	}
 
 	/**
-	* Returns all the budget phases where budgetParticipatifId = &#63;.
+	* Returns all the budget phases where isActive = &#63; and groupId = &#63;.
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @return the matching budget phases
 	*/
-	public static List<BudgetPhase> findBybudgetParticipatifId(
-		long budgetParticipatifId) {
-		return getPersistence().findBybudgetParticipatifId(budgetParticipatifId);
+	public static List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId) {
+		return getPersistence().findByIsActiveAndGroupId(isActive, groupId);
 	}
 
 	/**
-	* Returns a range of all the budget phases where budgetParticipatifId = &#63;.
+	* Returns a range of all the budget phases where isActive = &#63; and groupId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param start the lower bound of the range of budget phases
 	* @param end the upper bound of the range of budget phases (not inclusive)
 	* @return the range of matching budget phases
 	*/
-	public static List<BudgetPhase> findBybudgetParticipatifId(
-		long budgetParticipatifId, int start, int end) {
+	public static List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId, int start, int end) {
 		return getPersistence()
-				   .findBybudgetParticipatifId(budgetParticipatifId, start, end);
+				   .findByIsActiveAndGroupId(isActive, groupId, start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the budget phases where budgetParticipatifId = &#63;.
+	* Returns an ordered range of all the budget phases where isActive = &#63; and groupId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param start the lower bound of the range of budget phases
 	* @param end the upper bound of the range of budget phases (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching budget phases
 	*/
-	public static List<BudgetPhase> findBybudgetParticipatifId(
-		long budgetParticipatifId, int start, int end,
+	public static List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId, int start, int end,
 		OrderByComparator<BudgetPhase> orderByComparator) {
 		return getPersistence()
-				   .findBybudgetParticipatifId(budgetParticipatifId, start,
-			end, orderByComparator);
+				   .findByIsActiveAndGroupId(isActive, groupId, start, end,
+			orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the budget phases where budgetParticipatifId = &#63;.
+	* Returns an ordered range of all the budget phases where isActive = &#63; and groupId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param start the lower bound of the range of budget phases
 	* @param end the upper bound of the range of budget phases (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching budget phases
 	*/
-	public static List<BudgetPhase> findBybudgetParticipatifId(
-		long budgetParticipatifId, int start, int end,
+	public static List<BudgetPhase> findByIsActiveAndGroupId(boolean isActive,
+		long groupId, int start, int end,
 		OrderByComparator<BudgetPhase> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
-				   .findBybudgetParticipatifId(budgetParticipatifId, start,
-			end, orderByComparator, retrieveFromCache);
+				   .findByIsActiveAndGroupId(isActive, groupId, start, end,
+			orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Returns the first budget phase in the ordered set where budgetParticipatifId = &#63;.
+	* Returns the first budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching budget phase
 	* @throws NoSuchBudgetPhaseException if a matching budget phase could not be found
 	*/
-	public static BudgetPhase findBybudgetParticipatifId_First(
-		long budgetParticipatifId,
-		OrderByComparator<BudgetPhase> orderByComparator)
+	public static BudgetPhase findByIsActiveAndGroupId_First(boolean isActive,
+		long groupId, OrderByComparator<BudgetPhase> orderByComparator)
 		throws eu.strasbourg.service.project.exception.NoSuchBudgetPhaseException {
 		return getPersistence()
-				   .findBybudgetParticipatifId_First(budgetParticipatifId,
+				   .findByIsActiveAndGroupId_First(isActive, groupId,
 			orderByComparator);
 	}
 
 	/**
-	* Returns the first budget phase in the ordered set where budgetParticipatifId = &#63;.
+	* Returns the first budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching budget phase, or <code>null</code> if a matching budget phase could not be found
 	*/
-	public static BudgetPhase fetchBybudgetParticipatifId_First(
-		long budgetParticipatifId,
+	public static BudgetPhase fetchByIsActiveAndGroupId_First(
+		boolean isActive, long groupId,
 		OrderByComparator<BudgetPhase> orderByComparator) {
 		return getPersistence()
-				   .fetchBybudgetParticipatifId_First(budgetParticipatifId,
+				   .fetchByIsActiveAndGroupId_First(isActive, groupId,
 			orderByComparator);
 	}
 
 	/**
-	* Returns the last budget phase in the ordered set where budgetParticipatifId = &#63;.
+	* Returns the last budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching budget phase
 	* @throws NoSuchBudgetPhaseException if a matching budget phase could not be found
 	*/
-	public static BudgetPhase findBybudgetParticipatifId_Last(
-		long budgetParticipatifId,
-		OrderByComparator<BudgetPhase> orderByComparator)
+	public static BudgetPhase findByIsActiveAndGroupId_Last(boolean isActive,
+		long groupId, OrderByComparator<BudgetPhase> orderByComparator)
 		throws eu.strasbourg.service.project.exception.NoSuchBudgetPhaseException {
 		return getPersistence()
-				   .findBybudgetParticipatifId_Last(budgetParticipatifId,
+				   .findByIsActiveAndGroupId_Last(isActive, groupId,
 			orderByComparator);
 	}
 
 	/**
-	* Returns the last budget phase in the ordered set where budgetParticipatifId = &#63;.
+	* Returns the last budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching budget phase, or <code>null</code> if a matching budget phase could not be found
 	*/
-	public static BudgetPhase fetchBybudgetParticipatifId_Last(
-		long budgetParticipatifId,
-		OrderByComparator<BudgetPhase> orderByComparator) {
+	public static BudgetPhase fetchByIsActiveAndGroupId_Last(boolean isActive,
+		long groupId, OrderByComparator<BudgetPhase> orderByComparator) {
 		return getPersistence()
-				   .fetchBybudgetParticipatifId_Last(budgetParticipatifId,
+				   .fetchByIsActiveAndGroupId_Last(isActive, groupId,
 			orderByComparator);
 	}
 
 	/**
-	* Returns the budget phases before and after the current budget phase in the ordered set where budgetParticipatifId = &#63;.
+	* Returns the budget phases before and after the current budget phase in the ordered set where isActive = &#63; and groupId = &#63;.
 	*
 	* @param budgetPhaseId the primary key of the current budget phase
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next budget phase
 	* @throws NoSuchBudgetPhaseException if a budget phase with the primary key could not be found
 	*/
-	public static BudgetPhase[] findBybudgetParticipatifId_PrevAndNext(
-		long budgetPhaseId, long budgetParticipatifId,
+	public static BudgetPhase[] findByIsActiveAndGroupId_PrevAndNext(
+		long budgetPhaseId, boolean isActive, long groupId,
 		OrderByComparator<BudgetPhase> orderByComparator)
 		throws eu.strasbourg.service.project.exception.NoSuchBudgetPhaseException {
 		return getPersistence()
-				   .findBybudgetParticipatifId_PrevAndNext(budgetPhaseId,
-			budgetParticipatifId, orderByComparator);
+				   .findByIsActiveAndGroupId_PrevAndNext(budgetPhaseId,
+			isActive, groupId, orderByComparator);
 	}
 
 	/**
-	* Removes all the budget phases where budgetParticipatifId = &#63; from the database.
+	* Removes all the budget phases where isActive = &#63; and groupId = &#63; from the database.
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	*/
-	public static void removeBybudgetParticipatifId(long budgetParticipatifId) {
-		getPersistence().removeBybudgetParticipatifId(budgetParticipatifId);
+	public static void removeByIsActiveAndGroupId(boolean isActive, long groupId) {
+		getPersistence().removeByIsActiveAndGroupId(isActive, groupId);
 	}
 
 	/**
-	* Returns the number of budget phases where budgetParticipatifId = &#63;.
+	* Returns the number of budget phases where isActive = &#63; and groupId = &#63;.
 	*
-	* @param budgetParticipatifId the budget participatif ID
+	* @param isActive the is active
+	* @param groupId the group ID
 	* @return the number of matching budget phases
 	*/
-	public static int countBybudgetParticipatifId(long budgetParticipatifId) {
-		return getPersistence().countBybudgetParticipatifId(budgetParticipatifId);
-	}
-
-	/**
-	* Returns all the budget phases where publikId = &#63;.
-	*
-	* @param publikId the publik ID
-	* @return the matching budget phases
-	*/
-	public static List<BudgetPhase> findByPublikId(java.lang.String publikId) {
-		return getPersistence().findByPublikId(publikId);
-	}
-
-	/**
-	* Returns a range of all the budget phases where publikId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param publikId the publik ID
-	* @param start the lower bound of the range of budget phases
-	* @param end the upper bound of the range of budget phases (not inclusive)
-	* @return the range of matching budget phases
-	*/
-	public static List<BudgetPhase> findByPublikId(java.lang.String publikId,
-		int start, int end) {
-		return getPersistence().findByPublikId(publikId, start, end);
-	}
-
-	/**
-	* Returns an ordered range of all the budget phases where publikId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param publikId the publik ID
-	* @param start the lower bound of the range of budget phases
-	* @param end the upper bound of the range of budget phases (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching budget phases
-	*/
-	public static List<BudgetPhase> findByPublikId(java.lang.String publikId,
-		int start, int end, OrderByComparator<BudgetPhase> orderByComparator) {
-		return getPersistence()
-				   .findByPublikId(publikId, start, end, orderByComparator);
-	}
-
-	/**
-	* Returns an ordered range of all the budget phases where publikId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetPhaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param publikId the publik ID
-	* @param start the lower bound of the range of budget phases
-	* @param end the upper bound of the range of budget phases (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching budget phases
-	*/
-	public static List<BudgetPhase> findByPublikId(java.lang.String publikId,
-		int start, int end, OrderByComparator<BudgetPhase> orderByComparator,
-		boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByPublikId(publikId, start, end, orderByComparator,
-			retrieveFromCache);
-	}
-
-	/**
-	* Returns the first budget phase in the ordered set where publikId = &#63;.
-	*
-	* @param publikId the publik ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching budget phase
-	* @throws NoSuchBudgetPhaseException if a matching budget phase could not be found
-	*/
-	public static BudgetPhase findByPublikId_First(java.lang.String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchBudgetPhaseException {
-		return getPersistence().findByPublikId_First(publikId, orderByComparator);
-	}
-
-	/**
-	* Returns the first budget phase in the ordered set where publikId = &#63;.
-	*
-	* @param publikId the publik ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching budget phase, or <code>null</code> if a matching budget phase could not be found
-	*/
-	public static BudgetPhase fetchByPublikId_First(java.lang.String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator) {
-		return getPersistence()
-				   .fetchByPublikId_First(publikId, orderByComparator);
-	}
-
-	/**
-	* Returns the last budget phase in the ordered set where publikId = &#63;.
-	*
-	* @param publikId the publik ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching budget phase
-	* @throws NoSuchBudgetPhaseException if a matching budget phase could not be found
-	*/
-	public static BudgetPhase findByPublikId_Last(java.lang.String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchBudgetPhaseException {
-		return getPersistence().findByPublikId_Last(publikId, orderByComparator);
-	}
-
-	/**
-	* Returns the last budget phase in the ordered set where publikId = &#63;.
-	*
-	* @param publikId the publik ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching budget phase, or <code>null</code> if a matching budget phase could not be found
-	*/
-	public static BudgetPhase fetchByPublikId_Last(java.lang.String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator) {
-		return getPersistence().fetchByPublikId_Last(publikId, orderByComparator);
-	}
-
-	/**
-	* Returns the budget phases before and after the current budget phase in the ordered set where publikId = &#63;.
-	*
-	* @param budgetPhaseId the primary key of the current budget phase
-	* @param publikId the publik ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next budget phase
-	* @throws NoSuchBudgetPhaseException if a budget phase with the primary key could not be found
-	*/
-	public static BudgetPhase[] findByPublikId_PrevAndNext(long budgetPhaseId,
-		java.lang.String publikId,
-		OrderByComparator<BudgetPhase> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchBudgetPhaseException {
-		return getPersistence()
-				   .findByPublikId_PrevAndNext(budgetPhaseId, publikId,
-			orderByComparator);
-	}
-
-	/**
-	* Removes all the budget phases where publikId = &#63; from the database.
-	*
-	* @param publikId the publik ID
-	*/
-	public static void removeByPublikId(java.lang.String publikId) {
-		getPersistence().removeByPublikId(publikId);
-	}
-
-	/**
-	* Returns the number of budget phases where publikId = &#63;.
-	*
-	* @param publikId the publik ID
-	* @return the number of matching budget phases
-	*/
-	public static int countByPublikId(java.lang.String publikId) {
-		return getPersistence().countByPublikId(publikId);
+	public static int countByIsActiveAndGroupId(boolean isActive, long groupId) {
+		return getPersistence().countByIsActiveAndGroupId(isActive, groupId);
 	}
 
 	/**

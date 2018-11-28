@@ -10,9 +10,11 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
@@ -72,11 +74,11 @@ public class DashboardPortlet extends MVCPortlet {
         List<Petition> petitionSignedList = PetitionLocalServiceUtil.getPetitionBySignatairePublikId(publicId);
         List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publicId);
         List<Event> events = EventLocalServiceUtil.findEventByUserPublikId(publicId);
+        // initiatives à implémenter
         List<Initiative>initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
         List<Initiative> initiativesAides=new ArrayList<>();
-        //TODO Mock des budgets participatif à implémenter
-        List<Project> budgetFiled = new ArrayList<>();
-        List<Project> budgetVoted = new ArrayList<>();
+        List<BudgetParticipatif> budgetFiled = BudgetParticipatifLocalServiceUtil.getBudgetParticipatifByPublikUserID(publicId);
+        List<BudgetParticipatif> budgetVoted = new ArrayList<>();
         List<Project> voteLeft = new ArrayList<>();
 
         renderRequest.setAttribute("petitionsFiledCount",petitionFiledList.size());
@@ -92,6 +94,8 @@ public class DashboardPortlet extends MVCPortlet {
         renderRequest.setAttribute("petitionSigned",petitionSignedList);
         renderRequest.setAttribute("projectFolloweds",projectFolloweds);
         renderRequest.setAttribute("event",events);
+        renderRequest.setAttribute("budgetFiled",budgetFiled);
+        renderRequest.setAttribute("budgetVoted",budgetVoted);
 
         super.render(renderRequest, renderResponse);
     }

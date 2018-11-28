@@ -87,7 +87,8 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
-			{ "commentId", Types.BIGINT }
+			{ "commentId", Types.BIGINT },
+			{ "publikId", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -105,9 +106,10 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("commentId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Signalement (uuid_ VARCHAR(75) null,signalementId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,commentId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Signalement (uuid_ VARCHAR(75) null,signalementId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,commentId LONG,publikId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Signalement";
 	public static final String ORDER_BY_JPQL = " ORDER BY signalement.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Signalement.createDate ASC";
@@ -155,6 +157,7 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setCommentId(soapModel.getCommentId());
+		model.setPublikId(soapModel.getPublikId());
 
 		return model;
 	}
@@ -232,6 +235,7 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("commentId", getCommentId());
+		attributes.put("publikId", getPublikId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -317,6 +321,12 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 
 		if (commentId != null) {
 			setCommentId(commentId);
+		}
+
+		String publikId = (String)attributes.get("publikId");
+
+		if (publikId != null) {
+			setPublikId(publikId);
 		}
 	}
 
@@ -562,6 +572,22 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 		return _originalCommentId;
 	}
 
+	@JSON
+	@Override
+	public String getPublikId() {
+		if (_publikId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _publikId;
+		}
+	}
+
+	@Override
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -692,6 +718,7 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 		signalementImpl.setStatusByUserName(getStatusByUserName());
 		signalementImpl.setStatusDate(getStatusDate());
 		signalementImpl.setCommentId(getCommentId());
+		signalementImpl.setPublikId(getPublikId());
 
 		signalementImpl.resetOriginalValues();
 
@@ -840,12 +867,20 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 
 		signalementCacheModel.commentId = getCommentId();
 
+		signalementCacheModel.publikId = getPublikId();
+
+		String publikId = signalementCacheModel.publikId;
+
+		if ((publikId != null) && (publikId.length() == 0)) {
+			signalementCacheModel.publikId = null;
+		}
+
 		return signalementCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -873,6 +908,8 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 		sb.append(getStatusDate());
 		sb.append(", commentId=");
 		sb.append(getCommentId());
+		sb.append(", publikId=");
+		sb.append(getPublikId());
 		sb.append("}");
 
 		return sb.toString();
@@ -880,7 +917,7 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.comment.model.Signalement");
@@ -938,6 +975,10 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 			"<column><column-name>commentId</column-name><column-value><![CDATA[");
 		sb.append(getCommentId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>publikId</column-name><column-value><![CDATA[");
+		sb.append(getPublikId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -969,6 +1010,7 @@ public class SignalementModelImpl extends BaseModelImpl<Signalement>
 	private long _commentId;
 	private long _originalCommentId;
 	private boolean _setOriginalCommentId;
+	private String _publikId;
 	private long _columnBitmask;
 	private Signalement _escapedModel;
 }

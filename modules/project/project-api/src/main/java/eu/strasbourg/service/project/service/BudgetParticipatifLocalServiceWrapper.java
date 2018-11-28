@@ -186,7 +186,7 @@ public class BudgetParticipatifLocalServiceWrapper
 	* Méthode de mise à jour d'un budget
 	*
 	* @param budget le budget
-	* @param sc le service context
+	* @param sc     le service context
 	* @return le budget
 	* @throws PortalException exception
 	*/
@@ -209,6 +209,37 @@ public class BudgetParticipatifLocalServiceWrapper
 	public eu.strasbourg.service.project.model.BudgetParticipatif updateBudgetParticipatif(
 		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif) {
 		return _budgetParticipatifLocalService.updateBudgetParticipatif(budgetParticipatif);
+	}
+
+	/**
+	* mise a jour du status
+	*
+	* @param userId               l'identifiant de l'utilisateur
+	* @param budgetParticipatifId l'identifiant du budget
+	* @param status               le status
+	* @param serviceContext       le service context
+	* @param workflowContext      le context du workflow
+	* @return le budget
+	* @throws PortalException
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetParticipatif updateStatus(
+		long userId, long budgetParticipatifId, int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _budgetParticipatifLocalService.updateStatus(userId,
+			budgetParticipatifId, status, serviceContext, workflowContext);
+	}
+
+	/**
+	* Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	@Override
+	public int countBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return _budgetParticipatifLocalService.countBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
 	}
 
 	/**
@@ -286,6 +317,22 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _budgetParticipatifLocalService.findByKeyword(keyword, groupId,
+			start, end);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetParticipatifByPublikUserID(
+		java.lang.String publikId) {
+		return _budgetParticipatifLocalService.getBudgetParticipatifByPublikUserID(publikId);
+	}
+
+	/**
 	* Returns a range of all the budget participatifs.
 	*
 	* <p>
@@ -335,6 +382,97 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return _budgetParticipatifLocalService.getBudgetSupportedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs d'une phase donnee
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByBudgetPhase(
+		long budgetPhaseId) {
+		return _budgetParticipatifLocalService.getByBudgetPhase(budgetPhaseId);
+	}
+
+	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus commentes
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus commentes triee.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostCommented(
+		long groupId, int delta) {
+		return _budgetParticipatifLocalService.getMostCommented(groupId, delta);
+	}
+
+	/**
+	* Recuperer le nombre voulu des budgets participatifs les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs les plus soutenus triee.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostSupported(
+		long groupId, int delta) {
+		return _budgetParticipatifLocalService.getMostSupported(groupId, delta);
+	}
+
+	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getPublishedByGroupId(
+		long groupId) {
+		return _budgetParticipatifLocalService.getPublishedByGroupId(groupId);
+	}
+
+	/**
+	* Recuperer les budgets participatifs "coup de coeur" les plus recents
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste des budgets participatifs coup de coeurs recent
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getRecentIsCrushed(
+		long groupId, int delta) {
+		return _budgetParticipatifLocalService.getRecentIsCrushed(groupId, delta);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de commentaires
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbComments(
+		long groupId) {
+		return _budgetParticipatifLocalService.getSortedByNbComments(groupId);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de soutiens
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbSupports(
+		long groupId) {
+		return _budgetParticipatifLocalService.getSortedByNbSupports(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -359,6 +497,31 @@ public class BudgetParticipatifLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _budgetParticipatifLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _budgetParticipatifLocalService.findByKeywordCount(keyword,
+			groupId);
+	}
+
+	@Override
+	public void removeBudgetParticipatif(long budgetId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_budgetParticipatifLocalService.removeBudgetParticipatif(budgetId);
+	}
+
+	/**
+	* Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		_budgetParticipatifLocalService.updateStatus(budgetParticipatif, status);
 	}
 
 	@Override
