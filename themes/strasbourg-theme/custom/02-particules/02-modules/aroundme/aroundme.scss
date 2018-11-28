@@ -1,6 +1,11 @@
 #aroundme{
     overflow: hidden;
     position: relative;
+    
+    .add-favorites{
+        color: $core-color !important;
+        font-size: 1.3rem !important;
+    }
 
     $panel_trigger_size: 35;
 
@@ -50,6 +55,33 @@
         position: relative;
         form{
             overflow: hidden;
+
+            .filtres__list h2{
+                font-family: "MontSerrat", arial;
+                font-weight: 700;
+                font-size: 1.7rem;
+            }
+
+            .info-text {
+                color: #ffffff;
+                font-family: $opensans;
+                font-size: 1.5rem;
+                line-height: 1.2em;
+                font-weight: 300;
+                text-align: center;
+                a {
+                    color: #ffffff;
+                    font-family: $opensans;
+                    font-size: 1.5rem;
+                    line-height: 1.2em;
+                    font-weight: 300;
+                    text-align: center;
+                    text-decoration: underline;;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
         }
     }
 
@@ -225,7 +257,7 @@
     /* ------------------------------------ LISTE */
     .liste{
 
-        // Styles communs des panneaux de filtres
+        // Styles communs des panneaux de liste
         min-height: 100%;
         padding: 10px;
         padding-top: 30px;
@@ -263,6 +295,20 @@
             }
         }
         &__item{
+            .add-favorites{
+                border-top: solid 1px #dddddd;
+                justify-content: center;
+            }
+
+            .types{
+                font-family: $main-font;
+                font-size: 1.5rem;
+                font-weight: 300;
+                color: #505050;
+                background-color: #FFFFFF;
+                padding: 0px 10px 10px 10px;
+                text-align: left;
+            }
 
             &__visuel{
                 padding-bottom: 70%;
@@ -278,12 +324,12 @@
                 display: block;
                 position: relative;
                 font-family: "MontSerrat", arial;
-                font-size: 1.4rem;
+                font-size: 1.5rem;
                 line-height: 1.2em;
-                font-weight: 400;
+                font-weight: 700;
                 cursor: pointer;
                 letter-spacing: 1px;
-                color: #707070;
+                color: #505050;
                 font-weight: 700;
                 background-color: #FFFFFF;
                 padding: 10px 10px;
@@ -425,10 +471,10 @@
                 }
                 &__list{
                     @include RWD(desktop){
-                        @include grid-distribution(3, 20, grid-item);
+                        @include grid-distribution(3, 30, grid-item);
                     }
                     @include RWD(tablet_only){
-                        @include grid-distribution(3, 20, grid-item);
+                        @include grid-distribution(3, 30, grid-item);
                     }
                     @include RWD(mobile){
                         @include grid-distribution(1, 0, grid-item);
@@ -556,13 +602,16 @@
             font-weight: 700;
             color: #FFFFFF;
             font-size: 0.8em;
-            height: 20px;
-            width: 20px;
+            height: 22px;
+            width: 22px;
             flex-shrink: 0;
             position: absolute;
             top: 0;
             right: 0;
             transform: translate(50%, -50%);
+            font-size: 11px;
+            text-align: center;
+            line-height: 8px;
 
             &.red{
                 background-color: $crowded-red;
@@ -572,6 +621,9 @@
             }
             &.green{
                 background-color: $crowded-green;
+            }
+            &.black{
+                background-color: $crowded-black;
             }
             &.grey,&.white{
                 background-color: $crowded-grey;
@@ -592,6 +644,9 @@
     }
     .leaflet-popup-content {
         margin: 0;
+        @include RWD(mobile){
+            width: 272px !important;
+        }
     }
     .leaflet-popup-tip {
         background: $core-color;
@@ -650,6 +705,9 @@
         &__content{
             padding: 30px;
             padding-bottom: 0px;
+            @include RWD(mobile){
+                padding: 20px;
+            }
         }
         &__top{
             padding-bottom: 10px;
@@ -693,12 +751,12 @@
         }
         &__middle{
             border-top: solid 1px #dddddd;
-            border-bottom: solid 1px #dddddd;
             padding-top: 10px;
             padding-bottom: 10px;
             display: flex;
         }
         &__bottom{
+            border-top: solid 1px #dddddd;
             padding-top: 20px;
             padding-bottom: 10px;
             display: flex;
@@ -746,6 +804,7 @@
                 width: 50px;
                 flex-shrink: 0;
                 margin: 5px auto;
+                line-height: 16px;
 
                 &.orange{
                     background-color: $crowded-orange;
@@ -763,6 +822,9 @@
                 */
                 &.red{
                     background-color: $crowded-red;
+                }
+                &.black{
+                    background-color: $crowded-black;
                 }
             }
             .crowded-label{
@@ -912,6 +974,7 @@
             width: 100%; //calc(100% - 40px);
             display: flex;
             flex-direction: column;
+            z-index: 200;
             &:before{
                 content: '';
                 position: fixed;
