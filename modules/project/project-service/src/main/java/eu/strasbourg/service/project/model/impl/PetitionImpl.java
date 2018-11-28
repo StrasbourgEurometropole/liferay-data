@@ -14,7 +14,26 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import javax.portlet.PortletException;
+import javax.servlet.http.HttpServletRequest;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -24,17 +43,26 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.search.BooleanClause;
+import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
@@ -46,31 +74,7 @@ import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
-import javax.portlet.PortletException;
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-
-import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
 
 /**
  * The extended model implementation for the Petition service. Represents a row in the &quot;project_Petition&quot; database table, with each column mapped to a property of this class.
@@ -291,72 +295,77 @@ public class PetitionImpl extends PetitionBaseImpl {
 
 
     /**
-     * Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+     * Retourne X suggestions max pour une pétition
      *
-     * @param locale la locale de la région
-     * @return la liste de pétition.
-     */
-    @Override
-    public List<Petition> getSuggestions(Locale locale) {
-        return getSuggestions(locale, 10);
-    }
-
-    /**
-     * Retourne X suggestions max pour un thème appartenant à la vidéo en cours
-     *
-     * @param locale        la locale de la région
+     * @param request la requete
      * @param nbSuggestions le nombre de suggestions.
      * @return la liste de pétition.
      */
     @Override
-    public List<Petition> getSuggestions(Locale locale, int nbSuggestions) {
-        List<Petition> suggestions = new ArrayList<>();
-        long[] assetCategoryIds = {};
-        String[] assetTagNames = {};
-        Map<String, Serializable> attributes = new HashMap<>();
-        Layout layout = null;
-        long scopeGroupId = 0;
-        TimeZone timeZone = TimeZone.getDefault();
-        SearchContext searchContext = SearchContextFactory
-                .getInstance(assetCategoryIds, assetTagNames, attributes, this.getCompanyId(), "", layout, locale, scopeGroupId, timeZone, this.getUserId());
-
-        // ClassNames
-        String[] className = {Petition.class.getName()};
-
-        // Group Id
-        long groupId = this.getGroupId();
-
-        // Group Id global
-        long globalGroupId = 0;
-
-        String[] prefilterTagsNames = {};
-
-        Hits hits = SearchHelper.getGlobalSearchHits(searchContext, className,
-                groupId, globalGroupId, false, "", false, "",
-                null, null, new ArrayList<>(), new ArrayList<>(), prefilterTagsNames, locale, -1, -1,
-                "", true);
-
-        if (hits != null) {
-            List<Petition> petitions = new ArrayList<>();
-            for (Document document : hits.getDocs()) {
-                Petition petition = PetitionLocalServiceUtil.fetchPetition(
-                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (petition != null && petition.getPetitionId() != this.getPetitionId()) {
-                    if (WorkflowConstants.STATUS_APPROVED == petition.getStatus())
-                        petitions.add(petition);
-                }
-            }
-            Collections.shuffle(petitions);
-            if (petitions.size() > nbSuggestions) {
-                for (int j = 0; j < nbSuggestions; j++) {
-                    suggestions.add(petitions.get(j));
-                }
-            } else {
-                suggestions = petitions;
-            }
-        }
-
-        return suggestions;
+    public List<Petition> getSuggestions(HttpServletRequest request, int nbSuggestions) throws SearchException, PortalException {
+		
+    	List<Petition> suggestions = new ArrayList<>();
+		
+		try {
+			//Initialisation du seachContext
+			SearchContext searchContext = SearchContextFactory.getInstance(request);
+			searchContext.setStart(0);
+			searchContext.setEnd(nbSuggestions);
+			
+			//utilisation de l'indexer de l'entite pétition (Permet de rechercher uniquement des pétitions)
+			Indexer indexer = IndexerRegistryUtil.getIndexer(Petition.class.getName());
+			
+			//création de la query avec des filtre sur les entités publiées uniquement
+			BooleanQuery mainQuery = new BooleanQueryImpl();
+			mainQuery.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			mainQuery.addRequiredTerm("visible", true);
+			
+			//Un ou plusieurs territoire
+			BooleanQuery territoryQuery = new BooleanQueryImpl();
+			for (AssetCategory category : this.getTerritoryCategories()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				territoryQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+			}
+			mainQuery.add(territoryQuery, BooleanClauseOccur.MUST);
+			
+			//Une ou plusieurs thématiques
+			BooleanQuery thematiqueQuery = new BooleanQueryImpl();
+			for (AssetCategory category : this.getThematicCategories()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				thematiqueQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+			}
+			mainQuery.add(thematiqueQuery, BooleanClauseOccur.MUST);
+			
+			//Le même projet
+			if(this.getProjectCategory() != null) {
+				BooleanQuery projetQuery = new BooleanQueryImpl();
+				projetQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getProjectCategory().getCategoryId()));
+				mainQuery.add(projetQuery, BooleanClauseOccur.MUST);
+			}
+			
+			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(mainQuery, BooleanClauseOccur.MUST.getName());
+			searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
+			
+			//Lance la recherche elasticSearch
+		    Hits hits = indexer.search(searchContext);
+			
+		    //Generation de notre liste de suggestion
+		    for (Document document : hits.getDocs()) {
+		    	//récupération de l'élément en base
+	            Petition petition = PetitionLocalServiceUtil.fetchPetition(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+	            
+	            //Vérification que la pétition recherchée existe bien base (En théorie ne devrait pas arriver) et qu'elle est différente de la pétition courante
+	            if(petition != null && petition.getPetitionId() != this.getPetitionId())
+	            	suggestions.add(petition);
+	        }
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	    
+		return suggestions;
     }
 
     /**

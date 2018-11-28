@@ -1094,28 +1094,18 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	* Retourne X suggestions max pour une pétition
 	*
-	* @param locale la locale de la région
-	* @return la liste de pétition.
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
-		java.util.Locale locale) {
-		return _petition.getSuggestions(locale);
-	}
-
-	/**
-	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
-	*
-	* @param locale        la locale de la région
+	* @param request la requete
 	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de pétition.
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
-		java.util.Locale locale, int nbSuggestions) {
-		return _petition.getSuggestions(locale, nbSuggestions);
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException {
+		return _petition.getSuggestions(request, nbSuggestions);
 	}
 
 	/**
