@@ -127,10 +127,16 @@ public class JSONHelper {
 
             String jsonInfos = "{\"last_name\": \"" + lastName + "\",\"address\":\"" + address + "\", \"zipcode\":\"" +
                     zipCode + "\", \"city\":\"" + city + "\", \"birthdate\":\"" + dateNaiss + "\"";
-            if(Validator.isNotNull(phoneNumber))
+            if(Validator.isNotNull(phoneNumber)) {
                 jsonInfos += ", \"phone\":\"" + phoneNumber + "\"";
-            if(Validator.isNotNull(cellNumber))
+            } else {
+            	jsonInfos += ", \"phone\":\"\"";
+            }
+            if(Validator.isNotNull(cellNumber)) {
                 jsonInfos += ", \"mobile\":\"" + cellNumber + "\"";
+            } else {
+            	jsonInfos += ", \"mobile\":\"\"";
+            }
             jsonInfos += "}";
 
             DataOutputStream out = new DataOutputStream(httpURLConnection.getOutputStream());
