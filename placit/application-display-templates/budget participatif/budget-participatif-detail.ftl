@@ -124,7 +124,7 @@
                         <#if motifPrintable >
                             <div class="pro-highlight pro-bloc-texte pro-theme-non-faisable">
                                 <div class="pro-statut">
-                                    <span style="background : #${statusColor}">
+                                    <span style="color :#fff; background : #${statusColor}">
                                         Pourquoi ce projet est-il non "${statusBP}" ?
                                     </span>
                                 </div>
