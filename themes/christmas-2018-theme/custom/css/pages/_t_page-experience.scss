@@ -294,3 +294,12 @@
 		}
 	}
 }
+
+.experience{
+    max-width: 960px;
+    padding: 0px;
+	
+	@include desktop{
+    	padding: 0px 10px;
+    }
+}

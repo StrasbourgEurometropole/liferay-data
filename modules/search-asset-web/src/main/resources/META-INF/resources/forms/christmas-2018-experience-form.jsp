@@ -35,6 +35,7 @@
 	<label for="types">${typesVocabulary.getDescription(locale)}</label>
 	<div class="content">
 		<select class="" id="public" name="<portlet:namespace />vocabulary_0">
+             <aui:option value="0"><liferay-ui:message key="no-theme" /> </aui:option>
              <c:forEach items="${dc.getSortedCategories(typesVocabulary)}" var="category">
 				<c:set var="category" value="${category}" scope="request"/>
 				<c:set var="dc" value="${dc}" scope="request"/>
@@ -49,6 +50,7 @@
 	<label for="taux">${tauxVocabulary.getDescription(locale)}</label>
 	<div class="content">
 		<select class="" id="public" name="<portlet:namespace />vocabulary_1">
+             <aui:option value="0"><liferay-ui:message key="no-type" /> </aui:option>
              <c:forEach items="${dc.getSortedCategories(tauxVocabulary)}" var="category">
 				<c:set var="category" value="${category}" scope="request"/>
 				<c:set var="dc" value="${dc}" scope="request"/>
@@ -63,6 +65,7 @@
 	<label for="duree">${dureeVocabulary.getDescription(locale)}</label>
 	<div class="content">
 		<select class="" id="public" name="<portlet:namespace />vocabulary_2">
+             <aui:option value="0"><liferay-ui:message key="no-duration" /> </aui:option>
              <c:forEach items="${dc.getSortedCategories(dureeVocabulary)}" var="category">
 				<c:set var="category" value="${category}" scope="request"/>
 				<c:set var="dc" value="${dc}" scope="request"/>

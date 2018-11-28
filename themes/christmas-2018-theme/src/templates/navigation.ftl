@@ -1,13 +1,13 @@
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+  <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
-  <#assign homeURL = "/" />
+  <#assign homeURL = "" />
 </#if>
 <nav class="navbar mns-nav">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
-                <form action="${homeURL}recherche" method="get">
+                <form action="${homeURL}/recherche" method="get">
                     <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
                     <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                 </form>
@@ -54,7 +54,7 @@
                 </span>    
               </a>
             </#if>
-            <a class="navbar-brand" href="${homeURL}">Strasbourg <span class="subtitle"><@liferay_ui.message key='christmas-capital' /></span></a>
+            <a class="navbar-brand" href="${homeURL}/">Strasbourg <span class="subtitle"><@liferay_ui.message key='christmas-capital' /></span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -68,14 +68,14 @@
                 </li>
                 <li class="mns-search-bar mns-search-bar-mobile">
                     <div class="row">
-                        <form action="${homeURL}recherche" method="get">
+                        <form action="${homeURL}/recherche" method="get">
                             <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
                             <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                         </form>
                     </div>
                 </li>
                 <li class="hidden-sm hidden-xs menu-accueil">
-                    <a href="${homeURL}">
+                    <a href="${homeURL}/">
                         <span class="icon-ico-home"></span>
                     </a>
                 </li>
@@ -97,9 +97,11 @@
                         <li><a href="${nav_item.getURL()}">${nav_item.getName()}</a></li>
                     </#if>
                 </#list>
-                <li>
-                    <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
-                </li>
+                <#if themeDisplay.getLocale() == "fr_FR">
+                    <li>
+                        <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
+                    </li>
+                </#if>
             </ul>
         </div>
     </div>
