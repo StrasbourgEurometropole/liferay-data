@@ -14,7 +14,7 @@
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
     <div class="text-center">
-	    ${catcher.data}
+        <p>${catcher.data}</p>
 	</div>
     ${text.data}
 </div>
