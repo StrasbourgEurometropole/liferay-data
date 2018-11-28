@@ -17,6 +17,10 @@ $(function() {
                 }
             }
         );
+        if (!window.userFavorites) {
+            window.userFavorite = [];
+        }
+        window.userFavorites.push(favoriteToAdd);
     }
 
     // On parcourt les favoris utilisateurs et on modfie les boutons correspondant sur la page
