@@ -190,7 +190,7 @@ public class EventLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getEvent(eventId);
 	}
-
+	
 	/**
 	* Returns the event matching the UUID and group.
 	*
@@ -434,6 +434,13 @@ public class EventLocalServiceUtil {
 		return getService()
 				   .getManifestationEvents(manifestationId, start, end,
 			orderByComparator);
+	}
+
+	/**
+	* Retourne les resultats publiés
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> getPublished() {
+		return getService().getPublished();
 	}
 
 	/**

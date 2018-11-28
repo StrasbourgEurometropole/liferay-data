@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
+
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;

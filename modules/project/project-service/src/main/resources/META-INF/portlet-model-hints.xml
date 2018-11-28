@@ -21,7 +21,9 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="budget" type="long" />
-		<field name="motif" type="String" />
+		<field name="motif" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="citoyenLastname" type="String" />
 		<field name="citoyenFirstname" type="String" />
 		<field name="citoyenAdresse" type="String">

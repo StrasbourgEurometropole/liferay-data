@@ -484,6 +484,14 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Retourne les resultats publiés
+	 */
+	@Override
+	public List<Event> getPublished() {
+		return this.eventPersistence.findByStatus(WorkflowConstants.STATUS_APPROVED);
+	}
+	
+	/**
 	 * Retourne les resultats possèdant en etiquette l'une appelation demandee
 	 */
 	@Override
@@ -492,7 +500,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		List<String> eventAssetTags;
 		AssetEntry eventAsset;
 		
-		for (Event event : eventPersistence.findAll()) {
+		for (Event event : this.getPublished()) {
 			eventAsset = event.getAssetEntry();
 			
 			eventAssetTags =  Arrays.asList(eventAsset.getTagNames());
