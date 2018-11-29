@@ -326,4 +326,18 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 		return this.budgetPhasePersistence.findByIsActiveAndGroupId(isActive, groupId);
 	}
 	
+	/**
+	 * Retourne la phase active si elle existe
+	 * @param groupId ID du site
+	 */
+	@Override
+	public BudgetPhase getActivePhase(long groupId) {
+		List<BudgetPhase> budgetPhases = this.getByIsActiveAndGroupId(true, groupId);
+		if (budgetPhases.size() > 0) {
+			return budgetPhases.get(0);
+		} else {
+			return null;
+		}
+	}
+	
 }
