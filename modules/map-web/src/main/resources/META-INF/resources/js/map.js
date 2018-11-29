@@ -156,7 +156,7 @@
                                 if (window.newTab) {
                                     newTabAttribute = 'target="_blank"';
                                 }
-                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + '><span class="flexbox"><span class="btn-text">En savoir plus</span><span class="btn-arrow"></span></span></a>';
+                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + '><span class="flexbox"><span class="btn-text">'+Liferay.Language.get("know-more")+'</span><span class="btn-arrow"></span></span></a>';
                             } else if (info_to_display == "like") {
                                 var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';

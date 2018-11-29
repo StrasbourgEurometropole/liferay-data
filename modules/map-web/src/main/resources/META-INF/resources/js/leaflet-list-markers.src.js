@@ -166,7 +166,7 @@ L.Control.ListMarkers = L.Control.extend({
 						that._list.appendChild( that._createItem(layer) );
 		});
         if(this._list.innerHTML == ''){
-            this._list.innerHTML = '<h2>Sélectionnez un centre d\'intérêt ou un type pour afficher des lieux sur la carte</h2>';
+            this._list.innerHTML = '<h2>'+Liferay.Language.get("select-an-interest")+'</h2>';
         }
 	},
 
