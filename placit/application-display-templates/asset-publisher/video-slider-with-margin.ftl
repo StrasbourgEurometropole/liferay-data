@@ -20,7 +20,7 @@
 		<div class="container">
 
 			<div class="pro-intro">
-				<h2>Cela pourrait vous interesser</h2>
+				<h2>Les vidéos</h2>
 				<a href="${homeURL}videos" class="pro-btn">Tout voir</a>
 			</div>
 
