@@ -259,6 +259,7 @@ create table project_ProjectTimeline (
 	startDay INTEGER,
 	spacing INTEGER,
 	date_ DATE null,
+	dateFormat VARCHAR(75) null,
 	title VARCHAR(400) null,
 	link VARCHAR(400) null,
 	projectId LONG

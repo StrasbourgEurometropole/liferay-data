@@ -152,6 +152,7 @@
 		<column name="startDay" type="int" />
 		<column name="spacing" type="int" />
 		<column name="date" type="Date" />
+		<column name="dateFormat" type="String" />
 		<column name="title" type="String" />
 		<column name="link" type="String" />
 

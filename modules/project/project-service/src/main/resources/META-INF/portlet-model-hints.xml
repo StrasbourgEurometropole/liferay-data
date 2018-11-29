@@ -336,6 +336,7 @@
 		<field name="startDay" type="int" />
 		<field name="spacing" type="int" />
 		<field name="date" type="Date" />
+		<field name="dateFormat" type="String" />
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
