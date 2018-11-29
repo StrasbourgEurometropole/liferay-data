@@ -14,36 +14,38 @@
 			<#assign livePeriodLabel = phase.getLivePeriodLabel() />
 			<#if livePeriodLabel?has_content >
 
-				<div class="pro-timer">
+				<div class="pro-page-budget-participatif">
+					<div class="pro-timer">
 
-					<p id="phaseText">Il reste 
-					<span id="phaseDays"></span> jours, 
-					<span id="phaseHours"></span> heures, 
-					<span id="phaseMinutes"></span> minutes et 
-					<span id="phaseSeconds"></span> secondes
+						<p id="phaseText">Il reste 
+						<span id="phaseDays"></span> jours, 
+						<span id="phaseHours"></span> heures, 
+						<span id="phaseMinutes"></span> minutes et 
+						<span id="phaseSeconds"></span> secondes
 
-					<#-- Adaptation du champ selon la periode de la phase active -->
-					<#switch livePeriodLabel>
-					  	<#case "before-begin-deposit">
-						    avant le début des dépôts de projets citoyens
-						    <#assign referenceDate = phase.beginDate />
-						    <#break>
-						<#case "before-end-deposit">
-						    pour déposer votre projet
-						    <#assign referenceDate = phase.endDate />
-						    <#break>
-						<#case "before-begin-vote">
-						    avant le début des votes
-						    <#assign referenceDate = phase.beginVoteDate />
-						    <#break>
-						<#case "before-end-vote">
-						    pour voter
-						    <#assign referenceDate = phase.endVoteDate />
-						    <#break>
-					</#switch>
+						<#-- Adaptation du champ selon la periode de la phase active -->
+						<#switch livePeriodLabel>
+						  	<#case "before-begin-deposit">
+							    avant le début des dépôts de projets citoyens
+							    <#assign referenceDate = phase.beginDate />
+							    <#break>
+							<#case "before-end-deposit">
+							    pour déposer votre projet
+							    <#assign referenceDate = phase.endDate />
+							    <#break>
+							<#case "before-begin-vote">
+							    avant le début des votes
+							    <#assign referenceDate = phase.beginVoteDate />
+							    <#break>
+							<#case "before-end-vote">
+							    pour voter
+							    <#assign referenceDate = phase.endVoteDate />
+							    <#break>
+						</#switch>
 
-					</p>
-					
+						</p>
+						
+					</div>
 				</div>
 
 				<script type="text/javascript">

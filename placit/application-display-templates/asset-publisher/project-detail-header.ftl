@@ -61,7 +61,7 @@
 			                    <#case "yyyy">
 			                    	<span class="pro-day-month"></span>
 	                    			<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
-			                      	<#break>			                      
+			                      	<#break>
 			                </#switch>
 		                </div>
 		                <a href="${timeline.getLink()}" class="pro-jalon-hover">
