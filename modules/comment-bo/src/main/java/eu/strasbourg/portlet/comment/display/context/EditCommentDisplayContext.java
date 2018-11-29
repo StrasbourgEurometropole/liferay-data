@@ -24,7 +24,7 @@ public class EditCommentDisplayContext {
 
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
-
+    
     private PublikUser publikUser;
     private Comment _comment;
     private String _banishment;

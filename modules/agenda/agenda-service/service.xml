@@ -120,7 +120,9 @@
 		<finder name="PlaceSIGId" return-type="Collection">
 			<finder-column name="placeSIGId" />
 		</finder>
-		
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

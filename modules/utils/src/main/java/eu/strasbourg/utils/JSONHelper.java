@@ -1,6 +1,7 @@
 package eu.strasbourg.utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -127,29 +128,46 @@ public class JSONHelper {
 
             String jsonInfos = "{\"last_name\": \"" + lastName + "\",\"address\":\"" + address + "\", \"zipcode\":\"" +
                     zipCode + "\", \"city\":\"" + city + "\", \"birthdate\":\"" + dateNaiss + "\"";
-            if(Validator.isNotNull(phoneNumber))
+            if(Validator.isNotNull(phoneNumber)) {
                 jsonInfos += ", \"phone\":\"" + phoneNumber + "\"";
-            if(Validator.isNotNull(cellNumber))
+            } else {
+            	jsonInfos += ", \"phone\":\"\"";
+            }
+            if(Validator.isNotNull(cellNumber)) {
                 jsonInfos += ", \"mobile\":\"" + cellNumber + "\"";
+            } else {
+            	jsonInfos += ", \"mobile\":\"\"";
+            }
             jsonInfos += "}";
+            
+            Charset.forName("UTF-8").encode(jsonInfos);
 
-            DataOutputStream out = new DataOutputStream(httpURLConnection.getOutputStream());
-            out.writeBytes(jsonInfos);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(httpURLConnection.getOutputStream(), "UTF-8"));
+            out.write(jsonInfos);
             out.flush();
             out.close();
 
             httpURLConnection.connect();
+            
+            // Dans le cas d'une erreur catchee par le serveur
+            if (httpURLConnection.getResponseCode() >= HttpURLConnection.HTTP_BAD_REQUEST) {
+            	BufferedReader br = new BufferedReader(new InputStreamReader((httpURLConnection.getErrorStream())));
+                StringBuffer bfr = new StringBuffer();
+                String output = "";
+                while ((output = br.readLine()) != null) {
+                    bfr.append(output);
+                }
+                
+                throw new Exception(bfr.toString());
+            }
 
             BufferedReader br = new BufferedReader(new InputStreamReader((httpURLConnection.getInputStream())));
             StringBuffer bfr = new StringBuffer();
             String output = "";
             while ((output = br.readLine()) != null) {
                 bfr.append(output);
-            }
-            if (httpURLConnection.getResponseCode() >= HttpURLConnection.HTTP_BAD_REQUEST) {
-                /* error from server */
-                throw new IOException();
-            }
+            }            
+            
         } catch (Exception e) {
         	LogFactoryUtil.getLog(JSONHelper.class).error(e.getMessage());
         } finally {

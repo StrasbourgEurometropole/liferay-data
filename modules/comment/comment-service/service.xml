@@ -90,10 +90,11 @@
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
 		<column name="statusDate" type="Date" />
-
+		
 		<!-- Links with other entities -->
 		<column name="commentId" type="long"/>
-
+		<column name="publikId" type="String" />
+		
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="createDate" />

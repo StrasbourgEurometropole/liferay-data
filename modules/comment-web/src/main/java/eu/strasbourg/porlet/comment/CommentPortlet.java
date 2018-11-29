@@ -147,6 +147,7 @@ public class CommentPortlet extends MVCPortlet {
 			request.setAttribute(REDIRECT_URL_PARAM, redirectURL);
 			request.setAttribute("categories",assetCategories);
 			request.setAttribute("comments", comments);
+
 			request.setAttribute("isAdmin", isAdmin);
 			request.setAttribute("entryID", entryID);
 			request.setAttribute("userPublikId", userPublikId);
@@ -271,17 +272,25 @@ public class CommentPortlet extends MVCPortlet {
         
         // Recuperation de l'URL de redirection
 		String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
+		// ... du contexte de la requete
+		ServiceContext sc = ServiceContextFactory.getInstance(request);
 		
+		// ... des informations du signalement
 		String userPublikId = getPublikID(request);
-        long result = ParamUtil.getLong(request, "commentId");
+        long commentId = ParamUtil.getLong(request, "commentId");
         long categoryId = ParamUtil.getLong(request, "categorie");
-        Comment comment = CommentLocalServiceUtil.getComment(result);
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
-        Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc, comment.getCommentId());
-        AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(),categoryId);
-        SignalementLocalServiceUtil.updateSignalement(signalement,sc,userPublikId);
         
-        response.sendRedirect(redirectURL  + "#" + comment.getCommentId());
+        // Initialisation du signalement
+        Signalement signalement = SignalementLocalServiceUtil.createSignalement(sc);
+        
+        // Ajout des inforamtions du signalement
+        signalement.setPublikId(userPublikId);
+        signalement.setCommentId(commentId);
+        
+        AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(), categoryId);
+        SignalementLocalServiceUtil.updateSignalement(signalement,sc);
+        
+        response.sendRedirect(redirectURL  + "#" + commentId);
     }
 
 	/**

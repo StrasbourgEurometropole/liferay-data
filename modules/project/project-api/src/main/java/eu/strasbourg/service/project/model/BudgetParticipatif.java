@@ -107,14 +107,14 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getAuthorImageURL();
 
 	/**
-	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers du bp
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	*/
 	public java.lang.String getDistrictLabel(java.util.Locale locale);
 
 	/**
-	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du bp
 	*
 	* @return : null si vide, sinon la liste des catégories
 	*/
@@ -211,6 +211,18 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif,
 		eu.strasbourg.service.project.constants.ParticiperCategories status,
 		long groupID);
+
+	/**
+	* Retourne X suggestions max pour un BP
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de bp.
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException;
 
 	/**
 	* Retourne la version JSON de l'entité

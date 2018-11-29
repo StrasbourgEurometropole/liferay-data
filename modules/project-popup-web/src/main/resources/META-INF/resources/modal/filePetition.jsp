@@ -1,4 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
+
 <portlet:resourceURL id="filePetition" var="filePetitionURL">
 </portlet:resourceURL>
 
@@ -279,6 +280,7 @@
                                 $("#modalErrorPetition h4").text(data.message);
                                 $('#modalErrorPetition').modal('show');
                             }
+                            resetValues();
                         }
                     }
                 });
@@ -341,8 +343,7 @@
         }
     }
 
-    function validateForm()
-    {
+    function validateForm(){
         var result = true;
         var petitiontitle = $("#"+namespace+"petitiontitle").val();
         var petitiondescription = $("#"+namespace+"petitiondescription").val();
@@ -352,7 +353,6 @@
         var postalcode = $("#"+namespace+"postalcode").val();
         var legalage = $("#file-petition-legalage").is(":checked");
         var cnil = $("#file-petition-cnil").is(":checked");
-        var age = getAge(birthday);
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (petitiontitle==null || petitiontitle==""){
@@ -375,11 +375,11 @@
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
-        if (city.toLowerCase()!=="strasbourg"){
+        /* if (city.toLowerCase()!=="strasbourg"){
             $("#filealertcity").removeClass("hidden");
             $("#"+namespaceSign+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        } else $("#filealertcity").addClass("hidden");
+        } else $("#filealertcity").addClass("hidden"); */
 
         if (address==null || address==""){
             $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -396,30 +396,16 @@
         }
         else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
 
-        if (postalcode!=="67000"
-            &&postalcode!=="67100"
-            &&postalcode!=="67200"){
-            $("#filealertPostalCode").removeClass("hidden");
-            $("#"+namespaceSign+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        } else $("#filealertPostalCode").addClass("hidden");
-
         if (!legalage)
             result = false;
 
         if (!cnil)
             result = false;
 
-        if(age<16){
-            $("#filealertLegalage").removeClass("hidden");
-            $("#"+namespaceSign+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }
-        else $("#filealertLegalage").addClass("hidden");
-
         if (!result)
             $("#sendalert").removeClass("hidden");
         else $("#sendalert").addClass("hidden");
+        
         return result;
     }
 </script>

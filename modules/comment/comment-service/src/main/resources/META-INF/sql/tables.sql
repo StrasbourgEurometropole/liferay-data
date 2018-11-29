@@ -34,5 +34,6 @@ create table comment_Signalement (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	commentId LONG
+	commentId LONG,
+	publikId VARCHAR(75) null
 );

@@ -98,24 +98,13 @@ public interface SignalementLocalService extends BaseLocalService,
 	public Signalement addSignalement(Signalement signalement);
 
 	/**
-	* Méthode qui permet de creer un signalement sans le persister.
+	* Permet de creer un signalement sans le persister.
 	*
 	* @param sc le serviceContext
-	* @return le signalement généré.
-	* @throws PortalException l'exception.
-	*/
-	public Signalement createSignalement(ServiceContext sc)
-		throws PortalException;
-
-	/**
-	* Méthode qui permet de creer un signalement sans le persister.
-	*
-	* @param sc le serviceContext
-	* @param commentId l'identifiant du commentaire lié au signalement.
 	* @return le signalement.
 	* @throws PortalException l'exception.
 	*/
-	public Signalement createSignalement(ServiceContext sc, long commentId)
+	public Signalement createSignalement(ServiceContext sc)
 		throws PortalException;
 
 	/**
@@ -193,8 +182,7 @@ public interface SignalementLocalService extends BaseLocalService,
 	public Signalement updateSignalement(Signalement signalement);
 
 	public Signalement updateSignalement(Signalement signalement,
-		ServiceContext sc, java.lang.String publikUserId)
-		throws PortalException;
+		ServiceContext sc) throws PortalException;
 
 	/**
 	* Returns the number of signalements.

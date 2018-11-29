@@ -332,3 +332,10 @@ figure {
             background-color: rgba(#212121, 0.8);
         }
     }
+
+
+
+    // suppression du bouton Vivez un Noêl magique
+.navbar-nav li .mns-btn-yellow{
+	display: none !important;
+}

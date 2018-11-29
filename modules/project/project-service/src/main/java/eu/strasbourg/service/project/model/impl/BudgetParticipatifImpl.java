@@ -14,7 +14,15 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_LAUREAT;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_ACCEPTABLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +30,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -31,6 +41,20 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.search.BooleanClause;
+import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -170,7 +194,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
     /**
-     * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+     * Retourne une chaine des 'Territoires' correspondant aux quartiers du bp
      * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
      */
     @Override
@@ -180,7 +204,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
     /**
-     * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+     * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du bp
      * @return : null si vide, sinon la liste des catégories
      */
     @Override
@@ -420,11 +444,86 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
     
     /**
+     * Retourne X suggestions max pour un BP
+     *
+     * @param request la requete
+     * @param nbSuggestions le nombre de suggestions.
+     * @return la liste de bp.
+     */
+    @Override
+    public List<BudgetParticipatif> getSuggestions(HttpServletRequest request, int nbSuggestions) throws SearchException, PortalException {
+		
+    	List<BudgetParticipatif> suggestions = new ArrayList<>();
+		
+		try {
+			//Initialisation du seachContext
+			SearchContext searchContext = SearchContextFactory.getInstance(request);
+			searchContext.setStart(0);
+			searchContext.setEnd(nbSuggestions);
+			
+			//utilisation de l'indexer de l'entite BP (Permet de rechercher uniquement des bp)
+			Indexer indexer = IndexerRegistryUtil.getIndexer(BudgetParticipatif.class.getName());
+			
+			//création de la query avec des filtre sur les entités publiées uniquement
+			BooleanQuery mainQuery = new BooleanQueryImpl();
+			mainQuery.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			mainQuery.addRequiredTerm("visible", true);
+			
+			//Un ou plusieurs territoire
+			BooleanQuery territoryQuery = new BooleanQueryImpl();
+			for (AssetCategory category : this.getTerritoryCategories()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				territoryQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+			}
+			mainQuery.add(territoryQuery, BooleanClauseOccur.MUST);
+			
+			//Une ou plusieurs thématiques
+			BooleanQuery thematiqueQuery = new BooleanQueryImpl();
+			for (AssetCategory category : this.getThematicCategories()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				thematiqueQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+			}
+			mainQuery.add(thematiqueQuery, BooleanClauseOccur.MUST);
+			
+			//Le même projet
+			if(this.getProjectCategory() != null) {
+				BooleanQuery projetQuery = new BooleanQueryImpl();
+				projetQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getProjectCategory().getCategoryId()));
+				mainQuery.add(projetQuery, BooleanClauseOccur.MUST);
+			}
+			
+			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(mainQuery, BooleanClauseOccur.MUST.getName());
+			searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
+			
+			//Lance la recherche elasticSearch
+		    Hits hits = indexer.search(searchContext);
+			
+		    //Generation de notre liste de suggestion
+		    for (Document document : hits.getDocs()) {
+		    	//récupération de l'élément en base
+		    	BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+	            
+	            //Vérification que le bp recherché existe bien base (En théorie ne devrait pas arriver) et qu'il est différente du bp courante
+	            if(bp != null && bp.getBudgetParticipatifId() != this.getBudgetParticipatifId())
+	            	suggestions.add(bp);
+	        }
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	    
+		return suggestions;
+    }
+    
+    
+    /**
      * Retourne la version JSON de l'entité
      */
     public JSONObject toJSON(String publikUserId) {
     	
-        // Initialisation des variables tempons et résultantes
+        // Initialisation des variables tempons et resultantes
         JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -439,15 +538,17 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonBudget.put("isCrush", this.getIsCrush());
         jsonBudget.put("BPStatusColor", this.getBudgetParticipatifStatusCategoryColor());
+        jsonBudget.put("hasBeenVoted", this.hasBeenVoted());
+        jsonBudget.put("hasBeendEvaluated", this.hasBeenEvaluated());
         jsonBudget.put("isNotDoable", this.isNotDoable());
         
-        // Champs : Catégorisations
+        // Champs : Categorisations
         jsonBudget.put("BPStatus", HtmlUtil.stripHtml(HtmlUtil.escape(this.getBudgetParticipatifStatusTitle(Locale.FRENCH))));
         jsonBudget.put("districtsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonBudget.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
         jsonBudget.put("projectName", this.getProjectName());
         
-        // Champs : Intéractivités
+        // Champs : Interactivités
         jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
         jsonBudget.put("nbSupports", this.getNbSupports());
 
