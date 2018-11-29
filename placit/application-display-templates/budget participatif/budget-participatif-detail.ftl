@@ -222,7 +222,8 @@
 	<#-- Recuperation des thématiques de la vidéo -->
     <#assign suggestions = entry.getSuggestions(request, 10) />
 	
-	<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+	<#if suggestions?size gt 0 >
+		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <div class="col-lg-10 col-lg-offset-1">
                     <h2>D’autres projets citoyens</h2>
@@ -287,7 +288,7 @@
                 </div>
             </div>
         </section>
-	
+	</#if>
 	
 </div>
 
