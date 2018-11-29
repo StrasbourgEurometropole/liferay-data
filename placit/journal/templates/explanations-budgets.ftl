@@ -63,11 +63,11 @@
 
                        <div class="pro-wrapper-btn">
 							<#if hasUserPactSign && hasUserPactSign && !isUserBanned>
-								<a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
+								<a class="pro-btn-yellow deposit-button" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
 							<#elseif !hasUserPactSign>
-								<a class="pro-btn-yellow" name="#Pact-sign">Soumettre un projet</a>
+								<a class="pro-btn-yellow deposit-button" name="#Pact-sign">Soumettre un projet</a>
 							<#elseif isUserBanned>
-								<a class="pro-btn-yellow" name="#IsBanned">Soumettre un projet</a>
+								<a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
 							</#if>
 							<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>										
 						</div>
@@ -139,11 +139,11 @@
 					<div class="container">
 						<div class="col-xs-12 aligncenter pro-wrapper-btn">
                             <#if hasUserPactSign && hasUserPactSign && !isUserBanned>
-                                <a class="pro-btn-yellow" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
+                                <a class="pro-btn-yellow deposit-button" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
                             <#elseif !hasUserPactSign>
-                                <a class="pro-btn-yellow" name="#Pact-sign">Soumettre un projet</a>
+                                <a class="pro-btn-yellow deposit-button" name="#Pact-sign">Soumettre un projet</a>
                             <#elseif isUserBanned>
-                                <a class="pro-btn-yellow" name="#IsBanned">Soumettre un projet</a>
+                                <a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
                             </#if>
                             <a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>
 						</div>

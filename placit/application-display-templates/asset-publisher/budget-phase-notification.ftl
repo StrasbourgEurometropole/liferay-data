@@ -1,5 +1,7 @@
 <!-- BARRE SUPERIEURE NOTIFIANT LA PHASE EN COURS -->
 
+<#assign phaseInDepositPeriod = false />
+
 <#-- Test de l'existance et parcours -->
 <#if entries?size != 0 >
 	<#list entries as curEntry>
@@ -31,6 +33,7 @@
 							    <#break>
 							<#case "before-end-deposit">
 							    pour déposer votre projet
+							    <#assign phaseInDepositPeriod = true />
 							    <#assign referenceDate = phase.endDate />
 							    <#break>
 							<#case "before-begin-vote">
@@ -87,3 +90,14 @@
 
 	</#list>
 </#if>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Si la phase n'est pas active, on retirer les boutons de depot
+		if (${phaseInDepositPeriod?string("false", "true")}) {
+			$(".deposit-button").each(function() {
+				$(this).remove();
+			});
+		}
+	});
+</script>
