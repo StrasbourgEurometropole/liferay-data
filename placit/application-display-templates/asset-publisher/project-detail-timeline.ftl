@@ -19,7 +19,7 @@
                     <span class="pro-year">${entry.getPublishDate()?string["yyyy"]}</span>
                   <#else>
                     <span>${firstTimeLine.getDate()?string["dd/MM"]}</span>
-                    <span class="pro-year">${firstTimeLine.getDate()?string["yyyy"]}</span>
+                    <span class="pro-year">${firstTimeLine.getDate()?string[firstTimeLine.getFreeMarkerFormatDate()]}</span>
                   </#if>
               </div>
           </div>
@@ -45,7 +45,7 @@
                      </div>
                  </div>
                  <div class="pro-titre">
-                     <span>Le <time datetime="2017-02-14">${timeline.getDate()?string["dd/MM/yyyy"]}</time></span>
+                     <span>Le <time datetime="2017-02-14">${timeline.getDate()?string[timeline.getFreeMarkerFormatDate()]}</time></span>
                      <h4>${timeline.title}</h4>
                  </div>
              </div>

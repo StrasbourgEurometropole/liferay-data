@@ -32,14 +32,14 @@
 	        <div class="pro-navigation">
 	            <div class="pro-extreme-date">
 	                <span>Début</span>
-	                <span class="pro-datetime">${firstTimeLine.getDate()?string["dd/MM/yyyy"]}</span>
+	                <span class="pro-datetime">${firstTimeLine.getDate()?string[firstTimeLine.getFreeMarkerFormatDate()]}</span>
 	            </div>
 	            <div class="pro-slidecontainer">
 	                <input type="range" min="1" max="${timelines?size}" value="${timelines?size - 2}" class="slider" id="myRange">
 	            </div>
 	            <div class="pro-extreme-date">
 	                <span>Fin</span>
-	                <span class="pro-datetime">${lastTimeLine.getDate()?string["dd/MM/yyyy"]}</span>
+	                <span class="pro-datetime">${lastTimeLine.getDate()?string[lastTimeLine.getFreeMarkerFormatDate()]}</span>
 	            </div>
 	            <span>Navigation</span>
 	        </div>
@@ -49,14 +49,38 @@
 	        	<#list currEntry.getProjectTimelines() as timeline>
 		            <div class="pro-item">
 		                <div class="pro-small-jalon">
-		                    <span class="pro-day-month">${timeline.getDate()?string["dd MMMM"]}</span>
-		                    <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+			                <#switch timeline.getFreeMarkerFormatDate()>
+			                    <#case "dd/MM/yyyy">
+			                    	<span class="pro-day-month">${timeline.getDate()?string["dd MMMM"]}</span>
+	                    			<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+			                      	<#break>
+			                    <#case "MM/yyyy">
+									<span class="pro-day-month">${timeline.getDate()?string["MMMM"]}</span>
+	                    			<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+			                      	<#break>
+			                    <#case "yyyy">
+			                    	<span class="pro-day-month"></span>
+	                    			<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+			                      	<#break>			                      
+			                </#switch>
 		                </div>
 		                <a href="${timeline.getLink()}" class="pro-jalon-hover">
 		                    <div class="pro-wrapper-date">
 		                        <div>
-		                            <span class="pro-day-month">${timeline.getDate()?string["dd  MMMM"]}</span>
-		                            <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+		                            <#switch timeline.getFreeMarkerFormatDate()>
+					                    <#case "dd/MM/yyyy">
+					                    	<span class="pro-day-month">${timeline.getDate()?string["dd MMMM"]}</span>
+			                    			<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+					                      	<#break>
+					                    <#case "MM/yyyy">
+											<span class="pro-day-month">${timeline.getDate()?string["MMMM"]}</span>
+			                    			<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+					                      	<#break>
+					                    <#case "yyyy">
+					                    	<span class="pro-day-month"></span>
+			                    			<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+					                      	<#break>			                      
+					                </#switch>
 		                        </div>
 		                    </div>
 		                    <div class="pro-txt-jalon">
