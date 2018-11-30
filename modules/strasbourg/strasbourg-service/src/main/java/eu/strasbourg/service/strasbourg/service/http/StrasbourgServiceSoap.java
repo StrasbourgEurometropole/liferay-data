@@ -156,6 +156,21 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String getPois(java.lang.String interests,
+		long groupId, java.lang.String localeId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
+					groupId, localeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.lang.String getFavoritesPois(long groupId)
 		throws RemoteException {
 		try {
@@ -176,6 +191,23 @@ public class StrasbourgServiceSoap {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
 					categories, prefilters, groupId, typeContenu);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPois(java.lang.String interests,
+		java.lang.String categories, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu, java.lang.String localeId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
+					categories, prefilters, groupId, typeContenu, localeId);
 
 			return returnValue.toString();
 		}
@@ -222,6 +254,22 @@ public class StrasbourgServiceSoap {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId,
 					typeContenu);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getFavoritesPois(long groupId,
+		java.lang.String typeContenu, java.lang.String localeId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId,
+					typeContenu, localeId);
 
 			return returnValue.toString();
 		}

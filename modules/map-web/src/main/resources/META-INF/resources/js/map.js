@@ -351,7 +351,8 @@
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-favorites-pois', {
                         groupId: window.groupId,
-                        typeContenu: window.typesContenu
+                        typeContenu: window.typesContenu,
+                        localeId: Liferay.ThemeDisplay.getLanguageId()
                     },
                     function(data) {
                         try {
@@ -379,7 +380,8 @@
                         categories: categories,
                         prefilters: prefilters,
                         groupId: window.groupId,
-                        typeContenu: window.typesContenu
+                        typeContenu: window.typesContenu,
+                        localeId: Liferay.ThemeDisplay.getLanguageId()
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
