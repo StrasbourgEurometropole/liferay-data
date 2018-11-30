@@ -28,7 +28,7 @@ import eu.strasbourg.service.project.service.PetitionLocalService;
 	property = {},
 	service = SignatairesXlsxExporter.class
 )
-public class SignatairesXlsxExporterImpl implements eu.strasbourg.service.office.exporter.api.SignatairesXlsxExporter {
+public class SignatairesXlsxExporterImpl implements SignatairesXlsxExporter {
 	
 	private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
 			this.getClass().getClassLoader());

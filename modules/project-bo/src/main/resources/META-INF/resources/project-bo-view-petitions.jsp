@@ -114,18 +114,26 @@
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
+					
 						<c:if test="${dc.hasPermission('EDIT_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editPetitionURL}" />
 						</c:if>
+						
+						<liferay-portlet:resourceURL id="exportSignatairesXlsx" var="exportSignatairesXlsxURL">
+							<portlet:param name="petitionId" value="${petition.petitionId}" />
+						</liferay-portlet:resourceURL>
+						<liferay-ui:icon message="export-xlsx-signataires" url="${exportSignatairesXlsxURL}" />
 
 						<liferay-portlet:actionURL name="deletePetition" var="deletePetitionURL">
 							<portlet:param name="cmd" value="deletePetition" />
 							<portlet:param name="tab" value="petitions" />
 							<portlet:param name="petitionId" value="${petition.petitionId}" />
 						</liferay-portlet:actionURL>
+						
 						<c:if test="${dc.hasPermission('DELETE_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deletePetitionURL}" />
 						</c:if>
+						
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
@@ -138,14 +146,14 @@
 	</aui:form>
 
 	<liferay-portlet:resourceURL var="exportPetitionsXlsxURL" id="exportPetitionsXlsx">
-    	</liferay-portlet:resourceURL>
-    	<form method="POST" action="${exportPetitionsXlsxURL}">
-    		<aui:input type="hidden" name="petitionIds" value="${dc.allPetitionIds}" />
-    		<aui:button-row>
-    			<aui:button cssClass="btn-lg" type="submit"
-    				value="export-petitions-xlsx" />
-    		</aui:button-row>
-    	</form>
+    </liferay-portlet:resourceURL>
+   	<form method="POST" action="${exportPetitionsXlsxURL}">
+   		<aui:input type="hidden" name="petitionIds" value="${dc.allPetitionIds}" />
+   		<aui:button-row>
+   			<aui:button cssClass="btn-lg" type="submit"
+   				value="export-petitions-xlsx" />
+   		</aui:button-row>
+   	</form>
 
 </div>
 
