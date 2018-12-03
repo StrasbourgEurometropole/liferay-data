@@ -82,10 +82,10 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editPetitionURL}" name="title" truncate="true" orderable="true"
 					value="${petition.title}" />
-				
-				<%-- Colonne : Createur --%>
-                <liferay-ui:search-container-column-text name="created-by">
-                    ${petition.petitionnaireFirstname} ${petition.petitionnaireLastname}
+                
+                <%-- Colonne : Auteur --%>
+                <liferay-ui:search-container-column-text name="author">
+                    ${petition.getAuthorLabel()}
                 </liferay-ui:search-container-column-text>
 				
 				<%-- Colonne : Date de modification --%>
