@@ -45,9 +45,16 @@
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
 				
-				<%-- Champ : Auteur --%>
+				<%-- Champ : Auteur penom --%>
 				<aui:input name="petitionnaireFirstname" required="true" />
+				
+				<%-- Champ : Auteur nom --%>
 				<aui:input name="petitionnaireLastname" required="true" />
+				
+				<%-- Champ : Au nom de ... --%>
+				<aui:input name="inTheNameOf" required="false">
+					<aui:validator name="maxLength">200</aui:validator>
+				</aui:input>
 
 				<%-- Champ : quota Signataire --%>
 				<aui:input name="quotaSignature" required="true" type="number" readonly="true"
