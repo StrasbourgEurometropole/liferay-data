@@ -53,7 +53,7 @@
 				
 				<%-- Champ : Au nom de ... --%>
 				<aui:input name="inTheNameOf" required="false">
-					<aui:validator name="maxLength">200</aui:validator>
+					<aui:validator name="maxLength">140</aui:validator>
 				</aui:input>
 
 				<%-- Champ : quota Signataire --%>
