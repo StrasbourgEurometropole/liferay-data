@@ -73,7 +73,7 @@ public class BudgetSupportsXlsxExporterImpl implements BudgetSupportsXlsxExporte
 			Object[] budgetSupportRow = { 
 				budgetSupport.getCitoyenLastName(),
 				budgetSupport.getCitoyenFirstname(),
-				budgetSupport.getCitoyenBirthday(),
+				dateFormat.format(budgetSupport.getCitoyenBirthday()),
 				budgetSupport.getCitoyenAddress(),
 				budgetSupport.getCitoyenPostalCode(),
 				budgetSupport.getCitoyenCity(),
