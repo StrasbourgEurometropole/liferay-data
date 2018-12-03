@@ -225,6 +225,9 @@
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 		<field name="quotaSignature" type="long" />
+		<field name="inTheNameOf" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="petitionnaireLastname" type="String" />
 		<field name="petitionnaireFirstname" type="String" />
 		<field name="petitionnaireBirthday" type="Date" />

@@ -172,6 +172,7 @@ create table project_Petition (
 	publicationDate DATE null,
 	expirationDate DATE null,
 	quotaSignature LONG,
+	inTheNameOf VARCHAR(400) null,
 	petitionnaireLastname VARCHAR(75) null,
 	petitionnaireFirstname VARCHAR(75) null,
 	petitionnaireBirthday DATE null,
