@@ -62,6 +62,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String MOBILE = "mobile";
     private static final String PETITIONTITLE = "petitiontitle";
     private static final String PETITIONDESCRIPTION = "petitiondescription";
+    private static final String IN_THE_NAME_OF = "inTheNameOf";
     private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -86,6 +87,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private String email;
     private String title;
     private String description;
+    private String inTheNameOf;
     private String lieu;
     private long projectId;
     private long quartierId;
@@ -111,7 +113,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         this.publikID = getPublikID(request);
-
+        
         // Recuperation des informations du formulaire
         this.dateFormat = new SimpleDateFormat(PATTERN);
         this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
@@ -126,6 +128,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONTITLE));
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONDESCRIPTION).replace("\n", "<br>"));
+        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
@@ -203,10 +206,11 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 ids[i]=identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
-
+            
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(this.title);
             petition.setDescription(this.description);
+            petition.setInTheNameOf(this.inTheNameOf);
             petition.setQuotaSignature(signatureNumber);
             petition.setPetitionnaireAdresse(this.address);
             petition.setPetitionnaireBirthday(this.birthday);
@@ -256,7 +260,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         	this.message = "Titre non valide";
             return false;
         }
-
+        
         // description
         if (Validator.isNull(this.description)) {
         	this.message = "Description non valide";

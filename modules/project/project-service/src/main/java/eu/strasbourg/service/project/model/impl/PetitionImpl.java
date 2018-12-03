@@ -525,18 +525,21 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
     
     /**
-     * Retourne le nom de du depositaire sous forme "Truc M."
+     * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
      */
     @Override
     public String getAuthorLabel() {
-    	return StringUtil.upperCaseFirstLetter(this.getPetitionnaireFirstname())
-				+ " "
-				+  StringUtil.toUpperCase(StringUtil.shorten(this.getPetitionnaireLastname(), 2, "."));
+    	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+    		return this.getInTheNameOf();
+    	} else {
+    		return StringUtil.upperCaseFirstLetter(this.getPetitionnaireFirstname())
+    				+ " "
+    				+  StringUtil.toUpperCase(StringUtil.shorten(this.getPetitionnaireLastname(), 2, "."));
+    	}
     }
     
     /**
      * méthode de récupération du status
-     *
      * @return le status.
      */
     @Override

@@ -65,7 +65,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(77);
+		StringBundler sb = new StringBundler(79);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -105,6 +105,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(expirationDate);
 		sb.append(", quotaSignature=");
 		sb.append(quotaSignature);
+		sb.append(", inTheNameOf=");
+		sb.append(inTheNameOf);
 		sb.append(", petitionnaireLastname=");
 		sb.append(petitionnaireLastname);
 		sb.append(", petitionnaireFirstname=");
@@ -245,6 +247,13 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 
 		petitionImpl.setQuotaSignature(quotaSignature);
+
+		if (inTheNameOf == null) {
+			petitionImpl.setInTheNameOf(StringPool.BLANK);
+		}
+		else {
+			petitionImpl.setInTheNameOf(inTheNameOf);
+		}
 
 		if (petitionnaireLastname == null) {
 			petitionImpl.setPetitionnaireLastname(StringPool.BLANK);
@@ -393,6 +402,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		expirationDate = objectInput.readLong();
 
 		quotaSignature = objectInput.readLong();
+		inTheNameOf = objectInput.readUTF();
 		petitionnaireLastname = objectInput.readUTF();
 		petitionnaireFirstname = objectInput.readUTF();
 		petitionnaireBirthday = objectInput.readLong();
@@ -491,6 +501,13 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(expirationDate);
 
 		objectOutput.writeLong(quotaSignature);
+
+		if (inTheNameOf == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(inTheNameOf);
+		}
 
 		if (petitionnaireLastname == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -620,6 +637,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public long publicationDate;
 	public long expirationDate;
 	public long quotaSignature;
+	public String inTheNameOf;
 	public String petitionnaireLastname;
 	public String petitionnaireFirstname;
 	public long petitionnaireBirthday;

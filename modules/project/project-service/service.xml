@@ -271,7 +271,7 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
-
+	
 		<!-- Workflow fields -->
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
@@ -286,6 +286,7 @@
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date" />
 		<column name="quotaSignature" type="long" />
+		<column name="inTheNameOf" type="String" />
 
 		<!-- petitionnaire fields -->
 		<column name="petitionnaireLastname" type="String" />
@@ -296,7 +297,7 @@
 		<column name="petitionnaireCity" type="String" />
 		<column name="petitionnairePhone" type="String" />
 		<column name="petitionnaireEmail" type="String" />
-
+		
 		<!-- Support fields -->
 		<column name="isSupported" type="boolean" />
 		<column name="supportedBy" type="String" />
