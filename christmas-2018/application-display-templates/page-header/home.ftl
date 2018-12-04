@@ -10,7 +10,7 @@
     <div class="container mns-center">
         ${page.getDescription(locale)}
         <#if themeDisplay.getLocale() == "fr_FR">
-            <a href="/experientel" class="mns-btn-chevron"><@liferay_ui.message key="christmas-ready" /></a>
+            <a href="/experientiel" class="mns-btn-chevron"><@liferay_ui.message key="christmas-ready" /></a>
         </#if>
     </div>
 </header>
