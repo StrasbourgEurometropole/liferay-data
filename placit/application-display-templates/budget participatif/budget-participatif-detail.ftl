@@ -161,6 +161,11 @@
                         <!-- Bloc : actions -->
                         <div class="pro-wrapper-aside-budget">
 
+                            <!-- Encart : Budget -->
+                            <#if entry.budget?has_content>
+                                <p><span class="pro-euros">€</span> <strong>Budget : </strong>${entry.budget}</p>
+                            </#if>
+
                             <#if entry.isNotDoable()>
                                 Ce projet a été étudié et déclaré non-faisable
                             <#else>
