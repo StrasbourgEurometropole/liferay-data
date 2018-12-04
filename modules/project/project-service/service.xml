@@ -519,17 +519,17 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
-
+		
 		<!-- Workflow fields -->
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
 		<column name="statusDate" type="Date" />
-
+		
 		<!-- main fields -->
 		<column name="title" type="String" />
 		<column name="description" type="String" />
-		<column name="budget" type="long" />
+		<column name="budget" type="String" />
 		<column name="motif" type="String" />
 
 		<!-- citoyen fields -->

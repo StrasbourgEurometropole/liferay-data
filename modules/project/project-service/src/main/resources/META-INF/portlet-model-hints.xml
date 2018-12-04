@@ -20,7 +20,7 @@
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="budget" type="long" />
+		<field name="budget" type="String" />
 		<field name="motif" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
