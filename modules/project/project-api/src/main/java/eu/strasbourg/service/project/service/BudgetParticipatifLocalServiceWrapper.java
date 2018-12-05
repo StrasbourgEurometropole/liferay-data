@@ -427,6 +427,20 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Retourne les budgets votes par en utilisateur pour la phase en cours en ne prenant pas en compte les doublons
+	* et les brouillons
+	*
+	* @param publikUserId
+	* @param budgetPhaseId
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getPublishedAndVotedByPublikUserInPhase(
+		java.lang.String publikUserId, long budgetPhaseId) {
+		return _budgetParticipatifLocalService.getPublishedAndVotedByPublikUserInPhase(publikUserId,
+			budgetPhaseId);
+	}
+
+	/**
 	* Retourne tous les budgets participatifs publies d'un groupe
 	*/
 	@Override

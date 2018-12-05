@@ -50,9 +50,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	service = MVCActionCommand.class
 )
 public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
-
-	
-	
 	
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
