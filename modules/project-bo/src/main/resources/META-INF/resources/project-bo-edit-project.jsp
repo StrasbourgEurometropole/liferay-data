@@ -119,9 +119,6 @@
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
 
-				<%-- Checkbox : envoi Ã  tout les suiveurs--%>
-				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
-
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Lieux de consultation --%>
@@ -228,6 +225,14 @@
 					
 				</div>
 			
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Suivre un projet --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="project-followed">
+				
+				<%-- Checkbox : envoi aÂ  tout les suiveurs--%>
+				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
+
 			</aui:fieldset>
 
 		</aui:fieldset-group>
