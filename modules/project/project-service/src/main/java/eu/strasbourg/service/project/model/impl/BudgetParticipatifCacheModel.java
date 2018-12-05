@@ -209,7 +209,12 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setDescription(description);
 		}
 
-		budgetParticipatifImpl.setBudget(budget);
+		if (budget == null) {
+			budgetParticipatifImpl.setBudget(StringPool.BLANK);
+		}
+		else {
+			budgetParticipatifImpl.setBudget(budget);
+		}
 
 		if (motif == null) {
 			budgetParticipatifImpl.setMotif(StringPool.BLANK);
@@ -346,8 +351,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
-
-		budget = objectInput.readLong();
+		budget = objectInput.readUTF();
 		motif = objectInput.readUTF();
 		citoyenLastname = objectInput.readUTF();
 		citoyenFirstname = objectInput.readUTF();
@@ -429,7 +433,12 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(description);
 		}
 
-		objectOutput.writeLong(budget);
+		if (budget == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(budget);
+		}
 
 		if (motif == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -549,7 +558,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public long statusDate;
 	public String title;
 	public String description;
-	public long budget;
+	public String budget;
 	public String motif;
 	public String citoyenLastname;
 	public String citoyenFirstname;

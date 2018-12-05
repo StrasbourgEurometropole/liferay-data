@@ -395,6 +395,21 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setQuotaSignature(long quotaSignature);
 
 	/**
+	 * Returns the in the name of of this petition.
+	 *
+	 * @return the in the name of of this petition
+	 */
+	@AutoEscape
+	public String getInTheNameOf();
+
+	/**
+	 * Sets the in the name of of this petition.
+	 *
+	 * @param inTheNameOf the in the name of of this petition
+	 */
+	public void setInTheNameOf(String inTheNameOf);
+
+	/**
 	 * Returns the petitionnaire lastname of this petition.
 	 *
 	 * @return the petitionnaire lastname of this petition

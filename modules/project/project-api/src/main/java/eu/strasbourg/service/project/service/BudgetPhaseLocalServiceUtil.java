@@ -146,6 +146,16 @@ public class BudgetPhaseLocalServiceUtil {
 	}
 
 	/**
+	* Retourne la phase active si elle existe
+	*
+	* @param groupId ID du site
+	*/
+	public static eu.strasbourg.service.project.model.BudgetPhase getActivePhase(
+		long groupId) {
+		return getService().getActivePhase(groupId);
+	}
+
+	/**
 	* Returns the budget phase with the primary key.
 	*
 	* @param budgetPhaseId the primary key of the budget phase

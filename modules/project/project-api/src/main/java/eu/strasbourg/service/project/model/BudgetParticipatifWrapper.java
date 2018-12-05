@@ -184,7 +184,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 			setDescription(description);
 		}
 
-		Long budget = (Long)attributes.get("budget");
+		String budget = (String)attributes.get("budget");
 
 		if (budget != null) {
 			setBudget(budget);
@@ -600,6 +600,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getAuthorImageURL();
 	}
 
+	/**
+	* Returns the budget of this budget participatif.
+	*
+	* @return the budget of this budget participatif
+	*/
+	@Override
+	public java.lang.String getBudget() {
+		return _budgetParticipatif.getBudget();
+	}
+
 	@Override
 	public java.lang.String getBudgetParticipatifStatusCategoryColor() {
 		return _budgetParticipatif.getBudgetParticipatifStatusCategoryColor();
@@ -993,16 +1003,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Returns the budget of this budget participatif.
-	*
-	* @return the budget of this budget participatif
-	*/
-	@Override
-	public long getBudget() {
-		return _budgetParticipatif.getBudget();
-	}
-
-	/**
 	* Returns the budget participatif ID of this budget participatif.
 	*
 	* @return the budget participatif ID of this budget participatif
@@ -1125,7 +1125,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	* @param budget the budget of this budget participatif
 	*/
 	@Override
-	public void setBudget(long budget) {
+	public void setBudget(java.lang.String budget) {
 		_budgetParticipatif.setBudget(budget);
 	}
 

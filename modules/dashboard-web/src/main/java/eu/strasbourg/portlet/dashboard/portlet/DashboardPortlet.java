@@ -4,17 +4,22 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+
 import eu.strasbourg.portlet.dashboard.utils.DashBoardUtils;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
@@ -59,45 +64,78 @@ public class DashboardPortlet extends MVCPortlet {
     public static final String REDIRECT_URL_PARAM = "redirectURL";
 
     @Override
-    public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-        String publicId = DashBoardUtils.getPublikID(renderRequest);
+    public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+    	
+    	// Recuperation du contexte de la requete
+    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+    	long groupId = new Long(themeDisplay.getLayout().getGroupId());
+    	
+        String publikId = DashBoardUtils.getPublikID(request);
 
-        if (Validator.isNotNull(publicId)) {
-            PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publicId);
-            JSONObject userConnected = PublikApiClient.getUserDetails(publicId);
-            renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
-            renderRequest.setAttribute("isUserloggedIn", true);
-            renderRequest.setAttribute("userConnected",userConnected);
-        } else renderRequest.setAttribute("isUserloggedIn", false);
+        if (Validator.isNotNull(publikId)) {
+            PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikId);
+            JSONObject userConnected = PublikApiClient.getUserDetails(publikId);
+            request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
+            request.setAttribute("isUserloggedIn", true);
+            request.setAttribute("userConnected",userConnected);
+        } else request.setAttribute("isUserloggedIn", false);
 
-        List<Petition> petitionFiledList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publicId);
-        List<Petition> petitionSignedList = PetitionLocalServiceUtil.getPetitionBySignatairePublikId(publicId);
-        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publicId);
-        List<Event> events = EventLocalServiceUtil.findEventByUserPublikId(publicId);
-        // initiatives à implémenter
-        List<Initiative>initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publicId);
+        /**
+         *  Petitions
+         */
+        List<Petition> petitionFiledList = PetitionLocalServiceUtil.getPetitionByPublikUserID(publikId);
+        List<Petition> petitionSignedList = PetitionLocalServiceUtil.getPetitionBySignatairePublikId(publikId);
+        
+        request.setAttribute("petitionsFiledCount",petitionFiledList.size());
+        request.setAttribute("petitionSignedCount",petitionSignedList.size());
+        request.setAttribute("petitionsFiled",petitionFiledList);
+        request.setAttribute("petitionSigned",petitionSignedList);
+        
+        /**
+         * Projets
+         */
+        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publikId);
+        
+        request.setAttribute("projectFollowedsCount",projectFolloweds.size());
+        request.setAttribute("projectFolloweds",projectFolloweds);
+        
+        /**
+         * Evenements
+         */
+        List<Event> events = EventLocalServiceUtil.findEventByUserPublikId(publikId);
+        
+        request.setAttribute("eventCount",events.size());
+        request.setAttribute("event",events);
+        
+        /**
+         * Initiatives : à implémenter
+         */
+        List<Initiative> initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publikId);
         List<Initiative> initiativesAides=new ArrayList<>();
-        List<BudgetParticipatif> budgetFiled = BudgetParticipatifLocalServiceUtil.getBudgetParticipatifByPublikUserID(publicId);
+        
+        request.setAttribute("initiativeFiledCount",initiativesFiled.size());
+        request.setAttribute("initiativeAidesCount",initiativesAides.size());
+        
+        /**
+         * Budget participatif
+         */
+        List<BudgetParticipatif> budgetFiled = new ArrayList<>();
         List<BudgetParticipatif> budgetVoted = new ArrayList<>();
-        List<Project> voteLeft = new ArrayList<>();
+        int voteLeft = 0;
+        
+        BudgetPhase activePhase  = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
+        
+        if (activePhase != null) {
+        	budgetFiled = BudgetParticipatifLocalServiceUtil.getBudgetParticipatifByPublikUserID(publikId);
+	        budgetVoted = BudgetParticipatifLocalServiceUtil.getPublishedAndVotedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
+	        voteLeft = 5 - BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
+        }
+        
+        request.setAttribute("budgetFiled", budgetFiled);
+        request.setAttribute("budgetVoted", budgetVoted);
+        request.setAttribute("voteLeft", voteLeft);
 
-        renderRequest.setAttribute("petitionsFiledCount",petitionFiledList.size());
-        renderRequest.setAttribute("petitionSignedCount",petitionSignedList.size());
-        renderRequest.setAttribute("projectFollowedsCount",projectFolloweds.size());
-        renderRequest.setAttribute("initiativeFiledCount",initiativesFiled.size());
-        renderRequest.setAttribute("initiativeAidesCount",initiativesAides.size());
-        renderRequest.setAttribute("budgetFiledCount",budgetFiled.size());
-        renderRequest.setAttribute("budgetVotedCount",budgetVoted.size());
-        renderRequest.setAttribute("voteLeft",voteLeft.size());
-        renderRequest.setAttribute("eventCount",events.size());
-        renderRequest.setAttribute("petitionsFiled",petitionFiledList);
-        renderRequest.setAttribute("petitionSigned",petitionSignedList);
-        renderRequest.setAttribute("projectFolloweds",projectFolloweds);
-        renderRequest.setAttribute("event",events);
-        renderRequest.setAttribute("budgetFiled",budgetFiled);
-        renderRequest.setAttribute("budgetVoted",budgetVoted);
-
-        super.render(renderRequest, renderResponse);
+        super.render(request, response);
     }
 
 }

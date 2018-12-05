@@ -327,14 +327,15 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	 *
 	 * @return the budget of this budget participatif
 	 */
-	public long getBudget();
+	@AutoEscape
+	public String getBudget();
 
 	/**
 	 * Sets the budget of this budget participatif.
 	 *
 	 * @param budget the budget of this budget participatif
 	 */
-	public void setBudget(long budget);
+	public void setBudget(String budget);
 
 	/**
 	 * Returns the motif of this budget participatif.

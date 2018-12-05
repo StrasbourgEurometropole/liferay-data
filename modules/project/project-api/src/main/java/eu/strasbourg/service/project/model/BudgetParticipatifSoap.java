@@ -235,11 +235,11 @@ public class BudgetParticipatifSoap implements Serializable {
 		_description = description;
 	}
 
-	public long getBudget() {
+	public String getBudget() {
 		return _budget;
 	}
 
-	public void setBudget(long budget) {
+	public void setBudget(String budget) {
 		_budget = budget;
 	}
 
@@ -417,7 +417,7 @@ public class BudgetParticipatifSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private String _description;
-	private long _budget;
+	private String _budget;
 	private String _motif;
 	private String _citoyenLastname;
 	private String _citoyenFirstname;

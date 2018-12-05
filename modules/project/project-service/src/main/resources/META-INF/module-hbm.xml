@@ -31,7 +31,7 @@
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
-		<property name="budget" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="budget" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="motif" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="citoyenLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -196,6 +196,7 @@
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 		<property name="quotaSignature" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="inTheNameOf" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireBirthday" type="org.hibernate.type.TimestampType" />
@@ -287,6 +288,7 @@
 		<property name="startDay" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="spacing" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
+		<property name="dateFormat" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
