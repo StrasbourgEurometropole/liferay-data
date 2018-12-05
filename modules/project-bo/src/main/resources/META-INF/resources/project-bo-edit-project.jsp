@@ -119,7 +119,7 @@
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
 
-				<%-- Checkbox : envoi Ã  tout les suiveurs--%>
+				<%-- Checkbox : envoi ÃÂ  tout les suiveurs--%>
 				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
 
 			</aui:fieldset>
@@ -214,6 +214,7 @@
 									<liferay-util:param name="index" value="${status.count}" />
 									<liferay-util:param name="startDay" value="${projectTimeline.startDay}" />
 									<liferay-util:param name="date" value="${formattedDate}" />
+									<liferay-util:param name="dateFormat" value="${projectTimeline.dateFormat}" />
 									<liferay-util:param name="title" value="${projectTimeline.title}" />
 									<liferay-util:param name="link" value="${projectTimeline.link}" />
 									<liferay-util:param name="spacing" value="${projectTimeline.spacing}" />

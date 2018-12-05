@@ -22,6 +22,9 @@
                     <div class="form-group">
                         <aui:input id="petitiondescription" type="textarea" name="description" label="modal.filepetition.information.description" required="true" value=""/>
                     </div>
+                    <div class="form-group">
+                        <aui:input id="petitionInTheNameOf" name="inTheNameOf" label="modal.filepetition.information.inTheNameOf" required="false" maxlength="400" value=""/>
+                    </div>
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <label for="petition"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
@@ -237,28 +240,30 @@
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var firstNameValue = $("#"+namespace+"firstname").val();
+            var inTheNameOf = $("#"+namespace+"petitionInTheNameOf").val();
             var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
                 A.io.request('${filePetitionURL}', {
                     method : 'POST',
                     dataType: 'json',
                     data:{
-                        <portlet:namespace/>petitiontitle:petitionTitleValue,
-                        <portlet:namespace/>petitiondescription:petitionDescriptionValue,
-                        <portlet:namespace/>birthday:birthdayValue,
-                        <portlet:namespace/>address:addressValue,
-                        <portlet:namespace/>city:cityValue,
-                        <portlet:namespace/>postalcode:postalcodeValue,
-                        <portlet:namespace/>phone:phoneValue,
-                        <portlet:namespace/>mobile:mobileValue,
-                        <portlet:namespace />project:projectValue,
-                        <portlet:namespace />quartier:quartierValue,
-                        <portlet:namespace />theme:themeValue,
-                        <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
-                        <portlet:namespace />saveinfo:saveInfoValue,
-                        <portlet:namespace />lastname:lastNameValue,
-                        <portlet:namespace />firstname:firstNameValue,
-                        <portlet:namespace />email:emailValue
+                        <portlet:namespace/>petitiontitle: petitionTitleValue,
+                        <portlet:namespace/>petitiondescription: petitionDescriptionValue,
+                        <portlet:namespace/>birthday: birthdayValue,
+                        <portlet:namespace/>address: addressValue,
+                        <portlet:namespace/>city: cityValue,
+                        <portlet:namespace/>postalcode: postalcodeValue,
+                        <portlet:namespace/>phone: phoneValue,
+                        <portlet:namespace/>mobile: mobileValue,
+                        <portlet:namespace />project: projectValue,
+                        <portlet:namespace />quartier: quartierValue,
+                        <portlet:namespace />theme: themeValue,
+                        <portlet:namespace />consultationPlacesText: consultationPlacesTextValue,
+                        <portlet:namespace />saveinfo: saveInfoValue,
+                        <portlet:namespace />lastname: lastNameValue,
+                        <portlet:namespace />firstname: firstNameValue,
+                        <portlet:namespace />inTheNameOf: inTheNameOf,
+                        <portlet:namespace />email: emailValue
                     },
                     on: {
                         success: function(e) {
@@ -300,6 +305,7 @@
     {
         $("#"+namespace+"petitiontitle").val("");
         $("#"+namespace+"petitiondescription").val("");
+        $("#"+namespace+"petitionInTheNameOf").val("");
         $("#"+namespace+"petitionlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();

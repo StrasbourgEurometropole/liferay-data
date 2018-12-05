@@ -133,17 +133,25 @@
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
+					
 						<c:if test="${dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editBudgetParticipatifURL}" />
 						</c:if>
+						
+						<liferay-portlet:resourceURL id="exportBudgetSupportsXlsx" var="exportBudgetSupportsXlsxURL">
+							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
+						</liferay-portlet:resourceURL>
+						<liferay-ui:icon message="export-xlsx-budget-participatifs" url="${exportBudgetSupportsXlsxURL}" />
 
 						<liferay-portlet:actionURL name="deleteBudgetParticipatif" var="deleteBudgetParticipatifURL">
 							<portlet:param name="tab" value="budgets-participatifs" />
 							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 						</liferay-portlet:actionURL>
+						
 						<c:if test="${dc.hasPermission('DELETE_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteBudgetParticipatifURL}" />
 						</c:if>
+						
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
@@ -156,14 +164,14 @@
 	</aui:form>
 
 	<liferay-portlet:resourceURL var="exportBudgetsXlsxURL" id="exportBudgetsXlsx">
-    	</liferay-portlet:resourceURL>
-    	<form method="POST" action="${exportBudgetsXlsxURL}">
-    		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
-    		<aui:button-row>
-    			<aui:button cssClass="btn-lg" type="submit"
-    				value="export-budgets-participatifs-xlsx" />
-    		</aui:button-row>
-    	</form>
+    </liferay-portlet:resourceURL>
+    
+   	<form method="POST" action="${exportBudgetsXlsxURL}">
+   		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
+   		<aui:button-row>
+   			<aui:button cssClass="btn-lg" type="submit" value="export-budgets-participatifs-xlsx" />
+   		</aui:button-row>
+   	</form>
 
 </div>
 

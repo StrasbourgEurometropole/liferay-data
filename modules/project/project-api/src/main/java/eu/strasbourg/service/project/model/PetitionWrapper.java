@@ -78,6 +78,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
+		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
 		attributes.put("petitionnaireFirstname", getPetitionnaireFirstname());
 		attributes.put("petitionnaireBirthday", getPetitionnaireBirthday());
@@ -215,6 +216,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (quotaSignature != null) {
 			setQuotaSignature(quotaSignature);
+		}
+
+		String inTheNameOf = (String)attributes.get("inTheNameOf");
+
+		if (inTheNameOf != null) {
+			setInTheNameOf(inTheNameOf);
 		}
 
 		String petitionnaireLastname = (String)attributes.get(
@@ -639,7 +646,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne le nom de du depositaire sous forme "Truc M."
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	@Override
 	public java.lang.String getAuthorLabel() {
@@ -750,6 +757,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getImageURL() {
 		return _petition.getImageURL();
+	}
+
+	/**
+	* Returns the in the name of of this petition.
+	*
+	* @return the in the name of of this petition
+	*/
+	@Override
+	public java.lang.String getInTheNameOf() {
+		return _petition.getInTheNameOf();
 	}
 
 	/**
@@ -1381,6 +1398,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setImageId(long imageId) {
 		_petition.setImageId(imageId);
+	}
+
+	/**
+	* Sets the in the name of of this petition.
+	*
+	* @param inTheNameOf the in the name of of this petition
+	*/
+	@Override
+	public void setInTheNameOf(java.lang.String inTheNameOf) {
+		_petition.setInTheNameOf(inTheNameOf);
 	}
 
 	/**

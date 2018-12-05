@@ -56,6 +56,13 @@ public interface ProjectTimeline extends ProjectTimelineModel, PersistedModel {
 		};
 
 	/**
+	* Retourne l'equivalent en Freeemarker du format de date de la timeline
+	*
+	* @return Le format de date en freemarker, JJ/MM/AAAA dans le cas d'une timeline sans format encore defini
+	*/
+	public java.lang.String getFreeMarkerFormatDate();
+
+	/**
 	* Retourne la version JSON de l'entité
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();

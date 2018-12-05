@@ -149,6 +149,14 @@ public interface BudgetPhaseLocalService extends BaseLocalService,
 		long groupId);
 
 	/**
+	* Retourne la phase active si elle existe
+	*
+	* @param groupId ID du site
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BudgetPhase getActivePhase(long groupId);
+
+	/**
 	* Returns the budget phase with the primary key.
 	*
 	* @param budgetPhaseId the primary key of the budget phase

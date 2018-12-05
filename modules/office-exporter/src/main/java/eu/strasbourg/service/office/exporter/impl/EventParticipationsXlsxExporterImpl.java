@@ -88,7 +88,7 @@ public class EventParticipationsXlsxExporterImpl implements EventParticipationsX
 			
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
 			
-			Object[] participationRow = { 
+			Object[] participationRow = {
 				user.getLastName(),
 				user.getFirstName(),
 				user.getEmail(),
