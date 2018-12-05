@@ -152,6 +152,17 @@ public class BudgetPhaseLocalServiceWrapper implements BudgetPhaseLocalService,
 	}
 
 	/**
+	* Retourne la phase active si elle existe
+	*
+	* @param groupId ID du site
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetPhase getActivePhase(
+		long groupId) {
+		return _budgetPhaseLocalService.getActivePhase(groupId);
+	}
+
+	/**
 	* Returns the budget phase with the primary key.
 	*
 	* @param budgetPhaseId the primary key of the budget phase

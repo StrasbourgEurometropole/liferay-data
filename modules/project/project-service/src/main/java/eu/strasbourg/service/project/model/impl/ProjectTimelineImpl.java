@@ -46,6 +46,24 @@ public class ProjectTimelineImpl extends ProjectTimelineBaseImpl {
 	}
 	
 	/**
+	 * Retourne l'equivalent en Freeemarker du format de date de la timeline
+	 * @return Le format de date en freemarker, JJ/MM/AAAA dans le cas d'une timeline sans format encore defini
+	 */
+	@Override
+	public String getFreeMarkerFormatDate() {
+		switch (this.getDateFormat()) {
+			case "JJ/MM/AAAA" :
+				return "dd/MM/yyyy";
+			case "MM/AAAA" :
+				return "MM/yyyy";
+			case "AAAA" :
+				return "yyyy";
+			default :
+				return "dd/MM/yyyy";
+		}
+	}
+	
+	/**
 	 * Retourne la version JSON de l'entité
 	 */
 	@Override

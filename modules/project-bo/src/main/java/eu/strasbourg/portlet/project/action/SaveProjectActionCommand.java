@@ -311,35 +311,37 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			String timelineIndexesString = ParamUtil.getString(request,
 				"projectTimelineIndexes");
 			for (String timelineIndex : timelineIndexesString.split(",")) {
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				
+				DateFormat paramDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				
 				if (Validator.isNotNull(timelineIndex)
 					&& Validator.isNotNull(ParamUtil.getString(request, "date" + timelineIndex))) {
-
-					// Spacing
-					Integer spacing = ParamUtil.getInteger(request,
-							"spacing" + timelineIndex);
-
-					// Date
-					Date date = ParamUtil.getDate(request,
-							"date" + timelineIndex, dateFormat);
 					
 					// Titre
-					String timelineTitle = ParamUtil.getString(request,
-							"title" + timelineIndex);
+					String timelineTitle = ParamUtil.getString(request, "title" + timelineIndex);
+
+					// Date
+					Date date = ParamUtil.getDate(request, "date" + timelineIndex, paramDateFormat);
+					
+					// Format de date
+					String dateFormat = ParamUtil.getString(request, "dateFormat" + timelineIndex);
 					
 					// Lien
-					String link = ParamUtil.getString(request,
-							"link" + timelineIndex);
+					String link = ParamUtil.getString(request, "link" + timelineIndex);
+					
+					// Spacing
+					Integer spacing = ParamUtil.getInteger(request, "spacing" + timelineIndex);
 
-					ProjectTimeline projectTimeline = _projectTimelineLocalService
-						.createProjectTimeline();
-					projectTimeline.setDate(date);
-					projectTimeline.setSpacing(spacing);
+					ProjectTimeline projectTimeline = _projectTimelineLocalService.createProjectTimeline();
+					
 					projectTimeline.setTitle(timelineTitle);
+					projectTimeline.setDate(date);
+					projectTimeline.setDateFormat(dateFormat);
 					projectTimeline.setLink(link);
+					projectTimeline.setSpacing(spacing);
 					projectTimeline.setProjectId(project.getProjectId());
-					this._projectTimelineLocalService
-						.updateProjectTimeline(projectTimeline);
+					
+					this._projectTimelineLocalService.updateProjectTimeline(projectTimeline);
 				}
 			}
 

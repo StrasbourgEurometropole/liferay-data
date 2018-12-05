@@ -50,9 +50,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	service = MVCActionCommand.class
 )
 public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
-
-	
-	
 	
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
@@ -87,7 +84,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setDescription(description);
             
             // Budget
-            long budget = ParamUtil.getLong(request, "budget");
+            String budget = ParamUtil.getString(request, "budget");
             budgetParticipatif.setBudget(budget);
             
             // Motif

@@ -29,7 +29,9 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -175,7 +177,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     private boolean sendBudget(ResourceRequest request) throws PortletException {
         ServiceContext sc;
         BudgetParticipatif budgetParticipatif;
-
+        
         try {
             sc = ServiceContextFactory.getInstance(request);
             sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
@@ -289,10 +291,12 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
     }
 
     private boolean validate(ResourceRequest request) {
+    	
+    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non recconu";
+            this.message = "Utilisateur non reconnu";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
@@ -304,6 +308,18 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         		this.message = "Vous devez signer le Pacte pour soumettre un projet";
         		return false;
         	}
+        }
+        
+        // Phase
+        BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getScopeGroupId());
+        if (activePhase != null) {
+        	if (!activePhase.isInDepositPeriod()) {
+        		this.message = "Nous ne sommes pas en phase de depot";
+                return false;
+        	}
+        } else {
+        	this.message = "Nous ne sommes pas en phase de depot";
+            return false;
         }
         
         // title

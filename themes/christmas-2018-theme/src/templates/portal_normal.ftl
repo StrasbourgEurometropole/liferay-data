@@ -165,6 +165,13 @@
       }
     </script>
 
+    <#if locale == 'fr_FR'>
+        <style>
+        .navbar-nav li .mns-btn-yellow.mns-btn-yellow {
+            display: block !important;
+        }
+        </style>
+    </#if>
 
   </body>
 </html>

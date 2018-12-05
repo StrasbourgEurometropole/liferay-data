@@ -38,6 +38,7 @@ public class ProjectTimelineSoap implements Serializable {
 		soapModel.setStartDay(model.getStartDay());
 		soapModel.setSpacing(model.getSpacing());
 		soapModel.setDate(model.getDate());
+		soapModel.setDateFormat(model.getDateFormat());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setLink(model.getLink());
 		soapModel.setProjectId(model.getProjectId());
@@ -127,6 +128,14 @@ public class ProjectTimelineSoap implements Serializable {
 		_date = date;
 	}
 
+	public String getDateFormat() {
+		return _dateFormat;
+	}
+
+	public void setDateFormat(String dateFormat) {
+		_dateFormat = dateFormat;
+	}
+
 	public String getTitle() {
 		return _title;
 	}
@@ -155,6 +164,7 @@ public class ProjectTimelineSoap implements Serializable {
 	private int _startDay;
 	private int _spacing;
 	private Date _date;
+	private String _dateFormat;
 	private String _title;
 	private String _link;
 	private long _projectId;

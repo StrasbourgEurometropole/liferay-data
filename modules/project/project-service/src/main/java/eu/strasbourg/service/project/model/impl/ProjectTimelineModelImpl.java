@@ -72,6 +72,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			{ "startDay", Types.INTEGER },
 			{ "spacing", Types.INTEGER },
 			{ "date_", Types.TIMESTAMP },
+			{ "dateFormat", Types.VARCHAR },
 			{ "title", Types.VARCHAR },
 			{ "link", Types.VARCHAR },
 			{ "projectId", Types.BIGINT }
@@ -83,12 +84,13 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		TABLE_COLUMNS_MAP.put("startDay", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("spacing", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("dateFormat", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("link", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,spacing INTEGER,date_ DATE null,title VARCHAR(400) null,link VARCHAR(400) null,projectId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,spacing INTEGER,date_ DATE null,dateFormat VARCHAR(75) null,title VARCHAR(400) null,link VARCHAR(400) null,projectId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_ProjectTimeline";
 	public static final String ORDER_BY_JPQL = " ORDER BY projectTimeline.date ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_ProjectTimeline.date_ ASC";
@@ -124,6 +126,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		model.setStartDay(soapModel.getStartDay());
 		model.setSpacing(soapModel.getSpacing());
 		model.setDate(soapModel.getDate());
+		model.setDateFormat(soapModel.getDateFormat());
 		model.setTitle(soapModel.getTitle());
 		model.setLink(soapModel.getLink());
 		model.setProjectId(soapModel.getProjectId());
@@ -196,6 +199,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		attributes.put("startDay", getStartDay());
 		attributes.put("spacing", getSpacing());
 		attributes.put("date", getDate());
+		attributes.put("dateFormat", getDateFormat());
 		attributes.put("title", getTitle());
 		attributes.put("link", getLink());
 		attributes.put("projectId", getProjectId());
@@ -230,6 +234,12 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 		if (date != null) {
 			setDate(date);
+		}
+
+		String dateFormat = (String)attributes.get("dateFormat");
+
+		if (dateFormat != null) {
+			setDateFormat(dateFormat);
 		}
 
 		String title = (String)attributes.get("title");
@@ -295,6 +305,22 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		_columnBitmask = -1L;
 
 		_date = date;
+	}
+
+	@JSON
+	@Override
+	public String getDateFormat() {
+		if (_dateFormat == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _dateFormat;
+		}
+	}
+
+	@Override
+	public void setDateFormat(String dateFormat) {
+		_dateFormat = dateFormat;
 	}
 
 	@JSON
@@ -387,6 +413,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		projectTimelineImpl.setStartDay(getStartDay());
 		projectTimelineImpl.setSpacing(getSpacing());
 		projectTimelineImpl.setDate(getDate());
+		projectTimelineImpl.setDateFormat(getDateFormat());
 		projectTimelineImpl.setTitle(getTitle());
 		projectTimelineImpl.setLink(getLink());
 		projectTimelineImpl.setProjectId(getProjectId());
@@ -476,6 +503,14 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			projectTimelineCacheModel.date = Long.MIN_VALUE;
 		}
 
+		projectTimelineCacheModel.dateFormat = getDateFormat();
+
+		String dateFormat = projectTimelineCacheModel.dateFormat;
+
+		if ((dateFormat != null) && (dateFormat.length() == 0)) {
+			projectTimelineCacheModel.dateFormat = null;
+		}
+
 		projectTimelineCacheModel.title = getTitle();
 
 		String title = projectTimelineCacheModel.title;
@@ -499,7 +534,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{projectTimelineId=");
 		sb.append(getProjectTimelineId());
@@ -509,6 +544,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		sb.append(getSpacing());
 		sb.append(", date=");
 		sb.append(getDate());
+		sb.append(", dateFormat=");
+		sb.append(getDateFormat());
 		sb.append(", title=");
 		sb.append(getTitle());
 		sb.append(", link=");
@@ -522,7 +559,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.ProjectTimeline");
@@ -543,6 +580,10 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		sb.append(
 			"<column><column-name>date</column-name><column-value><![CDATA[");
 		sb.append(getDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>dateFormat</column-name><column-value><![CDATA[");
+		sb.append(getDateFormat());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
@@ -570,6 +611,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 	private int _startDay;
 	private int _spacing;
 	private Date _date;
+	private String _dateFormat;
 	private String _title;
 	private String _link;
 	private long _projectId;

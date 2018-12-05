@@ -119,6 +119,21 @@ public interface ProjectTimelineModel extends BaseModel<ProjectTimeline> {
 	public void setDate(Date date);
 
 	/**
+	 * Returns the date format of this project timeline.
+	 *
+	 * @return the date format of this project timeline
+	 */
+	@AutoEscape
+	public String getDateFormat();
+
+	/**
+	 * Sets the date format of this project timeline.
+	 *
+	 * @param dateFormat the date format of this project timeline
+	 */
+	public void setDateFormat(String dateFormat);
+
+	/**
 	 * Returns the title of this project timeline.
 	 *
 	 * @return the title of this project timeline

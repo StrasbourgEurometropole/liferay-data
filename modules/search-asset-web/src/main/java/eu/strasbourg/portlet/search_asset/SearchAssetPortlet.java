@@ -24,6 +24,8 @@ import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration
 import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
@@ -110,7 +112,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                 homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
             }
             renderRequest.setAttribute("homeURL", homeURL);
-
+            
             String className = classNameList.get(0);
             
             if (className.equals(PARTICIPATION)) {
@@ -140,11 +142,18 @@ public class SearchAssetPortlet extends MVCPortlet {
             	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
             }
             
+            renderRequest.setAttribute("isUserloggedIn", false);
+            renderRequest.setAttribute("hasUserPactSign", false);
+            renderRequest.setAttribute("isUserBanned", false);
+            
             if (Validator.isNotNull(userPublikId)) {
-                renderRequest.setAttribute("isUserloggedIn", true);
-            } else {
-                renderRequest.setAttribute("isUserloggedIn", false);
-            }
+            	PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(userPublikId);
+            	if (user != null) {
+            		renderRequest.setAttribute("isUserloggedIn", true);
+                    renderRequest.setAttribute("hasUserPactSign", user.getPactSignature() != null);
+                    renderRequest.setAttribute("isUserBanned", user.isBanned());
+            	}
+            } 
 
             //Suppression des attributs de session
             /*HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
