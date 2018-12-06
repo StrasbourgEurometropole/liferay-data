@@ -307,6 +307,14 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	* Retourne l'image de profil ou le substitut
+	*/
+	@Override
+	public java.lang.String getImageURLOrSurrogate() {
+		return _publikUser.getImageURLOrSurrogate();
+	}
+
+	/**
 	* Returns the last name of this publik user.
 	*
 	* @return the last name of this publik user

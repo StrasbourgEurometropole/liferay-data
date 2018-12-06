@@ -517,6 +517,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.toCacheModel();
 	}
 
+	/**
+	* Retourne l'auteur en publik user
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
+		return _budgetParticipatif.getAuthorPublikUser();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.BudgetParticipatif toEscapedModel() {
 		return new BudgetParticipatifWrapper(_budgetParticipatif.toEscapedModel());
