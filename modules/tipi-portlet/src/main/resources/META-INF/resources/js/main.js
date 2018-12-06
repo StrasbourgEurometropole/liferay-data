@@ -18,10 +18,26 @@ $(function(){
       errorMessage += 'Veuillez renseigner tous les champs du formulaire.<br/>';
     } 
     // Numéro de commande
-    if ($('input#ref').val().length < 6 || $('input#ref').val().length < 13 && $('input#code_appli').val() === 'EA') {
-      isValid = false;
-      errorMessage += 'Le numéro de la facture est vide ou trop court.<br/>';
-    } 
+	switch($('input#code_appli').val()) {
+		case 'EA':
+			if ($('input#ref').val().length < 13) {
+				isValid = false;
+				errorMessage += 'Le numéro de la facture est vide ou fait moins de 13 caractères.<br/>';
+			}
+		break;
+		case 'RZ':
+			if ($('input#ref').val().length < 4) {
+				isValid = false;
+				errorMessage += 'Le numéro de la facture est vide ou fait moins de 4 caractères.<br/>';
+			}
+		break;
+		default:
+			if ($('input#ref').val().length < 6) {
+				isValid = false;
+				errorMessage += 'Le numéro de la facture est vide ou fait moins de 6 caractères.<br/>';
+			}           
+	}
+
     if(!/^\d+$/.test($('input#ref').val())) {
       isValid = false;
       errorMessage += 'Le numéro de la facture ne doit être composé que de chiffres.<br/>';
