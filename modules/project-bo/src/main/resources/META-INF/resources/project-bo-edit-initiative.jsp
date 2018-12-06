@@ -87,8 +87,6 @@
 				
 			</aui:fieldset>
 			
-			
-			
 			<%-- Groupe de champs : Lieux de consultation --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="consultation-places">
 				
@@ -96,7 +94,7 @@
 				<aui:input name="consultationPlacesBody" required="false" />
 				
 				<%-- Champ : Lieux texte libre --%>
-				<aui:input name="consultationPlacesText" label="consultation-places-text" required="false"/>
+				<aui:input name="consultationPlacesText" label="place-text-area" required="false"/>
 				
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">
