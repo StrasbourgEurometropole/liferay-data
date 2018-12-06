@@ -1,8 +1,6 @@
 package eu.strasbourg.portlet.dashboard.portlet;
 
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
@@ -58,9 +56,6 @@ public class DashboardPortlet extends MVCPortlet {
     /**
      * le log
      */
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-    private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
-    private static final String CITY_NAME = "Strasbourg";
     public static final String REDIRECT_URL_PARAM = "redirectURL";
 
     @Override
