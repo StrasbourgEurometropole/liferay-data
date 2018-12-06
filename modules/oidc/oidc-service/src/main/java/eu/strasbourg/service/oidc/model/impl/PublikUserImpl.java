@@ -29,6 +29,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class PublikUserImpl extends PublikUserBaseImpl {
+
+	private static final long serialVersionUID = -3749806145234327527L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

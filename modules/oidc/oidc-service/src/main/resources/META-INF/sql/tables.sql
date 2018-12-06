@@ -14,5 +14,6 @@ create table publik_PublikUser (
 	displayConfig VARCHAR(1000) null,
 	pactSignature DATE null,
 	banishDate DATE null,
-	banishDescription TEXT null
+	banishDescription TEXT null,
+	imageURL VARCHAR(400) null
 );

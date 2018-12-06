@@ -32,5 +32,8 @@
 		<field name="banishDescription" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="imageURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 	</model>
 </model-hints>
