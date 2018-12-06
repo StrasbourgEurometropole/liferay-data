@@ -34,6 +34,9 @@
 
                         <div class="item pro-bloc-card-petition" data-linkall="a">
                             <div class="pro-header-petition">
+                                <figure role="group">
+                                    <img src="${entry.getAuthorImageURL()}" width="40" height="40" alt="Image de profil">
+                                </figure>
                                 <p>Pétition publiée par :</p>
                                 <p><strong>${entry.getAuthorLabel()}</strong></p>
                             </div>

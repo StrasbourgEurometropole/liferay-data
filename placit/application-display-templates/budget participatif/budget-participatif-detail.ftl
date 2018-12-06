@@ -67,11 +67,9 @@
                             </div>
                         </div>
                         <div class="pro-header-auteur">
-                            <#if imageURL?has_content >
-                                <figure>
-                                    <img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
-                                </figure>
-                            </#if>
+                            <figure>
+                                <img src="${entry.getAuthorImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
+                            </figure>
                             <p>Projet déposé le
                                 <time>${entry.getCreateDate()?date?string['dd/MM/yyyy']}</time>
                                 par :
