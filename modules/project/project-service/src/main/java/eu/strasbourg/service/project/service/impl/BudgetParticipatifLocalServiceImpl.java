@@ -507,11 +507,35 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         return budgetParticipatif;
     }
     
+    @Override
     public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(String publikId){
         List<BudgetParticipatif> bpList = budgetParticipatifPersistence.findByPublikId(publikId);
         return bpList.stream()
                 .filter(BudgetParticipatifModel::isApproved)
                 .collect(Collectors.toList());
     }
-
+    
+    /**
+     * Retourne les budgets votes par en utilisateur pour la phase en cours en ne prenant pas en compte les doublons
+     * et les brouillons
+     * @param publikUserId
+     * @param budgetPhaseId
+     */
+    @Override
+    public List<BudgetParticipatif> getPublishedAndVotedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+        List<BudgetParticipatif> bpList = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
+        
+        // Creation d'une liste sans doublons
+        List<BudgetParticipatif> results = new ArrayList<BudgetParticipatif>();
+        for (BudgetParticipatif budgetParticipatif : bpList) {
+        	if (!results.contains(budgetParticipatif)) {
+        		results.add(budgetParticipatif);
+        	}
+        }
+        
+        return results.stream()
+                .filter(BudgetParticipatifModel::isApproved)
+                .collect(Collectors.toList());
+    }
+    
 }

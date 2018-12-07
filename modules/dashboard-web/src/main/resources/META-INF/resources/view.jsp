@@ -16,9 +16,7 @@
 		<div class="container pro-user">
 			<a href="#pro-onglet-account">
 				<figure>
-					<img
-						src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-						width="40" height="40" alt="Nom de l'utilisateur" />
+					<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
 				</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
 			</a> <span><liferay-ui:message key="dashboard.front.welcome" /><span
 				id="pro-user-name">${userConnected.get('first_name')}
@@ -29,13 +27,13 @@
 
 			<!-- ONGLET ACTIVITE -->
 			<div id="pro-onglet-activite">
+			
 				<div class="pro-title-dashboard col-xs-12">
 					<h1>
 						<liferay-ui:message key="dashboard.front.myactivity" />
 					</h1>
 					<span></span>
 				</div>
-
 
 				<div class="col-lg-3 col-sm-6 col-xs-12">
 					<a href="#pro-link-listing-projet" class="pro-item pro-item-projet">
@@ -100,17 +98,23 @@
 							<span class="pro-title"><liferay-ui:message
 									key="dashboard.front.budget" /></span>
 							<div class="pro-link-dashboard">
-								<a href="#pro-link-listing-projet-soumis" class="pro-txt"><strong>${budgetFiledCount}</strong>
-									<span><liferay-ui:message
-											key="dashboard.front.budget.filed" /></span></a> <a
-									href="#pro-link-listing-projet-vote" class="pro-txt"><strong>${budgetVotedCount}</strong>
-									<span><liferay-ui:message
-											key="dashboard.front.budget.voted" /></span></a>
+								<a href="#pro-link-listing-projet-soumis" class="pro-txt">
+									<strong>${budgetFiled.size()}</strong>
+									<span><liferay-ui:message key="dashboard.front.budget.filed" /></span>
+								</a>
+								<a href="#pro-link-listing-projet-vote" class="pro-txt">
+									<strong>${budgetVoted.size()}</strong>
+									<span><liferay-ui:message key="dashboard.front.budget.voted" /></span>
+								</a>
 							</div>
 							<div class="pro-info-vote">
-								<span><liferay-ui:message
-										key="dashboard.front.budget.reliquat" /> ${voteLeft}<liferay-ui:message
-										key="dashboard.front.budget.reliquat2" /></span>
+								<span>
+									<liferay-ui:message key="dashboard.front.budget.reliquat" />
+									<strong>
+										${voteLeft}
+										<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
+									</strong>
+								</span>
 							</div>
 						</div>
 					</div>
@@ -134,26 +138,10 @@
 					<div class="pro-wrapper col-md-3">
 						<div class="profile">
 							<div class="photo">
-								<input type="file" accept="image/*">
 								<div class="photo__helper">
 									<div class="photo__frame photo__frame--circle">
-										<img
-											src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-											width="185" height="185" alt="Image" class="pro-img-bg" />
+										<img src="${userConnected.get('photo')}" width="185" height="185" alt="Image" class="pro-img-bg" />
 										<canvas class="photo__canvas"></canvas>
-
-										<div class="pro-photo-hover">
-											<span class="icon-ico-user"></span>
-											<p>
-												<liferay-ui:message key="dashboard.account.profile.picture" />
-											</p>
-										</div>
-										<div class="message is-wrong-image-size">
-											<p>
-												<liferay-ui:message
-													key="dashboard.account.profile.picture.error" />
-											</p>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -341,7 +329,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pétitions signés -->
+		<!-- Tuile des pÃÂÃÂ©titions signÃÂÃÂ©s -->
 		<c:if test="${petitionSignedCount ne 0}">
 			<section id="pro-link-listing-petition-signe"
 				class="pro-bloc-slider pro-slider-event">
@@ -358,9 +346,9 @@
 						<c:forEach var="petitionSigned" items="${petitionSigned}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionSigned.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
@@ -404,7 +392,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pétitions déposés -->
+		<!-- Tuile des petitions deposees -->
 		<c:if test="${petitionsFiledCount != 0}">
 			<section id="pro-link-listing-petition-depose"
 				class="pro-bloc-slider pro-slider-event">
@@ -421,15 +409,14 @@
 						<c:forEach var="petitionFiled" items="${petitionsFiled}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionFiled.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong>${petitionFiled.petitionnaireFirstname}
-											${petitionFiled.petitionnaireLastname}</strong>
+										<strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong>
 									</p>
 								</div>
 								<div class="pro-content-petition">
@@ -473,9 +460,9 @@
 			<section id="pro-link-listing-initiative-signe"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives signées (6)</h2>
+					<h2>Mes initiatives signes (6)</h2>
 					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des évènements">Toutes les
+						title="Lien vers la page du Listing des ÃÂÃÂ©vÃÂÃÂ¨nements">Toutes les
 						initiatives</a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -487,9 +474,9 @@
 										<figure role="group">
 											<img
 												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="Arrière plan page standard" />
+												width="40" height="40" alt="ArriÃÂÃÂ¨re plan page standard" />
 										</figure>
-										<p>Initiative publiée par :</p>
+										<p>Initiative publiÃÂÃÂ©e par :</p>
 										<p>
 											<strong>Sylvie M.</strong>
 										</p>
@@ -497,13 +484,13 @@
 									<div class="pro-content-initiative">
 										<div class="pro-wrapper-meta">
 											<div class="pro-meta">
-												<span>Quartier</span> <span>Thématique</span> <span>Nom
+												<span>Quartier</span> <span>ThÃÂÃÂ©matique</span> <span>Nom
 													du projet</span>
 											</div>
 										</div>
 										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de l’initiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">Publiée le <time
+												Titre de lÃÂ¢ÃÂÃÂinitiative<br>Sur deux lignes
+											</h3></a> <span class="pro-time">PubliÃÂÃÂ©e le <time
 												datetime="2018-01-10">10/04/2018</time></span>
 									</div>
 								</div>
@@ -519,16 +506,15 @@
 				</div>
 			</section>
 		</c:if>
-
 
 		<!-- Tuile des initiatives -->
 		<c:if test="${initiativeAidesCount != 0}">
 			<section id="pro-link-listing-initiative-aide"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives aidées (11)</h2>
+					<h2>Mes initiatives aidees (11)</h2>
 					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des évènements">Toutes les
+						title="Lien vers la page du Listing des ÃÂÃÂ©vÃÂÃÂ¨nements">Toutes les
 						initiatives</a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -540,9 +526,9 @@
 										<figure role="group">
 											<img
 												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="Arrière plan page standard" />
+												width="40" height="40" alt="ArriÃÂÃÂ¨re plan page standard" />
 										</figure>
-										<p>Initiative publiée par :</p>
+										<p>Initiative publiÃÂÃÂ©e par :</p>
 										<p>
 											<strong>Sylvie M.</strong>
 										</p>
@@ -550,13 +536,13 @@
 									<div class="pro-content-initiative">
 										<div class="pro-wrapper-meta">
 											<div class="pro-meta">
-												<span>Quartier</span> <span>Thématique</span> <span>Nom
+												<span>Quartier</span> <span>Thematique</span> <span>Nom
 													du projet</span>
 											</div>
 										</div>
 										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de l’initiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">Publiée le <time
+												Titre de lÃÂ¢ÃÂÃÂinitiative<br>Sur deux lignes
+											</h3></a> <span class="pro-time">Publiee le <time
 												datetime="2018-01-10">10/04/2018</time></span>
 									</div>
 								</div>
@@ -572,23 +558,22 @@
 				</div>
 			</section>
 		</c:if>
-
+		
 		<!-- Tuile des budgets -->
-		<c:if test="${budgetFiledCount != 0}">
+		<c:if test="${budgetFiled.size() > 0}">
 			<section id="pro-link-listing-projet-soumis"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2><liferay-ui:message key="dashboard.thumbnail.bp.filed.mine" />
-						(${budgetFiledCount})</h2>
-					<a href="${homeURL}projets-budget-participatif" class="pro-btn"
-						title="<liferay-ui:message key='dashboard.thumbnail.bp.main.alt'/>"><liferay-ui:message
-							key="dashboard.thumbnail.bp.main" /></a>
-
+					<h2><liferay-ui:message key="dashboard.thumbnail.bp.filed.mine" /> (${budgetFiled.size()})</h2>
+					<a href="${homeURL}projets-budget-participatif" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.bp.main.alt'/>">
+						<liferay-ui:message key="dashboard.thumbnail.bp.main" />
+					</a>
+					
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
-						<c:forEach var="budgetFiled" items="${budgetFiled}">
+						<c:forEach var="budget" items="${budgetFiled}">
 							
 							<c:choose >
-								<c:when test="${budgetFiled.isNotDoable()}">
+								<c:when test="${budget.isNotDoable()}">
 									<c:set var="classFaisable" value="pro-theme-non-faisable" scope="page" />
 								</c:when>
 								<c:otherwise>
@@ -600,42 +585,35 @@
 								data-linkall="a">
 								<div class="pro-header-budget">
 									<figure>
-										<img
-											src="${budgetFiled.getAuthorImageURL()}"
-											width="40" height="40" alt="Nom de l'utilisateur" />
+										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budgetFiled.citoyenFirstname}
-											${budgetFiled.citoyenLastname}</strong>
+										<strong>${budget.citoyenFirstname} ${budget.citoyenLastname}</strong>
 									</p>
 									<div class="pro-info-top-right">
-										<span class="pro-encart-theme" style="background:#${budgetFiled.getBudgetParticipatifStatusCategoryColor()}">${budgetFiled.getBudgetParticipatifStatusTitle(locale)}</span>
+										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">
+											${budget.getBudgetParticipatifStatusTitle(locale)}
+										</span>
 									</div>
 								</div>
 								<div class="pro-content-budget">
+									<a href="${homeURL}detail-budget-participatif/-/entity/id/${budget.budgetParticipatifId}"
+										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${budget.title}</h3></a>
 								
-									<a
-										href="${homeURL}detail-budget-participatif/-/entity/id/${budgetFiled.budgetParticipatifId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${budgetFiled.title}</h3></a>
-								
-									<p>
-										<liferay-ui:message key="dashboard.thumbnail.bp.to" />
-									</p>
-										<span class="pro-time"><liferay-ui:message
-										key="dashboard.thumbnail.bp.publish.date" /> <time
-										datetime="${budgetFiled.getPublicationDateFr()}">${budgetFiled.getPublicationDateFr()}</time>
+									<p><liferay-ui:message key="dashboard.thumbnail.bp.to" /></p>
+									<span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.bp.publish.date" /> 
+									<time datetime="${budget.getPublicationDateFr()}">${budget.getPublicationDateFr()}</time>
 									/ <span class="pro-duree"></span></span>
-											
 								</div>
 								<div class="pro-footer-budget">
 									<p>
 										<c:choose >
-											<c:when test="${budgetFiled.isNotDoable()}">
+											<c:when test="${budget.isNotDoable()}">
 												<liferay-ui:message key="dashboard.thumbnail.bp.not.doable" />
 											</c:when>
 											<c:otherwise>
-												<strong>${budgetFiled.getNbSupports()}</strong> <liferay-ui:message key="dashboard.thumbnail.bp.doable" />
+												<strong>${budget.getNbSupports()}</strong> <liferay-ui:message key="dashboard.thumbnail.bp.doable" />
 											</c:otherwise>
 										</c:choose>
 									</p>
@@ -646,23 +624,22 @@
 				</div>
 			</section>
 		</c:if>
-
-
+		
 		<!-- Tuile des budgets -->
-		<c:if test="${budgetVotedCount != 0}">
-			<section id="pro-link-listing-projet-vote"
+		<c:if test="${budgetVoted.size() > 0}">
+			<section id="pro-link-listing-projet-soumis"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2><liferay-ui:message key="dashboard.thumbnail.bp.signed.mine" /> (${budgetVotedCount})</h2>
-					<a href="${homeURL}projets-budget-participatif" class="pro-btn"
-						title="<liferay-ui:message key='dashboard.thumbnail.bp.main.alt'/>"><liferay-ui:message
-							key="dashboard.thumbnail.bp.main" /></a>
-
+					<h2><liferay-ui:message key="dashboard.thumbnail.bp.signed.mine" /> (${budgetVoted.size()})</h2>
+					<a href="${homeURL}projets-budget-participatif" class="pro-btn" title="<liferay-ui:message key='dashboard.thumbnail.bp.main.alt'/>">
+						<liferay-ui:message key="dashboard.thumbnail.bp.main" />
+					</a>
+					
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
-						<c:forEach var="budgetFiled" items="${budgetVoted}">
-						
+						<c:forEach var="budget" items="${budgetVoted}">
+							
 							<c:choose >
-								<c:when test="${budgetVoted.isNotDoable()}">
+								<c:when test="${budget.isNotDoable()}">
 									<c:set var="classFaisable" value="pro-theme-non-faisable" scope="page" />
 								</c:when>
 								<c:otherwise>
@@ -670,43 +647,39 @@
 								</c:otherwise>
 							</c:choose>
 						
-							<div class="item pro-bloc-card-budget  ${classFaisable}"
+							<div class="item pro-bloc-card-budget ${classFaisable}"
 								data-linkall="a">
 								<div class="pro-header-budget">
 									<figure>
-										<img
-											src="${budgetVoted.getAuthorImageURL()}"
-											width="40" height="40" alt="Nom de l'utilisateur" />
+										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budgetVoted.citoyenFirstname}
-											${budgetVoted.citoyenLastname}</strong>
+										<strong>${budget.citoyenFirstname} ${budget.citoyenLastname}</strong>
 									</p>
 									<div class="pro-info-top-right">
-										<span class="pro-encart-theme" style="background:#${budgetVoted.getBudgetParticipatifStatusCategoryColor()}">${budgetVoted.getBudgetParticipatifStatusTitle(locale)}</span>
+										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">
+											${budget.getBudgetParticipatifStatusTitle(locale)}
+										</span>
 									</div>
 								</div>
 								<div class="pro-content-budget">
-									<a
-										href="${homeURL}detail-budget-participatif/-/entity/id/${budgetVoted.budgetParticipatifId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${budgetVoted.title}</h3></a>
+									<a href="${homeURL}detail-budget-participatif/-/entity/id/${budget.budgetParticipatifId}"
+										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${budget.title}</h3></a>
 								
-									<p>
-										<liferay-ui:message key="dashboard.thumbnail.bp.to" />
-									</p>
-									<span class="pro-time"><liferay-ui:message
-										key="dashboard.thumbnail.bp.publish.date" /> <time
-										datetime="${budgetVoted.getPublicationDateFr()}">${budgetVoted.getPublicationDateFr()}</time>
+									<p><liferay-ui:message key="dashboard.thumbnail.bp.to" /></p>
+									<span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.bp.publish.date" /> 
+									<time datetime="${budget.getPublicationDateFr()}">${budget.getPublicationDateFr()}</time>
 									/ <span class="pro-duree"></span></span>
+								</div>
 								<div class="pro-footer-budget">
 									<p>
 										<c:choose >
-											<c:when test="${budgetVoted.isNotDoable()}">
+											<c:when test="${budget.isNotDoable()}">
 												<liferay-ui:message key="dashboard.thumbnail.bp.not.doable" />
 											</c:when>
 											<c:otherwise>
-												<strong>${budgetVoted.getNbSupports()}</strong> <liferay-ui:message key="dashboard.thumbnail.bp.doable" />
+												<strong>${budget.getNbSupports()}</strong> <liferay-ui:message key="dashboard.thumbnail.bp.doable" />
 											</c:otherwise>
 										</c:choose>
 									</p>
@@ -717,6 +690,7 @@
 				</div>
 			</section>
 		</c:if>
+		
 	</div>
 
 	<a href="#backtop" class="pro-btn-back-top"><span

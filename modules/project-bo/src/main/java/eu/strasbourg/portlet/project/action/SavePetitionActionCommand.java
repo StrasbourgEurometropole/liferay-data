@@ -107,6 +107,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String title = ParamUtil.getString(request, "title");
 			String prenomPetitionnaire = ParamUtil.getString(request, "petitionnaireFirstname");
 			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
+			String inTheNameOf = ParamUtil.getString(request, "inTheNameOf");
 			int fakeSignataire = ParamUtil.getInteger(request, "nbFakeSignataire");
 
 			// ---------------------------------------------------------------
@@ -119,14 +120,17 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// Auteur
 			petition.setPetitionnaireFirstname(prenomPetitionnaire);
 			petition.setPetitionnaireLastname(nomPetitionnaire);
-
+			
+			// Au nom de ...
+			petition.setInTheNameOf(inTheNameOf);
+			
 			// quota-signature
 			petition.setQuotaSignature(quotasSignature);
 
 			// ---------------------------------------------------------------
 			// -------------------------- Video / Image ------------------------
 			// ---------------------------------------------------------------
-
+			
 			petition.setMediaChoice(mediaChoice);
 			petition.setVideoUrl(videoUrl);
 			if (imageId>0){ //image interne

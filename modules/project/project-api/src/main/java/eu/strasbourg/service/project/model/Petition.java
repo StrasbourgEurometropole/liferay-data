@@ -216,7 +216,19 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.lang.String getPetitionStatus();
 
 	/**
-	* Retourne le nom de du depositaire sous forme "Truc M."
+	* Retourne l'auteur en publik user
+	*
+	* @return
+	*/
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser();
+
+	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	public java.lang.String getAuthorImageURL();
+
+	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	public java.lang.String getAuthorLabel();
 

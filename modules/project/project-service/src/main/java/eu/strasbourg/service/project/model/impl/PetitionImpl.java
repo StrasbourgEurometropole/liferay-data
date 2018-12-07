@@ -66,6 +66,8 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.Signataire;
@@ -525,18 +527,42 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
     
     /**
-     * Retourne le nom de du depositaire sous forme "Truc M."
+     * Retourne l'auteur en publik user
+     * @return
+     */
+    @Override
+	public PublikUser getAuthorPublikUser() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+	}
+    
+    /**
+     * Retourne l'URL de l'image de l'utilisateur
+     */
+    @Override
+    public String getAuthorImageURL() {
+        PublikUser author =  this.getAuthorPublikUser();
+        if (author != null) {
+        	return author.getImageURLOrSurrogate();
+        }
+        return "";
+    }
+    
+    /**
+     * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
      */
     @Override
     public String getAuthorLabel() {
-    	return StringUtil.upperCaseFirstLetter(this.getPetitionnaireFirstname())
-				+ " "
-				+  StringUtil.toUpperCase(StringUtil.shorten(this.getPetitionnaireLastname(), 2, "."));
+    	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+    		return this.getInTheNameOf();
+    	} else {
+    		return StringUtil.upperCaseFirstLetter(this.getPetitionnaireFirstname())
+    				+ " "
+    				+  StringUtil.toUpperCase(StringUtil.shorten(this.getPetitionnaireLastname(), 2, "."));
+    	}
     }
     
     /**
      * méthode de récupération du status
-     *
      * @return le status.
      */
     @Override
@@ -633,13 +659,14 @@ public class PetitionImpl extends PetitionBaseImpl {
         jsonPetition.put("imageURL", this.getImageURL());
         jsonPetition.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonPetition.put("author", this.getAuthorLabel());
+        jsonPetition.put("authorImageURL", this.getAuthorImageURL());
         jsonPetition.put("nbApprovedComments", this.getNbApprovedComments());
         jsonPetition.put("frontStatusFR", this.getFrontStatusFR());
         jsonPetition.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonPetition.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
         jsonPetition.put("proDureeFR", this.getProDureeFR());
         jsonPetition.put("pourcentageSignature", this.getPourcentageSignature());
-        jsonPetition.put("nombreSignature", this.getNombreSignature()); 
+        jsonPetition.put("nombreSignature", this.getNombreSignature());
         jsonPetition.put("quotaSignature", this.getQuotaSignature());
         jsonPetition.put("projectTitle",this.getProjectTitle(Locale.FRANCE));
 

@@ -53,6 +53,7 @@ public class PetitionSoap implements Serializable {
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 		soapModel.setQuotaSignature(model.getQuotaSignature());
+		soapModel.setInTheNameOf(model.getInTheNameOf());
 		soapModel.setPetitionnaireLastname(model.getPetitionnaireLastname());
 		soapModel.setPetitionnaireFirstname(model.getPetitionnaireFirstname());
 		soapModel.setPetitionnaireBirthday(model.getPetitionnaireBirthday());
@@ -276,6 +277,14 @@ public class PetitionSoap implements Serializable {
 		_quotaSignature = quotaSignature;
 	}
 
+	public String getInTheNameOf() {
+		return _inTheNameOf;
+	}
+
+	public void setInTheNameOf(String inTheNameOf) {
+		_inTheNameOf = inTheNameOf;
+	}
+
 	public String getPetitionnaireLastname() {
 		return _petitionnaireLastname;
 	}
@@ -455,6 +464,7 @@ public class PetitionSoap implements Serializable {
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _quotaSignature;
+	private String _inTheNameOf;
 	private String _petitionnaireLastname;
 	private String _petitionnaireFirstname;
 	private Date _petitionnaireBirthday;

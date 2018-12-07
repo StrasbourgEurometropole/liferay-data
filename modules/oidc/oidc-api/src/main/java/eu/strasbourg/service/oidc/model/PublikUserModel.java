@@ -310,6 +310,21 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setBanishDescription(String banishDescription);
 
+	/**
+	 * Returns the image url of this publik user.
+	 *
+	 * @return the image url of this publik user
+	 */
+	@AutoEscape
+	public String getImageURL();
+
+	/**
+	 * Sets the image url of this publik user.
+	 *
+	 * @param imageURL the image url of this publik user
+	 */
+	public void setImageURL(String imageURL);
+
 	@Override
 	public boolean isNew();
 

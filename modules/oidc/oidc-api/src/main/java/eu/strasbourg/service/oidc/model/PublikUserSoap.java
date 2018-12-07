@@ -49,6 +49,7 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setPactSignature(model.getPactSignature());
 		soapModel.setBanishDate(model.getBanishDate());
 		soapModel.setBanishDescription(model.getBanishDescription());
+		soapModel.setImageURL(model.getImageURL());
 
 		return soapModel;
 	}
@@ -229,6 +230,14 @@ public class PublikUserSoap implements Serializable {
 		_banishDescription = banishDescription;
 	}
 
+	public String getImageURL() {
+		return _imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		_imageURL = imageURL;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
@@ -245,4 +254,5 @@ public class PublikUserSoap implements Serializable {
 	private Date _pactSignature;
 	private Date _banishDate;
 	private String _banishDescription;
+	private String _imageURL;
 }
