@@ -8,11 +8,11 @@
 <div class="mns-agenda-detail">
     <div class="mns-section-agenda">
         <div class="small-container">
-            <div class="col-xs-12">
-                <h2><@liferay_ui.message key="related-events" /></h2>
-                <a href="/agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
-            </div>
             <#if entries?has_content>
+                <div class="col-xs-12">
+                    <h2><@liferay_ui.message key="related-events" /></h2>
+                    <a href="/agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
+                </div>
                 <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
                     <#list entries as curEntry>
                         <#if (curEntry?index == 20)>
