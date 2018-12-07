@@ -26,9 +26,9 @@ $(function(){
 			}
 		break;
 		case 'RZ':
-			if ($('input#ref').val().length < 4) {
+			if ($('input#ref').val().length != 4) {
 				isValid = false;
-				errorMessage += 'Le numéro de la facture est vide ou fait moins de 4 caractères.<br/>';
+				errorMessage += 'Le numéro de la facture doit être composé de 4 caractères.<br/>';
 			}
 		break;
 		default:
