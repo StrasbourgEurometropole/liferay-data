@@ -554,6 +554,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getPourcentageSignature();
 	}
 
+	/**
+	* Retourne l'auteur en publik user
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
+		return _petition.getAuthorPublikUser();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.Petition toEscapedModel() {
 		return new PetitionWrapper(_petition.toEscapedModel());
@@ -643,6 +653,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getAssetEntryTitle() {
 		return _petition.getAssetEntryTitle();
+	}
+
+	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _petition.getAuthorImageURL();
 	}
 
 	/**

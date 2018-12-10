@@ -61,6 +61,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
@@ -186,11 +188,24 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
     
     /**
+     * Retourne l'auteur en publik user
+     * @return
+     */
+    @Override
+	public PublikUser getAuthorPublikUser() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+	}
+    
+    /**
      * Retourne l'URL de l'image de l'utilisateur
      */
     @Override
     public String getAuthorImageURL() {
-        return "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png";
+        PublikUser author =  this.getAuthorPublikUser();
+        if (author != null) {
+        	return author.getImageURLOrSurrogate();
+        }
+        return "";
     }
 
     /**

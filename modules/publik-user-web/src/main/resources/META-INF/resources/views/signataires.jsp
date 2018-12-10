@@ -40,9 +40,7 @@
                        <div>
                            <div class="pro-people">
                                <figure role="group">
-                                   <c:if test="${1 == 2}">
-                                       <img src="${publikUser.getImageURL()}" width="75" height="75" alt="ArriÃ¨re plan page standard"/>
-                                   </c:if>
+                               		<img src="${publikUser.getImageURLOrSurrogate()}" width="75" height="75" alt="Image de profil"/>
                                </figure>
                                <div>
                                    <c:if test="${!empty publikUser.pactSignature}">

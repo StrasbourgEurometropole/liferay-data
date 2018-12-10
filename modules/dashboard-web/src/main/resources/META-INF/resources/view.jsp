@@ -16,9 +16,7 @@
 		<div class="container pro-user">
 			<a href="#pro-onglet-account">
 				<figure>
-					<img
-						src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-						width="40" height="40" alt="Nom de l'utilisateur" />
+					<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
 				</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
 			</a> <span><liferay-ui:message key="dashboard.front.welcome" /><span
 				id="pro-user-name">${userConnected.get('first_name')}
@@ -140,26 +138,10 @@
 					<div class="pro-wrapper col-md-3">
 						<div class="profile">
 							<div class="photo">
-								<input type="file" accept="image/*">
 								<div class="photo__helper">
 									<div class="photo__frame photo__frame--circle">
-										<img
-											src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-											width="185" height="185" alt="Image" class="pro-img-bg" />
+										<img src="${userConnected.get('photo')}" width="185" height="185" alt="Image" class="pro-img-bg" />
 										<canvas class="photo__canvas"></canvas>
-
-										<div class="pro-photo-hover">
-											<span class="icon-ico-user"></span>
-											<p>
-												<liferay-ui:message key="dashboard.account.profile.picture" />
-											</p>
-										</div>
-										<div class="message is-wrong-image-size">
-											<p>
-												<liferay-ui:message
-													key="dashboard.account.profile.picture.error" />
-											</p>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -347,7 +329,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pÃ©titions signÃ©s -->
+		<!-- Tuile des pÃÂÃÂ©titions signÃÂÃÂ©s -->
 		<c:if test="${petitionSignedCount ne 0}">
 			<section id="pro-link-listing-petition-signe"
 				class="pro-bloc-slider pro-slider-event">
@@ -364,9 +346,9 @@
 						<c:forEach var="petitionSigned" items="${petitionSigned}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionSigned.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
@@ -410,7 +392,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pÃ©titions dÃ©posÃ©s -->
+		<!-- Tuile des petitions deposees -->
 		<c:if test="${petitionsFiledCount != 0}">
 			<section id="pro-link-listing-petition-depose"
 				class="pro-bloc-slider pro-slider-event">
@@ -427,15 +409,14 @@
 						<c:forEach var="petitionFiled" items="${petitionsFiled}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionFiled.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong>${petitionFiled.petitionnaireFirstname}
-											${petitionFiled.petitionnaireLastname}</strong>
+										<strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong>
 									</p>
 								</div>
 								<div class="pro-content-petition">
@@ -479,9 +460,9 @@
 			<section id="pro-link-listing-initiative-signe"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives signÃ©es (6)</h2>
+					<h2>Mes initiatives signes (6)</h2>
 					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des Ã©vÃ¨nements">Toutes les
+						title="Lien vers la page du Listing des ÃÂÃÂ©vÃÂÃÂ¨nements">Toutes les
 						initiatives</a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -493,9 +474,9 @@
 										<figure role="group">
 											<img
 												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="ArriÃ¨re plan page standard" />
+												width="40" height="40" alt="ArriÃÂÃÂ¨re plan page standard" />
 										</figure>
-										<p>Initiative publiÃ©e par :</p>
+										<p>Initiative publiÃÂÃÂ©e par :</p>
 										<p>
 											<strong>Sylvie M.</strong>
 										</p>
@@ -503,13 +484,13 @@
 									<div class="pro-content-initiative">
 										<div class="pro-wrapper-meta">
 											<div class="pro-meta">
-												<span>Quartier</span> <span>ThÃ©matique</span> <span>Nom
+												<span>Quartier</span> <span>ThÃÂÃÂ©matique</span> <span>Nom
 													du projet</span>
 											</div>
 										</div>
 										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de lâinitiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">PubliÃ©e le <time
+												Titre de lÃÂ¢ÃÂÃÂinitiative<br>Sur deux lignes
+											</h3></a> <span class="pro-time">PubliÃÂÃÂ©e le <time
 												datetime="2018-01-10">10/04/2018</time></span>
 									</div>
 								</div>
@@ -526,15 +507,14 @@
 			</section>
 		</c:if>
 
-
 		<!-- Tuile des initiatives -->
 		<c:if test="${initiativeAidesCount != 0}">
 			<section id="pro-link-listing-initiative-aide"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives aidÃ©es (11)</h2>
+					<h2>Mes initiatives aidees (11)</h2>
 					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des Ã©vÃ¨nements">Toutes les
+						title="Lien vers la page du Listing des ÃÂÃÂ©vÃÂÃÂ¨nements">Toutes les
 						initiatives</a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -546,9 +526,9 @@
 										<figure role="group">
 											<img
 												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="ArriÃ¨re plan page standard" />
+												width="40" height="40" alt="ArriÃÂÃÂ¨re plan page standard" />
 										</figure>
-										<p>Initiative publiÃ©e par :</p>
+										<p>Initiative publiÃÂÃÂ©e par :</p>
 										<p>
 											<strong>Sylvie M.</strong>
 										</p>
@@ -556,13 +536,13 @@
 									<div class="pro-content-initiative">
 										<div class="pro-wrapper-meta">
 											<div class="pro-meta">
-												<span>Quartier</span> <span>ThÃ©matique</span> <span>Nom
+												<span>Quartier</span> <span>Thematique</span> <span>Nom
 													du projet</span>
 											</div>
 										</div>
 										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de lâinitiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">PubliÃ©e le <time
+												Titre de lÃÂ¢ÃÂÃÂinitiative<br>Sur deux lignes
+											</h3></a> <span class="pro-time">Publiee le <time
 												datetime="2018-01-10">10/04/2018</time></span>
 									</div>
 								</div>
