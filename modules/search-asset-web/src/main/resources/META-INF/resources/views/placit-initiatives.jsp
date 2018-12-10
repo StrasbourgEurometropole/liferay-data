@@ -6,11 +6,31 @@
     <div class="row">
         <div class="col-md-8 pro-bloc-listing-participation">
             <div id="breadcrumb">
-        <span>
-            <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
-                <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-initiative" /></span>
-            </span>
-        </span>
+		        <span>
+		            <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
+		                <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-initiative" /></span>
+		            </span>
+		        </span>
+            </div>
+            
+            <div class="pro-wrapper-sort" style="padding-top:30px;">
+            	<c:choose>
+                    <c:when test='${isUserloggedIn && hasUserPactSign && !isUserBanned}'>
+                        <a id="buttonSubmitInitiative" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalSubmitInitiative">
+                        	<liferay-ui:message key="submit-initiative" />
+                        </a>
+                    </c:when>
+                    <c:when test='${!hasUserPactSign && !isUserBanned}'>
+                        <a id="buttonSubmitInitiative" href="" class="pro-btn-yellow" name="#Pact-sign">
+                        	<liferay-ui:message key="submit-initiative" />
+                        </a>
+                    </c:when>
+                    <c:when test='${isUserBanned}'>
+                        <a id="buttonSubmitInitiative" href="" class="pro-btn-yellow" name="#IsBanned">
+                        	<liferay-ui:message key="submit-initiative" />
+                        </a>
+                    </c:when>
+                </c:choose>
             </div>
 
             <div class="row pro-wrapper-listing-general">
@@ -20,8 +40,7 @@
                     <aui:form method="post" name="fm">
                     
 						<!-- Resultats -->
-						<liferay-ui:search-container id="entriesSearchContainer"
-									searchContainer="${dc.searchContainer}">
+						<liferay-ui:search-container id="entriesSearchContainer" searchContainer="${dc.searchContainer}">
 
 				        	<liferay-ui:search-container-results results="${dc.entries}" />
 				        	<liferay-ui:search-container-row
@@ -185,5 +204,5 @@
 	// Change la valeur du selecteur de page par la valeur courante  
 	$(document).ready(function() {
 		$('#change-page').prop('selectedIndex', ${dc.pager.currentPage - 1}).selectric('refresh');
-	});
+	});	
 </script>

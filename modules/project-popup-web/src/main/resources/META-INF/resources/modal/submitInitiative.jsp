@@ -4,7 +4,7 @@
 </portlet:resourceURL>
 
 <!-- DEPOSER UNE NOUVELLE INITIATIVE -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalSubmit" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalSubmit">
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalSubmitInitiative" tabindex="-1" role="dialog" aria-labelledby="modalSubmitInitiative">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         
@@ -205,7 +205,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
                         <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilSubmitInitiative"/>
                         </label>
                     </div>
                 </div>
@@ -367,7 +367,7 @@
                                 // var data = this.get('responseData');
                                 var data = JSON.parse(e.details[1].responseText);
                                 if(data.result){
-                                    $("#" + namespace + "modalSubmit").modal('hide');
+                                    $("#modalSubmitInitiative").modal('hide');
                                     if(data.savedInfo){
                                         saved_dateNaiss = birthday;
                                         saved_city = $("#"+namespace+"city").val();
