@@ -101,11 +101,11 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise ÃÂÃÂ  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise ÃÂÃÂÃÂÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
-                            <input type="checkbox" name="<portlet:namespace />saveinfo" id="supportsave-info" value="save-info">
-                            <label for="supportsave-info"><liferay-ui:message key="modal.save.info"/></label>
+                            <input type="checkbox" name="<portlet:namespace />saveinfo" id="save-info" value="save-info">
+                            <label for="save-info"><liferay-ui:message key="modal.save.info"/></label>
                         </div>
                     </div>
                     
