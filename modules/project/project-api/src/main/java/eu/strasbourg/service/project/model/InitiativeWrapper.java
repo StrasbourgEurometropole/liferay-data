@@ -72,8 +72,8 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("author", getAuthor());
 		attributes.put("description", getDescription());
+		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -82,8 +82,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
-		attributes.put("consultationPlacesText", getConsultationPlacesText());
-		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("publicationDate", getPublicationDate());
 
 		return attributes;
@@ -169,16 +167,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 			setTitle(title);
 		}
 
-		String author = (String)attributes.get("author");
-
-		if (author != null) {
-			setAuthor(author);
-		}
-
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String placeTextArea = (String)attributes.get("placeTextArea");
+
+		if (placeTextArea != null) {
+			setPlaceTextArea(placeTextArea);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -228,20 +226,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
-		}
-
-		String consultationPlacesText = (String)attributes.get(
-				"consultationPlacesText");
-
-		if (consultationPlacesText != null) {
-			setConsultationPlacesText(consultationPlacesText);
-		}
-
-		String consultationPlacesBody = (String)attributes.get(
-				"consultationPlacesBody");
-
-		if (consultationPlacesBody != null) {
-			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -472,36 +456,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
-	* Returns the author of this initiative.
-	*
-	* @return the author of this initiative
-	*/
-	@Override
-	public java.lang.String getAuthor() {
-		return _initiative.getAuthor();
-	}
-
-	/**
-	* Returns the consultation places body of this initiative.
-	*
-	* @return the consultation places body of this initiative
-	*/
-	@Override
-	public java.lang.String getConsultationPlacesBody() {
-		return _initiative.getConsultationPlacesBody();
-	}
-
-	/**
-	* Returns the consultation places text of this initiative.
-	*
-	* @return the consultation places text of this initiative
-	*/
-	@Override
-	public java.lang.String getConsultationPlacesText() {
-		return _initiative.getConsultationPlacesText();
-	}
-
-	/**
 	* Returns the description of this initiative.
 	*
 	* @return the description of this initiative
@@ -565,6 +519,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.lang.String getImageURL() {
 		return _initiative.getImageURL();
+	}
+
+	/**
+	* Returns the place text area of this initiative.
+	*
+	* @return the place text area of this initiative
+	*/
+	@Override
+	public java.lang.String getPlaceTextArea() {
+		return _initiative.getPlaceTextArea();
 	}
 
 	/**
@@ -909,16 +873,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		_initiative.setAssetEntryId(assetEntryId);
 	}
 
-	/**
-	* Sets the author of this initiative.
-	*
-	* @param author the author of this initiative
-	*/
-	@Override
-	public void setAuthor(java.lang.String author) {
-		_initiative.setAuthor(author);
-	}
-
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_initiative.setCachedModel(cachedModel);
@@ -932,28 +886,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_initiative.setCompanyId(companyId);
-	}
-
-	/**
-	* Sets the consultation places body of this initiative.
-	*
-	* @param consultationPlacesBody the consultation places body of this initiative
-	*/
-	@Override
-	public void setConsultationPlacesBody(
-		java.lang.String consultationPlacesBody) {
-		_initiative.setConsultationPlacesBody(consultationPlacesBody);
-	}
-
-	/**
-	* Sets the consultation places text of this initiative.
-	*
-	* @param consultationPlacesText the consultation places text of this initiative
-	*/
-	@Override
-	public void setConsultationPlacesText(
-		java.lang.String consultationPlacesText) {
-		_initiative.setConsultationPlacesText(consultationPlacesText);
 	}
 
 	/**
@@ -1076,6 +1008,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setNew(boolean n) {
 		_initiative.setNew(n);
+	}
+
+	/**
+	* Sets the place text area of this initiative.
+	*
+	* @param placeTextArea the place text area of this initiative
+	*/
+	@Override
+	public void setPlaceTextArea(java.lang.String placeTextArea) {
+		_initiative.setPlaceTextArea(placeTextArea);
 	}
 
 	/**

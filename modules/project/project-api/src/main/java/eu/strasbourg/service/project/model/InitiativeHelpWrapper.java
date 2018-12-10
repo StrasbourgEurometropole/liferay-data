@@ -58,6 +58,7 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("uuid", getUuid());
 		attributes.put("initiativeHelpId", getInitiativeHelpId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("publikUserId", getPublikUserId());
@@ -70,6 +71,12 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		String uuid = (String)attributes.get("uuid");
+
+		if (uuid != null) {
+			setUuid(uuid);
+		}
+
 		Long initiativeHelpId = (Long)attributes.get("initiativeHelpId");
 
 		if (initiativeHelpId != null) {
@@ -181,6 +188,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public java.lang.String getPublikUserId() {
 		return _initiativeHelp.getPublikUserId();
+	}
+
+	/**
+	* Returns the uuid of this initiative help.
+	*
+	* @return the uuid of this initiative help
+	*/
+	@Override
+	public java.lang.String getUuid() {
+		return _initiativeHelp.getUuid();
 	}
 
 	@Override
@@ -347,6 +364,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public void setPublikUserId(java.lang.String publikUserId) {
 		_initiativeHelp.setPublikUserId(publikUserId);
+	}
+
+	/**
+	* Sets the uuid of this initiative help.
+	*
+	* @param uuid the uuid of this initiative help
+	*/
+	@Override
+	public void setUuid(java.lang.String uuid) {
+		_initiativeHelp.setUuid(uuid);
 	}
 
 	@Override

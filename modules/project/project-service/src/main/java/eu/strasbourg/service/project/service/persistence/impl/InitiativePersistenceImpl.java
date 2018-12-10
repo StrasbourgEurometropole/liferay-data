@@ -3556,8 +3556,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		initiativeImpl.setStatusByUserName(initiative.getStatusByUserName());
 		initiativeImpl.setStatusDate(initiative.getStatusDate());
 		initiativeImpl.setTitle(initiative.getTitle());
-		initiativeImpl.setAuthor(initiative.getAuthor());
 		initiativeImpl.setDescription(initiative.getDescription());
+		initiativeImpl.setPlaceTextArea(initiative.getPlaceTextArea());
 		initiativeImpl.setVideoUrl(initiative.getVideoUrl());
 		initiativeImpl.setExternalImageURL(initiative.getExternalImageURL());
 		initiativeImpl.setExternalImageCopyright(initiative.getExternalImageCopyright());
@@ -3566,8 +3566,6 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		initiativeImpl.setPublikId(initiative.getPublikId());
 		initiativeImpl.setImageId(initiative.getImageId());
 		initiativeImpl.setFilesIds(initiative.getFilesIds());
-		initiativeImpl.setConsultationPlacesText(initiative.getConsultationPlacesText());
-		initiativeImpl.setConsultationPlacesBody(initiative.getConsultationPlacesBody());
 		initiativeImpl.setPublicationDate(initiative.getPublicationDate());
 
 		return initiativeImpl;

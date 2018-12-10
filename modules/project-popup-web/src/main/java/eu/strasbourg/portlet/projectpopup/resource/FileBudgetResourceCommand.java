@@ -108,6 +108,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    	
         this.dateFormat = new SimpleDateFormat(PATTERN);
         
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
@@ -139,7 +140,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
         	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
                 PublikApiClient.setAllUserDetails(
                         this.publikID,
@@ -206,7 +207,6 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
             budgetParticipatif.setTitle(this.title);
             budgetParticipatif.setDescription(this.description);
-            budgetParticipatif.setUserId(this.user.getUserId());
             budgetParticipatif.setCitoyenFirstname(this.user.getFirstName());
             budgetParticipatif.setCitoyenLastname(this.user.getLastName());
             budgetParticipatif.setCitoyenAdresse(this.address);
@@ -243,34 +243,41 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
      * @throws IOException
      * @throws PortalException
      */
-    private BudgetParticipatif uploadFile(BudgetParticipatif budgetParticipatif,
-                                          ResourceRequest request)
-            throws IOException, PortalException {
-        ThemeDisplay themeDisplay = (ThemeDisplay) request
-                .getAttribute(WebKeys.THEME_DISPLAY);
+    private BudgetParticipatif uploadFile(BudgetParticipatif budgetParticipatif, ResourceRequest request) throws IOException, PortalException {
+    	
+    	// Recuperation du contexte de la requete
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        
+        // Verification du nom du fichier
         if (validateFileName(request)) {
+        	
             File budgetPhoto = uploadRequest.getFile(PHOTO);
-            _log.info("budgetPhoto : [" + budgetPhoto + "]");
+            
+            // Verification de la bonne recuperation du contenu du fichier
             if (budgetPhoto != null && budgetPhoto.exists()) {
-                _log.info("Going to write the file contents");
-
                 byte[] imageBytes = FileUtil.getBytes(budgetPhoto);
+                
+                // Dossier a la racine
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
-                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-                        "budget participatif");
-                DLFolder folder = DLFolderLocalServiceUtil
-                        .getFolder(themeDisplay.getScopeGroupId(),
-                                folderparent.getFolderId(),
-                                "uploads");
+                        													DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                        													"budget participatif");
+                // Dossier d'upload de l'entite
+                DLFolder folder = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                                									folderparent.getFolderId(),
+                                									"uploads");
+                // Ajout du fichier
                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
                         sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), budgetPhoto.getName(),
                         MimeTypesUtil.getContentType(budgetPhoto),
                         budgetPhoto.getName(), title,
                         "", imageBytes, sc);
+                // Lien de l'image a l'entite
                 budgetParticipatif.setImageId(fileEntry.getFileEntryId());
+                
+                _log.info("Photo budget participatif uploade : [" + budgetPhoto + "]");
 
             }
             return budgetParticipatif;

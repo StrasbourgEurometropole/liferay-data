@@ -91,6 +91,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "description", Types.CLOB },
 			{ "budget", Types.VARCHAR },
 			{ "motif", Types.CLOB },
+			{ "placeTextArea", Types.VARCHAR },
 			{ "citoyenLastname", Types.VARCHAR },
 			{ "citoyenFirstname", Types.VARCHAR },
 			{ "citoyenAdresse", Types.VARCHAR },
@@ -102,7 +103,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "citoyenBirthday", Types.TIMESTAMP },
 			{ "hasCopyright", Types.BOOLEAN },
 			{ "videoUrl", Types.VARCHAR },
-			{ "placeTextArea", Types.VARCHAR },
 			{ "isCrush", Types.BOOLEAN },
 			{ "crushComment", Types.CLOB },
 			{ "publikId", Types.VARCHAR },
@@ -129,6 +129,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("motif", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenLastname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenFirstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenAdresse", Types.VARCHAR);
@@ -140,7 +141,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("citoyenBirthday", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("hasCopyright", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("isCrush", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("crushComment", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
@@ -149,7 +149,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("budgetPhaseId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,budget VARCHAR(75) null,motif TEXT null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,placeTextArea VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.modifiedDate DESC";
@@ -203,6 +203,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setDescription(soapModel.getDescription());
 		model.setBudget(soapModel.getBudget());
 		model.setMotif(soapModel.getMotif());
+		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setCitoyenLastname(soapModel.getCitoyenLastname());
 		model.setCitoyenFirstname(soapModel.getCitoyenFirstname());
 		model.setCitoyenAdresse(soapModel.getCitoyenAdresse());
@@ -214,7 +215,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setCitoyenBirthday(soapModel.getCitoyenBirthday());
 		model.setHasCopyright(soapModel.getHasCopyright());
 		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setIsCrush(soapModel.getIsCrush());
 		model.setCrushComment(soapModel.getCrushComment());
 		model.setPublikId(soapModel.getPublikId());
@@ -302,6 +302,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("description", getDescription());
 		attributes.put("budget", getBudget());
 		attributes.put("motif", getMotif());
+		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("citoyenLastname", getCitoyenLastname());
 		attributes.put("citoyenFirstname", getCitoyenFirstname());
 		attributes.put("citoyenAdresse", getCitoyenAdresse());
@@ -313,7 +314,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("citoyenBirthday", getCitoyenBirthday());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
-		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("isCrush", getIsCrush());
 		attributes.put("crushComment", getCrushComment());
 		attributes.put("publikId", getPublikId());
@@ -425,6 +425,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			setMotif(motif);
 		}
 
+		String placeTextArea = (String)attributes.get("placeTextArea");
+
+		if (placeTextArea != null) {
+			setPlaceTextArea(placeTextArea);
+		}
+
 		String citoyenLastname = (String)attributes.get("citoyenLastname");
 
 		if (citoyenLastname != null) {
@@ -489,12 +495,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		if (videoUrl != null) {
 			setVideoUrl(videoUrl);
-		}
-
-		String placeTextArea = (String)attributes.get("placeTextArea");
-
-		if (placeTextArea != null) {
-			setPlaceTextArea(placeTextArea);
 		}
 
 		Boolean isCrush = (Boolean)attributes.get("isCrush");
@@ -831,6 +831,22 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@JSON
 	@Override
+	public String getPlaceTextArea() {
+		if (_placeTextArea == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeTextArea;
+		}
+	}
+
+	@Override
+	public void setPlaceTextArea(String placeTextArea) {
+		_placeTextArea = placeTextArea;
+	}
+
+	@JSON
+	@Override
 	public String getCitoyenLastname() {
 		if (_citoyenLastname == null) {
 			return StringPool.BLANK;
@@ -994,22 +1010,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	@Override
 	public void setVideoUrl(String videoUrl) {
 		_videoUrl = videoUrl;
-	}
-
-	@JSON
-	@Override
-	public String getPlaceTextArea() {
-		if (_placeTextArea == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _placeTextArea;
-		}
-	}
-
-	@Override
-	public void setPlaceTextArea(String placeTextArea) {
-		_placeTextArea = placeTextArea;
 	}
 
 	@JSON
@@ -1266,6 +1266,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setDescription(getDescription());
 		budgetParticipatifImpl.setBudget(getBudget());
 		budgetParticipatifImpl.setMotif(getMotif());
+		budgetParticipatifImpl.setPlaceTextArea(getPlaceTextArea());
 		budgetParticipatifImpl.setCitoyenLastname(getCitoyenLastname());
 		budgetParticipatifImpl.setCitoyenFirstname(getCitoyenFirstname());
 		budgetParticipatifImpl.setCitoyenAdresse(getCitoyenAdresse());
@@ -1277,7 +1278,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setCitoyenBirthday(getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(getHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(getVideoUrl());
-		budgetParticipatifImpl.setPlaceTextArea(getPlaceTextArea());
 		budgetParticipatifImpl.setIsCrush(getIsCrush());
 		budgetParticipatifImpl.setCrushComment(getCrushComment());
 		budgetParticipatifImpl.setPublikId(getPublikId());
@@ -1475,6 +1475,14 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.motif = null;
 		}
 
+		budgetParticipatifCacheModel.placeTextArea = getPlaceTextArea();
+
+		String placeTextArea = budgetParticipatifCacheModel.placeTextArea;
+
+		if ((placeTextArea != null) && (placeTextArea.length() == 0)) {
+			budgetParticipatifCacheModel.placeTextArea = null;
+		}
+
 		budgetParticipatifCacheModel.citoyenLastname = getCitoyenLastname();
 
 		String citoyenLastname = budgetParticipatifCacheModel.citoyenLastname;
@@ -1552,14 +1560,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.videoUrl = null;
 		}
 
-		budgetParticipatifCacheModel.placeTextArea = getPlaceTextArea();
-
-		String placeTextArea = budgetParticipatifCacheModel.placeTextArea;
-
-		if ((placeTextArea != null) && (placeTextArea.length() == 0)) {
-			budgetParticipatifCacheModel.placeTextArea = null;
-		}
-
 		budgetParticipatifCacheModel.isCrush = getIsCrush();
 
 		budgetParticipatifCacheModel.crushComment = getCrushComment();
@@ -1629,6 +1629,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getBudget());
 		sb.append(", motif=");
 		sb.append(getMotif());
+		sb.append(", placeTextArea=");
+		sb.append(getPlaceTextArea());
 		sb.append(", citoyenLastname=");
 		sb.append(getCitoyenLastname());
 		sb.append(", citoyenFirstname=");
@@ -1651,8 +1653,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getHasCopyright());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
-		sb.append(", placeTextArea=");
-		sb.append(getPlaceTextArea());
 		sb.append(", isCrush=");
 		sb.append(getIsCrush());
 		sb.append(", crushComment=");
@@ -1743,6 +1743,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getMotif());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>placeTextArea</column-name><column-value><![CDATA[");
+		sb.append(getPlaceTextArea());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>citoyenLastname</column-name><column-value><![CDATA[");
 		sb.append(getCitoyenLastname());
 		sb.append("]]></column-value></column>");
@@ -1785,10 +1789,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(
 			"<column><column-name>videoUrl</column-name><column-value><![CDATA[");
 		sb.append(getVideoUrl());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>placeTextArea</column-name><column-value><![CDATA[");
-		sb.append(getPlaceTextArea());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>isCrush</column-name><column-value><![CDATA[");
@@ -1848,6 +1848,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private String _description;
 	private String _budget;
 	private String _motif;
+	private String _placeTextArea;
 	private String _citoyenLastname;
 	private String _citoyenFirstname;
 	private String _citoyenAdresse;
@@ -1859,7 +1860,6 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private Date _citoyenBirthday;
 	private boolean _hasCopyright;
 	private String _videoUrl;
-	private String _placeTextArea;
 	private boolean _isCrush;
 	private boolean _originalIsCrush;
 	private boolean _setOriginalIsCrush;

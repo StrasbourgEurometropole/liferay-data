@@ -121,6 +121,17 @@ public interface InitiativeHelpLocalService extends BaseLocalService,
 	public InitiativeHelp fetchInitiativeHelp(long initiativeHelpId);
 
 	/**
+	* Returns the initiative help matching the UUID and group.
+	*
+	* @param uuid the initiative help's UUID
+	* @param groupId the primary key of the group
+	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public InitiativeHelp fetchInitiativeHelpByUuidAndGroupId(
+		java.lang.String uuid, long groupId);
+
+	/**
 	* Returns the initiative help with the primary key.
 	*
 	* @param initiativeHelpId the primary key of the initiative help
@@ -130,6 +141,18 @@ public interface InitiativeHelpLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public InitiativeHelp getInitiativeHelp(long initiativeHelpId)
 		throws PortalException;
+
+	/**
+	* Returns the initiative help matching the UUID and group.
+	*
+	* @param uuid the initiative help's UUID
+	* @param groupId the primary key of the group
+	* @return the matching initiative help
+	* @throws PortalException if a matching initiative help could not be found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public InitiativeHelp getInitiativeHelpByUuidAndGroupId(
+		java.lang.String uuid, long groupId) throws PortalException;
 
 	/**
 	* Updates the initiative help in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

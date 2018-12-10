@@ -67,6 +67,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	 */
 	public static final String TABLE_NAME = "project_InitiativeHelp";
 	public static final Object[][] TABLE_COLUMNS = {
+			{ "uuid_", Types.VARCHAR },
 			{ "initiativeHelpId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
 			{ "publikUserId", Types.VARCHAR },
@@ -77,6 +78,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
+		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("initiativeHelpId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
@@ -85,7 +87,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		TABLE_COLUMNS_MAP.put("message", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,groupId LONG,message VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,groupId LONG,message VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_InitiativeHelp";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiativeHelp.initiativeHelpId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_InitiativeHelp.initiativeHelpId ASC";
@@ -101,9 +103,11 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.InitiativeHelp"),
 			true);
-	public static final long INITIATIVEID_COLUMN_BITMASK = 1L;
-	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
-	public static final long INITIATIVEHELPID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long INITIATIVEID_COLUMN_BITMASK = 2L;
+	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long INITIATIVEHELPID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -118,6 +122,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 		InitiativeHelp model = new InitiativeHelpImpl();
 
+		model.setUuid(soapModel.getUuid());
 		model.setInitiativeHelpId(soapModel.getInitiativeHelpId());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setPublikUserId(soapModel.getPublikUserId());
@@ -188,6 +193,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("uuid", getUuid());
 		attributes.put("initiativeHelpId", getInitiativeHelpId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("publikUserId", getPublikUserId());
@@ -203,6 +209,12 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		String uuid = (String)attributes.get("uuid");
+
+		if (uuid != null) {
+			setUuid(uuid);
+		}
+
 		Long initiativeHelpId = (Long)attributes.get("initiativeHelpId");
 
 		if (initiativeHelpId != null) {
@@ -238,6 +250,30 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		if (message != null) {
 			setMessage(message);
 		}
+	}
+
+	@JSON
+	@Override
+	public String getUuid() {
+		if (_uuid == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _uuid;
+		}
+	}
+
+	@Override
+	public void setUuid(String uuid) {
+		if (_originalUuid == null) {
+			_originalUuid = _uuid;
+		}
+
+		_uuid = uuid;
+	}
+
+	public String getOriginalUuid() {
+		return GetterUtil.getString(_originalUuid);
 	}
 
 	@JSON
@@ -319,7 +355,19 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
 		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@JSON
@@ -369,6 +417,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	public Object clone() {
 		InitiativeHelpImpl initiativeHelpImpl = new InitiativeHelpImpl();
 
+		initiativeHelpImpl.setUuid(getUuid());
 		initiativeHelpImpl.setInitiativeHelpId(getInitiativeHelpId());
 		initiativeHelpImpl.setCreateDate(getCreateDate());
 		initiativeHelpImpl.setPublikUserId(getPublikUserId());
@@ -437,11 +486,17 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	public void resetOriginalValues() {
 		InitiativeHelpModelImpl initiativeHelpModelImpl = this;
 
+		initiativeHelpModelImpl._originalUuid = initiativeHelpModelImpl._uuid;
+
 		initiativeHelpModelImpl._originalPublikUserId = initiativeHelpModelImpl._publikUserId;
 
 		initiativeHelpModelImpl._originalInitiativeId = initiativeHelpModelImpl._initiativeId;
 
 		initiativeHelpModelImpl._setOriginalInitiativeId = false;
+
+		initiativeHelpModelImpl._originalGroupId = initiativeHelpModelImpl._groupId;
+
+		initiativeHelpModelImpl._setOriginalGroupId = false;
 
 		initiativeHelpModelImpl._columnBitmask = 0;
 	}
@@ -449,6 +504,14 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	@Override
 	public CacheModel<InitiativeHelp> toCacheModel() {
 		InitiativeHelpCacheModel initiativeHelpCacheModel = new InitiativeHelpCacheModel();
+
+		initiativeHelpCacheModel.uuid = getUuid();
+
+		String uuid = initiativeHelpCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			initiativeHelpCacheModel.uuid = null;
+		}
 
 		initiativeHelpCacheModel.initiativeHelpId = getInitiativeHelpId();
 
@@ -486,9 +549,11 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
-		sb.append("{initiativeHelpId=");
+		sb.append("{uuid=");
+		sb.append(getUuid());
+		sb.append(", initiativeHelpId=");
 		sb.append(getInitiativeHelpId());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
@@ -507,12 +572,16 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.InitiativeHelp");
 		sb.append("</model-name>");
 
+		sb.append(
+			"<column><column-name>uuid</column-name><column-value><![CDATA[");
+		sb.append(getUuid());
+		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>initiativeHelpId</column-name><column-value><![CDATA[");
 		sb.append(getInitiativeHelpId());
@@ -547,6 +616,8 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	private static final Class<?>[] _escapedModelInterfaces = new Class[] {
 			InitiativeHelp.class
 		};
+	private String _uuid;
+	private String _originalUuid;
 	private long _initiativeHelpId;
 	private Date _createDate;
 	private String _publikUserId;
@@ -555,6 +626,8 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	private long _originalInitiativeId;
 	private boolean _setOriginalInitiativeId;
 	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private String _message;
 	private long _columnBitmask;
 	private InitiativeHelp _escapedModel;

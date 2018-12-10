@@ -123,6 +123,20 @@ public class InitiativeHelpLocalServiceWrapper
 	}
 
 	/**
+	* Returns the initiative help matching the UUID and group.
+	*
+	* @param uuid the initiative help's UUID
+	* @param groupId the primary key of the group
+	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.InitiativeHelp fetchInitiativeHelpByUuidAndGroupId(
+		java.lang.String uuid, long groupId) {
+		return _initiativeHelpLocalService.fetchInitiativeHelpByUuidAndGroupId(uuid,
+			groupId);
+	}
+
+	/**
 	* Returns the initiative help with the primary key.
 	*
 	* @param initiativeHelpId the primary key of the initiative help
@@ -134,6 +148,22 @@ public class InitiativeHelpLocalServiceWrapper
 		long initiativeHelpId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _initiativeHelpLocalService.getInitiativeHelp(initiativeHelpId);
+	}
+
+	/**
+	* Returns the initiative help matching the UUID and group.
+	*
+	* @param uuid the initiative help's UUID
+	* @param groupId the primary key of the group
+	* @return the matching initiative help
+	* @throws PortalException if a matching initiative help could not be found
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.InitiativeHelp getInitiativeHelpByUuidAndGroupId(
+		java.lang.String uuid, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _initiativeHelpLocalService.getInitiativeHelpByUuidAndGroupId(uuid,
+			groupId);
 	}
 
 	/**

@@ -87,8 +87,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
-			{ "author", Types.VARCHAR },
 			{ "description", Types.CLOB },
+			{ "placeTextArea", Types.VARCHAR },
 			{ "videoUrl", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
@@ -97,8 +97,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			{ "publikId", Types.VARCHAR },
 			{ "imageId", Types.BIGINT },
 			{ "filesIds", Types.VARCHAR },
-			{ "consultationPlacesText", Types.VARCHAR },
-			{ "consultationPlacesBody", Types.CLOB },
 			{ "publicationDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -117,8 +115,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("author", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
@@ -127,12 +125,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("consultationPlacesText", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,description TEXT null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,consultationPlacesText VARCHAR(75) null,consultationPlacesBody TEXT null,publicationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,publicationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Initiative";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiative.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Initiative.title ASC";
@@ -181,8 +177,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
-		model.setAuthor(soapModel.getAuthor());
 		model.setDescription(soapModel.getDescription());
+		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
@@ -191,8 +187,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		model.setPublikId(soapModel.getPublikId());
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
-		model.setConsultationPlacesText(soapModel.getConsultationPlacesText());
-		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
 		model.setPublicationDate(soapModel.getPublicationDate());
 
 		return model;
@@ -271,8 +265,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("author", getAuthor());
 		attributes.put("description", getDescription());
+		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -281,8 +275,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
-		attributes.put("consultationPlacesText", getConsultationPlacesText());
-		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("publicationDate", getPublicationDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -371,16 +363,16 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			setTitle(title);
 		}
 
-		String author = (String)attributes.get("author");
-
-		if (author != null) {
-			setAuthor(author);
-		}
-
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String placeTextArea = (String)attributes.get("placeTextArea");
+
+		if (placeTextArea != null) {
+			setPlaceTextArea(placeTextArea);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -430,20 +422,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
-		}
-
-		String consultationPlacesText = (String)attributes.get(
-				"consultationPlacesText");
-
-		if (consultationPlacesText != null) {
-			setConsultationPlacesText(consultationPlacesText);
-		}
-
-		String consultationPlacesBody = (String)attributes.get(
-				"consultationPlacesBody");
-
-		if (consultationPlacesBody != null) {
-			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -702,22 +680,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@JSON
 	@Override
-	public String getAuthor() {
-		if (_author == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _author;
-		}
-	}
-
-	@Override
-	public void setAuthor(String author) {
-		_author = author;
-	}
-
-	@JSON
-	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return StringPool.BLANK;
@@ -730,6 +692,22 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	@Override
 	public void setDescription(String description) {
 		_description = description;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceTextArea() {
+		if (_placeTextArea == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeTextArea;
+		}
+	}
+
+	@Override
+	public void setPlaceTextArea(String placeTextArea) {
+		_placeTextArea = placeTextArea;
 	}
 
 	@JSON
@@ -859,38 +837,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	@Override
 	public void setFilesIds(String filesIds) {
 		_filesIds = filesIds;
-	}
-
-	@JSON
-	@Override
-	public String getConsultationPlacesText() {
-		if (_consultationPlacesText == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _consultationPlacesText;
-		}
-	}
-
-	@Override
-	public void setConsultationPlacesText(String consultationPlacesText) {
-		_consultationPlacesText = consultationPlacesText;
-	}
-
-	@JSON
-	@Override
-	public String getConsultationPlacesBody() {
-		if (_consultationPlacesBody == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _consultationPlacesBody;
-		}
-	}
-
-	@Override
-	public void setConsultationPlacesBody(String consultationPlacesBody) {
-		_consultationPlacesBody = consultationPlacesBody;
 	}
 
 	@JSON
@@ -1034,8 +980,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		initiativeImpl.setStatusByUserName(getStatusByUserName());
 		initiativeImpl.setStatusDate(getStatusDate());
 		initiativeImpl.setTitle(getTitle());
-		initiativeImpl.setAuthor(getAuthor());
 		initiativeImpl.setDescription(getDescription());
+		initiativeImpl.setPlaceTextArea(getPlaceTextArea());
 		initiativeImpl.setVideoUrl(getVideoUrl());
 		initiativeImpl.setExternalImageURL(getExternalImageURL());
 		initiativeImpl.setExternalImageCopyright(getExternalImageCopyright());
@@ -1044,8 +990,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		initiativeImpl.setPublikId(getPublikId());
 		initiativeImpl.setImageId(getImageId());
 		initiativeImpl.setFilesIds(getFilesIds());
-		initiativeImpl.setConsultationPlacesText(getConsultationPlacesText());
-		initiativeImpl.setConsultationPlacesBody(getConsultationPlacesBody());
 		initiativeImpl.setPublicationDate(getPublicationDate());
 
 		initiativeImpl.resetOriginalValues();
@@ -1203,20 +1147,20 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			initiativeCacheModel.title = null;
 		}
 
-		initiativeCacheModel.author = getAuthor();
-
-		String author = initiativeCacheModel.author;
-
-		if ((author != null) && (author.length() == 0)) {
-			initiativeCacheModel.author = null;
-		}
-
 		initiativeCacheModel.description = getDescription();
 
 		String description = initiativeCacheModel.description;
 
 		if ((description != null) && (description.length() == 0)) {
 			initiativeCacheModel.description = null;
+		}
+
+		initiativeCacheModel.placeTextArea = getPlaceTextArea();
+
+		String placeTextArea = initiativeCacheModel.placeTextArea;
+
+		if ((placeTextArea != null) && (placeTextArea.length() == 0)) {
+			initiativeCacheModel.placeTextArea = null;
 		}
 
 		initiativeCacheModel.videoUrl = getVideoUrl();
@@ -1266,24 +1210,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			initiativeCacheModel.filesIds = null;
 		}
 
-		initiativeCacheModel.consultationPlacesText = getConsultationPlacesText();
-
-		String consultationPlacesText = initiativeCacheModel.consultationPlacesText;
-
-		if ((consultationPlacesText != null) &&
-				(consultationPlacesText.length() == 0)) {
-			initiativeCacheModel.consultationPlacesText = null;
-		}
-
-		initiativeCacheModel.consultationPlacesBody = getConsultationPlacesBody();
-
-		String consultationPlacesBody = initiativeCacheModel.consultationPlacesBody;
-
-		if ((consultationPlacesBody != null) &&
-				(consultationPlacesBody.length() == 0)) {
-			initiativeCacheModel.consultationPlacesBody = null;
-		}
-
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -1298,7 +1224,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1326,10 +1252,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(getStatusDate());
 		sb.append(", title=");
 		sb.append(getTitle());
-		sb.append(", author=");
-		sb.append(getAuthor());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", placeTextArea=");
+		sb.append(getPlaceTextArea());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
 		sb.append(", externalImageURL=");
@@ -1346,10 +1272,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(getImageId());
 		sb.append(", filesIds=");
 		sb.append(getFilesIds());
-		sb.append(", consultationPlacesText=");
-		sb.append(getConsultationPlacesText());
-		sb.append(", consultationPlacesBody=");
-		sb.append(getConsultationPlacesBody());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append("}");
@@ -1359,7 +1281,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(82);
+		StringBundler sb = new StringBundler(76);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Initiative");
@@ -1418,12 +1340,12 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>author</column-name><column-value><![CDATA[");
-		sb.append(getAuthor());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeTextArea</column-name><column-value><![CDATA[");
+		sb.append(getPlaceTextArea());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>videoUrl</column-name><column-value><![CDATA[");
@@ -1456,14 +1378,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(
 			"<column><column-name>filesIds</column-name><column-value><![CDATA[");
 		sb.append(getFilesIds());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>consultationPlacesText</column-name><column-value><![CDATA[");
-		sb.append(getConsultationPlacesText());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>consultationPlacesBody</column-name><column-value><![CDATA[");
-		sb.append(getConsultationPlacesBody());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
@@ -1500,8 +1414,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _author;
 	private String _description;
+	private String _placeTextArea;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
@@ -1511,8 +1425,6 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
-	private String _consultationPlacesText;
-	private String _consultationPlacesBody;
 	private Date _publicationDate;
 	private long _columnBitmask;
 	private Initiative _escapedModel;

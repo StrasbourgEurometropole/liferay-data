@@ -63,6 +63,21 @@ public interface InitiativeHelpModel extends BaseModel<InitiativeHelp> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
+	 * Returns the uuid of this initiative help.
+	 *
+	 * @return the uuid of this initiative help
+	 */
+	@AutoEscape
+	public String getUuid();
+
+	/**
+	 * Sets the uuid of this initiative help.
+	 *
+	 * @param uuid the uuid of this initiative help
+	 */
+	public void setUuid(String uuid);
+
+	/**
 	 * Returns the initiative help ID of this initiative help.
 	 *
 	 * @return the initiative help ID of this initiative help

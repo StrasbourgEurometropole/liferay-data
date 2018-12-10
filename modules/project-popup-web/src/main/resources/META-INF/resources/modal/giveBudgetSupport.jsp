@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise ÃÂÃÂ  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise ÃÂÃÂÃÂÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="supportsave-info" value="save-info">
@@ -235,7 +235,7 @@
         $('#checkboxSupportSaveInfo #save-info').prop('checked', false);
         $('#checkboxSupportSaveInfo').hide();
         $("#giveSupportLegalAge").prop("checked", false);
-        $("#giveBudgetSupportCondition1").prop("checked", false);        
+        $("#giveBudgetSupportCondition1").prop("checked", false);
     }
 	
 	/*
