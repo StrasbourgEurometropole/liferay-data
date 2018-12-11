@@ -20,30 +20,32 @@
                         </#if>
                         <#assign events = curEntry.getAssetRenderer().getManifestation().getEvents() />
                         <#list events as event>
-                            <div class="item">
-                                <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                                    <a href="${homeURL}event/-/entity/id/${event.eventId}">
-                                        <span class="date">${event.getEventScheduleDisplay(locale)}</span>
-                                        <figure>
-                                            <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />
-                                        </figure>
-                                        <div>
-                                            <div class="mns-indic">
-                                                <div>
-                                                    <span class="icon-ico-map-marker"></span>
-                                                    <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>       
+                            <#if (event.status = 0)>
+                                <div class="item">
+                                    <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
+                                        <a href="${homeURL}event/-/entity/id/${event.eventId}">
+                                            <span class="date">${event.getEventScheduleDisplay(locale)}</span>
+                                            <figure>
+                                                <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />
+                                            </figure>
+                                            <div>
+                                                <div class="mns-indic">
+                                                    <div>
+                                                        <span class="icon-ico-map-marker"></span>
+                                                        <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>       
+                                                    </div>
+                                                    <div>
+                                                        <span class="icon-ico-type"></span>
+                                                        <span>${event.getTypeLabel(locale)}</span>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <span class="icon-ico-type"></span>
-                                                    <span>${event.getTypeLabel(locale)}</span>
-                                                </div>
+                                                <h3 itemprop="name">${event.getTitle(locale)}</h3>
+                                                <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
                                             </div>
-                                            <h3 itemprop="name">${event.getTitle(locale)}</h3>
-                                            <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            </#if>
                         </#list>
                     </#list>
                 </div>
