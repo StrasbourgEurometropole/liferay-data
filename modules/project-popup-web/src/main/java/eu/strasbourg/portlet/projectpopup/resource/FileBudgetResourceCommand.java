@@ -139,8 +139,8 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
         	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-                String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String dateNaiss = sdf.format(this.birthday);
                 PublikApiClient.setAllUserDetails(
                         this.publikID,
                         this.user.getLastName(),
