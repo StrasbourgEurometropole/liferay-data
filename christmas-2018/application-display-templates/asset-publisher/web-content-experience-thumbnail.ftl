@@ -35,7 +35,7 @@
           <figure class="fit-cover">
               <img src="${image}" width="375" height="280" alt="${title}">
           </figure>
-          <div class="mns-wrap-tag">
+          <!-- <div class="mns-wrap-tag">
             <#list typeNoel as type>
               <span>${type.getName()}</span>
             </#list>
@@ -43,7 +43,7 @@
               <span>${taux.getName()}</span>
             </#list>
             <span>${dureeNoel?first .getName()}</span>
-          </div>
+          </div> -->
       </div>
       <div class="mns-content">
           <span class="mns-location">${lieu}</span>
