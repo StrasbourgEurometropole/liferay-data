@@ -67,11 +67,9 @@
                             </div>
                         </div>
                         <div class="pro-header-auteur">
-                            <#if imageURL?has_content >
-                                <figure>
-                                    <img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
-                                </figure>
-                            </#if>
+                            <figure>
+                                <img src="${entry.getAuthorImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
+                            </figure>
                             <p>Projet déposé le
                                 <time>${entry.getCreateDate()?date?string['dd/MM/yyyy']}</time>
                                 par :
@@ -124,7 +122,7 @@
                         <#if motifPrintable >
                             <div class="pro-highlight pro-bloc-texte pro-theme-non-faisable">
                                 <div class="pro-statut">
-                                    <span style="background : #${statusColor}">
+                                    <span style="color :#fff; background : #${statusColor}">
                                         Pourquoi ce projet est-il non "${statusBP}" ?
                                     </span>
                                 </div>
@@ -160,6 +158,11 @@
 
                         <!-- Bloc : actions -->
                         <div class="pro-wrapper-aside-budget">
+
+                            <!-- Encart : Budget -->
+                            <#if entry.budget?has_content>
+                                <p><span class="pro-euros">€</span> <strong>Budget : </strong>${entry.budget}</p>
+                            </#if>
 
                             <#if entry.isNotDoable()>
                                 Ce projet a été étudié et déclaré non-faisable
@@ -222,7 +225,8 @@
 	<#-- Recuperation des thématiques de la vidéo -->
     <#assign suggestions = entry.getSuggestions(request, 10) />
 	
-	<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+	<#if suggestions?size gt 0 >
+		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <div class="col-lg-10 col-lg-offset-1">
                     <h2>D’autres projets citoyens</h2>
@@ -287,7 +291,7 @@
                 </div>
             </div>
         </section>
-	
+	</#if>
 	
 </div>
 

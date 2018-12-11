@@ -73,9 +73,7 @@
                         </div>
                         <div class="pro-header-auteur">
                             <figure><#-- Si une image de la petition existe -->
-                                <#if entry.getImageURL()?has_content>
-                                    <img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
-                                </#if>
+                                <img src="${entry.getAuthorImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
                             </figure>
                             <p>pétition publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
                             <p><strong>${entry.getAuthorLabel()}</strong></p>
@@ -289,9 +287,7 @@
                             <div class="item pro-bloc-card-petition" data-linkall="a">
                                 <div class="pro-header-petition">
                                     <figure role="group">
-                                        <#if suggestion.getImageURL()?has_content>
-                                            <img src="${suggestion.getImageURL()}" width="40" height="40" alt="Image petition"/>
-                                        </#if>
+                                        <img src="${suggestion.getAuthorImageURL()}" width="40" height="40" alt="Image petition"/>
                                     </figure>
                                     <p>Pétition publiée par :</p>
                                     <p><strong>${suggestion.getUserName()}</strong></p>
