@@ -1027,7 +1027,7 @@
 
 /* ------------------------------ Etat full screen */
 
-.aroundme--fullscreen{
+.aroundme--fullscreen #wi-aroundme{
     main{
 
     
@@ -1043,7 +1043,7 @@
         width: 100%; //calc(100% - 40px);
         display: flex;
         flex-direction: column;
-        z-index: 200;
+        z-index: 1400;
         &:before{
             content: '';
             position: fixed;
