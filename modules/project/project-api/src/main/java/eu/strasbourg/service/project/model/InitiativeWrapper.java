@@ -351,6 +351,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne la categorie projet
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _initiative.getProjectCategory();
+	}
+
+	/**
 	* Retourne le statut de l'initiative (
 	*/
 	@Override
@@ -371,9 +379,30 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		return _initiative.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _initiative.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Initiative> toCacheModel() {
 		return _initiative.toCacheModel();
+	}
+
+	/**
+	* Retourne l'utilisateur Publik depositaire
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
+		return _initiative.getAuthor();
 	}
 
 	@Override
@@ -456,6 +485,22 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _initiative.getAuthorImageURL();
+	}
+
+	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	@Override
+	public java.lang.String getAuthorLabel() {
+		return _initiative.getAuthorLabel();
+	}
+
+	/**
 	* Returns the description of this initiative.
 	*
 	* @return the description of this initiative
@@ -532,6 +577,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne la titre du projet
+	*/
+	@Override
+	public java.lang.String getProjectName() {
+		return _initiative.getProjectName();
+	}
+
+	/**
 	* Returns the publik ID of this initiative.
 	*
 	* @return the publik ID of this initiative
@@ -559,6 +612,15 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _initiative.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne la couleur hexa du statut de l'initiative contenu dans la
+	* propriete 'code_color' de la categorie associee
+	*/
+	@Override
+	public java.lang.String getStatusCategoryColor() {
+		return _initiative.getStatusCategoryColor();
 	}
 
 	/**
@@ -752,14 +814,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
 		return _initiative.getPlacitPlaces();
-	}
-
-	/**
-	* Retourne le projet de l'initiative (
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProjectsCategory() {
-		return _initiative.getProjectsCategory();
 	}
 
 	/**
