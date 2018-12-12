@@ -11,7 +11,9 @@
         	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.submit.initiative.title"/></h3>
-                <button id="closingButton" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <button id="closingButton" type="button" class="close" aria-label="Close">
+                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
+                </button>
             </div>
 			
 			<%-- Formulaire --%>
@@ -85,7 +87,7 @@
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
-                                <aui:input name="initiativePhoto" type="file" label="modal.submit.initiative.information.picture"
+                                <aui:input name="photo" type="file" label="modal.submit.initiative.information.picture"
                                     cssClass="btn btn-default btn-choose">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
@@ -205,7 +207,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
                         <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilSubmitInitiative"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiative"/>
                         </label>
                     </div>
                 </div>
@@ -236,7 +238,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='submit-initiative-ok'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
+                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-submit-initiative-ok"/> />
                 </div>
             </div>
         </div>
@@ -269,15 +271,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='quit-submit-initiative'/></h3>
+                <h3><liferay-ui:message key='submit-initiative-quit-title'/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 	<span aria-hidden="true"><span class="icon-multiply"></span></span>
                 </button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='submit-initiative-quit'/></h4>
+                <h4><liferay-ui:message key='submit-initiative-quit-text'/></h4>
                 <div class="centerButtonValidation">
-                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-submit-initiative-quit"/> />
+                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="submit-initiative-quit-button"/> />
                 </div>
             </div>
         </div>
@@ -300,39 +302,39 @@
 	*/
     $(document).ready(function(){
     	resetValues();
-        $("#" + namespace + "modalConfirm").modal('hide');
-        $("#" + namespace + "modalError").modal('hide');
-        $("#" + namespace + "checkboxSaveInfo").hide();
+        $("#<portlet:namespace />modalConfirm").modal('hide');
+        $("#<portlet:namespace />modalError").modal('hide');
+        $("#<portlet:namespace />checkboxSaveInfo").hide();
     });
 
     /*
 	* Lors du click sur le bouton de vote
 	*/
-    $("#"+namespace+"buttonSubmit").click(function(event){
+    $("#<portlet:namespace />buttonSubmit").click(function(event){
         event.preventDefault();
         var response = validateForm();
         if (response){
-            var title = $("#" + namespace + "title").val();
-            var descriptionValue = $("#" + namespace + "description").val();
-            var photo = $("#" + namespace + "photo").val();
-            var video = $("#" + namespace + "video").val();
-            var project = $("#" + namespace + "project").val();
-            var district = $("#" + namespace + "quartier").val();
-            var thematic = $("#" + namespace + "theme").val();
-            var place = $("#" + namespace + "place").val();
-            var lastname = $("#" + namespace + "astname").val();
-            var firstname = $("#" + namespace + "firstname").val();
-            var address = $("#" + namespace + "address").val();
-            var city = $("#" + namespace + "city").val();
-            var postalCode = $("#" + namespace + "postalcode").val();
-            var birthday = $("#" + namespace + "birthday").val();
-            var phone = $("#" + namespace + "phone").val();
-            var mobile = $("#" + namespace + "mobile").val();
-            var email = $("#" + namespace + "mail").val();
-            var saveInfo = $("#" + namespace + "saveInfo").is(":checked");
+            var title = $("#<portlet:namespace />title").val();
+            var description = $("#<portlet:namespace />description").val();
+            var photo = $("#<portlet:namespace />photo").val();
+            var video = $("#<portlet:namespace />video").val();
+            var project = $("#<portlet:namespace />project").val();
+            var district = $("#<portlet:namespace />quartier").val();
+            var thematic = $("#<portlet:namespace />theme").val();
+            var place = $("#<portlet:namespace />place").val();
+            var lastname = $("#<portlet:namespace />astname").val();
+            var firstname = $("#<portlet:namespace />firstname").val();
+            var address = $("#<portlet:namespace />address").val();
+            var city = $("#<portlet:namespace />city").val();
+            var postalCode = $("#<portlet:namespace />postalcode").val();
+            var birthday = $("#<portlet:namespace />birthday").val();
+            var phone = $("#<portlet:namespace />phone").val();
+            var mobile = $("#<portlet:namespace />mobile").val();
+            var email = $("#<portlet:namespace />mail").val();
+            var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
             
             AUI().use('aui-io-request', function(A) {
-                var uploadForm = A.one("#" + namespace + "uploadForm");
+                var uploadForm = A.one("#<portlet:namespace />uploadForm");
                 try {
                     A.io.request('${submitInitiativeURL}', {
                         method : 'POST',
@@ -370,19 +372,19 @@
                                     $("#modalSubmitInitiative").modal('hide');
                                     if(data.savedInfo){
                                         saved_dateNaiss = birthday;
-                                        saved_city = $("#"+namespace+"city").val();
-                                        saved_address = $("#"+namespace+"address").val();
-                                        saved_zipCode = $("#"+namespace+"postalcode").val();
-                                        if($("#"+namespace+"phone").val() != "")
-                                            saved_phone = $("#"+namespace+"phone").val();
-                                        if($("#"+namespace+"mobile").val() != "")
-                                            saved_mobile = $("#"+namespace+"mobile").val();
+                                        saved_city = $("#<portlet:namespace />city").val();
+                                        saved_address = $("#<portlet:namespace />address").val();
+                                        saved_zipCode = $("#<portlet:namespace />postalcode").val();
+                                        if($("#<portlet:namespace />phone").val() != "")
+                                            saved_phone = $("#<portlet:namespace />phone").val();
+                                        if($("#<portlet:namespace />mobile").val() != "")
+                                            saved_mobile = $("#<portlet:namespace />mobile").val();
                                     }
-                                    $("#" + namespace + "modalConfirm").modal('show');
+                                    $("#<portlet:namespace />modalConfirm").modal('show');
                                     resetValues();
                                 }else{
-                                    $("#" + namespace + "modalError h4").text(data.message);
-                                    $("#" + namespace + "modalError").modal('show');
+                                    $("#<portlet:namespace />modalError h4").text(data.message);
+                                    $("#<portlet:namespace />modalError").modal('show');
                                 }
                             }
                         }
@@ -397,12 +399,12 @@
         }
     });
 
-    $("#" + namespace + "modalConfirm #" + namespace + "buttonConfirm").click(function(event){
-        $("#" + namespace + "modalConfirm").modal('hide');
+    $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
+        $("#<portlet:namespace />modalConfirm").modal('hide');
     });
 
-    $("#" + namespace + "modalError #" + namespace + "buttonConfirm").click(function(event){
-        $("#" + namespace + "modalError").modal('hide');
+    $("#<portlet:namespace />modalError #<portlet:namespace />buttonConfirm").click(function(event){
+        $("#<portlet:namespace />modalError").modal('hide');
     });
 
     /*
@@ -410,48 +412,48 @@
 	*/
     function resetValues(){
     	// Champs entite
-        $("#" + namespace + "title").val("");
-        $("#" + namespace + "description").val("");
-        $("#" + namespace + "place").val("");
-        $("#" + namespace + "project option[value='0']").prop('selected', true);
-        $("#" + namespace + "project").selectric();
-        $("#" + namespace + "district option[value='0']").prop('selected', true);
-        $("#" + namespace + "district").selectric();
-        $("#" + namespace + "thematic option[value='0']").prop('selected', true);
-        $("#" + namespace + "thematic").selectric();
+        $("#<portlet:namespace />title").val("");
+        $("#<portlet:namespace />description").val("");
+        $("#<portlet:namespace />place").val("");
+        $("#<portlet:namespace />project option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />project").selectric();
+        $("#<portlet:namespace />district option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />district").selectric();
+        $("#<portlet:namespace />thematic option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />thematic").selectric();
         
      	// Champs informations utilisateur
-        $("#" + namespace + "address").val(saved_address);
-        $("#" + namespace + "photo").val("");
-        $("#" + namespace + "video").val("");
-        $("#" + namespace + "postalcode").val(saved_zipCode);
-        $("#" + namespace + "phone").val(saved_phone);
-        $("#" + namespace + "mobile").val(saved_mobile);
-        $("#" + namespace + "birthday").val(saved_dateNaiss);
+        $("#<portlet:namespace />address").val(saved_address);
+        $("#<portlet:namespace />photo").val("");
+        $("#<portlet:namespace />video").val("");
+        $("#<portlet:namespace />postalcode").val(saved_zipCode);
+        $("#<portlet:namespace />phone").val(saved_phone);
+        $("#<portlet:namespace />mobile").val(saved_mobile);
+        $("#<portlet:namespace />birthday").val(saved_dateNaiss);
         
      	// Chebox de conditions et de sauvegade des informations
-     	$("#" + namespace + "checkboxSaveInfo #" + namespace + "saveInfo").prop('checked', false);
-        $("#" + namespace + "checkboxSaveInfo').hide();
-        $("#" + namespace + "legalage").prop("checked", false);
-        $("#" + namespace + "cnil").prop("checked", false);
-        $("#" + namespace + "city").val(saved_city);
+     	$("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
+        $("#<portlet:namespace />checkboxSaveInfo").hide();
+        $("#<portlet:namespace />legalage").prop("checked", false);
+        $("#<portlet:namespace />cnil").prop("checked", false);
+        $("#<portlet:namespace />city").val(saved_city);
     }
 
     /*
 	* Affiche la demande de sauvegarde des informations dans Publik
 	*/
     function checkValues(){
-        if($("#" + namespace + "birthday").val() != saved_dateNaiss 
-        		|| $("#" + namespace + "address").val() != saved_address 
-        		|| $("#" + namespace + "city").val() != saved_city 
-        		|| $("#" + namespace + "postalcode").val() != saved_zipCode 
-        		|| $("#" + namespace + "phone").val() != saved_phone 
-        		|| $("#" + namespace + "mobile").val() != saved_mobile) {
-            $("#" + namespace + "checkboxSaveInfo #" + namespace + "saveInfo").prop('checked', true);
-            $("#" + namespace + "checkboxSaveInfo").show();
+        if($("#<portlet:namespace />birthday").val() != saved_dateNaiss 
+        		|| $("#<portlet:namespace />address").val() != saved_address 
+        		|| $("#<portlet:namespace />city").val() != saved_city 
+        		|| $("#<portlet:namespace />postalcode").val() != saved_zipCode 
+        		|| $("#<portlet:namespace />phone").val() != saved_phone 
+        		|| $("#<portlet:namespace />mobile").val() != saved_mobile) {
+            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', true);
+            $("#<portlet:namespace />checkboxSaveInfo").show();
         }else{
-            $("#" + namespace + "checkboxSaveInfo #" + namespace + "saveInfo").prop('checked', false);
-            $("#" + namespace + "checkboxSaveInfo").hide();
+            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
+            $("#<portlet:namespace />checkboxSaveInfo").hide();
         }
     }
 
@@ -462,53 +464,53 @@
     {
         var result = true;
         
-        var title = $("#" + namespace + "title").val();
-        var description = $("#" + namespace + "description").val();
-        var city = $("#" + namespace + "city").val();
-        var address = $("#" + namespace + "address").val();
-        var postalcode = $("#" + namespace + "postalcode").val();
-        var legalage = $("#" + namespace + "legalage").is(":checked");
-        var cnil = $("#" + namespace + "cnil").is(":checked");
-        var photo = $("#" + namespace + "photo").val();
+        var title = $("#<portlet:namespace />title").val();
+        var description = $("#<portlet:namespace />description").val();
+        var city = $("#<portlet:namespace />city").val();
+        var address = $("#<portlet:namespace />address").val();
+        var postalcode = $("#<portlet:namespace />postalcode").val();
+        var legalage = $("#<portlet:namespace />legalage").is(":checked");
+        var cnil = $("#<portlet:namespace />cnil").is(":checked");
+        var photo = $("#<portlet:namespace />photo").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-            $("#" + namespace + "photo").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#<portlet:namespace />photo").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
-            }else $("#" + namespace + "photo").css({ "box-shadow" : "" });
+            }else $("#<portlet:namespace />photo").css({ "box-shadow" : "" });
         }
 
         if (title===null || title===""){
-            $("#" + namespace + "title").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#<portlet:namespace />title").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#" + namespace + "title").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
 
         if (description===null || description===""){
-            $("#" + namespace + "description").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#<portlet:namespace />description").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#" + namespace + "description").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />description").css({ "box-shadow" : "" });
 
         if (city===null || city===""){
-            $("#" + namespace + "city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#" + namespace + "city").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
 
         if (address===null || address===""){
-            $("#" + namespace + "address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#<portlet:namespace />address").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#" + namespace + "address").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />address").css({ "box-shadow" : "" });
 
         if (postalcode===null || postalcode===""){
-            $("#" + namespace + "postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else if(!regex.test(postalcode)){
-            $("#" + namespace + "postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
         }
-        else $("#" + namespace + "postalcode").css({ "box-shadow" : "" });
+        else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
 
         if (!legalage)
             result = false;

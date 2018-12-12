@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
     },
     service = MVCResourceCommand.class
 )
-public class SubmitInitiativeResourceCommand implements MVCResourceCommand{
+public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	
 	// Id de recuperation des champs
 	private static final String TITLE = "title";
@@ -72,7 +72,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand{
 	private static final String THEMATIC = "thematic";
 	private static final String PROJECT = "project";
 	private static final String PLACE = "place";
-	private static final String PHOTO = "budgetPhoto";
+	private static final String PHOTO = "photo";
 	private static final String VIDEO = "video";
 	private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";

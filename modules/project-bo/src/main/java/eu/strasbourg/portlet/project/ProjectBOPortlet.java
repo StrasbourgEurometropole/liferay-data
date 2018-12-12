@@ -66,6 +66,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
 		Boolean fromAjaxPetition = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxPetition"));
 		Boolean fromAjaxBudgetParticipatif = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxBudgetParticipatif"));
+		Boolean fromAjaxInitiative = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxInitiative"));
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
@@ -98,7 +99,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 			EditBudgetPhaseDisplayContext dc = new EditBudgetPhaseDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "budget-phases";
-		} else if (cmd.equals("editInitiative") || mvcPath.equals("/project-bo-edit-initiative.jsp") || fromAjaxPetition) {
+		} else if (cmd.equals("editInitiative") || mvcPath.equals("/project-bo-edit-initiative.jsp") || fromAjaxInitiative) {
 			EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "Initiatives";		
