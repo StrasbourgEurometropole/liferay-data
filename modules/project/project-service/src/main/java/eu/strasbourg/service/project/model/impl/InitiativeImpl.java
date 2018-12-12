@@ -299,7 +299,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	public int getNbLikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
 				this.getInitiativeId(), 
-				15, 
+				19, 
 				false).size();
 	}
 	
@@ -311,7 +311,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	public int getNbDislikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
 				this.getInitiativeId(), 
-				15, 
+				19, 
 				true).size();
 	}
 }
