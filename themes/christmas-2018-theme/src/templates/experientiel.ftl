@@ -85,10 +85,10 @@
                     <!-- Images -->
                     <div class="label-wrapper">
                         <label class="label" for="rep_2_1">
-                            <span class="fit-cover"><img src="/o/christmas-2018-theme//images/card-exp-4.jpg" width="330" height="240" alt="Photo"/></span>
+                            <span class="fit-cover"><img src="/o/christmas-2018-theme//images/card-exp-1.jpg" width="330" height="240" alt="Photo"/></span>
                         </label>
                         <label class="label" for="rep_2_2">
-                            <span class="fit-cover"><img src="/o/christmas-2018-theme//images/card-exp-5.jpg" width="330" height="240" alt="Photo"/></span>
+                            <span class="fit-cover"><img src="/o/christmas-2018-theme//images/card-exp-2.jpg" width="330" height="240" alt="Photo"/></span>
                         </label>
                     </div>
                     <!-- Wrapper Arrow -->
