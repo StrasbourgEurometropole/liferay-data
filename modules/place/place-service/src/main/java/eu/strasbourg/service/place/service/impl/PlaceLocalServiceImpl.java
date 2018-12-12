@@ -303,8 +303,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
         Indexer<Place> indexer = IndexerRegistryUtil
                 .nullSafeGetIndexer(Place.class);
         indexer.reindex(placesWithRT);
-        Event event = EventLocalServiceUtil.getEvent(848044);
-        EventLocalServiceUtil.updateStatus(event, WorkflowConstants.STATUS_APPROVED);
         // System.out.println("RT import finished");
     }
 
