@@ -3515,16 +3515,22 @@ function destroyPopin(){
     $('#favConfirm').remove().off('clickfavConfirm');
     $('html').off('click.favconfirm').removeClass('overlayed');
 }
-function createPopin(message, agree, deny){
+function createPopin(message, agree, deny, agreeLabel, denyLabel){
     var template = '<div id="favConfirm"> \
         <div class="favMessage">##favMessage##</div> \
         <div class="favActions"> \
-            <button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">Annuler</span><span class="btn-arrow"></span></span></button> \
-            <button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text">Valider</span><span class="btn-arrow"></span></span></button> \
+            <button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">##denyLabel##</span><span class="btn-arrow"></span></span></button> \
+            <button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text">##agreeLabel##</span><span class="btn-arrow"></span></span></button> \
         </div> \
     </div>';
 
     template = template.replace('##favMessage##', message);
+    if (agreeLabel) {
+        template = template.replace('##denyLabel##', denyLabel);
+    }
+    if (denyLabel) {
+        template = template.replace('##agreeLabel##', agreeLabel);
+    }
     $('body').append(template);
     $('html').addClass('overlayed');
 
@@ -3579,10 +3585,10 @@ function change_question(num_question){
     nb_questions = $('.mns-questions-dots a').length;
     mns_num_question = $('.mns-questions-dots a.current').data('num_question') + 1;
     if(mns_num_question > nb_questions) {
-        $('.mns-questions-pagination .mns-next').text('Envoyer');
+        $('.mns-questions-pagination .mns-next').text(Liferay.Language.get("send"));
     }
     else{
-        $('.mns-questions-pagination .mns-next').text('Suivant');
+        $('.mns-questions-pagination .mns-next').text(Liferay.Language.get("eu.next"));
     }
 }
 
@@ -3621,14 +3627,16 @@ $('.mns-questions-pagination .mns-next').on('click', function (e) {
     nb_questions = $('.mns-questions-dots a').length;
     num_question = $('.mns-questions-dots a.current').data('num_question') + 1;
     if(num_question > nb_questions) {
-        var str = "";
-        $("input[type='radio']:checked").each(
-          function() {
-           var value = $(this).attr('value');
-           str = $.grep([str, value], Boolean).join(",");
-          }); 
+        var voc0 = $("input[type='radio']:checked")[0].value;
+        var voc1 = $("input[type='radio']:checked")[1].value;
+        var voc2 = $("input[type='radio']:checked")[2].value; 
 
-        window.location.assign("/recherche-experience?p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=0&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds="+str);
+        window.location.assign("/recherche-experience?p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet&p_p_lifecycle=0"
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulary_0="+voc0
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulary_1="+voc1
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulary_2="+voc2
+                +"&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_vocabulariesCount=3"
+            );
        // $('#mns-moteur_experientiel').submit();
     } else {
         change_question(num_question);
@@ -3684,6 +3692,10 @@ $(function() {
                 }
             }
         );
+        if (!window.userFavorites) {
+            window.userFavorite = [];
+        }
+        window.userFavorites.push(favoriteToAdd);
     }
 
     // On parcourt les favoris utilisateurs et on modfie les boutons correspondant sur la page
@@ -3750,11 +3762,11 @@ $(function() {
                     else if (obj.hasOwnProperty('error')) {
                         if (obj['error'] == 'notConnected')
                             // Si l'utilisateur n'est pas connecté
-                            window.createPopin('Veuillez vous connecter pour retirer un favori.');
+                            window.createPopin(Liferay.Language.get('log-in-to-remove-favorite'));
                         else {
                             // Autre erreur
                             console.log(obj['error']);
-                            window.createPopin('Une erreur est survenue.');
+                            window.createPopin(Liferay.Language.get('error-occured'));
                         }
                     }
                 }
@@ -3778,18 +3790,17 @@ $(function() {
                         htmlA[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
                     } else if (obj.hasOwnProperty('error')) {
                         if (obj['error'] == 'notConnected')
-                        window.createPopin('Veuillez vous connecter pour ajouter un favori.', function() {
+                        window.createPopin(Liferay.Language.get('log-in-to-add-favorite'), function() {
                             // Si l'utilisateur n'est pas connecté, on ajoute à son LocalStorage le favoris
                             // On l'ajoutera la prochaine fois qu'il arrive sur la page en étant connecté
                             window.sessionStorage.setItem("favorite", JSON.stringify(favoriteToAdd));
                             window.location = window.loginURL;
-                        }, undefined, 'Se connecter', 'Annuler');
+                        }, undefined, Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
                         else {
                             console.log(obj['error']);
-                            window.createPopin('Une erreur est survenue.');
+                            window.createPopin(Liferay.Language.get('error-occured'));
                         }
                     }
-
                 }
             );
         }

@@ -135,7 +135,7 @@
 		                    <a href="${resetUserConfiguration}" class="filtres__btn filtres__btn--reset">
 		                        <span class="flexbox">
 		                            <span class="btn-arrow"></span>
-		                            <span class="btn-text">R&eacute;initialiser mes filtres</span>
+		                            <span class="btn-text"><liferay-ui:message key="reset-my-filters" /></span>
 		                        </span>
 		                    </a>
 						    <portlet:resourceURL id="toggleInterestPoint" var="interestPointURL">
@@ -145,7 +145,7 @@
 		                    <a href="" class="filtres__btn filtres__btn--save">
 		                        <span class="flexbox">
 		                            <span class="btn-arrow"></span>
-		                            <span class="btn-text">Enregistrer mes pr&eacute;f&eacute;rences</span>
+		                            <span class="btn-text"><liferay-ui:message key="save-my-settings" /></span>
 		                        </span>
 		                    </a>
 		                </div>
