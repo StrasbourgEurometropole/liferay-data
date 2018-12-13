@@ -462,6 +462,14 @@ public class EventLocalServiceWrapper implements EventLocalService,
 	}
 
 	/**
+	* Retourne les resultats publiés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getPublished() {
+		return _eventLocalService.getPublished();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

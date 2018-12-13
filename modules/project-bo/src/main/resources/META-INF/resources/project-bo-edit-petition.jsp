@@ -45,9 +45,16 @@
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
 				
-				<%-- Champ : Auteur --%>
+				<%-- Champ : Auteur penom --%>
 				<aui:input name="petitionnaireFirstname" required="true" />
+				
+				<%-- Champ : Auteur nom --%>
 				<aui:input name="petitionnaireLastname" required="true" />
+				
+				<%-- Champ : Au nom de ... --%>
+				<aui:input name="inTheNameOf" required="false">
+					<aui:validator name="maxLength">140</aui:validator>
+				</aui:input>
 
 				<%-- Champ : quota Signataire --%>
 				<aui:input name="quotaSignature" required="true" type="number" readonly="true"
@@ -116,7 +123,7 @@
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
 
-				<aui:input name="consultationPlacesText" required="false" />
+				<aui:input name="consultationPlacesText" label="place-text-area" required="false" />
 
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">

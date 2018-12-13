@@ -32,7 +32,6 @@ public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Si
     }
 
     public List<Signalement> getSignalements() throws PortalException {
-        _log.info("debut getSignalements");
         if (_signalements==null){
             Hits hits= getHits(this._themeDisplay.getScopeGroupId());
             this._signalements=populateSignalements(hits);

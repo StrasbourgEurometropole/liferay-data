@@ -3549,6 +3549,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setPublicationDate(petition.getPublicationDate());
 		petitionImpl.setExpirationDate(petition.getExpirationDate());
 		petitionImpl.setQuotaSignature(petition.getQuotaSignature());
+		petitionImpl.setInTheNameOf(petition.getInTheNameOf());
 		petitionImpl.setPetitionnaireLastname(petition.getPetitionnaireLastname());
 		petitionImpl.setPetitionnaireFirstname(petition.getPetitionnaireFirstname());
 		petitionImpl.setPetitionnaireBirthday(petition.getPetitionnaireBirthday());

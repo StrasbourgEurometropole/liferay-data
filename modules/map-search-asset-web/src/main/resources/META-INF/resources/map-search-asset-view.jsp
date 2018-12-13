@@ -37,6 +37,7 @@
 	                        <div class="pro-switch pro-round"></div>
 						
 	                        <fieldset id="projects_fieldset" class="pro-wrapper-chk" >
+	                        	<span class="pro-remove-chk">effacer</span>
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="projects" /></legend>
 	                        </fieldset>
 	                    </div>
@@ -50,6 +51,7 @@
 	                        <div class="pro-switch pro-round"></div>
 	
 	                        <fieldset id="participations_fieldset" class="pro-wrapper-chk">
+	                        	<span class="pro-remove-chk">effacer</span>
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="participations" /></legend>
 	                        </fieldset>
 	                    </div>
@@ -63,6 +65,7 @@
 	                        <div class="pro-switch pro-round"></div>
 	                        
 	                        <fieldset id="petitions_fieldset" class="pro-wrapper-chk">
+	                        	<span class="pro-remove-chk">effacer</span>
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="petitions" /></legend>
 	                        </fieldset>
 	                    </div>
@@ -76,6 +79,7 @@
 	                        <div class="pro-switch pro-round"></div>
 	                        
 	                        <fieldset id="budgets_fieldset" class="pro-wrapper-chk">
+	                        	<span class="pro-remove-chk">effacer</span>
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="budgets-participatifs" /></legend>
 	                        </fieldset>
 	                    </div>
@@ -89,6 +93,7 @@
 	                        <div class="pro-switch pro-round"></div>
 							
 	                        <fieldset id="events_fieldset" class="pro-wrapper-chk">
+	                        	<span class="pro-remove-chk">effacer</span>
 	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="events" /></legend>
 	                        </fieldset>
 	                    </div>

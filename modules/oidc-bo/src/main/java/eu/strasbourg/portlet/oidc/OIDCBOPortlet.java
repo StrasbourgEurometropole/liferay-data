@@ -33,9 +33,14 @@ import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
@@ -43,12 +48,18 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 /**
  * @author cedric.henry
  */
-@Component(immediate = true, property = { "com.liferay.portlet.instanceable=false",
+@Component(
+	immediate = true, 
+	property = { 
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/oidc-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/oidc-bo-main.css",
 		"com.liferay.portlet.single-page-application=false", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/oidc-bo-view.jsp", "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user" 
+	}, 
+	service = Portlet.class
+)
 public class OIDCBOPortlet extends MVCPortlet {
 
 	@Override
@@ -148,7 +159,7 @@ public class OIDCBOPortlet extends MVCPortlet {
 								PetitionLocalServiceUtil.updatePetition(petition);
 							}
 						}
-
+						
 						// Anonymisation des informations utilisateur dans les signatures des pétitions
 						List<Signataire> signataires = SignataireLocalServiceUtil
 								.getSignataireByPublikId(publikUser.getPublikId());
@@ -168,7 +179,47 @@ public class OIDCBOPortlet extends MVCPortlet {
 								SignataireLocalServiceUtil.updateSignataire(signataire);
 							}
 						}
-
+						
+						// Anonymisation des informations utilisateur dans les budgets participatifs
+						List<BudgetParticipatif> budgetParticipatifs = BudgetParticipatifLocalServiceUtil.
+								getBudgetParticipatifByPublikUserID(publikUser.getPublikId());
+						if (!budgetParticipatifs.isEmpty()) {
+							for (BudgetParticipatif budgetParticipatif : budgetParticipatifs) {
+								budgetParticipatif.setCitoyenFirstname(anonymUser.getFirstName());
+								budgetParticipatif.setCitoyenLastname(anonymUser.getLastName());
+								budgetParticipatif.setCitoyenAdresse("");
+								budgetParticipatif.setCitoyenPostalCode(0);
+								budgetParticipatif.setCitoyenCity("");
+								budgetParticipatif.setCitoyenBirthday(null);
+								budgetParticipatif.setCitoyenPhone("");
+								budgetParticipatif.setCitoyenMobile("");
+								budgetParticipatif.setCitoyenEmail(anonymUser.getEmail());
+								budgetParticipatif.setPublikId(anonymUser.getPublikId());
+								// Mise à jour en base
+								BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif);
+							}
+						}
+						
+						// Anonymisation des inforamtions utilisateur dans les soutiens des budget participatif
+						List<BudgetSupport> budgetSupports = BudgetSupportLocalServiceUtil.
+								getBudgetSupportByPublikId(publikUser.getPublikId());
+						if (!budgetSupports.isEmpty()) {
+							for (BudgetSupport budgetSupport : budgetSupports) {
+								budgetSupport.setCitoyenFirstname(anonymUser.getFirstName());
+								budgetSupport.setCitoyenLastName(anonymUser.getLastName());
+								budgetSupport.setCitoyenAddress("");
+								budgetSupport.setCitoyenPostalCode(0);
+								budgetSupport.setCitoyenCity("");
+								budgetSupport.setCitoyenBirthday(null);
+								budgetSupport.setCitoyenPhone("");
+								budgetSupport.setCitoyenMobilePhone("");
+								budgetSupport.setCitoyenMail(anonymUser.getEmail());
+								budgetSupport.setPublikUserId(anonymUser.getPublikId());
+								// Mise à jour en base
+								BudgetSupportLocalServiceUtil.updateBudgetSupport(budgetSupport);
+							}
+						}
+						
 						// Anonymisation des informations utilisateur dans les commentaires
 						List<Comment> comments = CommentLocalServiceUtil.getByPublikId(publikUser.getPublikId());
 						if (!comments.isEmpty()) {

@@ -47,6 +47,7 @@ public class SignalementSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setCommentId(model.getCommentId());
+		soapModel.setPublikId(model.getPublikId());
 
 		return soapModel;
 	}
@@ -203,6 +204,14 @@ public class SignalementSoap implements Serializable {
 		_commentId = commentId;
 	}
 
+	public String getPublikId() {
+		return _publikId;
+	}
+
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
+	}
+
 	private String _uuid;
 	private long _signalementId;
 	private long _groupId;
@@ -216,4 +225,5 @@ public class SignalementSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _commentId;
+	private String _publikId;
 }

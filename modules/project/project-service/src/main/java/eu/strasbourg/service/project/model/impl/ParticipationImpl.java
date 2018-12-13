@@ -529,7 +529,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
+		
 		// Champs de gestion
 		jsonParticipation.put("id", this.getParticipationId());
 		jsonParticipation.put("createDate", dateFormat.format(this.getCreateDate()));

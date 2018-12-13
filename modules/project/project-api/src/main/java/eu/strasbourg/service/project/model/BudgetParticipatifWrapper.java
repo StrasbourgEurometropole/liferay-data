@@ -184,7 +184,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 			setDescription(description);
 		}
 
-		Long budget = (Long)attributes.get("budget");
+		String budget = (String)attributes.get("budget");
 
 		if (budget != null) {
 			setBudget(budget);
@@ -600,6 +600,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getAuthorImageURL();
 	}
 
+	/**
+	* Returns the budget of this budget participatif.
+	*
+	* @return the budget of this budget participatif
+	*/
+	@Override
+	public java.lang.String getBudget() {
+		return _budgetParticipatif.getBudget();
+	}
+
 	@Override
 	public java.lang.String getBudgetParticipatifStatusCategoryColor() {
 		return _budgetParticipatif.getBudgetParticipatifStatusCategoryColor();
@@ -702,7 +712,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers du bp
 	*
 	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	*/
@@ -934,7 +944,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du bp
 	*
 	* @return : null si vide, sinon la liste des catégories
 	*/
@@ -949,6 +959,21 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
 		return _budgetParticipatif.getPlacitPlaces();
+	}
+
+	/**
+	* Retourne X suggestions max pour un BP
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de bp.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException {
+		return _budgetParticipatif.getSuggestions(request, nbSuggestions);
 	}
 
 	/**
@@ -975,16 +1000,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
 		return _budgetParticipatif.getThematicCategories();
-	}
-
-	/**
-	* Returns the budget of this budget participatif.
-	*
-	* @return the budget of this budget participatif
-	*/
-	@Override
-	public long getBudget() {
-		return _budgetParticipatif.getBudget();
 	}
 
 	/**
@@ -1110,7 +1125,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	* @param budget the budget of this budget participatif
 	*/
 	@Override
-	public void setBudget(long budget) {
+	public void setBudget(java.lang.String budget) {
 		_budgetParticipatif.setBudget(budget);
 	}
 

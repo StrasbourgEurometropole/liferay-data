@@ -24,6 +24,8 @@ import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration
 import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayContext;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
@@ -61,21 +63,6 @@ import java.util.concurrent.ConcurrentHashMap;
         "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
 public class SearchAssetPortlet extends MVCPortlet {
 
-    /**
-     * interface des petitions
-     */
-    private PetitionLocalService _petitionLocalService;
-
-    /**
-     * interface des budgets
-     */
-    private BudgetParticipatifLocalService _budgetParticipatifLocalService;
-
-    /**
-     * interface des participations
-     */
-    private ParticipationLocalService _participationLocalService;
-
     public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
     public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
     public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
@@ -84,8 +71,8 @@ public class SearchAssetPortlet extends MVCPortlet {
     public void render(RenderRequest renderRequest,
                        RenderResponse renderResponse) {
         try {
-            ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
-                    .getAttribute(WebKeys.THEME_DISPLAY);
+            ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+            long groupId = themeDisplay.getLayout().getGroupId();
             this._configuration = themeDisplay
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             SearchAssetConfiguration.class);
@@ -126,48 +113,48 @@ public class SearchAssetPortlet extends MVCPortlet {
                 homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
             }
             renderRequest.setAttribute("homeURL", homeURL);
-
+            
             String className = classNameList.get(0);
             
             if (className.equals(PARTICIPATION)) {
-
-                List<Participation> participationListMostCommented = _participationLocalService
-                        .getMostCommented(themeDisplay.getScopeGroupId());
-                List<Participation> participationListLessCommented = _participationLocalService
-                        .getLessCommented(themeDisplay.getScopeGroupId());
+                List<Participation> participationListMostCommented = _participationLocalService.getMostCommented(groupId);
+                List<Participation> participationListLessCommented = _participationLocalService.getLessCommented(themeDisplay.getScopeGroupId());
+                
                 renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
                 renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
 
             } else if (className.equals(PETITION)) {
-
                 // Recuperer des objets des champs les plus/les moins.
-                List<Petition> petitionListMostSigned = _petitionLocalService
-                        .getTheThreeMostSigned(themeDisplay.getScopeGroupId());
-                List<Petition> petitionListLessSigned = _petitionLocalService
-                        .getTheThreeLessSigned(themeDisplay.getScopeGroupId());
-                List<Petition> petitionListMostCommented = _petitionLocalService
-                        .getTheMostCommented(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListMostSigned = _petitionLocalService.getTheThreeMostSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListLessSigned = _petitionLocalService.getTheThreeLessSigned(themeDisplay.getScopeGroupId());
+                List<Petition> petitionListMostCommented = _petitionLocalService.getTheMostCommented(themeDisplay.getScopeGroupId());
                 
                 renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
                 renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
                 renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
                 
             } else if (className.equals(BUDGET)) {
+            	List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3);
+            	List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3);
+            	List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3);
             	
-            	List<BudgetParticipatif> budgetListMostSigned = null;
-            	List<BudgetParticipatif> budgetListMostCommented = null;
-            	List<BudgetParticipatif> budgetListIsCrush = null;
-            	
-            	renderRequest.setAttribute("budgetListMostSigned", budgetListMostSigned);
-            	renderRequest.setAttribute("budgetListMostCommented", budgetListMostCommented);
-            	renderRequest.setAttribute("budgetListIsCrush", budgetListIsCrush);
+            	renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
+            	renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
+            	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
             }
             
+            renderRequest.setAttribute("isUserloggedIn", false);
+            renderRequest.setAttribute("hasUserPactSign", false);
+            renderRequest.setAttribute("isUserBanned", false);
+            
             if (Validator.isNotNull(userPublikId)) {
-                renderRequest.setAttribute("isUserloggedIn", true);
-            } else {
-                renderRequest.setAttribute("isUserloggedIn", false);
-            }
+            	PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(userPublikId);
+            	if (user != null) {
+            		renderRequest.setAttribute("isUserloggedIn", true);
+                    renderRequest.setAttribute("hasUserPactSign", user.getPactSignature() != null);
+                    renderRequest.setAttribute("isUserBanned", user.isBanned());
+            	}
+            } 
 
             //Suppression des attributs de session
             HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
@@ -859,6 +846,21 @@ public class SearchAssetPortlet extends MVCPortlet {
     private long[] _thematics;
     private long[] _types;
     private String _sortFieldAndType;
+    
+    /**
+     * interface des petitions
+     */
+    private PetitionLocalService _petitionLocalService;
+
+    /**
+     * interface des budgets
+     */
+    private BudgetParticipatifLocalService _budgetParticipatifLocalService;
+
+    /**
+     * interface des participations
+     */
+    private ParticipationLocalService _participationLocalService;
 
     private Hits _hits;
 

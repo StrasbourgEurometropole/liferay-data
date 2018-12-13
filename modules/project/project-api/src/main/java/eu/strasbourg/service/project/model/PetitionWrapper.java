@@ -78,6 +78,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 		attributes.put("quotaSignature", getQuotaSignature());
+		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
 		attributes.put("petitionnaireFirstname", getPetitionnaireFirstname());
 		attributes.put("petitionnaireBirthday", getPetitionnaireBirthday());
@@ -215,6 +216,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (quotaSignature != null) {
 			setQuotaSignature(quotaSignature);
+		}
+
+		String inTheNameOf = (String)attributes.get("inTheNameOf");
+
+		if (inTheNameOf != null) {
+			setInTheNameOf(inTheNameOf);
 		}
 
 		String petitionnaireLastname = (String)attributes.get(
@@ -639,6 +646,14 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	@Override
+	public java.lang.String getAuthorLabel() {
+		return _petition.getAuthorLabel();
+	}
+
+	/**
 	* Returns the consultation places body of this petition.
 	*
 	* @return the consultation places body of this petition
@@ -742,6 +757,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public java.lang.String getImageURL() {
 		return _petition.getImageURL();
+	}
+
+	/**
+	* Returns the in the name of of this petition.
+	*
+	* @return the in the name of of this petition
+	*/
+	@Override
+	public java.lang.String getInTheNameOf() {
+		return _petition.getInTheNameOf();
 	}
 
 	/**
@@ -1086,28 +1111,18 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	* Retourne X suggestions max pour une pétition
 	*
-	* @param locale la locale de la région
-	* @return la liste de pétition.
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
-		java.util.Locale locale) {
-		return _petition.getSuggestions(locale);
-	}
-
-	/**
-	* Retourne X suggestions max pour un thème appartenant à la vidéo en cours
-	*
-	* @param locale        la locale de la région
+	* @param request la requete
 	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de pétition.
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
-		java.util.Locale locale, int nbSuggestions) {
-		return _petition.getSuggestions(locale, nbSuggestions);
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException {
+		return _petition.getSuggestions(request, nbSuggestions);
 	}
 
 	/**
@@ -1383,6 +1398,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setImageId(long imageId) {
 		_petition.setImageId(imageId);
+	}
+
+	/**
+	* Sets the in the name of of this petition.
+	*
+	* @param inTheNameOf the in the name of of this petition
+	*/
+	@Override
+	public void setInTheNameOf(java.lang.String inTheNameOf) {
+		_petition.setInTheNameOf(inTheNameOf);
 	}
 
 	/**

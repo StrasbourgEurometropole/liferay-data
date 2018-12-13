@@ -1,4 +1,5 @@
 <%@ include file="/project-popup-init.jsp" %>
+
 <portlet:resourceURL id="filePetition" var="filePetitionURL">
 </portlet:resourceURL>
 
@@ -20,6 +21,9 @@
                     </div>
                     <div class="form-group">
                         <aui:input id="petitiondescription" type="textarea" name="description" label="modal.filepetition.information.description" required="true" value=""/>
+                    </div>
+                    <div class="form-group">
+                        <aui:input id="petitionInTheNameOf" name="inTheNameOf" label="modal.filepetition.information.inTheNameOf" required="false" maxlength="400" value=""/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-triple">
@@ -236,28 +240,30 @@
             var saveInfoValue = $("#save-info").is(":checked");
             var lastNameValue = $("#"+namespace+"username").val();
             var firstNameValue = $("#"+namespace+"firstname").val();
+            var inTheNameOf = $("#"+namespace+"petitionInTheNameOf").val();
             var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
                 A.io.request('${filePetitionURL}', {
                     method : 'POST',
                     dataType: 'json',
                     data:{
-                        <portlet:namespace/>petitiontitle:petitionTitleValue,
-                        <portlet:namespace/>petitiondescription:petitionDescriptionValue,
-                        <portlet:namespace/>birthday:birthdayValue,
-                        <portlet:namespace/>address:addressValue,
-                        <portlet:namespace/>city:cityValue,
-                        <portlet:namespace/>postalcode:postalcodeValue,
-                        <portlet:namespace/>phone:phoneValue,
-                        <portlet:namespace/>mobile:mobileValue,
-                        <portlet:namespace />project:projectValue,
-                        <portlet:namespace />quartier:quartierValue,
-                        <portlet:namespace />theme:themeValue,
-                        <portlet:namespace />consultationPlacesText:consultationPlacesTextValue,
-                        <portlet:namespace />saveinfo:saveInfoValue,
-                        <portlet:namespace />lastname:lastNameValue,
-                        <portlet:namespace />firstname:firstNameValue,
-                        <portlet:namespace />email:emailValue
+                        <portlet:namespace/>petitiontitle: petitionTitleValue,
+                        <portlet:namespace/>petitiondescription: petitionDescriptionValue,
+                        <portlet:namespace/>birthday: birthdayValue,
+                        <portlet:namespace/>address: addressValue,
+                        <portlet:namespace/>city: cityValue,
+                        <portlet:namespace/>postalcode: postalcodeValue,
+                        <portlet:namespace/>phone: phoneValue,
+                        <portlet:namespace/>mobile: mobileValue,
+                        <portlet:namespace />project: projectValue,
+                        <portlet:namespace />quartier: quartierValue,
+                        <portlet:namespace />theme: themeValue,
+                        <portlet:namespace />consultationPlacesText: consultationPlacesTextValue,
+                        <portlet:namespace />saveinfo: saveInfoValue,
+                        <portlet:namespace />lastname: lastNameValue,
+                        <portlet:namespace />firstname: firstNameValue,
+                        <portlet:namespace />inTheNameOf: inTheNameOf,
+                        <portlet:namespace />email: emailValue
                     },
                     on: {
                         success: function(e) {
@@ -279,6 +285,7 @@
                                 $("#modalErrorPetition h4").text(data.message);
                                 $('#modalErrorPetition').modal('show');
                             }
+                            resetValues();
                         }
                     }
                 });
@@ -298,6 +305,7 @@
     {
         $("#"+namespace+"petitiontitle").val("");
         $("#"+namespace+"petitiondescription").val("");
+        $("#"+namespace+"petitionInTheNameOf").val("");
         $("#"+namespace+"petitionlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();
@@ -341,8 +349,7 @@
         }
     }
 
-    function validateForm()
-    {
+    function validateForm(){
         var result = true;
         var petitiontitle = $("#"+namespace+"petitiontitle").val();
         var petitiondescription = $("#"+namespace+"petitiondescription").val();
@@ -352,7 +359,6 @@
         var postalcode = $("#"+namespace+"postalcode").val();
         var legalage = $("#file-petition-legalage").is(":checked");
         var cnil = $("#file-petition-cnil").is(":checked");
-        var age = getAge(birthday);
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (petitiontitle==null || petitiontitle==""){
@@ -375,11 +381,11 @@
             result = false;
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
-        if (city.toLowerCase()!=="strasbourg"){
+        /* if (city.toLowerCase()!=="strasbourg"){
             $("#filealertcity").removeClass("hidden");
             $("#"+namespaceSign+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        } else $("#filealertcity").addClass("hidden");
+        } else $("#filealertcity").addClass("hidden"); */
 
         if (address==null || address==""){
             $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -396,30 +402,16 @@
         }
         else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
 
-        if (postalcode!=="67000"
-            &&postalcode!=="67100"
-            &&postalcode!=="67200"){
-            $("#filealertPostalCode").removeClass("hidden");
-            $("#"+namespaceSign+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        } else $("#filealertPostalCode").addClass("hidden");
-
         if (!legalage)
             result = false;
 
         if (!cnil)
             result = false;
 
-        if(age<16){
-            $("#filealertLegalage").removeClass("hidden");
-            $("#"+namespaceSign+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }
-        else $("#filealertLegalage").addClass("hidden");
-
         if (!result)
             $("#sendalert").removeClass("hidden");
         else $("#sendalert").addClass("hidden");
+        
         return result;
     }
 </script>

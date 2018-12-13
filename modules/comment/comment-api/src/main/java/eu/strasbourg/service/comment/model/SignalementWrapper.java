@@ -73,6 +73,7 @@ public class SignalementWrapper implements Signalement,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("commentId", getCommentId());
+		attributes.put("publikId", getPublikId());
 
 		return attributes;
 	}
@@ -155,6 +156,12 @@ public class SignalementWrapper implements Signalement,
 
 		if (commentId != null) {
 			setCommentId(commentId);
+		}
+
+		String publikId = (String)attributes.get("publikId");
+
+		if (publikId != null) {
+			setPublikId(publikId);
 		}
 	}
 
@@ -291,6 +298,22 @@ public class SignalementWrapper implements Signalement,
 		return new SignalementWrapper(_signalement.toUnescapedModel());
 	}
 
+	/**
+	* Retourne l'utilisateur auteur du commentaire
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getCommentAuthor() {
+		return _signalement.getCommentAuthor();
+	}
+
+	/**
+	* Retourne l'utilisateur auteur du signalement
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
+		return _signalement.getSignalementAuthor();
+	}
+
 	@Override
 	public int compareTo(
 		eu.strasbourg.service.comment.model.Signalement signalement) {
@@ -328,13 +351,39 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	/**
-	* méthode qui permet de récupérer le commmentaire lié au signalement.
+	* Retourne le nom de l'auteur du commentaire
+	*/
+	@Override
+	public java.lang.String getCommentAuthorLabel() {
+		return _signalement.getCommentAuthorLabel();
+	}
+
+	/**
+	* Recuperer le commmentaire lie au signalement.
 	*
 	* @return le commentaire.
 	*/
 	@Override
 	public java.lang.String getCommentContent() {
 		return _signalement.getCommentContent();
+	}
+
+	/**
+	* Returns the publik ID of this signalement.
+	*
+	* @return the publik ID of this signalement
+	*/
+	@Override
+	public java.lang.String getPublikId() {
+		return _signalement.getPublikId();
+	}
+
+	/**
+	* Retourne le nom de l'auteur du signalement
+	*/
+	@Override
+	public java.lang.String getSignalementAuthorLabel() {
+		return _signalement.getSignalementAuthorLabel();
 	}
 
 	/**
@@ -600,6 +649,16 @@ public class SignalementWrapper implements Signalement,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_signalement.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publik ID of this signalement.
+	*
+	* @param publikId the publik ID of this signalement
+	*/
+	@Override
+	public void setPublikId(java.lang.String publikId) {
+		_signalement.setPublikId(publikId);
 	}
 
 	/**

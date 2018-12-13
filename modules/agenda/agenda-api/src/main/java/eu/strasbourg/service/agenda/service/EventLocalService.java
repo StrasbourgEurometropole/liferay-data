@@ -369,6 +369,12 @@ public interface EventLocalService extends BaseLocalService,
 		int end, OrderByComparator<Event> orderByComparator);
 
 	/**
+	* Retourne les resultats publiés
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Event> getPublished();
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

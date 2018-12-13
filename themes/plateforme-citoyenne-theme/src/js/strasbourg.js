@@ -15981,7 +15981,7 @@ $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus juger, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -16055,7 +16055,7 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
                     $("#myModal").modal();
                 } else if (obj['error'] == 'isBanned') {
                     // Si l'utilisateur est banni
-                    alert("Vous ne pouvez plus participer, veuillez contacter l'administrateur du site.");
+                    $("#modalBanned").modal();
                 } else {
                     // Autre erreur
                     alert('Une erreur est survenue.');
@@ -16073,6 +16073,15 @@ $(document).on("click", "[name='#Pact-sign']", function(e) {
     e.preventDefault();
     e.stopPropagation();
     $("#myModal").modal();
+});
+
+/*
+* Demande de signature du pacte
+*/
+$(document).on("click", "[name='#IsBanned']", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#modalBanned").modal();
 });
 
 /*
@@ -16391,7 +16400,7 @@ function getPetitionMarker(petition, mercators) {
                 '<figure role="group">' +
                     (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
                 '</figure>' +
-                '<p>Pétition publiée par :</p><p><strong>' + petition.userName + '</strong></p>' +
+                '<p>Pétition publiée par :</p><p><strong>' + petition.author + '</strong></p>' +
             '</div>' +
             '<div class="pro-content-petition">' +
                 '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
@@ -16430,8 +16439,12 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 	}
 	else
 	{
-		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
-		cssClassBPStatus = "pro-theme-faisable";
+		if (budgetParticipatif.hasBeenVoted) {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes ont soutenus ce projet</p>";
+        } else {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+        }
+        cssClassBPStatus = "pro-theme-faisable";
 	}
 	
     marker.bindPopup(
@@ -16875,7 +16888,7 @@ function createPetition(petition){
                 (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
             '</figure>' +
             '<p>Pétition publiée par :</p>' +
-            '<p><strong>' + petition.userName + ' adressé à : Ville de Strasbourg</strong></p>' +
+            '<p><strong>' + petition.author + ' adressé à : Ville de Strasbourg</strong></p>' +
             '<div class="pro-number-comm">' +
                 '<span>' + petition.nbApprovedComments + '</span>' +
                 '<p>Commentaire(s)</p>' +
@@ -16928,7 +16941,11 @@ function createBudgetParticipatif(budgetParticipatif){
 	}
 	else
 	{
-		footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+        if (budgetParticipatif.hasBeenVoted) {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes ont soutenus ce projet</p>";
+        } else {
+            footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+        }
 		cssClassBPStatus = "pro-theme-faisable";
 	}
 
@@ -16961,7 +16978,7 @@ function createBudgetParticipatif(budgetParticipatif){
                 '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
                 spans +
                 '<div class="pro-info-top-right">' +
-                    '<span class="pro-encart-theme">' + budgetParticipatif.BPStatus + '</span>' +
+                    '<span class="pro-encart-theme" style="background : #' + budgetParticipatif.BPStatusColor + ';" >' + budgetParticipatif.BPStatus + '</span>' +
                     '<span>' + budgetParticipatif.nbApprovedComments + '</span>' +
                     '<p>Commentaire(s)</p>' +
                 '</div>' +

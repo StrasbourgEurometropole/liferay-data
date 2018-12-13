@@ -28,18 +28,6 @@ import java.util.List;
 )
 public class ExportBudgetsToXlsxResourceCommand implements MVCResourceCommand {
 
-	/**
-	 * le log
-	 */
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
-	private BudgetsParticipatifsXlsxExporter budgetsParticipatifsXlsxExporter;
-
-    @Reference(unbind = "-")
-    public void setBudgetsParticipatifsXlsxExporter(BudgetsParticipatifsXlsxExporter budgetsParticipatifsXlsxExporter) {
-        this.budgetsParticipatifsXlsxExporter = budgetsParticipatifsXlsxExporter;
-    }
-
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		resourceResponse.setContentType("application/force-download");
@@ -64,5 +52,17 @@ public class ExportBudgetsToXlsxResourceCommand implements MVCResourceCommand {
         }
         return true;
 	}
+
+	private BudgetsParticipatifsXlsxExporter budgetsParticipatifsXlsxExporter;
+
+    @Reference(unbind = "-")
+    public void setBudgetsParticipatifsXlsxExporter(BudgetsParticipatifsXlsxExporter budgetsParticipatifsXlsxExporter) {
+        this.budgetsParticipatifsXlsxExporter = budgetsParticipatifsXlsxExporter;
+    }
+    
+    /**
+	 * le log
+	 */
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

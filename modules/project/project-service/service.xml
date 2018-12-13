@@ -152,6 +152,7 @@
 		<column name="startDay" type="int" />
 		<column name="spacing" type="int" />
 		<column name="date" type="Date" />
+		<column name="dateFormat" type="String" />
 		<column name="title" type="String" />
 		<column name="link" type="String" />
 
@@ -270,7 +271,7 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
-
+	
 		<!-- Workflow fields -->
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
@@ -285,6 +286,7 @@
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date" />
 		<column name="quotaSignature" type="long" />
+		<column name="inTheNameOf" type="String" />
 
 		<!-- petitionnaire fields -->
 		<column name="petitionnaireLastname" type="String" />
@@ -295,7 +297,7 @@
 		<column name="petitionnaireCity" type="String" />
 		<column name="petitionnairePhone" type="String" />
 		<column name="petitionnaireEmail" type="String" />
-
+		
 		<!-- Support fields -->
 		<column name="isSupported" type="boolean" />
 		<column name="supportedBy" type="String" />
@@ -517,17 +519,17 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
-
+		
 		<!-- Workflow fields -->
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
 		<column name="statusDate" type="Date" />
-
+		
 		<!-- main fields -->
 		<column name="title" type="String" />
 		<column name="description" type="String" />
-		<column name="budget" type="long" />
+		<column name="budget" type="String" />
 		<column name="motif" type="String" />
 
 		<!-- citoyen fields -->
@@ -559,8 +561,8 @@
 		<column name="budgetPhaseId" type="long" />
 
 		<!-- Order -->
-		<order by="asc">
-			<order-column name="title" />
+		<order by="desc">
+			<order-column name="modifiedDate" />
 		</order>
 		
 		<!-- Finder methods -->
@@ -577,7 +579,12 @@
 		<finder name="BudgetPhaseId" return-type="Collection">
 			<finder-column name="budgetPhaseId" />
 		</finder>
-
+		<finder name="isCrushAndPublished" return-type="Collection">
+			<finder-column name="isCrush" />
+			<finder-column name="status" />
+			<finder-column name="groupId" />
+		</finder>
+		
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />

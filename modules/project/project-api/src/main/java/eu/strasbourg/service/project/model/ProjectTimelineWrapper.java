@@ -62,6 +62,7 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 		attributes.put("startDay", getStartDay());
 		attributes.put("spacing", getSpacing());
 		attributes.put("date", getDate());
+		attributes.put("dateFormat", getDateFormat());
 		attributes.put("title", getTitle());
 		attributes.put("link", getLink());
 		attributes.put("projectId", getProjectId());
@@ -93,6 +94,12 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 
 		if (date != null) {
 			setDate(date);
+		}
+
+		String dateFormat = (String)attributes.get("dateFormat");
+
+		if (dateFormat != null) {
+			setDateFormat(dateFormat);
 		}
 
 		String title = (String)attributes.get("title");
@@ -199,6 +206,26 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	/**
+	* Returns the date format of this project timeline.
+	*
+	* @return the date format of this project timeline
+	*/
+	@Override
+	public java.lang.String getDateFormat() {
+		return _projectTimeline.getDateFormat();
+	}
+
+	/**
+	* Retourne l'equivalent en Freeemarker du format de date de la timeline
+	*
+	* @return Le format de date en freemarker, JJ/MM/AAAA dans le cas d'une timeline sans format encore defini
+	*/
+	@Override
+	public java.lang.String getFreeMarkerFormatDate() {
+		return _projectTimeline.getFreeMarkerFormatDate();
+	}
+
+	/**
 	* Returns the link of this project timeline.
 	*
 	* @return the link of this project timeline
@@ -286,6 +313,16 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	@Override
 	public void setDate(Date date) {
 		_projectTimeline.setDate(date);
+	}
+
+	/**
+	* Sets the date format of this project timeline.
+	*
+	* @param dateFormat the date format of this project timeline
+	*/
+	@Override
+	public void setDateFormat(java.lang.String dateFormat) {
+		_projectTimeline.setDateFormat(dateFormat);
 	}
 
 	@Override

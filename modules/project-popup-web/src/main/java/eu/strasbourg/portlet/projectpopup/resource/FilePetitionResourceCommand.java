@@ -6,17 +6,14 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -32,7 +29,6 @@ import org.osgi.service.component.annotations.Component;
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -66,6 +62,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private static final String MOBILE = "mobile";
     private static final String PETITIONTITLE = "petitiontitle";
     private static final String PETITIONDESCRIPTION = "petitiondescription";
+    private static final String IN_THE_NAME_OF = "inTheNameOf";
     private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -90,10 +87,12 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     private String email;
     private String title;
     private String description;
+    private String inTheNameOf;
     private String lieu;
     private long projectId;
     private long quartierId;
     private long themeId;
+    private String message;
 
     /**
      * le log
@@ -106,16 +105,16 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-    	LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+        
+    	// Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
-        String message = "";
+        boolean savedInfo = false;
+        this.message = "";
+        
+        // Recuperation de l'utilsiteur Publik ayant lance la demande
         this.publikID = getPublikID(request);
-        if (this.publikID == null || this.publikID.isEmpty())
-            message = "utilisateur non enregistr&eacute;/identifi&eacute;";
-        else
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
-
+        
+        // Recuperation des informations du formulaire
         this.dateFormat = new SimpleDateFormat(PATTERN);
         this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
         this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
@@ -129,16 +128,15 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONTITLE));
         this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONDESCRIPTION).replace("\n", "<br>"));
+        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
-
-        boolean isValid = validate(request);
-        if (!isValid)
-            message = LanguageUtil.get(originalRequest, "general-error");
         
-        boolean savedInfo = false;
-        if (message.isEmpty()) {
+        // Verification de la validite des informations
+        if (validate(request)) {
+        	
+        	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
             savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat(PATTERN);
@@ -154,13 +152,15 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 		this.mobile
                 );
             }
+            
+            // Envoi de la demande
             result = sendPetition(request);
         }
 
         // Récupération du json des entités
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", message);
+        jsonResponse.put("message", this.message);
         jsonResponse.put("savedInfo", savedInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -206,10 +206,11 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
                 ids[i]=identifiants.get(i);
             }
             sc.setAssetCategoryIds(ids);
-
+            
             petition = PetitionLocalServiceUtil.createPetition(sc);
             petition.setTitle(this.title);
             petition.setDescription(this.description);
+            petition.setInTheNameOf(this.inTheNameOf);
             petition.setQuotaSignature(signatureNumber);
             petition.setPetitionnaireAdresse(this.address);
             petition.setPetitionnaireBirthday(this.birthday);
@@ -237,39 +238,60 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
     }
 
     private boolean validate(ResourceRequest request) {
-        boolean isValid = true;
+    	
+    	// utilisateur 
+        if (this.publikID == null || this.publikID.isEmpty()) {
+            this.message = "Utilisateur non recconu";
+            return false;
+        } else {
+        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
+        	
+        	if (this.user.isBanned()) {
+        		this.message = "Vous ne pouvez soutenir ce projet";
+        		return false;
+        	} else if (this.user.getPactSignature() == null) {
+        		this.message = "Vous devez signer le Pacte pour soumettre un projet";
+        		return false;
+        	}
+        }
 
         // title
         if (Validator.isNull(this.title)) {
-            isValid = false;
+        	this.message = "Titre non valide";
+            return false;
         }
-
+        
         // description
         if (Validator.isNull(this.description)) {
-            isValid = false;
+        	this.message = "Description non valide";
+            return false;
         }
 
         // birthday
         if (Validator.isNull(this.birthday)) {
-            isValid = false;
+        	this.message = "Date de naissance non valide";
+            return false;
         }
 
         // city
         if (Validator.isNull(this.city)) {
-            isValid = false;
+        	this.message = "Ville non valide";
+            return false;
         }
 
         // address
         if (Validator.isNull(this.address)) {
-            isValid = false;
+        	this.message = "Adresse non valide";
+        	return false;
         }
 
         // postalcode
         if (Validator.isNull(this.postalcode)) {
-            isValid = false;
+        	this.message = "Code postal non valide";
+            return false;
         }
 
-        return isValid;
+        return true;
     }
 
 }

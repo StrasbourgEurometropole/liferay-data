@@ -273,7 +273,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
      * @param groupId ID du site
      * @return Liste des budgets participatifs triee par nombre de commentaires
      */
-    private List<BudgetParticipatif> getSortedByNbComments(long groupId) {
+	@Override
+    public List<BudgetParticipatif> getSortedByNbComments(long groupId) {
         List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByGroupId(groupId);
         
         // Verification d'un retour vide
@@ -297,13 +298,78 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     }
     
     /**
+     * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de soutiens
+     *
+     * @param groupId ID du site
+     * @return Liste des budgets participatifs triee par nombre de soutiens
+     */
+	@Override
+    public List<BudgetParticipatif> getSortedByNbSupports(long groupId) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByStatusAndGroupId(
+        													WorkflowConstants.STATUS_APPROVED, 
+        													groupId);
+        
+        // Verification d'un retour vide
+        if (budgetsParticipatifs == null || budgetsParticipatifs.isEmpty())
+            return new ArrayList<>();
+        
+        // Creation du comparateur
+        Comparator<BudgetParticipatif> reversedMostSupportedComparator = Comparator
+        		.comparingLong(BudgetParticipatif::getNbSupports)
+        		.reversed();
+        
+        return budgetsParticipatifs
+                .stream()
+                .sorted(reversedMostSupportedComparator)
+                .collect(Collectors.toList());
+    }
+    
+    /**
      * Recuperer le nombre voulu des budgets participatifs les plus commentes
      * @param groupId ID du site
      * @param delta Nombre de resultats max voulu
      * @return Liste des budgets participatifs les plus commentes triee.
      */
+	@Override
     public List<BudgetParticipatif> getMostCommented(long groupId, int delta) {
         List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbComments(groupId);
+        
+        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
+        if (budgetsParticipatifs.size() < delta)
+            return budgetsParticipatifs;
+        else 
+        	return budgetsParticipatifs.stream().limit(delta).collect(Collectors.toList());
+    }
+	
+	/**
+     * Recuperer le nombre voulu des budgets participatifs les plus soutenus
+     * @param groupId ID du site
+     * @param delta Nombre de resultats max voulu
+     * @return Liste des budgets participatifs les plus soutenus triee.
+     */
+	@Override
+    public List<BudgetParticipatif> getMostSupported(long groupId, int delta) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbSupports(groupId);
+        
+        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
+        if (budgetsParticipatifs.size() < delta)
+            return budgetsParticipatifs;
+        else 
+        	return budgetsParticipatifs.stream().limit(delta).collect(Collectors.toList());
+    }
+    
+    /**
+     * Recuperer les budgets participatifs "coup de coeur" les plus recents
+     * @param groupId ID du site
+     * @param delta Nombre de resultats max voulu
+     * @return Liste des budgets participatifs coup de coeurs recent
+     */
+	@Override
+    public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByisCrushAndPublished(
+        													true,
+        													WorkflowConstants.STATUS_APPROVED,
+        													groupId);
         
         // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
         if (budgetsParticipatifs.size() < delta)
@@ -315,6 +381,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     /**
 	 * Retourne tous les budgets participatifs d'une phase donnee
      */
+	@Override
     public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId) {
         return this.budgetParticipatifPersistence.findByBudgetPhaseId(budgetPhaseId);
     }
@@ -322,6 +389,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     /**
 	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
      */
+	@Override
     public List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
     	// Recuperation des soutiens de l'utilisateur
     	List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserId(publikUserId);
@@ -355,6 +423,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     /**
 	 * Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
      */
+	@Override
     public int countBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
     	List<BudgetParticipatif> budgetParticipatif = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
     	
@@ -438,11 +507,35 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         return budgetParticipatif;
     }
     
+    @Override
     public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(String publikId){
         List<BudgetParticipatif> bpList = budgetParticipatifPersistence.findByPublikId(publikId);
         return bpList.stream()
                 .filter(BudgetParticipatifModel::isApproved)
                 .collect(Collectors.toList());
     }
-
+    
+    /**
+     * Retourne les budgets votes par en utilisateur pour la phase en cours en ne prenant pas en compte les doublons
+     * et les brouillons
+     * @param publikUserId
+     * @param budgetPhaseId
+     */
+    @Override
+    public List<BudgetParticipatif> getPublishedAndVotedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+        List<BudgetParticipatif> bpList = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
+        
+        // Creation d'une liste sans doublons
+        List<BudgetParticipatif> results = new ArrayList<BudgetParticipatif>();
+        for (BudgetParticipatif budgetParticipatif : bpList) {
+        	if (!results.contains(budgetParticipatif)) {
+        		results.add(budgetParticipatif);
+        	}
+        }
+        
+        return results.stream()
+                .filter(BudgetParticipatifModel::isApproved)
+                .collect(Collectors.toList());
+    }
+    
 }
