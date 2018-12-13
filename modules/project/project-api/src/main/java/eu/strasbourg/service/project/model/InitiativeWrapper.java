@@ -435,8 +435,8 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	* Retourne le nombre d'aides de l'initiative
 	*/
 	@Override
-	public int getNbHelpInitiative() {
-		return _initiative.getNbHelpInitiative();
+	public int getNbHelps() {
+		return _initiative.getNbHelps();
 	}
 
 	/**

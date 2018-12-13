@@ -159,7 +159,7 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	/**
 	* Retourne le nombre d'aides de l'initiative
 	*/
-	public int getNbHelpInitiative();
+	public int getNbHelps();
 
 	/**
 	* Retourne la categorie projet

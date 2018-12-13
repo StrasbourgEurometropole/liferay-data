@@ -1136,21 +1136,43 @@ function createBudgetParticipatif(budgetParticipatif){
 */
 function createInitiative(initiative){
     var vignette = 
-        '<div class="item pro-bloc-card-initiative">' + 
-            '<a href="' + initiative.id + '">' +
-                '<div class="wrapper-card-initiative"><div> ' +
-                '<div class="pro-header-initiative">' + 
-                    '<figure role="group"><img src="' + initiative.id + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-                    '<p>Initiative publiée par :</p><p><strong>' + initiative.createDate + '</strong></p>' +
-                '</div> ' +
-                '<div class="pro-content-initiative">' +
-                    '<h3>' + initiative.title + '</h3>' +
-                    '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
-                '</div> ' + 
-                '</div></div>' +
-                '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.id + '</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
+        '<div class="item pro-bloc-card-initiative pro-theme-embryon" data-linkall="a">' +
+            '<div class="wrapper-card-initiative">' +
+                (initiative.imageURL != "" ? 
+                    '<figure role="group" class="fit-cover">' +
+                        '<img src="' + initiative.imageURL + '" width="240" height="250" alt="Image initiative"/>' +
+                    '</figure>'
+                    :
+                    ''
+                ) +
+                '<div>' +
+                    '<div class="pro-header-initiative">' +
+                        '<figure role="group">' +
+                            '<img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Image de profil auteur"/>' +
+                        '</figure>' +
+                        '<p>Participation publiée par :</p>' +
+                        '<p><strong>' + initiative.author + '</strong></p>' +
+                    '</div>' +
+                    '<div class="pro-content-initiative">' +
+                        '<div class="pro-wrapper-meta">' +
+                            '<div class="pro-statut"><span>Embryon</span></div>' +
+                            '<div class="pro-meta">' +
+                                (initiative.districtsLabel != "" ? '<span>' + initiative.districtsLabel + '</span>' : '') +
+                                (initiative.thematicsLabel != "" ? '<span>' + initiative.thematicsLabel + '</span>' : '') +
+                                (initiative.projectName != "" ? '<span>' + initiative.projectName + '</span>' : '') +
+                            '</div>' +
+                        '</div>' +
+                        '<a href="detail-initiative.html" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
+                        '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
+                    '</div>' +
                 '</div>' +
-            '</a>' +
+            '</div>' +
+            '<div class="pro-footer-initiative">' +
+                '<div class="pro-avis">' +
+                    '<span>' + initiative.nbHelps + '</span>' +
+                '</div>' +
+                '<p>Citoyens-nes soutiennent cette initiative</p>' +
+            '</div>' +
         '</div>';
 
     return vignette;
