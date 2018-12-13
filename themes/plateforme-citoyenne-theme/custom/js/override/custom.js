@@ -597,6 +597,26 @@ function getInitiativeMarker(mercators, link) {
     var initiativeMarkerIcon = getMarkerIcon("initiative");
     var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
 
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-initiative">' + 
+            '<a href="' + initiative.link + '">' +
+                '<div class="wrapper-card-initiative"><div> ' +
+                '<div class="pro-header-initiative">' + 
+                    '<figure role="group"><img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+                    '<p>Initiative publiée par :</p><p><strong>' + initiative.author + '</strong></p>' +
+                '</div> ' +
+                '<div class="pro-content-initiative">' +
+                    '<h3>' + initiative.title + '</h3>' +
+                    '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
+                '</div> ' + 
+                '</div></div>' +
+                '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
+                '</div>' +
+            '</a>' +
+        '</div>'
+        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
+    );
+
     return marker;
 
 }
@@ -1106,6 +1126,31 @@ function createBudgetParticipatif(budgetParticipatif){
             '</div>' +
             '<div class="pro-footer-budget">' + footer +
             '</div>' +
+        '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette d'initiative
+*/
+function createInitiative(initiative){
+    var vignette = 
+        '<div class="item pro-bloc-card-initiative">' + 
+            '<a href="' + initiative.id + '">' +
+                '<div class="wrapper-card-initiative"><div> ' +
+                '<div class="pro-header-initiative">' + 
+                    '<figure role="group"><img src="' + initiative.id + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+                    '<p>Initiative publiée par :</p><p><strong>' + initiative.createDate + '</strong></p>' +
+                '</div> ' +
+                '<div class="pro-content-initiative">' +
+                    '<h3>' + initiative.title + '</h3>' +
+                    '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
+                '</div> ' + 
+                '</div></div>' +
+                '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.id + '</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
+                '</div>' +
+            '</a>' +
         '</div>';
 
     return vignette;

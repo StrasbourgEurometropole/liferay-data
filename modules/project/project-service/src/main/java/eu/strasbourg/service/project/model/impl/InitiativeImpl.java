@@ -286,7 +286,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	 * Retourne le nombre d'aides de l'initiative
 	 */
 	@Override
-	public int getNbHelpInitiative() {
+	public int getNbHelps() {
 		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId()).size();
 	}
 	
@@ -399,7 +399,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 		jsonInitiative.put("id", this.getInitiativeId());
 		jsonInitiative.put("createDate", dateFormat.format(this.getCreateDate()));
 		jsonInitiative.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
-
+		
 		// Champs : Generaux
 		jsonInitiative.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
 		jsonInitiative.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthorLabel())));
@@ -420,6 +420,9 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 		jsonInitiative.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
 		jsonInitiative.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
 		jsonInitiative.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
+		
+		// Aides
+		jsonInitiative.put("nbHelps", this.getNbHelps());
 
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
