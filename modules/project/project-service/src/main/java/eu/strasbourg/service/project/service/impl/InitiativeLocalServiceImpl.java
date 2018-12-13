@@ -35,6 +35,7 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,6 +97,7 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			initiative.setStatus(WorkflowConstants.STATUS_APPROVED);
+			initiative.setStatusDate(new Date());
 		} else {
 			initiative.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
