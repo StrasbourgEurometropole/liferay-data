@@ -268,8 +268,9 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	 */
 	@Override
 	public AssetCategory getStatusCategory() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.INITIATIVE_STATUS).get(0);
+		List <AssetCategory> status = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.INITIATIVE_STATUS);
+		return status.size() > 0 ? status.get(0) : null;
 	}
 	
 	/**
@@ -278,8 +279,13 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	 */
 	@Override
 	public String getStatusCategoryColor() {
-		long categoryId = this.getStatusCategory().getCategoryId();
-		return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
+		AssetCategory status = this.getStatusCategory();
+		if (status != null) {
+			long categoryId = this.getStatusCategory().getCategoryId();
+			return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
+		} else {
+			return "";
+		}
 	}
 	
 	/**

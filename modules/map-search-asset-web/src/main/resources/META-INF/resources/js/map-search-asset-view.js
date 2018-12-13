@@ -7,6 +7,7 @@ var projects = null;
 var participations = null;
 var petitions = null;
 var budgets = null;
+var initiatives = null;
 var events = null;
 
 // Listes des marqueurs
@@ -14,6 +15,7 @@ var projectMarkers = [];
 var participationMarkers = [];
 var petitionMarkers = [];
 var budgetMarkers = [];
+var initiativeMarkers = [];
 var eventMarkers = [];
 
 // Listes de éléments sélectionées
@@ -21,6 +23,7 @@ var selectedProjectIds = [];
 var selectedParticipationIds = [];
 var selectedPetitionIds = [];
 var selectedBudgetIds = [];
+var selectedInitiativeIds = [];
 var selectedEventIds = [];
 
 var entityType = {
@@ -28,6 +31,7 @@ var entityType = {
 		PARTICIPATION : 'participation',
 		PETITION : 'petition',
 		BUDGET : 'budget',
+		INITIATIVE : 'initiative',
 		EVENT : 'event'
 }
 
@@ -87,6 +91,15 @@ function removeMarkerElements(entityName) {
 			}
 			break;
 			
+		case entityType.INITIATIVE:
+			if (initiativeMarkers != null) {
+				initiativeMarkers.forEach(function(initiativeMarker) {
+					markersCluster.removeLayer(initiativeMarker);
+				});
+				initiativeMarkers = [];
+			}
+			break;
+			
 		case entityType.EVENT:
 			if (eventMarkers != null) {
 				eventMarkers.forEach(function(eventMarker) {
@@ -111,6 +124,7 @@ function updateFilterElements(onReady) {
     var refreshedSelectedParticipationIds = [];
     var refreshedSelectedPetitionIds = [];
     var refreshedSelectedBudgetIds = [];
+    var refreshedSelectedInitiativeIds = [];
     var refreshedSelectedEventIds = [];
     
     var checker;
@@ -179,6 +193,23 @@ function updateFilterElements(onReady) {
 			);
 		});
 	}
+	
+	if (initiatives != null) {
+		initiatives.forEach(function(initiative, index) {
+			checker =  "";
+			if (onReady || selectedInitiativeIds.indexOf(initiative.id) > -1) {
+				refreshedSelectedInitiativeIds.push(initiative.id);
+				checker = "checked";
+			}
+			$("fieldset[id='initiatives_fieldset']").append(
+					"<div>" + 
+						"<input type='checkbox' id='initiative_" + initiative.id +
+						"' class='hide-checkbox' value='" + initiative.id + "' " + checker + ">" +
+						"<label for='initiative_" + initiative.id + "'>" + initiative.title + "</label>" +
+					"</div>"
+			);
+		});
+	}
 
 	if (events != null) {
 		events.forEach(function(event, index) {
@@ -201,6 +232,7 @@ function updateFilterElements(onReady) {
 	selectedParticipationIds = refreshedSelectedParticipationIds;
 	selectedPetitionIds = refreshedSelectedPetitionIds;
 	selectedBudgetIds = refreshedSelectedBudgetIds;
+	selectedInitiativeIds = refreshedSelectedInitiativeIds;
 	selectedEventIds = refreshedSelectedEventIds;
 
 }
@@ -288,6 +320,23 @@ function updateMarkerElements(entityName) {
 			}
 			break;
 			
+		case entityType.INITIATIVE:
+			// Même processus que l'entité Project
+			if (initiatives != null) {
+				initiatives.forEach(function(initiative, index) {
+					if (checkPrintatorState(entityType.INITIATIVE) && checkMarkerState(entityType.INITIATIVE, initiative.id)) {
+						initiative.placitPlaces.forEach(function(placitPlace) {
+							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
+								var marker = getInitiativeMarker(initiative, [placitPlace.mercatorY, placitPlace.mercatorX]);
+								markersCluster.addLayer(marker);
+								initiativeMarkers.push(marker);
+							}
+						});
+					}
+				});
+			}
+			break;
+			
 		case entityType.EVENT:
 			// Même processus que l'entité Project
 			if (events != null) {
@@ -333,6 +382,7 @@ function saveSelectedFilters() {
 	selectedParticipationIds = [];
 	selectedPetitionIds = [];
 	selectedBudgetIds = [];
+	selectedInitiativeIds = [];
 	selectedEventIds = [];
 	
 	$("input[id^='project_']:checked").each(function() {
@@ -347,7 +397,9 @@ function saveSelectedFilters() {
 	$("input[id^='budget_']:checked").each(function() {
 		selectedBudgetIds.push(this.value);
 	});
-	
+	$("input[id^='initiative_']:checked").each(function() {
+		selectedInitiativeIds.push(this.value);
+	});
 	$("input[id^='event_']:checked").each(function() {
 		selectedEventIds.push(this.value);
 	});
@@ -388,6 +440,7 @@ function refreshEntitiesSelectionByDistrict(districtId, onReady = false) {
                 	participations = data.participations;
                 	petitions = data.petitions;
                 	budgets = data.budgets;
+                	initiatives = data.initiatives;
                 	events = data.events;
                 	
                 	updateFilterElements(onReady);

@@ -32,7 +32,6 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 
 import java.io.IOException;

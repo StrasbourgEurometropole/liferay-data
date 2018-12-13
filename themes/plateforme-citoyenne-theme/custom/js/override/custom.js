@@ -405,7 +405,7 @@ function getProjectMarker(project, mercators) {
                 '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
             '</a>' + 
         '</div>'
-        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
+        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -530,7 +530,7 @@ function getPetitionMarker(petition, mercators) {
                 '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
-        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
+        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -583,7 +583,7 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
                 '</div>' +
             '</a>' +
         '</div>'
-        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
+        ,{maxHeight: 350, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -592,7 +592,7 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 /**
 * Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getInitiativeMarker(mercators, link) {
+function getInitiativeMarker(initiative, mercators) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
     var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
@@ -614,7 +614,7 @@ function getInitiativeMarker(mercators, link) {
                 '</div>' +
             '</a>' +
         '</div>'
-        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
+        ,{maxHeight: 350, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
