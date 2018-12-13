@@ -400,10 +400,12 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 		JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat unformatedDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		// Champs : Gestion
 		jsonInitiative.put("id", this.getInitiativeId());
 		jsonInitiative.put("createDate", dateFormat.format(this.getCreateDate()));
+		jsonInitiative.put("unformatedCreateDate", unformatedDateFormat.format(this.getCreateDate()));
 		jsonInitiative.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
 		
 		// Champs : Generaux
@@ -412,7 +414,9 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 		jsonInitiative.put("authorImageURL", this.getAuthorImageURL());
 		jsonInitiative.put("description", this.getDescription());
 		jsonInitiative.put("placeTextArea", this.getPlaceTextArea());
-
+		jsonInitiative.put("publishedDate", dateFormat.format(this.getPublicationDate()));
+		jsonInitiative.put("unformatedPublishedDate", unformatedDateFormat.format(this.getPublicationDate()));
+		
 		// Champs : Médias
 		jsonInitiative.put("videoUrl", this.getVideoUrl());
 		jsonInitiative.put("imageURL", this.getImageURL());

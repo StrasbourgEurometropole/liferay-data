@@ -607,7 +607,7 @@ function getInitiativeMarker(initiative, mercators) {
                 '</div> ' +
                 '<div class="pro-content-initiative">' +
                     '<h3>' + initiative.title + '</h3>' +
-                    '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
+                    '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
                 '</div> ' + 
                 '</div></div>' +
                 '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
@@ -1162,8 +1162,8 @@ function createInitiative(initiative){
                                 (initiative.projectName != "" ? '<span>' + initiative.projectName + '</span>' : '') +
                             '</div>' +
                         '</div>' +
-                        '<a href="detail-initiative.html" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
-                        '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
+                        '<a href="' + initiative.link + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
+                        '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
                     '</div>' +
                 '</div>' +
             '</div>' +
