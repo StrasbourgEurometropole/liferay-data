@@ -6,6 +6,7 @@
      <div class="container">
         <div class="row">
             <div class="col-md-8 pro-bloc-listing-participation">
+            
                 <div id="breadcrumb">
 		            <span>
 		                <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
@@ -39,6 +40,7 @@
                         
                     </div>
                 </div>
+                
             </div>
             
             <!-- Blocs lateraux -->

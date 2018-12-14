@@ -6,6 +6,7 @@
 	<div class="container">
 	    <div class="row">
 	        <div class="col-md-8 pro-bloc-listing-participation">
+	        
 	            <div id="breadcrumb">
 			        <span>
 			            <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
@@ -34,23 +35,17 @@
 	                </c:choose>
 	            </div>
 	
-	            <div class="row pro-wrapper-listing-general">
-	
-	                <div class="col-xs-12">
-	                
-	                    <div class="row pro-wrapper-listing-participation">
-		                    <div class="col-xs-12">
-		                    	
-		                        <!-- Resultats -->
-		                        <aui:form method="post" name="fm">
-		                            <div class="pro-listing-initiative"></div>
-		                        </aui:form>
-		                        
-		                    </div>
-	                	</div>
-	
-	                </div>
-	            </div>
+	            <div class="row pro-wrapper-listing-participation">
+                    <div class="col-xs-12">
+                    
+                        <!-- Resultats -->
+                        <aui:form method="post" name="fm">
+                            <div class="pro-listing-initiative"></div>
+                        </aui:form>
+                        
+                    </div>
+                </div>
+                
 	        </div>
 	        
 	        <!-- Blocs lateraux -->

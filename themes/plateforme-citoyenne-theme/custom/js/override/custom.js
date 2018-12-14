@@ -1140,7 +1140,7 @@ function createBudgetParticipatif(budgetParticipatif){
 */
 function createInitiative(initiative){
     var vignette = 
-        '<div class="item pro-bloc-card-initiative pro-theme-embryon" data-linkall="a">' +
+        '<div class="item pro-bloc-card-initiative pro-theme-embryon vignette" data-linkall="a">' +
             '<div class="wrapper-card-initiative">' +
                 (initiative.imageURL != "" ? 
                     '<figure role="group" class="fit-cover">' +
