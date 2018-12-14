@@ -70,6 +70,14 @@ public class AssetVocabularyAccessor {
 		}		
 	}
 	
+	public AssetVocabulary getInitiativeStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.INITIATIVE_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
+	
 	public AssetVocabulary getParticipationTypes(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PARTICIPATION_TYPE, groupID);

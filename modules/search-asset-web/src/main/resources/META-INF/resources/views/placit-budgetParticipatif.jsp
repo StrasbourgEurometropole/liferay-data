@@ -13,29 +13,30 @@
 		                </span>
 		            </span>
                 </div>
-
-                 <div class="pro-wrapper-sort">
-                    <c:choose>
-                        <c:when test='${isUserloggedIn}'>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalBudget">
-                            	<liferay-ui:message key="file-budget" />
-                            </a>
-                        </c:when>
-                        <c:otherwise>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">
-                            	<liferay-ui:message key="file-budget" />
-                            </a>
-                        </c:otherwise>
-                    </c:choose>
+				
+                <div class="pro-wrapper-sort">
+                   <c:choose>
+                       <c:when test='${isUserloggedIn}'>
+                           <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalBudget">
+                           	<liferay-ui:message key="file-budget" />
+                           </a>
+                       </c:when>
+                       <c:otherwise>
+                           <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">
+                           	<liferay-ui:message key="file-budget" />
+                           </a>
+                       </c:otherwise>
+                   </c:choose>
  				</div>
  				
  				<div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">
+                    
                         <!-- Resultats -->
                         <aui:form method="post" name="fm">
-                            <div class="pro-listing-budget">
-                            </div>
+                            <div class="pro-listing-budget"></div>
                         </aui:form>
+                        
                     </div>
                 </div>
             </div>
@@ -83,7 +84,7 @@
                                 <span>${bpAside.getThematicsLabel(locale)}</span>
                             </div>
                             <h3>${bpAside.title}</h3>
-
+							
                             <div class="pro-meta-footer">
                                 <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
                             </div>

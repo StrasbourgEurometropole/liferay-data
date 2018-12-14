@@ -599,7 +599,7 @@ function getInitiativeMarker(initiative, mercators) {
 
     marker.bindPopup(
         '<div class="item pro-bloc-card-initiative">' + 
-            '<a href="' + initiative.link + '">' +
+            '<a href="' + initiative.link + '">' + 
                 '<div class="wrapper-card-initiative"><div> ' +
                 '<div class="pro-header-initiative">' + 
                     '<figure role="group"><img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
@@ -659,6 +659,10 @@ function getResult(searchPage, data) {
 
             if(json.class == "eu.strasbourg.service.project.model.BudgetParticipatif"){
                 listing += createBudgetParticipatif(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.Initiative"){
+                listing += createInitiative(json.json);
             }
 
             if(json.class == "com.liferay.journal.model.JournalArticle"){
@@ -1155,14 +1159,18 @@ function createInitiative(initiative){
                     '</div>' +
                     '<div class="pro-content-initiative">' +
                         '<div class="pro-wrapper-meta">' +
-                            '<div class="pro-statut"><span>Embryon</span></div>' +
+                            (initiative.statusLabel != "" ? 
+                                '<div class="pro-statut"><span style="background : #' + initiative.statusColor + ';">' + initiative.statusLabel + '</span></div>'
+                                :
+                                ''
+                            ) +
                             '<div class="pro-meta">' +
                                 (initiative.districtsLabel != "" ? '<span>' + initiative.districtsLabel + '</span>' : '') +
                                 (initiative.thematicsLabel != "" ? '<span>' + initiative.thematicsLabel + '</span>' : '') +
                                 (initiative.projectName != "" ? '<span>' + initiative.projectName + '</span>' : '') +
                             '</div>' +
                         '</div>' +
-                        '<a href="' + initiative.link + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
+                        '<a href="' + homeURL + 'detail-initiative/-/entity/id/' + initiative.id + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
                         '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
                     '</div>' +
                 '</div>' +

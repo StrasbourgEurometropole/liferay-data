@@ -427,13 +427,14 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 		AssetCategory projectCategory = this.getProjectCategory();
 		
 		jsonInitiative.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
+		jsonInitiative.put("statusColor", this.getStatusCategoryColor());
 		jsonInitiative.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
 		jsonInitiative.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
 		jsonInitiative.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
 		
 		// Aides
 		jsonInitiative.put("nbHelps", this.getNbHelps());
-
+		
 		// Lieux placit
 		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
 			jsonPlacitPlaces.put(placitPlace.toJSON());
