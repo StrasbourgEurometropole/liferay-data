@@ -422,6 +422,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _initiative.getNbApprovedComments();
+	}
+
+	/**
 	* Retourne le nombre de dislikes de l'entité
 	*
 	* @see eu.strasbourg.service.like.model.LikeType
@@ -729,6 +737,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public Date getStatusDate() {
 		return _initiative.getStatusDate();
+	}
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _initiative.getApprovedComments();
 	}
 
 	/**

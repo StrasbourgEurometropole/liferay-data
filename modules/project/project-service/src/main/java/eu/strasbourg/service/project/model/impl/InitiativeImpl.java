@@ -30,8 +30,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -387,6 +390,24 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 				this.getInitiativeId(), 
 				19, 
 				true).size();
+	}
+	
+	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil
+				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
 	}
 	
 	/**

@@ -300,10 +300,67 @@ public interface InitiativeLocalService extends BaseLocalService,
 		OrderByComparator<Initiative> orderByComparator);
 
 	/**
+	* Recuperer le nombre voulu d'initiatives les plus commentes
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste d'initiatives les plus commentes triee.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getMostCommented(long groupId, int delta);
+
+	/**
+	* Recuperer le nombre voulu d'initiatives les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste d'initiatives les plus aidé triee.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getMostHelped(long groupId, int delta);
+
+	/**
+	* Recuperer le nombre voulu d'initiatives les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste d'initiatives les plus aidé triee.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getMostLiked(long groupId, int delta);
+
+	/**
 	* Retourne toutes les initiatives publiées d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Initiative> getPublishedByGroupId(long groupId);
+
+	/**
+	* Methode permettant de recuperer une liste d'initiatives triee par nombre de commentaires
+	*
+	* @param groupId ID du site
+	* @return Liste des initiatives triee par nombre de commentaires
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getSortedByNbComments(long groupId);
+
+	/**
+	* Methode permettant de recuperer une liste d'initiatives triee par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de soutiens
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getSortedByNbHelps(long groupId);
+
+	/**
+	* Methode permettant de recuperer une liste d'initiatives triee par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste d'initiatives triee par nombre de soutiens
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getSortedByNbLikes(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

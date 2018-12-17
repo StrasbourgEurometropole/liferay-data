@@ -214,6 +214,16 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public int getNbDislikes();
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	/**
 	* Retourne la version JSON de l'entité
 	*
 	* @throws PortalException

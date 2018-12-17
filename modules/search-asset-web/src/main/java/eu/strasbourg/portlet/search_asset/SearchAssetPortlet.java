@@ -143,9 +143,9 @@ public class SearchAssetPortlet extends MVCPortlet {
             	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
             
 		    } else if (className.equals(INITIATIVE)) {
-		    	List<Initiative> initiativesMostLiked = new ArrayList<Initiative>();
-		    	List<Initiative> initiativesMostCommented = new ArrayList<Initiative>();
-		    	List<Initiative> initiativesMostHelped = new ArrayList<Initiative>();
+		    	List<Initiative> initiativesMostLiked = _initiativeLocalService.getMostLiked(groupId, 3);
+		    	List<Initiative> initiativesMostCommented = _initiativeLocalService.getMostCommented(groupId, 3);
+		    	List<Initiative> initiativesMostHelped = _initiativeLocalService.getMostHelped(groupId, 3);
 		    	
 		    	renderRequest.setAttribute("initiativesMostLiked", initiativesMostLiked);
 		    	renderRequest.setAttribute("initiativesMostCommented", initiativesMostCommented);

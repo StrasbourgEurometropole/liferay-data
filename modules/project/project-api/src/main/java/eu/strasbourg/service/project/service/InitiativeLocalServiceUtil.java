@@ -340,11 +340,80 @@ public class InitiativeLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer le nombre voulu d'initiatives les plus commentes
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste d'initiatives les plus commentes triee.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getMostCommented(
+		long groupId, int delta) {
+		return getService().getMostCommented(groupId, delta);
+	}
+
+	/**
+	* Recuperer le nombre voulu d'initiatives les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste d'initiatives les plus aidé triee.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getMostHelped(
+		long groupId, int delta) {
+		return getService().getMostHelped(groupId, delta);
+	}
+
+	/**
+	* Recuperer le nombre voulu d'initiatives les plus soutenus
+	*
+	* @param groupId ID du site
+	* @param delta Nombre de resultats max voulu
+	* @return Liste d'initiatives les plus aidé triee.
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getMostLiked(
+		long groupId, int delta) {
+		return getService().getMostLiked(groupId, delta);
+	}
+
+	/**
 	* Retourne toutes les initiatives publiées d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getPublishedByGroupId(
 		long groupId) {
 		return getService().getPublishedByGroupId(groupId);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste d'initiatives triee par nombre de commentaires
+	*
+	* @param groupId ID du site
+	* @return Liste des initiatives triee par nombre de commentaires
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getSortedByNbComments(
+		long groupId) {
+		return getService().getSortedByNbComments(groupId);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste d'initiatives triee par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste des budgets participatifs triee par nombre de soutiens
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getSortedByNbHelps(
+		long groupId) {
+		return getService().getSortedByNbHelps(groupId);
+	}
+
+	/**
+	* Methode permettant de recuperer une liste d'initiatives triee par nombre de soutiens
+	*
+	* @param groupId ID du site
+	* @return Liste d'initiatives triee par nombre de soutiens
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getSortedByNbLikes(
+		long groupId) {
+		return getService().getSortedByNbLikes(groupId);
 	}
 
 	/**

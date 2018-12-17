@@ -66,55 +66,88 @@
 	            <!-- Bloc : Les plus populaires -->
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.popular" /></h4>
-	                <%-- <c:forEach var="bpAside" items="${budgetsMostSupported}">
-	                    <a href="${dc.getHomeURL()}detail-budget-participatif/-/entity/id/${bpAside.budgetParticipatifId}" title="Lien vers le detail du budget">
-	                        <div class="pro-meta">
-	                            <span>${bpAside.getDistrictLabel(locale)}</span>
-	                            <span>${bpAside.getThematicsLabel(locale)}</span>
-	                        </div>
-	                        <h3>${bpAside.title}</h3>
-	
-	                        <div class="pro-meta-footer">
-	                            <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
-	                        </div>
-	                    </a>
-	                </c:forEach> --%>
+	                <c:forEach var="initiativeAside" items="${initiativesMostLiked}">
+	                   	<a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+                            <div class="pro-meta">
+                            	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
+                            	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
+                            	<c:set var="initiativeProject" value="${initiativeAside.getProjectName()}"/>
+                            	
+                            	<c:if test = "${not empty initiativeDistricts}">
+                                	<span>${initiativeDistricts}</span>
+                                </c:if>
+                                <c:if test = "${not empty initiativeThematics}">
+                                	<span>${initiativeThematics}</span>
+                                </c:if>
+                                <c:if test = "${not empty initiativeProject}">
+                                	<span>${initiativeProject}</span>
+                                </c:if>
+                            </div>
+                            <h3>${initiativeAside.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbLikes()} <liferay-ui:message key="eu.support.initiative" /></span>
+                            </div>
+                        </a>
+	                </c:forEach>
 	            </div>
 	            
 	            <!-- Bloc : Les plus commentes -->
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.commented" /></h4>
-	                <%-- <c:forEach var="bpAside" items="${budgetsMostCommented}">
-	                    <a href="${dc.getHomeURL()}detail-budget-participatif/-/entity/id/${bpAside.budgetParticipatifId}" title="Lien vers le detail du budget">
-	                        <div class="pro-meta">
-	                            <span>${bpAside.getDistrictLabel(locale)}</span>
-	                            <span>${bpAside.getThematicsLabel(locale)}</span>
-	                        </div>
-	                        <h3>${bpAside.title}</h3>
-	
-	                        <div class="pro-meta-footer">
-	                            <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
-	                        </div>
-	                    </a>
-	                </c:forEach> --%>
+	                <c:forEach var="initiativeAside" items="${initiativesMostCommented}">
+	                    <a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+                            <div class="pro-meta">
+                            	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
+                            	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
+                            	<c:set var="initiativeProject" value="${initiativeAside.getProjectName()}"/>
+                            	
+                            	<c:if test = "${not empty initiativeDistricts}">
+                                	<span>${initiativeDistricts}</span>
+                                </c:if>
+                                <c:if test = "${not empty initiativeThematics}">
+                                	<span>${initiativeThematics}</span>
+                                </c:if>
+                                <c:if test = "${not empty initiativeProject}">
+                                	<span>${initiativeProject}</span>
+                                </c:if>
+                            </div>
+                            <h3>${initiativeAside.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbLikes()} <liferay-ui:message key="eu.support.initiative" /></span>
+                            </div>
+                        </a>
+	                </c:forEach>
 	            </div>
 	            
 	            <!-- Bloc : Les plus recents coups de coeur du conseil -->
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.iscrush" /></h4>
-	                <%-- <c:forEach var="bpAside" items="${budgetsIsCrush}">
-	                    <a href="${dc.getHomeURL()}detail-budget-participatif/-/entity/id/${bpAside.budgetParticipatifId}" title="Lien vers le detail du budget">
-	                        <div class="pro-meta">
-	                            <span>${bpAside.getDistrictLabel(locale)}</span>
-	                            <span>${bpAside.getThematicsLabel(locale)}</span>
-	                        </div>
-	                        <h3>${bpAside.title}</h3>
-	
-	                        <div class="pro-meta-footer">
-	                            <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
-	                        </div>
-	                    </a>
-	                </c:forEach> --%>
+	                <c:forEach var="initiativeAside" items="${initiativesMostHelped}">
+	                    <a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+                            <div class="pro-meta">
+                            	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
+                            	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
+                            	<c:set var="initiativeProject" value="${initiativeAside.getProjectName()}"/>
+                            	
+                            	<c:if test = "${not empty initiativeDistricts}">
+                                	<span>${initiativeDistricts}</span>
+                                </c:if>
+                                <c:if test = "${not empty initiativeThematics}">
+                                	<span>${initiativeThematics}</span>
+                                </c:if>
+                                <c:if test = "${not empty initiativeProject}">
+                                	<span>${initiativeProject}</span>
+                                </c:if>
+                            </div>
+                            <h3>${initiativeAside.title}</h3>
+
+                            <div class="pro-meta-footer">
+                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbLikes()} <liferay-ui:message key="eu.support.initiative" /></span>
+                            </div>
+                        </a>
+	                </c:forEach>
 	            </div>
 	               
 	    	</div>
