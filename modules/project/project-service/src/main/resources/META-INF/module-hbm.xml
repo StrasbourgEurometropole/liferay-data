@@ -137,6 +137,7 @@
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="initiativeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="helpTypes" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="message" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>

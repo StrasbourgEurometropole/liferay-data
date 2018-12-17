@@ -39,6 +39,7 @@ public class InitiativeHelpSoap implements Serializable {
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setPublikUserId(model.getPublikUserId());
 		soapModel.setInitiativeId(model.getInitiativeId());
+		soapModel.setHelpTypes(model.getHelpTypes());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setMessage(model.getMessage());
 
@@ -133,6 +134,14 @@ public class InitiativeHelpSoap implements Serializable {
 		_initiativeId = initiativeId;
 	}
 
+	public String getHelpTypes() {
+		return _helpTypes;
+	}
+
+	public void setHelpTypes(String helpTypes) {
+		_helpTypes = helpTypes;
+	}
+
 	public long getGroupId() {
 		return _groupId;
 	}
@@ -154,6 +163,7 @@ public class InitiativeHelpSoap implements Serializable {
 	private Date _createDate;
 	private String _publikUserId;
 	private long _initiativeId;
+	private String _helpTypes;
 	private long _groupId;
 	private String _message;
 }

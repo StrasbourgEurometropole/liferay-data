@@ -63,6 +63,7 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		attributes.put("createDate", getCreateDate());
 		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("initiativeId", getInitiativeId());
+		attributes.put("helpTypes", getHelpTypes());
 		attributes.put("groupId", getGroupId());
 		attributes.put("message", getMessage());
 
@@ -99,6 +100,12 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 
 		if (initiativeId != null) {
 			setInitiativeId(initiativeId);
+		}
+
+		String helpTypes = (String)attributes.get("helpTypes");
+
+		if (helpTypes != null) {
+			setHelpTypes(helpTypes);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -168,6 +175,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public java.lang.Object clone() {
 		return new InitiativeHelpWrapper((InitiativeHelp)_initiativeHelp.clone());
+	}
+
+	/**
+	* Returns the help types of this initiative help.
+	*
+	* @return the help types of this initiative help
+	*/
+	@Override
+	public java.lang.String getHelpTypes() {
+		return _initiativeHelp.getHelpTypes();
 	}
 
 	/**
@@ -304,6 +321,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public void setGroupId(long groupId) {
 		_initiativeHelp.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the help types of this initiative help.
+	*
+	* @param helpTypes the help types of this initiative help
+	*/
+	@Override
+	public void setHelpTypes(java.lang.String helpTypes) {
+		_initiativeHelp.setHelpTypes(helpTypes);
 	}
 
 	/**
