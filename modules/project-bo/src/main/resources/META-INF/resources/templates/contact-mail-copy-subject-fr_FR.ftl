@@ -1,1 +1,1 @@
-Récapitulatif de votre demande via le formulaire
+Un projet que vous suivez vient d'être mis à jour
