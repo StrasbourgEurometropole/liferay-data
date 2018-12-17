@@ -62,6 +62,13 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
+		long groupId, java.lang.String typeContenu, java.lang.String localeId) {
+		return _strasbourgService.getFavoritesPois(groupId, typeContenu,
+			localeId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
 		long groupId, java.lang.String uuid, java.lang.String language) {
 		return _strasbourgService.getFileDetails(groupId, uuid, language);
@@ -77,8 +84,23 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPois(
+		java.lang.String interests, java.lang.String categories,
+		java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu, java.lang.String localeId) {
+		return _strasbourgService.getPois(interests, categories, prefilters,
+			groupId, typeContenu, localeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPois(
 		java.lang.String interests, long groupId) {
 		return _strasbourgService.getPois(interests, groupId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPois(
+		java.lang.String interests, long groupId, java.lang.String localeId) {
+		return _strasbourgService.getPois(interests, groupId, localeId);
 	}
 
 	@Override

@@ -4897,11 +4897,38 @@ uncomment this part if you haven't added this code anywhere else
       /* line 40, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
       #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-title {
         line-height: 1.4; } }
-  /* line 60, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  /* line 59, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-sublist {
+    background-color: #46cfc0;
+    padding: 30px 0; }
+  /* line 64, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-grid-item .objtp-sublist-item {
+    position: relative;
+    padding: 0 25px; }
+    /* line 68, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+    #objtp-grid-carrefour .objtp-grid-item .objtp-sublist-item a {
+      font-family: "OpenSans", arial;
+      font-weight: 600;
+      font-size: 1.8rem;
+      color: #31455d;
+      display: -webkit-inline-box;
+      display: -ms-inline-flexbox;
+      display: inline-flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      line-height: 1.2;
+      vertical-align: top;
+      width: 100%; }
+      /* line 79, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+      #objtp-grid-carrefour .objtp-grid-item .objtp-sublist-item a .objtp-btn-arrow {
+        -ms-flex-negative: 0;
+            flex-shrink: 0; }
+  /* line 86, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
   #objtp-grid-carrefour .objtp-page.objtp-grid-item .objtp-grid-item-title {
     padding-bottom: 40px;
     border-bottom: solid 1px #FFFFFF; }
-    /* line 63, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+    /* line 89, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
     #objtp-grid-carrefour .objtp-page.objtp-grid-item .objtp-grid-item-title:after {
       content: '';
       display: inline-block;
@@ -4914,9 +4941,34 @@ uncomment this part if you haven't added this code anywhere else
       position: absolute;
       right: 0px;
       bottom: 15px; }
-  /* line 77, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  /* line 103, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
   #objtp-grid-carrefour .objtp-page.objtp-grid-item .objtp-grid-item-background {
     background-color: #31455d; }
+  /* line 109, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-list.objtp-grid-item .objtp-grid-item-background {
+    background-color: #46cfc0; }
+  /* line 114, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-no-picture.objtp-grid-item .objtp-grid-item-sublist {
+    padding-top: 0; }
+  /* line 117, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-no-picture.objtp-grid-item .objtp-grid-item-visu {
+    padding-bottom: 0; }
+    /* line 119, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+    #objtp-grid-carrefour .objtp-no-picture.objtp-grid-item .objtp-grid-item-visu:after {
+      display: none; }
+  /* line 123, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-no-picture.objtp-grid-item .objtp-grid-item-title {
+    padding-top: 95px;
+    padding-bottom: 50px;
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: 30px;
+    right: auto;
+    margin-bottom: 30px; }
+  /* line 134, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-no-picture.objtp-list.objtp-grid-item .objtp-grid-item-title {
+    color: #31455d; }
 
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/divers/cookies/_molecule-cookies.scss */
 #cookies {
@@ -11612,12 +11664,16 @@ form + .seu-error-messages {
   /* -------------------------- MARKER */
   /* ------------------------------- Infowindow */
   /* ------------------------------- Etat et ouverture des panels */ }
-  /* line 8, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 5, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  #aroundme .add-favorites {
+    color: #31455d !important;
+    font-size: 1.3rem !important; }
+  /* line 13, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme__top {
     transition: all, 0.5s;
     z-index: 6; }
     @media only screen and (max-width: 767px) {
-      /* line 8, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 13, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme__top {
         height: 100%;
         position: absolute;
@@ -11627,20 +11683,20 @@ form + .seu-error-messages {
         overflow-x: visible;
         -webkit-transform: translateY(-100%);
                 transform: translateY(-100%); } }
-  /* line 21, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 26, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme__center {
     z-index: 5;
     width: 100%;
     position: relative; }
     @media only screen and (max-width: 767px) {
-      /* line 21, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 26, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme__center {
         height: 400px; } }
-    /* line 29, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 34, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme__center .aroundme__map {
       height: 540px;
       width: 100%; }
-  /* line 34, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 39, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme__side {
     z-index: 6;
     position: absolute;
@@ -11655,17 +11711,46 @@ form + .seu-error-messages {
             transform: translateX(100%);
     overflow-y: visible;
     max-width: 100%; }
-  /* line 46, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 51, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .top__overflow,
   #aroundme .side__overflow {
     overflow: auto;
     height: 100%;
     position: relative; }
-    /* line 51, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 56, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .top__overflow form,
     #aroundme .side__overflow form {
       overflow: hidden; }
-  /* line 60, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 59, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      #aroundme .top__overflow form .filtres__list h2,
+      #aroundme .side__overflow form .filtres__list h2 {
+        font-family: "MontSerrat", arial;
+        font-weight: 700;
+        font-size: 1.7rem; }
+      /* line 65, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      #aroundme .top__overflow form .info-text,
+      #aroundme .side__overflow form .info-text {
+        color: #ffffff;
+        font-family: "OpenSans", arial;
+        font-size: 1.5rem;
+        line-height: 1.2em;
+        font-weight: 300;
+        text-align: center; }
+        /* line 72, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        #aroundme .top__overflow form .info-text a,
+        #aroundme .side__overflow form .info-text a {
+          color: #ffffff;
+          font-family: "OpenSans", arial;
+          font-size: 1.5rem;
+          line-height: 1.2em;
+          font-weight: 300;
+          text-align: center;
+          text-decoration: underline; }
+          /* line 80, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          #aroundme .top__overflow form .info-text a:hover,
+          #aroundme .side__overflow form .info-text a:hover {
+            text-decoration: none; }
+  /* line 92, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .side__trigger--pull {
     width: 35px;
     height: 50px;
@@ -11679,13 +11764,13 @@ form + .seu-error-messages {
     -webkit-transform: translateX(-100%);
             transform: translateX(-100%); }
     @media only screen and (max-width: 767px) {
-      /* line 60, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 92, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .side__trigger--pull {
         top: 33%;
         -webkit-transform: translateX(-100%) translateY(-50%);
                 transform: translateX(-100%) translateY(-50%);
         width: 50px; } }
-    /* line 76, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 108, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .side__trigger--pull:before {
       height: 16px;
       width: 16px;
@@ -11702,7 +11787,7 @@ form + .seu-error-messages {
       left: 50%;
       -webkit-transform: translate(-50%, -50%) rotate(180deg);
               transform: translate(-50%, -50%) rotate(180deg); }
-  /* line 93, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 125, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .side__trigger--close {
     content: '';
     z-index: 3;
@@ -11717,17 +11802,17 @@ form + .seu-error-messages {
     content: '';
     display: none; }
     @media only screen and (max-width: 767px) {
-      /* line 93, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 125, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .side__trigger--close {
         display: block; } }
-  /* line 110, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 142, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .top__trigger {
     display: none; }
     @media only screen and (max-width: 767px) {
-      /* line 110, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 142, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .top__trigger {
         display: block; } }
-    /* line 116, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 148, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .top__trigger:before {
       height: 20px;
       width: 20px;
@@ -11744,7 +11829,7 @@ form + .seu-error-messages {
       left: 50%;
       -webkit-transform: translate(-50%, -50%);
               transform: translate(-50%, -50%); }
-    /* line 132, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 164, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .top__trigger--pull {
       width: 50px;
       height: 35px;
@@ -11757,10 +11842,10 @@ form + .seu-error-messages {
       border-bottom-left-radius: 5px;
       background-color: #31455d; }
       @media only screen and (max-width: 767px) {
-        /* line 132, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 164, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .top__trigger--pull {
           height: 50px; } }
-    /* line 147, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 179, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .top__trigger--close {
       z-index: 3;
       height: 20px;
@@ -11772,10 +11857,10 @@ form + .seu-error-messages {
       background-repeat: no-repeat;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0'  viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z'/%3E%3C/svg%3E");
       content: ''; }
-      /* line 158, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 190, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .top__trigger--close:before {
         display: none; }
-  /* line 164, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 196, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .aroundme__ui {
     content: '';
     display: block;
@@ -11789,25 +11874,25 @@ form + .seu-error-messages {
     background-color: rgba(0, 0, 0, 0.45);
     border-radius: 5px;
     z-index: 2; }
-    /* line 177, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 209, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .aroundme__ui--fullscreen {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='31.4 221.3 351.5 351.4'%3E%3Cpath  d='M376.6 221.3h-94.7c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.8 6.1 6.1 6.1l38.2 0 -78.7 78.7c-2.4 2.4-2.4 6.3 0 8.6l17.3 17.3c2.4 2.4 6.3 2.4 8.6 0l78.7-78.7v38.2c0 3.4 2.7 6.1 6.1 6.1h24.4c3.4 0 6.1-2.8 6.1-6.1v-94.7C382.7 224.1 379.9 221.3 376.6 221.3z'/%3E%3Cpath  d='M172.6 336.7L93.9 258l38.2 0c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1H37.4c-3.4 0-6.1 2.8-6.1 6.1v94.7c0 3.4 2.7 6.1 6.1 6.1h24.4c3.4 0 6.1-2.7 6.1-6.1l0-38.2 78.7 78.7c2.4 2.4 6.3 2.4 8.6 0l17.3-17.3C175 342.9 175 339.1 172.6 336.7z'/%3E%3Cpath  d='M172.6 448.7l-17.3-17.3c-2.4-2.4-6.3-2.4-8.6 0L68 510.1l0-38.2c0-3.4-2.7-6.1-6.1-6.1H37.4c-3.4 0-6.1 2.8-6.1 6.1v94.7c0 3.4 2.8 6.1 6.1 6.1v0h94.7c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1l-38.2 0 78.7-78.7C175 454.9 175 451.1 172.6 448.7z'/%3E%3Cpath  d='M376.6 465.8h-24.4c-3.4 0-6.1 2.7-6.1 6.1v38.2l-78.7-78.7c-2.4-2.4-6.3-2.4-8.6 0l-17.3 17.3c-2.4 2.4-2.4 6.3 0 8.6l78.7 78.7 -38.2 0c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.8 6.1 6.1 6.1h94.7v0c3.4 0 6.1-2.8 6.1-6.1v-94.7C382.7 468.5 379.9 465.8 376.6 465.8z'/%3E%3C/svg%3E");
       position: absolute;
       top: 0;
       left: 0; }
-    /* line 183, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 215, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .aroundme__ui--zoomin {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23FFFFFF' viewBox='0 0 13 13'%3E%3Cpath  d='M13 6l-1-1H8V1L7 0H6L5 1v4H1L0 6v1l1 1h4v4l1 1h1l1-1V8h4l1-1V6z'/%3E%3C/svg%3E"); }
-    /* line 184, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 216, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .aroundme__ui--zoomout {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF'  viewBox='0 0 13 3'%3E%3Cpath  d='M1 0h11l1 1v1l-1 1H1L0 2V1L1 0z'/%3E%3C/svg%3E"); }
-    /* line 185, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 217, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .aroundme__ui--locate {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 420.2 420.3'%3E%3Cpath d='M210 106.2c-57.4 0-103.9 46.5-103.9 104 0 57.4 46.5 103.9 103.9 103.9 57.4 0 103.9-46.5 103.9-103.9C314 152.7 267.5 106.2 210 106.2L210 106.2z'/%3E%3Cpath d='M380.8 191c-8.8-79.6-72-142.8-151.6-151.6V0h-38.2v39.4c-79.6 8.8-142.8 72-151.6 151.6H0v38.2h39.4c8.8 79.6 72 142.8 151.6 151.6v39.4h38.2v-39.4c79.6-8.8 142.8-72 151.6-151.6h39.3V191H380.8zM210 343.8c-73.9 0-133.7-59.8-133.7-133.7S136.1 76.4 210 76.4c73.9 0 133.7 59.8 133.7 133.7S284 343.8 210 343.8z'/%3E%3C/svg%3E"); }
-    /* line 186, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 218, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .aroundme__ui--home {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 41.1 39.8'%3E%3Cpath d='M40.6 19.4c0.7-0.8 0.7-2.1-0.2-2.8L22.1 0.5c-0.8-0.7-2.2-0.7-3 0L0.7 17.5c-0.8 0.7-0.9 2-0.1 2.8L1 20.8c0.8 0.8 2 0.9 2.8 0.2l1.4-1.2v18.1c0 1.1 0.9 2 2 2h7.2c1.1 0 2-0.9 2-2V25.2h9.2v12.6c0 1.1 0.8 2 1.9 2H35c1.1 0 2-0.9 2-2V20c0 0 0.4 0.3 0.9 0.7 0.5 0.4 1.5 0.1 2.2-0.7L40.6 19.4zM40.6 19.4'/%3E%3C/svg%3E"); }
-    /* line 188, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 220, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .aroundme__ui__group {
       position: absolute;
       top: 10px;
@@ -11824,42 +11909,42 @@ form + .seu-error-messages {
               justify-content: flex-end;
       height: calc(100% - 20px); }
       @media only screen and (max-width: 767px) {
-        /* line 188, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 220, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .aroundme__ui__group {
           height: calc(100% - 160px); } }
-      /* line 201, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 233, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .aroundme__ui__group .aroundme__ui {
         border-radius: 0; }
-        /* line 204, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 236, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .aroundme__ui__group .aroundme__ui:first-child {
           border-radius: 5px; }
-        /* line 207, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 239, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .aroundme__ui__group .aroundme__ui:nth-child(2) {
           top: 45px;
           border-radius: 5px;
           position: absolute; }
-        /* line 212, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 244, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .aroundme__ui__group .aroundme__ui:nth-child(3) {
           border-top-right-radius: 5px;
           border-top-left-radius: 5px; }
-        /* line 216, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 248, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .aroundme__ui__group .aroundme__ui:last-child {
           border-bottom-right-radius: 5px;
           border-bottom-left-radius: 5px; }
-  /* line 226, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 258, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .liste {
     min-height: 100%;
     padding: 10px;
     padding-top: 30px; }
-  /* line 236, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 268, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .filtres {
     min-height: 100%;
     padding: 30px; }
     @media only screen and (max-width: 767px) {
-      /* line 236, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 268, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres {
         padding: 20px; } }
-    /* line 246, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 278, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__title {
       font-family: "MontSerrat", arial;
       font-weight: 700;
@@ -11867,15 +11952,32 @@ form + .seu-error-messages {
       text-transform: uppercase;
       color: #FFFFFF;
       margin-bottom: 25px; }
-      /* line 254, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 286, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres__title .filler {
         -webkit-box-flex: 1;
             -ms-flex: 1;
                 flex: 1; }
-    /* line 259, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 291, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__list .grid-item {
-      margin-bottom: 15px; }
-    /* line 265, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      padding-bottom: 15px;
+      min-height: 32px;
+      margin: auto; }
+    /* line 298, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    #aroundme .filtres__item .add-favorites {
+      border-top: solid 1px #dddddd;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center; }
+    /* line 303, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    #aroundme .filtres__item .types {
+      font-family: "OpenSans", arial;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #505050;
+      background-color: #FFFFFF;
+      padding: 0px 10px 10px 10px;
+      text-align: left; }
+    /* line 313, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__item__visuel {
       padding-bottom: 70%;
       background-size: cover;
@@ -11883,27 +11985,27 @@ form + .seu-error-messages {
       background-repeat: no-repeat;
       display: block;
       margin-bottom: 10px; }
-    /* line 274, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 322, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__item a {
       padding-top: 2px;
       display: block;
       position: relative;
       font-family: "MontSerrat", arial;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       line-height: 1.2em;
-      font-weight: 400;
+      font-weight: 700;
       cursor: pointer;
       letter-spacing: 1px;
-      color: #707070;
+      color: #505050;
       font-weight: 700;
       background-color: #FFFFFF;
       padding: 10px 10px;
       width: 100%; }
-    /* line 291, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 339, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__item [type="checkbox"] {
       position: absolute;
       left: -99999999px; }
-      /* line 295, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 343, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres__item [type="checkbox"] + label {
         padding-top: 2px;
         padding-left: 25px;
@@ -11915,7 +12017,7 @@ form + .seu-error-messages {
         font-weight: 400;
         cursor: pointer;
         letter-spacing: 1px; }
-        /* line 307, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 355, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres__item [type="checkbox"] + label:before {
           display: inline-block;
           content: '';
@@ -11928,7 +12030,7 @@ form + .seu-error-messages {
           -webkit-transform: translateY(-50%);
                   transform: translateY(-50%);
           border-radius: 5px; }
-        /* line 318, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 366, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres__item [type="checkbox"] + label:after {
           display: inline-block;
           content: '';
@@ -11941,10 +12043,10 @@ form + .seu-error-messages {
                   transform: translateY(-50%);
           opacity: 0;
           border-radius: 3px; }
-      /* line 332, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 380, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres__item [type="checkbox"]:checked + label:after {
         opacity: 1; }
-    /* line 339, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 387, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__actions {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -11957,10 +12059,10 @@ form + .seu-error-messages {
               justify-content: flex-end;
       margin-top: 10px; }
       @media only screen and (max-width: 767px) {
-        /* line 339, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 387, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres__actions {
           display: block; } }
-    /* line 349, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 397, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__btn .flexbox {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -11968,13 +12070,13 @@ form + .seu-error-messages {
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center; }
-    /* line 353, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 401, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__btn .btn-text {
       font-size: 1.4rem;
       color: #b3b3b3;
       text-transform: uppercase;
       font-family: "MontSerrat", arial; }
-    /* line 359, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 407, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__btn .btn-arrow {
       content: '';
       display: inline-block;
@@ -11987,30 +12089,30 @@ form + .seu-error-messages {
       background-repeat: no-repeat;
       margin-right: 7px; }
     @media only screen and (max-width: 767px) {
-      /* line 348, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 396, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres__btn {
         width: 100%; } }
-    /* line 373, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 421, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__btn + .filtres__btn {
       margin-left: 30px; }
       @media only screen and (max-width: 767px) {
-        /* line 373, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 421, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres__btn + .filtres__btn {
           margin-left: 0;
           margin-top: 20px; } }
-    /* line 381, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 429, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__btn--reset .btn-arrow {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23b3b3b3' viewBox='0 0 392.3 392.6'%3E%3Cpath d='M196.1 392.5c108.2 0 196.2-88 196.2-196.2S304.3 0.1 196.1 0.1 -0.1 88.1-0.1 196.3 87.9 392.5 196.1 392.5L196.1 392.5zM196.1 19.7c97.4 0 176.6 79.2 176.6 176.6 0 97.4-79.2 176.6-176.6 176.6 -97.4 0-176.6-79.2-176.6-176.6C19.6 98.9 98.7 19.7 196.1 19.7L196.1 19.7zM196.1 19.7'/%3E%3Cpath d='M144.2 248.2c1.9 1.9 4.4 2.9 7 2.9 2.6 0 5-1 7-2.9l38.1-38.1 38.1 38.1c1.9 1.9 4.4 2.9 7 2.9 2.6 0 5-1 7-2.9 3.8-3.8 3.8-10 0-13.8l-38.2-38.1 38.1-38.1c3.8-3.8 3.8-10 0-13.8 -3.8-3.8-10-3.8-13.8 0l-38.1 38.1L158 144.4c-3.8-3.8-10-3.8-13.8 0 -3.8 3.8-3.8 10 0 13.8l38.1 38.1 -38.1 38.1C140.3 238.2 140.3 244.4 144.2 248.2L144.2 248.2zM144.2 248.2'/%3E%3C/svg%3E"); }
-    /* line 386, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 434, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__btn--save .btn-text {
       color: #46cfc0; }
-    /* line 389, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 437, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres__btn--save .btn-arrow {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' viewBox='0 0 392.3 392.4'%3E%3Cpath d='M196.2 392.3c108.2 0 196.2-88 196.2-196.2S304.3 0 196.2 0 0 88 0 196.2 88 392.3 196.2 392.3L196.2 392.3zM196.2 19.6c97.4 0 176.6 79.2 176.6 176.6 0 97.4-79.2 176.6-176.6 176.6 -97.4 0-176.6-79.2-176.6-176.6C19.6 98.8 98.8 19.6 196.2 19.6L196.2 19.6zM196.2 19.6'/%3E%3Cpath d='M251.3 146.3l-78.6 78.6L141 193.1c-3.9-3.9-10.2-3.9-14.1 0 -3.9 3.9-3.9 10.2 0 14.1l38.8 38.8c1.9 1.9 4.5 2.9 7.1 2.9 2.6 0 5.1-1 7.1-2.9 0 0 0 0 0 0l85.6-85.6c3.9-3.9 3.9-10.2 0-14.1C261.6 142.4 255.2 142.4 251.3 146.3L251.3 146.3zM251.3 146.3'/%3E%3C/svg%3E"); }
-    /* line 398, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 446, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres--category {
       background-color: #31455d; }
-      /* line 404, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 452, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres--category .filtres__title .icon {
         content: '';
         width: 20px;
@@ -12024,7 +12126,7 @@ form + .seu-error-messages {
         display: none;
         margin-right: 5px; }
       @media only screen and (max-width: 767px) {
-        /* line 402, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 450, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__title {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -12032,11 +12134,11 @@ form + .seu-error-messages {
           -webkit-box-align: center;
               -ms-flex-align: center;
                   align-items: center; }
-          /* line 419, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 467, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--category .filtres__title .icon {
             display: block; } }
       @media only screen and (min-width: 1280px) {
-        /* line 424, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 472, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__list {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -12045,21 +12147,21 @@ form + .seu-error-messages {
               flex-wrap: wrap; }
           /* line 15, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
           #aroundme .filtres--category .filtres__list .grid-item {
-            width: calc(33.3% - ( ((3px - 1px) * 20) / 3)); }
+            width: calc(33.3% - ( ((3px - 1px) * 30) / 3)); }
             /* line 36, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
             #aroundme .filtres--category .filtres__list .grid-item:nth-child(3n+1) {
-              margin-right: 13.33333px;
+              margin-right: 20px;
               margin-left: 0; }
             /* line 41, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
             #aroundme .filtres--category .filtres__list .grid-item:nth-child(3n+2) {
-              margin-left: 6.66667px;
-              margin-right: 6.66667px; }
+              margin-left: 10px;
+              margin-right: 10px; }
             /* line 46, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
             #aroundme .filtres--category .filtres__list .grid-item:nth-child(3n) {
-              margin-left: 13.33333px;
+              margin-left: 20px;
               margin-right: 0; } }
       @media only screen and (min-width: 767px) and (max-width: 1279px) {
-        /* line 424, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 472, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__list {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -12068,21 +12170,21 @@ form + .seu-error-messages {
               flex-wrap: wrap; }
           /* line 15, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
           #aroundme .filtres--category .filtres__list .grid-item {
-            width: calc(33.3% - ( ((3px - 1px) * 20) / 3)); }
+            width: calc(33.3% - ( ((3px - 1px) * 30) / 3)); }
             /* line 36, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
             #aroundme .filtres--category .filtres__list .grid-item:nth-child(3n+1) {
-              margin-right: 13.33333px;
+              margin-right: 20px;
               margin-left: 0; }
             /* line 41, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
             #aroundme .filtres--category .filtres__list .grid-item:nth-child(3n+2) {
-              margin-left: 6.66667px;
-              margin-right: 6.66667px; }
+              margin-left: 10px;
+              margin-right: 10px; }
             /* line 46, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
             #aroundme .filtres--category .filtres__list .grid-item:nth-child(3n) {
-              margin-left: 13.33333px;
+              margin-left: 20px;
               margin-right: 0; } }
       @media only screen and (max-width: 767px) {
-        /* line 424, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 472, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__list {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -12094,41 +12196,41 @@ form + .seu-error-messages {
             width: calc(100% - ( ((1px - 1px) * 0) / 1));
             margin-left: 0 !important;
             margin-right: 0 !important; } }
-      /* line 436, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 484, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres--category .filtres__item [type="checkbox"] {
         position: absolute;
         left: -99999999px; }
-        /* line 440, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 488, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__item [type="checkbox"] + label {
           color: #FFFFFF; }
-          /* line 442, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 490, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--category .filtres__item [type="checkbox"] + label:before {
             border: solid 1px #FFFFFF; }
-          /* line 445, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 493, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--category .filtres__item [type="checkbox"] + label:after {
             background-color: #46cfc0; }
-        /* line 450, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 498, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__item [type="checkbox"]:checked + label {
           color: #46cfc0; }
-          /* line 452, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 500, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--category .filtres__item [type="checkbox"]:checked + label:before {
             border-color: #46cfc0; }
-          /* line 455, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 503, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--category .filtres__item [type="checkbox"]:checked + label:after {
             opacity: 1; }
-      /* line 463, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 511, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres--category .filtres__item--favorite [type="checkbox"] + label {
         color: #fbb52d !important; }
-        /* line 465, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 513, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__item--favorite [type="checkbox"] + label:before {
           border-color: #fbb52d !important; }
-        /* line 468, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 516, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--category .filtres__item--favorite [type="checkbox"] + label:after {
           background-color: #fbb52d !important; }
-    /* line 480, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 528, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .filtres--poi {
       background-color: #f5f5f5; }
-      /* line 483, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 531, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres--poi .filtres__title {
         color: #31455d;
         display: -webkit-box;
@@ -12138,10 +12240,10 @@ form + .seu-error-messages {
             -ms-flex-align: center;
                 align-items: center; }
         @media only screen and (min-width: 1280px) {
-          /* line 483, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 531, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--poi .filtres__title {
             display: none; } }
-        /* line 490, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 538, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--poi .filtres__title .icon {
           content: '';
           display: inline-block;
@@ -12154,39 +12256,39 @@ form + .seu-error-messages {
           background-repeat: no-repeat;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 21.4 26.8'%3E%3Cpath d='M10.7 0C4.8 0 0.1 4.8 0.1 10.7c0 8.9 10.7 16.1 10.7 16.1S21.4 19 21.4 10.7C21.4 4.8 16.6 0 10.7 0zM10.9 16.2c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5S13.7 16.2 10.9 16.2z'/%3E%3C/svg%3E");
           margin-right: 5px; }
-      /* line 504, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 552, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .filtres--poi .filtres__item [type="checkbox"] {
         position: absolute;
         left: -99999999px; }
-        /* line 508, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 556, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--poi .filtres__item [type="checkbox"] + label {
           color: #707070;
           font-weight: 700;
           background-color: #FFFFFF;
           padding: 20px 10px 20px 35px;
           width: 100%; }
-          /* line 514, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 562, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--poi .filtres__item [type="checkbox"] + label:before {
             border: solid 1px #31455d;
             left: 10px; }
-          /* line 518, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 566, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--poi .filtres__item [type="checkbox"] + label:after {
             left: 13px;
             background-color: #31455d; }
-        /* line 524, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 572, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .filtres--poi .filtres__item [type="checkbox"]:checked + label {
           color: #707070;
           box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15); }
-          /* line 527, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 575, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--poi .filtres__item [type="checkbox"]:checked + label:before {
             border-color: #31455d; }
-          /* line 530, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          /* line 578, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
           #aroundme .filtres--poi .filtres__item [type="checkbox"]:checked + label:after {
             opacity: 1; }
-  /* line 547, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 595, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .aroundme__marker {
     cursor: pointer; }
-    /* line 549, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 597, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .aroundme__marker-amount {
       border-radius: 50%;
       display: -webkit-box;
@@ -12201,8 +12303,8 @@ form + .seu-error-messages {
       font-weight: 700;
       color: #FFFFFF;
       font-size: 0.8em;
-      height: 20px;
-      width: 20px;
+      height: 22px;
+      width: 22px;
       -ms-flex-negative: 0;
           flex-shrink: 0;
       position: absolute;
@@ -12210,38 +12312,48 @@ form + .seu-error-messages {
       right: 0;
       -webkit-transform: translate(50%, -50%);
               transform: translate(50%, -50%);
+      font-size: 11px;
+      text-align: center;
+      line-height: 8px;
       /*
             &.white{
                 background-color: $crowded-white;
             }
             */ }
-      /* line 565, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 616, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .aroundme__marker-amount.red {
         background-color: #FF0F0F; }
-      /* line 568, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 619, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .aroundme__marker-amount.orange {
         background-color: #ff470f; }
-      /* line 571, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 622, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .aroundme__marker-amount.green {
         background-color: #40a040; }
-      /* line 574, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 625, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      #aroundme .aroundme__marker-amount.black {
+        background-color: #000000; }
+      /* line 628, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .aroundme__marker-amount.grey, #aroundme .aroundme__marker-amount.white {
         background-color: #9E9E9E; }
-  /* line 587, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 641, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .leaflet-popup-content-wrapper {
     border-radius: 0;
     padding: 0; }
-  /* line 591, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 645, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .leaflet-popup-content {
     margin: 0; }
-  /* line 594, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    @media only screen and (max-width: 767px) {
+      /* line 645, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      #aroundme .leaflet-popup-content {
+        width: 272px !important; } }
+  /* line 651, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .leaflet-popup-tip {
     background: #31455d; }
-  /* line 597, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 654, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .leaflet-div-icon {
     background: none;
     border: none; }
-  /* line 601, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 658, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .infowindow {
     width: 300px;
     background-color: #FFFFFF;
@@ -12249,7 +12361,7 @@ form + .seu-error-messages {
     z-index: 100;
     box-shadow: 0 0 10px 0 rgba(32, 49, 70, 0.15);
     z-index: 20; }
-    /* line 608, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 665, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow:before {
       width: 0;
       height: 0;
@@ -12264,7 +12376,7 @@ form + .seu-error-messages {
       -webkit-transform: translate(-50%, -100%);
               transform: translate(-50%, -100%); }
     @media only screen and (max-width: 767px) {
-      /* line 601, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 658, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow {
         position: absolute;
         top: 50% !important;
@@ -12273,10 +12385,10 @@ form + .seu-error-messages {
         max-height: calc(100% - 20px);
         -webkit-transform: translate(-50%, -50%) !important;
                 transform: translate(-50%, -50%) !important; }
-        /* line 630, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 687, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .infowindow:before {
           display: none; } }
-    /* line 634, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 691, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__close {
       content: '';
       display: inline-block;
@@ -12291,19 +12403,23 @@ form + .seu-error-messages {
       position: absolute;
       top: 5px;
       right: 5px; }
-    /* line 648, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 705, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__content {
       padding: 30px;
       padding-bottom: 0px; }
-    /* line 652, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      @media only screen and (max-width: 767px) {
+        /* line 705, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+        #aroundme .infowindow__content {
+          padding: 20px; } }
+    /* line 712, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__top {
       padding-bottom: 10px; }
-    /* line 655, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 715, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__title-block {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex; }
-    /* line 658, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 718, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__name {
       font-family: "MontSerrat", arial;
       font-size: 1.4rem;
@@ -12313,7 +12429,7 @@ form + .seu-error-messages {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 667, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 727, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__like a {
       content: '';
       display: inline-block;
@@ -12325,52 +12441,52 @@ form + .seu-error-messages {
       background-position: center;
       background-repeat: no-repeat;
       margin-left: 10px; }
-      /* line 677, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 737, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__like a:not(.liked) {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'   viewBox='0 0 240.7 240.7'%3E%3Cpath d='M123.8 80l-3.4 3.4 -3.4-3.4c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47 14.3-15.9 14.2-38.7-0.2-53.1C162.4 65.3 138.5 65.3 123.8 80zM168.4 125c-10.1 11.3-38 34.5-48 42.8 -10-8.2-37.9-31.5-48-42.8 -10-11.1-10-26.8-0.2-36.6 5-5 11.6-7.5 18.2-7.5 6.6 0 13.2 2.5 18.2 7.5l7.5 7.5c0.9 0.9 2 1.4 3.2 1.6 1.9 0.4 4-0.1 5.5-1.6l7.5-7.5c10-10 26.4-10 36.4 0C178.4 98.2 178.3 114 168.4 125z'/%3E%3Cpath d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9S60.3 229.2 120.4 229.2s108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3C/svg%3E"); }
-      /* line 680, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 740, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__like a.liked {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 240.7 240.7'%3E%3Cpath class='st0' d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9s48.8 108.9 108.9 108.9 108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3Cpath class='st0' d='M177 80c-14.7-14.7-38.6-14.7-53.3 0l-3.4 3.4L117 80c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47C191.5 117.2 191.4 94.3 177 80z'/%3E%3C/svg%3E"); }
-    /* line 686, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 746, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__address {
       font-family: "OpenSans", arial;
       font-weight: 500;
       color: #707070;
       font-size: 1.4rem; }
-    /* line 692, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 752, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__middle {
       border-top: solid 1px #dddddd;
-      border-bottom: solid 1px #dddddd;
       padding-top: 10px;
       padding-bottom: 10px;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex; }
-    /* line 699, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 758, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__bottom {
+      border-top: solid 1px #dddddd;
       padding-top: 20px;
       padding-bottom: 10px;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex; }
-    /* line 704, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 764, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__left {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 707, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 767, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__opened {
       font-family: "OpenSans", arial;
       font-weight: 500;
       color: #707070;
       font-size: 1.4rem; }
-    /* line 713, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 773, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__schedules {
       font-weight: 700;
       font-family: "MontSerrat", arial;
       color: #2da192;
       font-size: 1.4rem; }
-    /* line 719, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 779, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__visualImage {
       padding-bottom: 70%;
       background-size: cover;
@@ -12379,13 +12495,13 @@ form + .seu-error-messages {
       display: block;
       width: calc(100% + 60px);
       margin: -30px -30px 20px -30px; }
-    /* line 728, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 788, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__right {
       border-left: solid 1px #dddddd;
       width: calc(50% + 5px);
       text-align: center;
       padding: 0px 5px; }
-    /* line 735, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 795, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__amount .infowindow__frequentation {
       border-radius: 50%;
       display: -webkit-box;
@@ -12405,61 +12521,65 @@ form + .seu-error-messages {
       -ms-flex-negative: 0;
           flex-shrink: 0;
       margin: 5px auto;
+      line-height: 16px;
       /*
                 &.white{
                     background-color: $crowded-white;
                 }
                 */ }
-      /* line 748, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 809, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__amount .infowindow__frequentation.orange {
         background-color: #ff470f; }
-      /* line 751, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 812, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__amount .infowindow__frequentation.green {
         background-color: #40a040; }
-      /* line 754, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 815, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__amount .infowindow__frequentation.grey, #aroundme .infowindow__amount .infowindow__frequentation.white {
         background-color: #9E9E9E; }
-      /* line 762, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 823, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__amount .infowindow__frequentation.red {
         background-color: #FF0F0F; }
-    /* line 766, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 826, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+      #aroundme .infowindow__amount .infowindow__frequentation.black {
+        background-color: #000000; }
+    /* line 830, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__amount .crowded-label {
       color: #31455d;
       font-size: 1.3rem;
       font-family: "OpenSans", arial; }
-    /* line 773, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 837, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__url a {
       width: 100%;
       display: block !important;
       padding: 10px 20px; }
-  /* line 786, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 850, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.top-opened #aroundme__top {
     -webkit-transform: translateY(0);
             transform: translateY(0); }
   @media only screen and (max-width: 767px) {
-    /* line 791, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 855, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.top-opened #aroundme__top {
       -webkit-transform: translateY(0);
               transform: translateY(0); }
-    /* line 794, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 858, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.top-opened #aroundme__side {
       -webkit-transform: translateX(100%);
               transform: translateX(100%); } }
-  /* line 802, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 866, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.side-opened #aroundme__side {
     -webkit-transform: translateX(0);
             transform: translateX(0); }
-  /* line 807, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 871, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.side-opened .side__trigger--pull:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%); }
   @media only screen and (max-width: 767px) {
-    /* line 815, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 879, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.side-opened #aroundme__top {
       -webkit-transform: translateY(-100%) translateY(-50px);
               transform: translateY(-100%) translateY(-50px); } }
-  /* line 823, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 887, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.infowindow-opened #aroundme__center:before {
     content: '';
     position: absolute;
@@ -12470,11 +12590,11 @@ form + .seu-error-messages {
     z-index: 20;
     background-color: rgba(0, 0, 0, 0.7); }
   @media only screen and (max-width: 767px) {
-    /* line 836, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 900, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.infowindow-opened #aroundme__top {
       -webkit-transform: translateY(-100%) translateY(-50px);
               transform: translateY(-100%) translateY(-50px); } }
-  /* line 840, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 904, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.infowindow-opened .infowindow {
     display: block; }
 
@@ -12493,10 +12613,10 @@ form + .seu-error-messages {
   100% {
     -webkit-transform: translate(-50%, -50%) rotate(360deg);
     transform: translate(-50%, -50%) rotate(360deg); } }
-  /* line 865, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 929, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling {
     position: relative; }
-  /* line 868, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 932, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling div,
   #aroundme .lds-rolling div:after {
     position: absolute;
@@ -12505,17 +12625,17 @@ form + .seu-error-messages {
     border: 10px solid #ffffff;
     border-top-color: transparent;
     border-radius: 50%; }
-  /* line 877, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 941, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling div {
     -webkit-animation: lds-rolling 1s linear infinite;
     animation: lds-rolling 1s linear infinite;
     top: 100px;
     left: 100px; }
-  /* line 883, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 947, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling div:after {
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg); }
-  /* line 887, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 951, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling {
     width: 40px !important;
     height: 40px !important;
@@ -12523,11 +12643,11 @@ form + .seu-error-messages {
     transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px); }
 
 /* ------------------------------ Etat full screen */
-/* line 902, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+/* line 966, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
 .aroundme--fullscreen header {
   display: none !important; }
 
-/* line 905, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+/* line 969, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
 .aroundme--fullscreen #aroundme {
   position: fixed;
   top: 0;
@@ -12540,8 +12660,9 @@ form + .seu-error-messages {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
-          flex-direction: column; }
-  /* line 913, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+          flex-direction: column;
+  z-index: 200; }
+  /* line 978, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme:before {
     content: '';
     position: fixed;
@@ -12551,17 +12672,17 @@ form + .seu-error-messages {
     height: 100%;
     z-index: 10;
     background-color: rgba(33, 33, 33, 0.8); }
-  /* line 923, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 988, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme #aroundme__center {
     height: 100%;
     z-index: 15; }
-  /* line 930, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 995, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme #aroundme__top {
     display: none !important; }
-  /* line 933, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 998, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme .aroundme__map {
     height: 100%; }
-  /* line 936, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 1001, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme .aroundme__ui--fullscreen {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 351.5 351.4'%3E%3Cpath class='st0' d='M214.2 143h94.7c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-38.2l78.7-78.7c2.4-2.4 2.4-6.3 0-8.6L332.1 1.8c-2.4-2.4-6.3-2.4-8.6 0l-78.7 78.7V42.3c0-3.4-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.8-6.1 6.1V137C208.1 140.2 210.9 143 214.2 143z'/%3E%3Cpath class='st0' d='M19 2L1.7 19.3c-2.4 2.3-2.4 6.2 0 8.6l78.7 78.7H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.7 6.1 6.1 6.1h94.7c3.3 0 6.1-2.7 6.1-6.1V42.4c0-3.3-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.7-6.1 6.1v38.2L27.7 1.9C25.3-0.5 21.5-0.5 19 2z'/%3E%3Cpath class='st0' d='M1.7 332.3L19 349.6c2.4 2.4 6.3 2.4 8.6 0l78.7-78.7v38.2c0 3.4 2.7 6.1 6.1 6.1h24.5c3.4 0 6.1-2.8 6.1-6.1v-94.7c0-3.4-2.8-6.1-6.1-6.1l0 0H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.8 6.1 6.1 6.1h38.2L1.7 323.6C-0.7 326.1-0.7 329.9 1.7 332.3z'/%3E%3Cpath class='st0' d='M214.5 315.1h24.4c3.4 0 6.1-2.7 6.1-6.1v-38.2l78.7 78.7c2.4 2.4 6.3 2.4 8.6 0l17.3-17.3c2.4-2.4 2.4-6.3 0-8.6l-78.7-78.7h38.2c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-94.7l0 0c-3.4 0-6.1 2.8-6.1 6.1v94.7C208.4 312.4 211.2 315.1 214.5 315.1z'/%3E%3C/svg%3E"); }
 

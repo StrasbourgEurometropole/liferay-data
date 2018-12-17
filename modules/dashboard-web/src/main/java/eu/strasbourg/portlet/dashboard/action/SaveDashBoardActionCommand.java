@@ -47,7 +47,7 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
     private static final String USERNAME = "username";
     private static final String FIRSTNAME = "firstname";
     private static final String PATTERN = "dd/MM/yyyy";
-    private static final String ENTROUVERT_PATTERN = "yyy-MM-dd";
+    private static final String ENTROUVERT_PATTERN = "yyyy-MM-dd";
 
     private PublikUser user;
     private Date birthday;

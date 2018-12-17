@@ -70,6 +70,10 @@ public interface StrasbourgService extends BaseService {
 		java.lang.String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getFavoritesPois(long groupId,
+		java.lang.String typeContenu, java.lang.String localeId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFileDetails(long groupId, java.lang.String uuid,
 		java.lang.String language);
 
@@ -79,7 +83,16 @@ public interface StrasbourgService extends BaseService {
 		java.lang.String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getPois(java.lang.String interests,
+		java.lang.String categories, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu, java.lang.String localeId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPois(java.lang.String interests, long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getPois(java.lang.String interests, long groupId,
+		java.lang.String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTraffic();
