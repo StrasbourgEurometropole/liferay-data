@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -90,6 +91,14 @@ public interface InitiativeHelpLocalService extends BaseLocalService,
 	public InitiativeHelp addInitiativeHelp(InitiativeHelp initiativeHelp);
 
 	/**
+	* Methode de creation d'une initiative
+	*
+	* @param sc Le contexte de la requete.
+	* @return L'aide cree.
+	*/
+	public InitiativeHelp createInitiativeHelp(ServiceContext sc);
+
+	/**
 	* Creates a new initiative help with the primary key. Does not add the initiative help to the database.
 	*
 	* @param initiativeHelpId the primary key for the new initiative help
@@ -132,6 +141,13 @@ public interface InitiativeHelpLocalService extends BaseLocalService,
 		java.lang.String uuid, long groupId);
 
 	/**
+	* Retourne l'aide proposee par un utilisateur pour une initiative donnee
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public InitiativeHelp getByPublikUserIdAndInitiativeId(
+		java.lang.String publikUserId, long initiativeId);
+
+	/**
 	* Returns the initiative help with the primary key.
 	*
 	* @param initiativeHelpId the primary key of the initiative help
@@ -153,6 +169,13 @@ public interface InitiativeHelpLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public InitiativeHelp getInitiativeHelpByUuidAndGroupId(
 		java.lang.String uuid, long groupId) throws PortalException;
+
+	/**
+	* Supprimer un soutien donne
+	*
+	* @param initiativeHelpId Id de l'aide inititative
+	*/
+	public InitiativeHelp removeInitiativeHelp(long initiativeHelpId);
 
 	/**
 	* Updates the initiative help in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

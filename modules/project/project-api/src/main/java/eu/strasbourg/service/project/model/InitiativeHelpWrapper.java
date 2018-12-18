@@ -146,6 +146,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		return _initiativeHelp.toCacheModel();
 	}
 
+	/**
+	* Retourne l'utilisateur Publik depositaire
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
+		return _initiativeHelp.getAuthor();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.InitiativeHelp toEscapedModel() {
 		return new InitiativeHelpWrapper(_initiativeHelp.toEscapedModel());
@@ -178,6 +188,24 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	@Override
+	public java.lang.String getAuthorLabel() {
+		return _initiativeHelp.getAuthorLabel();
+	}
+
+	/**
+	* Retourne le message d'accompagnement sans les balises et autres fioritures
+	*
+	* @return
+	*/
+	@Override
+	public java.lang.String getFormatedMessage() {
+		return _initiativeHelp.getFormatedMessage();
+	}
+
+	/**
 	* Returns the help types of this initiative help.
 	*
 	* @return the help types of this initiative help
@@ -205,6 +233,14 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public java.lang.String getPublikUserId() {
 		return _initiativeHelp.getPublikUserId();
+	}
+
+	/**
+	* Retourne le label des types d'aide
+	*/
+	@Override
+	public java.lang.String getTypesLabel() {
+		return _initiativeHelp.getTypesLabel();
 	}
 
 	/**
