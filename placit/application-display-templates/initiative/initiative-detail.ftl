@@ -299,25 +299,6 @@
 			
 		</div>
 	</section>
-
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="contactInitiativeAuthor"
-		/>
-		
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="giveInitiativeHelp"
-		/>
-		
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="submitInitiative"
-		/>
-	
 </div>
 
 <script>
