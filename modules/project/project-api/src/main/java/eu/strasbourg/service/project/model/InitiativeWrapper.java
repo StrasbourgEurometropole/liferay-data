@@ -592,6 +592,11 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		return _initiative.getProjectName();
 	}
 
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _initiative.getPublicationDateFr();
+	}
+
 	/**
 	* Returns the publik ID of this initiative.
 	*

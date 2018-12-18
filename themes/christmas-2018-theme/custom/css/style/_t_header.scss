@@ -48,7 +48,8 @@
 				font-weight: 400;
 				padding: 13px 15px;
 				border-left: 1px solid #7C7C7C;
-				display: inline-block;
+				display: inline-flex;
+				align-items: center;
 				@include ft($f_arial, 12px, 400, $c_white, normal);
 				@include an(all, 0.3);
 				&:hover, &.active {
@@ -60,12 +61,14 @@
 
 				&.mns-w-fixe-1 {
 					width: 130px;
-					display: inline-block;
+					display: inline-flex;
+					align-items: center;
 					text-align: center;
 				}
 				&.mns-w-fixe-2 {
 					width: 110px;
-					display: inline-block;
+					display: inline-flex;
+					align-items: center;
 					text-align: center;
 				}
 			}

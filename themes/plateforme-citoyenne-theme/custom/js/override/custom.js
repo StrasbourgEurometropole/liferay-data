@@ -514,13 +514,13 @@ function getPetitionMarker(petition, mercators) {
         '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
             '<div class="pro-header-petition">' +
                 '<figure role="group">' +
-                    (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+                    '<img src="' + petition.authorImageURL + '" width="40" height="40" alt="Image petition"/>' +
                 '</figure>' +
                 '<p>Pétition publiée par :</p><p><strong>' + petition.author + '</strong></p>' +
             '</div>' +
             '<div class="pro-content-petition">' +
                 '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + 
+                '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate +
                 '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
             '</div> ' +
             '<div class="pro-footer-petition">' +
@@ -1025,7 +1025,7 @@ function createPetition(petition){
     '<div class="item pro-bloc-card-petition vignette" data-linkall="a">' +
         '<div class="pro-header-petition">' +
             '<figure role="group">' +
-                (petition.imageURL != "" ? '<img src="' + petition.imageURL + '" width="40" height="40" alt="Image petition"/>' : '') +
+                '<img src="' + petition.authorImageURL + '" width="40" height="40" alt="Image petition"/>' +
             '</figure>' +
             '<p>Pétition publiée par :</p>' +
             '<p><strong>' + petition.author + ' adressé à : Ville de Strasbourg</strong></p>' +

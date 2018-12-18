@@ -16,6 +16,7 @@ package eu.strasbourg.service.project.model.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -235,14 +236,6 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
-	 * Retourne l'utilisateur Publik depositaire
-	 * @return
-	 */
-	public PublikUser getAuthor() {
-		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
-	}
-	
-	/**
      * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
      */
     @Override
@@ -257,13 +250,27 @@ public class InitiativeImpl extends InitiativeBaseImpl {
     	}
     	
     }
+   
     
     /**
+	 * Retourne l'utilisateur Publik depositaire
+	 * @return
+	 */
+	public PublikUser getAuthor() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+	}
+    
+    
+	/**
      * Retourne l'URL de l'image de l'utilisateur
      */
     @Override
     public String getAuthorImageURL() {
-        return "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png";
+        PublikUser author =  this.getAuthor();
+        if (author != null) {
+        	return author.getImageURLOrSurrogate();
+        }
+        return "";
     }
     
 	/**
@@ -409,6 +416,12 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 		return CommentLocalServiceUtil
 				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
 	}
+	
+	public String getPublicationDateFr(){
+        Date date = this.getAssetEntry().getPublishDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
 	
 	/**
 	 * Retourne la version JSON de l'entité

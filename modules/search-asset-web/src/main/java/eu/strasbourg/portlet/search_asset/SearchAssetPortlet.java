@@ -48,6 +48,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
         "com.liferay.portlet.display-category=Strasbourg",
@@ -166,18 +167,14 @@ public class SearchAssetPortlet extends MVCPortlet {
             } 
 
             //Suppression des attributs de session
-            /*HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
+            HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
             HttpSession session = request.getSession();
-            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");
-            session.removeAttribute("PORTLET_RENDER_PARAMETERS_");
-            session.removeAttribute("LIFERAY_SHARED_VISITED_GROUP_ID_RECENT");
-            session.removeAttribute("LAST_PATH");
-            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN#CSRF");
-            session.removeAttribute("DEVICE");
-            session.removeAttribute("PREVIOUS_LAYOUT_PLID");
-            session.removeAttribute("PORTAL_PREFERENCES");
-            session.removeAttribute("HTTPS_INITIAL");
-            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");*/
+            ConcurrentHashMap portlet_render_parameters_ = ((ConcurrentHashMap) session.getAttribute("PORTLET_RENDER_PARAMETERS_"));
+            portlet_render_parameters_.forEach((key,attribute)->{
+                ConcurrentHashMap attributes = (ConcurrentHashMap) attribute;
+                ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+                attributes.remove(td.getPpid());
+            });
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);

@@ -207,7 +207,7 @@ public class MapPortlet extends MVCPortlet {
                 categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1).stream()
                         .filter(c -> categoriesIds.contains(c.getCategoryId())
                                 || categoriesDefaultsIds.contains(c.getCategoryId()))
-                        .sorted(Comparator.comparing(c2 -> c2.getTitle(Locale.FRANCE))).collect(Collectors.toList());
+                        .sorted(Comparator.comparing(c2 -> c2.getTitle(themeDisplay.getLocale()))).collect(Collectors.toList());
 
                 // On supprime les catégories du préfiltre qui sont également
                 // dans les filtres
@@ -231,7 +231,7 @@ public class MapPortlet extends MVCPortlet {
                 // statut publié
                 interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
                         .filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId()))
-                        .sorted(Comparator.comparing(i2 -> i2.getType().getTitle(Locale.FRANCE)))
+                        .sorted(Comparator.comparing(i2 -> i2.getType().getTitle(themeDisplay.getLocale())))
                         .collect(Collectors.toList());
 
                 // Si on ne veut que les POIs d'un quartier, on supprime le
@@ -277,7 +277,7 @@ public class MapPortlet extends MVCPortlet {
                         AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
                                 .fetchAssetVocabulary(oldVocabulary);
                         if (vocabulary != null) {
-                            vocabularyDescription = vocabulary.getDescription(Locale.FRANCE);
+                            vocabularyDescription = vocabulary.getDescription(themeDisplay.getLocale());
                         }
                         vocabularyGroup.put(vocabularyDescription, categoriesVocabulary);
                     }
@@ -290,7 +290,7 @@ public class MapPortlet extends MVCPortlet {
                 String vocabularyName = "";
                 AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(oldVocabulary);
                 if (vocabulary != null) {
-                    vocabularyName = vocabulary.getDescription(Locale.FRANCE);
+                    vocabularyName = vocabulary.getDescription(themeDisplay.getLocale());
                 }
                 vocabularyGroup.put(vocabularyName, categoriesVocabulary);
             }

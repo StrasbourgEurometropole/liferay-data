@@ -146,7 +146,7 @@
 		<field name="initiativeId" type="long" />
 		<field name="helpTypes" type="String" />
 		<field name="groupId" type="long" />
-		<field name="message" type="String" >
+		<field name="message" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 	</model>

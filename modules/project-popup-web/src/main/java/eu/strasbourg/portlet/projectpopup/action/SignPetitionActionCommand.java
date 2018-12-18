@@ -107,8 +107,8 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         // Sauvegarde des infos utilisateur
         String saveInfo = ParamUtil.getString(request, "saveinfo");
         if (saveInfo.equals("save-info")) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-            String dateNaiss = sdf.format(ParamUtil.getDate(request, "birthday", dateFormat));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateNaiss = sdf.format(this.birthday);
             PublikApiClient.setAllUserDetails(
             		this.publikId, 
             		this.user.getLastName(), 

@@ -285,6 +285,11 @@ public class InitiativeLocalServiceUtil {
 		return getService().findByPublikUserId(publikUserId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> findHelpedByPublikUserId(
+		java.lang.String publikUserId) {
+		return getService().findHelpedByPublikUserId(publikUserId);
+	}
+
 	/**
 	* Retourne toutes les initiatives d'un groupe
 	*/

@@ -156,6 +156,17 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		return _initiativeHelp.getAuthor();
 	}
 
+	/**
+	* Retourne l'initiative de l'aide
+	*
+	* @return
+	* @throws PortalException
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Initiative getInitiative() {
+		return _initiativeHelp.getInitiative();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.InitiativeHelp toEscapedModel() {
 		return new InitiativeHelpWrapper(_initiativeHelp.toEscapedModel());

@@ -14,20 +14,20 @@
 		                </span>
 		            </span>
                 </div>
-				
-                <div class="pro-wrapper-sort">
-                   <c:choose>
-                       <c:when test='${isUserloggedIn}'>
-                           <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalBudget">
-                           	<liferay-ui:message key="file-budget" />
-                           </a>
-                       </c:when>
-                       <c:otherwise>
-                           <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">
-                           	<liferay-ui:message key="file-budget" />
-                           </a>
-                       </c:otherwise>
-                   </c:choose>
+
+                 <div class="pro-wrapper-sort">
+                    <c:choose>
+                        <c:when test='${isUserloggedIn}'>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow deposit-button" data-toggle="modal" data-target="#modalBudget">
+                            	<liferay-ui:message key="file-budget" />
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow deposit-button" data-toggle="modal" data-target="#myModal">
+                            	<liferay-ui:message key="file-budget" />
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
  				</div>
  				
  				<div class="row pro-wrapper-listing-participation">

@@ -117,7 +117,7 @@ create table project_InitiativeHelp (
 	initiativeId LONG,
 	helpTypes VARCHAR(75) null,
 	groupId LONG,
-	message VARCHAR(75) null
+	message VARCHAR(400) null
 );
 
 create table project_Participation (

@@ -156,6 +156,11 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	public JSONObject getPois(String interests, long groupId) {
 		return getPoiService().getPois(interests, groupId);
 	}
+	
+	@Override
+	public JSONObject getPois(String interests, long groupId, String localeId) {
+		return getPoiService().getPois(interests, groupId, localeId);
+	}
 
 	@Override
 	public JSONObject getFavoritesPois(long groupId) {
@@ -172,6 +177,11 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	@Override
 	public JSONObject getPois(String interests, String categories, String prefilters, long groupId, String typeContenu) {
 		return getPoiService().getPois(interests, categories, prefilters, groupId, typeContenu);
+	}
+	
+	@Override
+	public JSONObject getPois(String interests, String categories, String prefilters, long groupId, String typeContenu, String localeId) {
+		return getPoiService().getPois(interests, categories, prefilters, groupId, typeContenu, localeId);
 	}
 
 	@Override
@@ -194,6 +204,18 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}
 
 		return getPoiService().getFavoritesPois(userId, groupId, typeContenu);
+	}
+	
+	@Override
+	public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId) {
+		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		String userId = null;
+		if (isLoggedIn) {
+			userId = SessionParamUtil.getString(request, "publik_internal_id");
+		}
+
+		return getPoiService().getFavoritesPois(userId, groupId, typeContenu, localeId);
 	}
 
 	@Override

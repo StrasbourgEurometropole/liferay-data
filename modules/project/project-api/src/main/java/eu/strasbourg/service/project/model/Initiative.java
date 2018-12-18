@@ -129,16 +129,16 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	public java.lang.String getAuthorLabel();
+
+	/**
 	* Retourne l'utilisateur Publik depositaire
 	*
 	* @return
 	*/
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
-
-	/**
-	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
-	*/
-	public java.lang.String getAuthorLabel();
 
 	/**
 	* Retourne l'URL de l'image de l'utilisateur
@@ -222,6 +222,8 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	* Retourne le nombre de commentaires de l'entité
 	*/
 	public int getNbApprovedComments();
+
+	public java.lang.String getPublicationDateFr();
 
 	/**
 	* Retourne la version JSON de l'entité

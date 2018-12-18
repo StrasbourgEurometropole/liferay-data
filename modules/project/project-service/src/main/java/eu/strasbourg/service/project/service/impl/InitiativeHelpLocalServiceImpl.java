@@ -20,6 +20,7 @@ import java.util.List;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException;
 import eu.strasbourg.service.project.model.InitiativeHelp;
@@ -95,6 +96,14 @@ public class InitiativeHelpLocalServiceImpl extends InitiativeHelpLocalServiceBa
 	@Override
 	public InitiativeHelp getByPublikUserIdAndInitiativeId(String publikUserId, long initiativeId) {
 		return this.initiativeHelpPersistence.fetchByPublikUserIdAndInitiativeId(publikUserId, initiativeId);
+	}
+	
+	/**
+	 * Retourne les aides proposees par un utilisateur
+	 */
+	@Override
+	public List<InitiativeHelp> getByPublikUserId(String publikUserId) {
+		return this.initiativeHelpPersistence.findByPublikUserId(publikUserId);
 	}
 	
 }

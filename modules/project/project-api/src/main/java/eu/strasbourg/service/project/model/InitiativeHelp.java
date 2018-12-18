@@ -78,4 +78,12 @@ public interface InitiativeHelp extends InitiativeHelpModel, PersistedModel {
 	* Retourne le label des types d'aide
 	*/
 	public java.lang.String getTypesLabel();
+
+	/**
+	* Retourne l'initiative de l'aide
+	*
+	* @return
+	* @throws PortalException
+	*/
+	public eu.strasbourg.service.project.model.Initiative getInitiative();
 }

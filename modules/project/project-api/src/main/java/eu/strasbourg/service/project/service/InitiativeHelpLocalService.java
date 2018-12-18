@@ -247,6 +247,12 @@ public interface InitiativeHelpLocalService extends BaseLocalService,
 	public List<InitiativeHelp> getByInitiativeId(long initiativeId);
 
 	/**
+	* Retourne les aides proposees par un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<InitiativeHelp> getByPublikUserId(java.lang.String publikUserId);
+
+	/**
 	* Returns a range of all the initiative helps.
 	*
 	* <p>

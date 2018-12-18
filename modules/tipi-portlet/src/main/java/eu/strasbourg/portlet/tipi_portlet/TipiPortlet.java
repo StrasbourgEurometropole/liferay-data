@@ -64,11 +64,11 @@ public class TipiPortlet extends MVCPortlet {
 			} else if (form.equals("rs")) {
 				appCode = "RZ";
 				clientNumber = "002902";
-				formTitle = "Facturation redevance sp&eacute;ciale d&eacute;chets";
+				formTitle = "Facturation D&eacute;chet Redevance Sp&eacute;ciale";
 			} else if (form.equals("reom")) {
 				appCode = "RC";
 				clientNumber = "021529";
-				formTitle = "Facturation redevance ordures m&eacute;nag&egrave;res";
+				formTitle = "Facturation D&eacute;chet REOM";
 			}
 			
 		}
