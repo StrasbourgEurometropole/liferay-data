@@ -80,6 +80,17 @@ public class InitiativeHelpLocalServiceUtil {
 	}
 
 	/**
+	* Methode de creation d'une initiative
+	*
+	* @param sc Le contexte de la requete.
+	* @return L'aide cree.
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp createInitiativeHelp(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+		return getService().createInitiativeHelp(sc);
+	}
+
+	/**
 	* Creates a new initiative help with the primary key. Does not add the initiative help to the database.
 	*
 	* @param initiativeHelpId the primary key for the new initiative help
@@ -132,6 +143,15 @@ public class InitiativeHelpLocalServiceUtil {
 	}
 
 	/**
+	* Retourne l'aide proposee par un utilisateur pour une initiative donnee
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp getByPublikUserIdAndInitiativeId(
+		java.lang.String publikUserId, long initiativeId) {
+		return getService()
+				   .getByPublikUserIdAndInitiativeId(publikUserId, initiativeId);
+	}
+
+	/**
 	* Returns the initiative help with the primary key.
 	*
 	* @param initiativeHelpId the primary key of the initiative help
@@ -156,6 +176,16 @@ public class InitiativeHelpLocalServiceUtil {
 		java.lang.String uuid, long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getInitiativeHelpByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
+	* Supprimer un soutien donne
+	*
+	* @param initiativeHelpId Id de l'aide inititative
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp removeInitiativeHelp(
+		long initiativeHelpId) {
+		return getService().removeInitiativeHelp(initiativeHelpId);
 	}
 
 	/**

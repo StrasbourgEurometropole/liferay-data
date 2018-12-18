@@ -115,6 +115,7 @@ create table project_InitiativeHelp (
 	createDate DATE null,
 	publikUserId VARCHAR(75) null,
 	initiativeId LONG,
+	helpTypes VARCHAR(75) null,
 	groupId LONG,
 	message VARCHAR(75) null
 );

@@ -54,4 +54,28 @@ public interface InitiativeHelp extends InitiativeHelpModel, PersistedModel {
 				return InitiativeHelp.class;
 			}
 		};
+
+	/**
+	* Retourne l'utilisateur Publik depositaire
+	*
+	* @return
+	*/
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
+
+	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	public java.lang.String getAuthorLabel();
+
+	/**
+	* Retourne le message d'accompagnement sans les balises et autres fioritures
+	*
+	* @return
+	*/
+	public java.lang.String getFormatedMessage();
+
+	/**
+	* Retourne le label des types d'aide
+	*/
+	public java.lang.String getTypesLabel();
 }

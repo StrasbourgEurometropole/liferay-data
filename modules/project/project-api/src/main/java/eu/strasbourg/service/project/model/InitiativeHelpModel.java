@@ -135,6 +135,21 @@ public interface InitiativeHelpModel extends BaseModel<InitiativeHelp> {
 	public void setInitiativeId(long initiativeId);
 
 	/**
+	 * Returns the help types of this initiative help.
+	 *
+	 * @return the help types of this initiative help
+	 */
+	@AutoEscape
+	public String getHelpTypes();
+
+	/**
+	 * Sets the help types of this initiative help.
+	 *
+	 * @param helpTypes the help types of this initiative help
+	 */
+	public void setHelpTypes(String helpTypes);
+
+	/**
 	 * Returns the group ID of this initiative help.
 	 *
 	 * @return the group ID of this initiative help

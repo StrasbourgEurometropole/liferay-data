@@ -72,6 +72,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 			{ "createDate", Types.TIMESTAMP },
 			{ "publikUserId", Types.VARCHAR },
 			{ "initiativeId", Types.BIGINT },
+			{ "helpTypes", Types.VARCHAR },
 			{ "groupId", Types.BIGINT },
 			{ "message", Types.VARCHAR }
 		};
@@ -83,11 +84,12 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("initiativeId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("helpTypes", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("message", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,groupId LONG,message VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,helpTypes VARCHAR(75) null,groupId LONG,message VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_InitiativeHelp";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiativeHelp.initiativeHelpId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_InitiativeHelp.initiativeHelpId ASC";
@@ -127,6 +129,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setPublikUserId(soapModel.getPublikUserId());
 		model.setInitiativeId(soapModel.getInitiativeId());
+		model.setHelpTypes(soapModel.getHelpTypes());
 		model.setGroupId(soapModel.getGroupId());
 		model.setMessage(soapModel.getMessage());
 
@@ -198,6 +201,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		attributes.put("createDate", getCreateDate());
 		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("initiativeId", getInitiativeId());
+		attributes.put("helpTypes", getHelpTypes());
 		attributes.put("groupId", getGroupId());
 		attributes.put("message", getMessage());
 
@@ -237,6 +241,12 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 		if (initiativeId != null) {
 			setInitiativeId(initiativeId);
+		}
+
+		String helpTypes = (String)attributes.get("helpTypes");
+
+		if (helpTypes != null) {
+			setHelpTypes(helpTypes);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -349,6 +359,22 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@JSON
 	@Override
+	public String getHelpTypes() {
+		if (_helpTypes == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _helpTypes;
+		}
+	}
+
+	@Override
+	public void setHelpTypes(String helpTypes) {
+		_helpTypes = helpTypes;
+	}
+
+	@JSON
+	@Override
 	public long getGroupId() {
 		return _groupId;
 	}
@@ -422,6 +448,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		initiativeHelpImpl.setCreateDate(getCreateDate());
 		initiativeHelpImpl.setPublikUserId(getPublikUserId());
 		initiativeHelpImpl.setInitiativeId(getInitiativeId());
+		initiativeHelpImpl.setHelpTypes(getHelpTypes());
 		initiativeHelpImpl.setGroupId(getGroupId());
 		initiativeHelpImpl.setMessage(getMessage());
 
@@ -534,6 +561,14 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 		initiativeHelpCacheModel.initiativeId = getInitiativeId();
 
+		initiativeHelpCacheModel.helpTypes = getHelpTypes();
+
+		String helpTypes = initiativeHelpCacheModel.helpTypes;
+
+		if ((helpTypes != null) && (helpTypes.length() == 0)) {
+			initiativeHelpCacheModel.helpTypes = null;
+		}
+
 		initiativeHelpCacheModel.groupId = getGroupId();
 
 		initiativeHelpCacheModel.message = getMessage();
@@ -549,7 +584,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -561,6 +596,8 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		sb.append(getPublikUserId());
 		sb.append(", initiativeId=");
 		sb.append(getInitiativeId());
+		sb.append(", helpTypes=");
+		sb.append(getHelpTypes());
 		sb.append(", groupId=");
 		sb.append(getGroupId());
 		sb.append(", message=");
@@ -572,7 +609,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.InitiativeHelp");
@@ -597,6 +634,10 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		sb.append(
 			"<column><column-name>initiativeId</column-name><column-value><![CDATA[");
 		sb.append(getInitiativeId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>helpTypes</column-name><column-value><![CDATA[");
+		sb.append(getHelpTypes());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>groupId</column-name><column-value><![CDATA[");
@@ -625,6 +666,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	private long _initiativeId;
 	private long _originalInitiativeId;
 	private boolean _setOriginalInitiativeId;
+	private String _helpTypes;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;

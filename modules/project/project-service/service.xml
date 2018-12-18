@@ -477,6 +477,7 @@
 		<!-- Other fields -->
 		<column name="publikUserId" type="String" />
 		<column name="initiativeId" type="long" />
+		<column name="helpTypes" type="String" />
 		<column name="groupId" type="long" />
 		<column name="message" type="String" />
 
