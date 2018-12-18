@@ -52,8 +52,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	
 	// Constantes des ID de recuperation d'informations de la requete
+	private static final String ENTRY_ID = "entryId";
 	private static final String INITIATIVE_HELP_TYPE_IDS = "initiativeHelpTypeIds";
-	private static final String INITIATIVE_MESSAGE = "initiativeMessage";
+	private static final String INITIATIVE_HELP_MESSAGE = "initiativeHelpMessage";
 	private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
     private static final String CITY = "city";
@@ -72,7 +73,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
     private Initiative initiative;
     private InitiativeHelp existantInitiativeHelp;
     private String initiativeHelpTypeIds;
-    private String initiativeMessage;
+    private String initiativeHelpMessage;
     private Date birthday;
     private String address;
     private String city;
@@ -92,12 +93,12 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         this.publikID = getPublikID(request);
         
         // Recuperation du budget participatif en question
-        this.entryID = ParamUtil.getLong(request, "entryId");
+        this.entryID = ParamUtil.getLong(request, ENTRY_ID);
         
         // Recuperation des informations du formulaire
         this.dateFormat = new SimpleDateFormat(FORMATTED_DATE_PATTERN);
         this.initiativeHelpTypeIds = ParamUtil.getString(request, INITIATIVE_HELP_TYPE_IDS);
-        this.initiativeMessage = ParamUtil.getString(request, INITIATIVE_MESSAGE);
+        this.initiativeHelpMessage = ParamUtil.getString(request, INITIATIVE_HELP_MESSAGE);
         this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
         this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
         this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
@@ -170,7 +171,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
             initiativeHelp = InitiativeHelpLocalServiceUtil.createInitiativeHelp(sc);
 
             initiativeHelp.setHelpTypes(this.initiativeHelpTypeIds);
-            initiativeHelp.setMessage(this.initiativeMessage);
+            initiativeHelp.setMessage(this.initiativeHelpMessage);
             initiativeHelp.setPublikUserId(this.publikID);
             initiativeHelp.setInitiativeId(this.initiative.getInitiativeId());
 
