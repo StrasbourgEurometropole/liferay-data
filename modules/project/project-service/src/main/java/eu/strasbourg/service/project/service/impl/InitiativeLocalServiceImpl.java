@@ -14,6 +14,13 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -32,15 +39,9 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.InitiativeModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The implementation of the initiative local service.
@@ -255,7 +256,10 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 
 	public List<Initiative> findByPublikUserId(String publikUserId){
 		List<Initiative> result = initiativePersistence.findBypublikId(publikUserId);
-		return result;
+		
+		return result.stream()
+                .filter(InitiativeModel::isApproved)
+                .collect(Collectors.toList());
 	}
 	
 	public List<Initiative> findHelpedByPublikUserId(String publikUserId){

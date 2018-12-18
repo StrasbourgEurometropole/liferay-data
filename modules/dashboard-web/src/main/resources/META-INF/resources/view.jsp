@@ -505,53 +505,52 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des initiatives -->
+		<!-- Tuile des initiatives aidees -->
 		<c:if test="${initiativeAidesCount != 0}">
 			<section id="pro-link-listing-initiative-aide"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives aidÃÂÃÂ©es (11)</h2>
-					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des ÃÂÃÂ©vÃÂÃÂ¨nements">Toutes les
-						initiatives</a>
+					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.filed.mine" />
+						(${initiativeAidesCount})</h2>
+					<a href="${homeURL}initiatives" class="pro-btn"
+						title="<liferay-ui:message key='dashboard.thumbnail.initiative.main.alt'/>"><liferay-ui:message
+							key="dashboard.thumbnail.initiative.main" /></a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
-
-						<div class="item pro-bloc-card-initiative" data-linkall="a">
-							<div class="wrapper-card-initiative">
-								<div>
-									<div class="pro-header-initiative">
-										<figure role="group">
-											<img
-												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="ArriÃÂÃÂ¨re plan page standard" />
-										</figure>
-										<p>Initiative publiÃÂÃÂ©e par :</p>
-										<p>
-											<strong>Sylvie M.</strong>
-										</p>
-									</div>
-									<div class="pro-content-initiative">
-										<div class="pro-wrapper-meta">
-											<div class="pro-meta">
-												<span>Quartier</span> <span>ThÃÂÃÂ©matique</span> <span>Nom
-													du projet</span>
-											</div>
+						<c:forEach var="initiative" items="${initiativeAides}">
+							<div class="item pro-bloc-card-initiative" data-linkall="a">
+								<div class="wrapper-card-initiative">
+									<c:if test="${initiative.getImageURL() != ''}">
+										<figure role="group" class="fit-cover">
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                	</figure>
+                                	</c:if>
+									<div>
+										<div class="pro-header-initiative">
+		                                    <figure role="group">
+		                                        <img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+		                                    </figure>
+											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
+											<p>
+												<strong>${initiative.getAuthorLabel()}</strong>
+											</p>
 										</div>
-										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de lÃÂ¢ÃÂÃÂinitiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">PubliÃÂÃÂ©e le <time
-												datetime="2018-01-10">10/04/2018</time></span>
+										<div class="pro-content-initiative">
+											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
+											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${initiative.title}</h3>
+											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
+											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="pro-footer-initiative">
-								<div class="pro-avis">
-									<span>188</span>
+								<div class="pro-footer-initiative">
+									<div class="pro-avis">
+										<span>${initiative.getNbHelps()}</span>
+									</div>
+									<p><liferay-ui:message key="dashboard.thumbnail.initiative.progress" /></p>
 								</div>
-								<p>Citoyens soutiennent cette initiative</p>
 							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</section>

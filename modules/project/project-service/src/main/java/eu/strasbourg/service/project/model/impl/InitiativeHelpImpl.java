@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -21,6 +22,7 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.InitiativeHelpTypes;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 
 /**
@@ -104,9 +106,15 @@ public class InitiativeHelpImpl extends InitiativeHelpBaseImpl {
     /**
      * Retourne l'initiative de l'aide
      * @return
+     * @throws PortalException 
      */
     @Override
 	public Initiative getInitiative() {
-		return InitiativeLocalServiceUtil.getInitiative(this.getInitiativeId());
+		try {
+			return InitiativeLocalServiceUtil.getInitiative(this.getInitiativeId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

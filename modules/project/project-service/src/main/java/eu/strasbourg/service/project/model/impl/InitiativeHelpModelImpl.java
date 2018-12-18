@@ -89,7 +89,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		TABLE_COLUMNS_MAP.put("message", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,helpTypes VARCHAR(75) null,groupId LONG,message VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,helpTypes VARCHAR(75) null,groupId LONG,message VARCHAR(400) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_InitiativeHelp";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiativeHelp.initiativeHelpId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_InitiativeHelp.initiativeHelpId ASC";

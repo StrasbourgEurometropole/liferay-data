@@ -121,16 +121,6 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		}
 	}
 
-	/**
-	* Retourne l'initiative de l'aide
-	*
-	* @return
-	*/
-	@Override
-	public Initiative getInitiative() {
-		return _initiativeHelp.getInitiative();
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _initiativeHelp.isCachedModel();
@@ -164,6 +154,17 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
 		return _initiativeHelp.getAuthor();
+	}
+
+	/**
+	* Retourne l'initiative de l'aide
+	*
+	* @return
+	* @throws PortalException
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Initiative getInitiative() {
+		return _initiativeHelp.getInitiative();
 	}
 
 	@Override
