@@ -236,14 +236,6 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
-	 * Retourne l'utilisateur Publik depositaire
-	 * @return
-	 */
-	public PublikUser getAuthor() {
-		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
-	}
-	
-	/**
      * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
      */
     @Override
@@ -258,13 +250,27 @@ public class InitiativeImpl extends InitiativeBaseImpl {
     	}
     	
     }
+   
     
     /**
+	 * Retourne l'utilisateur Publik depositaire
+	 * @return
+	 */
+	public PublikUser getAuthor() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+	}
+    
+    
+	/**
      * Retourne l'URL de l'image de l'utilisateur
      */
     @Override
     public String getAuthorImageURL() {
-        return "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png";
+        PublikUser author =  this.getAuthor();
+        if (author != null) {
+        	return author.getImageURLOrSurrogate();
+        }
+        return "";
     }
     
 	/**

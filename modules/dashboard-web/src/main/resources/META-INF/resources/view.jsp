@@ -81,7 +81,7 @@
 								</div>
 							</div>
 							<div class="pro-bloc-link-dashboard">
-								<a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>${initiativesFiledCount}</strong><span><liferay-ui:message
+								<a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>${initiativeFiledsCount}</strong><span><liferay-ui:message
 											key="dashboard.front.initiative.signed" /></span></a> <a
 									href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>${initiativeAidesCount}</strong><span><liferay-ui:message
 											key="dashboard.front.initiative.aidees" /></span></a>
@@ -469,11 +469,16 @@
 						<c:forEach var="initiative" items="${initiativeFileds}">
 							<div class="item pro-bloc-card-initiative" data-linkall="a">
 								<div class="wrapper-card-initiative">
+									<c:if test="${initiative.getImageURL() != ''}">
+										<figure role="group" class="fit-cover">
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                	</figure>
+                                	</c:if>
 									<div>
 										<div class="pro-header-initiative">
-											<!--                                     <figure role="group"> -->
-											<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-											<!--                                     </figure> -->
+		                                    <figure role="group">
+		                                        <img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+		                                    </figure>
 											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
 											<p>
 												<strong>${initiative.getAuthorLabel()}</strong>
@@ -489,9 +494,9 @@
 								</div>
 								<div class="pro-footer-initiative">
 									<div class="pro-avis">
-										<span>188</span>
+										<span>${initiative.getNbHelps()}</span>
 									</div>
-									<p>Citoyens soutiennent cette initiative</p>
+									<p><liferay-ui:message key="dashboard.thumbnail.initiative.progress" /></p>
 								</div>
 							</div>
 						</c:forEach>
@@ -505,9 +510,9 @@
 			<section id="pro-link-listing-initiative-aide"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives aidÃÂ©es (11)</h2>
+					<h2>Mes initiatives aidÃÂÃÂ©es (11)</h2>
 					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des ÃÂ©vÃÂ¨nements">Toutes les
+						title="Lien vers la page du Listing des ÃÂÃÂ©vÃÂÃÂ¨nements">Toutes les
 						initiatives</a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -519,9 +524,9 @@
 										<figure role="group">
 											<img
 												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="ArriÃÂ¨re plan page standard" />
+												width="40" height="40" alt="ArriÃÂÃÂ¨re plan page standard" />
 										</figure>
-										<p>Initiative publiÃÂ©e par :</p>
+										<p>Initiative publiÃÂÃÂ©e par :</p>
 										<p>
 											<strong>Sylvie M.</strong>
 										</p>
@@ -529,13 +534,13 @@
 									<div class="pro-content-initiative">
 										<div class="pro-wrapper-meta">
 											<div class="pro-meta">
-												<span>Quartier</span> <span>ThÃÂ©matique</span> <span>Nom
+												<span>Quartier</span> <span>ThÃÂÃÂ©matique</span> <span>Nom
 													du projet</span>
 											</div>
 										</div>
 										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de lÃ¢ÂÂinitiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">PubliÃÂ©e le <time
+												Titre de lÃÂ¢ÃÂÃÂinitiative<br>Sur deux lignes
+											</h3></a> <span class="pro-time">PubliÃÂÃÂ©e le <time
 												datetime="2018-01-10">10/04/2018</time></span>
 									</div>
 								</div>

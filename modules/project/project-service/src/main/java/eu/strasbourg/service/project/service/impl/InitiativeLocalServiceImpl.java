@@ -258,6 +258,11 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 		return result;
 	}
 	
+	public List<Initiative> findHelpedByPublikUserId(String publikUserId){
+		List<Initiative> result = initiativePersistence.findBypublikId(publikUserId);
+		return result;
+	}
+	
 	/**
 	 * Recherche par mot clés
 	 */
