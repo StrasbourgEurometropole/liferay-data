@@ -106,7 +106,7 @@
                     
                 </div>
                 
-                <%-- Groupe de champs : Information initiative --%>
+                <%-- Groupe de champs : Information utilisateur --%>
                 <div class="pro-wrapper">
                 
                 	<%-- Label : Informations utilisateur --%>
