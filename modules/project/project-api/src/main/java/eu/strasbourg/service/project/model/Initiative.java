@@ -124,14 +124,26 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public java.lang.String getImageCopyright(java.util.Locale locale);
 
 	/**
-	* Retourne le projet de l'initiative (
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProjectsCategory();
-
-	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
+
+	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	public java.lang.String getAuthorLabel();
+
+	/**
+	* Retourne l'utilisateur Publik depositaire
+	*
+	* @return
+	*/
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthor();
+
+	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	public java.lang.String getAuthorImageURL();
 
 	/**
 	* Retourne le statut de l'initiative (
@@ -139,9 +151,25 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetCategory getStatusCategory();
 
 	/**
+	* Retourne la couleur hexa du statut de l'initiative contenu dans la
+	* propriete 'code_color' de la categorie associee
+	*/
+	public java.lang.String getStatusCategoryColor();
+
+	/**
 	* Retourne le nombre d'aides de l'initiative
 	*/
-	public int getNbHelpInitiative();
+	public int getNbHelps();
+
+	/**
+	* Retourne la categorie projet
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	* Retourne la titre du projet
+	*/
+	public java.lang.String getProjectName();
 
 	/**
 	* Retourne la liste des like/dislike de l'entité
@@ -184,4 +212,24 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	* @see eu.strasbourg.service.like.model.LikeType
 	*/
 	public int getNbDislikes();
+
+	/**
+	* Retourne les commentaires de l'entité
+	*/
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments();
+
+	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	public int getNbApprovedComments();
+
+	public java.lang.String getPublicationDateFr();
+
+	/**
+	* Retourne la version JSON de l'entité
+	*
+	* @throws PortalException
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON()
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

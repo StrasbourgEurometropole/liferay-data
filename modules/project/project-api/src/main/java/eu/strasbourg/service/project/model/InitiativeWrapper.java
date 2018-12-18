@@ -72,8 +72,8 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("author", getAuthor());
 		attributes.put("description", getDescription());
+		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -82,8 +82,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
-		attributes.put("consultationPlacesText", getConsultationPlacesText());
-		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("publicationDate", getPublicationDate());
 
 		return attributes;
@@ -169,16 +167,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 			setTitle(title);
 		}
 
-		String author = (String)attributes.get("author");
-
-		if (author != null) {
-			setAuthor(author);
-		}
-
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String placeTextArea = (String)attributes.get("placeTextArea");
+
+		if (placeTextArea != null) {
+			setPlaceTextArea(placeTextArea);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -228,20 +226,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
-		}
-
-		String consultationPlacesText = (String)attributes.get(
-				"consultationPlacesText");
-
-		if (consultationPlacesText != null) {
-			setConsultationPlacesText(consultationPlacesText);
-		}
-
-		String consultationPlacesBody = (String)attributes.get(
-				"consultationPlacesBody");
-
-		if (consultationPlacesBody != null) {
-			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -367,6 +351,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne la categorie projet
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _initiative.getProjectCategory();
+	}
+
+	/**
 	* Retourne le statut de l'initiative (
 	*/
 	@Override
@@ -387,9 +379,30 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		return _initiative.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'entité
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _initiative.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.Initiative> toCacheModel() {
 		return _initiative.toCacheModel();
+	}
+
+	/**
+	* Retourne l'utilisateur Publik depositaire
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
+		return _initiative.getAuthor();
 	}
 
 	@Override
@@ -409,6 +422,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne le nombre de commentaires de l'entité
+	*/
+	@Override
+	public int getNbApprovedComments() {
+		return _initiative.getNbApprovedComments();
+	}
+
+	/**
 	* Retourne le nombre de dislikes de l'entité
 	*
 	* @see eu.strasbourg.service.like.model.LikeType
@@ -422,8 +443,8 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	* Retourne le nombre d'aides de l'initiative
 	*/
 	@Override
-	public int getNbHelpInitiative() {
-		return _initiative.getNbHelpInitiative();
+	public int getNbHelps() {
+		return _initiative.getNbHelps();
 	}
 
 	/**
@@ -472,33 +493,19 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
-	* Returns the author of this initiative.
-	*
-	* @return the author of this initiative
+	* Retourne l'URL de l'image de l'utilisateur
 	*/
 	@Override
-	public java.lang.String getAuthor() {
-		return _initiative.getAuthor();
+	public java.lang.String getAuthorImageURL() {
+		return _initiative.getAuthorImageURL();
 	}
 
 	/**
-	* Returns the consultation places body of this initiative.
-	*
-	* @return the consultation places body of this initiative
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	@Override
-	public java.lang.String getConsultationPlacesBody() {
-		return _initiative.getConsultationPlacesBody();
-	}
-
-	/**
-	* Returns the consultation places text of this initiative.
-	*
-	* @return the consultation places text of this initiative
-	*/
-	@Override
-	public java.lang.String getConsultationPlacesText() {
-		return _initiative.getConsultationPlacesText();
+	public java.lang.String getAuthorLabel() {
+		return _initiative.getAuthorLabel();
 	}
 
 	/**
@@ -568,6 +575,29 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Returns the place text area of this initiative.
+	*
+	* @return the place text area of this initiative
+	*/
+	@Override
+	public java.lang.String getPlaceTextArea() {
+		return _initiative.getPlaceTextArea();
+	}
+
+	/**
+	* Retourne la titre du projet
+	*/
+	@Override
+	public java.lang.String getProjectName() {
+		return _initiative.getProjectName();
+	}
+
+	@Override
+	public java.lang.String getPublicationDateFr() {
+		return _initiative.getPublicationDateFr();
+	}
+
+	/**
 	* Returns the publik ID of this initiative.
 	*
 	* @return the publik ID of this initiative
@@ -595,6 +625,15 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _initiative.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne la couleur hexa du statut de l'initiative contenu dans la
+	* propriete 'code_color' de la categorie associee
+	*/
+	@Override
+	public java.lang.String getStatusCategoryColor() {
+		return _initiative.getStatusCategoryColor();
 	}
 
 	/**
@@ -706,6 +745,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne les commentaires de l'entité
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedComments() {
+		return _initiative.getApprovedComments();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
@@ -788,14 +835,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
 		return _initiative.getPlacitPlaces();
-	}
-
-	/**
-	* Retourne le projet de l'initiative (
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProjectsCategory() {
-		return _initiative.getProjectsCategory();
 	}
 
 	/**
@@ -909,16 +948,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		_initiative.setAssetEntryId(assetEntryId);
 	}
 
-	/**
-	* Sets the author of this initiative.
-	*
-	* @param author the author of this initiative
-	*/
-	@Override
-	public void setAuthor(java.lang.String author) {
-		_initiative.setAuthor(author);
-	}
-
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_initiative.setCachedModel(cachedModel);
@@ -932,28 +961,6 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_initiative.setCompanyId(companyId);
-	}
-
-	/**
-	* Sets the consultation places body of this initiative.
-	*
-	* @param consultationPlacesBody the consultation places body of this initiative
-	*/
-	@Override
-	public void setConsultationPlacesBody(
-		java.lang.String consultationPlacesBody) {
-		_initiative.setConsultationPlacesBody(consultationPlacesBody);
-	}
-
-	/**
-	* Sets the consultation places text of this initiative.
-	*
-	* @param consultationPlacesText the consultation places text of this initiative
-	*/
-	@Override
-	public void setConsultationPlacesText(
-		java.lang.String consultationPlacesText) {
-		_initiative.setConsultationPlacesText(consultationPlacesText);
 	}
 
 	/**
@@ -1076,6 +1083,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setNew(boolean n) {
 		_initiative.setNew(n);
+	}
+
+	/**
+	* Sets the place text area of this initiative.
+	*
+	* @param placeTextArea the place text area of this initiative
+	*/
+	@Override
+	public void setPlaceTextArea(java.lang.String placeTextArea) {
+		_initiative.setPlaceTextArea(placeTextArea);
 	}
 
 	/**

@@ -102,6 +102,13 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne l'auteur en publik user
+	*
+	* @return
+	*/
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser();
+
+	/**
 	* Retourne l'URL de l'image de l'utilisateur
 	*/
 	public java.lang.String getAuthorImageURL();

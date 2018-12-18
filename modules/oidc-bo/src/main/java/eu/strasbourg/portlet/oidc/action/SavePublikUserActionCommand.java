@@ -67,10 +67,18 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 				return false;
 			}
 
-			// Edition du projet
+			// Edition du l'utilisateur
 			long publikUserLiferayId = ParamUtil.getLong(request, "publikUserLiferayId");
 			PublikUser publikUser;
 			publikUser = _publikUserLocalService.getPublikUser(publikUserLiferayId);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- INFORMATIONS -----------------------
+			// ---------------------------------------------------------------
+
+			// URL de l'image
+			String imageURL = ParamUtil.getString(request, "imageURL");
+			publikUser.setImageURL(imageURL);
 			
 			// ---------------------------------------------------------------
 			// -------------------------- BANNISSEMENT -----------------------

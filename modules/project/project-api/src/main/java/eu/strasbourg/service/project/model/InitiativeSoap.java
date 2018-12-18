@@ -47,8 +47,8 @@ public class InitiativeSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
-		soapModel.setAuthor(model.getAuthor());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
@@ -57,8 +57,6 @@ public class InitiativeSoap implements Serializable {
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
-		soapModel.setConsultationPlacesText(model.getConsultationPlacesText());
-		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
 		soapModel.setPublicationDate(model.getPublicationDate());
 
 		return soapModel;
@@ -216,20 +214,20 @@ public class InitiativeSoap implements Serializable {
 		_title = title;
 	}
 
-	public String getAuthor() {
-		return _author;
-	}
-
-	public void setAuthor(String author) {
-		_author = author;
-	}
-
 	public String getDescription() {
 		return _description;
 	}
 
 	public void setDescription(String description) {
 		_description = description;
+	}
+
+	public String getPlaceTextArea() {
+		return _placeTextArea;
+	}
+
+	public void setPlaceTextArea(String placeTextArea) {
+		_placeTextArea = placeTextArea;
 	}
 
 	public String getVideoUrl() {
@@ -300,22 +298,6 @@ public class InitiativeSoap implements Serializable {
 		_filesIds = filesIds;
 	}
 
-	public String getConsultationPlacesText() {
-		return _consultationPlacesText;
-	}
-
-	public void setConsultationPlacesText(String consultationPlacesText) {
-		_consultationPlacesText = consultationPlacesText;
-	}
-
-	public String getConsultationPlacesBody() {
-		return _consultationPlacesBody;
-	}
-
-	public void setConsultationPlacesBody(String consultationPlacesBody) {
-		_consultationPlacesBody = consultationPlacesBody;
-	}
-
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -337,8 +319,8 @@ public class InitiativeSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _author;
 	private String _description;
+	private String _placeTextArea;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
@@ -347,7 +329,5 @@ public class InitiativeSoap implements Serializable {
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
-	private String _consultationPlacesText;
-	private String _consultationPlacesBody;
 	private Date _publicationDate;
 }

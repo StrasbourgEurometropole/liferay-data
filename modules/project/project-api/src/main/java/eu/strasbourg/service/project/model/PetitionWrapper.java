@@ -93,8 +93,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("mediaChoice", getMediaChoice());
-		attributes.put("consultationPlacesText", getConsultationPlacesText());
-		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
@@ -312,20 +310,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (mediaChoice != null) {
 			setMediaChoice(mediaChoice);
-		}
-
-		String consultationPlacesText = (String)attributes.get(
-				"consultationPlacesText");
-
-		if (consultationPlacesText != null) {
-			setConsultationPlacesText(consultationPlacesText);
-		}
-
-		String consultationPlacesBody = (String)attributes.get(
-				"consultationPlacesBody");
-
-		if (consultationPlacesBody != null) {
-			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -554,6 +538,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		return _petition.getPourcentageSignature();
 	}
 
+	/**
+	* Retourne l'auteur en publik user
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
+		return _petition.getAuthorPublikUser();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.Petition toEscapedModel() {
 		return new PetitionWrapper(_petition.toEscapedModel());
@@ -646,31 +640,19 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _petition.getAuthorImageURL();
+	}
+
+	/**
 	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	@Override
 	public java.lang.String getAuthorLabel() {
 		return _petition.getAuthorLabel();
-	}
-
-	/**
-	* Returns the consultation places body of this petition.
-	*
-	* @return the consultation places body of this petition
-	*/
-	@Override
-	public java.lang.String getConsultationPlacesBody() {
-		return _petition.getConsultationPlacesBody();
-	}
-
-	/**
-	* Returns the consultation places text of this petition.
-	*
-	* @return the consultation places text of this petition
-	*/
-	@Override
-	public java.lang.String getConsultationPlacesText() {
-		return _petition.getConsultationPlacesText();
 	}
 
 	/**
@@ -1269,28 +1251,6 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_petition.setCompanyId(companyId);
-	}
-
-	/**
-	* Sets the consultation places body of this petition.
-	*
-	* @param consultationPlacesBody the consultation places body of this petition
-	*/
-	@Override
-	public void setConsultationPlacesBody(
-		java.lang.String consultationPlacesBody) {
-		_petition.setConsultationPlacesBody(consultationPlacesBody);
-	}
-
-	/**
-	* Sets the consultation places text of this petition.
-	*
-	* @param consultationPlacesText the consultation places text of this petition
-	*/
-	@Override
-	public void setConsultationPlacesText(
-		java.lang.String consultationPlacesText) {
-		_petition.setConsultationPlacesText(consultationPlacesText);
 	}
 
 	/**

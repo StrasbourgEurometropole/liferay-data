@@ -14,7 +14,9 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -23,11 +25,21 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
@@ -47,6 +59,11 @@ import eu.strasbourg.utils.constants.VocabularyNames;
  */
 @ProviderType
 public class InitiativeImpl extends InitiativeBaseImpl {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1046377730894483466L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -207,15 +224,6 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
-	 * Retourne le projet de l'initiative (
-	 */
-	@Override
-	public List<AssetCategory> getProjectsCategory() {	
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PROJECT);
-	}
-	
-	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
@@ -228,22 +236,98 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
+     * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+     */
+    @Override
+    public String getAuthorLabel() {
+    	PublikUser author = this.getAuthor();
+    	if (author != null) {
+    		return StringUtil.upperCaseFirstLetter(author.getFirstName())
+    				+ " "
+    				+  StringUtil.toUpperCase(StringUtil.shorten(author.getLastName(), 2, "."));
+    	} else {
+    		return null;
+    	}
+    	
+    }
+   
+    
+    /**
+	 * Retourne l'utilisateur Publik depositaire
+	 * @return
+	 */
+	public PublikUser getAuthor() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+	}
+    
+    
+	/**
+     * Retourne l'URL de l'image de l'utilisateur
+     */
+    @Override
+    public String getAuthorImageURL() {
+        PublikUser author =  this.getAuthor();
+        if (author != null) {
+        	return author.getImageURLOrSurrogate();
+        }
+        return "";
+    }
+    
+	/**
 	 * Retourne le statut de l'initiative (
 	 */
 	@Override
 	public AssetCategory getStatusCategory() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.INITIATIVE_STATUS).get(0);
+		List <AssetCategory> status = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.INITIATIVE_STATUS);
+		return status.size() > 0 ? status.get(0) : null;
+	}
+	
+	/**
+	 * Retourne la couleur hexa du statut de l'initiative contenu dans la
+	 * propriete 'code_color' de la categorie associee
+	 */
+	@Override
+	public String getStatusCategoryColor() {
+		AssetCategory status = this.getStatusCategory();
+		if (status != null) {
+			long categoryId = this.getStatusCategory().getCategoryId();
+			return AssetVocabularyHelper.getCategoryProperty(categoryId, "color_code");
+		} else {
+			return "";
+		}
 	}
 	
 	/**
 	 * Retourne le nombre d'aides de l'initiative
 	 */
 	@Override
-	public int getNbHelpInitiative() {
+	public int getNbHelps() {
 		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId()).size();
 	}
 	
+	/**
+	 * Retourne la categorie projet
+	 */
+	@Override
+	public AssetCategory getProjectCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+	}
+	
+	/**
+	 * Retourne la titre du projet
+	 */
+	@Override
+	public String getProjectName() {
+        AssetCategory project = getProjectCategory();
+        return (project != null) ? project.getTitle(Locale.FRANCE) : "";
+    }
 	
 	/**
 	 * Retourne la liste des like/dislike de l'entité
@@ -299,7 +383,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	public int getNbLikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
 				this.getInitiativeId(), 
-				15, 
+				19, 
 				false).size();
 	}
 	
@@ -311,7 +395,98 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	public int getNbDislikes() {
 		return LikeLocalServiceUtil.getByEntityIdAndTypeIdAndIsDislike(
 				this.getInitiativeId(), 
-				15, 
+				19, 
 				true).size();
+	}
+	
+	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public List<Comment> getApprovedComments() {
+		return CommentLocalServiceUtil.getByAssetEntry(this.getAssetEntry().getEntryId(),
+				WorkflowConstants.STATUS_APPROVED);
+	}
+
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return CommentLocalServiceUtil
+				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
+	}
+	
+	public String getPublicationDateFr(){
+        Date date = this.getAssetEntry().getPublishDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
+	
+	/**
+	 * Retourne la version JSON de l'entité
+	 *
+	 * @throws PortalException
+	 */
+	@Override
+	public JSONObject toJSON() throws PortalException {
+		// Initialisation des variables tempons et résultantes
+		JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
+		JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat unformatedDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		// Champs : Gestion
+		jsonInitiative.put("id", this.getInitiativeId());
+		jsonInitiative.put("createDate", dateFormat.format(this.getCreateDate()));
+		jsonInitiative.put("unformatedCreateDate", unformatedDateFormat.format(this.getCreateDate()));
+		jsonInitiative.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
+		
+		// Champs : Generaux
+		jsonInitiative.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+		jsonInitiative.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthorLabel())));
+		jsonInitiative.put("authorImageURL", this.getAuthorImageURL());
+		jsonInitiative.put("description", this.getDescription());
+		jsonInitiative.put("placeTextArea", this.getPlaceTextArea());
+		jsonInitiative.put("publishedDate", dateFormat.format(this.getPublicationDate()));
+		jsonInitiative.put("unformatedPublishedDate", unformatedDateFormat.format(this.getPublicationDate()));
+		
+		// Champs : Médias
+		jsonInitiative.put("videoUrl", this.getVideoUrl());
+		jsonInitiative.put("imageURL", this.getImageURL());
+		jsonInitiative.put("mediaChoice", this.getMediaChoice());
+		
+		// Champs : Categorisations
+		AssetCategory statusCategory = this.getStatusCategory();
+		AssetCategory projectCategory = this.getProjectCategory();
+		
+		jsonInitiative.put("statusLabel", statusCategory != null ? statusCategory.getTitle(Locale.FRENCH) : "");
+		jsonInitiative.put("statusColor", this.getStatusCategoryColor());
+		jsonInitiative.put("districtsLabel", this.getDistrictLabel(Locale.FRENCH));
+		jsonInitiative.put("thematicsLabel", this.getThematicsLabel(Locale.FRENCH));
+		jsonInitiative.put("projectName", projectCategory != null ? projectCategory.getTitle(Locale.FRENCH) : "");
+		
+		// Aides
+		jsonInitiative.put("nbHelps", this.getNbHelps());
+		
+		// Lieux placit
+		for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
+			jsonPlacitPlaces.put(placitPlace.toJSON());
+		}
+		jsonInitiative.put("placitPlaces", jsonPlacitPlaces);
+
+		// Liste des Ids des catégories Territoire
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritoryCategories());
+		if (jsonTerritories.length() > 0) {
+			jsonInitiative.put("territories", jsonTerritories);
+		}
+
+		// Liste des Ids des catégories Thématiques
+		JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
+		if (jsonThematics.length() > 0) {
+			jsonInitiative.put("thematics", jsonThematics);
+		}
+
+		return jsonInitiative;
 	}
 }

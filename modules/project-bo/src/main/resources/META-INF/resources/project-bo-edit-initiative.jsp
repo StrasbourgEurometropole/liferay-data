@@ -45,9 +45,6 @@
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
 				
-				<%-- Champ : Auteur --%>
-				<aui:input type="text" name="author" required="true" readonly="true"/>
-				
 				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="true"/>
 			
@@ -87,16 +84,11 @@
 				
 			</aui:fieldset>
 			
-			
-			
 			<%-- Groupe de champs : Lieux de consultation --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="consultation-places">
 				
-				<%-- Champ : Corps de la description des lieux de consultation --%>
-				<aui:input name="consultationPlacesBody" required="false" />
-				
-				<%-- Champ : Lieux texte libre --%>
-				<aui:input name="consultationPlacesText" label="consultation-places-text" required="false"/>
+				<%-- Champ : Lieux de texte libre --%>
+				<aui:input name="placeTextArea" label="place-text-area" required="false" />
 				
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">

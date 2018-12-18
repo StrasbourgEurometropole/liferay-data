@@ -214,7 +214,6 @@ public class SearchHelper {
 
 			// Ordre
 			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
-			System.out.println(sort);
 			searchContext.setSorts(sort);
 
 			// Recherche

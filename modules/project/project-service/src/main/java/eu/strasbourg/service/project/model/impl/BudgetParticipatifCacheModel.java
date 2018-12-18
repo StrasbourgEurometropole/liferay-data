@@ -100,6 +100,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(budget);
 		sb.append(", motif=");
 		sb.append(motif);
+		sb.append(", placeTextArea=");
+		sb.append(placeTextArea);
 		sb.append(", citoyenLastname=");
 		sb.append(citoyenLastname);
 		sb.append(", citoyenFirstname=");
@@ -122,8 +124,6 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(hasCopyright);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
-		sb.append(", placeTextArea=");
-		sb.append(placeTextArea);
 		sb.append(", isCrush=");
 		sb.append(isCrush);
 		sb.append(", crushComment=");
@@ -223,6 +223,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setMotif(motif);
 		}
 
+		if (placeTextArea == null) {
+			budgetParticipatifImpl.setPlaceTextArea(StringPool.BLANK);
+		}
+		else {
+			budgetParticipatifImpl.setPlaceTextArea(placeTextArea);
+		}
+
 		if (citoyenLastname == null) {
 			budgetParticipatifImpl.setCitoyenLastname(StringPool.BLANK);
 		}
@@ -290,13 +297,6 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setVideoUrl(videoUrl);
 		}
 
-		if (placeTextArea == null) {
-			budgetParticipatifImpl.setPlaceTextArea(StringPool.BLANK);
-		}
-		else {
-			budgetParticipatifImpl.setPlaceTextArea(placeTextArea);
-		}
-
 		budgetParticipatifImpl.setIsCrush(isCrush);
 
 		if (crushComment == null) {
@@ -353,6 +353,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		description = objectInput.readUTF();
 		budget = objectInput.readUTF();
 		motif = objectInput.readUTF();
+		placeTextArea = objectInput.readUTF();
 		citoyenLastname = objectInput.readUTF();
 		citoyenFirstname = objectInput.readUTF();
 		citoyenAdresse = objectInput.readUTF();
@@ -366,7 +367,6 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 		hasCopyright = objectInput.readBoolean();
 		videoUrl = objectInput.readUTF();
-		placeTextArea = objectInput.readUTF();
 
 		isCrush = objectInput.readBoolean();
 		crushComment = objectInput.readUTF();
@@ -447,6 +447,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(motif);
 		}
 
+		if (placeTextArea == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeTextArea);
+		}
+
 		if (citoyenLastname == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -509,13 +516,6 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(videoUrl);
 		}
 
-		if (placeTextArea == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(placeTextArea);
-		}
-
 		objectOutput.writeBoolean(isCrush);
 
 		if (crushComment == null) {
@@ -560,6 +560,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public String description;
 	public String budget;
 	public String motif;
+	public String placeTextArea;
 	public String citoyenLastname;
 	public String citoyenFirstname;
 	public String citoyenAdresse;
@@ -571,7 +572,6 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public long citoyenBirthday;
 	public boolean hasCopyright;
 	public String videoUrl;
-	public String placeTextArea;
 	public boolean isCrush;
 	public String crushComment;
 	public String publikId;

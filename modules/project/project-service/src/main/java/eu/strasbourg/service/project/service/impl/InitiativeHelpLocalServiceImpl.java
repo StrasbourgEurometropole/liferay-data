@@ -16,6 +16,12 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.util.List;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException;
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.service.base.InitiativeHelpLocalServiceBaseImpl;
 
@@ -33,13 +39,45 @@ import eu.strasbourg.service.project.service.base.InitiativeHelpLocalServiceBase
  * @see InitiativeHelpLocalServiceBaseImpl
  * @see eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil
  */
-public class InitiativeHelpLocalServiceImpl
-	extends InitiativeHelpLocalServiceBaseImpl {
+public class InitiativeHelpLocalServiceImpl extends InitiativeHelpLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil} to access the initiative help local service.
 	 */
+	
+	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+	
+	/**
+     * Methode de creation d'une initiative
+     * @param sc Le contexte de la requete.
+     * @return L'aide cree.
+     */
+    @Override
+	public InitiativeHelp createInitiativeHelp(ServiceContext sc){
+		long pk = this.counterLocalService.increment();
+		
+		InitiativeHelp result = this.initiativeHelpLocalService.createInitiativeHelp(pk);
+		result.setGroupId(sc.getScopeGroupId());
+		
+		return result;
+	}
+    
+    /**
+     * Supprimer un soutien donne
+     * @param initiativeHelpId Id de l'aide inititative
+     */
+    @Override
+    public InitiativeHelp removeInitiativeHelp(long initiativeHelpId){
+		try {
+			InitiativeHelp result = this.initiativeHelpPersistence.remove(initiativeHelpId);
+			return result;
+		} catch (NoSuchInitiativeHelpException e) {
+			_log.error("Pas d'aide initiative : ", e);
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * Retourne la liste des aides d'une initiative
@@ -48,4 +86,21 @@ public class InitiativeHelpLocalServiceImpl
 	public List<InitiativeHelp> getByInitiativeId(long initiativeId) {
 		return this.initiativeHelpPersistence.findByinitiativeId(initiativeId);
 	}
+	
+	/**
+	 * Retourne l'aide proposee par un utilisateur pour une initiative donnee
+	 */
+	@Override
+	public InitiativeHelp getByPublikUserIdAndInitiativeId(String publikUserId, long initiativeId) {
+		return this.initiativeHelpPersistence.fetchByPublikUserIdAndInitiativeId(publikUserId, initiativeId);
+	}
+	
+	/**
+	 * Retourne les aides proposees par un utilisateur
+	 */
+	@Override
+	public List<InitiativeHelp> getByPublikUserId(String publikUserId) {
+		return this.initiativeHelpPersistence.findByPublikUserId(publikUserId);
+	}
+	
 }

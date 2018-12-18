@@ -1238,6 +1238,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		publikUserImpl.setPactSignature(publikUser.getPactSignature());
 		publikUserImpl.setBanishDate(publikUser.getBanishDate());
 		publikUserImpl.setBanishDescription(publikUser.getBanishDescription());
+		publikUserImpl.setImageURL(publikUser.getImageURL());
 
 		return publikUserImpl;
 	}
