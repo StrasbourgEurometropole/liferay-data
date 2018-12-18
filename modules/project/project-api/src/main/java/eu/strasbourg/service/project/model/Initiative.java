@@ -223,6 +223,8 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	*/
 	public int getNbApprovedComments();
 
+	public java.lang.String getPublicationDateFr();
+
 	/**
 	* Retourne la version JSON de l'entité
 	*

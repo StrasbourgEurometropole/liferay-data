@@ -111,10 +111,12 @@ public class DashboardPortlet extends MVCPortlet {
          * Initiatives : à implémenter
          */
         List<Initiative> initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publikId);
-        List<Initiative> initiativesAides=new ArrayList<>();
+        List<Initiative> initiativesAides = new ArrayList<>();
         
-        request.setAttribute("initiativeFiledCount",initiativesFiled.size());
+        request.setAttribute("initiativeFiledsCount",initiativesFiled.size());
+        request.setAttribute("initiativeFileds",initiativesFiled);
         request.setAttribute("initiativeAidesCount",initiativesAides.size());
+        request.setAttribute("initiativeAides",initiativesAides);
         
         /**
          * Budget participatif

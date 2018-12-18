@@ -16,6 +16,7 @@ package eu.strasbourg.service.project.model.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -409,6 +410,12 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 		return CommentLocalServiceUtil
 				.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED).size();
 	}
+	
+	public String getPublicationDateFr(){
+        Date date = this.getAssetEntry().getPublishDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
 	
 	/**
 	 * Retourne la version JSON de l'entité
