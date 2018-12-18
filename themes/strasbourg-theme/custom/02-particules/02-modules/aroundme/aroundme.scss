@@ -1,3 +1,11 @@
+#wi-aroundme{
+    width: 1200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
 #aroundme{
     overflow: hidden;
     position: relative;
@@ -586,7 +594,7 @@
         }
     }
 
-  
+
 
 
 
@@ -837,8 +845,67 @@
             a{
                 width: 100%;
                 display: block !important;
-                @extend %atom-btn-square--filled--core;
-                padding: 10px 20px;
+                padding: 15px 20px;
+                text-decoration: none;
+                position: relative;
+                transition: all, 0.5s;
+                overflow: hidden;          
+                border-color: $core-color;
+                background-color: $core-color;
+
+                .flexbox{    
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    .btn-text{
+                        font-family: $montserrat;
+                        font-size: 1.4rem;
+                        text-transform: uppercase;
+                        font-weight: 400;
+                        transition: all, 0.3s;
+                        margin-right: 20px;
+                        color: #FFFFFF;
+                    }
+
+                    .btn-arrow{
+                        content: '';
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        background-size: 14px;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+                    }
+                }
+                &:before{
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0%;
+                    height: 0%;
+                    width: 100%;
+                    z-index: 1;
+                    transition: all, 0.3s;
+                    background-color: #FFFFFF;
+                }
+                & > * {
+                    position: relative;
+                    z-index: 2;
+                }
+                &:hover, &:focus{
+                    .btn-text{
+                        color: $core-color;
+                    }
+                    .btn-arrow{
+                        background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                    }
+                    &:before{
+                        height: 103%;
+                    }
+                }
             }
         }
     }
@@ -907,52 +974,52 @@
     }
 
     @keyframes lds-rolling {
-      0% {
+    0% {
         -webkit-transform: translate(-50%, -50%) rotate(0deg);
         transform: translate(-50%, -50%) rotate(0deg);
-      }
-      100% {
+    }
+    100% {
         -webkit-transform: translate(-50%, -50%) rotate(360deg);
         transform: translate(-50%, -50%) rotate(360deg);
-      }
+    }
     }
     @-webkit-keyframes lds-rolling {
-      0% {
+    0% {
         -webkit-transform: translate(-50%, -50%) rotate(0deg);
         transform: translate(-50%, -50%) rotate(0deg);
-      }
-      100% {
+    }
+    100% {
         -webkit-transform: translate(-50%, -50%) rotate(360deg);
         transform: translate(-50%, -50%) rotate(360deg);
-      }
+    }
     }
     .lds-rolling {
-      position: relative;
+    position: relative;
     }
     .lds-rolling div,
     .lds-rolling div:after {
-      position: absolute;
-      width: 105px;
-      height: 105px;
-      border: 10px solid #ffffff;
-      border-top-color: transparent;
-      border-radius: 50%;
+    position: absolute;
+    width: 105px;
+    height: 105px;
+    border: 10px solid #ffffff;
+    border-top-color: transparent;
+    border-radius: 50%;
     }
     .lds-rolling div {
-      -webkit-animation: lds-rolling 1s linear infinite;
-      animation: lds-rolling 1s linear infinite;
-      top: 100px;
-      left: 100px;
+    -webkit-animation: lds-rolling 1s linear infinite;
+    animation: lds-rolling 1s linear infinite;
+    top: 100px;
+    left: 100px;
     }
     .lds-rolling div:after {
-      -webkit-transform: rotate(90deg);
-      transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
     }
     .lds-rolling {
-      width: 40px !important;
-      height: 40px !important;
-      -webkit-transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
-      transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
+    width: 40px !important;
+    height: 40px !important;
+    -webkit-transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
+    transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
     }
 }
 
