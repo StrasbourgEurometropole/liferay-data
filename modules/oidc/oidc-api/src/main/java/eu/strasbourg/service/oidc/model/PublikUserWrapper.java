@@ -73,6 +73,7 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("pactSignature", getPactSignature());
 		attributes.put("banishDate", getBanishDate());
 		attributes.put("banishDescription", getBanishDescription());
+		attributes.put("imageURL", getImageURL());
 
 		return attributes;
 	}
@@ -173,6 +174,12 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (banishDescription != null) {
 			setBanishDescription(banishDescription);
+		}
+
+		String imageURL = (String)attributes.get("imageURL");
+
+		if (imageURL != null) {
+			setImageURL(imageURL);
 		}
 	}
 
@@ -287,6 +294,24 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public java.lang.String getFirstName() {
 		return _publikUser.getFirstName();
+	}
+
+	/**
+	* Returns the image url of this publik user.
+	*
+	* @return the image url of this publik user
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _publikUser.getImageURL();
+	}
+
+	/**
+	* Retourne l'image de profil ou le substitut
+	*/
+	@Override
+	public java.lang.String getImageURLOrSurrogate() {
+		return _publikUser.getImageURLOrSurrogate();
 	}
 
 	/**
@@ -523,6 +548,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setFirstName(java.lang.String firstName) {
 		_publikUser.setFirstName(firstName);
+	}
+
+	/**
+	* Sets the image url of this publik user.
+	*
+	* @param imageURL the image url of this publik user
+	*/
+	@Override
+	public void setImageURL(java.lang.String imageURL) {
+		_publikUser.setImageURL(imageURL);
 	}
 
 	/**

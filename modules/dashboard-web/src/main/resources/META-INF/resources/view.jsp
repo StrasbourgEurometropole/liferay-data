@@ -16,9 +16,7 @@
 		<div class="container pro-user">
 			<a href="#pro-onglet-account">
 				<figure>
-					<img
-						src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-						width="40" height="40" alt="Nom de l'utilisateur" />
+					<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
 				</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
 			</a> <span><liferay-ui:message key="dashboard.front.welcome" /><span
 				id="pro-user-name">${userConnected.get('first_name')}
@@ -138,26 +136,10 @@
 					<div class="pro-wrapper col-md-3">
 						<div class="profile">
 							<div class="photo">
-								<input type="file" accept="image/*">
 								<div class="photo__helper">
 									<div class="photo__frame photo__frame--circle">
-										<img
-											src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-											width="185" height="185" alt="Image" class="pro-img-bg" />
+										<img src="${userConnected.get('photo')}" width="185" height="185" alt="Image" class="pro-img-bg" />
 										<canvas class="photo__canvas"></canvas>
-
-										<div class="pro-photo-hover">
-											<span class="icon-ico-user"></span>
-											<p>
-												<liferay-ui:message key="dashboard.account.profile.picture" />
-											</p>
-										</div>
-										<div class="message is-wrong-image-size">
-											<p>
-												<liferay-ui:message
-													key="dashboard.account.profile.picture.error" />
-											</p>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -348,8 +330,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pÃÂ©titions signÃÂ©s -->
-		<c:if test="${petitionSignedCount ne 0}">
+		<!-- Tuile des petitions signes -->		<c:if test="${petitionSignedCount ne 0}">
 			<section id="pro-link-listing-petition-signe"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
@@ -365,9 +346,9 @@
 						<c:forEach var="petitionSigned" items="${petitionSigned}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionSigned.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
@@ -411,7 +392,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pÃÂ©titions dÃÂ©posÃÂ©s -->
+		<!-- Tuile des petitions deposees -->
 		<c:if test="${petitionsFiledCount != 0}">
 			<section id="pro-link-listing-petition-depose"
 				class="pro-bloc-slider pro-slider-event">
@@ -428,15 +409,14 @@
 						<c:forEach var="petitionFiled" items="${petitionsFiled}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionFiled.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong>${petitionFiled.petitionnaireFirstname}
-											${petitionFiled.petitionnaireLastname}</strong>
+										<strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong>
 									</p>
 								</div>
 								<div class="pro-content-petition">
@@ -519,7 +499,6 @@
 				</div>
 			</section>
 		</c:if>
-
 
 		<!-- Tuile des initiatives -->
 		<c:if test="${initiativeAidesCount != 0}">
