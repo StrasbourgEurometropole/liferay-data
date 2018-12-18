@@ -162,6 +162,19 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public int getNbHelps();
 
 	/**
+	* Retourne le nombre d'aides de l'initiative
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getHelps();
+
+	/**
+	* L'utilisateur donne a t-il deja propose son aide a l'initiative
+	*
+	* @param publikUserId L'identifiant Publik de l'utilisateur
+	* @return La verite
+	*/
+	public boolean isUserAlreadyHelp(java.lang.String publikUserId);
+
+	/**
 	* Retourne la categorie projet
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();

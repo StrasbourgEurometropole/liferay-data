@@ -7,7 +7,7 @@
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalGiveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalGiveInitiativeHelp">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        
+        	
         	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.give.initiative.help.title"/></h3>
@@ -460,10 +460,10 @@
             result = false;
         }else $("#<portlet:namespace />message").css({ "box-shadow" : "" });
         
-        if (message===null || message===""){
-            $("#<portlet:namespace />message").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (typeHelpIds === null || typeHelpIds === ""){
+            $("#<portlet:namespace />helpTypes").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />message").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />helpTypes").css({ "box-shadow" : "" });
 
         if (city===null || city===""){
             $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
