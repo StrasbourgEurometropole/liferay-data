@@ -41,6 +41,7 @@ import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
@@ -304,6 +305,24 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	@Override
 	public int getNbHelps() {
 		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId()).size();
+	}
+	
+	/**
+	 * Retourne le nombre d'aides de l'initiative
+	 */
+	@Override
+	public List<InitiativeHelp> getHelps() {
+		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId());
+	}
+	
+	/**
+	 * L'utilisateur donne a t-il deja propose son aide a l'initiative
+	 * @param publikUserId L'identifiant Publik de l'utilisateur
+	 * @return La verite
+	 */
+	@Override
+	public boolean isUserAlreadyHelp(String publikUserId) {
+		return InitiativeHelpLocalServiceUtil.getByPublikUserIdAndInitiativeId(publikUserId, this.getInitiativeId()) != null;
 	}
 	
 	/**

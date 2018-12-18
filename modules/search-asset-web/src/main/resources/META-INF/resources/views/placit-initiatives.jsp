@@ -86,7 +86,11 @@
                             <h3>${initiativeAside.title}</h3>
 
                             <div class="pro-meta-footer">
-                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbLikes()} <liferay-ui:message key="eu.support.initiative" /></span>
+                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbHelps()} <liferay-ui:message key="eu.support.initiative" /></span>
+                            	<div class="pro-avis">
+                                    <span class="pro-like"><span class="icon-ico-like"></span> ${initiativeAside.getNbLikes()}</span>
+                                    <span class="pro-dislike"><span class="icon-ico-like"></span> ${initiativeAside.getNbDislikes()}</span>
+                                </div>
                             </div>
                         </a>
 	                </c:forEach>
@@ -115,7 +119,11 @@
                             <h3>${initiativeAside.title}</h3>
 
                             <div class="pro-meta-footer">
-                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbLikes()} <liferay-ui:message key="eu.support.initiative" /></span>
+                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbHelps()} <liferay-ui:message key="eu.support.initiative" /></span>
+                            	<div class="pro-avis">
+                                    <span class="pro-like"><span class="icon-ico-like"></span> ${initiativeAside.getNbLikes()}</span>
+                                    <span class="pro-dislike"><span class="icon-ico-like"></span> ${initiativeAside.getNbDislikes()}</span>
+                                </div>
                             </div>
                         </a>
 	                </c:forEach>
@@ -144,7 +152,11 @@
                             <h3>${initiativeAside.title}</h3>
 
                             <div class="pro-meta-footer">
-                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbLikes()} <liferay-ui:message key="eu.support.initiative" /></span>
+                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbHelps()} <liferay-ui:message key="eu.support.initiative" /></span>
+                            	<div class="pro-avis">
+                                    <span class="pro-like"><span class="icon-ico-like"></span> ${initiativeAside.getNbLikes()}</span>
+                                    <span class="pro-dislike"><span class="icon-ico-like"></span> ${initiativeAside.getNbDislikes()}</span>
+                                </div>
                             </div>
                         </a>
 	                </c:forEach>
