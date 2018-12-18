@@ -19,7 +19,10 @@
 </#if>
 
 <!-- Recuperation du statut de l'initiative -->
-<#assign participationStatus = entry.getStatusCategory().getTitle(locale) />
+<#assign initiativeStatus = entry.getStatusCategory().getTitle(locale) />
+
+<!-- Recuperation du statut de l'initiative -->
+<#assign initiativeHelps = entry.getHelps() />
 
 <#-- Initialisation des conteneurs de vignettes -->
 <#assign initiativeJSON = entry.toJSON() />
@@ -37,8 +40,8 @@
 					<div class="pro-header-participation pro-theme-croissance">
 						<h1>${entry.title}</h1>
 						<div class="pro-wrapper-meta">
-							<#if participationStatus?has_content>
-								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${participationStatus}</span></div>
+							<#if initiativeStatus?has_content>
+								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${initiativeStatus}</span></div>
 							</#if>
 							<div class="pro-meta">
 							
@@ -141,66 +144,22 @@
 									<p>N'hésitez pas à proposer la votre si cette initiative fait echos.</p>
 									
 									<div class="row pro-wrapper-people">
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/comm-sylvie.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
+
+										<#list initiativeHelps as initiativeHelp >
+											<div class="col-md-4 col-sm-6">
 												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Emeline Sidoyer</h3>
-													<p>à proposé une aide financière</p>
+													<figure class="fit-cover">
+														<img src="${initiativeHelp.getAuthorImageURL()}" width="200" height="140" alt="Image de profil"/>
+													</figure>
+													<div>
+														<time datetime="2018-02-1">Le ${initiativeHelp.getCreateDate()?date?string['dd/MM/yyyy']}</time>
+														<h3>${initiativeHelp.getAuthorLabel()}</h3>
+														<p>à proposé ${initiativeHelp.getTypesLabel()}</p>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Richard Prelo</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Maxime Porto</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Jérémy M.</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Jérémy M.</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
+										</#list>
+								
 									</div>
 								</div>
 							</div>
@@ -260,7 +219,7 @@
 							<#else>
 								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur">Contacter le porteur</a>
 							</#if>
-								
+							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
 								<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>
 							<#elseif isUserBanned>
@@ -280,7 +239,7 @@
 	</div>
 
 
-	<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+	<#-- <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
 		<div class="container">
 			<div class="col-lg-10 col-lg-offset-1">
 				<h2>D’autres initiatives</h2>
@@ -298,25 +257,7 @@
 
 			
 		</div>
-	</section>
-
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="contactInitiativeAuthor"
-		/>
-		
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="giveInitiativeHelp"
-		/>
-		
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="submitInitiative"
-		/>
+	</section> -->
 	
 </div>
 
