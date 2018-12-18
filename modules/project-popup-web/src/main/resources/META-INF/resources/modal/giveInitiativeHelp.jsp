@@ -270,7 +270,7 @@
         
         if (response){
         	var entryId = $("#<portlet:namespace />entryId").val();
-            var initiativeHelpmessage = $("#<portlet:namespace />initiativeHelpMessage").val();
+            var initiativeHelpMessage = $("#<portlet:namespace />initiativeHelpMessage").val();
             var initiativeHelpTypeIds = getHelpTypeIds();
             var lastname = $("#<portlet:namespace />lastname").val();
             var firstname = $("#<portlet:namespace />firstname").val();
@@ -291,7 +291,7 @@
                         dataType: 'json',
                         data:{
                         	<portlet:namespace/>entryId : 					entryId,
-                            <portlet:namespace/>initiativeHelpmessage: 		initiativeHelpmessage,
+                            <portlet:namespace/>initiativeHelpMessage: 		initiativeHelpMessage,
                             <portlet:namespace/>initiativeHelpTypeIds: 		initiativeHelpTypeIds,
                             <portlet:namespace/>address:					address,
                             <portlet:namespace/>city: 						city,
@@ -352,7 +352,7 @@
 	*/
     function resetValues(){
     	// Champs entite
-        $("#<portlet:namespace />message").val("");
+        $("#<portlet:namespace />initiativeHelpMessage").val("");
         $("#<portlet:namespace />helpType1").prop('checked', true);
         $("#<portlet:namespace />helpType2").prop('checked', false);
         $("#<portlet:namespace />helpType3").prop('checked', false);

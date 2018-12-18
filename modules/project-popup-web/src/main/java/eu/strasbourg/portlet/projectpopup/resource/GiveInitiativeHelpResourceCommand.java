@@ -193,7 +193,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	private boolean removeInitiativeHelp(ResourceRequest request) throws PortletException {
         InitiativeHelp initiativeHelp;
         
-        initiativeHelp = InitiativeHelpLocalServiceUtil.removeInitiativeHelp(existantInitiativeHelp.getInitiativeId());
+        initiativeHelp = InitiativeHelpLocalServiceUtil.removeInitiativeHelp(existantInitiativeHelp.getInitiativeHelpId());
         
         _log.info("Aide d'initiative supprime : " + initiativeHelp);
         return true;
