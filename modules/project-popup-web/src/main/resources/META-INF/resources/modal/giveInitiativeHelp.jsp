@@ -51,7 +51,7 @@
                         <aui:input id="initiativeHelpMessage" type="textarea" 
 	                        	name="initiativeHelpMessage" required="true" 
 	                        	label="modal.give.initiative.help.information.message" value=""
-	                     />
+	                    />
 	                </div> 
                     
                 </div>
@@ -189,7 +189,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='ok'/></h4>
+                <h4><liferay-ui:message key='give.initiative.help.confirm.text'/></h4>
                 <div class="centerButtonValidation">
                     <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button.give.initiative.help.ok"/> />
                 </div>
@@ -233,6 +233,26 @@
                 <h4><liferay-ui:message key='give.initiative.help.quit.text'/></h4>
                 <div class="centerButtonValidation">
                     <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="give.initiative.help.quit.button"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONFIRMATION SUPPRESSION D'AIDE INITIATIVE -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalRemoveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalRemoveInitiativeHelp">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='remove.initiative.help.quit.title'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
+                </button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='remove.initiative.help.quit.text'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="<portlet:namespace />buttonSubmitRemove" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="remove.initiative.help.quit.button"/> />
                 </div>
             </div>
         </div>
@@ -320,6 +340,17 @@
                                         if($("#<portlet:namespace />mobile").val() != "")
                                             saved_mobile = $("#<portlet:namespace />mobile").val();
                                     }
+                                    
+                                    if(data.cmd === "send-initiative-help") {
+                                    	$('a[data-target="#modalGiveInitiativeHelp"]').toggleClass("active")
+                                    													.text("Aide proposee")
+                                    													.attr("data-target", "#modalRemoveInitiativeHelp");
+                                    } else {
+                                    	$('a[data-target="#modalRemoveInitiativeHelp"]').toggleClass("active")
+                                    													.text("Proposer mon aide")
+                                    													.attr("data-target", "#modalGiveInitiativeHelp");
+                                    }
+                                    
                                     $("#<portlet:namespace />modalConfirm").modal('show');
                                     resetValues();
                                 }else{
@@ -342,7 +373,7 @@
     $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
         $("#<portlet:namespace />modalConfirm").modal('hide');
     });
-
+	
     $("#<portlet:namespace />modalError #<portlet:namespace />buttonConfirm").click(function(event){
         $("#<portlet:namespace />modalError").modal('hide');
     });
@@ -366,13 +397,14 @@
         $("#<portlet:namespace />phone").val(saved_phone);
         $("#<portlet:namespace />mobile").val(saved_mobile);
         $("#<portlet:namespace />birthday").val(saved_dateNaiss);
+        $("#<portlet:namespace />city").val(saved_city);
         
      	// Chebox de conditions et de sauvegade des informations
      	$("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
         $("#<portlet:namespace />checkboxSaveInfo").hide();
         $("#<portlet:namespace />legalage").prop("checked", false);
         $("#<portlet:namespace />cnil").prop("checked", false);
-        $("#<portlet:namespace />city").val(saved_city);
+       
     }
     
     /**
@@ -466,7 +498,24 @@
         return result;
     }
     
+    /**
+     * Lors de la demande de soumission d'une aide
+     */
     $("#<portlet:namespace />buttonSubmit").click(function(event){
+    	sendInitiativeHelp();
+    });
+    
+    /**
+    * Lors de la soumission d'une demande de retrait d'une aide
+    */
+    $("#<portlet:namespace />buttonSubmitRemove").click(function(event){
+    	resetValues();
+    	
+    	$("#<portlet:namespace />initiativeHelpMessage").val("Remove");
+    	$("#<portlet:namespace />legalage").prop("checked", true);
+        $("#<portlet:namespace />cnil").prop("checked", true);
+    	
+        $("#modalRemoveInitiativeHelp").modal('hide');
     	sendInitiativeHelp();
     });
     

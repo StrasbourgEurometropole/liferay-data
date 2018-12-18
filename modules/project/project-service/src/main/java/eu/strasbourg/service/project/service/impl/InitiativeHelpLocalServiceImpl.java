@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.liferay.portal.kernel.log.Log;
@@ -57,7 +58,9 @@ public class InitiativeHelpLocalServiceImpl extends InitiativeHelpLocalServiceBa
 		long pk = this.counterLocalService.increment();
 		
 		InitiativeHelp result = this.initiativeHelpLocalService.createInitiativeHelp(pk);
+		
 		result.setGroupId(sc.getScopeGroupId());
+		result.setCreateDate(new Date());
 		
 		return result;
 	}
