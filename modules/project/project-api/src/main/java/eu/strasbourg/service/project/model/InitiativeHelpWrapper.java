@@ -121,6 +121,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		}
 	}
 
+	/**
+	* Retourne l'initiative de l'aide
+	*
+	* @return
+	*/
+	@Override
+	public Initiative getInitiative() {
+		return _initiativeHelp.getInitiative();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _initiativeHelp.isCachedModel();

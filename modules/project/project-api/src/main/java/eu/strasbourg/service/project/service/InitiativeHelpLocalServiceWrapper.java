@@ -294,6 +294,15 @@ public class InitiativeHelpLocalServiceWrapper
 	}
 
 	/**
+	* Retourne les aides proposees par un utilisateur
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getByPublikUserId(
+		java.lang.String publikUserId) {
+		return _initiativeHelpLocalService.getByPublikUserId(publikUserId);
+	}
+
+	/**
 	* Returns a range of all the initiative helps.
 	*
 	* <p>

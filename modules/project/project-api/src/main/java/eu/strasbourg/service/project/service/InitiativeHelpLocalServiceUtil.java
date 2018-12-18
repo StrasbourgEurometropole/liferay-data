@@ -276,6 +276,14 @@ public class InitiativeHelpLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les aides proposees par un utilisateur
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getByPublikUserId(
+		java.lang.String publikUserId) {
+		return getService().getByPublikUserId(publikUserId);
+	}
+
+	/**
 	* Returns a range of all the initiative helps.
 	*
 	* <p>
