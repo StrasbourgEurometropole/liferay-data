@@ -80,6 +80,17 @@ public class InitiativeHelpLocalServiceUtil {
 	}
 
 	/**
+	* Methode de creation d'une initiative
+	*
+	* @param sc Le contexte de la requete.
+	* @return L'aide cree.
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp createInitiativeHelp(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+		return getService().createInitiativeHelp(sc);
+	}
+
+	/**
 	* Creates a new initiative help with the primary key. Does not add the initiative help to the database.
 	*
 	* @param initiativeHelpId the primary key for the new initiative help
@@ -120,6 +131,27 @@ public class InitiativeHelpLocalServiceUtil {
 	}
 
 	/**
+	* Returns the initiative help matching the UUID and group.
+	*
+	* @param uuid the initiative help's UUID
+	* @param groupId the primary key of the group
+	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp fetchInitiativeHelpByUuidAndGroupId(
+		java.lang.String uuid, long groupId) {
+		return getService().fetchInitiativeHelpByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
+	* Retourne l'aide proposee par un utilisateur pour une initiative donnee
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp getByPublikUserIdAndInitiativeId(
+		java.lang.String publikUserId, long initiativeId) {
+		return getService()
+				   .getByPublikUserIdAndInitiativeId(publikUserId, initiativeId);
+	}
+
+	/**
 	* Returns the initiative help with the primary key.
 	*
 	* @param initiativeHelpId the primary key of the initiative help
@@ -130,6 +162,30 @@ public class InitiativeHelpLocalServiceUtil {
 		long initiativeHelpId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getInitiativeHelp(initiativeHelpId);
+	}
+
+	/**
+	* Returns the initiative help matching the UUID and group.
+	*
+	* @param uuid the initiative help's UUID
+	* @param groupId the primary key of the group
+	* @return the matching initiative help
+	* @throws PortalException if a matching initiative help could not be found
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp getInitiativeHelpByUuidAndGroupId(
+		java.lang.String uuid, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getInitiativeHelpByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
+	* Supprimer un soutien donne
+	*
+	* @param initiativeHelpId Id de l'aide inititative
+	*/
+	public static eu.strasbourg.service.project.model.InitiativeHelp removeInitiativeHelp(
+		long initiativeHelpId) {
+		return getService().removeInitiativeHelp(initiativeHelpId);
 	}
 
 	/**
@@ -217,6 +273,14 @@ public class InitiativeHelpLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getByInitiativeId(
 		long initiativeId) {
 		return getService().getByInitiativeId(initiativeId);
+	}
+
+	/**
+	* Retourne les aides proposees par un utilisateur
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getByPublikUserId(
+		java.lang.String publikUserId) {
+		return getService().getByPublikUserId(publikUserId);
 	}
 
 	/**

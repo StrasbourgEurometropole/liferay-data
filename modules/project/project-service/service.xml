@@ -308,10 +308,6 @@
 		<column name="externalImageCopyright" type="String" />
 		<column name="mediaChoice" type="boolean" />
 
-		<!-- Lieux de consultation -->
-		<column name="consultationPlacesText" type="String" />
-		<column name="consultationPlacesBody" type="String" />
-
 		<!-- Links with other entities -->
 		<column name="publikId" type="String" />
 		<column name="imageId" type="long" />
@@ -342,8 +338,7 @@
 	</entity>
 
 
-	<entity local-service="true" name="Signataire" remote-service="true"
-			uuid="true">
+	<entity local-service="true" name="Signataire" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 		<column name="signataireId" primary="true" type="long" />
@@ -398,13 +393,15 @@
 			<finder-column name="petitionId" />
 			<finder-column name="publikUserId" />
 		</finder>
+		
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
 	</entity>
-	<entity local-service="true" cache-enabled="true" name="Initiative"
-			remote-service="true" uuid="true">
+	
+	<entity local-service="true" cache-enabled="true" name="Initiative" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 		<column name="initiativeId" primary="true" type="long" />
@@ -427,8 +424,8 @@
 
 		<!-- Main fields -->
 		<column name="title" type="String" />
-		<column name="author" type="String" />
 		<column name="description" type="String" />
+		<column name="placeTextArea" type="String" />
 
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
@@ -441,10 +438,6 @@
 		<column name="publikId" type="String" />
 		<column name="imageId" type="long" />
 		<column name="filesIds" type="String" />
-
-		<!-- Lieux de consultation -->
-		<column name="consultationPlacesText" type="String" />
-		<column name="consultationPlacesBody" type="String" />
 
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />
@@ -472,8 +465,8 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 
 	</entity>
-	<entity local-service="true" name="InitiativeHelp"
-			remote-service="true" uuid="false">
+	
+	<entity local-service="true" name="InitiativeHelp" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 		<column name="initiativeHelpId" primary="true" type="long" />
@@ -484,6 +477,7 @@
 		<!-- Other fields -->
 		<column name="publikUserId" type="String" />
 		<column name="initiativeId" type="long" />
+		<column name="helpTypes" type="String" />
 		<column name="groupId" type="long" />
 		<column name="message" type="String" />
 
@@ -503,6 +497,7 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
 	</entity>
 
 	<entity local-service="true" name="BudgetParticipatif" remote-service="true" uuid="true">
@@ -531,6 +526,7 @@
 		<column name="description" type="String" />
 		<column name="budget" type="String" />
 		<column name="motif" type="String" />
+		<column name="placeTextArea" type="String" />
 
 		<!-- citoyen fields -->
 		<column name="citoyenLastname" type="String" />
@@ -546,10 +542,7 @@
 		
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
-
-		<!-- Lieux de consultation -->
-		<column name="placeTextArea" type="String" />
-
+		
 		<!-- coup de coeur -->
 		<column name="isCrush" type="boolean" />
 		<column name="crushComment" type="String" />
@@ -589,6 +582,7 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
 	</entity>
 
 	<entity local-service="true" name="BudgetPhase" remote-service="true" uuid="true">
@@ -644,6 +638,7 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
 	</entity>
 	
 	<entity local-service="true" name="BudgetSupport" remote-service="true" uuid="true">

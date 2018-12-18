@@ -20,6 +20,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.publikUser}" model="<%=PublikUser.class %>" />
+
 		<aui:fieldset-group markupView="lexicon">
 		
 			<%-- Champ : (cache) PK de l'entite --%>
@@ -36,6 +37,9 @@
 				
 				<%-- Champ : Email --%>
 				<aui:input name="email" required="true" disabled="true" />
+				
+				<%-- Champ : URL de l'image entrouvert --%>
+				<aui:input name="imageURL" required="false" />
 				
 			</aui:fieldset>
 			

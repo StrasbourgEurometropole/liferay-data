@@ -50,6 +50,7 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setDescription(model.getDescription());
 		soapModel.setBudget(model.getBudget());
 		soapModel.setMotif(model.getMotif());
+		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setCitoyenLastname(model.getCitoyenLastname());
 		soapModel.setCitoyenFirstname(model.getCitoyenFirstname());
 		soapModel.setCitoyenAdresse(model.getCitoyenAdresse());
@@ -61,7 +62,6 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setCitoyenBirthday(model.getCitoyenBirthday());
 		soapModel.setHasCopyright(model.getHasCopyright());
 		soapModel.setVideoUrl(model.getVideoUrl());
-		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setIsCrush(model.getIsCrush());
 		soapModel.setCrushComment(model.getCrushComment());
 		soapModel.setPublikId(model.getPublikId());
@@ -251,6 +251,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_motif = motif;
 	}
 
+	public String getPlaceTextArea() {
+		return _placeTextArea;
+	}
+
+	public void setPlaceTextArea(String placeTextArea) {
+		_placeTextArea = placeTextArea;
+	}
+
 	public String getCitoyenLastname() {
 		return _citoyenLastname;
 	}
@@ -343,14 +351,6 @@ public class BudgetParticipatifSoap implements Serializable {
 		_videoUrl = videoUrl;
 	}
 
-	public String getPlaceTextArea() {
-		return _placeTextArea;
-	}
-
-	public void setPlaceTextArea(String placeTextArea) {
-		_placeTextArea = placeTextArea;
-	}
-
 	public boolean getIsCrush() {
 		return _isCrush;
 	}
@@ -419,6 +419,7 @@ public class BudgetParticipatifSoap implements Serializable {
 	private String _description;
 	private String _budget;
 	private String _motif;
+	private String _placeTextArea;
 	private String _citoyenLastname;
 	private String _citoyenFirstname;
 	private String _citoyenAdresse;
@@ -430,7 +431,6 @@ public class BudgetParticipatifSoap implements Serializable {
 	private Date _citoyenBirthday;
 	private boolean _hasCopyright;
 	private String _videoUrl;
-	private String _placeTextArea;
 	private boolean _isCrush;
 	private String _crushComment;
 	private String _publikId;

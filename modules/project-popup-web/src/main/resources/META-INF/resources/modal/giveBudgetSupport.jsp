@@ -235,7 +235,7 @@
         $('#checkboxSupportSaveInfo #save-info').prop('checked', false);
         $('#checkboxSupportSaveInfo').hide();
         $("#giveSupportLegalAge").prop("checked", false);
-        $("#giveBudgetSupportCondition1").prop("checked", false);        
+        $("#giveBudgetSupportCondition1").prop("checked", false);
     }
 	
 	/*

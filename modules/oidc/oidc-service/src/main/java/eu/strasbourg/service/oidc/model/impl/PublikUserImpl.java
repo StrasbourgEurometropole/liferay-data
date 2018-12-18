@@ -29,6 +29,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class PublikUserImpl extends PublikUserBaseImpl {
+
+	private static final long serialVersionUID = -3749806145234327527L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -40,6 +43,7 @@ public class PublikUserImpl extends PublikUserBaseImpl {
 	/**
 	 * L'utilisateur est-il en perdiode de bannissement ?
 	 */
+	@Override
 	public boolean isBanned() {
 		Date now = new Date();
 		
@@ -49,6 +53,18 @@ public class PublikUserImpl extends PublikUserBaseImpl {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Retourne l'image de profil ou le substitut
+	 */
+	@Override
+	public String getImageURLOrSurrogate() {
+		if (!this.getImageURL().equals("")) {
+			return this.getImageURL();
+		} else {
+			return "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png";
+		}
 	}
 
 }

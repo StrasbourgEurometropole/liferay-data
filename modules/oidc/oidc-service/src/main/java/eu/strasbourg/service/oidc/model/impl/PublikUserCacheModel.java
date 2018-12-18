@@ -66,7 +66,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,6 +100,8 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		sb.append(banishDate);
 		sb.append(", banishDescription=");
 		sb.append(banishDescription);
+		sb.append(", imageURL=");
+		sb.append(imageURL);
 		sb.append("}");
 
 		return sb.toString();
@@ -211,6 +213,13 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 			publikUserImpl.setBanishDescription(banishDescription);
 		}
 
+		if (imageURL == null) {
+			publikUserImpl.setImageURL(StringPool.BLANK);
+		}
+		else {
+			publikUserImpl.setImageURL(imageURL);
+		}
+
 		publikUserImpl.resetOriginalValues();
 
 		return publikUserImpl;
@@ -236,6 +245,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		pactSignature = objectInput.readLong();
 		banishDate = objectInput.readLong();
 		banishDescription = objectInput.readUTF();
+		imageURL = objectInput.readUTF();
 	}
 
 	@Override
@@ -319,6 +329,13 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		else {
 			objectOutput.writeUTF(banishDescription);
 		}
+
+		if (imageURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(imageURL);
+		}
 	}
 
 	public String uuid;
@@ -337,4 +354,5 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	public long pactSignature;
 	public long banishDate;
 	public String banishDescription;
+	public String imageURL;
 }

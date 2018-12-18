@@ -353,6 +353,21 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setMotif(String motif);
 
 	/**
+	 * Returns the place text area of this budget participatif.
+	 *
+	 * @return the place text area of this budget participatif
+	 */
+	@AutoEscape
+	public String getPlaceTextArea();
+
+	/**
+	 * Sets the place text area of this budget participatif.
+	 *
+	 * @param placeTextArea the place text area of this budget participatif
+	 */
+	public void setPlaceTextArea(String placeTextArea);
+
+	/**
 	 * Returns the citoyen lastname of this budget participatif.
 	 *
 	 * @return the citoyen lastname of this budget participatif
@@ -520,21 +535,6 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	 * @param videoUrl the video url of this budget participatif
 	 */
 	public void setVideoUrl(String videoUrl);
-
-	/**
-	 * Returns the place text area of this budget participatif.
-	 *
-	 * @return the place text area of this budget participatif
-	 */
-	@AutoEscape
-	public String getPlaceTextArea();
-
-	/**
-	 * Sets the place text area of this budget participatif.
-	 *
-	 * @param placeTextArea the place text area of this budget participatif
-	 */
-	public void setPlaceTextArea(String placeTextArea);
 
 	/**
 	 * Returns the is crush of this budget participatif.

@@ -19,10 +19,12 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
@@ -71,7 +73,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
-//	private static final String DETAIL_INITIATIVE_URL = "detail-inititative/-/entity/id/";
+	private static final String DETAIL_INITIATIVE_URL = "detail-inititative/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	
 	// Constantes des objets / attributs JSON
@@ -79,7 +81,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	private static final String JSON_OBJECT_PARTICIPATIONS = "participations";
 	private static final String JSON_OBJECT_PETITIONS = "petitions";
 	private static final String JSON_OBJECT_BUDGETS_PARTICIPATIFS = "budgets";
-//	private static final String JSON_OBJECT_INITIATIVE = "initiatives";
+	private static final String JSON_OBJECT_INITIATIVE = "initiatives";
 	private static final String JSON_OBJECT_EVENTS = "events";
 	private static final String ATTRIBUTE_LINK = "link";
 	
@@ -92,7 +94,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	private List<Participation> participations;
 	private List<Petition> petitions;
 	private List<BudgetParticipatif> budgetsParticipatifs;
-//	private List<Initiative> initiatives;
+	private List<Initiative> initiatives;
 	private List<Event> events;
 	
 	/**
@@ -168,7 +170,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		this.participations = ParticipationLocalServiceUtil.getPublishedByGroupId(groupId);
 		this.petitions = PetitionLocalServiceUtil.getPublishedByGroupId(groupId);
 		this.budgetsParticipatifs = BudgetParticipatifLocalServiceUtil.getPublishedByGroupId(groupId);
-//		this.initiatives = InitiativeLocalServiceUtil.getPublishedByGroupId(groupId);
+		this.initiatives = InitiativeLocalServiceUtil.getPublishedByGroupId(groupId);
 		List<String> tagLabels =  new ArrayList<String>();
 		tagLabels.add("participer");
 		this.events = EventLocalServiceUtil.getByTagsWithOrSelection(tagLabels);
@@ -183,7 +185,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			List<Participation> filteredParticipations = new ArrayList<Participation>();
 			List<Petition> filteredPetitions = new ArrayList<Petition>();
 			List<BudgetParticipatif> filteredBudgetsParticipatifs = new ArrayList<BudgetParticipatif>();
-//			List<Initiative> filteredInitiatives = new ArrayList<Initiative>();
+			List<Initiative> filteredInitiatives = new ArrayList<Initiative>();
 			List<Event> filteredEvents = new ArrayList<Event>();
 			
 			try {
@@ -209,11 +211,11 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 						filteredBudgetsParticipatifs.add(budgetPaticipatif);
 					}
 				}
-//				for (Initiative initiative : new ArrayList<Initiative>(this.initiatives)) {
-//					if (initiative.getDistrictCategories().contains(districtCategory)) {
-//						filteredInitiatives.add(initiative);
-//					}
-//				}
+				for (Initiative initiative : new ArrayList<Initiative>(this.initiatives)) {
+					if (initiative.getDistrictCategories().contains(districtCategory)) {
+						filteredInitiatives.add(initiative);
+					}
+				}
 				for (Event event : new ArrayList<Event>(this.events)) {
 					if (event.getCategories().contains(districtCategory)) {
 						filteredEvents.add(event);
@@ -228,7 +230,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 			this.participations = filteredParticipations;
 			this.petitions = filteredPetitions;
 			this.budgetsParticipatifs = filteredBudgetsParticipatifs;
-//			this.initiatives = filteredInitiatives;
+			this.initiatives = filteredInitiatives;
 			this.events = filteredEvents;
 			
 		}
@@ -237,7 +239,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		request.setAttribute("participations", this.participations);
 		request.setAttribute("petitions", this.petitions);
 		request.setAttribute("budgets-participatifs", this.budgetsParticipatifs);
-//		request.setAttribute("initiatives", this.initiatives);
+		request.setAttribute("initiatives", this.initiatives);
 		request.setAttribute("events", this.events);
 
 	}
@@ -318,16 +320,16 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		jsonResponse.put(JSON_OBJECT_BUDGETS_PARTICIPATIFS, jsonBudgetsParticipatifs);
 				
 		// Gestion des initiatives
-//		JSONArray jsonInitiatives = JSONFactoryUtil.createJSONArray();
-//		for (Initiative initiative : this.initiatives) {
-//			JSONObject jsonInitiative = initiative.toJSON(themeDisplay);
-//			jsonInitiative.put(
-//				ATTRIBUTE_LINK, 
-//				this.getHomeURL(request) + DETAIL_INITIATIVE_URL + initiative.getInititativeId()
-//			);
-//			jsonInitiatives.put(jsonInitiative);
-//		}
-//		jsonResponse.put(JSON_OBJECT_INITIATIVE, jsonInitiatives);
+		JSONArray jsonInitiatives = JSONFactoryUtil.createJSONArray();
+		for (Initiative initiative : this.initiatives) {
+			JSONObject jsonInitiative = initiative.toJSON();
+			jsonInitiative.put(
+				ATTRIBUTE_LINK, 
+				this.getHomeURL(request) + DETAIL_INITIATIVE_URL + initiative.getInitiativeId()
+			);
+			jsonInitiatives.put(jsonInitiative);
+		}
+		jsonResponse.put(JSON_OBJECT_INITIATIVE, jsonInitiatives);
 		
 		// Gestion des événements
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
