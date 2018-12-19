@@ -27,6 +27,26 @@
 			<div class="container mns-listing-exp">
 	            <div class="row" data-egalize=".mns-bloc-exp">
 		        	<liferay-ui:search-container-results results="${dc.entries}" />
+
+		        	<%-- S'il n'y a pas de résultat, on affiche les 3 blocs --%>
+                    <c:if test="${dc.total == 0}">
+                        <div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
+                            <liferay-portlet:runtime
+                            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                            instanceId="first-wc-display" />
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
+                            <liferay-portlet:runtime
+                            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                            instanceId="second-wc-display" />
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
+                            <liferay-portlet:runtime
+                            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                            instanceId="third-wc-display" />
+                        </div>
+                    </c:if>
+
 		        	<liferay-ui:search-container-row
 						className="com.liferay.asset.kernel.model.AssetEntry"
 						modelVar="entry" keyProperty="entryId" rowIdProperty="entryId" indexVar="index">
@@ -39,6 +59,7 @@
 									<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
 								</c:when>
 							</c:choose>
+		        	        <%-- S'il y a 1 ou 2 résultat(s), on affiche le 1er bloc au début --%>
 							<c:if test="${(dc.total lt 3 and index eq 0)}">
 								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;">
 									<liferay-portlet:runtime
@@ -61,9 +82,9 @@
 									template="abstract"
 								/>
 								
-								
-								
 							</liferay-ddm:template-renderer>
+
+		        	        <%-- S'il y a au moins 1 résultat, on affiche les autres blocs --%>
 							<c:if test="${(dc.total gt 2 and dc.total lt 6 and index eq 1) or (dc.total gt 5 and index eq 4) }">
 								<div class="col-md-4 col-sm-6 col-xs-12" style="margin: 0;"> 
 									<liferay-portlet:runtime

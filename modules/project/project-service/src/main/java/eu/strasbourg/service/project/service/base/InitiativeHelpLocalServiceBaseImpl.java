@@ -228,6 +228,19 @@ public abstract class InitiativeHelpLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the initiative help matching the UUID and group.
+	 *
+	 * @param uuid the initiative help's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	 */
+	@Override
+	public InitiativeHelp fetchInitiativeHelpByUuidAndGroupId(String uuid,
+		long groupId) {
+		return initiativeHelpPersistence.fetchByUUID_G(uuid, groupId);
+	}
+
+	/**
 	 * Returns the initiative help with the primary key.
 	 *
 	 * @param initiativeHelpId the primary key of the initiative help
@@ -289,6 +302,20 @@ public abstract class InitiativeHelpLocalServiceBaseImpl
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
 		return initiativeHelpPersistence.findByPrimaryKey(primaryKeyObj);
+	}
+
+	/**
+	 * Returns the initiative help matching the UUID and group.
+	 *
+	 * @param uuid the initiative help's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching initiative help
+	 * @throws PortalException if a matching initiative help could not be found
+	 */
+	@Override
+	public InitiativeHelp getInitiativeHelpByUuidAndGroupId(String uuid,
+		long groupId) throws PortalException {
+		return initiativeHelpPersistence.findByUUID_G(uuid, groupId);
 	}
 
 	/**

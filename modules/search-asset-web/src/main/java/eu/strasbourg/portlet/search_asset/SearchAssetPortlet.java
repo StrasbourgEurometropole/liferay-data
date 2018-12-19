@@ -27,6 +27,7 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
@@ -43,11 +44,13 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
         "com.liferay.portlet.display-category=Strasbourg",
@@ -65,6 +68,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
     public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
     public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
+    public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
 
     @Override
     public void render(RenderRequest renderRequest,
@@ -140,7 +144,16 @@ public class SearchAssetPortlet extends MVCPortlet {
             	renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
             	renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
             	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
-            }
+            
+		    } else if (className.equals(INITIATIVE)) {
+		    	List<Initiative> initiativesMostLiked = _initiativeLocalService.getMostLiked(groupId, 3);
+		    	List<Initiative> initiativesMostCommented = _initiativeLocalService.getMostCommented(groupId, 3);
+		    	List<Initiative> initiativesMostHelped = _initiativeLocalService.getMostHelped(groupId, 3);
+		    	
+		    	renderRequest.setAttribute("initiativesMostLiked", initiativesMostLiked);
+		    	renderRequest.setAttribute("initiativesMostCommented", initiativesMostCommented);
+		    	renderRequest.setAttribute("initiativesMostHelped", initiativesMostHelped);
+		    }
             
             renderRequest.setAttribute("isUserloggedIn", false);
             renderRequest.setAttribute("hasUserPactSign", false);
@@ -156,18 +169,14 @@ public class SearchAssetPortlet extends MVCPortlet {
             } 
 
             //Suppression des attributs de session
-            /*HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
+            HttpServletRequest request = PortalUtil.getLiferayPortletRequest(renderRequest).getHttpServletRequest();
             HttpSession session = request.getSession();
-            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");
-            session.removeAttribute("PORTLET_RENDER_PARAMETERS_");
-            session.removeAttribute("LIFERAY_SHARED_VISITED_GROUP_ID_RECENT");
-            session.removeAttribute("LAST_PATH");
-            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN#CSRF");
-            session.removeAttribute("DEVICE");
-            session.removeAttribute("PREVIOUS_LAYOUT_PLID");
-            session.removeAttribute("PORTAL_PREFERENCES");
-            session.removeAttribute("HTTPS_INITIAL");
-            session.removeAttribute("LIFERAY_SHARED_AUTHENTICATION_TOKEN1088857_LAYOUT_com_liferay_exportimport_web_portlet_ExportImportPortlet");*/
+            ConcurrentHashMap portlet_render_parameters_ = ((ConcurrentHashMap) session.getAttribute("PORTLET_RENDER_PARAMETERS_"));
+            portlet_render_parameters_.forEach((key,attribute)->{
+                ConcurrentHashMap attributes = (ConcurrentHashMap) attribute;
+                ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+                attributes.remove(td.getPpid());
+            });
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
@@ -220,6 +229,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._states = new long[]{};
                     this._statuts = new long[]{};
                     this._bpStatus = new long[] {};
+                    this._initiativeStatus = new long[] {};
                     this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -238,6 +248,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._states = new long[]{};
                     this._statuts = ParamUtil.getLongValues(resourceRequest, "selectedStatut");
                     this._bpStatus = new long[] {};
+                    this._initiativeStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -256,6 +267,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
                     this._statuts = new long[]{};
                     this._bpStatus = new long[] {};
+                    this._initiativeStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -274,6 +286,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._states = new long[]{};
                     this._statuts = new long[]{};
                     this._bpStatus = new long[] {};
+                    this._initiativeStatus = new long[] {};
                     this._projects = ParamUtil.getLongValues(resourceRequest, "selectedProject");
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -292,6 +305,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
                     this._statuts = new long[]{};
                     this._bpStatus = new long[] {};
+                    this._initiativeStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -310,11 +324,31 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._states = new long[]{};
                     this._statuts = new long[]{};
                     this._bpStatus = ParamUtil.getLongValues(resourceRequest, "selectedBPStatus");
+                    this._initiativeStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
                     this._types = new long[]{};
                     this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+                }
+                
+                if (resourceID.equals("entrySelectionInitiative")) {
+                	this._keywords = ParamUtil.getString(resourceRequest, "selectedKeyWords");
+                	this._startDay = ParamUtil.getInteger(resourceRequest, "selectedStartDay");
+                	this._startMonth = ParamUtil.getString(resourceRequest, "selectedStartMonth");
+                	this._startYear = ParamUtil.getInteger(resourceRequest, "selectedStartYear");
+                	this._endDay = ParamUtil.getInteger(resourceRequest, "selectedEndDay");
+                	this._endMonth = ParamUtil.getString(resourceRequest, "selectedEndMonth");
+                	this._endYear = ParamUtil.getInteger(resourceRequest, "selectedEndYear");
+                	this._states = new long[]{};
+                	this._statuts = new long[]{};
+                	this._bpStatus = new long[]{};
+                	this._initiativeStatus = ParamUtil.getLongValues(resourceRequest, "selectedInitiativeStatus");
+                	this._projects = new long[]{};
+                	this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
+                	this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
+                	this._types = new long[]{};
+                	this._sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
                 }
 
                 if (resourceID.equals("entrySelectionNews")) {
@@ -328,6 +362,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                     this._states = ParamUtil.getLongValues(resourceRequest, "selectedStates");
                     this._statuts = new long[]{};
                     this._bpStatus = new long[] {};
+                    this._initiativeStatus = new long[] {};
                     this._projects = new long[]{};
                     this._districts = ParamUtil.getLongValues(resourceRequest, "selectedDistricts");
                     this._thematics = ParamUtil.getLongValues(resourceRequest, "selectedThematics");
@@ -413,6 +448,13 @@ public class SearchAssetPortlet extends MVCPortlet {
                             jsonBudget.put("json", budgetParticipatif.toJSON(publikUserId));
                             jsonEntries.put(jsonBudget);
                             break;
+                        case "eu.strasbourg.service.project.model.Initiative":
+                        	Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(entry.getClassPK());
+                        	JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
+                        	jsonInitiative.put("class", className);
+                        	jsonInitiative.put("json", initiative.toJSON());
+                        	jsonEntries.put(jsonInitiative);
+                        	break;
                         case "eu.strasbourg.service.video.model.Video":
                             Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
                             JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
@@ -604,7 +646,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
         }
         
-        // On récupère les statuts BP s'il y en a
+        // On recupere les statuts BP s'il y en a
         for (long bpStatus : this._bpStatus) {
             if (bpStatus > 0) {
                 categoriesIds.add(bpStatus);
@@ -612,6 +654,16 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
         if (categoriesIds.size() > 0) {
             filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
+        }
+        
+        // On recupere les statuts initiative s'il y en a
+        for (long initiativeStatus : this._initiativeStatus) {
+        	if (initiativeStatus > 0) {
+        		categoriesIds.add(initiativeStatus);
+        	}
+        }
+        if (categoriesIds.size() > 0) {
+        	filterCategoriesIds.add(ArrayUtil.toLongArray(categoriesIds.stream().mapToLong(l -> l).toArray()));
         }
 
         // On récupère les projets s'il y en a
@@ -833,7 +885,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     private ResourceRequest _request;
     private ResourceResponse _response;
     private SearchAssetConfiguration _configuration;
-
+    
     private String _keywords;
     private int _startDay;
     private String _startMonth;
@@ -844,6 +896,7 @@ public class SearchAssetPortlet extends MVCPortlet {
     private long[] _states;
     private long[] _statuts;
     private long[] _bpStatus;
+    private long[] _initiativeStatus;
     private long[] _projects;
     private long[] _districts;
     private long[] _thematics;
@@ -859,6 +912,11 @@ public class SearchAssetPortlet extends MVCPortlet {
      * interface des budgets
      */
     private BudgetParticipatifLocalService _budgetParticipatifLocalService;
+    
+    /**
+     * interface des initiatives
+     */
+    private InitiativeLocalService _initiativeLocalService;
 
     /**
      * interface des participations
@@ -875,6 +933,11 @@ public class SearchAssetPortlet extends MVCPortlet {
     @Reference(unbind = "-")
     protected void setBudgetParticipatifLocalService(BudgetParticipatifLocalService budgetParticipatifLocalService) {
         _budgetParticipatifLocalService = budgetParticipatifLocalService;
+    }
+    
+    @Reference(unbind = "-")
+    protected void setInitiativeLocalService(InitiativeLocalService initiativeLocalService) {
+    	_initiativeLocalService = initiativeLocalService;
     }
 
     @Reference(unbind = "-")

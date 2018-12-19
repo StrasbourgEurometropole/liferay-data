@@ -405,7 +405,7 @@ function getProjectMarker(project, mercators) {
                 '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
             '</a>' + 
         '</div>'
-        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
+        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -530,7 +530,7 @@ function getPetitionMarker(petition, mercators) {
                 '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
-        ,{maxHeight: 240, minWidth: 350, maxWidth: 370}
+        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -583,7 +583,7 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
                 '</div>' +
             '</a>' +
         '</div>'
-        ,{maxHeight: 350, minWidth: 350, maxWidth: 370}
+        ,{maxHeight: 350, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -592,10 +592,30 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 /**
 * Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
 */
-function getInitiativeMarker(mercators, link) {
+function getInitiativeMarker(initiative, mercators) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
     var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
+
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-initiative">' + 
+            '<a href="' + initiative.link + '">' + 
+                '<div class="wrapper-card-initiative"><div> ' +
+                '<div class="pro-header-initiative">' + 
+                    '<figure role="group"><img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+                    '<p>Initiative publiée par :</p><p><strong>' + initiative.author + '</strong></p>' +
+                '</div> ' +
+                '<div class="pro-content-initiative">' +
+                    '<h3>' + initiative.title + '</h3>' +
+                    '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
+                '</div> ' + 
+                '</div></div>' +
+                '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
+                '</div>' +
+            '</a>' +
+        '</div>'
+        ,{maxHeight: 350, minWidth: 330, maxWidth: 350}
+    );
 
     return marker;
 
@@ -639,6 +659,10 @@ function getResult(searchPage, data) {
 
             if(json.class == "eu.strasbourg.service.project.model.BudgetParticipatif"){
                 listing += createBudgetParticipatif(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.Initiative"){
+                listing += createInitiative(json.json);
             }
 
             if(json.class == "com.liferay.journal.model.JournalArticle"){
@@ -1111,6 +1135,57 @@ function createBudgetParticipatif(budgetParticipatif){
     return vignette;
 }
 
+/**
+* Création de la vignette d'initiative
+*/
+function createInitiative(initiative){
+    var vignette = 
+        '<div class="item pro-bloc-card-initiative pro-theme-embryon vignette" data-linkall="a">' +
+            '<div class="wrapper-card-initiative">' +
+                (initiative.imageURL != "" ? 
+                    '<figure role="group" class="fit-cover">' +
+                        '<img src="' + initiative.imageURL + '" width="240" height="250" alt="Image initiative"/>' +
+                    '</figure>'
+                    :
+                    ''
+                ) +
+                '<div>' +
+                    '<div class="pro-header-initiative">' +
+                        '<figure role="group">' +
+                            '<img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Image de profil auteur"/>' +
+                        '</figure>' +
+                        '<p>Participation publiée par :</p>' +
+                        '<p><strong>' + initiative.author + '</strong></p>' +
+                    '</div>' +
+                    '<div class="pro-content-initiative">' +
+                        '<div class="pro-wrapper-meta">' +
+                            (initiative.statusLabel != "" ? 
+                                '<div class="pro-statut"><span style="background : #' + initiative.statusColor + ';">' + initiative.statusLabel + '</span></div>'
+                                :
+                                ''
+                            ) +
+                            '<div class="pro-meta">' +
+                                (initiative.districtsLabel != "" ? '<span>' + initiative.districtsLabel + '</span>' : '') +
+                                (initiative.thematicsLabel != "" ? '<span>' + initiative.thematicsLabel + '</span>' : '') +
+                                (initiative.projectName != "" ? '<span>' + initiative.projectName + '</span>' : '') +
+                            '</div>' +
+                        '</div>' +
+                        '<a href="' + homeURL + 'detail-initiative/-/entity/id/' + initiative.id + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
+                        '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="pro-footer-initiative">' +
+                '<div class="pro-avis">' +
+                    '<span>' + initiative.nbHelps + '</span>' +
+                '</div>' +
+                '<p>Citoyens-nes soutiennent cette initiative</p>' +
+            '</div>' +
+        '</div>';
+
+    return vignette;
+}
+
 
 /**
 * Création de la pagination
@@ -1208,4 +1283,18 @@ $('.pro-remove').on('click',function(){
         // Renvoi la liste des entités demandées
         getSelectedEntries();
     }
+});
+
+
+$(document).ready(function () {
+	
+    $('.closefirstmodal').click(function () {
+        $('#WarningClosePopup').modal('show');
+    });
+
+    $('.confirmclosed').click(function () {
+        $('#WarningClosePopup').modal('hide');
+        $('.pro-modal').modal('hide');
+    });
+    
 });

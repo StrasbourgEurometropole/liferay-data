@@ -1,0 +1,39 @@
+.cc-window.cc-banner.cc-type-info.cc-theme-block.cc-bottom {
+    position: fixed;
+    z-index: 1000;
+    bottom: 80px;
+    top: auto;
+    left: auto;
+    right: 40px;
+    width: 600px;
+    max-width: 80%;
+    font-size: 1.6rem;
+    padding: 10px 20px;
+}
+
+.cc-banner a.cc-dismiss {
+    font-family: $f_txt;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 40px;
+    margin-left: 20px;
+    &:hover {
+        color: $c_main;
+        background: $c_white;
+    }
+    @media screen and (max-width: 414px) and (orientation: portrait),
+    screen and (max-width: 736px) and (orientation: landscape) {
+        margin-left: 0;
+        line-height: 40px;
+    }
+}
+
+@media screen and (max-width: 414px) and (orientation: portrait),
+screen and (max-width: 736px) and (orientation: landscape) {
+    .cc-window.cc-bottom {
+        bottom: 0;
+        padding: 10px 20px !important;
+        font-size: 1.4rem;
+    }
+}

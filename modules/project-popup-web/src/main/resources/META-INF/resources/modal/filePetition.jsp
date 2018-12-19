@@ -187,8 +187,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key='quit-petition'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <h3>TEST MESSAGE</h3>
             </div>
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key='file-petition-quit'/></h4>

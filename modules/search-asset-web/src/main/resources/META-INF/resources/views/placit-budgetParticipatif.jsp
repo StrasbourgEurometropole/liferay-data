@@ -6,6 +6,7 @@
      <div class="container">
         <div class="row">
             <div class="col-md-8 pro-bloc-listing-participation">
+            
                 <div id="breadcrumb">
 		            <span>
 		                <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
@@ -17,12 +18,12 @@
                  <div class="pro-wrapper-sort">
                     <c:choose>
                         <c:when test='${isUserloggedIn}'>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalBudget">
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow deposit-button" data-toggle="modal" data-target="#modalBudget">
                             	<liferay-ui:message key="file-budget" />
                             </a>
                         </c:when>
                         <c:otherwise>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">
+                            <a id="buttonDeposer" href="" class="pro-btn-yellow deposit-button" data-toggle="modal" data-target="#myModal">
                             	<liferay-ui:message key="file-budget" />
                             </a>
                         </c:otherwise>
@@ -31,13 +32,15 @@
  				
  				<div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">
+                    
                         <!-- Resultats -->
                         <aui:form method="post" name="fm">
-                            <div class="pro-listing-budget">
-                            </div>
+                            <div class="pro-listing-budget"></div>
                         </aui:form>
+                        
                     </div>
                 </div>
+                
             </div>
             
             <!-- Blocs lateraux -->
@@ -83,7 +86,7 @@
                                 <span>${bpAside.getThematicsLabel(locale)}</span>
                             </div>
                             <h3>${bpAside.title}</h3>
-
+							
                             <div class="pro-meta-footer">
                                 <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
                             </div>

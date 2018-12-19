@@ -29,12 +29,13 @@ public class VocabularyNames {
 	public static final String NEWS_TYPE = "type d'actualite";
 	public static final String PARTICIPATION_TYPE = "type de participation";
 	public static final String BUDGET_PARTICIPATIF_STATUS= "Statut BP";
+	public static final String INITIATIVE_STATUS = "statut de l'initiative";
 	public static final String PLACIT_STATUS = "statut participer";
 	public static final String THEMATIC = "thematique";
 	public static final String PROJECT_STATUS = "statut projet";
 	public static final String SIGNALEMENT_CATEGORIE = "Signalements Categorie";
 	public static final String PROJECT = "projet";
-	public static final String INITIATIVE_STATUS = "statut de l'initiative";
+	
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";
 	public static final String DUREE_NOEL = "duree noel";
