@@ -15548,6 +15548,20 @@ $('.pro-remove').on('click',function(){
         getSelectedEntries();
     }
 });
+
+
+$(document).ready(function () {
+	
+    $('.closefirstmodal').click(function () {
+        $('#WarningClosePopup').modal('show');
+    });
+
+    $('.confirmclosed').click(function () {
+        $('#WarningClosePopup').modal('hide');
+        $('.pro-modal').modal('hide');
+    });
+    
+});
 //méthode permettant de confirmer la fermeture de la popup en ouvrant une nouvelle popup.
 $("#closingButton").click(function(event){
    event.preventDefault();

@@ -1,17 +1,16 @@
 <%@ include file="/project-popup-init.jsp" %>
 
-
 <portlet:resourceURL id="ContactInitiativeAuthor" var="ContactInitiativeAuthorURL">
 </portlet:resourceURL>
 
 <!-- MODAL CONTACTER LE PORTEUR -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalInitiativeContact"
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalInitiativeContact" data-backdrop="static" data-keyboard="false"
 	tabindex="-1" role="dialog" aria-labelledby="modalInitiativeContact">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="pro-modal-top">
 				<h3><liferay-ui:message key="modal.initiative.contact.author.title"/></h3>
-				<button type="button" class="close" data-dismiss="modal"
+				<button type="button" class="close closefirstmodal"
 					aria-label="Close">
 					<span aria-hidden="true"><span class="icon-multiply"></span></span>
 				</button>
@@ -72,23 +71,24 @@
 var namespaceContactAuthor = "<portlet:namespace />";
 var mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : "";
 
-$(document).ready(function(){
+$(document).ready(function () {
+	
 	$("#"+namespaceContactAuthor+"mobile").val(mobile);
-});
-
-$('#submitContactButton').click( function(e){
-	e.preventDefault();
-	AUI().use('aui-io-request', function(A) {
-		A.io.request('${ContactInitiativeAuthorURL}', {
-			method : 'post',
-			dataType: 'json',
-			on: {
-	            success: function(e) {
-	            	$('#modalInitiativeContact').modal('hide')
-			 	}
-			 }
-		});
-	});
+	
+    $('#submitContactButton').click( function(e){
+    	e.preventDefault();
+    	AUI().use('aui-io-request', function(A) {
+    		A.io.request('${ContactInitiativeAuthorURL}', {
+    			method : 'post',
+    			dataType: 'json',
+    			on: {
+    	            success: function(e) {
+    	            	$('#modalInitiativeContact').modal('hide')
+    			 	}
+    			 }
+    		});
+    	});
+    });
 });
 
 </script>

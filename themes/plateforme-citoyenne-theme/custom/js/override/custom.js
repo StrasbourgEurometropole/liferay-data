@@ -1284,3 +1284,17 @@ $('.pro-remove').on('click',function(){
         getSelectedEntries();
     }
 });
+
+
+$(document).ready(function () {
+	
+    $('.closefirstmodal').click(function () {
+        $('#WarningClosePopup').modal('show');
+    });
+
+    $('.confirmclosed').click(function () {
+        $('#WarningClosePopup').modal('hide');
+        $('.pro-modal').modal('hide');
+    });
+    
+});
