@@ -68,6 +68,11 @@ public interface InitiativeHelp extends InitiativeHelpModel, PersistedModel {
 	public java.lang.String getAuthorLabel();
 
 	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	public java.lang.String getAuthorImageURL();
+
+	/**
 	* Retourne le message d'accompagnement sans les balises et autres fioritures
 	*
 	* @return

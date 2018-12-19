@@ -199,6 +199,14 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _initiativeHelp.getAuthorImageURL();
+	}
+
+	/**
 	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	@Override

@@ -43,6 +43,8 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;

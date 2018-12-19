@@ -72,6 +72,18 @@ public class InitiativeHelpImpl extends InitiativeHelpBaseImpl {
     }
     
     /**
+     * Retourne l'URL de l'image de l'utilisateur
+     */
+    @Override
+    public String getAuthorImageURL() {
+        PublikUser author =  this.getAuthor();
+        if (author != null) {
+        	return author.getImageURLOrSurrogate();
+        }
+        return "";
+    }
+    
+    /**
      * Retourne le message d'accompagnement sans les balises et autres fioritures 
      * @return
      */
@@ -91,13 +103,16 @@ public class InitiativeHelpImpl extends InitiativeHelpBaseImpl {
 			result += "" + InitiativeHelpTypes.TIME.getLabel();
 		}
 		if (this.getHelpTypes().contains((InitiativeHelpTypes.MONEY.toString()))) {
-			result += (result.equals("") ? " " : ", ") + InitiativeHelpTypes.TIME.getLabel();
+			result += (result.equals("") ? "" : ", ") + InitiativeHelpTypes.MONEY.getLabel();
 		}
 		if (this.getHelpTypes().contains((InitiativeHelpTypes.PLACE.toString()))) {
-			result += (result.equals("") ? " " : ", ") + InitiativeHelpTypes.PLACE.getLabel();
+			result += (result.equals("") ? "" : ", ") + InitiativeHelpTypes.PLACE.getLabel();
 		}
 		if (this.getHelpTypes().contains((InitiativeHelpTypes.EXPERTISE.toString()))) {
-			result += (result.equals("") ? " " : ", ") + InitiativeHelpTypes.EXPERTISE.getLabel();
+			result += (result.equals("") ? "" : ", ") + InitiativeHelpTypes.EXPERTISE.getLabel();
+		}
+		if (result.equals("")) {
+			result += "une aide totale";
 		}
 		
 		return result;

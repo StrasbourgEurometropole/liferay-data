@@ -351,6 +351,17 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* L'utilisateur donne a t-il deja propose son aide a l'initiative
+	*
+	* @param publikUserId L'identifiant Publik de l'utilisateur
+	* @return La verite
+	*/
+	@Override
+	public boolean isUserAlreadyHelp(java.lang.String publikUserId) {
+		return _initiative.isUserAlreadyHelp(publikUserId);
+	}
+
+	/**
 	* Retourne la categorie projet
 	*/
 	@Override
@@ -789,6 +800,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
 		return _initiative.getDistrictCategories();
+	}
+
+	/**
+	* Retourne le nombre d'aides de l'initiative
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getHelps() {
+		return _initiative.getHelps();
 	}
 
 	/**
