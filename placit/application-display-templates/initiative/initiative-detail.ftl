@@ -27,6 +27,12 @@
 <#-- Initialisation des conteneurs de vignettes -->
 <#assign initiativeJSON = entry.toJSON() />
 
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign isUserHelps = entry.isUserAlreadyHelp(userID) />
+
 <#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
 <#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
@@ -133,7 +139,7 @@
 
 								<!-- Les personnes ayant pris part à l'initiative -->
 								<div role="tabpanel" class="tab-pane fade pro-bloc-texte" id="lieux">
-									<p><strong>Liste des citoyens ayant proposé une aide au porteur de l'initiative.</strong></p>
+									<p><strong>Liste des citoyens-nes ayant proposé une aide au porteur de l'initiative.</strong></p>
 									<p>Cette aide peut prendre plusieurs formes : </p>
 									<ul>
 										<li>Du temps</li>
@@ -159,13 +165,12 @@
 												</div>
 											</div>
 										</#list>
-								
+										
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
 
 					<aside class="col-sm-4">
 					
@@ -213,7 +218,8 @@
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" data-toggle="modal" data-target="#modalInitiativeContact">Contacter le porteur</a>
+								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le porteur" 
+										data-toggle="modal" data-target="#modalRemoveInitiativeContact">Contacter le porteur</a>
 							<#elseif isUserBanned>
 								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
 							<#else>
@@ -221,7 +227,13 @@
 							</#if>
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>
+								<#if isUserHelps >
+									<a href="#popin" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour proposer mon aide" 
+										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposee</a>
+								<#else>
+									<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" 
+										data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>
+								</#if>
 							<#elseif isUserBanned>
 								<a name="#IsBanned"class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
 							<#else>
