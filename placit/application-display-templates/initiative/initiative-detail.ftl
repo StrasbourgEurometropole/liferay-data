@@ -221,7 +221,7 @@
 								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le porteur" 
 										data-toggle="modal" data-target="#modalRemoveInitiativeContact">Contacter le porteur</a>
 							<#elseif isUserBanned>
-								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
+								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Contacter le porteur</a>
 							<#else>
 								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur">Contacter le porteur</a>
 							</#if>
