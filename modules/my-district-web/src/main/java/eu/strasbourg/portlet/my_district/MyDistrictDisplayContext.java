@@ -163,6 +163,8 @@ public class MyDistrictDisplayContext {
                     .getAssetCategoryAssetEntries(district.getCategoryId());
             // ne garde que les élus
             assetEntries.removeIf(e -> !(e.getClassName().equals(Official.class.getName())));
+            // ne garde que s'il est publié
+            assetEntries.removeIf(e -> !e.getVisible());
             if (!assetEntries.isEmpty()) {
                 official = OfficialLocalServiceUtil.fetchOfficial(assetEntries.get(0).getClassPK());
             }
@@ -201,6 +203,8 @@ public class MyDistrictDisplayContext {
                 AssetCategory townHallCategory = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary,
                         "Cat_12_07");
                 assetEntries.removeIf(e -> !(e.getCategories().contains(townHallCategory)));
+                // ne garde que s'il est publié
+                assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
                 e1.printStackTrace();
             }
@@ -242,6 +246,8 @@ public class MyDistrictDisplayContext {
                 AssetCategory territoryDirectionCategory = AssetVocabularyHelper
                         .getCategoryByExternalId(placeTypeVocabulary, "Cat_12_05");
                 assetEntries.removeIf(e -> !(e.getCategories().contains(territoryDirectionCategory)));
+                // ne garde que s'il est publié
+                assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
                 e1.printStackTrace();
             }
@@ -260,7 +266,7 @@ public class MyDistrictDisplayContext {
             List<String> sigIds = adictService.getSchoolsByAddress(address);
             for (String sigId : sigIds) {
                 Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
-                if (place != null) {
+                if (place != null && place.getStatus() == WorkflowConstants.STATUS_APPROVED) {
                     sectorSchools.add(place);
                 }
             }
