@@ -213,11 +213,11 @@
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" data-toggle="modal" data-target="#modalInitiativeContact">Contacter le porteur</a>
+								<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor" data-toggle="modal" data-target="#modalInitiativeContact">Contacter le porteur</a>
 							<#elseif isUserBanned>
-								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
+								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
 							<#else>
-								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur">Contacter le porteur</a>
+								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
 							</#if>
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
