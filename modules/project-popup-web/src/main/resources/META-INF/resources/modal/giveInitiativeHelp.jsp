@@ -267,7 +267,7 @@
 	function sendInitiativeHelp () {
     	
         event.preventDefault();
-        var response = validateForm();
+        var response = validateFormHelp();
         
         if (response){
         	var entryId = $("#<portlet:namespace />entryId").val();
@@ -420,11 +420,11 @@
     /*
 	* Verifie la conformite des elements avant l'envoie du formulaire
 	*/
-    function validateForm()
+    function validateFormHelp()
     {
         var result = true;
         
-        var message = $("#<portlet:namespace />message").val();
+        var initiativeHelpMessage = $("#<portlet:namespace />initiativeHelpMessage").val();
         var typeHelpIds = getHelpTypeIds();
         var city = $("#<portlet:namespace />city").val();
         var address = $("#<portlet:namespace />address").val();
@@ -434,10 +434,10 @@
         var photo = $("#<portlet:namespace />photo").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
-        if (message===null || message===""){
-            $("#<portlet:namespace />message").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (initiativeHelpMessage===null || initiativeHelpMessage===""){
+            $("#<portlet:namespace />initiativeHelpMessage").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />message").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />initiativeHelpMessage").css({ "box-shadow" : "" });
         
         if (typeHelpIds === null || typeHelpIds === ""){
             $("#<portlet:namespace />helpTypes").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -471,8 +471,8 @@
             result = false;
 
         if (!result)
-            $("#sendalert").removeClass("hidden");
-        else $("#sendalert").addClass("hidden");
+            $("#<portlet:namespace />alert").removeClass("hidden");
+        else $("#<portlet:namespace />alert").addClass("hidden");
         
         return result;
     }

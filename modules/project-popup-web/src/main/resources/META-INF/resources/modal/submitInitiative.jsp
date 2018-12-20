@@ -500,8 +500,8 @@
             result = false;
 
         if (!result)
-            $("#sendalert").removeClass("hidden");
-        else $("#sendalert").addClass("hidden");
+            $("#<portlet:namespace />alert").removeClass("hidden");
+        else $("#<portlet:namespace />alert").addClass("hidden");
         
         return result;
     }
