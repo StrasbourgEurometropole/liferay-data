@@ -218,8 +218,8 @@
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le porteur" 
-										data-toggle="modal" data-target="#modalRemoveInitiativeContact">Contacter le porteur</a>
+								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor"
+								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le porteur</a>
 							<#elseif isUserBanned>
 								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
 							<#else>
