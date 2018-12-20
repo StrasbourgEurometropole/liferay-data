@@ -5,12 +5,13 @@
 
 <!-- DEPOSER UN NOUVEAU BUDGET -->
 <!-- HTML pour la modal de budget -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalBudget" tabindex="-1" role="dialog" aria-labelledby="modalProjet">
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalBudget" tabindex="-1" role="dialog" aria-labelledby="modalProjet"
+	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.filebudget.title"/></h3>
-                <button id="closingButton" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <button type="button" class="close closefirstmodal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
             <aui:form name="uploadForm" enctype="multipart/form-data">
@@ -183,25 +184,6 @@
                 <h4></h4>
                 <div class="centerButtonValidation">
                     <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-ok"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CONFIRMATION QUITTER BUDGET -->
-<!-- HTML pour la modal de quitter le formulaire de budget -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitBudget" tabindex="-1" role="dialog" aria-labelledby="modalQuitBudget">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='quit-budget'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='file-budget-quit'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-quit"/> />
                 </div>
             </div>
         </div>

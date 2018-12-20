@@ -21,13 +21,14 @@
 <liferay-ui:error key="legalage-error" message="legalage-error" />
 
 <!-- HTML pour la modal d'une petition -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner">
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalSigner" tabindex="-1" role="dialog" aria-labelledby="modalSigner"
+	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.signpetition.title"/></h3>
-            	<button id="closingButton2" type="button" class="close" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            	<button type="button" class="close closefirstmodal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
 
             </div>
             <form id="form-sign-petition" method="post" action="${signPetitionURL}">
@@ -121,25 +122,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<!-- CONFIRMATION QUITTER PETITION -->
-<!-- HTML pour la modal de quitter le formulaire de petition -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPetition" tabindex="-1" role="dialog" aria-labelledby="modalQuitPetition">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='quit-petition'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='file-petition-quit'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-quit"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
     var namespaceSign = "<portlet:namespace />";

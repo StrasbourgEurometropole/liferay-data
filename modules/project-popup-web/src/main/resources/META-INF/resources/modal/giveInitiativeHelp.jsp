@@ -4,14 +4,15 @@
 </portlet:resourceURL>
 
 <!-- DEPOSER UNE NOUVELLE INITIATIVE -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalGiveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalGiveInitiativeHelp">
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalGiveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalGiveInitiativeHelp"
+	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         	
         	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.give.initiative.help.title"/></h3>
-                <button id="closingButton" type="button" class="close" aria-label="Close">
+                <button id="closingButton" type="button" class="close closefirstmodal" aria-label="Close">
                 	<span aria-hidden="true"><span class="icon-multiply"></span></span>
                 </button>
             </div>
@@ -219,26 +220,6 @@
     </div>
 </div>
 
-<!-- CONFIRMATION QUITTER SOUMISSION INITIATIVE -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalQuit" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalQuit">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='give.initiative.help.quit.title'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
-                </button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='give.initiative.help.quit.text'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="give.initiative.help.quit.button"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- CONFIRMATION SUPPRESSION D'AIDE INITIATIVE -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalRemoveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalRemoveInitiativeHelp">
     <div class="modal-dialog" role="document">
@@ -304,13 +285,11 @@
             var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
             
             AUI().use('aui-io-request', function(A) {
-                var uploadForm = A.one("#<portlet:namespace />uploadForm");
                 try {
-                    A.io.request('${giveInitiativeHelpURL}', {
+                    A.io.request('${ContactInitiativeAuthorURL}', {
                         method : 'POST',
                         dataType: 'json',
                         data:{
-                        	<portlet:namespace/>entryId : 					entryId,
                             <portlet:namespace/>initiativeHelpMessage: 		initiativeHelpMessage,
                             <portlet:namespace/>initiativeHelpTypeIds: 		initiativeHelpTypeIds,
                             <portlet:namespace/>address:					address,

@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise ÃÂÃÂÃÂÃÂ  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="save-info" value="save-info">
@@ -182,25 +182,6 @@
                 <h4></h4>
                 <div class="centerButtonValidation">
                     <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="modal.givebudgetsupport.button-support-ok"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CONFIRMATION QUITTER SOUTIEN -->
-<!-- HTML pour la modal de quitter le formulaire de budget -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitSupport" tabindex="-1" role="dialog" aria-labelledby="modalQuitSupport">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='modal.givebudgetsupport.quit-support'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='modal.givebudgetsupport.give-budget-support-quit'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="modal.givebudgetsupport.button-support-quit"/> />
                 </div>
             </div>
         </div>
