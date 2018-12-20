@@ -3564,8 +3564,6 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		petitionImpl.setExternalImageURL(petition.getExternalImageURL());
 		petitionImpl.setExternalImageCopyright(petition.getExternalImageCopyright());
 		petitionImpl.setMediaChoice(petition.isMediaChoice());
-		petitionImpl.setConsultationPlacesText(petition.getConsultationPlacesText());
-		petitionImpl.setConsultationPlacesBody(petition.getConsultationPlacesBody());
 		petitionImpl.setPublikId(petition.getPublikId());
 		petitionImpl.setImageId(petition.getImageId());
 		petitionImpl.setFilesIds(petition.getFilesIds());

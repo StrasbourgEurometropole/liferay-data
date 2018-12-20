@@ -66,7 +66,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -94,10 +94,10 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
-		sb.append(", author=");
-		sb.append(author);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", placeTextArea=");
+		sb.append(placeTextArea);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -114,10 +114,6 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		sb.append(imageId);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
-		sb.append(", consultationPlacesText=");
-		sb.append(consultationPlacesText);
-		sb.append(", consultationPlacesBody=");
-		sb.append(consultationPlacesBody);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append("}");
@@ -186,18 +182,18 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			initiativeImpl.setTitle(title);
 		}
 
-		if (author == null) {
-			initiativeImpl.setAuthor(StringPool.BLANK);
-		}
-		else {
-			initiativeImpl.setAuthor(author);
-		}
-
 		if (description == null) {
 			initiativeImpl.setDescription(StringPool.BLANK);
 		}
 		else {
 			initiativeImpl.setDescription(description);
+		}
+
+		if (placeTextArea == null) {
+			initiativeImpl.setPlaceTextArea(StringPool.BLANK);
+		}
+		else {
+			initiativeImpl.setPlaceTextArea(placeTextArea);
 		}
 
 		if (videoUrl == null) {
@@ -240,20 +236,6 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			initiativeImpl.setFilesIds(filesIds);
 		}
 
-		if (consultationPlacesText == null) {
-			initiativeImpl.setConsultationPlacesText(StringPool.BLANK);
-		}
-		else {
-			initiativeImpl.setConsultationPlacesText(consultationPlacesText);
-		}
-
-		if (consultationPlacesBody == null) {
-			initiativeImpl.setConsultationPlacesBody(StringPool.BLANK);
-		}
-		else {
-			initiativeImpl.setConsultationPlacesBody(consultationPlacesBody);
-		}
-
 		if (publicationDate == Long.MIN_VALUE) {
 			initiativeImpl.setPublicationDate(null);
 		}
@@ -287,8 +269,8 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		author = objectInput.readUTF();
 		description = objectInput.readUTF();
+		placeTextArea = objectInput.readUTF();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
@@ -300,8 +282,6 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
-		consultationPlacesText = objectInput.readUTF();
-		consultationPlacesBody = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 	}
 
@@ -353,18 +333,18 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			objectOutput.writeUTF(title);
 		}
 
-		if (author == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(author);
-		}
-
 		if (description == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(description);
+		}
+
+		if (placeTextArea == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeTextArea);
 		}
 
 		if (videoUrl == null) {
@@ -408,20 +388,6 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			objectOutput.writeUTF(filesIds);
 		}
 
-		if (consultationPlacesText == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(consultationPlacesText);
-		}
-
-		if (consultationPlacesBody == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(consultationPlacesBody);
-		}
-
 		objectOutput.writeLong(publicationDate);
 	}
 
@@ -438,8 +404,8 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
-	public String author;
 	public String description;
+	public String placeTextArea;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;
@@ -448,7 +414,5 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	public String publikId;
 	public long imageId;
 	public String filesIds;
-	public String consultationPlacesText;
-	public String consultationPlacesBody;
 	public long publicationDate;
 }

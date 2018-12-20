@@ -278,7 +278,7 @@ public interface Event extends EventModel, PersistedModel {
 	/**
 	* Retourne X suggestions max pour un événement
 	*
-	* @param request       la requete
+	* @param request  la requete
 	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste d'événements.
 	*/

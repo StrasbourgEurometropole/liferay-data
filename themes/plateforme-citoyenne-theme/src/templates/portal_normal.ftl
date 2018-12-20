@@ -47,7 +47,6 @@
 
 	<#include "${full_templates_path}/modal_connexion.ftl" />
 	<#include "${full_templates_path}/modal_banned.ftl" />
-	<#include "${full_templates_path}/confirm_quit_modal.ftl" />
 
 	<main id="content" class="pro-overflow-visible">
 		<h1 class="hide-accessible">${the_title}</h1>
@@ -66,6 +65,7 @@
 	</main>
 
 	<#include "${full_templates_path}/footer.ftl" />
+	<#include "${full_templates_path}/confirm_quit_modal.ftl" />
 </div>
 
 <@liferay_util["include"] page=body_bottom_include />

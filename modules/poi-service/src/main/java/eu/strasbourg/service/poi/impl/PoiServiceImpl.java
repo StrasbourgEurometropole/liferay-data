@@ -22,9 +22,11 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -55,13 +57,25 @@ public class PoiServiceImpl implements PoiService {
 	public JSONObject getPois(String idInterests, long groupId) {
 		return getPois(idInterests, "", "", groupId, Place.class.getName());
 	}
-
+	
+	public JSONObject getPois(String idInterests, long groupId, String localeId) {
+		return getPois(idInterests, "", "", groupId, Place.class.getName(), localeId);
+	}
+	
 	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId,
 			String classNames) {
+		return getPois( idInterests,  idCategories,  prefilters,  groupId,
+				classNames, "fr_FR");
+	}
+
+	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId,
+			String classNames, String localeId) {
 		JSONObject geoJson = null;
 
 		long globalGroupId = -1;
 
+		Locale locale = LocaleUtil.fromLanguageId(localeId);
+		
 		// Récupération des préfiltres
 		Long[] prefiltersCategoryIds = new Long[0];
 		if (prefilters.length() > 0) {
@@ -141,7 +155,7 @@ public class PoiServiceImpl implements PoiService {
 		// récupère le fichier geoJson
 		try {
 			startTime = System.nanoTime();
-			geoJson = getGeoJSON(places, events, groupId);
+			geoJson = getGeoJSON(places, events, groupId, locale);
 			endTime = System.nanoTime();
 			duration = (endTime - startTime) / 1_000_000;
 			System.out.println("getGeoJSON : " + duration + "ms");
@@ -321,7 +335,13 @@ public class PoiServiceImpl implements PoiService {
 	}
 
 	public JSONObject getFavoritesPois(String userId, long groupId, String classNames) {
+		return getFavoritesPois( userId,  groupId,  classNames,  "fr_FR");
+	}
+	
+	public JSONObject getFavoritesPois(String userId, long groupId, String classNames, String localeId) {
 		JSONObject geoJson = null;
+		
+		Locale locale = LocaleUtil.fromLanguageId(localeId);
 
 		// récupère les favoris de l'uilisateur
 		List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
@@ -357,7 +377,7 @@ public class PoiServiceImpl implements PoiService {
 
 		// récupère le fichier geoJson
 		try {
-			geoJson = getGeoJSON(places, events, groupId);
+			geoJson = getGeoJSON(places, events, groupId, locale);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -400,7 +420,7 @@ public class PoiServiceImpl implements PoiService {
 		return count;
 	}
 
-	static private JSONObject getGeoJSON(List<Place> places, List<Event> events, long groupId) throws JSONException {
+	static private JSONObject getGeoJSON(List<Place> places, List<Event> events, long groupId, Locale locale) throws JSONException {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
 		geoJSON.put("type", "FeatureCollection");
 
@@ -411,9 +431,9 @@ public class PoiServiceImpl implements PoiService {
 			feature.put("type", "Feature");
 
 			JSONObject properties = JSONFactoryUtil.createJSONObject();
-			properties.put("name", place.getAlias(Locale.FRANCE));
+			properties.put("name", place.getAlias(locale));
 			properties.put("address", place.getAddressStreet() + " " + place.getAddressComplement() + "<br>"
-					+ place.getAddressZipCode() + " " + place.getCity(Locale.FRANCE));
+					+ place.getAddressZipCode() + " " + place.getCity(locale));
 			properties.put("visual", place.getImageURL());
 			// récupère l'url de détail du poi
 			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
@@ -439,7 +459,7 @@ public class PoiServiceImpl implements PoiService {
 				if (types.length() > 0) {
 					types += ", ";
 				}
-				types += type.getTitle(Locale.FRANCE);
+				types += type.getTitle(locale);
 			}
 			properties.put("listeTypes", types);
 
@@ -448,21 +468,21 @@ public class PoiServiceImpl implements PoiService {
 			properties.put("id", place.getPlaceId());
 
 			// Horaires et temps réel, ou contenu du tooltip carto
-			if(!place.getContenuTooltipCarto(Locale.FRANCE).isEmpty()){
-				properties.put("contenu", place.getContenuTooltipCarto(Locale.FRANCE));
+			if(!place.getContenuTooltipCarto(locale).isEmpty()){
+				properties.put("contenu", place.getContenuTooltipCarto(locale));
 			}else {
 				// récupère les horaires en cours
 				GregorianCalendar now = new GregorianCalendar();
-				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
+				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, locale);
 				if (currentSchedules.size() > 0) {
 					PlaceSchedule currentSchedule = currentSchedules.get(0);
 					String schedule = "";
 					String opened = "";
 					if (currentSchedule.isAlwaysOpen()) {
-						schedule = "7j/7, 24h/24";
-						opened = "Ouvert";
+						schedule = LanguageUtil.get(locale, "open-all-time");
+						opened =  LanguageUtil.get(locale, "open-period");
 					} else if (place.isOpenNow()) {
-						opened = "Ouvert";
+						opened = LanguageUtil.get(locale, "open-period");
 						for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
 							if (schedule.length() > 0) {
 								schedule += "<br>";
@@ -472,29 +492,29 @@ public class PoiServiceImpl implements PoiService {
 							schedule += startString + " - " + endString;
 						}
 					} else {
-						opened = "Ferm&eacute;";
+						opened = LanguageUtil.get(locale, "closed-period");
 						// on récupère le prochain horaire d'ouverture
-						PlaceSchedule nextOpening = place.getNextScheduleOpening(now, 2, Locale.FRENCH);
+						PlaceSchedule nextOpening = place.getNextScheduleOpening(now, 2, locale);
 						if (nextOpening == null) {
-							opened = "Ferm&eacute; en ce moment";
+							opened = LanguageUtil.get(locale, "closed-now");
 							schedule += "";
 						} else {
 							Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
 							String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
 							String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							schedule += "R&eacute;ouverture ";
+							schedule += LanguageUtil.get(locale, "reopening") + " ";
 							int diff = nextOpening.getStartDate().compareTo(now.getTime());
 							if (diff > 0) {
 								now.add(GregorianCalendar.DAY_OF_YEAR, 1);
 								if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
-									schedule += "demain ";
+									schedule += LanguageUtil.get(locale, "tomorrow") + " ";
 								} else {
-									schedule += "apr&egrave;s-demain ";
+									schedule += LanguageUtil.get(locale, "after-tomorrow") + " ";
 								}
 							}
-							schedule += "&agrave; " + startString;
+							schedule += LanguageUtil.get(locale, "at") + " " + startString;
 							if (diff == 0) {
-								schedule += " jusqu'&agrave; " + endString;
+								schedule += " " + LanguageUtil.get(locale, "up-to") +" " + endString;
 							}
 						}
 					}
@@ -509,8 +529,8 @@ public class PoiServiceImpl implements PoiService {
 			List<AssetCategory> categories = place.getTypes();
 			String[] icons = null;
 			for (AssetCategory category : categories) {
-				if (!category.getDescription(Locale.FRANCE).isEmpty()) {
-					icons = category.getDescription(Locale.FRANCE).split(";");
+				if (!category.getDescription(locale).isEmpty()) {
+					icons = category.getDescription(locale).split(";");
 					// vérifi si le lieu dispose d'un horaire et s'il est fermé
 					if (icons.length > 1 && place.hasScheduleTable() && !place.isOpenNow()) {
 						icon = icons[1];
@@ -573,9 +593,9 @@ public class PoiServiceImpl implements PoiService {
 			feature.put("type", "Feature");
 
 			JSONObject properties = JSONFactoryUtil.createJSONObject();
-			properties.put("name", event.getTitle(Locale.FRANCE));
-			properties.put("address", event.getPlaceAlias(Locale.FRANCE) + " " + event.getPlaceAddress(Locale.FRANCE)
-					+ "<br>" + event.getPlaceZipCode() + " " + event.getPlaceCity(Locale.FRANCE));
+			properties.put("name", event.getTitle(locale));
+			properties.put("address", event.getPlaceAlias(locale) + " " + event.getPlaceAddress(locale)
+					+ "<br>" + event.getPlaceZipCode() + " " + event.getPlaceCity(locale));
 			properties.put("visual", event.getImageURL());
 			// récupère l'url de détail du poi
 			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
@@ -599,7 +619,7 @@ public class PoiServiceImpl implements PoiService {
 				if (types.length() > 0) {
 					types += ", ";
 				}
-				types += type.getTitle(Locale.FRANCE);
+				types += type.getTitle(locale);
 			}
 			properties.put("listeTypes", types);
 
@@ -609,7 +629,7 @@ public class PoiServiceImpl implements PoiService {
 
 			// Prochaine date
 			if (!event.getCurrentAndFuturePeriods().isEmpty()) {
-				String opened = "Prochaines dates";
+				String opened = LanguageUtil.get(locale, "eu.next-dates");
 				String schedule = "";
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				List<EventPeriod> currentAndFuturePeriods = event.getCurrentAndFuturePeriods();
@@ -622,13 +642,13 @@ public class PoiServiceImpl implements PoiService {
 					// period = currentAndFuturePeriods.get(1);
 					// }
 					if (period.getStartDate().equals(period.getEndDate())) {
-						schedule = "Le " + sdf.format(period.getStartDate());
+						schedule = LanguageUtil.get(locale, "eu.event.the") +" " + sdf.format(period.getStartDate());
 					} else {
 						// if (period.getStartDate().compareTo(new Date()) <= 0) {
 						// schedule = "Du " + sdf.format(LocalDate.now()) + " au " +
 						// sdf.format(period.getEndDate());
 						// } else {
-						schedule = "Du " + sdf.format(period.getStartDate()) + " au " + sdf.format(period.getEndDate());
+						schedule = LanguageUtil.get(locale, "eu.event.from-date")+ " " + sdf.format(period.getStartDate()) + " "+LanguageUtil.get(locale, "eu.event.to")+" " + sdf.format(period.getEndDate());
 						// }
 					}
 				}
@@ -651,7 +671,7 @@ public class PoiServiceImpl implements PoiService {
 			}
 			String[] icons = null;
 			if (category != null) {
-				icons = category.getDescription(Locale.FRANCE).split(";");
+				icons = category.getDescription(locale).split(";");
 			}
 			String icon = "";
 			// vérifi si le lieu dispose d'un horaire et s'il est fermé
@@ -678,8 +698,8 @@ public class PoiServiceImpl implements PoiService {
 				coordinates.put(Float.valueOf(place.getMercatorY()));
 			} else {
 				// Si c'est un lieu manuel on récupère ses coordonnées
-				String address = event.getPlaceAddress(Locale.FRANCE) + " " + event.getPlaceZipCode() + " "
-						+ event.getPlaceCity(Locale.FRANCE);
+				String address = event.getPlaceAddress(locale) + " " + event.getPlaceZipCode() + " "
+						+ event.getPlaceCity(locale);
 				coordinates = getCoordinateForAddress(address);
 			}
 			if (coordinates != null) {

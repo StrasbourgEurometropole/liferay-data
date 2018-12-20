@@ -122,9 +122,10 @@
 
             <%-- Groupe de champs : Lieux --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-place">
-
-				<aui:input name="consultationPlacesText" label="place-text-area" required="false" />
-
+				
+				<%-- Champ : Lieux de texte libre --%>
+				<aui:input name="placeTextArea" label="place-text-area" required="false" />
+				
 				<%-- Champ : Lieux --%>
 				<div id="place-fields">
 					<c:if test="${empty dc.petition.getPlacitPlaces()}">

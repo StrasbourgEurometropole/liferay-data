@@ -84,6 +84,20 @@
 	                        </fieldset>
 	                    </div>
 	                </div>
+	                
+	                <!-- Selecteur d'initiatives -->
+	                <div class="pro-group">
+	                    <div class="pro-item">
+	                        <label for="initiatives_printator_mk1"><liferay-ui:message key="initiatives" /></label>
+	                        <input type="checkbox" id="initiatives_printator_mk1" value="initiative" checked />
+	                        <div class="pro-switch pro-round"></div>
+	                        
+	                        <fieldset id="initiatives_fieldset" class="pro-wrapper-chk">
+	                        	<span class="pro-remove-chk">effacer</span>
+	                            <legend aria-hidden="true" class="hide"><liferay-ui:message key="initiatives" /></legend>
+	                        </fieldset>
+	                    </div>
+	                </div>
 					
 					<!-- Selecteur d'evenements -->
 	                <div class="pro-group">

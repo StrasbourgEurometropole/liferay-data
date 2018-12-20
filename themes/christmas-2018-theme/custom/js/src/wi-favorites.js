@@ -87,11 +87,11 @@ $(function() {
                     else if (obj.hasOwnProperty('error')) {
                         if (obj['error'] == 'notConnected')
                             // Si l'utilisateur n'est pas connecté
-                            window.createPopin('Veuillez vous connecter pour retirer un favori.');
+                            window.createPopin(Liferay.Language.get('log-in-to-remove-favorite'));
                         else {
                             // Autre erreur
                             console.log(obj['error']);
-                            window.createPopin('Une erreur est survenue.');
+                            window.createPopin(Liferay.Language.get('error-occured'));
                         }
                     }
                 }
@@ -115,18 +115,17 @@ $(function() {
                         htmlA[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
                     } else if (obj.hasOwnProperty('error')) {
                         if (obj['error'] == 'notConnected')
-                        window.createPopin('Veuillez vous connecter pour ajouter un favori.', function() {
+                        window.createPopin(Liferay.Language.get('log-in-to-add-favorite'), function() {
                             // Si l'utilisateur n'est pas connecté, on ajoute à son LocalStorage le favoris
                             // On l'ajoutera la prochaine fois qu'il arrive sur la page en étant connecté
                             window.sessionStorage.setItem("favorite", JSON.stringify(favoriteToAdd));
                             window.location = window.loginURL;
-                        }, undefined, 'Se connecter', 'Annuler');
+                        }, undefined, Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
                         else {
                             console.log(obj['error']);
-                            window.createPopin('Une erreur est survenue.');
+                            window.createPopin(Liferay.Language.get('error-occured'));
                         }
                     }
-
                 }
             );
         }

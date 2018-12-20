@@ -1,235 +1,508 @@
 <%@ include file="/project-popup-init.jsp" %>
 
-<portlet:resourceURL id="SubmitInitiative" var="submitInitiativeURL">
+<portlet:resourceURL id="submitInitiative" var="submitInitiativeURL">
 </portlet:resourceURL>
 
-<div class="pro-modal pro-bloc-pcs-form pro-modal-initiative fade" id="modalInitiative" tabindex="-1" role="dialog" aria-labelledby="modalInitiative">
+<!-- DEPOSER UNE NOUVELLE INITIATIVE -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalSubmitInitiative" tabindex="-1" role="dialog" aria-labelledby="modalSubmitInitiative"
+	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+        
+        	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
-                <h3>Déposer une initiative</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+                <h3><liferay-ui:message key="modal.submit.initiative.title"/></h3>
+                <button  type="button" class="close closefirstmodal" aria-label="Close">
+                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
+                </button>
             </div>
-
-            <form>
+			
+			<%-- Formulaire --%>
+            <aui:form name="uploadForm" enctype="multipart/form-data">
+            
+            	<%-- Groupe de champs : Information initiative --%>
                 <div class="pro-wrapper">
-                    <h4>Informations sur l'initiative</h4>
+                	
+					<%-- Label : Informations initiative --%>
+                    <h4><liferay-ui:message key="modal.submit.initiative.information"/></h4>
+                    
+                    <%-- Champ : Titre --%>
                     <div class="form-group">
-                        <label for="titre">Titre de l'initiative <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="initiativetitre"/>
+                        <aui:input id="title" name="title" label="modal.submit.initiative.information.title" maxlength="256" required="true" value=""/>
                     </div>
+                    
+                    <%-- Champ : Description --%>
                     <div class="form-group">
-                        <label for="description">Description <span>*</span></label>
-                        <textarea id="initiativedescription" class="form-control" rows="3"></textarea>
+                        <aui:input id="description" type="textarea" name="description" required="true" label="modal.submit.initiative.information.description" value=""/>
                     </div>
+                    
+                    <%-- Groupe de champs : Quartiers --%>
                     <div class="pro-row">
-                        <div class="form-group form-triple">
-                            <label for="quartiers">Quartiers/territoires</label>
-                            <select name="<portlet:namespace />quartier">
+                    	
+                    	<%-- Champ : Description --%>
+                        <div class="form-group form-half">
+                            <label for="quartiers"><liferay-ui:message key="modal.submit.initiative.information.territoire"/></label>
+                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
+                                <option value="0" selected><liferay-ui:message key="modal.submit.initiative.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
-                        <div class="form-group form-triple">
-                            <label for="thematique-2">Thématiques</label>
-                            <select name="<portlet:namespace />theme">
+                        
+                        <%-- Champ : Lieu libre --%>
+                        <div class="form-group form-half">
+                            <aui:input id="place" name="place" label="modal.submit.initiative.information.place" maxlength="256" value=""/>
+                        </div>
+                        
+                    </div>
+                    
+                    <%-- Groupe de champs : Lieux --%>
+                    <div class="pro-row">
+                    
+                    	<%-- Champ : Thematique --%>
+                        <div class="form-group form-half">
+                            <label for="thematiques"><liferay-ui:message key="modal.submit.initiative.information.thematique"/></label>
+                            <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
+                                <option value="0" selected></option>
                                 <c:forEach var="theme" items="${thematics}">
                                     <option value="${theme.categoryId}">${theme.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
-                        <div class="form-group form-triple">
-                            <label for="projet-2">Projets</label>
-                            <select name="<portlet:namespace />project">
+                        
+                        <%-- Champ : Projet --%>
+                        <div class="form-group form-half">
+                            <label for="projets"><liferay-ui:message key="modal.submit.initiative.information.projet"/></label>
+                            <select id="<portlet:namespace />project" name="<portlet:namespace />project">
+                                <option value="0" selected ></option>
                                 <c:forEach var="project" items="${projects}">
                                     <option value="${project.categoryId}">${project.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
+                        
                     </div>
+                    
+                    <%-- Champ : Image --%>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <label for="photo">Ajouter une photo</label>
-                            <div class="input-group input-file" name="Fichier1">
-                                <input type="text" id="photo" class="form-control"/>
-                                <span class="input-group-btn"><button class="btn btn-default btn-choose" type="button">Parcourir</button></span>
-                            </div>
+                            <span class="browsePicture input-group-btn">
+                                <aui:input name="photo" type="file" label="modal.submit.initiative.information.picture"
+                                    cssClass="btn btn-default btn-choose">
+							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
+                                </aui:input>
+                                <!-- Permet de recuperer l'id de l'image postee par l'utilisateur -->
+                                <aui:input type="hidden" name="webImageId" />
+                            </span>
                         </div>
                     </div>
+                    
+                    <%-- Champ : Video --%>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <label for="video">Ajouter une vidéo</label>
-                            <input type="text" class="form-control" id="video" placeholder="Lien youtube, viméo, dailymotion"/>
+                            <aui:input id="video" name="video" label="modal.submit.initiative.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
+                    
                 </div>
+                
+                <%-- Groupe de champs : Information utilisateur --%>
                 <div class="pro-wrapper">
-                    <h4>Informations sur l'initiateur</h4>
+                
+                	<%-- Label : Informations utilisateur --%>
+                    <h4><liferay-ui:message key="modal.submit.initiative.user"/></h4>
+                    
+                    <%-- Groupe de champs : Informations generales --%>
                     <div class="pro-row">
+                    	
+                    	<%-- Champ : Nom --%>
                         <div class="form-group form-triple">
-                            <label for="nom-3">Nom <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="nom-3" placeholder="Dupond"/>
+                            <aui:input name="lastname" disabled="true" label="modal.user.lastname" required="true" value="${userConnected.get('last_name')}"/>
                         </div>
+                        
+                        <%-- Champ : Prenom --%>
                         <div class="form-group form-triple">
-                            <label for="prenom-3">Prénom</label>
-                            <input type="text" class="form-control" id="prenom-3" placeholder="Jean"/>
+                            <aui:input name="firstname" disabled="true" label="modal.user.firstname" required="true" value="${userConnected.get('first_name')}"/>
                         </div>
+                        
+                        <%-- Champ : Date de naissance --%>
                         <div class="form-group form-triple">
-                            <label for="date-3">Date de naissance <span class="required">*</span></label>
-                            <input type="text" class="form-control frm_date" id="date-3" placeholder="jj/mm/aaaa" readonly="readonly"/>
+	                        <c:if test="${userConnected.get('birthdate') ne 'null'}">
+	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+	                        </c:if>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
+                        
                     </div>
+                    
+                    <%-- Groupe de champs : Information adresse  --%>
                     <div class="pro-row">
+                    
+                    	<%-- Champ : Adresse --%>
                         <div class="form-group form-half">
-                            <label for="adresse-3">Adresse <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="adresse-3" />
+                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
                         </div>
+                        
+                        <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
                         <div class="form-group form-half">
+                        
+                        	<%-- Champ : Ville --%>
                             <div class="form-city">
-                                <label for="city-3">Ville <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="city-3" />
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
                             </div>
+                            
+                            <%-- Champ : Code postal --%>
                             <div class="form-code">
-                                <label for="code-3">Code postal <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="code-3" />
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
                             </div>
+                            
                         </div>
+                        
                     </div>
+                    
+                    <%-- Champ : Email --%>
+                    <div class="form-group">
+                        <aui:input name="mail" label="modal.user.mail" required="true" disabled="true" value="${userConnected.get('email')}"/>
+                    </div>
+                    
+                    <%-- Groupe de champs : Contacts --%>
                     <div class="pro-row">
+                    
+                    	<%-- Champ : Telephone --%>
                         <div class="form-group form-half">
-                            <label for="email-3">Adresse mail <span class="required">*</span></label>
-                            <input type="email" class="form-control" id="email-3" placeholder="jean.dupond@gmail.com">
+                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValues();"/>
                         </div>
+                        
+                        <%-- Champ : Mobile --%>
                         <div class="form-group form-half">
-                            <label for="tel-3">Téléphone <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="tel-3"/>
+                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValues();"/>
                         </div>
                     </div>
-                    <div class="pro-row">
-                        <div class="form-group form-two-tiers">
-                            <label for="photo-profil-3">Ajouter une photo de profil</label>
-                            <div class="input-group input-file" name="Fichier1">
-                                <input type="text" id="photo-profil-3" class="form-control"/>
-                                <span class="input-group-btn"><button class="btn btn-default btn-choose" type="button">Parcourir</button></span>
-                            </div>
+                    
+                    <%-- Champ : Demande de sauvegarde des inforamtions --%>
+                    <div class="form-group form-checkbox" id="<portlet:namespace />checkboxSaveInfo" >
+                        <div>
+                            <input type="checkbox" id="<portlet:namespace />saveInfo" value="info">
+                            <label for="<portlet:namespace />saveInfo">
+                            	<liferay-ui:message key="modal.save.info"/>
+                            </label>
                         </div>
                     </div>
+                    
                 </div>
+                
+                <%-- Champ : Demande de verification de l'age legal --%>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="optin-3" value="optin">
-                        <label for="optin-3">Je certifie sur l'honneur être âgé-e de seize ans ou plus, habiter Strasbourg, ne pas être élu-e au Conseil municipal de la ville de Strasbourg, ainsi
-                            que l'exactitude des renseignements ci-dessus. Un justificatif pourra être demandé par la Ville lors de la première rencontre.</label>
+                        <input type="checkbox" id="<portlet:namespace />legalage" value="legalage">
+                        <label for="<portlet:namespace />legalage" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                        </label>
                     </div>
                 </div>
-                <div class="pro-optin form-checkbox">
+                
+                <%-- Champ : Demande de comprehension de l'utilisation des donnees --%>
+                <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="optin-10" value="optin">
-                        <label for="optin-10">Je consens XXXX (Conditions CNIL à préciser)</label>
+                        <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
+                        <label for="<portlet:namespace />cnil" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiative"/>
+                        </label>
                     </div>
                 </div>
-                <div class="pro-info-supp">
-                    <p><i>Les services de la Ville vous recontacteront par mail ou par téléphone, dans les meilleurs délais avant deux mois, afin de vous indiquer si la pétition est recevable et
-                        si elle pourra ainsi être diffusée pour être signée.</i></p>
-                    <p>Contact Mission Participation citoyenne : XXXX</p>
-                </div>
+                
+                <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
+                
+                <%-- Boutou de soumisson --%>
                 <div class="pro-form-submit">
-                    <button id="submitInitiativeButton" type="submit" class="btn btn-default">Déposer l'initiative</button>
+                    <button id="<portlet:namespace />buttonSubmit" type="submit" class="btn btn-default">
+                    	<liferay-ui:message key="modal.submit.initiative.submit"/>
+                    </button>
                 </div>
-            </form>
+                
+            </aui:form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script>
 
-$('#submitInitiativeButton').click( function(e){
-	e.preventDefault();
+<!-- CONFIRMATION NOUVELLE INITIATIVE -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalConfirm" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='confirm-initiative'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
+            </div>
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key='submit-initiative-ok'/></h4>
+                <div class="centerButtonValidation">
+                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-submit-initiative-ok"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ERREUR NOUVELLE INITIATIVE -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalError" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalError">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="pro-modal-top">
+                <h3><liferay-ui:message key='error-submit-initiative'/></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
+                </button>
+            </div>
+            <div class="pro-wrapper">
+                <h4></h4>
+                <div class="centerButtonValidation">
+                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-submit-initiative-ok"/> />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
 	
-	var response = validateForm();
-    if (response){
-	   	AUI().use('aui-io-request', function(A) {
-	   		A.io.request('${submitInitiativeURL}', {
-	   			method : 'post',
-	   			dataType: 'json',
-	   			on: {
-	   	            success: function(e) {
-	   	            	$('#modalInitiative').modal('hide')
-	   			 	}
-	   			 }
-	   		});
-	   	});
+	// Variables tempons des informations utilisateur et contexte namespace
+	var namespace = "<portlet:namespace />";
+	var saved_address = "${userConnected.get('address')}";
+	var saved_zipCode = "${userConnected.get('zipcode')}";
+	var saved_city = "${userConnected.get('city')}";
+	var saved_dateNaiss = "${formattedDate}";
+	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
+	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
+
+	/*
+	* Lors du chargement de la page
+	*/
+    $(document).ready(function(){
+    	resetValues();
+        $("#<portlet:namespace />modalConfirm").modal('hide');
+        $("#<portlet:namespace />modalError").modal('hide');
+        $("#<portlet:namespace />checkboxSaveInfo").hide();
+    });
+
+    /*
+	* Lors du click sur le bouton de vote
+	*/
+    $("#<portlet:namespace />buttonSubmit").click(function(event){
+        event.preventDefault();
+        var response = validateForm();
+        if (response){
+            var title = $("#<portlet:namespace />title").val();
+            var description = $("#<portlet:namespace />description").val();
+            var photo = $("#<portlet:namespace />photo").val();
+            var video = $("#<portlet:namespace />video").val();
+            var project = $("#<portlet:namespace />project").val();
+            var district = $("#<portlet:namespace />quartier").val();
+            var thematic = $("#<portlet:namespace />theme").val();
+            var place = $("#<portlet:namespace />place").val();
+            var lastname = $("#<portlet:namespace />astname").val();
+            var firstname = $("#<portlet:namespace />firstname").val();
+            var address = $("#<portlet:namespace />address").val();
+            var city = $("#<portlet:namespace />city").val();
+            var postalCode = $("#<portlet:namespace />postalcode").val();
+            var birthday = $("#<portlet:namespace />birthday").val();
+            var phone = $("#<portlet:namespace />phone").val();
+            var mobile = $("#<portlet:namespace />mobile").val();
+            var email = $("#<portlet:namespace />mail").val();
+            var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
+            
+            AUI().use('aui-io-request', function(A) {
+                var uploadForm = A.one("#<portlet:namespace />uploadForm");
+                try {
+                    A.io.request('${submitInitiativeURL}', {
+                        method : 'POST',
+                        form: {
+                            id: uploadForm,
+                            upload: true
+                        },
+                        sync: true,
+                        dataType: 'json',
+                        data:{
+                            <portlet:namespace/>title: 			title,
+                            <portlet:namespace/>description: 	description,
+                            <portlet:namespace/>address:		address,
+                            <portlet:namespace/>city: 			city,
+                            <portlet:namespace/>postalcode: 	postalCode,
+                            <portlet:namespace/>phone: 			phone,
+                            <portlet:namespace/>mobile:	 		mobile,
+                            <portlet:namespace/>birthday: 		birthday,
+                            <portlet:namespace />project: 		project,
+                            <portlet:namespace />district: 		district,
+                            <portlet:namespace />thematic: 		thematic,
+                            <portlet:namespace />photo: 		photo,
+                            <portlet:namespace />video: 		video,
+                            <portlet:namespace />place: 		place,
+                            <portlet:namespace />saveinfo: 		saveInfo,
+                            <portlet:namespace />lastname: 		lastname,
+                            <portlet:namespace />firstname: 	firstname,
+                            <portlet:namespace />email: 		email
+                        },
+                        on: {
+                            complete: function(e) {
+                                // var data = this.get('responseData');
+                                var data = JSON.parse(e.details[1].responseText);
+                                if(data.result){
+                                    $("#modalSubmitInitiative").modal('hide');
+                                    if(data.savedInfo){
+                                        saved_dateNaiss = birthday;
+                                        saved_city = $("#<portlet:namespace />city").val();
+                                        saved_address = $("#<portlet:namespace />address").val();
+                                        saved_zipCode = $("#<portlet:namespace />postalcode").val();
+                                        if($("#<portlet:namespace />phone").val() != "")
+                                            saved_phone = $("#<portlet:namespace />phone").val();
+                                        if($("#<portlet:namespace />mobile").val() != "")
+                                            saved_mobile = $("#<portlet:namespace />mobile").val();
+                                    }
+                                    $("#<portlet:namespace />modalConfirm").modal('show');
+                                    resetValues();
+                                }else{
+                                    $("#<portlet:namespace />modalError h4").text(data.message);
+                                    $("#<portlet:namespace />modalError").modal('show');
+                                }
+                            }
+                        }
+                    });
+                }
+                catch(error) {
+                    if(!(error instanceof TypeError)){
+                        console.log(error);
+                    } else console.log("petite erreur sans importance")
+                }
+            });
+        }
+    });
+
+    $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
+        $("#<portlet:namespace />modalConfirm").modal('hide');
+    });
+
+    $("#<portlet:namespace />modalError #<portlet:namespace />buttonConfirm").click(function(event){
+        $("#<portlet:namespace />modalError").modal('hide');
+    });
+
+    /*
+	* Reinitialise le formulaire avec les informations les plus fraiches
+	*/
+    function resetValues(){
+    	// Champs entite
+        $("#<portlet:namespace />title").val("");
+        $("#<portlet:namespace />description").val("");
+        $("#<portlet:namespace />place").val("");
+        $("#<portlet:namespace />project option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />project").selectric();
+        $("#<portlet:namespace />district option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />district").selectric();
+        $("#<portlet:namespace />thematic option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />thematic").selectric();
+        
+     	// Champs informations utilisateur
+        $("#<portlet:namespace />address").val(saved_address);
+        $("#<portlet:namespace />photo").val("");
+        $("#<portlet:namespace />video").val("");
+        $("#<portlet:namespace />postalcode").val(saved_zipCode);
+        $("#<portlet:namespace />phone").val(saved_phone);
+        $("#<portlet:namespace />mobile").val(saved_mobile);
+        $("#<portlet:namespace />birthday").val(saved_dateNaiss);
+        
+     	// Chebox de conditions et de sauvegade des informations
+     	$("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
+        $("#<portlet:namespace />checkboxSaveInfo").hide();
+        $("#<portlet:namespace />legalage").prop("checked", false);
+        $("#<portlet:namespace />cnil").prop("checked", false);
+        $("#<portlet:namespace />city").val(saved_city);
     }
-	
-	
-});
 
-var namespace = "<portlet:namespace />";
-function validateForm()
-{
-    var result = true;
-    var title = $("#"+namespace+"initiativetitle").val();
-    var description = $("#"+namespace+"initiativedescription").val();
-    var birthday = $("#"+namespace+"initiativebirthday").val();
-    var city = $("#"+namespace+"initiativecity").val();
-    var address = $("#"+namespace+"initiativeaddress").val();
-    var postalcode = $("#"+namespace+"initiativepostalcode").val();
-    var phone = $("#"+namespace+"initiativephone").val();
-    var legalage = $("#file-petition-legalage").is(":checked");
-    var cnil = $("#file-petition-cnil").is(":checked");
-    var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
-
-    if (petitiontitle==null || petitiontitle==""){
-        $("#"+namespace+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
-        result = false;
-    }else $("#"+namespace+"petitiontitle").css({ "box-shadow" : "" });
-
-    if (petitiondescription==null || petitiondescription==""){
-        $("#"+namespace+"petitiondescription").css({ "box-shadow" : "0 0 10px #CC0000" });
-        result = false;
-    }else $("#"+namespace+"petitiondescription").css({ "box-shadow" : "" });
-
-    if (birthday==null || birthday==""){
-        $("#"+namespace+"initiativebirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
-        result = false;
-    }else $("#"+namespace+"initiativebirthday").css({ "box-shadow" : "" });
-
-    if (city==null || city==""){
-        $("#"+namespace+"initiativecity").css({ "box-shadow" : "0 0 10px #CC0000" });
-        result = false;
-    }else $("#"+namespace+"initiativecity").css({ "box-shadow" : "" });
-
-    if (address==null || address==""){
-        $("#"+namespace+"initiativeaddress").css({ "box-shadow" : "0 0 10px #CC0000" });
-        result = false;
-    }else $("#"+namespace+"initiativeaddress").css({ "box-shadow" : "" });
-
-    if (postalcode==null || postalcode==""){
-        $("#"+namespace+"initiativepostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-        result = false;
-    }else if(!regex.test(postalcode)){
-        $("#"+namespace+"initiativepostalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-        alert("Merci de respecter la syntaxe d'un code postal");
-        result = false;
+    /*
+	* Affiche la demande de sauvegarde des informations dans Publik
+	*/
+    function checkValues(){
+        if($("#<portlet:namespace />birthday").val() != saved_dateNaiss 
+        		|| $("#<portlet:namespace />address").val() != saved_address 
+        		|| $("#<portlet:namespace />city").val() != saved_city 
+        		|| $("#<portlet:namespace />postalcode").val() != saved_zipCode 
+        		|| $("#<portlet:namespace />phone").val() != saved_phone 
+        		|| $("#<portlet:namespace />mobile").val() != saved_mobile) {
+            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', true);
+            $("#<portlet:namespace />checkboxSaveInfo").show();
+        }else{
+            $("#<portlet:namespace />checkboxSaveInfo #<portlet:namespace />saveInfo").prop('checked', false);
+            $("#<portlet:namespace />checkboxSaveInfo").hide();
+        }
     }
-    else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
 
-    if (phone==null || phone==""){
-        $("#"+namespace+"phone").css({ "box-shadow" : "0 0 10px #CC0000" });
-        result = false;
-    }else $("#"+namespace+"phone").css({ "box-shadow" : "" });
+    /*
+	* Verifie la conformite des elements avant l'envoie du formulaire
+	*/
+    function validateForm()
+    {
+        var result = true;
+        
+        var title = $("#<portlet:namespace />title").val();
+        var description = $("#<portlet:namespace />description").val();
+        var city = $("#<portlet:namespace />city").val();
+        var address = $("#<portlet:namespace />address").val();
+        var postalcode = $("#<portlet:namespace />postalcode").val();
+        var legalage = $("#<portlet:namespace />legalage").is(":checked");
+        var cnil = $("#<portlet:namespace />cnil").is(":checked");
+        var photo = $("#<portlet:namespace />photo").val();
+        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
-    if (!legalage)
-        result = false;
+        if (photo!=null && photo!==""){
+            var ext = photo.split(".").pop().toLowerCase();
+            if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
+            $("#<portlet:namespace />photo").css({ "box-shadow" : "0 0 10px #CC0000" });
+                result = false;
+            }else $("#<portlet:namespace />photo").css({ "box-shadow" : "" });
+        }
 
-    if (!cnil)
-        result = false;
+        if (title===null || title===""){
+            $("#<portlet:namespace />title").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />title").css({ "box-shadow" : "" });
 
-    if (!result)
-        $("#sendalert").removeClass("hidden");
-    else $("#sendalert").addClass("hidden");
-    return result;
-}
+        if (description===null || description===""){
+            $("#<portlet:namespace />description").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />description").css({ "box-shadow" : "" });
 
+        if (city===null || city===""){
+            $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />city").css({ "box-shadow" : "" });
+
+        if (address===null || address===""){
+            $("#<portlet:namespace />address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#<portlet:namespace />address").css({ "box-shadow" : "" });
+
+        if (postalcode===null || postalcode===""){
+            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else if(!regex.test(postalcode)){
+            $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            alert("Merci de respecter la syntaxe d'un code postal");
+            result = false;
+        }
+        else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
+
+        if (!legalage)
+            result = false;
+
+        if (!cnil)
+            result = false;
+
+        if (!result)
+            $("#<portlet:namespace />alert").removeClass("hidden");
+        else $("#<portlet:namespace />alert").addClass("hidden");
+        
+        return result;
+    }
 </script>

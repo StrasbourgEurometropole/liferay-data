@@ -403,6 +403,7 @@
                         font-weight: 400;
                         cursor: pointer;
                         letter-spacing: 1px;
+                        max-width: calc(100% - 17px);
 
                         &:before{
                             display: inline-block;
@@ -428,11 +429,21 @@
                         }
 
                         img{
-                            width: 17px;
-                            position: absolute;
-                            top: 50%;
-                            left: calc(100% - 17px);
-                            transform: translateY(-50%);
+                            width: 23px;
+                            
+                            @include not-mobile{
+                                display: inline-block;
+                                margin-bottom: 0px;
+                                margin-left: 10px;
+                            }
+                            
+                            @include mobile{
+                                position: absolute;
+                                top: 50%;
+                                left: 100%;
+                                transform: translateY(-50%);
+                            }
+                            
                         }
                     }
                     &:checked{
@@ -1027,7 +1038,7 @@
 
 /* ------------------------------ Etat full screen */
 
-.aroundme--fullscreen{
+.aroundme--fullscreen #wi-aroundme{
     main{
 
     
@@ -1043,7 +1054,7 @@
         width: 100%; //calc(100% - 40px);
         display: flex;
         flex-direction: column;
-        z-index: 200;
+        z-index: 1400;
         &:before{
             content: '';
             position: fixed;

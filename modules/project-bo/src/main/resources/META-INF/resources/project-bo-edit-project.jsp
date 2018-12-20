@@ -119,9 +119,6 @@
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
 
-				<%-- Checkbox : envoi ÃÂ  tout les suiveurs--%>
-				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
-
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Lieux de consultation --%>
@@ -214,7 +211,6 @@
 									<liferay-util:param name="index" value="${status.count}" />
 									<liferay-util:param name="startDay" value="${projectTimeline.startDay}" />
 									<liferay-util:param name="date" value="${formattedDate}" />
-									<liferay-util:param name="dateFormat" value="${projectTimeline.dateFormat}" />
 									<liferay-util:param name="title" value="${projectTimeline.title}" />
 									<liferay-util:param name="link" value="${projectTimeline.link}" />
 									<liferay-util:param name="spacing" value="${projectTimeline.spacing}" />
@@ -229,6 +225,14 @@
 					
 				</div>
 			
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Suivre un projet --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="project-followed">
+				
+				<%-- Checkbox : envoi aÂ  tout les suiveurs--%>
+				<aui:input name="cheboxMail" type="checkbox" checked="false" required="false"/>
+
 			</aui:fieldset>
 
 		</aui:fieldset-group>
