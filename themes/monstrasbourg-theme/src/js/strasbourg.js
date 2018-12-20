@@ -15430,10 +15430,25 @@ jQuery(function() {
           $('div.customSelect').removeClass('error');
 	    }
 	    // Numéro de commande
-	    if ($('input#ref').val().length < 6 || ($('input#ref').val().length < 13 && type_facture === 'water')) {
-	      isValid = false;
-	      errorMessage += 'Le numéro de la facture est vide ou trop court.<br/>';
-	    } 
+		switch(type_facture) {
+			case 'water':
+				if ($('input#ref').val().length < 13) {
+					isValid = false;
+					errorMessage += 'Le numéro de la facture est vide ou fait moins de 13 caractères.<br/>';
+				}
+			break;
+			case 'rs':
+				if ($('input#ref').val().length != 4) {
+					isValid = false;
+					errorMessage += 'Le numéro de la facture doit être composé de 4 caractères.<br/>';
+				}
+			break;
+			default:
+				if ($('input#ref').val().length < 6) {
+					isValid = false;
+					errorMessage += 'Le numéro de la facture est vide ou fait moins de 6 caractères.<br/>';
+				}           
+		}
 	    // Année
 	    if ($('input#year').val().length !== 4) {
 	      isValid = false;
