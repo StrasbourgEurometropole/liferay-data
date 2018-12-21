@@ -19,17 +19,24 @@
 </#if>
 
 <!-- Recuperation du statut de l'initiative -->
-<#assign participationStatus = entry.getStatusCategory().getTitle(locale) />
+<#assign initiativeStatus = entry.getStatusCategory().getTitle(locale) />
 
-<!-- Recuperation des lieux -->
-<#assign initiativePlaces = entry.getPlacitPlaces() />
+<!-- Recuperation du statut de l'initiative -->
+<#assign initiativeHelps = entry.getHelps() />
 
-<!-- Initialisation des conteneurs de coordonnees GPS -->
-<#assign initiativePlaceMercators = [] />
-<#assign eventPlaceMercators = [] />
+<#-- Initialisation des conteneurs de vignettes -->
+<#assign initiativeJSON = entry.toJSON() />
 
-<!-- Est-ce que l'utilisateur est connecte ?-->
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
+
+<#-- Récupération de l'ID de l'utilisateur -->
+<#assign isUserHelps = entry.isUserAlreadyHelp(userID) />
+
+<#-- Récupération du contexte de navigation de l'utilisateur -->
 <#assign isUserloggedIn = request.session.getAttribute("publik_logged_in")!false />
+<#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
+<#assign isUserBanned = request.session.getAttribute("is_banish")!false />
 
 <div class="pro-page-detail pro-page-detail-initiative">
 	<div class="container">
@@ -39,7 +46,9 @@
 					<div class="pro-header-participation pro-theme-croissance">
 						<h1>${entry.title}</h1>
 						<div class="pro-wrapper-meta">
-							<div class="pro-statut"><span>${participationStatus}</span></div>
+							<#if initiativeStatus?has_content>
+								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${initiativeStatus}</span></div>
+							</#if>
 							<div class="pro-meta">
 							
 								<!-- Liste des quartiers  -->
@@ -62,13 +71,10 @@
 						</div>
 						<div class="pro-header-auteur">
 							<figure>
-								<!-- Si une image existe -->
-								<#if entry.getImageURL()?has_content>
-									<img src="${entry.getImageURL()}" width="40" height="40" alt="Image de l'auteur"/>
-								</#if>
+								<img src="${entry.authorImageURL}" width="40" height="40" alt="Image de l'auteur"/>
 							</figure>
-							<p>Initiative publiée le ${entry.createDate?date?string['dd/MM/yyyy']} par :</p>
-							<p><strong>${entry.author}</strong></p>
+							<p>Initiative publiée le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
+							<p><strong>${entry.getAuthorLabel()}</strong></p>
 						</div>
 					</div>
 
@@ -118,8 +124,7 @@
 
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de
-							description">Description</a></li>
+								<li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a></li>
 								<li role="presentation"><a href="#lieux" aria-controls="lieux" role="tab" data-toggle="tab" title="Onglet des aides">Ils aident</a></li>
 							</ul>
 
@@ -134,85 +139,46 @@
 
 								<!-- Les personnes ayant pris part à l'initiative -->
 								<div role="tabpanel" class="tab-pane fade pro-bloc-texte" id="lieux">
-									<p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</strong></p>
-									<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-										ea commodo consequat.</p>
+									<p><strong>Liste des citoyens-nes ayant proposé une aide au porteur de l'initiative.</strong></p>
+									<p>Cette aide peut prendre plusieurs formes : </p>
+									<ul>
+										<li>Du temps</li>
+										<li>De l'argent</li>
+										<li>Un lieu</li>
+										<li>Une expertise</li>
+									</ul>
+									<p>N'hésitez pas à proposer la votre si cette initiative fait echos.</p>
+									
 									<div class="row pro-wrapper-people">
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/comm-sylvie.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
+
+										<#list initiativeHelps as initiativeHelp >
+											<div class="col-md-4 col-sm-6">
 												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Emeline Sidoyer</h3>
-													<p>à proposé une aide financière</p>
+													<figure class="fit-cover">
+														<img src="${initiativeHelp.getAuthorImageURL()}" width="200" height="140" alt="Image de profil"/>
+													</figure>
+													<div>
+														<time datetime="2018-02-1">Le ${initiativeHelp.getCreateDate()?date?string['dd/MM/yyyy']}</time>
+														<h3>${initiativeHelp.getAuthorLabel()}</h3>
+														<p>à proposé ${initiativeHelp.getTypesLabel()}</p>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Richard Prelo</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Maxime Porto</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Jérémy M.</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-6">
-											<div>
-												<figure class="fit-cover">
-													<img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-												</figure>
-												<div>
-													<time datetime="2018-02-1">Le 12/02/2018</time>
-													<h3>Jérémy M.</h3>
-													<p>à proposé une aide financière</p>
-												</div>
-											</div>
-										</div>
+										</#list>
+										
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
-
 					<aside class="col-sm-4">
 					
 						<!-- Bloc : avis -->
                         <div class="pro-push-avis">
-                            <#if request.session.getAttribute("has_pact_signed")!false>
+                            <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
                                 <a href="#pro-approuv" class="pro-like"
-                                    data-typeid="15" 
+                                    data-typeid="19" 
                                     data-isdislike="false"
                                     data-title="${entry.getTitle()}" 
                                     data-entityid="${entry.initiativeId}"
@@ -221,7 +187,7 @@
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                                 </a>
                                 <a href="#pro-not-approuv" class="pro-dislike"
-                                    data-typeid="15" 
+                                    data-typeid="19" 
                                     data-isdislike="true"
                                     data-title="${entry.getTitle()}" 
                                     data-entityid="${entry.initiativeId}"
@@ -229,8 +195,15 @@
                                     title="Cliquez pour désapprouver">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
-                            <#elseif !request.session.getAttribute("has_pact_signed")?? || (request.session.getAttribute("has_pact_signed")?? && !request.session.getAttribute("has_pact_signed")) >
-                                <a class="pro-like" name="#Pact-sign">
+                            <#elseif isUserBanned>
+                                <a class="pro-like" name="#IsBanned">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                                </a>
+                                <a class="pro-dislike" name="#IsBanned">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                                </a>
+                            <#else>
+                            	<a class="pro-like" name="#Pact-sign">
                                     <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
                                 </a>
                                 <a class="pro-dislike" name="#Pact-sign">
@@ -239,25 +212,32 @@
                             </#if>
                         </div>
 					
-						<div class="bloc-iframe maps" data-theme="default" data-lat="48.5692059" data-lng="7.6920547" data-marker="true" data-markericon="initiative"
-							 data-zoom="12" data-filter-options="filterMapDetail"></div>
-							 
+						<!-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 						
 						<div class="pro-wrapper-links">
 						
-							<#if isUserloggedIn>
-								<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" data-toggle="modal" data-target="#modalContacter">Contacter le
-									porteur</a>
+							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
+								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor"
+								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le porteur</a>
+							<#elseif isUserBanned>
+								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
 							<#else>
-								<a href="#" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" data-toggle="modal" data-target="#myModal">Contacter le
-								porteur</a>
+								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
 							</#if>
-
-								
-							<#if isUserloggedIn>	
-								<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" data-toggle="modal" data-target="#modalAide">Proposer mon aide</a>
+							
+							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
+								<#if isUserHelps >
+									<a href="#popin" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour proposer mon aide" 
+										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposee</a>
+								<#else>
+									<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" 
+										data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>
+								</#if>
+							<#elseif isUserBanned>
+								<a name="#IsBanned"class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
 							<#else>
-								<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" data-toggle="modal" data-target="#myModal">Proposer mon aide</a>
+								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" >Proposer mon aide</a>
 							</#if>
 							
 							<a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
@@ -271,40 +251,64 @@
 	</div>
 
 
-	<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+	<#-- <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
 		<div class="container">
 			<div class="col-lg-10 col-lg-offset-1">
 				<h2>D’autres initiatives</h2>
 				<div class="pro-wrapper">
-						<#if isUserloggedIn>
-                           <a href="#popin" class="pro-btn-yellow" data-toggle="modal" data-target="#modalInitiative">Déposer une initiative</a>
-                        <#else>
-                            <a href="#popin" class="pro-btn-yellow" data-toggle="modal" data-target="#myModal">Déposer une initiative</a>
-                        </#if>					
+						<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
+							<a href="#" class="pro-btn-yellow" title="Ouverture de la popup de dépot" data-toggle="modal" data-target="#modalSubmitInitiative">Déposer une initiative</a>
+						<#elseif isUserBanned>
+							<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture de la popup de dépot">Déposer une initiative/a>
+						<#else>
+							<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture de la popup de dépot">Déposer une initiative</a>
+						</#if>				
 					<a href="${homeURL}initiatives" class="pro-btn">Toutes les initiatives</a>
 				</div>
 			</div>
 
 			
 		</div>
-	</section>
-
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="contactInitiativeAuthor"
-		/>
-		
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="giveInitiativeHelp"
-		/>
-		
-		<@liferay_portlet["runtime"]
-		portletProviderAction=portletProviderAction.VIEW
-		portletName="eu_strasbourg_portlet_project_ProjectPopupPortlet"
-		instanceId="submitInitiative"
-		/>
+	</section> -->
 	
 </div>
+
+<script>
+    // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
+    var initiativeJSON = ${initiativeJSON};
+    initiativeJSON.link = '${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}';
+
+    // Variable pointeur
+    var initiativeMarkers = []
+
+    $(document).ready(function() {
+        // Gestion de la carte interactive
+        // Notes : voir dans le theme placit "override/custom.js"
+
+        //Création de la carte au centre de strasbourg
+        leafletMap = getLeafletMap();
+
+        // Création du cluster permettant le regroupement de points et le centrage
+        markersCluster = L.markerClusterGroup();
+
+        for(var i= 0; i < initiativeJSON.placitPlaces.length; i++) {
+            var marker = getInitiativeMarker(
+                initiativeJSON,
+                [initiativeJSON.placitPlaces[i].mercatorY, initiativeJSON.placitPlaces[i].mercatorX]
+            );
+
+            // Ajout du point dans le Cluster de marqueurs
+            markersCluster.addLayer(marker);
+            // Ajout du marker dans le tempon
+            initiativeMarkers.push(marker);
+        }
+
+        leafletMap.addLayer(markersCluster);
+
+        // Adapter le zoom si des marqueurs existent
+        if (markersCluster.getBounds().isValid()) {
+            leafletMap.fitBounds(markersCluster.getBounds());
+        }
+
+    });
+</script>

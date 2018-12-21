@@ -62,7 +62,7 @@
                         </ul>
 
                        <div class="pro-wrapper-btn">
-							<#if hasUserPactSign && hasUserPactSign && !isUserBanned>
+							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
 								<a class="pro-btn-yellow deposit-button" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
 							<#elseif !hasUserPactSign>
 								<a class="pro-btn-yellow deposit-button" name="#Pact-sign">Soumettre un projet</a>
@@ -138,7 +138,7 @@
 				<div class="pro-bloc-prefooter pro-sticky-bar">
 					<div class="container">
 						<div class="col-xs-12 aligncenter pro-wrapper-btn">
-                            <#if hasUserPactSign && hasUserPactSign && !isUserBanned>
+                            <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
                                 <a class="pro-btn-yellow deposit-button" data-target="#modalBudget" data-toggle="modal" id="buttonDeposer">Soumettre un projet</a>
                             <#elseif !hasUserPactSign>
                                 <a class="pro-btn-yellow deposit-button" name="#Pact-sign">Soumettre un projet</a>
