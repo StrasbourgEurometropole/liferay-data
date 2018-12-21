@@ -19,6 +19,27 @@
     </#if>
 </@>
 
+<@liferay_util["body-top"]>
+    <script>
+        window.title = "${entry.getAlias(locale)}";
+        window.x = ${entry.getMercatorX()};
+        window.y = ${entry.getMercatorY()};
+    </script>
+</@>
+<link rel="stylesheet" href="/o/strasbourg-theme/css/leaflet.css" />
+
+<@liferay_util["html-bottom"]>
+    <script>
+        define._amd = define.amd;
+        define.amd = false;
+    </script>
+    <script src="/o/strasbourg-theme/js/leaflet.js"></script>
+    <script src="/o/strasbourg-theme/js/map.js"></script>
+    <script>
+        define.amd = define._amd;
+    </script>
+</@>
+
 <div class="seu-page-lieu">
     <main class="seu-container">
         <a href="#" class="add-favorites"
@@ -33,6 +54,18 @@
         <div class="seu-flexbox">
 
             <div class="seu-container-left">
+
+                <!-- Cartographie -->
+                <div id="aroundme" class="widget">
+                    <div id="aroundme__center">
+                        <div id="mapid" style="height: 320px">
+                            <div class="aroundme__ui__group" style="z-index: 401">
+                                <button class="aroundme__ui aroundme__ui--zoomin"></button>
+                                <button class="aroundme__ui aroundme__ui--zoomout"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Horaires -->
                 <#if entry.periods?has_content>
