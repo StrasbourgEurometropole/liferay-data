@@ -13,6 +13,10 @@
     <li class="ja_JP"><a href="/ja">JP</a></li>
     <li class="nl_NL"><a href="/nl">NL</a></li>
     <li class="ru_RU"><a href="/ru">RU</a></li>
+    <li class="lsf"><a href="/lsf">
+        <img alt="LSF" class="lsf-gris" src="/o/museum-theme/images/lsf/logo-officiel-lsf-gris-small.png" /> 
+        <img alt="LSF" class="lsf-blanc" src="/o/museum-theme/images/lsf/logo-officiel-lsf-blanc-small.png" /> 
+    </a></li>
   </ul>
   </div>
   </li>
@@ -21,3 +25,22 @@
 var currentLanguageId = Liferay.ThemeDisplay.getLanguageId();
 $('.' + currentLanguageId).addClass('active');
 </script>
+<style type="text/css">.portlet-journal-content .journal-content-article .lsf img{
+    max-width: 1.5em;
+}
+.lsf-blanc{
+    display: none;
+}
+.lsf.active .lsf-blanc{
+    display: block;
+}
+.lsf.active .lsf-gris{
+    display: none;
+}
+.lsf:hover .lsf-blanc, .lsf:active .lsf-blanc{
+    display: block;
+}
+.lsf:hover .lsf-gris, .lsf:active .lsf-gris{
+    display: none;
+}
+</style>
