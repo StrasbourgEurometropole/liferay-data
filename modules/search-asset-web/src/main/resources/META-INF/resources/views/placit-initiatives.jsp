@@ -35,7 +35,7 @@
 	                </c:choose>
 	            </div>
 	
-	            <div class="row pro-wrapper-listing-participation">
+	            <div class="row pro-wrapper-listing-general">
                     <div class="col-xs-12">
                     
                         <!-- Resultats -->
