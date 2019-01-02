@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -205,10 +206,12 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 						
 			
 			// Défini le format de date à utiliser pour les champs temporels 
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 			
 			// Date de publication
-			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
+			String publicationDateStr = ParamUtil.getString(request, "publicationDate");
+			String publicationTimeStr = ParamUtil.getString(request, "publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(publicationDateStr + " " + publicationTimeStr, dateFormat);
 			initiative.setPublicationDate(publicationDate);
 
 			_initiativeLocalService.updateInitiative(initiative, sc);

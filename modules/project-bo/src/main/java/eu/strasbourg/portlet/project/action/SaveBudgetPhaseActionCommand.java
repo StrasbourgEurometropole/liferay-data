@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -78,7 +79,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			}
 			
 			// Défini le format de date à utiliser pour les champs temporels 
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 			
 			// ---------------------------------------------------------------
 			// -------------------------- GENERALITES ------------------------
@@ -109,11 +110,15 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 			
 			// Date de début 
-			Date beginDate = ParamUtil.getDate(request, "beginDate", dateFormat);
+			String beginDateStr = ParamUtil.getString(request, "beginDate");
+			String beginDateTimeStr = ParamUtil.getString(request, "beginDateTime");
+			Date beginDate = GetterUtil.getDate(beginDateStr + " " + beginDateTimeStr, dateFormat);
 			budgetPhase.setBeginDate(beginDate);
 			
 			// Date de fin
-			Date endDate = ParamUtil.getDate(request, "endDate", dateFormat);
+			String endDateStr = ParamUtil.getString(request, "endDate");
+			String endDateTimeStr = ParamUtil.getString(request, "endDateTime");
+			Date endDate = GetterUtil.getDate(endDateStr + " " + endDateTimeStr, dateFormat);
 			budgetPhase.setEndDate(endDate);
 			
 			// ---------------------------------------------------------------
@@ -121,11 +126,15 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 			
 			// Date de début
-			Date beginVoteDate = ParamUtil.getDate(request, "beginVoteDate", dateFormat);
+			String beginVoteDateStr = ParamUtil.getString(request, "beginVoteDate");
+			String beginVoteDateTimeStr = ParamUtil.getString(request, "beginVoteDateTime");
+			Date beginVoteDate = GetterUtil.getDate(beginVoteDateStr + " " + beginVoteDateTimeStr, dateFormat);
 			budgetPhase.setBeginVoteDate(beginVoteDate);
 			
 			// Date de fin
-			Date endVoteDate = ParamUtil.getDate(request, "endVoteDate", dateFormat);
+			String endVoteDateStr = ParamUtil.getString(request, "endVoteDate");
+			String endVoteDateTimeStr = ParamUtil.getString(request, "endVoteDateTime");
+			Date endVoteDate = GetterUtil.getDate(endVoteDateStr + " " + endVoteDateTimeStr, dateFormat);
 			budgetPhase.setEndVoteDate(endVoteDate);
 
 			_budgetPhaseLocalService.updateBudgetPhase(budgetPhase, sc);

@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -85,10 +86,12 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			// Definir le format de recuperation de date
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 			
 			// Date de bannissement
-			Date banishDate = ParamUtil.getDate(request, "banishDate", dateFormat);
+			String banishDateStr = ParamUtil.getString(request, "banishDate");
+			String banishDateTimeStr = ParamUtil.getString(request, "banishDateTime");
+			Date banishDate = GetterUtil.getDate(banishDateStr + " " + banishDateTimeStr, dateFormat);
 			
 			Calendar todayDate = Calendar.getInstance();
 			Calendar testDate = Calendar.getInstance();
