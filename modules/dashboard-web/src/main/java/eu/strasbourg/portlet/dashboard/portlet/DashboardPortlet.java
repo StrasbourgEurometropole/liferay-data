@@ -35,6 +35,7 @@ import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -74,6 +75,10 @@ public class DashboardPortlet extends MVCPortlet {
         if (Validator.isNotNull(publikId)) {
             PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikId);
             JSONObject userConnected = PublikApiClient.getUserDetails(publikId);
+            
+            if(userConnected.isNull("photo"))
+            	userConnected.put("photo", GlobalConstants.DEFAULT_PLACIT_USER_IMAGE_URL);
+            
             request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
             request.setAttribute("isUserloggedIn", true);
             request.setAttribute("userConnected",userConnected);
