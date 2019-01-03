@@ -92,7 +92,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         this.publikID = getPublikID(request);
         
-        // Recuperation du budget participatif en question
+        // Recuperation de l'initiative en question
         this.entryID = ParamUtil.getLong(request, ENTRY_ID);
         
         // Recuperation des informations du formulaire

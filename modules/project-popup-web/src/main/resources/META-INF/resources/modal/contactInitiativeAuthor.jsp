@@ -117,7 +117,7 @@ $(document).ready(function () {
 });
 
 $('#buttonContactInitiativeAuthor').click(function(event){
-    resetValues();
+    contactAuthorResetValues();
 });
 
 $("#<portlet:namespace />modalConfirm #<portlet:namespace />buttonConfirm").click(function(event){
@@ -143,7 +143,7 @@ $('#submitContactButton').click( function(e){
 	});
 });
 
-function resetValues()
+function contactAuthorResetValues()
 {
     $("#"+namespaceContactAuthor+"initiativeContactAuthorSubject").val("");
     $("#"+namespaceContactAuthor+"initiativeContactAuthorMessage").val("");
@@ -196,7 +196,7 @@ function sendInitiativeAuthorMessage () {
                             if(data.result){
                                 $("#modalInitiativeContact").modal('hide');
                                 $("#<portlet:namespace />modalConfirm").modal('show');
-                                resetValues();
+                                contactAuthorResetValues();
                             }else{
                                 $("#<portlet:namespace />modalError h4").text(data.message);
                                 $("#<portlet:namespace />modalError").modal('show');

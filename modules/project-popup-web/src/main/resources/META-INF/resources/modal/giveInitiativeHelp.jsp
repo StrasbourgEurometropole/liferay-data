@@ -82,7 +82,8 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" 
+                            required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                         
                     </div>
@@ -255,7 +256,7 @@
 	* Lors du chargement de la page
 	*/
     $(document).ready(function(){
-    	resetValues();
+    	giveHelpResetValues();
         $("#<portlet:namespace />modalConfirm").modal('hide');
         $("#<portlet:namespace />modalError").modal('hide');
         $("#<portlet:namespace />checkboxSaveInfo").hide();
@@ -286,10 +287,11 @@
             
             AUI().use('aui-io-request', function(A) {
                 try {
-                    A.io.request('${ContactInitiativeAuthorURL}', {
+                    A.io.request('${giveInitiativeHelpURL}', {
                         method : 'POST',
                         dataType: 'json',
                         data:{
+                        	<portlet:namespace/>entryId: 					entryId,
                             <portlet:namespace/>initiativeHelpMessage: 		initiativeHelpMessage,
                             <portlet:namespace/>initiativeHelpTypeIds: 		initiativeHelpTypeIds,
                             <portlet:namespace/>address:					address,
@@ -331,7 +333,7 @@
                                     }
                                     
                                     $("#<portlet:namespace />modalConfirm").modal('show');
-                                    resetValues();
+                                    giveHelpResetValues();
                                 }else{
                                     $("#<portlet:namespace />modalError h4").text(data.message);
                                     $("#<portlet:namespace />modalError").modal('show');
@@ -360,7 +362,7 @@
     /*
 	* Reinitialise le formulaire avec les informations les plus fraiches
 	*/
-    function resetValues(){
+    function giveHelpResetValues(){
     	// Champs entite
         $("#<portlet:namespace />initiativeHelpMessage").val("");
         $("#<portlet:namespace />helpType1").prop('checked', true);
@@ -488,7 +490,7 @@
     * Lors de la soumission d'une demande de retrait d'une aide
     */
     $("#<portlet:namespace />buttonSubmitRemove").click(function(event){
-    	resetValues();
+    	giveHelpResetValues();
     	
     	$("#<portlet:namespace />initiativeHelpMessage").val("Remove");
     	$("#<portlet:namespace />legalage").prop("checked", true);
