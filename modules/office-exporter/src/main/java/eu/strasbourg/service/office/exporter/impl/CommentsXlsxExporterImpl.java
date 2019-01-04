@@ -1,22 +1,5 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.comment.model.Comment;
-import eu.strasbourg.service.comment.service.CommentLocalService;
-import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -25,7 +8,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.Validator;
+
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalService;
+import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
+
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 @Component(
         immediate = true,
         property = {},
@@ -56,21 +58,34 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
     }
 
     public void exportComments(OutputStream stream, List<Comment> comments) {
+    	// Initialisation du document
         XSSFWorkbook workbook = new XSSFWorkbook();
+        // Creation du document
         XSSFSheet sheet = workbook.createSheet("Commentaires");
-
-        Object[][] commentData = {{LanguageUtil.get(bundle, "commentType"), LanguageUtil.get(bundle, "commentName"),
-                LanguageUtil.get(bundle, "modification-date"), LanguageUtil.get(bundle, "comment-level"),
-                LanguageUtil.get(bundle, "comment")}};
-
+        DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
+        
+        // Initialisation des colonnes
+        Object[][] commentData = {{
+        	LanguageUtil.get(bundle, "commentType"),
+        	LanguageUtil.get(bundle, "commentName"),
+            LanguageUtil.get(bundle, "modification-date"),
+            LanguageUtil.get(bundle, "comment-level"),
+            LanguageUtil.get(bundle, "comment")}};
+        
+        // Parcours des commentaires et creation de la ligne a ajouter dans l'excel
         for (Comment comment : comments) {
-            DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
             String dateCreate = dateFormat.format(comment.getModifiedByUserDate() == null ? comment.getCreateDate() : comment.getModifiedByUserDate());
             String languageId = LocaleUtil.toLanguageId(Locale.FRANCE);
             String title = LocalizationUtil.getLocalization(comment.getAssetEntryTitle(), languageId);
 
-            Object[] commentRow = {comment.getTypeAssetEntry(), title,
-                    dateCreate, comment.getLevel(), comment.getComment()};
+            Object[] commentRow = {
+            		unescapeHtml4(comment.getTypeAssetEntry()),
+            		title,
+                    dateCreate,
+                    comment.getLevel(),
+                    unescapeHtml4(comment.getComment())
+                    };
+            
             commentData = ArrayUtil.append(commentData, commentRow);
         }
 

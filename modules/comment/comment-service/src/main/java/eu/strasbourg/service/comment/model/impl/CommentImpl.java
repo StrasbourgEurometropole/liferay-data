@@ -90,7 +90,15 @@ public class CommentImpl extends CommentBaseImpl {
 			    result = "Projet";
             }else if ("JournalArticle".equals(result)){
 			    result = "Actualit&eacute;";
-            }
+			}else if ("BudgetParticipatif".equals(result)){
+			    result = "Budget participatif";
+	        }
+			else if ("Petition".equals(result)){
+			    result = "P&eacute;tition";
+	        }
+			else if ("Video".equals(result)){
+			    result = "Vid&eacute;o";
+	        }
 		} catch (PortalException e) {
 			_log.error("Erreur lors de la récupération du type : ",e);
 		}
