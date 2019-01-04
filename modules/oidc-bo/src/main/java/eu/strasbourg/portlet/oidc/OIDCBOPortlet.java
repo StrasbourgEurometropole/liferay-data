@@ -1,7 +1,6 @@
 package eu.strasbourg.portlet.oidc;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 import javax.portlet.Portlet;
@@ -35,12 +34,15 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.model.Signataire;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
@@ -182,7 +184,7 @@ public class OIDCBOPortlet extends MVCPortlet {
 						
 						// Anonymisation des informations utilisateur dans les budgets participatifs
 						List<BudgetParticipatif> budgetParticipatifs = BudgetParticipatifLocalServiceUtil.
-								getBudgetParticipatifByPublikUserID(publikUser.getPublikId());
+								getByPublikUserID(publikUser.getPublikId());
 						if (!budgetParticipatifs.isEmpty()) {
 							for (BudgetParticipatif budgetParticipatif : budgetParticipatifs) {
 								budgetParticipatif.setCitoyenFirstname(anonymUser.getFirstName());
@@ -217,6 +219,28 @@ public class OIDCBOPortlet extends MVCPortlet {
 								budgetSupport.setPublikUserId(anonymUser.getPublikId());
 								// Mise à jour en base
 								BudgetSupportLocalServiceUtil.updateBudgetSupport(budgetSupport);
+							}
+						}
+						
+						// Anonymisation des informations utilisateur dans les initiatives
+						List<Initiative> initiatives = InitiativeLocalServiceUtil.
+								getByPublikUserID(publikUser.getPublikId());
+						if (!initiatives.isEmpty()) {
+							for (Initiative initiative : initiatives) {
+								initiative.setPublikId(anonymUser.getPublikId());
+								// Mise à jour en base
+								InitiativeLocalServiceUtil.updateInitiative(initiative);
+							}
+						}
+						
+						// Anonymisation des informations utilisateur dans les aides aux initiatives
+						List<InitiativeHelp> helps = InitiativeHelpLocalServiceUtil.
+								getByPublikUserId(publikUser.getPublikId());
+						if (!helps.isEmpty()) {
+							for (InitiativeHelp help : helps) {
+								help.setPublikUserId(anonymUser.getPublikId());
+								// Mise à jour en base
+								InitiativeHelpLocalServiceUtil.updateInitiativeHelp(help);
 							}
 						}
 						

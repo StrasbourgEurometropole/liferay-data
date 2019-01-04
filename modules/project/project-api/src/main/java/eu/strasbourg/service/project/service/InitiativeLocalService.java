@@ -262,6 +262,9 @@ public interface InitiativeLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Initiative> getByGroupId(long groupId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Initiative> getByPublikUserID(java.lang.String publikId);
+
 	/**
 	* Returns a range of all the initiatives.
 	*

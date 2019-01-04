@@ -376,6 +376,11 @@ public class BudgetParticipatifLocalServiceUtil {
 		return getService().getByBudgetPhase(budgetPhaseId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByPublikUserID(
+		java.lang.String publikId) {
+		return getService().getByPublikUserID(publikId);
+	}
+
 	/**
 	* Recuperer le nombre voulu des budgets participatifs les plus commentes
 	*

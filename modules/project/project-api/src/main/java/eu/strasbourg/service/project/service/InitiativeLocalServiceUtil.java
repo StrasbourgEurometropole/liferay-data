@@ -298,6 +298,11 @@ public class InitiativeLocalServiceUtil {
 		return getService().getByGroupId(groupId);
 	}
 
+	public static java.util.List<eu.strasbourg.service.project.model.Initiative> getByPublikUserID(
+		java.lang.String publikId) {
+		return getService().getByPublikUserID(publikId);
+	}
+
 	/**
 	* Returns a range of all the initiatives.
 	*

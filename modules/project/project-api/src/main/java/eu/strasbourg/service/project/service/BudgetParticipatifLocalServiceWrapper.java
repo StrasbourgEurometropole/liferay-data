@@ -400,6 +400,12 @@ public class BudgetParticipatifLocalServiceWrapper
 		return _budgetParticipatifLocalService.getByBudgetPhase(budgetPhaseId);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByPublikUserID(
+		java.lang.String publikId) {
+		return _budgetParticipatifLocalService.getByPublikUserID(publikId);
+	}
+
 	/**
 	* Recuperer le nombre voulu des budgets participatifs les plus commentes
 	*
