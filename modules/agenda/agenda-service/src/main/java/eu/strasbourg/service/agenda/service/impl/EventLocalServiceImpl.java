@@ -54,6 +54,7 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventModel;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
@@ -377,6 +378,12 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				.getByEventId(eventId);
 			for (EventPeriod period : periods) {
 				EventPeriodLocalServiceUtil.deleteEventPeriod(period);
+			}
+			
+			// Supprimer les participations des usagers aux events
+			List<EventParticipation> participations = EventParticipationLocalServiceUtil.getByEventId(eventId);
+			for(EventParticipation ep : participations) {
+				EventParticipationLocalServiceUtil.deleteEventParticipation(ep);
 			}
 		}
 

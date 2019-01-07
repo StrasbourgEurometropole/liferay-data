@@ -139,7 +139,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
             savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
-                SimpleDateFormat sdf = new SimpleDateFormat(PATTERN);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String dateNaiss = sdf.format(birthday);
                 PublikApiClient.setAllUserDetails(
                 		this.publikID, 
