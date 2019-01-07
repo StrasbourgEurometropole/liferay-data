@@ -159,17 +159,21 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			String mail = ParamUtil.getString(request, "mail");
 			place.setMail(mail);
 
-			String siteLabel = ParamUtil.getString(request, "siteLabel");
-			place.setSiteLabel(siteLabel);
+			Map<Locale, String> siteLabels = LocalizationUtil.getLocalizationMap(request,
+					"siteLabel");
+			place.setSiteLabelMap(siteLabels);
 
-			String siteURL = ParamUtil.getString(request, "siteURL");
-			place.setSiteURL(siteURL);
+			Map<Locale, String> siteURLs = LocalizationUtil.getLocalizationMap(request,
+					"siteURL");
+			place.setSiteURLMap(siteURLs);
 
-			String facebookLabel = ParamUtil.getString(request, "facebookLabel");
-			place.setFacebookLabel(facebookLabel);
+			Map<Locale, String> facebookLabels = LocalizationUtil.getLocalizationMap(request,
+					"facebookLabel");
+			place.setFacebookLabelMap(facebookLabels);
 
-			String facebookURL = ParamUtil.getString(request, "facebookURL");
-			place.setFacebookURL(facebookURL);
+			Map<Locale, String> facebookURLs = LocalizationUtil.getLocalizationMap(request,
+					"facebookURL");
+			place.setFacebookURLMap(facebookURLs);
 
 			// ---------------------------------------------------------------
 			// ---------------------------- ACCES ----------------------------
