@@ -15,6 +15,7 @@ create table project_BudgetParticipatif (
 	description TEXT null,
 	budget VARCHAR(75) null,
 	motif TEXT null,
+	placeTextArea VARCHAR(400) null,
 	citoyenLastname VARCHAR(75) null,
 	citoyenFirstname VARCHAR(75) null,
 	citoyenAdresse VARCHAR(400) null,
@@ -26,7 +27,6 @@ create table project_BudgetParticipatif (
 	citoyenBirthday DATE null,
 	hasCopyright BOOLEAN,
 	videoUrl VARCHAR(400) null,
-	placeTextArea VARCHAR(400) null,
 	isCrush BOOLEAN,
 	crushComment TEXT null,
 	publikId VARCHAR(75) null,
@@ -96,8 +96,8 @@ create table project_Initiative (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(400) null,
-	author VARCHAR(75) null,
 	description TEXT null,
+	placeTextArea VARCHAR(75) null,
 	videoUrl VARCHAR(400) null,
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(400) null,
@@ -106,18 +106,18 @@ create table project_Initiative (
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null,
-	consultationPlacesText VARCHAR(75) null,
-	consultationPlacesBody TEXT null,
 	publicationDate DATE null
 );
 
 create table project_InitiativeHelp (
+	uuid_ VARCHAR(75) null,
 	initiativeHelpId LONG not null primary key,
 	createDate DATE null,
 	publikUserId VARCHAR(75) null,
 	initiativeId LONG,
+	helpTypes VARCHAR(75) null,
 	groupId LONG,
-	message VARCHAR(75) null
+	message VARCHAR(400) null
 );
 
 create table project_Participation (
@@ -187,8 +187,6 @@ create table project_Petition (
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(75) null,
 	mediaChoice BOOLEAN,
-	consultationPlacesText VARCHAR(75) null,
-	consultationPlacesBody VARCHAR(75) null,
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null

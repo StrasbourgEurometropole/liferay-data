@@ -4794,6 +4794,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setDescription(budgetParticipatif.getDescription());
 		budgetParticipatifImpl.setBudget(budgetParticipatif.getBudget());
 		budgetParticipatifImpl.setMotif(budgetParticipatif.getMotif());
+		budgetParticipatifImpl.setPlaceTextArea(budgetParticipatif.getPlaceTextArea());
 		budgetParticipatifImpl.setCitoyenLastname(budgetParticipatif.getCitoyenLastname());
 		budgetParticipatifImpl.setCitoyenFirstname(budgetParticipatif.getCitoyenFirstname());
 		budgetParticipatifImpl.setCitoyenAdresse(budgetParticipatif.getCitoyenAdresse());
@@ -4805,7 +4806,6 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setCitoyenBirthday(budgetParticipatif.getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(budgetParticipatif.isHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(budgetParticipatif.getVideoUrl());
-		budgetParticipatifImpl.setPlaceTextArea(budgetParticipatif.getPlaceTextArea());
 		budgetParticipatifImpl.setIsCrush(budgetParticipatif.isIsCrush());
 		budgetParticipatifImpl.setCrushComment(budgetParticipatif.getCrushComment());
 		budgetParticipatifImpl.setPublikId(budgetParticipatif.getPublikId());

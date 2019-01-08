@@ -1,8 +1,18 @@
 package eu.strasbourg.portlet.dashboard.portlet;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
+
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
@@ -20,20 +30,12 @@ import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author alexandre.quere
@@ -58,9 +60,6 @@ public class DashboardPortlet extends MVCPortlet {
     /**
      * le log
      */
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-    private static final String SHARED_ASSET_ID = "LIFERAY_SHARED_assetEntryID";
-    private static final String CITY_NAME = "Strasbourg";
     public static final String REDIRECT_URL_PARAM = "redirectURL";
 
     @Override
@@ -111,10 +110,13 @@ public class DashboardPortlet extends MVCPortlet {
          * Initiatives : à implémenter
          */
         List<Initiative> initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publikId);
-        List<Initiative> initiativesAides=new ArrayList<>();
+        List<Initiative> initiativesAides = InitiativeHelpLocalServiceUtil.getByPublikUserId(publikId)
+        		.stream().map(x->x.getInitiative()).collect(Collectors.toList());
         
-        request.setAttribute("initiativeFiledCount",initiativesFiled.size());
+        request.setAttribute("initiativeFiledsCount",initiativesFiled.size());
+        request.setAttribute("initiativeFileds",initiativesFiled);
         request.setAttribute("initiativeAidesCount",initiativesAides.size());
+        request.setAttribute("initiativeAides",initiativesAides);
         
         /**
          * Budget participatif

@@ -8,8 +8,7 @@
 	<portlet:param name="entryID" value="${entryID}"></portlet:param>
 </portlet:actionURL>
 
-<section id="pro-link-commentaire"
-	class="container pro-bloc-commentaires">
+<section id="pro-link-commentaire" class="container pro-bloc-commentaires">
 	<h2>
 		<liferay-ui:message key="javax.portlet.title" />
 	</h2>
@@ -24,6 +23,9 @@
 				</portlet:actionURL>
 
 				<div id="${comment.commentId}" class="pro-item">
+					<figure role="group">
+                    	<img src="${comment.getPublikUser().getImageURLOrSurrogate()}" alt="Photo de profil" width="85" height="85" class="fit-cover"/>
+                    </figure>
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span>
 						<span class="pro-comment-time">
@@ -128,10 +130,15 @@
 								<fmt:formatDate type="date" value="${comment.modifiedByUserDate}" pattern="HH:mm:ss" />
 							</p>
 						</c:if>
-
+						
 						<!-- Reponse du commentaire -->
-						<div class="pro-comment-response" style="padding-left: 50px">
-							<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
+						<c:forEach var="commentAnswer" items="${comment.getApprovedChildComments()}">
+						
+							<div class="pro-comment-response">
+							
+								<figure role="group">
+                                    <img src="${commentAnswer.getPublikUser().getImageURLOrSurrogate()}" alt="Photo de profil" width="45" height="45" class="fit-cover"/>
+                                </figure>
 
 								<portlet:actionURL name="hideComment" var="hideComment">
 									<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
@@ -210,8 +217,9 @@
 									
 								</div>
 
-							</c:forEach>
-						</div>
+							</div>
+							
+						</c:forEach>
 
 					</div>
 				</div>

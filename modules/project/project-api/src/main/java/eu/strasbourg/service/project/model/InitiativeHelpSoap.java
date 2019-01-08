@@ -34,10 +34,12 @@ public class InitiativeHelpSoap implements Serializable {
 	public static InitiativeHelpSoap toSoapModel(InitiativeHelp model) {
 		InitiativeHelpSoap soapModel = new InitiativeHelpSoap();
 
+		soapModel.setUuid(model.getUuid());
 		soapModel.setInitiativeHelpId(model.getInitiativeHelpId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setPublikUserId(model.getPublikUserId());
 		soapModel.setInitiativeId(model.getInitiativeId());
+		soapModel.setHelpTypes(model.getHelpTypes());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setMessage(model.getMessage());
 
@@ -92,6 +94,14 @@ public class InitiativeHelpSoap implements Serializable {
 		setInitiativeHelpId(pk);
 	}
 
+	public String getUuid() {
+		return _uuid;
+	}
+
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
+
 	public long getInitiativeHelpId() {
 		return _initiativeHelpId;
 	}
@@ -124,6 +134,14 @@ public class InitiativeHelpSoap implements Serializable {
 		_initiativeId = initiativeId;
 	}
 
+	public String getHelpTypes() {
+		return _helpTypes;
+	}
+
+	public void setHelpTypes(String helpTypes) {
+		_helpTypes = helpTypes;
+	}
+
 	public long getGroupId() {
 		return _groupId;
 	}
@@ -140,10 +158,12 @@ public class InitiativeHelpSoap implements Serializable {
 		_message = message;
 	}
 
+	private String _uuid;
 	private long _initiativeHelpId;
 	private Date _createDate;
 	private String _publikUserId;
 	private long _initiativeId;
+	private String _helpTypes;
 	private long _groupId;
 	private String _message;
 }

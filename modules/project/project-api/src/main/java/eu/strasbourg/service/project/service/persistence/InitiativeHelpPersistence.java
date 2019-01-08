@@ -42,6 +42,188 @@ public interface InitiativeHelpPersistence extends BasePersistence<InitiativeHel
 	 */
 
 	/**
+	* Returns all the initiative helps where uuid = &#63;.
+	*
+	* @param uuid the uuid
+	* @return the matching initiative helps
+	*/
+	public java.util.List<InitiativeHelp> findByUuid(java.lang.String uuid);
+
+	/**
+	* Returns a range of all the initiative helps where uuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param start the lower bound of the range of initiative helps
+	* @param end the upper bound of the range of initiative helps (not inclusive)
+	* @return the range of matching initiative helps
+	*/
+	public java.util.List<InitiativeHelp> findByUuid(java.lang.String uuid,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the initiative helps where uuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param start the lower bound of the range of initiative helps
+	* @param end the upper bound of the range of initiative helps (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching initiative helps
+	*/
+	public java.util.List<InitiativeHelp> findByUuid(java.lang.String uuid,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<InitiativeHelp> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the initiative helps where uuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeHelpModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param start the lower bound of the range of initiative helps
+	* @param end the upper bound of the range of initiative helps (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching initiative helps
+	*/
+	public java.util.List<InitiativeHelp> findByUuid(java.lang.String uuid,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<InitiativeHelp> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first initiative help in the ordered set where uuid = &#63;.
+	*
+	* @param uuid the uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching initiative help
+	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	*/
+	public InitiativeHelp findByUuid_First(java.lang.String uuid,
+		com.liferay.portal.kernel.util.OrderByComparator<InitiativeHelp> orderByComparator)
+		throws NoSuchInitiativeHelpException;
+
+	/**
+	* Returns the first initiative help in the ordered set where uuid = &#63;.
+	*
+	* @param uuid the uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	*/
+	public InitiativeHelp fetchByUuid_First(java.lang.String uuid,
+		com.liferay.portal.kernel.util.OrderByComparator<InitiativeHelp> orderByComparator);
+
+	/**
+	* Returns the last initiative help in the ordered set where uuid = &#63;.
+	*
+	* @param uuid the uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching initiative help
+	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	*/
+	public InitiativeHelp findByUuid_Last(java.lang.String uuid,
+		com.liferay.portal.kernel.util.OrderByComparator<InitiativeHelp> orderByComparator)
+		throws NoSuchInitiativeHelpException;
+
+	/**
+	* Returns the last initiative help in the ordered set where uuid = &#63;.
+	*
+	* @param uuid the uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	*/
+	public InitiativeHelp fetchByUuid_Last(java.lang.String uuid,
+		com.liferay.portal.kernel.util.OrderByComparator<InitiativeHelp> orderByComparator);
+
+	/**
+	* Returns the initiative helps before and after the current initiative help in the ordered set where uuid = &#63;.
+	*
+	* @param initiativeHelpId the primary key of the current initiative help
+	* @param uuid the uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next initiative help
+	* @throws NoSuchInitiativeHelpException if a initiative help with the primary key could not be found
+	*/
+	public InitiativeHelp[] findByUuid_PrevAndNext(long initiativeHelpId,
+		java.lang.String uuid,
+		com.liferay.portal.kernel.util.OrderByComparator<InitiativeHelp> orderByComparator)
+		throws NoSuchInitiativeHelpException;
+
+	/**
+	* Removes all the initiative helps where uuid = &#63; from the database.
+	*
+	* @param uuid the uuid
+	*/
+	public void removeByUuid(java.lang.String uuid);
+
+	/**
+	* Returns the number of initiative helps where uuid = &#63;.
+	*
+	* @param uuid the uuid
+	* @return the number of matching initiative helps
+	*/
+	public int countByUuid(java.lang.String uuid);
+
+	/**
+	* Returns the initiative help where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchInitiativeHelpException} if it could not be found.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the matching initiative help
+	* @throws NoSuchInitiativeHelpException if a matching initiative help could not be found
+	*/
+	public InitiativeHelp findByUUID_G(java.lang.String uuid, long groupId)
+		throws NoSuchInitiativeHelpException;
+
+	/**
+	* Returns the initiative help where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	*/
+	public InitiativeHelp fetchByUUID_G(java.lang.String uuid, long groupId);
+
+	/**
+	* Returns the initiative help where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
+	*/
+	public InitiativeHelp fetchByUUID_G(java.lang.String uuid, long groupId,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the initiative help where uuid = &#63; and groupId = &#63; from the database.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the initiative help that was removed
+	*/
+	public InitiativeHelp removeByUUID_G(java.lang.String uuid, long groupId)
+		throws NoSuchInitiativeHelpException;
+
+	/**
+	* Returns the number of initiative helps where uuid = &#63; and groupId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the number of matching initiative helps
+	*/
+	public int countByUUID_G(java.lang.String uuid, long groupId);
+
+	/**
 	* Returns all the initiative helps where publikUserId = &#63;.
 	*
 	* @param publikUserId the publik user ID
@@ -484,4 +666,7 @@ public interface InitiativeHelpPersistence extends BasePersistence<InitiativeHel
 	* @return the number of initiative helps
 	*/
 	public int countAll();
+
+	@Override
+	public java.util.Set<java.lang.String> getBadColumnNames();
 }

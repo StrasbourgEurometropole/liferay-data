@@ -58,10 +58,12 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("uuid", getUuid());
 		attributes.put("initiativeHelpId", getInitiativeHelpId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("initiativeId", getInitiativeId());
+		attributes.put("helpTypes", getHelpTypes());
 		attributes.put("groupId", getGroupId());
 		attributes.put("message", getMessage());
 
@@ -70,6 +72,12 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		String uuid = (String)attributes.get("uuid");
+
+		if (uuid != null) {
+			setUuid(uuid);
+		}
+
 		Long initiativeHelpId = (Long)attributes.get("initiativeHelpId");
 
 		if (initiativeHelpId != null) {
@@ -92,6 +100,12 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 
 		if (initiativeId != null) {
 			setInitiativeId(initiativeId);
+		}
+
+		String helpTypes = (String)attributes.get("helpTypes");
+
+		if (helpTypes != null) {
+			setHelpTypes(helpTypes);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -132,6 +146,27 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		return _initiativeHelp.toCacheModel();
 	}
 
+	/**
+	* Retourne l'utilisateur Publik depositaire
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
+		return _initiativeHelp.getAuthor();
+	}
+
+	/**
+	* Retourne l'initiative de l'aide
+	*
+	* @return
+	* @throws PortalException
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Initiative getInitiative() {
+		return _initiativeHelp.getInitiative();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.InitiativeHelp toEscapedModel() {
 		return new InitiativeHelpWrapper(_initiativeHelp.toEscapedModel());
@@ -164,6 +199,42 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
+	* Retourne l'URL de l'image de l'utilisateur
+	*/
+	@Override
+	public java.lang.String getAuthorImageURL() {
+		return _initiativeHelp.getAuthorImageURL();
+	}
+
+	/**
+	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	*/
+	@Override
+	public java.lang.String getAuthorLabel() {
+		return _initiativeHelp.getAuthorLabel();
+	}
+
+	/**
+	* Retourne le message d'accompagnement sans les balises et autres fioritures
+	*
+	* @return
+	*/
+	@Override
+	public java.lang.String getFormatedMessage() {
+		return _initiativeHelp.getFormatedMessage();
+	}
+
+	/**
+	* Returns the help types of this initiative help.
+	*
+	* @return the help types of this initiative help
+	*/
+	@Override
+	public java.lang.String getHelpTypes() {
+		return _initiativeHelp.getHelpTypes();
+	}
+
+	/**
 	* Returns the message of this initiative help.
 	*
 	* @return the message of this initiative help
@@ -181,6 +252,24 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public java.lang.String getPublikUserId() {
 		return _initiativeHelp.getPublikUserId();
+	}
+
+	/**
+	* Retourne le label des types d'aide
+	*/
+	@Override
+	public java.lang.String getTypesLabel() {
+		return _initiativeHelp.getTypesLabel();
+	}
+
+	/**
+	* Returns the uuid of this initiative help.
+	*
+	* @return the uuid of this initiative help
+	*/
+	@Override
+	public java.lang.String getUuid() {
+		return _initiativeHelp.getUuid();
 	}
 
 	@Override
@@ -290,6 +379,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
+	* Sets the help types of this initiative help.
+	*
+	* @param helpTypes the help types of this initiative help
+	*/
+	@Override
+	public void setHelpTypes(java.lang.String helpTypes) {
+		_initiativeHelp.setHelpTypes(helpTypes);
+	}
+
+	/**
 	* Sets the initiative help ID of this initiative help.
 	*
 	* @param initiativeHelpId the initiative help ID of this initiative help
@@ -347,6 +446,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public void setPublikUserId(java.lang.String publikUserId) {
 		_initiativeHelp.setPublikUserId(publikUserId);
+	}
+
+	/**
+	* Sets the uuid of this initiative help.
+	*
+	* @param uuid the uuid of this initiative help
+	*/
+	@Override
+	public void setUuid(java.lang.String uuid) {
+		_initiativeHelp.setUuid(uuid);
 	}
 
 	@Override

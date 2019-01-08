@@ -16,9 +16,7 @@
 		<div class="container pro-user">
 			<a href="#pro-onglet-account">
 				<figure>
-					<img
-						src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-						width="40" height="40" alt="Nom de l'utilisateur" />
+					<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
 				</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
 			</a> <span><liferay-ui:message key="dashboard.front.welcome" /><span
 				id="pro-user-name">${userConnected.get('first_name')}
@@ -74,7 +72,6 @@
 					</div>
 				</div>
 
-				<c:if test="${initiativeFiledCount+initiativeAidesCount ne 0}">
 					<div class="col-lg-3 col-sm-6 col-xs-12">
 						<div class="pro-item pro-item-initiative">
 							<div class="pro-item-center">
@@ -84,14 +81,13 @@
 								</div>
 							</div>
 							<div class="pro-bloc-link-dashboard">
-								<a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>${initiativeFiledCount}</strong><span><liferay-ui:message
+								<a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>${initiativeFiledsCount}</strong><span><liferay-ui:message
 											key="dashboard.front.initiative.signed" /></span></a> <a
 									href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>${initiativeAidesCount}</strong><span><liferay-ui:message
 											key="dashboard.front.initiative.aidees" /></span></a>
 							</div>
 						</div>
 					</div>
-				</c:if>
 					<div class="col-lg-3 col-sm-6 col-xs-12">
 						<div class="pro-item pro-item-budget">
 							<div class="pro-item-center">
@@ -140,26 +136,10 @@
 					<div class="pro-wrapper col-md-3">
 						<div class="profile">
 							<div class="photo">
-								<input type="file" accept="image/*">
 								<div class="photo__helper">
 									<div class="photo__frame photo__frame--circle">
-										<img
-											src="/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png"
-											width="185" height="185" alt="Image" class="pro-img-bg" />
+										<img src="${userConnected.get('photo')}" width="185" height="185" alt="Image" class="pro-img-bg" />
 										<canvas class="photo__canvas"></canvas>
-
-										<div class="pro-photo-hover">
-											<span class="icon-ico-user"></span>
-											<p>
-												<liferay-ui:message key="dashboard.account.profile.picture" />
-											</p>
-										</div>
-										<div class="message is-wrong-image-size">
-											<p>
-												<liferay-ui:message
-													key="dashboard.account.profile.picture.error" />
-											</p>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -305,8 +285,11 @@
 			</div>
 		</section>
 	</c:if>
-	<!--     event -->
+	
+	
 	<div class="pro-wrapper-list-dashboard">
+	
+		<!--    event -->
 		<c:if test="${eventCount != 0}">
 			<section id="pro-link-listing-event"
 				class="pro-bloc-slider pro-slider-event">
@@ -347,8 +330,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pÃ©titions signÃ©s -->
-		<c:if test="${petitionSignedCount ne 0}">
+		<!-- Tuile des petitions signes -->		<c:if test="${petitionSignedCount ne 0}">
 			<section id="pro-link-listing-petition-signe"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
@@ -364,9 +346,9 @@
 						<c:forEach var="petitionSigned" items="${petitionSigned}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionSigned.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
@@ -410,7 +392,7 @@
 			</section>
 		</c:if>
 
-		<!-- Tuile des pÃ©titions dÃ©posÃ©s -->
+		<!-- Tuile des petitions deposees -->
 		<c:if test="${petitionsFiledCount != 0}">
 			<section id="pro-link-listing-petition-depose"
 				class="pro-bloc-slider pro-slider-event">
@@ -427,15 +409,14 @@
 						<c:forEach var="petitionFiled" items="${petitionsFiled}">
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
-									<!--                                     <figure role="group"> -->
-									<!--                                         <img src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/> -->
-									<!--                                     </figure> -->
+									<figure role="group">
+										<img src="${petitionFiled.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong>${petitionFiled.petitionnaireFirstname}
-											${petitionFiled.petitionnaireLastname}</strong>
+										<strong>${petitionFiled.petitionnaireFirstname} ${petitionFiled.petitionnaireLastname}</strong>
 									</p>
 								</div>
 								<div class="pro-content-petition">
@@ -473,107 +454,103 @@
 			</section>
 		</c:if>
 
-
-		<!-- Tuile des initiatives -->
-		<c:if test="${initiativeFiledCount != 0}">
+		<!-- Tuile des initiatives depose -->
+		<c:if test="${initiativesFiledCount != 0}">
 			<section id="pro-link-listing-initiative-signe"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives signÃ©es (6)</h2>
-					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des Ã©vÃ¨nements">Toutes les
-						initiatives</a>
+					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.signed.mine" />
+						(${initiativeFiledsCount})</h2>
+					<a href="${homeURL}initiatives" class="pro-btn"
+						title="<liferay-ui:message key='dashboard.thumbnail.initiative.main.alt'/>"><liferay-ui:message
+							key="dashboard.thumbnail.initiative.main" /></a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
-
-						<div class="item pro-bloc-card-initiative" data-linkall="a">
-							<div class="wrapper-card-initiative">
-								<div>
-									<div class="pro-header-initiative">
-										<figure role="group">
-											<img
-												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="ArriÃ¨re plan page standard" />
-										</figure>
-										<p>Initiative publiÃ©e par :</p>
-										<p>
-											<strong>Sylvie M.</strong>
-										</p>
-									</div>
-									<div class="pro-content-initiative">
-										<div class="pro-wrapper-meta">
-											<div class="pro-meta">
-												<span>Quartier</span> <span>ThÃ©matique</span> <span>Nom
-													du projet</span>
-											</div>
+						<c:forEach var="initiative" items="${initiativeFileds}">
+							<div class="item pro-bloc-card-initiative" data-linkall="a">
+								<div class="wrapper-card-initiative">
+									<c:if test="${initiative.getImageURL() != ''}">
+										<figure role="group" class="fit-cover">
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                	</figure>
+                                	</c:if>
+									<div>
+										<div class="pro-header-initiative">
+		                                    <figure role="group">
+		                                        <img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+		                                    </figure>
+											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
+											<p>
+												<strong>${initiative.getAuthorLabel()}</strong>
+											</p>
 										</div>
-										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de lâinitiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">PubliÃ©e le <time
-												datetime="2018-01-10">10/04/2018</time></span>
+										<div class="pro-content-initiative">
+											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
+											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${initiative.title}</h3>
+											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
+											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="pro-footer-initiative">
-								<div class="pro-avis">
-									<span>188</span>
+								<div class="pro-footer-initiative">
+									<div class="pro-avis">
+										<span>${initiative.getNbHelps()}</span>
+									</div>
+									<p><liferay-ui:message key="dashboard.thumbnail.initiative.progress" /></p>
 								</div>
-								<p>Citoyens soutiennent cette initiative</p>
 							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</section>
 		</c:if>
 
-
-		<!-- Tuile des initiatives -->
+		<!-- Tuile des initiatives aidees -->
 		<c:if test="${initiativeAidesCount != 0}">
 			<section id="pro-link-listing-initiative-aide"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
-					<h2>Mes initiatives aidÃ©es (11)</h2>
-					<a href="listing-initiative.html" class="pro-btn"
-						title="Lien vers la page du Listing des Ã©vÃ¨nements">Toutes les
-						initiatives</a>
+					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.filed.mine" />
+						(${initiativeAidesCount})</h2>
+					<a href="${homeURL}initiatives" class="pro-btn"
+						title="<liferay-ui:message key='dashboard.thumbnail.initiative.main.alt'/>"><liferay-ui:message
+							key="dashboard.thumbnail.initiative.main" /></a>
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
-
-						<div class="item pro-bloc-card-initiative" data-linkall="a">
-							<div class="wrapper-card-initiative">
-								<div>
-									<div class="pro-header-initiative">
-										<figure role="group">
-											<img
-												src="/o/plateforme-citoyenne-theme/images/medias/comm-mathilde.jpg"
-												width="40" height="40" alt="ArriÃ¨re plan page standard" />
-										</figure>
-										<p>Initiative publiÃ©e par :</p>
-										<p>
-											<strong>Sylvie M.</strong>
-										</p>
-									</div>
-									<div class="pro-content-initiative">
-										<div class="pro-wrapper-meta">
-											<div class="pro-meta">
-												<span>Quartier</span> <span>ThÃ©matique</span> <span>Nom
-													du projet</span>
-											</div>
+						<c:forEach var="initiative" items="${initiativeAides}">
+							<div class="item pro-bloc-card-initiative" data-linkall="a">
+								<div class="wrapper-card-initiative">
+									<c:if test="${initiative.getImageURL() != ''}">
+										<figure role="group" class="fit-cover">
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                	</figure>
+                                	</c:if>
+									<div>
+										<div class="pro-header-initiative">
+		                                    <figure role="group">
+		                                        <img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+		                                    </figure>
+											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
+											<p>
+												<strong>${initiative.getAuthorLabel()}</strong>
+											</p>
 										</div>
-										<a href="detail-initiative.html" title="lien de la page"><h3>
-												Titre de lâinitiative<br>Sur deux lignes
-											</h3></a> <span class="pro-time">PubliÃ©e le <time
-												datetime="2018-01-10">10/04/2018</time></span>
+										<div class="pro-content-initiative">
+											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
+											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${initiative.title}</h3>
+											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
+											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="pro-footer-initiative">
-								<div class="pro-avis">
-									<span>188</span>
+								<div class="pro-footer-initiative">
+									<div class="pro-avis">
+										<span>${initiative.getNbHelps()}</span>
+									</div>
+									<p><liferay-ui:message key="dashboard.thumbnail.initiative.progress" /></p>
 								</div>
-								<p>Citoyens soutiennent cette initiative</p>
 							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</section>

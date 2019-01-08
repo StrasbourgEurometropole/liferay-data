@@ -22,5 +22,6 @@
 		<property name="pactSignature" type="org.hibernate.type.TimestampType" />
 		<property name="banishDate" type="org.hibernate.type.TimestampType" />
 		<property name="banishDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="imageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>
