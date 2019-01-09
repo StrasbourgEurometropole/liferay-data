@@ -252,7 +252,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 					} else if (typeSigId.toLowerCase().equals("cat_12_07")) { // Mairies
                         rtType = "3";
 						// System.out.println("Type 3");
-					} else { // Parkings
+					} else if (typeSigId.toLowerCase().contains("cat_22")){ // Parkings
                         rtType = "2";
 						// System.out.println("Type 2");
 					}
@@ -289,7 +289,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 					case "3":
 						try {
 							long occupation = MairieStateSOAPClient.getWaitingTime(place.getRTExternalId());
-							place.setRTOccupation(occupation);
+							rtOccupation = occupation;
 						} catch (Exception ex) {
 							//ex.printStackTrace();
 							log.error("Can not update real time data for 'mairie'");
