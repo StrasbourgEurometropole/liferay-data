@@ -1154,7 +1154,7 @@ function createInitiative(initiative){
                         '<figure role="group">' +
                             '<img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Image de profil auteur"/>' +
                         '</figure>' +
-                        '<p>Participation publiée par :</p>' +
+                        '<p>Initiative publiée par :</p>' +
                         '<p><strong>' + initiative.author + '</strong></p>' +
                     '</div>' +
                     '<div class="pro-content-initiative">' +
@@ -1283,4 +1283,18 @@ $('.pro-remove').on('click',function(){
         // Renvoi la liste des entités demandées
         getSelectedEntries();
     }
+});
+
+
+$(document).ready(function () {
+	
+    $('.closefirstmodal').click(function () {
+        $('#WarningClosePopup').modal('show');
+    });
+
+    $('.confirmclosed').click(function () {
+        $('#WarningClosePopup').modal('hide');
+        $('.pro-modal').modal('hide');
+    });
+    
 });

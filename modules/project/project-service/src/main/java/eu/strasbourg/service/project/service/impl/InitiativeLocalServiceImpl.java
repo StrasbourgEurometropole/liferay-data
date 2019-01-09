@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
@@ -420,6 +421,11 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
             return initiatives;
         else 
         	return initiatives.stream().limit(delta).collect(Collectors.toList());
+    }
+	
+	 @Override
+    public List<Initiative> getByPublikUserID(String publikId){
+		 return initiativePersistence.findBypublikId(publikId);
     }
 	
 }

@@ -537,4 +537,10 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
                 .collect(Collectors.toList());
     }
     
+    
+    @Override
+    public List<BudgetParticipatif> getByPublikUserID(String publikId){
+        return budgetParticipatifPersistence.findByPublikId(publikId);
+    }
+    
 }

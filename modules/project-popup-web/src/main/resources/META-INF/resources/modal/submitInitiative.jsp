@@ -4,14 +4,15 @@
 </portlet:resourceURL>
 
 <!-- DEPOSER UNE NOUVELLE INITIATIVE -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalSubmitInitiative" tabindex="-1" role="dialog" aria-labelledby="modalSubmitInitiative">
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalSubmitInitiative" tabindex="-1" role="dialog" aria-labelledby="modalSubmitInitiative"
+	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         
         	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.submit.initiative.title"/></h3>
-                <button id="closingButton" type="button" class="close" aria-label="Close">
+                <button  type="button" class="close closefirstmodal" aria-label="Close">
                 	<span aria-hidden="true"><span class="icon-multiply"></span></span>
                 </button>
             </div>
@@ -266,26 +267,6 @@
     </div>
 </div>
 
-<!-- CONFIRMATION QUITTER SOUMISSION INITIATIVE -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalQuit" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalQuit">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='submit-initiative-quit-title'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
-                </button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='submit-initiative-quit-text'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="submit-initiative-quit-button"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
 	
 	// Variables tempons des informations utilisateur et contexte namespace
@@ -519,8 +500,8 @@
             result = false;
 
         if (!result)
-            $("#sendalert").removeClass("hidden");
-        else $("#sendalert").addClass("hidden");
+            $("#<portlet:namespace />alert").removeClass("hidden");
+        else $("#<portlet:namespace />alert").addClass("hidden");
         
         return result;
     }

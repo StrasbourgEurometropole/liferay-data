@@ -42,9 +42,6 @@
 			<c:if test="${not dc.workflowEnabled}">
 				<c:if test="${dc.hasPermission('EDIT_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-						icon="check" label="publish" />
-					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
 						icon="times" label="unpublish" />
 				</c:if>

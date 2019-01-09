@@ -332,6 +332,9 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getByPublikUserID(java.lang.String publikId);
+
 	/**
 	* Recuperer le nombre voulu des budgets participatifs les plus commentes
 	*

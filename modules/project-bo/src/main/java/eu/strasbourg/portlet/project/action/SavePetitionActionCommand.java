@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -52,7 +53,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 	public boolean processAction(ActionRequest request, ActionResponse response) {
 
 		// Défini le format de date à utiliser pour les champs temporels
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			
@@ -101,8 +102,15 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String placeTextArea = ParamUtil.getString(request, "placeTextArea");
 			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
 			String filesIds = ParamUtil.getString(request, "filesIds");
-			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
-			Date expirationDate = ParamUtil.getDate(request, "expirationDate", dateFormat);
+			
+			String publicationDateStr = ParamUtil.getString(request, "publicationDate");
+			String publicationTimeStr = ParamUtil.getString(request, "publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(publicationDateStr + " " + publicationTimeStr, dateFormat);
+			
+			String expirationDateStr = ParamUtil.getString(request, "expirationDate");
+			String expirationDateTimeStr = ParamUtil.getString(request, "expirationDateTime");
+			Date expirationDate = GetterUtil.getDate(expirationDateStr + " " + expirationDateTimeStr, dateFormat);
+			
 			String title = ParamUtil.getString(request, "title");
 			String prenomPetitionnaire = ParamUtil.getString(request, "petitionnaireFirstname");
 			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
