@@ -3,8 +3,8 @@
 var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
 var runSequence = require('run-sequence');
-var svgstore = require('./lib/svgstore');
-var _ = require('./lib/lodash_utils');
+var svgstore = require('./src/lib/svgstore');
+var _ = require('./src/lib/lodash_utils');
 var del = require('del');
 
 var plugins = require('gulp-load-plugins')();
