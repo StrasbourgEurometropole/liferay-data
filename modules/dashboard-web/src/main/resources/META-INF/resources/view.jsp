@@ -455,7 +455,7 @@
 		</c:if>
 
 		<!-- Tuile des initiatives depose -->
-		<c:if test="${initiativesFiledCount != 0}">
+		<c:if test="${initiativeFiledsCount != 0}">
 			<section id="pro-link-listing-initiative-signe"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
