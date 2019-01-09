@@ -4,14 +4,15 @@
 </portlet:resourceURL>
 
 <!-- DEPOSER UNE NOUVELLE INITIATIVE -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalGiveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalGiveInitiativeHelp">
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalGiveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalGiveInitiativeHelp"
+	data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         	
         	<%-- Top titre du modal --%>
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.give.initiative.help.title"/></h3>
-                <button id="closingButton" type="button" class="close" aria-label="Close">
+                <button id="closingButton" type="button" class="close closefirstmodal" aria-label="Close">
                 	<span aria-hidden="true"><span class="icon-multiply"></span></span>
                 </button>
             </div>
@@ -81,7 +82,8 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" 
+                            required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                         
                     </div>
@@ -219,26 +221,6 @@
     </div>
 </div>
 
-<!-- CONFIRMATION QUITTER SOUMISSION INITIATIVE -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="<portlet:namespace />modalQuit" tabindex="-1" role="dialog" aria-labelledby="<portlet:namespace />modalQuit">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='give.initiative.help.quit.title'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                	<span aria-hidden="true"><span class="icon-multiply"></span></span>
-                </button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='give.initiative.help.quit.text'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="<portlet:namespace />buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="give.initiative.help.quit.button"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- CONFIRMATION SUPPRESSION D'AIDE INITIATIVE -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalRemoveInitiativeHelp" tabindex="-1" role="dialog" aria-labelledby="modalRemoveInitiativeHelp">
     <div class="modal-dialog" role="document">
@@ -274,7 +256,7 @@
 	* Lors du chargement de la page
 	*/
     $(document).ready(function(){
-    	resetValues();
+    	giveHelpResetValues();
         $("#<portlet:namespace />modalConfirm").modal('hide');
         $("#<portlet:namespace />modalError").modal('hide');
         $("#<portlet:namespace />checkboxSaveInfo").hide();
@@ -286,7 +268,7 @@
 	function sendInitiativeHelp () {
     	
         event.preventDefault();
-        var response = validateForm();
+        var response = validateFormHelp();
         
         if (response){
         	var entryId = $("#<portlet:namespace />entryId").val();
@@ -304,13 +286,12 @@
             var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
             
             AUI().use('aui-io-request', function(A) {
-                var uploadForm = A.one("#<portlet:namespace />uploadForm");
                 try {
                     A.io.request('${giveInitiativeHelpURL}', {
                         method : 'POST',
                         dataType: 'json',
                         data:{
-                        	<portlet:namespace/>entryId : 					entryId,
+                        	<portlet:namespace/>entryId: 					entryId,
                             <portlet:namespace/>initiativeHelpMessage: 		initiativeHelpMessage,
                             <portlet:namespace/>initiativeHelpTypeIds: 		initiativeHelpTypeIds,
                             <portlet:namespace/>address:					address,
@@ -352,7 +333,7 @@
                                     }
                                     
                                     $("#<portlet:namespace />modalConfirm").modal('show');
-                                    resetValues();
+                                    giveHelpResetValues();
                                 }else{
                                     $("#<portlet:namespace />modalError h4").text(data.message);
                                     $("#<portlet:namespace />modalError").modal('show');
@@ -381,7 +362,7 @@
     /*
 	* Reinitialise le formulaire avec les informations les plus fraiches
 	*/
-    function resetValues(){
+    function giveHelpResetValues(){
     	// Champs entite
         $("#<portlet:namespace />initiativeHelpMessage").val("");
         $("#<portlet:namespace />helpType1").prop('checked', true);
@@ -441,11 +422,11 @@
     /*
 	* Verifie la conformite des elements avant l'envoie du formulaire
 	*/
-    function validateForm()
+    function validateFormHelp()
     {
         var result = true;
         
-        var message = $("#<portlet:namespace />message").val();
+        var initiativeHelpMessage = $("#<portlet:namespace />initiativeHelpMessage").val();
         var typeHelpIds = getHelpTypeIds();
         var city = $("#<portlet:namespace />city").val();
         var address = $("#<portlet:namespace />address").val();
@@ -455,10 +436,10 @@
         var photo = $("#<portlet:namespace />photo").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
-        if (message===null || message===""){
-            $("#<portlet:namespace />message").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (initiativeHelpMessage===null || initiativeHelpMessage===""){
+            $("#<portlet:namespace />initiativeHelpMessage").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#<portlet:namespace />message").css({ "box-shadow" : "" });
+        }else $("#<portlet:namespace />initiativeHelpMessage").css({ "box-shadow" : "" });
         
         if (typeHelpIds === null || typeHelpIds === ""){
             $("#<portlet:namespace />helpTypes").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -492,8 +473,8 @@
             result = false;
 
         if (!result)
-            $("#sendalert").removeClass("hidden");
-        else $("#sendalert").addClass("hidden");
+            $("#<portlet:namespace />alert").removeClass("hidden");
+        else $("#<portlet:namespace />alert").addClass("hidden");
         
         return result;
     }
@@ -509,7 +490,7 @@
     * Lors de la soumission d'une demande de retrait d'une aide
     */
     $("#<portlet:namespace />buttonSubmitRemove").click(function(event){
-    	resetValues();
+    	giveHelpResetValues();
     	
     	$("#<portlet:namespace />initiativeHelpMessage").val("Remove");
     	$("#<portlet:namespace />legalage").prop("checked", true);

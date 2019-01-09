@@ -14,6 +14,7 @@ var plugins = require('gulp-load-plugins')({
 });
 var rename = require('gulp-rename');
 var globSass = require('gulp-sass-glob-import');
+var cleancss = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 
 liferayThemeTasks.registerTasks({
@@ -34,6 +35,7 @@ gulp.task('css', function() {
     .pipe(plugins.sass({
       sourceComments: 'map'
     }))
+    .pipe(cleancss({keepBreaks: false}))
     .pipe(plugins.autoprefixer())  
     .pipe(plugins.sourcemaps.write('.'))
     .pipe(gulp.dest('./src/css/'))

@@ -15418,7 +15418,7 @@ function createInitiative(initiative){
                         '<figure role="group">' +
                             '<img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Image de profil auteur"/>' +
                         '</figure>' +
-                        '<p>Participation publiée par :</p>' +
+                        '<p>Initiative publiée par :</p>' +
                         '<p><strong>' + initiative.author + '</strong></p>' +
                     '</div>' +
                     '<div class="pro-content-initiative">' +
@@ -15548,28 +15548,19 @@ $('.pro-remove').on('click',function(){
         getSelectedEntries();
     }
 });
-//méthode permettant de confirmer la fermeture de la popup en ouvrant une nouvelle popup.
-$("#closingButton").click(function(event){
-   event.preventDefault();
-   var temp = $(document.activeElement).parent().parent().parent().parent();
-   var zindex = $(".fade.in").css("z-index");
-   $("#modalQuitPetition").modal("show");
-   $("#modalQuitPetition").css('z-index',zindex+1)
-   $("#buttonConfirmQuit").click(function(event){
-        $("#modalQuitPetition").modal("hide");
-        temp.modal('hide');
-   });
-});
-$("#closingButton2").click(function(event){
-   event.preventDefault();
-   var temp = $(document.activeElement).parent().parent().parent().parent();
-   var zindex = $(".fade.in").css("z-index");
-   $("#modalQuitPetition").modal("show");
-   $("#modalQuitPetition").css('z-index',zindex+1)
-   $("#buttonConfirmQuit").click(function(event){
-        $("#modalQuitPetition").modal("hide");
-        temp.modal('hide');
-   });
+
+
+$(document).ready(function () {
+	
+    $('.closefirstmodal').click(function () {
+        $('#WarningClosePopup').modal('show');
+    });
+
+    $('.confirmclosed').click(function () {
+        $('#WarningClosePopup').modal('hide');
+        $('.pro-modal').modal('hide');
+    });
+    
 });
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 

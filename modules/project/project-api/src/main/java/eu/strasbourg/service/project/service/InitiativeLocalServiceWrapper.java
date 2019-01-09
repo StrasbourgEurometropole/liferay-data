@@ -320,6 +320,12 @@ public class InitiativeLocalServiceWrapper implements InitiativeLocalService,
 		return _initiativeLocalService.getByGroupId(groupId);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> getByPublikUserID(
+		java.lang.String publikId) {
+		return _initiativeLocalService.getByPublikUserID(publikId);
+	}
+
 	/**
 	* Returns a range of all the initiatives.
 	*
