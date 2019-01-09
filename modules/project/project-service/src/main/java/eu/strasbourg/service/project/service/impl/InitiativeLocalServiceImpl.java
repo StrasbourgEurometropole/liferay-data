@@ -14,6 +14,13 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -30,13 +37,11 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 
-import java.io.IOException;
-import java.util.List;
+import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.InitiativeModel;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 
 /**
  * The implementation of the initiative local service.
@@ -97,6 +102,7 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			initiative.setStatus(WorkflowConstants.STATUS_APPROVED);
+			initiative.setStatusDate(new Date());
 		} else {
 			initiative.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
@@ -250,6 +256,14 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 
 	public List<Initiative> findByPublikUserId(String publikUserId){
 		List<Initiative> result = initiativePersistence.findBypublikId(publikUserId);
+		
+		return result.stream()
+                .filter(InitiativeModel::isApproved)
+                .collect(Collectors.toList());
+	}
+	
+	public List<Initiative> findHelpedByPublikUserId(String publikUserId){
+		List<Initiative> result = initiativePersistence.findBypublikId(publikUserId);
 		return result;
 	}
 	
@@ -272,4 +286,140 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 
 		return initiativePersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
+	
+	/**
+     * Methode permettant de recuperer une liste d'initiatives triee par nombre de commentaires
+     *
+     * @param groupId ID du site
+     * @return Liste des initiatives triee par nombre de commentaires
+     */
+	@Override
+    public List<Initiative> getSortedByNbComments(long groupId) {
+        List<Initiative> initiatives = this.initiativePersistence.findByGroupId(groupId);
+        
+        // Verification d'un retour vide
+        if (initiatives == null || initiatives.isEmpty())
+            return new ArrayList<>();
+        
+        initiatives = initiatives
+        		.stream()
+        		.filter(initiative -> initiative.getStatus() == 0)
+        		.collect(Collectors.toList());
+        
+        // Creation du comparateur
+        Comparator<Initiative> reversedMostPopularSizeComparator = Comparator
+        		.comparingInt(Initiative::getNbApprovedComments)
+        		.reversed();
+        
+        return initiatives
+                .stream()
+                .sorted(reversedMostPopularSizeComparator)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Methode permettant de recuperer une liste d'initiatives triee par nombre de soutiens
+     *
+     * @param groupId ID du site
+     * @return Liste des budgets participatifs triee par nombre de soutiens
+     */
+	@Override
+    public List<Initiative> getSortedByNbHelps(long groupId) {
+        List<Initiative> initiatives = this.initiativePersistence.findByStatusAndGroupId(
+        													WorkflowConstants.STATUS_APPROVED, 
+        													groupId);
+        
+        // Verification d'un retour vide
+        if (initiatives == null || initiatives.isEmpty())
+            return new ArrayList<>();
+        
+        // Creation du comparateur
+        Comparator<Initiative> reversedMostHelpedComparator = Comparator
+        		.comparingLong(Initiative::getNbHelps)
+        		.reversed();
+        
+        return initiatives
+                .stream()
+                .sorted(reversedMostHelpedComparator)
+                .collect(Collectors.toList());
+    }
+	
+	/**
+     * Methode permettant de recuperer une liste d'initiatives triee par nombre de soutiens
+     *
+     * @param groupId ID du site
+     * @return Liste d'initiatives triee par nombre de soutiens
+     */
+	@Override
+    public List<Initiative> getSortedByNbLikes(long groupId) {
+        List<Initiative> initiatives = this.initiativePersistence.findByStatusAndGroupId(
+        													WorkflowConstants.STATUS_APPROVED, 
+        													groupId);
+        
+        // Verification d'un retour vide
+        if (initiatives == null || initiatives.isEmpty())
+            return new ArrayList<>();
+        
+        // Creation du comparateur
+        Comparator<Initiative> reversedMostLikedComparator = Comparator
+        		.comparingLong(Initiative::getNbLikes)
+        		.reversed();
+        
+        return initiatives
+                .stream()
+                .sorted(reversedMostLikedComparator)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Recuperer le nombre voulu d'initiatives les plus commentes
+     * @param groupId ID du site
+     * @param delta Nombre de resultats max voulu
+     * @return Liste d'initiatives les plus commentes triee.
+     */
+	@Override
+    public List<Initiative> getMostCommented(long groupId, int delta) {
+        List<Initiative> initiatives = this.getSortedByNbComments(groupId);
+        
+        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
+        if (initiatives.size() < delta)
+            return initiatives;
+        else
+        	return initiatives.stream().limit(delta).collect(Collectors.toList());
+    }
+	
+	/**
+     * Recuperer le nombre voulu d'initiatives les plus soutenus
+     * @param groupId ID du site
+     * @param delta Nombre de resultats max voulu
+     * @return Liste d'initiatives les plus aidé triee.
+     */
+	@Override
+    public List<Initiative> getMostHelped(long groupId, int delta) {
+        List<Initiative> initiatives = this.getSortedByNbHelps(groupId);
+        
+        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
+        if (initiatives.size() < delta)
+            return initiatives;
+        else 
+        	return initiatives.stream().limit(delta).collect(Collectors.toList());
+    }
+	
+	/**
+     * Recuperer le nombre voulu d'initiatives les plus soutenus
+     * @param groupId ID du site
+     * @param delta Nombre de resultats max voulu
+     * @return Liste d'initiatives les plus aidé triee.
+     */
+	@Override
+    public List<Initiative> getMostLiked(long groupId, int delta) {
+        List<Initiative> initiatives = this.getSortedByNbLikes(groupId);
+        
+        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
+        if (initiatives.size() < delta)
+            return initiatives;
+        else 
+        	return initiatives.stream().limit(delta).collect(Collectors.toList());
+    }
+	
 }

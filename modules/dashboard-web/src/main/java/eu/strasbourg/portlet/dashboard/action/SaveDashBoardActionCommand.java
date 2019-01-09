@@ -73,7 +73,6 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
         String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
         String publikID = DashBoardUtils.getPublikID(request);
         boolean result = false;
-        //test
         if ("saveProfil".equals(action)) {
             if (publikID == null || publikID.isEmpty())
                 throw new PortletException("veuillez vous identifier/enregistrer");

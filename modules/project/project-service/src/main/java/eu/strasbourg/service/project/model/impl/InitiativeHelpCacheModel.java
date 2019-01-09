@@ -66,9 +66,11 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(17);
 
-		sb.append("{initiativeHelpId=");
+		sb.append("{uuid=");
+		sb.append(uuid);
+		sb.append(", initiativeHelpId=");
 		sb.append(initiativeHelpId);
 		sb.append(", createDate=");
 		sb.append(createDate);
@@ -76,6 +78,8 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		sb.append(publikUserId);
 		sb.append(", initiativeId=");
 		sb.append(initiativeId);
+		sb.append(", helpTypes=");
+		sb.append(helpTypes);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", message=");
@@ -88,6 +92,13 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 	@Override
 	public InitiativeHelp toEntityModel() {
 		InitiativeHelpImpl initiativeHelpImpl = new InitiativeHelpImpl();
+
+		if (uuid == null) {
+			initiativeHelpImpl.setUuid(StringPool.BLANK);
+		}
+		else {
+			initiativeHelpImpl.setUuid(uuid);
+		}
 
 		initiativeHelpImpl.setInitiativeHelpId(initiativeHelpId);
 
@@ -106,6 +117,14 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		}
 
 		initiativeHelpImpl.setInitiativeId(initiativeId);
+
+		if (helpTypes == null) {
+			initiativeHelpImpl.setHelpTypes(StringPool.BLANK);
+		}
+		else {
+			initiativeHelpImpl.setHelpTypes(helpTypes);
+		}
+
 		initiativeHelpImpl.setGroupId(groupId);
 
 		if (message == null) {
@@ -122,11 +141,14 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		uuid = objectInput.readUTF();
+
 		initiativeHelpId = objectInput.readLong();
 		createDate = objectInput.readLong();
 		publikUserId = objectInput.readUTF();
 
 		initiativeId = objectInput.readLong();
+		helpTypes = objectInput.readUTF();
 
 		groupId = objectInput.readLong();
 		message = objectInput.readUTF();
@@ -135,6 +157,13 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
+		if (uuid == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(uuid);
+		}
+
 		objectOutput.writeLong(initiativeHelpId);
 		objectOutput.writeLong(createDate);
 
@@ -147,6 +176,13 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 
 		objectOutput.writeLong(initiativeId);
 
+		if (helpTypes == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(helpTypes);
+		}
+
 		objectOutput.writeLong(groupId);
 
 		if (message == null) {
@@ -157,10 +193,12 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		}
 	}
 
+	public String uuid;
 	public long initiativeHelpId;
 	public long createDate;
 	public String publikUserId;
 	public long initiativeId;
+	public String helpTypes;
 	public long groupId;
 	public String message;
 }

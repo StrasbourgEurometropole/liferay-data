@@ -88,10 +88,6 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			// Titre
 			String title = ParamUtil.getString(request, "title");
 			initiative.setTitle(title);
-
-			// Auteur
-			String author = ParamUtil.getString(request, "author");
-			initiative.setAuthor(author);
 									
 			// ---------------------------------------------------------------
 			// -------------------------- MEDIAS -----------------------------
@@ -135,16 +131,12 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			initiative.setDescription(description);
 			
 			// ---------------------------------------------------------------
-			// -------------------------- LIEUX DE CONSULTATIONS -------------
+			// -------------------------- LIEUX ------------------------------
 			// ---------------------------------------------------------------
 			
-			// Corps de la description des lieux de consultation
-			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
-			initiative.setConsultationPlacesBody(consultationPlacesBody);
-			
-			// Zone libre d'ajout d'adresse spécifique
-			String consultationPlacesText = ParamUtil.getString(request, "consultationPlacesText");
-			initiative.setConsultationPlacesText(consultationPlacesText);
+			// Lieu libre
+			String placeTextArea = ParamUtil.getString(request, "placeTextArea");
+			initiative.setPlaceTextArea(placeTextArea);
 			
 			// Lieux
 			for (PlacitPlace placitPlace : initiative.getPlacitPlaces()) {
@@ -240,12 +232,6 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 		// Titre
 		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
 			SessionErrors.add(request, "title-error");
-			isValid = false;
-		}
-
-		// Auteur
-		if (Validator.isNull(ParamUtil.getString(request, "author"))) {
-			SessionErrors.add(request, "author-error");
 			isValid = false;
 		}
 		

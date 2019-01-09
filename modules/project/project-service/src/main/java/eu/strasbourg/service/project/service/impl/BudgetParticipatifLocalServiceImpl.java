@@ -52,7 +52,6 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The implementation of the budget participatif local service.

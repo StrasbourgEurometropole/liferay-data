@@ -93,13 +93,12 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String videoUrl = ParamUtil.getString(request, "videoUrl");
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
-			String externalImageCopyright = ParamUtil.getString(request,
-					"externalImageCopyright");
+			String externalImageCopyright = ParamUtil.getString(request, "externalImageCopyright");
 			String description = ParamUtil.getString(request, "description");
 			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
 			String supportedBy = ParamUtil.getString(request, "supportedBy");
 			
-			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
+			String placeTextArea = ParamUtil.getString(request, "placeTextArea");
 			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
 			String filesIds = ParamUtil.getString(request, "filesIds");
 			Date publicationDate = ParamUtil.getDate(request, "publicationDate", dateFormat);
@@ -164,7 +163,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
 			// ---------------------------------------------------------------
 
-			petition.setConsultationPlacesBody(consultationPlacesBody);
+			petition.setPlaceTextArea(placeTextArea);
+			
 			if (fakeSignataire>0)
 				SignataireLocalServiceUtil.createFakeSignataire(petitionId,fakeSignataire);
 

@@ -25,6 +25,7 @@ create unique index IX_F62467CE on project_Initiative (uuid_[$COLUMN_LENGTH:75$]
 
 create index IX_25334934 on project_InitiativeHelp (initiativeId);
 create index IX_61D1667F on project_InitiativeHelp (publikUserId[$COLUMN_LENGTH:75$], initiativeId);
+create unique index IX_11875BEF on project_InitiativeHelp (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_46F38A49 on project_Participation (groupId);
 create index IX_CD729F23 on project_Participation (status, groupId);

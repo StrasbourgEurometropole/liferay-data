@@ -76,6 +76,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("description", getDescription());
 		attributes.put("budget", getBudget());
 		attributes.put("motif", getMotif());
+		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("citoyenLastname", getCitoyenLastname());
 		attributes.put("citoyenFirstname", getCitoyenFirstname());
 		attributes.put("citoyenAdresse", getCitoyenAdresse());
@@ -87,7 +88,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("citoyenBirthday", getCitoyenBirthday());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
-		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("isCrush", getIsCrush());
 		attributes.put("crushComment", getCrushComment());
 		attributes.put("publikId", getPublikId());
@@ -196,6 +196,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 			setMotif(motif);
 		}
 
+		String placeTextArea = (String)attributes.get("placeTextArea");
+
+		if (placeTextArea != null) {
+			setPlaceTextArea(placeTextArea);
+		}
+
 		String citoyenLastname = (String)attributes.get("citoyenLastname");
 
 		if (citoyenLastname != null) {
@@ -260,12 +266,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (videoUrl != null) {
 			setVideoUrl(videoUrl);
-		}
-
-		String placeTextArea = (String)attributes.get("placeTextArea");
-
-		if (placeTextArea != null) {
-			setPlaceTextArea(placeTextArea);
 		}
 
 		Boolean isCrush = (Boolean)attributes.get("isCrush");
@@ -515,6 +515,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.BudgetParticipatif> toCacheModel() {
 		return _budgetParticipatif.toCacheModel();
+	}
+
+	/**
+	* Retourne l'auteur en publik user
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
+		return _budgetParticipatif.getAuthorPublikUser();
 	}
 
 	@Override

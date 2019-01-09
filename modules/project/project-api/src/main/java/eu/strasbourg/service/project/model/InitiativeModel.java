@@ -308,21 +308,6 @@ public interface InitiativeModel extends BaseModel<Initiative>, GroupedModel,
 	public void setTitle(String title);
 
 	/**
-	 * Returns the author of this initiative.
-	 *
-	 * @return the author of this initiative
-	 */
-	@AutoEscape
-	public String getAuthor();
-
-	/**
-	 * Sets the author of this initiative.
-	 *
-	 * @param author the author of this initiative
-	 */
-	public void setAuthor(String author);
-
-	/**
 	 * Returns the description of this initiative.
 	 *
 	 * @return the description of this initiative
@@ -336,6 +321,21 @@ public interface InitiativeModel extends BaseModel<Initiative>, GroupedModel,
 	 * @param description the description of this initiative
 	 */
 	public void setDescription(String description);
+
+	/**
+	 * Returns the place text area of this initiative.
+	 *
+	 * @return the place text area of this initiative
+	 */
+	@AutoEscape
+	public String getPlaceTextArea();
+
+	/**
+	 * Sets the place text area of this initiative.
+	 *
+	 * @param placeTextArea the place text area of this initiative
+	 */
+	public void setPlaceTextArea(String placeTextArea);
 
 	/**
 	 * Returns the video url of this initiative.
@@ -460,36 +460,6 @@ public interface InitiativeModel extends BaseModel<Initiative>, GroupedModel,
 	 * @param filesIds the files IDs of this initiative
 	 */
 	public void setFilesIds(String filesIds);
-
-	/**
-	 * Returns the consultation places text of this initiative.
-	 *
-	 * @return the consultation places text of this initiative
-	 */
-	@AutoEscape
-	public String getConsultationPlacesText();
-
-	/**
-	 * Sets the consultation places text of this initiative.
-	 *
-	 * @param consultationPlacesText the consultation places text of this initiative
-	 */
-	public void setConsultationPlacesText(String consultationPlacesText);
-
-	/**
-	 * Returns the consultation places body of this initiative.
-	 *
-	 * @return the consultation places body of this initiative
-	 */
-	@AutoEscape
-	public String getConsultationPlacesBody();
-
-	/**
-	 * Sets the consultation places body of this initiative.
-	 *
-	 * @param consultationPlacesBody the consultation places body of this initiative
-	 */
-	public void setConsultationPlacesBody(String consultationPlacesBody);
 
 	/**
 	 * Returns the publication date of this initiative.

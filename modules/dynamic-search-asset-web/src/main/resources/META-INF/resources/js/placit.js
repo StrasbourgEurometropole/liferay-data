@@ -18,7 +18,8 @@ var entityClassName = {
 		PROJECT : 'eu.strasbourg.service.project.model.Project',
 		PARTICIPATION : 'eu.strasbourg.service.project.model.Participation',
 		PETITION : 'eu.strasbourg.service.project.model.Petition',
-		BUDGET : 'eu.strasbourg.service.project.model.BudgetParticipatif'
+		BUDGET : 'eu.strasbourg.service.project.model.BudgetParticipatif',
+		INITIATIVE : 'eu.strasbourg.service.project.model.Initiative'
 }
 
 /**
@@ -203,31 +204,31 @@ function createParticipationThumbnail(participation) {
  */
 function createPetitionThumbnail(petition) {
 	var petitionThumbnail =
-			'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-			    '<div class="item pro-bloc-card-petition" data-linkall="a">' +
-			        '<div class="pro-header-petition">' +
-			            '<figure role="group">' +
-			                '<img src="' + petition.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
-			            '</figure>' +
-			            '<p>Pétition publiée par :</p>' +
-			            '<p><strong>' + petition.userName + '</strong></p>' +
-			        '</div>' +
-			        '<div class="pro-content-petition">' +
-			            '<a href="' + petition.link + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
-			            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + petition.createDate + '</time>' +
-			            '/ <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
-			        '</div>' +
-			        '<div class="pro-footer-petition">' +
-			            '<div class="pro-progress-bar">' +
-			                '<div class="pro-progress-container">' +
-			                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
-			                '</div>' +
-			                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + 
-			                '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
-			            '</div>' +
-			        '</div>' +
-			    '</div>' +
-			'</div>';
+		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+		    '<div class="item pro-bloc-card-petition" data-linkall="a">' +
+		        '<div class="pro-header-petition">' +
+		            '<figure role="group">' +
+		                '<img src="' + petition.imageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+		            '</figure>' +
+		            '<p>Pétition publiée par :</p>' +
+		            '<p><strong>' + petition.userName + '</strong></p>' +
+		        '</div>' +
+		        '<div class="pro-content-petition">' +
+		            '<a href="' + petition.link + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
+		            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + petition.createDate + '</time>' +
+		            '/ <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+		        '</div>' +
+		        '<div class="pro-footer-petition">' +
+		            '<div class="pro-progress-bar">' +
+		                '<div class="pro-progress-container">' +
+		                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
+		                '</div>' +
+		                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + 
+		                '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
+		            '</div>' +
+		        '</div>' +
+		    '</div>' +
+		'</div>';
 
 	addThumbnail(petitionThumbnail);
 }
@@ -253,25 +254,66 @@ function createBudgetParticipatifThumbnail(bp) {
 	}
 	
 	var bpThumbnail =
-			'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-			    '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '"  data-linkall="a">' +
-			        '<div class="pro-header-budget">' +
-			            '<figure role="group">' +
-			                '<img src="' + bp.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
-			            '</figure>' +
-			            '<p>Projet déposé par :</p>' +
-			            '<p><strong>' + bp.author + '</strong></p>' +
-			        '</div>' +
-			        '<div class="pro-content-budget">' +
-			            '<a href="' + bp.link + '" title="lien détail du projet citoyen"><h3>' + bp.title + '</h3></a>' +
-			            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + bp.createDate + '</time>' +
-			        '</div>' +
-			        '<div class="pro-footer-budget">' + footer +		            
-			        '</div>' +
-			    '</div>' +
-			'</div>';
+		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+		    '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '"  data-linkall="a">' +
+		        '<div class="pro-header-budget">' +
+		            '<figure role="group">' +
+		                '<img src="' + bp.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+		            '</figure>' +
+		            '<p>Projet déposé par :</p>' +
+		            '<p><strong>' + bp.author + '</strong></p>' +
+		        '</div>' +
+		        '<div class="pro-content-budget">' +
+		            '<a href="' + bp.link + '" title="lien détail du projet citoyen"><h3>' + bp.title + '</h3></a>' +
+		            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + bp.createDate + '</time>' +
+		        '</div>' +
+		        '<div class="pro-footer-budget">' + footer +		            
+		        '</div>' +
+		    '</div>' +
+		'</div>';
 
 	addThumbnail(bpThumbnail);
+}
+
+/**
+ * Creation d'une vignette représentant une initiative donnée
+ */
+function createInitiativeThumbnail(initiative) {
+	var initiativeThumbnail =	
+		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
+		    '<div class="item pro-bloc-card-initiative" data-linkall="a">' +
+		        '<div class="wrapper-card-initiative">' +
+		        	(initiative.imageURL != "" ? 
+	                    '<figure role="group" class="fit-cover">' +
+	                        '<img src="' + initiative.imageURL + '" width="240" height="250" alt="Image initiative"/>' +
+	                    '</figure>'
+	                    :
+	                    ''
+	                ) +
+		            '<div>' +
+		                '<div class="pro-header-initiative">' +
+		                    '<figure role="group">' +
+		                        '<img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+		                    '</figure>' +
+		                    '<p>Initiative publiée par :</p>' +
+		                    '<p><strong>' + initiative.author + '</strong></p>' +
+		                '</div>' +
+		                '<div class="pro-content-initiative">' +
+		                    '<a href="' + initiative.link + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
+		                    '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
+		                '</div>' +
+		            '</div>' +
+		        '</div>' +
+		        '<div class="pro-footer-initiative">' +
+		            '<div class="pro-avis">' +
+		                '<span>' + initiative.nbHelps + '</span>' +
+		            '</div>' +
+		            '<p>Citoyens soutiennent cette initiative</p>' +
+		        '</div>' +
+		    '</div>' +
+		'</div>';
+
+	addThumbnail(initiativeThumbnail);
 }
 
 /**
@@ -355,6 +397,9 @@ function updateResultThumbnails() {
 				break;
 			case entityClassName.BUDGET :
 				createBudgetParticipatifThumbnail(entry);
+				break;
+			case entityClassName.INITIATIVE :
+				createInitiativeThumbnail(entry);
 				break;
 			default :
 				console.warn("Aucune méthode n'a été créée dans ce tempalte pour l'affichage de ce type d'entité : " + entry.className);

@@ -59,4 +59,9 @@ public interface PublikUser extends PublikUserModel, PersistedModel {
 	* L'utilisateur est-il en perdiode de bannissement ?
 	*/
 	public boolean isBanned();
+
+	/**
+	* Retourne l'image de profil ou le substitut
+	*/
+	public java.lang.String getImageURLOrSurrogate();
 }

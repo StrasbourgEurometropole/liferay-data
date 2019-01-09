@@ -4,10 +4,12 @@ import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAss
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
@@ -101,6 +103,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
+	private static final String DETAIL_INITIATIVE_URL = "detail-initiative/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	private static final String DETAIL_VIDEO_URL = "detail-video/-/entity/id/";
 	private static final String NEWS_TAG_NAME = "actualite";
@@ -152,7 +155,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * Chaque appel est identifié par un RessourceID permettant de gérer le comportement 
 	 * à fourir
 	 * @note Il est possible de gérer chaque fonction dans une classe MVCRessourceCommand
-	 * 		comme dans les modules BO pour les MVCActionCommand, toutefois il faudrait alors mutualiser
+	 * 		comme dans les modules BO pour les MVCActionCommand, toutefois il faudrait mutualiser
 	 * 		les données dans une classe externe pour agir sur les même résultats 
 	 */
 	@Override
@@ -455,6 +458,26 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				);
 				
 				jsonResponse.put(jsonBP);
+			}
+			
+			/**
+			 * AssetEntry : Initiatives
+			 */
+			else if (assetClassName.equals(Initiative.class.getName())) {
+				Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(assetEntry.getClassPK());
+				
+				JSONObject jsonInitiative = initiative.toJSON();
+				
+				jsonInitiative.put(
+						ATTRIBUTE_CLASSNAME,
+						Initiative.class.getName()
+				);
+				jsonInitiative.put(
+						ATTRIBUTE_LINK,
+						this.getHomeURL(request) + DETAIL_INITIATIVE_URL + initiative.getInitiativeId()
+				);
+				
+				jsonResponse.put(jsonInitiative);
 			}
 			
 			/**

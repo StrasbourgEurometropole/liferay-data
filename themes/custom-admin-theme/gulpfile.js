@@ -10,30 +10,31 @@ var del = require('del');
 var plugins = require('gulp-load-plugins')();
 
 liferayThemeTasks.registerTasks({
-	gulp: gulp
+    gulp: gulp
 });
 
 
 gulp.task('build:svg:delete', function() {
-    return del(['./build/images/lexicon/icons.svg']);
+   return del(['./build/images/lexicon/icons.svg']);
 });
 
 gulp.task('build:svg', function() {
-    return svgstore(gulp, plugins, _, {
-        dest: './build/images/lexicon/',
-        src: './build/images/lexicon/*.svg',
-        targetName: 'icons.svg'
-    });
+   return svgstore(gulp, plugins, _, {
+       dest: './build/images/lexicon/',
+       src: './build/images/lexicon/*.svg',
+       targetName: 'icons.svg'
+   });
 });
 
 gulp.task('originalBuild', gulp.tasks['build'].dep, gulp.tasks['build'].fn);
 
 gulp.task('build', function(cb) {
-    runSequence(
-        'originalBuild',
-        'build:svg:delete',
-        'build:svg',
-        'build:war',
-        cb
-    );
+   runSequence(
+       'originalBuild',
+       'build:svg:delete',
+       'build:svg',
+       'build:war',
+       cb
+   );
 });
+

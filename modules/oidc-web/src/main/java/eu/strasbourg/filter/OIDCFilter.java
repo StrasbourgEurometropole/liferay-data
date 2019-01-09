@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.servlet.BaseFilter;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.JWTUtils;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 @Component(immediate = true, property = { "dispatcher=FORWARD", "dispatcher=REQUEST", "url-pattern=/*",
@@ -48,6 +49,7 @@ public class OIDCFilter extends BaseFilter {
 	private String emailAttribute = "publik_email";
 	private String hasPactSignedAttribute = "has_pact_signed";
 	private String isBanishAttribute = "is_banish";
+	private String photoAttribute = "photo";
 	private String familyName;
 	private String givenName;
 	private String internalId;
@@ -55,6 +57,7 @@ public class OIDCFilter extends BaseFilter {
 	private String email;
 	private boolean hasPactSigned;
 	private boolean isBanish;
+	private String photo;
 
 	@Override
 	protected Log getLog() {
@@ -150,6 +153,7 @@ public class OIDCFilter extends BaseFilter {
 							StrasbourgPropsUtil.getPublikIssuer());
 					email = JWTUtils.getJWTClaim(jwt, "email", StrasbourgPropsUtil.getPublikClientSecret(),
 							StrasbourgPropsUtil.getPublikIssuer());
+					photo = this.getUserPhoto(internalId);
 					
 					// Recuperation des donnees inherantes a la plateforme participative
 					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(this.internalId);
@@ -194,6 +198,7 @@ public class OIDCFilter extends BaseFilter {
 						email = user.getEmail();
 						hasPactSigned = user.getPactSignature() != null ? true : false;
 						isBanish = user.isBanned();
+						photo = user.getImageURL();
 						
 						// On les met dans la session
 						putUserInfoInSession(request);
@@ -288,6 +293,7 @@ public class OIDCFilter extends BaseFilter {
 		request.getSession().setAttribute(emailAttribute, email);
 		request.getSession().setAttribute(hasPactSignedAttribute, hasPactSigned);
 		request.getSession().setAttribute(isBanishAttribute, isBanish);
+		request.getSession().setAttribute(photoAttribute, photo);
 	}
 
 	/**
@@ -303,6 +309,7 @@ public class OIDCFilter extends BaseFilter {
 		request.getSession().setAttribute(emailAttribute, null);
 		request.getSession().setAttribute(hasPactSignedAttribute, null);
 		request.getSession().setAttribute(isBanishAttribute, null);
+		request.getSession().setAttribute(photoAttribute, null);
 		
 		response.setHeader("Cache-Control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
@@ -337,6 +344,7 @@ public class OIDCFilter extends BaseFilter {
 			user.setFirstName(givenName);
 			user.setLastName(familyName);
 			user.setEmail(email);
+			user.setImageURL(photo);
 			PublikUserLocalServiceUtil.updatePublikUser(user);
 		}
 	}
@@ -381,6 +389,20 @@ public class OIDCFilter extends BaseFilter {
 			sb.append((char) cp);
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * Retourne l'url de l'image de profil d'un utilisateur
+	 * @param userId Publik id
+	 * @return URL
+	 */
+	private String getUserPhoto(String userId) {
+		if (userId != null && !userId.equals("")) {
+			JSONObject jsonUser = PublikApiClient.getUserDetails(userId);
+			return jsonUser != null ? jsonUser.getString("photo") : "";
+		} else {
+			return "";
+		}
 	}
 
 	/**

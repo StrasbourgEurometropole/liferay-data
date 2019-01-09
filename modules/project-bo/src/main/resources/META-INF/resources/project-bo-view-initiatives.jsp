@@ -93,6 +93,12 @@
 				<liferay-ui:search-container-column-text name="user">
 					${initiative.statusByUserName}
 				</liferay-ui:search-container-column-text>
+				
+				<%-- Colonne : Statut --%>
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${initiative.status}" />
+				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>

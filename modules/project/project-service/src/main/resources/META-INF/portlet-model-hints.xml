@@ -24,6 +24,9 @@
 		<field name="motif" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="placeTextArea" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="citoyenLastname" type="String" />
 		<field name="citoyenFirstname" type="String" />
 		<field name="citoyenAdresse" type="String">
@@ -41,9 +44,6 @@
 		<field name="citoyenBirthday" type="Date" />
 		<field name="hasCopyright" type="boolean" />
 		<field name="videoUrl" type="String">
-			<hint name="max-length">400</hint>
-		</field>
-		<field name="placeTextArea" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="isCrush" type="boolean" />
@@ -118,10 +118,10 @@
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="author" type="String" />
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="placeTextArea" type="String" />
 		<field name="videoUrl" type="String">
 			<hint name="max-length">400</hint>
 		</field>
@@ -136,19 +136,19 @@
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
-		<field name="consultationPlacesText" type="String" />
-		<field name="consultationPlacesBody" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
 		<field name="publicationDate" type="Date" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.InitiativeHelp">
+		<field name="uuid" type="String" />
 		<field name="initiativeHelpId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="publikUserId" type="String" />
 		<field name="initiativeId" type="long" />
+		<field name="helpTypes" type="String" />
 		<field name="groupId" type="long" />
-		<field name="message" type="String" />
+		<field name="message" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.project.model.Participation">
 		<field name="uuid" type="String" />
@@ -252,8 +252,6 @@
 		</field>
 		<field name="externalImageCopyright" type="String" />
 		<field name="mediaChoice" type="boolean" />
-		<field name="consultationPlacesText" type="String" />
-		<field name="consultationPlacesBody" type="String" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
