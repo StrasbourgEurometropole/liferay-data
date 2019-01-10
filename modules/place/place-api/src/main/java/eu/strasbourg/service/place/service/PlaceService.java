@@ -105,6 +105,9 @@ public interface PlaceService extends BaseService {
 	public JSONObject getPlaceByIdSIG(java.lang.String sigId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getRealtime() throws PortalException;
+
 	/**
 	* Returns the OSGi service identifier.
 	*

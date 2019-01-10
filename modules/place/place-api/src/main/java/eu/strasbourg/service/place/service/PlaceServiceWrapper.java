@@ -118,6 +118,12 @@ public class PlaceServiceWrapper implements PlaceService,
 		return _placeService.getPlaceByIdSIG(sigId);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getRealtime()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getRealtime();
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*
