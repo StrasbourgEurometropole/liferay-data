@@ -19,9 +19,6 @@
 </#if>
 
 <!-- Recuperation du statut de l'initiative -->
-<#assign initiativeStatus = entry.getStatusCategory().getTitle(locale) />
-
-<!-- Recuperation du statut de l'initiative -->
 <#assign initiativeHelps = entry.getHelps() />
 
 <#-- Initialisation des conteneurs de vignettes -->
@@ -46,8 +43,8 @@
 					<div class="pro-header-participation pro-theme-croissance">
 						<h1>${entry.title}</h1>
 						<div class="pro-wrapper-meta">
-							<#if initiativeStatus?has_content>
-								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${initiativeStatus}</span></div>
+							<#if entry.getStatusCategory()?has_content>
+								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
 							</#if>
 							<div class="pro-meta">
 							
