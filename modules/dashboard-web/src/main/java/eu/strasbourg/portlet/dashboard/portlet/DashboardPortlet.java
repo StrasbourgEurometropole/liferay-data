@@ -135,7 +135,7 @@ public class DashboardPortlet extends MVCPortlet {
         if (activePhase != null) {
         	budgetFiled = BudgetParticipatifLocalServiceUtil.getBudgetParticipatifByPublikUserID(publikId);
 	        budgetVoted = BudgetParticipatifLocalServiceUtil.getPublishedAndVotedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
-	        voteLeft = 5 - BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
+	        voteLeft = (int)activePhase.getNumberOfVote() - BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
         }
         
         request.setAttribute("budgetFiled", budgetFiled);
