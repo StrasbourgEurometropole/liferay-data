@@ -222,7 +222,7 @@
         </div>
     </div>
 	
-	<#-- Recuperation des thématiques de la vidéo -->
+	<#-- Recuperation des suggestions du bp -->
     <#assign suggestions = entry.getSuggestions(request, 10) />
 	
 	<#if suggestions?size gt 0 >
@@ -233,7 +233,6 @@
                     <div class="pro-wrapper">
                         <a href="${homeURL}projets-budget-participatif" class="pro-btn">Tous les projets</a>
                     </div>
-                    </div>
                 </div>
 
                 <div class="col-lg-10 col-lg-offset-1">
@@ -241,7 +240,7 @@
 					
 						<#list suggestions as suggestion >
 							
-							<#-- Recuperation de la couleur hexa correspondant au type de la participation -->
+							<#-- Recuperation de la couleur hexa correspondant au type du bp -->
 							<#assign statusColor = suggestion.getBudgetParticipatifStatusCategoryColor() />
 
 							<#assign imageURL = suggestion.getAuthorImageURL() />
@@ -252,7 +251,7 @@
 								<#assign classFaisable = "pro-theme-faisable" />
 							</#if>
 							
-							<div class="item pro-bloc-card-budget ${classFaisable} data-linkall="a">
+							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
 								<div class="pro-header-budget">
 									<#if imageURL?has_content >
 										<figure role="group">

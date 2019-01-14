@@ -251,25 +251,64 @@
 	</div>
 
 
-	<#-- <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
-		<div class="container">
-			<div class="col-lg-10 col-lg-offset-1">
-				<h2>D’autres initiatives</h2>
-				<div class="pro-wrapper">
-						<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-							<a href="#" class="pro-btn-yellow" title="Ouverture de la popup de dépot" data-toggle="modal" data-target="#modalSubmitInitiative">Déposer une initiative</a>
-						<#elseif isUserBanned>
-							<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture de la popup de dépot">Déposer une initiative/a>
-						<#else>
-							<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture de la popup de dépot">Déposer une initiative</a>
-						</#if>				
-					<a href="${homeURL}initiatives" class="pro-btn">Toutes les initiatives</a>
-				</div>
-			</div>
+	<#-- Recuperation des suggestions du bp -->
+    <#assign suggestions = entry.getSuggestions(request, 10) />
+	
+	<#if suggestions?size gt 0 >
+		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+            <div class="container">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h2>D’autres initiatives</h2>
+                    <div class="pro-wrapper">
+                        <a href="${homeURL}initiatives" class="pro-btn">Toutes les initiatives</a>
+                    </div>
+                </div>
 
-			
-		</div>
-	</section> -->
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="owl-carousel owl-opacify owl-theme owl-cards">
+					
+						<#list suggestions as suggestion >
+							
+							<#assign imageURL = suggestion.getImageURL() />
+							
+							<#assign imagePortraitURL = suggestion.getAuthorImageURL() />
+														
+							<div class="item pro-bloc-card-initiative" data-linkall="a">
+								<div class="wrapper-card-initiative">
+									<#if imageURL?has_content >
+											<figure role="group">
+												<img src="${imageURL}" width="40" height="40" alt="Image de l'initiative"/>
+											</figure>
+									</#if>
+									<div>
+										<div class="pro-header-initiative">										
+											<p>Initiative publiée par :</p>
+											<p><strong>${suggestion.getAuthorLabel()}</strong></p>								
+										</div>
+										<div class="pro-content-initiative">
+											<a href="${homeURL}detail-initiative/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
+												<h3>${suggestion.title}</h3>
+											</a>
+
+											<span class="pro-time">
+												Publiée le <time datetime="${suggestion.getPublicationDateFr()}">${suggestion.getPublicationDateFr()}</time>
+											</span>    
+										</div>
+									</div>
+								</div>
+								<div class="pro-footer-initiative">
+									<div class="pro-avis">
+										<span>${suggestion.getNbHelps()}</span>
+									</div>
+									<p>Citoyens soutiennent cette initiative</p>
+								</div>
+							</div>						
+						</#list>
+                    </div>
+                </div>
+            </div>
+        </section>
+	</#if>
 	
 </div>
 
