@@ -239,6 +239,18 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public java.lang.String getPublicationDateFr();
 
 	/**
+	* Retourne X suggestions max pour une initiative
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste d'initiatives.
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException;
+
+	/**
 	* Retourne la version JSON de l'entité
 	*
 	* @throws PortalException
