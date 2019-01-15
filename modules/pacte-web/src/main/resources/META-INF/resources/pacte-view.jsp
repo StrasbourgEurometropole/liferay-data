@@ -37,7 +37,7 @@
 
 </div>
 <!-- CONFIRMATION QUITTER -->
-<!-- HTML pour confirmer la résiliation du pacte -->
+<!-- HTML pour confirmer la rÃ©siliation du pacte -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPacte" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -64,42 +64,41 @@ $(document).ready(function(){
 
 $("#SignerPacte").click(function(e){
     if($(this).hasClass('active')){
-        console.log("oki doki");
         e.preventDefault();
         $("#modalQuitPacte").modal('show');
     }
-    else callServeResource();
+    else {
+    	if($("#type_v_2").is(':checked')) 
+    		callServeResource()
+    	else 
+			alert('<liferay-ui:message key="pacte.clauses.check" />');
+   	};
 });
 
 function callServeResource() {
 	
 	if(${isUserloggedIn}){
-		if($("#type_v_2").is(':checked')) {
-		    $('#modalQuitPacte').modal('hide');
-            AUI().use('aui-io-request', function(A) {
-                A.io.request('${pacteSignatureURL}', {
-                    method : 'post',
-                    data : {
-                        <portlet:namespace/>clauses : $("#type_v_2").is(':checked')
-                    },
-                    on: {
-                        success: function(e) {
-                            e.preventDefault();
-                            $("#SignerPacte").toggleClass('active');
-                            if($("#SignerPacte").hasClass('active')){
-                                $("#SignerPacte").text('<liferay-ui:message key="pacte.already.adhere" />');
-                            }
-                            else{
-                                $("#SignerPacte").text('<liferay-ui:message key="pacte.sign" />');
-                            }
-                        }
-                     }
-                });
-            });
-		}
-		else {
-			alert('<liferay-ui:message key="pacte.clauses.check" />');
-		}
+	    $('#modalQuitPacte').modal('hide');
+           AUI().use('aui-io-request', function(A) {
+               A.io.request('${pacteSignatureURL}', {
+                   method : 'post',
+                   data : {
+                       <portlet:namespace/>clauses : $("#type_v_2").is(':checked')
+                   },
+                   on: {
+                       success: function(e) {
+                           e.preventDefault();
+                           $("#SignerPacte").toggleClass('active');
+                           if($("#SignerPacte").hasClass('active')){
+                               $("#SignerPacte").text('<liferay-ui:message key="pacte.already.adhere" />');
+                           }
+                           else{
+                               $("#SignerPacte").text('<liferay-ui:message key="pacte.sign" />');
+                           }
+                       }
+                    }
+               });
+           });
 	}
 	else {
 		$("#myModal").modal();
