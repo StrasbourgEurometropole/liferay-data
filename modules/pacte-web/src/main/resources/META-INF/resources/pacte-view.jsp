@@ -48,7 +48,7 @@
             <div class="pro-wrapper">
                 <h4><liferay-ui:message key="modal.quit.description" /></h4>
                 <div class="centerButtonValidation">
-                    <input id="buttonConfirmQuit" onclick="callServeResource();" type="submit" class="pro-btn" value="<liferay-ui:message key='modal.quit.resilier'/>"/>
+                    <input id="buttonConfirmQuit" onclick="callServeResource(true);" type="submit" class="pro-btn" value="<liferay-ui:message key='modal.quit.resilier'/>"/>
                     <input id="buttonCancelQuit" type="reset" class="pro-btn"  data-dismiss="modal" value="Annuler"/>
                 </div>
             </div>
@@ -68,14 +68,14 @@ $("#SignerPacte").click(function(e){
         $("#modalQuitPacte").modal('show');
     }
     else {
-    	if($("#type_v_2").is(':checked')) 
-    		callServeResource()
+    	if($("#type_v_2").is(':checked'))
+    		callServeResource(true)
     	else 
 			alert('<liferay-ui:message key="pacte.clauses.check" />');
    	};
 });
 
-function callServeResource() {
+function callServeResource(pactRead) {
 	
 	if(${isUserloggedIn}){
 	    $('#modalQuitPacte').modal('hide');
@@ -83,7 +83,7 @@ function callServeResource() {
                A.io.request('${pacteSignatureURL}', {
                    method : 'post',
                    data : {
-                       <portlet:namespace/>clauses : $("#type_v_2").is(':checked')
+                       <portlet:namespace/>clauses : true
                    },
                    on: {
                        success: function(e) {
