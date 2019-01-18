@@ -100,26 +100,8 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 // Style pour la séparation de la popup de connexion entre la signature du pacte et la connexion de l'utilisateur.
-.pro-modal .modal-content {
-	height : unset;
-}
-
-.pro-modal .modal-body {
-	overflow : unset;
-}
-
-.pro-modal .modal-body .pro-reagir {
-	left : 50px;
-	position : relative;
-}
-
-.pro-modal .modal-dialog {
-	max-width : 600px;
-	position : relative;
-}
-
-.modal-body .col-sm-6 {
-	width : inherit;
+#myModal .pro-txt {
+	margin : 32px;
 }
 
 //Fin style de la popup

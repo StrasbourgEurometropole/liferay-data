@@ -183,6 +183,14 @@ aside {
 					}
 				}
 			}
+			&.pro-btn-disabled{
+				background: #ececec;
+				color: rgba($c_dark, 0.5) !important;
+				border-color: #ececec;
+				&:hover, &:focus {
+					cursor: default;
+				}
+			}
 		}
 	}
 

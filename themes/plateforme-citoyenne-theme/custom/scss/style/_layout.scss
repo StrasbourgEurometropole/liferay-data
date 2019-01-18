@@ -21,8 +21,19 @@
 }
 
 #breadcrumb {
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* overflow: hidden; */
+	white-space: nowrap;
+	@include mobile{
+		width: 100%;
+	}
 	span {
-		display: inline-block;
+		white-space: nowrap;
+		overflow: hidden;
+		width: 100%;
+		text-overflow: ellipsis;
 		@include ft($f_txt, $s_p, 700, $c_txt, 1.5em);
 	}
 	a {

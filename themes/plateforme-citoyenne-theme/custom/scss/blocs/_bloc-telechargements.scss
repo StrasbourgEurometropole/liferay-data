@@ -22,7 +22,8 @@
 				}
 				&:hover, &:focus {
 					.pro-filename {
-						color: $c_main;
+						color: $c_grey;
+						text-decoration: underline;
 					}
 				}
 				> * {
