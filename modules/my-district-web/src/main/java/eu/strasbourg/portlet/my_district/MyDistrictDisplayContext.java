@@ -114,6 +114,7 @@ public class MyDistrictDisplayContext {
     // récupération de la catégorie "quartier" de l'utilisateur
     public AssetCategory getDistrict() {
         hasError = false;
+        boolean isStras = false;
 
         // Récupération de l'adresse
         String internalId = getPublikID(request);
@@ -123,11 +124,11 @@ public class MyDistrictDisplayContext {
                     && Validator.isNotNull(userDetail.get("city")))
                 address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
                         + userDetail.get("city");
-                if(!userDetail.get("city").toString().toLowerCase().equals("strasbourg"))
-                    return null;
+                if(userDetail.get("city").toString().toLowerCase().equals("strasbourg"))
+                    isStras = true;
         }
 
-        if (district == null) {
+        if (isStras && district == null) {
             try {
                 district = adictService.getDistrictByAddress(address);
             } catch (Exception e) {
@@ -135,7 +136,7 @@ public class MyDistrictDisplayContext {
                 hasError = true;
             }
         }
-        if (district == null) {
+        if (!isStras ||district == null) {
             HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
             HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
             String districtId = ParamUtil.getString(originalRequest, "district");
