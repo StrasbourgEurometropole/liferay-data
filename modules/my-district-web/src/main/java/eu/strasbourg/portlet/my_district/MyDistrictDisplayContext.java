@@ -123,6 +123,8 @@ public class MyDistrictDisplayContext {
                     && Validator.isNotNull(userDetail.get("city")))
                 address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
                         + userDetail.get("city");
+                if(!userDetail.get("city").toString().toLowerCase().equals("strasbourg"))
+                    return null;
         }
 
         if (district == null) {
