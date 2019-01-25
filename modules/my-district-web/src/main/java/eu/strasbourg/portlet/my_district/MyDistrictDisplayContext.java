@@ -38,6 +38,9 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.StringReader;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -390,7 +393,32 @@ public class MyDistrictDisplayContext {
                 }
             }
 
-            events = result;
+            for (Event event : listEvent) {
+                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
+                        event.getPrimaryKey());
+                if (assetEntry != null) {
+                    int i = 0;
+                    int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
+                    while (i < result.size()) {
+                        int daysAfterPublication;
+                        if (result.get(i).getClassName().equals(Event.class.getName())) {
+                            Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
+                            daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
+                        } else
+                            daysAfterPublication = this.getDaysBetweenTodayAndPublicationDate(result.get(i));
+                        if (daysBeforeNextOpenDate < daysAfterPublication) {
+                            result.add(i, assetEntry);
+                            break;
+                        }
+                        i++;
+                    }
+                    if (i == result.size()) {
+                        result.add(assetEntry);
+                    }
+                }
+            }
+
+            events = result.subList(0,12);
         }
         return events;
     }
@@ -400,5 +428,15 @@ public class MyDistrictDisplayContext {
         Pattern p = Pattern.compile("<[^>]*>");
         Matcher m = p.matcher(html);
         return m.replaceAll("");
+    }
+
+    private int getDaysBetweenTodayAndNextOpenDate(Event event) {
+        return (int) Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), event.getNextOpenDate()));
+    }
+
+    private int getDaysBetweenTodayAndPublicationDate(AssetEntry entry) {
+        LocalDate today = LocalDate.now();
+        LocalDate publicationDate = entry.getPublishDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return (int) Math.abs(ChronoUnit.DAYS.between(today, publicationDate));
     }
 }
