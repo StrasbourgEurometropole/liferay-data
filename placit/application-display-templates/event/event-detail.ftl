@@ -44,7 +44,7 @@
             <article>
                 <header>
                     <#if entry.firstStartDate?has_content>
-                        <span class="pro-time">Début le<time datetime="2018-01-10"> ${entry.firstStartDate?string("dd MMMM yyyy à hh'H'mm")}</time></span>
+                        <span class="pro-time">Début le<time datetime="2018-01-10"> ${entry.firstStartDate?string("dd MMMM yyyy")}</time></span>
                     </#if>
                     <p>À : 
                         <#if entry.getPlaceAlias(locale)?has_content>${entry.getPlaceAlias(locale)},</#if>
