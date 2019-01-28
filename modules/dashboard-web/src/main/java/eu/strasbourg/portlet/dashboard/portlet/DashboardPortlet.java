@@ -34,6 +34,7 @@ import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.utils.LayoutHelperImpl;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.GlobalConstants;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -66,6 +67,8 @@ public class DashboardPortlet extends MVCPortlet {
     @Override
     public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
     	
+    	
+    	
     	// Recuperation du contexte de la requete
     	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     	long groupId = new Long(themeDisplay.getLayout().getGroupId());
@@ -75,13 +78,14 @@ public class DashboardPortlet extends MVCPortlet {
         if (Validator.isNotNull(publikId)) {
             PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikId);
             JSONObject userConnected = PublikApiClient.getUserDetails(publikId);
-            
+            LayoutHelperImpl lh = new LayoutHelperImpl();
             if(userConnected.isNull("photo"))
             	userConnected.put("photo", GlobalConstants.DEFAULT_PLACIT_USER_IMAGE_URL);
             
             request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
             request.setAttribute("isUserloggedIn", true);
             request.setAttribute("userConnected",userConnected);
+            request.setAttribute("profileURL",lh.getPublikProfileURL());
         } else request.setAttribute("isUserloggedIn", false);
 
         /**
