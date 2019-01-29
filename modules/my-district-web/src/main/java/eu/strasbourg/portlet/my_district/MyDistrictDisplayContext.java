@@ -93,6 +93,11 @@ public class MyDistrictDisplayContext {
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
 
+    // vérifie si l'adresse est sur Strasbourg ou pas
+    public boolean isStrasbourg(){
+        return this.isStrasbourg();
+    }
+
     // récupération de l'adresse de l'utilisateur
     public String getAddress() {
         return address;
