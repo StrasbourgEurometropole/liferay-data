@@ -53,6 +53,7 @@ public class MyDistrictDisplayContext {
     private MyDistrictConfiguration configuration;
     private Boolean hasError;
     private String address;
+    private Boolean isStrasbourg;
     private AssetCategory district;
     private AdictService adictService;
     private List<AssetEntry> actuAndWebMag;
@@ -117,7 +118,6 @@ public class MyDistrictDisplayContext {
     // récupération de la catégorie "quartier" de l'utilisateur
     public AssetCategory getDistrict() {
         hasError = false;
-        boolean isStras = false;
 
         // Récupération de l'adresse
         String internalId = getPublikID(request);
@@ -128,10 +128,10 @@ public class MyDistrictDisplayContext {
                 address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
                         + userDetail.get("city");
                 if(userDetail.get("city").toString().toLowerCase().equals("strasbourg"))
-                    isStras = true;
+                    isStrasbourg = true;
         }
 
-        if (isStras && district == null) {
+        if (isStrasbourg && district == null) {
             try {
                 district = adictService.getDistrictByAddress(address);
             } catch (Exception e) {
@@ -139,7 +139,7 @@ public class MyDistrictDisplayContext {
                 hasError = true;
             }
         }
-        if (!isStras ||district == null) {
+        if (!isStrasbourg ||district == null) {
             HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
             HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
             String districtId = ParamUtil.getString(originalRequest, "district");
@@ -268,17 +268,19 @@ public class MyDistrictDisplayContext {
     public List<Place> getSectorSchools() {
         hasError = false;
         List<Place> sectorSchools = new ArrayList<Place>();
-        try {
-            List<String> sigIds = adictService.getSchoolsByAddress(address);
-            for (String sigId : sigIds) {
-                Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
-                if (place != null && place.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                    sectorSchools.add(place);
+        if(isStrasbourg) {
+            try {
+                List<String> sigIds = adictService.getSchoolsByAddress(address);
+                for (String sigId : sigIds) {
+                    Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
+                    if (place != null && place.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                        sectorSchools.add(place);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                hasError = true;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            hasError = true;
         }
         return sectorSchools;
     }
