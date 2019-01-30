@@ -51,14 +51,14 @@
 		<aui:nav-item href="${petitionsURL}" label="petitions" selected="${tab eq 'petitions'}" />
 	</aui:nav>
 	<aui:nav cssClass="navbar-nav">
+ 		<aui:nav-item href="${initiativesURL}" label="initiatives" selected="${tab eq 'initiatives'}" /> 
+ 	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
 		<aui:nav-item href="${budgetParticipatifURL}" label="budgets-participatifs" selected="${tab eq 'budgets-participatifs'}" />
 	</aui:nav>
 	<aui:nav cssClass="navbar-nav">
 		<aui:nav-item href="${budgetPhasesURL}" label="budget-phases" selected="${tab eq 'budget-phases'}" />
-	</aui:nav>
- 	<aui:nav cssClass="navbar-nav">
- 		<aui:nav-item href="${initiativesURL}" label="initiatives" selected="${tab eq 'initiatives'}" /> 
- 	</aui:nav> 
+	</aui:nav> 
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">
 			<liferay-ui:input-search markupView="lexicon" />
