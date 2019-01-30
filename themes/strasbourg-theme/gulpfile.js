@@ -14,7 +14,7 @@ var plugins = require('gulp-load-plugins')({
 });
 var rename = require('gulp-rename');
 var globSass = require('gulp-sass-glob-import');
-var cleancss = require('gulp-cleancss');
+var cleancss = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 
 liferayThemeTasks.registerTasks({
