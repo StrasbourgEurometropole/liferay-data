@@ -292,70 +292,70 @@
 
 </div>
 
+<#if participationEvents?size gt 0 >
+	<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+		<div class="container">
 
-<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
-    <div class="container">
+			<div class="col-lg-10 col-lg-offset-1">
+				<h2>L’agenda</h2>
+				<a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
+			</div>
 
-        <div class="col-lg-10 col-lg-offset-1">
-            <h2>L’agenda</h2>
-            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
-        </div>
+			<div class="col-lg-10 col-lg-offset-1">
+				<div class="owl-carousel owl-opacify owl-theme owl-cards">
+				
+					<!-- Parcours des entites de l'asset publisher -->
+					<#if participationEvents?has_content>
+						<#list participationEvents as event >
 
-        <div class="col-lg-10 col-lg-offset-1">
-            <div class="owl-carousel owl-opacify owl-theme owl-cards">
-            
-                <!-- Parcours des entites de l'asset publisher -->
-                <#if participationEvents?has_content>
-                    <#list participationEvents as event >
+							<#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
+							<#assign isUserPartActive = event.isUserParticipates(userID)?then("active", "") />
+							
+							<a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+								<div>
+									<div class="pro-header-event">
+										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
+										<span class="pro-time"><#if event.firstStartDate?has_content>Le ${event.firstStartDate?string("dd MMMM yyyy")}</#if></span>
+										<p>À : ${event.getPlaceAlias(locale)}</p>
+										<h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+											overflow: hidden;text-overflow: ellipsis;height: 53px">
+											${event.getTitle(locale)}
+										</h3>
+									</div>
+									<div class="pro-footer-event">
+										<#if event.isFinished() >
+											<span class="pro-btn-action ${isUserPartActive}">
+												Événement terminé
+											</span>
+										<#elseif request.session.getAttribute("has_pact_signed")!false >
+											<span class="pro-btn-action ${isUserPartActive}"
+												name="#Participe-${instanceId}"
+												data-eventid="${event.eventId}"
+												data-groupid="${event.groupId}">
+												Je participe
+											</span>
+										<#else>
+											<span class="pro-btn-action ${isUserPartActive}" 
+												name="#Pact-sign">
+												Je participe
+											</span>
+										</#if>
+										<span class="pro-number"><strong>${event.getNbEventParticipations()}</strong> Participant(s)</span>
+									</div>
+								</div>
+							</a>
+						
+							</#list>
+					<#else>
+						Aucun événement associé pour le moment
+					</#if>
 
-                        <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
-                        <#assign isUserPartActive = event.isUserParticipates(userID)?then("active", "") />
-                        
-                        <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
-                            <div>
-                                <div class="pro-header-event">
-                                    <span class="pro-ico"><span class="icon-ico-debat"></span></span>
-                                    <span class="pro-time"><#if event.firstStartDate?has_content>Le ${event.firstStartDate?string("dd MMMM yyyy")}</#if></span>
-                                    <p>À : ${event.getPlaceAlias(locale)}</p>
-                                    <h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
-                                        overflow: hidden;text-overflow: ellipsis;height: 53px">
-                                        ${event.getTitle(locale)}
-                                    </h3>
-                                </div>
-                                <div class="pro-footer-event">
-                                    <#if event.isFinished() >
-                                        <span class="pro-btn-action ${isUserPartActive}">
-                                            Événement terminé
-                                        </span>
-                                    <#elseif request.session.getAttribute("has_pact_signed")!false >
-                                        <span class="pro-btn-action ${isUserPartActive}"
-                                            name="#Participe-${instanceId}"
-                                            data-eventid="${event.eventId}"
-                                            data-groupid="${event.groupId}">
-                                            Je participe
-                                        </span>
-                                    <#else>
-                                        <span class="pro-btn-action ${isUserPartActive}" 
-                                            name="#Pact-sign">
-                                            Je participe
-                                        </span>
-                                    </#if>
-                                    <span class="pro-number"><strong>${event.getNbEventParticipations()}</strong> Participant(s)</span>
-                                </div>
-                            </div>
-                        </a>
-                    
-                        </#list>
-                <#else>
-                    Aucun événement associé pour le moment
-                </#if>
+				</div>
+			</div>
 
-            </div>
-        </div>
-
-    </div>
-</section>
-
+		</div>
+	</section>
+</#if>
 <!-- Cree le style de couleur hexa a la volee pour l'application de la couleur !-->
 <#if participationColor?has_content>
     <style style="display: none" >
