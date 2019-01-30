@@ -206,9 +206,10 @@
                                     <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
                                     <p class="pro-txt-vote">Il vous reste <strong>5</strong> possibilités de voter pour un projet</p>
                                 </#if>
-                            <#elseif entry.hasBeenVoted() >
+							
+                            <#elseif entry.hasBeenVoted() && !entry.isNotDoable()>
                                 <a href="#" class="pro-btn-yellow">Projet déjà évalué</a>
-                            <#else>
+                            <#elseif !entry.isNotDoable()>
                                 <a href="#" class="pro-btn-yellow">Vote bientôt disponible</a>
                             </#if>
                             
