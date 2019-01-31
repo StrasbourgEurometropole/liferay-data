@@ -107,6 +107,9 @@
 	<script>
 	    $(document).ready(function() {
 	        $('#title-events-slider-${instanceId}').text("L'agenda (" + ${resultsSize} + ")");
+			if(${resultsSize} == 0){
+				$('#pro-link-evenement').hide();
+			}
 	    });
 	</script>
 

@@ -38,7 +38,7 @@
 	            
 	                <#-- Parcours des entites de l'asset publisher -->
 	                <#list entries as curEntry>
-					
+
 						<#list curEntry.getTags() as tag >
 							<#if tag.getName() == "participer">
 								<#assign isPlacite = true />
@@ -105,6 +105,9 @@
 	<script>
 	    $(document).ready(function() {
 	        $('#title-events-slider-${instanceId}').text("L'agenda (" + ${resultsSize} + ")");
+			if(${resultsSize} == 0){
+				$('#pro-link-evenement').hide();
+			}
 	    });
 	</script>
 
