@@ -1,5 +1,5 @@
 $(window).load(function() {
-    if(themeDisplay.getLayoutRelativeURL().includes("objets-trouves") && getCookie('has-consent-objtp-rule') == null) {
+    if((themeDisplay.getLayoutRelativeURL().indexOf("objets-trouves") > 0) && getCookie('has-consent-objtp-rule') == null) {
      createPopinObjtpRule();
     }
 });

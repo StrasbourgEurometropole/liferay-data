@@ -38,6 +38,9 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.StringReader;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +53,7 @@ public class MyDistrictDisplayContext {
     private MyDistrictConfiguration configuration;
     private Boolean hasError;
     private String address;
+    private Boolean isStrasbourg;
     private AssetCategory district;
     private AdictService adictService;
     private List<AssetEntry> actuAndWebMag;
@@ -89,6 +93,11 @@ public class MyDistrictDisplayContext {
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
 
+    // vérifie si l'adresse est sur Strasbourg ou pas
+    public boolean isStrasbourg(){
+        return this.isStrasbourg();
+    }
+
     // récupération de l'adresse de l'utilisateur
     public String getAddress() {
         return address;
@@ -123,9 +132,11 @@ public class MyDistrictDisplayContext {
                     && Validator.isNotNull(userDetail.get("city")))
                 address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
                         + userDetail.get("city");
+                if(userDetail.get("city").toString().toLowerCase().equals("strasbourg"))
+                    isStrasbourg = true;
         }
 
-        if (district == null) {
+        if (isStrasbourg && district == null) {
             try {
                 district = adictService.getDistrictByAddress(address);
             } catch (Exception e) {
@@ -133,7 +144,7 @@ public class MyDistrictDisplayContext {
                 hasError = true;
             }
         }
-        if (district == null) {
+        if (!isStrasbourg ||district == null) {
             HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
             HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
             String districtId = ParamUtil.getString(originalRequest, "district");
@@ -163,6 +174,8 @@ public class MyDistrictDisplayContext {
                     .getAssetCategoryAssetEntries(district.getCategoryId());
             // ne garde que les élus
             assetEntries.removeIf(e -> !(e.getClassName().equals(Official.class.getName())));
+            // ne garde que s'il est publié
+            assetEntries.removeIf(e -> !e.getVisible());
             if (!assetEntries.isEmpty()) {
                 official = OfficialLocalServiceUtil.fetchOfficial(assetEntries.get(0).getClassPK());
             }
@@ -201,6 +214,8 @@ public class MyDistrictDisplayContext {
                 AssetCategory townHallCategory = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary,
                         "Cat_12_07");
                 assetEntries.removeIf(e -> !(e.getCategories().contains(townHallCategory)));
+                // ne garde que s'il est publié
+                assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
                 e1.printStackTrace();
             }
@@ -242,6 +257,8 @@ public class MyDistrictDisplayContext {
                 AssetCategory territoryDirectionCategory = AssetVocabularyHelper
                         .getCategoryByExternalId(placeTypeVocabulary, "Cat_12_05");
                 assetEntries.removeIf(e -> !(e.getCategories().contains(territoryDirectionCategory)));
+                // ne garde que s'il est publié
+                assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
                 e1.printStackTrace();
             }
@@ -256,17 +273,19 @@ public class MyDistrictDisplayContext {
     public List<Place> getSectorSchools() {
         hasError = false;
         List<Place> sectorSchools = new ArrayList<Place>();
-        try {
-            List<String> sigIds = adictService.getSchoolsByAddress(address);
-            for (String sigId : sigIds) {
-                Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
-                if (place != null) {
-                    sectorSchools.add(place);
+        if(isStrasbourg) {
+            try {
+                List<String> sigIds = adictService.getSchoolsByAddress(address);
+                for (String sigId : sigIds) {
+                    Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
+                    if (place != null && place.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                        sectorSchools.add(place);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                hasError = true;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            hasError = true;
         }
         return sectorSchools;
     }
@@ -370,7 +389,7 @@ public class MyDistrictDisplayContext {
             Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
             Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
             DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-            eventQuery.setLimit(0, 12);
+            //eventQuery.setLimit(0, 12);
             List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
             List<AssetEntry> result = new ArrayList<AssetEntry>();
             for (Event event : listEvent) {
@@ -381,7 +400,32 @@ public class MyDistrictDisplayContext {
                 }
             }
 
-            events = result;
+            for (Event event : listEvent) {
+                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
+                        event.getPrimaryKey());
+                if (assetEntry != null) {
+                    int i = 0;
+                    int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
+                    while (i < result.size()) {
+                        int daysAfterPublication;
+                        if (result.get(i).getClassName().equals(Event.class.getName())) {
+                            Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
+                            daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
+                        } else
+                            daysAfterPublication = this.getDaysBetweenTodayAndPublicationDate(result.get(i));
+                        if (daysBeforeNextOpenDate < daysAfterPublication) {
+                            result.add(i, assetEntry);
+                            break;
+                        }
+                        i++;
+                    }
+                    if (i == result.size()) {
+                        result.add(assetEntry);
+                    }
+                }
+            }
+
+            events = result.subList(0,12);
         }
         return events;
     }
@@ -391,5 +435,15 @@ public class MyDistrictDisplayContext {
         Pattern p = Pattern.compile("<[^>]*>");
         Matcher m = p.matcher(html);
         return m.replaceAll("");
+    }
+
+    private int getDaysBetweenTodayAndNextOpenDate(Event event) {
+        return (int) Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), event.getNextOpenDate()));
+    }
+
+    private int getDaysBetweenTodayAndPublicationDate(AssetEntry entry) {
+        LocalDate today = LocalDate.now();
+        LocalDate publicationDate = entry.getPublishDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return (int) Math.abs(ChronoUnit.DAYS.between(today, publicationDate));
     }
 }

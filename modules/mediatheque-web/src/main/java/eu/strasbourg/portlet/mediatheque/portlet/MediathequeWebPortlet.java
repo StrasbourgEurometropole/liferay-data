@@ -25,6 +25,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
+		"com.liferay.portlet.render-weight=0",
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/mediatheque-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/mediatheque-configuration.jsp", "javax.portlet.display-name=Mediatheque",
 		"javax.portlet.name=" + StrasbourgPortletKeys.MEDIATHEQUE_WEB, "javax.portlet.resource-bundle=content.Language",

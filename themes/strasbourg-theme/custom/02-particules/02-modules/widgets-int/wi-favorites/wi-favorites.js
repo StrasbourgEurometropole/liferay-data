@@ -18,7 +18,7 @@ $(function() {
             }
         );
         if (!window.userFavorites) {
-            window.userFavorite = [];
+            window.userFavorites = [];
         }
         window.userFavorites.push(favoriteToAdd);
     }

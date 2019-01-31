@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import aQute.bnd.annotation.ProviderType;
@@ -62,6 +58,10 @@ import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import javax.imageio.ImageIO;
 
 /**
  * The implementation of the event local service.
@@ -127,22 +127,26 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		event.setStatusDate(sc.getModifiedDate());
 		event.setImageHeight(0);
 		event.setImageWidth(0);
-		
-	/*	if(event.getImageId() == null || event.getImageId() == 0) {
-			URL url = new URL(event.getExternalImageURL());
-	        final BufferedImage bi = ImageIO.read(url);
-			event.setImageHeight(bi.getHeight());
-			event.setImageWidth(bi.getWidth());
+
+		try {
+			if(event.getImageId() == null || event.getImageId() == 0) {
+				URL url = new URL(event.getExternalImageURL());
+				final BufferedImage bi = ImageIO.read(url);
+				event.setImageHeight(bi.getHeight());
+				event.setImageWidth(bi.getWidth());
+			}
+			else {
+				String imageURL = FileEntryHelper.getFileEntryURL(event.getImageId());
+
+				String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
+				URL url = new URL(completeImageURL);
+				final BufferedImage bi = ImageIO.read(url);
+				event.setImageHeight(bi.getHeight());
+				event.setImageWidth(bi.getWidth());
+			}
+		}catch (Exception e){
+			_log.warn("Evenement : " + event.getTitle(Locale.FRANCE) + " image : " + event.getImageId() + "\n" + e);
 		}
-		else {
-			String imageURL = FileEntryHelper.getFileEntryURL(event.getImageId());
-			
-			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
-			URL url = new URL(completeImageURL);
-	        final BufferedImage bi = ImageIO.read(url);
-			event.setImageHeight(bi.getHeight());
-			event.setImageWidth(bi.getWidth());
-		}*/
 		
 		// On classe les périodes par date de début, ce qui va nous
 		// permettre
