@@ -45,6 +45,7 @@
                     <aui:select name="template" label="display">
                         <aui:option value="default" label="Strasbourg.eu" />
                         <aui:option value="christmas" label="christmas" selected="${template eq 'christmas'}"/>
+                        <aui:option value="webmag" label="webmag" selected="${template eq 'webmag'}"/>
                     </aui:select>
                 </aui:fieldset>
 

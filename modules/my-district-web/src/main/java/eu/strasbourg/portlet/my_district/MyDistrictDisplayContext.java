@@ -98,6 +98,7 @@ public class MyDistrictDisplayContext {
         return this.isStrasbourg();
     }
 
+
     // récupération de l'adresse de l'utilisateur
     public String getAddress() {
         return address;

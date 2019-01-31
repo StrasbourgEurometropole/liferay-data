@@ -428,7 +428,7 @@
 		</c:if>
 
         <c:set var="sectorSchools" value="${dc.sectorSchools}"/>
-	    <c:if test="${empty dc.address || dc.isStrasbourg() || not empty sectorSchools}">
+	    <c:if test="${empty dc.address || !dc.isStrasbourg() || not empty sectorSchools}">
             <div class="wi-wrapper">
                 <section id="ecoles">
                     <h2><liferay-ui:message key="sector-schools" /></h2>
