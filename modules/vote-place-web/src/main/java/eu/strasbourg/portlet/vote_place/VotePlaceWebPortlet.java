@@ -48,6 +48,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/vote-place-view.jsp",
 		"javax.portlet.display-name=Mon bureau de vote", "javax.portlet.name=" + StrasbourgPortletKeys.VOTE_PLACE_WEB,
 		"javax.portlet.resource-bundle=content.Language",
+		"com.liferay.portlet.render-weight=0",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class VotePlaceWebPortlet extends MVCPortlet {
 
