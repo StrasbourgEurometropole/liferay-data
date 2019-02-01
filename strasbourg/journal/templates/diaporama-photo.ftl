@@ -36,9 +36,6 @@
                                             <div class="slider-une-main__slide-image">
                                                 <div class="slider-une-main__slide-background" style="background-image: url(${photo.getData()});"></div>
                                             </div> 
-                                            <div class="slider-une-main__slide-text">
-                                                <h3 class="slider-une-main__slide-title" data-dot="2">${photo.getChildren()[0].getData()}</h3>
-                                            </div>
                                         </div>
                                     </li>
                                 </#list>    
@@ -46,7 +43,6 @@
                 
                             <!-- Slider Arrows -->
                             <div class="slider-une-main__nav">
-                                <h2 class="smag-hp-une__title slider-une-main__nav-title">Images</h2>
                                 <div class="slider-une-main__pager slider-une-main__pager--current"></div>
                                 <div class="slider-une-main__pager slider-une-main__pager--total slider-une-main__pager--total--slideNpop"></div>
                                 <button class="slider-une-main__arrow slider-une-main__arrow--prev">
@@ -88,12 +84,30 @@
     </div>
 
     <style>
+        .slider-une-main__slide {
+            background-size: contain;
+            background-color: #31455d;
+        }
+
         .slider-une-main__slide:before{
             content: none;
         }
 
         .slider-une-main__title{
             font-size: 2rem;
+            position: absolute;
+            top: 95%;
+            left: 50%;
+            z-index: 2;
+            color: #23527c;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            -webkit-transition: all 0.25s;
+            transition: all 0.25s;
+            width: 100%;
+            height: 70px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.65);
         }
 
         .slider-une-thumbnail__slider.owl-carousel{
@@ -101,7 +115,13 @@
         }
 
         .slider-une-thumbnail__nav{
-            top: -100px;
+            top: -150%;
+            width: calc(100% - 20px);
+            left: 10px;
+        }
+
+        .slider-une-thumbnail__nav .slider-une-thumbnail__arrow--prev{
+            margin-right: auto;
         }
     </style>
     
