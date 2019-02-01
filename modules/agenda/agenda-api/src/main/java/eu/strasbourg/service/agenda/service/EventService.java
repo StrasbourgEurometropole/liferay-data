@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import java.util.*;
+
 /**
  * Provides the remote service interface for Event. Methods of this
  * service are expected to have security checks based on the propagated JAAS

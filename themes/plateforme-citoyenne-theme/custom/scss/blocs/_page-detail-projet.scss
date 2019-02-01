@@ -669,6 +669,7 @@
 					position: relative;
 					top: 0;
 					left: 0;
+					margin-bottom: 15px;
 				}
 				.owl-carousel {
 					.owl-dots {
@@ -721,6 +722,7 @@
 					position: relative;
 					top: 0;
 					left: 0;
+					margin-bottom: 15px;
 				}
 				.owl-carousel {
 					.owl-dots {
@@ -902,6 +904,14 @@
 			&:hover, &:focus, &.active {
 				background: $c_main;
 				color: $c_txt;
+			}
+			&.pro-btn-disabled{
+				background: #ececec;
+				color: rgba($c_dark, 0.5);
+				border-color: #ececec;
+				&:hover, &:focus {
+					cursor: default;
+				}
 			}
 		}
 		.maps {

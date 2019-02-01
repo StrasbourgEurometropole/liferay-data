@@ -47,14 +47,15 @@
                         <span class="mns-text">Contact</span>
                       </span>    
                     </a>
+                    <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                     <#if homeURL != "/">
-                        <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
-                        <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
-                        <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
+                        <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
+                        <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
+                        <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                     <#else>
-                        <a href="/fr${layout.friendlyURL}">FR</a>
-                        <a href="/de${layout.friendlyURL}" title="Deutsch">DE</a>
-                        <a href="/en${layout.friendlyURL}" title="English">EN</a>
+                        <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
+                        <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
+                        <a href="/en${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                     </#if>
                 </div>
             </div>

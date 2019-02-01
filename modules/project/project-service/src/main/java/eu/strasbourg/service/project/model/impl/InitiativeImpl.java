@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -28,6 +30,20 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.search.BooleanClause;
+import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -44,6 +60,7 @@ import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -440,6 +457,80 @@ public class InitiativeImpl extends InitiativeBaseImpl {
         Date date = this.getAssetEntry().getPublishDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
+    }
+	
+	/**
+     * Retourne X suggestions max pour une initiative
+     *
+     * @param request la requete
+     * @param nbSuggestions le nombre de suggestions.
+     * @return la liste d'initiatives.
+     */
+    @Override
+    public List<Initiative> getSuggestions(HttpServletRequest request, int nbSuggestions) throws SearchException, PortalException {
+		
+    	List<Initiative> suggestions = new ArrayList<>();
+		
+		try {
+			//Initialisation du seachContext
+			SearchContext searchContext = SearchContextFactory.getInstance(request);
+			searchContext.setStart(0);
+			searchContext.setEnd(nbSuggestions);
+			
+			//utilisation de l'indexer de l'entite initiative (Permet de rechercher uniquement des initiatives)
+			Indexer indexer = IndexerRegistryUtil.getIndexer(Initiative.class.getName());
+			
+			//création de la query avec des filtre sur les entités publiées uniquement
+			BooleanQuery mainQuery = new BooleanQueryImpl();
+			mainQuery.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			mainQuery.addRequiredTerm("visible", true);
+			
+			//Un ou plusieurs territoire
+			BooleanQuery territoryQuery = new BooleanQueryImpl();
+			for (AssetCategory category : this.getTerritoryCategories()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				territoryQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+			}
+			mainQuery.add(territoryQuery, BooleanClauseOccur.MUST);
+			
+			//Une ou plusieurs thématiques
+			BooleanQuery thematiqueQuery = new BooleanQueryImpl();
+			for (AssetCategory category : this.getThematicCategories()) {
+				BooleanQuery categoryQuery = new BooleanQueryImpl();
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				thematiqueQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+			}
+			mainQuery.add(thematiqueQuery, BooleanClauseOccur.MUST);
+			
+			//Le même projet
+			if(this.getProjectCategory() != null) {
+				BooleanQuery projetQuery = new BooleanQueryImpl();
+				projetQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getProjectCategory().getCategoryId()));
+				mainQuery.add(projetQuery, BooleanClauseOccur.MUST);
+			}
+			
+			BooleanClause booleanClause = BooleanClauseFactoryUtil.create(mainQuery, BooleanClauseOccur.MUST.getName());
+			searchContext.setBooleanClauses(new BooleanClause[] {booleanClause});
+			
+			//Lance la recherche elasticSearch
+		    Hits hits = indexer.search(searchContext);
+			
+		    //Generation de notre liste de suggestion
+		    for (Document document : hits.getDocs()) {
+		    	//récupération de l'élément en base
+		    	Initiative ini = InitiativeLocalServiceUtil.fetchInitiative(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+	            
+	            //Vérification que l'initiative recherchée existe bien base (En théorie ne devrait pas arriver) et qu'elle est différente de l'initiative courante
+	            if(ini != null && ini.getInitiativeId() != this.getInitiativeId())
+	            	suggestions.add(ini);
+	        }
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	    
+		return suggestions;
     }
 	
 	/**

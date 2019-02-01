@@ -38,6 +38,11 @@
 	display : none;
 }
 
+//centrage des popup
+.modal-dialog {
+    position: relative;
+}
+
 //Cache le titre d'un web content...
 #th-global .portlet .portlet-title-text {
 	display: none;
@@ -99,27 +104,12 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 	content : normal;
 }
 
-// Style pour la séparation de la popup de connexion entre la signature du pacte et la connexion de l'utilisateur.
-.pro-modal .modal-content {
-	height : unset;
-}
+// Style pour la version mobile de la popup de connexion
 
-.pro-modal .modal-body {
-	overflow : unset;
-}
-
-.pro-modal .modal-body .pro-reagir {
-	left : 50px;
-	position : relative;
-}
-
-.pro-modal .modal-dialog {
-	max-width : 600px;
-	position : relative;
-}
-
-.modal-body .col-sm-6 {
-	width : inherit;
+@media screen and (max-width: 767px) {
+	#myModal .modal-connexion {
+		top: 60px;
+	}
 }
 
 //Fin style de la popup

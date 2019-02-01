@@ -68,12 +68,15 @@ public class MapPortlet extends MVCPortlet {
             String internalId = getPublikID(request);
 
             String address = null;
+            String town = null;
             if (Validator.isNotNull(internalId)) {
                 JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
                 if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
-                        && Validator.isNotNull(userDetail.get("city")))
+                        && Validator.isNotNull(userDetail.get("city"))) {
                     address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
                             + userDetail.get("city");
+                    town = userDetail.get("city").toString();
+                }
             }
 
             boolean hasConfig = false; // Permet de cocher tous les POI si aucune configuration
@@ -152,29 +155,31 @@ public class MapPortlet extends MVCPortlet {
                     categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
                     districtUser = configuration.districtUser();
                     if (districtUser) {
-                        if (Validator.isNotNull(address)) {
-                            try {
-                                district = adictService.getDistrictByAddress(address);
-                            } catch (Exception e) {
-                                _log.error(e);
-                            }
-                        }
-                        if (district == null) {
-                            HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
-                            HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
-                            String districtId = ParamUtil.getString(originalRequest, "district");
-                            if (Validator.isNotNull(districtId)) {
+                        if(town.toLowerCase().equals("strasbourg")){
+                            if (Validator.isNotNull(address)) {
                                 try {
-                                    AssetVocabulary territoryVocabulary =
-                                            AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
-                                    district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
-                                } catch (PortalException e) {
-                                    e.printStackTrace();
+                                    district = adictService.getDistrictByAddress(address);
+                                } catch (Exception e) {
+                                    _log.error(e);
                                 }
                             }
-                        }
-                        if (district != null) {
-                            coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
+                            if (district == null) {
+                                HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+                                HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+                                String districtId = ParamUtil.getString(originalRequest, "district");
+                                if (Validator.isNotNull(districtId)) {
+                                    try {
+                                        AssetVocabulary territoryVocabulary =
+                                                AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+                                        district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
+                                    } catch (PortalException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            if (district != null) {
+                                coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
+                            }
                         }
                     }
 

@@ -131,9 +131,10 @@
 					margin: 0 8px;
 					transition: none;
 					&:hover, &:focus, &:active {
-						color: $c_main;
+						color: $c_grey;
+						text-decoration: underline;
 						&:before {
-							color: $c_main;
+							color: $c_grey;
 						}
 					}
 					&:before {
@@ -163,11 +164,19 @@
 				}
 
 				.pro-action-link {
+					position: relative;
+					font-size: 0;
+					&:after{
+						content: '';
+						display: block;
+						clear: both;
+					}
 					> a {
-						@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
+						@include ft($f_txt, 13px, 400, $c_txt, 20px);
 						position: relative;
 						margin: 0;
-						float: left;
+						display: inline-block;
+						vertical-align: middle;
 						padding: 0 4px;
 						@include addTransition();
 						&:hover, &:focus {
@@ -194,9 +203,6 @@
 							height: 12px;
 							width: 1px;
 							background: $c_txt;
-							@include mobile {
-								right: 7px;
-							}
 						}
 
 						&:last-child {
@@ -207,10 +213,6 @@
 						&.pro-reponse {
 							font-weight: 700;
 							padding-right: 4px;
-							padding-left: 10px;
-							@include mobile {
-								padding-right: 20px;
-							}
 						}
 					}
 				}
@@ -228,8 +230,8 @@
 							padding-right: 0;
 						}
 						&:hover, &:focus {
-							color: $c_main;
-							text-decoration: none;
+							color: $c_grey;
+							text-decoration: underline;
 						}
 					}
 				}

@@ -323,7 +323,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	    		ParticiperCategories.BP_NON_SELECTED.getName(),	               		
 	    		ParticiperCategories.BP_CANCELLED.getName(),
 	    		ParticiperCategories.BP_SUSPENDED.getName()
-	    		).anyMatch(x -> x.equals(this.getBudgetParticipatifStatusCategory().getName()));
+	    		).anyMatch(x -> StringHelper.compareIgnoringAccentuation(x, this.getBudgetParticipatifStatusCategory().getName()));
 	}
     
     @Override

@@ -81,10 +81,7 @@
 					@include mobile {
 						padding-right: 50px;
 					}
-					&:hover {
-						color: $c_main;
-					}
-					&:focus{
+					&:hover, &:focus{
 						color: $c_txt;
 						text-decoration: underline;
 					}

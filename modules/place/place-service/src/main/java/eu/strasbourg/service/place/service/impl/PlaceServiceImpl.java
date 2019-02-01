@@ -14,9 +14,14 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -31,11 +36,15 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.service.base.PlaceServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.models.Pair;
 
 /**
  * The implementation of the place remote service.
@@ -302,6 +311,72 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	@Override
 	public JSONArray getTypes() throws PortalException {	
 		return AssetVocabularyHelper.toJSON(AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE));
+	}
+
+	@Override
+	public JSONObject getRealtime() throws PortalException {
+		JSONObject jsonRealtime = JSONFactoryUtil.createJSONObject();
+		JSONArray jsonResults = JSONFactoryUtil.createJSONArray();
+
+		// Récupère tous les lieux ayant un externalId
+		List<Place> places = this.placeLocalService.getPlaces(-1, -1).stream().filter(p -> Validator.isNotNull(p.getRTExternalId()))
+				.collect(Collectors.toList());
+
+		try {
+
+			for (Place place : places) {
+				JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+				jsonPlace.put("sigId", place.getSIGid());
+				JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
+				List<AssetCategory> types = place.getTypes();
+				for (AssetCategory type : types) {
+					jsonTypes.put(AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG"));
+				}
+				jsonPlace.put("types", jsonTypes);
+				OccupationState realtime = place.getRealTime();
+				jsonPlace.put("realTimeStatus", realtime.getLabel());
+				switch (place.getRTType()) {
+					case "1": // Piscines
+						jsonPlace.put("occupation", realtime.getOccupation());
+						break;
+					case "2": // Parkings
+						jsonPlace.put("available", realtime.getAvailable());
+						jsonPlace.put("capacity", realtime.getCapacity());
+						break;
+					case "3": // Mairies
+						jsonPlace.put("averageWaitingTime", realtime.getOccupation());
+						break;
+				}
+				jsonPlace.put("isOpen", place.isOpenNow());
+				PlaceSchedule schedule = place.getPlaceSchedule(new Date(), 1, Locale.FRANCE).entrySet().iterator().next().getValue().get(0);
+				jsonPlace.put("isOpen247", schedule.isAlwaysOpen());
+				if(!(schedule.isAlwaysOpen() || schedule.isClosed()) ) {
+					JSONArray jsonSchedules = JSONFactoryUtil.createJSONArray();
+					List<Pair<LocalTime, LocalTime>> openingTimes = schedule.getOpeningTimes();
+					for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+						JSONObject jsonSchedule = JSONFactoryUtil.createJSONObject();
+						LocalTime opening = openingTime.getFirst();
+						jsonSchedule.put("openingHour", opening.getHour());
+						jsonSchedule.put("openingMinute", opening.getMinute());
+						LocalTime closing = openingTime.getSecond();
+						jsonSchedule.put("closingHour", closing.getHour());
+						jsonSchedule.put("closingMinute", closing.getMinute());
+						jsonSchedules.put(jsonSchedule);
+					}
+					jsonPlace.put("daySchedule", jsonSchedules);
+				}
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				jsonPlace.put("updateDate", df.format(place.getRTLastUpdate()));
+
+				jsonResults.put(jsonPlace);
+
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		jsonRealtime.put("results", jsonResults);
+		return jsonRealtime;
 	}
 	
 }

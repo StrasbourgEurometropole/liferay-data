@@ -115,6 +115,11 @@ public class PlaceServiceUtil {
 		return getService().getPlaceByIdSIG(sigId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getRealtime()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getRealtime();
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

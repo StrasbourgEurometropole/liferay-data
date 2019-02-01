@@ -193,24 +193,25 @@
                     
                 </div>
                 
-                <%-- Champ : Demande de verification de l'age legal --%>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />legalage" value="legalage">
-                        <label for="<portlet:namespace />legalage" class="fontWhite">
+                        <input type="checkbox" id="file-petition-legalage" value="legalage">
+                        <label for="file-petition-legalage" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
                         </label>
                     </div>
                 </div>
-                
-                <%-- Champ : Demande de comprehension de l'utilisation des donnees --%>
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
-                        <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiative"/>
+                        <input type="checkbox" id="file-petition-cnil" value="cnil">
+                        <label for="file-petition-cnil" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
                         </label>
                     </div>
+                </div>
+                <div class="pro-info-supp">
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions"/></i></p>
+                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contact"/></p>
                 </div>
                 
                 <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>

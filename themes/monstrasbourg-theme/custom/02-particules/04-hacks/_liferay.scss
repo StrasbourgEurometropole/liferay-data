@@ -17,3 +17,43 @@
 #nav-side .portlet-content {
 	padding: 0;
 }
+
+
+.loading-animation{
+    height: 250px;
+    width: 100%;
+    background-color: white;
+    margin: 0px 0 px 40px 0px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(#203146, 0.15);
+	animation: none;
+
+	div, div:after{
+		position: absolute;
+		width: 95px;
+		height: 95px;
+		border: 15px solid #00B1EB;
+		border-top-color: transparent;
+		border-radius: 50%;
+	}
+
+	div {
+		top: 50%;
+		left: 50%;
+		animation: chargement 1s linear infinite;
+	}
+
+	div:after {
+		transform: rotate(90deg);
+	}
+}
+
+
+@keyframes chargement {
+	0% {
+		transform: translate(-50%, -50%) rotate(0deg);
+	}
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg);
+	}
+}

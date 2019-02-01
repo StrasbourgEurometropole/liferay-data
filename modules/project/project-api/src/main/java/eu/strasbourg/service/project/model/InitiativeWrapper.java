@@ -857,6 +857,21 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne X suggestions max pour une initiative
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste d'initiatives.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Initiative> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException {
+		return _initiative.getSuggestions(request, nbSuggestions);
+	}
+
+	/**
 	* Retourne les catégories 'Territoire' correspondant aux pays de la initiative
 	*/
 	@Override
