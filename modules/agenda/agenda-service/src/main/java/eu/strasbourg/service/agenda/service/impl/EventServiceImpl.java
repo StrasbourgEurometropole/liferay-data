@@ -255,10 +255,12 @@ public class EventServiceImpl extends EventServiceBaseImpl {
                 .collect(Collectors.toMap(p -> p.getSIGid(), p -> p));
         for (Event event : events) {
             if (event.isApproved()) {
-                jsonEvents.put(event.toJSON());
+                JSONObject eventJSON = event.toJSON();
                 if (Validator.isNotNull(event.getPlaceSIGId())) {
-                    jsonEvents.put(places.get(event.getPlaceSIGId()).toJSON());
+                    JSONObject placeJSON = places.get(event.getPlaceSIGId()).toJSON();
+                    eventJSON.put("place", placeJSON);
                 }
+                jsonEvents.put(eventJSON);
             }
         }
         result.put("events", jsonEvents);
