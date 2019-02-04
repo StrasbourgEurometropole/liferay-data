@@ -158,7 +158,13 @@ public class EventServiceImpl extends EventServiceBaseImpl {
         if (event == null || !event.isApproved()) {
             return JSONFactoryUtil.createJSONObject();
         }
-        return event.toJSON();
+        JSONObject eventJSON = event.toJSON();
+        if (Validator.isNotNull(event.getPlaceSIGId())) {
+            Place place = PlaceLocalServiceUtil.getPlaceBySIGId(event.getPlaceSIGId());
+            if(place != null)
+                eventJSON.put("place", place.toJSON());
+        }
+        return eventJSON;
     }
 
     @Override
