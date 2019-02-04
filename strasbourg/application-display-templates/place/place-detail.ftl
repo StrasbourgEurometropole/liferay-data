@@ -58,7 +58,7 @@
                 <!-- Cartographie -->
                 <div id="aroundme" class="widget" style="margin-bottom: 45px">
                     <div id="aroundme__center">
-                        <div id="mapid" class="aroundme__map" >
+                        <div id="mapid" style="height: 320px" >
                             <div class="aroundme__ui__group" style="z-index: 401">
                                 <button class="aroundme__ui aroundme__ui--zoomin"></button>
                                 <button class="aroundme__ui aroundme__ui--zoomout"></button>
@@ -925,6 +925,12 @@
         background: #4CAF50;
         color: white;
         padding: 40px;
+    }
+
+    @media only screen and (max-width: 767px){
+        #aroundme .aroundme__ui__group {
+            height: calc(100% - 20px); 
+        }
     }
 </style>
 <#if entry.imageURL?has_content>
