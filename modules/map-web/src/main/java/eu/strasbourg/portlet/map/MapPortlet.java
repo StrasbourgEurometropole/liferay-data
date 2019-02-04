@@ -68,12 +68,15 @@ public class MapPortlet extends MVCPortlet {
             String internalId = getPublikID(request);
 
             String address = null;
+            String town = null;
             if (Validator.isNotNull(internalId)) {
                 JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
                 if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
-                        && Validator.isNotNull(userDetail.get("city")))
+                        && Validator.isNotNull(userDetail.get("city"))) {
                     address = userDetail.get("address") + " " + userDetail.get("zipcode") + " "
                             + userDetail.get("city");
+                    town = userDetail.get("city").toString();
+                }
             }
 
             boolean hasConfig = false; // Permet de cocher tous les POI si aucune configuration
@@ -152,11 +155,13 @@ public class MapPortlet extends MVCPortlet {
                     categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
                     districtUser = configuration.districtUser();
                     if (districtUser) {
-                        if (Validator.isNotNull(address)) {
-                            try {
-                                district = adictService.getDistrictByAddress(address);
-                            } catch (Exception e) {
-                                _log.error(e);
+                        if(town != null && town.toLowerCase().equals("strasbourg")) {
+                            if (Validator.isNotNull(address)) {
+                                try {
+                                    district = adictService.getDistrictByAddress(address);
+                                } catch (Exception e) {
+                                    _log.error(e);
+                                }
                             }
                         }
                         if (district == null) {

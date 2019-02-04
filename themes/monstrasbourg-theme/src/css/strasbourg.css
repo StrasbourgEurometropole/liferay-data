@@ -15166,6 +15166,62 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 #nav-side .portlet-content {
   padding: 0; }
 
+/* line 22, custom/02-particules/04-hacks/_liferay.scss */
+.loading-animation {
+  height: 250px;
+  width: 100%;
+  background-color: white;
+  margin: 0px 0 px 40px 0px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
+          box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
+  -webkit-animation: none;
+          animation: none; }
+  /* line 31, custom/02-particules/04-hacks/_liferay.scss */
+  .loading-animation div, .loading-animation div:after {
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    border: 15px solid #00B1EB;
+    border-top-color: transparent;
+    border-radius: 50%; }
+  /* line 40, custom/02-particules/04-hacks/_liferay.scss */
+  .loading-animation div {
+    top: 50%;
+    left: 50%;
+    -webkit-animation: chargement 1s linear infinite;
+            animation: chargement 1s linear infinite; }
+  /* line 46, custom/02-particules/04-hacks/_liferay.scss */
+  .loading-animation div:after {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); }
+
+@-webkit-keyframes chargement {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg); }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+            transform: translate(-50%, -50%) rotate(360deg); } }
+
+@keyframes chargement {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg); }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+            transform: translate(-50%, -50%) rotate(360deg); } }
+
+/* line 62, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) header.portlet-topper {
+  display: none; }
+
+/* line 65, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) .portlet > .portlet-content-editable {
+  border-color: transparent;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px; }
+
 /* line 2, custom/02-particules/04-hacks/_android.scss */
 .mseu.android.tablet header .nav-top .menu-triggerBox .menu-panel .menu-rwd-content {
   height: calc(100% - 140px); }
@@ -15298,6 +15354,54 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 /* line 17, custom/02-particules/04-hacks/_liferay.scss */
 #nav-side .portlet-content {
   padding: 0; }
+
+/* line 22, custom/02-particules/04-hacks/_liferay.scss */
+.loading-animation {
+  height: 250px;
+  width: 100%;
+  background-color: white;
+  margin: 0px 0 px 40px 0px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
+          box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
+  -webkit-animation: none;
+          animation: none; }
+  /* line 31, custom/02-particules/04-hacks/_liferay.scss */
+  .loading-animation div, .loading-animation div:after {
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    border: 15px solid #00B1EB;
+    border-top-color: transparent;
+    border-radius: 50%; }
+  /* line 40, custom/02-particules/04-hacks/_liferay.scss */
+  .loading-animation div {
+    top: 50%;
+    left: 50%;
+    -webkit-animation: chargement 1s linear infinite;
+            animation: chargement 1s linear infinite; }
+  /* line 46, custom/02-particules/04-hacks/_liferay.scss */
+  .loading-animation div:after {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); }
+
+@keyframes chargement {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg); }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+            transform: translate(-50%, -50%) rotate(360deg); } }
+
+/* line 62, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) header.portlet-topper {
+  display: none; }
+
+/* line 65, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) .portlet > .portlet-content-editable {
+  border-color: transparent;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px; }
 
 /* line 1, custom/03-strasbourg/atoms/_atom-btn-square.scss */
 .btn-square.filled.core, .btn-square--filled--core, #aroundme .infowindow__url a, .seu-btn-square.seu-filled.seu-core, .seu-btn-square--filled--core, .btn-square.filled.second, .btn-square--filled--second, .seu-btn-square.seu-filled.seu-second, .seu-btn-square--filled--second, .btn-square.bordered.white, .btn-square--bordered--white, .seu-btn-square.seu-bordered.seu-white, .seu-btn-square--bordered--white, .btn-square.bordered.core, .btn-square--bordered--core, .seu-btn-square.seu-bordered.seu-core, .seu-btn-square--bordered--core, .btn-square.bordered.grey, .btn-square--bordered--grey, .seu-btn-square.seu-bordered.seu-grey, .seu-btn-square--bordered--grey {

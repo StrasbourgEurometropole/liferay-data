@@ -16828,7 +16828,7 @@ if($('.pro-bloc-dashboard').length > 0) {
 
 }
 // Si User et sur IE / EDGE alors on ajoute la classe IE au body
-if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer'){
+if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer') {
     $('#th-global').addClass('ie');
 }
 
@@ -16854,15 +16854,15 @@ $(window).on('scroll', function (e) {
 
 var lastscrolltop = 0;
 var lastIsDirTop = 0;
-document.addEventListener('scroll',function(){
+document.addEventListener('scroll', function () {
     var st = $(document).scrollTop();
-    if(st<lastscrolltop && lastIsDirTop == 0){
+    if (st < lastscrolltop && lastIsDirTop == 0) {
         lastIsDirTop = 1;
-        $("#th-global").addClass('scrolldir-top',true);
+        $("#th-global").addClass('scrolldir-top', true);
     }
-    if(st>lastscrolltop && lastIsDirTop == 1){
+    if (st > lastscrolltop && lastIsDirTop == 1) {
         lastIsDirTop = 0;
-        $("#th-global").removeClass('scrolldir-top',true);
+        $("#th-global").removeClass('scrolldir-top', true);
     }
     lastscrolltop = st;
 });
@@ -16886,6 +16886,11 @@ $('.pro-btn-action').on('click',function(e){
     $(this).toggleClass('active');
 });*/
 
+// Disabled CTA
+$('.pro-btn-disabled').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+});
 
 // Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
@@ -16897,16 +16902,17 @@ $('.pro-compt').html(textDiscoverWrapped);
 
 
 // Changer le texte du bouton Suivre ce Projet - Page Détail projet
-$("[href='#pro-follow-project']").click(function(e){
-    e.preventDefault();
-    if($(this).hasClass('active')){
-        $(this).removeClass('active').text('Suivre ce projet');
-    }
-    else{
-        $(this).addClass('active').text('Projet Suivi');
+$("[href='#pro-follow-project']").click(function (e) {
+    if(!$(this).hasClass('pro-btn-disabled')){
+        e.preventDefault();
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active').text('Suivre ce projet');
+        }
+        else {
+            $(this).addClass('active').text('Projet Suivi');
+        }
     }
 });
-
 
 
 if ($("[href='#backtop']").length) {
@@ -16932,35 +16938,37 @@ if ($("[href='#backtop']").length) {
 }
 
 
-$("[href='#pro-onglet-account']").on('click',function(e){
+$("[href='#pro-onglet-account']").on('click', function (e) {
     e.preventDefault();
     $('#pro-onglet-activite').addClass('pro-hide');
     $('#pro-onglet-account').removeClass('pro-hide');
 });
 
-$("[href='#pro-onglet-activite']").on('click',function(e){
+$("[href='#pro-onglet-activite']").on('click', function (e) {
     e.preventDefault();
     $('#pro-onglet-activite').removeClass('pro-hide');
     $('#pro-onglet-account').addClass('pro-hide');
 });
 
 
-$('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function() {
+$('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function () {
     var widthTitle = $(this).width() + 60;
     $(this).next().css({'width': 'calc(100% - ' + widthTitle + 'px)'});
 });
 $('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
-    e.preventDefault();
-    var target = this.hash,
-        $target = $(target);
+    if(!$(this).hasClass('pro-btn-disabled')){
+        e.preventDefault();
+        var target = this.hash,
+            $target = $(target);
 
-    var pos = $target.offset().top - 120;
+        var pos = $target.offset().top - 120;
 
-    $('html, body').stop().animate( {
-        'scrollTop': pos
-    }, 600, 'swing', function () {
-        window.location.hash = pos;
-    } );
+        $('html, body').stop().animate( {
+            'scrollTop': pos
+        }, 600, 'swing', function () {
+            window.location.hash = pos;
+        } );
+    }
 } );
 /* --------------------------- */
 /* --------------------------- */

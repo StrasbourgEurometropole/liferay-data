@@ -427,8 +427,8 @@ public class OIDCFilter extends BaseFilter {
 
 	private String getDomainRoot(HttpServletRequest request) {
 		return request.getRequestURL().toString()
-				.replace(request.getServletPath(), "")
-				.replace(request.getPathInfo(), "");
+				.replace(request.getPathInfo(), "")
+				.replace(request.getServletPath(), "");
 	}
 
 }

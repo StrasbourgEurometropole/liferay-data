@@ -113,8 +113,9 @@
 					text-transform: uppercase;
 					position: relative;
 					@include addTransition();
-					&:focus {
-						color: $c_main;
+					&:hover, &:focus {
+						color: $c_grey;
+						text-decoration: underline;
 					}
 					@include tablet_portrait {
 						padding: 0;

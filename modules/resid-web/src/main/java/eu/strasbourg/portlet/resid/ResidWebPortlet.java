@@ -25,6 +25,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/resid-view.jsp",
+		"com.liferay.portlet.render-weight=0",
 		"javax.portlet.init-param.config-template=/configuration/resid-configuration.jsp", "javax.portlet.display-name=Stationnement residant",
 		"javax.portlet.name=" + StrasbourgPortletKeys.RESID_WEB, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)

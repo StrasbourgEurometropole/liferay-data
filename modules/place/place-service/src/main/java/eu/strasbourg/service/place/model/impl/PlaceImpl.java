@@ -815,12 +815,7 @@ public class PlaceImpl extends PlaceBaseImpl {
                  * if (Validator.isNull(periodEnCours.getRTMaxThreshold())) { state
                  * = OccupationState.NOT_AVAILABLE; return state; }
                  */
-                try {
-                    occupation = MairieStateSOAPClient.getWaitingTime(this.getRTExternalId());
-                } catch (Exception e) {
-                    state = OccupationState.NOT_AVAILABLE;
-                    return state;
-                }
+                occupation = this.getRTOccupation();
                 if (occupation == -1) {
                     state = OccupationState.NOT_AVAILABLE;
                     return state;

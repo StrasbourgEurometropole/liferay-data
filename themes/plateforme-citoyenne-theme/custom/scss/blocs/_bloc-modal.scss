@@ -68,8 +68,16 @@
 	}
 
 	.modal-header {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 10000;
+		width: 50px;
 		height: 50px;
 		border: none;
+		&:empty{
+			display: none;
+		}
 		.close {
 			right: 0;
 			position: absolute;
@@ -141,9 +149,8 @@
 
 	.modal-body {
 		position: relative;
-		padding: 0 30px;
+		padding: 0;
 		@include mobile {
-			padding: 0;
 			> * {
 				padding: 0;
 			}
@@ -210,53 +217,159 @@
 			}
 		}
 
+		//.pro-reagir {
+		//	z-index: 200;
+		//	position: absolute;
+		//	@include tablet_landscape {
+		//		top: -50px;
+		//	}
+		//	@include mobile {
+		//		position: relative;
+		//		top: 0;
+		//	}
+		//	> div {
+		//		position: relative;
+		//		padding: 50px 0;
+		//		margin-top: 20px;
+		//		width: 310px;
+		//		@include tablet_landscape {
+		//			padding: 50px 10px 50px 30px;
+		//		}
+		//		@include tablet_portrait {
+		//			padding: 50px 50px 30px 50px;
+		//			margin-top: 40px;
+		//		}
+		//		@include mobile {
+		//			width: 100%;
+		//			padding: 30px 15px;
+		//		}
+		//		&:before {
+		//			content: '';
+		//			background: url(../../assets/images/background/small-rec-black.png);
+		//			position: absolute;
+		//			left: -50px;
+		//			top: 0px;
+		//			height: 100%;
+		//			width: 145%;
+		//			bottom: 0;
+		//			z-index: -1;
+		//			transform: rotate(-4.6deg);
+		//			overflow: hidden;
+		//			-webkit-backface-visibility: hidden;
+		//			@include tablet_portrait {
+		//				left: 0;
+		//				width: 100%;
+		//			}
+		//			@include mobile {
+		//				background: $c_dark;
+		//				transform: none;
+		//			}
+		//		}
+		//		h3 {
+		//			@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
+		//			text-transform: uppercase;
+		//		}
+		//		p {
+		//			@include ft($f_txt, 0.875em, 400, $c_white, 1.571em);
+		//			width: 100%;
+		//			max-width: 100%;
+		//		}
+		//
+		//		.pro-or {
+		//			@include ft($f_txt, $s_small, 700, $c_white, 1.571em);
+		//			display: block;
+		//			text-align: center;
+		//			margin: 20px 0;
+		//			text-transform: uppercase;
+		//		}
+		//
+		//		.pro-no-account {
+		//			@include ft($f_txt, $s_small, 400, $c_white, 1.571em);
+		//			display: block;
+		//			text-align: center;
+		//			text-decoration: underline;
+		//			margin: 20px 0;
+		//			&:hover, &:focus {
+		//				color: $c_main;
+		//			}
+		//		}
+		//
+		//		form {
+		//			margin-top: 40px;
+		//
+		//			&.pro-user-connected {
+		//				margin-top: 0;
+		//			}
+		//
+		//			label {
+		//				display: none;
+		//			}
+		//			input {
+		//				@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
+		//				height: 50px;
+		//				border-radius: 2px;
+		//				display: block;
+		//				-webkit-appearance: none;
+		//				border: none;
+		//				box-shadow: none;
+		//				width: 100%;
+		//				padding: 0 17px;
+		//				margin-bottom: 10px;
+		//				&::placeholder {
+		//					color: $c_txt;
+		//				}
+		//
+		//				&.pro-btn-yellow {
+		//					@include btn($c_main, $c_txt, 4, $f_hx, $s_p);
+		//					font-weight: 700;
+		//					height: 46px;
+		//					line-height: 46px;
+		//					border: 2px solid $c_main;
+		//					padding: 0;
+		//					position: relative;
+		//					width: 100% !important;
+		//					@include addTransition();
+		//					&:hover, &:focus {
+		//						background: transparent;
+		//						color: $c_main;
+		//					}
+		//				}
+		//			}
+		//
+		//			.pro-textearea {
+		//				label {
+		//					display: block;
+		//					@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
+		//					text-transform: uppercase;
+		//					margin-bottom: 15px;
+		//				}
+		//				textarea {
+		//					width: 100%;
+		//					height: 340px;
+		//					padding: 15px;
+		//					margin-bottom: 10px;
+		//					border-radius: 2px;
+		//					resize: none;
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+
+
+
 		.pro-reagir {
+			position: relative;
 			z-index: 200;
-			position: absolute;
-			@include tablet_landscape {
-				top: -50px;
-			}
-			@include mobile {
-				position: relative;
-				top: 0;
-			}
+			background: $c_dark;
 			> div {
 				position: relative;
 				padding: 50px 0;
-				margin-top: 20px;
 				width: 310px;
-				@include tablet_landscape {
-					padding: 50px 10px 50px 30px;
-				}
-				@include tablet_portrait {
-					padding: 50px 50px 30px 50px;
-					margin-top: 40px;
-				}
+				margin: auto;
 				@include mobile {
 					width: 100%;
 					padding: 30px 15px;
-				}
-				&:before {
-					content: '';
-					background: url(../../assets/images/background/small-rec-black.png);
-					position: absolute;
-					left: -50px;
-					top: 0px;
-					height: 100%;
-					width: 145%;
-					bottom: 0;
-					z-index: -1;
-					transform: rotate(-4.6deg);
-					overflow: hidden;
-					-webkit-backface-visibility: hidden;
-					@include tablet_portrait {
-						left: 0;
-						width: 100%;
-					}
-					@include mobile {
-						background: $c_dark;
-						transform: none;
-					}
 				}
 				h3 {
 					@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);

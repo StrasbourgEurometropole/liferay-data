@@ -138,8 +138,10 @@
 							<div class="photo">
 								<div class="photo__helper">
 									<div class="photo__frame photo__frame--circle">
-										<img src="${userConnected.get('photo')}" width="185" height="185" alt="Image" class="pro-img-bg" />
-										<canvas class="photo__canvas"></canvas>
+										<a href="${profileURL}">
+											<img src="${userConnected.get('photo')}" width="185" height="185" alt="Image" class="pro-img-bg" />
+											<canvas class="photo__canvas"></canvas>
+										</a>
 									</div>
 								</div>
 							</div>
@@ -455,7 +457,7 @@
 		</c:if>
 
 		<!-- Tuile des initiatives depose -->
-		<c:if test="${initiativesFiledCount != 0}">
+		<c:if test="${initiativeFiledsCount != 0}">
 			<section id="pro-link-listing-initiative-signe"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">

@@ -427,57 +427,59 @@
 			</div>
 		</c:if>
 
-		<c:set var="sectorSchools" value="${dc.sectorSchools}"/>
-		<div class="wi-wrapper">
-			<section id="ecoles">
-				<h2><liferay-ui:message key="sector-schools" /></h2>
-				<c:if test="${empty sectorSchools}">
-					<p><liferay-ui:message key="no-school" /></p>
-				</c:if>
-				<c:if test="${not empty sectorSchools}">
-                    <c:set var="error" value="${dc.hasError()}" />
-                    <c:if test="${error}">
-                        <!-- erreur technique -->
-                        <div class="error"><liferay-ui:message key="eu.webservice-indispo" /></div>
+        <c:set var="sectorSchools" value="${dc.sectorSchools}"/>
+	    <c:if test="${empty dc.address || !dc.isStrasbourg() || not empty sectorSchools}">
+            <div class="wi-wrapper">
+                <section id="ecoles">
+                    <h2><liferay-ui:message key="sector-schools" /></h2>
+                    <c:if test="${empty sectorSchools}">
+                        <p><liferay-ui:message key="no-school" /></p>
                     </c:if>
-                    <c:if test="${!error}">
-                        <div class="ecoles-grid">
-                            <c:forEach items="${sectorSchools}" var="school">
-                                <div class="ecoles-teaser">
-                                    <h3>${school.getAlias(locale)}</h3>
-                                    <div class="rte">
-                                        <p>
-                                            <c:if test="${not empty school.addressStreet}">
-                                                ${school.addressStreet} <br />
-                                            </c:if>
-                                            <c:if test="${not empty school.addressComplement}">
-                                                ${school.addressComplement} <br />
-                                            </c:if>
-                                            <c:if test="${not empty school.addressDistribution}">
-                                                ${school.addressDistribution} <br />
-                                            </c:if>
-                                                ${school.addressZipCode} ${school.getCity(locale)}
-                                        </p>
+                    <c:if test="${not empty sectorSchools}">
+                        <c:set var="error" value="${dc.hasError()}" />
+                        <c:if test="${error}">
+                            <!-- erreur technique -->
+                            <div class="error"><liferay-ui:message key="eu.webservice-indispo" /></div>
+                        </c:if>
+                        <c:if test="${!error}">
+                            <div class="ecoles-grid">
+                                <c:forEach items="${sectorSchools}" var="school">
+                                    <div class="ecoles-teaser">
+                                        <h3>${school.getAlias(locale)}</h3>
+                                        <div class="rte">
+                                            <p>
+                                                <c:if test="${not empty school.addressStreet}">
+                                                    ${school.addressStreet} <br />
+                                                </c:if>
+                                                <c:if test="${not empty school.addressComplement}">
+                                                    ${school.addressComplement} <br />
+                                                </c:if>
+                                                <c:if test="${not empty school.addressDistribution}">
+                                                    ${school.addressDistribution} <br />
+                                                </c:if>
+                                                    ${school.addressZipCode} ${school.getCity(locale)}
+                                            </p>
+                                        </div>
+                                        <a href="#" class="add-favorites"
+                                           data-type="1"
+                                           data-title="${school.getAlias(locale)}"
+                                           data-url="${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
+                                           data-id="${school.placeId}">
+                                            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
+                                        </a>
+                                        <a href="${homeStrasbourgURL}lieu/-/entity/sig/${school.SIGid}" class="btn-square--bordered--core" title="${school.getAlias(locale)}">
+                                                <span class="flexbox">
+                                                    <span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
+                                                    <span class="btn-arrow"></span>
+                                                </span>
+                                        </a>
                                     </div>
-                                    <a href="#" class="add-favorites"
-                                       data-type="1"
-                                       data-title="${school.getAlias(locale)}"
-                                       data-url="${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
-                                       data-id="${school.placeId}">
-                                        <span><liferay-ui:message key="eu.add-to-favorite" /></span>
-                                    </a>
-                                    <a href="${homeStrasbourgURL}lieu/-/entity/sig/${school.SIGid}" class="btn-square--bordered--core" title="${school.getAlias(locale)}">
-                                            <span class="flexbox">
-                                                <span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
-                                                <span class="btn-arrow"></span>
-                                            </span>
-                                    </a>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </c:if>
-				</c:if>
-			</section>
-		</div>
+                                </c:forEach>
+                            </div>
+                        </c:if>
+				    </c:if>
+			    </section>
+		    </div>
+		</c:if>
 	</div>
 </c:if>

@@ -568,3 +568,22 @@ fieldset {
 		@include addTransition();
 	}
 }
+
+
+.pro-btn-disabled{
+	background: #ececec;
+	color: rgba($c_dark, 0.5);
+	border-color: #ececec;
+	&:after{
+		color: rgba($c_dark, 0.5);
+	}
+	&:hover, &:focus{
+		cursor: default;
+		background: #ececec;
+		color: rgba($c_dark, 0.5);
+		border-color: #ececec;
+		&:after{
+			color: rgba($c_dark, 0.5);
+		}
+	}
+}

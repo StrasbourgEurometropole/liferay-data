@@ -37,10 +37,15 @@
 		}
 	}
 
+	p{
+		margin-bottom: 10px;
+	}
+
 	.pro-btn-yellow {
 		display: inline-block;
 		width: auto;
 		padding: 0 45px;
+		margin-top: 10px;
 		@include mobile{
 			width: 100%;
 			padding: 0 10px;
@@ -80,7 +85,7 @@
 		&:before {
 			content: '';
 			position: absolute;
-			top: 3px;
+			top: 5px;
 			left: -85px;
 			height: 13px;
 			width: 72px;
@@ -180,7 +185,7 @@
 				content: "";
 				position: absolute;
 				left: 0;
-				top: 10px;
+				top: 11px;
 				width: 13px;
 				height: 4px;
 				background: $c_main;
@@ -190,7 +195,7 @@
 				text-decoration: underline;
 				@include addTransition();
 				&:hover, &:focus {
-					color: $c_main;
+					color: $c_grey;
 				}
 			}
 		}
@@ -204,6 +209,14 @@
 		li {
 			@include ft($f_txt, $s_p, 300, $c_txt, 22px);
 			margin-left: 15px;
+			a {
+				color: $c_txt;
+				text-decoration: underline;
+				@include addTransition();
+				&:hover, &:focus {
+					color: $c_grey;
+				}
+			}
 		}
 	}
 

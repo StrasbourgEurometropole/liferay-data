@@ -31,6 +31,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
         "com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
         "javax.portlet.display-name=Espace famille", "javax.portlet.init-param.template-path=/",
         "javax.portlet.init-param.view-template=/family-space-view.jsp",
+        "com.liferay.portlet.render-weight=0",
         "javax.portlet.init-param.config-template=/configuration/family-space-configuration.jsp",
         "javax.portlet.name=" + StrasbourgPortletKeys.FAMILY_SPACE_WEB,
         "javax.portlet.resource-bundle=content.Language",
