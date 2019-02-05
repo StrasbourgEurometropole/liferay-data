@@ -57,7 +57,7 @@
                         <fmt:formatDate value="${firstBookingDate}" type="date" var="newFirstBookingDate" pattern="dd/MM/yyyy" />
                         <fmt:parseDate value="${person.lastBookingDate}" pattern="yyyy-MM-dd" var="lastBookingDate" type="both" />
                         <fmt:formatDate value="${lastBookingDate}" type="date" var="newLastBookingDate" pattern="dd/MM/yyyy" />
-                        <c:set var="dateAlert" value="${dc.today.plusDays(12)}" />
+                        <c:set var="dateAlert" value="${dc.today.plusMonths(7)}" />
 						<c:set value="${newFirstBookingDate}-${newLastBookingDate}" var="dates"/>
                         <div class="form-group">
                             <div class="title">
