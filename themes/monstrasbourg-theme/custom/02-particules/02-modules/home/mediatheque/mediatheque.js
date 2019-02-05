@@ -1,5 +1,5 @@
 (function ($) {
-    $('#borrowingSeeMore').on('click', function() {
+    $('.portlet-column-content').on('click','#borrowingSeeMore', function() {
         for (i = 3; i < $("#borrowingCount").val(); i++) {
             $('#borrowing_' + i).show();
             $('#borrowing_' + i).removeClass("hidden");
@@ -8,7 +8,7 @@
         $('#borrowingSeeLess').removeClass("hidden");
         $('#borrowingSeeLess').show();
     });
-    $('#reservationSeeMore').on('click', function() {
+    $('.portlet-column-content').on('click','#reservationSeeMore', function() {
         for (i = 3; i < $("#reservationCount").val(); i++) {
             $('#reservation_' + i).show();
             $('#reservation_' + i).removeClass("hidden");
@@ -17,14 +17,14 @@
         $('#reservationSeeLess').removeClass("hidden");
         $('#reservationSeeLess').show();
     });
-    $('#borrowingSeeLess').on('click', function() {
+    $('.portlet-column-content').on('click','#borrowingSeeLess', function() {
         for (i = 3; i < $("#borrowingCount").val(); i++) {
             $('#borrowing_' + i).hide();
         }
         $('#borrowingSeeMore').show();
         $('#borrowingSeeLess').hide();
     });
-    $('#reservationSeeLess').on('click', function() {
+    $('.portlet-column-content').on('click','#reservationSeeLess', function() {
         for (i = 3; i < $("#reservationCount").val(); i++) {
             $('#reservation_' + i).hide();
         }
