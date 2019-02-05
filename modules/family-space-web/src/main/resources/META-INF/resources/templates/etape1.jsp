@@ -57,7 +57,6 @@
                         <fmt:formatDate value="${firstBookingDate}" type="date" var="newFirstBookingDate" pattern="dd/MM/yyyy" />
                         <fmt:parseDate value="${person.lastBookingDate}" pattern="yyyy-MM-dd" var="lastBookingDate" type="both" />
                         <fmt:formatDate value="${lastBookingDate}" type="date" var="newLastBookingDate" pattern="dd/MM/yyyy" />
-                        <c:set var="dateAlert" value="${dc.today.plusDays(12)}" />
 						<c:set value="${newFirstBookingDate}-${newLastBookingDate}" var="dates"/>
                         <div class="form-group">
                             <div class="title">
@@ -70,7 +69,9 @@
                     </c:if>
                 </div>
                 <c:if test="${person.hasLunchBooked}">
-                    <c:if test="${dateAlert.isAfter(person.lastBookingDate)}">
+                    <!-- Une alerte est définie pour avertir que le dernier jour réservé est proche. Le message devra être affiché 12 jours avant le dernier jour réservé -->
+                    <c:set var="dateAlert" value="${dc.today.plusDays(12)}" />
+                    <c:if test="${dateAlert.isBefore(person.lastBookingDate) || dc.today.isAfter(person.lastBookingDate)}">
                         <div class="warning">
                             <strong><liferay-ui:message key="warning" /></strong><br>
                             <liferay-ui:message key="expire-validity-text-x" arguments="${newLastBookingDate}" />
