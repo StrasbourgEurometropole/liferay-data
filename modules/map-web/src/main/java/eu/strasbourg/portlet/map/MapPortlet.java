@@ -155,7 +155,7 @@ public class MapPortlet extends MVCPortlet {
                     categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
                     districtUser = configuration.districtUser();
                     if (districtUser) {
-                        if(town.toLowerCase().equals("strasbourg")){
+                        if(town != null && town.toLowerCase().equals("strasbourg")) {
                             if (Validator.isNotNull(address)) {
                                 try {
                                     district = adictService.getDistrictByAddress(address);
@@ -163,23 +163,23 @@ public class MapPortlet extends MVCPortlet {
                                     _log.error(e);
                                 }
                             }
-                            if (district == null) {
-                                HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
-                                HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
-                                String districtId = ParamUtil.getString(originalRequest, "district");
-                                if (Validator.isNotNull(districtId)) {
-                                    try {
-                                        AssetVocabulary territoryVocabulary =
-                                                AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
-                                        district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
-                                    } catch (PortalException e) {
-                                        e.printStackTrace();
-                                    }
+                        }
+                        if (district == null) {
+                            HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+                            HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+                            String districtId = ParamUtil.getString(originalRequest, "district");
+                            if (Validator.isNotNull(districtId)) {
+                                try {
+                                    AssetVocabulary territoryVocabulary =
+                                            AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+                                    district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
+                                } catch (PortalException e) {
+                                    e.printStackTrace();
                                 }
                             }
-                            if (district != null) {
-                                coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
-                            }
+                        }
+                        if (district != null) {
+                            coordinateZone = adictService.getCoordinatesForDistrict(AssetVocabularyHelper.getExternalId(district));
                         }
                     }
 
