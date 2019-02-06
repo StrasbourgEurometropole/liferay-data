@@ -259,7 +259,10 @@ public class InitiativeImpl extends InitiativeBaseImpl {
     @Override
     public String getAuthorLabel() {
     	PublikUser author = this.getAuthor();
-    	if (author != null) {
+    	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+    		return this.getInTheNameOf();
+    	}
+    	else if (author != null) {
     		return StringUtil.upperCaseFirstLetter(author.getFirstName())
     				+ " "
     				+  StringUtil.toUpperCase(StringUtil.shorten(author.getLastName(), 2, "."));

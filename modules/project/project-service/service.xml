@@ -426,6 +426,7 @@
 		<column name="title" type="String" />
 		<column name="description" type="String" />
 		<column name="placeTextArea" type="String" />
+		<column name="inTheNameOf" type="String" />
 
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />

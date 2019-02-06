@@ -74,6 +74,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
+		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -177,6 +178,12 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 
 		if (placeTextArea != null) {
 			setPlaceTextArea(placeTextArea);
+		}
+
+		String inTheNameOf = (String)attributes.get("inTheNameOf");
+
+		if (inTheNameOf != null) {
+			setInTheNameOf(inTheNameOf);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -583,6 +590,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.lang.String getImageURL() {
 		return _initiative.getImageURL();
+	}
+
+	/**
+	* Returns the in the name of of this initiative.
+	*
+	* @return the in the name of of this initiative
+	*/
+	@Override
+	public java.lang.String getInTheNameOf() {
+		return _initiative.getInTheNameOf();
 	}
 
 	/**
@@ -1082,6 +1099,16 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public void setImageId(long imageId) {
 		_initiative.setImageId(imageId);
+	}
+
+	/**
+	* Sets the in the name of of this initiative.
+	*
+	* @param inTheNameOf the in the name of of this initiative
+	*/
+	@Override
+	public void setInTheNameOf(java.lang.String inTheNameOf) {
+		_initiative.setInTheNameOf(inTheNameOf);
 	}
 
 	/**

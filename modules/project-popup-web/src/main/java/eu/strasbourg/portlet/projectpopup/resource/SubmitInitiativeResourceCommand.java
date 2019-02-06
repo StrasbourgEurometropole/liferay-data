@@ -68,6 +68,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	// Id de recuperation des champs
 	private static final String TITLE = "title";
 	private static final String DESCRIPTION = "description";
+	private static final String IN_THE_NAME_OF = "inTheNameOf";
 	private static final String DISTRICT = "district";
 	private static final String THEMATIC = "thematic";
 	private static final String PROJECT = "project";
@@ -88,6 +89,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	// Champs
 	private String title;
 	private String description;
+	private String inTheNameOf;
 	private long districtId;
 	private long thematicId;
 	private long projectId;
@@ -134,6 +136,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
 		
         // Verification de la validite des informations
         if (validate(request)) {
@@ -209,6 +212,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
             
             initiative.setTitle(this.title);
             initiative.setDescription(this.description);
+            initiative.setInTheNameOf(this.inTheNameOf);
             initiative.setPlaceTextArea(this.place);
             initiative.setVideoUrl(this.video);
             initiative.setPublikId(this.publikID);

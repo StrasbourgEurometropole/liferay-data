@@ -36,6 +36,11 @@
                         <aui:input id="description" type="textarea" name="description" required="true" label="modal.submit.initiative.information.description" value=""/>
                     </div>
                     
+                    <%-- Champ : Au nom de --%>
+                    <div class="form-group">
+                        <aui:input id="initiativeInTheNameOf" name="inTheNameOf" label="modal.submit.initiative.information.inTheNameOf" required="false" maxlength="400" value=""/>
+                    </div>
+                    
                     <%-- Groupe de champs : Quartiers --%>
                     <div class="pro-row">
                     	
@@ -195,16 +200,16 @@
                 
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="file-petition-legalage" value="legalage">
-                        <label for="file-petition-legalage" class="fontWhite">
+                        <input type="checkbox"  id="<portlet:namespace />legalage" value="legalage">
+                        <label for="<portlet:namespace />legalage" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="file-petition-cnil" value="cnil">
-                        <label for="file-petition-cnil" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
+                        <label for="<portlet:namespace />cnil" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
                         </label>
                     </div>
@@ -314,6 +319,7 @@
             var mobile = $("#<portlet:namespace />mobile").val();
             var email = $("#<portlet:namespace />mail").val();
             var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
+            var inTheNameOf = $("#<portlet:namespace />initiativeInTheNameOf").val();
             
             AUI().use('aui-io-request', function(A) {
                 var uploadForm = A.one("#<portlet:namespace />uploadForm");
@@ -344,7 +350,8 @@
                             <portlet:namespace />saveinfo: 		saveInfo,
                             <portlet:namespace />lastname: 		lastname,
                             <portlet:namespace />firstname: 	firstname,
-                            <portlet:namespace />email: 		email
+                            <portlet:namespace />email: 		email,
+                            <portlet:namespace />inTheNameOf: 	inTheNameOf
                         },
                         on: {
                             complete: function(e) {
@@ -396,6 +403,7 @@
     	// Champs entite
         $("#<portlet:namespace />title").val("");
         $("#<portlet:namespace />description").val("");
+        $("#<portlet:namespace />initiativeInTheNameOf").val("");
         $("#<portlet:namespace />place").val("");
         $("#<portlet:namespace />project option[value='0']").prop('selected', true);
         $("#<portlet:namespace />project").selectric();

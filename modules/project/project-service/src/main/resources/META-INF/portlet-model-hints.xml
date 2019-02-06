@@ -122,6 +122,7 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="placeTextArea" type="String" />
+		<field name="inTheNameOf" type="String" />
 		<field name="videoUrl" type="String">
 			<hint name="max-length">400</hint>
 		</field>

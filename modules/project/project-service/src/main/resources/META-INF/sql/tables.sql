@@ -98,6 +98,7 @@ create table project_Initiative (
 	title VARCHAR(400) null,
 	description TEXT null,
 	placeTextArea VARCHAR(75) null,
+	inTheNameOf VARCHAR(75) null,
 	videoUrl VARCHAR(400) null,
 	externalImageURL VARCHAR(400) null,
 	externalImageCopyright VARCHAR(400) null,
