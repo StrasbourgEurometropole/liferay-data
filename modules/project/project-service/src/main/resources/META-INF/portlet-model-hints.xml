@@ -150,6 +150,7 @@
 		<field name="message" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="helpDisplay" type="boolean" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Participation">
 		<field name="uuid" type="String" />

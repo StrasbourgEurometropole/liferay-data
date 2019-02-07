@@ -35,5 +35,6 @@
 		<field name="imageURL" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="pactDisplay" type="boolean" />
 	</model>
 </model-hints>

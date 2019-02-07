@@ -76,6 +76,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
+    private static final String DISPLAY_HELP = "displayHelp";
     private static final String SAVEINFO = "saveinfo";
     private static final String FORMATTED_DATE_PATTERN = "dd/MM/yyyy";
     
@@ -89,6 +90,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
     private InitiativeHelp existantInitiativeHelp;
     private String initiativeHelpTypeIds;
     private String initiativeHelpMessage;
+    private boolean displayHelp;
     private Date birthday;
     private String address;
     private String city;
@@ -120,6 +122,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        this.displayHelp = ParamUtil.getBoolean(request, DISPLAY_HELP);
         
         // Verification de la validite des informations
         if (validate(request)) {
@@ -249,6 +252,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
             initiativeHelp.setMessage(this.initiativeHelpMessage);
             initiativeHelp.setPublikUserId(this.publikID);
             initiativeHelp.setInitiativeId(this.initiative.getInitiativeId());
+            initiativeHelp.setHelpDisplay(this.displayHelp);
 
             initiativeHelp = InitiativeHelpLocalServiceUtil.updateInitiativeHelp(initiativeHelp);
 

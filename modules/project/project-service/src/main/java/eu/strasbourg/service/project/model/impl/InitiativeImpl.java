@@ -328,11 +328,11 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
-	 * Retourne le nombre d'aides de l'initiative
+	 * Retourne les aides qu'on affiche de l'initiative
 	 */
 	@Override
 	public List<InitiativeHelp> getHelps() {
-		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId());
+		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId()).stream().filter(c -> c.getHelpDisplay()).collect(Collectors.toList());
 	}
 	
 	/**
