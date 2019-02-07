@@ -34,9 +34,9 @@
                 <tr>
                     <td width="500" class="w600" valign="top" align="center"
                         style="padding-top:26px;padding-bottom: 35px; display: block; margin: auto;">
-                        <span style="font-family: Arial, sans-serif;font-size: 24px;line-height: 32px;color:#0c0c0c;font-weight: bold;display: block;text-align: center;">${initiativeTitle}</span>
+                        <span style="font-family: Arial, sans-serif;font-size: 24px;line-height: 32px;color:#0c0c0c;font-weight: bold;display: block;text-align: center;">${Title}</span>
                         <p style="font-family: Arial, sans-serif;font-size: 14px;line-height:23px;color:#a0a0a0;margin-bottom: 25px;">
-                            ${initiativeHelpMessage}</p>
+                            ${Message}</p>
                     </td>
                 </tr>
                 </tbody>

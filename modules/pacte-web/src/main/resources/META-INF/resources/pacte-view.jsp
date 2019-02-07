@@ -10,13 +10,13 @@
                 <div class="col-md-6 col-xs-12">
                     <div class="pro-bloc-pcs-form">
                         <form>
-                            <div class="pacte">
+                            <div class="pro-optin form-checkbox pacte">
                                 <div>
                                     <input type="checkbox" id="type_v_2" value="optin">
                                     <label for="type_v_2"><liferay-ui:message key="pacte.label"/></label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="listing_signataire" checked="checked" value="optin">
+                                    <input type="checkbox" id="listing_signataire" value="optin">
                                     <label id="listing_signataire_label" for="listing_signataire"><liferay-ui:message key="pacte.listing.signataire.cb"/></label>
                                 </div>
                             </div>

@@ -203,14 +203,13 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
 			context.put("headerImage", headerImage.toString());
 			context.put("footerImage", btnImage.toString());
-			context.put("initiativeTitle", this.initiative.getTitle());
-			context.put("initiativeHelpMessage", this.initiativeHelpMessage);
+			context.put("Title", this.initiative.getTitle());
+			context.put("Message", this.initiativeHelpMessage);
 			
 		  	Configuration configuration = new Configuration(Configuration.getVersion());
 			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
 			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
 			
-			boolean success = false;
 			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
 			StringWriter bodyWriter = new StringWriter();
 			bodyTemplate.process(context, bodyWriter);
@@ -226,7 +225,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 			toAddresses = ArrayUtil.append(toAddresses, address);
 			
 			// envoi du mail aux utilisateurs
-			success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
+			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
 					bodyWriter.toString());
 		} catch (Exception e) {
 			_log.error(e);

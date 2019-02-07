@@ -164,7 +164,7 @@
                     </div>
                 </div>
                 
-                <%-- Champ : Demande de comprehension de l'utilisation des donnees --%>
+                <%-- Champ : Demande de confirmation de l'affichage de l'aide --%>
                 <div class="pro-optin form-checkbox" >
                     <div>
                         <input type="checkbox" id="<portlet:namespace />displayHelp" value="displayHelp">
@@ -397,7 +397,7 @@
         $("#<portlet:namespace />checkboxSaveInfo").hide();
         $("#<portlet:namespace />legalage").prop("checked", false);
         $("#<portlet:namespace />cnil").prop("checked", false);
-        $("#<portlet:namespace />displayHelp").prop("checked", true);
+        $("#<portlet:namespace />displayHelp").prop("checked", false);
        
     }
     
