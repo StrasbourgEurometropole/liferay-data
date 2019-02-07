@@ -15,46 +15,48 @@
             <div class="seu-wi-content">
                 <div class="seu-wi-grid">
                     <#list entries as curEntry>
-                        <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
-                        <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
-                        <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
-                        <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
-                        <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
-                        <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
-                        <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
-                        <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
-                            <div class="seu-wi-item seu-actu seu-mag seu-has-picture">
-                        <#else>
-                            <div class="seu-wi-item seu-actu seu-has-picture">
+                        <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
+                            <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
+                            <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
+                            <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
+                            <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                            <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
+                            <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
+                            <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
+                            <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
+                                <div class="seu-wi-item seu-actu seu-mag seu-has-picture">
+                            <#else>
+                                <div class="seu-wi-item seu-actu seu-has-picture">
+                            </#if>
+                                <a href="${viewURL}" class="seu-link" title="${title}">
+                                    <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
+                                        <div class="seu-picture" style="background-image: url(${thumbnail})">
+                                        </div>
+                                        <div class="seu-mag-logo">
+                                            <div class="seu-mag-text">Mag'</div>
+                                            <div class="seu-mag-picto"></div>
+                                        </div>
+                                    </#if>
+                                    <div class="seu-text">
+                                        <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${title}</div>
+                                        <div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${chapo}</div>
+                                    </div>
+                                    <#if !(curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag"))>
+                                        <div>
+                                            <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
+                                        </div>
+                                    </#if>
+                                </a>
+                                 <a href="#" class="seu-add-favorites" 
+                                     data-type="6" 
+                                     data-title="${title}"
+                                     data-url="${viewURL}"
+                                     data-group-id=${themeDisplay.scopeGroupId} 
+                                     data-id="${id}">
+                                    <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
+                                </a>
+                            </div>
                         </#if>
-                            <a href="${viewURL}" class="seu-link" title="${title}">
-                                <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
-                                    <div class="seu-picture" style="background-image: url(${thumbnail})">
-                                    </div>
-                                    <div class="seu-mag-logo">
-                                        <div class="seu-mag-text">Mag'</div>
-                                        <div class="seu-mag-picto"></div>
-                                    </div>
-                                </#if>
-                                <div class="seu-text">
-                                    <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${title}</div>
-                                    <div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${chapo}</div>
-                                </div>
-                                <#if !(curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag"))>
-                                    <div>
-                                        <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
-                                    </div>
-                                </#if>
-                            </a>
-                             <a href="#" class="seu-add-favorites" 
-                                 data-type="6" 
-                                 data-title="${title}"
-                                 data-url="${viewURL}"
-                                 data-group-id=${themeDisplay.scopeGroupId} 
-                                 data-id="${id}">
-                                <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
-                            </a>
-                        </div>
                     </#list>
                 </div>
             </div>
