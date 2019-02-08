@@ -76,7 +76,7 @@
 	           
 	            <div class="help">
 	            	<div>
-	            		<span style="color: red;">(1)</span> L'ann&eacute;e contient 4 caract&egrave;res
+	            		<span style="color: red;">(1)</span> L'ann&eacute;e contient 4 caract&egrave;res (correspond &agrave; l'ann&eacute;e d'&eacute;mission de la facture)
 	            	</div>
 	            	<div>
 	            		<span style="color: red;">(2)</span> Num&eacute;ro de facture est compos&eacute; uniquement de chiffres
