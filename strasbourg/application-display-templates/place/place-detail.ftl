@@ -57,7 +57,7 @@
 
                 <!-- Cartographie -->
                 <div id="aroundme" class="widget" style="margin-bottom: 45px">
-                    <div id="aroundme__center">
+                    <div id="aroundme__center" style="height: auto;">
                         <div id="mapid" style="height: 320px" >
                             <div class="aroundme__ui__group" style="z-index: 401">
                                 <button class="aroundme__ui aroundme__ui--zoomin"></button>
