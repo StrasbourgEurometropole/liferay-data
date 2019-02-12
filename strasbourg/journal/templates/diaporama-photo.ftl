@@ -1,11 +1,9 @@
 <!-- diaporama photo -->
 
+<link rel="stylesheet" type="text/css" href="/o/strasbourg-theme/css/slick.css">
+<link rel="stylesheet" type="text/css" href="/o/strasbourg-theme/css/slick-theme.css">
+
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
@@ -18,116 +16,199 @@
 </@>
     <div>
 
-        <h1>${title.getData()}</h1>
+        <h1>${title.getData()}</h1> 
         <#if photos.getSiblings()?has_content>
-            <div id="smag-banner">
-                <section>
-                    <div class="slider-une rte-item">
-                        <div class="slider-une-main">
-                            <div class="slider-une-main__loader">
-                                <div class="loader"></div>
-                            </div>
-                
-                            <!-- Slider -->
-                            <ul class="slider-une-main__slider unstyled">
-                                <#list photos.getSiblings() as photo>                
-                                    <li class="slider-une-main__slider-item">
-                                        <div class="slider-une-main__slide" data-title="${photo.getChildren()[0].getData()}" style="background-image: url(${photo.getData()});">
-                                            <div class="slider-une-main__slide-image">
-                                                <div class="slider-une-main__slide-background" style="background-image: url(${photo.getData()});"></div>
-                                            </div> 
-                                        </div>
-                                    </li>
-                                </#list>    
-                            </ul>
-                
-                            <!-- Slider Arrows -->
-                            <div class="slider-une-main__nav">
-                                <div class="slider-une-main__pager slider-une-main__pager--current"></div>
-                                <div class="slider-une-main__pager slider-une-main__pager--total slider-une-main__pager--total--slideNpop"></div>
-                                <button class="slider-une-main__arrow slider-une-main__arrow--prev">
-                                    <div class="flexbox">
-                                        <div class="slider-une-main__arrow-icon"></div>
-                                        <div class="slider-une-main__arrow-pagination">
-                                            <div class="slider-une-main__pager slider-une-main__pager--prev"></div>
-                                            <div class="slider-une-main__pager slider-une-main__pager--total"></div>
-                                        </div>
-                                    </div>
-                                </button>
-                                <button class="slider-une-main__arrow slider-une-main__arrow--next">
-                                    <div class="flexbox">
-                                        <div class="slider-une-main__arrow-icon"></div>
-                                        <div class="slider-une-main__arrow-pagination">
-                                            <div class="slider-une-main__pager slider-une-main__pager--next"></div>
-                                            <div class="slider-une-main__pager slider-une-main__pager--total"></div>
-                                        </div>
-                                    </div>
-                                </button>
-                            </div>  
-                
-                            <!-- Slider Dots -->
-                            <div class="slider-une-main__dots">
-                                <button class="slider-une-main__dot" data-slider-index=""></button>
-                            </div>    
-                            
-                            <!-- Slider Play / Pause -->
-                            <button class="slider-une-main__playpause play"></button> 
-                
-                            <!-- Slider Text -->
-                            <h2 class="slider-une-main__title unstyled"></h2>
-                        </div>
-                    </div>
-                </section>
-            </div>
+            <section class="slider-for slider">
+                <#list photos.getSiblings() as photo> 
+                    <div>
+                        <img src="${photo.getData()}">
+                        <div class="legend">${photo.getChildren()[0].getData()}</div>
+                        <div class="paginate">${photo?counter}/${photos.getSiblings()?size}</div>
+                    </div> 
+                </#list> 
+            </section>
+            
+            <section class="slider-nav slider">
+                <#list photos.getSiblings() as photo>  
+                    <div>
+                        <div class="image " style="background-image:url('${photo.getData()}')"></div>
+                    </div> 
+                </#list>
+            </section>
         </#if>
         <p class="seu-container">${content.getData()}</p>
     </div>
 
     <style>
-        .slider-une-main__slide {
-            background-size: contain;
+        .slider {
+            margin: 0 80px 40px 80px;
+        }
+
+        .slick-slide {
+            transition: all ease-in-out .3s;
+            opacity: .2;
+        }
+
+        .slick-active {
+            opacity: .5;
+        }
+
+        .slick-current {
+            opacity: 1;
+        }
+
+        .slick-slide div:first-child{
+            line-height: 0px;
+        }
+
+        .slick-slide div div:first-child{
+            height: 650px;
+            display: flex !important;
+        }
+
+        .slider-for{
             background-color: #31455d;
+            margin-bottom: 0;
         }
 
-        .slider-une-main__slide:before{
-            content: none;
+        .slider-for img{
+            margin: auto;
         }
 
-        .slider-une-main__title{
-            font-size: 2rem;
+        .legend{
             position: absolute;
-            top: 95%;
-            left: 50%;
-            z-index: 2;
-            color: #23527c;
-            -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            -webkit-transition: all 0.25s;
-            transition: all 0.25s;
+            top: calc(100% - 80px);
+            height: 80px;
+            background-color: rgba(255,255,255,0.6);
             width: 100%;
-            height: 70px;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.65);
+            padding: 0 70px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            line-height: 1.5em;
+            font-size: 0.8em;
         }
 
-        .slider-une-thumbnail__slider.owl-carousel{
-            margin-top: 170px;
+        .paginate{
+            position: absolute;
+            top: calc(100% - 80px);
+            height: 80px;
+            width: 70px;
+            left: calc(100% - 70px);
+            font-weight: 700;
+            padding-right: 15px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
-        .slider-une-thumbnail__nav{
-            top: -150%;
-            width: calc(100% - 20px);
-            left: 10px;
+        .slider-nav .slick-slide {
+            margin: 0px 10px;
+            height: 150px;
+        }  
+
+        .slider-nav .slick-slide .image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }  
+
+        .slider-une-thumbnail__arrow{
+            position: absolute;
+            top: calc(50% - 30px);
         }
 
-        .slider-une-thumbnail__nav .slider-une-thumbnail__arrow--prev{
-            margin-right: auto;
+        .slider-une-thumbnail__arrow--prev {
+            left: 15px;
         }
+
+        .slider-une-thumbnail__arrow--next {
+            right: 15px;
+        }
+
+        @media only screen and (max-width: 767px){
+            .slider {
+                margin: 0;
+            }
+
+            .slick-slide div div:first-child{
+                height: 350px;
+            }
+            
+
+            .slider-nav .slick-slide {
+                margin-bottom: 40px;
+            } 
+
+            .legend{
+                padding: 0 40px 0 30px;
+            }
+
+            .paginate{
+                width: 40px;
+                left: calc(100% - 40px);
+            }
+        }
+    
     </style>
     
 
 <@liferay_util["html-bottom"]>
-    <script type="text/javascript" src="/o/strasbourg-theme/js/conf.js"></script>
-    <script type="text/javascript" src="/o/strasbourg-theme/js/libraries.js"></script>
-    <script type="text/javascript" src="/o/strasbourg-theme/js/slider.js"></script>
+    <script type="text/javascript" src="/o/strasbourg-theme/js/slick.js"></script>
+    <script type="text/javascript">
+        $(document).on('ready', function() {
+            $('.slider-for').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                prevArrow:'<button class="slider-une-thumbnail__arrow slider-une-thumbnail__arrow--prev">' +
+                                '<div class="flexbox">' +
+                                    '<div class="slider-une-thumbnail__arrow-icon"></div>' +
+                                '</div>' +
+                            '</button>',
+                nextArrow:'<button class="slider-une-thumbnail__arrow slider-une-thumbnail__arrow--next">' +
+                                '<div class="flexbox">' +
+                                    '<div class="slider-une-thumbnail__arrow-icon"></div>' +
+                                '</div>' +
+                            '</button>',
+                fade: true,
+                mobileFirst: true,
+                asNavFor: '.slider-nav'
+            });
+            $('.slider-nav').slick({
+                slidesToShow: 6,
+                slidesToScroll: 1,
+                asNavFor: '.slider-for',
+                dots: false,
+                arrows: false,
+                adaptiveHeight: false,
+                focusOnSelect: true,
+                swipeToSlide: true,
+                draggable: true,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        });
+
+</script>
 </@>
