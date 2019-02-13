@@ -123,7 +123,7 @@
                             <div class="pro-highlight pro-bloc-texte pro-theme-non-faisable">
                                 <div class="pro-statut">
                                     <span style="color :#fff; background : #${statusColor}">
-                                        Pourquoi ce projet est-il non "${statusBP}" ?
+                                        Pourquoi ce projet est-il "${statusBP}" ?
                                     </span>
                                 </div>
                                 <p>${entry.motif}</p>
