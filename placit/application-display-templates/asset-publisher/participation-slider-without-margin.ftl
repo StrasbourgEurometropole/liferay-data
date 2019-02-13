@@ -7,8 +7,7 @@
 
     <!-- Recuperation du créateur de la participation -->
     <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
-    <#assign user = UserLocalService.getUser(entry.userId) />
-
+    
     <!-- Recuperation de l'URL de "base" du site -->
     <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -35,7 +34,9 @@
 
                         <!-- Recuperation du status de la participation (terminee, bientot, etc.) -->
                         <#assign participationStatus = entry.getParticipationStatus() />
-
+						
+						<#assign user = UserLocalService.getUser(entry.userId) />
+						
                         <!-- Adaptation du message a afficher dans le 'span-pro-time' -->
                         <#if participationStatus == "soon_arrived">
                             <#assign proDuree = "Début dans " + entry.getTodayPublicationDifferenceDays() + " jour(s)"  />
