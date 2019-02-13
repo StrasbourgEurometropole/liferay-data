@@ -14,6 +14,7 @@ public enum OccupationState {
 
 	String label;
 	String cssClass;
+	String occupationLabel;
 	String occupation;
 	String available;
 	String capacity;
@@ -21,6 +22,7 @@ public enum OccupationState {
 	OccupationState(String label, String cssClass) {
 		this.label = label;
 		this.cssClass = cssClass;
+		this.occupationLabel = "-";
 		this.occupation = "-";
 		this.available = "-";
 		this.capacity = "-";
@@ -42,12 +44,20 @@ public enum OccupationState {
 		this.cssClass = cssClass;
 	}
 
-	public String getOccupation() {
-		return occupation;
+	public String getOccupationLabel() {
+		return occupationLabel;
+	}
+
+	public void setOccupationLabel(String occupationLabel) {
+		this.occupationLabel = occupationLabel;
 	}
 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
+	}
+
+	public String getOccupation() {
+		return occupation;
 	}
 
 	public String getAvailable() {

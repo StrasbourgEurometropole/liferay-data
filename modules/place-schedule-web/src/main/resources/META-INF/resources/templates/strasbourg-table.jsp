@@ -165,7 +165,7 @@
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
-			                                    ${occupationState.occupation}
+			                                    ${occupationState.occupationLabel}
 			                                </div>
 			                                <div class="crowded-label">
 			                                	<liferay-ui:message key="${occupationState.label}" />
@@ -187,7 +187,7 @@
 										<c:set var="occupationState" value="${place.getRealTime('3')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
-			                                    ${occupationState.occupation}
+			                                    ${occupationState.occupationLabel}
 			                                </div>
 			                                <div class="crowded-label">
 			                                	<liferay-ui:message key="${occupationState.label}" />
@@ -295,7 +295,7 @@
 								<td class="first-day ${occupationState.cssClass}">
 									<div class="mobile-occupation-state">
 										<div class="mobile-crowded-amount">
-		                                    ${occupationState.occupation}
+		                                    ${occupationState.occupationLabel}
 		                                </div>
 		                                <div class="mobile-crowded-label">
 		                                	<liferay-ui:message key="${occupationState.label}" />
