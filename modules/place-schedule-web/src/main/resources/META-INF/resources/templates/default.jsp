@@ -132,12 +132,12 @@
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
 											<liferay-ui:message key="${occupationState.getLabel()}" />
-											<c:if test="${not empty occupationState.getOccupation() and occupationState.getOccupation() != '-'}">
-												<br/>${occupationState.getOccupation()} 
-												<c:if test="${occupationState.getOccupation() <= 1}">
+											<c:if test="${not empty occupationState.getOccupationLabel() and occupationState.getOccupationLabel() != '-'}">
+												<br/>${occupationState.getOccupationLabel()}
+												<c:if test="${occupationState.getOccupationLabel() <= 1}">
 													<liferay-ui:message key="person" />
 												</c:if>
-												<c:if test="${occupationState.getOccupation() > 1}">
+												<c:if test="${occupationState.getOccupationLabel() > 1}">
 													<liferay-ui:message key="persons" />
 												</c:if>
 											</c:if>
@@ -161,8 +161,8 @@
 										<c:set var="occupationState" value="${place.getRealTime('3')}" />
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
 											<liferay-ui:message key="${occupationState.getLabel()}" />
-											<c:if test="${not empty occupationState.getOccupation() and occupationState.getOccupation() != '-'}">
-												<br/>${occupationState.getOccupation()}
+											<c:if test="${not empty occupationState.getOccupationLabel() and occupationState.getOccupationLabel() != '-'}">
+												<br/>${occupationState.getOccupationLabel()}
 											</c:if>
 								    	</td>
 							    </c:if>
