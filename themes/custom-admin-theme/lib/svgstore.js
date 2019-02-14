@@ -4,86 +4,87 @@ var _s = require('underscore.string');
 var basename = require('basename');
 
 module.exports = function(gulp, plugins, _, config) {
-	var src = config.src || 'src/images/icons/*.svg';
-	var dest = config.dest || './build/images/icons/';
+    var src = config.src || 'src/images/icons/*.svg';
+    var dest = config.dest || './build/images/icons/';
 
-	var defaultConfig = {
-		dest: './build/images/icons/',
-		src: 'src/images/icons/*.svg',
-        targetName: null
-	};
+    var defaultConfig = {
+        dest: './build/images/icons/',
+        src: 'src/images/icons/*.svg',
+       targetName: null
+    };
 
-	config = _.merge(defaultConfig, config);
+    config = _.merge(defaultConfig, config);
 
-	var exports = module.exports;
+    var exports = module.exports;
 
-	var REGEX_FLAGS = exports.REGEX_FLAGS;
+    var REGEX_FLAGS = exports.REGEX_FLAGS;
 
-	return gulp.src(src)
-			.pipe(plugins.cheerio(exports.cheerio()))
-			.pipe(plugins.rename(exports.rename))
-			.pipe(plugins.svgmin(exports.svgmin))
-			.pipe(plugins.svgstore())
-        	.pipe(plugins.rename(config.targetName))
-			.pipe(gulp.dest(dest));
+    return gulp.src(src)
+            .pipe(plugins.cheerio(exports.cheerio()))
+            .pipe(plugins.rename(exports.rename))
+            .pipe(plugins.svgmin(exports.svgmin))
+            .pipe(plugins.svgstore())
+           .pipe(plugins.rename(config.targetName))
+            .pipe(gulp.dest(dest));
 };
 
 _.assign(
-	module.exports,
-	{
-		REGEX_FLAGS: /^flags-/,
+    module.exports,
+    {
+        REGEX_FLAGS: /^flags-/,
 
-		cheerio: function(config) {
-			return _.merge(
-				{
-					run: function ($, file) {
-						if (!module.exports.REGEX_FLAGS.test(file.relative)) {
-							$('[fill]').not('[fill=none]').removeAttr('fill');
-							$('[stroke]').not('[stroke=none]').removeAttr('stroke');
-						}
-					},
-					parserOptions: { xmlMode: true }
-				},
-				config
-			);
-		},
+        cheerio: function(config) {
+            return _.merge(
+                {
+                    run: function ($, file) {
+                        if (!module.exports.REGEX_FLAGS.test(file.relative)) {
+                            $('[fill]').not('[fill=none]').removeAttr('fill');
+                            $('[stroke]').not('[stroke=none]').removeAttr('stroke');
+                        }
+                    },
+                    parserOptions: { xmlMode: true }
+                },
+                config
+            );
+        },
 
-		rename: function(file) {
-			file.basename = _s.slugify(file.basename.replace(module.exports.REGEX_FLAGS, ''));
-		},
+        rename: function(file) {
+            file.basename = _s.slugify(file.basename.replace(module.exports.REGEX_FLAGS, ''));
+        },
 
-		svgmin: function(file) {
-			var prefix = basename(file.relative);
+        svgmin: function(file) {
+            var prefix = basename(file.relative);
 
-			return module.exports.svgminConfig(
-				{
-					plugins: [
-						{
-							cleanupIDs: {
-								prefix: prefix + '-'
-							}
-						}
-					]
-				}
-			);
-		},
+            return module.exports.svgminConfig(
+                {
+                    plugins: [
+                        {
+                            cleanupIDs: {
+                                prefix: prefix + '-'
+                            }
+                        }
+                    ]
+                }
+            );
+        },
 
-		svgminConfig: function(config) {
-			return _.merge(
-				{
-					plugins: [
-						{
-							cleanupIDs: {
-								minify: true
-							}
-						},
-						{
-							moveElemsAttrsToGroup: false
-						}
-					]
-				},
-				config
-			);
-		}
-	}
+        svgminConfig: function(config) {
+            return _.merge(
+                {
+                    plugins: [
+                        {
+                            cleanupIDs: {
+                                minify: true
+                            }
+                        },
+                        {
+                            moveElemsAttrsToGroup: false
+                        }
+                    ]
+                },
+                config
+            );
+        }
+    }
 );
+

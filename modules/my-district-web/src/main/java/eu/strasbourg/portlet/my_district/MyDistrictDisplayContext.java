@@ -53,7 +53,7 @@ public class MyDistrictDisplayContext {
     private MyDistrictConfiguration configuration;
     private Boolean hasError;
     private String address;
-    private Boolean isStrasbourg;
+    private Boolean isStrasbourg = false;
     private AssetCategory district;
     private AdictService adictService;
     private List<AssetEntry> actuAndWebMag;
@@ -95,11 +95,11 @@ public class MyDistrictDisplayContext {
 
     // vérifie si l'adresse est sur Strasbourg ou pas
     public boolean isStrasbourg(){
-        return this.isStrasbourg();
+        return isStrasbourg;
     }
 
 
-    // récupération de l'adresse de l'utilisateur
+    // récupération de l'adresse de l'utilisateureventservicelocal
     public String getAddress() {
         return address;
     }
@@ -393,13 +393,6 @@ public class MyDistrictDisplayContext {
             //eventQuery.setLimit(0, 12);
             List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
             List<AssetEntry> result = new ArrayList<AssetEntry>();
-            for (Event event : listEvent) {
-                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
-                        event.getPrimaryKey());
-                if (assetEntry != null) {
-                    result.add(assetEntry);
-                }
-            }
 
             for (Event event : listEvent) {
                 AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
@@ -409,11 +402,8 @@ public class MyDistrictDisplayContext {
                     int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
                     while (i < result.size()) {
                         int daysAfterPublication;
-                        if (result.get(i).getClassName().equals(Event.class.getName())) {
-                            Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
-                            daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
-                        } else
-                            daysAfterPublication = this.getDaysBetweenTodayAndPublicationDate(result.get(i));
+                        Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
+                        daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
                         if (daysBeforeNextOpenDate < daysAfterPublication) {
                             result.add(i, assetEntry);
                             break;
@@ -426,7 +416,7 @@ public class MyDistrictDisplayContext {
                 }
             }
 
-            events = result.subList(0,12);
+            events = result.subList(0,(result.size() > 12)?12:result.size());
         }
         return events;
     }
