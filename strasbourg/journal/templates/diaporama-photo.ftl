@@ -20,8 +20,7 @@
         <#if photos.getSiblings()?has_content>
             <section class="slider-for slider">
                 <#list photos.getSiblings() as photo> 
-                    <div>
-                        <img src="${photo.getData()}">
+                    <div class="image-for" style="background-image:url('${photo.getData()}')">
                         <div class="legend">${photo.getChildren()[0].getData()}</div>
                         <div class="paginate">${photo?counter}/${photos.getSiblings()?size}</div>
                     </div> 
@@ -31,7 +30,7 @@
             <section class="slider-nav slider">
                 <#list photos.getSiblings() as photo>  
                     <div>
-                        <div class="image " style="background-image:url('${photo.getData()}')"></div>
+                        <div class="image-nav" style="background-image:url('${photo.getData()}')"></div>
                     </div> 
                 </#list>
             </section>
@@ -57,11 +56,11 @@
             opacity: 1;
         }
 
-        .slick-slide div:first-child{
+        .slick-slide > div{
             line-height: 0px;
         }
 
-        .slick-slide div div:first-child{
+        .slick-slide > div > div{
             height: 650px;
             display: flex !important;
         }
@@ -71,8 +70,10 @@
             margin-bottom: 0;
         }
 
-        .slider-for img{
-            margin: auto;
+        .image-for{
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
         }
 
         .legend{
@@ -109,7 +110,7 @@
             height: 150px;
         }  
 
-        .slider-nav .slick-slide .image {
+        .image-nav {
             width: 100%;
             height: 200px;
             background-size: cover;
@@ -134,7 +135,7 @@
                 margin: 0;
             }
 
-            .slick-slide div div:first-child{
+            .slick-slide > div > div{
                 height: 350px;
             }
             
