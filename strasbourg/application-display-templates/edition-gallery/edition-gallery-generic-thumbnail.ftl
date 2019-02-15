@@ -1,6 +1,12 @@
 <!-- Vignette galerie d'éditions -->
 
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
+
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
@@ -38,7 +44,7 @@
                 <a href="#" class="seu-add-favorites"
                 data-type="13" 
                 data-title="${entry.getTitle(locale)}" 
-                data-url="${detailURL}"
+                data-url="${themeDisplay.getPortalURL()}${homeURL}galerie-editions/-/entity/id/${entry.galleryId}" 
                 data-id="${entry.galleryId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

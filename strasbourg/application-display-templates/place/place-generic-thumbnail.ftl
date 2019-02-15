@@ -1,6 +1,11 @@
 <!-- Vignette lieu -->
 
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 
@@ -34,8 +39,8 @@
             <div class="seu-result-infos-bottom">
                 <a href="#" class="seu-add-favorites"
                 data-type="1" 
-                data-title="${entry.getAlias(locale)}" 
-                data-url="${detailURL}" 
+                data-title="${entry.getAlias(locale)}"
+                data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}" 
                 data-id="${entry.placeId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

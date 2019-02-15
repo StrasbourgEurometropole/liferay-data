@@ -1,6 +1,12 @@
 <!-- Vignette cours activité -->
 
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+  <#assign homeURL = "/" />
+</#if>
+
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
@@ -34,7 +40,7 @@
                 <a href="#" class="seu-add-favorites" 
                 data-type="11" 
                 data-title="${entry.getName(locale)}" 
-                data-url="${detailURL}" 
+                data-url="${themeDisplay.getPortalURL()}${homeURL}cours/-/entity/id/${entry.activityCourseId}"
                 data-id="${entry.activityCourseId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

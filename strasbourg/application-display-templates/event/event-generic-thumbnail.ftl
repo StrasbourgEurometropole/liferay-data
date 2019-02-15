@@ -1,4 +1,9 @@
 <!-- Vignette événement -->
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 
 <#setting locale = locale />
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
@@ -35,7 +40,7 @@
                 <a href="#" class="seu-add-favorites"
                 data-type="2" 
                 data-title="${entry.getTitle(locale)}" 
-                data-url="${detailURL}" 
+                data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" 
                 data-id="${entry.eventId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>
