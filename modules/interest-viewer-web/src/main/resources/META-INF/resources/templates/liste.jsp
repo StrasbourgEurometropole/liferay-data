@@ -22,33 +22,35 @@
 				<div class="seu-wi-content"> 
 					<div class="seu-wi-grid unstyled seu-visible">
 	        			<c:forEach var="curEntry" items="${dc.actusAndWebmags}">
-			                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
-							<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
-							<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/> 
-							<div class="seu-wi-item seu-actu seu-has-picture"> 
-								<a href="${viewURL}" class="seu-link" title="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"> 
-									<div class="seu-text"> 
-										<div class="seu-title dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}</div> 
-										<div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}</div> 
-									</div> 
-									<div> 
-										<div class="seu-picture" style="background-image: url(${dc.getJournalArticleImage(article,locale)})"></div> 
-									</div>
-									<button href="#"
-									   class="add-favorites"
-									   data-type="6" data-title="${dc.getJournalArticleTitle(article,locale)}"
-									   data-url="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"
-									   data-id="${article.getArticleId()}"
-									   data-group-id="${article.getGroupId()}"
-									   style="
-										margin-bottom: 0;
-										margin-top: 20px;
-										height: auto;
-									">
-										<span><liferay-ui:message key="eu.add-to-favorite" /></span>
-									</button>
-								</a> 
-							</div> 
+	        				<c:if test="${not empty curEntry and not empty curEntry.getAssetRenderer() and not empty curEntry.getAssetRenderer().getArticle() }">
+				                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
+								<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
+								<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/> 
+								<div class="seu-wi-item seu-actu seu-has-picture"> 
+									<a href="${viewURL}" class="seu-link" title="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"> 
+										<div class="seu-text"> 
+											<div class="seu-title dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}</div> 
+											<div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}</div> 
+										</div> 
+										<div> 
+											<div class="seu-picture" style="background-image: url(${dc.getJournalArticleImage(article,locale)})"></div> 
+										</div>
+										<button href="#"
+										   class="add-favorites"
+										   data-type="6" data-title="${dc.getJournalArticleTitle(article,locale)}"
+										   data-url="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"
+										   data-id="${article.getArticleId()}"
+										   data-group-id="${article.getGroupId()}"
+										   style="
+											margin-bottom: 0;
+											margin-top: 20px;
+											height: auto;
+										">
+											<span><liferay-ui:message key="eu.add-to-favorite" /></span>
+										</button>
+									</a> 
+								</div> 
+							</c:if>
 						</c:forEach> 
 					</div> 
 				</div>  

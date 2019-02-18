@@ -15571,14 +15571,14 @@ function formatRef(ref)
   return ref;
 }
 (function ($) {
-    $('.family .btn-minus').on('click', function() {
+    $('.portlet-column-content').on('click','.family .btn-minus', function() {
         var num = $(this).parent().attr("name");
         $('#family' + num).addClass("hide");
         //$('#family' + num).hide();
         $(this).addClass("hide");
         $(this).parent().children(".btn-more").removeClass("hide");
     });
-    $('.family .btn-more').on('click', function() {
+    $('.portlet-column-content').on('click','.family .btn-more', function() {
         var num = $(this).parent().attr("name");
         $('#family' + num).removeClass("hide");
         //$('#family' + num).show();
@@ -15620,7 +15620,7 @@ function createPopinMediatheque(message, agree, deny){
     });
 }
 (function ($) {
-    $('#borrowingSeeMore').on('click', function() {
+    $('.portlet-column-content').on('click','#borrowingSeeMore', function() {
         for (i = 3; i < $("#borrowingCount").val(); i++) {
             $('#borrowing_' + i).show();
             $('#borrowing_' + i).removeClass("hidden");
@@ -15629,7 +15629,7 @@ function createPopinMediatheque(message, agree, deny){
         $('#borrowingSeeLess').removeClass("hidden");
         $('#borrowingSeeLess').show();
     });
-    $('#reservationSeeMore').on('click', function() {
+    $('.portlet-column-content').on('click','#reservationSeeMore', function() {
         for (i = 3; i < $("#reservationCount").val(); i++) {
             $('#reservation_' + i).show();
             $('#reservation_' + i).removeClass("hidden");
@@ -15638,14 +15638,14 @@ function createPopinMediatheque(message, agree, deny){
         $('#reservationSeeLess').removeClass("hidden");
         $('#reservationSeeLess').show();
     });
-    $('#borrowingSeeLess').on('click', function() {
+    $('.portlet-column-content').on('click','#borrowingSeeLess', function() {
         for (i = 3; i < $("#borrowingCount").val(); i++) {
             $('#borrowing_' + i).hide();
         }
         $('#borrowingSeeMore').show();
         $('#borrowingSeeLess').hide();
     });
-    $('#reservationSeeLess').on('click', function() {
+    $('.portlet-column-content').on('click','#reservationSeeLess', function() {
         for (i = 3; i < $("#reservationCount").val(); i++) {
             $('#reservation_' + i).hide();
         }
@@ -15655,14 +15655,14 @@ function createPopinMediatheque(message, agree, deny){
  }(jQuery));
 
 (function ($) {
-    $('.dossier .btn-minus').on('click', function() {
+    $('.portlet-column-content').on('click','.dossier .btn-minus', function() {
         var num = $(this).parent().attr("name");
         $('#dossier' + num).addClass("hide");
         //$('#dossier' + num).hide();
         $(this).addClass("hide");
         $(this).parent().children(".btn-more").removeClass("hide");
     });
-    $('.dossier .btn-more').on('click', function() {
+    $('.portlet-column-content').on('click','.dossier .btn-more', function() {
         var num = $(this).parent().attr("name");
         $('#dossier' + num).removeClass("hide");
         //$('#dossier' + num).show();
@@ -16187,7 +16187,7 @@ function dot(){
 (function ($) {
     $(document).ready(function(){
         if($('.mseu body.front').length){
-            $('.delete-wi').on('click', function(){
+            $('.portlet-column-content').on('click','.delete-wi', function(){
                 var portletId = $(this).data('portletId');
                 var $section = $(this).closest('section');
                 var message = "Êtes vous sur de vouloir masquer le widget ?";

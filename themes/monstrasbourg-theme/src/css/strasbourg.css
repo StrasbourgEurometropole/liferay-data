@@ -4028,14 +4028,18 @@ a {
   opacity: 1; }
 
 /* line 1, custom/02-particules/01-shared/typos/_quark-typo-forms.scss */
-.view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection, .mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea, .mseu-main-form textarea, #bills form input, #mediatheque input, #serial input {
+.view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection,
+.mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
+.mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea,
+.mseu-main-form textarea, #bills form input, #mediatheque input, #serial input {
   font-family: "OpenSans", arial;
   color: #505050;
   font-size: 1.8rem;
   font-weight: 400; }
 
 /* line 7, custom/02-particules/01-shared/typos/_quark-typo-forms.scss */
-.view-filters .filter-line .title label, .view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option), .mseu-main-form label:not(.option), #bills form label, #family-space label, #mediatheque label, #resid label {
+.view-filters .filter-line .title label, .view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option),
+.mseu-main-form label:not(.option), #bills form label, #family-space label, #mediatheque label, #resid label {
   font-weight: 600;
   font-family: "OpenSans", arial;
   color: #505050;
@@ -4055,7 +4059,8 @@ a {
       font-size: 2.5rem; } }
 
 /* line 14, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-.not-front .rte h2, #rub_service h2, .mseu-main-form h2, .mseu .not-front h2, #direction h2, #districts-configuration h2, #ecoles h2, #elu h2, #mairie h2, #sliders h2 {
+.not-front .rte h2, #rub_service h2,
+.mseu-main-form h2, .mseu .not-front h2, #direction h2, #districts-configuration h2, #ecoles h2, #elu h2, #mairie h2, #sliders h2 {
   font-family: "MontSerrat", arial;
   color: #31455d;
   font-size: 2.5rem;
@@ -4068,11 +4073,13 @@ a {
           hyphens: auto; }
   @media only screen and (max-width: 767px) {
     /* line 14, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-    .not-front .rte h2, #rub_service h2, .mseu-main-form h2, .mseu .not-front h2, #direction h2, #districts-configuration h2, #ecoles h2, #elu h2, #mairie h2, #sliders h2 {
+    .not-front .rte h2, #rub_service h2,
+    .mseu-main-form h2, .mseu .not-front h2, #direction h2, #districts-configuration h2, #ecoles h2, #elu h2, #mairie h2, #sliders h2 {
       font-size: 2rem; } }
 
 /* line 28, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-.not-front .rte h3, #rub_service h3, .mseu-main-form h3 {
+.not-front .rte h3, #rub_service h3,
+.mseu-main-form h3 {
   font-family: "MontSerrat", arial;
   color: #31455d;
   font-size: 2.2rem;
@@ -4085,11 +4092,13 @@ a {
           hyphens: auto; }
   @media only screen and (max-width: 767px) {
     /* line 28, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-    .not-front .rte h3, #rub_service h3, .mseu-main-form h3 {
+    .not-front .rte h3, #rub_service h3,
+    .mseu-main-form h3 {
       font-size: 1.8rem; } }
 
 /* line 42, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-.mseu #nav-side #nav-notifications #trigger-notifications .notification-text, .not-front .rte h4, #rub_service h4, .mseu-main-form h4, #welcome-page .feature .feature-info h3 {
+.mseu #nav-side #nav-notifications #trigger-notifications .notification-text, .not-front .rte h4, #rub_service h4,
+.mseu-main-form h4, #welcome-page .feature .feature-info h3 {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 1.7rem;
@@ -4098,11 +4107,13 @@ a {
   text-transform: uppercase; }
   @media only screen and (max-width: 767px) {
     /* line 42, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-    .mseu #nav-side #nav-notifications #trigger-notifications .notification-text, .not-front .rte h4, #rub_service h4, .mseu-main-form h4, #welcome-page .feature .feature-info h3 {
+    .mseu #nav-side #nav-notifications #trigger-notifications .notification-text, .not-front .rte h4, #rub_service h4,
+    .mseu-main-form h4, #welcome-page .feature .feature-info h3 {
       font-size: 1.4rem; } }
 
 /* line 54, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-.not-front .rte h5, #rub_service h5, .mseu-main-form h5 {
+.not-front .rte h5, #rub_service h5,
+.mseu-main-form h5 {
   font-size: 14px;
   text-transform: uppercase; }
 
@@ -4161,10 +4172,7 @@ a {
     Animation slider int: de base les numéros de page du slider sont cachés, au survol des flèches, les numéros de page fadent in
 */
 /* line 2, custom/02-particules/02-modules/widgets-int/0-shared/_quark-wi-text-aligns.scss */
-.seu-wi-agenda .section-title .title, .seu-wi-chiffres .section-title .title, .seu-wi-quote .section-title .title,
-.seu-wi-agenda .wi-content,
-.seu-wi-chiffres .wi-content,
-.seu-wi-quote .wi-content {
+.seu-wi-agenda .section-title .title, .seu-wi-chiffres .section-title .title, .seu-wi-quote .section-title .title, .seu-wi-agenda .wi-content, .seu-wi-chiffres .wi-content, .seu-wi-quote .wi-content {
   text-align: center; }
 
 /* line 6, custom/02-particules/02-modules/widgets-int/0-shared/_quark-wi-text-aligns.scss */
@@ -4408,15 +4416,18 @@ a {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E"); }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-form-checkboxes.scss */
-.view-filters .CheckboxesWidget input[type="checkbox"], .generic-form .CheckboxesWidget input[type="checkbox"], #rub_service .CheckboxesWidget input[type="checkbox"], .mseu-main-form .CheckboxesWidget input[type="checkbox"], #validation-address input[type=checkbox] {
+.view-filters .CheckboxesWidget input[type="checkbox"], .generic-form .CheckboxesWidget input[type="checkbox"], #rub_service .CheckboxesWidget input[type="checkbox"],
+.mseu-main-form .CheckboxesWidget input[type="checkbox"], #validation-address input[type=checkbox] {
   position: absolute;
   left: -99999999px; }
   /* line 5, custom/02-particules/01-shared/form-elements/_atom-form-checkboxes.scss */
-  .view-filters .CheckboxesWidget input[type="checkbox"] + span, .generic-form .CheckboxesWidget input[type="checkbox"] + span, #rub_service .CheckboxesWidget input[type="checkbox"] + span, .mseu-main-form .CheckboxesWidget input[type="checkbox"] + span, #validation-address input[type=checkbox] + span {
+  .view-filters .CheckboxesWidget input[type="checkbox"] + span, .generic-form .CheckboxesWidget input[type="checkbox"] + span, #rub_service .CheckboxesWidget input[type="checkbox"] + span,
+  .mseu-main-form .CheckboxesWidget input[type="checkbox"] + span, #validation-address input[type=checkbox] + span {
     padding-left: 30px;
     display: block; }
     /* line 8, custom/02-particules/01-shared/form-elements/_atom-form-checkboxes.scss */
-    .view-filters .CheckboxesWidget input[type="checkbox"] + span:before, .generic-form .CheckboxesWidget input[type="checkbox"] + span:before, #rub_service .CheckboxesWidget input[type="checkbox"] + span:before, .mseu-main-form .CheckboxesWidget input[type="checkbox"] + span:before, #validation-address input[type=checkbox] + span:before {
+    .view-filters .CheckboxesWidget input[type="checkbox"] + span:before, .generic-form .CheckboxesWidget input[type="checkbox"] + span:before, #rub_service .CheckboxesWidget input[type="checkbox"] + span:before,
+    .mseu-main-form .CheckboxesWidget input[type="checkbox"] + span:before, #validation-address input[type=checkbox] + span:before {
       display: inline-block;
       content: '';
       height: 15px;
@@ -4429,7 +4440,8 @@ a {
               transform: translateY(-50%);
       border: solid 3px #31455d; }
     /* line 19, custom/02-particules/01-shared/form-elements/_atom-form-checkboxes.scss */
-    .view-filters .CheckboxesWidget input[type="checkbox"] + span:after, .generic-form .CheckboxesWidget input[type="checkbox"] + span:after, #rub_service .CheckboxesWidget input[type="checkbox"] + span:after, .mseu-main-form .CheckboxesWidget input[type="checkbox"] + span:after, #validation-address input[type=checkbox] + span:after {
+    .view-filters .CheckboxesWidget input[type="checkbox"] + span:after, .generic-form .CheckboxesWidget input[type="checkbox"] + span:after, #rub_service .CheckboxesWidget input[type="checkbox"] + span:after,
+    .mseu-main-form .CheckboxesWidget input[type="checkbox"] + span:after, #validation-address input[type=checkbox] + span:after {
       display: inline-block;
       content: '';
       height: 15px;
@@ -4442,17 +4454,21 @@ a {
               transform: translateY(-50%);
       opacity: 0; }
   /* line 33, custom/02-particules/01-shared/form-elements/_atom-form-checkboxes.scss */
-  .view-filters .CheckboxesWidget input:checked[type="checkbox"] + span:before, .generic-form .CheckboxesWidget input:checked[type="checkbox"] + span:before, #rub_service .CheckboxesWidget input:checked[type="checkbox"] + span:before, .mseu-main-form .CheckboxesWidget input:checked[type="checkbox"] + span:before, #validation-address input:checked[type=checkbox] + span:before {
+  .view-filters .CheckboxesWidget input[type="checkbox"]:checked + span:before, .generic-form .CheckboxesWidget input[type="checkbox"]:checked + span:before, #rub_service .CheckboxesWidget input[type="checkbox"]:checked + span:before,
+  .mseu-main-form .CheckboxesWidget input[type="checkbox"]:checked + span:before, #validation-address input[type=checkbox]:checked + span:before {
     opacity: 0; }
   /* line 36, custom/02-particules/01-shared/form-elements/_atom-form-checkboxes.scss */
-  .view-filters .CheckboxesWidget input:checked[type="checkbox"] + span:after, .generic-form .CheckboxesWidget input:checked[type="checkbox"] + span:after, #rub_service .CheckboxesWidget input:checked[type="checkbox"] + span:after, .mseu-main-form .CheckboxesWidget input:checked[type="checkbox"] + span:after, #validation-address input:checked[type=checkbox] + span:after {
+  .view-filters .CheckboxesWidget input[type="checkbox"]:checked + span:after, .generic-form .CheckboxesWidget input[type="checkbox"]:checked + span:after, #rub_service .CheckboxesWidget input[type="checkbox"]:checked + span:after,
+  .mseu-main-form .CheckboxesWidget input[type="checkbox"]:checked + span:after, #validation-address input[type=checkbox]:checked + span:after {
     opacity: 1; }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-.view-filters .customSelectContain, .generic-form .customSelectContain, #rub_service .customSelectContain, .mseu-main-form .customSelectContain, .search-infos .customSelectContain {
+.view-filters .customSelectContain, .generic-form .customSelectContain, #rub_service .customSelectContain,
+.mseu-main-form .customSelectContain, .search-infos .customSelectContain {
   height: 42px; }
   /* line 3, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-  .view-filters .customSelectContain .customSelect, .generic-form .customSelectContain .customSelect, #rub_service .customSelectContain .customSelect, .mseu-main-form .customSelectContain .customSelect, .search-infos .customSelectContain .customSelect {
+  .view-filters .customSelectContain .customSelect, .generic-form .customSelectContain .customSelect, #rub_service .customSelectContain .customSelect,
+  .mseu-main-form .customSelectContain .customSelect, .search-infos .customSelectContain .customSelect {
     padding: 7.5px 50px 7.5px 20px;
     border-style: solid;
     border-width: 1px;
@@ -4464,7 +4480,8 @@ a {
         -ms-flex-align: center;
             align-items: center; }
     /* line 12, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-    .view-filters .customSelectContain .customSelect.arrowed:after, .generic-form .customSelectContain .customSelect.arrowed:after, #rub_service .customSelectContain .customSelect.arrowed:after, .mseu-main-form .customSelectContain .customSelect.arrowed:after, .search-infos .customSelectContain .customSelect.arrowed:after {
+    .view-filters .customSelectContain .customSelect.arrowed:after, .generic-form .customSelectContain .customSelect.arrowed:after, #rub_service .customSelectContain .customSelect.arrowed:after,
+    .mseu-main-form .customSelectContain .customSelect.arrowed:after, .search-infos .customSelectContain .customSelect.arrowed:after {
       position: absolute;
       top: 50%;
       right: 15px;
@@ -4478,46 +4495,58 @@ a {
       -webkit-transform: translateY(-50%) rotate(90deg);
               transform: translateY(-50%) rotate(90deg); }
   /* line 27, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-  .view-filters .customSelectContain option, .generic-form .customSelectContain option, #rub_service .customSelectContain option, .mseu-main-form .customSelectContain option, .search-infos .customSelectContain option {
+  .view-filters .customSelectContain option, .generic-form .customSelectContain option, #rub_service .customSelectContain option,
+  .mseu-main-form .customSelectContain option, .search-infos .customSelectContain option {
     padding: 10px;
     font-family: "MontSerrat", arial;
     font-weight: 400;
     font-size: 1.4rem;
     color: #7e7e7e; }
   /* line 34, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-  .view-filters .customSelectContain .customSelectInner, .generic-form .customSelectContain .customSelectInner, #rub_service .customSelectContain .customSelectInner, .mseu-main-form .customSelectContain .customSelectInner, .search-infos .customSelectContain .customSelectInner {
+  .view-filters .customSelectContain .customSelectInner, .generic-form .customSelectContain .customSelectInner, #rub_service .customSelectContain .customSelectInner,
+  .mseu-main-form .customSelectContain .customSelectInner, .search-infos .customSelectContain .customSelectInner {
     font-family: "MontSerrat", arial;
     font-weight: 400;
     font-size: 1.4rem;
     color: #7e7e7e;
     text-transform: uppercase; }
   /* line 56, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-  .view-filters .customSelectContain, .generic-form .customSelectContain, #rub_service .customSelectContain, .mseu-main-form .customSelectContain, .search-infos .customSelectContain {
+  .view-filters .customSelectContain, .generic-form .customSelectContain, #rub_service .customSelectContain,
+  .mseu-main-form .customSelectContain, .search-infos .customSelectContain {
     height: 50px; }
     /* line 59, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-    .view-filters .customSelectContain .customSelect, .generic-form .customSelectContain .customSelect, #rub_service .customSelectContain .customSelect, .mseu-main-form .customSelectContain .customSelect, .search-infos .customSelectContain .customSelect {
+    .view-filters .customSelectContain .customSelect, .generic-form .customSelectContain .customSelect, #rub_service .customSelectContain .customSelect,
+    .mseu-main-form .customSelectContain .customSelect, .search-infos .customSelectContain .customSelect {
       background-color: #F6F6F6;
       border: solid 2px transparent;
       border-radius: 0; }
       /* line 64, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-      .view-filters .customSelectContain .customSelect.arrowed:after, .generic-form .customSelectContain .customSelect.arrowed:after, #rub_service .customSelectContain .customSelect.arrowed:after, .mseu-main-form .customSelectContain .customSelect.arrowed:after, .search-infos .customSelectContain .customSelect.arrowed:after {
+      .view-filters .customSelectContain .customSelect.arrowed:after, .generic-form .customSelectContain .customSelect.arrowed:after, #rub_service .customSelectContain .customSelect.arrowed:after,
+      .mseu-main-form .customSelectContain .customSelect.arrowed:after, .search-infos .customSelectContain .customSelect.arrowed:after {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%237e7e7e' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E"); }
     /* line 68, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-    .view-filters .customSelectContain .customSelectInner, .generic-form .customSelectContain .customSelectInner, #rub_service .customSelectContain .customSelectInner, .mseu-main-form .customSelectContain .customSelectInner, .search-infos .customSelectContain .customSelectInner {
+    .view-filters .customSelectContain .customSelectInner, .generic-form .customSelectContain .customSelectInner, #rub_service .customSelectContain .customSelectInner,
+    .mseu-main-form .customSelectContain .customSelectInner, .search-infos .customSelectContain .customSelectInner {
       color: #7e7e7e; }
     /* line 71, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-    .view-filters .customSelectContain .customSelectContain.focused .customSelect, .generic-form .customSelectContain .customSelectContain.focused .customSelect, #rub_service .customSelectContain .customSelectContain.focused .customSelect, .mseu-main-form .customSelectContain .customSelectContain.focused .customSelect, .search-infos .customSelectContain .customSelectContain.focused .customSelect {
+    .view-filters .customSelectContain .customSelectContain.focused .customSelect, .generic-form .customSelectContain .customSelectContain.focused .customSelect, #rub_service .customSelectContain .customSelectContain.focused .customSelect,
+    .mseu-main-form .customSelectContain .customSelectContain.focused .customSelect, .search-infos .customSelectContain .customSelectContain.focused .customSelect {
       border: solid 1px #31455d; }
     /* line 74, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-    .view-filters .customSelectContain .customSelectContain select, .generic-form .customSelectContain .customSelectContain select, #rub_service .customSelectContain .customSelectContain select, .mseu-main-form .customSelectContain .customSelectContain select, .search-infos .customSelectContain .customSelectContain select {
+    .view-filters .customSelectContain .customSelectContain select, .generic-form .customSelectContain .customSelectContain select, #rub_service .customSelectContain .customSelectContain select,
+    .mseu-main-form .customSelectContain .customSelectContain select, .search-infos .customSelectContain .customSelectContain select {
       background-color: #FFFFFF;
       color: #000000; }
     /* line 79, custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
-    .view-filters .focused.customSelectContain .customSelect, .generic-form .focused.customSelectContain .customSelect, #rub_service .focused.customSelectContain .customSelect, .mseu-main-form .focused.customSelectContain .customSelect, .search-infos .focused.customSelectContain .customSelect {
+    .view-filters .focused.customSelectContain .customSelect, .generic-form .focused.customSelectContain .customSelect, #rub_service .focused.customSelectContain .customSelect,
+    .mseu-main-form .focused.customSelectContain .customSelect, .search-infos .focused.customSelectContain .customSelect {
       border-color: #31455d; }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-form-inputs.scss */
-.view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection, .mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea, .mseu-main-form textarea, #bills form input, #mediatheque input, #serial input {
+.view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection,
+.mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
+.mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea,
+.mseu-main-form textarea, #bills form input, #mediatheque input, #serial input {
   width: 100%;
   height: 50px;
   background-color: #f6f6f6;
@@ -4528,39 +4557,56 @@ a {
   transition: all, 0.5s;
   line-height: 50px; }
   /* line 12, custom/02-particules/01-shared/form-elements/_atom-form-inputs.scss */
-  .view-filters .select2 .select2-selection:focus, .generic-form .select2 .select2-selection:focus, #rub_service .select2 .select2-selection:focus, .mseu-main-form .select2 .select2-selection:focus, .view-filters .filter-line .content input:focus, .view-filters input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .mseu-main-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea:focus, .generic-form textarea:focus, #rub_service textarea:focus, .mseu-main-form textarea:focus, #bills form input:focus, #mediatheque input:focus, #serial input:focus {
+  .view-filters .select2 .select2-selection:focus, .generic-form .select2 .select2-selection:focus, #rub_service .select2 .select2-selection:focus,
+  .mseu-main-form .select2 .select2-selection:focus, .view-filters .filter-line .content input:focus, .view-filters input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
+  .mseu-main-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea:focus, .generic-form textarea:focus, #rub_service textarea:focus,
+  .mseu-main-form textarea:focus, #bills form input:focus, #mediatheque input:focus, #serial input:focus {
     border-color: #31455d;
     outline: none;
     background-color: #FFFFFF; }
   /* line 17, custom/02-particules/01-shared/form-elements/_atom-form-inputs.scss */
-  .view-filters .select2 .select2-selection::-webkit-input-placeholder, .generic-form .select2 .select2-selection::-webkit-input-placeholder, #rub_service .select2 .select2-selection::-webkit-input-placeholder, .mseu-main-form .select2 .select2-selection::-webkit-input-placeholder, .view-filters .filter-line .content input::-webkit-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .view-filters textarea::-webkit-input-placeholder, .generic-form textarea::-webkit-input-placeholder, #rub_service textarea::-webkit-input-placeholder, .mseu-main-form textarea::-webkit-input-placeholder, #bills form input::-webkit-input-placeholder, #mediatheque input::-webkit-input-placeholder, #serial input::-webkit-input-placeholder {
+  .view-filters .select2 .select2-selection::-webkit-input-placeholder, .generic-form .select2 .select2-selection::-webkit-input-placeholder, #rub_service .select2 .select2-selection::-webkit-input-placeholder,
+  .mseu-main-form .select2 .select2-selection::-webkit-input-placeholder, .view-filters .filter-line .content input::-webkit-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder,
+  .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .view-filters textarea::-webkit-input-placeholder, .generic-form textarea::-webkit-input-placeholder, #rub_service textarea::-webkit-input-placeholder,
+  .mseu-main-form textarea::-webkit-input-placeholder, #bills form input::-webkit-input-placeholder, #mediatheque input::-webkit-input-placeholder, #serial input::-webkit-input-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
     color: #7e7e7e; }
   /* line 23, custom/02-particules/01-shared/form-elements/_atom-form-inputs.scss */
-  .view-filters .select2 .select2-selection::-moz-placeholder, .generic-form .select2 .select2-selection::-moz-placeholder, #rub_service .select2 .select2-selection::-moz-placeholder, .mseu-main-form .select2 .select2-selection::-moz-placeholder, .view-filters .filter-line .content input::-moz-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .view-filters textarea::-moz-placeholder, .generic-form textarea::-moz-placeholder, #rub_service textarea::-moz-placeholder, .mseu-main-form textarea::-moz-placeholder, #bills form input::-moz-placeholder, #mediatheque input::-moz-placeholder, #serial input::-moz-placeholder {
+  .view-filters .select2 .select2-selection::-moz-placeholder, .generic-form .select2 .select2-selection::-moz-placeholder, #rub_service .select2 .select2-selection::-moz-placeholder,
+  .mseu-main-form .select2 .select2-selection::-moz-placeholder, .view-filters .filter-line .content input::-moz-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder,
+  .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .view-filters textarea::-moz-placeholder, .generic-form textarea::-moz-placeholder, #rub_service textarea::-moz-placeholder,
+  .mseu-main-form textarea::-moz-placeholder, #bills form input::-moz-placeholder, #mediatheque input::-moz-placeholder, #serial input::-moz-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
     color: #7e7e7e; }
   /* line 29, custom/02-particules/01-shared/form-elements/_atom-form-inputs.scss */
-  .view-filters .select2 .select2-selection::-ms-input-placeholder, .generic-form .select2 .select2-selection::-ms-input-placeholder, #rub_service .select2 .select2-selection::-ms-input-placeholder, .mseu-main-form .select2 .select2-selection::-ms-input-placeholder, .view-filters .filter-line .content input::-ms-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .view-filters textarea::-ms-input-placeholder, .generic-form textarea::-ms-input-placeholder, #rub_service textarea::-ms-input-placeholder, .mseu-main-form textarea::-ms-input-placeholder, #bills form input::-ms-input-placeholder, #mediatheque input::-ms-input-placeholder, #serial input::-ms-input-placeholder {
+  .view-filters .select2 .select2-selection::-ms-input-placeholder, .generic-form .select2 .select2-selection::-ms-input-placeholder, #rub_service .select2 .select2-selection::-ms-input-placeholder,
+  .mseu-main-form .select2 .select2-selection::-ms-input-placeholder, .view-filters .filter-line .content input::-ms-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder,
+  .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .view-filters textarea::-ms-input-placeholder, .generic-form textarea::-ms-input-placeholder, #rub_service textarea::-ms-input-placeholder,
+  .mseu-main-form textarea::-ms-input-placeholder, #bills form input::-ms-input-placeholder, #mediatheque input::-ms-input-placeholder, #serial input::-ms-input-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
     color: #7e7e7e; }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-form-radios.scss */
-.view-filters .RadiobuttonsWidget input[type="radio"], .generic-form .RadiobuttonsWidget input[type="radio"], #rub_service .RadiobuttonsWidget input[type="radio"], .mseu-main-form .RadiobuttonsWidget input[type="radio"], #survey .survey-form input[type="radio"], #validation-address label input[type=radio] {
+.view-filters .RadiobuttonsWidget input[type="radio"], .generic-form .RadiobuttonsWidget input[type="radio"], #rub_service .RadiobuttonsWidget input[type="radio"],
+.mseu-main-form .RadiobuttonsWidget input[type="radio"], #survey .survey-form input[type="radio"], #validation-address label input[type=radio] {
   position: absolute;
   left: -99999999px; }
   /* line 5, custom/02-particules/01-shared/form-elements/_atom-form-radios.scss */
-  .view-filters .RadiobuttonsWidget input[type="radio"] + span, .generic-form .RadiobuttonsWidget input[type="radio"] + span, #rub_service .RadiobuttonsWidget input[type="radio"] + span, .mseu-main-form .RadiobuttonsWidget input[type="radio"] + span, #survey .survey-form input[type="radio"] + span, #validation-address label input[type=radio] + span, .view-filters .RadiobuttonsWidget input[type="radio"] + label, .generic-form .RadiobuttonsWidget input[type="radio"] + label, #rub_service .RadiobuttonsWidget input[type="radio"] + label, .mseu-main-form .RadiobuttonsWidget input[type="radio"] + label, #survey .survey-form input[type="radio"] + label, #validation-address label input[type=radio] + label {
+  .view-filters .RadiobuttonsWidget input[type="radio"] + span, .generic-form .RadiobuttonsWidget input[type="radio"] + span, #rub_service .RadiobuttonsWidget input[type="radio"] + span,
+  .mseu-main-form .RadiobuttonsWidget input[type="radio"] + span, #survey .survey-form input[type="radio"] + span, #validation-address label input[type=radio] + span, .view-filters .RadiobuttonsWidget input[type="radio"] + label, .generic-form .RadiobuttonsWidget input[type="radio"] + label, #rub_service .RadiobuttonsWidget input[type="radio"] + label,
+  .mseu-main-form .RadiobuttonsWidget input[type="radio"] + label, #survey .survey-form input[type="radio"] + label, #validation-address label input[type=radio] + label {
     padding-left: 30px;
     display: block; }
     /* line 8, custom/02-particules/01-shared/form-elements/_atom-form-radios.scss */
-    .view-filters .RadiobuttonsWidget input[type="radio"] + span:before, .generic-form .RadiobuttonsWidget input[type="radio"] + span:before, #rub_service .RadiobuttonsWidget input[type="radio"] + span:before, .mseu-main-form .RadiobuttonsWidget input[type="radio"] + span:before, #survey .survey-form input[type="radio"] + span:before, #validation-address label input[type=radio] + span:before, .view-filters .RadiobuttonsWidget input[type="radio"] + label:before, .generic-form .RadiobuttonsWidget input[type="radio"] + label:before, #rub_service .RadiobuttonsWidget input[type="radio"] + label:before, .mseu-main-form .RadiobuttonsWidget input[type="radio"] + label:before, #survey .survey-form input[type="radio"] + label:before, #validation-address label input[type=radio] + label:before {
+    .view-filters .RadiobuttonsWidget input[type="radio"] + span:before, .generic-form .RadiobuttonsWidget input[type="radio"] + span:before, #rub_service .RadiobuttonsWidget input[type="radio"] + span:before,
+    .mseu-main-form .RadiobuttonsWidget input[type="radio"] + span:before, #survey .survey-form input[type="radio"] + span:before, #validation-address label input[type=radio] + span:before, .view-filters .RadiobuttonsWidget input[type="radio"] + label:before, .generic-form .RadiobuttonsWidget input[type="radio"] + label:before, #rub_service .RadiobuttonsWidget input[type="radio"] + label:before,
+    .mseu-main-form .RadiobuttonsWidget input[type="radio"] + label:before, #survey .survey-form input[type="radio"] + label:before, #validation-address label input[type=radio] + label:before {
       display: inline-block;
       content: '';
       height: 15px;
@@ -4574,7 +4620,9 @@ a {
       border-radius: 50%;
       border: solid 3px #31455d; }
     /* line 20, custom/02-particules/01-shared/form-elements/_atom-form-radios.scss */
-    .view-filters .RadiobuttonsWidget input[type="radio"] + span:after, .generic-form .RadiobuttonsWidget input[type="radio"] + span:after, #rub_service .RadiobuttonsWidget input[type="radio"] + span:after, .mseu-main-form .RadiobuttonsWidget input[type="radio"] + span:after, #survey .survey-form input[type="radio"] + span:after, #validation-address label input[type=radio] + span:after, .view-filters .RadiobuttonsWidget input[type="radio"] + label:after, .generic-form .RadiobuttonsWidget input[type="radio"] + label:after, #rub_service .RadiobuttonsWidget input[type="radio"] + label:after, .mseu-main-form .RadiobuttonsWidget input[type="radio"] + label:after, #survey .survey-form input[type="radio"] + label:after, #validation-address label input[type=radio] + label:after {
+    .view-filters .RadiobuttonsWidget input[type="radio"] + span:after, .generic-form .RadiobuttonsWidget input[type="radio"] + span:after, #rub_service .RadiobuttonsWidget input[type="radio"] + span:after,
+    .mseu-main-form .RadiobuttonsWidget input[type="radio"] + span:after, #survey .survey-form input[type="radio"] + span:after, #validation-address label input[type=radio] + span:after, .view-filters .RadiobuttonsWidget input[type="radio"] + label:after, .generic-form .RadiobuttonsWidget input[type="radio"] + label:after, #rub_service .RadiobuttonsWidget input[type="radio"] + label:after,
+    .mseu-main-form .RadiobuttonsWidget input[type="radio"] + label:after, #survey .survey-form input[type="radio"] + label:after, #validation-address label input[type=radio] + label:after {
       display: inline-block;
       content: '';
       height: 15px;
@@ -4588,10 +4636,14 @@ a {
       border-radius: 50%;
       opacity: 0; }
   /* line 35, custom/02-particules/01-shared/form-elements/_atom-form-radios.scss */
-  .view-filters .RadiobuttonsWidget input:checked[type="radio"] + span:before, .generic-form .RadiobuttonsWidget input:checked[type="radio"] + span:before, #rub_service .RadiobuttonsWidget input:checked[type="radio"] + span:before, .mseu-main-form .RadiobuttonsWidget input:checked[type="radio"] + span:before, #survey .survey-form input:checked[type="radio"] + span:before, #validation-address label input:checked[type=radio] + span:before, .view-filters .RadiobuttonsWidget input:checked[type="radio"] + label:before, .generic-form .RadiobuttonsWidget input:checked[type="radio"] + label:before, #rub_service .RadiobuttonsWidget input:checked[type="radio"] + label:before, .mseu-main-form .RadiobuttonsWidget input:checked[type="radio"] + label:before, #survey .survey-form input:checked[type="radio"] + label:before, #validation-address label input:checked[type=radio] + label:before {
+  .view-filters .RadiobuttonsWidget input[type="radio"]:checked + span:before, .generic-form .RadiobuttonsWidget input[type="radio"]:checked + span:before, #rub_service .RadiobuttonsWidget input[type="radio"]:checked + span:before,
+  .mseu-main-form .RadiobuttonsWidget input[type="radio"]:checked + span:before, #survey .survey-form input[type="radio"]:checked + span:before, #validation-address label input[type=radio]:checked + span:before, .view-filters .RadiobuttonsWidget input[type="radio"]:checked + label:before, .generic-form .RadiobuttonsWidget input[type="radio"]:checked + label:before, #rub_service .RadiobuttonsWidget input[type="radio"]:checked + label:before,
+  .mseu-main-form .RadiobuttonsWidget input[type="radio"]:checked + label:before, #survey .survey-form input[type="radio"]:checked + label:before, #validation-address label input[type=radio]:checked + label:before {
     opacity: 0; }
   /* line 38, custom/02-particules/01-shared/form-elements/_atom-form-radios.scss */
-  .view-filters .RadiobuttonsWidget input:checked[type="radio"] + span:after, .generic-form .RadiobuttonsWidget input:checked[type="radio"] + span:after, #rub_service .RadiobuttonsWidget input:checked[type="radio"] + span:after, .mseu-main-form .RadiobuttonsWidget input:checked[type="radio"] + span:after, #survey .survey-form input:checked[type="radio"] + span:after, #validation-address label input:checked[type=radio] + span:after, .view-filters .RadiobuttonsWidget input:checked[type="radio"] + label:after, .generic-form .RadiobuttonsWidget input:checked[type="radio"] + label:after, #rub_service .RadiobuttonsWidget input:checked[type="radio"] + label:after, .mseu-main-form .RadiobuttonsWidget input:checked[type="radio"] + label:after, #survey .survey-form input:checked[type="radio"] + label:after, #validation-address label input:checked[type=radio] + label:after {
+  .view-filters .RadiobuttonsWidget input[type="radio"]:checked + span:after, .generic-form .RadiobuttonsWidget input[type="radio"]:checked + span:after, #rub_service .RadiobuttonsWidget input[type="radio"]:checked + span:after,
+  .mseu-main-form .RadiobuttonsWidget input[type="radio"]:checked + span:after, #survey .survey-form input[type="radio"]:checked + span:after, #validation-address label input[type=radio]:checked + span:after, .view-filters .RadiobuttonsWidget input[type="radio"]:checked + label:after, .generic-form .RadiobuttonsWidget input[type="radio"]:checked + label:after, #rub_service .RadiobuttonsWidget input[type="radio"]:checked + label:after,
+  .mseu-main-form .RadiobuttonsWidget input[type="radio"]:checked + label:after, #survey .survey-form input[type="radio"]:checked + label:after, #validation-address label input[type=radio]:checked + label:after {
     opacity: 1; }
 
 /* line 2, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
@@ -4608,12 +4660,14 @@ a {
   border-color: #31455d !important; }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-.view-filters .select2, .generic-form .select2, #rub_service .select2, .mseu-main-form .select2 {
+.view-filters .select2, .generic-form .select2, #rub_service .select2,
+.mseu-main-form .select2 {
   border-style: solid;
   border-width: 2px;
   border-color: #f6f6f6; }
   /* line 5, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-  .view-filters .select2:after, .generic-form .select2:after, #rub_service .select2:after, .mseu-main-form .select2:after {
+  .view-filters .select2:after, .generic-form .select2:after, #rub_service .select2:after,
+  .mseu-main-form .select2:after {
     position: absolute;
     top: 23px;
     right: 15px;
@@ -4628,10 +4682,12 @@ a {
             transform: translateY(-50%) rotate(90deg);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%237e7e7e' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E"); }
   /* line 19, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-  .view-filters .select2-container--focus.select2, .generic-form .select2-container--focus.select2, #rub_service .select2-container--focus.select2, .mseu-main-form .select2-container--focus.select2 {
+  .view-filters .select2-container--focus.select2, .generic-form .select2-container--focus.select2, #rub_service .select2-container--focus.select2,
+  .mseu-main-form .select2-container--focus.select2 {
     border-color: #31455d; }
   /* line 22, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-  .view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection, .mseu-main-form .select2 .select2-selection {
+  .view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection,
+  .mseu-main-form .select2 .select2-selection {
     height: auto;
     min-height: 46px;
     padding: 0 5px 5px 5px;
@@ -4643,10 +4699,12 @@ a {
             align-items: center;
     padding-right: 40px; }
   /* line 31, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-  .view-filters .select2 .select2-selection__rendered, .generic-form .select2 .select2-selection__rendered, #rub_service .select2 .select2-selection__rendered, .mseu-main-form .select2 .select2-selection__rendered {
+  .view-filters .select2 .select2-selection__rendered, .generic-form .select2 .select2-selection__rendered, #rub_service .select2 .select2-selection__rendered,
+  .mseu-main-form .select2 .select2-selection__rendered {
     padding: 0; }
   /* line 34, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-  .view-filters .select2 .select2-selection__rendered li, .generic-form .select2 .select2-selection__rendered li, #rub_service .select2 .select2-selection__rendered li, .mseu-main-form .select2 .select2-selection__rendered li {
+  .view-filters .select2 .select2-selection__rendered li, .generic-form .select2 .select2-selection__rendered li, #rub_service .select2 .select2-selection__rendered li,
+  .mseu-main-form .select2 .select2-selection__rendered li {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -4661,18 +4719,23 @@ a {
     text-transform: uppercase;
     line-height: 1.2; }
   /* line 45, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-  .view-filters .select2 .select2-search__field, .generic-form .select2 .select2-search__field, #rub_service .select2 .select2-search__field, .mseu-main-form .select2 .select2-search__field {
+  .view-filters .select2 .select2-search__field, .generic-form .select2 .select2-search__field, #rub_service .select2 .select2-search__field,
+  .mseu-main-form .select2 .select2-search__field {
     margin: 0;
     height: 50px !important;
     padding: 10px 10px 8px 10px !important;
     min-height: 0;
     width: 100% !important; }
     /* line 51, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-    .view-filters .select2 .select2-search__field:hover, .generic-form .select2 .select2-search__field:hover, #rub_service .select2 .select2-search__field:hover, .mseu-main-form .select2 .select2-search__field:hover, .view-filters .select2 .select2-search__field:active, .generic-form .select2 .select2-search__field:active, #rub_service .select2 .select2-search__field:active, .mseu-main-form .select2 .select2-search__field:active, .view-filters .select2 .select2-search__field:focus, .generic-form .select2 .select2-search__field:focus, #rub_service .select2 .select2-search__field:focus, .mseu-main-form .select2 .select2-search__field:focus {
+    .view-filters .select2 .select2-search__field:hover, .generic-form .select2 .select2-search__field:hover, #rub_service .select2 .select2-search__field:hover,
+    .mseu-main-form .select2 .select2-search__field:hover, .view-filters .select2 .select2-search__field:active, .generic-form .select2 .select2-search__field:active, #rub_service .select2 .select2-search__field:active,
+    .mseu-main-form .select2 .select2-search__field:active, .view-filters .select2 .select2-search__field:focus, .generic-form .select2 .select2-search__field:focus, #rub_service .select2 .select2-search__field:focus,
+    .mseu-main-form .select2 .select2-search__field:focus {
       border-color: transparent !important;
       background-color: transparent !important; }
   /* line 57, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
-  .view-filters .select2 .select2-selection__choice + .select2-search, .generic-form .select2 .select2-selection__choice + .select2-search, #rub_service .select2 .select2-selection__choice + .select2-search, .mseu-main-form .select2 .select2-selection__choice + .select2-search {
+  .view-filters .select2 .select2-selection__choice + .select2-search, .generic-form .select2 .select2-selection__choice + .select2-search, #rub_service .select2 .select2-selection__choice + .select2-search,
+  .mseu-main-form .select2 .select2-selection__choice + .select2-search {
     display: none; }
 
 /* line 1, custom/02-particules/01-shared/texts/_atom-text-headings.scss */
@@ -4680,14 +4743,17 @@ a {
   text-align: center; }
 
 /* line 1, custom/02-particules/01-shared/texts/_atom-text-links.scss */
-.not-front .hat a, .not-front .rte a, #rub_service a, .mseu-main-form a {
+.not-front .hat a, .not-front .rte a, #rub_service a,
+.mseu-main-form a {
   text-decoration: underline;
   -webkit-transition: color, 0.5s;
   transition: color, 0.5s;
   color: #31455d;
   font-weight: 600; }
   /* line 7, custom/02-particules/01-shared/texts/_atom-text-links.scss */
-  .not-front .hat a:hover, .not-front .rte a:hover, #rub_service a:hover, .mseu-main-form a:hover, .not-front .hat a:focus, .not-front .rte a:focus, #rub_service a:focus, .mseu-main-form a:focus {
+  .not-front .hat a:hover, .not-front .rte a:hover, #rub_service a:hover,
+  .mseu-main-form a:hover, .not-front .hat a:focus, .not-front .rte a:focus, #rub_service a:focus,
+  .mseu-main-form a:focus {
     color: #2da192;
     text-decoration: underline; }
 
@@ -5084,7 +5150,8 @@ a {
           z-index: -1; }
 
 /* line 4, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-.generic-form .widget, #rub_service .widget, .mseu-main-form .widget {
+.generic-form .widget, #rub_service .widget,
+.mseu-main-form .widget {
   display: block;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
@@ -5093,10 +5160,12 @@ a {
           align-items: flex-start;
   margin-bottom: 35px; }
   /* line 10, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form .widget + .comment-field, #rub_service .widget + .comment-field, .mseu-main-form .widget + .comment-field {
+  .generic-form .widget + .comment-field, #rub_service .widget + .comment-field,
+  .mseu-main-form .widget + .comment-field {
     margin-top: -25px; }
   /* line 14, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form .widget .title, #rub_service .widget .title, .mseu-main-form .widget .title {
+  .generic-form .widget .title, #rub_service .widget .title,
+  .mseu-main-form .widget .title {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -5109,7 +5178,8 @@ a {
             justify-content: flex-start;
     margin-bottom: 10px; }
   /* line 21, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form .widget .content, #rub_service .widget .content, .mseu-main-form .widget .content {
+  .generic-form .widget .content, #rub_service .widget .content,
+  .mseu-main-form .widget .content {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -5119,7 +5189,8 @@ a {
             flex-direction: column;
     position: relative; }
     /* line 26, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-    .generic-form .widget .content .field-suffix, #rub_service .widget .content .field-suffix, .mseu-main-form .widget .content .field-suffix {
+    .generic-form .widget .content .field-suffix, #rub_service .widget .content .field-suffix,
+    .mseu-main-form .widget .content .field-suffix {
       position: absolute;
       top: 50%;
       right: 10px;
@@ -5127,11 +5198,13 @@ a {
               transform: translateY(-50%); }
 
 /* line 37, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-.generic-form .hint, #rub_service .hint, .mseu-main-form .hint {
+.generic-form .hint, #rub_service .hint,
+.mseu-main-form .hint {
   width: 100%; }
 
 /* line 42, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-.generic-form .buttons.submit, #rub_service .buttons.submit, .mseu-main-form .buttons.submit {
+.generic-form .buttons.submit, #rub_service .buttons.submit,
+.mseu-main-form .buttons.submit {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -5146,24 +5219,29 @@ a {
       -ms-flex-direction: row-reverse;
           flex-direction: row-reverse; }
   /* line 48, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form .buttons.submit > *, #rub_service .buttons.submit > *, .mseu-main-form .buttons.submit > * {
+  .generic-form .buttons.submit > *, #rub_service .buttons.submit > *,
+  .mseu-main-form .buttons.submit > * {
     margin-left: 20px; }
   @media only screen and (max-width: 767px) {
     /* line 42, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-    .generic-form .buttons.submit, #rub_service .buttons.submit, .mseu-main-form .buttons.submit {
+    .generic-form .buttons.submit, #rub_service .buttons.submit,
+    .mseu-main-form .buttons.submit {
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center; }
       /* line 58, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-      .generic-form .buttons.submit > *, #rub_service .buttons.submit > *, .mseu-main-form .buttons.submit > * {
+      .generic-form .buttons.submit > *, #rub_service .buttons.submit > *,
+      .mseu-main-form .buttons.submit > * {
         margin-left: 0; }
         /* line 61, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-        .generic-form .buttons.submit > * + *, #rub_service .buttons.submit > * + *, .mseu-main-form .buttons.submit > * + * {
+        .generic-form .buttons.submit > * + *, #rub_service .buttons.submit > * + *,
+        .mseu-main-form .buttons.submit > * + * {
           margin-top: 20px; } }
   /* line 66, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form .buttons.submit .previous-button, #rub_service .buttons.submit .previous-button, .mseu-main-form .buttons.submit .previous-button {
+  .generic-form .buttons.submit .previous-button, #rub_service .buttons.submit .previous-button,
+  .mseu-main-form .buttons.submit .previous-button {
     -webkit-box-ordinal-group: 4;
         -ms-flex-order: 3;
             order: 3;
@@ -5171,14 +5249,16 @@ a {
     margin-left: 0; }
     @media only screen and (max-width: 767px) {
       /* line 66, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-      .generic-form .buttons.submit .previous-button, #rub_service .buttons.submit .previous-button, .mseu-main-form .buttons.submit .previous-button {
+      .generic-form .buttons.submit .previous-button, #rub_service .buttons.submit .previous-button,
+      .mseu-main-form .buttons.submit .previous-button {
         margin: 0;
         -webkit-box-ordinal-group: 4;
             -ms-flex-order: 3;
                 order: 3;
         width: 50%; }
         /* line 75, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-        .generic-form .buttons.submit .previous-button .content, #rub_service .buttons.submit .previous-button .content, .mseu-main-form .buttons.submit .previous-button .content {
+        .generic-form .buttons.submit .previous-button .content, #rub_service .buttons.submit .previous-button .content,
+        .mseu-main-form .buttons.submit .previous-button .content {
           display: -webkit-box;
           display: -ms-flexbox;
           display: flex;
@@ -5190,13 +5270,16 @@ a {
               -ms-flex-direction: row;
                   flex-direction: row; }
         /* line 81, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-        .generic-form .buttons.submit .previous-button button, #rub_service .buttons.submit .previous-button button, .mseu-main-form .buttons.submit .previous-button button {
+        .generic-form .buttons.submit .previous-button button, #rub_service .buttons.submit .previous-button button,
+        .mseu-main-form .buttons.submit .previous-button button {
           font-size: 0; }
           /* line 83, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-          .generic-form .buttons.submit .previous-button button .btn-text, #rub_service .buttons.submit .previous-button button .btn-text, .mseu-main-form .buttons.submit .previous-button button .btn-text {
+          .generic-form .buttons.submit .previous-button button .btn-text, #rub_service .buttons.submit .previous-button button .btn-text,
+          .mseu-main-form .buttons.submit .previous-button button .btn-text {
             font-size: 0; }
           /* line 86, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-          .generic-form .buttons.submit .previous-button button:after, #rub_service .buttons.submit .previous-button button:after, .mseu-main-form .buttons.submit .previous-button button:after {
+          .generic-form .buttons.submit .previous-button button:after, #rub_service .buttons.submit .previous-button button:after,
+          .mseu-main-form .buttons.submit .previous-button button:after {
             content: 'Prec';
             font-size: 1.4rem;
             font-size: 1.4rem;
@@ -5205,13 +5288,15 @@ a {
             text-transform: uppercase;
             font-size: 1.4rem; } }
   /* line 98, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form .buttons.submit .cancel-button, #rub_service .buttons.submit .cancel-button, .mseu-main-form .buttons.submit .cancel-button {
+  .generic-form .buttons.submit .cancel-button, #rub_service .buttons.submit .cancel-button,
+  .mseu-main-form .buttons.submit .cancel-button {
     -webkit-box-ordinal-group: 3;
         -ms-flex-order: 2;
             order: 2; }
     @media only screen and (max-width: 767px) {
       /* line 98, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-      .generic-form .buttons.submit .cancel-button, #rub_service .buttons.submit .cancel-button, .mseu-main-form .buttons.submit .cancel-button {
+      .generic-form .buttons.submit .cancel-button, #rub_service .buttons.submit .cancel-button,
+      .mseu-main-form .buttons.submit .cancel-button {
         margin: 0;
         margin-bottom: 10px;
         -webkit-box-ordinal-group: 2;
@@ -5219,7 +5304,8 @@ a {
                 order: 1;
         width: 100%; }
         /* line 105, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-        .generic-form .buttons.submit .cancel-button .content, #rub_service .buttons.submit .cancel-button .content, .mseu-main-form .buttons.submit .cancel-button .content {
+        .generic-form .buttons.submit .cancel-button .content, #rub_service .buttons.submit .cancel-button .content,
+        .mseu-main-form .buttons.submit .cancel-button .content {
           -webkit-box-orient: horizontal;
           -webkit-box-direction: normal;
               -ms-flex-direction: row;
@@ -5228,13 +5314,15 @@ a {
               -ms-flex-pack: end;
                   justify-content: flex-end; } }
   /* line 111, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form .buttons.submit .submit-button, #rub_service .buttons.submit .submit-button, .mseu-main-form .buttons.submit .submit-button {
+  .generic-form .buttons.submit .submit-button, #rub_service .buttons.submit .submit-button,
+  .mseu-main-form .buttons.submit .submit-button {
     -webkit-box-ordinal-group: 2;
         -ms-flex-order: 1;
             order: 1; }
     @media only screen and (max-width: 767px) {
       /* line 111, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-      .generic-form .buttons.submit .submit-button, #rub_service .buttons.submit .submit-button, .mseu-main-form .buttons.submit .submit-button {
+      .generic-form .buttons.submit .submit-button, #rub_service .buttons.submit .submit-button,
+      .mseu-main-form .buttons.submit .submit-button {
         margin: 0;
         margin-bottom: 0px;
         width: 50%;
@@ -5242,7 +5330,8 @@ a {
             -ms-flex-order: 2;
                 order: 2; }
         /* line 118, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-        .generic-form .buttons.submit .submit-button .content, #rub_service .buttons.submit .submit-button .content, .mseu-main-form .buttons.submit .submit-button .content {
+        .generic-form .buttons.submit .submit-button .content, #rub_service .buttons.submit .submit-button .content,
+        .mseu-main-form .buttons.submit .submit-button .content {
           display: -webkit-box;
           display: -ms-flexbox;
           display: flex;
@@ -5254,13 +5343,16 @@ a {
               -ms-flex-direction: row;
                   flex-direction: row; }
         /* line 123, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-        .generic-form .buttons.submit .submit-button button, #rub_service .buttons.submit .submit-button button, .mseu-main-form .buttons.submit .submit-button button {
+        .generic-form .buttons.submit .submit-button button, #rub_service .buttons.submit .submit-button button,
+        .mseu-main-form .buttons.submit .submit-button button {
           font-size: 0; }
           /* line 125, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-          .generic-form .buttons.submit .submit-button button .btn-text, #rub_service .buttons.submit .submit-button button .btn-text, .mseu-main-form .buttons.submit .submit-button button .btn-text {
+          .generic-form .buttons.submit .submit-button button .btn-text, #rub_service .buttons.submit .submit-button button .btn-text,
+          .mseu-main-form .buttons.submit .submit-button button .btn-text {
             font-size: 0; }
           /* line 128, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-          .generic-form .buttons.submit .submit-button button:before, #rub_service .buttons.submit .submit-button button:before, .mseu-main-form .buttons.submit .submit-button button:before {
+          .generic-form .buttons.submit .submit-button button:before, #rub_service .buttons.submit .submit-button button:before,
+          .mseu-main-form .buttons.submit .submit-button button:before {
             content: 'Suiv';
             font-size: 1.4rem;
             color: #31455d;
@@ -5270,16 +5362,19 @@ a {
 
 @media only screen and (max-width: 767px) {
   /* line 143, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-  .generic-form > .widget, #rub_service > .widget, .mseu-main-form > .widget {
+  .generic-form > .widget, #rub_service > .widget,
+  .mseu-main-form > .widget {
     display: block; }
     /* line 145, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-    .generic-form > .widget .title, #rub_service > .widget .title, .mseu-main-form > .widget .title {
+    .generic-form > .widget .title, #rub_service > .widget .title,
+    .mseu-main-form > .widget .title {
       width: 100%;
       margin-right: 0;
       margin-bottom: 10px;
       display: block; }
     /* line 151, custom/02-particules/02-modules/forms/main-form/_atom-form-structure.scss */
-    .generic-form > .widget .content, #rub_service > .widget .content, .mseu-main-form > .widget .content {
+    .generic-form > .widget .content, #rub_service > .widget .content,
+    .mseu-main-form > .widget .content {
       width: 100%;
       margin-left: 0; } }
 
@@ -5773,8 +5868,8 @@ a {
         padding-bottom: 65%; } }
     /* line 13, custom/02-particules/02-modules/layouts/grids/grid-carrefour/_atom-vignette-carrefour.scss */
     #grid-carrefour .grid-item .grid-item-visu:after {
-      background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(31%, rgba(0, 0, 0, 0)), color-stop(37%, rgba(0, 0, 0, 0.04)), color-stop(57%, rgba(0, 0, 0, 0.24)), color-stop(85%, rgba(0, 0, 0, 0.59)), to(rgba(0, 0, 0, 0.7)));
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 31%, rgba(0, 0, 0, 0.04) 37%, rgba(0, 0, 0, 0.24) 57%, rgba(0, 0, 0, 0.59) 85%, rgba(0, 0, 0, 0.7) 100%);
+      background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(31%, transparent), color-stop(37%, rgba(0, 0, 0, 0.04)), color-stop(57%, rgba(0, 0, 0, 0.24)), color-stop(85%, rgba(0, 0, 0, 0.59)), to(rgba(0, 0, 0, 0.7)));
+      background: linear-gradient(to bottom, transparent 0%, transparent 31%, rgba(0, 0, 0, 0.04) 37%, rgba(0, 0, 0, 0.24) 57%, rgba(0, 0, 0, 0.59) 85%, rgba(0, 0, 0, 0.7) 100%);
       content: '';
       position: absolute;
       top: 0;
@@ -5949,7 +6044,7 @@ a {
         -ms-flex-pack: center;
             justify-content: center; }
   /* line 45, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
-  .slider--mega .slider-mega-container .owl-nav .owl-prev, .slider--mega .slider-mega-container .owl-nav .owl-prev.owl-next {
+  .slider--mega .slider-mega-container .owl-nav .owl-prev {
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg); }
   /* line 49, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
@@ -6134,8 +6229,8 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(23%, rgba(0, 0, 0, 0.09)), color-stop(75%, rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0.5)));
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.09) 23%, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(23%, rgba(0, 0, 0, 0.09)), color-stop(75%, rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0.5)));
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.09) 23%, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%);
     z-index: 1; }
 
 /* line 173, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
@@ -6340,8 +6435,8 @@ a {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23818181'   viewBox='0 0 25.6 25.6'%3E%3Cpath d='M12.8 0C5.7 0 0 5.7 0 12.8c0 7.1 5.7 12.8 12.8 12.8 7.1 0 12.8-5.7 12.8-12.8C25.6 5.7 19.9 0 12.8 0L12.8 0zM12.8 24c-6.2 0-11.2-5-11.2-11.2S6.6 1.6 12.8 1.6s11.2 5 11.2 11.2S19 24 12.8 24L12.8 24zM13.6 4.9h-1.6l0 8.8 5.5 4.7 1-1.4 -4.9-4.2V4.9zM13.6 4.9'/%3E%3C/svg%3E"); }
   /* line 104, custom/02-particules/02-modules/layouts/sliders/slider-social/_atom-slider-social-vignette.scss */
   #socials .slider-social-container .slider .owl-item .has-picture.item .picture:before {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(7%, rgba(0, 0, 0, 0.04)), color-stop(21%, rgba(0, 0, 0, 0.16)), color-stop(38%, rgba(0, 0, 0, 0.35)), color-stop(75%, rgba(0, 0, 0, 0.8)), color-stop(89%, rgba(0, 0, 0, 0.93)), to(black));
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.04) 7%, rgba(0, 0, 0, 0.16) 21%, rgba(0, 0, 0, 0.35) 38%, rgba(0, 0, 0, 0.8) 75%, rgba(0, 0, 0, 0.93) 89%, black 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(7%, rgba(0, 0, 0, 0.04)), color-stop(21%, rgba(0, 0, 0, 0.16)), color-stop(38%, rgba(0, 0, 0, 0.35)), color-stop(75%, rgba(0, 0, 0, 0.8)), color-stop(89%, rgba(0, 0, 0, 0.93)), to(black));
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.04) 7%, rgba(0, 0, 0, 0.16) 21%, rgba(0, 0, 0, 0.35) 38%, rgba(0, 0, 0, 0.8) 75%, rgba(0, 0, 0, 0.93) 89%, black 100%);
     content: '';
     display: block;
     position: absolute;
@@ -6628,8 +6723,8 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(23%, rgba(0, 0, 0, 0.09)), color-stop(75%, rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0.5)));
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.09) 23%, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(23%, rgba(0, 0, 0, 0.09)), color-stop(75%, rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0.5)));
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.09) 23%, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%);
     z-index: 1; }
 
 /* line 146, custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
@@ -7279,8 +7374,8 @@ a {
         padding-bottom: 65%; } }
     /* line 13, custom/02-particules/02-modules/demarches/_molecule-demarche-topic.scss */
     .demarche-topic .demarche-topic__visu:after {
-      background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(31%, rgba(0, 0, 0, 0)), color-stop(37%, rgba(0, 0, 0, 0.04)), color-stop(57%, rgba(0, 0, 0, 0.24)), color-stop(85%, rgba(0, 0, 0, 0.59)), to(rgba(0, 0, 0, 0.7)));
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 31%, rgba(0, 0, 0, 0.04) 37%, rgba(0, 0, 0, 0.24) 57%, rgba(0, 0, 0, 0.59) 85%, rgba(0, 0, 0, 0.7) 100%);
+      background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(31%, transparent), color-stop(37%, rgba(0, 0, 0, 0.04)), color-stop(57%, rgba(0, 0, 0, 0.24)), color-stop(85%, rgba(0, 0, 0, 0.59)), to(rgba(0, 0, 0, 0.7)));
+      background: linear-gradient(to bottom, transparent 0%, transparent 31%, rgba(0, 0, 0, 0.04) 37%, rgba(0, 0, 0, 0.24) 57%, rgba(0, 0, 0, 0.59) 85%, rgba(0, 0, 0, 0.7) 100%);
       content: '';
       position: absolute;
       top: 0;
@@ -7851,50 +7946,58 @@ a {
           background-color: #31455d; }
 
 /* line 2, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters ::-webkit-input-placeholder, .generic-form ::-webkit-input-placeholder, #rub_service ::-webkit-input-placeholder, .mseu-main-form ::-webkit-input-placeholder {
+.view-filters ::-webkit-input-placeholder, .generic-form ::-webkit-input-placeholder, #rub_service ::-webkit-input-placeholder,
+.mseu-main-form ::-webkit-input-placeholder {
   font-family: "MontSerrat", arial;
   font-size: 1.4rem;
   text-transform: uppercase;
   color: #7e7e7e; }
 
 /* line 8, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters :-moz-placeholder, .generic-form :-moz-placeholder, #rub_service :-moz-placeholder, .mseu-main-form :-moz-placeholder {
+.view-filters :-moz-placeholder, .generic-form :-moz-placeholder, #rub_service :-moz-placeholder,
+.mseu-main-form :-moz-placeholder {
   font-family: "MontSerrat", arial;
   font-size: 1.4rem;
   text-transform: uppercase;
   color: #7e7e7e; }
 
 /* line 14, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters ::-moz-placeholder, .generic-form ::-moz-placeholder, #rub_service ::-moz-placeholder, .mseu-main-form ::-moz-placeholder {
+.view-filters ::-moz-placeholder, .generic-form ::-moz-placeholder, #rub_service ::-moz-placeholder,
+.mseu-main-form ::-moz-placeholder {
   font-family: "MontSerrat", arial;
   font-size: 1.4rem;
   text-transform: uppercase;
   color: #7e7e7e; }
 
 /* line 20, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters :-ms-input-placeholder, .generic-form :-ms-input-placeholder, #rub_service :-ms-input-placeholder, .mseu-main-form :-ms-input-placeholder {
+.view-filters :-ms-input-placeholder, .generic-form :-ms-input-placeholder, #rub_service :-ms-input-placeholder,
+.mseu-main-form :-ms-input-placeholder {
   font-family: "MontSerrat", arial;
   font-size: 1.4rem;
   text-transform: uppercase;
   color: #7e7e7e; }
 
 /* line 27, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters .text-info, .generic-form .text-info, #rub_service .text-info, .mseu-main-form .text-info {
+.view-filters .text-info, .generic-form .text-info, #rub_service .text-info,
+.mseu-main-form .text-info {
   margin-bottom: 10px;
   line-height: 1.2em; }
 
 /* line 35, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"], .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"], #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"], .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"] {
+.view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"], .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"], #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"],
+.mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar)[type="file"] {
   border: none;
   padding: 0;
   margin-right: 20px; }
 
 /* line 40, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar, .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar, #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar, .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar {
+.view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar, .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar, #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar,
+.mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar).webform-calendar {
   width: auto; }
 
 /* line 44, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters input[type="file"], .generic-form input[type="file"], #rub_service input[type="file"], .mseu-main-form input[type="file"] {
+.view-filters input[type="file"], .generic-form input[type="file"], #rub_service input[type="file"],
+.mseu-main-form input[type="file"] {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -7903,36 +8006,44 @@ a {
           align-items: center; }
 
 /* line 48, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option), .mseu-main-form label:not(.option) {
+.view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option),
+.mseu-main-form label:not(.option) {
   color: #31455d;
   position: relative;
   line-height: 1.2em; }
   /* line 54, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-  .view-filters label:not(.option) .required, .generic-form label:not(.option) .required, #rub_service label:not(.option) .required, .mseu-main-form label:not(.option) .required {
+  .view-filters label:not(.option) .required, .generic-form label:not(.option) .required, #rub_service label:not(.option) .required,
+  .mseu-main-form label:not(.option) .required {
     color: #ff1818; }
 
 /* line 62, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters .RadiobuttonsWidget .content label + label, .generic-form .RadiobuttonsWidget .content label + label, #rub_service .RadiobuttonsWidget .content label + label, .mseu-main-form .RadiobuttonsWidget .content label + label {
+.view-filters .RadiobuttonsWidget .content label + label, .generic-form .RadiobuttonsWidget .content label + label, #rub_service .RadiobuttonsWidget .content label + label,
+.mseu-main-form .RadiobuttonsWidget .content label + label {
   margin-top: 5px; }
 
 /* line 70, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters .CheckboxesWidget .content li + li, .generic-form .CheckboxesWidget .content li + li, #rub_service .CheckboxesWidget .content li + li, .mseu-main-form .CheckboxesWidget .content li + li {
+.view-filters .CheckboxesWidget .content li + li, .generic-form .CheckboxesWidget .content li + li, #rub_service .CheckboxesWidget .content li + li,
+.mseu-main-form .CheckboxesWidget .content li + li {
   margin-top: 5px; }
 
 /* line 74, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters .hint, .generic-form .hint, #rub_service .hint, .mseu-main-form .hint, .view-filters .comment-field, .generic-form .comment-field, #rub_service .comment-field, .mseu-main-form .comment-field {
+.view-filters .hint, .generic-form .hint, #rub_service .hint,
+.mseu-main-form .hint, .view-filters .comment-field, .generic-form .comment-field, #rub_service .comment-field,
+.mseu-main-form .comment-field {
   font-size: 1.6rem;
   font-family: "OpenSans", arial;
   font-style: italic;
   margin-top: 5px; }
 
 /* line 80, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters .content label, .generic-form .content label, #rub_service .content label, .mseu-main-form .content label {
+.view-filters .content label, .generic-form .content label, #rub_service .content label,
+.mseu-main-form .content label {
   font-weight: 400;
   text-transform: none; }
 
 /* line 85, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters .CheckboxWidget.widget .content, .generic-form .CheckboxWidget.widget .content, #rub_service .CheckboxWidget.widget .content, .mseu-main-form .CheckboxWidget.widget .content {
+.view-filters .CheckboxWidget.widget .content, .generic-form .CheckboxWidget.widget .content, #rub_service .CheckboxWidget.widget .content,
+.mseu-main-form .CheckboxWidget.widget .content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -7944,16 +8055,19 @@ a {
       -ms-flex-align: center;
           align-items: center; }
   /* line 89, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-  .view-filters .CheckboxWidget.widget .content input, .generic-form .CheckboxWidget.widget .content input, #rub_service .CheckboxWidget.widget .content input, .mseu-main-form .CheckboxWidget.widget .content input {
+  .view-filters .CheckboxWidget.widget .content input, .generic-form .CheckboxWidget.widget .content input, #rub_service .CheckboxWidget.widget .content input,
+  .mseu-main-form .CheckboxWidget.widget .content input {
     margin-top: 0;
     margin-right: 15px; }
 
 /* line 95, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters p, .generic-form p, #rub_service p, .mseu-main-form p {
+.view-filters p, .generic-form p, #rub_service p,
+.mseu-main-form p {
   margin-bottom: 20px; }
 
 /* line 99, custom/02-particules/02-modules/forms/main-form/_molecule-forms-components.scss */
-.view-filters textarea, .generic-form textarea, #rub_service textarea, .mseu-main-form textarea {
+.view-filters textarea, .generic-form textarea, #rub_service textarea,
+.mseu-main-form textarea {
   padding: 15px;
   height: auto;
   line-height: 1.2;
@@ -9342,38 +9456,46 @@ a {
       content: '\f0d5'; }
 
 /* line 2, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-.not-front .rte h2, #rub_service h2, .mseu-main-form h2 {
+.not-front .rte h2, #rub_service h2,
+.mseu-main-form h2 {
   margin-bottom: 20px;
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
     /* line 2, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-    .not-front .rte h2, #rub_service h2, .mseu-main-form h2 {
+    .not-front .rte h2, #rub_service h2,
+    .mseu-main-form h2 {
       margin-bottom: 20px; } }
 
 /* line 12, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-.not-front .rte h3, #rub_service h3, .mseu-main-form h3 {
+.not-front .rte h3, #rub_service h3,
+.mseu-main-form h3 {
   margin-bottom: 20px;
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
     /* line 12, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-    .not-front .rte h3, #rub_service h3, .mseu-main-form h3 {
+    .not-front .rte h3, #rub_service h3,
+    .mseu-main-form h3 {
       margin-bottom: 20px; } }
 
 /* line 22, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-.not-front .rte h4, #rub_service h4, .mseu-main-form h4 {
+.not-front .rte h4, #rub_service h4,
+.mseu-main-form h4 {
   margin-bottom: 20px;
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
     /* line 22, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-    .not-front .rte h4, #rub_service h4, .mseu-main-form h4 {
+    .not-front .rte h4, #rub_service h4,
+    .mseu-main-form h4 {
       margin-bottom: 15px; } }
 
 /* line 32, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-.not-front .rte h5, #rub_service h5, .mseu-main-form h5 {
+.not-front .rte h5, #rub_service h5,
+.mseu-main-form h5 {
   margin-bottom: 20px; }
   @media only screen and (max-width: 767px) {
     /* line 32, custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
-    .not-front .rte h5, #rub_service h5, .mseu-main-form h5 {
+    .not-front .rte h5, #rub_service h5,
+    .mseu-main-form h5 {
       margin-bottom: 10px; } }
 
 /* line 5, custom/02-particules/02-modules/rte/_molecule-rte-images.scss */
@@ -9399,32 +9521,39 @@ a {
   margin-left: 40px; }
 
 /* line 4, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat strong, .not-front .rte strong, #rub_service strong, .mseu-main-form strong, .not-front .hat b, .not-front .rte b, #rub_service b, .mseu-main-form b {
+.not-front .hat strong, .not-front .rte strong, #rub_service strong,
+.mseu-main-form strong, .not-front .hat b, .not-front .rte b, #rub_service b,
+.mseu-main-form b {
   font-weight: 600;
   color: #505050; }
 
 /* line 8, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat em, .not-front .rte em, #rub_service em, .mseu-main-form em {
+.not-front .hat em, .not-front .rte em, #rub_service em,
+.mseu-main-form em {
   font-style: italic;
   color: #505050; }
 
 /* line 12, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat sup, .not-front .rte sup, #rub_service sup, .mseu-main-form sup {
+.not-front .hat sup, .not-front .rte sup, #rub_service sup,
+.mseu-main-form sup {
   font-size: smaller;
   line-height: normal; }
 
 /* line 17, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat sub, .not-front .rte sub, #rub_service sub, .mseu-main-form sub {
+.not-front .hat sub, .not-front .rte sub, #rub_service sub,
+.mseu-main-form sub {
   vertical-align: sub;
   font-size: smaller;
   line-height: normal; }
 
 /* line 25, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat a.btn-square--filled--second, .not-front .rte a.btn-square--filled--second, #rub_service a.btn-square--filled--second, .mseu-main-form a.btn-square--filled--second {
+.not-front .hat a.btn-square--filled--second, .not-front .rte a.btn-square--filled--second, #rub_service a.btn-square--filled--second,
+.mseu-main-form a.btn-square--filled--second {
   text-decoration: none; }
 
 /* line 29, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat a.external:not(.wi-link-group):after, .not-front .rte a.external:not(.wi-link-group):after, #rub_service a.external:not(.wi-link-group):after, .mseu-main-form a.external:not(.wi-link-group):after {
+.not-front .hat a.external:not(.wi-link-group):after, .not-front .rte a.external:not(.wi-link-group):after, #rub_service a.external:not(.wi-link-group):after,
+.mseu-main-form a.external:not(.wi-link-group):after {
   content: '';
   display: inline-block;
   width: 10px;
@@ -11644,8 +11773,8 @@ footer .footer .portlet {
     left: 0;
     width: 100%;
     height: 100%;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(24%, rgba(0, 0, 0, 0.08)), color-stop(72%, rgba(0, 0, 0, 0.33)), to(rgba(0, 0, 0, 0.43)));
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.08) 24%, rgba(0, 0, 0, 0.33) 72%, rgba(0, 0, 0, 0.43) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(24%, rgba(0, 0, 0, 0.08)), color-stop(72%, rgba(0, 0, 0, 0.33)), to(rgba(0, 0, 0, 0.43)));
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.08) 24%, rgba(0, 0, 0, 0.33) 72%, rgba(0, 0, 0, 0.43) 100%);
     z-index: 1; }
   /* line 21, custom/02-particules/02-modules/parts/post-header/banner/_organism-banner.scss */
   .not-front .region-post-header .region-banner > * {
@@ -12037,7 +12166,8 @@ footer .footer .portlet {
     .seu-wi-download {
       padding-top: 20px; } }
   /* line 11, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-  .external.seu-wi-link-group .media-title:after, .external.seu-wi-download .media-title:after {
+  .external.seu-wi-link-group .media-title:after,
+  .external.seu-wi-download .media-title:after {
     content: '';
     display: inline-block;
     width: 20px;
@@ -12050,26 +12180,31 @@ footer .footer .portlet {
             transform: scale(0.6); }
     @media only screen and (max-width: 767px) {
       /* line 11, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-      .external.seu-wi-link-group .media-title:after, .external.seu-wi-download .media-title:after {
+      .external.seu-wi-link-group .media-title:after,
+      .external.seu-wi-download .media-title:after {
         -webkit-transform: scale(0.4);
                 transform: scale(0.4); } }
   /* line 28, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .media-picto, .seu-wi-download .media-picto {
+  .seu-wi-link-group .media-picto,
+  .seu-wi-download .media-picto {
     background-color: #f6f6f6;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 135.2 135.3'%3E%3Cpath d='M97.9 0H37.3C16.7 0 0 16.7 0 37.3v60.6c0 20.6 16.7 37.3 37.3 37.3h60.6c20.6 0 37.3-16.7 37.3-37.3V37.3C135.2 16.7 118.5 0 97.9 0L97.9 0zM123.2 97.9c0 14-11.4 25.3-25.3 25.3H37.3c-14 0-25.3-11.4-25.3-25.3V37.3C12 23.4 23.4 12 37.3 12h60.6c14 0 25.3 11.4 25.3 25.3V97.9zM123.2 97.9'/%3E%3Cpath d='M67.6 32.8c-19.2 0-34.9 15.6-34.9 34.8 0 19.2 15.6 34.9 34.9 34.9 19.2 0 34.9-15.6 34.9-34.9C102.5 48.4 86.8 32.8 67.6 32.8L67.6 32.8zM67.6 90.5c-12.6 0-22.9-10.2-22.9-22.8C44.8 55 55 44.8 67.6 44.8S90.5 55 90.5 67.6C90.5 80.2 80.2 90.5 67.6 90.5L67.6 90.5zM67.6 90.5'/%3E%3Cpath d='M103.9 22.6c-2.3 0-4.6 0.9-6.2 2.6 -1.6 1.6-2.6 3.9-2.6 6.2 0 2.3 0.9 4.6 2.6 6.2 1.6 1.6 3.9 2.6 6.2 2.6 2.3 0 4.6-0.9 6.2-2.6 1.6-1.6 2.6-3.9 2.6-6.2 0-2.3-0.9-4.6-2.6-6.2C108.5 23.5 106.3 22.6 103.9 22.6L103.9 22.6zM103.9 22.6'/%3E%3C/svg%3E"); }
     @media only screen and (max-width: 767px) {
       /* line 28, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .media-picto, .seu-wi-download .media-picto {
+      .seu-wi-link-group .media-picto,
+      .seu-wi-download .media-picto {
         height: 25px;
         width: 25px;
         background-size: 15px; } }
   @media only screen and (max-width: 767px) {
     /* line 37, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .media-left, .seu-wi-download .media-left {
+    .seu-wi-link-group .media-left,
+    .seu-wi-download .media-left {
       width: auto;
       margin-right: 10px; } }
   /* line 43, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .media-right, .seu-wi-download .media-right {
+  .seu-wi-link-group .media-right,
+  .seu-wi-download .media-right {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -12078,10 +12213,12 @@ footer .footer .portlet {
             align-items: center; }
     @media only screen and (max-width: 767px) {
       /* line 43, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .media-right, .seu-wi-download .media-right {
+      .seu-wi-link-group .media-right,
+      .seu-wi-download .media-right {
         display: block; } }
   /* line 50, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .media-text, .seu-wi-download .media-text {
+  .seu-wi-link-group .media-text,
+  .seu-wi-download .media-text {
     margin-right: 60px;
     margin-bottom: 10px;
     -webkit-box-flex: 1;
@@ -12089,22 +12226,27 @@ footer .footer .portlet {
             flex: 1; }
     @media only screen and (max-width: 767px) {
       /* line 50, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .media-text, .seu-wi-download .media-text {
+      .seu-wi-link-group .media-text,
+      .seu-wi-download .media-text {
         margin-right: 0;
         margin-bottom: 0; } }
     /* line 58, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .media-text .media-title, .seu-wi-download .media-text .media-title {
+    .seu-wi-link-group .media-text .media-title,
+    .seu-wi-download .media-text .media-title {
       color: #31455d;
       line-height: 1.2;
       margin-bottom: 5px; }
     /* line 63, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .media-text p, .seu-wi-download .media-text p {
+    .seu-wi-link-group .media-text p,
+    .seu-wi-download .media-text p {
       color: #5c5c5c; }
     /* line 66, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .media-text > *:last-child, .seu-wi-download .media-text > *:last-child {
+    .seu-wi-link-group .media-text > *:last-child,
+    .seu-wi-download .media-text > *:last-child {
       margin-bottom: 0; }
   /* line 70, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .link-group-arrow, .seu-wi-download .link-group-arrow {
+  .seu-wi-link-group .link-group-arrow,
+  .seu-wi-download .link-group-arrow {
     -ms-flex-negative: 0;
         flex-shrink: 0;
     content: '';
@@ -12121,10 +12263,12 @@ footer .footer .portlet {
     transition: all 0.5s; }
     @media only screen and (max-width: 767px) {
       /* line 70, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .link-group-arrow, .seu-wi-download .link-group-arrow {
+      .seu-wi-link-group .link-group-arrow,
+      .seu-wi-download .link-group-arrow {
         display: none; }
         /* line 85, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-        .seu-wi-link-group .link-group-arrow .media-picto, .seu-wi-download .link-group-arrow .media-picto {
+        .seu-wi-link-group .link-group-arrow .media-picto,
+        .seu-wi-download .link-group-arrow .media-picto {
           height: 40px;
           width: 40px;
           background-size: 20px; } }
@@ -12134,16 +12278,20 @@ footer .footer .portlet {
   .seu-wi-download:focus {
     text-decoration: none; }
     /* line 94, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group:hover .link-group-arrow, .seu-wi-download:hover .link-group-arrow, .seu-wi-link-group:focus .link-group-arrow, .seu-wi-download:focus .link-group-arrow {
+    .seu-wi-link-group:hover .link-group-arrow,
+    .seu-wi-download:hover .link-group-arrow, .seu-wi-link-group:focus .link-group-arrow,
+    .seu-wi-download:focus .link-group-arrow {
       background-color: #31455d;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E"); }
   /* line 101, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .media-ratio, .seu-wi-download .media-ratio {
+  .seu-wi-link-group .media-ratio,
+  .seu-wi-download .media-ratio {
     height: unset;
     padding-bottom: 56.36%;
     position: relative; }
     /* line 105, custom/02-particules/02-modules/widgets-int/wi-link-group_download/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .media-ratio > *, .seu-wi-download .media-ratio > * {
+    .seu-wi-link-group .media-ratio > *,
+    .seu-wi-download .media-ratio > * {
       position: absolute;
       top: 0;
       left: 0;
@@ -14190,7 +14338,7 @@ footer .footer .portlet {
   text-decoration: none;
   position: relative;
   display: inline-block;
-  border-color: rgba(0, 0, 0, 0);
+  border-color: transparent;
   -webkit-transition: all, 0.5s;
   transition: all, 0.5s;
   overflow: hidden;
@@ -14233,7 +14381,7 @@ footer .footer .portlet {
   text-decoration: none;
   position: relative;
   display: inline-block;
-  border-color: rgba(0, 0, 0, 0);
+  border-color: transparent;
   -webkit-transition: all, 0.5s;
   transition: all, 0.5s;
   overflow: hidden;
@@ -14261,7 +14409,7 @@ footer .footer .portlet {
   text-decoration: none;
   position: relative;
   display: inline-block;
-  border-color: rgba(0, 0, 0, 0);
+  border-color: transparent;
   -webkit-transition: all, 0.5s;
   transition: all, 0.5s;
   overflow: hidden;
@@ -15064,6 +15212,16 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
     -webkit-transform: translate(-50%, -50%) rotate(360deg);
             transform: translate(-50%, -50%) rotate(360deg); } }
 
+/* line 62, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) header.portlet-topper {
+  display: none; }
+
+/* line 65, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) .portlet > .portlet-content-editable {
+  border-color: transparent;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px; }
+
 /* line 2, custom/02-particules/04-hacks/_android.scss */
 .mseu.android.tablet header .nav-top .menu-triggerBox .menu-panel .menu-rwd-content {
   height: calc(100% - 140px); }
@@ -15234,6 +15392,16 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
   100% {
     -webkit-transform: translate(-50%, -50%) rotate(360deg);
             transform: translate(-50%, -50%) rotate(360deg); } }
+
+/* line 62, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) header.portlet-topper {
+  display: none; }
+
+/* line 65, custom/02-particules/04-hacks/_liferay.scss */
+body:not(.has-control-menu) .portlet > .portlet-content-editable {
+  border-color: transparent;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px; }
 
 /* line 1, custom/03-strasbourg/atoms/_atom-btn-square.scss */
 .btn-square.filled.core, .btn-square--filled--core, #aroundme .infowindow__url a, .seu-btn-square.seu-filled.seu-core, .seu-btn-square--filled--core, .btn-square.filled.second, .btn-square--filled--second, .seu-btn-square.seu-filled.seu-second, .seu-btn-square--filled--second, .btn-square.bordered.white, .btn-square--bordered--white, .seu-btn-square.seu-bordered.seu-white, .seu-btn-square--bordered--white, .btn-square.bordered.core, .btn-square--bordered--core, .seu-btn-square.seu-bordered.seu-core, .seu-btn-square--bordered--core, .btn-square.bordered.grey, .btn-square--bordered--grey, .seu-btn-square.seu-bordered.seu-grey, .seu-btn-square--bordered--grey {
@@ -15431,22 +15599,26 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
     .seu-wi-download {
       padding: 15px; } }
   /* line 9, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-  .seu-wi-embed .seu-media-container, .seu-wi-link-group .seu-media-container, .seu-wi-download .seu-media-container {
+  .seu-wi-embed .seu-media-container, .seu-wi-link-group .seu-media-container,
+  .seu-wi-download .seu-media-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap; }
   /* line 17, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-  .seu-wi-embed .seu-media-left, .seu-wi-link-group .seu-media-left, .seu-wi-download .seu-media-left {
+  .seu-wi-embed .seu-media-left, .seu-wi-link-group .seu-media-left,
+  .seu-wi-download .seu-media-left {
     margin-right: 20px; }
     @media only screen and (max-width: 767px) {
       /* line 17, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-      .seu-wi-embed .seu-media-left, .seu-wi-link-group .seu-media-left, .seu-wi-download .seu-media-left {
+      .seu-wi-embed .seu-media-left, .seu-wi-link-group .seu-media-left,
+      .seu-wi-download .seu-media-left {
         width: 100%;
         margin-right: 0; } }
   /* line 24, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-  .seu-wi-embed .seu-media-picto, .seu-wi-link-group .seu-media-picto, .seu-wi-download .seu-media-picto {
+  .seu-wi-embed .seu-media-picto, .seu-wi-link-group .seu-media-picto,
+  .seu-wi-download .seu-media-picto {
     content: '';
     display: inline-block;
     width: 70px;
@@ -15457,25 +15629,30 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
     border-radius: 50%; }
     @media only screen and (max-width: 767px) {
       /* line 34, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-      .seu-wi-embed .seu-media-picto .seu-media-picto, .seu-wi-link-group .seu-media-picto .seu-media-picto, .seu-wi-download .seu-media-picto .seu-media-picto {
+      .seu-wi-embed .seu-media-picto .seu-media-picto, .seu-wi-link-group .seu-media-picto .seu-media-picto,
+      .seu-wi-download .seu-media-picto .seu-media-picto {
         height: 40px;
         width: 40px;
         background-size: 20px; } }
   /* line 41, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-  .seu-wi-embed .seu-media-right, .seu-wi-link-group .seu-media-right, .seu-wi-download .seu-media-right {
+  .seu-wi-embed .seu-media-right, .seu-wi-link-group .seu-media-right,
+  .seu-wi-download .seu-media-right {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1; }
   /* line 44, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-  .seu-wi-embed .seu-media-bottom, .seu-wi-link-group .seu-media-bottom, .seu-wi-download .seu-media-bottom {
+  .seu-wi-embed .seu-media-bottom, .seu-wi-link-group .seu-media-bottom,
+  .seu-wi-download .seu-media-bottom {
     margin-top: 35px;
     width: 100%; }
     @media only screen and (max-width: 767px) {
       /* line 44, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-      .seu-wi-embed .seu-media-bottom, .seu-wi-link-group .seu-media-bottom, .seu-wi-download .seu-media-bottom {
+      .seu-wi-embed .seu-media-bottom, .seu-wi-link-group .seu-media-bottom,
+      .seu-wi-download .seu-media-bottom {
         margin-top: 20px; } }
   /* line 54, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-  .seu-wi-embed .seu-media-text .seu-media-title, .seu-wi-link-group .seu-media-text .seu-media-title, .seu-wi-download .seu-media-text .seu-media-title {
+  .seu-wi-embed .seu-media-text .seu-media-title, .seu-wi-link-group .seu-media-text .seu-media-title,
+  .seu-wi-download .seu-media-text .seu-media-title {
     font-family: "MontSerrat", arial;
     font-weight: 700;
     text-transform: uppercase;
@@ -15483,11 +15660,14 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
     line-height: 1.58; }
     @media only screen and (max-width: 767px) {
       /* line 54, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-      .seu-wi-embed .seu-media-text .seu-media-title, .seu-wi-link-group .seu-media-text .seu-media-title, .seu-wi-download .seu-media-text .seu-media-title {
+      .seu-wi-embed .seu-media-text .seu-media-title, .seu-wi-link-group .seu-media-text .seu-media-title,
+      .seu-wi-download .seu-media-text .seu-media-title {
         font-size: 1.4rem;
         margin-bottom: 10px; } }
   /* line 66, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-  .seu-wi-embed .seu-media-text li, .seu-wi-link-group .seu-media-text li, .seu-wi-download .seu-media-text li, .seu-wi-embed .seu-media-text p, .seu-wi-link-group .seu-media-text p, .seu-wi-download .seu-media-text p {
+  .seu-wi-embed .seu-media-text li, .seu-wi-link-group .seu-media-text li,
+  .seu-wi-download .seu-media-text li, .seu-wi-embed .seu-media-text p, .seu-wi-link-group .seu-media-text p,
+  .seu-wi-download .seu-media-text p {
     font-family: "OpenSans", arial;
     font-size: 1.5rem;
     font-weight: 400;
@@ -15495,7 +15675,9 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
     margin-bottom: 20px; }
     @media only screen and (max-width: 767px) {
       /* line 66, custom/03-strasbourg/molecules/_molecule-wi-seu-mediabox.scss */
-      .seu-wi-embed .seu-media-text li, .seu-wi-link-group .seu-media-text li, .seu-wi-download .seu-media-text li, .seu-wi-embed .seu-media-text p, .seu-wi-link-group .seu-media-text p, .seu-wi-download .seu-media-text p {
+      .seu-wi-embed .seu-media-text li, .seu-wi-link-group .seu-media-text li,
+      .seu-wi-download .seu-media-text li, .seu-wi-embed .seu-media-text p, .seu-wi-link-group .seu-media-text p,
+      .seu-wi-download .seu-media-text p {
         font-size: 1.2rem; } }
 
 /* line 1, custom/03-strasbourg/molecules/_molecule-wi-seu-section.scss */
@@ -15870,7 +16052,8 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
     .seu-wi-download {
       padding-top: 20px; } }
   /* line 11, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-  .seu-external.seu-wi-link-group .seu-media-title:after, .seu-external.seu-wi-download .seu-media-title:after {
+  .seu-external.seu-wi-link-group .seu-media-title:after,
+  .seu-external.seu-wi-download .seu-media-title:after {
     content: '';
     display: inline-block;
     width: 20px;
@@ -15883,26 +16066,31 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
             transform: scale(0.6); }
     @media only screen and (max-width: 767px) {
       /* line 11, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-      .seu-external.seu-wi-link-group .seu-media-title:after, .seu-external.seu-wi-download .seu-media-title:after {
+      .seu-external.seu-wi-link-group .seu-media-title:after,
+      .seu-external.seu-wi-download .seu-media-title:after {
         -webkit-transform: scale(0.4);
                 transform: scale(0.4); } }
   /* line 28, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .seu-media-picto, .seu-wi-download .seu-media-picto {
+  .seu-wi-link-group .seu-media-picto,
+  .seu-wi-download .seu-media-picto {
     background-color: #f6f6f6;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 135.2 135.3'%3E%3Cpath d='M97.9 0H37.3C16.7 0 0 16.7 0 37.3v60.6c0 20.6 16.7 37.3 37.3 37.3h60.6c20.6 0 37.3-16.7 37.3-37.3V37.3C135.2 16.7 118.5 0 97.9 0L97.9 0zM123.2 97.9c0 14-11.4 25.3-25.3 25.3H37.3c-14 0-25.3-11.4-25.3-25.3V37.3C12 23.4 23.4 12 37.3 12h60.6c14 0 25.3 11.4 25.3 25.3V97.9zM123.2 97.9'/%3E%3Cpath d='M67.6 32.8c-19.2 0-34.9 15.6-34.9 34.8 0 19.2 15.6 34.9 34.9 34.9 19.2 0 34.9-15.6 34.9-34.9C102.5 48.4 86.8 32.8 67.6 32.8L67.6 32.8zM67.6 90.5c-12.6 0-22.9-10.2-22.9-22.8C44.8 55 55 44.8 67.6 44.8S90.5 55 90.5 67.6C90.5 80.2 80.2 90.5 67.6 90.5L67.6 90.5zM67.6 90.5'/%3E%3Cpath d='M103.9 22.6c-2.3 0-4.6 0.9-6.2 2.6 -1.6 1.6-2.6 3.9-2.6 6.2 0 2.3 0.9 4.6 2.6 6.2 1.6 1.6 3.9 2.6 6.2 2.6 2.3 0 4.6-0.9 6.2-2.6 1.6-1.6 2.6-3.9 2.6-6.2 0-2.3-0.9-4.6-2.6-6.2C108.5 23.5 106.3 22.6 103.9 22.6L103.9 22.6zM103.9 22.6'/%3E%3C/svg%3E"); }
     @media only screen and (max-width: 767px) {
       /* line 28, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .seu-media-picto, .seu-wi-download .seu-media-picto {
+      .seu-wi-link-group .seu-media-picto,
+      .seu-wi-download .seu-media-picto {
         height: 25px;
         width: 25px;
         background-size: 15px; } }
   @media only screen and (max-width: 767px) {
     /* line 37, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .seu-media-left, .seu-wi-download .seu-media-left {
+    .seu-wi-link-group .seu-media-left,
+    .seu-wi-download .seu-media-left {
       width: auto;
       margin-right: 10px; } }
   /* line 43, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .seu-media-right, .seu-wi-download .seu-media-right {
+  .seu-wi-link-group .seu-media-right,
+  .seu-wi-download .seu-media-right {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -15911,10 +16099,12 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
             align-items: center; }
     @media only screen and (max-width: 767px) {
       /* line 43, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .seu-media-right, .seu-wi-download .seu-media-right {
+      .seu-wi-link-group .seu-media-right,
+      .seu-wi-download .seu-media-right {
         display: block; } }
   /* line 50, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .seu-media-text, .seu-wi-download .seu-media-text {
+  .seu-wi-link-group .seu-media-text,
+  .seu-wi-download .seu-media-text {
     margin-right: 60px;
     margin-bottom: 10px;
     -webkit-box-flex: 1;
@@ -15922,22 +16112,27 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
             flex: 1; }
     @media only screen and (max-width: 767px) {
       /* line 50, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .seu-media-text, .seu-wi-download .seu-media-text {
+      .seu-wi-link-group .seu-media-text,
+      .seu-wi-download .seu-media-text {
         margin-right: 0;
         margin-bottom: 0; } }
     /* line 58, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .seu-media-text .seu-media-title, .seu-wi-download .seu-media-text .seu-media-title {
+    .seu-wi-link-group .seu-media-text .seu-media-title,
+    .seu-wi-download .seu-media-text .seu-media-title {
       color: #31455d;
       line-height: 1.2;
       margin-bottom: 5px; }
     /* line 63, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .seu-media-text p, .seu-wi-download .seu-media-text p {
+    .seu-wi-link-group .seu-media-text p,
+    .seu-wi-download .seu-media-text p {
       color: #5c5c5c; }
     /* line 66, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .seu-media-text > *:last-child, .seu-wi-download .seu-media-text > *:last-child {
+    .seu-wi-link-group .seu-media-text > *:last-child,
+    .seu-wi-download .seu-media-text > *:last-child {
       margin-bottom: 0; }
   /* line 70, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .seu-link-group-arrow, .seu-wi-download .seu-link-group-arrow {
+  .seu-wi-link-group .seu-link-group-arrow,
+  .seu-wi-download .seu-link-group-arrow {
     -ms-flex-negative: 0;
         flex-shrink: 0;
     content: '';
@@ -15954,29 +16149,39 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
     transition: all 0.5s; }
     @media only screen and (max-width: 767px) {
       /* line 70, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-      .seu-wi-link-group .seu-link-group-arrow, .seu-wi-download .seu-link-group-arrow {
+      .seu-wi-link-group .seu-link-group-arrow,
+      .seu-wi-download .seu-link-group-arrow {
         display: none; }
         /* line 85, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-        .seu-wi-link-group .seu-link-group-arrow .seu-media-picto, .seu-wi-download .seu-link-group-arrow .seu-media-picto {
+        .seu-wi-link-group .seu-link-group-arrow .seu-media-picto,
+        .seu-wi-download .seu-link-group-arrow .seu-media-picto {
           height: 40px;
           width: 40px;
           background-size: 20px; } }
   /* line 92, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
   .seu-wi-link-group:hover,
   .seu-wi-download:hover, .seu-wi-link-group:focus,
-  .seu-wi-download:focus, .seu-wi-link-group > a:hover, .seu-wi-download > a:hover, .seu-wi-link-group > a:focus, .seu-wi-download > a:focus {
+  .seu-wi-download:focus, .seu-wi-link-group > a:hover,
+  .seu-wi-download > a:hover, .seu-wi-link-group > a:focus,
+  .seu-wi-download > a:focus {
     text-decoration: none; }
     /* line 94, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group:hover .seu-link-group-arrow, .seu-wi-download:hover .seu-link-group-arrow, .seu-wi-link-group:focus .seu-link-group-arrow, .seu-wi-download:focus .seu-link-group-arrow, .seu-wi-link-group > a:hover .seu-link-group-arrow, .seu-wi-download > a:hover .seu-link-group-arrow, .seu-wi-link-group > a:focus .seu-link-group-arrow, .seu-wi-download > a:focus .seu-link-group-arrow {
+    .seu-wi-link-group:hover .seu-link-group-arrow,
+    .seu-wi-download:hover .seu-link-group-arrow, .seu-wi-link-group:focus .seu-link-group-arrow,
+    .seu-wi-download:focus .seu-link-group-arrow, .seu-wi-link-group > a:hover .seu-link-group-arrow,
+    .seu-wi-download > a:hover .seu-link-group-arrow, .seu-wi-link-group > a:focus .seu-link-group-arrow,
+    .seu-wi-download > a:focus .seu-link-group-arrow {
       background-color: #31455d;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E"); }
   /* line 101, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-  .seu-wi-link-group .seu-media-ratio, .seu-wi-download .seu-media-ratio {
+  .seu-wi-link-group .seu-media-ratio,
+  .seu-wi-download .seu-media-ratio {
     height: unset;
     padding-bottom: 56.36%;
     position: relative; }
     /* line 105, custom/03-strasbourg/molecules/_organism-wi-link-group_download.scss */
-    .seu-wi-link-group .seu-media-ratio > *, .seu-wi-download .seu-media-ratio > * {
+    .seu-wi-link-group .seu-media-ratio > *,
+    .seu-wi-download .seu-media-ratio > * {
       position: absolute;
       top: 0;
       left: 0;

@@ -61,3 +61,14 @@
 		transform: translate(-50%, -50%) rotate(360deg);
 	}
 }
+
+body:not(.has-control-menu)  {
+	header.portlet-topper {
+		display: none;
+	}
+	.portlet > .portlet-content-editable {
+		border-color: transparent;
+	    border-top-left-radius: 4px;
+	    border-top-right-radius: 4px;
+	}
+}
