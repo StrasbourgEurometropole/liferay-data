@@ -47,7 +47,7 @@
             "name": "image",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "ddm-image"
         },
@@ -70,7 +70,7 @@
             "name": "chapo",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "textarea"
         },
@@ -94,7 +94,7 @@
             "name": "content",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "ddm-text-html"
         }
