@@ -60,7 +60,7 @@
             line-height: 0px;
         }
 
-        .slick-slide > div > div{
+        .slider-for .slick-slide > div > div{
             height: 650px;
             display: flex !important;
         }
@@ -107,6 +107,11 @@
             color: #333333;
         }
 
+        .slider-nav{
+            height: 150px;
+            margin: 0 70px 40px 70px;
+        }
+
         .slider-nav .slick-slide {
             margin: 0px 10px;
             height: 150px;
@@ -114,7 +119,7 @@
 
         .image-nav {
             width: 100%;
-            height: 200px;
+            height: 150px;
             background-size: cover;
             background-position: center;
         }  
@@ -137,7 +142,7 @@
                 margin: 0;
             }
 
-            .slick-slide > div > div{
+            .slider-for .slick-slide > div > div{
                 height: 350px;
             }
             
