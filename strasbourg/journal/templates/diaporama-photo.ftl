@@ -35,7 +35,7 @@
                 </#list>
             </section>
         </#if>
-        <p class="seu-container">${content.getData()}</p>
+        <div class="seu-container">${content.getData()}</div>
     </div>
 
     <style>
@@ -89,6 +89,7 @@
             flex-direction: column;
             line-height: 1.5em;
             font-size: 0.8em;
+            color: #333333;
         }
 
         .paginate{
@@ -103,6 +104,7 @@
             justify-content: center;
             flex-direction: column;
             align-items: flex-end;
+            color: #333333;
         }
 
         .slider-nav .slick-slide {
@@ -198,13 +200,13 @@
                     {
                         breakpoint: 768,
                         settings: {
-                            slidesToShow: 2
+                            slidesToShow: 3
                         }
                     },
                     {
                         breakpoint: 480,
                         settings: {
-                            slidesToShow: 1
+                            slidesToShow: 2
                         }
                     }
                 ]
