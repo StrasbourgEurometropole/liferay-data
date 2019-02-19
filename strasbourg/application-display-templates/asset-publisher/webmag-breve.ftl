@@ -43,10 +43,7 @@
                             </li>
                         </#if>
                     </#list>
-                    <#if (entries?size % 3 != 0)>  
-                        <#if (entries?size % 3 == 2)>
-                            </div>
-                        </#if>
+                    <#if (entries?size % 3 != 0)> 
                         </li>
                     </#if>
                 </ul>
