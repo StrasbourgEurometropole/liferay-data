@@ -1,4 +1,7 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
+
+<!-- Ce template ne doit pas etre mis en cache, ne pas cocher la check box 'Pouvant etre mis en cache' -->
+
 <#setting locale = locale />
 
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
