@@ -120,7 +120,7 @@ public class OIDCBOPortlet extends MVCPortlet {
 				if (Validator.isNotNull(anonymUserId)) {
 					PublikUser anonymUser = PublikUserLocalServiceUtil.fetchPublikUser(anonymUserId);
 					if (anonymUser != null) {
-
+						anonymUser = null;
 						// Anonymisation des informations utilisateur dans projets suivis
 						List<ProjectFollowed> projectsFollowed = ProjectFollowedLocalServiceUtil
 								.getByPublikId(publikUser.getPublikId());
