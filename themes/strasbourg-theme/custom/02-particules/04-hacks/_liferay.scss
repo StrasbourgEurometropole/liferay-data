@@ -36,7 +36,7 @@ form.update-reminder-query  {
 
 /* Décallage lorsqu'un utilisateur est connecté */
 
-.has-control-menu .seu-header {
+.has-control-menu .seu-header, .has-control-menu .smag-header {
   top: 66px;
 }
 .has-control-menu .seu-nav-bottom.seu-nav-bottom {
@@ -57,6 +57,7 @@ form.update-reminder-query  {
 		> .portlet-topper {
 			@media only screen and (min-width: 768px) {
         transform: translateY(0);
+        z-index: 201;
 			}
 		}
 	}
