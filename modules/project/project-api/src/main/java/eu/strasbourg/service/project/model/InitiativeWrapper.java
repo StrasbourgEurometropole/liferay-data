@@ -820,7 +820,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
-	* Retourne le nombre d'aides de l'initiative
+	* Retourne les aides qu'on affiche de l'initiative
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getHelps() {

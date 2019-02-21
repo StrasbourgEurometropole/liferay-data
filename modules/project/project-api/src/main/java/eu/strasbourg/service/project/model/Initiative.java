@@ -162,7 +162,7 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public int getNbHelps();
 
 	/**
-	* Retourne le nombre d'aides de l'initiative
+	* Retourne les aides qu'on affiche de l'initiative
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getHelps();
 
