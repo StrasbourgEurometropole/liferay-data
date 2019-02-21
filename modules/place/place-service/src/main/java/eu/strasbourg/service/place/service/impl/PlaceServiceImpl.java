@@ -366,13 +366,21 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 				switch (place.getRTType()) {
 					case "1": // Piscines
 						jsonPlace.put("occupation", realtime.getOccupationLabel());
+						jsonPlace.put("available", org.json.JSONObject.NULL);
+						jsonPlace.put("capacity", org.json.JSONObject.NULL);
+						jsonPlace.put("averageWaitingTime", org.json.JSONObject.NULL);
 						break;
 					case "2": // Parkings
 						jsonPlace.put("available", realtime.getAvailable());
 						jsonPlace.put("capacity", realtime.getCapacity());
+						jsonPlace.put("occupation", org.json.JSONObject.NULL);
+						jsonPlace.put("averageWaitingTime", org.json.JSONObject.NULL);
 						break;
 					case "3": // Mairies
 						jsonPlace.put("averageWaitingTime", realtime.getOccupation());
+						jsonPlace.put("occupation", org.json.JSONObject.NULL);
+						jsonPlace.put("available", org.json.JSONObject.NULL);
+						jsonPlace.put("capacity", org.json.JSONObject.NULL);
 						break;
 				}
 				List<PlaceSchedule> listeHoraire = place.getPlaceSchedule(new Date(), 1, Locale.FRANCE).entrySet().iterator().next().getValue();
@@ -394,6 +402,9 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 							jsonSchedules.put(jsonSchedule);
 						}
 					}
+				}else {
+					jsonPlace.put("isOpen", org.json.JSONObject.NULL);
+					jsonPlace.put("isOpen247", org.json.JSONObject.NULL);
 				}
 				jsonPlace.put("daySchedule", jsonSchedules);
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
