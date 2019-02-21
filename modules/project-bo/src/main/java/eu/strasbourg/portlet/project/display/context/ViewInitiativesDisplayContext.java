@@ -11,18 +11,30 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 public class ViewInitiativesDisplayContext extends ViewListBaseDisplayContext<Initiative> {
 
 	private List <Initiative> _initiatives;
+	private Initiative _initiative;
 	
 	public ViewInitiativesDisplayContext(RenderRequest request, RenderResponse response) {
 		super(Initiative.class, request, response);
+	}
+	
+	public Initiative getInitiative() {
+		long initiativeId = ParamUtil.getLong(_request, "initiativeId");
+		if (_initiative == null && initiativeId > 0) {
+			_initiative = InitiativeLocalServiceUtil.fetchInitiative(initiativeId);
+		}
+		return _initiative;
 	}
 
 	public List<Initiative> getInitiatives() throws PortalException {

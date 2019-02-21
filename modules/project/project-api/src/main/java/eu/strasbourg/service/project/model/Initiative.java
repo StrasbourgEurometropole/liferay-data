@@ -129,6 +129,11 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
 	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	public java.lang.String getAuthorLabel();

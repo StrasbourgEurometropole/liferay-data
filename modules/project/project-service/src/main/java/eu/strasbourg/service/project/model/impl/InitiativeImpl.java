@@ -254,6 +254,22 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
+     * Retourne la liste des URLs des documents
+     */
+    @Override
+    public List<String> getFilesURLs() {
+        List<String> URLs = new ArrayList<String>();
+        for (String fileIdStr : this.getFilesIds().split(",")) {
+            Long fileId = GetterUtil.getLong(fileIdStr);
+            if (Validator.isNotNull(fileId)) {
+                String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+                URLs.add(fileURL);
+            }
+        }
+        return URLs;
+    }
+	
+	/**
      * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
      */
     @Override

@@ -820,6 +820,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _initiative.getFilesURLs();
+	}
+
+	/**
 	* Retourne les aides qu'on affiche de l'initiative
 	*/
 	@Override
