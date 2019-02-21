@@ -132,7 +132,24 @@
 								<div role="tabpanel" class="tab-pane fade in active pro-bloc-texte" id="description">
 									<p>${entry.description}</p>
 								</div>
-
+								<#if entry.filesURLs?has_content>
+									<div class="pro-bloc-texte pro-bloc-telechargements">
+										<h3>Document(s) téléchargé(s)</h3>
+										<div class="row">
+											<#list entry.filesURLs as fileURL>
+												<#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
+												<#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+												<#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+												<div class="col-sm-6">
+													<a href="${fileURL}" download title="${title}">
+														<span class="pro-filename">${title}</span>
+														<span class="pro-poids">Poids ${size}</span>
+													</a>
+												</div>
+											</#list>
+										</div>
+									</div>
+								</#if>
 
 								<!-- Les personnes ayant pris part à l'initiative -->
 								<div role="tabpanel" class="tab-pane fade pro-bloc-texte" id="lieux">
