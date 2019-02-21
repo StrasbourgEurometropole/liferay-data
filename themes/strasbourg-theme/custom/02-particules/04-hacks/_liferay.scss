@@ -43,12 +43,16 @@ form.update-reminder-query  {
   top: calc(100vh - 120px);
 }
 
-.seu-not-front.has-control-menu {
+.seu-not-front.has-control-menu, .smag.has-control-menu {
   margin-top: 66px;
 }
 
 .page-header {
   border-bottom: none;
+}
+
+.smag header{
+  z-index: 200;
 }
 
 /* suppression du déplacement du header au dessus du portlet */
