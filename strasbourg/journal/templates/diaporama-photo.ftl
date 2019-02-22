@@ -109,7 +109,6 @@
 
         .slider-nav{
             height: 150px;
-            margin: 0 70px 40px 70px;
         }
 
         .slider-nav .slick-slide {
@@ -186,7 +185,7 @@
                 asNavFor: '.slider-nav'
             });
             $('.slider-nav').slick({
-                slidesToShow: 6,
+                slidesToShow: 5,
                 slidesToScroll: 1,
                 asNavFor: '.slider-for',
                 dots: false,
@@ -195,6 +194,7 @@
                 focusOnSelect: true,
                 swipeToSlide: true,
                 draggable: true,
+                centerMode: true,
                 responsive: [
                     {
                         breakpoint: 1024,
@@ -211,7 +211,7 @@
                     {
                         breakpoint: 480,
                         settings: {
-                            slidesToShow: 2
+                            slidesToShow: 1
                         }
                     }
                 ]
