@@ -29,4 +29,6 @@ public interface LayoutHelperService {
 	public String getPublikProfileURL();
 
 	public String getDashboardURL();
+	
+	public String getPublikIssuerURL();
 }
