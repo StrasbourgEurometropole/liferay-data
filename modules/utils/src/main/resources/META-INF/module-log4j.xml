@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <category name="eu.strasbourg.portlet.search_asset.SearchAssetPortlet">
+        <priority value="ERROR" />
+    </category>
+	<category name="eu.strasbourg.portlet.search_asset.display.context">
+        <priority value="ERROR" />
+    </category>
+	<category name="eu.strasbourg.utils">
+        <priority value="ERROR" />
+    </category>
+</log4j:configuration>

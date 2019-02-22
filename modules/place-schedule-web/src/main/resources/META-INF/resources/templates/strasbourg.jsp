@@ -76,10 +76,10 @@
 							<div class="crowded-amount ${occupationState.cssClass}" <c:if test="${isMairie}">style="font-size: 1.5rem"</c:if>>
 								<c:choose>
 									<c:when test="${isSwimmingPool}">
-										${occupationState.occupation}
+										${occupationState.occupationLabel}
 									</c:when>
 									<c:when test="${isMairie}">
-										${occupationState.occupation}
+										${occupationState.occupationLabel}
 									</c:when>
 									<c:otherwise>
 											${occupationState.available}

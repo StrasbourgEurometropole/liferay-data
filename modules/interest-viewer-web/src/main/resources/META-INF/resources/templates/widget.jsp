@@ -38,30 +38,32 @@
 	        mega_source.push([
 	        	<c:forEach var="curEntry" items="${dc.entries}" varStatus="loopStatus">
 	        		<c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
-		                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
-		          		<c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
-						<c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
-						<c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
-						<c:set var="id" value="${article.getArticleId()}"/>
-						<c:set var="groupId" value="${article.getGroupId()}"/>
-						<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
-						<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
-		              {
-		            	<c:if test="${dc.isMag(curEntry.getTagNames())}">
-		                  <c:set var="editionCount" value="${editionCount + 1}"/>
-		                  category: 'mag',
-		  	            </c:if>
-			          	<c:if test="${!dc.isMag(curEntry.getTagNames())}">
-		                  <c:set var="newsCount" value="${newsCount + 1}"/>
-		                  category: 'actu',
-		  	            </c:if>
-		                title: '${dc.getJSONEncodedString(title)}',
-		                lead: '${dc.getJSONEncodedString(chapo)}',
-		                picture: '${image}',
-		                link: '${viewURL}',
-		                id: '${id}',
-		                groupId: '${groupId}'
-		              }
+		        		<c:if test="${not empty curEntry and not empty curEntry.getAssetRenderer() and not empty curEntry.getAssetRenderer().getArticle() }">
+			                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
+			          		<c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
+							<c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
+							<c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
+							<c:set var="id" value="${article.getArticleId()}"/>
+							<c:set var="groupId" value="${article.getGroupId()}"/>
+							<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
+							<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
+			              {
+			            	<c:if test="${dc.isMag(curEntry.getTagNames())}">
+			                  <c:set var="editionCount" value="${editionCount + 1}"/>
+			                  category: 'mag',
+			  	            </c:if>
+				          	<c:if test="${!dc.isMag(curEntry.getTagNames())}">
+			                  <c:set var="newsCount" value="${newsCount + 1}"/>
+			                  category: 'actu',
+			  	            </c:if>
+			                title: '${dc.getJSONEncodedString(title)}',
+			                lead: '${dc.getJSONEncodedString(chapo)}',
+			                picture: '${image}',
+			                link: '${viewURL}',
+			                id: '${id}',
+			                groupId: '${groupId}'
+			              }
+			            </c:if>
 		            </c:if>
 	        		<c:if test="${!curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
 		                <c:set var="eventCount" value="${eventCount + 1}"/>
