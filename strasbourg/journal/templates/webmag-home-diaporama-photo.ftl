@@ -1,4 +1,4 @@
-<!-- Webmag - diaporama photo -->
+<!-- Webmag home - diaporama photo -->
 
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
