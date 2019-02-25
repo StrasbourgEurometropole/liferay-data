@@ -318,8 +318,9 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		JSONObject jsonRealtime = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonResults = JSONFactoryUtil.createJSONArray();
 
-		// Récupère tous les lieux ayant un externalId
-		List<Place> places = this.placeLocalService.getPlaces(-1, -1).stream().filter(p -> Validator.isNotNull(p.getRTExternalId()) && !p.getRTExternalId().equals("") && Validator.isNotNull(p.getRTLastUpdate()))
+		// Récupère tous les lieux valides ayant un externalId différent de "NO" et non vide, ainsi qu'une date de modification
+		List<Place> places = this.placeLocalService.getPlaces(-1, -1).stream().filter(p -> p.isApproved() && Validator.isNotNull(p.getRTExternalId())
+					&& !p.getRTExternalId().equals("NO") && !p.getRTExternalId().equals("") && Validator.isNotNull(p.getRTLastUpdate()))
 				.collect(Collectors.toList());
 
 		for (Place place : places) {
