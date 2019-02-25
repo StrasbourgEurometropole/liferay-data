@@ -61,7 +61,7 @@
         }
 
         .slider-for .slick-slide > div > div{
-            height: 650px;
+            height: calc(80vh - 105px);
             display: flex !important;
         }
 
@@ -78,8 +78,9 @@
 
         .legend{
             position: absolute;
-            top: calc(100% - 80px);
-            height: 80px;
+            bottom: -1px;
+            max-height: 80px;
+            height: 15vh ;
             background-color: rgba(255,255,255,0.6);
             width: 100%;
             padding: 0 70px;
@@ -94,8 +95,9 @@
 
         .paginate{
             position: absolute;
-            top: calc(100% - 80px);
-            height: 80px;
+            bottom: -1px;
+            max-height: 80px;
+            height: 15vh ;
             width: 70px;
             left: calc(100% - 70px);
             font-weight: 700;
@@ -107,18 +109,13 @@
             color: #333333;
         }
 
-        .slider-nav{
-            height: 150px;
-        }
-
         .slider-nav .slick-slide {
             margin: 0px 10px;
-            height: 150px;
         }  
 
         .image-nav {
             width: 100%;
-            height: 150px;
+            height: 15vh;
             background-size: cover;
             background-position: center;
         }  
@@ -142,7 +139,7 @@
             }
 
             .slider-for .slick-slide > div > div{
-                height: 350px;
+                height: calc(77vh - 45px);
             }
             
 
@@ -157,6 +154,10 @@
             .paginate{
                 width: 40px;
                 left: calc(100% - 40px);
+            }
+            
+            .image-nav {
+                height: 20vh;
             }
         }
     

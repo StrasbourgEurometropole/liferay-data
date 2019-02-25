@@ -13,7 +13,7 @@
             <div class="hp-kiosque__text">
                 <h3 class="hp-kiosque__title" data-dot="2">${entry.getTitle(locale)}</h3>
                 <div class="hp-kiosque__ref"></div>
-                <div class="hp-kiosque__lead" data-dot="2">${entry.getDescription(locale)}</div>
+                <div class="hp-kiosque__lead" data-dot="4">${entry.getDescription(locale)}</div>
                 <div class="filler"></div>
                 <a href="${homeURL}edition/-/entity/id/${entry.editionId}" class="a-btn-main h-inverted icon-right transparent-core unstyled hp-kiosque__see">
                     <span class="flexbox"><i class="mag mag-arrow-right"></i>
@@ -31,3 +31,11 @@
         </li>
     </#list>
 </ul>
+
+<div class="hp-kiosque__more">
+    <a href="#" class="a-btn-main core h-inverted icon-right">
+        <span class="flexbox"><i class="mag mag-arrow-right"></i>
+            <span class="btn-text">Toutes les éditions</span>
+        </span>
+    </a>
+</div>
