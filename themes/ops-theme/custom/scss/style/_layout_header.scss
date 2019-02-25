@@ -1,0 +1,510 @@
+// Top Header Strasbourg
+.ops-top-header {
+	position: relative;
+	background: $c_grey;
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+
+	> a {
+		position: relative;
+		left: 20px;
+		float: left;
+		line-height: 32px;
+		svg {
+			position: relative;
+			top: 10px;
+			height: 24px;
+		}
+	}
+
+	> div {
+		float: right;
+		font-size: 0;
+		a {
+			color: $c_white;
+			font-size: $s_p;
+			font-weight: 400;
+			padding: 0 30px;
+			border-left: 1px solid #5C5C5C;
+			display: inline-block;
+			@include ft($f_txt, 11px, 400, $c_white, 40px);
+			@include addTransition();
+			@include mobile{
+				padding: 0 15px;
+			}
+			@media screen and (max-width: 320px){
+				padding: 0 8px;
+			}
+			&.lang {
+				padding: 0 15px;
+				@media screen and (max-width: 320px){
+					padding: 0 8px;
+				}
+				&.active {
+					color: $c_main;
+				}
+			}
+			&:hover, &:focus {
+				#ops-wrapper:not(.no-hover) & {
+					color: $c_main;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+// Header Principal
+#ops-header {
+	background: $c_white;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 10000;
+	@include addTransitionCurve();
+
+	.is-scrolled & {
+		transform: translateY(-40px);
+		transform: translate3d(0,-40px,0);
+		box-shadow: 0 0 30px 4px rgba($c_dark, 0.15);
+	}
+
+	// Menu open (Tablette + Mobile)
+	// ==========================================================================
+	&.ops-menu-open {
+		transform: translateY(-40px);
+		transform: translate3d(0,-40px,0);
+		&:after{
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			width: 100%;
+			height: 1px;
+			z-index: 1000;
+			background: rgba($c_dark,0.1);
+		}
+		.ops-wrapper-nav{
+			transform: scaleY(1);
+			> nav{
+				> ul{
+					> li{
+						transform: none;
+						opacity: 1;
+						&:nth-child(1){
+							transition-delay: 0.2s;
+						}
+						&:nth-child(2){
+							transition-delay: 0.4s;
+						}
+						&:nth-child(3){
+							transition-delay: 0.6s;
+						}
+						&:nth-child(4){
+							transition-delay: 0.8s;
+						}
+						&:nth-child(5){
+							transition-delay: 1s;
+						}
+						&:nth-child(6){
+							transition-delay: 1.2s;
+						}
+						&:nth-child(7){
+							transition-delay: 1.4s;
+						}
+						&:nth-child(8){
+							transition-delay: 1.6s;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.ops-wrapper-header {
+		position: relative;
+		height: $header-height;
+		overflow: hidden;
+
+		// Logo du site
+		// ==========================================================================
+		.ops-logo {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			transform: translate3d(-50%, 0, 0);
+			height: $header-height;
+			line-height: $header-height;
+			float: left;
+
+			figure {
+				background: none;
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+				img {
+					height: 100%;
+					@media screen and (max-width: 360px){
+						max-width: 100px;
+					}
+				}
+			}
+		}
+
+		// Header left (Menu + Bouttons Biletterie + Programmation
+		// ==========================================================================
+		.ops-header-left {
+			float: left;
+			height: $header-height;
+			.ops-btn {
+				float: left;
+				margin-right: 15px;
+			}
+			.ops-wrapper-btn {
+				position: relative;
+				top: 19px;
+				display: inline-block;
+				vertical-align: top;
+				@include tablet_portrait{
+					display: none;
+				}
+				&:after {
+					content: '';
+					display: block;
+					clear: both;
+				}
+				> * {
+					float: left;
+					padding: 8px 50px;
+					@media screen and (max-width: 1100px){
+						padding: 8px 30px;
+					}
+					&:last-of-type {
+						margin-right: 0;
+					}
+				}
+			}
+		}
+
+		// Header right (Réseaux sociaux + Calendrier + Recherche)
+		// ==========================================================================
+		.ops-header-right {
+			float: right;
+			font-size: 0;
+			@include mobile{
+				margin-right: 20px;
+			}
+			.ops-social {
+				position: relative;
+				float: left;
+				padding: 0;
+				margin: 0 30px 0 0;
+				@include tablet_portrait{
+					display: none;
+				}
+				&:after {
+					content: '';
+					display: block;
+					clear: both;
+				}
+				li {
+					float: left;
+					&:first-of-type {
+						a {
+							padding-left: 0;
+						}
+					}
+					&:last-of-type {
+						a {
+							padding-right: 0;
+						}
+					}
+
+					a {
+						display: block;
+						font-size: 20px;
+						line-height: $header-height;
+						color: $c_dark;
+						padding: 0 8px;
+						@include addTransition();
+						&:hover, &:focus {
+							#ops-wrapper:not(.no-hover) & {
+								text-decoration: none;
+								color: $c_main;
+							}
+						}
+						span {
+							position: relative;
+							top: 3px;
+						}
+					}
+				}
+			}
+
+			.link-calendar {
+				width: 80px;
+				height: $header-height;
+				line-height: $header-height;
+				background: $c_dark;
+				color: $c_white;
+				font-size: 28px;
+				display: inline-block;
+				text-align: center;
+				@include addTransition();
+				@include mobile{
+					width: auto;
+					font-size: 22px;
+					background: none;
+					color: $c_dark;
+					margin-right: 20px;
+				}
+				&:hover, &:focus {
+					#ops-wrapper:not(.no-hover) & {
+						text-decoration: none;
+						background: $c_main;
+						color: $c_dark;
+					}
+				}
+				span {
+					position: relative;
+					top: 3px;
+				}
+			}
+
+			.link-search {
+				width: 80px;
+				height: $header-height;
+				line-height: $header-height;
+				color: $c_dark;
+				font-size: 28px;
+				display: inline-block;
+				text-align: center;
+				@include mobile{
+					font-size: 22px;
+					width: auto;
+				}
+				&:hover, &:focus {
+					#ops-wrapper:not(.no-hover) & {
+						text-decoration: none;
+						color: $c_main;
+					}
+				}
+				span {
+					position: relative;
+					top: 3px;
+				}
+			}
+		}
+
+		// Formulaire de recherche interne
+		// ==========================================================================
+		.ops-search-form {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 1000;
+			background: $c_white;
+			width: 100%;
+			transform-origin: right;
+			transform: scaleX(0);
+			@include addTransitionCurve();
+			transition-duration: 0.3s;
+			&.ops-open {
+				transform: scaleX(1);
+				a {
+					transition-delay: 0.3s;
+					opacity: 1;
+				}
+			}
+			form {
+				padding: 0;
+				height: 100%;
+				input {
+					@include ft($f_txt, 16px, 400, $c_dark, 30px);
+					padding: 25px 80px;
+					width: 100%;
+					text-align: center;
+					@extend %ops-appearance;
+					&::placeholder {
+						color: $c_greydark;
+					}
+				}
+				button {
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					padding: 0;
+					width: 80px;
+					color: $c_dark;
+					font-size: 28px;
+					background: none;
+					@extend %ops-appearance;
+					@include addTransition();
+					&:hover, &:focus {
+						#ops-wrapper:not(.no-hover) & {
+							cursor: pointer;
+							color: $c_main;
+						}
+					}
+					span {
+						position: relative;
+						top: 3px;
+					}
+				}
+			}
+			a {
+				position: absolute;
+				top: 0;
+				left: 0;
+				text-align: center;
+				width: 80px;
+				height: $header-height;
+				line-height: $header-height;
+				color: $c_dark;
+				font-size: 26px;
+				opacity: 0;
+				@include addTransition();
+				&:hover, &:focus {
+					#ops-wrapper:not(.no-hover) & {
+						text-decoration: none;
+						color: $c_main;
+					}
+				}
+				span {
+					position: relative;
+					top: 3px;
+				}
+			}
+		}
+	}
+}
+
+// Menu Burger (Defaut : Tablette Portrait + Mobile)
+// ==========================================================================
+div.ops-burger-menu {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	top: 26px;
+	width: 110px;
+	height: 28px;
+	margin: 0;
+	cursor: pointer;
+	z-index: 1000;
+	transform: rotate(0deg);
+	transition: all 0.5s ease;
+	@include mobile{
+		width: 90px;
+	}
+	&.ops-open{
+		.ops-burger-wrapper{
+			span{
+				&:nth-child(1){
+					animation: burger-open-top 0.4s ease-out forwards;
+				}
+				&:nth-child(2){
+					opacity: 0;
+					transition: transform 0.4s ease-out, opacity 0ms linear 0.2s;
+				}
+				&:nth-child(3){
+					animation: burger-open-bot 0.4s ease-out forwards;
+				}
+			}
+		}
+		.ops-burger-txt{
+			opacity: 0;
+			left: 0;
+		}
+	}
+
+	&.ops-closing {
+		.ops-burger-wrapper{
+			span{
+				&:nth-child(1) {
+					animation: burger-close-top 0.4s ease-out forwards;
+				}
+
+				&:nth-child(3) {
+					animation: burger-close-bot 0.4s ease-out forwards;
+				}
+			}
+		}
+	}
+
+	.ops-burger-wrapper{
+		position: absolute;
+		right: 25px;
+		width: 50px;
+		height: 3px;
+		@include mobile{
+			width: 40px;
+		}
+		span{
+			position: absolute;
+			display: block;
+			width: 50px;
+			border-top: 2px solid $c_dark;
+			transform-origin: 50% 50%;
+			transition: transform 0.4s ease-out;
+			@include mobile{
+				width: 40px;
+			}
+			&:nth-child(1){
+				top: 0;
+			}
+			&:nth-child(2){
+				top: 13px;
+				opacity: 1;
+				transition: transform 0.4s ease-out, opacity 0ms linear 0.2s;
+			}
+			&:nth-child(3){
+				top: 25px;
+			}
+		}
+	}
+
+	.ops-burger-txt{
+		@include ft($f_txt, 11px, 700, $c_dark, 16px);
+		background: $c_white;
+		text-transform: uppercase;
+		position: absolute;
+		left: 18px;
+		top: 50%;
+		z-index: 100;
+		margin-top: -8px;
+		padding: 0 5px 0 0;
+		opacity: 1;
+		transition: all 0.2s ease-out;
+		@include mobile{
+			left: 10px;
+		}
+	}
+}
+
+
+// Animation - Ouverture burger menu
+@keyframes burger-open-top {
+	50% {  transform: translate3d(0, 12px, 0);  }
+	100% {  transform: translate3d(0, 12px, 0) rotate(45deg);  }
+}
+@keyframes burger-open-bot {
+	50% {  transform: translate3d(0, -12px, 0);  }
+	100% {  transform: translate3d(0, -12px, 0) rotate(-45deg);  }
+}
+@keyframes burger-close-top {
+	0% {  transform: translate3d(0, 12px, 0) rotate(45deg);  }
+	50% {  transform: translate3d(0, 12px, 0) rotate(0deg);  }
+	100% {  transform: translate3d(0, 0, 0);  }
+}
+@keyframes burger-close-bot {
+	0% {  transform: translate3d(0, -12px, 0) rotate(-45deg);  }
+	50% {  transform: translate3d(0, -12px, 0) rotate(0deg);  }
+	100% {  transform: translate3d(0, 0, 0);  }
+}

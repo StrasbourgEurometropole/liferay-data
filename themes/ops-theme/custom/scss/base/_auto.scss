@@ -1,0 +1,196 @@
+/* ------------------
+--- CSS GLOBAL + GRILLE RESPONSIVE ---
+------------------ */
+html, body{
+	height: 100%;
+}
+body{
+	-webkit-font-smoothing: antialiased;
+}
+main {
+	position: relative;
+	z-index: 10;
+}
+
+#ops-wrapper{
+	background: $c_white;
+	a:hover, a:focus{
+		text-decoration: none;
+	}
+	ul{
+		list-style-type: none;
+	}
+}
+
+%ops-center {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+%ops-aligncenter{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+%ops-appearance{
+	-webkit-appearance: none;
+	resize: none;
+	box-shadow: none;
+	border-radius: 0;
+	border: none;
+	outline: none;
+}
+
+// Margins / Paddings
+// ==========================================================================
+.ops-center {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 100%;
+}
+
+.no-gutter > [class*="col-"] {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.wrapper {
+	position: relative;
+	z-index: 10000;
+}
+
+.ops-hide {
+	display: none;
+}
+
+.ops-maps{
+	@extend %ops-center;
+	width: 100%;
+	height: 100%;
+}
+
+// Images
+// ==========================================================================
+.large-img {
+	height: 960px;
+}
+
+.ops-no-photo {
+	background: #AAA;
+}
+
+figure {
+	background: $c_dark;
+}
+
+.fit-cover {
+	width: 100%;
+	object-fit: cover;
+	font-family: 'object-fit: cover';
+	img {
+		object-fit: cover;
+		font-family: 'object-fit: cover';
+		width: 100%;
+	}
+}
+
+// Opacity
+// ==========================================================================
+.ops-o10 img {
+	opacity: 0.1;
+}
+
+.ops-o20 img {
+	opacity: 0.2;
+}
+
+.ops-o25 img {
+	opacity: 0.25;
+}
+
+.ops-o30 img {
+	opacity: 0.3;
+}
+
+.ops-o40 img {
+	opacity: 0.4;
+}
+
+.ops-o50 img {
+	opacity: 0.5;
+}
+
+.ops-o60 img {
+	opacity: 0.6;
+}
+
+.ops-o70 img {
+	opacity: 0.7;
+}
+
+.ops-o75 img {
+	opacity: 0.75;
+}
+
+.ops-o80 img {
+	opacity: 0.8;
+}
+
+.ops-o90 img {
+	opacity: 0.9;
+}
+
+
+// Alignements
+// ==========================================================================
+.ops-aligncenter {
+	text-align: center;
+}
+
+.ops-alignleft {
+	text-align: left;
+}
+
+.ops-alignright {
+	text-align: right;
+}
+
+// Ratios
+// ==========================================================================
+.ratio-16-9 {
+	@include aspect-ratio(16, 9);
+}
+
+.ratio-16-10 {
+	@include aspect-ratio(16, 10);
+}
+
+.ratio-4-3 {
+	@include aspect-ratio(4, 3);
+}
+
+.ratio-16-9 {
+	> img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+@for $i from 40 through 100 {
+	[data-fullscreen="#{$i}"] {
+		height: $i + 0%;
+	}
+}

@@ -1,0 +1,34 @@
+{
+	"devDependencies": {
+		"gulp": "3.9.1",
+		"liferay-theme-tasks": "8.0.0-rc.3",
+		"liferay-theme-deps-7.0": "8.0.0-rc.3",
+		"grunt-ftpush": "^0.3.3",
+		"gulp-autoprefixer": "latest",
+		"gulp-concat": "latest",
+		"gulp-deploy-ftp": "^1.0.1",
+		"gulp-load-plugins": "latest",
+		"gulp-notify": "latest",
+		"gulp-rename": "latest",
+		"gulp-sass": "latest",
+		"gulp-tinypng": "latest",
+		"gulp-uglify": "latest",
+		"gulp-util": "^3.0.8",
+		"vinyl-ftp": "^0.6.0",
+		"pump": "latest",
+		"php-include-html": "latest"
+	},
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"screenshot": "",
+		"rubySass": false,
+		"templateLanguage": "ftl",
+		"version": "7.0"
+	},
+	"main": "package.json",
+	"name": "ops-theme",
+	"version": "1.0.0"
+}

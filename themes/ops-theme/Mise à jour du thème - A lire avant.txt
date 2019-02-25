@@ -1,0 +1,10 @@
+Lors d'une livraison du thème par thuria, il y a quelques fichiers à ne pas écraser ou supprimer :
+
+Les librairies js suivantes :
+
+- js/libs/jquery.selectric.min.js
+- js/libs/masonry.js
+- custom/overide.js
+
+Le point d'entré sass strasbourg.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
+

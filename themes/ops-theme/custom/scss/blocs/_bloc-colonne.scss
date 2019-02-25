@@ -1,0 +1,110 @@
+.ops-bloc-colonne {
+
+	> div {
+		@include mobile {
+			padding: 20px 0;
+			&:first-child {
+				padding-top: 0;
+			}
+			&:last-child {
+				padding-bottom: 0;
+			}
+		}
+
+		> div, > a{
+			position: relative;
+			&:after{
+				content: '';
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 1px;
+				background: $c_main;
+				@include addTransition();
+			}
+			@include mobile {
+				min-height: auto !important;
+			}
+		}
+
+		> a {
+			display: block;
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					text-decoration: none;
+					&:after{
+						height: 4px;
+					}
+					.ops-basic-link{
+						color: $c_dark;
+					}
+				}
+			}
+		}
+
+		figure {
+			margin-bottom: 15px;
+			overflow: hidden;
+			background: $c_txt;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+			figcaption {
+				bottom: -5px;
+			}
+		}
+
+		.ops-bloc-content-actu {
+			text-decoration: none;
+			padding-bottom: 55px;
+			h2, h3 {
+				margin-top: 0;
+			}
+			> * {
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		.ops-basic-link{
+			position: absolute;
+			left: 0;
+			bottom: 20px;
+		}
+
+		// Image + Lien
+		// ==========================================================================
+		&.bloc-actu-no-text {
+			a {
+				@include addTransition();
+				div {
+					position: relative;
+					figure {
+						margin: 0;
+						figcaption {
+							display: none;
+						}
+					}
+				}
+				&:hover, &:focus {
+					div {
+						.btn {
+							background: $c_main;
+							border-color: $c_main;
+						}
+					}
+				}
+			}
+
+			.btn {
+				position: absolute;
+				left: 20px;
+				bottom: 20px;
+			}
+		}
+	}
+}

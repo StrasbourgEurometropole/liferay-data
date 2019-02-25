@@ -1,0 +1,203 @@
+img {
+	position: relative;
+	display: block;
+	max-width: 100%;
+}
+
+// Additionals
+// ==========================================================================
+.ops-link {
+	@include ft($f_txt, $s_p, 400, $c_white, 20px);
+	@include addTransition();
+	&:hover, &:focus {
+		color: $c_sub;
+	}
+}
+
+.ops-basic-link {
+	@include ft($f_txt, 15px, 700, $c_main, 21px);
+	@include addTransition();
+}
+
+.ops-btn {
+	@include ft($f_txt, 13px, 400, $c_dark, 24px);
+	position: relative;
+	text-align: center;
+	border: 1px solid $c_main;
+	padding: 8px 30px;
+	min-width: 90px;
+	display: inline-block;
+	overflow: hidden;
+	@include addTransition();
+	&:before, &:after{
+		content: '';
+		background: $c_main;
+		position: absolute;
+		z-index: -1;
+	}
+	&:after{
+		height: 100%;
+		left: -40%;
+		top: 0;
+		transform: skew(50deg);
+		transition-duration: 0.2s;
+		transform-origin: top left;
+		width: 0;
+	}
+	&:hover, &:focus{
+		#ops-wrapper:not(.no-hover) & {
+			text-decoration: none;
+			color: $c_dark;
+			&:after{
+				height: 100%;
+				width: 140%;
+			}
+		}
+	}
+}
+
+
+.ops-surtitre {
+	@include ft($f_txt, 13px, 700, $c_main, 18px);
+	text-transform: uppercase;
+	display: block;
+	margin-bottom: 4px;
+}
+
+.ops-typologie {
+	@include ft($f_hx, 13px, 400, $c_dark, 20px);
+	font-style: italic;
+	display: inline-block;
+	background: $c_main;
+	padding: 0 10px;
+	margin-bottom: 5px;
+}
+
+.ops-cat{
+	@include ft($f_txt, 13px, 700, $c_dark, 20px);
+	text-transform: uppercase;
+}
+
+.ops-btn-tel {
+	@include ft($f_txt, 17px, 700, $c_greystr, 24px);
+	background-color: #f6f6f6;
+	border-radius: 10px;
+	display: inline-block;
+	padding: 9px 20px;
+	@include addTransition();
+	&:before {
+		content: "\e90e";
+		@include font();
+		float: left;
+		line-height: 24px;
+		margin-right: 15px;
+	}
+	&:hover, &:focus {
+		#ops-wrapper:not(.no-hover) & {
+			text-decoration: none;
+			background: $c_main;
+			color: $c_white;
+		}
+	}
+}
+
+
+.ops-title-line{
+	@include ft($f_hx, 30px, 400, $c_dark, 36px);
+	position: relative;
+	font-size: 30px;
+	line-height: 30px;
+	margin: 0 0 25px 0;
+	&:after{
+		content: '';
+		position: absolute;
+		top: calc(50% + 2px);
+		left: 0;
+		right: 0;
+		width: 100%;
+		height: 1px;
+		background: url(../images/ico/deco-line.png) repeat-x;
+	}
+	span{
+		position: relative;
+		z-index: 10;
+		display: inline-block;
+		background: $c_white;
+		padding-right: 20px;
+	}
+}
+
+
+.ops-big-section-title{
+	@include ft($f_hx, 100px, 400, $c_main, 100px);
+	@include tablet_portrait{
+		font-size: 70px;
+		line-height: 70px;
+	}
+	@include mobile{
+		font-size: 45px;
+		line-height: 50px;
+	}
+	span{
+		display: block;
+		font-size: 40px;
+		line-height: 40px;
+		color: $c_dark;
+		@include tablet_portrait{
+			font-size: 30px;
+			line-height: 30px;
+		}
+		@include mobile{
+			font-size: 24px;
+			line-height: 28px;
+		}
+		&:before{
+			content: '';
+			display: inline-block;
+			vertical-align: middle;
+			width: 30px;
+			height: 1px;
+			background: $c_dark;
+			margin-right: 13px;
+			position: relative;
+			top: -2px;
+			@include mobile{
+				width: 20px;
+			}
+		}
+	}
+
+}
+
+.ops-wrap-cat{
+	position: relative;
+	margin-top: -5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-bottom: 10px;
+	font-size: 0;
+	@include clearfix();
+	> * {
+		@include ft($f_txt, 13px, 700, $c_dark, 26px);
+		position: relative;
+		text-transform: uppercase;
+		display: inline-block;
+		vertical-align: middle;
+		&:after{
+			content: ',';
+			margin-right: 4px;
+		}
+		&:last-child{
+			&:after{
+				content: none;
+			}
+		}
+	}
+}
+
+.ops-numbers-results{
+	@include ft($f_txt, 17px, 400, $c_white, 22px);
+	position: relative;
+	display: inline-block;
+}

@@ -1,0 +1,41 @@
+.bloc-diaporama{
+	.caption {
+		position: absolute;
+		z-index: 10;
+		top: 50%;
+		transform: translateY(-50%);
+		transform: translate3d(0, -50%, 0);
+		width: auto;
+		padding: 40px;
+
+		@include mobile {
+			position: relative;
+			top: 0;
+			transform: none;
+			padding: 40px 0;
+		}
+
+		&.text-center {
+			text-align: center;
+			h2, span, p, a {
+				text-align: center;
+				margin: auto;
+			}
+			p {
+				margin-bottom: 25px;
+			}
+		}
+
+		&.text-right {
+			text-align: right;
+			h2, span, p, a {
+				text-align: right;
+				margin: auto;
+			}
+			p {
+				margin-bottom: 25px;
+				margin-left: 60%;
+			}
+		}
+	}
+}

@@ -1,0 +1,145 @@
+/* ------------------
+--- VARIABLES ---
+------------------ */
+$design-spacing: 4px;
+
+// Fonts Roboto
+// ==========================================================================
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/roboto-bold-webfont.woff2') format('woff2'),
+	url('../fonts/roboto-bold-webfont.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/roboto-bolditalic-webfont.woff2') format('woff2'),
+	url('../fonts/roboto-bolditalic-webfont.woff') format('woff');
+	font-weight: bold;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/roboto-italic-webfont.woff2') format('woff2'),
+	url('../fonts/roboto-italic-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/roboto-medium-webfont.woff2') format('woff2'),
+	url('../fonts/roboto-medium-webfont.woff') format('woff');
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/roboto-mediumitalic-webfont.woff2') format('woff2'),
+	url('../fonts/roboto-mediumitalic-webfont.woff') format('woff');
+	font-weight: 600;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/roboto-regular-webfont.woff2') format('woff2'),
+	url('../fonts/roboto-regular-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+// Fonts Domaine Display
+// ==========================================================================
+@font-face {
+	font-family: 'Domaine Display';
+	src: url('../fonts/DomaineDisplay-Bold.woff2') format('woff2'),
+	url('../fonts/DomaineDisplay-Bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Domaine Display';
+	src: url('../fonts/DomaineDisplay-Regular.woff2') format('woff2'),
+	url('../fonts/DomaineDisplay-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Domaine Display';
+	src: url('../fonts/DomaineDisplay-RegularItalic.woff2') format('woff2'),
+	url('../fonts/DomaineDisplay-RegularItalic.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+
+
+
+// Fonts Courier New
+// ==========================================================================
+@font-face {
+	font-family: 'Courier New';
+	src: url('../fonts/CourierNewPS-BoldMT.woff2') format('woff2'),
+	url('../fonts/CourierNewPS-BoldMT.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Courier New';
+	src: url('../fonts/CourierNewPSMT.woff2') format('woff2'),
+	url('../fonts/CourierNewPSMT.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+// Fonts
+// ==========================================================================
+$f_hx: 'Domaine Display', Sans-Serif;
+$f_txt: 'Roboto', Sans-Serif;
+$f_spe: 'Courier New', Sans-Serif;
+
+// Colors
+// ==========================================================================
+$c_main: #D4B979;
+$c_sub: #909090;
+$c_grey: #333333;
+$c_greyB: #B4B4B4;
+$c_greyC : #CCCCCC;
+$c_txt: #989898;
+$c_light: #F5F5F5;
+$c_light2 : #F2F2F2;
+$c_dark: #000000;
+$c_greydark: #666666;
+$c_white: #FFFFFF;
+$c_filet : #505050;
+$c_or: #b5a261;
+
+$c_greystr: #3A3A3A;
+$c_greydarkstr: #2D2D2D;
+
+// Sizes
+// ==========================================================================
+$s_h1: 36px;
+$s_h2: 28px;
+$s_h3: 20px;
+$s_h4: 18px;
+$s_p: 16px;
+$s_link: 18px;
+
+// Width / Height / Spacing
+// ==========================================================================
+$max-width: 1200px;
+$border-gutter: 40px;
+$content-spacing: 80px;
+$content-gutter: 40px;
+$header-height: 80px;
+$copyright-height: 60px;
+
+// Breakpoints
+// ==========================================================================
+$breakpoint_wd: 1600px;
+//$breakpoint_de: 1024px; // en min width si jamais vraiment on voulait l'utiliser
+$breakpoint_paysage: 1024px; // taille ipad
+$breakpoint_portrait: 980px;
+$breakpoint_mo: 599px;
+$breakpoint_mo_small: 360px;

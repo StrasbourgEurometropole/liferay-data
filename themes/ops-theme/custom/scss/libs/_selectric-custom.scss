@@ -1,0 +1,40 @@
+.selectric-wrapper{
+	.selectric{
+		border-color: $c_main;
+		background: none;
+		height: 50px;
+		.label{
+			@include ft($f_txt, 15px, 400, $c_txt, 50px);
+			display: block;
+			height: 100%;
+			margin: 0;
+			padding: 0 15px;
+		}
+		.button{
+			display: none;
+		}
+	}
+	.selectric-items{
+		border: none;
+		background: $c_white;
+		box-shadow: 0 0 10px rgba($c_dark,0.2);
+		.selectric-scroll{
+			ul{
+				padding: 0;
+				li{
+					@include ft($f_txt, 15px, 400, $c_txt, 30px);
+					display: block;
+					padding: 8px 15px;
+					margin-bottom: 0;
+					@include addTransition();
+					&:hover{
+						background: #F5F5F5;
+					}
+					&.selected{
+						background: #EEE;
+					}
+				}
+			}
+		}
+	}
+}

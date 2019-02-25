@@ -1,0 +1,443 @@
+// CARD GENERALS STYLES
+// ==========================================================================
+.ops-card{
+	position: relative;
+	display: block;
+	@include addTransition();
+
+	&:hover, &:focus {
+		#ops-wrapper:not(.no-hover) & {
+			outline: none;
+			> div {
+				transform: translateY(-20px);
+				transform: translate3d(0, -20px, 0);
+				&:after{
+					color: $c_main;
+				}
+			}
+			.ops-link{
+				color: $c_dark;
+			}
+		}
+	}
+
+	> div{
+		position: relative;
+		overflow-y: hidden;
+		background: $c_white;
+		box-shadow: 0 0 60px 3px rgba($c_dark,0.1);
+		@include addTransition();
+	}
+
+	h3{
+		position: relative;
+		z-index: 10;
+		@include ft($f_hx, 20px, 400, $c_dark, 28px);
+		max-width: calc(100% - 40px);
+		margin: 0 0 10px 0;
+		min-height: 56px;
+		@include mobile{
+			max-width: 100%;
+		}
+	}
+
+	.ops-link{
+		font-size: 13px;
+		line-height: 20px;
+		color: $c_main;
+	}
+}
+
+
+.ops-songs{
+	display: block;
+	font-size: 13px;
+	line-height: 20px;
+	text-transform: uppercase;
+	color: $c_dark;
+}
+
+.ops-names{
+	font-size: 13px;
+	line-height: 21px;
+	color: $c_greydark;
+}
+
+.ops-meta-card-article {
+	position: relative;
+	font-size: 0;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	> * {
+		display: inline-block;
+		vertical-align: top;
+	}
+}
+
+.ops-cats {
+	position: relative;
+	> * {
+		position: relative;
+		float: left;
+		display: block;
+		&:after {
+			content: ',';
+			margin-right: 4px;
+		}
+		&:last-child {
+			&:after {
+				content: none;
+				margin: 0;
+			}
+		}
+	}
+}
+
+.ops-date-article {
+	position: relative;
+	top: 1px;
+	@include ft($f_spe, 13px, 700, $c_or, 20px);
+	@include mobile{
+		display: block;
+		top: 0;
+	}
+	&:before {
+		content: '';
+		display: inline-block;
+		vertical-align: middle;
+		width: 8px;
+		height: 1px;
+		background: $c_dark;
+		margin: 0 4px;
+		position: relative;
+		top: -1px;
+		@include mobile{
+			content: none;
+		}
+	}
+}
+
+
+// CARD CONCERT
+// ==========================================================================
+.ops-card-concert{
+	&:before, &:after{
+		content: '';
+		position: absolute;
+		bottom: 47px;
+		width: 26px;
+		height: 26px;
+		background: $c_white;
+		border-radius: 50%;
+		z-index: 100;
+		@include addTransition();
+	}
+
+	&:before{
+		left: -13px;
+		//box-shadow: inset 0 150px 10px 0px rgba(0,0,0,0.05);
+		box-shadow: inset 0 73px 75px -42px rgba(0,0,0,0.07);
+	}
+
+	&:after{
+		right: -13px;
+		//box-shadow: inset 0 -300px 460px 200px rgba(0,0,0,0.05)
+		box-shadow: inset 0 73px 75px -42px rgba(0,0,0,0.07);
+	}
+
+	&:hover, &:focus{
+		#ops-wrapper:not(.no-hover) & {
+			&:before,&:after{
+				transform: translateY(-20px);
+				transform: translate3d(0,-20px,0);
+			}
+			> div {
+				transform: translateY(-20px);
+				transform: translate3d(0,-20px,0);
+				&:before{
+					max-height: 240px;
+				}
+				time, h3{
+					color: $c_white;
+				}
+				.ops-next-date{
+					border-color: rgba($c_greyC,0.2);
+				}
+			}
+		}
+	}
+
+	> div {
+		padding: 20px 30px 0 30px;
+		@include mobile{
+			padding: 20px 20px 0 20px;
+		}
+		&:before{
+			content: '';
+			position: absolute;
+			top: -35px;
+			left: 0;
+			right: 0;
+			background: $c_dark;
+			z-index: -1;
+			width: 100%;
+			height: 100%;
+			max-height: 0;
+			transform: skewY(-10deg);
+			@include addTransition();
+		}
+	}
+
+	h3{
+		margin: 0 0 15px 0;
+	}
+
+	time{
+		position: relative;
+		z-index: 10;
+		@include ft($f_spe, 15px, 700, $c_dark, 22px);
+		padding: 8px 0 2px;
+		display: block;
+		span{
+			font-size: 32px;
+		}
+	}
+
+	.ops-next-date{
+		position: relative;
+		z-index: 10;
+		border-top: 1px solid $c_greyC;
+		height: 34px;
+		time{
+			span{
+				font-size: 22px;
+			}
+		}
+	}
+
+	.ops-img{
+		position: relative;
+		margin-bottom: 20px;
+		background: #AAA;
+		figure, .ops-no-photo{
+			@include aspect-ratio(330,170);
+			&:before{
+				position: relative;
+			}
+		}
+		img{
+			@extend %ops-center;
+			width: 100%;
+			height: 100%;
+		}
+		span{
+			position: absolute;
+			top: 20px;
+			right: -10px;
+			z-index: 10;
+		}
+	}
+
+	.ops-content{
+		padding-bottom: 20px;
+	}
+
+	.ops-bottom-card{
+		@include ft($f_txt, 15px, 700, $c_or, 20px);
+		position: relative;
+		display: block;
+		text-transform: uppercase;
+		text-align: center;
+		padding: 20px 0;
+		@include addTransition();
+		&:hover{
+			color: $c_dark;
+		}
+		&:before{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			width: 100%;
+			height: 1px;
+			background: url(../images/ico/deco-line.png) repeat-x;
+		}
+		&:after{
+			content: "\e90f";
+			@include font();
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			margin-top: -10px;
+			font-size: 20px;
+			color: $c_dark;
+		}
+	}
+}
+
+
+// CARD ARTICLE - PAGE SINGLE
+// ==========================================================================
+.ops-card-article{
+	figure{
+		@include aspect-ratio(390,360);
+		img{
+			@extend %ops-center;
+			width: 100%;
+			height: 100%;
+		}
+	}
+	.ops-content-card-actu{
+		padding: 15px 30px 70px 30px;
+	}
+}
+
+
+// CARD PAGE STANDARD
+// ==========================================================================
+.ops-card-std{
+	figure{
+		@include aspect-ratio(390,560);
+		&:after{
+			content: '';
+			@extend %ops-center;
+			z-index: 10;
+			background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 36%, rgba(0,0,0,0.8) 100%);
+			background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 36%,rgba(0,0,0,0.8) 100%);
+			background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 36%,rgba(0,0,0,0.8) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 );
+		}
+		img{
+			@extend %ops-center;
+			width: 100%;
+			height: 100%;
+		}
+	}
+	.ops-no-photo{
+		@include aspect-ratio(390,560);
+	}
+	h3{
+		position: absolute;
+		left: 20px;
+		right: 20px;
+		bottom: 25px;
+		width: calc(100% - 40px);
+		color: $c_white;
+	}
+}
+
+
+// CARD EMPLOI
+// ==========================================================================
+.ops-card-emploi{
+	> div{
+		padding: 30px 30px 100px 30px;
+		&:after{
+			content: "\e915";
+			@include font();
+			position: absolute;
+			right: 20px;
+			bottom: 20px;
+			font-size: 28px;
+			color: $c_dark;
+			@include addTransition();
+		}
+	}
+
+	.ops-date-concours{
+		@include ft($f_spe, 13px, 700, $c_main, 20px);
+		position: relative;
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin-bottom: 10px;
+	}
+
+	h3{
+		font-size: 28px;
+		line-height: 34px;
+	}
+}
+
+
+// CARD PEOPLE
+// ==========================================================================
+.ops-card-people{
+	position: relative;
+	padding: 0 20px;
+	margin: 0 20px;
+	font-size: 0;
+	box-shadow: 0 0 40px 3px rgba($c_dark,0.1);
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	@include clearfix();
+	@include addTransition();
+	&:after{
+		content: "\e915";
+		@include font();
+		position: absolute;
+		right: 20px;
+		bottom: 20px;
+		font-size: 28px;
+		color: $c_dark;
+		@include addTransition();
+	}
+	&:hover, &:focus{
+		outline: none;
+		#ops-wrapper:not(.no-hover) & {
+			box-shadow: 0 10px 40px 3px rgba($c_dark,0.2);
+			&:after{
+				color: $c_main;
+			}
+		}
+	}
+	> * {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	figure{
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		overflow: hidden;
+		margin-right: 20px;
+		img{
+			width: 100%;
+			height: 100%;
+		}
+
+		& + .ops-info-people{
+			width: calc(100% - 100px);
+		}
+	}
+
+	.ops-info-people{
+		padding: 20px 0;
+		width: 100%;
+		span{
+			display: block;
+		}
+		.ops-function{
+			@include ft($f_txt, 13px, 700, $c_dark, 20px);
+			text-transform: uppercase;
+			margin-bottom: 8px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.ops-name{
+			@include ft($f_hx, 24px, 400, $c_dark, 30px);
+			margin-bottom: 12px;
+		}
+		.ops-link{
+			color: $c_main;
+			font-size: 13px;
+			line-height: 18px;
+		}
+	}
+}

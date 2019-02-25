@@ -1,0 +1,486 @@
+main {
+	header {
+		position: relative;
+
+		& + .bloc {
+			padding-top: $content-spacing;
+			@include mobile{
+				padding-top: $content-spacing/2;
+			}
+		}
+
+		h1, h2{
+			@include ft($f_hx, 50px, 400, $c_dark, 60px);
+			margin-top: 0;
+			max-width: 70%;
+			word-break: break-all;
+			@include tablet_portrait{
+				font-size: 40px;
+				line-height: 50px;
+				max-width: 100%;
+			}
+			@include mobile{
+				font-size: 35px;
+				line-height: 45px;
+			}
+		}
+
+		figure{
+			figcaption{
+				display: none;
+			}
+		}
+
+
+
+		// Hauteur de page - 100vh
+		// ==========================================================================
+		&.ops-fullpage-header {
+			height: 100%;
+			@include tablet_portrait{
+				height: 600px !important;
+			}
+			@include mobile{
+				height: 550px !important;
+			}
+			figure {
+				position: relative;
+				height: 100%;
+				img {
+					height: 100%;
+				}
+			}
+			.ops-no-photo {
+				height: 500px;
+			}
+		}
+
+		// Header avec hauteur fixe
+		// ==========================================================================
+		&.ops-small-header {
+			figure {
+				height: 410px;
+				img {
+					height: 100%;
+				}
+			}
+			.ops-no-photo {
+				height: 410px;
+			}
+
+			.ops-caption{
+				padding: 0;
+				bottom: 95px;
+				h1{
+					margin: 0 auto 10px auto;
+				}
+			}
+
+		}
+
+		// HEADER - Page Standard
+		// ==========================================================================
+		&.ops-standard-header{
+			height: 100%;
+			.ops-standard-img{
+				@include tablet_portrait{
+					height: 600px !important;
+				}
+				@include mobile{
+					height: 450px !important;
+				}
+				figure{
+					height: 100%;
+					img{
+						height: 100%;
+					}
+				}
+			}
+		}
+
+		// Hauteur - Page LISTING SAISON
+		// ==========================================================================
+		&.ops-header-listing{
+			height: 100vh;
+			min-height: 800px;
+			@include tablet_portrait{
+				min-height: 700px;
+			}
+			@include mobile{
+				min-height: auto;
+				height: 100% !important;
+			}
+			> figure{
+				@include mobile{
+					height: 450px !important;
+				}
+				&:before{
+					content: '';
+					@extend %ops-center;
+					z-index: 10;
+					background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+					background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.85) 100%);
+					background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.85) 100%);
+					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#d9000000',GradientType=0 );
+				}
+			}
+
+			.ops-title-page-listing{
+				z-index: 100;
+				padding: 0 70px;
+				margin-bottom: 85px;
+				@include tablet_landscape{
+					padding: 0;
+				}
+				h1{
+					position: relative;
+					color: $c_white;
+					width: 100%;
+					max-width: 100%;
+					font-size: 73px;
+					line-height: 73px;
+					@include tablet_landscape{
+						font-size: 55px;
+						line-height: 55px;
+					}
+					@include mobile{
+						font-size: 30px;
+						line-height: 35px;
+					}
+					&:after{
+						content: '';
+						position: absolute;
+						bottom: -40px;
+						left: 0;
+						right: 0;
+						width: 100%;
+						height: 1px;
+						background: url(../images/ico/deco-line-white.png) repeat-x;
+						@include tablet_landscape{
+							bottom: -30px;
+						}
+					}
+				}
+			}
+		}
+
+
+		// Header - Page Détail Concert
+		// ==========================================================================
+		&.ops-header-concert{
+			height: calc(100vh - 100px);
+			min-height: 600px;
+			@include tablet_portrait{
+				height: 700px !important;
+			}
+			@include mobile{
+				height: 600px !important;
+				min-height: auto;
+			}
+			figure{
+				position: relative;
+				height: 100%;
+				&:before{
+					content: '';
+					@extend %ops-center;
+					z-index: 10;
+					background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,0.7) 100%);
+					background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0.7) 100%);
+					background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0.7) 100%);
+					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#b3000000',GradientType=0 );
+				}
+				img{
+					height: 100%;
+				}
+			}
+
+			.ops-caption-concert{
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				z-index: 50;
+				@media screen and (max-width: 1280px) {
+					width: calc(100% - 80px);
+					margin: 0 40px;
+				}
+				@include mobile{
+					width: calc(100% - 40px);
+					margin: 0 20px;
+				}
+			}
+
+			.ops-typologie{
+				margin-left: 130px;
+				@media screen and (max-width: 1280px){
+					margin-left: 0;
+				}
+			}
+
+			h1{
+				font-size: 50px;
+				line-height: 58px;
+				color: $c_white;
+				padding-left: 130px;
+				max-width: 50%;
+				margin-bottom: 40px;
+				@media screen and (max-width: 1280px){
+					padding-left: 0;
+				}
+				@include tablet_landscape{
+					padding-left: 0;
+					font-size: 40px;
+					line-height: 46px;
+				}
+				@include tablet_portrait{
+					max-width: 80%;
+				}
+				@include mobile{
+					max-width: 100%;
+					font-size: 30px;
+					line-height: 36px;
+					margin-bottom: 25px;
+				}
+			}
+
+
+			.ops-cta-concert{
+				position: absolute;
+				right: 13px;
+				bottom: 110px;
+				width: 364px;
+				background: $c_white;
+				margin-bottom: 30px;
+				padding: 0 20px;
+				@include tablet_portrait{
+					position: relative;
+					left: 13px;
+					right: 0;
+					bottom: 0;
+				}
+				@include mobile{
+					margin-left: 0;
+					left: 11px;
+					width: calc(100% - 26px);
+					margin-bottom: 20px;
+				}
+				&:before, &:after{
+					content: '';
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					width: 13px;
+					background-size: 110px;
+				}
+				&:before{
+					background: url(../images/deco/ops-ticketLeft.png) repeat-y center left /contain;
+					left: -13px;
+					@include mobile{
+						left: -11px;
+					}
+				}
+				&:after{
+					background: url(../images/deco/ops-ticketRight.png) repeat-y center right /contain;
+					right: -13px;
+					@include mobile{
+						right: -11px;
+					}
+				}
+				a{
+					@include ft($f_txt, 15px, 700, $c_or, 29px);
+					position: relative;
+					text-align: center;
+					width: 100%;
+					padding: 15px 0;
+					text-transform: uppercase;
+					display: block;
+					@include addTransition();
+					@include mobile{
+						line-height: 20px;
+					}
+					@media screen and (max-width: 320px){
+						font-size: 13px;
+					}
+					&:hover, &:focus{
+						#ops-wrapper:not(.no-hover) & {
+							color: $c_dark;
+						}
+					}
+
+					&.ops-ticket{
+						&:before{
+							content: '';
+							position: absolute;
+							left: 0;
+							right: 0;
+							top: 0;
+							width: 100%;
+							height: 1px;
+							background: url(../images/ico/deco-line.png) repeat-x;
+						}
+						&:after{
+							content: "\e90f";
+							@include font();
+							position: absolute;
+							right: 0;
+							font-size: 20px;
+							top: 50%;
+							margin-top: -10px;
+							color: $c_dark;
+						}
+					}
+				}
+			}
+
+
+			nav{
+				background: $c_white;
+				width: 100%;
+				max-width: 100%;
+				@include tablet_portrait{
+					margin-left: -40px;
+					margin-right: -40px;
+					width: calc(100% + 80px);
+					max-width: initial;
+				}
+				@include mobile{
+					margin-left: -20px;
+					margin-right: -20px;
+					width: calc(100% + 40px);
+				}
+				&:after{
+					content: '';
+					position: absolute;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					width: 100%;
+					height: 1px;
+					background: url(../images/ico/deco-line.png) repeat-x;
+				}
+				ul{
+					position: relative;
+					font-size: 0;
+					padding: 34px 30px;
+					margin: 0;
+					@include tablet_landscape{
+						padding: 20px 40px;
+						white-space: nowrap;
+						overflow: auto;
+						-webkit-overflow-scrolling: touch;
+					}
+					@include mobile{
+						padding: 20px;
+					}
+					li{
+						display: inline-block;
+						vertical-align: middle;
+						margin: 0 9px;
+						@include tablet_landscape{
+							margin: 0 5px;
+						}
+						&:first-child{
+							margin-left: 0;
+						}
+						&:last-child{
+							margin-right: 0;
+						}
+						a{
+							@include ft($f_hx, 20px, 400, $c_dark, 24px);
+							padding: 9px 15px;
+							display: block;
+							@include addTransition();
+							@include tablet_landscape{
+								font-size: 18px;
+							}
+							&.ops-active{
+								background: rgba($c_dark,0.05);
+							}
+							&:hover, &:focus{
+								#ops-wrapper:not(.no-hover) &{
+									background: rgba($c_dark,0.05);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Caption text
+		// ==========================================================================
+		.ops-caption {
+			position: absolute;
+			left: 0;
+			right: 0;
+			width: 100%;
+			bottom: 125px;
+			padding: 65px 0 0 0;
+			z-index: 100;
+			@media screen and (max-width: 1280px) {
+				width: calc(100% - 80px);
+			}
+			@include tablet_landscape{
+				bottom: 80px;
+			}
+			@include mobile {
+				width: calc(100% - 40px);
+			}
+			> * {
+				max-width: 50%;
+				@include tablet_portrait{
+					max-width: 100%;
+				}
+				&:last-child{
+					margin-bottom: 0;
+				}
+			}
+			h1,h2{
+				max-width: 80%;
+				color: $c_white;
+				font-size: 73px;
+				line-height: 73px;
+				margin: 0;
+				margin-bottom: 20px;
+				@include tablet_landscape{
+					font-size: 55px;
+					line-height: 55px;
+					max-width: 100%;
+				}
+				@include mobile{
+					font-size: 30px;
+					line-height: 35px;
+				}
+			}
+			p{
+				@include ft($f_txt, 18px, 400, $c_white, 30px);
+			}
+			.ops-btn{
+				margin-top: 15px;
+				color: $c_white;
+			}
+		}
+
+		.ops-caption-relative{
+			position: relative;
+			background: $c_white;
+			padding: 65px 40px 0 40px;
+			margin-top: -110px;
+			@include mobile{
+				margin-top: -60px;
+				padding: 35px 20px 0 20px;
+			}
+			> div {
+				max-width: 960px;
+				margin: auto;
+				margin-bottom: 20px;
+				> * {
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,484 @@
+.ops-slick-nav {
+	position: absolute;
+	left: 65px;
+	bottom: 0;
+	@include mobile {
+		text-align: center;
+		left: 50px;
+		right: 50px;
+		width: calc(100% - 100px);
+	}
+	.slick-dots {
+		position: relative;
+		bottom: 0;
+		margin: 0;
+		width: 100%;
+		padding: 0 55px;
+		margin-bottom: 25px;
+		@include mobile {
+			display: inline-block !important;
+			text-align: center;
+			width: auto;
+		}
+		&:before, &:after {
+			content: '';
+			position: absolute;
+			top: calc(50% - 1px);
+			width: 45px;
+			height: 1px;
+			background: url(../images/ico/deco-line-white.png) repeat-x;
+		}
+		&:before {
+			left: 0;
+		}
+		&:after {
+			right: 0;
+		}
+	}
+}
+
+// Style Slick Slider
+// ==========================================================================
+.slick-carousel {
+	height: 100%;
+	&:not(.slick-initialized) {
+		.ops-item {
+			display: none;
+			&:first-child {
+				display: block;
+			}
+		}
+	}
+	.slick-list {
+		height: 100%;
+		.slick-track {
+			height: 100%;
+			.slick-slide {
+				height: 100%;
+				&:focus {
+					outline: none;
+				}
+			}
+		}
+	}
+
+	.ops-item {
+		position: relative;
+		height: 100%;
+		&:focus {
+			outline: none;
+		}
+		figure {
+			&:before {
+				content: '';
+				@extend .gradient-bottom;
+			}
+		}
+	}
+
+}
+
+// Style Dots
+// ==========================================================================
+.slick-dots {
+	max-width: 1280px;
+	margin: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	width: 100%;
+	bottom: 20px;
+	font-size: 0;
+	@media screen and (min-width: 1600px) {
+		max-width: 1520px;
+	}
+	@media screen and (max-width: 1360px) {
+		margin: 0 40px;
+		width: calc(100% - 80px);
+	}
+	@include mobile {
+		margin: 0 20px;
+		width: calc(100% - 40px);
+	}
+	li {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0 8px;
+		padding: 0;
+		&:before {
+			content: none;
+		}
+		&.slick-active {
+			button {
+				background: $c_white;
+			}
+		}
+		button {
+			width: 10px;
+			height: 10px;
+			background: transparent;
+			border-radius: 50%;
+			cursor: pointer;
+			display: block;
+			padding: 0;
+			font-size: 0;
+			line-height: 0;
+			border: 2px solid $c_white;
+			outline: none;
+			@include addTransition();
+			&:hover, &:focus, &:active {
+				background: $c_white;
+			}
+		}
+	}
+}
+
+// Style Arrows
+// ==========================================================================
+.slick-prev, .slick-next {
+	position: absolute;
+	top: -3px;
+	z-index: 100;
+	font-size: 0;
+	padding: 0;
+	line-height: 0;
+	border: none;
+	outline: none;
+	background: none;
+	overflow: visible;
+	@include addTransition();
+	&:hover, &:focus, &:active {
+		cursor: pointer;
+		&:before {
+			color: $c_main;
+		}
+	}
+
+	&:before {
+		@include font();
+		border-radius: 50%;
+		color: $c_white;
+		font-size: 16px;
+		z-index: 10000;
+		@include addTransition();
+	}
+}
+
+.slick-prev {
+	left: -30px;
+	@include mobile {
+		left: 0;
+		top: 7px;
+	}
+	&:before {
+		content: "\e902";
+	}
+}
+
+.slick-next {
+	right: -27px;
+	@include mobile {
+		right: 0;
+		top: 7px;
+	}
+	&:before {
+		content: "\e903";
+	}
+}
+
+
+
+
+
+
+
+// SLIDER SPE - SLIDER CARDS
+// ==========================================================================
+.slick-cards-slider {
+	margin-top: 40px;
+	.slick-list {
+		overflow: visible;
+	}
+	.ops-item {
+		width: 390px;
+		margin-right: 30px;
+		@media screen and (max-width: 440px){
+			width: calc(100% - 30px);
+		}
+	}
+
+	.slick-prev, .slick-next{
+		width: 54px;
+		height: 54px;
+		top: 50%;
+		margin-top: -27px;
+		background: $c_dark;
+		border-radius: 50%;
+		@include addTransition();
+		@include mobile{
+			width: 40px;
+			height: 40px;
+			margin-top: -20px;
+		}
+		&:hover, &:focus{
+			#ops-wrapper:not(.no-hover) & {
+				background: $c_main;
+			}
+		}
+		&:before{
+			color: $c_white;
+			font-size: 24px;
+			position: relative;
+			@include addTransition();
+			@include mobile{
+				font-size: 18px;
+			}
+		}
+	}
+
+	.slick-prev{
+		left: -65px;
+		@media screen and (max-width: 1345px){
+			left: 0;
+		}
+		@include mobile{
+			display: none !important;
+		}
+
+		&.slick-disabled{
+			background: none;
+			@include mobile{
+				display: none !important;
+			}
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					background: $c_dark;
+					&:before{
+						color: $c_white;
+					}
+				}
+			}
+			&:before{
+				color: $c_dark;
+			}
+		}
+		&:before{
+			left: -1px;
+		}
+	}
+	.slick-next{
+		right: 0;
+		&:before{
+			left: 1px;
+		}
+
+		&.slick-disabled {
+			@include mobile {
+				display: none !important;
+			}
+		}
+	}
+}
+
+// SLIDER SPE - PAGE LISTING SAISON
+// ==========================================================================
+.ops-slider-highlight-saison {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -100px;
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	@include mobile{
+		position: relative;
+		bottom: 0;
+		margin-top: -200px;
+	}
+	> .slick-carousel {
+		position: relative;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 100;
+		height: auto;
+		@include mobile{
+			position: relative;
+		}
+		.slick-list {
+			overflow: visible;
+			.slick-track{
+				font-size: 0;
+				> * {
+					float: none;
+					display: inline-block;
+					vertical-align: bottom;
+					@include mobile{
+						vertical-align: top;
+					}
+				}
+			}
+		}
+
+		.slick-prev, .slick-next{
+			&.slick-disabled{
+				display: none !important;
+			}
+		}
+
+		.ops-item {
+			width: 785px;
+			margin-right: 40px;
+			@include tablet_portrait{
+				width: 660px;
+			}
+			@media screen and (max-width: 700px){
+				width: 560px;
+			}
+			@include mobile{
+				width: 100%;
+			}
+
+			.ops-card-saison-highlight {
+				position: relative;
+				font-size: 0;
+				padding-bottom: 50px;
+				@include clearfix();
+				> * {
+					display: inline-block;
+					vertical-align: bottom;
+				}
+				figure {
+					width: 390px;
+					box-shadow: 0 0 60px 3px rgba($c_dark,0.2);
+					@include aspect-ratio(390, 420);
+					&:before {
+						position: relative;
+					}
+					@include tablet_portrait{
+						width: 280px;
+					}
+					@include mobile{
+						width: 100%;
+						height: 300px;
+					}
+					img {
+						@extend %ops-center;
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.ops-no-photo{
+					width: 390px;
+					height: auto;
+					box-shadow: 0 0 60px 3px rgba($c_dark,0.1);
+					@include aspect-ratio(390, 420);
+					@include tablet_portrait{
+						width: 280px;
+					}
+					@include mobile{
+						width: 100%;
+						height: 300px;
+					}
+				}
+				> div:not(.ops-no-photo) {
+					position: relative;
+					width: calc(100% - 390px);
+					padding: 0 35px 0 50px;
+					margin-bottom: 50px;
+					@include tablet_portrait{
+						width: calc(100% - 280px);
+						padding: 0 20px;
+					}
+					@include mobile{
+						width: 100%;
+						transform: none;
+						margin-top: 30px;
+						padding: 0;
+						margin-bottom: 0;
+					}
+				}
+
+				.ops-next-date {
+					border-top: 1px solid rgba($c_white, 0.4);
+					@include mobile{
+						border-top: 1px solid rgba($c_dark,0.4);
+					}
+					time {
+						span {
+							font-size: 22px;
+						}
+					}
+				}
+
+				time {
+					position: relative;
+					z-index: 10;
+					@include ft($f_spe, 15px, 700, $c_white, 22px);
+					padding: 8px 0 2px;
+					display: block;
+					@include mobile{
+						color: $c_dark;
+					}
+					span {
+						font-size: 32px;
+					}
+				}
+
+				h3 {
+					@include ft($f_hx, 25px, 400, $c_white, 32px);
+					max-width: 100%;
+					margin: 0;
+					@include mobile{
+						color: $c_dark;
+					}
+				}
+
+				.ops-typologie {
+					background: none;
+					color: $c_main;
+					padding: 0;
+					margin: 2px 0 18px 0;
+				}
+
+				.ops-names, .ops-songs {
+					color: $c_white;
+					@include mobile{
+						color: $c_dark;
+					}
+				}
+
+				.ops-bottom-card {
+					position: relative;
+					display: inline-block;
+					border-bottom: 10px solid $c_main;
+
+					a{
+						@include ft($f_txt, 15px, 700, $c_main, 20px);
+						display: inline-block;
+						text-transform: uppercase;
+						position: relative;
+						padding: 22px 0 35px 0;
+						@include addTransition();
+						@include tablet_portrait{
+							padding: 15px 0;
+						}
+						&:after {
+							content: "\e90f";
+							@include font();
+							margin-left: 18px;
+							font-size: 20px;
+						}
+						&:hover, &:focus {
+							outline: none;
+							#ops-wrapper:not(.no-hover) & {
+								padding-bottom: 20px;
+								margin-top: 15px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
