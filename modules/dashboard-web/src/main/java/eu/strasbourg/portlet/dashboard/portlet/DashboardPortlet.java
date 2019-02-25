@@ -85,7 +85,7 @@ public class DashboardPortlet extends MVCPortlet {
             request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
             request.setAttribute("isUserloggedIn", true);
             request.setAttribute("userConnected",userConnected);
-            request.setAttribute("profileURL",lh.getPublikProfileURL());
+            request.setAttribute("profilePictureURL",lh.getPublikIssuerURL() + "/accounts/edit/photo/");
         } else request.setAttribute("isUserloggedIn", false);
 
         /**

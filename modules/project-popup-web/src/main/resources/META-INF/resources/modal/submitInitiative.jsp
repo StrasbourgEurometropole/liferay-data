@@ -195,16 +195,16 @@
                 
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="file-petition-legalage" value="legalage">
-                        <label for="file-petition-legalage" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />legalage" value="legalage">
+                        <label for="<portlet:namespace />legalage" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="file-petition-cnil" value="cnil">
-                        <label for="file-petition-cnil" class="fontWhite">
+                        <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
+                        <label for="<portlet:namespace />cnil" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
                         </label>
                     </div>

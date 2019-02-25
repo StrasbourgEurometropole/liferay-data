@@ -1,34 +1,27 @@
 package eu.strasbourg.portlet.mediatheque.portlet;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.mediatheque.association.AssociationResponse;
 import eu.strasbourg.portlet.mediatheque.association.AssociationWebService;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.configuration.MediathequeConfiguration;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateResponse;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateWebService;
-import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.portlet.mediatheque.mapping.MediathequeMapping;
+import eu.strasbourg.utils.PortletHelper;
+
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class MediathequeDisplayContext {
@@ -145,10 +138,10 @@ public class MediathequeDisplayContext {
 
 		String error = null;
 		if (Validator.isNull(number)) {
-			error = "number-required";
+			error = "Veuillez choisir un num&eacute;ro de carte";
 		}
 		if (number.contains("<")) {
-			error = "invalid-characters";
+			error = "Caract&egrave;res invalides";
 		}
 		if (Validator.isNull(error)) {
 			AssociationResponse association = AssociationWebService.getResponse(this.getPublikID(request), number, getRetouURL());
