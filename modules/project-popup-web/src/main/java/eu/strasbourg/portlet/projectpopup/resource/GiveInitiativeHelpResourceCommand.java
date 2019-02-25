@@ -2,10 +2,15 @@ package eu.strasbourg.portlet.projectpopup.resource;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
+import javax.mail.internet.InternetAddress;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
@@ -19,17 +24,21 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -38,8 +47,14 @@ import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import freemarker.core.ParseException;
+import freemarker.template.Configuration;
+import freemarker.template.MalformedTemplateNameException;
+import freemarker.template.Template;
+import freemarker.template.TemplateNotFoundException;
 
 @Component(
 	immediate = true,
@@ -133,8 +148,15 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
             this.isUserAlredyHelp = this.existantInitiativeHelp != null;
             
             // Selon le resultat precedent, etrait ou ajout d'une aide
-            result = this.isUserAlredyHelp ? removeInitiativeHelp(request) : sendInitiativeHelp(request);
-
+            if(this.isUserAlredyHelp)
+            	result = removeInitiativeHelp(request);
+        	else {
+        		result = sendInitiativeHelp(request);	
+        		
+        		if(result)
+        			//envoi du mail de confirmation au porteur et à l'administrateur
+        			sendHelpMailConfirmation(request, this.publikID);
+        	}
         }
         
         // Retour des informations de la requete en JSON
@@ -155,6 +177,59 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 
         return result;
 	}
+    
+    /**
+	 * Envoi du mail de confirmation de l'aide au porteur de l'initiative et à l'administrateur du site
+	 */
+    private void sendHelpMailConfirmation(ResourceRequest request, String userId) {
+    	
+    	try {
+	    	JSONObject jsonUser = PublikApiClient.getUserDetails(userId);
+	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	    	
+	    	// récupération des images
+			StringBuilder hostUrl = new StringBuilder("http://");
+			hostUrl.append(request.getServerName()).append(":").append(request.getServerPort());
+			StringBuilder headerImage = new StringBuilder(hostUrl)
+					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+			StringBuilder btnImage = new StringBuilder(hostUrl)
+					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+	    	
+			// préparation du template de mail
+			Map<String, Object> context = new HashMap<>();
+			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
+			context.put("headerImage", headerImage.toString());
+			context.put("footerImage", btnImage.toString());
+			context.put("initiativeTitle", this.initiative.getTitle());
+			context.put("initiativeHelpMessage", this.initiativeHelpMessage);
+			
+		  	Configuration configuration = new Configuration(Configuration.getVersion());
+			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
+			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+			
+			boolean success = false;
+			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
+			StringWriter bodyWriter = new StringWriter();
+			bodyTemplate.process(context, bodyWriter);
+			
+			String subject = jsonUser.getString("first_name") + " " + jsonUser.getString("last_name") 
+			+ " " + LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.give.initiative.help.mail.confirmation.subject");
+			
+			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+					themeDisplay.getScopeGroup().getName(request.getLocale()));
+			
+			InternetAddress[] toAddresses = new InternetAddress[0];
+			InternetAddress address = new InternetAddress(this.initiative.getAuthor().getEmail());
+			toAddresses = ArrayUtil.append(toAddresses, address);
+			
+			// envoi du mail aux utilisateurs
+			success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
+					bodyWriter.toString());
+		} catch (Exception e) {
+			_log.error(e);
+			e.printStackTrace();
+		}
+    }
 	
 	/**
 	 * Envoi de la demande d'aide

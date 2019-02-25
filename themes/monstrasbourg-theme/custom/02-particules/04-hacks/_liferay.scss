@@ -49,6 +49,10 @@
 }
 
 
+.loading-animation[id*='ValidationAddressWebPortlet']{
+	display: none;
+}
+
 @keyframes chargement {
 	0% {
 		transform: translate(-50%, -50%) rotate(0deg);

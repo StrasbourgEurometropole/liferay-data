@@ -94,4 +94,9 @@ public class LayoutHelperImpl implements LayoutHelperService {
     public String getDashboardURL() {
         return StrasbourgPropsUtil.getDashboardURL();
     }
+    
+    @Override
+    public String getPublikIssuerURL() {
+        return StrasbourgPropsUtil.getPublikIssuer();
+    }
 }
