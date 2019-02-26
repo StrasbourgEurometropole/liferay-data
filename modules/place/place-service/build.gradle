@@ -6,6 +6,7 @@ dependencies {
 	compile project(":modules:place:place-api")
 	compile project(":modules:video:video-api")
 	compile project(":modules:agenda:agenda-api")
+	compileOnly group: 'org.json', name: 'org.json', version: '2.0'
 }
 
 buildService {
