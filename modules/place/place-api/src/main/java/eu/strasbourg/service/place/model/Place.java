@@ -332,7 +332,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne les horaires des exceptions d'ouverture à partir du lundi de la
 	* semaine en cours
 	*
-	* @param surPériode (false = horaires d'une journée uniquement , true = horaires
+	* @param surPeriode (false = horaires d'une journée uniquement , true = horaires
 	  sur 2 mois à partir du jour + le début de la semaine)
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
