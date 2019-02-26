@@ -2,16 +2,19 @@
 <#setting locale = locale />
 <#assign GroupLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.GroupLocalService")>
 <#assign videoFriendlyURL = GroupLocalService.fetchGroup(themeDisplay.getCompanyId(),"Vidéos").getFriendlyURL()>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign videoURL = "/web${videoFriendlyURL}/" />
-<#else>
-    <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
-    <#assign videoURL = currentURL?keep_before("strasbourg.eu") + "videos.strasbourg.eu/" />
-    <#if videoURL?split("://")?size == 2>
-        <#assign videoURL = videoURL?split("://")?last />
-    </#if>
-</#if>
+
 <#list entries as curEntry>
+
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+        <#assign videoURL = "/web${videoFriendlyURL}/" />
+    <#else>
+        <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
+        <#assign videoURL = currentURL?keep_before("strasbourg.eu") + "videos.strasbourg.eu/" />
+        <#if videoURL?split("://")?size == 2>
+            <#assign videoURL = "http://" + videoURL?split("://")?last />
+        </#if>
+    </#if>
+
     <#assign entry = curEntry.getAssetRenderer().getVideo() />
     <#assign viewURL = videoURL + "video/-/entity/id/" + entry.getVideoId() />
 
@@ -22,7 +25,7 @@
                 <h3 class="hp-video__title">${entry.getTitle(locale)}</h3>
                 <i class="mag-player hp-video__player"></i>
             </a>
-            <a href="http://videos.strasbourg.eu/" class="unstyled a-btn-main h-inverted icon-right transparent-core-dark hp-video__link">
+            <a href="${videoURL}" class="unstyled a-btn-main h-inverted icon-right transparent-core-dark hp-video__link">
                 <span class="flexbox"><i class="mag mag-arrow-right"></i>
                     <span class="btn-text">Toutes les vidéos</span>
                 </span>
