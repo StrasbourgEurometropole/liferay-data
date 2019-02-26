@@ -234,7 +234,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			// Ajout des nouvelles
 			String timelineIndexesString = ParamUtil.getString(request, "projectTimelineIndexes");
 			for (String timelineIndex : timelineIndexesString.split(",")) {
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				DateFormat paramDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				if (Validator.isNotNull(timelineIndex)
 						&& Validator.isNotNull(ParamUtil.getString(request, "date" + timelineIndex))) {
 
@@ -242,13 +242,16 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					Integer spacing = ParamUtil.getInteger(request, "spacing" + timelineIndex);
 
 					// Date
-					Date date = ParamUtil.getDate(request, "date" + timelineIndex, dateFormat);
+					Date date = ParamUtil.getDate(request, "date" + timelineIndex, paramDateFormat);
 
 					// Titre
 					String timelineTitle = ParamUtil.getString(request, "title" + timelineIndex);
 
 					// Lien
 					String link = ParamUtil.getString(request, "link" + timelineIndex);
+					
+					// Format de date
+					String dateFormat = ParamUtil.getString(request, "dateFormat" + timelineIndex);
 
 					ProjectTimeline projectTimeline = _projectTimelineLocalService.createProjectTimeline();
 					projectTimeline.setDate(date);
@@ -256,6 +259,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					projectTimeline.setTitle(timelineTitle);
 					projectTimeline.setLink(link);
 					projectTimeline.setProjectId(project.getProjectId());
+					projectTimeline.setDateFormat(dateFormat);
 					this._projectTimelineLocalService.updateProjectTimeline(projectTimeline);
 				}
 			}

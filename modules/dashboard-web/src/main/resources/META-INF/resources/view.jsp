@@ -138,7 +138,7 @@
 							<div class="photo">
 								<div class="photo__helper">
 									<div class="photo__frame photo__frame--circle">
-										<a href="${profileURL}">
+										<a href="${profilePictureURL}">
 											<img src="${userConnected.get('photo')}" width="185" height="185" alt="Image" class="pro-img-bg" />
 											<canvas class="photo__canvas"></canvas>
 										</a>

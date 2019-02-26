@@ -23,12 +23,9 @@ public class FamilySpaceWebService {
 		FamilySpaceResponse familySpaceResponse = null;
 		try {
 			// On récupère le JSON
-			String url = StrasbourgPropsUtil.getFamilySpace();
+			String url = StrasbourgPropsUtil.getFamilySpace() + publikInternalId;
 			// url = "https://webservices.strasbourg.eu/wdmiam/InfosFamilles.svc/IdentifiantOpenId/";
-			// url +=  "00e112a761d24a1ca57798e8867c97bc ";
-			// TODO : Angel -> A supprimer
-			// url = "https://ems-recette-espacefamille-webservice.sully-group.fr/InfosFamilles.svc/identifiantOpenId/";
-			// url += "e380485c012342659a15c46ee77bb279";
+			// url +=  "00e112a761d24a1ca57798e8867c97bc";
 			HttpURLConnection httpConn = PasserelleHelper.readFromURL(url);
 			//if(httpConn.getContentType().contains("application/json")) {
 				JSONObject jsonResponse = PasserelleHelper.readJson(httpConn);

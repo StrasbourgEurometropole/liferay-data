@@ -1,7 +1,7 @@
 (function ($) {
     $(document).ready(function(){
         if($('.mseu body.front').length){
-            $('.delete-wi').on('click', function(){
+            $('.portlet-column-content').on('click','.delete-wi', function(){
                 var portletId = $(this).data('portletId');
                 var $section = $(this).closest('section');
                 var message = "Êtes vous sur de vouloir masquer le widget ?";

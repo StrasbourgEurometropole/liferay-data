@@ -36,17 +36,33 @@ form.update-reminder-query  {
 
 /* Décallage lorsqu'un utilisateur est connecté */
 
-.has-control-menu .seu-header {
+.has-control-menu .seu-header, .has-control-menu .smag-header {
   top: 66px;
 }
 .has-control-menu .seu-nav-bottom.seu-nav-bottom {
   top: calc(100vh - 120px);
 }
 
-.seu-not-front.has-control-menu {
+.seu-not-front.has-control-menu, .smag.has-control-menu {
   margin-top: 66px;
 }
 
 .page-header {
   border-bottom: none;
+}
+
+.smag header{
+  z-index: 200;
+}
+
+/* suppression du déplacement du header au dessus du portlet */
+.portlet {
+	&:hover, &.focus {
+		> .portlet-topper {
+			@media only screen and (min-width: 768px) {
+        transform: translateY(0);
+        z-index: 201;
+			}
+		}
+	}
 }

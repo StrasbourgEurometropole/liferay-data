@@ -767,6 +767,7 @@ public class PlaceImpl extends PlaceBaseImpl {
                     state = OccupationState.ORANGE;
                 } else
                     state = OccupationState.GREEN;
+                state.setOccupationLabel("" + occupation);
                 state.setOccupation("" + occupation);
                 break;
             case "2":
@@ -834,7 +835,8 @@ public class PlaceImpl extends PlaceBaseImpl {
                     long min = occupation % 60;
                     newOccupation += (min < 10 ? "0" + min : min);
                 }
-                state.setOccupation(newOccupation);
+                state.setOccupationLabel(newOccupation);
+                state.setOccupation("" + occupation);
                 break;
         }
         return state;
@@ -1017,7 +1019,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      * Retourne les horaires des exceptions d'ouverture à partir du lundi de la
      * semaine en cours
      *
-     * @param surPériode (false = horaires d'une journée uniquement , true = horaires
+     * @param surPeriode (false = horaires d'une journée uniquement , true = horaires
      *                   sur 2 mois à partir du jour + le début de la semaine)
      */
     @Override

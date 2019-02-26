@@ -555,11 +555,11 @@ public class PoiServiceImpl implements PoiService {
 				String color = occupation.getCssClass();
 				if (place.isSwimmingPool()) {
 					title = "frequentation-real";
-					frequentation = occupation.getOccupation();
+					frequentation = occupation.getOccupationLabel();
 					label = occupation.getLabel();
 				} else if (place.isMairie()) {
 					title = "time-real";
-					frequentation = occupation.getOccupation();
+					frequentation = occupation.getOccupationLabel();
 					label = occupation.getLabel();
 				} else {
 					title = "occupation-real";

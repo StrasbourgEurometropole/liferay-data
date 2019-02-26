@@ -318,13 +318,14 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		JSONObject jsonRealtime = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonResults = JSONFactoryUtil.createJSONArray();
 
-		// Récupère tous les lieux ayant un externalId
-		List<Place> places = this.placeLocalService.getPlaces(-1, -1).stream().filter(p -> Validator.isNotNull(p.getRTExternalId()))
+		// Récupère tous les lieux valides ayant un externalId différent de "NO" et non vide, ainsi qu'une date de modification
+		List<Place> places = this.placeLocalService.getPlaces(-1, -1).stream().filter(p -> p.isApproved() && Validator.isNotNull(p.getRTExternalId())
+					&& !p.getRTExternalId().equals("NO") && !p.getRTExternalId().equals("") && Validator.isNotNull(p.getRTLastUpdate()))
 				.collect(Collectors.toList());
 
-		try {
+		for (Place place : places) {
 
-			for (Place place : places) {
+			try {
 				JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 				jsonPlace.put("sigId", place.getSIGid());
 				JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
@@ -334,46 +335,87 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 				}
 				jsonPlace.put("types", jsonTypes);
 				OccupationState realtime = place.getRealTime();
-				jsonPlace.put("realTimeStatus", realtime.getLabel());
+				switch (realtime.getLabel()) {
+					case "closed-period":
+						jsonPlace.put("realTimeStatus", "CLOSED");
+						break;
+					case "not-available":
+						jsonPlace.put("realTimeStatus", "NOT_AVAILABLE");
+						break;
+					case "open-period":
+						jsonPlace.put("realTimeStatus", "OPEN");
+						break;
+					case "green-period":
+						jsonPlace.put("realTimeStatus", "GREEN");
+						break;
+					case "orange-period":
+						jsonPlace.put("realTimeStatus", "ORANGE");
+						break;
+					case "red-period":
+						jsonPlace.put("realTimeStatus", "RED");
+						break;
+					case "black-period":
+						jsonPlace.put("realTimeStatus", "BLACK");
+						break;
+					case "full-period":
+						jsonPlace.put("realTimeStatus", "FULL");
+						break;
+					case "real-time-disabled":
+						jsonPlace.put("realTimeStatus", "DISABLED");
+						break;
+				}
 				switch (place.getRTType()) {
 					case "1": // Piscines
-						jsonPlace.put("occupation", realtime.getOccupation());
+						jsonPlace.put("occupation", realtime.getOccupationLabel());
+						jsonPlace.put("available", org.json.JSONObject.NULL);
+						jsonPlace.put("capacity", org.json.JSONObject.NULL);
+						jsonPlace.put("averageWaitingTime", org.json.JSONObject.NULL);
 						break;
 					case "2": // Parkings
 						jsonPlace.put("available", realtime.getAvailable());
 						jsonPlace.put("capacity", realtime.getCapacity());
+						jsonPlace.put("occupation", org.json.JSONObject.NULL);
+						jsonPlace.put("averageWaitingTime", org.json.JSONObject.NULL);
 						break;
 					case "3": // Mairies
 						jsonPlace.put("averageWaitingTime", realtime.getOccupation());
+						jsonPlace.put("occupation", org.json.JSONObject.NULL);
+						jsonPlace.put("available", org.json.JSONObject.NULL);
+						jsonPlace.put("capacity", org.json.JSONObject.NULL);
 						break;
 				}
-				jsonPlace.put("isOpen", place.isOpenNow());
-				PlaceSchedule schedule = place.getPlaceSchedule(new Date(), 1, Locale.FRANCE).entrySet().iterator().next().getValue().get(0);
-				jsonPlace.put("isOpen247", schedule.isAlwaysOpen());
-				if(!(schedule.isAlwaysOpen() || schedule.isClosed()) ) {
-					JSONArray jsonSchedules = JSONFactoryUtil.createJSONArray();
-					List<Pair<LocalTime, LocalTime>> openingTimes = schedule.getOpeningTimes();
-					for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
-						JSONObject jsonSchedule = JSONFactoryUtil.createJSONObject();
-						LocalTime opening = openingTime.getFirst();
-						jsonSchedule.put("openingHour", opening.getHour());
-						jsonSchedule.put("openingMinute", opening.getMinute());
-						LocalTime closing = openingTime.getSecond();
-						jsonSchedule.put("closingHour", closing.getHour());
-						jsonSchedule.put("closingMinute", closing.getMinute());
-						jsonSchedules.put(jsonSchedule);
+				List<PlaceSchedule> listeHoraire = place.getPlaceSchedule(new Date(), 1, Locale.FRANCE).entrySet().iterator().next().getValue();
+				JSONArray jsonSchedules = JSONFactoryUtil.createJSONArray();
+				if(!listeHoraire.isEmpty()) {
+					PlaceSchedule schedule = listeHoraire.get(0);
+					jsonPlace.put("isOpen", place.isOpenNow());
+					jsonPlace.put("isOpen247", schedule.isAlwaysOpen());
+					if (!(schedule.isAlwaysOpen() || schedule.isClosed())) {
+						List<Pair<LocalTime, LocalTime>> openingTimes = schedule.getOpeningTimes();
+						for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+							JSONObject jsonSchedule = JSONFactoryUtil.createJSONObject();
+							LocalTime opening = openingTime.getFirst();
+							jsonSchedule.put("openingHour", opening.getHour());
+							jsonSchedule.put("openingMinute", opening.getMinute());
+							LocalTime closing = openingTime.getSecond();
+							jsonSchedule.put("closingHour", closing.getHour());
+							jsonSchedule.put("closingMinute", closing.getMinute());
+							jsonSchedules.put(jsonSchedule);
+						}
 					}
-					jsonPlace.put("daySchedule", jsonSchedules);
+				}else {
+					jsonPlace.put("isOpen", org.json.JSONObject.NULL);
+					jsonPlace.put("isOpen247", org.json.JSONObject.NULL);
 				}
+				jsonPlace.put("daySchedule", jsonSchedules);
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				jsonPlace.put("updateDate", df.format(place.getRTLastUpdate()));
 
 				jsonResults.put(jsonPlace);
 
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-		}catch (Exception e){
-			e.printStackTrace();
 		}
 		jsonRealtime.put("results", jsonResults);
 		return jsonRealtime;

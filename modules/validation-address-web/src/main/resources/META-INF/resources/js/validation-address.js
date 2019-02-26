@@ -1,7 +1,7 @@
 (function(jQuery) {
     var namespace = '_eu_strasbourg_portlet_validationAddress_ValidationAddressWebPortlet_';
 
-    $('input[type="radio"').on('click', function() {
+    $('.portlet-column-content').on('click','input[type="radio"]', function() {
         if($(this).val() == "other"){
             $('#validation').hide();
             $('#other-address').show();
