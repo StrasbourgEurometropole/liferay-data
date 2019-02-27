@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Title"
+                "fr_FR": "Titre"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -77,7 +77,7 @@
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "Legend"
+                        "fr_FR": "Légende"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -102,7 +102,7 @@
         },
         {
             "label": {
-                "fr_FR": "Content"
+                "fr_FR": "Contenu"
             },
             "predefinedValue": {
                 "fr_FR": ""
