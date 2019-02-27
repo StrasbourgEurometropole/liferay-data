@@ -61,6 +61,7 @@
         }
 
         .slider-for .slick-slide > div > div{
+            min-height: 180px;
             height: calc(80vh - 105px);
             display: flex !important;
         }
@@ -79,6 +80,7 @@
         .legend{
             position: absolute;
             bottom: -1px;
+            min-height: 45px;
             max-height: 80px;
             height: 15vh ;
             background-color: rgba(255,255,255,0.6);
@@ -115,6 +117,7 @@
 
         .image-nav {
             width: 100%;
+            min-height: 60px;
             height: 15vh;
             background-size: cover;
             background-position: center;
