@@ -33,7 +33,7 @@
 </ul>
 
 <div class="hp-kiosque__more">
-    <a href="#" class="a-btn-main core h-inverted icon-right">
+    <a href="/editions" class="a-btn-main core h-inverted icon-right">
         <span class="flexbox"><i class="mag mag-arrow-right"></i>
             <span class="btn-text">Toutes les éditions</span>
         </span>
