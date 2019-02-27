@@ -21,11 +21,12 @@
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                         <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
                         <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                        <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                         <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
                         <li class="slider-une-main__slider-item">
-                            <div class="slider-une-main__slide" data-title="${title}" data-description="${chapo}" data-link="${viewURL}" style="background-image: url(${thumbnail});">
+                            <div class="slider-une-main__slide" data-title="${title}" data-description="${chapo}" data-link="${viewURL}" style="background-image: url(${image});">
                                 <div class="slider-une-main__slide-image">
                                     <div class="slider-une-main__slide-background" style="background-image: url(${thumbnail});"></div>
                                     </div> 
