@@ -61,8 +61,14 @@ form.update-reminder-query  {
 		> .portlet-topper {
 			@media only screen and (min-width: 768px) {
         transform: translateY(0);
+        width: calc(100% - 35px);
         z-index: 201;
 			}
 		}
 	}
+}
+
+/* Taille minimum d'un portlet pour affichage de l'header */
+.has-control-menu .portlet-content-editable {
+  min-height: 50px;
 }
