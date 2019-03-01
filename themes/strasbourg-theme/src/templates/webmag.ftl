@@ -1,7 +1,7 @@
 <#assign isHome = layout.getFriendlyURL() == "/webmag" />
 <#assign isPortraitList = layout.getFriendlyURL() == "/webmag-portraits" />
 
-<body class="smag  
+<body class="${css_class} smag  
   <#if isHome>
     front
   <#else>
