@@ -85,6 +85,12 @@
         </div>
     </main>
   </#if>
+    
+  <@liferay_portlet["runtime"]
+    portletProviderAction=portletProviderAction.VIEW
+    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+    instanceId="footer"
+    settingsScope="group" />
 
   <!-- inject:js -->
   <script type="text/javascript">

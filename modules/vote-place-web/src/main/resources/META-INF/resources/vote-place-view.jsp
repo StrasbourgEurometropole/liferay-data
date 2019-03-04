@@ -16,7 +16,7 @@
    	</c:if>
 	<div class="felec-response rte">
     	<c:if test="${not empty champsNull}">
-			<!-- Tous les champs n'ont pas ÃÂ©tÃÂ©s renseignÃÂ©s -->
+			<!-- Tous les champs n'ont pas étés renseignés -->
 			<div class="main-response">
 				Pour conna&icirc;tre les coordonn&eacute;es de votre bureau de vote, merci de renseigner la ou les information(s) suivante(s) :
 				<div class="incomplet">
@@ -42,7 +42,7 @@
 				<div class="error">
 					<c:choose>
 	       				<c:when test="${felecResponse.responseCode eq 9}">
-							<!-- RequÃÂªte trop vague -->
+							<!-- Requête trop vague -->
 							Plusieurs &eacute;lecteurs r&eacute;pondent &agrave; ces crit&egrave;res, pr&eacute;cisez votre recherche.
 	       				</c:when>
 	       				<c:when test="${felecResponse.responseCode eq 4}">
@@ -65,7 +65,7 @@
 						<br>
 						Une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e.
 						<br>
-						Attention : Vous devez vous inscrire avant le 31 d&eacute;cembre pour pouvoir voter l'ann&eacute;e suivante.
+						Attention : Pour pouvoir voter aux &eacute;lections europ&eacute;ennes du 26 mai 2019, vous devez vous inscrire avant le 31 mars 2019.
 	 					<br><br>
 						En cas de probl&egrave;me, vous pouvez contacter le 03 68 98 68 94 du lundi au vendredi de 8h00 &agrave; 17h00 en continu ou
 						<a href="${homeURL}centre-administratif-mairies-quartier" target="_blank" title="centre administratif et mairies de quartier (nouvelle fen&ecirc;tre)">vous rendre au centre administratif ou en mairie de quartier</a>.

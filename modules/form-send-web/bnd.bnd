@@ -1,0 +1,4 @@
+Bundle-Name: form-send-web
+Bundle-SymbolicName: eu.strasbourg.portlet.form_send
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.form_send.constants
