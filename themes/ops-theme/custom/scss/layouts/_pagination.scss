@@ -1,12 +1,14 @@
+.ops-content-wrapper{
+	> .ops-pagination{
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
 .ops-pagination{
 	position: relative;
-	padding: 0 30px;
 	margin-bottom: 80px;
 	@include clearfix();
-	@include tablet_landscape{
-		padding: 0;
-	}
-
 	&:after{
 		content: '';
 		position: absolute;
@@ -183,7 +185,6 @@
 		a{
 			@include ft($f_txt, 13px, 400, $c_dark, 24px);
 			position: relative;
-			z-index: 10;
 			border: 0;
 			padding: 8px 20px;
 			@include addTransition();

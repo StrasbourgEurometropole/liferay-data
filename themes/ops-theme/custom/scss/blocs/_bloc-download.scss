@@ -1,7 +1,7 @@
 .ops-bloc-download{
 	position: relative;
 	background: #F2F2F2;
-	margin-top: $content-spacing / 2;
+	margin: ($content-spacing / 2) 0;
 	padding: 45px 0 55px 0;
 	overflow: hidden;
 	&:after{

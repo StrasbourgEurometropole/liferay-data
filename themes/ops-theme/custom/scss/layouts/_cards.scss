@@ -119,6 +119,31 @@
 	}
 }
 
+.ops-info-people{
+	padding: 30px 10px;
+	width: 100%;
+	span{
+		display: block;
+	}
+	.ops-function{
+		@include ft($f_txt, 13px, 700, $c_dark, 20px);
+		text-transform: uppercase;
+		margin-bottom: 8px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.ops-name{
+		@include ft($f_hx, 24px, 400, $c_dark, 30px);
+		margin-bottom: 12px;
+	}
+	.ops-link{
+		color: $c_main;
+		font-size: 13px;
+		line-height: 18px;
+	}
+}
+
 
 // CARD CONCERT
 // ==========================================================================
@@ -252,6 +277,9 @@
 		text-align: center;
 		padding: 20px 0;
 		@include addTransition();
+		@include mobile_small{
+			font-size: 12px;
+		}
 		&:hover{
 			color: $c_dark;
 		}
@@ -348,7 +376,7 @@
 	}
 
 	.ops-date-concours{
-		@include ft($f_spe, 13px, 700, $c_main, 20px);
+		@include ft($f_spe, 13px, 700, $c_or, 20px);
 		position: relative;
 		display: block;
 		white-space: nowrap;
@@ -360,6 +388,17 @@
 	h3{
 		font-size: 28px;
 		line-height: 34px;
+		@include tablet_portrait{
+			font-size: 22px;
+			line-height: 28px;
+			max-width: 100%;
+		}
+		@include mobile{
+			font-size: 20px;
+		}
+	}
+	.ops-link{
+		display: block;
 	}
 }
 
@@ -376,26 +415,6 @@
 	align-items: center;
 	flex-direction: row;
 	@include clearfix();
-	@include addTransition();
-	&:after{
-		content: "\e915";
-		@include font();
-		position: absolute;
-		right: 20px;
-		bottom: 20px;
-		font-size: 28px;
-		color: $c_dark;
-		@include addTransition();
-	}
-	&:hover, &:focus{
-		outline: none;
-		#ops-wrapper:not(.no-hover) & {
-			box-shadow: 0 10px 40px 3px rgba($c_dark,0.2);
-			&:after{
-				color: $c_main;
-			}
-		}
-	}
 	> * {
 		display: inline-block;
 		vertical-align: middle;
@@ -406,38 +425,38 @@
 		border-radius: 50%;
 		overflow: hidden;
 		margin-right: 20px;
+		background: none;
 		img{
 			width: 100%;
 			height: 100%;
+			border-radius: 50%;
 		}
 
 		& + .ops-info-people{
 			width: calc(100% - 100px);
+			padding: 30px 0px;
 		}
 	}
-
-	.ops-info-people{
-		padding: 20px 0;
-		width: 100%;
-		span{
-			display: block;
+}
+a.ops-card-people{
+	@include addTransition();
+	&:hover, &:focus{
+		outline: none;
+		#ops-wrapper:not(.no-hover) & {
+			box-shadow: 0 10px 40px 3px rgba($c_dark,0.2);
+			&:after{
+				color: $c_main;
+			}
 		}
-		.ops-function{
-			@include ft($f_txt, 13px, 700, $c_dark, 20px);
-			text-transform: uppercase;
-			margin-bottom: 8px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-		.ops-name{
-			@include ft($f_hx, 24px, 400, $c_dark, 30px);
-			margin-bottom: 12px;
-		}
-		.ops-link{
-			color: $c_main;
-			font-size: 13px;
-			line-height: 18px;
-		}
+	}
+	&:after{
+		content: "\e915";
+		@include font();
+		position: absolute;
+		right: 20px;
+		bottom: 20px;
+		font-size: 28px;
+		color: $c_dark;
+		@include addTransition();
 	}
 }

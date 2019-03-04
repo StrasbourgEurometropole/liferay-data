@@ -4,43 +4,54 @@ main {
 
 		& + .bloc {
 			padding-top: $content-spacing;
-			@include mobile{
+			@include mobile {
 				padding-top: $content-spacing/2;
 			}
 		}
 
-		h1, h2{
-			@include ft($f_hx, 50px, 400, $c_dark, 60px);
+		h1, h2 {
+			@include ft($f_hx, 50px, 400, $c_dark, 55px);
 			margin-top: 0;
 			max-width: 70%;
-			word-break: break-all;
-			@include tablet_portrait{
+			//word-break: break-word;
+			@include tablet_portrait {
 				font-size: 40px;
-				line-height: 50px;
+				line-height: 45px;
 				max-width: 100%;
 			}
-			@include mobile{
+			@include mobile {
 				font-size: 35px;
-				line-height: 45px;
+				line-height: 40px;
+			}
+			@include mobile_small {
+				font-size: 30px;
+				line-height: 35px;
 			}
 		}
 
-		figure{
-			figcaption{
+		figure {
+			figcaption {
 				display: none;
 			}
 		}
 
-
+		.slick-carousel {
+			figure {
+				&:before {
+					content: '';
+					@extend .gradient-bottom;
+				}
+			}
+		}
 
 		// Hauteur de page - 100vh
 		// ==========================================================================
 		&.ops-fullpage-header {
-			height: 100%;
-			@include tablet_portrait{
+			height: 100vh;
+			@include tablet_portrait {
 				height: 600px !important;
 			}
-			@include mobile{
+			@include mobile {
 				height: 550px !important;
 			}
 			figure {
@@ -59,19 +70,27 @@ main {
 		// ==========================================================================
 		&.ops-small-header {
 			figure {
-				height: 410px;
+				height: 450px;
 				img {
 					height: 100%;
 				}
 			}
 			.ops-no-photo {
-				height: 410px;
+				height: 450px;
 			}
 
-			.ops-caption{
+			.ops-caption {
 				padding: 0;
-				bottom: 95px;
-				h1{
+				bottom: auto;
+				top: calc(50% + 50px);
+				transform: translateY(-50%);
+				transform: translate3d(0, -50%, 0);
+				> * {
+					&:last-child {
+						margin: 0 auto;
+					}
+				}
+				h1 {
 					margin: 0 auto 10px auto;
 				}
 			}
@@ -80,18 +99,18 @@ main {
 
 		// HEADER - Page Standard
 		// ==========================================================================
-		&.ops-standard-header{
+		&.ops-standard-header {
 			height: 100%;
-			.ops-standard-img{
-				@include tablet_portrait{
+			.ops-standard-img {
+				@include tablet_portrait {
 					height: 600px !important;
 				}
-				@include mobile{
+				@include mobile {
 					height: 450px !important;
 				}
-				figure{
+				figure {
 					height: 100%;
-					img{
+					img {
 						height: 100%;
 					}
 				}
@@ -100,54 +119,58 @@ main {
 
 		// Hauteur - Page LISTING SAISON
 		// ==========================================================================
-		&.ops-header-listing{
+		&.ops-header-listing {
 			height: 100vh;
 			min-height: 800px;
-			@include tablet_portrait{
+			@include tablet_portrait {
 				min-height: 700px;
 			}
-			@include mobile{
+			@include mobile {
 				min-height: auto;
 				height: 100% !important;
 			}
-			> figure{
-				@include mobile{
+			> figure {
+				@include mobile {
 					height: 450px !important;
 				}
-				&:before{
+				&:before {
 					content: '';
 					@extend %ops-center;
 					z-index: 10;
-					background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
-					background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.85) 100%);
-					background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.85) 100%);
-					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#d9000000',GradientType=0 );
+					background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
+					background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
+					background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
+					filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#d9000000', GradientType=0);
 				}
 			}
 
-			.ops-title-page-listing{
+			.ops-title-page-listing {
 				z-index: 100;
 				padding: 0 70px;
 				margin-bottom: 85px;
-				@include tablet_landscape{
+				@include tablet_landscape {
 					padding: 0;
 				}
-				h1{
+				h1 {
 					position: relative;
 					color: $c_white;
 					width: 100%;
 					max-width: 100%;
 					font-size: 73px;
 					line-height: 73px;
-					@include tablet_landscape{
+					.ops-ie & {
+						line-height: normal;
+						margin-bottom: 0;
+					}
+					@include tablet_landscape {
 						font-size: 55px;
 						line-height: 55px;
 					}
-					@include mobile{
+					@include mobile {
 						font-size: 30px;
 						line-height: 35px;
 					}
-					&:after{
+					&:after {
 						content: '';
 						position: absolute;
 						bottom: -40px;
@@ -156,7 +179,7 @@ main {
 						width: 100%;
 						height: 1px;
 						background: url(../images/ico/deco-line-white.png) repeat-x;
-						@include tablet_landscape{
+						@include tablet_landscape {
 							bottom: -30px;
 						}
 					}
@@ -164,37 +187,36 @@ main {
 			}
 		}
 
-
 		// Header - Page Détail Concert
 		// ==========================================================================
-		&.ops-header-concert{
+		&.ops-header-concert {
 			height: calc(100vh - 100px);
 			min-height: 600px;
-			@include tablet_portrait{
+			@include tablet_portrait {
 				height: 700px !important;
 			}
-			@include mobile{
+			@include mobile {
 				height: 600px !important;
 				min-height: auto;
 			}
-			figure{
+			figure {
 				position: relative;
 				height: 100%;
-				&:before{
+				&:before {
 					content: '';
 					@extend %ops-center;
 					z-index: 10;
-					background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,0.7) 100%);
-					background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0.7) 100%);
-					background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0.7) 100%);
-					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#b3000000',GradientType=0 );
+					background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 38%, rgba(0, 0, 0, 0.7) 100%);
+					background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 38%, rgba(0, 0, 0, 0.7) 100%);
+					background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 38%, rgba(0, 0, 0, 0.7) 100%);
+					filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#b3000000', GradientType=0);
 				}
-				img{
+				img {
 					height: 100%;
 				}
 			}
 
-			.ops-caption-concert{
+			.ops-caption-concert {
 				position: absolute;
 				left: 0;
 				right: 0;
@@ -205,38 +227,38 @@ main {
 					width: calc(100% - 80px);
 					margin: 0 40px;
 				}
-				@include mobile{
+				@include mobile {
 					width: calc(100% - 40px);
 					margin: 0 20px;
 				}
 			}
 
-			.ops-typologie{
+			.ops-typologie {
 				margin-left: 130px;
-				@media screen and (max-width: 1280px){
+				@media screen and (max-width: 1280px) {
 					margin-left: 0;
 				}
 			}
 
-			h1{
+			h1 {
 				font-size: 50px;
 				line-height: 58px;
 				color: $c_white;
 				padding-left: 130px;
 				max-width: 50%;
 				margin-bottom: 40px;
-				@media screen and (max-width: 1280px){
+				@media screen and (max-width: 1280px) {
 					padding-left: 0;
 				}
-				@include tablet_landscape{
+				@include tablet_landscape {
 					padding-left: 0;
 					font-size: 40px;
 					line-height: 46px;
 				}
-				@include tablet_portrait{
+				@include tablet_portrait {
 					max-width: 80%;
 				}
-				@include mobile{
+				@include mobile {
 					max-width: 100%;
 					font-size: 30px;
 					line-height: 36px;
@@ -244,8 +266,7 @@ main {
 				}
 			}
 
-
-			.ops-cta-concert{
+			.ops-cta-concert {
 				position: absolute;
 				right: 13px;
 				bottom: 110px;
@@ -253,19 +274,19 @@ main {
 				background: $c_white;
 				margin-bottom: 30px;
 				padding: 0 20px;
-				@include tablet_portrait{
+				@include tablet_portrait {
 					position: relative;
 					left: 13px;
 					right: 0;
 					bottom: 0;
 				}
-				@include mobile{
+				@include mobile {
 					margin-left: 0;
 					left: 11px;
 					width: calc(100% - 26px);
 					margin-bottom: 20px;
 				}
-				&:before, &:after{
+				&:before, &:after {
 					content: '';
 					position: absolute;
 					top: 0;
@@ -273,21 +294,21 @@ main {
 					width: 13px;
 					background-size: 110px;
 				}
-				&:before{
+				&:before {
 					background: url(../images/deco/ops-ticketLeft.png) repeat-y center left /contain;
 					left: -13px;
-					@include mobile{
+					@include mobile {
 						left: -11px;
 					}
 				}
-				&:after{
+				&:after {
 					background: url(../images/deco/ops-ticketRight.png) repeat-y center right /contain;
 					right: -13px;
-					@include mobile{
+					@include mobile {
 						right: -11px;
 					}
 				}
-				a{
+				a {
 					@include ft($f_txt, 15px, 700, $c_or, 29px);
 					position: relative;
 					text-align: center;
@@ -296,20 +317,20 @@ main {
 					text-transform: uppercase;
 					display: block;
 					@include addTransition();
-					@include mobile{
+					@include mobile {
 						line-height: 20px;
 					}
-					@media screen and (max-width: 320px){
+					@media screen and (max-width: 320px) {
 						font-size: 13px;
 					}
-					&:hover, &:focus{
+					&:hover, &:focus {
 						#ops-wrapper:not(.no-hover) & {
 							color: $c_dark;
 						}
 					}
 
-					&.ops-ticket{
-						&:before{
+					&.ops-ticket {
+						&:before {
 							content: '';
 							position: absolute;
 							left: 0;
@@ -319,7 +340,7 @@ main {
 							height: 1px;
 							background: url(../images/ico/deco-line.png) repeat-x;
 						}
-						&:after{
+						&:after {
 							content: "\e90f";
 							@include font();
 							position: absolute;
@@ -333,23 +354,22 @@ main {
 				}
 			}
 
-
-			nav{
+			nav {
 				background: $c_white;
 				width: 100%;
 				max-width: 100%;
-				@include tablet_portrait{
+				@include tablet_portrait {
 					margin-left: -40px;
 					margin-right: -40px;
 					width: calc(100% + 80px);
 					max-width: initial;
 				}
-				@include mobile{
+				@include mobile {
 					margin-left: -20px;
 					margin-right: -20px;
 					width: calc(100% + 40px);
 				}
-				&:after{
+				&:after {
 					content: '';
 					position: absolute;
 					left: 0;
@@ -359,47 +379,47 @@ main {
 					height: 1px;
 					background: url(../images/ico/deco-line.png) repeat-x;
 				}
-				ul{
+				ul {
 					position: relative;
 					font-size: 0;
 					padding: 34px 30px;
 					margin: 0;
-					@include tablet_landscape{
+					@include tablet_landscape {
 						padding: 20px 40px;
 						white-space: nowrap;
 						overflow: auto;
 						-webkit-overflow-scrolling: touch;
 					}
-					@include mobile{
+					@include mobile {
 						padding: 20px;
 					}
-					li{
+					li {
 						display: inline-block;
 						vertical-align: middle;
 						margin: 0 9px;
-						@include tablet_landscape{
+						@include tablet_landscape {
 							margin: 0 5px;
 						}
-						&:first-child{
+						&:first-child {
 							margin-left: 0;
 						}
-						&:last-child{
+						&:last-child {
 							margin-right: 0;
 						}
-						a{
+						a {
 							@include ft($f_hx, 20px, 400, $c_dark, 24px);
 							padding: 9px 15px;
 							display: block;
 							@include addTransition();
-							@include tablet_landscape{
+							@include tablet_landscape {
 								font-size: 18px;
 							}
-							&.ops-active{
-								background: rgba($c_dark,0.05);
+							&.ops-active {
+								background: rgba($c_dark, 0.05);
 							}
-							&:hover, &:focus{
-								#ops-wrapper:not(.no-hover) &{
-									background: rgba($c_dark,0.05);
+							&:hover, &:focus {
+								#ops-wrapper:not(.no-hover) & {
+									background: rgba($c_dark, 0.05);
 								}
 							}
 						}
@@ -421,7 +441,7 @@ main {
 			@media screen and (max-width: 1280px) {
 				width: calc(100% - 80px);
 			}
-			@include tablet_landscape{
+			@include tablet_landscape {
 				bottom: 80px;
 			}
 			@include mobile {
@@ -429,45 +449,59 @@ main {
 			}
 			> * {
 				max-width: 50%;
-				@include tablet_portrait{
+				@include tablet_portrait {
 					max-width: 100%;
 				}
-				&:last-child{
+				&:last-child {
 					margin-bottom: 0;
 				}
 			}
-			h1,h2{
+			h1, h2 {
 				max-width: 80%;
 				color: $c_white;
 				font-size: 73px;
 				line-height: 73px;
 				margin: 0;
 				margin-bottom: 20px;
-				@include tablet_landscape{
+				@include tablet_landscape {
 					font-size: 55px;
 					line-height: 55px;
 					max-width: 100%;
 				}
-				@include mobile{
-					font-size: 30px;
-					line-height: 35px;
+				@include mobile {
+					font-size: 40px;
+					line-height: 45px;
 				}
 			}
-			p{
+			p {
 				@include ft($f_txt, 18px, 400, $c_white, 30px);
 			}
-			.ops-btn{
+			.ops-btn {
 				margin-top: 15px;
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%);
+				transform: translate3d(-50%, 0, 0);
+				bottom: -95px;
+				z-index: 100;
+				padding: 8px 75px;
 				color: $c_white;
+				@include tablet_landscape{
+					position: relative;
+					bottom: 0;
+					left: 0;
+					transform: none;
+					padding: 8px 45px;
+				}
 			}
 		}
 
-		.ops-caption-relative{
+		.ops-caption-relative {
 			position: relative;
 			background: $c_white;
 			padding: 65px 40px 0 40px;
 			margin-top: -110px;
-			@include mobile{
+			@include mobile {
 				margin-top: -60px;
 				padding: 35px 20px 0 20px;
 			}

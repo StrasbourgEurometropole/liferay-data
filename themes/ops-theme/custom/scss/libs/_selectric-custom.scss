@@ -15,16 +15,13 @@
 		}
 	}
 	.selectric-items{
-		border: none;
 		background: $c_white;
-		box-shadow: 0 0 10px rgba($c_dark,0.2);
 		.selectric-scroll{
 			ul{
 				padding: 0;
 				li{
-					@include ft($f_txt, 15px, 400, $c_txt, 30px);
-					display: block;
-					padding: 8px 15px;
+					@include ft($f_txt,15px,400,$c_greydark,20px);
+					padding: 15px 20px;
 					margin-bottom: 0;
 					@include addTransition();
 					&:hover{

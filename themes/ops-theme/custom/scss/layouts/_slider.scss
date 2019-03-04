@@ -68,12 +68,6 @@
 		&:focus {
 			outline: none;
 		}
-		figure {
-			&:before {
-				content: '';
-				@extend .gradient-bottom;
-			}
-		}
 	}
 
 }

@@ -53,7 +53,7 @@
  th_maps.showGroupMarker(groupName,carte);
 
 
- <div class="maps" data-kml="url" data-custom="nom_du_callback" data-callback="nom_du_callback" data-lat="0.0" data-lng="0.0" data-theme="nom" data-marker="" data-markericon="default"></div>
+ <div class="ops-maps" data-kml="url" data-custom="nom_du_callback" data-callback="nom_du_callback" data-lat="0.0" data-lng="0.0" data-theme="nom" data-marker="" data-markericon="default"></div>
 
  data-custom : execute une fonction pour l'initialisation de la carte, surpasse la methode défini
  data-callback : execute une fonction (la carte, les options, le marker) après l'initialisation de la carte
@@ -69,7 +69,7 @@ var th_maps = {
 
     api_key: 'AIzaSyDDqH0YjBZ3qa3QtSgh6MS4Nsb9YGqr2zQ',
 
-    maps_class: '.maps',
+    maps_class: '.ops-maps',
 
     themes: {},
     markersIcons: {},

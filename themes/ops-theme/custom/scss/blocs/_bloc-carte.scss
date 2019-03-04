@@ -1,7 +1,10 @@
 .ops-bloc-carte{
-	margin-top: $content-spacing/2;
+	position: relative;
+	margin: ($content-spacing/2) 0;
+	height: calc(100% - 100px);
 
 	.ops-bloc-map{
+		position: relative;
 		background: #AAA;
 		margin-top: 40px;
 	}

@@ -10,8 +10,8 @@ var thConfig = {
     map: {
 
         init: {
-            maps_class: '.maps:not(.no-autoload):not(.initialized)',
-            tileLayerUrl: 'http://tile.jawg.io/jawg-sunny/{z}/{x}/{y}.png?access-token={accessToken}',
+            maps_class: '.ops-maps:not(.no-autoload):not(.initialized)',
+            tileLayerUrl: 'http://tile.jawg.io/jawg-light/{z}/{x}/{y}.png?access-token={accessToken}',
             accessToken: 'qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkki',
             tileLayerOptions: {
                 attribution: '',
@@ -22,7 +22,7 @@ var thConfig = {
 
         defaultThemes: {
             accessToken: 'qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkkiz',
-            style: 'https://tile.jawg.io/jawg-streets/{z}/{x}/{y}.png?access-token=qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkki',
+            style: 'https://tile.jawg.io/jawg-light/{z}/{x}/{y}.png?access-token=qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkki',
             attribution: '',
         }
 
@@ -401,7 +401,7 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
  th_maps.showGroupMarker(groupName,carte);
 
 
- <div class="maps" data-kml="url" data-custom="nom_du_callback" data-callback="nom_du_callback" data-lat="0.0" data-lng="0.0" data-theme="nom" data-marker="" data-markericon="default"></div>
+ <div class="ops-maps" data-kml="url" data-custom="nom_du_callback" data-callback="nom_du_callback" data-lat="0.0" data-lng="0.0" data-theme="nom" data-marker="" data-markericon="default"></div>
 
  data-custom : execute une fonction pour l'initialisation de la carte, surpasse la methode défini
  data-callback : execute une fonction (la carte, les options, le marker) après l'initialisation de la carte
@@ -417,7 +417,7 @@ var th_maps = {
 
     api_key: 'AIzaSyDDqH0YjBZ3qa3QtSgh6MS4Nsb9YGqr2zQ',
 
-    maps_class: '.maps',
+    maps_class: '.ops-maps',
 
     themes: {},
     markersIcons: {},
@@ -9423,62 +9423,46 @@ if ($('.ops-search-form').length > 0) {
 
 
 }
-// th_maps.addThemes('default',{
-//     accessToken: 'pk.eyJ1IjoibG9ycmFpbmV0b3VyaXNtZSIsImEiOiJjamhramNhOGMweXk1MzBrZGRyNmY0cTFuIn0.3uDgPr9gtiaAsSJPla3cFA',
-//     style: 'mapbox://styles/lorrainetourisme/cjhrff70j3ywu2slc764dggkb',
-//     attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="nofollow">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/" target="_blank" rel="nofollow">OpenStreetMap</a> <a href="https://www.mapbox.com/map-feedback/#/-74.5/40/10" target="_blank" rel="nofollow"><strong>Improve this map</strong></a>',
-// });
-// th_maps.addThemes('landing',{
-//     accessToken: 'pk.eyJ1IjoibG9ycmFpbmV0b3VyaXNtZSIsImEiOiJjamhramNhOGMweXk1MzBrZGRyNmY0cTFuIn0.3uDgPr9gtiaAsSJPla3cFA',
-//     style: 'mapbox://styles/lorrainetourisme/cjhsrggia19f12roa4z02j3v1',
-//     attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="nofollow">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/" target="_blank" rel="nofollow">OpenStreetMap</a> <a href="https://www.mapbox.com/map-feedback/#/-74.5/40/10" target="_blank" rel="nofollow"><strong>Improve this map</strong></a>',
-// });
+th_maps.addThemes('default', thConfig.map.defaultThemes);
+
+th_maps.addMarkerIcon('default', {
+    iconUrl: './assets/images/ico/ico-marker-map.png',
+    shadowUrl: null,
+    iconSize: [26, 42],
+    scaledSize: { width: 26, height: 42},
+    anchor: { x: 13, y: 21 }
+});
+
+
+// Map - Bloc Map
+function callbackBlocMap(macarte) {
+    macarte.zoomControl.setPosition('bottomleft');
+    macarte.setZoom(12);
+    parseMapPopup(macarte);
+}
+
+th_maps.init(thConfig.map.init);
 
 
 
+function parseMapPopup(macarte){
+    var markers = [];
 
-
-th_maps.onLoad(function () {
-
-    th_maps.addMarkerIcon('marker', {
-        iconUrl: '' + document.location.origin + '/wp-content/themes/sandemans/assets/images/ico/ico-marker-map-2x.png',
-        shadowUrl: null,
-        iconSize:[35, 41]
+    $(macarte._container).parent().find('.maps-popup').each(function(){
+        var latlng = {lat:this.getAttribute('data-lat')*1,lng:this.getAttribute('data-lng')*1};
+        var marker = th_maps.createMarker(macarte,latlng,this.getAttribute('data-markericon'));
+        th_maps.createInfoWindow(this.innerHTML,marker,275);
+        markers.push(marker);
     });
+    var group = new L.featureGroup(markers);
+    macarte.fitBounds(group.getBounds());
 
-});
-
-
-function callbackMapPartner(macarte){
- //   var marker = th_maps.createMarker(macarte,{lat:45.780524,lng:3.089576},'marker');
-}
-
-
-
-/* FILTER MAP FOR PARTNER'S PAGE */
-function filterMapPartner(options) {
-    options.mapTypeControl = false;
-    options.streetViewControl = false;
-    options.zoomControl = true;
-
-    options.zoomControlOptions = {position:google.maps.ControlPosition.LEFT_TOP};
-    options.mapTypeId = google.maps.MapTypeId.ROADMAP;
-
-    return options;
-}
-
-
-th_maps.init({
-    maps_class: '.maps > *',
-    tileLayerUrl: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-    tileLayerOptions: {
-        attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="nofollow">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/" target="_blank" rel="nofollow">OpenStreetMap</a> <a href="https://www.mapbox.com/map-feedback/#/-74.5/40/10" target="_blank" rel="nofollow"><strong>Improve this map</strong></a>',
-        maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken: 'pk.eyJ1IjoidGhvbWFza2lyc2NoIiwiYSI6ImNqaWxoNDF5OTA1OGEzbGs3N2hxanJzNjgifQ.06QJZaF3qT1lJ4-0p3louA'
+    if(macarte.getZoom() > 12){
+        macarte.setZoom(12);
     }
-});
 
+    return markers;
+}
 
 // Ouverture du menu mobile
 $('.ops-burger-menu').click(function () {
@@ -9655,6 +9639,50 @@ $('.slick-actus').each(function(){
         autoplaySpeed: 2000
     });
 });
+if($('.ops-wrapper-content-rh').length > 0) {
+
+
+    var isInitStick = false;
+
+    // Si nous sommes sur le détail SIT ou détail Rando
+    if ($('.ops-wrapper-sticky').length > 0) {
+
+        console.log('oko');
+
+        var $elSticky = $('.ops-wrapper-content-rh .ops-wrapper-sticky');
+
+
+
+        if(document.body.clientHeight-120 > $elSticky.outerHeight()){
+
+            if (!isTabletPortraitOrSmalller()) {
+                $elSticky.stick({top: 100});
+                isInitStick = true;
+            }
+
+            $(window).on('resize', function () {
+                console.log(isTabletPortraitOrSmalller());
+                if (isTabletPortraitOrSmalller()) {
+                    $elSticky.stick('stop');
+                    $elSticky.attr('style', '');
+                } else {
+                    if (isInitStick) {
+                        $elSticky.stick('update');
+                    } else {
+                        isInitStick = true;
+                        setTimeout(function () {
+                            $elSticky.stick({top: 100});
+                        }, 500);
+                    }
+                }
+            });
+
+        }
+
+
+    }
+
+}
 $('form select').selectric();
 
 

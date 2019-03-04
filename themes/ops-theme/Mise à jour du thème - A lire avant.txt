@@ -4,7 +4,6 @@ Les librairies js suivantes :
 
 - js/libs/jquery.selectric.min.js
 - js/libs/masonry.js
-- custom/overide.js
 
-Le point d'entré sass strasbourg.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
+Le point d'entré sass ops.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
 

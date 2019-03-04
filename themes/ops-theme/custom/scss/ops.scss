@@ -45,7 +45,11 @@
 @import "pages/page-header";
 @import "pages/page-listing";
 @import "pages/page-detail-concert";
-
+@import "pages/page-article";
+@import "pages/page-orchestre";
+@import "pages/page-musicien";
+@import "pages/page-rh";
+@import "pages/page-contact";
 
 
 // Style des blocs modulables
@@ -72,6 +76,8 @@
 @import "blocs/bloc-highlight-people";
 @import "blocs/bloc-slider-actu";
 @import "blocs/bloc-masonry";
+@import "blocs/bloc-presentation";
+@import "blocs/bloc-form-contact";
 
 // Style override
 // ==========================================================================

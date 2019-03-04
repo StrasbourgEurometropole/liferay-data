@@ -10,8 +10,8 @@ var thConfig = {
     map: {
 
         init: {
-            maps_class: '.maps:not(.no-autoload):not(.initialized)',
-            tileLayerUrl: 'http://tile.jawg.io/jawg-sunny/{z}/{x}/{y}.png?access-token={accessToken}',
+            maps_class: '.ops-maps:not(.no-autoload):not(.initialized)',
+            tileLayerUrl: 'http://tile.jawg.io/jawg-light/{z}/{x}/{y}.png?access-token={accessToken}',
             accessToken: 'qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkki',
             tileLayerOptions: {
                 attribution: '',
@@ -22,7 +22,7 @@ var thConfig = {
 
         defaultThemes: {
             accessToken: 'qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkkiz',
-            style: 'https://tile.jawg.io/jawg-streets/{z}/{x}/{y}.png?access-token=qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkki',
+            style: 'https://tile.jawg.io/jawg-light/{z}/{x}/{y}.png?access-token=qyaPkIV5ppcShJ126kJHQEByPuhVf4K3CcVVFS9q50kGoOjR0oCIkTuSJhRNdkki',
             attribution: '',
         }
 

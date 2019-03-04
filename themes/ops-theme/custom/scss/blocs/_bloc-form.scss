@@ -1,304 +1,522 @@
-.bloc-form {
-	padding: 20px 0;
+.ops-bloc-form {
+	position: relative;
+	z-index: 200;
 
-	// FORMULAIRE FORMIDABLE
-	// ==========================================================================
-	.frm_forms {
-		form {
-			margin: auto;
+	h2{
+		@include ft($f_hx,50px,400,$c_dark,55px);
+		position: relative;
+		margin: 0 0 30px 0;
+		@include tablet_landscape{
+			font-size: 40px;
+			line-height: 45px;
+		}
+		@include tablet_portrait{
+			font-size: 30px;
+			line-height: 35px;
+		}
+		@include mobile{
+			font-size: 26px;
+			line-height: 32px;
+		}
+		&:after{
+			content: '';
+			position: absolute;
+			top: calc(50% + 4px);
+			left: 0;
+			right: 0;
+			width: 100%;
+			height: 1px;
+			background: url(../images/ico/deco-line.png) repeat-x;
+		}
+		span{
 			position: relative;
-			* {
-				box-sizing: border-box;
-			}
+			z-index: 10;
+			display: inline-block;
+			background: $c_white;
+			padding-right: 20px;
+		}
+	}
 
-			.frm_error {
-				font-size: 12px;
-				color: #e91741;
-				position: absolute;
-				bottom: 4px;
-			}
-			.frm_error_style {
-				display: none;
-			}
-			.frm_hidden {
-				display: none;
-			}
-			.frm_required {
-				color: $c_main;
-			}
-			.frm_none_container label {
-				display: none;
-			}
+	form{
+		position: relative;
+		margin-bottom: 40px;
+	}
 
-			.frm_form_fields {
+	.ops-title-section{
+		@include ft($f_hx,30px,400,$c_dark,35px);
+		position: relative;
+		display: block;
+		margin: 0 0 12px 0;
+		@include mobile{
+			font-size: 22px;
+			line-height: 28px;
+		}
+		&:after{
+			content: '';
+			position: absolute;
+			top: calc(50% + 4px);
+			left: 0;
+			right: 0;
+			width: 100%;
+			height: 1px;
+			background: url(../images/ico/deco-line.png) repeat-x;
+		}
+		span{
+			position: relative;
+			z-index: 10;
+			display: inline-block;
+			background: $c_white;
+			padding-right: 20px;
+		}
+	}
 
-				label {
-					display: block;
-					@include ft($f_txt, 15px, 400, $c_txt, normal);
-					clear: both;
+	.ops-title-group{
+		@include ft($f_txt,16px,700,$c_dark,20px);
+		position: relative;
+		display: block;
+		margin-bottom: 20px;
+	}
 
-					&.frm_primary_label {
-						padding-bottom: 15px;
-					}
-				}
+	p{
+		@include ft($f_txt,15px,400,$c_greydark,26px);
+		margin-bottom: 30px;
+		.ops-color-red{
+			color: #ff3737;
+		}
+	}
 
-				input, select, textarea, button {
-					@include ft($f_txt, 15px, 400, $c_txt, 46px);
-					resize: none;
-					box-shadow: none;
-					height: 50px;
-					display: block;
+	.ops-description{
+		@include ft($f_txt,15px,400,$c_greydark,26px);
+		position: relative;
+		display: block;
+		margin-bottom: 0;
+		min-height: 52px;
+		margin-top: -10px;
+		@include mobile{
+			min-height: auto;
+			margin-top: 0;
+			margin-bottom: 20px;
+		}
+	}
+
+
+
+	.ops-section-form{
+		position: relative;
+		font-size: 0;
+		margin-top: 8px;
+
+		.ops-group{
+			position: relative;
+			margin: 10px 0;
+			&.ops-col{
+				display: inline-block;
+				vertical-align: top;
+				width: calc(50% - 10px);
+				@include mobile{
 					width: 100%;
-					padding: 0 15px;
-					border: 1px solid $c_grey;
-					::-webkit-input-placeholder {
-						color: rgba($c_dark, 0.5);
-					}
-					:-moz-placeholder {
-						color: rgba($c_dark, 0.5);
-						opacity: 1;
-					}
-					::-moz-placeholder {
-						color: rgba($c_dark, 0.5);
-						opacity: 1;
-					}
-					:-ms-input-placeholder {
-						color: rgba($c_dark, 0.5);
-					}
-					::-ms-input-placeholder {
-						color: rgba($c_dark, 0.5);
-					}
-					@include addTransition();
-					&:hover, &:focus {
-						border-color: $c_sub;
+				}
+				> div{
+					position: relative;
+					font-size: 0;
+				}
+				> div.ops-half{
+					display: inline-block;
+					vertical-align: middle;
+					font-size: 0;
+					width: calc(50% - 10px);
+					& + div{
+						margin-left: 20px;
 					}
 				}
-
-				textarea {
-					height: 200px;
+				& + .ops-col{
+					margin-left: 20px;
+					margin-top: 10px;
+					@include mobile{
+						margin-left: 0;
+					}
 				}
+			}
+
+			& + .ops-group{
+				margin-top: 20px;
+			}
+
+			&.ops-textarea{
+				margin-top: 25px;
+				margin-bottom: 20px;
+			}
+
+			&.ops-font-bold{
+				label{
+					font-weight: 700;
+				}
+			}
+
+			p{
+				margin-bottom: 20px;
+			}
+			label{
+				@include ft($f_txt,15px,400,$c_dark,20px);
+				padding: 0 8px;
+				margin: 0;
+				position: absolute;
+				left: 10px;
+				top: -10px;
+				z-index: 10;
+				display: inline-block;
+				background: $c_white;
+				white-space: nowrap;
+				width: auto;
+				max-width: calc(100% - 20px);
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			input, select, textarea{
+				@include ft($f_txt,15px,400,$c_greydark,20px);
+				@extend %ops-appearance;
+				padding: 15px 20px;
+				border: 1px solid $c_greyC;
+				background: none;
+				width: 100%;
+				@include addTransition();
+				&::placeholder{
+					color: #868686;
+				}
+				&:hover, &:focus{
+					#ops-wrapper:not(.no-hover) & {
+						border-color: $c_main;
+					}
+				}
+			}
+
+			textarea{
+				height: 155px;
+				resize: none;
+			}
 
 
-				.frm_submit {
-					margin: 0 10px;
-					text-align: center;
-					@include mobile {
+			// STYLE SELECT
+			.selectric-wrapper{
+				.selectric{
+					border: none;
+					height: auto;
+					.label{
+						@include ft($f_txt,15px,400,$c_greydark,20px);
+						position: relative;
+						text-align: left;
+						padding: 15px 40px 15px 20px;
+						border: 1px solid $c_greyC;
+						width: 100%;
+						border-radius: 0;
+						@include addTransition();
+						&:after{
+							content: "\e914";
+							@include font();
+							position: absolute;
+							top: 50%;
+							right: 20px;
+							margin-top: -7px;
+							font-size: 14px;
+							color: $c_dark;
+						}
+						&:hover, &:focus{
+							#ops-wrapper:not(.no-hover) & {
+								border-color: $c_main;
+							}
+						}
+					}
+				}
+				.selectric-items{
+					z-index: 100;
+					border: 1px solid $c_greyC;
+					border-top: 0;
+				}
+			}
+
+			.ops-time{
+				position: relative;
+				border: 1px solid $c_greyC;
+				display: inline-block;
+				vertical-align: top;
+				width: calc(50% - 10px);
+				padding: 15px 20px;
+				font-size: 0;
+				@include addTransition();
+				@include tablet_portrait{
+					width: 100%;
+					margin-bottom: 20px;
+				}
+				&:hover{
+					#ops-wrapper:not(.no-hover) &{
+						border-color: $c_main;
+					}
+				}
+				& + .ops-time{
+					margin-left: 20px;
+					@include tablet_portrait{
 						margin: 0;
 					}
-					button {
-						@include ft($f_txt, 13px, 700, $c_white, 22px);
-						position: relative;
-						width: 230px;
-						background: $c_main;
-						border: 3px solid $c_main ;
-						text-transform: uppercase;
-						display: inline-block;
-						padding: 8px 0;
-						border-radius: 25px;
-						@include addTransition();
-						&:hover {
-							cursor: pointer;
-							&:after {
-								opacity: 1;
-							}
-						}
-						&:focus {
-							outline: none;
-						}
+				}
+				> * {
+					display: inline-block;
+					vertical-align: middle;
+					&.ops-hide{
+						display: none;
 					}
 				}
-
-				/* Style for Radio */
-				input[type="radio"] {
-					display: none;
+				input, select{
+					width: auto;
+					border: none;
+					padding: 0;
+					background: none;
+					@extend %ops-appearance;
 				}
-				input[type="radio"] + span {
-					background-color: $c_white;
-					border: 1px solid $c_sub;
-					border-radius: 50px;
-					display: inline-block;
-					float: left;
-					margin-right: 7px;
-					padding: 7px;
-					position: relative;
-					-webkit-appearance: none;
+				span{
+					@include ft($f_txt,15px,400,$c_greydark,20px);
+					margin: 0 15px;
 				}
 
-				input[type="radio"]:checked + span {
-					color: $c_sub;
-				}
-				input[type="radio"]:checked + span:after {
-					background: $c_sub;
-					border-radius: 50px;
-					content: " ";
-					height: 10px;
-					left: 2px;
-					position: absolute;
-					top: 2px;
-					width: 10px;
-				}
 
-				/* Style for Checkbox */
-				input[type="checkbox"] {
-					display: none;
-				}
-				input[type="checkbox"] + span {
-					background-color: $c_white;
-					border: 1px solid $c_sub;
-					border-radius: 0;
-					display: inline-block;
-					float: left;
-					margin-right: 7px;
-					padding: 7px;
-					position: relative;
-					top: 1px;
-					-webkit-appearance: none;
-				}
-
-				input[type="checkbox"]:checked + span {
-					color: $c_main;
-				}
-				input[type="checkbox"]:checked + span:after {
-					content: "";
-					width: 12px;
-					height: 12px;
-					position: absolute;
-					background: $c_sub;
-					top: 1px;
-					left: 1px;
-					text-shadow: 3px 0 0 #FFF, 0px -3px 0 #FFF;
-				}
-
-				/* Style for upload file */
-				.frm_single_upload {
-					.fallback{
-						> input{
-							width: calc(100% - 30px);
-						}
-					}
-					.jfilestyle {
-						position: relative;
-						height: 50px;
-						@include addTransition();
-						&:hover, &:focus {
-							cursor: pointer;
-						}
-						> input{
-							z-index: -1;
-						}
-						input:not([type="checkbox"]):not([type="radio"]) {
-							display: inline-block;
-							vertical-align: top;
-							border-radius: 0;
-							width: 100% !important;
-							height: 50px;
+				.selectric-wrapper{
+					.selectric{
+						.label{
 							padding: 0;
-							border: 1px solid $c_main;
-
-							&:hover {
-								border-color: $c_main !important;
-								border-radius: 0;
-							}
-						}
-						.focus-jfilestyle {
-							position: absolute;
-							top: 0;
-							right: 0;
-							bottom: 0;
-							height: 48px;
-							label {
-								padding: 0 20px;
-								width: 50px;
-								height: 50px;
-								line-height: 48px;
-								border: none;
-								background: $c_main;
-								border-radius: 0;
-								color: $c_white;
-								font-weight: 700;
-								@include addTransition();
-								&:hover, &:focus{
-									cursor: pointer;
-									background: $c_sub;
-								}
-								span {
-									height: 48px;
-									vertical-align: middle;
-									display: block;
-									font-size: 20px;
-									line-height: 48px;
-								}
-							}
-						}
-					}
-					.dz-message {
-						span {
-							display: block;
-							margin: 5px 0;
-						}
-					}
-				}
-
-				fieldset {
-					.form-field {
-						padding-bottom: 20px;
-						&:not(.frm_half) {
-							padding: 0 10px 20px 10px;
-							clear: both;
-							@include mobile {
-								padding: 0 0 20px 0;
-							}
-						}
-						.frm_opt_container {
-							display: block;
-							width: 100%;
+							border: none;
+							width: 70px;
 							margin: 0;
-							> div {
-								display: inline-block;
-								margin-right: 40px;
-							}
-						}
-						.frm_checkbox, .frm_radio {
-							label {
-								padding-bottom: 2px;
-								font-size: 13px;
-								line-height: 18px;
-								cursor: pointer;
-								input {
-									position: relative;
-									top: -1px;
-								}
+							&:after{
+								top: calc(50% + 1px);
+								right: 0;
 							}
 						}
 					}
-
+					.selectric-items{
+						border: 1px solid $c_greyC;
+						box-shadow: 0 0 20px rgba($c_dark,0.2);
+						ul{
+							li{
+								padding: 10px 0;
+								text-align: center;
+							}
+						}
+					}
 				}
 			}
-
-			@media screen and (min-width: 600px) {
-				.frm_half {
-					width: 50%;
-					float: left;
-					margin: 0;
-					padding: 0 10px 20px 10px;
-				}
-
-				.frm_third {
-					width: 33.33333%;
-					float: left;
-					margin: 0;
-					padding: 0 10px 20px 10px;
-				}
-
-				.frm_two_thirds {
-					width: 66.66666%;
-					float: left;
-					margin: 0;
-					padding: 0 10px 20px 10px;
-				}
-			}
-
 		}
 
+
+
+		// STYLE DES INPUT RADIO
+		.ops-wrapper-radio{
+			position: relative;
+			padding: 10px 0;
+			@include clearfix();
+			@include mobile{
+				padding-top: 0;
+			}
+		}
+
+		.ops-radio{
+			float: left;
+			padding: 5px 0;
+			margin-right: 20px;
+			@include clearfix();
+			@include tablet_portrait{
+				float: none;
+				margin-right: 0;
+			}
+			label{
+				position: relative;
+				top: 0;
+				left: 0;
+				padding-left: 30px;
+				white-space: normal;
+				overflow: inherit;
+				max-width: 100%;
+			}
+			input{
+				@extend %ops-center;
+				opacity: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				&:checked + span{
+					&:after{
+						content: '';
+						position: absolute;
+						top: 8px;
+						left: 3px;
+						width: 10px;
+						height: 19px;
+						transform: scaleX(-1) rotate(135deg);
+						transform-origin: left top;
+						border-right: 4px solid $c_main;
+						border-top: 4px solid $c_main;
+						animation: check .3s;
+					}
+				}
+			}
+			span{
+				width: 22px;
+				height: 22px;
+				border: 1px solid $c_greyC;
+				border-radius: 50%;
+				position: absolute;
+				left: 0;
+				top: -1px;
+				@include addTransition();
+			}
+		}
+
+
+		// INPUT RADIO - DISLAY INLINE
+		.ops-radio-inline{
+			position: relative;
+			font-size: 0;
+			margin: 7px 0;
+			@include clearfix();
+			@include tablet_portrait{
+				margin-bottom: 15px;
+			}
+			&:last-child{
+				margin-bottom: 35px;
+			}
+			> * {
+				display: inline-block;
+				vertical-align: middle;
+			}
+			> span{
+				width: calc(50% + 20px);
+				min-height: auto;
+				margin: 0;
+				@include tablet_portrait{
+					width: 100%;
+					margin-bottom: 5px;
+				}
+			}
+			.ops-wrapper-radio{
+				width: calc(50% - 20px);
+				padding: 0;
+				@include tablet_portrait{
+					width: 100%;
+					float: left;
+				}
+				.ops-radio{
+					padding: 3px 0;
+					float: left;
+					margin-right: 20px;
+				}
+			}
+		}
+
+
+		// INPUT DES DATES
+		.ops-dates{
+			position: relative;
+			font-size: 0;
+			.ops-description{
+				margin-top: 0;
+			}
+			.ops-col-3{
+				position: relative;
+				display: inline-block;
+				vertical-align: top;
+				margin-bottom: 20px;
+				width: calc(33.33% - 14px);
+				@include mobile{
+					width: 100%;
+				}
+				& + .ops-col-3{
+					margin-left: 20px;
+					@include mobile{
+						margin-left: 0;
+					}
+				}
+			}
+		}
+
+
+		// INPUT CHECKBOX
+		.ops-checkbox{
+			input{
+				@extend %ops-center;
+				left: auto;
+				width: 20px;
+				height: 20px;
+				opacity: 0;
+				&:checked{
+					& + span{
+						&:after{
+							content: '';
+							position: absolute;
+							top: 8px;
+							left: 3px;
+							width: 10px;
+							height: 19px;
+							transform: scaleX(-1) rotate(135deg);
+							transform-origin: left top;
+							border-right: 4px solid $c_main;
+							border-top: 4px solid $c_main;
+							animation: check .3s;
+						}
+					}
+				}
+			}
+			label{
+				@include ft($f_txt, 13px, 400, $c_greydark, 20px);
+				position: relative;
+				top: 0;
+				left: 0;
+				padding: 0 20px 0 40px;
+				user-select: none;
+				margin: 0;
+				white-space: normal;
+				overflow: inherit;
+				max-width: 100%;
+				&:hover{
+					cursor: pointer;
+				}
+				a{
+					color: $c_dark;
+					text-decoration: underline;
+					@include addTransition();
+					&:hover, &:focus{
+						#ops-wrapper:not(.no-hover) & {
+							text-decoration: underline;
+							color: $c_main;
+						}
+					}
+				}
+				span{
+					width: 20px;
+					height: 20px;
+					border: 1px solid $c_greyB;
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+			}
+		}
 	}
+
+	.ops-submit{
+		position: relative;
+		text-align: center;
+		margin-top: 40px;
+		input{
+			padding: 8px 80px;
+			outline: none;
+			background: none;
+			border-radius: 0;
+			@include addTransition();
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					background: $c_main;
+				}
+			}
+		}
+	}
+
 }

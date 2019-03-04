@@ -56,3 +56,44 @@
 		}
 	}
 }
+
+
+.ops-listing-recrutement{
+	padding: 75px 0;
+	> div{
+		margin-bottom: 55px;
+		&:last-child{
+			margin-bottom: -15px;
+		}
+	}
+
+	.ops-col-50{
+		margin: 20px 0;
+		@include wide(){
+			width: 33.33%;
+		}
+	}
+
+	.ops-card-emploi{
+		> div{
+			padding: 0 30px;
+			@include mobile{
+				min-height: auto !important;
+			}
+			> * {
+				&:first-child{
+					padding-top: 67px;
+					@include tablet_portrait{
+						padding-top: 40px;
+					}
+				}
+				&:last-child{
+					margin-bottom: 45px;
+					@include tablet_portrait{
+						margin-bottom: 30px;
+					}
+				}
+			}
+		}
+	}
+}

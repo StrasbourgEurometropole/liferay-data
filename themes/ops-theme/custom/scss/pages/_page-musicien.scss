@@ -1,0 +1,119 @@
+.ops-page-musicien{
+	padding-bottom: 40px;
+}
+
+.ops-header-musicien{
+	position: relative;
+	padding-top: 120px;
+	margin-bottom: 43px;
+
+	.ops-content-wrapper{
+		height: 100%;
+		min-height: 410px;
+		@include clearfix();
+		@include tablet_portrait{
+			max-height: 600px;
+		}
+		@include mobile{
+			min-height: 300px;
+		}
+
+		// PHOTO DU MUSICIEN
+		.ops-figure-musicien{
+			float: right;
+			width: 533px;
+			height: calc(100vh - 120px);
+			@include tablet_landscape{
+				width: 50%;
+			}
+			@include tablet_portrait{
+				height: 100% !important;
+			}
+			@include mobile{
+				width: 90%;
+			}
+			@include mobile_small{
+				width: 100%;
+			}
+			figure{
+				height: 100%;
+				img{
+					height: 100%;
+				}
+				figcaption{
+					display: none;
+				}
+			}
+
+			& + .ops-meta-musicien{
+				bottom: 160px;
+				@include tablet_landscape{
+					width: calc(50% + 40px);
+				}
+				@include mobile{
+					bottom: 40px;
+					width: calc(100% - 40px);
+				}
+				@include mobile_small{
+					bottom: 0;
+					width: calc(100% - 30px);
+				}
+			}
+		}
+
+
+		// META DONNEES DU MUSICIEN
+		.ops-meta-musicien{
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 95px;
+			padding: 0 40px;
+			width: calc(100% - 533px + 40px);
+			background: $c_white;
+			z-index: 100;
+			@include tablet_landscape{
+				width: 100%;
+				padding: 20px 0;
+			}
+			@include mobile {
+				width: 100%;
+			}
+		}
+
+		.ops-typologie{
+			margin-bottom: 3px;
+			.ops-ie & {
+				margin-bottom: 15px;
+			}
+		}
+		h1{
+			margin: 0;
+			max-width: calc(100% - 40px);
+			font-size: 73px;
+			line-height: 73px;
+			@include tablet_landscape{
+				font-size: 50px;
+				line-height: 50px;
+			}
+			@include mobile{
+				max-width: 100%;
+				font-size: 35px;
+				line-height: 40px;
+			}
+			@include mobile_small{
+				font-size: 30px;
+				line-height: 35px;
+			}
+		}
+		.ops-function{
+			font-size: 23px;
+			line-height: 34px;
+			color: $c_dark;
+			@include mobile{
+				font-size: 18px;
+				line-height: 29px;
+			}
+		}
+	}
+}

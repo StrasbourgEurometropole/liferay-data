@@ -43,11 +43,12 @@
                     </g>
                 </svg>
             </a>
-            <div>
-                <a href="../page.html"><span>Accessibilité</span></a>
-                <a href="index.html" class="active lang">FR</a>
-                <a href="index.php/#EN" class="lang">EN</a>
-                <a href="index.php/#DE" class="lang">DE</a>
+            <div class="ops-top-header-btn">
+                <a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité"><span>Accessibilité</span></a>
+                <@liferay_portlet["runtime"]
+					portletProviderAction=portletProviderAction.VIEW
+					portletName="com_liferay_site_navigation_language_web_portlet_SiteNavigationLanguagePortlet"
+					instanceId="languageSelectorId"/>
             </div>
         </div>
 

@@ -31,6 +31,24 @@
 			@include mobile{
 				padding-top: 40px;
 			}
+			.ops-top-img{
+				h3{
+					left: 20px;
+					width: calc(100% - 70px);
+					@include tablet_portrait{
+						width: calc(100% - 40px);
+					}
+				}
+			}
+			.ops-content{
+				padding: 0 50px 0 20px;
+				@include tablet_portrait{
+					padding: 0 20px;
+				}
+				@include mobile{
+					padding: 0;
+				}
+			}
 		}
 	}
 
@@ -63,6 +81,9 @@
 				@include tablet_portrait{
 					height: 100%;
 				}
+			}
+			figcaption{
+				display: none;
 			}
 		}
 		h3{
