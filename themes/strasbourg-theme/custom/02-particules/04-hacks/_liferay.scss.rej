@@ -1,0 +1,18 @@
+diff a/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss b/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss	(rejected hunks)
+@@ -36,14 +36,14 @@
+ 
+ /* Décallage lorsqu'un utilisateur est connecté */
+ 
+-.has-control-menu .seu-header {
++.has-control-menu .seu-header, .has-control-menu .smag-header {
+   top: 66px;
+ }
+ .has-control-menu .seu-nav-bottom.seu-nav-bottom {
+   top: calc(100vh - 120px);
+ }
+ 
+-.seu-not-front.has-control-menu {
++.seu-not-front.has-control-menu, .smag.has-control-menu {
+   margin-top: 66px;
+ }
+ 
