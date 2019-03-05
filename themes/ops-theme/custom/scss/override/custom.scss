@@ -13,6 +13,16 @@
   margin-bottom: 0;
 }
 
+//Pour que l'affichage du contenu principal prenne en compte le header du thème....
+main {
+	padding-top : 120px;
+}
+
+//Pour que l'affichage du contenu principal prenne en compte le header de liferay 
+.has-control-menu #ops-wrapper main{
+	padding-top : 184px;
+}
+
 //Idem pour les bordures
 .portlet-content-editable {
 	border-width : 0px;
@@ -39,15 +49,11 @@
 }
 
 //Applique le style prévu pour les boutons de langue mais avec les elements du portlet de selection de la langue
-.ops-language-entry-short-text.lang {
-    padding: 0 15px;
-}
-
-.ops-language-entry-short-text {
+.ops-top-header>div a.ops-language-entry-short-text, .ops-top-header>div span.ops-language-entry-short-text{
     color: #fff;
     font-size: 16px;
     font-weight: 400;
-    padding: 0 30px;
+    padding: 0 15px;
     border-left: 1px solid #5C5C5C;
     display: inline-block;
     font-family: "Roboto",Sans-Serif;
@@ -59,6 +65,10 @@
     -o-transition: all .2s ease;
     -moz-transition: all .2s ease;
     transition: all .2s ease;
+}
+
+.ops-top-header>div span.ops-language-entry-short-text {
+	color: #D4B979;
 }
 
 .ops-top-header-btn {

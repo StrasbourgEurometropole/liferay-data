@@ -71,7 +71,7 @@
 
 
             <!-- Logo du site -->
-            <a href="/" title="Lien vers Page d'accueil - Orchestre Philarmonique de Strasbourg" class="ops-logo">
+            <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers Page d'accueil - Orchestre Philarmonique de Strasbourg" class="ops-logo">
                 <figure>
                     <img src="/o/ops-theme/images/logos/logo-ops.png" srcset="/o/ops-theme/images/logos/logo-ops-2x.png 2x" width="146" height="52" alt="Logo du site OPS"/>
                 </figure>
@@ -89,7 +89,7 @@
                     <li><a href="https://www.facebook.com/orchestre.philharmonique.strasbourg/?ref=ts" title="Lien externe vers la page Facebook" target="_blank" aria-label="Page Facebook"><span
                                 class="icon-ico-facebook"></span></a></li>
                 </ul>
-                <a href="../listing-saison.html" class="link-calendar" aria-label="Agenda des concerts"><span class="icon-ico-calendar"></span></a>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}agenda" class="link-calendar" aria-label="Agenda des concerts"><span class="icon-ico-calendar"></span></a>
                 <a href="#SearchOnSite" class="link-search" aria-label="Ouvrir la barre de recherche"><span class="icon-ico-search"></span></a>
             </div>
 
@@ -110,7 +110,7 @@
         <div class="ops-wrapper-nav">
             <nav>
                 <ul id="accordion">
-                    <li><a href="../listing-saison.html">Saison</a></li>
+                    <li><a href="${themeDisplay.getPortalURL()}${homeURL}accueil">Agenda</a></li>
                     <li class="ops-has-sub-menu">
                         <a href="#CollapseMenu2" data-toggle="collapse" data-parent="#accordion">Orchestre</a>
                         <ul id="CollapseMenu2" class="ops-has-sub-menu collapse">
