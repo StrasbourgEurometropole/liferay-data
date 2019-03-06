@@ -3,9 +3,13 @@
 	top: 64px;
 }
 
-
 #ops-header {
-	z-index : 500;
+	z-index : 150;
+}
+
+//Necessaire pour cacher des marges de la dropzone de porlet de liferay...
+body {
+	overflow-x: hidden;
 }
 
 //Pour supprimers les marges des portlet liferay
@@ -16,6 +20,7 @@
 //Pour que l'affichage du contenu principal prenne en compte le header du thème....
 main {
 	padding-top : 120px;
+	z-index : auto;
 }
 
 //Pour que l'affichage du contenu principal prenne en compte le header de liferay 
