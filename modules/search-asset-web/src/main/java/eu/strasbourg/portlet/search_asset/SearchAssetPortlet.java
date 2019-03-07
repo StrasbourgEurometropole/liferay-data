@@ -116,44 +116,46 @@ public class SearchAssetPortlet extends MVCPortlet {
                 homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
             }
             renderRequest.setAttribute("homeURL", homeURL);
-            
-            String className = classNameList.get(0);
-            
-            if (className.equals(PARTICIPATION)) {
-                List<Participation> participationListMostCommented = _participationLocalService.getMostCommented(groupId);
-                List<Participation> participationListLessCommented = _participationLocalService.getLessCommented(themeDisplay.getScopeGroupId());
-                
-                renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
-                renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
 
-            } else if (className.equals(PETITION)) {
-                // Recuperer des objets des champs les plus/les moins.
-                List<Petition> petitionListMostSigned = _petitionLocalService.getTheThreeMostSigned(themeDisplay.getScopeGroupId());
-                List<Petition> petitionListLessSigned = _petitionLocalService.getTheThreeLessSigned(themeDisplay.getScopeGroupId());
-                List<Petition> petitionListMostCommented = _petitionLocalService.getTheMostCommented(themeDisplay.getScopeGroupId());
-                
-                renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
-                renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
-                renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
-                
-            } else if (className.equals(BUDGET)) {
-            	List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3);
-            	List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3);
-            	List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3);
-            	
-            	renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
-            	renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
-            	renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
-            
-		    } else if (className.equals(INITIATIVE)) {
-		    	List<Initiative> initiativesMostLiked = _initiativeLocalService.getMostLiked(groupId, 3);
-		    	List<Initiative> initiativesMostCommented = _initiativeLocalService.getMostCommented(groupId, 3);
-		    	List<Initiative> initiativesMostHelped = _initiativeLocalService.getMostHelped(groupId, 3);
-		    	
-		    	renderRequest.setAttribute("initiativesMostLiked", initiativesMostLiked);
-		    	renderRequest.setAttribute("initiativesMostCommented", initiativesMostCommented);
-		    	renderRequest.setAttribute("initiativesMostHelped", initiativesMostHelped);
-		    }
+            if(Validator.isNotNull(classNameList) && classNameList.size() > 0) {
+                String className = classNameList.get(0);
+
+                if (className.equals(PARTICIPATION)) {
+                    List<Participation> participationListMostCommented = _participationLocalService.getMostCommented(groupId);
+                    List<Participation> participationListLessCommented = _participationLocalService.getLessCommented(themeDisplay.getScopeGroupId());
+
+                    renderRequest.setAttribute("participationListMostCommented", participationListMostCommented);
+                    renderRequest.setAttribute("participationListLessCommented", participationListLessCommented);
+
+                } else if (className.equals(PETITION)) {
+                    // Recuperer des objets des champs les plus/les moins.
+                    List<Petition> petitionListMostSigned = _petitionLocalService.getTheThreeMostSigned(themeDisplay.getScopeGroupId());
+                    List<Petition> petitionListLessSigned = _petitionLocalService.getTheThreeLessSigned(themeDisplay.getScopeGroupId());
+                    List<Petition> petitionListMostCommented = _petitionLocalService.getTheMostCommented(themeDisplay.getScopeGroupId());
+
+                    renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
+                    renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
+                    renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
+
+                } else if (className.equals(BUDGET)) {
+                    List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3);
+                    List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3);
+                    List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3);
+
+                    renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
+                    renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
+                    renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
+
+                } else if (className.equals(INITIATIVE)) {
+                    List<Initiative> initiativesMostLiked = _initiativeLocalService.getMostLiked(groupId, 3);
+                    List<Initiative> initiativesMostCommented = _initiativeLocalService.getMostCommented(groupId, 3);
+                    List<Initiative> initiativesMostHelped = _initiativeLocalService.getMostHelped(groupId, 3);
+
+                    renderRequest.setAttribute("initiativesMostLiked", initiativesMostLiked);
+                    renderRequest.setAttribute("initiativesMostCommented", initiativesMostCommented);
+                    renderRequest.setAttribute("initiativesMostHelped", initiativesMostHelped);
+                }
+            }
             
             renderRequest.setAttribute("isUserloggedIn", false);
             renderRequest.setAttribute("hasUserPactSign", false);
