@@ -178,6 +178,27 @@ public interface InitiativeHelpModel extends BaseModel<InitiativeHelp> {
 	 */
 	public void setMessage(String message);
 
+	/**
+	 * Returns the help display of this initiative help.
+	 *
+	 * @return the help display of this initiative help
+	 */
+	public boolean getHelpDisplay();
+
+	/**
+	 * Returns <code>true</code> if this initiative help is help display.
+	 *
+	 * @return <code>true</code> if this initiative help is help display; <code>false</code> otherwise
+	 */
+	public boolean isHelpDisplay();
+
+	/**
+	 * Sets whether this initiative help is help display.
+	 *
+	 * @param helpDisplay the help display of this initiative help
+	 */
+	public void setHelpDisplay(boolean helpDisplay);
+
 	@Override
 	public boolean isNew();
 

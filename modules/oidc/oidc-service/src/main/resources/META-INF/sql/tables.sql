@@ -15,5 +15,6 @@ create table publik_PublikUser (
 	pactSignature DATE null,
 	banishDate DATE null,
 	banishDescription TEXT null,
-	imageURL VARCHAR(400) null
+	imageURL VARCHAR(400) null,
+	pactDisplay BOOLEAN
 );

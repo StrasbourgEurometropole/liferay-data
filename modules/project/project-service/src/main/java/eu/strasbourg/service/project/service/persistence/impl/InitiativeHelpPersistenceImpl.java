@@ -2686,6 +2686,7 @@ public class InitiativeHelpPersistenceImpl extends BasePersistenceImpl<Initiativ
 		initiativeHelpImpl.setHelpTypes(initiativeHelp.getHelpTypes());
 		initiativeHelpImpl.setGroupId(initiativeHelp.getGroupId());
 		initiativeHelpImpl.setMessage(initiativeHelp.getMessage());
+		initiativeHelpImpl.setHelpDisplay(initiativeHelp.isHelpDisplay());
 
 		return initiativeHelpImpl;
 	}

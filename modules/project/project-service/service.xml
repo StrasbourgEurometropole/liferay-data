@@ -426,6 +426,7 @@
 		<column name="title" type="String" />
 		<column name="description" type="String" />
 		<column name="placeTextArea" type="String" />
+		<column name="inTheNameOf" type="String" />
 
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
@@ -480,6 +481,7 @@
 		<column name="helpTypes" type="String" />
 		<column name="groupId" type="long" />
 		<column name="message" type="String" />
+		<column name="helpDisplay" type="boolean" />
 
 		<!-- Finder methods -->
 		<finder name="PublikUserId" return-type="Collection" db-index="true">

@@ -338,6 +338,21 @@ public interface InitiativeModel extends BaseModel<Initiative>, GroupedModel,
 	public void setPlaceTextArea(String placeTextArea);
 
 	/**
+	 * Returns the in the name of of this initiative.
+	 *
+	 * @return the in the name of of this initiative
+	 */
+	@AutoEscape
+	public String getInTheNameOf();
+
+	/**
+	 * Sets the in the name of of this initiative.
+	 *
+	 * @param inTheNameOf the in the name of of this initiative
+	 */
+	public void setInTheNameOf(String inTheNameOf);
+
+	/**
 	 * Returns the video url of this initiative.
 	 *
 	 * @return the video url of this initiative

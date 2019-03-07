@@ -74,6 +74,7 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("banishDate", getBanishDate());
 		attributes.put("banishDescription", getBanishDescription());
 		attributes.put("imageURL", getImageURL());
+		attributes.put("pactDisplay", getPactDisplay());
 
 		return attributes;
 	}
@@ -181,6 +182,22 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		if (imageURL != null) {
 			setImageURL(imageURL);
 		}
+
+		Boolean pactDisplay = (Boolean)attributes.get("pactDisplay");
+
+		if (pactDisplay != null) {
+			setPactDisplay(pactDisplay);
+		}
+	}
+
+	/**
+	* Returns the pact display of this publik user.
+	*
+	* @return the pact display of this publik user
+	*/
+	@Override
+	public boolean getPactDisplay() {
+		return _publikUser.getPactDisplay();
 	}
 
 	/**
@@ -204,6 +221,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public boolean isNew() {
 		return _publikUser.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this publik user is pact display.
+	*
+	* @return <code>true</code> if this publik user is pact display; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPactDisplay() {
+		return _publikUser.isPactDisplay();
 	}
 
 	@Override
@@ -593,6 +620,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setNew(boolean n) {
 		_publikUser.setNew(n);
+	}
+
+	/**
+	* Sets whether this publik user is pact display.
+	*
+	* @param pactDisplay the pact display of this publik user
+	*/
+	@Override
+	public void setPactDisplay(boolean pactDisplay) {
+		_publikUser.setPactDisplay(pactDisplay);
 	}
 
 	/**
