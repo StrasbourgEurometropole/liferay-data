@@ -14,6 +14,6 @@
 				<span class="icon-ico-lecture"></span>
 			</a>
 		</div>
-		<div class="embed-container" data-urlvideo="${videoLink.getData()}"></div>
+		<div class="embed-container" data-video_id="${videoLink.getData()}" data-video_plateforme="youtube"></div>
 	</div>
 </div>

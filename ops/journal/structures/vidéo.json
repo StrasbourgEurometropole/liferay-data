@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "URL de la vidéo"
+                "fr_FR": "Identifiant de la vidéo youtube"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -15,7 +15,7 @@
                 "fr_FR": ""
             },
             "tip": {
-                "fr_FR": "Utilisez des liens dits \"Embed\" (exemple : \"https://www.youtube.com/watch?v=27xw9iCRGHw\" devient \"https://www.youtube.com/embed/27xw9iCRGHw\")"
+                "fr_FR": "Copier l'identifiant de la vidéo youtube (exemple pour : \"https://www.youtube.com/watch?v=27xw9iCRGHw\" il faut copier \"27xw9iCRGHw\")"
             },
             "dataType": "string",
             "indexType": "keyword",
