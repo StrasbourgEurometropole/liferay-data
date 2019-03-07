@@ -9,13 +9,15 @@
     <meta property="og:title" content="${entry.getTitle(locale)?html} - ${entry.getEventScheduleDisplay(locale)}" />
     <meta property="og:description" content="${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" />
-    <#if entry.imageURL?contains('http')>
-        <meta property="og:image" content="${entry.imageURL}" />
-    <#else>
-        <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
+    <#if entry.imageURL?has_content>
+        <#if entry.imageURL?contains('http')>
+            <meta property="og:image" content="${entry.imageURL}" />
+        <#else>
+            <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
+        </#if>
+        <meta property="og:image:height" content="${entry.getImageHeight()}" />
+        <meta property="og:image:width" content="${entry.getImageWidth()}" />
     </#if>
-    <meta property="og:image:height" content="${entry.getImageHeight()}" />
-    <meta property="og:image:width" content="${entry.getImageWidth()}" />
 </@>
 
 <!-- Détail événement -->
