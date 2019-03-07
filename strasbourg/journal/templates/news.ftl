@@ -2,6 +2,7 @@
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#assign thumbnailUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -12,7 +13,9 @@
     <meta property="og:title" content="${title.getData()?html}" />
     <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${currentUrl}" />
-    <meta property="og:image" content="${themeDisplay.getPortalURL()}${thumbnail.getData()}" />
+    <meta property="og:image" />
+    <meta property="og:image:height" />
+    <meta property="og:image:width" />
 </@>
 
 <main class="seu-container" style="margin-bottom: 50px">
@@ -77,3 +80,18 @@
     display: none !important;
 }
 </style>
+
+<script> 
+    function getMeta(url, callback) {
+        var img = new Image();
+        img.src = url;
+        img.onload = function() { callback(this.width, this.height); }
+    }
+    
+    getMeta("${thumbnailUrl}", function(width, height) {
+        document.querySelector('[property="og:image"]').setAttribute("content", "${thumbnailUrl}"); 
+        document.querySelector('[property="og:image:width"]').setAttribute("content", width);
+        document.querySelector('[property="og:image:height"]').setAttribute("content", height);
+    });
+
+</script>

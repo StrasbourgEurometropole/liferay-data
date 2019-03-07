@@ -15,7 +15,13 @@
     <meta property="og:description" content="${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}"  />
     <#if entry.imageURL?has_content>
-        <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
+        <#if entry.imageURL?contains('http')>
+            <meta property="og:image" content="${entry.imageURL}" />
+        <#else>
+            <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
+        </#if>
+        <meta property="og:image:height" content="${entry.getImageHeight()}" />
+        <meta property="og:image:width" content="${entry.getImageWidth()}" />
     </#if>
 </@>
 
