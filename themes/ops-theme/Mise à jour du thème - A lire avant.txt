@@ -4,6 +4,7 @@ Les librairies js suivantes :
 
 - js/libs/jquery.selectric.min.js
 - js/libs/masonry.js
+- js/libs/slick.min.js
 
 Le point d'entré sass ops.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
 
