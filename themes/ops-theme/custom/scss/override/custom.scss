@@ -86,3 +86,8 @@ main {
 	border-width : 0px;
 	padding : 0px;
 }
+
+//Pour faire passer le container des vidéos sous le header
+.ops-bloc-video .ops-wrapper-video .mask-video, .ops-bloc-video .ops-infos-videos:after {
+	z-index : 100;
+}
