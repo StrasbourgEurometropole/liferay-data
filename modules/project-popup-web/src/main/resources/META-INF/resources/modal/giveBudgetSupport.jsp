@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise a  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="save-info" value="save-info">
@@ -313,7 +313,7 @@
             $("#supportAlert").removeClass("hidden");
         else $("#supportAlert").addClass("hidden");
         
-        return isValid;
+        return true;
     }
 	
 	/*
@@ -486,6 +486,8 @@
 	$(document).on("click", "[href='#Support']", function(event) {
 		event.preventDefault();
 		resetValues();
+		
+		/** (08/03/2019) on n'affiche plus la popup pour le premier vote
 		// Si il y'a deja eu un vote de l'utilisateur, pas de formulaire
 		if (parseInt($("[href='#Support']").data('nbsupports'), 10)  >= 1) {
 			// Autocoche des checkbox pour valider la soumission
@@ -496,7 +498,13 @@
 			sendSupport();
 		} else {
 			$("#modalSupport").modal('show');
-		}
+		}**/
+		
+		$('#checkboxSupportSaveInfo #save-info').prop('checked', false);
+		$('#giveSupportLegalAge').prop('checked', true);
+		$('#giveBudgetSupportCondition1').prop('checked', true);
+		
+		sendSupport();
 	});
 	
 	/*
