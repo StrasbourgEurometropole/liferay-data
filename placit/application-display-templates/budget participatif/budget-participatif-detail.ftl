@@ -165,7 +165,7 @@
                             </#if>
 
                             <#if entry.isNotDoable()>
-                                Ce projet a été étudié et déclaré non-faisable
+                                Ce projet a été étudié et déclaré "${statusBP}"
                             <#else>
                                 <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes 
                                     <#if entry.hasBeenVoted() >
@@ -279,7 +279,7 @@
 								<div class="pro-footer-budget">
 									<p>
 										<#if suggestion.isNotDoable()>
-											Ce projet a été étudié et déclaré non-faisable
+											Ce projet a été étudié et déclaré "${suggestion.getBudgetParticipatifStatusTitle(locale)}"
 										<#else>
 											<strong>${suggestion.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet
 										</#if>									

@@ -4,7 +4,6 @@
 	<li class="facebook"><a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a></li>
 	<li class="twitter"><a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a></li>
 	<li class="linkedin"><a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a></li>
-	<li class="googleplus"><a aria-label="Partagez sur Google+" id="ShareGooglePlus" target="_blank" title="Lien de partage sur Google+"></a></li>
 	<li class="mail"><a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a></li>
 </ul>
 </div>
@@ -110,7 +109,6 @@ window.onload = function(){
 	var url = window.location.toString();
     document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL)+"src=sdkpreparse");
     document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-    document.getElementById("ShareGooglePlus").setAttribute("href","https://plus.google.com/share?url="+url);
     document.getElementById("ShareMail").setAttribute("href","mailto:&body="+url);
 
 }

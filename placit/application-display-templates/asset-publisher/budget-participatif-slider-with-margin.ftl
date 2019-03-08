@@ -69,7 +69,7 @@
                             <div class="pro-footer-budget">
                                 <p>
 									<#if entry.isNotDoable()>
-                                        Ce projet a été étudié et déclaré non-faisable
+                                        Ce projet a été étudié et déclaré "${entry.getBudgetParticipatifStatusTitle(locale)}"
                                     <#else>
                                         <strong>${entry.getNbSupports()}</strong> Citoyens-nes 
                                         <#if entry.hasBeenVoted() >
