@@ -822,12 +822,6 @@
 
 .m-stepform .messages.error > *:last-child, .m-stepform .messages.warning > *:last-child { margin-bottom: 20px; }
 
-.hat { line-height: 1.2em; text-align: center; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); max-width: 100vw; background-color: #E5E5EB; color: #191C20; padding: 30px 0px; }
-
-.hat a { color: #191C20; }
-
-.hat > *:last-child { margin-bottom: 0; }
-
 .a-highlight-content { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); width: auto; background-color: #31455d; padding: 35px 0px; }
 
 .a-highlight-content .container > *, .a-highlight-content .a-figure--full figure figcaption > *, .a-figure--full figure .a-highlight-content figcaption > *, .a-highlight-content .smag-header .smag-scrolled-search-engine .smag-search > *, .smag-header .smag-scrolled-search-engine .a-highlight-content .smag-search > *, .a-highlight-content .banner a > *, .banner .a-highlight-content a > *, .a-highlight-content .banner h1 > *, .banner .a-highlight-content h1 > * { color: #ffffff !important; text-align: center; }
