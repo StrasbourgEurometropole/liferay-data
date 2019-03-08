@@ -550,7 +550,7 @@ function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 	
 	if(budgetParticipatif.isNotDoable)
 	{
-		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		footer = "<p>Ce projet a été étudié et déclaré \"" + budgetParticipatif.BPStatus + "\"</p>";
 		cssClassBPStatus = "pro-theme-non-faisable";
 	}
 	else
@@ -1076,7 +1076,7 @@ function createBudgetParticipatif(budgetParticipatif){
 	
 	if(budgetParticipatif.isNotDoable)
 	{
-		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		footer = "<p>Ce projet a été étudié et déclaré \"" + budgetParticipatif.BPStatus + "\"</p>";
 		cssClassBPStatus = "pro-theme-non-faisable";
 	}
 	else

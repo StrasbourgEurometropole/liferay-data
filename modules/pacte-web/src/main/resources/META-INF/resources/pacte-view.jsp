@@ -32,7 +32,7 @@
                         <a id="SignerPacte" href="#" class="pro-btn-signer active"><liferay-ui:message key="pacte.already.adhere"/></a>
                     </c:if>
                     <c:if test="${!hasUserSigned}">
-                        <a id="SignerPacte" href="#" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
+                        <a id="SignerPacte" title="<liferay-ui:message key="pacte.sign.title"/>" href="#" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
                     </c:if>
                 </div>
             </div>
@@ -41,7 +41,7 @@
 
 </div>
 <!-- CONFIRMATION QUITTER -->
-<!-- HTML pour confirmer la rÃÂ©siliation du pacte -->
+<!-- HTML pour confirmer la rÃÂÃÂ©siliation du pacte -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPacte" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
