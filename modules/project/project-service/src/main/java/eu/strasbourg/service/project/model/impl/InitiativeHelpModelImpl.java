@@ -74,7 +74,8 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 			{ "initiativeId", Types.BIGINT },
 			{ "helpTypes", Types.VARCHAR },
 			{ "groupId", Types.BIGINT },
-			{ "message", Types.VARCHAR }
+			{ "message", Types.VARCHAR },
+			{ "helpDisplay", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -87,9 +88,10 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		TABLE_COLUMNS_MAP.put("helpTypes", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("message", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("helpDisplay", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,helpTypes VARCHAR(75) null,groupId LONG,message VARCHAR(400) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,helpTypes VARCHAR(75) null,groupId LONG,message VARCHAR(400) null,helpDisplay BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table project_InitiativeHelp";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiativeHelp.initiativeHelpId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_InitiativeHelp.initiativeHelpId ASC";
@@ -132,6 +134,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		model.setHelpTypes(soapModel.getHelpTypes());
 		model.setGroupId(soapModel.getGroupId());
 		model.setMessage(soapModel.getMessage());
+		model.setHelpDisplay(soapModel.getHelpDisplay());
 
 		return model;
 	}
@@ -204,6 +207,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		attributes.put("helpTypes", getHelpTypes());
 		attributes.put("groupId", getGroupId());
 		attributes.put("message", getMessage());
+		attributes.put("helpDisplay", getHelpDisplay());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -259,6 +263,12 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 		if (message != null) {
 			setMessage(message);
+		}
+
+		Boolean helpDisplay = (Boolean)attributes.get("helpDisplay");
+
+		if (helpDisplay != null) {
+			setHelpDisplay(helpDisplay);
 		}
 	}
 
@@ -412,6 +422,23 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		_message = message;
 	}
 
+	@JSON
+	@Override
+	public boolean getHelpDisplay() {
+		return _helpDisplay;
+	}
+
+	@JSON
+	@Override
+	public boolean isHelpDisplay() {
+		return _helpDisplay;
+	}
+
+	@Override
+	public void setHelpDisplay(boolean helpDisplay) {
+		_helpDisplay = helpDisplay;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -451,6 +478,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		initiativeHelpImpl.setHelpTypes(getHelpTypes());
 		initiativeHelpImpl.setGroupId(getGroupId());
 		initiativeHelpImpl.setMessage(getMessage());
+		initiativeHelpImpl.setHelpDisplay(getHelpDisplay());
 
 		initiativeHelpImpl.resetOriginalValues();
 
@@ -579,12 +607,14 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 			initiativeHelpCacheModel.message = null;
 		}
 
+		initiativeHelpCacheModel.helpDisplay = getHelpDisplay();
+
 		return initiativeHelpCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -602,6 +632,8 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 		sb.append(getGroupId());
 		sb.append(", message=");
 		sb.append(getMessage());
+		sb.append(", helpDisplay=");
+		sb.append(getHelpDisplay());
 		sb.append("}");
 
 		return sb.toString();
@@ -609,7 +641,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.InitiativeHelp");
@@ -647,6 +679,10 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 			"<column><column-name>message</column-name><column-value><![CDATA[");
 		sb.append(getMessage());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>helpDisplay</column-name><column-value><![CDATA[");
+		sb.append(getHelpDisplay());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -671,6 +707,7 @@ public class InitiativeHelpModelImpl extends BaseModelImpl<InitiativeHelp>
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;
 	private String _message;
+	private boolean _helpDisplay;
 	private long _columnBitmask;
 	private InitiativeHelp _escapedModel;
 }

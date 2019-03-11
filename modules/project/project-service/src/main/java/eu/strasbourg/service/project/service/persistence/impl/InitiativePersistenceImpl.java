@@ -3558,6 +3558,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		initiativeImpl.setTitle(initiative.getTitle());
 		initiativeImpl.setDescription(initiative.getDescription());
 		initiativeImpl.setPlaceTextArea(initiative.getPlaceTextArea());
+		initiativeImpl.setInTheNameOf(initiative.getInTheNameOf());
 		initiativeImpl.setVideoUrl(initiative.getVideoUrl());
 		initiativeImpl.setExternalImageURL(initiative.getExternalImageURL());
 		initiativeImpl.setExternalImageCopyright(initiative.getExternalImageCopyright());

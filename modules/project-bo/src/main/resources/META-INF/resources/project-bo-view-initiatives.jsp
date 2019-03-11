@@ -125,6 +125,16 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+	
+	<liferay-portlet:resourceURL var="exportInitiativesXlsxURL" id="exportInitiativesXlsx">
+    </liferay-portlet:resourceURL>
+    
+   	<form method="POST" action="${exportInitiativesXlsxURL}">
+   		<aui:input type="hidden" name="initiativesIds" value="${dc.allInitiativeIds}" />
+   		<aui:button-row>
+   			<aui:button cssClass="btn-lg" type="submit" value="export-initiatives-xlsx" />
+   		</aui:button-row>
+   	</form>
 </div>
 
 <%-- Composant : bouton d'ajout d'entite --%>

@@ -254,12 +254,31 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
+     * Retourne la liste des URLs des documents
+     */
+    @Override
+    public List<String> getFilesURLs() {
+        List<String> URLs = new ArrayList<String>();
+        for (String fileIdStr : this.getFilesIds().split(",")) {
+            Long fileId = GetterUtil.getLong(fileIdStr);
+            if (Validator.isNotNull(fileId)) {
+                String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+                URLs.add(fileURL);
+            }
+        }
+        return URLs;
+    }
+	
+	/**
      * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
      */
     @Override
     public String getAuthorLabel() {
     	PublikUser author = this.getAuthor();
-    	if (author != null) {
+    	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+    		return this.getInTheNameOf();
+    	}
+    	else if (author != null) {
     		return StringUtil.upperCaseFirstLetter(author.getFirstName())
     				+ " "
     				+  StringUtil.toUpperCase(StringUtil.shorten(author.getLastName(), 2, "."));
@@ -325,11 +344,11 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	}
 	
 	/**
-	 * Retourne le nombre d'aides de l'initiative
+	 * Retourne les aides qu'on affiche de l'initiative
 	 */
 	@Override
 	public List<InitiativeHelp> getHelps() {
-		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId());
+		return InitiativeHelpLocalServiceUtil.getByInitiativeId(this.getInitiativeId()).stream().filter(c -> c.getHelpDisplay()).collect(Collectors.toList());
 	}
 	
 	/**
