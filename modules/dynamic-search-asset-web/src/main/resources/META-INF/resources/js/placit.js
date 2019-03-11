@@ -244,7 +244,7 @@ function createBudgetParticipatifThumbnail(bp) {
 	
 	if(bp.isNotDoable)
 	{
-		footer = "<p>Ce projet a été étudié et déclaré non-faisable</p>";
+		footer = "<p>Ce projet a été étudié et déclaré \"" + bp.BPStatus + "\"</p>";
 		cssClassBPStatus = "pro-theme-non-faisable";
 	}
 	else

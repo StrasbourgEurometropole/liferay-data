@@ -164,6 +164,16 @@
                     </div>
                 </div>
                 
+                <%-- Champ : Demande de confirmation de l'affichage de l'aide --%>
+                <div class="pro-optin form-checkbox" >
+                    <div>
+                        <input type="checkbox" id="<portlet:namespace />displayHelp" value="displayHelp">
+                        <label for="<portlet:namespace />displayHelp" class="fontWhite">
+                            <liferay-ui:message key="modal.give.initiative.help.display"/>
+                        </label>
+                    </div>
+                </div>
+                
                 <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 
                 <%-- Champ cache : ID --%>
@@ -284,6 +294,7 @@
             var mobile = $("#<portlet:namespace />mobile").val();
             var email = $("#<portlet:namespace />mail").val();
             var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
+            var displayHelp = $("#<portlet:namespace />displayHelp").is(":checked");
             
             AUI().use('aui-io-request', function(A) {
                 try {
@@ -303,7 +314,8 @@
                             <portlet:namespace />saveinfo: 					saveInfo,
                             <portlet:namespace />lastname: 					lastname,
                             <portlet:namespace />firstname: 				firstname,
-                            <portlet:namespace />email: 					email
+                            <portlet:namespace />email: 					email,
+                            <portlet:namespace />displayHelp: 				displayHelp
                         },
                         on: {
                             complete: function(e) {
@@ -385,6 +397,7 @@
         $("#<portlet:namespace />checkboxSaveInfo").hide();
         $("#<portlet:namespace />legalage").prop("checked", false);
         $("#<portlet:namespace />cnil").prop("checked", false);
+        $("#<portlet:namespace />displayHelp").prop("checked", false);
        
     }
     

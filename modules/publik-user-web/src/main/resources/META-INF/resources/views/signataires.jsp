@@ -61,10 +61,8 @@
                            </div>
                        </div>
                    </div>
-
                 </liferay-ui:search-container-row>
             </liferay-ui:search-container>
-
         </div>
     </div>
 </aui:form>

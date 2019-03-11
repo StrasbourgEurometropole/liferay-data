@@ -10,4 +10,8 @@
 	<category name="eu.strasbourg.utils">
         <priority value="ERROR" />
     </category>
+    <category name="eu.strasbourg.portlet.dynamic_search_asset.DynamicSearchAssetWebPortlet">
+        <priority value="ERROR" />
+    </category>
 </log4j:configuration>
+

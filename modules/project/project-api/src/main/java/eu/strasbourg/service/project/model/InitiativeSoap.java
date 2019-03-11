@@ -49,6 +49,7 @@ public class InitiativeSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
+		soapModel.setInTheNameOf(model.getInTheNameOf());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
@@ -230,6 +231,14 @@ public class InitiativeSoap implements Serializable {
 		_placeTextArea = placeTextArea;
 	}
 
+	public String getInTheNameOf() {
+		return _inTheNameOf;
+	}
+
+	public void setInTheNameOf(String inTheNameOf) {
+		_inTheNameOf = inTheNameOf;
+	}
+
 	public String getVideoUrl() {
 		return _videoUrl;
 	}
@@ -321,6 +330,7 @@ public class InitiativeSoap implements Serializable {
 	private String _title;
 	private String _description;
 	private String _placeTextArea;
+	private String _inTheNameOf;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

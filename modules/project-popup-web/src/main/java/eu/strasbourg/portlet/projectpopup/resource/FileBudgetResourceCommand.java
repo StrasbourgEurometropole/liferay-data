@@ -10,6 +10,7 @@ import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
@@ -18,6 +19,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
@@ -33,21 +35,29 @@ import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 import org.osgi.service.component.annotations.Component;
 
+import javax.mail.internet.InternetAddress;
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
@@ -156,6 +166,9 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
             
          	// Envoi de la demande
             result = sendBudget(request);
+            
+            if(result)
+            	sendBPMailConfirmation(request);
         }
         
         // Retour des informations de la requete en JSON
@@ -232,6 +245,57 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
         }
         _log.info("budget cree : " + budgetParticipatif);
         return true;
+    }
+    
+    
+    /**
+	 * Envoi du mail de confirmation de soumission du budget participatif
+	 */
+    private void sendBPMailConfirmation(ResourceRequest request) {
+    	
+    	try {
+	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	    	
+	    	// récupération des images
+			StringBuilder hostUrl = new StringBuilder("http://");
+			hostUrl.append(request.getServerName()).append(":").append(request.getServerPort());
+			StringBuilder headerImage = new StringBuilder(hostUrl)
+					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+			StringBuilder btnImage = new StringBuilder(hostUrl)
+					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+	    	
+			// préparation du template de mail
+			Map<String, Object> context = new HashMap<>();
+			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
+			context.put("headerImage", headerImage.toString());
+			context.put("footerImage", btnImage.toString());
+			context.put("Title", this.title);
+			context.put("Message", this.description);
+			
+		  	Configuration configuration = new Configuration(Configuration.getVersion());
+			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
+			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+			
+			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
+			StringWriter bodyWriter = new StringWriter();
+			bodyTemplate.process(context, bodyWriter);
+			
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.filebudget.mail.information");
+			
+			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+					themeDisplay.getScopeGroup().getName(request.getLocale()));
+			
+			InternetAddress[] toAddresses = new InternetAddress[0];
+			InternetAddress address = new InternetAddress(this.user.getEmail());
+			toAddresses = ArrayUtil.append(toAddresses, address);
+			
+			// envoi du mail aux utilisateurs
+			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
+					bodyWriter.toString());
+		} catch (Exception e) {
+			_log.error(e);
+			e.printStackTrace();
+		}
     }
 
     /**
