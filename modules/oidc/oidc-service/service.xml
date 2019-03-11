@@ -27,6 +27,7 @@
 		<column name="banishDate" type="Date" />
 		<column name="banishDescription" type="String" />
 		<column name="imageURL" type="String" />
+		<column name="pactDisplay" type="boolean" />
 		
 		<!-- Order -->
 		<order by="asc">
