@@ -174,7 +174,7 @@
 													<div>
 														<time datetime="2018-02-1">Le ${initiativeHelp.getCreateDate()?date?string['dd/MM/yyyy']}</time>
 														<h3>${initiativeHelp.getAuthorLabel()}</h3>
-														<p>à proposé ${initiativeHelp.getTypesLabel()}</p>
+														<p>a proposé ${initiativeHelp.getTypesLabel()}</p>
 													</div>
 												</div>
 											</div>

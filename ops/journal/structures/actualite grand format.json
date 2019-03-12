@@ -1,0 +1,172 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Titre"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "title",
+            "readOnly": false,
+            "repeatable": true,
+            "required": true,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Texte accompagnement"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "description",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Typologie du concert"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "typologie",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Image en arrière plan"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "image",
+                    "fieldNamespace": "ddm",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "backgroundImage",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": true,
+                    "showLabel": true,
+                    "type": "ddm-image"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Nom du lien"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "linkLabel",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "fr_FR": "URL du lien"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "linkURL",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Ouvrir dans un nouvel onglet"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": false
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "boolean",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "openInaNewTab",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "checkbox"
+                }
+            ]
+        }
+    ]
+}
