@@ -30,7 +30,7 @@
         },
         {
             "label": {
-                "fr_FR": "Nom du bouton"
+                "fr_FR": "Bouton"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -44,13 +44,36 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "buttonName",
+            "name": "button",
             "readOnly": false,
             "repeatable": true,
             "required": false,
             "showLabel": true,
             "type": "text",
             "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Couleur"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "color",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
                 {
                     "label": {
                         "fr_FR": "Lien"
