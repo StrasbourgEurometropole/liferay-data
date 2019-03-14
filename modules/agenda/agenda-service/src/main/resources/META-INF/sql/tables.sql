@@ -126,6 +126,10 @@ create table agenda_Event (
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
 	publicationDate DATE null,
+	distribution VARCHAR(75) null,
+	composer VARCHAR(75) null,
+	concertId VARCHAR(75) null,
+	program VARCHAR(400) null,
 	firstStartDate DATE null,
 	lastEndDate DATE null,
 	imageId LONG

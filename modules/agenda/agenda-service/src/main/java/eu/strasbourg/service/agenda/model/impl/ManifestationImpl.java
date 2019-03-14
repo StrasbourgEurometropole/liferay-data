@@ -159,7 +159,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	@Override
 	public String getManifestationScheduleDisplay(Locale locale) {
 		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(),
-			locale);
+			locale, true, false);
 	}
 
 	/**

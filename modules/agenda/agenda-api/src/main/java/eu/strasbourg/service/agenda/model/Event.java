@@ -115,6 +115,14 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getEventScheduleDisplay(java.util.Locale locale);
 
 	/**
+	* Retourne la période principale de l'événement (de la première date de début à
+	* la dernière date de fin) sous forme de String dans la locale passée en
+	* paramètre
+	*/
+	public java.lang.String getEventScheduleDisplay(java.util.Locale locale,
+		boolean dispYear, boolean dispShortMonth);
+
+	/**
 	* Retourne la version live de l'édition, si elle existe
 	*/
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion();

@@ -236,6 +236,15 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			event.setWebsiteURLMap(websiteURL);
 
 			// ---------------------------------------------------------------
+			// -------------------------- CONCERT ----------------------------
+			// ---------------------------------------------------------------
+			
+			event.setComposer(ParamUtil.getString(request, "composer"));
+			event.setProgram(ParamUtil.getString(request, "program"));
+			event.setDistribution(ParamUtil.getString(request, "distribution"));
+			event.setConcertId(ParamUtil.getString(request, "concertId"));
+			
+			// ---------------------------------------------------------------
 			// -------------------------- PRIX -------------------------------
 			// ---------------------------------------------------------------
 			

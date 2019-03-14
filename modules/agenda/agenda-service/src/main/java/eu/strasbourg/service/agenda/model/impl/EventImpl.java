@@ -240,7 +240,17 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getEventScheduleDisplay(Locale locale) {
-		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale);
+		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale, true, false);
+	}
+	
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplay(Locale locale, boolean dispYear, boolean dispShortMonth) {
+		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale, dispYear, dispShortMonth);
 	}
 
 	/**

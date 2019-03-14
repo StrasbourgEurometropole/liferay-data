@@ -1,0 +1,173 @@
+<%@ include file="/search-asset-init.jsp"%>
+
+<liferay-portlet:actionURL varImpl="searchActionURL" />
+
+<!-- LISTING DES CONCERTS DE LA SAISON -->
+<section class="ops-content-wrapper ops-content-wrapper-large ops-wrapper-listing-saison">
+
+
+	<!-- Resultats -->
+	<aui:form method="post" name="fm">
+		<div class="ops-listing-wrapper">
+			<!-- resultats -->
+			<liferay-ui:search-container id="entriesSearchContainer"
+				searchContainer="${dc.searchContainer}">
+				<liferay-ui:search-container-results results="${dc.entries}" />
+				<liferay-ui:search-container-row
+					className="com.liferay.asset.kernel.model.AssetEntry"
+					modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
+					<c:set var="className" value="${entry.className}" />
+					<liferay-ddm:template-renderer className="${className}"
+						contextObjects="${dc.getTemplateContextObjects(entry)}"
+						displayStyle="${dc.templatesMap[entry.className]}"
+						displayStyleGroupId="${themeDisplay.scopeGroupId}"
+						entries="${dc.templateEntries }">
+						<liferay-ui:asset-display assetEntry="${entry}"
+							assetRenderer="${entry.assetRenderer}"
+							assetRendererFactory="${entry.assetRendererFactory}"
+							template="abstract" />
+					</liferay-ddm:template-renderer>
+				</liferay-ui:search-container-row>
+			</liferay-ui:search-container>
+		</div>
+	</aui:form>
+
+</section>
+
+<!-- Pagination -->
+<div
+	class="ops-content-wrapper ops-content-wrapper-large ops-pagination">
+	<div class="taglib-page-iterator">
+		<div class="clearfix lfr-pagination">
+			<div class="lfr-pagination-config">
+				<!-- Pagination : selecteur de page -->
+				<c:if test="${dc.pager.lastPage > 1}">
+					<div class="lfr-pagination-page-selector">
+						<div class="btn-group lfr-icon-menu current-page-menu dropdown">
+							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" title="Page 1 de 6" data-toggle="dropdown">
+								<span class="lfr-icon-menu-text">Page ${dc.pager.currentPage} de ${dc.pager.lastPage}</span> <i
+                               	class="lfr-icon-menu-arrow caret"></i> 
+							</a>		
+							<ul class="dropdown-menu lfr-menu-list direction-down"
+								id="change-page" name="change-page"
+								onchange="location = this.value;">
+								<c:forEach var="pageIndex" begin="1" end="${dc.pager.lastPage}">
+									<c:choose>
+										<c:when test="${pageIndex != dc.pager.lastPage}">
+											<li class="" role="presentation" value="${dc.getURLForPage(pageIndex)}">
+												<a href="${dc.getURLForPage(pageIndex)}" target="_self" class=" lfr-icon-item taglib-icon" role="menuitem"> <span class="taglib-text-icon">${pageIndex}</span> </a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="" role="presentation" value="${dc.getURLForPage(pageIndex)}">
+												<a href="${dc.getURLForPage(pageIndex)}" target="_self" class=" lfr-icon-item taglib-icon" role="menuitem"> <span class="taglib-text-icon">${pageIndex}</span> </a>
+											</li>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</ul>
+						</div>
+						
+					</div>
+					
+				</c:if>
+			</div>
+			<small class="search-results"> Affichage des résultats 1 - 12 parmi 68. </small> 
+			<c:if test="${dc.pager.lastPage > 1}">
+				<ul class="lfr-pagination-buttons pager">    
+				            
+	                <!-- Lien vers la premiere page -->
+					<c:choose>
+						<c:when test="${not dc.pager.onFirstPage}">
+							<li><a href="${dc.getURLForPage(1)}"
+								tabindex="-1"
+								title="<liferay-ui:message key="eu.listing-link-to-first-page" />">
+									<liferay-ui:message key="eu.first" />
+							</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="disabled first"><a 
+								tabindex="-1"
+								title="<liferay-ui:message key="eu.listing-link-to-first-page" />">
+									<liferay-ui:message key="eu.first" />
+							</a></li>
+						</c:otherwise>
+					</c:choose>
+
+
+					<!-- Lien vers la page precedente page -->
+                	<c:choose>
+					  <c:when test="${not dc.pager.onFirstPage}">
+					    <li class="">
+					    	<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />">
+                    			<liferay-ui:message key="eu.previous" />
+                    		</a>
+                    	</li>
+					  </c:when>
+					  <c:otherwise>
+					   <li class="disabled">
+					   		<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />">
+                    			<liferay-ui:message key="eu.previous" />
+                    		</a>
+                    	</li>
+					  </c:otherwise>
+					</c:choose>
+
+                    		
+                   	<!-- Lien vers la page suivante --> 	
+                    <c:choose>
+					  <c:when test="${not dc.pager.onLastPage}">
+					    <li>
+                    		<a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-next-page" />">
+                    			<liferay-ui:message key="eu.next" />
+                    		</a>
+                    	</li>
+					  </c:when>
+					  <c:otherwise>
+					   <li class="disabled">
+                    		<a tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-next-page" />">
+                    			<liferay-ui:message key="eu.next" />
+                    		</a>
+                    	</li>
+					  </c:otherwise>
+					</c:choose>	
+                    
+                    
+                    
+                    <!-- Lien vers la derniere page -->
+                    <c:choose>
+					  <c:when test="${not dc.pager.onLastPage}">
+					    <li>
+                    		<a href="${dc.getURLForPage(dc.pager.lastPage)}" tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-last-page" />">
+                    			<liferay-ui:message key="eu.last" />
+                    		</a>
+                    	</li>
+					  </c:when>
+					  <c:otherwise>
+					   <li class="disabled last">
+                    		<a  tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-last-page" />">
+                    			<liferay-ui:message key="eu.last" />
+                    		</a>
+                    	</li>
+					  </c:otherwise>
+					</c:choose>	
+				</ul>
+			</c:if>
+		</div>
+	</div>
+</div>
+
+<style>
+.open>.dropdown-menu {
+    display: block;
+    position : absolute;
+}
+
+.taglib-page-iterator{
+	overflow: visible;
+}
+
+.taglib-page-iterator .lfr-pagination-config .lfr-pagination-page-selector {
+	display : block;
+}
+</style>

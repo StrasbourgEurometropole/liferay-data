@@ -160,6 +160,12 @@
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
+		<field name="distribution" type="String" />
+		<field name="composer" type="String" />
+		<field name="concertId" type="String" />
+		<field name="program" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />
 		<field name="imageId" type="Long" />

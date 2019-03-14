@@ -6947,6 +6947,10 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		eventImpl.setSource(event.getSource());
 		eventImpl.setIdSource(event.getIdSource());
 		eventImpl.setPublicationDate(event.getPublicationDate());
+		eventImpl.setDistribution(event.getDistribution());
+		eventImpl.setComposer(event.getComposer());
+		eventImpl.setConcertId(event.getConcertId());
+		eventImpl.setProgram(event.getProgram());
 		eventImpl.setFirstStartDate(event.getFirstStartDate());
 		eventImpl.setLastEndDate(event.getLastEndDate());
 		eventImpl.setImageId(event.getImageId());

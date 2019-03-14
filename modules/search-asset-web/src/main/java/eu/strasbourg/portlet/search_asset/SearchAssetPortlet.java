@@ -387,7 +387,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
                             jsonEvent.put("class", className);
                             JSONObject json = event.toJSON();
-                            json.put("eventScheduleDisplay", event.getEventScheduleDisplay(Locale.FRANCE));
+                            json.put("eventScheduleDisplay", event.getEventScheduleDisplay(Locale.FRANCE, true, false));
                             json.put("placeAlias", event.getPlaceAlias(Locale.FRANCE));
                             jsonEvent.put("json", json);
                             jsonEntries.put(jsonEvent);

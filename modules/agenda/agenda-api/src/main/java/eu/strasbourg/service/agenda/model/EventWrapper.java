@@ -105,6 +105,10 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
+		attributes.put("distribution", getDistribution());
+		attributes.put("composer", getComposer());
+		attributes.put("concertId", getConcertId());
+		attributes.put("program", getProgram());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
 		attributes.put("imageId", getImageId());
@@ -391,6 +395,30 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
+		}
+
+		String distribution = (String)attributes.get("distribution");
+
+		if (distribution != null) {
+			setDistribution(distribution);
+		}
+
+		String composer = (String)attributes.get("composer");
+
+		if (composer != null) {
+			setComposer(composer);
+		}
+
+		String concertId = (String)attributes.get("concertId");
+
+		if (concertId != null) {
+			setConcertId(concertId);
+		}
+
+		String program = (String)attributes.get("program");
+
+		if (program != null) {
+			setProgram(program);
 		}
 
 		Date firstStartDate = (Date)attributes.get("firstStartDate");
@@ -953,6 +981,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getCompleteAddress(locale);
 	}
 
+	/**
+	* Returns the composer of this event.
+	*
+	* @return the composer of this event
+	*/
+	@Override
+	public java.lang.String getComposer() {
+		return _event.getComposer();
+	}
+
+	/**
+	* Returns the concert ID of this event.
+	*
+	* @return the concert ID of this event
+	*/
+	@Override
+	public java.lang.String getConcertId() {
+		return _event.getConcertId();
+	}
+
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _event.getDefaultLanguageId();
@@ -1027,6 +1075,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the distribution of this event.
+	*
+	* @return the distribution of this event
+	*/
+	@Override
+	public java.lang.String getDistribution() {
+		return _event.getDistribution();
+	}
+
+	/**
 	* Returns the email of this event.
 	*
 	* @return the email of this event
@@ -1044,6 +1102,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getEventScheduleDisplay(java.util.Locale locale) {
 		return _event.getEventScheduleDisplay(locale);
+	}
+
+	/**
+	* Retourne la période principale de l'événement (de la première date de début à
+	* la dernière date de fin) sous forme de String dans la locale passée en
+	* paramètre
+	*/
+	@Override
+	public java.lang.String getEventScheduleDisplay(java.util.Locale locale,
+		boolean dispYear, boolean dispShortMonth) {
+		return _event.getEventScheduleDisplay(locale, dispYear, dispShortMonth);
 	}
 
 	/**
@@ -1362,6 +1431,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getPriceCurrentValue() {
 		return _event.getPriceCurrentValue();
+	}
+
+	/**
+	* Returns the program of this event.
+	*
+	* @return the program of this event
+	*/
+	@Override
+	public java.lang.String getProgram() {
+		return _event.getProgram();
 	}
 
 	/**
@@ -2413,6 +2492,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Sets the composer of this event.
+	*
+	* @param composer the composer of this event
+	*/
+	@Override
+	public void setComposer(java.lang.String composer) {
+		_event.setComposer(composer);
+	}
+
+	/**
+	* Sets the concert ID of this event.
+	*
+	* @param concertId the concert ID of this event
+	*/
+	@Override
+	public void setConcertId(java.lang.String concertId) {
+		_event.setConcertId(concertId);
+	}
+
+	/**
 	* Sets the create date of this event.
 	*
 	* @param createDate the create date of this event
@@ -2484,6 +2583,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, java.lang.String> descriptionMap,
 		java.util.Locale defaultLocale) {
 		_event.setDescriptionMap(descriptionMap, defaultLocale);
+	}
+
+	/**
+	* Sets the distribution of this event.
+	*
+	* @param distribution the distribution of this event
+	*/
+	@Override
+	public void setDistribution(java.lang.String distribution) {
+		_event.setDistribution(distribution);
 	}
 
 	/**
@@ -2855,6 +2964,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_event.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the program of this event.
+	*
+	* @param program the program of this event
+	*/
+	@Override
+	public void setProgram(java.lang.String program) {
+		_event.setProgram(program);
 	}
 
 	/**
