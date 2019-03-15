@@ -149,7 +149,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />legalage" value="legalage">
                         <label for="<portlet:namespace />legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageGiveInitiativeHelp"/>
                         </label>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
                         <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiative"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiativeGiveInitiativeHelp"/>
                         </label>
                     </div>
                 </div>

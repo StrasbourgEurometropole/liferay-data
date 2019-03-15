@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise a  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise aÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="save-info" value="save-info">
@@ -116,7 +116,7 @@
                     <div>
                         <input type="checkbox" id="giveSupportLegalAge" value="legalage">
                         <label for="giveSupportLegalAge" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageGiveBudgetSupport"/>
                         </label>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                     <div>
                         <input type="checkbox" id="giveBudgetSupportCondition1" value="giveBudgetSupportCondition1">
                         <label for="giveBudgetSupportCondition1"  class="fontWhite">
-                        	<liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_supportCondition1"/>
+                        	<liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_supportCondition1GiveBudgetSupport"/>
                         </label>
                     </div>
                 </div>
