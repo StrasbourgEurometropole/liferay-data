@@ -1011,7 +1011,7 @@ public class EventImpl extends EventBaseImpl {
 	 * @return la liste d'événements.
 	 */
 	@Override
-	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions) throws SearchException, PortalException {
+	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions, String tag) throws SearchException, PortalException {
 		
 		List<Event> suggestions = new ArrayList<>();
 		
@@ -1033,10 +1033,12 @@ public class EventImpl extends EventBaseImpl {
 			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 			query.addRequiredTerm("visible", true);
 			
-			//Ajout du filtre sur le tag "participer"
-			BooleanQuery tagQuery = new BooleanQueryImpl();
-			tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, "participer");
-			query.add(tagQuery, BooleanClauseOccur.MUST);
+			if(tag != null && !tag.equals("")) {
+				//Ajout du filtre sur le tag, si présent
+				BooleanQuery tagQuery = new BooleanQueryImpl();
+				tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, tag);
+				query.add(tagQuery, BooleanClauseOccur.MUST);
+			}
 			
 			//La suggestion se fait uniquement sur la même catégorie "thème"
 			for (AssetCategory category : this.getThemes()) {

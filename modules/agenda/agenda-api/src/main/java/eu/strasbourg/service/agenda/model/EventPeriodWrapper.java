@@ -180,6 +180,12 @@ public class EventPeriodWrapper implements EventPeriod,
 		return _eventPeriod.getDisplay(locale);
 	}
 
+	@Override
+	public java.lang.String getDisplay(java.util.Locale locale,
+		boolean dispYear, boolean dispShortMonth) {
+		return _eventPeriod.getDisplay(locale, dispYear, dispShortMonth);
+	}
+
 	/**
 	* Returns the time detail of this event period.
 	*

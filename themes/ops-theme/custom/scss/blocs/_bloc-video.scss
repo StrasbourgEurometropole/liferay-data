@@ -312,7 +312,7 @@
 		&:hover, &:focus{
 			outline: none;
 			#ops-wrapper:not(.no-hover) & {
-				> div{
+				.ops-video-img{
 					span{
 						color: $c_main;
 						border-color: $c_main;
@@ -320,7 +320,7 @@
 				}
 			}
 		}
-		> div{
+		.ops-video-img{
 			position: relative;
 			span{
 				width: 28px;

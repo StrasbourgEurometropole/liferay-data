@@ -1,6 +1,6 @@
 .ops-bloc-colonne {
 
-	> div {
+	.ops-col-50, .ops-col-33 {
 		@include mobile {
 			padding: 20px 0;
 			&:first-child {

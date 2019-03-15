@@ -2008,10 +2008,11 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
-		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
+		java.lang.String tag)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException {
-		return _event.getSuggestions(request, nbSuggestions);
+		return _event.getSuggestions(request, nbSuggestions, tag);
 	}
 
 	/**

@@ -1,29 +1,29 @@
-.ops-bloc-infos-concert{
+.ops-bloc-infos-concert {
 	position: relative;
 	padding: 80px 0 70px;
 	background: $c_light2;
-	@include tablet_portrait{
+	@include tablet_portrait {
 		padding: 60px 0 50px;
 	}
-	@include mobile{
+	@include mobile {
 		padding: 60px 0 65px;
 	}
-	.ops-content-wrapper{
+	.ops-content-wrapper {
 		position: relative;
 		@include clearfix();
-		> * {
+		.ops-bloc-33 {
 			position: relative;
 			padding: 0 38px;
-			@include tablet_portrait{
+			@include tablet_portrait {
 				padding: 0 25px;
 			}
-			@media screen and (max-width: 750px){
+			@media screen and (max-width: 750px) {
 				width: 100%;
 				float: none;
 				padding: 0;
 				margin-bottom: 40px;
 			}
-			&:after{
+			&:after {
 				content: '';
 				position: absolute;
 				top: 30px;
@@ -32,45 +32,45 @@
 				width: 1px;
 				height: 100px;
 				background: url(../images/ico/deco-line-vertical-black.png) repeat-y;
-				@media screen and (max-width: 750px){
+				@media screen and (max-width: 750px) {
 					content: none;
 				}
 			}
-			&:first-child{
+			&:first-child {
 				padding-left: 0;
 			}
-			&:last-child{
+			&:last-child {
 				padding-right: 0;
-				@media screen and (max-width: 750px){
+				@media screen and (max-width: 750px) {
 					margin-bottom: 0;
 				}
-				&:after{
+				&:after {
 					content: none;
 				}
 			}
 		}
 	}
 
-	.ops-title-infos{
+	.ops-title-infos {
 		@include ft($f_hx, 30px, 400, $c_main, 36px);
 		display: block;
 		margin-bottom: 18px;
-		@include tablet_landscape{
+		@include tablet_landscape {
 			font-size: 26px;
 			line-height: 32px;
 		}
 	}
 
-	ul{
+	ul {
 		padding: 0;
 		margin: 0;
-		li{
+		li {
 			@include ft($f_txt, 15px, 400, #828282, 21px);
 			margin-bottom: 20px;
-			&:last-child{
+			&:last-child {
 				margin-bottom: 0;
 			}
-			strong{
+			strong {
 				color: $c_dark;
 				display: block;
 				text-transform: uppercase;
@@ -78,20 +78,20 @@
 		}
 	}
 
-	p, address{
+	p, address {
 		@include ft($f_txt, 15px, 400, #828282, 21px);
 		margin-bottom: 20px;
 	}
 
-	.ops-btn{
+	.ops-btn {
 		position: relative;
 		z-index: 10;
 		padding: 8px 55px;
-		@include tablet_portrait{
+		@include tablet_portrait {
 			padding: 8px 0;
 			display: block;
 		}
-		@media screen and (max-width: 750px){
+		@media screen and (max-width: 750px) {
 			display: inline-block;
 			padding: 8px 55px;
 		}

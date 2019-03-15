@@ -47,7 +47,7 @@
 			width: calc(100% - 40px);
 			bottom: 100px;
 		}
-		> * {
+		p, h2, h3, .ops-btn{
 			color: $c_white;
 			max-width: calc(50% - 20px);
 			margin-left: calc(50% + 20px);

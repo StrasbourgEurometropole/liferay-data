@@ -291,7 +291,8 @@ public interface Event extends EventModel, PersistedModel {
 	* @return la liste d'événements.
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
-		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
+		java.lang.String tag)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException;
 }

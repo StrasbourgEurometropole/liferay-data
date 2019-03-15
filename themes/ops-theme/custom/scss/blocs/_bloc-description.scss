@@ -8,7 +8,7 @@
 	}
 
 	.ops-content-wrapper{
-		> * {
+		.ops-txt-desc, .ops-right-medias{
 			float: left;
 			@include mobile{
 				float: none;
@@ -95,9 +95,9 @@
 			width: 100%;
 			margin-left: 0;
 		}
-		> div{
+		div{
 			position: relative;
-			> figure{
+			figure{
 				position: relative;
 				&:first-child{
 					@include aspect-ratio(460,450);
