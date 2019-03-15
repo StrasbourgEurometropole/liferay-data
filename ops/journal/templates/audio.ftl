@@ -9,7 +9,7 @@
 				<iframe width="270" height="270" allow="autoplay"
 						src="${cur_title.getChild("linkSoundcloud").getData()}"></iframe>
 			</div>
-			<h4>${title.getData()}</h4>
+			<h4>${cur_title.getData()}</h4>
 			<span class="ops-name">${cur_title.getChild("artistName").getData()}</span>
 		</div>
 	</#list>
