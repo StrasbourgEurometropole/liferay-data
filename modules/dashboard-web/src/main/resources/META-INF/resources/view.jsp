@@ -558,7 +558,7 @@
 			</section>
 		</c:if>
 		
-		<!-- Tuile des budgets -->
+		<!-- Tuile des budgets soumis -->
 		<c:if test="${budgetFiled.size() > 0}">
 			<section id="pro-link-listing-projet-soumis"
 				class="pro-bloc-slider pro-slider-event">
@@ -624,9 +624,9 @@
 			</section>
 		</c:if>
 		
-		<!-- Tuile des budgets -->
+		<!-- Tuile des budgets votes -->
 		<c:if test="${budgetVoted.size() > 0}">
-			<section id="pro-link-listing-projet-soumis"
+			<section id="pro-link-listing-projet-vote"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
 					<h2><liferay-ui:message key="dashboard.thumbnail.bp.signed.mine" /> (${budgetVoted.size()})</h2>
