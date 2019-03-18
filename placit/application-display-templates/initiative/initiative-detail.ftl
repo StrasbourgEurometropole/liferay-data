@@ -111,8 +111,10 @@
 						<#else>
 							<div class="pro-main-img">
 								<figure>
-									<img src='${entry.getImageURL()}' alt="Image agenda" width="880" height="593" class="fit-cover"/>
-									<figcaption>${entry.getImageCopyright(locale)}</figcaption>
+									<#if entry.getImageURL()?has_content>
+										<img src='${entry.getImageURL()}' alt="Image agenda" width="880" height="593" class="fit-cover"/>
+										<figcaption>${entry.getImageCopyright(locale)}</figcaption>
+									</#if>
 								</figure>
 							</div>
 						</#if>
