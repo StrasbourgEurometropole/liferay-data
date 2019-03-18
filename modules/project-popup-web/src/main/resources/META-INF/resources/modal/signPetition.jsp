@@ -39,7 +39,7 @@
                         	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information2SignPetition"/></li>
                         	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information3SignPetition"/></li>
                         </ul>
-                        <a href="/cnil" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
+                        <a href="/mentions-legales" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
                     </div>
                 </div>
                 <div class="pro-wrapper">
