@@ -572,6 +572,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getNbSupportOfUserInActivePhase(publikUserId);
 	}
 
+	@Override
+	public int getPriorityOrder() {
+		return _budgetParticipatif.getPriorityOrder();
+	}
+
 	/**
 	* Returns the status of this budget participatif.
 	*

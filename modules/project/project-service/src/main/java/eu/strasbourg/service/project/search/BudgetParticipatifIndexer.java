@@ -68,6 +68,8 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
         descriptionFieldMap.put(Locale.ENGLISH, budget.getDescription());
         document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
 
+        
+        document.addNumber(Field.PRIORITY, budget.getPriorityOrder());
         document.addNumber(Field.STATUS, budget.getStatus());
         return document;
     }

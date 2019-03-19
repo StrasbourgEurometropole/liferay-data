@@ -106,7 +106,7 @@
     </fieldset>
 </div>
 
-<!-- Recherche par thÃÂÃÂ©matiques -->
+<!-- Recherche par thematiques -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>
@@ -143,6 +143,8 @@
 	<script>
 		var porletNamespace = '<portlet:namespace/>';
         var budgetParticipatifsSelectionURL = '${budgetParticipatifsSelectionURL}';
+        var sortField = "${dc.sortField}";
+        var sortType = "${dc.sortType}";
 	</script>
 </liferay-util:html-top>
 

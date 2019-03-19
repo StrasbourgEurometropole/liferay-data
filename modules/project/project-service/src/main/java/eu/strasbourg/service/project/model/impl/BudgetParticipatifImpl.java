@@ -326,6 +326,38 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	    		).anyMatch(x -> StringHelper.compareIgnoringAccentuation(x, this.getBudgetParticipatifStatusCategory().getName()));
 	}
     
+	@Override
+	public int getPriorityOrder() {
+		int result = 0;
+		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
+		
+		if (BPStatus != null) {
+			
+			if(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()))
+					result = 10;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_LAUREAT.getName()))
+					result = 9;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()))
+					result = 8;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_FEASIBLE.getName()))
+					result = 7;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()))
+					result = 6;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), ParticiperCategories.BP_ACCEPTABLE.getName()))
+					result = 5;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_CANCELLED.getName()))
+					result = 4;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_SUSPENDED.getName()))
+					result = 3;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()))
+					result = 2;
+			else if	(StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), ParticiperCategories.BP_SUBMITTED.getName()))
+					result = 1;
+		}
+		
+		return result;
+	}
+	
     @Override
     public BudgetPhase getPhase() {
     	if (this.getBudgetPhaseId() > 0) {

@@ -156,6 +156,8 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public boolean isNotDoable();
 
+	public int getPriorityOrder();
+
 	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
 
 	public java.lang.String getPhaseTitleLabel();
