@@ -56,6 +56,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
@@ -270,9 +271,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         return (project != null) ? project.getTitle(Locale.FRANCE) : "";
     }
 
+	/**
+     * Retourne le nom de l'autheur sous forme "Truc M."
+     */
     @Override
     public String getAuthor(){
-        return this.getCitoyenFirstname() + " " + this.getCitoyenLastname();
+    		return StringUtil.upperCaseFirstLetter(this.getCitoyenFirstname())
+    				+ " "
+    				+  StringUtil.toUpperCase(StringUtil.shorten(this.getCitoyenLastname(), 2, "."));
+    	
     }
 	
 	/**

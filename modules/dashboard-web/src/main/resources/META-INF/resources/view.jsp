@@ -305,7 +305,7 @@
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
-										<span class="pro-time"><time datetime="2018-01-10">${event.getEventScheduleDisplay(locale)}</time></span>
+										<span class="pro-time">${event.getCurrentOrFuturePeriodStringDate()}</time></span>
 										<p>
 											<liferay-ui:message key="dashboard.thumbnail.agenda.a" />
 											${event.getPlaceAlias(locale)}
@@ -585,7 +585,7 @@
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budget.citoyenFirstname} ${budget.citoyenLastname}</strong>
+										<strong>${budget.getAuthor()}</strong>
 									</p>
 									<div class="pro-info-top-right">
 										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">
@@ -651,7 +651,7 @@
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budget.citoyenFirstname} ${budget.citoyenLastname}</strong>
+										<strong>${budget.getAuthor()}</strong>
 									</p>
 									<div class="pro-info-top-right">
 										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">

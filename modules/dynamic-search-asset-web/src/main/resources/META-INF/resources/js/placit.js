@@ -249,7 +249,7 @@ function createBudgetParticipatifThumbnail(bp) {
 	}
 	else
 	{
-		footer = "<p><strong>" + bp.nbSupports + "</strong> Citoyens-nes soutiennent ce projet</p>";
+		footer = "<p><strong>" + bp.nbSupports + "</strong> vote(s) pour ce projet</p>";
 		cssClassBPStatus = "pro-theme-faisable";
 	}
 	
