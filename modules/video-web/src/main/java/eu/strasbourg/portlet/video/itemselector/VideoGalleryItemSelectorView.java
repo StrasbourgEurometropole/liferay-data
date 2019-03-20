@@ -100,7 +100,7 @@ public class VideoGalleryItemSelectorView
 
 		List<VideoGallery> galleries = VideoGalleryLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long galleriesCount = VideoGalleryLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

@@ -100,7 +100,7 @@ public class OfficialItemSelectorView
 
 		List<Official> officials = OfficialLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long officialsCount = OfficialLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

@@ -101,7 +101,7 @@ public class PlaceItemSelectorView
 
 		List<Place> places = PlaceLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getCompanyGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long placesCount = PlaceLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getCompanyGroupId());

@@ -102,7 +102,7 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 
 		List<BudgetParticipatif> budgetsParticipatifs = BudgetParticipatifLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long budgetsParticipatifsCount = BudgetParticipatifLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());
