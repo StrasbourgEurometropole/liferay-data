@@ -258,7 +258,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 	    	
 	    	// récupération des images
 			StringBuilder hostUrl = new StringBuilder("http://");
-			hostUrl.append(request.getServerName()).append(":").append(request.getServerPort());
+			hostUrl.append(request.getServerName());
 			StringBuilder headerImage = new StringBuilder(hostUrl)
 					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
 			StringBuilder btnImage = new StringBuilder(hostUrl)
