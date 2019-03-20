@@ -156,7 +156,7 @@
 							</div>
 							<div class="form-group form-third">
 								<aui:input name="firstname" disabled="true"
-									label="dashboard.account.profile.firstname" required="true"
+									label="dashboard.account.profile.firstname"
 									value="${userConnected.get('first_name')}" />
 							</div>
 							<div class="form-group form-third">
@@ -170,7 +170,7 @@
 						<div class="pro-row">
 							<div class="form-group form-half">
 								<aui:input name="address"
-									label="dashboard.account.profile.address" required="true"
+									label="dashboard.account.profile.address"
 									value="${userConnected.get('address')}" />
 							</div>
 							<div class="form-group form-half">
@@ -181,7 +181,7 @@
 								</div>
 								<div class="form-code">
 									<aui:input name="postalcode"
-										label="dashboard.account.profile.postalcode" required="true"
+										label="dashboard.account.profile.postalcode"
 										placeholder="67XXX" value="${userConnected.get('zipcode')}" />
 								</div>
 							</div>
@@ -189,7 +189,7 @@
 						<div class="pro-row">
 							<div class="form-group form-third">
 								<aui:input type="email" name="mail" disabled="true"
-									label="dashboard.account.profile.mail" required="true"
+									label="dashboard.account.profile.mail"
 									value="${userConnected.get('email')}" />
 							</div>
 							<div class="form-group form-third">

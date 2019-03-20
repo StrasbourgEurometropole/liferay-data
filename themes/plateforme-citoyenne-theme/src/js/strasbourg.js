@@ -14640,7 +14640,7 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
         '<a target="_blank" href="' + link + '" id="map-inte-container">' +
             '<div class="map-inte-content">' +
                 '<div class="map-inte-header">' +
-                    '<span class="pro-time">Publiée <time datetime="2018-01-10">' + publishDate + '</time></span>' +
+                    '<span class="pro-time">' + publishDate + '</time></span>' +
                     '<p>' + place + '</p>' +
                 '</div>' +
                 '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
@@ -14750,7 +14750,7 @@ function getEventMarker(event) {
             '<a href="' + event.link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
                 '<div class="pro-header-event">' +
                     '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-                    '<span class="pro-time">Le <time datetime="2018-01-10">' + event.firstDate + '</time></span>' +
+                    '<span class="pro-time">' + event.firstDate + '</time></span>' +
                     '<p>À : ' + event.completeAddress + '</p>' +
                     '<h3>' + event.title.fr_FR + '</h3>' +
                 '</div>' +
