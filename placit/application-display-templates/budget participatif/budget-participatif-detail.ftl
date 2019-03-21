@@ -285,8 +285,7 @@
                 </div>
             </div>
         </section>
-	</#if>
-	
+	</#if>	
 </div>
 
 <script>
