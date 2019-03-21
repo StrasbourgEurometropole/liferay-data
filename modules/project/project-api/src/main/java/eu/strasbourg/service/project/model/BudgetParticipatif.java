@@ -139,6 +139,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public java.lang.String getProjectName();
 
+	/**
+	* Retourne le nom de l'autheur sous forme "Truc M."
+	*/
 	public java.lang.String getAuthor();
 
 	/**
