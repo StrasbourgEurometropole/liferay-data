@@ -55,7 +55,7 @@ public class PactePortlet extends MVCPortlet {
 		if(Validator.isNotNull(publikUserID)) {
 			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserID);
 			renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
-			renderRequest.setAttribute("isDisplayListing", Validator.isNotNull(user.getPactDisplay()));
+			renderRequest.setAttribute("isDisplayListing", user.getPactDisplay());
 			renderRequest.setAttribute("isUserloggedIn", true);
 		}
 		else
