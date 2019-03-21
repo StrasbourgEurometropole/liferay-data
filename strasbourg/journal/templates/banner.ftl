@@ -1,29 +1,17 @@
 <#setting locale = locale />
+<#assign imageUrl = themeDisplay.getPortalURL() + backgroundImage.getData() />
+<#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
+<#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(imageUrl) />
+
 <@liferay_util["html-top"]>
     <meta property="og:title" content="Strasbourg.eu" />
     <meta property="og:description" content="Bienvenue sur le site de Strasbourg et de l'Eurométropole" />
     <meta property="og:url" content="${homeURL}" />
-    <meta property="og:image" />
-    <meta property="og:image:height" />
-    <meta property="og:image:width" />
+    <meta property="og:image" content="${imageUrl}"/>
+    <meta property="og:image:width" content="${taille?keep_before(',')}"/>
+    <meta property="og:image:height" content="${taille?keep_after(',')}"/>
 </@>
 
-<#assign imageUrl = themeDisplay.getPortalURL() + backgroundImage.getData() />
-
-<script> 
-    function getMeta(url, callback) {
-        var img = new Image();
-        img.src = url;
-        img.onload = function() { callback(this.width, this.height); }
-    }
-    
-    getMeta("${imageUrl}", function(width, height) { 
-        document.querySelector('[property="og:image"]').setAttribute("content", "${imageUrl}");
-        document.querySelector('[property="og:image:width"]').setAttribute("content", width);
-        document.querySelector('[property="og:image:height"]').setAttribute("content", height);
-    });
-
-</script>
 <div class="seu-quicklinks">
 <#if linkLabel.getSiblings()?has_content>
     <#list linkLabel.getSiblings() as cur_linkLabel>
