@@ -129,7 +129,7 @@
                     <div>
                         <input type="checkbox" id="file-budget-legalage" value="legalage">
                         <label for="file-budget-legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageFileBudget"/>
                         </label>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                     <div>
                         <input type="checkbox" id="file-budget-cnil" value="cnil">
                         <label for="file-budget-cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilFileBudget"/>
                         </label>
                     </div>
                 </div>

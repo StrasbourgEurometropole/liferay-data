@@ -7,9 +7,6 @@ var entityType = {
 	THEMATIC : 'vocabulary_2',
 }
 
-var sortField = "publishDate_sortable";
-var sortType = "asc";
-
 $(document).ready(function(){
     getSelectedEntries();
 });
