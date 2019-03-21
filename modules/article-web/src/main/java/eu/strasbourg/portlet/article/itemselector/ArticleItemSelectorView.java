@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.utils.StringHelper;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -78,7 +79,7 @@ public class ArticleItemSelectorView
 
 		long folderActuId = 0;
 		List<JournalFolder> foldersActualite = JournalFolderLocalServiceUtil.getFolders(themeDisplay.getScopeGroupId(), 0)
-				.stream().filter(f -> f.getName().startsWith("Actualit")).collect(Collectors.toList());
+				.stream().filter(f -> StringHelper.compareIgnoringAccentuation(f.getName(), "Actualites")).collect(Collectors.toList());
 		if(!foldersActualite.isEmpty())
 			folderActuId = foldersActualite.get(0).getFolderId();
 		long folderWebmagId = 0;
