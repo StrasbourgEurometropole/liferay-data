@@ -136,6 +136,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "RTStatus", Types.VARCHAR },
 			{ "RTLastUpdate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT },
+			{ "imageWidth", Types.INTEGER },
+			{ "imageHeight", Types.INTEGER },
 			{ "imageIds", Types.VARCHAR },
 			{ "videosIds", Types.VARCHAR },
 			{ "priceId", Types.BIGINT },
@@ -200,13 +202,15 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("RTStatus", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("RTLastUpdate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("priceId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -299,6 +303,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setRTStatus(soapModel.getRTStatus());
 		model.setRTLastUpdate(soapModel.getRTLastUpdate());
 		model.setImageId(soapModel.getImageId());
+		model.setImageWidth(soapModel.getImageWidth());
+		model.setImageHeight(soapModel.getImageHeight());
 		model.setImageIds(soapModel.getImageIds());
 		model.setVideosIds(soapModel.getVideosIds());
 		model.setPriceId(soapModel.getPriceId());
@@ -423,6 +429,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("RTStatus", getRTStatus());
 		attributes.put("RTLastUpdate", getRTLastUpdate());
 		attributes.put("imageId", getImageId());
+		attributes.put("imageWidth", getImageWidth());
+		attributes.put("imageHeight", getImageHeight());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
 		attributes.put("priceId", getPriceId());
@@ -778,6 +786,18 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		Integer imageWidth = (Integer)attributes.get("imageWidth");
+
+		if (imageWidth != null) {
+			setImageWidth(imageWidth);
+		}
+
+		Integer imageHeight = (Integer)attributes.get("imageHeight");
+
+		if (imageHeight != null) {
+			setImageHeight(imageHeight);
 		}
 
 		String imageIds = (String)attributes.get("imageIds");
@@ -2918,6 +2938,28 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
+	public Integer getImageWidth() {
+		return _imageWidth;
+	}
+
+	@Override
+	public void setImageWidth(Integer imageWidth) {
+		_imageWidth = imageWidth;
+	}
+
+	@JSON
+	@Override
+	public Integer getImageHeight() {
+		return _imageHeight;
+	}
+
+	@Override
+	public void setImageHeight(Integer imageHeight) {
+		_imageHeight = imageHeight;
+	}
+
+	@JSON
+	@Override
 	public String getImageIds() {
 		if (_imageIds == null) {
 			return StringPool.BLANK;
@@ -3499,6 +3541,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setRTStatus(getRTStatus());
 		placeImpl.setRTLastUpdate(getRTLastUpdate());
 		placeImpl.setImageId(getImageId());
+		placeImpl.setImageWidth(getImageWidth());
+		placeImpl.setImageHeight(getImageHeight());
 		placeImpl.setImageIds(getImageIds());
 		placeImpl.setVideosIds(getVideosIds());
 		placeImpl.setPriceId(getPriceId());
@@ -3942,6 +3986,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		placeCacheModel.imageId = getImageId();
 
+		placeCacheModel.imageWidth = getImageWidth();
+
+		placeCacheModel.imageHeight = getImageHeight();
+
 		placeCacheModel.imageIds = getImageIds();
 
 		String imageIds = placeCacheModel.imageIds;
@@ -3973,7 +4021,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(121);
+		StringBundler sb = new StringBundler(125);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -4087,6 +4135,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getRTLastUpdate());
 		sb.append(", imageId=");
 		sb.append(getImageId());
+		sb.append(", imageWidth=");
+		sb.append(getImageWidth());
+		sb.append(", imageHeight=");
+		sb.append(getImageHeight());
 		sb.append(", imageIds=");
 		sb.append(getImageIds());
 		sb.append(", videosIds=");
@@ -4102,7 +4154,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(184);
+		StringBundler sb = new StringBundler(190);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -4333,6 +4385,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>imageWidth</column-name><column-value><![CDATA[");
+		sb.append(getImageWidth());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageHeight</column-name><column-value><![CDATA[");
+		sb.append(getImageHeight());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>imageIds</column-name><column-value><![CDATA[");
 		sb.append(getImageIds());
 		sb.append("]]></column-value></column>");
@@ -4436,6 +4496,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _RTStatus;
 	private Date _RTLastUpdate;
 	private long _imageId;
+	private Integer _imageWidth;
+	private Integer _imageHeight;
 	private String _imageIds;
 	private String _videosIds;
 	private long _priceId;

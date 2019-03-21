@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(121);
+		StringBundler sb = new StringBundler(125);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -179,6 +179,10 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(RTLastUpdate);
 		sb.append(", imageId=");
 		sb.append(imageId);
+		sb.append(", imageWidth=");
+		sb.append(imageWidth);
+		sb.append(", imageHeight=");
+		sb.append(imageHeight);
 		sb.append(", imageIds=");
 		sb.append(imageIds);
 		sb.append(", videosIds=");
@@ -486,6 +490,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		}
 
 		placeImpl.setImageId(imageId);
+		placeImpl.setImageWidth(imageWidth);
+		placeImpl.setImageHeight(imageHeight);
 
 		if (imageIds == null) {
 			placeImpl.setImageIds(StringPool.BLANK);
@@ -591,6 +597,10 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		RTLastUpdate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
+
+		imageWidth = objectInput.readInt();
+
+		imageHeight = objectInput.readInt();
 		imageIds = objectInput.readUTF();
 		videosIds = objectInput.readUTF();
 
@@ -876,6 +886,10 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 		objectOutput.writeLong(imageId);
 
+		objectOutput.writeInt(imageWidth);
+
+		objectOutput.writeInt(imageHeight);
+
 		if (imageIds == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -956,6 +970,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String RTStatus;
 	public long RTLastUpdate;
 	public long imageId;
+	public int imageWidth;
+	public int imageHeight;
 	public String imageIds;
 	public String videosIds;
 	public long priceId;
