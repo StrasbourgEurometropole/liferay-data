@@ -28,22 +28,22 @@
                     
                     <%-- Champ : Type d'aide --%>
                     <div id="<portlet:namespace />helpTypes" class="form-checkbox">
-                        <span class="label">Quelle(s) aide voulez-vous proposer <span>*</span></span>
+                        <span class="label"><liferay-ui:message key="modal.give.initiative.help.types"/> <span>*</span></span>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType1" value="1">
-                            <label for="<portlet:namespace />helpType1">Du temps</label>
+                            <label for="<portlet:namespace />helpType1"><liferay-ui:message key="modal.give.initiative.help.type.time"/></label>
                         </div>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType2" value="2">
-                            <label for="<portlet:namespace />helpType2" class="checkbox-inline">De l'argent</label>
+                            <label for="<portlet:namespace />helpType2" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.money"/></label>
                         </div>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType3" value="3">
-                            <label for="<portlet:namespace />helpType3" class="checkbox-inline">Un lieu</label>
+                            <label for="<portlet:namespace />helpType3" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.place"/></label>
                         </div>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType4" value="4">
-                            <label for="<portlet:namespace />helpType4" class="checkbox-inline">Une expertise</label>
+                            <label for="<portlet:namespace />helpType4" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.skill"/></label>
                         </div>
                     </div>
                     
@@ -149,7 +149,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />legalage" value="legalage">
                         <label for="<portlet:namespace />legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageGiveInitiativeHelp"/>
                         </label>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
                         <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiative"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiativeGiveInitiativeHelp"/>
                         </label>
                     </div>
                 </div>

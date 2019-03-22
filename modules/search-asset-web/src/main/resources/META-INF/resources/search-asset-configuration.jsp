@@ -220,6 +220,9 @@
                         <aui:option value="order_ems_Number_sortable" selected="${defaultSortField eq 'order_ems_Number_sortable'}">
                             <liferay-ui:message key="ems-order-property" />
                         </aui:option>
+                        <aui:option value="priority_sortable" selected="${defaultSortField eq 'priority_sortable'}">
+                            <liferay-ui:message key="order-priority" />
+                        </aui:option>
                     </aui:select>
 
 

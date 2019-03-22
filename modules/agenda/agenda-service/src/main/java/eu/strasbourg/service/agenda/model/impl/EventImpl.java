@@ -15,6 +15,7 @@
 package eu.strasbourg.service.agenda.model.impl;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -223,6 +224,15 @@ public class EventImpl extends EventBaseImpl {
 		List<EventPeriod> currentAndFuturePeriods = allPeriods.stream()
 				.filter(p -> p.getEndDate().compareTo(todayAtMidnight.getTime()) >= 0).collect(Collectors.toList());
 		return currentAndFuturePeriods;
+	}
+	
+	/**
+	 * Retourne la période courrante, ou la prochaine
+	 */
+	@Override
+	public EventPeriod getCurrentOrFuturePeriod() {
+		return getCurrentAndFuturePeriods().isEmpty() ? null
+				: getCurrentAndFuturePeriods().get(0);
 	}
 
 	/**
@@ -820,8 +830,8 @@ public class EventImpl extends EventBaseImpl {
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-
-		jsonEvent.put("firstDate", this.getFirstStartDate());
+		
+		jsonEvent.put("firstDate", getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
@@ -983,14 +993,27 @@ public class EventImpl extends EventBaseImpl {
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-
-		jsonEvent.put("firstDate", this.getFirstStartDate());
+		
+		jsonEvent.put("firstDate",  getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
 		jsonEvent.put("isUserPart", this.isUserParticipates(publikUserID));
 
 		return jsonEvent;
+	}
+	
+	@Override
+	public String getCurrentOrFuturePeriodStringDate() {
+		String date = "";
+		if(this.getCurrentOrFuturePeriod() != null) {
+			SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+			date = "Le " + df.format(this.getCurrentOrFuturePeriod().getStartDate());
+			
+			if(this.getCurrentOrFuturePeriod().getTimeDetail() != "")
+				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail();
+		}
+		return date;
 	}
 
 	/**

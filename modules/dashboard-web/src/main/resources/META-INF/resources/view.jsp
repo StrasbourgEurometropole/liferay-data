@@ -156,24 +156,21 @@
 							</div>
 							<div class="form-group form-third">
 								<aui:input name="firstname" disabled="true"
-									label="dashboard.account.profile.firstname" required="true"
+									label="dashboard.account.profile.firstname"
 									value="${userConnected.get('first_name')}" />
 							</div>
 							<div class="form-group form-third">
 								<c:if test="${userConnected.get('birthdate') ne 'null'}">
-									<fmt:parseDate pattern="yyyy-MM-dd"
-										value="${userConnected.get('birthdate')}"
-										var="parsedStatusDate" />
+									<fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
+									<fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 								</c:if>
-								<aui:input name="birthday" cssClass="frm_date"
-									label="dashboard.account.profile.birthday" required="true"
-									placeholder="jj/mm/aaaa" value="${parsedStatusDate}" />
+								<aui:input name="birthday" cssClass="frm_date" label="dashboard.account.profile.birthday" required="true" placeholder="jj/mm/aaaa" value="${formattedDate}" />
 							</div>
 						</div>
 						<div class="pro-row">
 							<div class="form-group form-half">
 								<aui:input name="address"
-									label="dashboard.account.profile.address" required="true"
+									label="dashboard.account.profile.address"
 									value="${userConnected.get('address')}" />
 							</div>
 							<div class="form-group form-half">
@@ -184,7 +181,7 @@
 								</div>
 								<div class="form-code">
 									<aui:input name="postalcode"
-										label="dashboard.account.profile.postalcode" required="true"
+										label="dashboard.account.profile.postalcode"
 										placeholder="67XXX" value="${userConnected.get('zipcode')}" />
 								</div>
 							</div>
@@ -192,7 +189,7 @@
 						<div class="pro-row">
 							<div class="form-group form-third">
 								<aui:input type="email" name="mail" disabled="true"
-									label="dashboard.account.profile.mail" required="true"
+									label="dashboard.account.profile.mail"
 									value="${userConnected.get('email')}" />
 							</div>
 							<div class="form-group form-third">
@@ -308,7 +305,7 @@
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
-										<span class="pro-time"><time datetime="2018-01-10">${event.getEventScheduleDisplay(locale)}</time></span>
+										<span class="pro-time">${event.getCurrentOrFuturePeriodStringDate()}</time></span>
 										<p>
 											<liferay-ui:message key="dashboard.thumbnail.agenda.a" />
 											${event.getPlaceAlias(locale)}
@@ -558,7 +555,7 @@
 			</section>
 		</c:if>
 		
-		<!-- Tuile des budgets -->
+		<!-- Tuile des budgets soumis -->
 		<c:if test="${budgetFiled.size() > 0}">
 			<section id="pro-link-listing-projet-soumis"
 				class="pro-bloc-slider pro-slider-event">
@@ -588,7 +585,7 @@
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budget.citoyenFirstname} ${budget.citoyenLastname}</strong>
+										<strong>${budget.getAuthor()}</strong>
 									</p>
 									<div class="pro-info-top-right">
 										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">
@@ -624,9 +621,9 @@
 			</section>
 		</c:if>
 		
-		<!-- Tuile des budgets -->
+		<!-- Tuile des budgets votes -->
 		<c:if test="${budgetVoted.size() > 0}">
-			<section id="pro-link-listing-projet-soumis"
+			<section id="pro-link-listing-projet-vote"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
 					<h2><liferay-ui:message key="dashboard.thumbnail.bp.signed.mine" /> (${budgetVoted.size()})</h2>
@@ -654,7 +651,7 @@
 									</figure>
 									<p><liferay-ui:message key="dashboard.thumbnail.bp.from" /></p>
 									<p>
-										<strong>${budget.citoyenFirstname} ${budget.citoyenLastname}</strong>
+										<strong>${budget.getAuthor()}</strong>
 									</p>
 									<div class="pro-info-top-right">
 										<span class="pro-encart-theme" style="background:#${budget.getBudgetParticipatifStatusCategoryColor()}">

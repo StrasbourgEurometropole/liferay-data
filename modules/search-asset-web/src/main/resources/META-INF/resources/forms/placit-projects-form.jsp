@@ -8,7 +8,7 @@
 <!-- Recherche par mots-clefs -->
 <div class="pro-group">
     <div class="pro-header">
-        <h4><liferay-ui:message key="keywords" /></h4>
+        <h4><liferay-ui:message key="eu.placite.keywords" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset class="pro-text">
@@ -81,7 +81,7 @@
     </fieldset>
 </div>
 
-<!-- Recherche par thématique -->
+<!-- Recherche par thÃ©matique -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>

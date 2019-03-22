@@ -12,11 +12,11 @@
                         <form>
                             <div class="pro-optin form-checkbox pacte">
                                 <div>
-                                    <input type="checkbox" id="type_v_2" value="optin">
+                                    <input type="checkbox" id="type_v_2" value="optin" <c:if test="${hasUserSigned}">checked="checked" </c:if>>
                                     <label for="type_v_2"><liferay-ui:message key="pacte.label"/></label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="listing_signataire" value="optin">
+                                    <input type="checkbox" id="listing_signataire" value="optin" <c:if test="${isDisplayListing}">checked="checked" </c:if>>
                                     <label id="listing_signataire_label" for="listing_signataire"><liferay-ui:message key="pacte.listing.signataire.cb"/></label>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
 
 </div>
 <!-- CONFIRMATION QUITTER -->
-<!-- HTML pour confirmer la rÃÂÃÂ©siliation du pacte -->
+<!-- HTML pour confirmer la resiliation du pacte -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPacte" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -61,10 +61,6 @@
 </div>
 
 <aui:script>
-
-$(document).ready(function(){
-    $('#listing_signataire').isChecked
-});
 
 $("#SignerPacte").click(function(e){
     if($(this).hasClass('active')){
