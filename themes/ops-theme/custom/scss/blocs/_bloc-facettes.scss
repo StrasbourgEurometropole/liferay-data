@@ -1,9 +1,9 @@
-.ops-bloc-facettes{
+.ops-bloc-facettes {
 	position: relative;
 	z-index: 100;
 	padding: 30px 0 20px;
 	@include clearfix();
-	&:before{
+	&:before {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -16,33 +16,36 @@
 
 	> * {
 		float: left;
+		@include mobile{
+			float: none;
+		}
 	}
 
-
-	.ops-facette-checkbox{
+	.ops-facette-checkbox {
 		position: relative;
+		z-index: 150;
 		margin-right: 60px;
-		@media screen and (max-width: 1120px){
+		@media screen and (max-width: 1120px) {
 			margin-right: 30px;
 		}
-		@include tablet_portrait{
+		@include tablet_portrait {
 			margin-right: 45px;
 		}
-		@include mobile{
+		@include mobile {
 			margin-right: 0;
 			width: 100%;
 			display: block;
 			margin-bottom: 15px;
 		}
-		&.ops-open{
-			> a{
-				@include mobile{
-					&:after{
+		&.ops-open {
+			> a {
+				@include mobile {
+					&:after {
 						transform: none;
 					}
 				}
 			}
-			> ul{
+			> ul {
 				display: block;
 			}
 		}
@@ -51,24 +54,24 @@
 			display: block;
 			@include ft($f_hx, 30px, 400, $c_dark, 35px);
 			@include addTransition();
-			@include tablet_landscape{
+			@include tablet_landscape {
 				font-size: 24px;
 			}
-			&:after{
+			&:after {
 				content: "\e914";
 				@include font();
 				font-size: 14px;
 				margin-left: 20px;
 				color: $c_dark;
 				@include addTransition();
-				@include mobile{
+				@include mobile {
 					transform: rotate(-90deg);
 				}
 			}
-			&:hover, &:focus{
+			&:hover, &:focus {
 				#ops-wrapper:not(.no-hover) & {
 					color: $c_main;
-					&:after{
+					&:after {
 						color: $c_main;
 					}
 				}
@@ -82,15 +85,15 @@
 			left: 0;
 			width: 260px;
 			background: $c_white;
-			box-shadow: 0 0 60px 3px rgba($c_dark,0.1);
+			box-shadow: 0 0 60px 3px rgba($c_dark, 0.1);
 			padding: 10px 20px;
-			@include mobile{
+			@include mobile {
 				position: relative;
 				top: 0;
 				width: 100%;
 				box-shadow: none;
 			}
-			&:before{
+			&:before {
 				content: '';
 				position: absolute;
 				top: -8px;
@@ -98,15 +101,15 @@
 				width: 16px;
 				height: 16px;
 				background: $c_white;
-				box-shadow: 0 0 60px 3px rgba($c_dark,0.1);
+				box-shadow: 0 0 60px 3px rgba($c_dark, 0.1);
 				transform: rotate(-45deg);
-				@include mobile{
+				@include mobile {
 					content: none;
 				}
 			}
-			li{
+			li {
 				padding: 3px 0;
-				label{
+				label {
 					@include ft($f_txt, 13px, 400, $c_dark, 20px);
 					position: relative;
 					padding: 0 0 0 35px;
@@ -115,22 +118,22 @@
 					width: 100%;
 					user-select: none;
 					@include addTransition();
-					@include mobile{
+					@include mobile {
 						font-size: 18px;
 						line-height: 24px;
 					}
-					&:hover{
+					&:hover {
 						cursor: pointer;
 						#ops-wrapper:not(.no-hover) & {
 							color: $c_main;
 						}
 					}
-					input{
+					input {
 						@extend %ops-center;
 						opacity: 0;
-						&:checked{
-							& + span{
-								&:after{
+						&:checked {
+							& + span {
+								&:after {
 									content: '';
 									position: absolute;
 									top: 8px;
@@ -146,14 +149,14 @@
 							}
 						}
 					}
-					span{
+					span {
 						width: 20px;
 						height: 20px;
 						border: 1px solid $c_greyB;
 						position: absolute;
 						top: 0;
 						left: 0;
-						@include mobile{
+						@include mobile {
 							top: 2px;
 						}
 					}
@@ -162,30 +165,29 @@
 		}
 	}
 
-
-	.ops-facette-search{
+	.ops-facette-search {
 		position: relative;
 		float: right;
 		width: calc(33.33% - 38px);
-		@include wide(){
+		@include wide() {
 			width: calc(25% - 42px);
 		}
-		@include tablet_landscape{
+		@include tablet_landscape {
 			width: calc(33.33% - 27px);
 		}
-		@include tablet_portrait{
+		@include tablet_portrait {
 			width: 100%;
 			float: none;
 			margin-bottom: 40px;
 		}
-		&:hover{
+		&:hover {
 			#ops-wrapper:not(.no-hover) & {
-				&:after{
+				&:after {
 					background: $c_main;
 				}
 			}
 		}
-		&:after{
+		&:after {
 			content: '';
 			position: absolute;
 			left: 0;
@@ -193,27 +195,27 @@
 			bottom: -13px;
 			width: 100%;
 			height: 1px;
-			background: rgba($c_dark,0.2);
+			background: rgba($c_dark, 0.2);
 			@include addTransition();
 		}
-		label{
+		label {
 			display: none;
 		}
-		input{
+		input {
 			@include ft($f_hx, 30px, 400, $c_dark, 35px);
 			width: calc(100% - 30px);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			@extend %ops-appearance;
-			@include tablet_landscape{
+			@include tablet_landscape {
 				font-size: 24px;
 			}
-			&::placeholder{
+			&::placeholder {
 				color: $c_dark;
 			}
 		}
-		button{
+		button {
 			@extend %ops-appearance;
 			background: none;
 			position: absolute;
@@ -221,6 +223,35 @@
 			width: 30px;
 			font-size: 28px;
 			color: $c_dark;
+		}
+	}
+
+	.ops-button-submit {
+		position: relative;
+		z-index: 50;
+		float: right;
+		width: 200px;
+		@include tablet_portrait {
+			float: none;
+			padding-top: 60px;
+		}
+		@include mobile{
+			width: 100%;
+			padding-top: 20px;
+		}
+		.ops-btn {
+			width: 100%;
+			outline: none;
+			box-shadow: none;
+			background: none;
+			border-radius: 0;
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					outline: none;
+					background: $c_main;
+					color: $c_dark;
+				}
+			}
 		}
 	}
 

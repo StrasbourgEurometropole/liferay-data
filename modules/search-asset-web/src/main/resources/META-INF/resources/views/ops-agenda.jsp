@@ -72,7 +72,30 @@
 					
 				</c:if>
 			</div>
-			<small class="search-results"> Affichage des résultats 1 - 12 parmi 68. </small> 
+			<small> 
+				<liferay-ui:message key="eu.show-results" /> 
+                	<c:choose>
+	                	<c:when test="${dc.pager.count > 0}">
+	                		${dc.pager.currentPage * dc.pager.delta - (dc.pager.delta - 1)}
+	                	</c:when>
+	                	<c:otherwise>
+	                		0
+	                	</c:otherwise>
+	                </c:choose>
+                	-
+                	<c:choose>
+                		<c:when test="${dc.pager.count < 1}">
+	                		0
+	                	</c:when>
+	                	<c:when test="${not dc.pager.onLastPage}">
+	                		${dc.pager.currentPage * dc.pager.delta}
+	                	</c:when>
+	                	<c:when test="${dc.pager.onLastPage}">
+	                		${dc.pager.currentPage * dc.pager.delta - (dc.pager.currentPage * dc.pager.delta - dc.pager.count)}
+	                	</c:when>
+	                </c:choose>
+                	<liferay-ui:message key="eu.among" /> ${dc.pager.count} <liferay-ui:message key="eu.event-minus-global" /> 
+            	</small> 
 			<c:if test="${dc.pager.lastPage > 1}">
 				<ul class="lfr-pagination-buttons pager">    
 				            
@@ -86,7 +109,7 @@
 							</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="disabled first"><a 
+							<li class="first"><a 
 								tabindex="-1"
 								title="<liferay-ui:message key="eu.listing-link-to-first-page" />">
 									<liferay-ui:message key="eu.first" />
@@ -144,7 +167,7 @@
                     	</li>
 					  </c:when>
 					  <c:otherwise>
-					   <li class="disabled last">
+					   <li class="last">
                     		<a  tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-last-page" />">
                     			<liferay-ui:message key="eu.last" />
                     		</a>
