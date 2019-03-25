@@ -191,7 +191,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	    	
 	    	// récupération des images
-			StringBuilder hostUrl = new StringBuilder("http://");
+			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());
 			StringBuilder headerImage = new StringBuilder(hostUrl)
 					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");

@@ -336,12 +336,14 @@
                                     
                                     if(data.cmd === "send-initiative-help") {
                                     	$('a[data-target="#modalGiveInitiativeHelp"]').toggleClass("active")
-                                    													.text("Aide proposee")
-                                    													.attr("data-target", "#modalRemoveInitiativeHelp");
+                                    													.text("<liferay-ui:message key='initiative.help.button.text'/>")
+                                    													.attr("data-target", "#modalRemoveInitiativeHelp")
+                                    													.attr("title", "Je souhaite retirer mon aide");
                                     } else {
                                     	$('a[data-target="#modalRemoveInitiativeHelp"]').toggleClass("active")
                                     													.text("Proposer mon aide")
-                                    													.attr("data-target", "#modalGiveInitiativeHelp");
+                                    													.attr("data-target", "#modalGiveInitiativeHelp")
+                                    													.attr("title", "Ouverture d'une pop-in pour contacter le porteur");
                                     }
                                     
                                     $("#<portlet:namespace />modalConfirm").modal('show');
