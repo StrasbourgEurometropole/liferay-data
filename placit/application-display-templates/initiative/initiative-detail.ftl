@@ -244,8 +244,8 @@
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
 								<#if isUserHelps >
-									<a href="#popin" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour proposer mon aide" 
-										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposee</a>
+									<a href="#popin" class="pro-btn-yellow active" title="Je souhaite retirer mon aide" 
+										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposée, la retirer</a>
 								<#else>
 									<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" 
 										data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>
