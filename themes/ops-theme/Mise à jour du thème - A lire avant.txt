@@ -5,6 +5,8 @@ Les librairies js suivantes :
 - js/libs/jquery.selectric.min.js
 - js/libs/masonry.js
 - js/libs/slick.min.js
+- js/libs/leaflet
+
 
 Supprimer js/src-1/map.js
 
