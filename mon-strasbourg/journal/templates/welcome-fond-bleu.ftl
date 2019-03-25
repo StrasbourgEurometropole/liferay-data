@@ -1,7 +1,10 @@
 <!-- Welcome - fond bleu -->
 
 <section class="bloc-bleu" >
-    <div class="bloc-content ${icon.getData()}">
+    <div class="bloc-content ${classCSS.getData()}">
+        <#if !classCSS.getData()?has_content > 
+            <div class="item-picto" style="background-image:url(${illustration.getData()})"></div>
+        </#if>
         <p class="title">${title.getData()}</p>
         <p>${content.getData()}</p>
     </div>
