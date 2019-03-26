@@ -83,7 +83,7 @@
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
                             <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" 
-                            required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                         
                     </div>
@@ -93,7 +93,7 @@
                     
                     	<%-- Champ : Adresse --%>
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValues();" />
                         </div>
                         
                         <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
@@ -101,12 +101,12 @@
                         
                         	<%-- Champ : Ville --%>
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city" maxlength="256" onInput="checkValues();" />
                             </div>
                             
                             <%-- Champ : Code postal --%>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" maxlength="5" onInput="checkValues();"/>
                             </div>
                             
                         </div>
@@ -443,13 +443,16 @@
         
         var initiativeHelpMessage = $("#<portlet:namespace />initiativeHelpMessage").val();
         var typeHelpIds = getHelpTypeIds();
+        
+        var legalage = $("#<portlet:namespace />legalage").is(":checked");
+        var cnil = $("#<portlet:namespace />cnil").is(":checked");
+        
+        <%-- desactivation de la verification de certains champs obligatoires
+        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
         var city = $("#<portlet:namespace />city").val();
         var address = $("#<portlet:namespace />address").val();
         var postalcode = $("#<portlet:namespace />postalcode").val();
-        var legalage = $("#<portlet:namespace />legalage").is(":checked");
-        var cnil = $("#<portlet:namespace />cnil").is(":checked");
-        var photo = $("#<portlet:namespace />photo").val();
-        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        --%>
 
         if (initiativeHelpMessage===null || initiativeHelpMessage===""){
             $("#<portlet:namespace />initiativeHelpMessage").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -461,6 +464,7 @@
             result = false;
         }else $("#<portlet:namespace />helpTypes").css({ "box-shadow" : "" });
 
+        <%-- desactivation de la verification de certains champs obligatoires
         if (city===null || city===""){
             $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
@@ -480,6 +484,7 @@
             result = false;
         }
         else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
+        --%>
 
         if (!legalage)
             result = false;
