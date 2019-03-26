@@ -316,6 +316,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 			return false;
 		}
         
+        /**desactivation de la verification de certains champs obligatoires
         // birthday
         if (Validator.isNull(this.birthday)) {
             this.message = "Date de naissance non valide";
@@ -338,7 +339,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(this.postalcode)) {
             this.message = "Code postal non valide";
             return false;
-        }
+        }**/
         
         return true;
     }
