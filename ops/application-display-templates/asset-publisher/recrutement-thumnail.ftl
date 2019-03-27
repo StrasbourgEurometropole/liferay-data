@@ -1,10 +1,12 @@
 <!-- Vignette recrutement -->
 
-<!-- Chargement de la variable de localisation -->
-<#setting locale = locale />
-
-
 <#if entries?size != 0 >
+
+    <!-- Chargement de la variable de localisation -->
+    <#setting locale = locale />
+
+    <#-- Création de l'URL de détail -->
+    <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 
     <!-- WRAPPER LISTING RECRUTEMENT -->
     <div class="ops-listing-recrutement">
@@ -19,9 +21,6 @@
             <#assign docXml = saxReaderUtil.read(journalArticle.getContentByLocale(locale)) />
             <#assign rootElement = docXml.getRootElement() />
             <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
-
-            <#-- Création de l'URL de détail -->
-            <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
             <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(journalArticle.groupId, journalArticle.articleId, themeDisplay) />
 
             <#list rootElement.elements() as ele >
