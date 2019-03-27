@@ -191,7 +191,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	    	
 	    	// récupération des images
-			StringBuilder hostUrl = new StringBuilder("http://");
+			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());
 			StringBuilder headerImage = new StringBuilder(hostUrl)
 					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
@@ -316,6 +316,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 			return false;
 		}
         
+        /**desactivation de la verification de certains champs obligatoires
         // birthday
         if (Validator.isNull(this.birthday)) {
             this.message = "Date de naissance non valide";
@@ -338,7 +339,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(this.postalcode)) {
             this.message = "Code postal non valide";
             return false;
-        }
+        }**/
         
         return true;
     }
