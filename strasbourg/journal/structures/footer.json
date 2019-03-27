@@ -290,7 +290,7 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "Image"
+                        "fr_FR": "Balise SVG"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -301,16 +301,15 @@
                     "tip": {
                         "fr_FR": ""
                     },
-                    "dataType": "image",
-                    "fieldNamespace": "ddm",
+                    "dataType": "string",
                     "indexType": "",
                     "localizable": true,
-                    "name": "socialNetworkImage",
+                    "name": "svgTag",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "ddm-image"
+                    "type": "text"
                 }
             ]
         },
