@@ -14,14 +14,20 @@
 </style>
 
 <main class="ops-page-musicien">
+<#assign cssClass = ""/>
+<#if !bigImage.getData()?has_content>
+    <#assign cssClass = "ops-figure-empty"/>
+</#if>
 
         <header class="ops-header-musicien">
-            <div class="ops-content-wrapper">
-                <div class="ops-figure-musicien" data-vheight="100 - 120">
-                    <figure class="fit-cover">
-                        <img src="${bigImage.getData()}" width="533" height="800" alt="${Name.getData()}" />
-                    </figure>
-                </div>
+            <div class="ops-content-wrapper ${cssClass}">
+                <#if bigImage.getData()?has_content>
+                    <div class="ops-figure-musicien" data-vheight="100 - 120">
+                        <figure class="fit-cover">
+                            <img src="${bigImage.getData()}" width="533" height="800" alt="${Name.getData()}" />
+                        </figure>
+                    </div>
+                </#if>
 
                 <div class="ops-meta-musicien">
                     <span class="ops-typologie">${post.getData()}</span>

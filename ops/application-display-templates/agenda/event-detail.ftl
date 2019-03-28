@@ -32,10 +32,9 @@
                 <ul>
                     <li><a href="#ops-representations" class="ops-active">Représentations</a></li>
                     <li><a href="#ops-description">Description</a></li>
-                    <li><a href="#ops-distribution">Distribution</a></li>
-                    <li><a href="#ops-actualites">Actualités</a></li>
+                    <li id="distribution-link"><a href="#ops-distribution">Distribution</a></li>
                     <li><a href="#ops-a-voir">À voir</a></li>
-                    <li><a href="#ops-audio">Audio</a></li>
+                    <li id="audio-link"><a href="#ops-audio">Audio</a></li>
                 </ul>
             </nav>
         </div>
@@ -154,11 +153,14 @@
 </div>
 
 <script>
+$(document).ready(function(){
+    if($('*').find("#ops-distribution").length == 0)
+        $("#distribution-link").hide();
 
-$(document).ready(function () {
-    $('.ops-separation').each(function () {
-        $('.ops-scrollto>ul').append('<li><a href="#' + $(this).attr('id') + '">' + $(this).find('h2').html() + '</a></li>');
-    });
+    if($('*').find("#ops-audio").length == 0)
+        $("#audio-link").hide();
 });
+
+
 
 </script>

@@ -34,16 +34,26 @@
             <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(journalArticle.groupId, journalArticle.articleId, themeDisplay) />
 
             <li>
+            <#if detailURL?has_content>
                 <a href="${detailURL}" class="ops-card-people">
-                    <figure class="fit-cover">
-                            <img src="${image}" width="80" height="80" alt="${name}"/>
-                    </figure>
+            <#else>
+                <div class="ops-card-people">
+            </#if>
+                    <#if image?has_content>
+                        <figure class="fit-cover">
+                                <img src="${image}" width="80" height="80" alt="${name}"/>
+                        </figure>
+                    </#if>
                     <div class="ops-info-people">
                         <span class="ops-function">${post}</span>
                         <span class="ops-name">${name}</span>
-                        <span class="ops-link">En savoir plus</span>
+                        <#if detailURL?has_content><span class="ops-link">En savoir plus</span></#if>
                     </div>
+            <#if detailURL?has_content>
                 </a>
+            <#else>
+                </div>
+            </#if>
             </li>
         </#list>
         </ul>

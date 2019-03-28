@@ -7,10 +7,12 @@
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(journalArticle.groupId, journalArticle.articleId, themeDisplay) />
  
 <a id="#ops-director-orchestre" href="${detailURL}" class="ops-director-orchestre ops-content-wrapper">
-    <figure class="fit-cover">
-        <img src="${smallImage.getData()}" width="1220" height="450" alt="${Name.getData()}" />
-        <figcaption>${credit.getData()}</figcaption>
-    </figure>
+    <#if smallImage.getData()?has_content>
+        <figure class="fit-cover">
+            <img src="${smallImage.getData()}" width="1220" height="450" alt="${Name.getData()}" />
+            <figcaption>${credit.getData()}</figcaption>
+        </figure>
+    </#if>
     <div class="ops-info-people">
         <span class="ops-function">${post.getData()}</span>
         <span class="ops-name">${Name.getData()}</span>

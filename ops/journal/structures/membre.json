@@ -70,7 +70,7 @@
             "name": "smallImage",
             "readOnly": false,
             "repeatable": false,
-            "required": true,
+            "required": false,
             "showLabel": true,
             "type": "ddm-image"
         },
@@ -94,7 +94,7 @@
             "name": "bigImage",
             "readOnly": false,
             "repeatable": false,
-            "required": true,
+            "required": false,
             "showLabel": true,
             "type": "ddm-image"
         },

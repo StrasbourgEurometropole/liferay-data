@@ -1,4 +1,4 @@
-<div class="ops-bloc-highlight-people">
+<div class="ops-bloc-highlight-people" id="ops-distribution">
 	<#list name.getSiblings() as cur_title>
 		<div class="ops-people">
 			<figure class="fit-cover">
