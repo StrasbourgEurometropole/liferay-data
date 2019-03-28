@@ -106,52 +106,34 @@
 
         </div>
 
-
         <div class="ops-wrapper-nav">
             <nav>
                 <ul id="accordion">
-                    <li><a href="${themeDisplay.getPortalURL()}${homeURL}accueil">Agenda</a></li>
-                    <li class="ops-has-sub-menu">
-                        <a href="#CollapseMenu2" data-toggle="collapse" data-parent="#accordion">Orchestre</a>
-                        <ul id="CollapseMenu2" class="ops-has-sub-menu collapse">
-                            <li><a href="../page.html">Présentation</a></li>
-                            <li><a href="../page.html">Le chef</a></li>
-                            <li><a href="../page.html">Les musiciens</a></li>
-                            <li><a href="#">Équipe administrative et technique</a></li>
-                            <li><a href="../listing-recrutement.html">Recrutement</a></li>
-                        </ul>
-                    </li>
-                    <li class="ops-has-sub-menu">
-                        <a href="#CollapseMenu3" data-toggle="collapse" data-parent="#accordion">Découvrir</a>
-                        <ul id="CollapseMenu3" class="ops-has-sub-menu collapse">
-                            <li><a href="#">Titre de mon menu</a></li>
-                            <li><a href="#">Titre de mon menu</a></li>
-                            <li><a href="#">Titre de mon menu</a></li>
-                            <li><a href="#">Titre de mon menu</a></li>
-                        </ul>
-                    </li>
-                    <li class="ops-has-sub-menu">
-                        <a href="#CollapseMenu4" data-toggle="collapse" data-parent="#accordion">Rejoignez-nous</a>
-                        <ul id="CollapseMenu4" class="ops-has-sub-menu collapse">
-                            <li><a href="#">Titre de mon menu</a></li>
-                            <li><a href="#">Titre de mon menu</a></li>
-                            <li><a href="#">Titre de mon menu</a></li>
-                            <li><a href="#">Titre de mon menu</a></li>
-                        </ul>
-                    </li>
-                    <li class="ops-has-sub-menu">
-                        <a href="#CollapseMenu5" data-toggle="collapse" data-parent="#accordion">Infos pratiques</a>
-                        <ul id="CollapseMenu5" class="ops-has-sub-menu collapse">
-                            <li><a href="#">Plan & Accès au site</a></li>
-                            <li><a href="#">Nous contacter</a></li>
-                            <li><a href="#">La Billetterie</a></li>
-                            <li><a href="#">Titre de mon menu</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Actualités</a></li>
+                    <#list nav_items as item>
+                        <#assign ul_css_class = "" />
+                        <#if item.hasChildren()>
+                            <#assign ul_css_class = "ops-has-sub-menu" />
+                        </#if>
+                        <li class="${ul_css_class}">
+                            <#if !item.hasChildren()>
+                                <a href="${item.getURL()}">
+                                    ${item.getName()}
+                                </a>
+                            <#else>
+                                <a href="javascript:void(0)" data-toggle="collapse" data-parent="#accordion">
+                                    ${item.getName()}
+                                </a>
+                            </#if>
+                            <#if item.hasChildren()>
+                                <ul id="CollapseMenu2" class="ops-has-sub-menu collapse">
+                                    <#list item.getChildren() as subItem>
+                                        <li><a href="${subItem.getURL()}">${subItem.getName()}</a></li>
+                                    </#list>
+                                </ul>
+                            </#if>
+                        </li>
+                    </#list>
                 </ul>
             </nav>
-
         </div>
-
     </header>
