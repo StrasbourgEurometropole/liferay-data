@@ -152,3 +152,13 @@
     instanceId="audio_${entry.eventId}"/>
 
 </div>
+
+<script>
+
+$(document).ready(function () {
+    $('.ops-separation').each(function () {
+        $('.ops-scrollto>ul').append('<li><a href="#' + $(this).attr('id') + '">' + $(this).find('h2').html() + '</a></li>');
+    });
+});
+
+</script>

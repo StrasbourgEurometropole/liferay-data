@@ -4,8 +4,12 @@
 
 }
 
-.has-control-menu #ops-wrapper main.ops-page-rh, .ops-page-rh {
-    padding-top : 100px
+.ops-header-musicien {
+    padding-top : 0px;
+}
+
+.has-control-menu #ops-wrapper main.ops-page-musicien, .ops-page-musicien {
+    padding-top : 0px
 }
 </style>
 
