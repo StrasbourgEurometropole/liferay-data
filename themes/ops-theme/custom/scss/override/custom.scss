@@ -92,3 +92,8 @@ main {
 .ops-bloc-video .ops-wrapper-video .mask-video, .ops-bloc-video .ops-infos-videos:after {
 	z-index : 100;
 }
+
+//Pour faire passer la liste du formulaire de recherche devant les vignettes
+.ops-bloc-facettes {
+	z-index : 101;
+}

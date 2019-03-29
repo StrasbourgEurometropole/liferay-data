@@ -454,7 +454,6 @@ public class SearchAssetDisplayContext {
 					.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
 			_displayExport = configuration.displayExport();
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

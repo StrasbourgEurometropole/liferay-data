@@ -27,7 +27,7 @@ gulp.task('css', function () {
 
 gulp.task('js', function () {
     setTimeout(function() {
-        return gulp.src(['./custom/js/config.js','./custom/js/global.js','./custom/js/libs/jquery.js','./custom/js/libs/jquery*.js','./custom/js/libs/leaflet/leaflet.js','./custom/js/libs/leaflet/mapbox-*.js','./custom/js/libs/leaflet/leaflet-*.js','./custom/js/libs/leaflet/th_maps-leaflet.js','./custom/js/libs/tarteaucitron/tarteaucitron.js','./custom/js/libs/tarteaucitron/*.js','./custom/js/libs/*.js','./custom/js/src/*.js','./custom/js/src-1/*.js','./custom/js/src-2/*.js','./custom/js/src-3/*.js'])
+        return gulp.src(['./custom/js/config.js','./custom/js/global.js','./custom/js/libs/jquery.js','./custom/js/libs/jquery*.js','./custom/js/libs/leaflet/leaflet.js','./custom/js/libs/leaflet/mapbox-*.js','./custom/js/libs/leaflet/leaflet-*.js','./custom/js/libs/leaflet/th_maps-leaflet.js','./custom/js/libs/tarteaucitron/tarteaucitron.js','./custom/js/libs/tarteaucitron/*.js','./custom/js/libs/*.js','./custom/js/src/*.js','./custom/js/src-1/*.js','./custom/js/src-2/*.js','./custom/js/src-3/*.js','./custom/js/override/*.js'])
             .pipe(plugins.concat('ops.js'))
             .on('error', function (err) {
                 console.log(err.toString());

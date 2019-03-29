@@ -25,7 +25,7 @@ gulp.task('css', function () {
 
 gulp.task('js', function () {
     setTimeout(function() {
-        return gulp.src(['./js/config.js','./js/global.js','./js/libs/jquery.js','./js/libs/jquery*.js','./js/libs/leaflet/leaflet.js','./js/libs/leaflet/mapbox-*.js','./js/libs/leaflet/leaflet-*.js','./js/libs/leaflet/th_maps-leaflet.js','./js/libs/tarteaucitron/tarteaucitron.js','./js/libs/tarteaucitron/*.js','./js/libs/*.js','./js/src/*.js','./js/src-1/*.js','./js/src-2/*.js','./js/src-3/*.js'])
+        return gulp.src(['./js/config.js','./js/global.js','./js/libs/jquery.js','./js/libs/jquery*.js','./js/libs/leaflet/leaflet.js','./js/libs/leaflet/mapbox-*.js','./js/libs/leaflet/leaflet-*.js','./js/libs/leaflet/th_maps-leaflet.js','./js/libs/tarteaucitron/tarteaucitron.js','./js/libs/tarteaucitron/*.js','./js/libs/*.js','./js/src/*.js','./js/src-1/*.js','./js/src-2/*.js','./js/src-3/*.js','./js/override/*.js'])
             .pipe(plugins.concat('main.js'))
             .on('error', function (err) {
                 console.log(err.toString());
