@@ -516,5 +516,34 @@ main {
 				}
 			}
 		}
+
+		.ops-caption-center{
+			position: absolute;
+			top: 50%;
+			left: 0;
+			right: 0;
+			width: 100%;
+			transform: translateY(-50%);
+			transform: translate3d(0,-50%,0);
+			text-align: center;
+			z-index: 100;
+			@media screen and (max-width: 1280px) {
+				width: calc(100% - 80px);
+			}
+			@include mobile{
+				width: calc(100% - 40px);
+			}
+			h1, p{
+				color: $c_white;
+				max-width:100%;
+			}
+			h1{
+				margin-bottom: 25px;
+			}
+			.ops-btn{
+				color: $c_white;
+				margin-top: 35px;
+			}
+		}
 	}
 }

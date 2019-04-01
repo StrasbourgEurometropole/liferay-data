@@ -62,9 +62,7 @@
 								</c:forEach>
 							</ul>
 						</div>
-
 					</div>
-
 				</c:if>
 			</div>
 			<small> <liferay-ui:message key="eu.show-results" /> <c:choose>

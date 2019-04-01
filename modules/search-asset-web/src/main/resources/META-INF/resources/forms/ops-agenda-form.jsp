@@ -27,14 +27,21 @@
 		<ul>
 			<c:set var="themeVocabulary" value="${vocabularyAccessor.eventThemes}" />
 			<c:forEach items="${dc.getDropdownRootCategories(themeVocabulary)}" var="category">
-				<li><label>${category.getTitle(locale)}<input type="checkbox" id="${category.categoryId}" name="<portlet:namespace />vocabulary_0" value="${category.categoryId}" /><span></span></label></li>
+			
+				<li><label>${category.getTitle(locale)}<input type="checkbox" 
+				id="${category.categoryId}" name="<portlet:namespace />vocabulary_0" value="${category.categoryId}" /><span></span></label></li>
+				
+				<c:if test="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}">
+					<c:set var="themeId" value="${category.categoryId}" scope="page"/>
+				</c:if>
+				
 			</c:forEach>
 		</ul>
 	</div> 
 	
 	<aui:input type="hidden" name="vocabulariesCount" value="1" />
 
-	<!-- FACETTE RECHERCHE -->
+	<!-- FACETTE RECHERCHE  -->
 	<div class="ops-facette-search">
 		<label for="ops-intern-search" aria-hidden="true">Rechercher</label> <input type="text" id="ops-intern-search" value="${dc.keywords}" name="<portlet:namespace />keywords" placeholder="<liferay-ui:message key="please-enter-keyword" />" /> <span class="icon-ico-search"></span>
 	</div>
@@ -44,3 +51,16 @@
 	<div class="ops-button-submit">
 		<input type="submit" class="ops-btn" value="Envoyer" />
 	</div>
+
+	
+<script>
+
+$(document).ready(function () {
+	
+	<c:if test="${!empty themeId}">
+		$('#${themeId}').click();
+	</c:if>
+    
+});
+	
+</script>

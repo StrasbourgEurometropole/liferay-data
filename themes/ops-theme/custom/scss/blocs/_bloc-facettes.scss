@@ -67,6 +67,8 @@
 				font-size: 14px;
 				margin-left: 20px;
 				color: $c_dark;
+				position: relative;
+				top: -1px;
 				@include addTransition();
 				@include mobile {
 					transform: rotate(-90deg);

@@ -8693,6 +8693,7 @@ var thFacettes = {
                     e.stopPropagation();
                     $(this).html('');
                     thFacettes.states[facetteName] = '';
+                    facetteName.removeAttr('checked');
                 });
             },250);
 
@@ -8701,7 +8702,7 @@ var thFacettes = {
             $('input',this).on('click', function (e) {
                 var newValue =  $(this).val();
 
-                $(this).parents('.ops-facette-checkbox').find('a.selected').html($(this).val());
+                $(this).parents('.ops-facette-checkbox').find('a.selected').html($(this).parent().text());
 
 
                 $('.ops-facette-checkbox').removeClass('ops-open');
