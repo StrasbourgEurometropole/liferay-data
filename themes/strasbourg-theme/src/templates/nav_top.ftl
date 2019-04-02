@@ -49,7 +49,7 @@
         <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="${prefix}-nav-account ${prefix}-nav-btn" title="Connexion">
           <span class="${prefix}-flexbox">
             <span class="${prefix}-picto"></span>
-            <span class="${prefix}-text"><@liferay.language key="eu!;login-to-monstrasbourg" /></span>
+            <span class="${prefix}-text"><@liferay.language key="eu.login-to-monstrasbourg" /></span>
           </span>    
         </a>
       </#if>

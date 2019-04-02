@@ -7,8 +7,8 @@
     <div class="seu-banner-form">
       <form action="${homeURL}recherche" method="get" class="seu-search">
         <button type="submit"></button>
-        <label for="main_search_banner" class="sr-only">Recherche</label>
-        <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Votre recherche concerne ?" id="main_search_banner">
+        <label for="main_search_banner" class="sr-only"><@liferay.language key="research" /></label>
+        <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="<@liferay.language key='research-concerns' />" id="main_search_banner">
         <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
         <input type="hidden" name="p_p_lifecycle" value="1" />
         <button type="submit" class="seu-search-close"></button>
