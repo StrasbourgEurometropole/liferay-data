@@ -34,6 +34,10 @@
 			float: none;
 			margin-bottom: 20px;
 		}
+
+		& ~ .search-results{
+			display: none;
+		}
 	}
 
 	.lfr-pagination-page-selector{
@@ -202,8 +206,19 @@
 	}
 
 
-	.lfr-pagination-delta-selector, .search-results{
+	.lfr-pagination-delta-selector{
 		display: none;
+	}
+
+
+	.search-results{
+		display: block;
+		background: white;
+		z-index: 1000000000;
+		position: absolute;
+		top: -8px;
+		left: 0;
+		padding-right: 15px;
 	}
 
 }

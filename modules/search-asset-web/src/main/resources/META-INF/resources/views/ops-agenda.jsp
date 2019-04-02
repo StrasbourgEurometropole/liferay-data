@@ -37,9 +37,9 @@
 <div class="ops-content-wrapper ops-content-wrapper-large ops-pagination">
 	<div class="taglib-page-iterator">
 		<div class="clearfix lfr-pagination">
-			<div class="lfr-pagination-config">
-				<!-- Pagination : selecteur de page -->
+			<!-- Pagination : selecteur de page -->
 				<c:if test="${dc.pager.lastPage > 1}">
+				<div class="lfr-pagination-config">
 					<div class="lfr-pagination-page-selector">
 						<div class="btn-group lfr-icon-menu current-page-menu dropdown">
 							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" title="Page 1 de 6" data-toggle="dropdown"> <span
@@ -63,9 +63,10 @@
 							</ul>
 						</div>
 					</div>
-				</c:if>
-			</div>
-			<small> <liferay-ui:message key="eu.show-results" /> <c:choose>
+				</div>
+			</c:if>
+			<small <c:if test="${dc.pager.lastPage <= 1}">class="search-results"</c:if>> <liferay-ui:message key="eu.show-results" /> 
+			<c:choose>
 					<c:when test="${dc.pager.count > 0}">
 	                		${dc.pager.currentPage * dc.pager.delta - (dc.pager.delta - 1)}
 	                	</c:when>
@@ -164,5 +165,9 @@
 .taglib-page-iterator .lfr-pagination-config .lfr-pagination-page-selector
 	{
 	display: block;
+}
+.taglib-page-iterator .search-results {
+	 line-height: 17px;
+	 margin-left: 0px;
 }
 </style>

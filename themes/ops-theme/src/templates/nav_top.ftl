@@ -65,7 +65,7 @@
                     <span class="ops-burger-txt">Menu</span>
                 </div>
                 <div class="ops-wrapper-btn">
-                    <a href="#" class="ops-btn">Billetterie</a>
+                    <a href="https://billets-ops.strasbourg.eu/0466/fListeManifs.aspx?idstructure=0466" class="ops-btn">Billetterie</a>
                 </div>
             </div>
 
