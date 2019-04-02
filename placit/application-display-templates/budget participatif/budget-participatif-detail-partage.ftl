@@ -45,12 +45,8 @@
     <meta property="og:title" content="${entry.title}" />
     <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${currentUrl}" />
-
-    <#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
-    <#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(imageFullURL) />
     <meta property="og:image" content="${imageFullURL}"/>
-    <meta property="og:image:width" content="${taille?keep_before(',')}"/>
-    <meta property="og:image:height" content="${taille?keep_after(',')}"/>
+    <meta property="og:image:secure_url" content="${imageFullURL}"/>
 </@> 
 
 <div class="pro-page-detail pro-page-detail-initiative">
