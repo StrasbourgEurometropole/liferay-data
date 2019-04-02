@@ -49,7 +49,7 @@
         <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="${prefix}-nav-account ${prefix}-nav-btn" title="Connexion">
           <span class="${prefix}-flexbox">
             <span class="${prefix}-picto"></span>
-            <span class="${prefix}-text">Se connecter à MonStrasbourg.eu</span>
+            <span class="${prefix}-text"><@liferay.language key="eu!;login-to-monstrasbourg" /></span>
           </span>    
         </a>
       </#if>
@@ -57,7 +57,7 @@
       <a href="/contact" class="${prefix}-nav-contact ${prefix}-nav-btn" title="contact">
         <span class="${prefix}-flexbox">
           <span class="${prefix}-picto"></span>
-          <span class="${prefix}-text">Contact</span>
+          <span class="${prefix}-text"><@liferay.language key="contact" /></span>
         </span>    
       </a>
       <button id="${prefix}-search-trigger"></button>
