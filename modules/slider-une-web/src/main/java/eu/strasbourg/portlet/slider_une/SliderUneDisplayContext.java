@@ -47,6 +47,10 @@ public class SliderUneDisplayContext {
         return configuration;
     }
 
+    public boolean showTags() {
+        return configuration.showTags();
+    }
+
     public String getVirtualHostName() {
         return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
     }

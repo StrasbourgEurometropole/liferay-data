@@ -59,6 +59,12 @@ public class SliderUneConfigurationAction
             }
             setPreference(request, "classPKs", classPKs);
 
+            // Affichage des tags
+            boolean showTags = ParamUtil.getBoolean(request,
+                    "showTags");
+            setPreference(request, "showTags",
+                    String.valueOf(showTags));
+
         }
         super.processAction(portletConfig, request, response);
     }
@@ -110,6 +116,11 @@ public class SliderUneConfigurationAction
                 }
             }
             request.setAttribute("classPKs", classPKs);
+
+            // Affichage des tags
+            boolean showTags = ParamUtil.getBoolean(request,
+                    "showTags", configuration.showTags());
+            request.setAttribute("showTags", showTags);
 
 
         } catch (ConfigurationException e) {

@@ -11,4 +11,7 @@ public interface SliderUneConfiguration {
     @Meta.AD(name="classPKs", required = false)
     public String classPKs();
 
+    @Meta.AD(name="showTags", required = false)
+    public boolean showTags();
+
 }

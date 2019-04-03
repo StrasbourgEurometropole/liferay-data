@@ -85,7 +85,7 @@
         <h2 class="seu-section-title">
             <span class="seu-title"><liferay-ui:message key="eu.slider-one" /></span>
         </h2>
-        <c:if test="${not empty dc.assetEntries}">
+        <c:if test="${not empty dc.assetEntries && dc.showTags()}">
             <div class="seu-filters">
                 <button class="seu-actu-filter seu-actif" data-category="tous">
                     <span class="seu-flexbox">

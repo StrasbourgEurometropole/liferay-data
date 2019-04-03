@@ -20,6 +20,12 @@
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
 
+        <aui:input type="checkbox"
+            name="showTags"
+            value="${showTags}"
+            label="Afficher les tags"
+            inlineField="true" />
+
 		<div id="vignettes" class="vignettes">
 
             <c:forEach begin="1" end="24" step="1" var="i">
