@@ -108,7 +108,7 @@
 }
 
 .vignette-delete:before {
-    content: "\e078";
+    content: "\e020";
 }
 
 fieldset {
