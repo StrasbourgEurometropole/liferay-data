@@ -106,7 +106,7 @@
 											<liferay-ui:message key="${occupationState.label}" />
 										</c:when>
 										<c:otherwise>
-											<liferay-ui:message key="eu.place.available-spots" /> ${occupationState.available} - <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity} 
+											<liferay-ui:message key="eu.place.available-spots" /> ${occupationState.available} - <liferay-ui:message key="parking-total-capacity" /> ${occupationState.capacity}
 										</c:otherwise>
 									</c:choose>
 								</span>

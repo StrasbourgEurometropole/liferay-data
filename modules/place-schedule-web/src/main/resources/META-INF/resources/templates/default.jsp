@@ -68,15 +68,15 @@
 			
 			<aui:fieldset>${textSchedule}</aui:fieldset>
 			
-			<h3><liferay-ui:message key="title-schedule" /> ${category.getTitle(locale)}</h3>
+			<h3><liferay-ui:message key="title-schedule1" /> ${category.getTitle(locale)}</h3>
 			
 			<aui:button-row>
 				<div class="left" >
-					<aui:button cssClass="btn-lg" type="button" href="${previousURL}" value="previous" />
+					<aui:button cssClass="btn-lg" type="button" href="${previousURL}" value="<liferay-ui:message key='previous' />" />
 				</div>
 				
 				<div class="right" >
-					<aui:button cssClass="btn-lg" type="button" href="${nextURL}" value="next" />
+					<aui:button cssClass="btn-lg" type="button" href="${nextURL}" value="<liferay-ui:message key='next' />" />
 				</div>
 			</aui:button-row>
 				
@@ -151,8 +151,8 @@
 											</c:if>
 											<c:if test="${not empty occupationState.getAvailable()}">
 												${occupationState.getAvailable()} 
-												<liferay-ui:message key="places_available" /><br/>
-												<liferay-ui:message key="capacity" /> ${occupationState.getCapacity()} 
+												<liferay-ui:message key="parking-available" /><br/>
+												<liferay-ui:message key="parking-total-capacity" /> ${occupationState.getCapacity()}
 											</c:if>
 								    	</td>
 							    </c:if>
@@ -309,7 +309,7 @@
 								- ${exception.value.getDescription()}
 							</p>
 					</c:forEach>
-					<a href="#" class="btn-more-schedules" title="Voir toutes les exceptions" style="display: ${(nbExceptions <= 4) ? 'none' : 'block'};"><span class="btn-icon icon icon-plus"></span></a>
+					<a href="#" class="btn-more-schedules" title="<liferay-ui:message key='see-all-exceptions' />" style="display: ${(nbExceptions <= 4) ? 'none' : 'block'};"><span class="btn-icon icon icon-plus"></span></a>
 					<a href="#horaires" class="btn-less-schedules" title="Masquer les exceptions" style="display: none;"><span class="btn-icon icon icon-minus"></span></a>
 				</div>
 				<script>
