@@ -25,7 +25,7 @@
 
     function showVideo(event) {
         //event.preventDefault();
-        content = "<iframe src=\"${codeEmbed}&autoplay=1\" ";
+        content = "<iframe src=\"${codeEmbed?replace('&muted=1', '')}&autoplay=1\" ";
          if ("${site}" == "youtube") {
             content += "id=\"youtubePlayer\" ";
         } 
