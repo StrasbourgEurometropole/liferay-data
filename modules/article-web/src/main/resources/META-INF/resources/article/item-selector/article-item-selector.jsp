@@ -63,7 +63,7 @@
 			<liferay-ui:search-container-column-text name="status">
 				<aui:workflow-status markupView="lexicon" showIcon="false"
 					showLabel="false" status="${article.status}" />
-				<div class="data" data-id="${article.resourcePrimKey}" data-title="${article.getTitle(locale)}" data-create-date="${formattedCreateDate}" data-expiration-date="${article.expirationDate != null ? formattedExpirationDate : ''}"></div>
+				<div class="data" data-id="${article.resourcePrimKey}" data-title="${article.getTitle(locale)}" data-create-date="${formattedCreateDate}" data-expiration-date="${article.expirationDate != null ? formattedExpirationDate : ''}" data-folder-id="${article.folderId}"></div>
 			</liferay-ui:search-container-column-text>
 			
 		</liferay-ui:search-container-row>
@@ -86,12 +86,14 @@
 			var title = $('.info .data').data('title');
 			var createDate = $('.info .data').data('create-date');
 			var expirationDate = $('.info .data').data('expiration-date');
+			var folderId = $('.info .data').data('folder-id');
 			Liferay.Util.getOpener().Liferay.fire('${itemSelectedArticleName}', {
 				data: {
 					entityId: id,
 					title: title,
                     createDate: createDate,
-                    expirationDate: expirationDate
+                    expirationDate: expirationDate,
+                    folderId: folderId
 				}
 			});
 		} else {
@@ -102,7 +104,8 @@
 					entityId: $(dataDivs[i]).data('id'),
                     title: $(dataDivs[i]).data('title'),
                     createDate: $(dataDivs[i]).data('create-date'),
-                    expirationDate: $(dataDivs[i]).data('expiration-date')
+                    expirationDate: $(dataDivs[i]).data('expiration-date'),
+                    folderId: $(dataDivs[i]).data('folder-id')
 				});
 			}
 				

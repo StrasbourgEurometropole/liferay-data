@@ -2,21 +2,21 @@
 
 <div class="strasbourg-slider-picker">
 	<p>
-		<label>Vignette</label>
+		<label class="label-vignette" >${label}</label>
 	</p>
     <ul id="thumbnail-${name}" class="detail">
-        <c:forEach items="${events}" var="event">
+        <c:if test="${event != null}">
             <li>
-                ${not empty event.titleMap ? event.getTitle(locale) : event.title} <a href="#" class="remove" data-entry-id="${event.eventId}"><i class="icon-remove"></i></a><br>
+                ${not empty event.titleMap ? event.getTitle(locale) : event.title}<br>
                 <fmt:formatDate value="${event.publicationDate}" var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
                 Publi&eacute; le : ${formattedPublicationDate}<br>
                 <fmt:formatDate value="${event.lastEndDate}" var="formattedLastEndDate" type="date" pattern="dd/MM/yyyy" />
                 Fin de l'&eacute;v&egrave;nement le : ${formattedLastEndDate}
             </li>
-        </c:forEach>
-        <c:forEach items="${articles}" var="article">
+        </c:if>
+        <c:if test="${article != null}">
             <li>
-                ${not empty article.titleMap ? article.getTitle(locale) : article.title} <a href="#" class="remove" data-entry-id="${article.uuid}"><i class="icon-remove"></i></a><br>
+                ${not empty article.titleMap ? article.getTitle(locale) : article.title}<br>
                 <fmt:formatDate value="${article.createDate}" var="formattedCreateDate" type="date" pattern="dd/MM/yyyy" />
                 Publi&eacute; le : ${formattedCreateDate}<br>
                 <c:if test="${article.expirationDate != null}">
@@ -24,10 +24,10 @@
                     D&eacute;publi&eacute; le : ${formattedExpirationDate}
                 </c:if>
             </li>
-        </c:forEach>
+        </c:if>
     </ul>
 	<p>
-		<aui:button name="choose-event-${name}" id="choose-event-${name}" value="Ev&egrave;nement" cssClass="eventButton" />
+		<aui:button name="choose-event-${name}" id="choose-event-${name}" value="&Eacute;v&eacute;nement" cssClass="eventButton" />
 		<aui:button name="choose-article-${name}" id="choose-article-${name}" value="Actu/Webmag" cssClass="articleButton" />
 
 	</p>
@@ -54,13 +54,14 @@
                             for (var i = 0; i < items.length; i++) {
                                 var selectedItem = items[i];
                                 var htmlToAppend = '<li>'
-                                    + selectedItem.title + ' <a href="#" class="remove" data-entry-id="' + selectedItem.entityId + '"><i class="icon-remove"></i></a><br>'
+                                    + selectedItem.title + '<br>'
                                     + 'Publi&eacute; le : ' + selectedItem.publicationDate + '<br>'
                                     + "Fin de l'&eacute;v&egrave;nement le : " + selectedItem.lastEndDate
                                     +'</li>';
                                 $(itemPicker).find('.detail').empty();
                                 $(itemPicker).find('.detail').append(htmlToAppend);
                                 $(itemPicker).find('.has-error input').val(selectedItem.entityId);
+                                $(itemPicker).find('.label-vignette').html("&Eacute;v&eacute;nement");
                             }
                         }
                     },
@@ -90,7 +91,7 @@
                             for (var i = 0; i < items.length; i++) {
                                 var selectedItem = items[i];
                                 var htmlToAppend = '<li>'
-                                    + selectedItem.title + ' <a href="#" class="remove" data-entry-id="' + selectedItem.entityId + '"><i class="icon-remove"></i></a><br>'
+                                    + selectedItem.title + '<br>'
                                     + 'Publi&eacute; le : ' + selectedItem.createDate + '<br>';
                                 if(selectedItem.expirationDate != "")
                                     htmlToAppend += 'D&eacute;publi&eacute; le : ' + selectedItem.expirationDate;
@@ -98,6 +99,10 @@
                                 $(itemPicker).find('.detail').empty();
                                 $(itemPicker).find('.detail').append(htmlToAppend);
                                 $(itemPicker).find('.has-error input').val(selectedItem.entityId);
+                                if(selectedItem.folderId == ${folderWebmagId})
+                                    $(itemPicker).find('.label-vignette').html("Webmag");
+                                else
+                                    $(itemPicker).find('.label-vignette').html("Actu");
                             }
                         }
                     },
@@ -108,21 +113,4 @@
             itemSelectorDialog.open();
         }
     );
-
-    // Suppression d'un évènement ou d'un article
-    $('#thumbnail-${name}').on('click', '.remove', function(e) {
-        e.preventDefault();
-        var valueToRemove = $(this).data('entry-id');
-        $(this).parent().remove();
-        var currentValue = $('#<portlet:namespace />${name}').val();
-        var newValue = currentValue.replace(valueToRemove, '');
-        newValue = newValue.replace(',,', ',');
-        if (newValue[0] === ',') {
-            newValue = newValue.slice(1);
-        }
-        if (newValue[newValue.length - 1] == ',') {
-            newValue = newValue.slice(0, -1);
-        }
-        $('#<portlet:namespace />${name}').val(newValue);
-    });
 </aui:script>

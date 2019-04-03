@@ -1,10 +1,14 @@
 
 package eu.strasbourg.picker.taglib.slider.servlet.taglib;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.journal.service.JournalFolderLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
@@ -17,12 +21,15 @@ import eu.strasbourg.portlet.agenda.itemselector.EventItemSelectorCriterion;
 import eu.strasbourg.portlet.article.itemselector.ArticleItemSelectorCriterion;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.utils.StringHelper;
 
 import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Benjamin Bini
@@ -62,30 +69,43 @@ public class SliderPickerTag extends IncludeTag {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 		// Evènements
-		List<Event> events = new ArrayList<>();
-		for (String entityId : _value.split(",")) {
-			if (Validator.isNumber(entityId) && Long.parseLong(entityId) > 0) {
-				Event event;
-				event = EventLocalServiceUtil.fetchEvent(Long.parseLong(entityId));
-				if (event != null) {
-					events.add(event);
-				}
-			}
-		}
-		request.setAttribute("events", events);
-
+		Event event = null;
 		// webcontent
-		List<JournalArticle> articles = new ArrayList<JournalArticle>();
-		for (String resourcePrimKey : _value.split(",")) {
-			if (Validator.isNotNull(resourcePrimKey)) {
-				JournalArticle article;
-				article = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(resourcePrimKey), 0);
-				if (article != null) {
-					articles.add(article);
-				}
+		JournalArticle article = null;
+		if (Validator.isNotNull(_value)) {
+			if (Validator.isNumber(_value) && Long.parseLong(_value) > 0) {
+				event = EventLocalServiceUtil.fetchEvent(Long.parseLong(_value));
 			}
+			article = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(_value), 0);
 		}
-		request.setAttribute("articles", articles);
+		request.setAttribute("event", event);
+		request.setAttribute("article", article);
+
+		// récupère le dossier des webmags
+		long folderWebmagId = 0;
+		List<JournalFolder> foldersActualite = JournalFolderLocalServiceUtil.getFolders(themeDisplay.getScopeGroupId(), 0)
+				.stream().filter(f -> StringHelper.compareIgnoringAccentuation(f.getName(), "Actualites")).collect(Collectors.toList());
+		if(!foldersActualite.isEmpty()) {
+			List<JournalFolder> foldersWebmag = JournalFolderLocalServiceUtil.getFolders(themeDisplay.getScopeGroupId(), foldersActualite.get(0).getFolderId())
+					.stream().filter(f -> f.getName().equals("Webmag")).collect(Collectors.toList());
+			if (!foldersWebmag.isEmpty())
+				folderWebmagId = foldersWebmag.get(0).getFolderId();
+		}
+		request.setAttribute("folderWebmagId", folderWebmagId);
+
+
+		String label = "Vignette vide";
+		if(Validator.isNotNull(event)){
+			label = "&Eacute;v&eacute;nement";
+		}
+		if(Validator.isNotNull(article)){
+			// on vérifie si c'est une webmag
+			if (article.getFolderId() == folderWebmagId)
+				label = "Webmag";
+			else
+				label = "Actu";
+		}
+		request.setAttribute("label", label);
 
 		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<>();
 		desiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
