@@ -29,7 +29,7 @@
             <div class="seu-media-bottom">
                 <ul class="seu-pagination unstyled">
                     <li class="seu-pagin-prev disabled seu-pagin-item">
-                        <button class="seu-btn-square seu-bordered seu-white" data-action="prev" title="<@liferay_ui.message key="next" />">
+                        <button class="seu-btn-square seu-bordered seu-white" data-action="prev" title="<@liferay_ui.message key="previous" />">
                             <span class="seu-flexbox">
                                 <span class="seu-btn-text"><@liferay_ui.message key="previous" /></span>
                                 <span class="seu-btn-arrow"></span>

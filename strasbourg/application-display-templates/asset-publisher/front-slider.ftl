@@ -73,7 +73,7 @@
     <div class="seu-une-background"  style="background-image: url(/o/strasbourg-theme/images/blurry.jpg);"></div>
     <div class="seu-container seu-top-line">
         <h2 class="seu-section-title">
-            <span class="seu-title">à la une</span>
+            <span class="seu-title"><@liferay.language key="eu.slider-one" /></span>
         </h2>
         <div class="seu-filters">
             <button class="seu-actu-filter seu-actif" data-category="tous">
@@ -174,9 +174,9 @@
         </div>
     </div>
     <div class="seu-btn-line">
-        <a href="/actualite" class="seu-btn-square seu-filled seu-second" title="Toute l'actualité">
+        <a href="/actualite" class="seu-btn-square seu-filled seu-second" title="<@liferay.language key="eu.news.new" />">
         <span class="seu-flexbox">
-        <span class="seu-btn-text">Toute l'actu</span>
+        <span class="seu-btn-text"><@liferay.language key="eu.new" /></span>
         <span class="seu-btn-arrow"></span>
         </span>
         </a>

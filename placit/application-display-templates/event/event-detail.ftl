@@ -32,6 +32,12 @@
     <#assign eventPlaceMercatorY = eventPlaceMercators[1] />
 </#if>
 
+<#if entry.getCurrentOrFuturePeriod()??>
+    <#assign period = entry.getCurrentOrFuturePeriod() />
+<#else>
+    <#assign period = "" />
+</#if>
+
 <#-- Recuperation de la version JSON de l'événement -->
 <#assign eventJSON = entry.toJSON(userID) />
 
@@ -44,7 +50,7 @@
             <article>
                 <header>
                     <#if entry.firstStartDate?has_content>
-                        <span class="pro-time">Début le<time datetime="2018-01-10"> ${entry.firstStartDate?string("dd MMMM yyyy")}</time></span>
+                        <span class="pro-time"><#if period?has_content>Le ${period.startDate?string("dd MMMM yyyy")} <#if period.getTimeDetail(locale)?has_content> à ${period.getTimeDetail(locale)}</#if></#if></time></span>
                     </#if>
                     <p>À : 
                         <#if entry.getPlaceAlias(locale)?has_content>${entry.getPlaceAlias(locale)},</#if>
@@ -198,12 +204,18 @@
 																				
 							<#-- L'utilisateur participe-t-il ? -->
 							<#assign isUserPartActive = suggestion.isUserParticipates(userID)?then("active", "") />
+
+                            <#if suggestion.getCurrentOrFuturePeriod()??>
+								<#assign period = suggestion.getCurrentOrFuturePeriod() />
+							<#else>
+								<#assign period = "" />
+							</#if>
 							
 							<a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}" title="lien de la page" class="item pro-bloc-card-event">
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
-										<span class="pro-time"><#if suggestion.firstStartDate?has_content>Le ${suggestion.firstStartDate?string("dd MMMM yyyy")}</#if></span>
+										<span class="pro-time"><#if period?has_content>Le ${period.startDate?string("dd MMMM yyyy")} <#if period.getTimeDetail(locale)?has_content> à ${period.getTimeDetail(locale)}</#if></#if></span>
 										<p>À : ${suggestion.getPlaceAlias(locale)}</p>
 										<h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
 											overflow: hidden;text-overflow: ellipsis;height: 53px">

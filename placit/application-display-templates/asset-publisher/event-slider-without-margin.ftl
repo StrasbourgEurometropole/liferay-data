@@ -53,13 +53,19 @@
 							<#-- L'utilisateur participe-t-il ? -->
 							<#assign isUserPartActive = entry.isUserParticipates(userID)?then("active", "") />
 
+							<#if entry.getCurrentOrFuturePeriod()??>
+								<#assign period = entry.getCurrentOrFuturePeriod() />
+							<#else>
+								<#assign period = "" />
+							</#if>
+
 							<#assign resultsSize++ />
 							
 							<a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event">
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
-										<span class="pro-time"><#if entry.firstStartDate?has_content>Le ${entry.firstStartDate?string("dd MMMM yyyy")}</#if></span>
+										<span class="pro-time"><#if period?has_content>Le ${period.startDate?string("dd MMMM yyyy")} <#if period.getTimeDetail(locale)?has_content> à ${period.getTimeDetail(locale)}</#if></#if></span>
 										<p>À : ${entry.getPlaceAlias(locale)}</p>
 										<h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
 											overflow: hidden;text-overflow: ellipsis;height: 53px">

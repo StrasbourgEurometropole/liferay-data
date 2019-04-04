@@ -111,8 +111,10 @@
 						<#else>
 							<div class="pro-main-img">
 								<figure>
-									<img src='${entry.getImageURL()}' alt="Image agenda" width="880" height="593" class="fit-cover"/>
-									<figcaption>${entry.getImageCopyright(locale)}</figcaption>
+									<#if entry.getImageURL()?has_content>
+										<img src='${entry.getImageURL()}' alt="Image agenda" width="880" height="593" class="fit-cover"/>
+										<figcaption>${entry.getImageCopyright(locale)}</figcaption>
+									</#if>
 								</figure>
 							</div>
 						</#if>
@@ -242,8 +244,8 @@
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
 								<#if isUserHelps >
-									<a href="#popin" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour proposer mon aide" 
-										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposee</a>
+									<a href="#popin" class="pro-btn-yellow active" title="Je souhaite retirer mon aide" 
+										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposée, la retirer</a>
 								<#else>
 									<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" 
 										data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>

@@ -34,9 +34,20 @@
 <#-- Récupération des liens médias de l'entité -->
 <#assign videoURL = entry.videoUrl />
 <#assign imageURL = entry.getImageURL() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+
+<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
 
 <#-- L'entité est elle en période de vote -->
 <#assign isVotable = entry.isVotable() />
+
+<@liferay_util["html-top"]>
+    <meta property="og:title" content="${entry.title}" />
+    <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" />
+    <meta property="og:url" content="${currentUrl}" />
+    <meta property="og:image" content="${imageFullURL}"/>
+    <meta property="og:image:secure_url" content="${imageFullURL}"/>
+</@> 
 
 <div class="pro-page-detail pro-page-detail-initiative">
 
@@ -167,7 +178,13 @@
                             <#if entry.isNotDoable()>
                                 Ce projet a été étudié et déclaré "${statusBP}"
                             <#else>
-                                <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> vote(s) pour ce projet</p>
+                                <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> Citoyens-nes 
+                                    <#if entry.hasBeenVoted() >
+                                        ont soutenus ce projet
+                                    <#else>
+                                        soutiennent ce projet
+                                    </#if>
+                                </p>
                             </#if>
 
                             <#if isVotable> <#-- Est votable -->
@@ -275,7 +292,7 @@
 										<#if suggestion.isNotDoable()>
 											Ce projet a été étudié et déclaré "${suggestion.getBudgetParticipatifStatusTitle(locale)}"
 										<#else>
-											<strong>${suggestion.getNbSupports()}</strong> vote(s) pour ce projet
+											<strong>${suggestion.getNbSupports()}</strong> Citoyens-nes soutiennent ce projet
 										</#if>									
 									</p>
 								</div>
@@ -285,7 +302,8 @@
                 </div>
             </div>
         </section>
-	</#if>	
+	</#if>
+	
 </div>
 
 <script>

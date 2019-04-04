@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Icône"
+                "fr_FR": "Classe CSS"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -20,12 +20,36 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "icon",
+            "name": "classCSS",
             "readOnly": false,
             "repeatable": false,
-            "required": true,
+            "required": false,
             "showLabel": true,
             "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Illustration"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "illustration",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
         },
         {
             "label": {
