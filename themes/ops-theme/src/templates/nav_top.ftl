@@ -90,7 +90,7 @@
                                 class="icon-ico-facebook"></span></a></li>
                 </ul>
                 <a href="${themeDisplay.getPortalURL()}${homeURL}agenda" class="link-calendar" aria-label="Agenda des concerts"><span class="icon-ico-calendar"></span></a>
-                <a href="#SearchOnSite" class="link-search" aria-label="Ouvrir la barre de recherche"><span class="icon-ico-search"></span></a>
+                <#-- <a href="#SearchOnSite" class="link-search" aria-label="Ouvrir la barre de recherche"><span class="icon-ico-search"></span></a> -->
             </div>
 
 
