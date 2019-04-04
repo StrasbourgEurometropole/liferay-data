@@ -23,11 +23,6 @@
             <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
             <h1>${entry.getTitle(locale)}</h1>
 
-            <div class="ops-cta-concert">
-                <a href="#">Acheter un abonnement</a>
-                <a href="#" class="ops-ticket">Acheter mon billet</a>
-            </div>
-
             <nav class="ops-scrollto">
                 <ul>
                     <li><a href="#ops-representations" class="ops-active">Représentations</a></li>
