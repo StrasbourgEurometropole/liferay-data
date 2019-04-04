@@ -49,7 +49,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
                         <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiative"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilContactAuthorInitiative"/>
                         </label>
                     </div>
                 </div>

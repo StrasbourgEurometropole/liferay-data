@@ -5,6 +5,6 @@
 </liferay-portlet:renderURL>
 <c:set var="detailURL" value="${(fn:split(detailURL, '?'))[0]}" />
 
-Vignette lieu : <a href="${detailURL}">${entry.getTitle(locale)}</a>
+Vignette lieu : <a href="${detailURL}"></a>
 
 Veuillez selectionner un modele dans la configuration du portlet

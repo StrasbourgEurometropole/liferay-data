@@ -1,0 +1,59 @@
+// Affichage des blocs en fonction des containers, des colonnes ...
+// ==========================================================================
+.ops-bloc {
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	padding: $content-spacing/2 0;
+
+	@include mobile{
+		padding: 25px 0;
+	}
+
+	&:not(.ops-bloc-large) {
+		max-width: $max-width;
+
+		//&:not(.ops-bloc-small):not(.ops-col-wrapper) {
+		//	@media screen and (min-width: 1600px) {
+		//		max-width: 1600px - $border-gutter - $border-gutter !important;
+		//	}
+		//}
+
+		&:not(.ops-bloc-small) {
+			@media screen and (max-width: $max-width+$border-gutter+$border-gutter+0px) {
+				margin: 0 $border-gutter;
+			}
+		}
+		&:not(.ops-bloc-small) {
+			@media screen and (max-width: 480px) {
+				margin: 0 $border-gutter/2;
+			}
+		}
+
+		@media screen and (max-width: 480px) {
+			margin: 0 $border-gutter/2;
+		}
+	}
+
+	&.ops-bloc-small {
+		max-width: 960px;
+
+		&:not(.ops-col-wrapper) {
+			@media screen and (max-width: 960px+$border-gutter+$border-gutter) {
+				margin: 0 $border-gutter;
+			}
+		}
+
+		@media screen and (max-width: 480px) {
+			margin: 0 $border-gutter/2;
+		}
+	}
+	&.ops-bloc-large {
+		width: 100%;
+
+		+ .ops-bloc-large {
+			padding-top: 0;
+			margin-top: -$content-spacing/2;
+		}
+	}
+}

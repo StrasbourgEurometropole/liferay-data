@@ -9,6 +9,7 @@ import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -18,6 +19,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
@@ -33,10 +35,15 @@ import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 import org.osgi.service.component.annotations.Component;
 
+import javax.mail.internet.InternetAddress;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
@@ -48,11 +55,14 @@ import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component(
@@ -68,6 +78,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	// Id de recuperation des champs
 	private static final String TITLE = "title";
 	private static final String DESCRIPTION = "description";
+	private static final String IN_THE_NAME_OF = "inTheNameOf";
 	private static final String DISTRICT = "district";
 	private static final String THEMATIC = "thematic";
 	private static final String PROJECT = "project";
@@ -88,6 +99,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	// Champs
 	private String title;
 	private String description;
+	private String inTheNameOf;
 	private long districtId;
 	private long thematicId;
 	private long projectId;
@@ -134,6 +146,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
         this.postalcode = ParamUtil.getLong(request, POSTALCODE);
         this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
 		
         // Verification de la validite des informations
         if (validate(request)) {
@@ -157,6 +170,9 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
             
          	// Envoi de la demande
             result = saveInitiative(request);
+            
+            if(result)
+            	sendInitiativeMailConfirmation(request);
         }
         
         // Retour des informations de la requete en JSON
@@ -209,6 +225,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
             
             initiative.setTitle(this.title);
             initiative.setDescription(this.description);
+            initiative.setInTheNameOf(this.inTheNameOf);
             initiative.setPlaceTextArea(this.place);
             initiative.setVideoUrl(this.video);
             initiative.setPublikId(this.publikID);
@@ -222,6 +239,55 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
         }
         _log.info("Initiative cree : " + initiative);
         return true;
+    }
+	
+	/**
+	 * Envoi du mail de confirmation de soumission d'une initiative
+	 */
+    private void sendInitiativeMailConfirmation(ResourceRequest request) {
+    	
+    	try {
+	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	    	// récupération des images
+			StringBuilder hostUrl = new StringBuilder("https://");
+			hostUrl.append(request.getServerName());
+			StringBuilder headerImage = new StringBuilder(hostUrl)
+					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
+			StringBuilder btnImage = new StringBuilder(hostUrl)
+					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+	    	
+			// préparation du template de mail
+			Map<String, Object> context = new HashMap<>();
+			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
+			context.put("headerImage", headerImage.toString());
+			context.put("footerImage", btnImage.toString());
+			context.put("Title", this.title);
+			context.put("Message", this.description);
+			
+		  	Configuration configuration = new Configuration(Configuration.getVersion());
+			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
+			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+			
+			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
+			StringWriter bodyWriter = new StringWriter();
+			bodyTemplate.process(context, bodyWriter);
+			
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.initiative.mail.information");
+			
+			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
+					themeDisplay.getScopeGroup().getName(request.getLocale()));
+			
+			InternetAddress[] toAddresses = new InternetAddress[0];
+			InternetAddress address = new InternetAddress(this.user.getEmail());
+			toAddresses = ArrayUtil.append(toAddresses, address);
+			
+			// envoi du mail aux utilisateurs
+			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
+					bodyWriter.toString());
+		} catch (Exception e) {
+			_log.error(e);
+			e.printStackTrace();
+		}
     }
 	
 	 /**
@@ -326,6 +392,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
             return false;
         }
 
+        /** desactivation de la verification de certains champs obligatoires
         // birthday
         if (Validator.isNull(this.birthday)) {
         	this.message = "Date de naissance non valide";
@@ -348,7 +415,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(this.postalcode)) {
         	this.message = "Code postal non valide";
             return false;
-        }
+        }**/
 
         return true;
     }

@@ -119,6 +119,7 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="inTheNameOf" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -140,6 +141,7 @@
 		<property name="helpTypes" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="message" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="helpDisplay" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ParticipationImpl" table="project_Participation">
 		<id name="participationId" type="long">

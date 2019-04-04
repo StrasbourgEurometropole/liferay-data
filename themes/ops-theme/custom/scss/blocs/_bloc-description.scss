@@ -1,0 +1,215 @@
+.ops-bloc-description{
+	position: relative;
+	overflow: hidden;
+	padding: 65px 0 55px;
+	@include clearfix();
+	@include mobile{
+		padding: 50px 0 40px;
+	}
+
+	.ops-content-wrapper{
+		.ops-txt-desc, .ops-right-medias{
+			float: left;
+			@include mobile{
+				float: none;
+			}
+		}
+	}
+
+	.ops-txt-desc{
+		width: 630px;
+		@include tablet_landscape{
+			width: 500px;
+		}
+		@include tablet_portrait{
+			width: 50%;
+		}
+		@include mobile{
+			width: 100%;
+			margin-bottom: 40px;
+		}
+		h2{
+			@include ft($f_hx, 50px, 400, $c_dark, 60px);
+			position: relative;
+			margin-bottom: 60px;
+			margin-right: 20px;
+			@include tablet_landscape{
+				font-size: 40px;
+				line-height: 50px;
+			}
+			@include mobile{
+				font-size: 30px;
+				line-height: 40px;
+			}
+			&:after{
+				content: '';
+				position: absolute;
+				top: calc(50% + 5px);
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 1px;
+				background: url(../images/ico/deco-line.png) repeat-x;
+				@include mobile{
+					top: calc(50% + 2px);
+				}
+			}
+			span{
+				position: relative;
+				z-index: 10;
+				background: $c_white;
+				padding-right: 20px;
+			}
+		}
+
+		.ops-bloc-texte{
+			padding: 0 40px 0 130px;
+			@include tablet_landscape{
+				padding: 0 40px;
+			}
+			@include tablet_portrait{
+				padding: 0;
+			}
+			@include mobile{
+				margin-bottom: 30px;
+			}
+			.ops-btn{
+				padding: 8px 25px;
+			}
+		}
+	}
+
+
+	.ops-right-medias{
+		position: relative;
+		width: calc(100% - 630px);
+		margin-top: 30px;
+		@include tablet_landscape{
+			width: calc(100% - 500px);
+		}
+		@include tablet_portrait{
+			width: calc(50% - 40px);
+			margin-left: 40px;
+		}
+		@include mobile{
+			width: 100%;
+			margin-left: 0;
+		}
+		div{
+			position: relative;
+			figure{
+				position: relative;
+				&:first-child{
+					@include aspect-ratio(460,450);
+					width: 460px;
+					max-width: 70%;
+					overflow: visible;
+					@include tablet_landscape{
+						width: 70%;
+					}
+					@include tablet_portrait{
+						width: 100%;
+					}
+					&:after{
+						content: '';
+						position: absolute;
+						top: -20px;
+						right: -30px;
+						width: 320px;
+						height: 100px;
+						background: $c_main;
+						z-index: -1;
+						@include tablet_portrait{
+							width: 70%;
+							height: 50px;
+							top: -15px;
+							right: -20px;
+						}
+					}
+					img{
+						@extend %ops-center;
+						width: 100%;
+						height: 100%;
+					}
+				}
+
+				&:nth-child(2){
+					@include aspect-ratio(240,260);
+					position: absolute;
+					bottom: 0;
+					left: 70%;
+					width: 240px;
+					overflow: visible;
+					@include tablet_landscape{
+						left: 70%;
+						width: calc(30% + 40px);
+					}
+					@include tablet_portrait{
+						position: relative;
+						left: 40%;
+						width: calc(60% + 40px);
+					}
+					@include mobile{
+						left: 20%;
+						width: calc(80% + 20px);
+					}
+					img{
+						@extend %ops-center;
+						width: 100%;
+						height: 100%;
+					}
+				}
+			}
+		}
+
+		a{
+			position: relative;
+			@include aspect-ratio(350,230);
+			width: 350px;
+			display: block;
+			float: right;
+			@include addTransition();
+			@include tablet_landscape{
+				width: 80%;
+			}
+			@include mobile{
+				width: 100%;
+			}
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					span{
+						color: $c_main;
+						border-color: $c_main;
+					}
+				}
+			}
+			figure{
+				@extend %ops-center;
+				width: 100%;
+				height: 100%;
+				img{
+					height: 100%;
+				}
+			}
+			span{
+				width: 28px;
+				height: 28px;
+				border: 2px solid $c_white;
+				border-radius: 50%;
+				position: absolute;
+				right: 12px;
+				bottom: 12px;
+				font-size: 10px;
+				text-align: center;
+				display: block;
+				color: $c_white;
+				line-height: 24px;
+				@include addTransition();
+				&:before{
+					position: relative;
+					left: 1px;
+				}
+			}
+		}
+	}
+}

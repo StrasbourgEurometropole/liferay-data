@@ -648,7 +648,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	* Retourne le nom du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	@Override
 	public java.lang.String getAuthorLabel() {

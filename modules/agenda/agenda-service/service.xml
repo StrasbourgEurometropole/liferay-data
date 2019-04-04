@@ -74,6 +74,12 @@
         <column name="idSource" type="String" />
 		<column name="publicationDate" type="Date" />
 		
+		<!-- Infos du concert -->
+		<column name="distribution" type="String" />
+		<column name="composer" type="String" />
+		<column name="concertId" type="String" />
+		<column name="program" type="String" />
+		
 		<!-- Dates -->
 		<column name="firstStartDate" type="Date" />
 		<column name="lastEndDate" type="Date" />

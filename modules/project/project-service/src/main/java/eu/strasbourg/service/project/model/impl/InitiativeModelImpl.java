@@ -89,6 +89,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
 			{ "placeTextArea", Types.VARCHAR },
+			{ "inTheNameOf", Types.VARCHAR },
 			{ "videoUrl", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
@@ -117,6 +118,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("inTheNameOf", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
@@ -128,7 +130,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,publicationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Initiative (uuid_ VARCHAR(75) null,initiativeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(75) null,inTheNameOf VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,assetEntryId LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,publicationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Initiative";
 	public static final String ORDER_BY_JPQL = " ORDER BY initiative.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Initiative.title ASC";
@@ -179,6 +181,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
+		model.setInTheNameOf(soapModel.getInTheNameOf());
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
@@ -267,6 +270,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
+		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -373,6 +377,12 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 		if (placeTextArea != null) {
 			setPlaceTextArea(placeTextArea);
+		}
+
+		String inTheNameOf = (String)attributes.get("inTheNameOf");
+
+		if (inTheNameOf != null) {
+			setInTheNameOf(inTheNameOf);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -712,6 +722,22 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@JSON
 	@Override
+	public String getInTheNameOf() {
+		if (_inTheNameOf == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _inTheNameOf;
+		}
+	}
+
+	@Override
+	public void setInTheNameOf(String inTheNameOf) {
+		_inTheNameOf = inTheNameOf;
+	}
+
+	@JSON
+	@Override
 	public String getVideoUrl() {
 		if (_videoUrl == null) {
 			return StringPool.BLANK;
@@ -982,6 +1008,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		initiativeImpl.setTitle(getTitle());
 		initiativeImpl.setDescription(getDescription());
 		initiativeImpl.setPlaceTextArea(getPlaceTextArea());
+		initiativeImpl.setInTheNameOf(getInTheNameOf());
 		initiativeImpl.setVideoUrl(getVideoUrl());
 		initiativeImpl.setExternalImageURL(getExternalImageURL());
 		initiativeImpl.setExternalImageCopyright(getExternalImageCopyright());
@@ -1163,6 +1190,14 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 			initiativeCacheModel.placeTextArea = null;
 		}
 
+		initiativeCacheModel.inTheNameOf = getInTheNameOf();
+
+		String inTheNameOf = initiativeCacheModel.inTheNameOf;
+
+		if ((inTheNameOf != null) && (inTheNameOf.length() == 0)) {
+			initiativeCacheModel.inTheNameOf = null;
+		}
+
 		initiativeCacheModel.videoUrl = getVideoUrl();
 
 		String videoUrl = initiativeCacheModel.videoUrl;
@@ -1224,7 +1259,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1256,6 +1291,8 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(getDescription());
 		sb.append(", placeTextArea=");
 		sb.append(getPlaceTextArea());
+		sb.append(", inTheNameOf=");
+		sb.append(getInTheNameOf());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
 		sb.append(", externalImageURL=");
@@ -1281,7 +1318,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(76);
+		StringBundler sb = new StringBundler(79);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Initiative");
@@ -1346,6 +1383,10 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 		sb.append(
 			"<column><column-name>placeTextArea</column-name><column-value><![CDATA[");
 		sb.append(getPlaceTextArea());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>inTheNameOf</column-name><column-value><![CDATA[");
+		sb.append(getInTheNameOf());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>videoUrl</column-name><column-value><![CDATA[");
@@ -1416,6 +1457,7 @@ public class InitiativeModelImpl extends BaseModelImpl<Initiative>
 	private String _title;
 	private String _description;
 	private String _placeTextArea;
+	private String _inTheNameOf;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

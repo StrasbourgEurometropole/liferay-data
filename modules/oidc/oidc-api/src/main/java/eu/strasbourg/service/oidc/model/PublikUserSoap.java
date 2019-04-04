@@ -50,6 +50,7 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setBanishDate(model.getBanishDate());
 		soapModel.setBanishDescription(model.getBanishDescription());
 		soapModel.setImageURL(model.getImageURL());
+		soapModel.setPactDisplay(model.getPactDisplay());
 
 		return soapModel;
 	}
@@ -238,6 +239,18 @@ public class PublikUserSoap implements Serializable {
 		_imageURL = imageURL;
 	}
 
+	public boolean getPactDisplay() {
+		return _pactDisplay;
+	}
+
+	public boolean isPactDisplay() {
+		return _pactDisplay;
+	}
+
+	public void setPactDisplay(boolean pactDisplay) {
+		_pactDisplay = pactDisplay;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
@@ -255,4 +268,5 @@ public class PublikUserSoap implements Serializable {
 	private Date _banishDate;
 	private String _banishDescription;
 	private String _imageURL;
+	private boolean _pactDisplay;
 }

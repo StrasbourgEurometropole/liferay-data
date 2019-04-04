@@ -1,0 +1,123 @@
+.ops-bloc-side-by-side{
+	position: relative;
+	max-width: 1060px !important;
+	margin: auto !important;
+	@media screen and (max-width: 1140px){
+		margin: 0 40px !important;
+	}
+	@media screen and (max-width: 480px){
+		margin: 0 20px !important;
+	}
+	@include clearfix();
+
+	.ops-col-50{
+		position: relative;
+		&:first-of-type{
+			&:after{
+				content: '';
+				position: absolute;
+				width: 1px;
+				height: 45px;
+				right: 0;
+				top: -50px;
+				background: url(../images/ico/deco-line-vertical-black.png) repeat-y;
+				@include mobile{
+					 content: none;
+				}
+			}
+		}
+		&:nth-of-type(2){
+			padding-top: 100px;
+			@include mobile{
+				padding-top: 40px;
+			}
+			.ops-top-img{
+				h3{
+					left: 20px;
+					width: calc(100% - 70px);
+					@include tablet_portrait{
+						width: calc(100% - 40px);
+					}
+				}
+			}
+			.ops-content{
+				padding: 0 50px 0 20px;
+				@include tablet_portrait{
+					padding: 0 20px;
+				}
+				@include mobile{
+					padding: 0;
+				}
+			}
+		}
+	}
+
+	.ops-big-title{
+		text-align: center;
+		margin-bottom: 65px;
+		@include mobile{
+			margin-bottom: 40px;
+		}
+	}
+
+	.ops-top-img{
+		position: relative;
+		margin-bottom: 20px;
+		.ops-no-photo{
+			@include aspect-ratio(530,500);
+		}
+		figure{
+			position: relative;
+			&:after{
+				content: '';
+				@extend %ops-center;
+				z-index: 10;
+				background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%);
+				background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.8) 100%);
+				background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.8) 100%);
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 );
+			}
+			img{
+				@include tablet_portrait{
+					height: 100%;
+				}
+			}
+			figcaption{
+				display: none;
+			}
+		}
+		h3{
+			position: absolute;
+			left: 50px;
+			right: 50px;
+			bottom: 20px;
+			z-index: 100;
+			width: calc(100% - 100px);
+			font-size: 30px;
+			color: $c_white;
+			line-height: 38px;
+			margin: 0 0 3px 0;
+			@include tablet_portrait{
+				left: 20px;
+				right: 20px;
+				width: calc(100% - 40px);
+				bottom: 15px;
+			}
+		}
+	}
+
+	.ops-content{
+		padding: 0 20px 0 50px;
+		@include tablet_portrait{
+			padding: 0 20px;
+		}
+		@include mobile{
+			padding: 0;
+		}
+		> * {
+			&:last-child{
+				margin: 0;
+			}
+		}
+	}
+}

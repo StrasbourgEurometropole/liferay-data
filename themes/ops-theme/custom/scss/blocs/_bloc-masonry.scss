@@ -1,0 +1,21 @@
+.ops-bloc-masonry{
+	position: relative;
+	padding: 45px 0 55px;
+	@include clearfix();
+	> * {
+		position: relative;
+		float: left;
+		margin: 15px 0;
+		@include clearfix();
+
+		@include wide() {
+			width: 25%;
+		}
+		@include tablet_portrait{
+			width: 50%;
+		}
+		@include mobile{
+			width: 100%;
+		}
+	}
+}

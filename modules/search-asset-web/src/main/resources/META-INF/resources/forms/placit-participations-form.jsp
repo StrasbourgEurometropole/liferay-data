@@ -8,7 +8,7 @@
 <!-- Recherche par mots-clefs -->
 <div class="pro-group">
     <div class="pro-header">
-        <h4><liferay-ui:message key="keywords" /></h4>
+        <h4><liferay-ui:message key="eu.placite.keywords" /></h4>
         <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset class="pro-text">
@@ -57,7 +57,7 @@
 	</div>
 </c:if>
 
-<!-- Recherche par états -->
+<!-- Recherche par etat -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.state" /></h4>
@@ -106,7 +106,7 @@
     </fieldset>
 </div>
 
-<!-- Recherche par thématiques -->
+<!-- Recherche par thÃ©matiques -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>
