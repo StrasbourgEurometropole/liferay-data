@@ -586,6 +586,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return new EventWrapper(_event.toUnescapedModel());
 	}
 
+	/**
+	* Retourne la période courrante, ou la prochaine
+	*/
+	@Override
+	public eu.strasbourg.service.agenda.model.EventPeriod getCurrentOrFuturePeriod() {
+		return _event.getCurrentOrFuturePeriod();
+	}
+
 	@Override
 	public int compareTo(eu.strasbourg.service.agenda.model.Event event) {
 		return _event.compareTo(event);
@@ -951,6 +959,11 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getCompleteAddress(java.util.Locale locale) {
 		return _event.getCompleteAddress(locale);
+	}
+
+	@Override
+	public java.lang.String getCurrentOrFuturePeriodStringDate() {
+		return _event.getCurrentOrFuturePeriodStringDate();
 	}
 
 	@Override

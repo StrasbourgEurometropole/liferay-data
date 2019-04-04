@@ -66,7 +66,7 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -84,6 +84,8 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		sb.append(groupId);
 		sb.append(", message=");
 		sb.append(message);
+		sb.append(", helpDisplay=");
+		sb.append(helpDisplay);
 		sb.append("}");
 
 		return sb.toString();
@@ -134,6 +136,8 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 			initiativeHelpImpl.setMessage(message);
 		}
 
+		initiativeHelpImpl.setHelpDisplay(helpDisplay);
+
 		initiativeHelpImpl.resetOriginalValues();
 
 		return initiativeHelpImpl;
@@ -152,6 +156,8 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 
 		groupId = objectInput.readLong();
 		message = objectInput.readUTF();
+
+		helpDisplay = objectInput.readBoolean();
 	}
 
 	@Override
@@ -191,6 +197,8 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 		else {
 			objectOutput.writeUTF(message);
 		}
+
+		objectOutput.writeBoolean(helpDisplay);
 	}
 
 	public String uuid;
@@ -201,4 +209,5 @@ public class InitiativeHelpCacheModel implements CacheModel<InitiativeHelp>,
 	public String helpTypes;
 	public long groupId;
 	public String message;
+	public boolean helpDisplay;
 }

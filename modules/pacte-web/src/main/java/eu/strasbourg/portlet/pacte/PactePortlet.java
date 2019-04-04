@@ -55,6 +55,7 @@ public class PactePortlet extends MVCPortlet {
 		if(Validator.isNotNull(publikUserID)) {
 			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserID);
 			renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
+			renderRequest.setAttribute("isDisplayListing", user.getPactDisplay());
 			renderRequest.setAttribute("isUserloggedIn", true);
 		}
 		else
@@ -77,6 +78,8 @@ public class PactePortlet extends MVCPortlet {
 					
 					//Vérification si la checkbox de clause de lecture du pacte est bien cochée
 					boolean isClausesChecked = ParamUtil.getBoolean(resourceRequest, "clauses");
+					//L'usager veut bien êtes listé avec les signataires du site
+					boolean isDisplayListing = ParamUtil.getBoolean(resourceRequest, "isDisplayListing");
 					
 					//On sauvegarde la date de signature du pate. S'il était déjà signé on reset
 					if(isClausesChecked) {
@@ -84,9 +87,11 @@ public class PactePortlet extends MVCPortlet {
 						
 						if(user.getPactSignature() != null) {
 							user.setPactSignature(null);
+							user.setPactDisplay(false);
 							request.getSession().setAttribute(HAS_PACT_SIGNED_ATTRIBUTE, false);
 						} else {
 							user.setPactSignature(new Date());
+							user.setPactDisplay(isDisplayListing);
 							request.getSession().setAttribute(HAS_PACT_SIGNED_ATTRIBUTE, true);
 						}
 					}

@@ -572,6 +572,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getNbSupportOfUserInActivePhase(publikUserId);
 	}
 
+	@Override
+	public int getPriorityOrder() {
+		return _budgetParticipatif.getPriorityOrder();
+	}
+
 	/**
 	* Returns the status of this budget participatif.
 	*
@@ -597,6 +602,9 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return new BudgetParticipatifWrapper((BudgetParticipatif)_budgetParticipatif.clone());
 	}
 
+	/**
+	* Retourne le nom de l'autheur sous forme "Truc M."
+	*/
 	@Override
 	public java.lang.String getAuthor() {
 		return _budgetParticipatif.getAuthor();

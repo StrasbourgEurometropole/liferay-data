@@ -325,6 +325,27 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setImageURL(String imageURL);
 
+	/**
+	 * Returns the pact display of this publik user.
+	 *
+	 * @return the pact display of this publik user
+	 */
+	public boolean getPactDisplay();
+
+	/**
+	 * Returns <code>true</code> if this publik user is pact display.
+	 *
+	 * @return <code>true</code> if this publik user is pact display; <code>false</code> otherwise
+	 */
+	public boolean isPactDisplay();
+
+	/**
+	 * Sets whether this publik user is pact display.
+	 *
+	 * @param pactDisplay the pact display of this publik user
+	 */
+	public void setPactDisplay(boolean pactDisplay);
+
 	@Override
 	public boolean isNew();
 

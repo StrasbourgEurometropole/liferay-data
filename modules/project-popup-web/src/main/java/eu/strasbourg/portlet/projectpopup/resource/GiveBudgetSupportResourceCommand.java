@@ -180,7 +180,6 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             budgetSupport.setPublikUserId(this.publikID);
             budgetSupport.setBudgetParticipatifId(this.budgetParticipatif.getBudgetParticipatifId());
             budgetSupport = BudgetSupportLocalServiceUtil.updateBudgetSupport(budgetSupport);
-
         } catch (PortalException e) {
             _log.error(e);
             throw new PortletException(e);
@@ -195,10 +194,9 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * @return Si la requete est tangible
 	 */
 	private boolean validate(ResourceRequest request) {
-        
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non recconu";
+            this.message = "Utilisateur non reconnu";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
@@ -241,6 +239,8 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 			return false;
         }
         
+        return true; //désactivation du controle des champs  de l'usager suite à la désactivation de la popup au premier vote
+        /**
         // birthday
         if (Validator.isNull(this.birthday)) {
             this.message = "Date de naissance non valide";
@@ -266,6 +266,8 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         }
         
         return true;
+        **/
+        
     }
 	
 	/**

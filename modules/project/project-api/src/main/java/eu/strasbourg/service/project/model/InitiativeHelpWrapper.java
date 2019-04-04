@@ -66,6 +66,7 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		attributes.put("helpTypes", getHelpTypes());
 		attributes.put("groupId", getGroupId());
 		attributes.put("message", getMessage());
+		attributes.put("helpDisplay", getHelpDisplay());
 
 		return attributes;
 	}
@@ -119,6 +120,22 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		if (message != null) {
 			setMessage(message);
 		}
+
+		Boolean helpDisplay = (Boolean)attributes.get("helpDisplay");
+
+		if (helpDisplay != null) {
+			setHelpDisplay(helpDisplay);
+		}
+	}
+
+	/**
+	* Returns the help display of this initiative help.
+	*
+	* @return the help display of this initiative help
+	*/
+	@Override
+	public boolean getHelpDisplay() {
+		return _initiativeHelp.getHelpDisplay();
 	}
 
 	@Override
@@ -129,6 +146,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public boolean isEscapedModel() {
 		return _initiativeHelp.isEscapedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this initiative help is help display.
+	*
+	* @return <code>true</code> if this initiative help is help display; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isHelpDisplay() {
+		return _initiativeHelp.isHelpDisplay();
 	}
 
 	@Override
@@ -376,6 +403,16 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public void setGroupId(long groupId) {
 		_initiativeHelp.setGroupId(groupId);
+	}
+
+	/**
+	* Sets whether this initiative help is help display.
+	*
+	* @param helpDisplay the help display of this initiative help
+	*/
+	@Override
+	public void setHelpDisplay(boolean helpDisplay) {
+		_initiativeHelp.setHelpDisplay(helpDisplay);
 	}
 
 	/**
