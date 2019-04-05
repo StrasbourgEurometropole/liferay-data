@@ -1,0 +1,366 @@
+// STYLE POUR L'INSERTION D'UNE VIDEO EN BACKGROUND
+// ==========================================================================
+.cover {
+	position: relative;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	@media screen and (max-width: 1140px) {
+		height: 75vh;
+	}
+	@media (orientation: landscape) and (max-width: 730px) {
+		height: 95vh;
+	}
+	> * {
+		z-index: 20;
+	}
+
+	&.cover-page {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+	&.cover-fullimg {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background: #222;
+		height: 85vh;
+		overflow: hidden;
+	}
+	.container-video {
+		@include aspect-ratio(16, 9);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+		background: $c_dark;
+		//height: 100%;
+		@media screen and (max-aspect-ratio: 165/101) {
+			width: 130%;
+		}
+		@media screen and (max-aspect-ratio: 138/101) {
+			width: 140%;
+		}
+		@media screen and (max-aspect-ratio: 126/72) {
+			width: 120%;
+		}
+		@media screen and (max-aspect-ratio: 128/80) {
+			width: 115%;
+		}
+		@media screen and (max-aspect-ratio: 1223/960) {
+			width: 110%;
+		}
+		@media screen and (max-aspect-ratio: 1485/960) {
+			width: 140%;
+		}
+		@media screen and (max-aspect-ratio: 118/101) {
+			display: none;
+		}
+		@include tablet_portrait {
+			display: none;
+		}
+		> video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 50;
+
+			@include tablet_portrait {
+				display: none;
+			}
+
+			&.o10 {
+				opacity: 0.9;
+			}
+			&.o20 {
+				opacity: 0.8;
+			}
+			&.o30 {
+				opacity: 0.7;
+			}
+			&.o40 {
+				opacity: 0.6;
+			}
+			&.o50 {
+				opacity: 0.5;
+			}
+			&.o60 {
+				opacity: 0.4;
+			}
+			&.o70 {
+				opacity: 0.3;
+			}
+			&.o80 {
+				opacity: 0.2;
+			}
+		}
+
+	}
+
+	.container-img {
+		figure {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 10;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+	.wrapper-img {
+		height: 100vh;
+		@media screen and (max-width: 1140px) {
+			height: 75vh;
+		}
+		figure {
+			height: 100%;
+			img {
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+		.caption {
+			> * {
+				width: 70%;
+				@include tablet_portrait {
+					width: 85%;
+				}
+				@include mobile {
+					width: 90%;
+				}
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+			h1, h2 {
+				@include ft($f_hx, 50px, 700, $c_white, 54px);
+				text-transform: uppercase;
+				margin-bottom: 25px;
+				@include mobile {
+					font-size: 40px;
+					line-height: 44px;
+				}
+			}
+			p {
+				@include ft($f_txt, $s_p, 400, $c_white, $s_p+9);
+			}
+			.btn {
+				margin: 0;
+				display: inline-block;
+				width: auto;
+			}
+		}
+	}
+}
+
+// BLOC VIDEO
+// ==========================================================================
+.ops-bloc-video {
+	position: relative;
+	@include clearfix();
+
+	.ops-infos-videos {
+		position: relative;
+		left: -30px;
+		max-width: 420px;
+		background: $c_dark;
+		@media screen and (max-width: 480px){
+			left: -20px;
+		}
+		&:after {
+			content: '';
+			position: absolute;
+			left: 30px;
+			right: 30px;
+			bottom: 30px;
+			width: calc(100% - 60px);
+			height: 1px;
+			background: $c_main;
+			z-index: 10000;
+		}
+		> div {
+			position: relative;
+			padding: 30px;
+			.ops-surtitre {
+				margin-bottom: 10px;
+			}
+			h2, h3 {
+				margin: 0;
+				padding-bottom: 25px;
+				color: $c_white;
+			}
+		}
+
+		& + .ops-wrapper-video{
+			max-width: 650px;
+			margin-left: 310px;
+			margin-top: -135px;
+			padding: 0 !important;
+			@include tablet_portrait{
+				max-width: 100%;
+				margin-left: 0;
+				margin-top: -20px;
+			}
+			@include mobile{
+				margin-top: 0;
+			}
+		}
+	}
+
+	.ops-wrapper-video {
+		position: relative;
+		.mask-video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			cursor: pointer;
+			z-index: 1000;
+			@include addTransition();
+
+			& + .embed-container{
+				z-index: 10;
+			}
+			figure {
+				margin: 0;
+				width: 100%;
+				height: 100%;
+				img {
+					width: 100%;
+					height: 100%;
+				}
+				figcaption{
+					display: none;
+				}
+			}
+			.ops-video-link {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				> span{
+					position: absolute;
+					right: 20px;
+					bottom: 20px;
+					width: 28px;
+					height: 28px;
+					line-height: 24px;
+					text-align: center;
+					display: block;
+					border: 2px solid $c_white;
+					border-radius: 50%;
+					font-size: 10px;
+					color: $c_white;
+					@include addTransition();
+					&:before{
+						position: relative;
+						left: 1px;
+					}
+				}
+				&:hover, &:focus {
+					> span {
+						background: $c_main;
+						border-color: $c_main;
+						color: $c_dark;
+					}
+				}
+			}
+		}
+
+		.embed-container {
+			position: relative;
+			overflow: hidden;
+			max-width: 100%;
+			z-index: 100000;
+			@include aspect-ratio(1280, 100, 49%);
+			iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+
+	.ops-col-25{
+		position: relative;
+		margin-top: 20px;
+		display: block;
+		@include addTransition();
+		@include mobile{
+			min-height: auto !important;
+		}
+
+		&:hover, &:focus{
+			outline: none;
+			#ops-wrapper:not(.no-hover) & {
+				.ops-video-img{
+					span{
+						color: $c_main;
+						border-color: $c_main;
+					}
+				}
+			}
+		}
+		.ops-video-img{
+			position: relative;
+			span{
+				width: 28px;
+				height: 28px;
+				border: 2px solid $c_white;
+				border-radius: 50%;
+				position: absolute;
+				right: 12px;
+				bottom: 12px;
+				font-size: 10px;
+				text-align: center;
+				display: block;
+				color: $c_white;
+				line-height: 24px;
+				@include addTransition();
+				&:before{
+					position: relative;
+					left: 1px;
+				}
+			}
+		}
+		figure{
+			@include aspect-ratio(270,155);
+			margin-bottom: 8px;
+			img{
+				@extend %ops-center;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		h4{
+			@include ft($f_txt,18px,400,$c_dark,24px);
+			margin: 0 0 5px 0;
+		}
+		.ops-name{
+			@include ft($f_txt,15px,400,#909090,20px);
+			display: block;
+		}
+	}
+
+
+}

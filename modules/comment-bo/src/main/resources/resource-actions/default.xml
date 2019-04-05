@@ -35,7 +35,7 @@
     <model-resource>
         <model-name>eu.strasbourg.service.comment.model.Comment</model-name>
         <portlet-ref>
-            <portlet-name>eu_strasbourg_portlet_comment_CommentBOComment</portlet-name>
+            <portlet-name>eu_strasbourg_portlet_comment_CommentBOPortlet</portlet-name>
         </portlet-ref>
         <weight>2</weight>
         <permissions>
@@ -54,7 +54,7 @@
     <model-resource>
         <model-name>eu.strasbourg.service.comment.model.Signalement</model-name>
         <portlet-ref>
-            <portlet-name>eu_strasbourg_portlet_comment_CommentBOComment</portlet-name>
+            <portlet-name>eu_strasbourg_portlet_comment_CommentBOPortlet</portlet-name>
         </portlet-ref>
         <weight>2</weight>
         <permissions>

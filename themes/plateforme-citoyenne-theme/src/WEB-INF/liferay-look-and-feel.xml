@@ -14,7 +14,7 @@
 		<portlet-decorator id="borderless" name="Borderless">
 			<portlet-decorator-css-class>portlet-borderless</portlet-decorator-css-class>
 		</portlet-decorator>
-		<portlet-decorator id="decorate" name="Decorate">		
+		<portlet-decorator id="decorate" name="Decorate">
 			<portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
 		</portlet-decorator>
 	</theme>

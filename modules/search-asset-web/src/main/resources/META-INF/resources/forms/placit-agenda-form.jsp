@@ -110,7 +110,7 @@
     </fieldset>
 </div>
 
-<!-- Recherche par thÃ©matiques -->
+<!-- Recherche par thematique -->
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.thematics" /></h4>

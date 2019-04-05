@@ -1,0 +1,144 @@
+.ops-bloc-download{
+	position: relative;
+	background: #F2F2F2;
+	margin: ($content-spacing / 2) 0;
+	padding: 45px 0 55px 0;
+	overflow: hidden;
+	&:after{
+		content: "\e913";
+		@include font();
+		position: absolute;
+		top: 50%;
+		right: -220px;
+		font-size: 340px;
+		margin-top: -170px;
+		color: rgba($c_dark,0.1);
+		@include tablet_landscape{
+			font-size: 260px;
+			margin-top: -130px;
+			right: -160px;
+		}
+		@include mobile{
+			font-size: 160px;
+			margin-top: 0;
+			right: -50px;
+			top: 30px;
+			z-index: 100;
+		}
+	}
+	@include tablet_portrait{
+		padding: 30px 0 45px 0;
+	}
+	@include mobile{
+		margin-top: 20px;
+	}
+
+	.ops-big-title{
+		position: relative;
+		&:before{
+			content: '';
+			position: absolute;
+			left: 20px;
+			right: 20px;
+			top: 50%;
+			width: calc(100% - 40px);
+			height: 1px;
+			background: url(../images/ico/deco-line.png) repeat-x;
+			@include mobile{
+				content: none;
+			}
+		}
+		span{
+			position: relative;
+			z-index: 100;
+			width: 50%;
+			margin: 0;
+			display: block;
+			text-align: center;
+			background: #f2f2f2;
+			@include mobile{
+				width: 100%;
+			}
+			&:after{
+				content: '';
+				position: absolute;
+				top: 0;
+				right: -20px;
+				bottom: 0;
+				width: 20px;
+				background: #f2f2f2;
+			}
+		}
+	}
+
+	.ops-col-50{
+		position: relative;
+		z-index: 100;
+		> * {
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
+	}
+
+
+	.ops-items-download{
+		padding: 0;
+		margin: -15px 0 0 0;
+		list-style-type: none;
+		@include mobile{
+			margin: 20px 0 0 0;
+		}
+		li{
+			padding: 0;
+			margin-bottom: 10px;
+			&:last-of-type{
+				margin-bottom: 0;
+			}
+			&:before{
+				content: none;
+			}
+			a{
+				position: relative;
+				display: block;
+				border: 1px solid $c_main;
+				background: $c_white;
+				padding: 8px 20px;
+				@include clearfix();
+				@include addTransition();
+				&:hover, &:focus{
+					body:not(.no-hover) & {
+						background: $c_main;
+					}
+				}
+
+				.ops-title {
+					@include ft($f_txt, 13px, 400, $c_dark, 24px);
+					float: left;
+					text-align: left;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					width: 100%;
+					max-width: calc(100% - 60px);
+					white-space: nowrap;
+					display: inline-block;
+					@include addTransition();
+					@include mobile {
+						width: calc(100% - 30px);
+					}
+				}
+				span.icon-ico-download {
+					float: right;
+					color: $c_dark;
+					line-height: 24px;
+					@include addTransition();
+				}
+
+				span {
+					display: inline-block;
+					vertical-align: top;
+				}
+			}
+		}
+	}
+}

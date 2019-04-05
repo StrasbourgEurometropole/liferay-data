@@ -1,0 +1,224 @@
+.ops-content-wrapper{
+	> .ops-pagination{
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+.ops-pagination{
+	position: relative;
+	margin-bottom: 80px;
+	@include clearfix();
+	&:after{
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 30px;
+		right: 30px;
+		width: calc(100% - 60px);
+		height: 1px;
+		background: url(../images/ico/deco-line.png) repeat-x;
+		@include tablet_landscape{
+			left: 0;
+			right: 0;
+			width: 100%;
+		}
+		@include mobile{
+			content: none;
+		}
+	}
+
+	.lfr-pagination-config{
+		float: left;
+		@include mobile{
+			float: none;
+			margin-bottom: 20px;
+		}
+
+		& ~ .search-results{
+			display: none;
+		}
+	}
+
+	.lfr-pagination-page-selector{
+		position: relative;
+		z-index: 100;
+		background: $c_white;
+		padding-right: 20px;
+		@include mobile{
+			padding-right: 0;
+		}
+		.current-page-menu{
+			position: relative;
+			@include mobile{
+				width: 100%;
+			}
+			> a{
+				position: relative;
+				text-align: center;
+				border: 1px solid $c_main;
+				padding: 10px 30px;
+				min-width: 90px;
+				display: inline-block;
+				overflow: hidden;
+				border-radius: 0;
+				background: none;
+				@include mobile{
+					width: 100%;
+				}
+				&:before, &:after{
+					content: '';
+					background: $c_main;
+					position: absolute;
+					z-index: -1;
+				}
+				&:after{
+					height: 100%;
+					left: -40%;
+					top: 0;
+					transform: skew(50deg);
+					transition-duration: 0.2s;
+					transform-origin: top left;
+					width: 0;
+				}
+
+				&:hover, &:focus{
+					outline: none;
+					#ops-wrapper:not(.no-hover) & {
+						text-decoration: none;
+						color: $c_dark;
+						background: none;
+						border-color: $c_main;
+						box-shadow: none;
+						&:after{
+							height: 100%;
+							width: 140%;
+						}
+					}
+				}
+				.caret{
+					margin-left: 6px;
+				}
+			}
+		}
+
+		ul{
+			top: calc(100% + 10px);
+			width: 100%;
+			margin: 0;
+			border-color: $c_main;
+			min-width: 100%;
+			li{
+				a{
+					@include addTransition();
+					&:hover, &:focus{
+						#ops-wrapper:not(.no-hover) & {
+							background: none;
+							color: $c_main;
+							font-weight: 700;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.lfr-pagination-buttons{
+		position: relative;
+		z-index: 10;
+		float: right;
+		margin: 0;
+		font-size: 0;
+		background: $c_white;
+		@include mobile{
+			float: none;
+			width: 100%;
+			text-align: left;
+		}
+		li{
+			display: inline-block;
+			vertical-align: middle;
+			&:nth-child(3){
+				@include mobile{
+					float: right;
+				}
+				a{
+					position: relative;
+					text-align: center;
+					border: 1px solid $c_main;
+					padding: 8px 60px;
+					min-width: 90px;
+					display: inline-block;
+					overflow: hidden;
+					border-radius: 0;
+					background: none;
+					border-color: $c_main;
+					box-shadow: none;
+					&:before, &:after{
+						content: '';
+						background: $c_main;
+						position: absolute;
+						z-index: -1;
+					}
+					&:after{
+						height: 100%;
+						left: -40%;
+						top: 0;
+						transform: skew(50deg);
+						transition-duration: 0.2s;
+						transform-origin: top left;
+						width: 0;
+					}
+
+					&:hover, &:focus{
+						outline: none;
+						#ops-wrapper:not(.no-hover) & {
+							text-decoration: none;
+							color: $c_dark;
+							background: none;
+							border-color: $c_main;
+							&:after{
+								height: 100%;
+								width: 140%;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		a{
+			@include ft($f_txt, 13px, 400, $c_dark, 24px);
+			position: relative;
+			border: 0;
+			padding: 8px 20px;
+			@include addTransition();
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					color: $c_main;
+				}
+			}
+		}
+
+		.first, .last{
+			display: none;
+		}
+	}
+
+
+	.lfr-pagination-delta-selector{
+		display: none;
+	}
+
+
+	.search-results{
+		display: block;
+		background: white;
+		z-index: 1000000000;
+		position: absolute;
+		top: -8px;
+		left: 0;
+		padding-right: 15px;
+	}
+
+}

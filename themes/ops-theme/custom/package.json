@@ -1,0 +1,21 @@
+{
+  "name": "latest",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt-ftpush": "^0.3.3",
+    "gulp": "3.9.1",
+    "gulp-autoprefixer": "latest",
+    "gulp-concat": "latest",
+    "gulp-deploy-ftp": "^1.0.1",
+    "gulp-load-plugins": "latest",
+    "gulp-notify": "latest",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "gulp-tinypng": "latest",
+    "gulp-uglify": "latest",
+    "gulp-util": "^3.0.8",
+    "vinyl-ftp": "^0.6.0",
+    "pump": "latest",
+    "php-include-html": "latest"
+  }
+}

@@ -127,6 +127,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "source", Types.VARCHAR },
 			{ "idSource", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
+			{ "distribution", Types.VARCHAR },
+			{ "composer", Types.VARCHAR },
+			{ "concertId", Types.VARCHAR },
+			{ "program", Types.VARCHAR },
 			{ "firstStartDate", Types.TIMESTAMP },
 			{ "lastEndDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT }
@@ -180,12 +184,16 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("idSource", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("distribution", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("composer", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("concertId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("program", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastEndDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(75) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(75) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution VARCHAR(400) null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program VARCHAR(400) null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -273,6 +281,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setSource(soapModel.getSource());
 		model.setIdSource(soapModel.getIdSource());
 		model.setPublicationDate(soapModel.getPublicationDate());
+		model.setDistribution(soapModel.getDistribution());
+		model.setComposer(soapModel.getComposer());
+		model.setConcertId(soapModel.getConcertId());
+		model.setProgram(soapModel.getProgram());
 		model.setFirstStartDate(soapModel.getFirstStartDate());
 		model.setLastEndDate(soapModel.getLastEndDate());
 		model.setImageId(soapModel.getImageId());
@@ -399,6 +411,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
+		attributes.put("distribution", getDistribution());
+		attributes.put("composer", getComposer());
+		attributes.put("concertId", getConcertId());
+		attributes.put("program", getProgram());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
 		attributes.put("imageId", getImageId());
@@ -688,6 +704,30 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
+		}
+
+		String distribution = (String)attributes.get("distribution");
+
+		if (distribution != null) {
+			setDistribution(distribution);
+		}
+
+		String composer = (String)attributes.get("composer");
+
+		if (composer != null) {
+			setComposer(composer);
+		}
+
+		String concertId = (String)attributes.get("concertId");
+
+		if (concertId != null) {
+			setConcertId(concertId);
+		}
+
+		String program = (String)attributes.get("program");
+
+		if (program != null) {
+			setProgram(program);
 		}
 
 		Date firstStartDate = (Date)attributes.get("firstStartDate");
@@ -2358,6 +2398,70 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@JSON
 	@Override
+	public String getDistribution() {
+		if (_distribution == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _distribution;
+		}
+	}
+
+	@Override
+	public void setDistribution(String distribution) {
+		_distribution = distribution;
+	}
+
+	@JSON
+	@Override
+	public String getComposer() {
+		if (_composer == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _composer;
+		}
+	}
+
+	@Override
+	public void setComposer(String composer) {
+		_composer = composer;
+	}
+
+	@JSON
+	@Override
+	public String getConcertId() {
+		if (_concertId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _concertId;
+		}
+	}
+
+	@Override
+	public void setConcertId(String concertId) {
+		_concertId = concertId;
+	}
+
+	@JSON
+	@Override
+	public String getProgram() {
+		if (_program == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _program;
+		}
+	}
+
+	@Override
+	public void setProgram(String program) {
+		_program = program;
+	}
+
+	@JSON
+	@Override
 	public Date getFirstStartDate() {
 		return _firstStartDate;
 	}
@@ -2811,6 +2915,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setSource(getSource());
 		eventImpl.setIdSource(getIdSource());
 		eventImpl.setPublicationDate(getPublicationDate());
+		eventImpl.setDistribution(getDistribution());
+		eventImpl.setComposer(getComposer());
+		eventImpl.setConcertId(getConcertId());
+		eventImpl.setProgram(getProgram());
 		eventImpl.setFirstStartDate(getFirstStartDate());
 		eventImpl.setLastEndDate(getLastEndDate());
 		eventImpl.setImageId(getImageId());
@@ -3203,6 +3311,38 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.publicationDate = Long.MIN_VALUE;
 		}
 
+		eventCacheModel.distribution = getDistribution();
+
+		String distribution = eventCacheModel.distribution;
+
+		if ((distribution != null) && (distribution.length() == 0)) {
+			eventCacheModel.distribution = null;
+		}
+
+		eventCacheModel.composer = getComposer();
+
+		String composer = eventCacheModel.composer;
+
+		if ((composer != null) && (composer.length() == 0)) {
+			eventCacheModel.composer = null;
+		}
+
+		eventCacheModel.concertId = getConcertId();
+
+		String concertId = eventCacheModel.concertId;
+
+		if ((concertId != null) && (concertId.length() == 0)) {
+			eventCacheModel.concertId = null;
+		}
+
+		eventCacheModel.program = getProgram();
+
+		String program = eventCacheModel.program;
+
+		if ((program != null) && (program.length() == 0)) {
+			eventCacheModel.program = null;
+		}
+
 		Date firstStartDate = getFirstStartDate();
 
 		if (firstStartDate != null) {
@@ -3228,7 +3368,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(99);
+		StringBundler sb = new StringBundler(107);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3322,6 +3462,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getIdSource());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
+		sb.append(", distribution=");
+		sb.append(getDistribution());
+		sb.append(", composer=");
+		sb.append(getComposer());
+		sb.append(", concertId=");
+		sb.append(getConcertId());
+		sb.append(", program=");
+		sb.append(getProgram());
 		sb.append(", firstStartDate=");
 		sb.append(getFirstStartDate());
 		sb.append(", lastEndDate=");
@@ -3335,7 +3483,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(151);
+		StringBundler sb = new StringBundler(163);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Event");
@@ -3526,6 +3674,22 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>distribution</column-name><column-value><![CDATA[");
+		sb.append(getDistribution());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>composer</column-name><column-value><![CDATA[");
+		sb.append(getComposer());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>concertId</column-name><column-value><![CDATA[");
+		sb.append(getConcertId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>program</column-name><column-value><![CDATA[");
+		sb.append(getProgram());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>firstStartDate</column-name><column-value><![CDATA[");
 		sb.append(getFirstStartDate());
 		sb.append("]]></column-value></column>");
@@ -3617,6 +3781,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _originalIdSource;
 	private Date _publicationDate;
 	private Date _originalPublicationDate;
+	private String _distribution;
+	private String _composer;
+	private String _concertId;
+	private String _program;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
 	private Date _originalLastEndDate;
