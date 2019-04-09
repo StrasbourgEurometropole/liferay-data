@@ -1,4 +1,4 @@
-<!-- Vignette recrutement -->
+<!-- Vignette offre d'emploi -->
 
 <#if entries?size != 0 >
 
@@ -8,7 +8,7 @@
     <#-- Création de l'URL de détail -->
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 
-    <!-- WRAPPER LISTING RECRUTEMENT -->
+    <!-- WRAPPER offre d'emploi -->
     <div class="ops-listing-recrutement">
         <!-- Groupe d'emplois -->
         <div class="ops-col-wrapper ops-col-wrapper-large" data-egalize=".ops-card-emploi > div">
