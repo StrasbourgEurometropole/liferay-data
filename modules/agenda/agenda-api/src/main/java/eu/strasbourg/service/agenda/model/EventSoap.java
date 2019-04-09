@@ -80,6 +80,10 @@ public class EventSoap implements Serializable {
 		soapModel.setSource(model.getSource());
 		soapModel.setIdSource(model.getIdSource());
 		soapModel.setPublicationDate(model.getPublicationDate());
+		soapModel.setDistribution(model.getDistribution());
+		soapModel.setComposer(model.getComposer());
+		soapModel.setConcertId(model.getConcertId());
+		soapModel.setProgram(model.getProgram());
 		soapModel.setFirstStartDate(model.getFirstStartDate());
 		soapModel.setLastEndDate(model.getLastEndDate());
 		soapModel.setImageId(model.getImageId());
@@ -503,6 +507,38 @@ public class EventSoap implements Serializable {
 		_publicationDate = publicationDate;
 	}
 
+	public String getDistribution() {
+		return _distribution;
+	}
+
+	public void setDistribution(String distribution) {
+		_distribution = distribution;
+	}
+
+	public String getComposer() {
+		return _composer;
+	}
+
+	public void setComposer(String composer) {
+		_composer = composer;
+	}
+
+	public String getConcertId() {
+		return _concertId;
+	}
+
+	public void setConcertId(String concertId) {
+		_concertId = concertId;
+	}
+
+	public String getProgram() {
+		return _program;
+	}
+
+	public void setProgram(String program) {
+		_program = program;
+	}
+
 	public Date getFirstStartDate() {
 		return _firstStartDate;
 	}
@@ -573,6 +609,10 @@ public class EventSoap implements Serializable {
 	private String _source;
 	private String _idSource;
 	private Date _publicationDate;
+	private String _distribution;
+	private String _composer;
+	private String _concertId;
+	private String _program;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
 	private Long _imageId;

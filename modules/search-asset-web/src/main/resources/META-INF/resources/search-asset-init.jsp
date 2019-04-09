@@ -17,6 +17,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Objects" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Calendar" %>
 
 <liferay-theme:defineObjects />
 

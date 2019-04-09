@@ -120,6 +120,14 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getEventScheduleDisplay(java.util.Locale locale);
 
 	/**
+	* Retourne la période principale de l'événement (de la première date de début à
+	* la dernière date de fin) sous forme de String dans la locale passée en
+	* paramètre
+	*/
+	public java.lang.String getEventScheduleDisplay(java.util.Locale locale,
+		boolean dispYear, boolean dispShortMonth);
+
+	/**
 	* Retourne la version live de l'édition, si elle existe
 	*/
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion();
@@ -290,7 +298,8 @@ public interface Event extends EventModel, PersistedModel {
 	* @return la liste d'événements.
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
-		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
+		java.lang.String tag)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException;
 }

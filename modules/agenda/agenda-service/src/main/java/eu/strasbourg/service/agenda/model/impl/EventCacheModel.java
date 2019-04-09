@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(99);
+		StringBundler sb = new StringBundler(107);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -159,6 +159,14 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(idSource);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
+		sb.append(", distribution=");
+		sb.append(distribution);
+		sb.append(", composer=");
+		sb.append(composer);
+		sb.append(", concertId=");
+		sb.append(concertId);
+		sb.append(", program=");
+		sb.append(program);
 		sb.append(", firstStartDate=");
 		sb.append(firstStartDate);
 		sb.append(", lastEndDate=");
@@ -417,6 +425,34 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setPublicationDate(new Date(publicationDate));
 		}
 
+		if (distribution == null) {
+			eventImpl.setDistribution(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setDistribution(distribution);
+		}
+
+		if (composer == null) {
+			eventImpl.setComposer(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setComposer(composer);
+		}
+
+		if (concertId == null) {
+			eventImpl.setConcertId(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setConcertId(concertId);
+		}
+
+		if (program == null) {
+			eventImpl.setProgram(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setProgram(program);
+		}
+
 		if (firstStartDate == Long.MIN_VALUE) {
 			eventImpl.setFirstStartDate(null);
 		}
@@ -500,6 +536,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		source = objectInput.readUTF();
 		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
+		distribution = objectInput.readUTF();
+		composer = objectInput.readUTF();
+		concertId = objectInput.readUTF();
+		program = objectInput.readUTF();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
 
@@ -733,6 +773,35 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 
 		objectOutput.writeLong(publicationDate);
+
+		if (distribution == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(distribution);
+		}
+
+		if (composer == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(composer);
+		}
+
+		if (concertId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(concertId);
+		}
+
+		if (program == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(program);
+		}
+
 		objectOutput.writeLong(firstStartDate);
 		objectOutput.writeLong(lastEndDate);
 
@@ -785,6 +854,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String source;
 	public String idSource;
 	public long publicationDate;
+	public String distribution;
+	public String composer;
+	public String concertId;
+	public String program;
 	public long firstStartDate;
 	public long lastEndDate;
 	public long imageId;

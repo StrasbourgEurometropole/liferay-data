@@ -33,7 +33,11 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
+
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -454,7 +458,6 @@ public class SearchAssetDisplayContext {
 					.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
 			_displayExport = configuration.displayExport();
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -670,6 +673,17 @@ public class SearchAssetDisplayContext {
 	 */
 	public int getToMonthIndex() {
 		return getToMonthValue() - 1;
+	}
+	
+	/**
+	 * Retourne le libelle du mois en fonction de son numéro (de 1 à 12)
+	 */
+	public String getMonthTitle(int month, Locale locale) {
+		return  StringUtil.upperCaseFirstLetter(Month.of(++month).getDisplayName(TextStyle.FULL, locale));
+	}
+	
+	public int getMonth(){
+	   return Calendar.getInstance().get(Calendar.MONTH);
 	}
 
 	/**

@@ -1,0 +1,177 @@
+.ops-bloc-listing-actus {
+	position: relative;
+	padding: 50px 0 125px;
+	@include mobile{
+		padding: 50px 0;
+	}
+
+	// TITRE H2 + ICONE
+	> h2 {
+		@include ft($f_hx, 40px, 400, $c_dark, 45px);
+		position: relative;
+		display: block;
+		text-align: center;
+	}
+	.icon-ico-ops {
+		font-size: 112px;
+		padding-bottom: 30px;
+		margin: auto;
+		display: inline-block;
+		position: relative;
+		left: 50%;
+		margin-left: -56px;
+		background: white;
+		z-index: 10;
+		top: 20px;
+	}
+
+	// WRAPPER DES DEUX COLONNES
+	.ops-col-wrapper {
+		margin-top: -38px;
+		@include tablet_portrait{
+			margin-top: 20px;
+		}
+	}
+	.ops-col-50 {
+		position: relative;
+		&:first-child {
+			&:after {
+				content: '';
+				position: absolute;
+				width: 1px;
+				height: 100%;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				background: url(../images/ico/deco-line-vertical-black.png) repeat-y;
+				@include mobile {
+					content: none;
+				}
+			}
+		}
+	}
+
+	// STYLE GENERALE D'UNE CARD ACTU
+	.ops-actu {
+		position: relative;
+		display: block;
+		@include addTransition();
+		&:hover, &:focus {
+			#ops-wrapper:not(.no-hover) & {
+				background: rgba($c_dark, 0.05);
+				figure {
+					img {
+						transform: translate3d(0, 0, 0) scale(1.05);
+					}
+				}
+			}
+		}
+		figure {
+			img {
+				@extend %ops-center;
+				width: 100%;
+				height: 100%;
+				@include addTransition();
+			}
+			figcaption {
+				display: none;
+			}
+		}
+		h3 {
+			@include ft($f_hx, 20px, 400, $c_dark, 26px);
+			max-width: 60%;
+			margin: 0;
+			@include tablet_portrait{
+				max-width: 100%;
+			}
+			@include mobile{
+				font-size: 18px;
+				line-height: 22px;
+			}
+		}
+	}
+
+	// Zone de gauche
+	.ops-first-actu {
+		position: relative;
+		padding: 0 50px 0 0;
+		@include tablet_portrait{
+			padding: 0;
+		}
+		&:hover, &:focus {
+			#ops-wrapper:not(.no-hover) & {
+				background: none;
+			}
+		}
+		figure {
+			margin-bottom: 15px;
+			@include aspect-ratio(540, 360);
+		}
+		.ops-no-photo {
+			@include aspect-ratio(540, 360);
+			margin-bottom: 15px;
+		}
+	}
+
+	// Zone de Droite
+	.ops-listing-actus {
+		position: relative;
+		z-index: 50;
+		padding-left: 25px;
+		@include tablet_portrait{
+			padding: 0;
+		}
+		@include mobile{
+			margin-top: 30px;
+		}
+		.ops-actu {
+			font-size: 0;
+			margin-bottom: 20px;
+			min-height: 130px;
+			@include clearfix();
+			@include mobile{
+				min-height: 100px;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+			> * {
+				display: inline-block;
+				vertical-align: top;
+			}
+			figure, .ops-no-photo {
+				@include aspect-ratio(200, 130);
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 200px;
+				height: 100%;
+				@include tablet_landscape{
+					width: 100px;
+				}
+			}
+			> div:not(.ops-no-photo) {
+				width: calc(100% - 200px);
+				padding: 15px 70px 15px 20px;
+				@include tablet_landscape{
+					width: calc(100% - 100px);
+					padding: 15px 20px;
+				}
+				@include tablet_portrait{
+					padding: 10px 20px 10px 0;
+				}
+				h3 {
+					max-width: 100%;
+				}
+			}
+		}
+	}
+
+	// Section Button - Voir tous les articles
+	.ops-btn {
+		margin-top: 50px;
+		padding: 8px 45px;
+	}
+
+}
