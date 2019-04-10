@@ -19,16 +19,16 @@ import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class EditCampaignEventDisplayContext extends BaseDisplayContext {
@@ -105,12 +105,13 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	}
 
 	/**
-	 * Retourne la liste des campagnes en cours
+	 * Retourne la liste des campagnes en cours et à venir
 	 */
 	public List<Campaign> getCampaigns() {
+		Date today = new Date();
 		return CampaignLocalServiceUtil.getCampaigns(-1, -1).stream()
 			.filter(c -> c.isApproved()
-				&& c.getGroupId() == this._themeDisplay.getScopeGroupId())
+				&& c.getGroupId() == this._themeDisplay.getScopeGroupId() && !c.getEndDate().before(today))
 			.collect(Collectors.toList());
 	}
 

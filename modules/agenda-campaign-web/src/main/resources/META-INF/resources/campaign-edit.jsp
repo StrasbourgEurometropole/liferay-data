@@ -17,6 +17,7 @@
 	<liferay-ui:error key="periods-error" message="periods-error" />
 	<liferay-ui:error key="types-error" message="types-error" />
 	<liferay-ui:error key="themes-error" message="themes-error" />
+	<liferay-ui:error key="campaign-period-error" message="campaign-period-error" />
 	<aui:form action="${saveURL}" method="post" name="fm" enctype="multipart/form-data" onSubmit="validatePeriods(event);" >
 		<aui:model-context bean="${dc.campaignEvent}"
 			model="<%=CampaignEvent.class %>" />
@@ -357,8 +358,10 @@
 						<aui:select name="campaignId" required="true" label="campaign">
 							<aui:option value="" label="select-campaign" />
 							<c:forEach var="campaign" items="${dc.campaigns}">
+								<fmt:formatDate value="${campaign.getStartDate()}" pattern="dd/MM/YYYY" type="date" var="formattedStartCampaign"/>
+								<fmt:formatDate value="${campaign.getEndDate()}" pattern="dd/MM/YYYY" type="date" var="formattedEndCampaign"/>
 								<aui:option value="${campaign.campaignId}"
-									label="${campaign.getTitle(locale)}"
+									label="${campaign.getTitle(locale)} (du ${formattedStartCampaign} au ${formattedEndCampaign})"
 									selected="${campaign.campaignId eq dc.campaignEvent.campaignId}"
 									localizeLabel="false" />
 							</c:forEach>
@@ -401,7 +404,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-7 form-group">
-						<!-- Types -->
+						<!-- Publics -->
 						<label>
 							<liferay-ui:message key="publics" />
 							<span class="taglib-icon-help lfr-portal-tooltip" data-title="<liferay-ui:message key="publics-help" />"> <span class=""> <svg class="lexicon-icon lexicon-icon-question-circle-full" role="img" title="" viewBox="0 0 512 512">  

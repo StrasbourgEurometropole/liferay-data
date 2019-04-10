@@ -212,9 +212,6 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	 * Set le statut de l'événement à "validé" (APPROVED)
 	 */
 	private CampaignEventStatus validate(User user, String comment) throws PortalException {
-		if (this.getStatus() != WorkflowConstants.STATUS_PENDING || !this.isUserManagerOfTheEvent(user.getUserId())) {
-			return null;
-		}
 		this.setStatus(WorkflowConstants.STATUS_APPROVED);
 		return initNewStatus(WorkflowConstants.STATUS_APPROVED, comment, user);
 	}
