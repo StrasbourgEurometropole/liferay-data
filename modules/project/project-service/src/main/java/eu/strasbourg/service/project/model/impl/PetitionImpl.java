@@ -243,9 +243,9 @@ public class PetitionImpl extends PetitionBaseImpl {
 
         if (status == null || status.isEmpty())
             response = false;
-        else if (status.equals(COMPLETED))
+        else if (status.equals(COMPLETED.getName()))
             response = false;
-         else if (status.equals(FAILED))
+         else if (status.equals(FAILED.getName()))
             response = false;
         return response;
     }
@@ -548,7 +548,7 @@ public class PetitionImpl extends PetitionBaseImpl {
     }
     
     /**
-     * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+     * Retourne le nom du depositaire sous forme "Truc M." ou le "Au nom de ..."
      */
     @Override
     public String getAuthorLabel() {

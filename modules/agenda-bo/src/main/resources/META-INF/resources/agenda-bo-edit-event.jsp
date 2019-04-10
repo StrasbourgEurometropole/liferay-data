@@ -203,6 +203,13 @@
 					<aui:validator name="url" errorMessage="website-url-error" />
 				</aui:input>
 			</aui:fieldset>
+			
+			<aui:fieldset collapsed="true" collapsible="true" label="concert">
+				<aui:input name="concertId" />
+				<aui:input name="composer" />
+				<aui:input name="distribution" />
+				<aui:input name="program" />
+			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true" label="event-price">
 				<div class="form-group">

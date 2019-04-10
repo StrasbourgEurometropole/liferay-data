@@ -45,6 +45,11 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 	
 	@Override
 	public String getDisplay(Locale locale) {
-		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale);
+		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale, true, false);
+	}
+	
+	@Override
+	public String getDisplay(Locale locale, boolean dispYear, boolean dispShortMonth) {
+		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale, dispYear, dispShortMonth);
 	}
 }

@@ -68,7 +68,7 @@ public class PlaceSchedule {
 		this.setIdSchedule(idSchedule);
 		this.setStartDate(startDate);
 		this.setEndDate(endDate);
-		this.setPeriod(DateHelper.displayPeriod(startDate, endDate, locale));
+		this.setPeriod(DateHelper.displayPeriod(startDate, endDate, locale, true, false));
 		this.setDescription(description);
 	}
 	
@@ -116,7 +116,7 @@ public class PlaceSchedule {
 	}
 	
 	public String getPeriodDisplay(Locale locale) {
-		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale);
+		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale, true, false);
 	}
 
 	public long getIdSchedule() {

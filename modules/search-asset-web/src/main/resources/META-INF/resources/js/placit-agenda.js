@@ -30,7 +30,7 @@ function getSelectedMarkerElements(entityName) {
 }
 
 /**
- * Renvoi la liste des vidéos demandées
+ * Renvoi la liste des événements demandés
  * @return
  */
 function getSelectedEntries() {

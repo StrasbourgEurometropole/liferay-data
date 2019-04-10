@@ -66,7 +66,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,6 +98,8 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		sb.append(description);
 		sb.append(", placeTextArea=");
 		sb.append(placeTextArea);
+		sb.append(", inTheNameOf=");
+		sb.append(inTheNameOf);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -196,6 +198,13 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			initiativeImpl.setPlaceTextArea(placeTextArea);
 		}
 
+		if (inTheNameOf == null) {
+			initiativeImpl.setInTheNameOf(StringPool.BLANK);
+		}
+		else {
+			initiativeImpl.setInTheNameOf(inTheNameOf);
+		}
+
 		if (videoUrl == null) {
 			initiativeImpl.setVideoUrl(StringPool.BLANK);
 		}
@@ -271,6 +280,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
+		inTheNameOf = objectInput.readUTF();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
@@ -347,6 +357,13 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 			objectOutput.writeUTF(placeTextArea);
 		}
 
+		if (inTheNameOf == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(inTheNameOf);
+		}
+
 		if (videoUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -406,6 +423,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	public String title;
 	public String description;
 	public String placeTextArea;
+	public String inTheNameOf;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;

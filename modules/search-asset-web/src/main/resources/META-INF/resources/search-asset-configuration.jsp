@@ -220,6 +220,9 @@
                         <aui:option value="order_ems_Number_sortable" selected="${defaultSortField eq 'order_ems_Number_sortable'}">
                             <liferay-ui:message key="ems-order-property" />
                         </aui:option>
+                        <aui:option value="priority_sortable" selected="${defaultSortField eq 'priority_sortable'}">
+                            <liferay-ui:message key="order-priority" />
+                        </aui:option>
                     </aui:select>
 
 
@@ -303,6 +306,9 @@
                         </aui:option>
                         <aui:option value="placit-initiatives" selected="${searchForm eq 'placit-initiatives'}">
                             <liferay-ui:message key="placit-initiatives" />
+                        </aui:option>
+                        <aui:option value="ops-agenda" selected="${searchForm eq 'ops-agenda'}">
+                            <liferay-ui:message key="ops-agenda" />
                         </aui:option>
                     </aui:select>
 

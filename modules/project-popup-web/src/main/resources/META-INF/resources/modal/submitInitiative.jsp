@@ -36,6 +36,11 @@
                         <aui:input id="description" type="textarea" name="description" required="true" label="modal.submit.initiative.information.description" value=""/>
                     </div>
                     
+                    <%-- Champ : Au nom de --%>
+                    <div class="form-group">
+                        <aui:input id="initiativeInTheNameOf" name="inTheNameOf" label="modal.submit.initiative.information.inTheNameOf" required="false" maxlength="400" value=""/>
+                    </div>
+                    
                     <%-- Groupe de champs : Quartiers --%>
                     <div class="pro-row">
                     	
@@ -132,7 +137,7 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                         
                     </div>
@@ -142,7 +147,7 @@
                     
                     	<%-- Champ : Adresse --%>
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValues();" />
                         </div>
                         
                         <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
@@ -150,12 +155,12 @@
                         
                         	<%-- Champ : Ville --%>
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city"  maxlength="256" onInput="checkValues();" />
                             </div>
                             
                             <%-- Champ : Code postal --%>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode"  maxlength="5" onInput="checkValues();"/>
                             </div>
                             
                         </div>
@@ -195,9 +200,9 @@
                 
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="<portlet:namespace />legalage" value="legalage">
+                        <input type="checkbox"  id="<portlet:namespace />legalage" value="legalage">
                         <label for="<portlet:namespace />legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitInitiative"/>
                         </label>
                     </div>
                 </div>
@@ -205,13 +210,13 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
                         <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil2SubmitInitiative"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
-                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions"/></i></p>
-                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contact"/></p>
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditionsSubmitInitiative"/></i></p>
+                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contactSubmitInitiative"/></p>
                 </div>
                 
                 <div id="<portlet:namespace />alert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
@@ -314,6 +319,7 @@
             var mobile = $("#<portlet:namespace />mobile").val();
             var email = $("#<portlet:namespace />mail").val();
             var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
+            var inTheNameOf = $("#<portlet:namespace />initiativeInTheNameOf").val();
             
             AUI().use('aui-io-request', function(A) {
                 var uploadForm = A.one("#<portlet:namespace />uploadForm");
@@ -344,7 +350,8 @@
                             <portlet:namespace />saveinfo: 		saveInfo,
                             <portlet:namespace />lastname: 		lastname,
                             <portlet:namespace />firstname: 	firstname,
-                            <portlet:namespace />email: 		email
+                            <portlet:namespace />email: 		email,
+                            <portlet:namespace />inTheNameOf: 	inTheNameOf
                         },
                         on: {
                             complete: function(e) {
@@ -396,6 +403,7 @@
     	// Champs entite
         $("#<portlet:namespace />title").val("");
         $("#<portlet:namespace />description").val("");
+        $("#<portlet:namespace />initiativeInTheNameOf").val("");
         $("#<portlet:namespace />place").val("");
         $("#<portlet:namespace />project option[value='0']").prop('selected', true);
         $("#<portlet:namespace />project").selectric();
@@ -448,13 +456,16 @@
         
         var title = $("#<portlet:namespace />title").val();
         var description = $("#<portlet:namespace />description").val();
-        var city = $("#<portlet:namespace />city").val();
-        var address = $("#<portlet:namespace />address").val();
-        var postalcode = $("#<portlet:namespace />postalcode").val();
         var legalage = $("#<portlet:namespace />legalage").is(":checked");
         var cnil = $("#<portlet:namespace />cnil").is(":checked");
         var photo = $("#<portlet:namespace />photo").val();
+        
+        <%-- desactivation de la verification de certains champs obligatoires
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var city = $("#<portlet:namespace />city").val();
+        var address = $("#<portlet:namespace />address").val();
+        var postalcode = $("#<portlet:namespace />postalcode").val();
+        --%>
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
@@ -474,6 +485,7 @@
             result = false;
         }else $("#<portlet:namespace />description").css({ "box-shadow" : "" });
 
+        <%-- desactivation de la verification de certains champs obligatoires
         if (city===null || city===""){
             $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
@@ -481,18 +493,19 @@
 
         if (address===null || address===""){
             $("#<portlet:namespace />address").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
+            //result = false;
         }else $("#<portlet:namespace />address").css({ "box-shadow" : "" });
 
         if (postalcode===null || postalcode===""){
             $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
+            //result = false;
         }else if(!regex.test(postalcode)){
             $("#<portlet:namespace />postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
         }
         else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
+        --%>
 
         if (!legalage)
             result = false;

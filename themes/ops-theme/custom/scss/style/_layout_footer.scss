@@ -1,0 +1,637 @@
+#ops-footer {
+	position: relative;
+	z-index: 5;
+	background-color: $c_greystr;
+	ul{
+		position: relative;
+		&:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
+		li{
+			a{
+				display: block;
+				@include addTransition();
+			}
+		}
+	}
+	
+	.ops-title{
+		@include ft($f_txt, 17px, 700, $c_white, 26px);
+		position: relative;
+		display: block;
+		padding: 8px 0 4px 0;
+	}
+
+	address{
+		@include ft($f_txt, 15px, 400, $c_greyB, 26px);
+	}
+}
+
+
+// Footer Bloc - Prefooter Newsletter
+// ==========================================================================
+.ops-bloc-prefooter{
+	position: relative;
+	z-index: 50;
+	background: #AAA;
+	text-align: center;
+	figure{
+		@extend %ops-center;
+		margin: 0;
+		img{
+			width: 100%;
+			height: 100%;
+		}
+		figcaption{
+			display: none;
+		};
+	}
+
+	.ops-title-nl{
+		@include ft($f_hx, 30px, 400, $c_white, 36px);
+		padding: 35px 0 28px 0;
+		display: block;
+		@include mobile{
+			font-size: 24px;
+			line-height: 30px;
+		}
+	}
+	.ops-avantages{
+		max-width: 850px;
+		margin: auto;
+		font-size: 0;
+		> span{
+			@include ft($f_txt, 13px, 400, $c_white, 18px);
+			letter-spacing: 4px;
+			text-transform: uppercase;
+			display: block;
+			margin-bottom: 23px;
+		}
+		> div{
+			position: relative;
+			display: inline-block;
+			vertical-align: top;
+			width: 50%;
+			padding: 20px 50px;
+			@include tablet_portrait{
+				padding: 20px;
+			}
+			@include mobile{
+				width: 100%;
+				padding: 0;
+			}
+			&:first-of-type{
+				text-align: right;
+				@include mobile{
+					text-align: center;
+					padding-top: 20px;
+				}
+				&:after{
+					content: '';
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					width: 1px;
+					height: calc(100% + 100px);
+					background: url(../images/ico/deco-line-vertical.png) repeat-y;
+					@include mobile{
+						content: none;
+					}
+				}
+			}
+			&:last-of-type{
+				text-align: left;
+				@include mobile{
+					text-align: center;
+					margin-top: 12px;
+					padding-bottom: 20px;
+				}
+			}
+			p{
+				@include ft($f_txt, 15px, 400, $c_white, 19px);
+				margin-bottom: 12px;
+				&:last-of-type{
+					margin: 0;
+				}
+			}
+		}
+	}
+	.ops-btn-nl{
+		@include ft($f_hx, 23px, 400, $c_dark, 30px);
+		display: inline-block;
+		margin: auto;
+		padding: 45px 115px;
+		background: $c_main;
+		transform: translateY(25px);
+		transform: translate3d(0,25px,0);
+		@include addTransition();
+		@include tablet_landscape{
+			padding: 30px 20px;
+		}
+		@include mobile{
+			padding: 20px 15px;
+			font-size: 20px;
+			line-height: 26px;
+		}
+		&:hover, &:focus{
+			#ops-wrapper:not(.no-hover) & {
+				background: $c_dark;
+				color: $c_main;
+			}
+		}
+	}
+}
+
+
+// Footer - Bloc Newsletter
+// ==========================================================================
+.ops-bloc-newsletter{
+	position: relative;
+	z-index: 10;
+	background: $c_white;
+	padding: 175px 0 65px 0;
+	@include tablet_portrait{
+		padding: 110px 0 95px 0;
+	}
+	@include mobile{
+		padding: 80px 0 50px 0;
+	}
+	.ops-big-title{
+		@include ft($f_hx, 60px, 400, $c_dark, 75px);
+		@include tablet_landscape{
+			font-size: 60px;
+			line-height: 70px;
+		}
+		@include mobile{
+			font-size: 40px;
+			line-height: 50px;
+		}
+	}
+	
+	.ops-nl-social{
+		max-width: 340px;
+		> span{
+			@include ft($f_hx, 25px, 400, $c_dark, 32px);
+			display: block;
+			margin-top: 3px;
+		}
+		ul{
+			padding: 0;
+			margin: 17px 0 0 0;
+			li{
+				display: block;
+				a{
+					@include ft($f_txt, 18px, 400, $c_dark, 21px);
+					padding: 5px 0;
+					&:hover, &:focus{
+						#ops-wrapper:not(.no-hover) & {
+							padding-left: 10px;
+						}
+					}
+					span{
+						display: inline-block;
+						vertical-align: top;
+						line-height: 21px;
+						font-size: 21px;
+						margin-right: 10px;
+					}
+				}
+			}
+		}
+	}
+
+	.ops-nl{
+		position: absolute;
+		right: 0;
+		top: 25px;
+		width: calc(100% - 340px);
+		@include tablet_landscape{
+			top: 20px;
+		}
+		@include tablet_portrait{
+			position: relative;
+			top: 0;
+			width: 100%;
+		}
+		@include mobile{
+			margin-top: 20px;
+		}
+		form{
+			&.ops-focused{
+				.ops-group-email{
+					&:before{
+						content: none;
+					}
+				}
+				.ops-group-checkbox{
+					transform: scaleY(1);
+				}
+			}
+			&.ops-nl-open{
+				.ops-group-checkbox{
+					transform: scaleY(1);
+				}
+			}
+			> label{
+				@include ft($f_txt, 13px, 400, $c_main, 18px);
+				display: block;
+				text-transform: uppercase;
+				letter-spacing: 4px;
+				margin-bottom: 15px;
+				text-align: right;
+			}
+		}
+		.ops-group-email{
+			position: relative;
+			text-align: right;
+			&:before{
+				content: "\e905";
+				@include font();
+				font-size: 60px;
+				position: absolute;
+				top: 50%;
+				left: 20px;
+				margin-top: -30px;
+				color: rgba($c_dark,0.4);
+				animation: blink 1s infinite steps(1);
+				@include tablet_landscape{
+					left: -5px;
+				}
+				@include mobile{
+					content: none;
+				}
+			}
+			input{
+				@include ft($f_hx, 43px, 400, $c_dark, 56px);
+				@extend %ops-appearance;
+				height: 100%;
+				border: 1px solid $c_greyB;
+				padding: 30px 250px 30px 70px;
+				width: 100%;
+				text-align: left;
+				box-shadow: 0 0 40px rgba($c_dark,0.1);
+				&::placeholder{
+					color: rgba($c_dark,0.4);
+				}
+				@include tablet_landscape{
+					font-size: 33px;
+					line-height: 46px;
+					padding: 30px 250px 30px 40px;
+				}
+				@include mobile{
+					font-size: 20px;
+					line-height: 40px;
+					padding: 25px 130px 25px 20px;
+				}
+			}
+		}
+		.ops-btn{
+			position: absolute;
+			top: 50%;
+			right: 25px;
+			z-index: 100;
+			margin-top: -21px;
+			padding: 8px 75px;
+			@include mobile{
+				padding: 8px 20px;
+			}
+		}
+		.ops-group-checkbox{
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			width: 100%;
+			border: 1px solid $c_greyB;
+			border-top: none;
+			background: $c_white;
+			box-shadow: 0 3px 40px 0 rgba($c_dark,0.1);
+			transform: scaleY(0);
+			transform-origin: top;
+			@include addTransitionCurve();
+			transition-delay: 0.2s;
+
+			input{
+				@extend %ops-center;
+				left: auto;
+				width: 20px;
+				height: 20px;
+				opacity: 0;
+				&:checked{
+					& + span{
+						&:after{
+							content: '';
+							position: absolute;
+							top: 8px;
+							left: 3px;
+							width: 10px;
+							height: 19px;
+							transform: scaleX(-1) rotate(135deg);
+							transform-origin: left top;
+							border-right: 4px solid $c_main;
+							border-top: 4px solid $c_main;
+							animation: check .3s;
+						}
+					}
+				}
+			}
+			label{
+				@include ft($f_txt, 13px, 400, $c_dark, 18px);
+				position: relative;
+				padding: 0 20px 0 40px;
+				user-select: none;
+				&:hover{
+					cursor: pointer;
+				}
+				a{
+					color: $c_dark;
+					text-decoration: underline;
+					@include addTransition();
+					&:hover, &:focus{
+						#ops-wrapper:not(.no-hover) & {
+							text-decoration: underline;
+							color: $c_main;
+						}
+					}
+				}
+				span{
+					width: 20px;
+					height: 20px;
+					border: 1px solid $c_greyB;
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+			}
+		}
+
+		.ops-multiples-checkbox{
+			position: relative;
+			padding: 15px 40px;
+			@include clearfix();
+			@include mobile{
+				padding: 15px 20px;
+			}
+			> span{
+				@include ft($f_txt, 16px, 700, $c_dark, 22px);
+				position: relative;
+				display: block;
+				text-align: left;
+				margin-bottom: 15px;
+			}
+			label{
+				float: left;
+				width: 33.33%;
+				@include mobile{
+					float: none;
+					width: 100%;
+					margin-bottom: 10px;
+					&:last-child{
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+
+		.ops-rgpd{
+			background: $c_light2;
+			padding: 20px 40px;
+			@include mobile{
+				padding: 20px;
+			}
+			label{
+				font-size: 12px;
+				line-height: 18px;
+				font-style: italic;
+				margin: 0;
+			}
+			span{
+				background: $c_white;
+			}
+		}
+	}
+}
+
+
+// Footer Top Menu
+// ==========================================================================
+.ops-footer-top-menu{
+	ul{
+		padding: 13px 0;
+		margin: 0;
+		border-bottom: 1px solid $c_filet;
+		li{
+			float: left;
+			@include mobile{
+				float: none;
+			}
+			&:first-of-type{
+				a{
+					padding-left: 0;
+				}
+			}
+			a{
+				@include ft($f_txt, 13px, 700, rgba($c_white,0.4), 24px);
+				padding: 10px 20px;
+				text-transform: uppercase;
+				&:hover, &:focus{
+					#ops-wrapper:not(.no-hover) & {
+						color: $c_white;
+					}
+				}
+				@include mobile{
+					padding: 8px 0;
+				}
+			}
+		}
+	}
+}
+
+// Footer - Logo Stasbourg.eu
+// ==========================================================================
+.ops-footer-logo{
+	position: relative;
+	display: block;
+	padding: 23px 0 12px;
+	@include mobile{
+		padding: 23px 0 5px;
+	}
+	a{
+		display: inline-block;
+		svg{
+			width: 230px;
+			height: 58px;
+			display: block;
+		}
+	}
+}
+
+// Footer - Wrapper zone principale Footer
+// ==========================================================================
+.ops-wrapper-footer-main{
+	position: relative;
+	margin-bottom: 30px;
+	&:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+	> * {
+		float: left;
+		@include mobile{
+			float: none;
+		}
+	}
+	> span{
+		@include ft($f_txt, 11px, 700, $c_greyC, 20px);
+		display: block;
+		float: none;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		max-width: calc(40% - 20px);
+		@include mobile{
+			position: relative;
+			max-width: 100%;
+			margin-top: 20px;
+		}
+	}
+}
+
+// Footer - Menu left
+// ==========================================================================
+.ops-menu-footer{
+	width: 500px;
+	padding-right: 50px;
+	padding-top: 6px;
+	@media screen and (max-width: 1200px){
+		width: 40%;
+	}
+	@include mobile{
+		width: 100%;
+		padding: 0;
+	}
+	ul{
+		padding: 0;
+		margin: 0 0 40px 0;
+		@include mobile{
+			margin: 0 0 20px 0;
+		}
+		li{
+			display: block;
+			a{
+				@include ft($f_txt, 15px, 400, $c_greyC, 22px);
+				padding: 5px 0;
+				&:hover, &:focus{
+					#ops-wrapper:not(.no-hover) & {
+						color: $c_main;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Footer - Contact
+// ==========================================================================
+.ops-footer-contact{
+	position: relative;
+	border-left: 1px solid $c_filet;
+	padding-left: 15px;
+	@media screen and (max-width: 1200px){
+		width: 60%;
+	}
+	@include mobile{
+		width: 100%;
+		border: none;
+		padding: 0;
+	}
+	&:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+	> * {
+		float: left;
+	}
+	div:not(.ops-social-networks){
+		@media screen and (max-width: 1200px){
+			max-width: 300px;
+		}
+		@include tablet_portrait{
+			max-width: 100%;
+			float: none;
+		}
+		.title{
+			text-transform: uppercase;
+		}
+		.ops-btn-tel{
+			margin: 3px 0 10px 0;
+			float: left;
+			clear: left;
+			@include tablet_portrait{
+				float: none;
+			}
+			&:last-child{
+				margin: 3px 0 35px 0;
+				@include tablet_portrait{
+					margin: 3px 0 20px 0;
+				}
+			}
+		}
+	}
+	.ops-social-networks{
+		padding-left: 60px;
+		@include tablet_portrait{
+			padding-left: 0;
+			display: block;
+		}
+		.title{
+			margin-bottom: 4px;
+		}
+		ul{
+			padding: 0;
+			margin: 0;
+			li{
+				float: left;
+				margin-right: 5px;
+				&:last-child{
+					margin-right: 0;
+				}
+				a{
+					display: block;
+					font-size: 20px;
+					color: $c_white;
+					@include addTransition();
+					&:hover, &:focus{
+						#ops-wrapper:not(.no-hover) & {
+							color: $c_main;
+						}
+					}
+					span{
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+//
+// ==========================================================================
+.ops-footer-bottom{
+	background: $c_greydarkstr;
+	text-align: left;
+	a{
+		display: inline-block;
+		padding: 12px 0 2px;
+		svg{
+			width: 118px;
+			height: 30px;
+		}
+	}
+}

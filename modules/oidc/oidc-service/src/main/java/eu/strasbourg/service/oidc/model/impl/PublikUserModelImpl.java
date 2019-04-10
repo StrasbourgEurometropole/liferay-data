@@ -81,7 +81,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			{ "pactSignature", Types.TIMESTAMP },
 			{ "banishDate", Types.TIMESTAMP },
 			{ "banishDescription", Types.CLOB },
-			{ "imageURL", Types.VARCHAR }
+			{ "imageURL", Types.VARCHAR },
+			{ "pactDisplay", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -103,9 +104,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		TABLE_COLUMNS_MAP.put("banishDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("banishDescription", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("imageURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("pactDisplay", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(1000) null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null)";
+	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(1000) null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null,pactDisplay BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.lastName ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.lastName ASC";
@@ -181,6 +183,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		attributes.put("banishDate", getBanishDate());
 		attributes.put("banishDescription", getBanishDescription());
 		attributes.put("imageURL", getImageURL());
+		attributes.put("pactDisplay", getPactDisplay());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -290,6 +293,12 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 		if (imageURL != null) {
 			setImageURL(imageURL);
+		}
+
+		Boolean pactDisplay = (Boolean)attributes.get("pactDisplay");
+
+		if (pactDisplay != null) {
+			setPactDisplay(pactDisplay);
 		}
 	}
 
@@ -560,6 +569,21 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		_imageURL = imageURL;
 	}
 
+	@Override
+	public boolean getPactDisplay() {
+		return _pactDisplay;
+	}
+
+	@Override
+	public boolean isPactDisplay() {
+		return _pactDisplay;
+	}
+
+	@Override
+	public void setPactDisplay(boolean pactDisplay) {
+		_pactDisplay = pactDisplay;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -608,6 +632,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		publikUserImpl.setBanishDate(getBanishDate());
 		publikUserImpl.setBanishDescription(getBanishDescription());
 		publikUserImpl.setImageURL(getImageURL());
+		publikUserImpl.setPactDisplay(getPactDisplay());
 
 		publikUserImpl.resetOriginalValues();
 
@@ -809,12 +834,14 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			publikUserCacheModel.imageURL = null;
 		}
 
+		publikUserCacheModel.pactDisplay = getPactDisplay();
+
 		return publikUserCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -850,6 +877,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(getBanishDescription());
 		sb.append(", imageURL=");
 		sb.append(getImageURL());
+		sb.append(", pactDisplay=");
+		sb.append(getPactDisplay());
 		sb.append("}");
 
 		return sb.toString();
@@ -857,7 +886,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.oidc.model.PublikUser");
@@ -931,6 +960,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			"<column><column-name>imageURL</column-name><column-value><![CDATA[");
 		sb.append(getImageURL());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>pactDisplay</column-name><column-value><![CDATA[");
+		sb.append(getPactDisplay());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -961,6 +994,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	private Date _banishDate;
 	private String _banishDescription;
 	private String _imageURL;
+	private boolean _pactDisplay;
 	private long _columnBitmask;
 	private PublikUser _escapedModel;
 }

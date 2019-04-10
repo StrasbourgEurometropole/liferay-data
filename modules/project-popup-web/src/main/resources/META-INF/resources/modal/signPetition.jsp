@@ -35,11 +35,11 @@
                 <div class="pro-wrapper">
                     <div class="pro-txt-intro">
                         <ul style="font-size : 10pt">  
-                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information"/></li>
-                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information2"/></li>
-                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information3"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_informationSignPetition"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information2SignPetition"/></li>
+                        	<li><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_information3SignPetition"/></li>
                         </ul>
-                        <a href="/cnil" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
+                        <a href="/mentions-legales" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
                     </div>
                 </div>
                 <div class="pro-wrapper">
@@ -95,7 +95,7 @@
                     <div>
                         <input type="checkbox" id="signlegalage" value="legalage">
                         <label for="signlegalage"  class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage2"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage2SignPetition"/>
                         </label>
                     </div>
                 </div>
@@ -103,12 +103,12 @@
                     <div>
                         <input type="checkbox" id="signcnil" value="cnil">
                         <label for="signcnil"  class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnil"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilSignPetition"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
-                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions2"/></i></p>
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditions2SignPetition"/></i></p>
                 </div>
                 <input type="hidden" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div id="signalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>

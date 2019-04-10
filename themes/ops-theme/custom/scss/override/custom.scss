@@ -1,0 +1,99 @@
+//Pour afficher le header du thème en mode admin
+.has-control-menu #ops-wrapper #ops-header{
+	top: 64px;
+}
+
+#ops-header {
+	z-index : 150;
+	border-bottom : 1px solid rgba(0,0,0,0.2);
+}
+
+//Necessaire pour cacher des marges de la dropzone de porlet de liferay...
+body {
+	overflow-x: hidden;
+}
+
+//Pour supprimers les marges des portlet liferay
+.portlet {
+  margin-bottom: 0;
+}
+
+//Pour que l'affichage du contenu principal prenne en compte le header du thème....
+main {
+	padding-top : 120px;
+	z-index : auto;
+}
+
+//Pour que l'affichage du contenu principal prenne en compte le header de liferay 
+.has-control-menu #ops-wrapper main{
+	padding-top : 184px;
+}
+
+//Idem pour les bordures
+.portlet-content-editable {
+	border-width : 0px;
+}
+
+.form-group {
+  margin-bottom: 0px;
+}
+
+//Force l'affichage du header de configuration des portlet en mode admin
+.portlet-topper {
+	z-index : 200;
+}
+
+//Force l'opacite à 1 de certains portlets pour ne pas etre cache par le header 
+//vu que le z-index ne fonctionne pas dans ce cas precis
+.lfr-configurator-visibility {
+	opacity : 1;
+}
+
+//Cache le titre d'un web content...
+.portlet .portlet-title-text {
+	display: none;
+}
+
+//Applique le style prévu pour les boutons de langue mais avec les elements du portlet de selection de la langue
+.ops-top-header>div a.ops-language-entry-short-text, .ops-top-header>div span.ops-language-entry-short-text{
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 15px;
+    border-left: 1px solid #5C5C5C;
+    display: inline-block;
+    font-family: "Roboto",Sans-Serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 40px;
+    -webkit-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    transition: all .2s ease;
+}
+
+.ops-top-header>div span.ops-language-entry-short-text {
+	color: #D4B979;
+}
+
+.ops-top-header-btn {
+	display : flex;
+}
+
+//Désactive le style du portlet de selection de la langue
+#ops-header .portlet-decorate .portlet-content {
+	background-color : #333;
+	border-width : 0px;
+	padding : 0px;
+}
+
+//Pour faire passer le container des vidéos sous le header
+.ops-bloc-video .ops-wrapper-video .mask-video, .ops-bloc-video .ops-infos-videos:after {
+	z-index : 100;
+}
+
+//Pour faire passer la liste du formulaire de recherche devant les vignettes
+.ops-bloc-facettes {
+	z-index : 101;
+}

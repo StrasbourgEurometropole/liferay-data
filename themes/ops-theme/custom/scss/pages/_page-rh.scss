@@ -1,0 +1,144 @@
+.ops-page-rh{
+	padding-top: 235px;
+	@include tablet_landscape{
+		padding-top: 170px;
+	}
+}
+
+.ops-wrapper-content-rh{
+	position: relative;
+	min-height: 1000px;
+	margin-bottom: 80px;
+	@include clearfix();
+
+	header{
+		float: left;
+		width: calc(100% - 310px);
+		margin-bottom: 20px;
+		@include tablet_portrait{
+			width: 100%;
+			float: none;
+		}
+		h1{
+			@include tablet_landscape{
+				max-width: 100%;
+			}
+		}
+	}
+
+
+	// WRAPPER CONTENU DE L'OFFRE RH
+	section{
+		float: left;
+		width: calc(100% - 310px);
+		margin-top: 40px;
+		@include tablet_portrait{
+			width: 100%;
+			float: none;
+		}
+
+		.ops-section-rh{
+			position: relative;
+			margin-bottom: 40px;
+			&:last-child{
+				margin-bottom: 0;
+				padding-bottom: 0;
+			}
+			.ops-bloc-texte{
+				> p{
+					color: $c_greydark;
+				}
+			}
+		}
+	}
+
+	// FORMULAIRE S'INSCRIRE EN LIGNE
+	.ops-bloc-form{
+		float: left;
+		width: calc(100% - 310px);
+		padding: 45px 0 0 0;
+ 
+		@include tablet_portrait{
+			width: 100%;
+			float: none;
+		}
+		form{
+			margin-top: 35px;
+			margin-bottom: 0;
+		}
+	}
+
+
+	// BARRE LATERALE FIXE
+	aside{
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 270px;
+		height: 100%;
+		@include tablet_portrait{
+			position: relative;
+			margin: auto;
+			margin-top: 50px;
+			width: 50%;
+		}
+		@include mobile{
+			width: 100%;
+		}
+
+		.ops-wrapper-sticky {
+			background: $c_dark;
+			padding: 25px 30px;
+			margin-top: 35px;
+			@include tablet_portrait{
+				margin-top: 0;
+			}
+			&.stick {
+				margin: 0;
+				bottom: 0 !important;
+				&:not(.stick-bottom) {
+					bottom: auto !important;
+				}
+			}
+		}
+
+		.ops-title-spacing{
+			color: $c_white;
+			margin-bottom: 10px;
+		}
+		address{
+			@include ft($f_txt, 13px, 400, $c_white, 24px);
+			margin-bottom: 35px;
+		}
+		a:not(.ops-btn):not(.ops-btn-inversed){
+			@include ft($f_txt, 13px, 400, $c_white, 24px);
+			position: relative;
+			display: block;
+			@include addTransition();
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					color: $c_main;
+				}
+			}
+		}
+
+		.ops-scrollto{
+			position: relative;
+			margin-top: 25px;
+			a{
+				position: relative;
+				z-index: 10;
+				color: $c_white;
+				display: block;
+				margin-bottom: 10px;
+				padding: 8px 10px;
+				&:last-child{
+					margin-bottom: 0;
+				}
+				&.ops-btn-inversed{
+					color: $c_dark;
+				}
+			}
+		}
+	}
+}

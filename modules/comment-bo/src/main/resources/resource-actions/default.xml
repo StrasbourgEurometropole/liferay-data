@@ -35,29 +35,37 @@
     <model-resource>
         <model-name>eu.strasbourg.service.comment.model.Comment</model-name>
         <portlet-ref>
-            <portlet-name>eu_strasbourg_portlet_comment_CommentBOComment</portlet-name>
+            <portlet-name>eu_strasbourg_portlet_comment_CommentBOPortlet</portlet-name>
         </portlet-ref>
         <weight>2</weight>
         <permissions>
             <supports>
+            	<action-key>VIEW</action-key>
             </supports>
             <site-member-defaults>
                 <action-key>VIEW</action-key>
-                <action-key>ADD_COMMENT</action-key>
-                <action-key>DELETE_COMMENT</action-key>
-                <action-key>EDIT_COMMENT</action-key>
-                <action-key>ADD_SIGNALEMENT</action-key>
-                <action-key>DELETE_SIGNALEMENT</action-key>
-                <action-key>EDIT_SIGNALEMENT</action-key>
             </site-member-defaults>
             <guest-defaults>
                 <action-key>VIEW</action-key>
-                <action-key>ADD_COMMENT</action-key>
-                <action-key>DELETE_COMMENT</action-key>
-                <action-key>EDIT_COMMENT</action-key>
-                <action-key>ADD_SIGNALEMENT</action-key>
-                <action-key>DELETE_SIGNALEMENT</action-key>
-                <action-key>EDIT_SIGNALEMENT</action-key>
+            </guest-defaults>
+            <guest-unsupported/>
+        </permissions>
+    </model-resource>
+    <model-resource>
+        <model-name>eu.strasbourg.service.comment.model.Signalement</model-name>
+        <portlet-ref>
+            <portlet-name>eu_strasbourg_portlet_comment_CommentBOPortlet</portlet-name>
+        </portlet-ref>
+        <weight>2</weight>
+        <permissions>
+            <supports>
+            	<action-key>VIEW</action-key>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+                <action-key>VIEW</action-key>
             </guest-defaults>
             <guest-unsupported/>
         </permissions>

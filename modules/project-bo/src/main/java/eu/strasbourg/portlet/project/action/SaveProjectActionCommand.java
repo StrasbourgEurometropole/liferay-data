@@ -288,8 +288,8 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					urlBuilded.append(project.getDetailURL());
 
 					// récupération des images
-					StringBuilder hostUrl = new StringBuilder("http://");
-					hostUrl.append(request.getServerName()).append(":").append(request.getServerPort());
+					StringBuilder hostUrl = new StringBuilder("https://");
+					hostUrl.append(request.getServerName());
 					StringBuilder headerImage = new StringBuilder(hostUrl)
 							.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
 					StringBuilder btnImage = new StringBuilder(hostUrl)

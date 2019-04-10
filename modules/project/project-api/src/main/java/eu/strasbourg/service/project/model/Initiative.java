@@ -129,6 +129,11 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
 	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
 	*/
 	public java.lang.String getAuthorLabel();
@@ -162,7 +167,7 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public int getNbHelps();
 
 	/**
-	* Retourne le nombre d'aides de l'initiative
+	* Retourne les aides qu'on affiche de l'initiative
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp> getHelps();
 

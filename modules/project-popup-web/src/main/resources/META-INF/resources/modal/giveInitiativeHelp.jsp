@@ -28,22 +28,22 @@
                     
                     <%-- Champ : Type d'aide --%>
                     <div id="<portlet:namespace />helpTypes" class="form-checkbox">
-                        <span class="label">Quelle(s) aide voulez-vous proposer <span>*</span></span>
+                        <span class="label"><liferay-ui:message key="modal.give.initiative.help.types"/> <span>*</span></span>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType1" value="1">
-                            <label for="<portlet:namespace />helpType1">Du temps</label>
+                            <label for="<portlet:namespace />helpType1"><liferay-ui:message key="modal.give.initiative.help.type.time"/></label>
                         </div>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType2" value="2">
-                            <label for="<portlet:namespace />helpType2" class="checkbox-inline">De l'argent</label>
+                            <label for="<portlet:namespace />helpType2" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.money"/></label>
                         </div>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType3" value="3">
-                            <label for="<portlet:namespace />helpType3" class="checkbox-inline">Un lieu</label>
+                            <label for="<portlet:namespace />helpType3" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.place"/></label>
                         </div>
                         <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType4" value="4">
-                            <label for="<portlet:namespace />helpType4" class="checkbox-inline">Une expertise</label>
+                            <label for="<portlet:namespace />helpType4" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.skill"/></label>
                         </div>
                     </div>
                     
@@ -83,7 +83,7 @@
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
                             <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" 
-                            required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
                         </div>
                         
                     </div>
@@ -93,7 +93,7 @@
                     
                     	<%-- Champ : Adresse --%>
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValues();" />
                         </div>
                         
                         <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
@@ -101,12 +101,12 @@
                         
                         	<%-- Champ : Ville --%>
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city" maxlength="256" onInput="checkValues();" />
                             </div>
                             
                             <%-- Champ : Code postal --%>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" maxlength="5" onInput="checkValues();"/>
                             </div>
                             
                         </div>
@@ -149,7 +149,7 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />legalage" value="legalage">
                         <label for="<portlet:namespace />legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalage"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageGiveInitiativeHelp"/>
                         </label>
                     </div>
                 </div>
@@ -159,7 +159,17 @@
                     <div>
                         <input type="checkbox" id="<portlet:namespace />cnil" value="cnil">
                         <label for="<portlet:namespace />cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiative"/>
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilInitiativeGiveInitiativeHelp"/>
+                        </label>
+                    </div>
+                </div>
+                
+                <%-- Champ : Demande de confirmation de l'affichage de l'aide --%>
+                <div class="pro-optin form-checkbox" >
+                    <div>
+                        <input type="checkbox" id="<portlet:namespace />displayHelp" value="displayHelp">
+                        <label for="<portlet:namespace />displayHelp" class="fontWhite">
+                            <liferay-ui:message key="modal.give.initiative.help.display"/>
                         </label>
                     </div>
                 </div>
@@ -284,6 +294,7 @@
             var mobile = $("#<portlet:namespace />mobile").val();
             var email = $("#<portlet:namespace />mail").val();
             var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
+            var displayHelp = $("#<portlet:namespace />displayHelp").is(":checked");
             
             AUI().use('aui-io-request', function(A) {
                 try {
@@ -303,7 +314,8 @@
                             <portlet:namespace />saveinfo: 					saveInfo,
                             <portlet:namespace />lastname: 					lastname,
                             <portlet:namespace />firstname: 				firstname,
-                            <portlet:namespace />email: 					email
+                            <portlet:namespace />email: 					email,
+                            <portlet:namespace />displayHelp: 				displayHelp
                         },
                         on: {
                             complete: function(e) {
@@ -324,12 +336,14 @@
                                     
                                     if(data.cmd === "send-initiative-help") {
                                     	$('a[data-target="#modalGiveInitiativeHelp"]').toggleClass("active")
-                                    													.text("Aide proposee")
-                                    													.attr("data-target", "#modalRemoveInitiativeHelp");
+                                    													.text("<liferay-ui:message key='initiative.help.button.text'/>")
+                                    													.attr("data-target", "#modalRemoveInitiativeHelp")
+                                    													.attr("title", "Je souhaite retirer mon aide");
                                     } else {
                                     	$('a[data-target="#modalRemoveInitiativeHelp"]').toggleClass("active")
                                     													.text("Proposer mon aide")
-                                    													.attr("data-target", "#modalGiveInitiativeHelp");
+                                    													.attr("data-target", "#modalGiveInitiativeHelp")
+                                    													.attr("title", "Ouverture d'une pop-in pour contacter le porteur");
                                     }
                                     
                                     $("#<portlet:namespace />modalConfirm").modal('show');
@@ -385,6 +399,7 @@
         $("#<portlet:namespace />checkboxSaveInfo").hide();
         $("#<portlet:namespace />legalage").prop("checked", false);
         $("#<portlet:namespace />cnil").prop("checked", false);
+        $("#<portlet:namespace />displayHelp").prop("checked", false);
        
     }
     
@@ -428,13 +443,16 @@
         
         var initiativeHelpMessage = $("#<portlet:namespace />initiativeHelpMessage").val();
         var typeHelpIds = getHelpTypeIds();
+        
+        var legalage = $("#<portlet:namespace />legalage").is(":checked");
+        var cnil = $("#<portlet:namespace />cnil").is(":checked");
+        
+        <%-- desactivation de la verification de certains champs obligatoires
+        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
         var city = $("#<portlet:namespace />city").val();
         var address = $("#<portlet:namespace />address").val();
         var postalcode = $("#<portlet:namespace />postalcode").val();
-        var legalage = $("#<portlet:namespace />legalage").is(":checked");
-        var cnil = $("#<portlet:namespace />cnil").is(":checked");
-        var photo = $("#<portlet:namespace />photo").val();
-        var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        --%>
 
         if (initiativeHelpMessage===null || initiativeHelpMessage===""){
             $("#<portlet:namespace />initiativeHelpMessage").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -446,6 +464,7 @@
             result = false;
         }else $("#<portlet:namespace />helpTypes").css({ "box-shadow" : "" });
 
+        <%-- desactivation de la verification de certains champs obligatoires
         if (city===null || city===""){
             $("#<portlet:namespace />city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
@@ -465,6 +484,7 @@
             result = false;
         }
         else $("#<portlet:namespace />postalcode").css({ "box-shadow" : "" });
+        --%>
 
         if (!legalage)
             result = false;

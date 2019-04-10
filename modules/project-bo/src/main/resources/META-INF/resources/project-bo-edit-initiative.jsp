@@ -118,6 +118,15 @@
 				
 			</aui:fieldset>	
 			
+			<%-- Groupe de champs : Documents a telecharger --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-document">
+
+				<%-- Champ : Selection des documents --%>
+				<strasbourg-picker:file label="eu.documents" name="filesIds"
+					required="false" multiple="true" value="${dc.initiative.filesIds}" />
+
+			</aui:fieldset>
+			
 			<%-- Groupe de champs : Autres --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="others">
 								

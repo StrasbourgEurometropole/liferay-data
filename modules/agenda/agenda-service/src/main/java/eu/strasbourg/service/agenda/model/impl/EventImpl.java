@@ -15,6 +15,7 @@
 package eu.strasbourg.service.agenda.model.impl;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -224,6 +225,15 @@ public class EventImpl extends EventBaseImpl {
 				.filter(p -> p.getEndDate().compareTo(todayAtMidnight.getTime()) >= 0).collect(Collectors.toList());
 		return currentAndFuturePeriods;
 	}
+	
+	/**
+	 * Retourne la période courrante, ou la prochaine
+	 */
+	@Override
+	public EventPeriod getCurrentOrFuturePeriod() {
+		return getCurrentAndFuturePeriods().isEmpty() ? null
+				: getCurrentAndFuturePeriods().get(0);
+	}
 
 	/**
 	 * Retourne la date de début de la future ou courante période de l'événement
@@ -240,7 +250,17 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getEventScheduleDisplay(Locale locale) {
-		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale);
+		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale, true, false);
+	}
+	
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplay(Locale locale, boolean dispYear, boolean dispShortMonth) {
+		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale, dispYear, dispShortMonth);
 	}
 
 	/**
@@ -820,8 +840,8 @@ public class EventImpl extends EventBaseImpl {
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-
-		jsonEvent.put("firstDate", this.getFirstStartDate());
+		
+		jsonEvent.put("firstDate", getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
@@ -983,14 +1003,27 @@ public class EventImpl extends EventBaseImpl {
 		List<String> mercators = this.getMercators();
 		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
 		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
-
-		jsonEvent.put("firstDate", this.getFirstStartDate());
+		
+		jsonEvent.put("firstDate",  getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
 		jsonEvent.put("isUserPart", this.isUserParticipates(publikUserID));
 
 		return jsonEvent;
+	}
+	
+	@Override
+	public String getCurrentOrFuturePeriodStringDate() {
+		String date = "";
+		if(this.getCurrentOrFuturePeriod() != null) {
+			SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+			date = "Le " + df.format(this.getCurrentOrFuturePeriod().getStartDate());
+			
+			if(this.getCurrentOrFuturePeriod().getTimeDetail() != "")
+				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail();
+		}
+		return date;
 	}
 
 	/**
@@ -1001,7 +1034,7 @@ public class EventImpl extends EventBaseImpl {
 	 * @return la liste d'événements.
 	 */
 	@Override
-	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions) throws SearchException, PortalException {
+	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions, String tag) throws SearchException, PortalException {
 		
 		List<Event> suggestions = new ArrayList<>();
 		
@@ -1023,10 +1056,12 @@ public class EventImpl extends EventBaseImpl {
 			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 			query.addRequiredTerm("visible", true);
 			
-			//Ajout du filtre sur le tag "participer"
-			BooleanQuery tagQuery = new BooleanQueryImpl();
-			tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, "participer");
-			query.add(tagQuery, BooleanClauseOccur.MUST);
+			if(tag != null && !tag.equals("")) {
+				//Ajout du filtre sur le tag, si présent
+				BooleanQuery tagQuery = new BooleanQueryImpl();
+				tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, tag);
+				query.add(tagQuery, BooleanClauseOccur.MUST);
+			}
 			
 			//La suggestion se fait uniquement sur la même catégorie "thème"
 			for (AssetCategory category : this.getThemes()) {

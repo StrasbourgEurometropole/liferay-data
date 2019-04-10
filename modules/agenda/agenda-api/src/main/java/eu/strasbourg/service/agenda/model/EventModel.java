@@ -1653,6 +1653,66 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setPublicationDate(Date publicationDate);
 
 	/**
+	 * Returns the distribution of this event.
+	 *
+	 * @return the distribution of this event
+	 */
+	@AutoEscape
+	public String getDistribution();
+
+	/**
+	 * Sets the distribution of this event.
+	 *
+	 * @param distribution the distribution of this event
+	 */
+	public void setDistribution(String distribution);
+
+	/**
+	 * Returns the composer of this event.
+	 *
+	 * @return the composer of this event
+	 */
+	@AutoEscape
+	public String getComposer();
+
+	/**
+	 * Sets the composer of this event.
+	 *
+	 * @param composer the composer of this event
+	 */
+	public void setComposer(String composer);
+
+	/**
+	 * Returns the concert ID of this event.
+	 *
+	 * @return the concert ID of this event
+	 */
+	@AutoEscape
+	public String getConcertId();
+
+	/**
+	 * Sets the concert ID of this event.
+	 *
+	 * @param concertId the concert ID of this event
+	 */
+	public void setConcertId(String concertId);
+
+	/**
+	 * Returns the program of this event.
+	 *
+	 * @return the program of this event
+	 */
+	@AutoEscape
+	public String getProgram();
+
+	/**
+	 * Sets the program of this event.
+	 *
+	 * @param program the program of this event
+	 */
+	public void setProgram(String program);
+
+	/**
 	 * Returns the first start date of this event.
 	 *
 	 * @return the first start date of this event

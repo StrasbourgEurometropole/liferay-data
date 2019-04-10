@@ -98,10 +98,10 @@
                 <ul>
                     <li class="pro-tooltip">
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Tableau de bord" title="Lien vers le tableau de bord">
+                            <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Mon activité citoyenne" title="Lien vers mon activité citoyenne">
                                 <span class="icon-ico-user"></span>
                             </a>
-                            <span class="tooltiptext">Tableau de bord</span>
+                            <span class="tooltiptext">Mon activité citoyenne</span>
                             <#else>
                             <a href="" data-toggle="modal" data-target="#myModal" aria-label="connectez-vous" title="connectez-vous avant">
                                 <span class="icon-ico-user"></span>

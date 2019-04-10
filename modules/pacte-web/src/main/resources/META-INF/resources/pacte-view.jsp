@@ -10,10 +10,14 @@
                 <div class="col-md-6 col-xs-12">
                     <div class="pro-bloc-pcs-form">
                         <form>
-                            <div class="pro-optin form-checkbox">
+                            <div class="pro-optin form-checkbox pacte">
                                 <div>
-                                    <input type="checkbox" id="type_v_2" value="optin">
+                                    <input type="checkbox" id="type_v_2" value="optin" <c:if test="${hasUserSigned}">checked="checked" </c:if>>
                                     <label for="type_v_2"><liferay-ui:message key="pacte.label"/></label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="listing_signataire" value="optin" <c:if test="${isDisplayListing}">checked="checked" </c:if>>
+                                    <label id="listing_signataire_label" for="listing_signataire"><liferay-ui:message key="pacte.listing.signataire.cb"/></label>
                                 </div>
                             </div>
                         </form>
@@ -28,7 +32,7 @@
                         <a id="SignerPacte" href="#" class="pro-btn-signer active"><liferay-ui:message key="pacte.already.adhere"/></a>
                     </c:if>
                     <c:if test="${!hasUserSigned}">
-                        <a id="SignerPacte" href="#" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
+                        <a id="SignerPacte" title="<liferay-ui:message key="pacte.sign.title"/>" href="#" class="pro-btn-signer"><liferay-ui:message key="pacte.sign"/></a>
                     </c:if>
                 </div>
             </div>
@@ -37,7 +41,7 @@
 
 </div>
 <!-- CONFIRMATION QUITTER -->
-<!-- HTML pour confirmer la rÃ©siliation du pacte -->
+<!-- HTML pour confirmer la resiliation du pacte -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalQuitPacte" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -58,10 +62,6 @@
 
 <aui:script>
 
-$(document).ready(function(){
-    $('#modalQuitPacte').modal('hide');
-});
-
 $("#SignerPacte").click(function(e){
     if($(this).hasClass('active')){
         e.preventDefault();
@@ -77,13 +77,16 @@ $("#SignerPacte").click(function(e){
 
 function callServeResource(pactRead) {
 	
+	 var isDisplayListing = $('#listing_signataire').prop('checked');
+	
 	if(${isUserloggedIn}){
 	    $('#modalQuitPacte').modal('hide');
            AUI().use('aui-io-request', function(A) {
                A.io.request('${pacteSignatureURL}', {
                    method : 'post',
                    data : {
-                       <portlet:namespace/>clauses : true
+                       <portlet:namespace/>clauses : true,
+                       <portlet:namespace/>isDisplayListing : isDisplayListing
                    },
                    on: {
                        success: function(e) {

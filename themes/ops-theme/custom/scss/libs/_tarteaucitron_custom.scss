@@ -1,0 +1,124 @@
+.embed-container { //
+	&:before {
+		background-color: #f3f3f3;
+	}
+	.tac_activate {
+		position: absolute;
+		bottom: 10%;
+	}
+}
+
+.tac_activate {
+	background-color: #f3f3f3;
+	color: #333;
+	font-size: 14px;
+	padding-bottom: 25px;
+	.tac_float {
+		b {
+			color: #333;
+		}
+	}
+}
+
+#tarteaucitron {
+
+	#tarteaucitronServices {
+		background-color: #fff;
+		color: #333;
+		.tarteaucitronTitle {
+			display: none;
+		}
+		.tarteaucitronLine.tarteaucitronMainLine {
+			background-color: #fff;
+			border-color: transparent;
+			//border-bottom: solid 1px #e8e8e9;
+			&:hover {
+				background-color: #fff;
+				.tarteaucitronName {
+					color: #333;
+					b {
+						color: #333;
+					}
+				}
+			}
+			.tarteaucitronName {
+				color: $c_white;
+				a {
+					color: $c_white;
+				}
+				b {
+					color: $c_white;
+				}
+			}
+		}
+		.tarteaucitronLine {
+			background-color: #fff;
+			&:hover {
+				background-color: #fff;
+			}
+		}
+	}
+	.tarteaucitronBorder {
+		border: solid 0 transparent;
+	}
+}
+
+#tarteaucitronAlertBig {
+	border-radius: 0;
+	background-color: $c_main;
+	color: $c_white;
+	padding: 15px 10px;
+	left: 0;
+	right: 0;
+	transform: none;
+	width: calc(100% - 20px);
+	#tarteaucitronDisclaimerAlert {
+		vertical-align: middle;
+		font-size: $s_p;
+		display: inline-block;
+		padding: 5px;
+		color: $c_white;
+		@include tablet_portrait{
+			margin-bottom: 10px;
+		}
+		b {
+			color: $c_white;
+		}
+	}
+	#tarteaucitronPersonalize {
+		border-radius: 4px;
+		border: none;
+		vertical-align: middle;
+		background: $c_white;
+		color: $c_dark;
+		font-size: $s_p;
+		line-height: 16px;
+		padding: 8px 14px;
+		@include addTransition();
+		&:hover, &:focus, &:active{
+			background: $c_dark;
+			color: $c_white;
+		}
+	}
+	#tarteaucitronCloseAlert {
+		font-size: $s_p;
+		line-height: 16px;
+		border-radius: 4px;
+		background-color: $c_white;
+		border: none;
+		margin-bottom: 0;
+		vertical-align: middle;
+		padding: 8px 14px;
+		@include addTransition();
+		&:hover, &:focus, &:active{
+			background: $c_dark;
+			color: $c_white;
+		}
+	}
+}
+
+#tarteaucitronPercentage {
+	background-color: $c_dark;
+	box-shadow: none;
+	margin-bottom: -10px;
+}

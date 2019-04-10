@@ -103,6 +103,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getCurrentAndFuturePeriods();
 
 	/**
+	* Retourne la période courrante, ou la prochaine
+	*/
+	public eu.strasbourg.service.agenda.model.EventPeriod getCurrentOrFuturePeriod();
+
+	/**
 	* Retourne la date de début de la future ou courante période de l'événement
 	*/
 	public java.util.Date getStartDateFirstCurrentAndFuturePeriod();
@@ -113,6 +118,14 @@ public interface Event extends EventModel, PersistedModel {
 	* paramètre
 	*/
 	public java.lang.String getEventScheduleDisplay(java.util.Locale locale);
+
+	/**
+	* Retourne la période principale de l'événement (de la première date de début à
+	* la dernière date de fin) sous forme de String dans la locale passée en
+	* paramètre
+	*/
+	public java.lang.String getEventScheduleDisplay(java.util.Locale locale,
+		boolean dispYear, boolean dispShortMonth);
 
 	/**
 	* Retourne la version live de l'édition, si elle existe
@@ -275,6 +288,8 @@ public interface Event extends EventModel, PersistedModel {
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		java.lang.String publikUserID);
 
+	public java.lang.String getCurrentOrFuturePeriodStringDate();
+
 	/**
 	* Retourne X suggestions max pour un événement
 	*
@@ -283,7 +298,8 @@ public interface Event extends EventModel, PersistedModel {
 	* @return la liste d'événements.
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
-		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
+		java.lang.String tag)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException;
 }

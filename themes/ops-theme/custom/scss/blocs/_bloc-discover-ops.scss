@@ -1,0 +1,130 @@
+.ops-bloc-discover-ops{
+	position: relative;
+	padding: 0 0 35px;
+
+	h2{
+		margin-bottom: 60px;
+		@include mobile{
+			margin-bottom: 40px;
+		}
+	}
+
+	.ops-wrapper{
+		position: relative;
+		height: 455px;
+		@include clearfix();
+		@include tablet_portrait{
+			height: 100%;
+		}
+		> * {
+			position: relative;
+			height: 100%;
+			display: block;
+			&:after{
+				content: '';
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				height: 0;
+				z-index: 100;
+				background: $c_greyC;
+				transform-origin: bottom;
+				@include addTransition();
+			}
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					&:after{
+						height: 7px;
+					}
+					.ops-caption{
+						transform: translateY(-40px);
+						transform: translate3d(0,-40px,0);
+						.ops-basic-link{
+							opacity: 1;
+						}
+					}
+				}
+			}
+			.no-hover & {
+				.ops-caption{
+					transform: translateY(-30px);
+					transform: translate3d(0,-30px,0);
+					.ops-basic-link{
+						opacity: 1;
+					}
+				}
+			}
+			figure{
+				position: relative;
+				height: 100%;
+				&:before{
+					content: '';
+					@extend .gradient-bottom;
+				}
+				img{
+					height: 100%;
+				}
+			}
+			.ops-caption{
+				position: absolute;
+				left: 35px;
+				right: 35px;
+				bottom: -10px;
+				width: calc(100% - 70px);
+				z-index: 50;
+				overflow: hidden;
+				@include addTransition();
+				@include mobile{
+					left: 20px;
+					right: 20px;
+					width: calc(100% - 40px);
+				}
+				h3{
+					@include ft($f_hx, 30px, 400, $c_white, 38px);
+					max-width: 80%;
+					margin: 0 0 15px 0;
+					@include mobile{
+						max-width: 100%;
+					}
+				}
+				.ops-basic-link{
+					opacity: 0;
+				}
+			}
+
+			&.ops-col-50{
+				@include tablet_portrait{
+					width: 100%;
+					height: 400px;
+					float: none;
+				}
+			}
+
+			&.ops-col-25{
+				@include tablet_portrait{
+					height: 300px;
+				}
+				.ops-caption{
+					left: 30px;
+					right: 30px;
+					width: calc(100% - 60px);
+					@include mobile{
+						left: 20px;
+						right: 20px;
+						width: calc(100% - 40px);
+					}
+					h3{
+						font-size: 20px;
+						line-height: 28px;
+						max-width: 100%;
+					}
+					.ops-basic-link{
+						font-size: 13px;
+						line-height: 24px;
+					}
+				}
+			}
+		}
+	}
+}

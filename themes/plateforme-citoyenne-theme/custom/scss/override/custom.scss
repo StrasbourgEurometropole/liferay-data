@@ -619,3 +619,13 @@ aside .leaflet-map {
     -webkit-box-shadow: none;
     box-shadow: none
 }
+
+//Correction de l'alignement du label des checkbox du portlet de signature du pacte
+.pacte label {
+    display: table;
+    min-width: 420px; 
+}
+
+.pro-bloc-card-budget .pro-encart-coeur {
+	top: 64px;
+}
