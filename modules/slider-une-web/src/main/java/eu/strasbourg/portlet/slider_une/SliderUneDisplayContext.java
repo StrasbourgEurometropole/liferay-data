@@ -51,6 +51,10 @@ public class SliderUneDisplayContext {
         return configuration.showTags();
     }
 
+    public String getLink() {
+        return configuration.link();
+    }
+
     public String getVirtualHostName() {
         return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
     }

@@ -199,7 +199,7 @@
         </div>
     </c:if >
     <div class="seu-btn-line">
-        <a href="/actualite" class="seu-btn-square seu-filled seu-second" title="<liferay-ui:message key="eu.news-new" />">
+        <a href="${dc.link}" class="seu-btn-square seu-filled seu-second" title="<liferay-ui:message key="eu.news-new" />">
             <span class="seu-flexbox">
                 <span class="seu-btn-text"><liferay-ui:message key="eu.new" /></span>
                 <span class="seu-btn-arrow"></span>

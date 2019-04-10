@@ -26,6 +26,12 @@
             label="Afficher les tags"
             inlineField="true" />
 
+        <aui:input type="text"
+            name="link"
+            value="${link}"
+            label="Lien vers toutes les actus"
+            inlineField="false" />
+
 		<div id="vignettes" class="vignettes">
 
             <c:forEach begin="1" end="24" step="1" var="i">

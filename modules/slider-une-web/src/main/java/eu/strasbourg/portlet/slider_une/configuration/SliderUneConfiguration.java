@@ -14,4 +14,7 @@ public interface SliderUneConfiguration {
     @Meta.AD(name="showTags", required = false)
     public boolean showTags();
 
+    @Meta.AD(name="link", required = false)
+    public String link();
+
 }

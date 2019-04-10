@@ -65,6 +65,10 @@ public class SliderUneConfigurationAction
             setPreference(request, "showTags",
                     String.valueOf(showTags));
 
+            // Lien ver toutes les actu
+            String link = ParamUtil.getString(request, "link");
+            setPreference(request, "link", link);
+
         }
         super.processAction(portletConfig, request, response);
     }
@@ -121,6 +125,11 @@ public class SliderUneConfigurationAction
             boolean showTags = ParamUtil.getBoolean(request,
                     "showTags", configuration.showTags());
             request.setAttribute("showTags", showTags);
+
+            // Lien vers toutes les actus
+            String link = ParamUtil.getString(request,
+                    "link", configuration.link());
+            request.setAttribute("link", link);
 
 
         } catch (ConfigurationException e) {
