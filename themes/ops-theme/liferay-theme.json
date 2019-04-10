@@ -1,0 +1,11 @@
+{
+  "LiferayTheme": {
+    "deploymentStrategy": "LocalAppServer",
+    "appServerPath": "C:\\liferay\\eclipse-workspace\\liferay-workspace\\bundles\\tomcat-8.0.32",
+    "deployPath": "C:\\liferay\\eclipse-workspace\\liferay-workspace\\bundles\\deploy",
+    "url": "http://localhost:8080",
+    "appServerPathPlugin": "C:\\liferay\\eclipse-workspace\\liferay-workspace\\themes\\ops-theme\\.web_bundle_build",
+    "deployed": true,
+    "pluginName": "ops-theme"
+  }
+}
