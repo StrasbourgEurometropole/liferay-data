@@ -298,6 +298,17 @@ public class CampaignEventLocalServiceWrapper
 	}
 
 	/**
+	* Lance une recherche par mots-clés, thème, type, campagne et status
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent> findByKeywordThemeTypeCampaignAndStatus(
+		java.lang.String keyword, long themeId, long typeId, long campaignId,
+		int status, long userId, long groupId, int start, int end) {
+		return _campaignEventLocalService.findByKeywordThemeTypeCampaignAndStatus(keyword,
+			themeId, typeId, campaignId, status, userId, groupId, start, end);
+	}
+
+	/**
 	* Returns a range of all the campaign events.
 	*
 	* <p>
@@ -381,6 +392,17 @@ public class CampaignEventLocalServiceWrapper
 		long themeId, int status, long userId, long groupId) {
 		return _campaignEventLocalService.findByKeywordThemeAndStatusCount(keyword,
 			themeId, status, userId, groupId);
+	}
+
+	/**
+	* Compte de la recherche par mots-clés, thème, type, campagne et status
+	*/
+	@Override
+	public long findByKeywordThemeTypeCampaignAndStatusCount(
+		java.lang.String keyword, long themeId, long typeId, long campaignId,
+		int status, long userId, long groupId) {
+		return _campaignEventLocalService.findByKeywordThemeTypeCampaignAndStatusCount(keyword,
+			themeId, typeId, campaignId, status, userId, groupId);
 	}
 
 	@Override
