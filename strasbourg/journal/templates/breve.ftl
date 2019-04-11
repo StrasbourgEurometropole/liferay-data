@@ -9,7 +9,22 @@
     <meta property="og:title" content="${title.getData()?html}" />
     <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${currentUrl}" />
-    <meta property="og:image" content="${themeDisplay.getPortalURL()}${image.getData()}" />
+    <#if image.getData()?has_content>
+        <#assign imageUrl = themeDisplay.getPortalURL() + image.getData() />
+    </#if>
+    <#if !image.getData()?has_content>
+        <#assign layout = themeDisplay.getLayout() />
+        <#if layout.expandoBridge.getAttribute('image')?has_content>
+            <#assign imageUrl = themeDisplay.getPortalURL() + layout.expandoBridge.getAttribute('image') />
+        </#if>
+    </#if>
+    <#if imageUrl?has_content>
+        <#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
+        <#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(imageUrl) />
+        <meta property="og:image" content="${imageUrl}"/>
+        <meta property="og:image:width" content="${taille?keep_before(',')}"/>
+        <meta property="og:image:height" content="${taille?keep_after(',')}"/>
+    </#if>
 </@>
 
 <main class="seu-container" style="margin-bottom: 50px">

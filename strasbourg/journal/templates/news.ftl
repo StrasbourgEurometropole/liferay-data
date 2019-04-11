@@ -2,31 +2,59 @@
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<#assign thumbnailUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
-<#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
-<#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(thumbnailUrl) />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 
-<@liferay_util["html-top"]>
+<#-- <@liferay_util["html-top"]>
     <meta property="og:title" content="${title.getData()?html}" />
     <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${currentUrl}" />
-    <meta property="og:image" content="${thumbnailUrl}"/>
-    <meta property="og:image2" content="${themeDisplay.getPortalURL()}${thumbnail.getData()}"/>
-    <meta property="og:image:width" content="${taille?keep_before(',')}"/>
-    <meta property="og:image:height" content="${taille?keep_after(',')}"/>
+    <#if thumbnail.getData()?has_content>
+        <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
+    </#if>
+    <#if !thumbnail.getData()?has_content>
+        <#if image.getData()?has_content>
+            <#assign imageUrl = themeDisplay.getPortalURL() + image.getData() />
+        </#if>
+        <#if !image.getData()?has_content>
+            <#assign layout = themeDisplay.getLayout() />
+            <#if layout.expandoBridge.getAttribute('image')?has_content>
+                <#assign imageUrl = themeDisplay.getPortalURL() + layout.expandoBridge.getAttribute('image') />
+            </#if>
+        </#if>
+    </#if>
+    <#if imageUrl?has_content>
+        <#assign imageUrl = imageUrl?replace('https:','http:') />
+        <#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
+        <#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(imageUrl) />
+        <meta property="og:image" content="${imageUrl}"/>
+        <meta property="og:image:width" content="${taille?keep_before(',')}"/>
+        <meta property="og:image:height" content="${taille?keep_after(',')}"/>
+    </#if>
+    <meta property="og:title" content="${title.getData()?html}" />
+    <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
+    <meta property="og:url" content="${currentUrl}" />
+    <#assign imageUrl = 'http://www.touch-as-strasbourg.com/media/uploaded/sites/10468/partenaire/57a9e032cf93f_eurometropole.png' />
+    <meta property="og:image:width" content="500"/>
+    <meta property="og:image:height" content="300"/>
 </@>
+-->
 
 <main class="seu-container" style="margin-bottom: 50px">
     <div class="detail-line">
         <div class="filler"></div>
         <p class="seu-published">
-           <@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
-           - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
+            <#-- sauvegarde la locale -->
+            <#assign originalLocale = locale>
+            <#-- Met la locale sur France -->
+            <#setting locale = 'fr_FR'>
+            <@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
+            - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
+            <#-- Remet la locale d'origine -->
+            <#setting locale = originalLocale>
         </p>
         <a href="#" class="add-favorites"
             data-type="6" 

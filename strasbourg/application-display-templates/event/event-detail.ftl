@@ -5,7 +5,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<@liferay_util["html-top"]>
+<#-- <@liferay_util["html-top"]>
     <meta property="og:title" content="${entry.getTitle(locale)?html} - ${entry.getEventScheduleDisplay(locale)}" />
     <meta property="og:description" content="${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" />
@@ -18,7 +18,26 @@
         <meta property="og:image:height" content="${entry.getImageHeight()}" />
         <meta property="og:image:width" content="${entry.getImageWidth()}" />
     </#if>
+    <#if !entry.imageURL?has_content>
+        <#assign layout = themeDisplay.getLayout() />
+        <#if layout.expandoBridge.getAttribute('image')?has_content>
+            <#assign imageUrl = themeDisplay.getPortalURL() + layout.expandoBridge.getAttribute('image') />
+            <#assign imageUrl = imageUrl?replace('https:','http:') />
+            <#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
+            <#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(imageUrl) />
+            <meta property="og:image" content="${imageUrl}"/>
+            <meta property="og:image:width" content="${taille?keep_before(',')}"/>
+            <meta property="og:image:height" content="${taille?keep_after(',')}"/>
+        </#if>
+    </#if>
+    <meta property="og:title" content="${entry.getTitle(locale)?html} - ${entry.getEventScheduleDisplay(locale)}" />
+    <meta property="og:description" content="${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}" />
+    <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" />
+    <#assign imageUrl = 'http://www.touch-as-strasbourg.com/media/uploaded/sites/10468/partenaire/57a9e032cf93f_eurometropole.png' />
+    <meta property="og:image:width" content="500"/>
+    <meta property="og:image:height" content="300"/>
 </@>
+-->
 
 <!-- Détail événement -->
 <div class="seu-container">
