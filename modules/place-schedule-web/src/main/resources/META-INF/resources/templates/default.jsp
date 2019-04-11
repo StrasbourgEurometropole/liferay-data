@@ -309,7 +309,7 @@
 								- ${exception.value.getDescription()}
 							</p>
 					</c:forEach>
-					<a href="#" class="btn-more-schedules" title="Voir toutes les exceptions" style="display: ${(nbExceptions <= 4) ? 'none' : 'block'};"><span class="btn-icon icon icon-plus"></span></a>
+					<a href="#" class="btn-more-schedules" title="<liferay-ui:message key="see-all-exceptions" />" style="display: ${(nbExceptions <= 4) ? 'none' : 'block'};"><span class="btn-icon icon icon-plus"></span></a>
 					<a href="#horaires" class="btn-less-schedules" title="Masquer les exceptions" style="display: none;"><span class="btn-icon icon icon-minus"></span></a>
 				</div>
 				<script>
