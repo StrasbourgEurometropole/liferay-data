@@ -25,7 +25,7 @@
                         <span class="btn-text">En savoir plus</span>
                     </span>
                 </a>
-                <a href="${homeURL}webmag-portraits" class="a-btn-main h-inverted icon-right transparent-dark unstyled hp-rencontres__card-more">
+                <a href="${homeURL}lactu-portraits" class="a-btn-main h-inverted icon-right transparent-dark unstyled hp-rencontres__card-more">
                     <span class="flexbox"><i class="mag mag-arrow-right"></i>
                         <span class="btn-text">Tous les portraits</span>
                     </span>
