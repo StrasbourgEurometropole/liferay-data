@@ -10,13 +10,6 @@
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign viewURL = homeURL + "-/" + .vars['reserved-article-url-title'].data />
 
-<@liferay_util["html-top"]>
-    <meta property="og:title" content="${title.getData()?html}" />
-    <meta property="og:description" content="${content.getData()?replace("<[^>]*>", "", "r")?html}" />
-    <meta property="og:url" content="${viewURL}" />
-    <meta property="og:image" content="${themeDisplay.getPortalURL()}${image.getData()}" />
-</@>
-
 <div class="hp-diapo" style="background-image: url(${image.getData()});" data-scroll-animation>
     <div class="hp-diapo__text">
         <h2 class="waved-title waved-title--small waved-title--t-white waved-title--w-transparent hp-diapo__sup-title">Diaporama photos</h2>
