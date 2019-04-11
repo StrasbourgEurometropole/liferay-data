@@ -44,10 +44,14 @@
         <#if photos.getSiblings()?has_content>
             <section class="slider-for slider">
                 <#list photos.getSiblings() as photo> 
-                    <div class="image-for" style="background-image:url('${photo.getData()}')">
-                        <div class="legend">${photo.getChildren()[0].getData()}</div>
-                        <div class="paginate">${photo?counter}/${photos.getSiblings()?size}</div>
-                    </div> 
+                    <div>
+                        <div class="image-for" style="background-image:url('${photo.getData()}')"></div>
+                        <div class="legend">
+                            <div class="paginate"></div> 
+                            <div class="label">${photo.getChildren()[0].getData()}</div>
+                            <div class="paginate">${photo?counter}/${photos.getSiblings()?size}</div> 
+                        </div>
+                    </div>
                 </#list> 
             </section>
             
@@ -84,54 +88,48 @@
             line-height: 0px;
         }
 
-        .slider-for .slick-slide > div > div{
-            min-height: 180px;
-            height: calc(80vh - 105px);
-            display: flex !important;
-        }
-
         .slider-for{
-            background-color: #31455d;
             margin-bottom: 0;
         }
 
         .image-for{
+            min-height: 180px;
+            height: calc(80vh - 105px);
+            display: flex !important;
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
         }
 
         .legend{
-            position: absolute;
-            bottom: -1px;
+            display: flex;
             min-height: 45px;
             max-height: 80px;
             height: 15vh ;
-            background-color: rgba(255,255,255,0.6);
             width: 100%;
-            padding: 0 70px;
-            text-align: center;
+            background-color: rgba(255,255,255,0.6);
+        }
+
+        .legend .label{
             display: flex;
             justify-content: center;
             flex-direction: column;
+            flex-grow: 1;
+            padding: 0;
+            text-align: center;
             line-height: 1.5em;
             font-size: 0.8em;
+            font-weight: 400;
             color: #333333;
         }
 
-        .paginate{
-            position: absolute;
-            bottom: -1px;
-            max-height: 80px;
-            height: 15vh ;
-            width: 70px;
-            left: calc(100% - 70px);
-            font-weight: 700;
-            padding-right: 15px;
+        .legend .paginate{
             display: flex;
             justify-content: center;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: center;
+            width: 50px;
+            font-weight: 700;
             color: #333333;
         }
 
@@ -152,6 +150,24 @@
             top: calc(50% - 30px);
         }
 
+        .slider-une-thumbnail__arrow .flexbox{
+            background-color: #31455d;
+            border-color: #31455d;
+        }
+
+        .slider-une-thumbnail__arrow-icon{
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 31.49 22.14'%3E%3Cpath d='M21.2.33A1.12,1.12,0,1,0,19.62,1.9l8,8H1.11A1.11,1.11,0,0,0,0,11.06a1.12,1.12,0,0,0,1.11,1.13H27.67l-8,8a1.14,1.14,0,0,0,0,1.59,1.11,1.11,0,0,0,1.59,0l10-10a1.09,1.09,0,0,0,0-1.57Z'/%3E%3C/svg%3E"); 
+        }
+
+        .slider-une-thumbnail__arrow:hover .flexbox{
+            background-color: #FFFFFF;
+            border-color: #FFFFFF;
+        }
+
+        .slider-une-thumbnail__arrow:hover .slider-une-thumbnail__arrow-icon{
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 31.49 22.14'%3E%3Cpath d='M21.2.33A1.12,1.12,0,1,0,19.62,1.9l8,8H1.11A1.11,1.11,0,0,0,0,11.06a1.12,1.12,0,0,0,1.11,1.13H27.67l-8,8a1.14,1.14,0,0,0,0,1.59,1.11,1.11,0,0,0,1.59,0l10-10a1.09,1.09,0,0,0,0-1.57Z'/%3E%3C/svg%3E"); 
+        }
+
         .slider-une-thumbnail__arrow--prev {
             left: 15px;
         }
@@ -165,23 +181,14 @@
                 margin: 0;
             }
 
-            .slider-for .slick-slide > div > div{
-                height: calc(77vh - 45px);
+            .image-for{
+                height: calc(65vh - 45px);
             }
             
 
             .slider-nav .slick-slide {
                 margin-bottom: 40px;
             } 
-
-            .legend{
-                padding: 0 40px 0 30px;
-            }
-
-            .paginate{
-                width: 40px;
-                left: calc(100% - 40px);
-            }
             
             .image-nav {
                 height: 20vh;
