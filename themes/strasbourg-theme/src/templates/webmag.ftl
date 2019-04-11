@@ -1,5 +1,5 @@
-<#assign isHome = layout.getFriendlyURL() == "/webmag" />
-<#assign isPortraitList = layout.getFriendlyURL() == "/webmag-portraits" />
+<#assign isHome = layout.getFriendlyURL() == "/lactu-home" />
+<#assign isPortraitList = layout.getFriendlyURL() == "/lactu-portraits" />
 
 <body class="${css_class} smag  
   <#if isHome>
