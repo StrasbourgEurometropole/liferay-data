@@ -86,7 +86,7 @@
                 <a href="${homeURL}actualite" class="a-btn-main h-inverted icon-right core-inverted">
                     <span class="flexbox">
                         <i class="mag mag-arrow-right"></i>
-                        <span class="btn-text">Toute l'actu</span>
+                        <span class="btn-text">Recherche d'actus</span>
                     </span>
                 </a>
             </div>
