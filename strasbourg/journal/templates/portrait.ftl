@@ -1,5 +1,8 @@
 <#setting locale = locale />
 
+<#-- Récupération de DateHelper pour le format date -->
+<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+
 <#--
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
@@ -39,8 +42,10 @@
         <div class="detail-line" style="justify-content: normal">
             <div class="filler"></div>
             <p class="seu-published">
-            <@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
-            - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
+            <@liferay_ui.message key="eu.published-on" /> 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z'), locale)} 
+            - <@liferay_ui.message key="eu.modified-on" /> 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z'), locale)}
             </p>
         </div>
         <h1 style="width: 100%">

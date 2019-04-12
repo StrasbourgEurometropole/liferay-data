@@ -1,6 +1,9 @@
 <!-- Webmag - Liste brèves -->
 <#setting locale = locale />
 
+<#-- Récupération de DateHelper pour le format date -->
+<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+
 <div class="seu-container" style="margin-bottom: 45px">
     <div class="seu-wi smag-wi-breve seu-type--actu">
         <div class="seu-container">
@@ -34,7 +37,7 @@
                                     </a>
                                     <div class="seu-result-infos">
                                         <div class="seu-result-infos-top">
-                                            ${curEntry.getModifiedDate()?datetime?string("dd/MM/yyyy")}
+                                            ${dateHelperService.displayShortDate(curEntry.getModifiedDate()?date, locale)}
                                         </div>
                                     </div>
                                 </div>

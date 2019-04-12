@@ -8,6 +8,9 @@
     <#assign homeURL = "/" />
 </#if>
 
+<#-- Récupération de DateHelper pour le format date -->
+<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+
 <#-- <@liferay_util["html-top"]>
     <meta property="og:title" content="${title.getData()?html}" />
     <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
@@ -51,8 +54,10 @@
             <#assign originalLocale = locale>
             <#-- Met la locale sur France -->
             <#setting locale = 'fr_FR'>
-            <@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
-            - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
+            <@liferay_ui.message key="eu.published-on" /> 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z'), locale)} 
+            - <@liferay_ui.message key="eu.modified-on" /> 
+            ${dateHelperService.displayShortDate(.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z'), locale)}
             <#-- Remet la locale d'origine -->
             <#setting locale = originalLocale>
         </p>

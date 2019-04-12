@@ -19,6 +19,9 @@
 <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', entry.resourcePrimKey) >
 <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "type d'actualite") />
 
+<#-- Récupération de DateHelper pour le format date -->
+<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+
 <@liferay_portlet.actionURL var="detailURLFilter">
   <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
   <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
@@ -53,7 +56,7 @@
         </a>
         <div class="seu-result-infos">
             <div class="seu-result-infos-top">
-                ${entry.getModifiedDate()?datetime?string("dd/MM/yyyy")}
+                ${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}
             </div>
             <div class="seu-result-infos-bottom">
                 <a href="#" class="seu-add-favorites"
