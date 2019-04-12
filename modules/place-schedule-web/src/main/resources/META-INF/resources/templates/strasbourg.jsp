@@ -37,8 +37,8 @@
 		            <label for="date-start"><liferay-ui:message key="eu.date" /></label>
 		        </div>
 		        <div class="content">
-		            <input name="date" data-type="date" type="text" id="date" placeholder="JJ/MM/AAAA" 
-		              value="${selectedDay}/${selectedMonth + 1}/${selectedYear}">
+                    <input name="date" data-type="date" type="text" id="date" placeholder="JJ/MM/AAAA"
+                      value="${selectedDay}/${selectedMonth + 1}/${selectedYear}">
 		            <input type="hidden" name="<portlet:namespace />day" data-name="dateDay" value="${selectedDay}" />
 		            <input type="hidden" name="<portlet:namespace />month" data-name="dateMonth" value="${selectedMonth}" />
 		            <input type="hidden" name="<portlet:namespace />year" data-name="dateYear" value="${selectedYear}" />
@@ -119,7 +119,7 @@
 					<div class="item-schedule">
 						<span class="schedule-title">
 							<div>
-								<liferay-ui:message key="eu.place.schedule-for-day" /> ${selectedDay}/${selectedMonth + 1}/${selectedYear}
+								<liferay-ui:message key="eu.place.schedule-for-day" /> ${jourChoisiFormate}
 							</div>
 							<div class="schedule">
 								<c:forEach items="${place.getPlaceSchedule(selectedCalendar, locale)}" var="schedule" varStatus="loopStatus">

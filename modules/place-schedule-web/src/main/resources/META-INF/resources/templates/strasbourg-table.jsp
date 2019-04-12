@@ -137,7 +137,17 @@
 							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >
 								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
 								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />
-								<fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                <c:choose>
+                                    <c:when test="${locale eq 'en_EN'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:when>
+                                    <c:when test="${locale eq 'de_DE'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d. MMMM" />
+                                    </c:when>
+                                    <c:otherwise>
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:otherwise>
+                                </c:choose>
 								<c:set var="isToday" value="${shortNow eq shortDate}" />
 								<c:choose>
 									<c:when test="${loopStatus.index eq 0}">
@@ -335,7 +345,17 @@
 							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >							
 								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
 								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />
-								<fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                <c:choose>
+                                    <c:when test="${locale eq 'en_EN'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:when>
+                                    <c:when test="${locale eq 'de_DE'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d. MMMM" />
+                                    </c:when>
+                                    <c:otherwise>
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:otherwise>
+                                </c:choose>
 								<c:set var="isToday" value="${shortNow eq shortDate}" />
 								<c:choose>
 									<c:when test="${loopStatus.index eq 0}">

@@ -164,14 +164,14 @@ public class DateHelper {
 			return "";
 		}
 
-		if (locale.equals(Locale.FRANCE)) { // dd/MM/yyyy
-			DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
+		if (locale.equals(Locale.FRANCE)) { // EEE dd MMMM yyyy
+			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.FRANCE);
 			result = df.format(date);
 		} else if (locale.equals(Locale.GERMANY)) { // dd.MM.yyyy
-			DateFormat df = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMANY);
+			DateFormat df = new SimpleDateFormat("EEEE, 'den' dd. MMMM yyyy", Locale.GERMANY);
 			result = df.format(date);
-		} else if (locale.equals(Locale.US)) { // dd/MM/yyyy
-			DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
+		} else if (locale.equals(Locale.US)) { // EEE dd MMMM yyyy
+			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.US);
 			result = df.format(date);
 		}
 
