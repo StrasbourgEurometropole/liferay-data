@@ -65,7 +65,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +103,10 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		sb.append(managersIds);
 		sb.append(", exportEnabled=");
 		sb.append(exportEnabled);
+		sb.append(", startDate=");
+		sb.append(startDate);
+		sb.append(", endDate=");
+		sb.append(endDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -194,6 +198,20 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 
 		campaignImpl.setExportEnabled(exportEnabled);
 
+		if (startDate == Long.MIN_VALUE) {
+			campaignImpl.setStartDate(null);
+		}
+		else {
+			campaignImpl.setStartDate(new Date(startDate));
+		}
+
+		if (endDate == Long.MIN_VALUE) {
+			campaignImpl.setEndDate(null);
+		}
+		else {
+			campaignImpl.setEndDate(new Date(endDate));
+		}
+
 		campaignImpl.resetOriginalValues();
 
 		return campaignImpl;
@@ -227,6 +245,8 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		managersIds = objectInput.readUTF();
 
 		exportEnabled = objectInput.readBoolean();
+		startDate = objectInput.readLong();
+		endDate = objectInput.readLong();
 	}
 
 	@Override
@@ -295,6 +315,8 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		}
 
 		objectOutput.writeBoolean(exportEnabled);
+		objectOutput.writeLong(startDate);
+		objectOutput.writeLong(endDate);
 	}
 
 	public String uuid;
@@ -315,4 +337,6 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 	public String defaultImageCopyright;
 	public String managersIds;
 	public boolean exportEnabled;
+	public long startDate;
+	public long endDate;
 }

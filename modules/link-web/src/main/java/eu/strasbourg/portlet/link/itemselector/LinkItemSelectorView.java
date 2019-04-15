@@ -100,7 +100,7 @@ public class LinkItemSelectorView
 
 		List<Link> links = LinkLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long linksCount = LinkLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

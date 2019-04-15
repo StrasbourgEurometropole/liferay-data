@@ -20,6 +20,8 @@
 		<field localized="true" name="defaultImageCopyright" type="String" />
 		<field name="managersIds" type="String" />
 		<field name="exportEnabled" type="Boolean" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEvent">
 		<field name="uuid" type="String" />

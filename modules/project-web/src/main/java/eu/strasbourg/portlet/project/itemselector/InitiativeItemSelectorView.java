@@ -99,7 +99,7 @@ public class InitiativeItemSelectorView  implements ItemSelectorView<InitiativeI
 
 		List<Initiative> Initiatives = InitiativeLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long initiativesCount = InitiativeLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

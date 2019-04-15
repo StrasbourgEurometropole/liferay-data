@@ -100,7 +100,7 @@ public class EditionGalleryItemSelectorView
 
 		List<EditionGallery> galleries = EditionGalleryLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long galleriesCount = EditionGalleryLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

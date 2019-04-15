@@ -1,0 +1,7 @@
+Bundle-Name: article-web
+Bundle-SymbolicName: article.web
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.article.itemselector
+Include-Resource:\
+        META-INF/resources=src/main/resources/META-INF/resources
+Web-ContextPath: /article-web

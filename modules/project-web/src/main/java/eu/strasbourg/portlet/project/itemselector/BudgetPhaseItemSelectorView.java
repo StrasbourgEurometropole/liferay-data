@@ -102,7 +102,7 @@ public class BudgetPhaseItemSelectorView implements ItemSelectorView<BudgetPhase
 
 		List<BudgetPhase> budgetPhases = BudgetPhaseLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long budgetPhasesCount = BudgetPhaseLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

@@ -22,10 +22,8 @@
                                 searchContainer="${dc.searchContainer}">
                         <div class="forms">
                             <c:forEach items="${dc.paginatedResults}" var="record">
-                                <div class="formSend">
-                                    <fmt:formatDate value="${record.createDate}" type="date" var="createDate" pattern="dd/MM/yyyy" />
                                     <fmt:formatDate value="${record.createDate}" type="date" var="createHeure" pattern="HH:mm" />
-                                    <h2 class="dateForm">Le ${createDate} &agrave; ${createHeure}</h2>
+                                    <h2 class="dateForm">Le ${dc.getShortDate(record.createDate, locale)} &agrave; ${createHeure}</h2>
                                     <c:forEach var="recordField" items="${dc.getRecordFields(record.getDDMStorageId(), locale)}">
                                         <c:forEach var="field" items="${recordField}">
                                             <c:if test="${fn:contains(dc.fieldsToShow, field.key) && not empty field.value && field.value != '[]'}">
@@ -69,8 +67,7 @@
                                                         </c:when>
                                                         <c:when test="${type.equals('date')}">
                                                             <fmt:parseDate value="${field.value}" pattern="yyyy-MM-dd" var="dateValue" type="both" />
-                                                            <fmt:formatDate value="${dateValue}" type="date" var="newDateValue" pattern="dd/MM/yyyy" />
-                                                            ${newDateValue}
+                                                            ${dc.getShortDate(dateValue, locale)}
                                                         </c:when>
                                                         <c:when test="${type.equals('checkbox')}">
                                                             <c:if test="${field.value}">

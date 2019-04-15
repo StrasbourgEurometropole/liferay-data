@@ -100,7 +100,7 @@ public class ManifestationItemSelectorView
 
 		List<Manifestation> manifestations = ManifestationLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getCompanyGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long manifestationsCount = ManifestationLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getCompanyGroupId());
