@@ -1,6 +1,7 @@
 package eu.strasbourg.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.Locale;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 /*
  * Classe Helper pour tout ce qui concerne les dates
@@ -147,6 +149,22 @@ public class DateHelper {
 		} else if (locale.equals(Locale.US)) { // dd/MM/yyyy
 			DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 			result = df.format(date);
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * Transforme un String en Date
+	 */
+	public static Date convertStringToDate(String date, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		Date result = new Date();
+		try {
+			result = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 
 		return result;

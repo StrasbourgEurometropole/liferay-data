@@ -5,6 +5,7 @@ import eu.strasbourg.utils.api.FileEntryHelperService;
 import org.osgi.service.component.annotations.Component;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -21,6 +22,11 @@ import java.util.*;
 		property = {},
 		service = DateHelperService.class)
 public class DateHelperImpl implements DateHelperService {
+
+	@Override
+	public Date convertStringToDate(String date, String format) {
+		return DateHelper.convertStringToDate(date, format);
+	}
 
 	@Override
 	public String displayShortDate(Date date, Locale locale) {
