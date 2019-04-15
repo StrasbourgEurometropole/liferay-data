@@ -20,7 +20,6 @@ import java.util.List;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException;
 import eu.strasbourg.service.project.model.InitiativeHelp;

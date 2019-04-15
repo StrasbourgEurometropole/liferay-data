@@ -58,6 +58,9 @@
 				
 				<%-- Champ : Adresse mail --%>
 				<aui:input name="authorEmail" type="text" label="email" disabled="true" value="${not empty dc.initiative ? dc.initiative.getAuthorEmail() : '' }" />
+				
+				<%-- Champ : Au nom de --%>
+				<aui:input name="inTheNameOf" required="false" />
 			
 			</aui:fieldset>
 											
