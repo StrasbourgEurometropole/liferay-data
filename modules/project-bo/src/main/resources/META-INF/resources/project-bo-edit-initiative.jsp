@@ -47,6 +47,17 @@
 				
 				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="true"/>
+				
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Citoyen --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="depositary">
+				
+				<%-- Champ : Nom --%>
+				<aui:input name="authorName" type="text" label="author" disabled="true" value="${not empty dc.initiative ? dc.initiative.getAuthorNameLabel() : '' }" />
+				
+				<%-- Champ : Adresse mail --%>
+				<aui:input name="authorEmail" type="text" label="email" disabled="true" value="${not empty dc.initiative ? dc.initiative.getAuthorEmail() : '' }" />
 			
 			</aui:fieldset>
 											
