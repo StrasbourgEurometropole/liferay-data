@@ -1,0 +1,5 @@
+Bundle-Name: slider-une-web
+Bundle-SymbolicName: eu.strasbourg.portlet.slider_une
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.slider_une.constants
+Web-ContextPath: /sliderune

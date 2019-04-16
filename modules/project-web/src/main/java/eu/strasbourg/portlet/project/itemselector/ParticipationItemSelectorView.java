@@ -99,7 +99,7 @@ public class ParticipationItemSelectorView  implements ItemSelectorView<Particip
 
 		List<Participation> Participations = ParticipationLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long participationsCount = ParticipationLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

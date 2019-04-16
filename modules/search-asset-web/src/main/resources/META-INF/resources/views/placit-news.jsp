@@ -1,7 +1,7 @@
 <%@ include file="/search-asset-init.jsp"%>
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<div class="pro-search-listing">
+<div class="pro-search-listing" id="go-to-top">
     <!-- File d'ariane -->
     <div class="pro-wrapper-top-listing">
         <div class="container">

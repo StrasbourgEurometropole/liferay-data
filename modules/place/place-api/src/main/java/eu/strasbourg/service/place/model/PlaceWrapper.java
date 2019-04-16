@@ -115,6 +115,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("RTStatus", getRTStatus());
 		attributes.put("RTLastUpdate", getRTLastUpdate());
 		attributes.put("imageId", getImageId());
+		attributes.put("imageWidth", getImageWidth());
+		attributes.put("imageHeight", getImageHeight());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
 		attributes.put("priceId", getPriceId());
@@ -467,6 +469,18 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		Integer imageWidth = (Integer)attributes.get("imageWidth");
+
+		if (imageWidth != null) {
+			setImageWidth(imageWidth);
+		}
+
+		Integer imageHeight = (Integer)attributes.get("imageHeight");
+
+		if (imageHeight != null) {
+			setImageHeight(imageHeight);
 		}
 
 		String imageIds = (String)attributes.get("imageIds");
@@ -911,6 +925,26 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.Boolean isOpenNow() {
 		return _place.isOpenNow();
+	}
+
+	/**
+	* Returns the image height of this place.
+	*
+	* @return the image height of this place
+	*/
+	@Override
+	public java.lang.Integer getImageHeight() {
+		return _place.getImageHeight();
+	}
+
+	/**
+	* Returns the image width of this place.
+	*
+	* @return the image width of this place
+	*/
+	@Override
+	public java.lang.Integer getImageWidth() {
+		return _place.getImageWidth();
 	}
 
 	@Override
@@ -3541,6 +3575,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Sets the image height of this place.
+	*
+	* @param imageHeight the image height of this place
+	*/
+	@Override
+	public void setImageHeight(java.lang.Integer imageHeight) {
+		_place.setImageHeight(imageHeight);
+	}
+
+	/**
 	* Sets the image ID of this place.
 	*
 	* @param imageId the image ID of this place
@@ -3558,6 +3602,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setImageIds(java.lang.String imageIds) {
 		_place.setImageIds(imageIds);
+	}
+
+	/**
+	* Sets the image width of this place.
+	*
+	* @param imageWidth the image width of this place
+	*/
+	@Override
+	public void setImageWidth(java.lang.Integer imageWidth) {
+		_place.setImageWidth(imageWidth);
 	}
 
 	/**

@@ -102,7 +102,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 
 		List<Video> videos = VideoLocalServiceUtil.findByKeyword(keywords, filterGroupId, (delta * cur) - delta,
-				((delta * cur) + delta));
+				(delta * cur));
 
 		long videosCount = VideoLocalServiceUtil.findByKeywordCount(keywords, filterGroupId);
 

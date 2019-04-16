@@ -83,6 +83,8 @@
 		
 		<!-- Links with other entities -->
 		<column name="imageId" type="long" />
+		<column name="imageWidth" type="Integer" />
+		<column name="imageHeight" type="Integer" />
 		<column name="imageIds" type="String" />
 		<column name="videosIds" type="String" />
 		<column name="priceId" type="long" />

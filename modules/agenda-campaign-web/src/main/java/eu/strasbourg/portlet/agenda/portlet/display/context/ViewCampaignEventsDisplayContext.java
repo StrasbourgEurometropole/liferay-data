@@ -26,6 +26,7 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
 public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
@@ -34,8 +35,12 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 	private String _keywords;
 	private Integer _status;
 	private Long _themeId;
+	private Long _typeId;
+	private Long _campaignId;
 	private List<CampaignEvent> _campaignEvents;
 	private List<AssetCategory> _themes;
+	private List<AssetCategory> _types;
+	private List<Campaign> _campaigns;
 	private Map<Integer, String> _statuses;
 
 	public ViewCampaignEventsDisplayContext(RenderRequest request,
@@ -52,6 +57,8 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 			PortletURL iteratorURL = this._response.createRenderURL();
 			iteratorURL.setParameter("keywords", this.getKeywords());
 			iteratorURL.setParameter("themeId", String.valueOf(this.getThemeId()));
+			iteratorURL.setParameter("typeId", String.valueOf(this.getTypeId()));
+			iteratorURL.setParameter("campaignId", String.valueOf(this.getCampaignId()));
 			iteratorURL.setParameter("statusId", String.valueOf(this.getStatusId()));
 			
 			this._searchContainer = new SearchContainer<CampaignEvent>(
@@ -74,15 +81,45 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 		if (Validator.isNull(_themes)) {
 			long companyId = PortalUtil.getDefaultCompanyId();
 			long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
-				.getGroup().getGroupId();
+					.getGroup().getGroupId();
 			AssetVocabulary vocabulary = AssetVocabularyHelper
-				.getEntityVocabulary(Event.class.getName(), "theme agenda",
-					companyGroupId);
+					.getEntityVocabulary(Event.class.getName(), VocabularyNames.EVENT_THEME,
+							companyGroupId);
 			if (vocabulary != null) {
 				_themes = vocabulary.getCategories();
 			}
 		}
 		return _themes;
+	}
+
+	/**
+	 * Retourne la liste des types
+	 */
+	public List<AssetCategory> getTypes() throws PortalException {
+		if (Validator.isNull(_types)) {
+			long companyId = PortalUtil.getDefaultCompanyId();
+			long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
+					.getGroup().getGroupId();
+			AssetVocabulary vocabulary = AssetVocabularyHelper
+					.getEntityVocabulary(Event.class.getName(), VocabularyNames.EVENT_TYPE,
+							companyGroupId);
+			if (vocabulary != null) {
+				_types
+						= vocabulary.getCategories();
+			}
+		}
+		return _types;
+	}
+
+	/**
+	 * Retourne la liste des campagnes
+	 */
+	public List<Campaign> getCampaigns() throws PortalException {
+		if (Validator.isNull(_campaigns)) {
+			_campaigns = CampaignLocalServiceUtil.getCampaigns(-1,
+					-1);
+		}
+		return _campaigns;
 	}
 
 	/**
@@ -123,14 +160,62 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 	}
 
 	/**
+	 * Retourne le filtre "type"
+	 */
+	public long getTypeId() {
+		if (Validator.isNull(_typeId)) {
+			_typeId = ParamUtil.getLong(_request, "typeId");
+		}
+		return _typeId;
+	}
+
+	/**
+	 * Retourne le filtre "campagne"
+	 */
+	public long getCampaignId() {
+		if (Validator.isNull(_campaignId)) {
+			_campaignId = ParamUtil.getLong(_request, "campaignId");
+		}
+		return _campaignId;
+	}
+
+	/**
 	 * Retourne le nom du filtre "thème" sélectionné
-	 * @throws PortalException 
+	 * @throws PortalException
 	 */
 	public String getThemeLabel() throws PortalException {
 		Optional<AssetCategory> optionalTheme = this.getThemes().stream()
-			.filter(t -> t.getCategoryId() == this.getThemeId()).findFirst();
+				.filter(t -> t.getCategoryId() == this.getThemeId()).findFirst();
 		if(optionalTheme.isPresent()) {
 			return optionalTheme.get().getTitleCurrentValue();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne le nom du filtre "type" sélectionné
+	 * @throws PortalException
+	 */
+	public String getTypeLabel() throws PortalException {
+		Optional<AssetCategory> optionalType = this.getTypes().stream()
+				.filter(t -> t.getCategoryId() == this.getTypeId()).findFirst();
+		if(optionalType.isPresent()) {
+			return optionalType.get().getTitleCurrentValue();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne le nom du filtre "campagne" sélectionné
+	 * @throws PortalException
+	 */
+	public String getCampaignLabel() throws PortalException {
+		Optional<Campaign> optionalCampaign = this.getCampaigns().stream()
+				.filter(t -> t.getCampaignId() == this.getCampaignId()).findFirst();
+		if(optionalCampaign.isPresent()) {
+			return optionalCampaign.get().getTitleCurrentValue();
 		} else {
 			return "";
 		}
@@ -149,15 +234,15 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 	public List<CampaignEvent> getCampaignEvents() throws PortalException {
 		if (_campaignEvents == null) {
 			_campaignEvents = CampaignEventLocalServiceUtil
-				.findByKeywordThemeAndStatus(this.getKeywords(),
-					this.getThemeId(), this.getStatusId(),
+				.findByKeywordThemeTypeCampaignAndStatus(this.getKeywords(),
+					this.getThemeId(), this.getTypeId(), this.getCampaignId(), this.getStatusId(),
 					this._themeDisplay.getUserId(),
 					this._themeDisplay.getScopeGroupId(),
 					this.getSearchContainer().getStart(),
 					this.getSearchContainer().getEnd());
 			long total = CampaignEventLocalServiceUtil
-				.findByKeywordThemeAndStatusCount(this.getKeywords(),
-					this.getThemeId(), this.getStatusId(),
+				.findByKeywordThemeTypeCampaignAndStatusCount(this.getKeywords(),
+					this.getThemeId(), this.getTypeId(), this.getCampaignId(), this.getStatusId(),
 					this._themeDisplay.getUserId(),
 					this._themeDisplay.getScopeGroupId());
 			this.getSearchContainer().setTotal((int) total);

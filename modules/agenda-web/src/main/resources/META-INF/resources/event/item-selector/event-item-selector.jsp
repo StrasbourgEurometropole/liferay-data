@@ -38,11 +38,11 @@
 				name="title" truncate="true"
 				value="${event.titleCurrentValue}" />
 
-			<fmt:formatDate value="${event.modifiedDate}"
-				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
+			<fmt:formatDate value="${event.publicationDate}"
+				var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
 			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="modified-date" truncate="true"
-				value="${formattedModifiedfDate}" />
+				name="publication-date" truncate="true"
+				value="${formattedPublicationDate}" />
 
 			<fmt:formatDate value="${event.modifiedDate}"
 				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -50,17 +50,23 @@
 				name="modified-date" truncate="true"
 				value="${formattedModifiedDate}" />
 
+            <c:if test="${event.lastEndDate != null}">
+                <fmt:formatDate value="${event.lastEndDate}"
+                    var="formattedLastEndDate" type="date" pattern="dd/MM/yyyy" />
+            </c:if>
+            <liferay-ui:search-container-column-text cssClass="content-column"
+                name="last-end-date" truncate="true"
+                value="${event.lastEndDate != null ? formattedLastEndDate : ''}" />
+
 			<liferay-ui:search-container-column-text name="status">
 				<aui:workflow-status markupView="lexicon" showIcon="false"
 					showLabel="false" status="${event.status}" />
-				<div class="data" data-id="${event.eventId}" data-title="${event.getTitle(locale)}"></div>
+				<div class="data" data-id="${event.eventId}" data-title="${event.getTitle(locale)}" data-publication-date="${formattedPublicationDate}" data-last-end-date="${event.lastEndDate != null ? formattedLastEndDate : ''}"></div>
 			</liferay-ui:search-container-column-text>
 			
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator  />
-
-		<liferay-ui:search-paginator searchContainer="${searchContainer}"   />
 	</liferay-ui:search-container>
 </div>
 
@@ -76,10 +82,14 @@
 			}
 			var id = $('.info .data').data('id');
 			var title = $('.info .data').data('title');
+			var publicationDate = $('.info .data').data('publication-date');
+			var lastEndDate = $('.info .data').data('last-end-date');
 			Liferay.Util.getOpener().Liferay.fire('${itemSelectedEventName}', {
 				data: {
 					entityId: id,
-					title: title
+					title: title,
+                    publicationDate: publicationDate,
+                    lastEndDate: lastEndDate
 				}
 			});
 		} else {
@@ -88,7 +98,9 @@
 			for (var i = 0; i < dataDivs.length; i++) {
 				dataToSend.push({
 					entityId: $(dataDivs[i]).data('id'),
-					title: $(dataDivs[i]).data('title')
+                    title: $(dataDivs[i]).data('title'),
+                    publicationDate: $(dataDivs[i]).data('publication-date'),
+                    lastEndDate: $(dataDivs[i]).data('last-end-date')
 				});
 			}
 				

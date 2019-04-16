@@ -117,10 +117,21 @@ public class CampaignEventLocalServiceImpl
 	 */
 	@Override
 	public List<CampaignEvent> findByKeywordThemeAndStatus(String keyword,
-		long themeId, int status, long userId, long groupId, int start,
-		int end) {
+														   long themeId, int status, long userId, long groupId, int start,
+														   int end) {
 		return this.campaignEventFinder.findByKeywordThemeAndStatus(keyword,
-			themeId, status, userId, groupId, start, end);
+				themeId, status, userId, groupId, start, end);
+	}
+
+	/**
+	 * Lance une recherche par mots-clés, thème, type, campagne et status
+	 */
+	@Override
+	public List<CampaignEvent> findByKeywordThemeTypeCampaignAndStatus(String keyword,
+														   long themeId, long typeId, long campaignId, int status, long userId, long groupId, int start,
+														   int end) {
+		return this.campaignEventFinder.findByKeywordThemeTypeCampaignAndStatus(keyword,
+				themeId, typeId, campaignId, status, userId, groupId, start, end);
 	}
 
 	/**
@@ -128,9 +139,19 @@ public class CampaignEventLocalServiceImpl
 	 */
 	@Override
 	public long findByKeywordThemeAndStatusCount(String keyword, long themeId,
-		int status, long userId, long groupId) {
+												 int status, long userId, long groupId) {
 		return this.campaignEventFinder.findByKeywordThemeAndStatusCount(
-			keyword, themeId, status, userId, groupId);
+				keyword, themeId, status, userId, groupId);
+	}
+
+	/**
+	 * Compte de la recherche par mots-clés, thème, type, campagne et status
+	 */
+	@Override
+	public long findByKeywordThemeTypeCampaignAndStatusCount(String keyword, long themeId,
+												 long typeId, long campaignId, int status, long userId, long groupId) {
+		return this.campaignEventFinder.findByKeywordThemeTypeCampaignAndStatusCount(
+				keyword, themeId, typeId, campaignId, status, userId, groupId);
 	}
 
 	/**

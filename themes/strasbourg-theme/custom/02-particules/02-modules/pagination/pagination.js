@@ -17,7 +17,7 @@ function buildPagination(widget,nbItemsByPage){
             .insertBefore(wi.$widget.find('.seu-pagin-next'))
                 .find('button')
                 .attr('data-page', index)
-                .attr('title', 'Aller à la page '+index)
+                .attr('title', Liferay.Language.get('eu.go-to-page') + ' ' +index)
                     .find('.seu-btn-text')
                     .html(index);
     }

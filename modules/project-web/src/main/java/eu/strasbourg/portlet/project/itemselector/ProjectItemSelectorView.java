@@ -99,7 +99,7 @@ public class ProjectItemSelectorView  implements ItemSelectorView<ProjectItemSel
 
 		List<Project> Projects = ProjectLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long projectsCount = ProjectLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

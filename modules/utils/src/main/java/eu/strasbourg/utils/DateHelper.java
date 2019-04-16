@@ -1,6 +1,7 @@
 package eu.strasbourg.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.Locale;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 /*
  * Classe Helper pour tout ce qui concerne les dates
@@ -126,6 +128,74 @@ public class DateHelper {
 				DateFormat df = new SimpleDateFormat("dd" + month + year, Locale.US);
 				result += " to " + df.format(end);
 			}
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * Affichage cour d'une date en multilangue
+	 */
+	public static String displayShortDate(Date date, Locale locale) {
+		String result = "";
+
+		// Cas où la date est null
+		if (date == null) {
+			return "";
+		}
+
+		if (locale.equals(Locale.FRANCE)) { // dd/MM/yyyy
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+			result = df.format(date);
+		} else if (locale.equals(Locale.GERMANY)) { // dd.MM.yyyy
+			DateFormat df = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+			result = df.format(date);
+		} else if (locale.equals(Locale.US)) { // dd/MM/yyyy
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+			result = df.format(date);
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * Transforme un String en Date
+	 */
+	public static Date convertStringToDate(String date, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		Date result = new Date();
+		try {
+			result = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+
+	/**
+	 * Affichage long d'une date en multilangue
+	 */
+	public static String displayLongDate(Date date, Locale locale) {
+		String result = "";
+
+		// Cas où la date est null
+		if (date == null) {
+			return "";
+		}
+
+		if (locale.equals(Locale.FRANCE)) { // EEE dd MMMM yyyy
+			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.FRANCE);
+			result = df.format(date);
+		} else if (locale.equals(Locale.GERMANY)) { // dd.MM.yyyy
+			DateFormat df = new SimpleDateFormat("EEEE, 'den' dd. MMMM yyyy", Locale.GERMANY);
+			result = df.format(date);
+		} else if (locale.equals(Locale.US)) { // EEE dd MMMM yyyy
+			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.US);
+			result = df.format(date);
 		}
 
 		return result;

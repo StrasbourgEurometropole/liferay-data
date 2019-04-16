@@ -557,6 +557,34 @@ public interface CampaignModel extends BaseModel<Campaign>, LocalizedModel,
 	public void setExportEnabled(Boolean exportEnabled);
 
 	/**
+	 * Returns the start date of this campaign.
+	 *
+	 * @return the start date of this campaign
+	 */
+	public Date getStartDate();
+
+	/**
+	 * Sets the start date of this campaign.
+	 *
+	 * @param startDate the start date of this campaign
+	 */
+	public void setStartDate(Date startDate);
+
+	/**
+	 * Returns the end date of this campaign.
+	 *
+	 * @return the end date of this campaign
+	 */
+	public Date getEndDate();
+
+	/**
+	 * Sets the end date of this campaign.
+	 *
+	 * @param endDate the end date of this campaign
+	 */
+	public void setEndDate(Date endDate);
+
+	/**
 	 * Returns <code>true</code> if this campaign is approved.
 	 *
 	 * @return <code>true</code> if this campaign is approved; <code>false</code> otherwise

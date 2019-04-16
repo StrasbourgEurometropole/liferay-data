@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.place.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+
+import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 
 /**
  * Provides a wrapper for {@link PlaceLocalService}.
@@ -30,6 +36,14 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	ServiceWrapper<PlaceLocalService> {
 	public PlaceLocalServiceWrapper(PlaceLocalService placeLocalService) {
 		_placeLocalService = placeLocalService;
+	}
+
+	/**
+	* Lance une recherche selon le searchContext
+	*/
+	@Override
+	public Hits search(SearchContext searchContext) throws SearchException {
+		return _placeLocalService.search(searchContext);
 	}
 
 	@Override
@@ -71,16 +85,6 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	}
 
 	/**
-	* Lance une recherche selon le searchContext
-	*/
-	@Override
-	public com.liferay.portal.kernel.search.Hits search(
-		com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
-		return _placeLocalService.search(searchContext);
-	}
-
-	/**
 	* Adds the place to the database. Also notifies the appropriate model listeners.
 	*
 	* @param place the place
@@ -97,7 +101,7 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	*/
 	@Override
 	public eu.strasbourg.service.place.model.Place createPlace(
-		com.liferay.portal.kernel.service.ServiceContext sc)
+		ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _placeLocalService.createPlace(sc);
 	}
@@ -216,8 +220,7 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	*/
 	@Override
 	public eu.strasbourg.service.place.model.Place updatePlace(
-		eu.strasbourg.service.place.model.Place place,
-		com.liferay.portal.kernel.service.ServiceContext sc)
+		eu.strasbourg.service.place.model.Place place, ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _placeLocalService.updatePlace(place, sc);
 	}
@@ -227,8 +230,7 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	*/
 	@Override
 	public eu.strasbourg.service.place.model.Place updateStatus(long userId,
-		long entryId, int status,
-		com.liferay.portal.kernel.service.ServiceContext sc,
+		long entryId, int status, ServiceContext sc,
 		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _placeLocalService.updateStatus(userId, entryId, status, sc,

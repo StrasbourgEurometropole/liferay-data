@@ -2,7 +2,7 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<div class="pro-search-listing">
+<div class="pro-search-listing" id="go-to-top">
 	<div class="container">
 	    <div class="row">
 	        <div class="col-md-8 pro-bloc-listing-participation">
