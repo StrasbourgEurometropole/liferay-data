@@ -135,6 +135,7 @@
 
         .slider-nav .slick-slide {
             margin: 0px 10px;
+            cursor: pointer;
         }  
 
         .image-nav {
@@ -161,7 +162,6 @@
 
         .slider-une-thumbnail__arrow:hover .flexbox{
             background-color: #FFFFFF;
-            border-color: #FFFFFF;
         }
 
         .slider-une-thumbnail__arrow:hover .slider-une-thumbnail__arrow-icon{
