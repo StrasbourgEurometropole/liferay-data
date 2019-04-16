@@ -1,4 +1,4 @@
-<#assign isHome = layout.getFriendlyURL() == "/lactu-home" />
+<#assign isHome = layout.getFriendlyURL() == "/lactu" />
 <#assign isPortraitList = layout.getFriendlyURL() == "/lactu-portraits" />
 
 <body class="${css_class} smag  
