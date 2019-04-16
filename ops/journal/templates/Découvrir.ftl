@@ -14,7 +14,9 @@
             </figure>
             <div class="ops-caption">
                 <h3>${title1.getData()}</h3>
-                <span class="ops-basic-link">Découvrir</span>
+                <#if linkURL1.getData()?has_content>
+                    <span class="ops-basic-link">Découvrir</span>
+                </#if>
             </div>
         <#if linkURL1.getData()?has_content>
             </a>
@@ -32,7 +34,9 @@
             </figure>
             <div class="ops-caption">
                 <h3>${title2.getData()}</h3>
-                <span class="ops-basic-link">Découvrir</span>
+                <#if linkURL2.getData()?has_content>
+                    <span class="ops-basic-link">Découvrir</span>
+                </#if>
             </div>
         <#if linkURL2.getData()?has_content>
             </a>
@@ -52,7 +56,9 @@
             </figure>
             <div class="ops-caption">
                 <h3>${title3.getData()}</h3>
-                <span class="ops-basic-link">Découvrir</span>
+                <#if linkURL3.getData()?has_content>
+                    <span class="ops-basic-link">Découvrir</span>
+                 </#if>
             </div>
         <#if linkURL3.getData()?has_content>
             </a>

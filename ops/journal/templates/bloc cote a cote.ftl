@@ -9,7 +9,7 @@
 			<h3>${titleLeft.getData()}</h3>
 		</div>
 		<div class="ops-content">
-			<p>${titleLeftDescription.getData()}</p>
+			<p>${textLeft.getData()}</p>
 		</div>
 	</div>
 	<div class="ops-col-50">
@@ -17,11 +17,10 @@
 			<figure class="fit-cover">
 				<img src="${imageRight.getData()}" width="530" height="500" alt="Image side"/>
 			</figure>
-			<!-- <div class="ops-no-photo"></div>-->
 			<h3>${titleRight.getData()}</h3>
 		</div>
 		<div class="ops-content">
-			<p>${titleRightDescription.getData()}</p>
+			<p>${textRight.getData()}</p>
 		</div>
 	</div>
 </div>

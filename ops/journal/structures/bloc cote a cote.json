@@ -52,7 +52,7 @@
         },
         {
             "label": {
-                "fr_FR": "Titre gauche structure"
+                "fr_FR": "Texte gauche"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -63,15 +63,16 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
-            "indexType": "keyword",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
             "localizable": true,
-            "name": "titleLeftDescription",
+            "name": "textLeft",
             "readOnly": false,
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "text"
+            "type": "ddm-text-html"
         },
         {
             "label": {
@@ -99,7 +100,7 @@
         },
         {
             "label": {
-                "fr_FR": "Titre droit"
+                "fr_FR": "Titre droite"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -122,7 +123,7 @@
         },
         {
             "label": {
-                "fr_FR": "Titre droit structure"
+                "fr_FR": "Texte droite"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -133,15 +134,16 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
-            "indexType": "keyword",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
             "localizable": true,
-            "name": "titleRightDescription",
+            "name": "textRight",
             "readOnly": false,
             "repeatable": false,
-            "required": true,
+            "required": false,
             "showLabel": true,
-            "type": "text"
+            "type": "ddm-text-html"
         },
         {
             "label": {

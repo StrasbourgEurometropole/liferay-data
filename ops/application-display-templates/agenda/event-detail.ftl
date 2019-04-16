@@ -1,4 +1,4 @@
-<#-- DETAIL D'UN EVENEMENT -->
+<!-- DETAIL D'UN EVENEMENT -->
 
 <#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
@@ -16,7 +16,7 @@
         <figure class="fit-cover">
             <#if entry.imageURL?has_content>
                 <img src="${entry.imageURL}" width="1600" height="900" alt="${entry.getTitle(locale)}"/>
-             </#if>
+            </#if>
         </figure>
 
         <div class="ops-content-wrapper ops-caption-concert">
@@ -60,16 +60,20 @@
         <div class="ops-content-wrapper">
 
             <!-- Programme -->
-            <div class="ops-col-33">
-                <span class="ops-title-infos">Programme</span>
-                <p>${entry.program}</p>
-            </div>
+            <#if entry.program?has_content>
+                <div class="ops-col-33">
+                    <span class="ops-title-infos">Programme</span>
+                    <p>${entry.program}</p>
+                </div>
+            </#if>
 
             <!-- Distribution -->
-            <div class="ops-col-33">
-                <span class="ops-title-infos">Distribution</span>
-                <p>${entry.distribution}</p>
-            </div>
+            <#if entry.distribution?has_content>
+                <div class="ops-col-33">
+                    <span class="ops-title-infos">Distribution</span>
+                    <p>${entry.distribution}</p>
+                </div>
+            </#if>
 
             <!-- Adresse p-->
             <div class="ops-col-33">
@@ -148,14 +152,11 @@
 </div>
 
 <script>
-$(document).ready(function(){
-    if($('*').find("#ops-distribution").length == 0)
-        $("#distribution-link").hide();
+    $(document).ready(function(){
+        if($('*').find("#ops-distribution").length == 0)
+            $("#distribution-link").hide();
 
-    if($('*').find("#ops-audio").length == 0)
-        $("#audio-link").hide();
-});
-
-
-
+        if($('*').find("#ops-audio").length == 0)
+            $("#audio-link").hide();
+    });
 </script>
