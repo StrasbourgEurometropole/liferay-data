@@ -113,7 +113,7 @@
 
                     <#list suggestions as suggestion>
                         <div class="ops-item">
-                            <a href="detail-concert.html" class="ops-card ops-card-concert">
+                            <a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}" class="ops-card ops-card-concert">
                                 <div>
                                     <time><span>${suggestion.getEventScheduleDisplay(locale, false, true)}</span></time>
                                     <div class="ops-next-date"></div>
