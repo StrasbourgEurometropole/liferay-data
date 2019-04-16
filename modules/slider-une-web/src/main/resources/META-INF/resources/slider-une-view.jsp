@@ -37,7 +37,7 @@
                     picture: '${image}',
                     link: '${viewURL}',
                     id: '${id}',
-                    groupId: '${groupId}',
+                    groupId: '${groupId}'
                     <c:if test="${dc.hasFocus(curEntry.getTagNames())}">
                       ,is_Big: true
                     </c:if>
@@ -66,7 +66,7 @@
                         date_start: '${firstStartDate}',
                         date_end: '${lastEndDate}',
                         date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
-                        date_suffix: '<liferay-ui:message key="eu.event.to" />',
+                        date_suffix: '<liferay-ui:message key="eu.event.to" />'
                     </c:if>
                     <c:if test="${dc.hasFocus(curEntry.getTagNames())}">
                       ,is_Big: true
