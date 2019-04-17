@@ -19,8 +19,71 @@
 
         <!-- SECTION PRINCIPAL OFFRE RH -->
         <section>
-            ${postContent.getData()}
+
+            <!-- RUBRIQUES -->
+            <#list rubricTitle.getSiblings() as cur_title>
+                <div id="${cur_title.getChild("rubricAnchor").getData()}" class="ops-section-rh ops-bloc-presentation">
+                    <div>
+                        <h2 class="ops-title-line"><span>${cur_title.getData()}</span></h2>
+                    </div>
+                    <div class="ops-bloc-texte">
+                        ${cur_title.getChild("rubricContent").getData()}
+                    </div>
+                </div>
+            </#list>
+
         </section>
+
+        <!-- BARRE LATERALE FIXE -->
+        <#if rightBlockTitle.getData()?has_content >
+            <aside>
+                <div class="ops-wrapper-sticky">
+
+                    <span class="ops-title-spacing">${rightBlockTitle.getData()}</span>
+                    <address>
+                        ${rightBlockTitle.getChild("rightBlockContent").getData()}
+                    </address>
+
+                    <#assign rightBlockContactTelLabel = rightBlockTitle.getChild("rightBlockContactTelLabel")/>  
+                    <#assign rightBlockContactMailLabel = rightBlockTitle.getChild("rightBlockContactMailLabel")/>
+                    
+                    <#-- Liens de contact -->
+                    <#if rightBlockContactTelLabel.getData()?has_content || rightBlockContactMailLabel.getData()?has_content >
+
+                        <span class="ops-title-spacing">Contact</span>
+
+                        <#if rightBlockContactTelLabel.getData()?has_content >
+                            <a href="tel:${rightBlockContactTelLabel.getChild("rightBlockContactTelLink").getData()}">
+                                Tél : ${rightBlockContactTelLabel.getData()}
+                            </a>
+                        </#if>
+
+                        <#if rightBlockContactMailLabel.getData()?has_content >
+                            <a href="mailto:${rightBlockContactMailLabel.getChild("rightBlockContactMailLink").getData()}">
+                                Mail : <u>${rightBlockContactMailLabel.getData()}</u>
+                            </a>
+                        </#if>
+
+                    </#if>
+                    
+                    <div class="ops-scrollto">
+                        <#list rightBlockTitle.getChild("rightBlockLinkTitle").getSiblings() as cur_linkTitle>
+                            <a href="${cur_linkTitle.getChild("rightBlockLinkURL").getData()}" 
+                                <#if cur_linkTitle.getChild("rightBlockLinkSwitchColor").getData() == "true"> 
+                                    class="ops-btn-inversed"
+                                <#else>
+                                    class="ops-btn"
+                                </#if>
+                                <#if cur_linkTitle.getChild("rightBlockLinkBlank").getData() == "true"> target="_blank"</#if>
+                            >
+                                ${cur_linkTitle.getData()}
+                            </a>
+                        </#list>
+                    </div>
+
+                </div>
+            </aside>
+        </#if>
 
     </div>
 
