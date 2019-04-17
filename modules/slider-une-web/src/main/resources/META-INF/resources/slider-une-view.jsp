@@ -1,11 +1,4 @@
 <%@ include file="/slider-une-init.jsp" %>
-<c:set var="virtualStrasbourgHostName" value="${dc.getVirtualStrasbourgHostName()}"/>
-<c:if test="${empty virtualStrasbourgHostName}">
-	<c:set var="homeStrasbourgURL" value="/web/strasbourg.eu/"/>
-</c:if>
-<c:if test="${not empty virtualStrasbourgHostName}">
-	<c:set var="homeStrasbourgURL" value="https://${virtualStrasbourgHostName}/"/>
-</c:if>
 
 <script type="text/javascript">
     <c:set var="editionCount" value="0" />
@@ -50,7 +43,7 @@
                     category: 'agenda',
                     title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
                     type: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTypeLabel(locale)))}',
-                    link: '${homeStrasbourgURL}evenement/-/entity/id/${event.eventId}',
+                    link: '${dc.getHomeURL()}/evenement/-/entity/id/${event.eventId}',
                     ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
                     id: '${event.eventId}',
                     <c:if test="${event.firstStartDate.equals(event.lastEndDate)}">
@@ -199,7 +192,7 @@
         </div>
     </c:if >
     <div class="seu-btn-line">
-        <a href="${dc.link}" class="seu-btn-square seu-filled seu-second" title="<liferay-ui:message key="eu.news-new" />">
+        <a href="${dc.getHomeURL()}${dc.link}" class="seu-btn-square seu-filled seu-second" title="<liferay-ui:message key="eu.news-new" />">
             <span class="seu-flexbox">
                 <span class="seu-btn-text"><liferay-ui:message key="eu.new" /></span>
                 <span class="seu-btn-arrow"></span>

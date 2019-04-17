@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -51,17 +52,24 @@ public class SliderUneDisplayContext {
         return configuration.showTags();
     }
 
+    public String getHomeURL() {
+        String home = "";
+        String virtualHostName = themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
+        boolean stagingGroup = themeDisplay.getScopeGroup().isStagingGroup();
+        if(Validator.isNotNull(virtualHostName) && ! stagingGroup)
+            home = "/";
+        else {
+            try {
+                home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
+            } catch (PortalException e) {
+                e.printStackTrace();
+            }
+        }
+        return home;
+    }
+
     public String getLink() {
         return configuration.link();
-    }
-
-    public String getVirtualHostName() {
-        return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
-    }
-
-    public String getVirtualStrasbourgHostName() {
-        Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-        return group.getPublicLayoutSet().getVirtualHostname();
     }
 
     // récupération des actu, webmag et évènements

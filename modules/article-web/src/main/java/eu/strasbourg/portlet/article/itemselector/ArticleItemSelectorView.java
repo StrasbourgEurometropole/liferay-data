@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.article.itemselector;
 
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
@@ -21,11 +23,9 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.PortletURL;
 import javax.servlet.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component(
 	property = { "item.selector.view.order:Integer=47"},
@@ -77,24 +77,13 @@ public class ArticleItemSelectorView
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-		long folderActuId = 0;
-		List<JournalFolder> foldersActualite = JournalFolderLocalServiceUtil.getFolders(themeDisplay.getScopeGroupId(), 0)
-				.stream().filter(f -> StringHelper.compareIgnoringAccentuation(f.getName(), "Actualites")).collect(Collectors.toList());
-		if(!foldersActualite.isEmpty())
-			folderActuId = foldersActualite.get(0).getFolderId();
-		long folderWebmagId = 0;
-		List<JournalFolder> foldersWebmag = JournalFolderLocalServiceUtil.getFolders(themeDisplay.getScopeGroupId(), folderActuId)
-				.stream().filter(f -> f.getName().equals("Webmag")).collect(Collectors.toList());
-		if(!foldersWebmag.isEmpty())
-			folderWebmagId = foldersWebmag.get(0).getFolderId();
+		DDMStructure structureActu = DDMStructureLocalServiceUtil.getStructures(themeDisplay.getScopeGroupId())
+				.stream().filter(s -> StringHelper.compareIgnoringAccentuation(s.getName(Locale.FRANCE), "Actualite"))
+				.findFirst().get();
 
-		List<JournalArticle> articles = new ArrayList<JournalArticle>();
-		List<JournalArticle> actus = JournalArticleLocalServiceUtil.getArticles(
-				themeDisplay.getScopeGroupId(), folderActuId, 0, -1, -1);
-		articles.addAll(actus);
-		List<JournalArticle> webmags = JournalArticleLocalServiceUtil.getArticles(
-				themeDisplay.getScopeGroupId(), folderWebmagId, 0, -1, -1);
-		articles.addAll(webmags);
+		List<JournalArticle> articles = JournalArticleLocalServiceUtil.getArticles(
+				themeDisplay.getScopeGroupId(), -1, -1).stream().filter(a -> a.getStatus() == 0
+				&& a.getDDMStructureKey().equals(structureActu.getStructureKey())).collect(Collectors.toList());
 
 		return articles;
 	}
