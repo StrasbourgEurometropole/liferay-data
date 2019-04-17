@@ -2,7 +2,7 @@
 
 <#assign date = dateUtil.parseDate("yyyy-MM-dd", date.getData(), locale)/>  
 
-<main class="ops-page-rh">
+<div class="ops-page-rh">
 
     <div class="ops-wrapper-content-rh ops-content-wrapper ops-bloc-texte">
 
@@ -24,15 +24,12 @@
 
     </div>
 
-</main>
+</div>
 
 <style>
+    <#--  Cache le titre du portlet liferay  -->
     .portlet-body>div>div.h2 {
         display : none;
 
-    }
-
-    .has-control-menu #ops-wrapper main.ops-page-rh, .ops-page-rh {
-        padding-top : 100px
     }
 </style>
