@@ -49,8 +49,8 @@
       <div class="seu-scrolled-search-engine">
         <form action="${homeURL}recherche" method="get" class="seu-search">
           <button type="submit"></button>
-          <label for="main_search_banner" class="sr-only">Rechercher</label>
-          <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher ..." id="main_search_banner">
+          <label for="main_search_banner" class="sr-only"><@liferay.language key="to-research" /></label>
+          <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="<@liferay.language key="to-research" /> ..." id="main_search_banner">
           <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
           <input type="hidden" name="p_p_lifecycle" value="1" />
           <button type="button" class="seu-search-close"></button>

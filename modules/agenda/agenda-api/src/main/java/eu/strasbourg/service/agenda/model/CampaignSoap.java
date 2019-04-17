@@ -51,6 +51,8 @@ public class CampaignSoap implements Serializable {
 		soapModel.setDefaultImageCopyright(model.getDefaultImageCopyright());
 		soapModel.setManagersIds(model.getManagersIds());
 		soapModel.setExportEnabled(model.getExportEnabled());
+		soapModel.setStartDate(model.getStartDate());
+		soapModel.setEndDate(model.getEndDate());
 
 		return soapModel;
 	}
@@ -247,6 +249,22 @@ public class CampaignSoap implements Serializable {
 		_exportEnabled = exportEnabled;
 	}
 
+	public Date getStartDate() {
+		return _startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		_startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return _endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		_endDate = endDate;
+	}
+
 	private String _uuid;
 	private long _campaignId;
 	private long _groupId;
@@ -265,4 +283,6 @@ public class CampaignSoap implements Serializable {
 	private String _defaultImageCopyright;
 	private String _managersIds;
 	private Boolean _exportEnabled;
+	private Date _startDate;
+	private Date _endDate;
 }

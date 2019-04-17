@@ -2163,6 +2163,34 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setImageId(long imageId);
 
 	/**
+	 * Returns the image width of this place.
+	 *
+	 * @return the image width of this place
+	 */
+	public Integer getImageWidth();
+
+	/**
+	 * Sets the image width of this place.
+	 *
+	 * @param imageWidth the image width of this place
+	 */
+	public void setImageWidth(Integer imageWidth);
+
+	/**
+	 * Returns the image height of this place.
+	 *
+	 * @return the image height of this place
+	 */
+	public Integer getImageHeight();
+
+	/**
+	 * Sets the image height of this place.
+	 *
+	 * @param imageHeight the image height of this place
+	 */
+	public void setImageHeight(Integer imageHeight);
+
+	/**
 	 * Returns the image IDs of this place.
 	 *
 	 * @return the image IDs of this place

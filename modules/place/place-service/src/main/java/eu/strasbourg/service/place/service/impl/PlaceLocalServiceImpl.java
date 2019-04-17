@@ -14,12 +14,7 @@
 
 package eu.strasbourg.service.place.service.impl;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -33,24 +28,12 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchException;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
-import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.service.*;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.agenda.model.Event;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.place.MairieStateSOAPClient;
 import eu.strasbourg.service.place.ParkingStateClient;
 import eu.strasbourg.service.place.PoolStateSOAPClient;
@@ -61,6 +44,18 @@ import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.base.PlaceLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the place local service.
@@ -130,6 +125,20 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		place.setStatusByUserId(sc.getUserId());
 		place.setStatusByUserName(user.getFullName());
 		place.setStatusDate(sc.getModifiedDate());
+
+		try {
+			if(place.getImageId() != 0) {
+				String imageURL = FileEntryHelper.getFileEntryURL(place.getImageId());
+
+				String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
+				URL url = new URL(completeImageURL);
+				final BufferedImage bi = ImageIO.read(url);
+				place.setImageHeight(bi.getHeight());
+				place.setImageWidth(bi.getWidth());
+			}
+		}catch (Exception e){
+			log.warn("Lieu : " + place.getAlias(Locale.FRANCE) + " image : " + place.getImageId() + "\n" + e);
+		}
 
 		// Si on n'utilise pas le framework workflow, simple gestion
 		// brouillon/publié

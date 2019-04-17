@@ -37,7 +37,7 @@
 		</c:when>
 		<c:otherwise>	
 		
-			<h1><liferay-ui:message key="title-schedule" /> ${category.getTitle(locale)}</h1>
+			<h1><liferay-ui:message key="title-schedule1" /> ${category.getTitle(locale)}</h1>
 
 			<!-- Formulaire de recherche -->
 			<aui:form action="${changeDataURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
@@ -137,7 +137,17 @@
 							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >
 								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
 								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />
-								<fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                <c:choose>
+                                    <c:when test="${locale eq 'en_EN'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:when>
+                                    <c:when test="${locale eq 'de_DE'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d. MMMM" />
+                                    </c:when>
+                                    <c:otherwise>
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:otherwise>
+                                </c:choose>
 								<c:set var="isToday" value="${shortNow eq shortDate}" />
 								<c:choose>
 									<c:when test="${loopStatus.index eq 0}">
@@ -287,7 +297,7 @@
 										class="seu-btn-square seu-bordered seu-core" 
 										title="${place.getAlias(locale)}"> 
 											<span class="seu-flexbox"> 
-												<span class="seu-btn-text">Voir plus</span> 
+												<span class="seu-btn-text"><liferay-ui:message key="eu.see-more" /></span>
 												<span class="seu-btn-arrow"></span> 
 											</span>
 									</a>
@@ -335,7 +345,17 @@
 							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >							
 								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
 								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />
-								<fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                <c:choose>
+                                    <c:when test="${locale eq 'en_EN'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:when>
+                                    <c:when test="${locale eq 'de_DE'}">
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d. MMMM" />
+                                    </c:when>
+                                    <c:otherwise>
+								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
+                                    </c:otherwise>
+                                </c:choose>
 								<c:set var="isToday" value="${shortNow eq shortDate}" />
 								<c:choose>
 									<c:when test="${loopStatus.index eq 0}">
@@ -415,7 +435,7 @@
 						class="btn-more-schedules seu-btn-square seu-bordered seu-core" 
 						title="${place.getAlias(locale)}" style="display: ${(nbExceptions <= 4) ? 'none' : 'inline-block'};"> 
 							<span class="seu-flexbox"> 
-								<span class="seu-btn-text">Voir plus</span> 
+								<span class="seu-btn-text"><liferay-ui:message key="eu.see-more" /></span>
 								<span class="seu-btn-arrow" style="transform: rotateZ(90deg);"></span> 
 							</span>
 					</a>
@@ -423,7 +443,7 @@
 						class="btn-less-schedules seu-btn-square seu-bordered seu-core" 
 						title="${place.getAlias(locale)}" style="display: none;"> 
 							<span class="seu-flexbox"> 
-								<span class="seu-btn-text">Voir moins</span> 
+								<span class="seu-btn-text"><liferay-ui:message key="eu.see-less" /></span>
 								<span class="seu-btn-arrow" style="transform: rotateZ(-90deg);"></span> 
 							</span>
 					</a>

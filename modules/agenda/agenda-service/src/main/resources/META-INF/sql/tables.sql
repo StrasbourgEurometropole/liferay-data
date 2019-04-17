@@ -16,7 +16,9 @@ create table agenda_Campaign (
 	defaultImageId LONG,
 	defaultImageCopyright STRING null,
 	managersIds VARCHAR(75) null,
-	exportEnabled BOOLEAN
+	exportEnabled BOOLEAN,
+	startDate DATE null,
+	endDate DATE null
 );
 
 create table agenda_CampaignEvent (

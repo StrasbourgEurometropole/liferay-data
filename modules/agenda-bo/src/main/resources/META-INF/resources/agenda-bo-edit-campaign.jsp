@@ -24,6 +24,9 @@
 	<liferay-ui:error key="copyright-error" message="copyright-error" />
 	<liferay-ui:error key="managers-error" message="managers-error" />
 	<liferay-ui:error key="themes-error" message="themes-error" />
+	<liferay-ui:error key="start-date-error" message="start-date-error" />
+	<liferay-ui:error key="end-date-error" message="end-date-error" />
+	<liferay-ui:error key="dates-error" message="dates-error" />
 	
 	<aui:form action="${saveCampaignURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -40,7 +43,7 @@
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
-				
+
 				<strasbourg-picker:image label="eu.default-image" name="defaultImageId"
 						required="true" value="${dc.campaign.defaultImageId}" global="true" />
 						
@@ -67,6 +70,25 @@
 					id="managersIds"
 					placeholder="<liferay-ui:message key="select-managers" />" multiple>
 				</select>
+			</aui:fieldset>
+
+			<%-- Groupe de champs : Periode de campagne --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="period">
+
+				<aui:input name="startDate" required="true" />
+                <div class="start-date-error" style="display: none">
+                    <liferay-ui:message key="this-field-is-required" />
+                </div>
+
+                <div class="incorrect-date-error" style="display: none">
+                    <liferay-ui:message key="dates-error" />
+                </div>
+
+				<aui:input name="endDate" required="true" />
+                <div class="end-date-error" style="display: none">
+                    <liferay-ui:message key="this-field-is-required" />
+                </div>
+
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"

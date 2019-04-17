@@ -19,6 +19,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.DateHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -109,6 +110,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				}
 			}
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
+			request.setAttribute("jourChoisiFormate", DateHelper.displayShortDate(jourChoisi.getTime(), locale));
 			request.setAttribute("selectedDate", jourChoisi.getTime());
 			GregorianCalendar selectedCalendar = new GregorianCalendar();
 			selectedCalendar.setTime(jourChoisi.getTime());
@@ -133,8 +135,6 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			request.setAttribute("next", sf.format(next.getTime()));
 
 			// récupère les jours de la semaine voulue
-			DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
-			DateFormat df2 = DateFormat.getDateInstance(DateFormat.SHORT, locale);
 			List<String[]> week = new ArrayList<String[]>();
 			int delta = configuration.template() != null && configuration.template().equals("strasbourg-table") ? 0
 					: -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
@@ -142,9 +142,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à
 															// afficher en front
 			for (int jour = 0; jour < lengthOfWeek; jour++) {
-				StringBuilder date = new StringBuilder(df.format(jourSemaine.getTime()));
+				StringBuilder date = new StringBuilder(DateHelper.displayLongDate(jourSemaine.getTime(), locale));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());
-				String[] dates = { date.toString(), df2.format(jourSemaine.getTime()) };
+				String[] dates = { date.toString(), DateHelper.displayShortDate(jourSemaine.getTime(), locale) };
 				week.add(dates);
 				weekDates.add(jourSemaine.getTime());
 				jourSemaine.add(Calendar.DAY_OF_MONTH, 1);

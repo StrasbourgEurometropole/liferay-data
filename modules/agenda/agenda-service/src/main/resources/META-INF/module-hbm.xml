@@ -32,6 +32,8 @@
 		<property name="defaultImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="managersIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="exportEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignEventImpl" table="agenda_CampaignEvent">
 		<id name="campaignEventId" type="long">

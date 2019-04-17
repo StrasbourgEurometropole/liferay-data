@@ -51,9 +51,10 @@
 </head>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 <#assign isDistrict = layout.getFriendlyURL() == "/mon-quartier" />
+<#assign isWelcome = layout.getFriendlyURL() == "/bienvenue" />
 
 <body class="${css_class} no-js
-     class_group_home <#if isHome || isDistrict>front<#else>not-front</#if>">
+     class_group_home <#if isHome || isDistrict>front<#else>not-front</#if> <#if isWelcome>welcome</#if>">
 
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
@@ -68,20 +69,20 @@
 
   <header class="header">
 
-      <div id="cookies" class="cookies-top clearfix" data-site-id="UA-999999">
-        <div class="popup-content info">
-            <div id="popup-text">
-                <p>
-                    Ce site web utilise des cookies. En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies.
-                    Pour en savoir plus <a href="https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser" target=_blank>Cliquez-ici</a>.
-                </p>
-            </div>
-            <div id="popup-buttons">
-                <button type="button" class="agree-button">
-                    <span class="sr-only">OK</span>
-                </button>
-            </div>
+    <div id="cookies" class="cookies-top clearfix" data-site-id="UA-999999">
+      <div class="popup-content info">
+        <div id="popup-text">
+          <p>
+            Ce site web utilise des cookies. En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies.
+            Pour en savoir plus <a href="https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser" target=_blank>Cliquez-ici</a>.
+          </p>
         </div>
+        <div id="popup-buttons">
+          <button type="button" class="agree-button">
+            <span class="sr-only">OK</span>
+          </button>
+        </div>
+      </div>
     </div>
 
     <#include "${full_templates_path}/nav_top.ftl" />
@@ -112,15 +113,18 @@
   </header>
  
   <main id="main-content">
-   <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
-    <div class="custom-container">
-      <#include "${full_templates_path}/home_banner.ftl" />
-    
-    <#if !(isHome || isDistrict)>
-      <div class="card-box">  
-        <#if layout.getFriendlyURL() != "/bienvenue">
-          <@liferay.breadcrumbs />
+    <#if !isWelcome>
+      <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
+    </#if>
+    <#if !isWelcome>
+      <div class="custom-container">
+        <#include "${full_templates_path}/home_banner.ftl" />
+        <#if !(isHome || isDistrict)>
+          <div class="card-box">  
+            <@liferay.breadcrumbs />
         </#if>
+    <#else> 
+      <div id="welcome-page">
     </#if>      
     <#if selectable>
       <@liferay_util["include"] page=content_include />
@@ -133,12 +137,10 @@
         <@liferay_util["include"] page=content_include />
       </@>
     </#if>
-    <#if !(isHome || isDistrict)>
-      </div>
-    <#else>
-      <#--include "${full_templates_path}/content.ftl" /-->
-    </#if>
-    </div>
+      <#if !(isHome || isDistrict || !isWelcome)>
+        </div>
+      </#if>
+    </div> 
   </main>
   <#include "${full_templates_path}/footer.ftl" />
 

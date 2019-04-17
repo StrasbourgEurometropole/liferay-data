@@ -576,6 +576,7 @@ public class PlaceImpl extends PlaceBaseImpl {
     @Override
     public Boolean isClosed(GregorianCalendar jourSemaine) {
         Boolean closed = true;
+        LocalTime heureActuelle = LocalTime.now();
 
         // vérifie si cette date n'est pas dans les horaires d'exception
         for (ScheduleException scheduleException : this.getScheduleExceptions()) {
@@ -584,8 +585,17 @@ public class PlaceImpl extends PlaceBaseImpl {
                     && scheduleException.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
                 if (scheduleException.isClosed())
                     return true;
-                else
-                    return false;
+                else {
+                    // vérifie si on est dans la période d'ouverture du schedule exception
+                    for (Pair<LocalTime, LocalTime> openingTime : scheduleException.getOpeningLocalTimes()) {
+                        LocalTime startHour = openingTime.getFirst();
+                        LocalTime endHour = openingTime.getSecond();
+                        if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
             }
         }
 
@@ -604,7 +614,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // s'il n'y a pas d'exception, on vérifie dans les périodes
-        LocalTime heureActuelle = LocalTime.now();
         for (Period period : this.getPeriods()) {
             if (!period.getDefaultPeriod()) {
                 if (period.getStartDate() != null && period.getEndDate() != null

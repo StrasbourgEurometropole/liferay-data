@@ -72,6 +72,8 @@ create table place_Place (
 	RTStatus VARCHAR(75) null,
 	RTLastUpdate DATE null,
 	imageId LONG,
+	imageWidth INTEGER,
+	imageHeight INTEGER,
 	imageIds VARCHAR(400) null,
 	videosIds VARCHAR(400) null,
 	priceId LONG,

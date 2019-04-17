@@ -705,19 +705,19 @@ function getResult(searchPage, data) {
             '<ul>' +
                 '<!-- Lien vers la premiere page -->' +
                 '<li class="pro-disabled" >' +
-                    '<a class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing" data-action="first">Premier</a>' +
+                    '<a href="#go-to-top" class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing" data-action="first">Premier</a>' +
                 '</li>' +
                 '<!-- Lien vers la page precedente page -->' +
                 '<li class="pro-disabled" >' +
-                    '<a title="Lien vers la page precedente du Listing" data-action="prev">Précédent</a>' +
+                    '<a href="#go-to-top" title="Lien vers la page precedente du Listing" data-action="prev">Précédent</a>' +
                 '</li>' +
                 '<!-- Lien vers la page suivante -->' +
                 '<li>' +
-                    '<a title="Lien vers la page suivante du Listing" data-action="next">Suivant</a>' +
+                    '<a href="#go-to-top" title="Lien vers la page suivante du Listing" data-action="next">Suivant</a>' +
                 '</li>' +
                 '<!-- Lien vers la derniere page -->' +
                 '<li>' +
-                    '<a class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing" data-action="last">Dernier</a>' +
+                    '<a href="#go-to-top" class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing" data-action="last">Dernier</a>' +
                 '</li>' +
             '</ul>';
         }
@@ -1292,3 +1292,33 @@ $(document).ready(function () {
     });
     
 });
+
+/**
+ * Lors d'un clic d'un lien vers une autre page d'un listing
+ */
+$(document).on('click', "a[href='#go-to-top']", function(e){
+    e.preventDefault();
+    var target = $(this).attr('href');
+    scrollToAnchor(target);
+});
+
+/**
+ * Lors d'un clic d'une option sur selecteur de page de listing
+ */
+$(document).on('change', "#change-page", function(e){
+    e.preventDefault();
+    scrollToAnchor("#go-to-top");
+});
+
+/**
+ * @description Scroll vers l'ancre donné en paramètre avec douceur
+ * @param {string} wi - ID de l'ancre vers laquelle scroller
+ */
+function scrollToAnchor(anchorId) {
+    // Le sélecteur $(html, body) permet de corriger un bug sur chrome et safari (webkit).
+    $('html, body')
+       // On arrête toutes les animations en cours. 
+       .stop()
+       // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
+       .animate({scrollTop: $(anchorId).offset().top}, 1000 );
+}
