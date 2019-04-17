@@ -130,7 +130,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "distribution", Types.VARCHAR },
 			{ "composer", Types.VARCHAR },
 			{ "concertId", Types.VARCHAR },
-			{ "program", Types.VARCHAR },
+			{ "program", Types.CLOB },
 			{ "firstStartDate", Types.TIMESTAMP },
 			{ "lastEndDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT }
@@ -187,13 +187,13 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("distribution", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("composer", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("concertId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("program", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("program", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("firstStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastEndDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(75) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution VARCHAR(400) null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program VARCHAR(400) null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(75) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution VARCHAR(400) null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
