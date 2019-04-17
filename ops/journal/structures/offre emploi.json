@@ -76,7 +76,7 @@
         },
         {
             "label": {
-                "fr_FR": "Contenu de l'offre"
+                "fr_FR": "Titre de la rubrique"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -88,14 +88,302 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "text",
+            "indexType": "keyword",
             "localizable": true,
-            "name": "postContent",
+            "name": "rubricTitle",
             "readOnly": false,
-            "repeatable": false,
+            "repeatable": true,
             "required": true,
             "showLabel": true,
-            "type": "textarea"
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Contenu de la rubrique"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "html",
+                    "fieldNamespace": "ddm",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "rubricContent",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-text-html"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Ancre de ma rubrique (ex: \"ops-epreuves\")"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "rubricAnchor",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "label": {
+                "fr_FR": "Titre bloc de droite"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "rightBlockTitle",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Contenu bloc de droite"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "html",
+                    "fieldNamespace": "ddm",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "rightBlockContent",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-text-html"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Contact - Label numéro de téléphone (ex: \"+33 00 00 00 00\")"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "rightBlockContactTelLabel",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "fr_FR": "Contact - Lien numéro de téléphone sans espace (ex: \"0300000000\")"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": ""
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "rightBlockContactTelLink",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "label": {
+                        "fr_FR": "Contact - Label adresse Email"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "rightBlockContactMailLabel",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "fr_FR": "Contact - Adresse Email"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": ""
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "rightBlockContactMailLink",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "label": {
+                        "fr_FR": "Nom du lien de droite"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "rightBlockLinkTitle",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "fr_FR": "URL lien de droite"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": ""
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "rightBlockLinkURL",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        },
+                        {
+                            "label": {
+                                "fr_FR": "Ouvrir le lien de droite dans un nouvel onglet"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": false
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "boolean",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "rightBlockLinkBlank",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": {
+                                "fr_FR": "Couleurs du lien inversées"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": false
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "boolean",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "rightBlockLinkSwitchColor",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "checkbox"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
