@@ -1,5 +1,5 @@
-  <!-- BLOC COLONNES - 3 COLONNES -->
- <div class="ops-col-wrapper ops-bloc ops-bloc-small ops-bloc-texte ops-bloc-colonne" data-egalize="> * > *">
+<!-- BLOC COLONNES - 3 COLONNES -->
+<div class="ops-col-wrapper ops-bloc ops-bloc-small ops-bloc-texte ops-bloc-colonne" data-egalize="> * > *">
 	
 	<#-- Bloc gauche -->
 	<div class="ops-col-33">
@@ -16,6 +16,9 @@
 			<div class="ops-bloc-content-actu">
 				<h3>${titleLeft.getData()}</h3>
 				<p>${descriptionLeft.getData()}</p>
+				<#if linkURLLeft.getData()?has_content && linkLabelLeft.getData()?has_content>
+					<span class="ops-basic-link">${linkLabelLeft.getData()}</span>
+				</#if>
 			</div>
 
 		<#if linkURLLeft.getData()?has_content && linkLabelLeft.getData()?has_content>
@@ -41,6 +44,9 @@
 			<div class="ops-bloc-content-actu">
 				<h3>${titleMiddle.getData()}</h3>
 				<p>${descriptionMiddle.getData()}</p>
+				<#if linkURLMiddle.getData()?has_content && linkLabelMiddle.getData()?has_content>
+					<span class="ops-basic-link">${linkLabelMiddle.getData()}</span>
+				</#if>
 			</div>
 
 		<#if linkURLMiddle.getData()?has_content && linkLabelMiddle.getData()?has_content>
