@@ -170,4 +170,20 @@
 	 line-height: 17px;
 	 margin-left: 0px;
 }
+
+@media (max-width: 979px) { 
+	.ops-pagination .lfr-pagination-buttons li, .taglib-page-iterator .lfr-pagination-buttons > li > a {
+		width : auto;
+		float: inherit;
+	}
+	.taglib-page-iterator .lfr-pagination-buttons {
+		width : auto;
+	}
+}
+
+@media (max-width: 767px) {
+	.taglib-page-iterator .lfr-pagination-config .current-page-menu {
+		display : inline-block;
+	}
+}
 </style>

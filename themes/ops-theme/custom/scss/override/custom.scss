@@ -18,9 +18,14 @@ main {
 	z-index : auto;
 }
 
-//Pour que l'affichage du contenu principal prenne en compte le header de liferay 
+//pour que le header du thème ne soit pas caché par le header de Liferay en mode connecté
+.has-control-menu #ops-header {
+  top : 64px;
+}
+
+//Pour que l'affichage du contenu principal et le footer prennent en compte le header de liferay 
 .has-control-menu #ops-wrapper main{
-	padding-top : 64px;
+	margin-top : 64px;
 }
 
 //Idem pour les bordures
