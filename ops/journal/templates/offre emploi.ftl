@@ -31,8 +31,4 @@
         display : none;
 
     }
-
-    .has-control-menu #ops-wrapper main.ops-page-rh, .ops-page-rh {
-        padding-top : 100px
-    }
 </style>
