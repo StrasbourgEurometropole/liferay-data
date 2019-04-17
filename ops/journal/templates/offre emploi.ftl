@@ -35,7 +35,7 @@
         </section>
 
         <!-- BARRE LATERALE FIXE -->
-        <#if rightBlockTitle.getData()?has_content >
+        <#if rightBlockTitle.getData() != "" >
             <aside>
                 <div class="ops-wrapper-sticky">
 
@@ -68,16 +68,18 @@
                     
                     <div class="ops-scrollto">
                         <#list rightBlockTitle.getChild("rightBlockLinkTitle").getSiblings() as cur_linkTitle>
-                            <a href="${cur_linkTitle.getChild("rightBlockLinkURL").getData()}" 
-                                <#if cur_linkTitle.getChild("rightBlockLinkSwitchColor").getData() == "true"> 
-                                    class="ops-btn-inversed"
-                                <#else>
-                                    class="ops-btn"
-                                </#if>
-                                <#if cur_linkTitle.getChild("rightBlockLinkBlank").getData() == "true"> target="_blank"</#if>
-                            >
-                                ${cur_linkTitle.getData()}
-                            </a>
+                             <#if cur_linkTitle.getData()?has_content>
+                                <a href="${cur_linkTitle.getChild("rightBlockLinkURL").getData()}" 
+                                    <#if cur_linkTitle.getChild("rightBlockLinkSwitchColor").getData() == "true"> 
+                                        class="ops-btn-inversed"
+                                    <#else>
+                                        class="ops-btn"
+                                    </#if>
+                                    <#if cur_linkTitle.getChild("rightBlockLinkBlank").getData() == "true"> target="_blank"</#if>
+                                >
+                                    ${cur_linkTitle.getData()}
+                                </a>
+                            </#if>
                         </#list>
                     </div>
 
