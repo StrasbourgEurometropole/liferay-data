@@ -39,15 +39,16 @@
 				margin-top: 50px;
 				z-index: 100;
 			}
-			@media screen and (max-width: 768px){
-				margin: 0;
-				right: 0;
-				left: auto;
-				line-height: 42px;
-			}
+			//@media screen and (max-width: 768px){
+				//margin: 0;
+				//right: 0;
+				//left: auto;
+				//line-height: 42px;
+			//}
 			@include mobile{
 				position: relative;
 				line-height: 20px;
+				margin: 0;
 				margin-bottom: 20px;
 				display: block;
 				text-align: right;
@@ -61,8 +62,13 @@
 
 	.lfr-pagination-config {
 		float: left;
+		position: relative;
+		z-index: 200;
 		@media screen and (max-width: 767px) {
 			float: none;
+			margin-bottom: 40px;
+		}
+		@include mobile{
 			margin-bottom: 20px;
 		}
 
@@ -79,9 +85,12 @@
 		@media screen and (max-width: 767px) {
 			padding-right: 0;
 		}
+		@include mobile{
+			width: 100%;
+		}
 		.current-page-menu {
 			position: relative;
-			@media screen and (max-width: 767px) {
+			@include mobile{
 				width: 100%;
 			}
 			> a {
@@ -172,6 +181,21 @@
 		li {
 			display: inline-block;
 			vertical-align: middle;
+
+			@media screen and (max-width: 768px){
+				&:first-child{
+					a{
+						padding-left: 0;
+					}
+				}
+			}
+			@include mobile{
+				&:first-child{
+					a{
+						padding-left: 20px;
+					}
+				}
+			}
 
 			&.disabled {
 				a {

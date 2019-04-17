@@ -74,6 +74,10 @@
 	.ops-col-50{
 		position: relative;
 		z-index: 100;
+		min-height: 50px;
+		@include mobile{
+			min-height: 0;
+		}
 		> * {
 			&:last-child{
 				margin-bottom: 0;
