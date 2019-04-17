@@ -20,12 +20,12 @@ main {
 				max-width: 100%;
 			}
 			@include mobile {
-				font-size: 35px;
-				line-height: 40px;
+				font-size: 32px;
+				line-height: 36px;
 			}
 			@include mobile_small {
 				font-size: 30px;
-				line-height: 35px;
+				line-height: 34px;
 			}
 		}
 

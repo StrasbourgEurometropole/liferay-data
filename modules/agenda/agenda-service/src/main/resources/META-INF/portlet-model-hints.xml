@@ -170,7 +170,7 @@
 		</field>
 		<field name="concertId" type="String" />
 		<field name="program" type="String">
-			<hint name="max-length">400</hint>
+			<hint-collection name="EDITOR" />
 		</field>
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />

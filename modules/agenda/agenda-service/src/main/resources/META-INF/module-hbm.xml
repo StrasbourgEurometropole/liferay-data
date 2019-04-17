@@ -149,7 +149,7 @@
 		<property name="distribution" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="composer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="concertId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="program" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="program" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="firstStartDate" type="org.hibernate.type.TimestampType" />
 		<property name="lastEndDate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
