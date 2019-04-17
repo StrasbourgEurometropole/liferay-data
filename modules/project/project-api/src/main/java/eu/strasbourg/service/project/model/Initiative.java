@@ -139,6 +139,16 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	public java.lang.String getAuthorLabel();
 
 	/**
+	* Retourne l'adresse mail du depositaire s'il existe
+	*/
+	public java.lang.String getAuthorEmail();
+
+	/**
+	* Retourne le nom prenom du depositaire s'il existe
+	*/
+	public java.lang.String getAuthorNameLabel();
+
+	/**
 	* Retourne l'utilisateur Publik depositaire
 	*
 	* @return
