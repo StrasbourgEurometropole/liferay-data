@@ -57,7 +57,7 @@ public class SliderUneDisplayContext {
         String virtualHostName = themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
         boolean stagingGroup = themeDisplay.getScopeGroup().isStagingGroup();
         if(Validator.isNotNull(virtualHostName) && ! stagingGroup)
-            home = "/";
+            home = "";
         else {
             try {
                 home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
