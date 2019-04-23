@@ -63,7 +63,6 @@
                                 Mail : <u>${rightBlockContactMailLabel.getData()}</u>
                             </a>
                         </#if>
-
                     </#if>
                     
                     <div class="ops-scrollto">
