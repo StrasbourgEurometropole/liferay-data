@@ -85,8 +85,9 @@ function setTemplateInfos(infos, category, $template, conf){
 function addToSlider(conf, elements){
     var nodeStringToAdd = '<div class="'+conf.pages_class+'">';
     var itemSeparator = 8;
+    var numElt = 0;
     if(elements[0].indexOf('seu-big') != -1){
-        itemSeparator = 7;
+        numElt = 1;
         nodeStringToAdd = '<div class="'+conf.pages_class + ' '+conf.is_Big_Class+'">';
     }
     if(environment == 'tablette'){
@@ -96,9 +97,10 @@ function addToSlider(conf, elements){
     }
     
     elements.forEach(function(element, index) {
-        if(index%itemSeparator == 0 && index > 0){
+        if(numElt%itemSeparator == 0 && index > 0){
             nodeStringToAdd += '</div><div class="'+conf.pages_class+'">';
         }
+        numElt++;
         nodeStringToAdd += element;
     }, this);
     nodeStringToAdd += '</div>';
