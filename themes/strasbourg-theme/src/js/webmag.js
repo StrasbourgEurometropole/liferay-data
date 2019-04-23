@@ -1267,7 +1267,8 @@ var test = '';
 								},
 								1280: {
 									items: 4,
-									center: true //Liasser a true sur ce slider sinon ça foire grave
+									center: true, //Laisser a true sur ce slider sinon ça foire grave
+									fixThumbnail: true // Fix pour le slider à la une dont les thumbnails ne sont pas correctement placés quand il y a plus de 5 items
 								}
 							}
 						}
