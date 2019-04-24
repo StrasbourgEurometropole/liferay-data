@@ -24,6 +24,17 @@
 				max-width: 100%;
 			}
 		}
+
+		.ops-meta-card-article{
+			white-space: normal;
+		}
+
+		.ops-cats{
+			@include mobile{
+				display: block;
+				@include clearfix();
+			}
+		}
 	}
 
 

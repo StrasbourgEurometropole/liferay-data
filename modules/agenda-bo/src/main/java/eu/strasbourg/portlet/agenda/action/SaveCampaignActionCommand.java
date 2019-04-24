@@ -15,6 +15,9 @@
  */
 package eu.strasbourg.portlet.agenda.action;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -74,6 +77,9 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "defaultImageCopyright");
 			long[] managersIds = ParamUtil.getLongValues(request, "managersIds");
 			long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date startDate = ParamUtil.getDate(request, "startDate", sdf);
+			Date endDate = ParamUtil.getDate(request, "endDate",sdf );
 			
 			// Validation
 			boolean isValid = true;
@@ -97,6 +103,18 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 				SessionErrors.add(request, "managers-error");
 				isValid = false;
 			}
+			if (Validator.isNull(startDate)) {
+				SessionErrors.add(request, "start-date-error");
+				isValid = false;
+			}
+			if (Validator.isNull(endDate)) {
+				SessionErrors.add(request, "end-date-error");
+				isValid = false;
+			}
+			if (managersIds.length == 0) {
+				SessionErrors.add(request, "dates-error");
+				isValid = false;
+			}
 			
 			if (!isValid) {
 				PortalUtil.copyRequestParameters(request, response);
@@ -109,6 +127,8 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			campaign.setDefaultImageCopyrightMap(defaultImageCopyright);
 			campaign.setExportEnabled(exportEnabled);
 			campaign.setManagersIds(StringUtil.merge(managersIds));
+			campaign.setStartDate(startDate);
+			campaign.setEndDate(endDate);
 			sc.setAssetCategoryIds(themesIds);
 			
 			_campaignLocalService

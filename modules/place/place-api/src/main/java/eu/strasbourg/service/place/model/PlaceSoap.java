@@ -90,6 +90,8 @@ public class PlaceSoap implements Serializable {
 		soapModel.setRTStatus(model.getRTStatus());
 		soapModel.setRTLastUpdate(model.getRTLastUpdate());
 		soapModel.setImageId(model.getImageId());
+		soapModel.setImageWidth(model.getImageWidth());
+		soapModel.setImageHeight(model.getImageHeight());
 		soapModel.setImageIds(model.getImageIds());
 		soapModel.setVideosIds(model.getVideosIds());
 		soapModel.setPriceId(model.getPriceId());
@@ -602,6 +604,22 @@ public class PlaceSoap implements Serializable {
 		_imageId = imageId;
 	}
 
+	public Integer getImageWidth() {
+		return _imageWidth;
+	}
+
+	public void setImageWidth(Integer imageWidth) {
+		_imageWidth = imageWidth;
+	}
+
+	public Integer getImageHeight() {
+		return _imageHeight;
+	}
+
+	public void setImageHeight(Integer imageHeight) {
+		_imageHeight = imageHeight;
+	}
+
 	public String getImageIds() {
 		return _imageIds;
 	}
@@ -690,6 +708,8 @@ public class PlaceSoap implements Serializable {
 	private String _RTStatus;
 	private Date _RTLastUpdate;
 	private long _imageId;
+	private Integer _imageWidth;
+	private Integer _imageHeight;
 	private String _imageIds;
 	private String _videosIds;
 	private long _priceId;

@@ -100,7 +100,7 @@ public class EditionItemSelectorView
 
 		List<Edition> editions = EditionLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long editionsCount = EditionLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

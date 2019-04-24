@@ -250,6 +250,13 @@ public interface CampaignEventLocalService extends BaseLocalService,
 		long groupId, int start, int end);
 
 	/**
+	* Lance une recherche par mots-clés, thème, type, campagne et status
+	*/
+	public List<CampaignEvent> findByKeywordThemeTypeCampaignAndStatus(
+		java.lang.String keyword, long themeId, long typeId, long campaignId,
+		int status, long userId, long groupId, int start, int end);
+
+	/**
 	* Returns a range of all the campaign events.
 	*
 	* <p>
@@ -312,4 +319,11 @@ public interface CampaignEventLocalService extends BaseLocalService,
 	*/
 	public long findByKeywordThemeAndStatusCount(java.lang.String keyword,
 		long themeId, int status, long userId, long groupId);
+
+	/**
+	* Compte de la recherche par mots-clés, thème, type, campagne et status
+	*/
+	public long findByKeywordThemeTypeCampaignAndStatusCount(
+		java.lang.String keyword, long themeId, long typeId, long campaignId,
+		int status, long userId, long groupId);
 }

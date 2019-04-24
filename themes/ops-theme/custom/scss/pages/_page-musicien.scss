@@ -20,71 +20,19 @@
 			@include mobile{
 				min-height: 250px;
 			}
+			.ops-meta-musicien{
+				width: 100%;
+				h1{
+					max-width: 100%;
+				}
+			}
 		}
-		//@include tablet_portrait{
-		//	max-height: 600px;
-		//}
-		//@include mobile{
-		//	min-height: 300px;
-		//}
-
-		// PHOTO DU MUSICIEN
-		//.ops-figure-musicien{
-		//	float: right;
-		//	width: 533px;
-		//	height: calc(100vh - 120px);
-		//	@include aspect-ratio(533,960);
-		//	@include tablet_landscape{
-		//		width: 50%;
-		//	}
-		//	@include tablet_portrait{
-		//		height: 100% !important;
-		//	}
-		//	@include mobile{
-		//		width: 90%;
-		//	}
-		//	@include mobile_small{
-		//		width: 100%;
-		//	}
-		//	figure{
-		//		@extend %ops-center;
-		//		height: 100%;
-		//		img{
-		//			height: 100%;
-		//		}
-		//		figcaption{
-		//			display: none;
-		//		}
-		//	}
-		//
-		//	& + .ops-meta-musicien{
-		//		bottom: 160px;
-		//		@include tablet_landscape{
-		//			width: calc(50% + 40px);
-		//		}
-		//		@include mobile{
-		//			bottom: 40px;
-		//			width: calc(100% - 40px);
-		//		}
-		//		@include mobile_small{
-		//			bottom: 0;
-		//			width: calc(100% - 30px);
-		//		}
-		//	}
-		//}
-
 
 		.ops-figure-musicien{
 			position: absolute;
 			top: 0;
 			right: 0;
 			bottom: 0;
-			//@include mobile{
-			//	width: 90%;
-			//}
-			//@include mobile_small{
-			//	width: 100%;
-			//}
 			figure{
 				width: 100%;
 				height: 100%;
@@ -161,13 +109,13 @@
 				line-height: 50px;
 			}
 			@include mobile{
-				max-width: 100%;
+				max-width: calc(100% - 20px);
 				font-size: 35px;
-				line-height: 40px;
+				line-height: 38px;
 			}
 			@include mobile_small{
 				font-size: 30px;
-				line-height: 35px;
+				line-height: 33px;
 			}
 		}
 		.ops-function{

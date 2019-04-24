@@ -269,6 +269,11 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					"bookingURL");
 			event.setBookingURL(bookingURL);
 			
+			// URL des abonnements
+			String subscriptionURL = ParamUtil.getString(request,
+					"subscriptionURL");
+			event.setSubscriptionURL(subscriptionURL);
+			
 			String publicationDateString = ParamUtil.getString(request,
 				"publicationDate");
 			String publicationDateTimeString = ParamUtil.getString(request,

@@ -16,7 +16,9 @@ create table agenda_Campaign (
 	defaultImageId LONG,
 	defaultImageCopyright STRING null,
 	managersIds VARCHAR(75) null,
-	exportEnabled BOOLEAN
+	exportEnabled BOOLEAN,
+	startDate DATE null,
+	endDate DATE null
 );
 
 create table agenda_CampaignEvent (
@@ -123,13 +125,14 @@ create table agenda_Event (
 	price TEXT null,
 	bookingDescription TEXT null,
 	bookingURL VARCHAR(75) null,
+	subscriptionURL VARCHAR(75) null,
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
 	publicationDate DATE null,
 	distribution VARCHAR(400) null,
 	composer VARCHAR(400) null,
 	concertId VARCHAR(75) null,
-	program VARCHAR(400) null,
+	program TEXT null,
 	firstStartDate DATE null,
 	lastEndDate DATE null,
 	imageId LONG

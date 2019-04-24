@@ -14,11 +14,17 @@
 
 package eu.strasbourg.service.place.service;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.util.tracker.ServiceTracker;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ServiceContext;
 
-import org.osgi.util.tracker.ServiceTracker;
+import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 
 /**
  * Provides the local service utility for Place. This utility wraps
@@ -41,6 +47,15 @@ public class PlaceLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.place.service.impl.PlaceLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Lance une recherche selon le searchContext
+	*/
+	public static Hits search(SearchContext searchContext)
+		throws SearchException {
+		return getService().search(searchContext);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -74,15 +89,6 @@ public class PlaceLocalServiceUtil {
 	}
 
 	/**
-	* Lance une recherche selon le searchContext
-	*/
-	public static com.liferay.portal.kernel.search.Hits search(
-		com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
-		return getService().search(searchContext);
-	}
-
-	/**
 	* Adds the place to the database. Also notifies the appropriate model listeners.
 	*
 	* @param place the place
@@ -97,7 +103,7 @@ public class PlaceLocalServiceUtil {
 	* Crée un lieu vide avec une PK, non ajouté à la base de donnée
 	*/
 	public static eu.strasbourg.service.place.model.Place createPlace(
-		com.liferay.portal.kernel.service.ServiceContext sc)
+		ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().createPlace(sc);
 	}
@@ -209,8 +215,7 @@ public class PlaceLocalServiceUtil {
 	* Met à jour un lieu et l'enregistre en base de données
 	*/
 	public static eu.strasbourg.service.place.model.Place updatePlace(
-		eu.strasbourg.service.place.model.Place place,
-		com.liferay.portal.kernel.service.ServiceContext sc)
+		eu.strasbourg.service.place.model.Place place, ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updatePlace(place, sc);
 	}
@@ -219,8 +224,7 @@ public class PlaceLocalServiceUtil {
 	* Met à jour le statut du lieu par le framework workflow
 	*/
 	public static eu.strasbourg.service.place.model.Place updateStatus(
-		long userId, long entryId, int status,
-		com.liferay.portal.kernel.service.ServiceContext sc,
+		long userId, long entryId, int status, ServiceContext sc,
 		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()

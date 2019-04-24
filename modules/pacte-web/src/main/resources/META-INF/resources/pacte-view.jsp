@@ -93,11 +93,24 @@ function callServeResource(pactRead) {
                            e.preventDefault();
                            $("#SignerPacte").toggleClass('active');
                            if($("#SignerPacte").hasClass('active')){
-                               $("#SignerPacte").text('<liferay-ui:message key="pacte.already.adhere" />');
-                           }
-                           else{
-                               $("#SignerPacte").text('<liferay-ui:message key="pacte.sign" />');
-                           }
+                              	$("#SignerPacte").text('<liferay-ui:message key="pacte.already.adhere" />');
+                               
+								// Recuperer l'URL complete.
+								var currentURL = new URL(window.location.href);
+								// Extraction du parametre contenant l'URL de redirection.
+                               	var encodedRedirectURL = currentURL.searchParams.get("redirectURL");
+                               
+                               	if (encodedRedirectURL) {
+       								// Decodage de l'URL de redirection.
+                               		var redirectURL = decodeURIComponent(encodedRedirectURL);
+       								// Changement de page
+                               		window.location.href = redirectURL;
+                           		}
+                               
+                           	}
+                           	else{
+                               	$("#SignerPacte").text('<liferay-ui:message key="pacte.sign" />');
+                           	}
                        }
                     }
                });

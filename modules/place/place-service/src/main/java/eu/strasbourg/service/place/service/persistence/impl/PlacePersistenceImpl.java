@@ -3734,6 +3734,8 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setRTStatus(place.getRTStatus());
 		placeImpl.setRTLastUpdate(place.getRTLastUpdate());
 		placeImpl.setImageId(place.getImageId());
+		placeImpl.setImageWidth(place.getImageWidth());
+		placeImpl.setImageHeight(place.getImageHeight());
 		placeImpl.setImageIds(place.getImageIds());
 		placeImpl.setVideosIds(place.getVideosIds());
 		placeImpl.setPriceId(place.getPriceId());

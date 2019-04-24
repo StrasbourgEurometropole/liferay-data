@@ -86,6 +86,8 @@
 		<property name="RTStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="RTLastUpdate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imageWidth" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="imageHeight" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="imageIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videosIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="priceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

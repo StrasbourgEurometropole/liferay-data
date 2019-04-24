@@ -100,7 +100,7 @@ public class ArtworkItemSelectorView
 
 		List<Artwork> artworks = ArtworkLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long artworksCount = ArtworkLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());

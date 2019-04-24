@@ -32,6 +32,8 @@
 		<property name="defaultImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="managersIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="exportEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignEventImpl" table="agenda_CampaignEvent">
 		<id name="campaignEventId" type="long">
@@ -141,13 +143,14 @@
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="bookingDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="bookingURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="subscriptionURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="idSource" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="distribution" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="composer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="concertId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="program" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="program" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="firstStartDate" type="org.hibernate.type.TimestampType" />
 		<property name="lastEndDate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

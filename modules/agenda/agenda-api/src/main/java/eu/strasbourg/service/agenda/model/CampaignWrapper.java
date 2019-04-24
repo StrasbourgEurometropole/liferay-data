@@ -77,6 +77,8 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 		attributes.put("defaultImageCopyright", getDefaultImageCopyright());
 		attributes.put("managersIds", getManagersIds());
 		attributes.put("exportEnabled", getExportEnabled());
+		attributes.put("startDate", getStartDate());
+		attributes.put("endDate", getEndDate());
 
 		return attributes;
 	}
@@ -190,6 +192,18 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 
 		if (exportEnabled != null) {
 			setExportEnabled(exportEnabled);
+		}
+
+		Date startDate = (Date)attributes.get("startDate");
+
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date endDate = (Date)attributes.get("endDate");
+
+		if (endDate != null) {
+			setEndDate(endDate);
 		}
 	}
 
@@ -608,6 +622,16 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	}
 
 	/**
+	* Returns the end date of this campaign.
+	*
+	* @return the end date of this campaign
+	*/
+	@Override
+	public Date getEndDate() {
+		return _campaign.getEndDate();
+	}
+
+	/**
 	* Returns the last publish date of this campaign.
 	*
 	* @return the last publish date of this campaign
@@ -625,6 +649,16 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public Date getModifiedDate() {
 		return _campaign.getModifiedDate();
+	}
+
+	/**
+	* Returns the start date of this campaign.
+	*
+	* @return the start date of this campaign
+	*/
+	@Override
+	public Date getStartDate() {
+		return _campaign.getStartDate();
 	}
 
 	/**
@@ -897,6 +931,16 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 		_campaign.setDefaultImageId(defaultImageId);
 	}
 
+	/**
+	* Sets the end date of this campaign.
+	*
+	* @param endDate the end date of this campaign
+	*/
+	@Override
+	public void setEndDate(Date endDate) {
+		_campaign.setEndDate(endDate);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_campaign.setExpandoBridgeAttributes(expandoBridge);
@@ -981,6 +1025,16 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_campaign.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the start date of this campaign.
+	*
+	* @param startDate the start date of this campaign
+	*/
+	@Override
+	public void setStartDate(Date startDate) {
+		_campaign.setStartDate(startDate);
 	}
 
 	/**

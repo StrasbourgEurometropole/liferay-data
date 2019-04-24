@@ -19,7 +19,7 @@
   <title>${the_title?replace('-', '|')}</title>
 </head>
 
-<#assign isWebmag = layout.getFriendlyURL()?starts_with("/webmag") />
+<#assign isWebmag = (layout.getFriendlyURL() == "/lactu" || layout.getFriendlyURL()?starts_with("/lactu-")) />
 <#include "${full_templates_path}/nav_top.ftl" />
 <#include "${full_templates_path}/navigation.ftl" />
 

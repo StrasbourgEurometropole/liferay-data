@@ -117,7 +117,7 @@
 		            	<!-- Page précédente -->
 		                <li class="seu-pagin-prev disabled seu-pagin-item">
 							<c:if test="${not dc.pager.onFirstPage}">
-			                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
+			                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="previous" />"
 									href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
 			                        <span class="seu-flexbox">
 			                            <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
@@ -160,7 +160,7 @@
 		                <!-- Page suivante -->
 		                <li class="seu-pagin-next seu-pagin-item">
 							<c:if test="${not dc.pager.onLastPage}">
-			                    <a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="go-to-next-page" />" 
+			                    <a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="next" />"
 			                    	data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
 			                        <span class="seu-flexbox">
 			                            <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
