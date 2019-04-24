@@ -124,6 +124,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "price", Types.CLOB },
 			{ "bookingDescription", Types.CLOB },
 			{ "bookingURL", Types.VARCHAR },
+			{ "subscriptionURL", Types.VARCHAR },
 			{ "source", Types.VARCHAR },
 			{ "idSource", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
@@ -181,6 +182,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("bookingDescription", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("bookingURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("subscriptionURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("idSource", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
@@ -193,7 +195,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(75) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution VARCHAR(400) null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(75) null,subscriptionURL VARCHAR(75) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution VARCHAR(400) null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -278,6 +280,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setPrice(soapModel.getPrice());
 		model.setBookingDescription(soapModel.getBookingDescription());
 		model.setBookingURL(soapModel.getBookingURL());
+		model.setSubscriptionURL(soapModel.getSubscriptionURL());
 		model.setSource(soapModel.getSource());
 		model.setIdSource(soapModel.getIdSource());
 		model.setPublicationDate(soapModel.getPublicationDate());
@@ -408,6 +411,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("price", getPrice());
 		attributes.put("bookingDescription", getBookingDescription());
 		attributes.put("bookingURL", getBookingURL());
+		attributes.put("subscriptionURL", getSubscriptionURL());
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
@@ -686,6 +690,12 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		if (bookingURL != null) {
 			setBookingURL(bookingURL);
+		}
+
+		String subscriptionURL = (String)attributes.get("subscriptionURL");
+
+		if (subscriptionURL != null) {
+			setSubscriptionURL(subscriptionURL);
 		}
 
 		String source = (String)attributes.get("source");
@@ -2325,6 +2335,22 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@JSON
 	@Override
+	public String getSubscriptionURL() {
+		if (_subscriptionURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _subscriptionURL;
+		}
+	}
+
+	@Override
+	public void setSubscriptionURL(String subscriptionURL) {
+		_subscriptionURL = subscriptionURL;
+	}
+
+	@JSON
+	@Override
 	public String getSource() {
 		if (_source == null) {
 			return StringPool.BLANK;
@@ -2912,6 +2938,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setPrice(getPrice());
 		eventImpl.setBookingDescription(getBookingDescription());
 		eventImpl.setBookingURL(getBookingURL());
+		eventImpl.setSubscriptionURL(getSubscriptionURL());
 		eventImpl.setSource(getSource());
 		eventImpl.setIdSource(getIdSource());
 		eventImpl.setPublicationDate(getPublicationDate());
@@ -3286,6 +3313,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.bookingURL = null;
 		}
 
+		eventCacheModel.subscriptionURL = getSubscriptionURL();
+
+		String subscriptionURL = eventCacheModel.subscriptionURL;
+
+		if ((subscriptionURL != null) && (subscriptionURL.length() == 0)) {
+			eventCacheModel.subscriptionURL = null;
+		}
+
 		eventCacheModel.source = getSource();
 
 		String source = eventCacheModel.source;
@@ -3368,7 +3403,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(107);
+		StringBundler sb = new StringBundler(109);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3456,6 +3491,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getBookingDescription());
 		sb.append(", bookingURL=");
 		sb.append(getBookingURL());
+		sb.append(", subscriptionURL=");
+		sb.append(getSubscriptionURL());
 		sb.append(", source=");
 		sb.append(getSource());
 		sb.append(", idSource=");
@@ -3483,7 +3520,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(163);
+		StringBundler sb = new StringBundler(166);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Event");
@@ -3662,6 +3699,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getBookingURL());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>subscriptionURL</column-name><column-value><![CDATA[");
+		sb.append(getSubscriptionURL());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>source</column-name><column-value><![CDATA[");
 		sb.append(getSource());
 		sb.append("]]></column-value></column>");
@@ -3775,6 +3816,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _bookingDescription;
 	private String _bookingDescriptionCurrentLanguageId;
 	private String _bookingURL;
+	private String _subscriptionURL;
 	private String _source;
 	private String _originalSource;
 	private String _idSource;

@@ -159,6 +159,7 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="bookingURL" type="String" />
+		<field name="subscriptionURL" type="String" />
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />

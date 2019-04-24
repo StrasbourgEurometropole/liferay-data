@@ -1609,6 +1609,21 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setBookingURL(String bookingURL);
 
 	/**
+	 * Returns the subscription url of this event.
+	 *
+	 * @return the subscription url of this event
+	 */
+	@AutoEscape
+	public String getSubscriptionURL();
+
+	/**
+	 * Sets the subscription url of this event.
+	 *
+	 * @param subscriptionURL the subscription url of this event
+	 */
+	public void setSubscriptionURL(String subscriptionURL);
+
+	/**
 	 * Returns the source of this event.
 	 *
 	 * @return the source of this event

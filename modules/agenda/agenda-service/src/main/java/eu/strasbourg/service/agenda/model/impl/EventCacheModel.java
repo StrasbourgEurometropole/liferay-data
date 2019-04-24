@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(107);
+		StringBundler sb = new StringBundler(109);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -153,6 +153,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(bookingDescription);
 		sb.append(", bookingURL=");
 		sb.append(bookingURL);
+		sb.append(", subscriptionURL=");
+		sb.append(subscriptionURL);
 		sb.append(", source=");
 		sb.append(source);
 		sb.append(", idSource=");
@@ -404,6 +406,13 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setBookingURL(bookingURL);
 		}
 
+		if (subscriptionURL == null) {
+			eventImpl.setSubscriptionURL(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setSubscriptionURL(subscriptionURL);
+		}
+
 		if (source == null) {
 			eventImpl.setSource(StringPool.BLANK);
 		}
@@ -533,6 +542,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		price = objectInput.readUTF();
 		bookingDescription = objectInput.readUTF();
 		bookingURL = objectInput.readUTF();
+		subscriptionURL = objectInput.readUTF();
 		source = objectInput.readUTF();
 		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
@@ -758,6 +768,13 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(bookingURL);
 		}
 
+		if (subscriptionURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(subscriptionURL);
+		}
+
 		if (source == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -851,6 +868,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String price;
 	public String bookingDescription;
 	public String bookingURL;
+	public String subscriptionURL;
 	public String source;
 	public String idSource;
 	public long publicationDate;

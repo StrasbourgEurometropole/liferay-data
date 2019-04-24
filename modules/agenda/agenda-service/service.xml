@@ -68,6 +68,7 @@
 		<!-- Reservation billeterie -->
 		<column name="bookingDescription" type="String" localized="true" />
 		<column name="bookingURL" type="String" />
+		<column name="subscriptionURL" type="String" />
 		
 		<!-- Infos de gestion -->
         <column name="source" type="String" />
