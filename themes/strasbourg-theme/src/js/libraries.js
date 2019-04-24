@@ -1147,7 +1147,10 @@
 			}
 
 			coordinate = this._coordinates[position];
-			coordinate += (this.width() - coordinate + (this._coordinates[newPosition] || 0)) / 2 * multiplier;
+			coordinate += (this.width() - coordinate + (this._coordinates[newPosition] || 0)) / 2 * multiplier;			
+			// Fix pour le slider à la une dont les thumbnails ne sont pas correctement placés quand il y a plus de 5 items
+			if (this.settings.fixThumbnail == true && this._items.length > 5) {coordinate += (this._items.length - 5) * 120;}; 
+
 		} else {
 			coordinate = this._coordinates[newPosition] || 0;
 		}

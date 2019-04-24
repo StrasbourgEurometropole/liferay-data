@@ -287,6 +287,34 @@ public class InitiativeImpl extends InitiativeBaseImpl {
     	}
     	
     }
+    
+    /**
+     * Retourne l'adresse mail du depositaire s'il existe
+     */
+    @Override
+    public String getAuthorEmail() {
+    	PublikUser author = this.getAuthor();
+    	if (author != null) {
+    		return author.getEmail();
+    	} else {
+    		return "";
+    	}
+    }
+    
+    /**
+     * Retourne le nom prenom du depositaire s'il existe
+     */
+    @Override
+    public String getAuthorNameLabel() {
+    	PublikUser author = this.getAuthor();
+    	if (author != null) {
+    		return author.getFirstName()
+        			+ " "
+       				+  author.getLastName();
+    	} else {
+    		return "";
+    	}
+    }
    
     
     /**

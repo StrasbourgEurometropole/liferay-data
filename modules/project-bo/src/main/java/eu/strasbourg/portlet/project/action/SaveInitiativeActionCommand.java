@@ -89,6 +89,14 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			// Titre
 			String title = ParamUtil.getString(request, "title");
 			initiative.setTitle(title);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DEPOSITAIRE ------------------------
+			// ---------------------------------------------------------------
+	
+			// Au nom de
+			String inTheNameOf = ParamUtil.getString(request, "inTheNameOf");
+			initiative.setInTheNameOf(inTheNameOf);
 									
 			// ---------------------------------------------------------------
 			// -------------------------- MEDIAS -----------------------------
