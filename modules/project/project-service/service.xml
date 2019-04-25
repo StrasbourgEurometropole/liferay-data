@@ -285,6 +285,7 @@
 		<column name="filesDownload" type="String" />
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date" />
+		<column name="extensionDate" type="Date" />
 		<column name="quotaSignature" type="long" />
 		<column name="inTheNameOf" type="String" />
 

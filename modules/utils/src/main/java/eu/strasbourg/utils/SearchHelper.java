@@ -462,7 +462,11 @@ public class SearchHelper {
 			} else {
 				searchContext.setSorts(sort);
 			}
-
+			
+			//DEBUG ONLY. Pour voir la requete envoyee a elastic search
+			//String queryS = IndexSearcherHelperUtil.getQueryString(searchContext, query);
+			//_log.error(queryS);
+			
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
 			_log.info("Recherche front-end : " + hits.getSearchTime() * 1000 + "ms");

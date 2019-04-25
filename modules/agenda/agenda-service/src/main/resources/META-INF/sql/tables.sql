@@ -125,6 +125,7 @@ create table agenda_Event (
 	price TEXT null,
 	bookingDescription TEXT null,
 	bookingURL VARCHAR(75) null,
+	subscriptionURL VARCHAR(75) null,
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
 	publicationDate DATE null,

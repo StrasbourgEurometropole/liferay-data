@@ -52,6 +52,7 @@ public class PetitionSoap implements Serializable {
 		soapModel.setFilesDownload(model.getFilesDownload());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
+		soapModel.setExtensionDate(model.getExtensionDate());
 		soapModel.setQuotaSignature(model.getQuotaSignature());
 		soapModel.setInTheNameOf(model.getInTheNameOf());
 		soapModel.setPetitionnaireLastname(model.getPetitionnaireLastname());
@@ -267,6 +268,14 @@ public class PetitionSoap implements Serializable {
 		_expirationDate = expirationDate;
 	}
 
+	public Date getExtensionDate() {
+		return _extensionDate;
+	}
+
+	public void setExtensionDate(Date extensionDate) {
+		_extensionDate = extensionDate;
+	}
+
 	public long getQuotaSignature() {
 		return _quotaSignature;
 	}
@@ -445,6 +454,7 @@ public class PetitionSoap implements Serializable {
 	private String _filesDownload;
 	private Date _publicationDate;
 	private Date _expirationDate;
+	private Date _extensionDate;
 	private long _quotaSignature;
 	private String _inTheNameOf;
 	private String _petitionnaireLastname;

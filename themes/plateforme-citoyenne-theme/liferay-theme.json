@@ -1,0 +1,9 @@
+{
+  "LiferayTheme": {
+    "deployPath": "C:/liferay/eclipse-workspace/liferay-workspace/bundles/deploy",
+    "themeName": "plateforme-citoyenne-theme",
+    "appServerPathTheme": "C:/liferay/eclipse-workspace/liferay-workspace/bundles/tomcat-8.0.32/webapps/plateforme-citoyenne-theme",
+    "deployed": true,
+    "appServerPath": "C:/liferay/eclipse-workspace/liferay-workspace/bundles/tomcat-8.0.32"
+  }
+}
