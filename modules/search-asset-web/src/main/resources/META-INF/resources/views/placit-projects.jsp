@@ -2,7 +2,7 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<div class="pro-wrapper-top-listing">
+<div class="pro-wrapper-top-listing" id="go-to-top">
 	<div class="container">
 		<div id="breadcrumb">
 			<span> <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a> <span

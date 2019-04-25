@@ -381,6 +381,20 @@ public interface PetitionModel extends BaseModel<Petition>, GroupedModel,
 	public void setExpirationDate(Date expirationDate);
 
 	/**
+	 * Returns the extension date of this petition.
+	 *
+	 * @return the extension date of this petition
+	 */
+	public Date getExtensionDate();
+
+	/**
+	 * Sets the extension date of this petition.
+	 *
+	 * @param extensionDate the extension date of this petition
+	 */
+	public void setExtensionDate(Date extensionDate);
+
+	/**
 	 * Returns the quota signature of this petition.
 	 *
 	 * @return the quota signature of this petition

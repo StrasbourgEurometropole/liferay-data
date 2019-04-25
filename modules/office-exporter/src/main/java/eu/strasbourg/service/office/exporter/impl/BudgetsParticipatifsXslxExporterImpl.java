@@ -47,6 +47,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "budget-part-statut"),
                 LanguageUtil.get(bundle, "budget-part-title"),
                 LanguageUtil.get(bundle, "budget-part-description"),
+                LanguageUtil.get(bundle, "budget-part-nb-votes"),
                 LanguageUtil.get(bundle, "budget-part-create-date"),
                 LanguageUtil.get(bundle, "budget-part-modified-date"),
                 LanguageUtil.get(bundle, "budget-part-budget"),
@@ -70,11 +71,13 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
 
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
         for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
+        	
             Object[] budgetParticipatifRow = {
                     getfield(unescapeHtml4(budgetParticipatif.getPhaseTitleLabel())),
                     getfield(unescapeHtml4(budgetParticipatif.getBudgetParticipatifStatusTitle(Locale.FRANCE))),
                     getfield(unescapeHtml4(budgetParticipatif.getTitle())),
                     getfield(unescapeHtml4(budgetParticipatif.getDescription())),
+                    getfield(Long.toString(budgetParticipatif.getNbSupports())),
                     getfield(budgetParticipatif.getCreateDate()),
                     getfield(budgetParticipatif.getModifiedDate()),
                     getfield(budgetParticipatif.getBudget()),

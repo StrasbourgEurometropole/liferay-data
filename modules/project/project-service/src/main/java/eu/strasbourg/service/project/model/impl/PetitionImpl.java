@@ -239,13 +239,22 @@ public class PetitionImpl extends PetitionBaseImpl {
     @Override
     public boolean isJudgeable() {
         boolean response = true;
+        boolean isExtended = false;
         String status = this.getPetitionStatus();
-
+       
+        if (this.getExpirationDate() != null) {
+	        LocalDateTime now = LocalDateTime.now();
+	        LocalDateTime extensionTime = new Timestamp(getExtensionDate().getTime()).toLocalDateTime();
+	        isExtended = extensionTime.isAfter(now);
+        }
+        
         if (status == null || status.isEmpty())
             response = false;
+        else if (status.equals(COMPLETED.getName()) && isExtended)
+        	response = true;
         else if (status.equals(COMPLETED.getName()))
             response = false;
-         else if (status.equals(FAILED.getName()))
+        else if (status.equals(FAILED.getName()))
             response = false;
         return response;
     }

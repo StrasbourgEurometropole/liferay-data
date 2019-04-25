@@ -2,7 +2,7 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<div class="pro-wrapper-top-listing">
+<div class="pro-wrapper-top-listing" id="go-to-top">
     <div class="container">
         <div id="breadcrumb">
         <span>
