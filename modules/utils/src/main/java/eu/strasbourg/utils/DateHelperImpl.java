@@ -1,15 +1,9 @@
 package eu.strasbourg.utils;
 
 import eu.strasbourg.utils.api.DateHelperService;
-import eu.strasbourg.utils.api.FileEntryHelperService;
 import org.osgi.service.component.annotations.Component;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -18,9 +12,10 @@ import java.util.*;
  * helper
  */
 @Component(
-		immediate = true,
-		property = {},
-		service = DateHelperService.class)
+	immediate = true,
+	property = {},
+	service = DateHelperService.class
+)
 public class DateHelperImpl implements DateHelperService {
 
 	@Override
@@ -33,9 +28,23 @@ public class DateHelperImpl implements DateHelperService {
 		return DateHelper.displayShortDate(date, locale);
 	}
 
-
 	@Override
 	public String displayLongDate(Date date, Locale locale) {
 		return DateHelper.displayLongDate(date, locale);
+	}
+	
+	@Override
+	public String getShortDateFormat(Date dateTime) {
+		return DateHelper.getShortDateFormat(dateTime);
+	}
+
+	@Override
+	public Date getShortDateFormatFromString(String value) {
+		return DateHelper.getShortDateFormatFromString(value);
+	}
+	
+	@Override
+	public Date getDateFromGTFSCalendar(String calendarGTFSDate) throws ParseException {
+		return DateHelper.getDateFromGTFSCalendar(calendarGTFSDate);
 	}
 }

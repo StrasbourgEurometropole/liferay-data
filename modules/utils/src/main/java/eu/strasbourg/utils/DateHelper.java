@@ -4,10 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,16 +13,17 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.CalendarFactoryUtil;
-import com.liferay.portal.kernel.util.Validator;
-
 /*
  * Classe Helper pour tout ce qui concerne les dates
  *
  */
 public class DateHelper {
+	
+	private static final String FORMAT_GTFS = "yyyyMMdd";
+	private static final SimpleDateFormat spf_FORMAT_GTFS = new SimpleDateFormat(FORMAT_GTFS);
+
+	private static final String FORMAT_SHORT_DATE = "yyyy-MM-dd";
+	private static final SimpleDateFormat spf_FORMAT_SHORT_DATE = new SimpleDateFormat(FORMAT_SHORT_DATE, Locale.FRANCE);
 
 	/**
 	 * Retourne la liste des dates entre deux autres dates. La liste inclut la
@@ -198,6 +197,46 @@ public class DateHelper {
 			result = df.format(date);
 		}
 
+		return result;
+	}
+	
+	/**
+	 * Fournit une chaine représentant une date
+	 * 
+	 * @param dateTime
+	 * @return
+	 */
+	public static String getShortDateFormat(Date dateTime) {
+		String result = null;
+		result = spf_FORMAT_SHORT_DATE.format(dateTime);
+		return result;
+	}
+
+	/**
+	 * Fournit une chaine représentant une date
+	 * 
+	 * @param dateTime
+	 * @return
+	 */
+	public static Date getShortDateFormatFromString(String value) {
+		Date result = null;
+		try {
+			result = spf_FORMAT_SHORT_DATE.parse(value);
+		} catch (ParseException e) {
+		}
+		return result;
+	}
+	
+	/**
+	 * Converti une chaine en provenance du fichier GTFS en Date
+	 * 
+	 * @param calendarGTFSDate
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Date getDateFromGTFSCalendar(String calendarGTFSDate) throws ParseException {
+		Date result = null;
+		result = spf_FORMAT_GTFS.parse(calendarGTFSDate);
 		return result;
 	}
 }

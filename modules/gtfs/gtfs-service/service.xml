@@ -7,7 +7,7 @@
 	<namespace>gtfs</namespace>
 	
 	<entity local-service="true" name="Stop" remote-service="false" uuid="true">
-
+		
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
 		
