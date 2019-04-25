@@ -2968,6 +2968,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		campaignImpl.setDefaultImageCopyright(campaign.getDefaultImageCopyright());
 		campaignImpl.setManagersIds(campaign.getManagersIds());
 		campaignImpl.setExportEnabled(campaign.getExportEnabled());
+		campaignImpl.setStartDate(campaign.getStartDate());
+		campaignImpl.setEndDate(campaign.getEndDate());
 
 		return campaignImpl;
 	}

@@ -95,7 +95,9 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			{ "defaultImageId", Types.BIGINT },
 			{ "defaultImageCopyright", Types.VARCHAR },
 			{ "managersIds", Types.VARCHAR },
-			{ "exportEnabled", Types.BOOLEAN }
+			{ "exportEnabled", Types.BOOLEAN },
+			{ "startDate", Types.TIMESTAMP },
+			{ "endDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -118,9 +120,11 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		TABLE_COLUMNS_MAP.put("defaultImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("managersIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("exportEnabled", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,defaultImageId LONG,defaultImageCopyright STRING null,managersIds VARCHAR(75) null,exportEnabled BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,defaultImageId LONG,defaultImageCopyright STRING null,managersIds VARCHAR(75) null,exportEnabled BOOLEAN,startDate DATE null,endDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Campaign";
 	public static final String ORDER_BY_JPQL = " ORDER BY campaign.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Campaign.modifiedDate DESC";
@@ -199,6 +203,8 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		attributes.put("defaultImageCopyright", getDefaultImageCopyright());
 		attributes.put("managersIds", getManagersIds());
 		attributes.put("exportEnabled", getExportEnabled());
+		attributes.put("startDate", getStartDate());
+		attributes.put("endDate", getEndDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -315,6 +321,18 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 		if (exportEnabled != null) {
 			setExportEnabled(exportEnabled);
+		}
+
+		Date startDate = (Date)attributes.get("startDate");
+
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date endDate = (Date)attributes.get("endDate");
+
+		if (endDate != null) {
+			setEndDate(endDate);
 		}
 	}
 
@@ -787,6 +805,26 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	}
 
 	@Override
+	public Date getStartDate() {
+		return _startDate;
+	}
+
+	@Override
+	public void setStartDate(Date startDate) {
+		_startDate = startDate;
+	}
+
+	@Override
+	public Date getEndDate() {
+		return _endDate;
+	}
+
+	@Override
+	public void setEndDate(Date endDate) {
+		_endDate = endDate;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
 				Campaign.class.getName()));
@@ -1004,6 +1042,8 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		campaignImpl.setDefaultImageCopyright(getDefaultImageCopyright());
 		campaignImpl.setManagersIds(getManagersIds());
 		campaignImpl.setExportEnabled(getExportEnabled());
+		campaignImpl.setStartDate(getStartDate());
+		campaignImpl.setEndDate(getEndDate());
 
 		campaignImpl.resetOriginalValues();
 
@@ -1188,12 +1228,30 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 		campaignCacheModel.exportEnabled = getExportEnabled();
 
+		Date startDate = getStartDate();
+
+		if (startDate != null) {
+			campaignCacheModel.startDate = startDate.getTime();
+		}
+		else {
+			campaignCacheModel.startDate = Long.MIN_VALUE;
+		}
+
+		Date endDate = getEndDate();
+
+		if (endDate != null) {
+			campaignCacheModel.endDate = endDate.getTime();
+		}
+		else {
+			campaignCacheModel.endDate = Long.MIN_VALUE;
+		}
+
 		return campaignCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1231,6 +1289,10 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		sb.append(getManagersIds());
 		sb.append(", exportEnabled=");
 		sb.append(getExportEnabled());
+		sb.append(", startDate=");
+		sb.append(getStartDate());
+		sb.append(", endDate=");
+		sb.append(getEndDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -1238,7 +1300,7 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Campaign");
@@ -1316,6 +1378,14 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			"<column><column-name>exportEnabled</column-name><column-value><![CDATA[");
 		sb.append(getExportEnabled());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>startDate</column-name><column-value><![CDATA[");
+		sb.append(getStartDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>endDate</column-name><column-value><![CDATA[");
+		sb.append(getEndDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1353,6 +1423,8 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	private String _defaultImageCopyrightCurrentLanguageId;
 	private String _managersIds;
 	private Boolean _exportEnabled;
+	private Date _startDate;
+	private Date _endDate;
 	private long _columnBitmask;
 	private Campaign _escapedModel;
 }

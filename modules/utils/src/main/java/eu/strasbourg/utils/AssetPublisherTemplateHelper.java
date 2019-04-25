@@ -1,11 +1,12 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.util.Validator;
+
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 
 public class AssetPublisherTemplateHelper {
 
@@ -16,10 +17,14 @@ public class AssetPublisherTemplateHelper {
 
         String taille = "";
         try {
-            Image img = ImageIO.read(new URL(filePath));
-            int width = ((BufferedImage) img).getWidth();
-            int height = ((BufferedImage) img).getHeight();
-            taille = width + "," + height;
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            BufferedImage image = ImageIO.read(fis);
+            if(Validator.isNotNull(image)) {
+                int width = image.getWidth();
+                int height = image.getHeight();
+                taille = width + "," + height;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

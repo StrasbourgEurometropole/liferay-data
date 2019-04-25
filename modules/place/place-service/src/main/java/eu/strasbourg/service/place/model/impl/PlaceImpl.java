@@ -584,8 +584,9 @@ public class PlaceImpl extends PlaceBaseImpl {
                     && scheduleException.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
                 if (scheduleException.isClosed())
                     return true;
-                else
+                else {
                     return false;
+                }
             }
         }
 
@@ -604,7 +605,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // s'il n'y a pas d'exception, on vérifie dans les périodes
-        LocalTime heureActuelle = LocalTime.now();
         for (Period period : this.getPeriods()) {
             if (!period.getDefaultPeriod()) {
                 if (period.getStartDate() != null && period.getEndDate() != null
@@ -617,17 +617,7 @@ public class PlaceImpl extends PlaceBaseImpl {
                         for (Slot slot : period.getSlots()) {
                             if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
                                     : jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
-                                String[] heure = slot.getStartHour().split(":");
-                                LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]),
-                                        Integer.parseInt(heure[1]), 0, 0);
-                                heure = slot.getEndHour().split(":");
-                                LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]),
-                                        59, 999);
-                                if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
-                                    return false;
-                                } else {
-                                    closed = true;
-                                }
+                                return false;
                             }
                         }
                     }
@@ -641,16 +631,8 @@ public class PlaceImpl extends PlaceBaseImpl {
                     for (Slot slot : period.getSlots()) {
                         if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
                                 : jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
-                            String[] heure = slot.getStartHour().split(":");
-                            LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]),
-                                    0, 0);
-                            heure = slot.getEndHour().split(":");
-                            LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]), 59,
-                                    999);
-                            if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
-                                closed = false;
-                                break;
-                            }
+                            closed = false;
+                            break;
                         }
                     }
                 }
@@ -719,7 +701,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         today.clear(Calendar.MINUTE);
         today.clear(Calendar.SECOND);
         today.clear(Calendar.MILLISECOND);
-        if (this.isClosed(today)) {
+        if (!this.isOpenNow()) {
             state = OccupationState.CLOSED;
             return state;
         }
@@ -1113,7 +1095,14 @@ public class PlaceImpl extends PlaceBaseImpl {
         premierJour.setTime(dateDeb);
         List<PlaceSchedule> exceptions = getPlaceScheduleException(premierJour, surPeriode, locale);
 
-        exceptions = exceptions.stream().filter(e -> e.getEndDate().compareTo(dateDeb) >= 0)
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateDeb);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date newDateDeb = cal.getTime();
+        exceptions = exceptions.stream().filter(e -> e.getEndDate().compareTo(newDateDeb) >= 0)
                 .collect(Collectors.toList());
 
         return exceptions;

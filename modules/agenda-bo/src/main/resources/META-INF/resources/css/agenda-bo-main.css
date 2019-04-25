@@ -114,3 +114,13 @@
     cursor: pointer;
     padding: 2px 11px;
 }
+
+.start-date-error, .end-date-error, .incorrect-date-error {
+   	margin-top: -10px;
+    margin-bottom: 10px;
+    color: #CC6677;
+}
+
+span[id $= "displayTime"]{
+    display: none;
+}

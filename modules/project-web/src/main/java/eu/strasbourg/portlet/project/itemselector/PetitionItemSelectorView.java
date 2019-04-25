@@ -99,7 +99,7 @@ public class PetitionItemSelectorView implements ItemSelectorView<PetitionItemSe
                 keywords,
                 scopeGroupId,
                 ((delta * cur) - delta),
-                ((delta * cur) + delta));
+                (delta * cur));
 
         long petitionsCount = PetitionLocalServiceUtil
                 .findByKeywordCount(keywords, scopeGroupId);

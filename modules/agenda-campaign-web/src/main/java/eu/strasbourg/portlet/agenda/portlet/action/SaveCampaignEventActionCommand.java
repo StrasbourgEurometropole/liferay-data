@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +32,9 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.service.agenda.model.Campaign;
+import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -54,15 +59,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.agenda.model.CampaignEvent;
@@ -446,19 +442,33 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 		String periodsIndexesString = ParamUtil.getString(request,
 			"periodIndexes");
 		int periodsCount = 0;
+        long campaignId = ParamUtil.getLong(request, "campaignId");
+        Campaign campaign = CampaignLocalServiceUtil.fetchCampaign(campaignId);
+        boolean eventIncluded = false;
 		for (String periodIndex : periodsIndexesString.split(",")) {
-			if (Validator.isNotNull(periodIndex)
-				&& Validator.isNotNull(
-					ParamUtil.getString(request, "startDate" + periodIndex))
-				&& Validator.isNotNull(
-					ParamUtil.getString(request, "endDate" + periodIndex))) {
-				periodsCount++;
-			}
+            if (Validator.isNotNull(periodIndex)){
+                String startDateString = ParamUtil.getString(request, "startDate" + periodIndex);
+                String endDateString = ParamUtil.getString(request, "endDate" + periodIndex);
+                if(Validator.isNotNull(startDateString) && Validator.isNotNull(endDateString)){
+                    periodsCount++;
+                    // Période de l'évènment comprises dans la période de la campagne
+                    Date startDate = GetterUtil.getDate(startDateString, new SimpleDateFormat("dd/MM/yyyy"));
+                    Date endDate = GetterUtil.getDate(endDateString, new SimpleDateFormat("dd/MM/yyyy"));
+                    if(!(endDate.before(campaign.getStartDate()) || startDate.after(campaign.getEndDate()))){
+                        eventIncluded = true;
+                    }
+                }
+            }
 		}
 		if (periodsCount == 0) {
 			SessionErrors.add(request, "periods-error");
 			isValid = false;
-		}
+		}else{
+            if (!eventIncluded) {
+                SessionErrors.add(request, "campaign-period-error");
+                isValid = false;
+            }
+        }
 		
 		// Thèmes et types
 		long[] themesIds = ParamUtil.getLongValues(request, "themesIds");

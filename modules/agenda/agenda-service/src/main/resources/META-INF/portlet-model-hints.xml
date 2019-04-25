@@ -20,6 +20,8 @@
 		<field localized="true" name="defaultImageCopyright" type="String" />
 		<field name="managersIds" type="String" />
 		<field name="exportEnabled" type="Boolean" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEvent">
 		<field name="uuid" type="String" />
@@ -157,6 +159,7 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="bookingURL" type="String" />
+		<field name="subscriptionURL" type="String" />
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
@@ -168,7 +171,7 @@
 		</field>
 		<field name="concertId" type="String" />
 		<field name="program" type="String">
-			<hint name="max-length">400</hint>
+			<hint-collection name="EDITOR" />
 		</field>
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />

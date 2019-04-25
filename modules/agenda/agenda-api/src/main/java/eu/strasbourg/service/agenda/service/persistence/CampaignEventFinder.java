@@ -26,6 +26,14 @@ public interface CampaignEventFinder {
 		java.lang.String keyword, long themeId, int status, long userId,
 		long groupId, int start, int end);
 
+	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent> findByKeywordThemeTypeCampaignAndStatus(
+		java.lang.String keyword, long themeId, long typeId, long campaignId,
+		int status, long userId, long groupId, int start, int end);
+
 	public long findByKeywordThemeAndStatusCount(java.lang.String keyword,
 		long themeId, int status, long userId, long groupId);
+
+	public long findByKeywordThemeTypeCampaignAndStatusCount(
+		java.lang.String keyword, long themeId, long typeId, long campaignId,
+		int status, long userId, long groupId);
 }

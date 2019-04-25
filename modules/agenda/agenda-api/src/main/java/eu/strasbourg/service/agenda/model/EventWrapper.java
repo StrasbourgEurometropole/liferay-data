@@ -102,6 +102,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("price", getPrice());
 		attributes.put("bookingDescription", getBookingDescription());
 		attributes.put("bookingURL", getBookingURL());
+		attributes.put("subscriptionURL", getSubscriptionURL());
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
@@ -377,6 +378,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (bookingURL != null) {
 			setBookingURL(bookingURL);
+		}
+
+		String subscriptionURL = (String)attributes.get("subscriptionURL");
+
+		if (subscriptionURL != null) {
+			setSubscriptionURL(subscriptionURL);
 		}
 
 		String source = (String)attributes.get("source");
@@ -1502,6 +1509,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _event.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the subscription url of this event.
+	*
+	* @return the subscription url of this event
+	*/
+	@Override
+	public java.lang.String getSubscriptionURL() {
+		return _event.getSubscriptionURL();
 	}
 
 	/**
@@ -3068,6 +3085,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_event.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the subscription url of this event.
+	*
+	* @param subscriptionURL the subscription url of this event
+	*/
+	@Override
+	public void setSubscriptionURL(java.lang.String subscriptionURL) {
+		_event.setSubscriptionURL(subscriptionURL);
 	}
 
 	/**

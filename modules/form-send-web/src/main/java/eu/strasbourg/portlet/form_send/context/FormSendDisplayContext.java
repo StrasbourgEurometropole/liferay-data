@@ -21,6 +21,7 @@ import eu.strasbourg.portlet.form_send.configuration.FormSendConfiguration;
 import eu.strasbourg.portlet.form_send.formulaire.Champ;
 import eu.strasbourg.portlet.form_send.formulaire.Formulaire;
 import eu.strasbourg.portlet.form_send.formulaire.Option;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.Pager;
 
 import javax.portlet.PortletURL;
@@ -284,5 +285,12 @@ public class FormSendDisplayContext {
         String valueToReturn = url.toString();
         url.setParameter("cur", String.valueOf(this.getSearchContainer().getCur()));
         return valueToReturn;
+    }
+
+    /**
+     * Retourne la date de création de l'entrée du formulaire
+     */
+    public String getShortDate(Date date, Locale locale) {
+        return DateHelper.displayShortDate(date, locale);
     }
 }

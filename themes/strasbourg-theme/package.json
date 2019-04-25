@@ -45,5 +45,8 @@
   },
   "publishConfig": {
     "tag": "7_0_x"
+  },
+  "dependencies": {
+    "sortablejs": "^1.8.4"
   }
 }

@@ -114,4 +114,6 @@ public class StrasbourgPortletKeys {
 	public static final String PUBLIK_USER_WEB = "eu_strasbourg_portlet_publik_user_PublikUserPortlet";
 
 	public static final String FORM_SEND_WEB = "eu_strasbourg_portlet_form_send_FormSendPortlet";
+
+	public static final String SLIDER_UNE_WEB = "eu_strasbourg_portlet_slider_une_SliderUnePortlet";
 }

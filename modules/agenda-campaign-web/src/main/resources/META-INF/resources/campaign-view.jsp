@@ -53,6 +53,8 @@
 			<liferay-portlet:renderURL var="anyStatusURL">
 				<liferay-portlet:param name="statusId" value="" />
 				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+				<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+				<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
 				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
 				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 			</liferay-portlet:renderURL>
@@ -63,6 +65,8 @@
 				<liferay-portlet:renderURL var="statusFilterURL">
 					<liferay-portlet:param name="statusId" value="${status.key}" />
 					<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+					<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+					<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
 					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
 					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 				</liferay-portlet:renderURL>
@@ -77,6 +81,8 @@
 			<liferay-portlet:renderURL var="anyThemeURL">
 				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
 				<liferay-portlet:param name="themeId" value="" />
+				<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+				<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
 				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
 				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 			</liferay-portlet:renderURL>
@@ -87,6 +93,8 @@
 				<liferay-portlet:renderURL var="themeFilterURL">
 					<liferay-portlet:param name="statusId" value="${dc.statusId}" />
 					<liferay-portlet:param name="themeId" value="${theme.categoryId}" />
+					<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+					<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
 					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
 					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 				</liferay-portlet:renderURL>
@@ -94,6 +102,62 @@
 					value="${dc.themeId eq theme.categoryId}" />
 				<liferay-frontend:management-bar-filter-item
 					label="${theme.getTitle(locale)}" url="${themeFilterURL}" active="${isActive}" />
+			</c:forEach>
+		</liferay-frontend:management-bar-navigation>
+		<liferay-frontend:management-bar-navigation
+			label="${dc.typeId gt 0 ? dc.typeLabel : 'filter-by-type'}">
+			<liferay-portlet:renderURL var="anyTypeURL">
+				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
+				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+				<liferay-portlet:param name="typeId" value="" />
+				<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
+				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
+			</liferay-portlet:renderURL>
+			<liferay-frontend:management-bar-filter-item
+				label="n'importe lequel"
+				url="${anyTypeURL}" />
+			<c:forEach var="type" items="${dc.types}">
+				<liferay-portlet:renderURL var="typeFilterURL">
+					<liferay-portlet:param name="statusId" value="${dc.statusId}" />
+					<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+					<liferay-portlet:param name="typeId" value="${type.categoryId}" />
+					<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
+					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
+				</liferay-portlet:renderURL>
+				<c:set var="isActive"
+					value="${dc.typeId eq type.categoryId}" />
+				<liferay-frontend:management-bar-filter-item
+					label="${type.getTitle(locale)}" url="${typeFilterURL}" active="${isActive}" />
+			</c:forEach>
+		</liferay-frontend:management-bar-navigation>
+		<liferay-frontend:management-bar-navigation
+			label="${dc.campaignId gt 0 ? dc.campaignLabel : 'filter-by-campaign'}">
+			<liferay-portlet:renderURL var="anyCampaignURL">
+				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
+				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+				<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+				<liferay-portlet:param name="campaignId" value="" />
+				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
+			</liferay-portlet:renderURL>
+			<liferay-frontend:management-bar-filter-item
+				label="n'importe laquelle"
+				url="${anyCampaignURL}" />
+			<c:forEach var="campaign" items="${dc.campaigns}">
+				<liferay-portlet:renderURL var="campaignFilterURL">
+					<liferay-portlet:param name="statusId" value="${dc.statusId}" />
+					<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+					<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+					<liferay-portlet:param name="campaignId" value="${campaign.campaignId}" />
+					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
+				</liferay-portlet:renderURL>
+				<c:set var="isActive"
+					value="${dc.campaignId eq campaign.campaignId}" />
+				<liferay-frontend:management-bar-filter-item
+					label="${campaign.getTitle(locale)}" url="${campaignFilterURL}" active="${isActive}" />
 			</c:forEach>
 		</liferay-frontend:management-bar-navigation>
 	</liferay-frontend:management-bar-filters>
@@ -165,8 +229,18 @@
 						</c:if>
 						${theme.getTitle(locale)}
 					</c:forEach>
-					
 				</liferay-ui:search-container-column-text>
+
+				<liferay-ui:search-container-column-text
+					cssClass="content-column table-cell-content" name="type">
+					<c:forEach var="type" items="${campaignEvent.types}" varStatus="typeStatus">
+						<c:if test="${typeStatus.index gt 0}">
+						 -
+						</c:if>
+						${type.getTitle(locale)}
+					</c:forEach>
+				</liferay-ui:search-container-column-text>
+
 				<liferay-ui:search-container-column-text
 					cssClass="content-column table-cell-content" name="service">
 					${campaignEvent.getServiceName(locale)}

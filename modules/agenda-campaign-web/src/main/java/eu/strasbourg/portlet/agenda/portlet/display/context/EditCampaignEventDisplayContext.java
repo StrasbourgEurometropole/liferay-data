@@ -1,24 +1,16 @@
 package eu.strasbourg.portlet.agenda.portlet.display.context;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -27,9 +19,17 @@ import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 
@@ -105,12 +105,13 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	}
 
 	/**
-	 * Retourne la liste des campagnes en cours
+	 * Retourne la liste des campagnes en cours et à venir
 	 */
 	public List<Campaign> getCampaigns() {
+		Date today = new Date();
 		return CampaignLocalServiceUtil.getCampaigns(-1, -1).stream()
 			.filter(c -> c.isApproved()
-				&& c.getGroupId() == this._themeDisplay.getScopeGroupId())
+				&& c.getGroupId() == this._themeDisplay.getScopeGroupId() && !c.getEndDate().before(today))
 			.collect(Collectors.toList());
 	}
 
@@ -242,6 +243,16 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 			return indexes;
 		}
 		return "";
+	}
+
+	/**
+	 *  Vérfie si l'utilisateur est un Administrateur
+	 */
+	public boolean isAdministrator(){
+		boolean isAdministrator = false;
+		Role adminRole = RoleLocalServiceUtil.fetchRole(_themeDisplay.getCompanyId(), "Administrator");
+		isAdministrator = _themeDisplay.getUser().getRoles().contains(adminRole);
+		return isAdministrator;
 	}
 
 }

@@ -101,7 +101,7 @@ public class EventItemSelectorView
 
 		List<Event> events = EventLocalServiceUtil.findByKeyword(keywords,
 			themeDisplay.getCompanyGroupId(), (delta * cur) - delta,
-			((delta * cur) + delta));
+			(delta * cur));
 
 		long eventsCount = EventLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getCompanyGroupId());

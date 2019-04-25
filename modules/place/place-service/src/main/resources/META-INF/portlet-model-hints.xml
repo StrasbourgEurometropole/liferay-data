@@ -106,6 +106,8 @@
 		<field name="RTStatus" type="String" />
 		<field name="RTLastUpdate" type="Date" />
 		<field name="imageId" type="long" />
+		<field name="imageWidth" type="Integer" />
+		<field name="imageHeight" type="Integer" />
 		<field name="imageIds" type="String">
 			<hint name="max-length">400</hint>
 		</field>

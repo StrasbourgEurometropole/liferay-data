@@ -25,42 +25,95 @@ public class CampaignEventFinderImpl extends CampaignEventFinderBaseImpl
 	 */
 	@Override
 	public List<CampaignEvent> findByKeywordThemeAndStatus(String keyword,
-		long themeId, int status, long userId, long groupId, int start,
-		int end) {
+														   long themeId, int status, long userId, long groupId, int start,
+														   int end) {
 		DynamicQuery campaignEventQuery = CampaignEventLocalServiceUtil
-			.dynamicQuery();
+				.dynamicQuery();
 
 		DynamicQuery campaignQuery = CampaignLocalServiceUtil.dynamicQuery()
-			.add(
-				RestrictionsFactoryUtil.like("managersIds", "%" + userId + "%"))
-			.setProjection(ProjectionFactoryUtil.property("campaignId"));
+				.add(
+						RestrictionsFactoryUtil.like("managersIds", "%" + userId + "%"))
+				.setProjection(ProjectionFactoryUtil.property("campaignId"));
 
 		if (keyword.length() > 0) {
 			campaignEventQuery.add(
-				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (themeId > 0) {
 			campaignEventQuery
-				.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
+					.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
 		}
 		if (status >= 0) {
 			campaignEventQuery
-				.add(PropertyFactoryUtil.forName("status").eq(status));
+					.add(PropertyFactoryUtil.forName("status").eq(status));
 		}
 		if (groupId > 0) {
 			campaignEventQuery
-				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 		campaignEventQuery.setLimit(start, end);
 		Criterion userCriterion = RestrictionsFactoryUtil.or(
-			PropertyFactoryUtil.forName("userId").eq(userId),
-			PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
-		
+				PropertyFactoryUtil.forName("userId").eq(userId),
+				PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
+
 		Order order = OrderFactoryUtil.desc("modifiedDate");
 		campaignEventQuery.add(userCriterion).addOrder(order);
 
 		return this.campaignEventPersistence
-			.findWithDynamicQuery(campaignEventQuery);
+				.findWithDynamicQuery(campaignEventQuery);
+	}
+
+	/**
+	 * Lance une recherche par mots-clés, thème, type, campagne, statut et utilisateur. Pour
+	 * l'utilisateur, on retourne les événements créés par l'utilisateur et ceux
+	 * qui appartiennent à des campagnes dont l'utilisateur est manager.
+	 */
+	@Override
+	public List<CampaignEvent> findByKeywordThemeTypeCampaignAndStatus(String keyword,
+														   long themeId, long typeId, long campaignId,int status, long userId, long groupId, int start,
+														   int end) {
+		DynamicQuery campaignEventQuery = CampaignEventLocalServiceUtil
+				.dynamicQuery();
+
+		DynamicQuery campaignQuery = CampaignLocalServiceUtil.dynamicQuery()
+				.add(
+						RestrictionsFactoryUtil.like("managersIds", "%" + userId + "%"))
+				.setProjection(ProjectionFactoryUtil.property("campaignId"));
+
+		if (keyword.length() > 0) {
+			campaignEventQuery.add(
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (themeId > 0) {
+			campaignEventQuery
+					.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
+		}
+		if (typeId > 0) {
+			campaignEventQuery
+					.add(RestrictionsFactoryUtil.like("typesIds", "%" + typeId + "%"));
+		}
+		if (campaignId > 0) {
+			campaignEventQuery
+					.add(PropertyFactoryUtil.forName("campaignId").eq(campaignId));
+		}
+		if (status >= 0) {
+			campaignEventQuery
+					.add(PropertyFactoryUtil.forName("status").eq(status));
+		}
+		if (groupId > 0) {
+			campaignEventQuery
+					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+		campaignEventQuery.setLimit(start, end);
+		Criterion userCriterion = RestrictionsFactoryUtil.or(
+				PropertyFactoryUtil.forName("userId").eq(userId),
+				PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
+
+		Order order = OrderFactoryUtil.desc("modifiedDate");
+		campaignEventQuery.add(userCriterion).addOrder(order);
+
+		return this.campaignEventPersistence
+				.findWithDynamicQuery(campaignEventQuery);
 	}
 
 	/**
@@ -68,38 +121,85 @@ public class CampaignEventFinderImpl extends CampaignEventFinderBaseImpl
 	 */
 	@Override
 	public long findByKeywordThemeAndStatusCount(String keyword, long themeId,
-		int status, long userId, long groupId) {
+												 int status, long userId, long groupId) {
 		DynamicQuery campaignEventQuery = CampaignEventLocalServiceUtil
-			.dynamicQuery();
+				.dynamicQuery();
 
 		DynamicQuery campaignQuery = CampaignLocalServiceUtil.dynamicQuery()
-			.add(
-				RestrictionsFactoryUtil.like("managersIds", "%" + userId + "%"))
-			.setProjection(ProjectionFactoryUtil.property("campaignId"));
+				.add(
+						RestrictionsFactoryUtil.like("managersIds", "%" + userId + "%"))
+				.setProjection(ProjectionFactoryUtil.property("campaignId"));
 
 		if (keyword.length() > 0) {
 			campaignEventQuery.add(
-				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (themeId > 0) {
 			campaignEventQuery
-				.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
+					.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
 		}
 		if (status >= 0) {
 			campaignEventQuery
-				.add(PropertyFactoryUtil.forName("status").eq(status));
+					.add(PropertyFactoryUtil.forName("status").eq(status));
 		}
 		if (groupId > 0) {
 			campaignEventQuery
-				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 		Criterion userCriterion = RestrictionsFactoryUtil.or(
-			PropertyFactoryUtil.forName("userId").eq(userId),
-			PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
+				PropertyFactoryUtil.forName("userId").eq(userId),
+				PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
 		campaignEventQuery.add(userCriterion);
 
 		return this.campaignEventPersistence
-			.countWithDynamicQuery(campaignEventQuery);
+				.countWithDynamicQuery(campaignEventQuery);
+	}
+
+	/**
+	 * Compte de la recherche par mots-clés, thème, type, campagne, statut et utilisateur
+	 */
+	@Override
+	public long findByKeywordThemeTypeCampaignAndStatusCount(String keyword, long themeId,
+												  long typeId, long campaignId, int status, long userId, long groupId) {
+		DynamicQuery campaignEventQuery = CampaignEventLocalServiceUtil
+				.dynamicQuery();
+
+		DynamicQuery campaignQuery = CampaignLocalServiceUtil.dynamicQuery()
+				.add(
+						RestrictionsFactoryUtil.like("managersIds", "%" + userId + "%"))
+				.setProjection(ProjectionFactoryUtil.property("campaignId"));
+
+		if (keyword.length() > 0) {
+			campaignEventQuery.add(
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (themeId > 0) {
+			campaignEventQuery
+					.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
+		}
+		if (typeId > 0) {
+			campaignEventQuery
+					.add(RestrictionsFactoryUtil.like("typesIds", "%" + typeId + "%"));
+		}
+		if (campaignId > 0) {
+			campaignEventQuery
+					.add(PropertyFactoryUtil.forName("campaignId").eq(campaignId));
+		}
+		if (status >= 0) {
+			campaignEventQuery
+					.add(PropertyFactoryUtil.forName("status").eq(status));
+		}
+		if (groupId > 0) {
+			campaignEventQuery
+					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+		Criterion userCriterion = RestrictionsFactoryUtil.or(
+				PropertyFactoryUtil.forName("userId").eq(userId),
+				PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
+		campaignEventQuery.add(userCriterion);
+
+		return this.campaignEventPersistence
+				.countWithDynamicQuery(campaignEventQuery);
 	}
 
 }

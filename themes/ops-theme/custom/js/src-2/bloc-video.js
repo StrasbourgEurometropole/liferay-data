@@ -7,7 +7,7 @@ $('.ops-wrapper-video').each(function () {
     var plateforme = vidContainer.data('video_plateforme');
 
     if (typeof plateforme != 'undefined') {
-        var html = CitronVideoHtml(idvideo, plateforme, 1, 1);
+        var html = CitronVideoHtml(idvideo, plateforme, 1, 0);
 
 
         if (mask.length > 0) {
