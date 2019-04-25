@@ -1,0 +1,10 @@
+Bundle-Name: gtfs-api
+Bundle-SymbolicName: eu.strasbourg.service.gtfs.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.gtfs.exception,\
+	eu.strasbourg.service.gtfs.model,\
+	eu.strasbourg.service.gtfs.service,\
+	eu.strasbourg.service.gtfs.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../gtfs-service/service.xml

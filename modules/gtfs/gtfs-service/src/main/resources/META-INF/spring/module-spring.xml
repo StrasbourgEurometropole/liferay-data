@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.gtfs.service.impl.CalendarLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CalendarLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.CalendarDateLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CalendarDateLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarDatePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.RouteLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.RoutePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.RoutePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.StopLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.StopLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.StopPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.StopTimeLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.StopTimeLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopTimePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.TripLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.TripLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.TripPersistence" parent="basePersistence" />
+</beans>

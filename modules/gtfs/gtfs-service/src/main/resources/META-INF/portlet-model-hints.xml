@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.gtfs.model.Calendar">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="service_id" type="String" />
+		<field name="monday" type="boolean" />
+		<field name="tuesday" type="boolean" />
+		<field name="wednesday" type="boolean" />
+		<field name="thursday" type="boolean" />
+		<field name="friday" type="boolean" />
+		<field name="saturday" type="boolean" />
+		<field name="sunday" type="boolean" />
+		<field name="start_date" type="Date" />
+		<field name="end_date" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.CalendarDate">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="service_id" type="String" />
+		<field name="date" type="Date" />
+		<field name="exception_type" type="int" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Route">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="route_id" type="String" />
+		<field name="route_short_name" type="String" />
+		<field name="route_long_name" type="String" />
+		<field name="route_desc" type="String" />
+		<field name="route_type" type="int" />
+		<field name="route_color" type="String" />
+		<field name="route_text_color" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Stop">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="stop_id" type="String" />
+		<field name="stop_code" type="String" />
+		<field name="stop_lat" type="long" />
+		<field name="stop_lon" type="long" />
+		<field name="stop_name" type="String" />
+		<field name="stop_url" type="String" />
+		<field name="stop_desc" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.StopTime">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="trip_id" type="String" />
+		<field name="arrival_time" type="Date" />
+		<field name="departure_time" type="Date" />
+		<field name="stop_id" type="String" />
+		<field name="stop_sequence" type="int" />
+		<field name="pickup_type" type="String" />
+		<field name="drop_off_type" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Trip">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="route_id" type="String" />
+		<field name="service_id" type="String" />
+		<field name="trip_id" type="String" />
+		<field name="trip_headsign" type="String" />
+		<field name="direction_id" type="boolean" />
+		<field name="block_id" type="int" />
+	</model>
+</model-hints>
