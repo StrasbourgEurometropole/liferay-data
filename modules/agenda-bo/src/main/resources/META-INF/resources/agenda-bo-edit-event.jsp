@@ -230,6 +230,9 @@
 				<%-- Champ : URL de la reservation de billet --%>
 				<aui:input label="booking-url" name="bookingURL" />
 				
+				<%-- Champ : URL d'achat d'abonnement --%>
+				<aui:input label="subscription-url" name="subscriptionURL" />
+				
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"

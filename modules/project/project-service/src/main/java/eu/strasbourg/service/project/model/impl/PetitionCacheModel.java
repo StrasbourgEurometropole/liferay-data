@@ -65,7 +65,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +103,8 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
 		sb.append(expirationDate);
+		sb.append(", extensionDate=");
+		sb.append(extensionDate);
 		sb.append(", quotaSignature=");
 		sb.append(quotaSignature);
 		sb.append(", inTheNameOf=");
@@ -240,6 +242,13 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 		else {
 			petitionImpl.setExpirationDate(new Date(expirationDate));
+		}
+
+		if (extensionDate == Long.MIN_VALUE) {
+			petitionImpl.setExtensionDate(null);
+		}
+		else {
+			petitionImpl.setExtensionDate(new Date(extensionDate));
 		}
 
 		petitionImpl.setQuotaSignature(quotaSignature);
@@ -382,6 +391,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		filesDownload = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
+		extensionDate = objectInput.readLong();
 
 		quotaSignature = objectInput.readLong();
 		inTheNameOf = objectInput.readUTF();
@@ -479,6 +489,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
+		objectOutput.writeLong(extensionDate);
 
 		objectOutput.writeLong(quotaSignature);
 
@@ -602,6 +613,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String filesDownload;
 	public long publicationDate;
 	public long expirationDate;
+	public long extensionDate;
 	public long quotaSignature;
 	public String inTheNameOf;
 	public String petitionnaireLastname;

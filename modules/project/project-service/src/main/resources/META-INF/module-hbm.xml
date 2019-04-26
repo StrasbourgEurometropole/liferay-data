@@ -197,6 +197,7 @@
 		<property name="filesDownload" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
+		<property name="extensionDate" type="org.hibernate.type.TimestampType" />
 		<property name="quotaSignature" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="inTheNameOf" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />

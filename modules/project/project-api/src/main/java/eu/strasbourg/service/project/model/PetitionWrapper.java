@@ -77,6 +77,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 		attributes.put("filesDownload", getFilesDownload());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
+		attributes.put("extensionDate", getExtensionDate());
 		attributes.put("quotaSignature", getQuotaSignature());
 		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
@@ -208,6 +209,12 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 
 		if (expirationDate != null) {
 			setExpirationDate(expirationDate);
+		}
+
+		Date extensionDate = (Date)attributes.get("extensionDate");
+
+		if (extensionDate != null) {
+			setExtensionDate(extensionDate);
 		}
 
 		Long quotaSignature = (Long)attributes.get("quotaSignature");
@@ -1005,6 +1012,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
+	* Returns the extension date of this petition.
+	*
+	* @return the extension date of this petition
+	*/
+	@Override
+	public Date getExtensionDate() {
+		return _petition.getExtensionDate();
+	}
+
+	/**
 	* Returns the modified date of this petition.
 	*
 	* @return the modified date of this petition
@@ -1297,6 +1314,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	@Override
 	public void setExpirationDate(Date expirationDate) {
 		_petition.setExpirationDate(expirationDate);
+	}
+
+	/**
+	* Sets the extension date of this petition.
+	*
+	* @param extensionDate the extension date of this petition
+	*/
+	@Override
+	public void setExtensionDate(Date extensionDate) {
+		_petition.setExtensionDate(extensionDate);
 	}
 
 	/**

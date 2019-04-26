@@ -245,7 +245,7 @@ main {
 				line-height: 58px;
 				color: $c_white;
 				padding-left: 130px;
-				max-width: 50%;
+				max-width: calc(100% - 430px);
 				margin-bottom: 40px;
 				@media screen and (max-width: 1280px) {
 					padding-left: 0;
@@ -274,6 +274,9 @@ main {
 				background: $c_white;
 				margin-bottom: 30px;
 				padding: 0 20px;
+				@include tablet_landscape{
+					bottom: 80px;
+				}
 				@include tablet_portrait {
 					position: relative;
 					left: 13px;
@@ -295,18 +298,12 @@ main {
 					background-size: 110px;
 				}
 				&:before {
-					background: url(../images/deco/ops-ticketLeft.png) repeat-y center left /contain;
+					background: url(../images/deco/ops-ticketLeft.png) repeat-y center right /cover;
 					left: -13px;
-					@include mobile {
-						left: -11px;
-					}
 				}
 				&:after {
-					background: url(../images/deco/ops-ticketRight.png) repeat-y center right /contain;
+					background: url(../images/deco/ops-ticketRight.png) repeat-y center left /cover;
 					right: -13px;
-					@include mobile {
-						right: -11px;
-					}
 				}
 				a {
 					@include ft($f_txt, 15px, 700, $c_or, 29px);
@@ -329,7 +326,7 @@ main {
 						}
 					}
 
-					&.ops-ticket {
+					&:nth-child(2){
 						&:before {
 							content: '';
 							position: absolute;
