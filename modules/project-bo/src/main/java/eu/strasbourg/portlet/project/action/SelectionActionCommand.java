@@ -8,10 +8,12 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
+import eu.strasbourg.service.project.service.InitiativeLocalService;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import eu.strasbourg.service.project.service.ProjectLocalService;
@@ -35,8 +37,8 @@ public class SelectionActionCommand implements MVCActionCommand {
     private static final String PROJECTS = "projects";
     private static final String PARTICIPATIONS = "participations";
     private static final String PETITIONS = "petitions";
+    private static final String INITIATIVES = "initiatives";
     private static final String BUDGETS = "budgets-participatifs";
-    private static final String PHASES = "phases";
 
     @Override
     public boolean processAction(ActionRequest actionRequest,
@@ -60,6 +62,9 @@ public class SelectionActionCommand implements MVCActionCommand {
                         if (tab.equals(PETITIONS)) {
                             _petitionLocalService.removePetition(entryId);
                         }
+                        if (tab.equals(INITIATIVES)) {
+                            _initiativeLocalService.removeInitiative(entryId);
+                        }
                         if (BUDGETS.equals(tab)) {
                             _budgetParticipatifLocalService.removeBudgetParticipatif(entryId);
                         }
@@ -76,6 +81,10 @@ public class SelectionActionCommand implements MVCActionCommand {
                         if (tab.equals(PETITIONS)) {
                             Petition petition = _petitionLocalService.getPetition(entryId);
                             _petitionLocalService.updateStatus(petition, WorkflowConstants.STATUS_APPROVED);
+                        }
+                        if (tab.equals(INITIATIVES)) {
+                            Initiative initiative = _initiativeLocalService.getInitiative(entryId);
+                            _initiativeLocalService.updateStatus(initiative, WorkflowConstants.STATUS_APPROVED);
                         }
                         if (BUDGETS.equals(tab)) {
                             BudgetParticipatif budgetParticipatif = _budgetParticipatifLocalService.getBudgetParticipatif(entryId);
@@ -94,6 +103,10 @@ public class SelectionActionCommand implements MVCActionCommand {
                         if (tab.equals(PETITIONS)) {
                             Petition petition = _petitionLocalService.getPetition(entryId);
                             _petitionLocalService.updateStatus(petition, WorkflowConstants.STATUS_DRAFT);
+                        }
+                        if (tab.equals(INITIATIVES)) {
+                            Initiative initiative = _initiativeLocalService.getInitiative(entryId);
+                            _initiativeLocalService.updateStatus(initiative, WorkflowConstants.STATUS_DRAFT);
                         }
                         if (BUDGETS.equals(tab)) {
                             BudgetParticipatif budgetParticipatif = _budgetParticipatifLocalService.getBudgetParticipatif(entryId);
@@ -127,6 +140,12 @@ public class SelectionActionCommand implements MVCActionCommand {
     protected void setBudgetParticipatifLocalService(BudgetParticipatifLocalService budgetParticipatifLocalService) {
         _budgetParticipatifLocalService = budgetParticipatifLocalService;
     }
+    
+
+    @Reference(unbind = "-")
+    protected void setInitiativeLocalService(InitiativeLocalService initiativeLocalService) {
+        _initiativeLocalService = initiativeLocalService;
+    }
 
     private ProjectLocalService _projectLocalService;
 
@@ -135,6 +154,8 @@ public class SelectionActionCommand implements MVCActionCommand {
     private PetitionLocalService _petitionLocalService;
 
     private BudgetParticipatifLocalService _budgetParticipatifLocalService;
+    
+    private InitiativeLocalService _initiativeLocalService;
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
