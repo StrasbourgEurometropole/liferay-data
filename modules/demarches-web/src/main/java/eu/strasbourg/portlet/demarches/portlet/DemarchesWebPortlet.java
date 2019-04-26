@@ -10,6 +10,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONArray;
@@ -76,6 +77,8 @@ public class DemarchesWebPortlet extends MVCPortlet {
 					.getPortletInstanceConfiguration(DemarchesConfiguration.class);
 			String url = configuration.url();
 			renderRequest.setAttribute("toutesLesDemarches", url);
+
+			renderRequest.setAttribute("urlSuivi", StrasbourgPropsUtil.getDemarcheSuiviURL());
 			
 			// titre personnalisable
 			renderRequest.setAttribute("title", PortletHelper.getPortletTitle("follow-up-request", renderRequest));
