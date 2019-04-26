@@ -40,15 +40,16 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
-            "indexType": "keyword",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
             "localizable": true,
             "name": "descriptionLeft",
             "readOnly": false,
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "text"
+            "type": "ddm-text-html"
         },
         {
             "label": {
@@ -73,6 +74,75 @@
             "required": true,
             "showLabel": true,
             "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Nom du lien colonne gauche"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkLabelLeft",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "URL du lien colonne gauche"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkURLLeft",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Ouvrir le lien gauche dans un nouvel onglet"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "openInaNewTabLeft",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
         },
         {
             "label": {
@@ -110,15 +180,16 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
-            "indexType": "keyword",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
             "localizable": true,
             "name": "descriptionMiddle",
             "readOnly": false,
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "text"
+            "type": "ddm-text-html"
         },
         {
             "label": {
@@ -143,6 +214,75 @@
             "required": true,
             "showLabel": true,
             "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Nom du lien colonne milieu"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkLabelMiddle",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "URL du lien colonne milieu"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkURLMiddle",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Ouvrir le lien du milieu dans un nouvel onglet"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "openInaNewTabMiddle",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
         },
         {
             "label": {
@@ -180,15 +320,16 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
-            "indexType": "keyword",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
             "localizable": true,
             "name": "descriptionRight",
             "readOnly": false,
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "text"
+            "type": "ddm-text-html"
         },
         {
             "label": {
@@ -213,6 +354,75 @@
             "required": true,
             "showLabel": true,
             "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Nom du lien colonne droite"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkLabelRight",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "URL du lien colonne droite"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkURLRight",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Ouvrir le lien droit dans un nouvel onglet"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "openInaNewTabRight",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
         }
     ]
 }

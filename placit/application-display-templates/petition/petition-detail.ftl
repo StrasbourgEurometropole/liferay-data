@@ -200,6 +200,13 @@
                                 <a href="#" class="pro-dislike" name="#IsBanned">
                                     <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
                                 </a>
+                            <#else>
+                                <a class="pro-like">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbLikes}</strong> <span>Approuver</span>
+                                </a>
+                                <a class="pro-dislike">
+                                    <span class="icon-ico-like"></span><strong>${entry.nbDislikes}</strong> <span>Désapprouver</span>
+                                </a>
                             </#if>
                         </div>
 

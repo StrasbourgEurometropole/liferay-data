@@ -76,7 +76,7 @@
         },
         {
             "label": {
-                "fr_FR": "Texte structuré en gras (utiliser \"source\" lors d'un copier/coller)"
+                "fr_FR": "Texte structuré en gras"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -87,16 +87,15 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "html",
-            "fieldNamespace": "ddm",
-            "indexType": "text",
+            "dataType": "string",
+            "indexType": "keyword",
             "localizable": true,
             "name": "text1",
             "readOnly": false,
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "ddm-text-html"
+            "type": "text"
         },
         {
             "label": {

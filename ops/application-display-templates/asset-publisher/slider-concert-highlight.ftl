@@ -33,7 +33,10 @@
                 <div class="ops-content">
                     <span class="ops-songs"><strong>${entry.getComposer()}</strong></span>
                     <span class="ops-names">${entry.getDistribution()}</span>
-                </div>             
+                </div>   
+                <#if entry.bookingURL?has_content>
+                    <span class="ops-bottom-card"><a href="${entry.bookingURL}">Acheter mon billet</a></span>
+                </#if>          
             </div>
         </div>
     </div>
