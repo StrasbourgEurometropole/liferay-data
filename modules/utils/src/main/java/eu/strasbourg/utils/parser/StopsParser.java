@@ -1,10 +1,10 @@
 package eu.strasbourg.utils.parser;
 
-import eu.strasbourg.utils.models.Stops;
+import eu.strasbourg.utils.models.StopsGTFS;
 
-public class StopsParser extends CSVParser<Stops> {
+public class StopsParser extends CSVParser<StopsGTFS> {
 	
-	public StopsParser(Class<Stops> className) {
+	public StopsParser(Class<StopsGTFS> className) {
 		super(className);
 	}
 

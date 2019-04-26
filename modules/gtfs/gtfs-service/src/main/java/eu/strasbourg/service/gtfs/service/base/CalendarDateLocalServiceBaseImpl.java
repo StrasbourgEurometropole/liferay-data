@@ -43,6 +43,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.model.CalendarDate;
 import eu.strasbourg.service.gtfs.service.CalendarDateLocalService;
+import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
@@ -314,6 +315,43 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	@Override
 	public CalendarDate updateCalendarDate(CalendarDate calendarDate) {
 		return calendarDatePersistence.update(calendarDate);
+	}
+
+	/**
+	 * Returns the agency local service.
+	 *
+	 * @return the agency local service
+	 */
+	public eu.strasbourg.service.gtfs.service.AgencyLocalService getAgencyLocalService() {
+		return agencyLocalService;
+	}
+
+	/**
+	 * Sets the agency local service.
+	 *
+	 * @param agencyLocalService the agency local service
+	 */
+	public void setAgencyLocalService(
+		eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService) {
+		this.agencyLocalService = agencyLocalService;
+	}
+
+	/**
+	 * Returns the agency persistence.
+	 *
+	 * @return the agency persistence
+	 */
+	public AgencyPersistence getAgencyPersistence() {
+		return agencyPersistence;
+	}
+
+	/**
+	 * Sets the agency persistence.
+	 *
+	 * @param agencyPersistence the agency persistence
+	 */
+	public void setAgencyPersistence(AgencyPersistence agencyPersistence) {
+		this.agencyPersistence = agencyPersistence;
 	}
 
 	/**
@@ -704,6 +742,10 @@ public abstract class CalendarDateLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.gtfs.service.AgencyLocalService.class)
+	protected eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService;
+	@BeanReference(type = AgencyPersistence.class)
+	protected AgencyPersistence agencyPersistence;
 	@BeanReference(type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class)
 	protected eu.strasbourg.service.gtfs.service.CalendarLocalService calendarLocalService;
 	@BeanReference(type = CalendarPersistence.class)

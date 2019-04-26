@@ -2,7 +2,7 @@ package eu.strasbourg.utils.models;
 
 import eu.strasbourg.utils.exception.FileFormatException;
 
-public class Routes implements GTFSModel {
+public class RoutesGTFS implements GTFSModel {
 
 	private String route_id;
 	private String route_short_name;

@@ -1,10 +1,10 @@
 package eu.strasbourg.utils.parser;
 
-import eu.strasbourg.utils.models.CalendarDates;
+import eu.strasbourg.utils.models.CalendarDatesGTFS;
 
-public class CalendarDatesParser extends CSVParser<CalendarDates> {
+public class CalendarDatesParser extends CSVParser<CalendarDatesGTFS> {
 	
-	public CalendarDatesParser(Class<CalendarDates> className) {
+	public CalendarDatesParser(Class<CalendarDatesGTFS> className) {
 		super(className);
 	}
 

@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.gtfs.model.Agency">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="agency_name" type="String" />
+		<field name="agency_url" type="boolean" />
+		<field name="agency_timezone" type="boolean" />
+		<field name="agency_phone" type="boolean" />
+		<field name="agency_fare_url" type="boolean" />
+		<field name="agency_lang" type="boolean" />
+	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Calendar">
 		<field name="uuid" type="String" />
 		<field name="id" type="long" />

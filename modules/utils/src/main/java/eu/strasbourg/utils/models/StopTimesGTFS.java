@@ -2,7 +2,7 @@ package eu.strasbourg.utils.models;
 
 import eu.strasbourg.utils.exception.FileFormatException;
 
-public class StopTimes implements GTFSModel {
+public class StopTimesGTFS implements GTFSModel {
 
 	private String trip_id;
 	private StopTime arrival_time;

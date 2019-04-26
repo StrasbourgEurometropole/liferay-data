@@ -2,12 +2,25 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="eu.strasbourg.service.gtfs.model.Agency" />
 	<import class="eu.strasbourg.service.gtfs.model.Calendar" />
 	<import class="eu.strasbourg.service.gtfs.model.CalendarDate" />
 	<import class="eu.strasbourg.service.gtfs.model.Route" />
 	<import class="eu.strasbourg.service.gtfs.model.Stop" />
 	<import class="eu.strasbourg.service.gtfs.model.StopTime" />
 	<import class="eu.strasbourg.service.gtfs.model.Trip" />
+	<class name="eu.strasbourg.service.gtfs.model.impl.AgencyImpl" table="gtfs_Agency">
+		<id column="id_" name="id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="agency_name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="agency_url" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="agency_timezone" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="agency_phone" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="agency_fare_url" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="agency_lang" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.CalendarImpl" table="gtfs_Calendar">
 		<id column="id_" name="id" type="long">
 			<generator class="assigned" />

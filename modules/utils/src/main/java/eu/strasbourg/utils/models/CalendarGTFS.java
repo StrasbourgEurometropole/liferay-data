@@ -6,7 +6,7 @@ import java.util.Date;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.exception.FileFormatException;
 
-public class Calendar implements GTFSModel {
+public class CalendarGTFS implements GTFSModel {
 	
 	private int service_id;
 	private boolean monday;

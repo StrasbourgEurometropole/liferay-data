@@ -1,3 +1,14 @@
+create table gtfs_Agency (
+	uuid_ VARCHAR(75) null,
+	id_ LONG not null primary key,
+	agency_name VARCHAR(75) null,
+	agency_url BOOLEAN,
+	agency_timezone BOOLEAN,
+	agency_phone BOOLEAN,
+	agency_fare_url BOOLEAN,
+	agency_lang BOOLEAN
+);
+
 create table gtfs_Calendar (
 	uuid_ VARCHAR(75) null,
 	id_ LONG not null primary key,

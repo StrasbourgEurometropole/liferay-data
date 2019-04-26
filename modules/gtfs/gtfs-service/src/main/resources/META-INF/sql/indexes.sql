@@ -1,3 +1,5 @@
+create index IX_899580E4 on gtfs_Agency (uuid_[$COLUMN_LENGTH:75$]);
+
 create index IX_7EB2170B on gtfs_Calendar (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_F1CEE47D on gtfs_CalendarDate (uuid_[$COLUMN_LENGTH:75$]);

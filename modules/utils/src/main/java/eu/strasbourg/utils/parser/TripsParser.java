@@ -1,10 +1,10 @@
 package eu.strasbourg.utils.parser;
 
-import eu.strasbourg.utils.models.Trips;
+import eu.strasbourg.utils.models.TripsGTFS;
 
-public class TripsParser extends CSVParser<Trips> {
+public class TripsParser extends CSVParser<TripsGTFS> {
 
-	public TripsParser(Class<Trips> className) {
+	public TripsParser(Class<TripsGTFS> className) {
 		super(className);
 	}
 	

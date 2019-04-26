@@ -6,6 +6,26 @@
 	<author>Cedric Henry</author>
 	<namespace>gtfs</namespace>
 	
+	<entity local-service="true" name="Agency" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="agency_name" type="String" />
+		<column name="agency_url" type="boolean" />
+		<column name="agency_timezone" type="boolean" />
+		<column name="agency_phone" type="boolean" />
+		<column name="agency_fare_url" type="boolean" />
+		<column name="agency_lang" type="boolean" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="agency_name" />
+		</order>
+
+	</entity>
+	
 	<entity local-service="true" name="Calendar" remote-service="false" uuid="true">
 
 		<!-- PK fields -->
