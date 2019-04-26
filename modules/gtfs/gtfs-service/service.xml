@@ -6,23 +6,43 @@
 	<author>Cedric Henry</author>
 	<namespace>gtfs</namespace>
 	
-	<entity local-service="true" name="Stop" remote-service="false" uuid="true">
-		
+	<entity local-service="true" name="Calendar" remote-service="false" uuid="true">
+
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
-		
+
 		<!-- Other fields -->
-		<column name="stop_id" primary="true" type="String" />
-		<column name="stop_code" type="String" />
-		<column name="stop_lat" type="long" />
-		<column name="stop_lon" type="long" />
-		<column name="stop_name" type="String" />
-		<column name="stop_url" type="String" />
-		<column name="stop_desc" type="String" />
+		<column name="service_id" type="String" />
+		<column name="monday" type="boolean" />
+		<column name="tuesday" type="boolean" />
+		<column name="wednesday" type="boolean" />
+		<column name="thursday" type="boolean" />
+		<column name="friday" type="boolean" />
+		<column name="saturday" type="boolean" />
+		<column name="sunday" type="boolean" />
+		<column name="start_date" type="Date" />
+		<column name="end_date" type="Date" />
 
 		<!-- Order -->
 		<order by="asc">
-			<order-column name="stop_id" />
+			<order-column name="service_id" />
+		</order>
+
+	</entity>
+	
+	<entity local-service="true" name="CalendarDate" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="service_id" type="String" />
+		<column name="date" type="Date" />
+		<column name="exception_type" type="int" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="service_id" />
 		</order>
 
 	</entity>
@@ -69,6 +89,27 @@
 
 	</entity>
 	
+	<entity local-service="true" name="Stop" remote-service="false" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+		
+		<!-- Other fields -->
+		<column name="stop_id" primary="true" type="String" />
+		<column name="stop_code" type="String" />
+		<column name="stop_lat" type="long" />
+		<column name="stop_lon" type="long" />
+		<column name="stop_name" type="String" />
+		<column name="stop_url" type="String" />
+		<column name="stop_desc" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="stop_id" />
+		</order>
+
+	</entity>
+	
 	<entity local-service="true" name="Trip" remote-service="false" uuid="true">
 
 		<!-- PK fields -->
@@ -85,47 +126,6 @@
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="trip_id" />
-		</order>
-
-	</entity>
-	
-	<entity local-service="true" name="Calendar" remote-service="false" uuid="true">
-
-		<!-- PK fields -->
-		<column name="id" primary="true" type="long" />
-
-		<!-- Other fields -->
-		<column name="service_id" type="String" />
-		<column name="monday" type="boolean" />
-		<column name="tuesday" type="boolean" />
-		<column name="wednesday" type="boolean" />
-		<column name="thursday" type="boolean" />
-		<column name="friday" type="boolean" />
-		<column name="saturday" type="boolean" />
-		<column name="sunday" type="boolean" />
-		<column name="start_date" type="Date" />
-		<column name="end_date" type="Date" />
-
-		<!-- Order -->
-		<order by="asc">
-			<order-column name="service_id" />
-		</order>
-
-	</entity>
-	
-	<entity local-service="true" name="CalendarDate" remote-service="false" uuid="true">
-
-		<!-- PK fields -->
-		<column name="id" primary="true" type="long" />
-
-		<!-- Other fields -->
-		<column name="service_id" type="String" />
-		<column name="date" type="Date" />
-		<column name="exception_type" type="int" />
-
-		<!-- Order -->
-		<order by="asc">
-			<order-column name="service_id" />
 		</order>
 
 	</entity>
