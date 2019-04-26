@@ -80,6 +80,15 @@ public class CalendarDateLocalServiceUtil {
 	}
 
 	/**
+	* Crée un CalendarDate vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.CalendarDate createCalendarDate(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createCalendarDate(sc);
+	}
+
+	/**
 	* Creates a new calendar date with the primary key. Does not add the calendar date to the database.
 	*
 	* @param id the primary key for the new calendar date
@@ -131,6 +140,15 @@ public class CalendarDateLocalServiceUtil {
 	}
 
 	/**
+	* Supprime un CalendarDate
+	*/
+	public static eu.strasbourg.service.gtfs.model.CalendarDate removeCalendarDate(
+		long calendarDateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeCalendarDate(calendarDateId);
+	}
+
+	/**
 	* Updates the calendar date in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param calendarDate the calendar date
@@ -139,6 +157,18 @@ public class CalendarDateLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.CalendarDate updateCalendarDate(
 		eu.strasbourg.service.gtfs.model.CalendarDate calendarDate) {
 		return getService().updateCalendarDate(calendarDate);
+	}
+
+	/**
+	* Met à jour un CalendarDate et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.CalendarDate updateCalendarDate(
+		eu.strasbourg.service.gtfs.model.CalendarDate calendarDate,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateCalendarDate(calendarDate, sc);
 	}
 
 	/**
@@ -247,6 +277,14 @@ public class CalendarDateLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les CalendarDates
+	*/
+	public static void removeAllCalendarDate()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllCalendarDate();
 	}
 
 	public static CalendarDateLocalService getService() {

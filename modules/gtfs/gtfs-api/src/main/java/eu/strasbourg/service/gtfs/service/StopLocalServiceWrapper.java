@@ -77,15 +77,24 @@ public class StopLocalServiceWrapper implements StopLocalService,
 	}
 
 	/**
-	* Creates a new stop with the primary key. Does not add the stop to the database.
-	*
-	* @param stopPK the primary key for the new stop
-	* @return the new stop
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
 	*/
 	@Override
 	public eu.strasbourg.service.gtfs.model.Stop createStop(
-		eu.strasbourg.service.gtfs.service.persistence.StopPK stopPK) {
-		return _stopLocalService.createStop(stopPK);
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _stopLocalService.createStop(sc);
+	}
+
+	/**
+	* Creates a new stop with the primary key. Does not add the stop to the database.
+	*
+	* @param id the primary key for the new stop
+	* @return the new stop
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Stop createStop(long id) {
+		return _stopLocalService.createStop(id);
 	}
 
 	/**
@@ -103,35 +112,41 @@ public class StopLocalServiceWrapper implements StopLocalService,
 	/**
 	* Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param stopPK the primary key of the stop
+	* @param id the primary key of the stop
 	* @return the stop that was removed
 	* @throws PortalException if a stop with the primary key could not be found
 	*/
 	@Override
-	public eu.strasbourg.service.gtfs.model.Stop deleteStop(
-		eu.strasbourg.service.gtfs.service.persistence.StopPK stopPK)
+	public eu.strasbourg.service.gtfs.model.Stop deleteStop(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _stopLocalService.deleteStop(stopPK);
+		return _stopLocalService.deleteStop(id);
 	}
 
 	@Override
-	public eu.strasbourg.service.gtfs.model.Stop fetchStop(
-		eu.strasbourg.service.gtfs.service.persistence.StopPK stopPK) {
-		return _stopLocalService.fetchStop(stopPK);
+	public eu.strasbourg.service.gtfs.model.Stop fetchStop(long id) {
+		return _stopLocalService.fetchStop(id);
 	}
 
 	/**
 	* Returns the stop with the primary key.
 	*
-	* @param stopPK the primary key of the stop
+	* @param id the primary key of the stop
 	* @return the stop
 	* @throws PortalException if a stop with the primary key could not be found
 	*/
 	@Override
-	public eu.strasbourg.service.gtfs.model.Stop getStop(
-		eu.strasbourg.service.gtfs.service.persistence.StopPK stopPK)
+	public eu.strasbourg.service.gtfs.model.Stop getStop(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _stopLocalService.getStop(stopPK);
+		return _stopLocalService.getStop(id);
+	}
+
+	/**
+	* Supprime un Stop
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Stop removeStop(long stopId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _stopLocalService.removeStop(stopId);
 	}
 
 	/**
@@ -144,6 +159,19 @@ public class StopLocalServiceWrapper implements StopLocalService,
 	public eu.strasbourg.service.gtfs.model.Stop updateStop(
 		eu.strasbourg.service.gtfs.model.Stop stop) {
 		return _stopLocalService.updateStop(stop);
+	}
+
+	/**
+	* Met à jour un Stop et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Stop updateStop(
+		eu.strasbourg.service.gtfs.model.Stop stop,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _stopLocalService.updateStop(stop, sc);
 	}
 
 	/**
@@ -260,6 +288,15 @@ public class StopLocalServiceWrapper implements StopLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _stopLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les Stops
+	*/
+	@Override
+	public void removeAllStop()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_stopLocalService.removeAllStop();
 	}
 
 	@Override

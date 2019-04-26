@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -90,6 +91,11 @@ public interface StopTimeLocalService extends BaseLocalService,
 	public StopTime addStopTime(StopTime stopTime);
 
 	/**
+	* Crée un StopTime vide avec une PK, non ajouté à la base de donnée
+	*/
+	public StopTime createStopTime(ServiceContext sc) throws PortalException;
+
+	/**
 	* Creates a new stop time with the primary key. Does not add the stop time to the database.
 	*
 	* @param id the primary key for the new stop time
@@ -130,6 +136,11 @@ public interface StopTimeLocalService extends BaseLocalService,
 	public StopTime getStopTime(long id) throws PortalException;
 
 	/**
+	* Supprime un StopTime
+	*/
+	public StopTime removeStopTime(long stopTimeId) throws PortalException;
+
+	/**
 	* Updates the stop time in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param stopTime the stop time
@@ -137,6 +148,14 @@ public interface StopTimeLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public StopTime updateStopTime(StopTime stopTime);
+
+	/**
+	* Met à jour un StopTime et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public StopTime updateStopTime(StopTime stopTime, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of stop times.
@@ -223,4 +242,9 @@ public interface StopTimeLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime toutes le StopTime
+	*/
+	public void removeAllStopTime() throws PortalException;
 }

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -90,6 +91,12 @@ public interface CalendarDateLocalService extends BaseLocalService,
 	public CalendarDate addCalendarDate(CalendarDate calendarDate);
 
 	/**
+	* Crée un CalendarDate vide avec une PK, non ajouté à la base de donnée
+	*/
+	public CalendarDate createCalendarDate(ServiceContext sc)
+		throws PortalException;
+
+	/**
 	* Creates a new calendar date with the primary key. Does not add the calendar date to the database.
 	*
 	* @param id the primary key for the new calendar date
@@ -130,6 +137,12 @@ public interface CalendarDateLocalService extends BaseLocalService,
 	public CalendarDate getCalendarDate(long id) throws PortalException;
 
 	/**
+	* Supprime un CalendarDate
+	*/
+	public CalendarDate removeCalendarDate(long calendarDateId)
+		throws PortalException;
+
+	/**
 	* Updates the calendar date in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param calendarDate the calendar date
@@ -137,6 +150,14 @@ public interface CalendarDateLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public CalendarDate updateCalendarDate(CalendarDate calendarDate);
+
+	/**
+	* Met à jour un CalendarDate et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public CalendarDate updateCalendarDate(CalendarDate calendarDate,
+		ServiceContext sc) throws PortalException;
 
 	/**
 	* Returns the number of calendar dates.
@@ -223,4 +244,9 @@ public interface CalendarDateLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime toutes les CalendarDates
+	*/
+	public void removeAllCalendarDate() throws PortalException;
 }

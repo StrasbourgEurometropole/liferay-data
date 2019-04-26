@@ -14,6 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+
+import java.io.IOException;
+
+import eu.strasbourg.service.gtfs.model.StopTime;
 import eu.strasbourg.service.gtfs.service.base.StopTimeLocalServiceBaseImpl;
 
 /**
@@ -36,4 +42,45 @@ public class StopTimeLocalServiceImpl extends StopTimeLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil} to access the stop time local service.
 	 */
+	
+	/**
+	 * Crée un StopTime vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public StopTime createStopTime(ServiceContext sc) throws PortalException {
+		long pk = counterLocalService.increment();
+		StopTime stopTime = this.stopTimeLocalService.createStopTime(pk);
+
+		return stopTime;
+	}
+	
+	/**
+	 * Met à jour un StopTime et l'enregistre en base de données
+	 * @throws IOException
+	 */
+	@Override
+	public StopTime updateStopTime(StopTime stopTime, ServiceContext sc) throws PortalException {
+		stopTime = this.stopTimeLocalService.updateStopTime(stopTime);
+
+		return stopTime;
+	}
+	
+	/**
+	 * Supprime un StopTime
+	 */
+	@Override
+	public StopTime removeStopTime(long stopTimeId) throws PortalException {
+		StopTime stopTime = this.stopTimePersistence.remove(stopTimeId);
+
+		return stopTime;
+	}
+	
+	/**
+	 * Supprime toutes le StopTime
+	 */
+	@Override
+	public void removeAllStopTime() throws PortalException {
+		this.stopTimePersistence.removeAll();
+	}
+	
 }

@@ -27,13 +27,13 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Stop;
-import eu.strasbourg.service.gtfs.service.persistence.StopPK;
 
 import java.io.Serializable;
 
@@ -91,12 +91,17 @@ public interface StopLocalService extends BaseLocalService,
 	public Stop addStop(Stop stop);
 
 	/**
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Stop createStop(ServiceContext sc) throws PortalException;
+
+	/**
 	* Creates a new stop with the primary key. Does not add the stop to the database.
 	*
-	* @param stopPK the primary key for the new stop
+	* @param id the primary key for the new stop
 	* @return the new stop
 	*/
-	public Stop createStop(StopPK stopPK);
+	public Stop createStop(long id);
 
 	/**
 	* Deletes the stop from the database. Also notifies the appropriate model listeners.
@@ -110,25 +115,30 @@ public interface StopLocalService extends BaseLocalService,
 	/**
 	* Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param stopPK the primary key of the stop
+	* @param id the primary key of the stop
 	* @return the stop that was removed
 	* @throws PortalException if a stop with the primary key could not be found
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public Stop deleteStop(StopPK stopPK) throws PortalException;
+	public Stop deleteStop(long id) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Stop fetchStop(StopPK stopPK);
+	public Stop fetchStop(long id);
 
 	/**
 	* Returns the stop with the primary key.
 	*
-	* @param stopPK the primary key of the stop
+	* @param id the primary key of the stop
 	* @return the stop
 	* @throws PortalException if a stop with the primary key could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Stop getStop(StopPK stopPK) throws PortalException;
+	public Stop getStop(long id) throws PortalException;
+
+	/**
+	* Supprime un Stop
+	*/
+	public Stop removeStop(long stopId) throws PortalException;
 
 	/**
 	* Updates the stop in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -138,6 +148,14 @@ public interface StopLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Stop updateStop(Stop stop);
+
+	/**
+	* Met à jour un Stop et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Stop updateStop(Stop stop, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of stops.
@@ -224,4 +242,9 @@ public interface StopLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime toutes les Stops
+	*/
+	public void removeAllStop() throws PortalException;
 }

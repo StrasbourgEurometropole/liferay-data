@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -90,6 +91,11 @@ public interface AgencyLocalService extends BaseLocalService,
 	public Agency addAgency(Agency agency);
 
 	/**
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Agency createAgency(ServiceContext sc) throws PortalException;
+
+	/**
 	* Creates a new agency with the primary key. Does not add the agency to the database.
 	*
 	* @param id the primary key for the new agency
@@ -130,6 +136,11 @@ public interface AgencyLocalService extends BaseLocalService,
 	public Agency getAgency(long id) throws PortalException;
 
 	/**
+	* Supprime une agence
+	*/
+	public Agency removeAgency(long agencyId) throws PortalException;
+
+	/**
 	* Updates the agency in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param agency the agency
@@ -137,6 +148,14 @@ public interface AgencyLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Agency updateAgency(Agency agency);
+
+	/**
+	* Met à jour une agence et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Agency updateAgency(Agency agency, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of agencies.
@@ -223,4 +242,9 @@ public interface AgencyLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime toutes les agences
+	*/
+	public void removeAllAgency() throws PortalException;
 }

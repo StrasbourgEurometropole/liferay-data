@@ -15,11 +15,11 @@
 		</id>
 		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="agency_name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="agency_url" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="agency_timezone" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="agency_phone" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="agency_fare_url" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="agency_lang" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="agency_url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="agency_timezone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="agency_phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="agency_fare_url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="agency_lang" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.CalendarImpl" table="gtfs_Calendar">
 		<id column="id_" name="id" type="long">
@@ -60,11 +60,11 @@
 		<property name="route_text_color" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.StopImpl" table="gtfs_Stop">
-		<composite-id class="eu.strasbourg.service.gtfs.service.persistence.StopPK" name="primaryKey">
-			<key-property column="id_" name="id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-			<key-property name="stop_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		</composite-id>
+		<id column="id_" name="id" type="long">
+			<generator class="assigned" />
+		</id>
 		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="stop_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="stop_code" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="stop_lat" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="stop_lon" type="com.liferay.portal.dao.orm.hibernate.LongType" />

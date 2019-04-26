@@ -77,6 +77,16 @@ public class TripLocalServiceWrapper implements TripLocalService,
 	}
 
 	/**
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Trip createTrip(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _tripLocalService.createTrip(sc);
+	}
+
+	/**
 	* Creates a new trip with the primary key. Does not add the trip to the database.
 	*
 	* @param id the primary key for the new trip
@@ -131,6 +141,15 @@ public class TripLocalServiceWrapper implements TripLocalService,
 	}
 
 	/**
+	* Supprime une agence
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Trip removeTrip(long tripId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _tripLocalService.removeTrip(tripId);
+	}
+
+	/**
 	* Updates the trip in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param trip the trip
@@ -140,6 +159,19 @@ public class TripLocalServiceWrapper implements TripLocalService,
 	public eu.strasbourg.service.gtfs.model.Trip updateTrip(
 		eu.strasbourg.service.gtfs.model.Trip trip) {
 		return _tripLocalService.updateTrip(trip);
+	}
+
+	/**
+	* Met à jour un Trip et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Trip updateTrip(
+		eu.strasbourg.service.gtfs.model.Trip trip,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _tripLocalService.updateTrip(trip, sc);
 	}
 
 	/**
@@ -256,6 +288,15 @@ public class TripLocalServiceWrapper implements TripLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _tripLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les Trips
+	*/
+	@Override
+	public void removeAllTrip()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_tripLocalService.removeAllTrip();
 	}
 
 	@Override

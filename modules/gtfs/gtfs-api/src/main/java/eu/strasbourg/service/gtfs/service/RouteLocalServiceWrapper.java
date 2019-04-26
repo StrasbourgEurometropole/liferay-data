@@ -77,6 +77,16 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 	}
 
 	/**
+	* Crée une Route vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route createRoute(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _routeLocalService.createRoute(sc);
+	}
+
+	/**
 	* Creates a new route with the primary key. Does not add the route to the database.
 	*
 	* @param id the primary key for the new route
@@ -131,6 +141,15 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 	}
 
 	/**
+	* Supprime une Route
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route removeRoute(long routeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _routeLocalService.removeRoute(routeId);
+	}
+
+	/**
 	* Updates the route in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param route the route
@@ -140,6 +159,19 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 	public eu.strasbourg.service.gtfs.model.Route updateRoute(
 		eu.strasbourg.service.gtfs.model.Route route) {
 		return _routeLocalService.updateRoute(route);
+	}
+
+	/**
+	* Met à jour une Route et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route updateRoute(
+		eu.strasbourg.service.gtfs.model.Route route,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _routeLocalService.updateRoute(route, sc);
 	}
 
 	/**
@@ -256,6 +288,15 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _routeLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les Routes
+	*/
+	@Override
+	public void removeAllRoute()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_routeLocalService.removeAllRoute();
 	}
 
 	@Override

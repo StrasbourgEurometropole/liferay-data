@@ -2,11 +2,11 @@ create table gtfs_Agency (
 	uuid_ VARCHAR(75) null,
 	id_ LONG not null primary key,
 	agency_name VARCHAR(75) null,
-	agency_url BOOLEAN,
-	agency_timezone BOOLEAN,
-	agency_phone BOOLEAN,
-	agency_fare_url BOOLEAN,
-	agency_lang BOOLEAN
+	agency_url VARCHAR(400) null,
+	agency_timezone VARCHAR(75) null,
+	agency_phone VARCHAR(75) null,
+	agency_fare_url VARCHAR(400) null,
+	agency_lang VARCHAR(75) null
 );
 
 create table gtfs_Calendar (
@@ -37,8 +37,8 @@ create table gtfs_Route (
 	id_ LONG not null primary key,
 	route_id VARCHAR(75) null,
 	route_short_name VARCHAR(75) null,
-	route_long_name VARCHAR(75) null,
-	route_desc VARCHAR(75) null,
+	route_long_name VARCHAR(200) null,
+	route_desc VARCHAR(400) null,
 	route_type INTEGER,
 	route_color VARCHAR(75) null,
 	route_text_color VARCHAR(75) null
@@ -46,15 +46,14 @@ create table gtfs_Route (
 
 create table gtfs_Stop (
 	uuid_ VARCHAR(75) null,
-	id_ LONG not null,
-	stop_id VARCHAR(75) not null,
+	id_ LONG not null primary key,
+	stop_id VARCHAR(75) null,
 	stop_code VARCHAR(75) null,
 	stop_lat LONG,
 	stop_lon LONG,
 	stop_name VARCHAR(75) null,
-	stop_url VARCHAR(75) null,
-	stop_desc VARCHAR(75) null,
-	primary key (id_, stop_id)
+	stop_url VARCHAR(400) null,
+	stop_desc VARCHAR(400) null
 );
 
 create table gtfs_StopTime (

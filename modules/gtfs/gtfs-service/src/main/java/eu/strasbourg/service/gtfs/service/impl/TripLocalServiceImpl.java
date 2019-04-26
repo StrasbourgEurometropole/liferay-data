@@ -14,6 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+
+import java.io.IOException;
+
+import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.base.TripLocalServiceBaseImpl;
 
 /**
@@ -36,4 +42,45 @@ public class TripLocalServiceImpl extends TripLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.TripLocalServiceUtil} to access the trip local service.
 	 */
+	
+	/**
+	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Trip createTrip(ServiceContext sc) throws PortalException {
+		long pk = counterLocalService.increment();
+		Trip trip = this.tripLocalService.createTrip(pk);
+
+		return trip;
+	}
+	
+	/**
+	 * Met à jour un Trip et l'enregistre en base de données
+	 * @throws IOException
+	 */
+	@Override
+	public Trip updateTrip(Trip trip, ServiceContext sc) throws PortalException {
+		trip = this.tripLocalService.updateTrip(trip);
+
+		return trip;
+	}
+	
+	/**
+	 * Supprime une agence
+	 */
+	@Override
+	public Trip removeTrip(long tripId) throws PortalException {
+		Trip trip = this.tripPersistence.remove(tripId);
+
+		return trip;
+	}
+	
+	/**
+	 * Supprime toutes les Trips
+	 */
+	@Override
+	public void removeAllTrip() throws PortalException {
+		this.tripPersistence.removeAll();
+	}
+	
 }

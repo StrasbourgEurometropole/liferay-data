@@ -116,72 +116,52 @@ public class AgencySoap implements Serializable {
 		_agency_name = agency_name;
 	}
 
-	public boolean getAgency_url() {
+	public String getAgency_url() {
 		return _agency_url;
 	}
 
-	public boolean isAgency_url() {
-		return _agency_url;
-	}
-
-	public void setAgency_url(boolean agency_url) {
+	public void setAgency_url(String agency_url) {
 		_agency_url = agency_url;
 	}
 
-	public boolean getAgency_timezone() {
+	public String getAgency_timezone() {
 		return _agency_timezone;
 	}
 
-	public boolean isAgency_timezone() {
-		return _agency_timezone;
-	}
-
-	public void setAgency_timezone(boolean agency_timezone) {
+	public void setAgency_timezone(String agency_timezone) {
 		_agency_timezone = agency_timezone;
 	}
 
-	public boolean getAgency_phone() {
+	public String getAgency_phone() {
 		return _agency_phone;
 	}
 
-	public boolean isAgency_phone() {
-		return _agency_phone;
-	}
-
-	public void setAgency_phone(boolean agency_phone) {
+	public void setAgency_phone(String agency_phone) {
 		_agency_phone = agency_phone;
 	}
 
-	public boolean getAgency_fare_url() {
+	public String getAgency_fare_url() {
 		return _agency_fare_url;
 	}
 
-	public boolean isAgency_fare_url() {
-		return _agency_fare_url;
-	}
-
-	public void setAgency_fare_url(boolean agency_fare_url) {
+	public void setAgency_fare_url(String agency_fare_url) {
 		_agency_fare_url = agency_fare_url;
 	}
 
-	public boolean getAgency_lang() {
+	public String getAgency_lang() {
 		return _agency_lang;
 	}
 
-	public boolean isAgency_lang() {
-		return _agency_lang;
-	}
-
-	public void setAgency_lang(boolean agency_lang) {
+	public void setAgency_lang(String agency_lang) {
 		_agency_lang = agency_lang;
 	}
 
 	private String _uuid;
 	private long _id;
 	private String _agency_name;
-	private boolean _agency_url;
-	private boolean _agency_timezone;
-	private boolean _agency_phone;
-	private boolean _agency_fare_url;
-	private boolean _agency_lang;
+	private String _agency_url;
+	private String _agency_timezone;
+	private String _agency_phone;
+	private String _agency_fare_url;
+	private String _agency_lang;
 }

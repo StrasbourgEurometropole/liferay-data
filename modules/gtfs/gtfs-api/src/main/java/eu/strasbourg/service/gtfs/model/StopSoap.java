@@ -16,8 +16,6 @@ package eu.strasbourg.service.gtfs.model;
 
 import aQute.bnd.annotation.ProviderType;
 
-import eu.strasbourg.service.gtfs.service.persistence.StopPK;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -87,13 +85,12 @@ public class StopSoap implements Serializable {
 	public StopSoap() {
 	}
 
-	public StopPK getPrimaryKey() {
-		return new StopPK(_id, _stop_id);
+	public long getPrimaryKey() {
+		return _id;
 	}
 
-	public void setPrimaryKey(StopPK pk) {
-		setId(pk.id);
-		setStop_id(pk.stop_id);
+	public void setPrimaryKey(long pk) {
+		setId(pk);
 	}
 
 	public String getUuid() {

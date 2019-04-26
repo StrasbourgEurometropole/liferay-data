@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -90,6 +91,11 @@ public interface CalendarLocalService extends BaseLocalService,
 	public Calendar addCalendar(Calendar calendar);
 
 	/**
+	* Crée un Calendar vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Calendar createCalendar(ServiceContext sc) throws PortalException;
+
+	/**
 	* Creates a new calendar with the primary key. Does not add the calendar to the database.
 	*
 	* @param id the primary key for the new calendar
@@ -130,6 +136,11 @@ public interface CalendarLocalService extends BaseLocalService,
 	public Calendar getCalendar(long id) throws PortalException;
 
 	/**
+	* Supprime un Calendar
+	*/
+	public Calendar removeCalendar(long calendarId) throws PortalException;
+
+	/**
 	* Updates the calendar in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param calendar the calendar
@@ -137,6 +148,14 @@ public interface CalendarLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Calendar updateCalendar(Calendar calendar);
+
+	/**
+	* Met à jour un Calendar et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Calendar updateCalendar(Calendar calendar, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of calendars.
@@ -223,4 +242,9 @@ public interface CalendarLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime toutes les Calendar
+	*/
+	public void removeAllCalendar() throws PortalException;
 }

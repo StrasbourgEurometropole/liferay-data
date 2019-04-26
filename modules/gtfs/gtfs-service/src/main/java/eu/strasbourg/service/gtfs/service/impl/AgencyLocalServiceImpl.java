@@ -14,6 +14,11 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+import java.io.IOException;
+
+import eu.strasbourg.service.gtfs.model.Agency;
 import eu.strasbourg.service.gtfs.service.base.AgencyLocalServiceBaseImpl;
 
 /**
@@ -36,4 +41,45 @@ public class AgencyLocalServiceImpl extends AgencyLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil} to access the agency local service.
 	 */
+	
+	/**
+	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Agency createAgency(ServiceContext sc) throws PortalException {
+		long pk = counterLocalService.increment();
+		Agency agency = this.agencyLocalService.createAgency(pk);
+
+		return agency;
+	}
+	
+	/**
+	 * Met à jour une agence et l'enregistre en base de données
+	 * @throws IOException
+	 */
+	@Override
+	public Agency updateAgency(Agency agency, ServiceContext sc) throws PortalException {
+		agency = this.agencyLocalService.updateAgency(agency);
+
+		return agency;
+	}
+	
+	/**
+	 * Supprime une agence
+	 */
+	@Override
+	public Agency removeAgency(long agencyId) throws PortalException {
+		Agency agency = this.agencyPersistence.remove(agencyId);
+
+		return agency;
+	}
+	
+	/**
+	 * Supprime toutes les agences
+	 */
+	@Override
+	public void removeAllAgency() throws PortalException {
+		this.agencyPersistence.removeAll();
+	}
+	
 }

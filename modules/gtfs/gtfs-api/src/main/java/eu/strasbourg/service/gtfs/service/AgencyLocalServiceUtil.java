@@ -80,6 +80,15 @@ public class AgencyLocalServiceUtil {
 	}
 
 	/**
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.Agency createAgency(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createAgency(sc);
+	}
+
+	/**
 	* Creates a new agency with the primary key. Does not add the agency to the database.
 	*
 	* @param id the primary key for the new agency
@@ -129,6 +138,15 @@ public class AgencyLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une agence
+	*/
+	public static eu.strasbourg.service.gtfs.model.Agency removeAgency(
+		long agencyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeAgency(agencyId);
+	}
+
+	/**
 	* Updates the agency in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param agency the agency
@@ -137,6 +155,18 @@ public class AgencyLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.Agency updateAgency(
 		eu.strasbourg.service.gtfs.model.Agency agency) {
 		return getService().updateAgency(agency);
+	}
+
+	/**
+	* Met à jour une agence et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.Agency updateAgency(
+		eu.strasbourg.service.gtfs.model.Agency agency,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateAgency(agency, sc);
 	}
 
 	/**
@@ -245,6 +275,14 @@ public class AgencyLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les agences
+	*/
+	public static void removeAllAgency()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllAgency();
 	}
 
 	public static AgencyLocalService getService() {

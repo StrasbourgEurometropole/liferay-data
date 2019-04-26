@@ -80,6 +80,15 @@ public class RouteLocalServiceUtil {
 	}
 
 	/**
+	* Crée une Route vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.Route createRoute(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createRoute(sc);
+	}
+
+	/**
 	* Creates a new route with the primary key. Does not add the route to the database.
 	*
 	* @param id the primary key for the new route
@@ -129,6 +138,15 @@ public class RouteLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une Route
+	*/
+	public static eu.strasbourg.service.gtfs.model.Route removeRoute(
+		long routeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeRoute(routeId);
+	}
+
+	/**
 	* Updates the route in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param route the route
@@ -137,6 +155,18 @@ public class RouteLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.Route updateRoute(
 		eu.strasbourg.service.gtfs.model.Route route) {
 		return getService().updateRoute(route);
+	}
+
+	/**
+	* Met à jour une Route et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.Route updateRoute(
+		eu.strasbourg.service.gtfs.model.Route route,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateRoute(route, sc);
 	}
 
 	/**
@@ -245,6 +275,14 @@ public class RouteLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les Routes
+	*/
+	public static void removeAllRoute()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllRoute();
 	}
 
 	public static RouteLocalService getService() {

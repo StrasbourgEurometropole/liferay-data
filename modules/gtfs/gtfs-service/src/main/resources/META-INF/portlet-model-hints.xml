@@ -5,11 +5,15 @@
 		<field name="uuid" type="String" />
 		<field name="id" type="long" />
 		<field name="agency_name" type="String" />
-		<field name="agency_url" type="boolean" />
-		<field name="agency_timezone" type="boolean" />
-		<field name="agency_phone" type="boolean" />
-		<field name="agency_fare_url" type="boolean" />
-		<field name="agency_lang" type="boolean" />
+		<field name="agency_url" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="agency_timezone" type="String" />
+		<field name="agency_phone" type="String" />
+		<field name="agency_fare_url" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="agency_lang" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Calendar">
 		<field name="uuid" type="String" />
@@ -37,8 +41,12 @@
 		<field name="id" type="long" />
 		<field name="route_id" type="String" />
 		<field name="route_short_name" type="String" />
-		<field name="route_long_name" type="String" />
-		<field name="route_desc" type="String" />
+		<field name="route_long_name" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="route_desc" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="route_type" type="int" />
 		<field name="route_color" type="String" />
 		<field name="route_text_color" type="String" />
@@ -51,8 +59,12 @@
 		<field name="stop_lat" type="long" />
 		<field name="stop_lon" type="long" />
 		<field name="stop_name" type="String" />
-		<field name="stop_url" type="String" />
-		<field name="stop_desc" type="String" />
+		<field name="stop_url" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="stop_desc" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.StopTime">
 		<field name="uuid" type="String" />

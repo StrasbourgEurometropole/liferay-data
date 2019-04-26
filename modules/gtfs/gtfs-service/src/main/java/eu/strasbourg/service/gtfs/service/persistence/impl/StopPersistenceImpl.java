@@ -39,7 +39,6 @@ import eu.strasbourg.service.gtfs.exception.NoSuchStopException;
 import eu.strasbourg.service.gtfs.model.Stop;
 import eu.strasbourg.service.gtfs.model.impl.StopImpl;
 import eu.strasbourg.service.gtfs.model.impl.StopModelImpl;
-import eu.strasbourg.service.gtfs.service.persistence.StopPK;
 import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
 
 import java.io.Serializable;
@@ -48,6 +47,8 @@ import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -100,7 +101,8 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] { String.class.getName() },
-			StopModelImpl.UUID_COLUMN_BITMASK);
+			StopModelImpl.UUID_COLUMN_BITMASK |
+			StopModelImpl.STOP_ID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(StopModelImpl.ENTITY_CACHE_ENABLED,
 			StopModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
@@ -388,16 +390,16 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 	/**
 	 * Returns the stops before and after the current stop in the ordered set where uuid = &#63;.
 	 *
-	 * @param stopPK the primary key of the current stop
+	 * @param id the primary key of the current stop
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop[] findByUuid_PrevAndNext(StopPK stopPK, String uuid,
+	public Stop[] findByUuid_PrevAndNext(long id, String uuid,
 		OrderByComparator<Stop> orderByComparator) throws NoSuchStopException {
-		Stop stop = findByPrimaryKey(stopPK);
+		Stop stop = findByPrimaryKey(id);
 
 		Session session = null;
 
@@ -723,15 +725,15 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param stopPK the primary key for the new stop
+	 * @param id the primary key for the new stop
 	 * @return the new stop
 	 */
 	@Override
-	public Stop create(StopPK stopPK) {
+	public Stop create(long id) {
 		Stop stop = new StopImpl();
 
 		stop.setNew(true);
-		stop.setPrimaryKey(stopPK);
+		stop.setPrimaryKey(id);
 
 		String uuid = PortalUUIDUtil.generate();
 
@@ -743,13 +745,13 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 	/**
 	 * Removes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param stopPK the primary key of the stop
+	 * @param id the primary key of the stop
 	 * @return the stop that was removed
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop remove(StopPK stopPK) throws NoSuchStopException {
-		return remove((Serializable)stopPK);
+	public Stop remove(long id) throws NoSuchStopException {
+		return remove((Serializable)id);
 	}
 
 	/**
@@ -949,13 +951,13 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 	/**
 	 * Returns the stop with the primary key or throws a {@link NoSuchStopException} if it could not be found.
 	 *
-	 * @param stopPK the primary key of the stop
+	 * @param id the primary key of the stop
 	 * @return the stop
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop findByPrimaryKey(StopPK stopPK) throws NoSuchStopException {
-		return findByPrimaryKey((Serializable)stopPK);
+	public Stop findByPrimaryKey(long id) throws NoSuchStopException {
+		return findByPrimaryKey((Serializable)id);
 	}
 
 	/**
@@ -1008,12 +1010,12 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 	/**
 	 * Returns the stop with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param stopPK the primary key of the stop
+	 * @param id the primary key of the stop
 	 * @return the stop, or <code>null</code> if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop fetchByPrimaryKey(StopPK stopPK) {
-		return fetchByPrimaryKey((Serializable)stopPK);
+	public Stop fetchByPrimaryKey(long id) {
+		return fetchByPrimaryKey((Serializable)id);
 	}
 
 	@Override
@@ -1025,12 +1027,86 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 
 		Map<Serializable, Stop> map = new HashMap<Serializable, Stop>();
 
-		for (Serializable primaryKey : primaryKeys) {
+		if (primaryKeys.size() == 1) {
+			Iterator<Serializable> iterator = primaryKeys.iterator();
+
+			Serializable primaryKey = iterator.next();
+
 			Stop stop = fetchByPrimaryKey(primaryKey);
 
 			if (stop != null) {
 				map.put(primaryKey, stop);
 			}
+
+			return map;
+		}
+
+		Set<Serializable> uncachedPrimaryKeys = null;
+
+		for (Serializable primaryKey : primaryKeys) {
+			Serializable serializable = entityCache.getResult(StopModelImpl.ENTITY_CACHE_ENABLED,
+					StopImpl.class, primaryKey);
+
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
+
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (Stop)serializable);
+				}
+			}
+		}
+
+		if (uncachedPrimaryKeys == null) {
+			return map;
+		}
+
+		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
+				1);
+
+		query.append(_SQL_SELECT_STOP_WHERE_PKS_IN);
+
+		for (Serializable primaryKey : uncachedPrimaryKeys) {
+			query.append((long)primaryKey);
+
+			query.append(StringPool.COMMA);
+		}
+
+		query.setIndex(query.index() - 1);
+
+		query.append(StringPool.CLOSE_PARENTHESIS);
+
+		String sql = query.toString();
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Query q = session.createQuery(sql);
+
+			for (Stop stop : (List<Stop>)q.list()) {
+				map.put(stop.getPrimaryKeyObj(), stop);
+
+				cacheResult(stop);
+
+				uncachedPrimaryKeys.remove(stop.getPrimaryKeyObj());
+			}
+
+			for (Serializable primaryKey : uncachedPrimaryKeys) {
+				entityCache.putResult(StopModelImpl.ENTITY_CACHE_ENABLED,
+					StopImpl.class, primaryKey, nullModel);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
 		}
 
 		return map;
@@ -1254,6 +1330,7 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_STOP = "SELECT stop FROM Stop stop";
+	private static final String _SQL_SELECT_STOP_WHERE_PKS_IN = "SELECT stop FROM Stop stop WHERE id_ IN (";
 	private static final String _SQL_SELECT_STOP_WHERE = "SELECT stop FROM Stop stop WHERE ";
 	private static final String _SQL_COUNT_STOP = "SELECT COUNT(stop) FROM Stop stop";
 	private static final String _SQL_COUNT_STOP_WHERE = "SELECT COUNT(stop) FROM Stop stop WHERE ";

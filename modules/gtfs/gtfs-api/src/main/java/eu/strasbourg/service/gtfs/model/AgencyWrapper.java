@@ -88,135 +88,35 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 			setAgency_name(agency_name);
 		}
 
-		Boolean agency_url = (Boolean)attributes.get("agency_url");
+		String agency_url = (String)attributes.get("agency_url");
 
 		if (agency_url != null) {
 			setAgency_url(agency_url);
 		}
 
-		Boolean agency_timezone = (Boolean)attributes.get("agency_timezone");
+		String agency_timezone = (String)attributes.get("agency_timezone");
 
 		if (agency_timezone != null) {
 			setAgency_timezone(agency_timezone);
 		}
 
-		Boolean agency_phone = (Boolean)attributes.get("agency_phone");
+		String agency_phone = (String)attributes.get("agency_phone");
 
 		if (agency_phone != null) {
 			setAgency_phone(agency_phone);
 		}
 
-		Boolean agency_fare_url = (Boolean)attributes.get("agency_fare_url");
+		String agency_fare_url = (String)attributes.get("agency_fare_url");
 
 		if (agency_fare_url != null) {
 			setAgency_fare_url(agency_fare_url);
 		}
 
-		Boolean agency_lang = (Boolean)attributes.get("agency_lang");
+		String agency_lang = (String)attributes.get("agency_lang");
 
 		if (agency_lang != null) {
 			setAgency_lang(agency_lang);
 		}
-	}
-
-	/**
-	* Returns the agency_fare_url of this agency.
-	*
-	* @return the agency_fare_url of this agency
-	*/
-	@Override
-	public boolean getAgency_fare_url() {
-		return _agency.getAgency_fare_url();
-	}
-
-	/**
-	* Returns the agency_lang of this agency.
-	*
-	* @return the agency_lang of this agency
-	*/
-	@Override
-	public boolean getAgency_lang() {
-		return _agency.getAgency_lang();
-	}
-
-	/**
-	* Returns the agency_phone of this agency.
-	*
-	* @return the agency_phone of this agency
-	*/
-	@Override
-	public boolean getAgency_phone() {
-		return _agency.getAgency_phone();
-	}
-
-	/**
-	* Returns the agency_timezone of this agency.
-	*
-	* @return the agency_timezone of this agency
-	*/
-	@Override
-	public boolean getAgency_timezone() {
-		return _agency.getAgency_timezone();
-	}
-
-	/**
-	* Returns the agency_url of this agency.
-	*
-	* @return the agency_url of this agency
-	*/
-	@Override
-	public boolean getAgency_url() {
-		return _agency.getAgency_url();
-	}
-
-	/**
-	* Returns <code>true</code> if this agency is agency_fare_url.
-	*
-	* @return <code>true</code> if this agency is agency_fare_url; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isAgency_fare_url() {
-		return _agency.isAgency_fare_url();
-	}
-
-	/**
-	* Returns <code>true</code> if this agency is agency_lang.
-	*
-	* @return <code>true</code> if this agency is agency_lang; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isAgency_lang() {
-		return _agency.isAgency_lang();
-	}
-
-	/**
-	* Returns <code>true</code> if this agency is agency_phone.
-	*
-	* @return <code>true</code> if this agency is agency_phone; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isAgency_phone() {
-		return _agency.isAgency_phone();
-	}
-
-	/**
-	* Returns <code>true</code> if this agency is agency_timezone.
-	*
-	* @return <code>true</code> if this agency is agency_timezone; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isAgency_timezone() {
-		return _agency.isAgency_timezone();
-	}
-
-	/**
-	* Returns <code>true</code> if this agency is agency_url.
-	*
-	* @return <code>true</code> if this agency is agency_url; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isAgency_url() {
-		return _agency.isAgency_url();
 	}
 
 	@Override
@@ -275,6 +175,26 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	/**
+	* Returns the agency_fare_url of this agency.
+	*
+	* @return the agency_fare_url of this agency
+	*/
+	@Override
+	public java.lang.String getAgency_fare_url() {
+		return _agency.getAgency_fare_url();
+	}
+
+	/**
+	* Returns the agency_lang of this agency.
+	*
+	* @return the agency_lang of this agency
+	*/
+	@Override
+	public java.lang.String getAgency_lang() {
+		return _agency.getAgency_lang();
+	}
+
+	/**
 	* Returns the agency_name of this agency.
 	*
 	* @return the agency_name of this agency
@@ -282,6 +202,36 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	@Override
 	public java.lang.String getAgency_name() {
 		return _agency.getAgency_name();
+	}
+
+	/**
+	* Returns the agency_phone of this agency.
+	*
+	* @return the agency_phone of this agency
+	*/
+	@Override
+	public java.lang.String getAgency_phone() {
+		return _agency.getAgency_phone();
+	}
+
+	/**
+	* Returns the agency_timezone of this agency.
+	*
+	* @return the agency_timezone of this agency
+	*/
+	@Override
+	public java.lang.String getAgency_timezone() {
+		return _agency.getAgency_timezone();
+	}
+
+	/**
+	* Returns the agency_url of this agency.
+	*
+	* @return the agency_url of this agency
+	*/
+	@Override
+	public java.lang.String getAgency_url() {
+		return _agency.getAgency_url();
 	}
 
 	/**
@@ -330,22 +280,22 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	/**
-	* Sets whether this agency is agency_fare_url.
+	* Sets the agency_fare_url of this agency.
 	*
 	* @param agency_fare_url the agency_fare_url of this agency
 	*/
 	@Override
-	public void setAgency_fare_url(boolean agency_fare_url) {
+	public void setAgency_fare_url(java.lang.String agency_fare_url) {
 		_agency.setAgency_fare_url(agency_fare_url);
 	}
 
 	/**
-	* Sets whether this agency is agency_lang.
+	* Sets the agency_lang of this agency.
 	*
 	* @param agency_lang the agency_lang of this agency
 	*/
 	@Override
-	public void setAgency_lang(boolean agency_lang) {
+	public void setAgency_lang(java.lang.String agency_lang) {
 		_agency.setAgency_lang(agency_lang);
 	}
 
@@ -360,32 +310,32 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	/**
-	* Sets whether this agency is agency_phone.
+	* Sets the agency_phone of this agency.
 	*
 	* @param agency_phone the agency_phone of this agency
 	*/
 	@Override
-	public void setAgency_phone(boolean agency_phone) {
+	public void setAgency_phone(java.lang.String agency_phone) {
 		_agency.setAgency_phone(agency_phone);
 	}
 
 	/**
-	* Sets whether this agency is agency_timezone.
+	* Sets the agency_timezone of this agency.
 	*
 	* @param agency_timezone the agency_timezone of this agency
 	*/
 	@Override
-	public void setAgency_timezone(boolean agency_timezone) {
+	public void setAgency_timezone(java.lang.String agency_timezone) {
 		_agency.setAgency_timezone(agency_timezone);
 	}
 
 	/**
-	* Sets whether this agency is agency_url.
+	* Sets the agency_url of this agency.
 	*
 	* @param agency_url the agency_url of this agency
 	*/
 	@Override
-	public void setAgency_url(boolean agency_url) {
+	public void setAgency_url(java.lang.String agency_url) {
 		_agency.setAgency_url(agency_url);
 	}
 

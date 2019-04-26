@@ -919,11 +919,11 @@ public class AgencyPersistenceImpl extends BasePersistenceImpl<Agency>
 		agencyImpl.setUuid(agency.getUuid());
 		agencyImpl.setId(agency.getId());
 		agencyImpl.setAgency_name(agency.getAgency_name());
-		agencyImpl.setAgency_url(agency.isAgency_url());
-		agencyImpl.setAgency_timezone(agency.isAgency_timezone());
-		agencyImpl.setAgency_phone(agency.isAgency_phone());
-		agencyImpl.setAgency_fare_url(agency.isAgency_fare_url());
-		agencyImpl.setAgency_lang(agency.isAgency_lang());
+		agencyImpl.setAgency_url(agency.getAgency_url());
+		agencyImpl.setAgency_timezone(agency.getAgency_timezone());
+		agencyImpl.setAgency_phone(agency.getAgency_phone());
+		agencyImpl.setAgency_fare_url(agency.getAgency_fare_url());
+		agencyImpl.setAgency_lang(agency.getAgency_lang());
 
 		return agencyImpl;
 	}

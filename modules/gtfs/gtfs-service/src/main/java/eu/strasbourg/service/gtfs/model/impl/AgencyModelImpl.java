@@ -64,11 +64,11 @@ public class AgencyModelImpl extends BaseModelImpl<Agency>
 			{ "uuid_", Types.VARCHAR },
 			{ "id_", Types.BIGINT },
 			{ "agency_name", Types.VARCHAR },
-			{ "agency_url", Types.BOOLEAN },
-			{ "agency_timezone", Types.BOOLEAN },
-			{ "agency_phone", Types.BOOLEAN },
-			{ "agency_fare_url", Types.BOOLEAN },
-			{ "agency_lang", Types.BOOLEAN }
+			{ "agency_url", Types.VARCHAR },
+			{ "agency_timezone", Types.VARCHAR },
+			{ "agency_phone", Types.VARCHAR },
+			{ "agency_fare_url", Types.VARCHAR },
+			{ "agency_lang", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -76,14 +76,14 @@ public class AgencyModelImpl extends BaseModelImpl<Agency>
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("agency_name", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("agency_url", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("agency_timezone", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("agency_phone", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("agency_fare_url", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("agency_lang", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("agency_url", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("agency_timezone", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("agency_phone", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("agency_fare_url", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("agency_lang", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Agency (uuid_ VARCHAR(75) null,id_ LONG not null primary key,agency_name VARCHAR(75) null,agency_url BOOLEAN,agency_timezone BOOLEAN,agency_phone BOOLEAN,agency_fare_url BOOLEAN,agency_lang BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Agency (uuid_ VARCHAR(75) null,id_ LONG not null primary key,agency_name VARCHAR(75) null,agency_url VARCHAR(400) null,agency_timezone VARCHAR(75) null,agency_phone VARCHAR(75) null,agency_fare_url VARCHAR(400) null,agency_lang VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Agency";
 	public static final String ORDER_BY_JPQL = " ORDER BY agency.agency_name ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Agency.agency_name ASC";
@@ -176,31 +176,31 @@ public class AgencyModelImpl extends BaseModelImpl<Agency>
 			setAgency_name(agency_name);
 		}
 
-		Boolean agency_url = (Boolean)attributes.get("agency_url");
+		String agency_url = (String)attributes.get("agency_url");
 
 		if (agency_url != null) {
 			setAgency_url(agency_url);
 		}
 
-		Boolean agency_timezone = (Boolean)attributes.get("agency_timezone");
+		String agency_timezone = (String)attributes.get("agency_timezone");
 
 		if (agency_timezone != null) {
 			setAgency_timezone(agency_timezone);
 		}
 
-		Boolean agency_phone = (Boolean)attributes.get("agency_phone");
+		String agency_phone = (String)attributes.get("agency_phone");
 
 		if (agency_phone != null) {
 			setAgency_phone(agency_phone);
 		}
 
-		Boolean agency_fare_url = (Boolean)attributes.get("agency_fare_url");
+		String agency_fare_url = (String)attributes.get("agency_fare_url");
 
 		if (agency_fare_url != null) {
 			setAgency_fare_url(agency_fare_url);
 		}
 
-		Boolean agency_lang = (Boolean)attributes.get("agency_lang");
+		String agency_lang = (String)attributes.get("agency_lang");
 
 		if (agency_lang != null) {
 			setAgency_lang(agency_lang);
@@ -258,77 +258,77 @@ public class AgencyModelImpl extends BaseModelImpl<Agency>
 	}
 
 	@Override
-	public boolean getAgency_url() {
-		return _agency_url;
+	public String getAgency_url() {
+		if (_agency_url == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _agency_url;
+		}
 	}
 
 	@Override
-	public boolean isAgency_url() {
-		return _agency_url;
-	}
-
-	@Override
-	public void setAgency_url(boolean agency_url) {
+	public void setAgency_url(String agency_url) {
 		_agency_url = agency_url;
 	}
 
 	@Override
-	public boolean getAgency_timezone() {
-		return _agency_timezone;
+	public String getAgency_timezone() {
+		if (_agency_timezone == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _agency_timezone;
+		}
 	}
 
 	@Override
-	public boolean isAgency_timezone() {
-		return _agency_timezone;
-	}
-
-	@Override
-	public void setAgency_timezone(boolean agency_timezone) {
+	public void setAgency_timezone(String agency_timezone) {
 		_agency_timezone = agency_timezone;
 	}
 
 	@Override
-	public boolean getAgency_phone() {
-		return _agency_phone;
+	public String getAgency_phone() {
+		if (_agency_phone == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _agency_phone;
+		}
 	}
 
 	@Override
-	public boolean isAgency_phone() {
-		return _agency_phone;
-	}
-
-	@Override
-	public void setAgency_phone(boolean agency_phone) {
+	public void setAgency_phone(String agency_phone) {
 		_agency_phone = agency_phone;
 	}
 
 	@Override
-	public boolean getAgency_fare_url() {
-		return _agency_fare_url;
+	public String getAgency_fare_url() {
+		if (_agency_fare_url == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _agency_fare_url;
+		}
 	}
 
 	@Override
-	public boolean isAgency_fare_url() {
-		return _agency_fare_url;
-	}
-
-	@Override
-	public void setAgency_fare_url(boolean agency_fare_url) {
+	public void setAgency_fare_url(String agency_fare_url) {
 		_agency_fare_url = agency_fare_url;
 	}
 
 	@Override
-	public boolean getAgency_lang() {
-		return _agency_lang;
+	public String getAgency_lang() {
+		if (_agency_lang == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _agency_lang;
+		}
 	}
 
 	@Override
-	public boolean isAgency_lang() {
-		return _agency_lang;
-	}
-
-	@Override
-	public void setAgency_lang(boolean agency_lang) {
+	public void setAgency_lang(String agency_lang) {
 		_agency_lang = agency_lang;
 	}
 
@@ -460,13 +460,43 @@ public class AgencyModelImpl extends BaseModelImpl<Agency>
 
 		agencyCacheModel.agency_url = getAgency_url();
 
+		String agency_url = agencyCacheModel.agency_url;
+
+		if ((agency_url != null) && (agency_url.length() == 0)) {
+			agencyCacheModel.agency_url = null;
+		}
+
 		agencyCacheModel.agency_timezone = getAgency_timezone();
+
+		String agency_timezone = agencyCacheModel.agency_timezone;
+
+		if ((agency_timezone != null) && (agency_timezone.length() == 0)) {
+			agencyCacheModel.agency_timezone = null;
+		}
 
 		agencyCacheModel.agency_phone = getAgency_phone();
 
+		String agency_phone = agencyCacheModel.agency_phone;
+
+		if ((agency_phone != null) && (agency_phone.length() == 0)) {
+			agencyCacheModel.agency_phone = null;
+		}
+
 		agencyCacheModel.agency_fare_url = getAgency_fare_url();
 
+		String agency_fare_url = agencyCacheModel.agency_fare_url;
+
+		if ((agency_fare_url != null) && (agency_fare_url.length() == 0)) {
+			agencyCacheModel.agency_fare_url = null;
+		}
+
 		agencyCacheModel.agency_lang = getAgency_lang();
+
+		String agency_lang = agencyCacheModel.agency_lang;
+
+		if ((agency_lang != null) && (agency_lang.length() == 0)) {
+			agencyCacheModel.agency_lang = null;
+		}
 
 		return agencyCacheModel;
 	}
@@ -550,11 +580,11 @@ public class AgencyModelImpl extends BaseModelImpl<Agency>
 	private String _originalUuid;
 	private long _id;
 	private String _agency_name;
-	private boolean _agency_url;
-	private boolean _agency_timezone;
-	private boolean _agency_phone;
-	private boolean _agency_fare_url;
-	private boolean _agency_lang;
+	private String _agency_url;
+	private String _agency_timezone;
+	private String _agency_phone;
+	private String _agency_fare_url;
+	private String _agency_lang;
 	private long _columnBitmask;
 	private Agency _escapedModel;
 }

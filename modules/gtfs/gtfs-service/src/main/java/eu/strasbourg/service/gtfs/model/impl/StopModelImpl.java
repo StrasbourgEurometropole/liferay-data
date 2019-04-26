@@ -16,9 +16,13 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -26,7 +30,6 @@ import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Stop;
 import eu.strasbourg.service.gtfs.model.StopModel;
-import eu.strasbourg.service.gtfs.service.persistence.StopPK;
 
 import java.io.Serializable;
 
@@ -81,9 +84,9 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 		TABLE_COLUMNS_MAP.put("stop_desc", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Stop (uuid_ VARCHAR(75) null,id_ LONG not null,stop_id VARCHAR(75) not null,stop_code VARCHAR(75) null,stop_lat LONG,stop_lon LONG,stop_name VARCHAR(75) null,stop_url VARCHAR(75) null,stop_desc VARCHAR(75) null,primary key (id_, stop_id))";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Stop (uuid_ VARCHAR(75) null,id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat LONG,stop_lon LONG,stop_name VARCHAR(75) null,stop_url VARCHAR(400) null,stop_desc VARCHAR(400) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Stop";
-	public static final String ORDER_BY_JPQL = " ORDER BY stop.id.stop_id ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY stop.stop_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Stop.stop_id ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -106,24 +109,23 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	@Override
-	public StopPK getPrimaryKey() {
-		return new StopPK(_id, _stop_id);
+	public long getPrimaryKey() {
+		return _id;
 	}
 
 	@Override
-	public void setPrimaryKey(StopPK primaryKey) {
-		setId(primaryKey.id);
-		setStop_id(primaryKey.stop_id);
+	public void setPrimaryKey(long primaryKey) {
+		setId(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new StopPK(_id, _stop_id);
+		return _id;
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey((StopPK)primaryKeyObj);
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
 	@Override
@@ -348,6 +350,19 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+			Stop.class.getName(), getPrimaryKey());
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		ExpandoBridge expandoBridge = getExpandoBridge();
+
+		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
 	public Stop toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = (Stop)ProxyUtil.newProxyInstance(_classLoader,
@@ -401,9 +416,9 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 		Stop stop = (Stop)obj;
 
-		StopPK primaryKey = stop.getPrimaryKey();
+		long primaryKey = stop.getPrimaryKey();
 
-		if (getPrimaryKey().equals(primaryKey)) {
+		if (getPrimaryKey() == primaryKey) {
 			return true;
 		}
 		else {
@@ -413,7 +428,7 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public int hashCode() {
-		return getPrimaryKey().hashCode();
+		return (int)getPrimaryKey();
 	}
 
 	@Override
@@ -438,8 +453,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	@Override
 	public CacheModel<Stop> toCacheModel() {
 		StopCacheModel stopCacheModel = new StopCacheModel();
-
-		stopCacheModel.stopPK = getPrimaryKey();
 
 		stopCacheModel.uuid = getUuid();
 

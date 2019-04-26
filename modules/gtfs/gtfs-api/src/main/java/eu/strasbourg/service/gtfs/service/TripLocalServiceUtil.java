@@ -80,6 +80,15 @@ public class TripLocalServiceUtil {
 	}
 
 	/**
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.Trip createTrip(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createTrip(sc);
+	}
+
+	/**
 	* Creates a new trip with the primary key. Does not add the trip to the database.
 	*
 	* @param id the primary key for the new trip
@@ -129,6 +138,14 @@ public class TripLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une agence
+	*/
+	public static eu.strasbourg.service.gtfs.model.Trip removeTrip(long tripId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeTrip(tripId);
+	}
+
+	/**
 	* Updates the trip in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param trip the trip
@@ -137,6 +154,18 @@ public class TripLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.Trip updateTrip(
 		eu.strasbourg.service.gtfs.model.Trip trip) {
 		return getService().updateTrip(trip);
+	}
+
+	/**
+	* Met à jour un Trip et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.Trip updateTrip(
+		eu.strasbourg.service.gtfs.model.Trip trip,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateTrip(trip, sc);
 	}
 
 	/**
@@ -245,6 +274,14 @@ public class TripLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les Trips
+	*/
+	public static void removeAllTrip()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllTrip();
 	}
 
 	public static TripLocalService getService() {

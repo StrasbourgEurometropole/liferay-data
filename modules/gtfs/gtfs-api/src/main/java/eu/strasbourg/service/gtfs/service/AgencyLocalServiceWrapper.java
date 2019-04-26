@@ -77,6 +77,16 @@ public class AgencyLocalServiceWrapper implements AgencyLocalService,
 	}
 
 	/**
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Agency createAgency(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _agencyLocalService.createAgency(sc);
+	}
+
+	/**
 	* Creates a new agency with the primary key. Does not add the agency to the database.
 	*
 	* @param id the primary key for the new agency
@@ -131,6 +141,15 @@ public class AgencyLocalServiceWrapper implements AgencyLocalService,
 	}
 
 	/**
+	* Supprime une agence
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Agency removeAgency(long agencyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _agencyLocalService.removeAgency(agencyId);
+	}
+
+	/**
 	* Updates the agency in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param agency the agency
@@ -140,6 +159,19 @@ public class AgencyLocalServiceWrapper implements AgencyLocalService,
 	public eu.strasbourg.service.gtfs.model.Agency updateAgency(
 		eu.strasbourg.service.gtfs.model.Agency agency) {
 		return _agencyLocalService.updateAgency(agency);
+	}
+
+	/**
+	* Met à jour une agence et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Agency updateAgency(
+		eu.strasbourg.service.gtfs.model.Agency agency,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _agencyLocalService.updateAgency(agency, sc);
 	}
 
 	/**
@@ -256,6 +288,15 @@ public class AgencyLocalServiceWrapper implements AgencyLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _agencyLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les agences
+	*/
+	@Override
+	public void removeAllAgency()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_agencyLocalService.removeAllAgency();
 	}
 
 	@Override

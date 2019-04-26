@@ -47,7 +47,6 @@ import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
-import eu.strasbourg.service.gtfs.service.persistence.StopPK;
 import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
@@ -96,25 +95,25 @@ public abstract class StopLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param stopPK the primary key for the new stop
+	 * @param id the primary key for the new stop
 	 * @return the new stop
 	 */
 	@Override
-	public Stop createStop(StopPK stopPK) {
-		return stopPersistence.create(stopPK);
+	public Stop createStop(long id) {
+		return stopPersistence.create(id);
 	}
 
 	/**
 	 * Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param stopPK the primary key of the stop
+	 * @param id the primary key of the stop
 	 * @return the stop that was removed
 	 * @throws PortalException if a stop with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Stop deleteStop(StopPK stopPK) throws PortalException {
-		return stopPersistence.remove(stopPK);
+	public Stop deleteStop(long id) throws PortalException {
+		return stopPersistence.remove(id);
 	}
 
 	/**
@@ -211,20 +210,20 @@ public abstract class StopLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	@Override
-	public Stop fetchStop(StopPK stopPK) {
-		return stopPersistence.fetchByPrimaryKey(stopPK);
+	public Stop fetchStop(long id) {
+		return stopPersistence.fetchByPrimaryKey(id);
 	}
 
 	/**
 	 * Returns the stop with the primary key.
 	 *
-	 * @param stopPK the primary key of the stop
+	 * @param id the primary key of the stop
 	 * @return the stop
 	 * @throws PortalException if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop getStop(StopPK stopPK) throws PortalException {
-		return stopPersistence.findByPrimaryKey(stopPK);
+	public Stop getStop(long id) throws PortalException {
+		return stopPersistence.findByPrimaryKey(id);
 	}
 
 	@Override
@@ -235,7 +234,7 @@ public abstract class StopLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Stop.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("primaryKey.id");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
 
 		return actionableDynamicQuery;
 	}
@@ -248,8 +247,7 @@ public abstract class StopLocalServiceBaseImpl extends BaseLocalServiceImpl
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(Stop.class);
 
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
-			"primaryKey.id");
+		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("id");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -260,7 +258,7 @@ public abstract class StopLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Stop.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("primaryKey.id");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
 	}
 
 	/**

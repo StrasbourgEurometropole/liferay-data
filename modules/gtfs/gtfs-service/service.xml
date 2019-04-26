@@ -10,14 +10,14 @@
 
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
-
+		
 		<!-- Other fields -->
 		<column name="agency_name" type="String" />
-		<column name="agency_url" type="boolean" />
-		<column name="agency_timezone" type="boolean" />
-		<column name="agency_phone" type="boolean" />
-		<column name="agency_fare_url" type="boolean" />
-		<column name="agency_lang" type="boolean" />
+		<column name="agency_url" type="String" />
+		<column name="agency_timezone" type="String" />
+		<column name="agency_phone" type="String" />
+		<column name="agency_fare_url" type="String" />
+		<column name="agency_lang" type="String" />
 		
 		<!-- Order -->
 		<order by="asc">
@@ -115,7 +115,7 @@
 		<column name="id" primary="true" type="long" />
 		
 		<!-- Other fields -->
-		<column name="stop_id" primary="true" type="String" />
+		<column name="stop_id" type="String" />
 		<column name="stop_code" type="String" />
 		<column name="stop_lat" type="long" />
 		<column name="stop_lon" type="long" />

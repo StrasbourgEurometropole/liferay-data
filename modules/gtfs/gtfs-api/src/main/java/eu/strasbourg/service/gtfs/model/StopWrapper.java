@@ -161,16 +161,6 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 		return new StopWrapper(_stop.toUnescapedModel());
 	}
 
-	/**
-	* Returns the primary key of this stop.
-	*
-	* @return the primary key of this stop
-	*/
-	@Override
-	public eu.strasbourg.service.gtfs.service.persistence.StopPK getPrimaryKey() {
-		return _stop.getPrimaryKey();
-	}
-
 	@Override
 	public int compareTo(eu.strasbourg.service.gtfs.model.Stop stop) {
 		return _stop.compareTo(stop);
@@ -272,6 +262,16 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
+	* Returns the primary key of this stop.
+	*
+	* @return the primary key of this stop
+	*/
+	@Override
+	public long getPrimaryKey() {
+		return _stop.getPrimaryKey();
+	}
+
+	/**
 	* Returns the stop_lat of this stop.
 	*
 	* @return the stop_lat of this stop
@@ -338,8 +338,7 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	* @param primaryKey the primary key of this stop
 	*/
 	@Override
-	public void setPrimaryKey(
-		eu.strasbourg.service.gtfs.service.persistence.StopPK primaryKey) {
+	public void setPrimaryKey(long primaryKey) {
 		_stop.setPrimaryKey(primaryKey);
 	}
 

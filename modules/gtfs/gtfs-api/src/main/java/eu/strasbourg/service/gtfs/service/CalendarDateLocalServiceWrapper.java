@@ -78,6 +78,16 @@ public class CalendarDateLocalServiceWrapper implements CalendarDateLocalService
 	}
 
 	/**
+	* Crée un CalendarDate vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.CalendarDate createCalendarDate(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _calendarDateLocalService.createCalendarDate(sc);
+	}
+
+	/**
 	* Creates a new calendar date with the primary key. Does not add the calendar date to the database.
 	*
 	* @param id the primary key for the new calendar date
@@ -134,6 +144,16 @@ public class CalendarDateLocalServiceWrapper implements CalendarDateLocalService
 	}
 
 	/**
+	* Supprime un CalendarDate
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.CalendarDate removeCalendarDate(
+		long calendarDateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _calendarDateLocalService.removeCalendarDate(calendarDateId);
+	}
+
+	/**
 	* Updates the calendar date in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param calendarDate the calendar date
@@ -143,6 +163,19 @@ public class CalendarDateLocalServiceWrapper implements CalendarDateLocalService
 	public eu.strasbourg.service.gtfs.model.CalendarDate updateCalendarDate(
 		eu.strasbourg.service.gtfs.model.CalendarDate calendarDate) {
 		return _calendarDateLocalService.updateCalendarDate(calendarDate);
+	}
+
+	/**
+	* Met à jour un CalendarDate et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.CalendarDate updateCalendarDate(
+		eu.strasbourg.service.gtfs.model.CalendarDate calendarDate,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _calendarDateLocalService.updateCalendarDate(calendarDate, sc);
 	}
 
 	/**
@@ -260,6 +293,15 @@ public class CalendarDateLocalServiceWrapper implements CalendarDateLocalService
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _calendarDateLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Supprime toutes les CalendarDates
+	*/
+	@Override
+	public void removeAllCalendarDate()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_calendarDateLocalService.removeAllCalendarDate();
 	}
 
 	@Override

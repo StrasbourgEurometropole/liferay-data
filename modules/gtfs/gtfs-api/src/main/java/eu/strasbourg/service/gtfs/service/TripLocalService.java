@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -90,6 +91,11 @@ public interface TripLocalService extends BaseLocalService,
 	public Trip addTrip(Trip trip);
 
 	/**
+	* Crée une agence vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Trip createTrip(ServiceContext sc) throws PortalException;
+
+	/**
 	* Creates a new trip with the primary key. Does not add the trip to the database.
 	*
 	* @param id the primary key for the new trip
@@ -130,6 +136,11 @@ public interface TripLocalService extends BaseLocalService,
 	public Trip getTrip(long id) throws PortalException;
 
 	/**
+	* Supprime une agence
+	*/
+	public Trip removeTrip(long tripId) throws PortalException;
+
+	/**
 	* Updates the trip in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param trip the trip
@@ -137,6 +148,14 @@ public interface TripLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Trip updateTrip(Trip trip);
+
+	/**
+	* Met à jour un Trip et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Trip updateTrip(Trip trip, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of trips.
@@ -223,4 +242,9 @@ public interface TripLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime toutes les Trips
+	*/
+	public void removeAllTrip() throws PortalException;
 }

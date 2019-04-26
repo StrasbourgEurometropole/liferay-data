@@ -53,21 +53,4 @@ public interface Stop extends StopModel, PersistedModel {
 				return Stop.class;
 			}
 		};
-
-	public static final Accessor<Stop, String> STOP_ID_ACCESSOR = new Accessor<Stop, String>() {
-			@Override
-			public String get(Stop stop) {
-				return stop.getStop_id();
-			}
-
-			@Override
-			public Class<String> getAttributeClass() {
-				return String.class;
-			}
-
-			@Override
-			public Class<Stop> getTypeClass() {
-				return Stop.class;
-			}
-		};
 }

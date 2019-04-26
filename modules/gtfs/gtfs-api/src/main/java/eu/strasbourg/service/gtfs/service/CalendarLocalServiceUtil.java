@@ -80,6 +80,15 @@ public class CalendarLocalServiceUtil {
 	}
 
 	/**
+	* Crée un Calendar vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.Calendar createCalendar(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createCalendar(sc);
+	}
+
+	/**
 	* Creates a new calendar with the primary key. Does not add the calendar to the database.
 	*
 	* @param id the primary key for the new calendar
@@ -131,6 +140,15 @@ public class CalendarLocalServiceUtil {
 	}
 
 	/**
+	* Supprime un Calendar
+	*/
+	public static eu.strasbourg.service.gtfs.model.Calendar removeCalendar(
+		long calendarId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeCalendar(calendarId);
+	}
+
+	/**
 	* Updates the calendar in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param calendar the calendar
@@ -139,6 +157,18 @@ public class CalendarLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.Calendar updateCalendar(
 		eu.strasbourg.service.gtfs.model.Calendar calendar) {
 		return getService().updateCalendar(calendar);
+	}
+
+	/**
+	* Met à jour un Calendar et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.Calendar updateCalendar(
+		eu.strasbourg.service.gtfs.model.Calendar calendar,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateCalendar(calendar, sc);
 	}
 
 	/**
@@ -247,6 +277,14 @@ public class CalendarLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes les Calendar
+	*/
+	public static void removeAllCalendar()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllCalendar();
 	}
 
 	public static CalendarLocalService getService() {

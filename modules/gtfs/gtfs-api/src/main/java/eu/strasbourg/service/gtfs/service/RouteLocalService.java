@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -90,6 +91,11 @@ public interface RouteLocalService extends BaseLocalService,
 	public Route addRoute(Route route);
 
 	/**
+	* Crée une Route vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Route createRoute(ServiceContext sc) throws PortalException;
+
+	/**
 	* Creates a new route with the primary key. Does not add the route to the database.
 	*
 	* @param id the primary key for the new route
@@ -130,6 +136,11 @@ public interface RouteLocalService extends BaseLocalService,
 	public Route getRoute(long id) throws PortalException;
 
 	/**
+	* Supprime une Route
+	*/
+	public Route removeRoute(long routeId) throws PortalException;
+
+	/**
 	* Updates the route in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param route the route
@@ -137,6 +148,14 @@ public interface RouteLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Route updateRoute(Route route);
+
+	/**
+	* Met à jour une Route et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Route updateRoute(Route route, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of routes.
@@ -223,4 +242,9 @@ public interface RouteLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime toutes les Routes
+	*/
+	public void removeAllRoute() throws PortalException;
 }

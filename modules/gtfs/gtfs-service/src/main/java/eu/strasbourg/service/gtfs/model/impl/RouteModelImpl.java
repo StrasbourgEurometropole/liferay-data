@@ -84,7 +84,7 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		TABLE_COLUMNS_MAP.put("route_text_color", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Route (uuid_ VARCHAR(75) null,id_ LONG not null primary key,route_id VARCHAR(75) null,route_short_name VARCHAR(75) null,route_long_name VARCHAR(75) null,route_desc VARCHAR(75) null,route_type INTEGER,route_color VARCHAR(75) null,route_text_color VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Route (uuid_ VARCHAR(75) null,id_ LONG not null primary key,route_id VARCHAR(75) null,route_short_name VARCHAR(75) null,route_long_name VARCHAR(200) null,route_desc VARCHAR(400) null,route_type INTEGER,route_color VARCHAR(75) null,route_text_color VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Route";
 	public static final String ORDER_BY_JPQL = " ORDER BY route.route_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Route.route_id ASC";

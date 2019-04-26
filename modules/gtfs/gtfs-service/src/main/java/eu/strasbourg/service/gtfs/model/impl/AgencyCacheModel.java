@@ -106,11 +106,40 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 			agencyImpl.setAgency_name(agency_name);
 		}
 
-		agencyImpl.setAgency_url(agency_url);
-		agencyImpl.setAgency_timezone(agency_timezone);
-		agencyImpl.setAgency_phone(agency_phone);
-		agencyImpl.setAgency_fare_url(agency_fare_url);
-		agencyImpl.setAgency_lang(agency_lang);
+		if (agency_url == null) {
+			agencyImpl.setAgency_url(StringPool.BLANK);
+		}
+		else {
+			agencyImpl.setAgency_url(agency_url);
+		}
+
+		if (agency_timezone == null) {
+			agencyImpl.setAgency_timezone(StringPool.BLANK);
+		}
+		else {
+			agencyImpl.setAgency_timezone(agency_timezone);
+		}
+
+		if (agency_phone == null) {
+			agencyImpl.setAgency_phone(StringPool.BLANK);
+		}
+		else {
+			agencyImpl.setAgency_phone(agency_phone);
+		}
+
+		if (agency_fare_url == null) {
+			agencyImpl.setAgency_fare_url(StringPool.BLANK);
+		}
+		else {
+			agencyImpl.setAgency_fare_url(agency_fare_url);
+		}
+
+		if (agency_lang == null) {
+			agencyImpl.setAgency_lang(StringPool.BLANK);
+		}
+		else {
+			agencyImpl.setAgency_lang(agency_lang);
+		}
 
 		agencyImpl.resetOriginalValues();
 
@@ -123,16 +152,11 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 
 		id = objectInput.readLong();
 		agency_name = objectInput.readUTF();
-
-		agency_url = objectInput.readBoolean();
-
-		agency_timezone = objectInput.readBoolean();
-
-		agency_phone = objectInput.readBoolean();
-
-		agency_fare_url = objectInput.readBoolean();
-
-		agency_lang = objectInput.readBoolean();
+		agency_url = objectInput.readUTF();
+		agency_timezone = objectInput.readUTF();
+		agency_phone = objectInput.readUTF();
+		agency_fare_url = objectInput.readUTF();
+		agency_lang = objectInput.readUTF();
 	}
 
 	@Override
@@ -154,23 +178,48 @@ public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 			objectOutput.writeUTF(agency_name);
 		}
 
-		objectOutput.writeBoolean(agency_url);
+		if (agency_url == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(agency_url);
+		}
 
-		objectOutput.writeBoolean(agency_timezone);
+		if (agency_timezone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(agency_timezone);
+		}
 
-		objectOutput.writeBoolean(agency_phone);
+		if (agency_phone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(agency_phone);
+		}
 
-		objectOutput.writeBoolean(agency_fare_url);
+		if (agency_fare_url == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(agency_fare_url);
+		}
 
-		objectOutput.writeBoolean(agency_lang);
+		if (agency_lang == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(agency_lang);
+		}
 	}
 
 	public String uuid;
 	public long id;
 	public String agency_name;
-	public boolean agency_url;
-	public boolean agency_timezone;
-	public boolean agency_phone;
-	public boolean agency_fare_url;
-	public boolean agency_lang;
+	public String agency_url;
+	public String agency_timezone;
+	public String agency_phone;
+	public String agency_fare_url;
+	public String agency_lang;
 }

@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Stop;
-import eu.strasbourg.service.gtfs.service.persistence.StopPK;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -50,7 +49,7 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 		StopCacheModel stopCacheModel = (StopCacheModel)obj;
 
-		if (stopPK.equals(stopCacheModel.stopPK)) {
+		if (id == stopCacheModel.id) {
 			return true;
 		}
 
@@ -59,7 +58,7 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, stopPK);
+		return HashUtil.hash(0, id);
 	}
 
 	@Override
@@ -159,8 +158,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		stop_name = objectInput.readUTF();
 		stop_url = objectInput.readUTF();
 		stop_desc = objectInput.readUTF();
-
-		stopPK = new StopPK(id, stop_id);
 	}
 
 	@Override
@@ -224,5 +221,4 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 	public String stop_name;
 	public String stop_url;
 	public String stop_desc;
-	public transient StopPK stopPK;
 }

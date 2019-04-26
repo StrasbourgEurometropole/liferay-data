@@ -109,105 +109,75 @@ public interface AgencyModel extends BaseModel<Agency> {
 	 *
 	 * @return the agency_url of this agency
 	 */
-	public boolean getAgency_url();
+	@AutoEscape
+	public String getAgency_url();
 
 	/**
-	 * Returns <code>true</code> if this agency is agency_url.
-	 *
-	 * @return <code>true</code> if this agency is agency_url; <code>false</code> otherwise
-	 */
-	public boolean isAgency_url();
-
-	/**
-	 * Sets whether this agency is agency_url.
+	 * Sets the agency_url of this agency.
 	 *
 	 * @param agency_url the agency_url of this agency
 	 */
-	public void setAgency_url(boolean agency_url);
+	public void setAgency_url(String agency_url);
 
 	/**
 	 * Returns the agency_timezone of this agency.
 	 *
 	 * @return the agency_timezone of this agency
 	 */
-	public boolean getAgency_timezone();
+	@AutoEscape
+	public String getAgency_timezone();
 
 	/**
-	 * Returns <code>true</code> if this agency is agency_timezone.
-	 *
-	 * @return <code>true</code> if this agency is agency_timezone; <code>false</code> otherwise
-	 */
-	public boolean isAgency_timezone();
-
-	/**
-	 * Sets whether this agency is agency_timezone.
+	 * Sets the agency_timezone of this agency.
 	 *
 	 * @param agency_timezone the agency_timezone of this agency
 	 */
-	public void setAgency_timezone(boolean agency_timezone);
+	public void setAgency_timezone(String agency_timezone);
 
 	/**
 	 * Returns the agency_phone of this agency.
 	 *
 	 * @return the agency_phone of this agency
 	 */
-	public boolean getAgency_phone();
+	@AutoEscape
+	public String getAgency_phone();
 
 	/**
-	 * Returns <code>true</code> if this agency is agency_phone.
-	 *
-	 * @return <code>true</code> if this agency is agency_phone; <code>false</code> otherwise
-	 */
-	public boolean isAgency_phone();
-
-	/**
-	 * Sets whether this agency is agency_phone.
+	 * Sets the agency_phone of this agency.
 	 *
 	 * @param agency_phone the agency_phone of this agency
 	 */
-	public void setAgency_phone(boolean agency_phone);
+	public void setAgency_phone(String agency_phone);
 
 	/**
 	 * Returns the agency_fare_url of this agency.
 	 *
 	 * @return the agency_fare_url of this agency
 	 */
-	public boolean getAgency_fare_url();
+	@AutoEscape
+	public String getAgency_fare_url();
 
 	/**
-	 * Returns <code>true</code> if this agency is agency_fare_url.
-	 *
-	 * @return <code>true</code> if this agency is agency_fare_url; <code>false</code> otherwise
-	 */
-	public boolean isAgency_fare_url();
-
-	/**
-	 * Sets whether this agency is agency_fare_url.
+	 * Sets the agency_fare_url of this agency.
 	 *
 	 * @param agency_fare_url the agency_fare_url of this agency
 	 */
-	public void setAgency_fare_url(boolean agency_fare_url);
+	public void setAgency_fare_url(String agency_fare_url);
 
 	/**
 	 * Returns the agency_lang of this agency.
 	 *
 	 * @return the agency_lang of this agency
 	 */
-	public boolean getAgency_lang();
+	@AutoEscape
+	public String getAgency_lang();
 
 	/**
-	 * Returns <code>true</code> if this agency is agency_lang.
-	 *
-	 * @return <code>true</code> if this agency is agency_lang; <code>false</code> otherwise
-	 */
-	public boolean isAgency_lang();
-
-	/**
-	 * Sets whether this agency is agency_lang.
+	 * Sets the agency_lang of this agency.
 	 *
 	 * @param agency_lang the agency_lang of this agency
 	 */
-	public void setAgency_lang(boolean agency_lang);
+	public void setAgency_lang(String agency_lang);
 
 	@Override
 	public boolean isNew();

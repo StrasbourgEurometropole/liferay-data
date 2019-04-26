@@ -23,8 +23,6 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
-import eu.strasbourg.service.gtfs.service.persistence.StopPK;
-
 import java.io.Serializable;
 
 /**
@@ -53,14 +51,14 @@ public interface StopModel extends BaseModel<Stop> {
 	 *
 	 * @return the primary key of this stop
 	 */
-	public StopPK getPrimaryKey();
+	public long getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this stop.
 	 *
 	 * @param primaryKey the primary key of this stop
 	 */
-	public void setPrimaryKey(StopPK primaryKey);
+	public void setPrimaryKey(long primaryKey);
 
 	/**
 	 * Returns the uuid of this stop.

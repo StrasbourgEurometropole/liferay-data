@@ -80,6 +80,15 @@ public class StopTimeLocalServiceUtil {
 	}
 
 	/**
+	* Crée un StopTime vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.StopTime createStopTime(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createStopTime(sc);
+	}
+
+	/**
 	* Creates a new stop time with the primary key. Does not add the stop time to the database.
 	*
 	* @param id the primary key for the new stop time
@@ -131,6 +140,15 @@ public class StopTimeLocalServiceUtil {
 	}
 
 	/**
+	* Supprime un StopTime
+	*/
+	public static eu.strasbourg.service.gtfs.model.StopTime removeStopTime(
+		long stopTimeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeStopTime(stopTimeId);
+	}
+
+	/**
 	* Updates the stop time in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param stopTime the stop time
@@ -139,6 +157,18 @@ public class StopTimeLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.StopTime updateStopTime(
 		eu.strasbourg.service.gtfs.model.StopTime stopTime) {
 		return getService().updateStopTime(stopTime);
+	}
+
+	/**
+	* Met à jour un StopTime et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.StopTime updateStopTime(
+		eu.strasbourg.service.gtfs.model.StopTime stopTime,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateStopTime(stopTime, sc);
 	}
 
 	/**
@@ -247,6 +277,14 @@ public class StopTimeLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime toutes le StopTime
+	*/
+	public static void removeAllStopTime()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllStopTime();
 	}
 
 	public static StopTimeLocalService getService() {
