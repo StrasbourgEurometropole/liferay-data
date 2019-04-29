@@ -17,6 +17,5 @@ dependencies {
 	compile group: "com.liferay", name: "org.freemarker", version: "2.3.23.LIFERAY-PATCHED-2"
 	
 	compile project (':modules:utils')
-	compile project (':modules:project:project-api')
-	compile project (':modules:office-exporter')
+	compile project (':modules:gtfs:gtfs-api')
 }
