@@ -32,6 +32,44 @@ create table gtfs_CalendarDate (
 	exception_type INTEGER
 );
 
+create table gtfs_ImportHistoric (
+	uuid_ VARCHAR(75) null,
+	importHistoricId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	result INTEGER,
+	opertations VARCHAR(75) null,
+	errorDescription VARCHAR(75) null,
+	errorStackTrace VARCHAR(75) null
+);
+
+create table gtfs_ImportHistory (
+	uuid_ VARCHAR(75) null,
+	importHistoryId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	importResult INTEGER,
+	importOpertations VARCHAR(75) null,
+	errorDescription VARCHAR(75) null,
+	errorStackTrace VARCHAR(75) null
+);
+
 create table gtfs_Route (
 	uuid_ VARCHAR(75) null,
 	id_ LONG not null primary key,

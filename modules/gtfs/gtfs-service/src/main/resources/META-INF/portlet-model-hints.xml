@@ -36,6 +36,24 @@
 		<field name="date" type="Date" />
 		<field name="exception_type" type="int" />
 	</model>
+	<model name="eu.strasbourg.service.gtfs.model.ImportHistoric">
+		<field name="uuid" type="String" />
+		<field name="importHistoricId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="result" type="int" />
+		<field name="opertations" type="String" />
+		<field name="errorDescription" type="String" />
+		<field name="errorStackTrace" type="String" />
+	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Route">
 		<field name="uuid" type="String" />
 		<field name="id" type="long" />

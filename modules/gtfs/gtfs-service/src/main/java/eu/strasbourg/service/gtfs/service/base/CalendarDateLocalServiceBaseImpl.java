@@ -46,6 +46,7 @@ import eu.strasbourg.service.gtfs.service.CalendarDateLocalService;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
@@ -430,6 +431,44 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the import historic local service.
+	 *
+	 * @return the import historic local service
+	 */
+	public eu.strasbourg.service.gtfs.service.ImportHistoricLocalService getImportHistoricLocalService() {
+		return importHistoricLocalService;
+	}
+
+	/**
+	 * Sets the import historic local service.
+	 *
+	 * @param importHistoricLocalService the import historic local service
+	 */
+	public void setImportHistoricLocalService(
+		eu.strasbourg.service.gtfs.service.ImportHistoricLocalService importHistoricLocalService) {
+		this.importHistoricLocalService = importHistoricLocalService;
+	}
+
+	/**
+	 * Returns the import historic persistence.
+	 *
+	 * @return the import historic persistence
+	 */
+	public ImportHistoricPersistence getImportHistoricPersistence() {
+		return importHistoricPersistence;
+	}
+
+	/**
+	 * Sets the import historic persistence.
+	 *
+	 * @param importHistoricPersistence the import historic persistence
+	 */
+	public void setImportHistoricPersistence(
+		ImportHistoricPersistence importHistoricPersistence) {
+		this.importHistoricPersistence = importHistoricPersistence;
+	}
+
+	/**
 	 * Returns the route local service.
 	 *
 	 * @return the route local service
@@ -754,6 +793,10 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	protected CalendarDateLocalService calendarDateLocalService;
 	@BeanReference(type = CalendarDatePersistence.class)
 	protected CalendarDatePersistence calendarDatePersistence;
+	@BeanReference(type = eu.strasbourg.service.gtfs.service.ImportHistoricLocalService.class)
+	protected eu.strasbourg.service.gtfs.service.ImportHistoricLocalService importHistoricLocalService;
+	@BeanReference(type = ImportHistoricPersistence.class)
+	protected ImportHistoricPersistence importHistoricPersistence;
 	@BeanReference(type = eu.strasbourg.service.gtfs.service.RouteLocalService.class)
 	protected eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService;
 	@BeanReference(type = RoutePersistence.class)

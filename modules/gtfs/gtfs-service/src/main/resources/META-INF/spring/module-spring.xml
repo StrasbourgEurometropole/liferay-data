@@ -7,6 +7,8 @@
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.CalendarDateLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CalendarDateLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarDatePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.ImportHistoricLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.ImportHistoricLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ImportHistoricPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.RouteLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.RoutePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.RoutePersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.StopLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.StopLocalService" />
