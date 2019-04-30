@@ -158,8 +158,12 @@
 		<field localized="true" name="bookingDescription" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="bookingURL" type="String" />
-		<field name="subscriptionURL" type="String" />
+		<field name="bookingURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="subscriptionURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />

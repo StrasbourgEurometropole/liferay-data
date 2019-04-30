@@ -1182,6 +1182,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne le label des typologies de l'événement (Catégorie du site de l'OPS)
+	*/
+	@Override
+	public java.lang.String getLabelTypologies(java.util.Locale locale) {
+		return _event.getLabelTypologies(locale);
+	}
+
+	/**
 	* Retourne la liste des IDs des manifestations auxquelles cette édition
 	* appartient sous forme de String
 	*/
@@ -2067,6 +2075,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
 		return _event.getTypes();
+	}
+
+	/**
+	* Retourne les typologie de l'événement (Catégorie du site de l'OPS)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypologies() {
+		return _event.getTypologies();
 	}
 
 	/**
