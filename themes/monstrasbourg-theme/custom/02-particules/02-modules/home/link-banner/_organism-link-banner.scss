@@ -3,6 +3,8 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    width: #{$container-width}px;
+    margin: 0 auto 40px;
 
     .smag-quicklink{
         margin: 0 5px 10px 5px;
