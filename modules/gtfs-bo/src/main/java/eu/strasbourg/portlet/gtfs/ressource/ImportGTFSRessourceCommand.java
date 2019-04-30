@@ -9,7 +9,9 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
+import eu.strasbourg.service.gtfs.service.ImportHistoricLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -28,7 +30,16 @@ public class ImportGTFSRessourceCommand implements MVCResourceCommand {
 		
 		_log.info("Import start");
 		
+		_log.info(this._importHistoricLocalService.doImportGTFS());
+		
 		return true;
+	}
+	
+	private ImportHistoricLocalService _importHistoricLocalService;
+	
+	@Reference(unbind = "-")
+	protected void setImportHistoricLocalService(ImportHistoricLocalService importHistoricLocalService) {
+		_importHistoricLocalService = importHistoricLocalService;
 	}
 	
 	/**

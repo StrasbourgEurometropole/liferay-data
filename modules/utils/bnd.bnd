@@ -4,6 +4,8 @@ Bundle-Version: 1.31.0
 Export-Package: \
 	eu.strasbourg.utils,\
 	eu.strasbourg.utils.models,\
+	eu.strasbourg.utils.exception,\
+	eu.strasbourg.utils.parser,\
 	eu.strasbourg.utils.display.context,\
 	eu.strasbourg.utils.group
 -dsannotations: *

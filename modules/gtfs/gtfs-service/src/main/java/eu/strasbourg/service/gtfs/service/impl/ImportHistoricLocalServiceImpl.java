@@ -43,6 +43,16 @@ import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.base.ImportHistoricLocalServiceBaseImpl;
+import eu.strasbourg.utils.GTFSLoaderHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.exception.FileAccessException;
+import eu.strasbourg.utils.models.AgencyGTFS;
+import eu.strasbourg.utils.models.CalendarDatesGTFS;
+import eu.strasbourg.utils.models.CalendarGTFS;
+import eu.strasbourg.utils.models.RoutesGTFS;
+import eu.strasbourg.utils.models.StopTimesGTFS;
+import eu.strasbourg.utils.models.StopsGTFS;
+import eu.strasbourg.utils.models.TripsGTFS;
 
 /**
  * The implementation of the import historic local service.
@@ -268,6 +278,50 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 			}
 		}
 		return attachedVocabularies;
+	}
+	
+	/**
+	 * Effectue l'import des donnees issues des fichiers GTFS
+	 */
+	@Override
+	public String doImportGTFS() {
+		// Recuperation du chemin absolu vers les fichiers du GTFS
+		String GTFSPath = StrasbourgPropsUtil.getGTFSPath();
+		
+		try {
+			// Recuperation des routes
+			Map<String, AgencyGTFS> mapAgencys;
+			mapAgencys = GTFSLoaderHelper.readAgencyData(GTFSPath);
+			
+			// Recuperation des stops
+			Map<Integer, CalendarGTFS> mapCalendars;
+			mapCalendars = GTFSLoaderHelper.readCalendarData(GTFSPath);
+			
+			// Recuperation des routes
+			Map<Integer, List<CalendarDatesGTFS>> mapCalendarDates;
+			mapCalendarDates = GTFSLoaderHelper.readCalendarDatesData(GTFSPath);
+			
+			// Recuperation des routes
+			Map<String, RoutesGTFS> mapRoutes;
+			mapRoutes = GTFSLoaderHelper.readRoutesData(GTFSPath);
+			
+			// Recuperation des routes
+			Map<String, List<StopTimesGTFS>> mapStopTimes;
+			mapStopTimes = GTFSLoaderHelper.readStopTimesData(GTFSPath);
+			
+			// Recuperation des routes
+			Map<String, StopsGTFS> mapStops;
+			mapStops = GTFSLoaderHelper.readStopsData(GTFSPath);
+			
+			// Recuperation des trips
+			Map<String, TripsGTFS> mapTrips;
+			mapTrips = GTFSLoaderHelper.readTripsData(GTFSPath);
+			
+		} catch (FileAccessException e) {
+			e.printStackTrace();
+		}
+		
+		return GTFSPath;
 	}
 	
 	/**

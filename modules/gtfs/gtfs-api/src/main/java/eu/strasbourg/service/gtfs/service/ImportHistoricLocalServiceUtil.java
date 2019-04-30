@@ -226,6 +226,13 @@ public class ImportHistoricLocalServiceUtil {
 	}
 
 	/**
+	* Effectue l'import des donnees issues des fichiers GTFS
+	*/
+	public static java.lang.String doImportGTFS() {
+		return getService().doImportGTFS();
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier
