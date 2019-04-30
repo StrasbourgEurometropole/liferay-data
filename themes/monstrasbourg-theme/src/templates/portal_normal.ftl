@@ -110,11 +110,11 @@
     <#if !isWelcome>
       <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
     </#if>
-    <#if !isWelcome>>
+    <#if !isWelcome>
       <#if isHome>
-        <main id="custom-container" style="width: 100%;">
+        <div class="custom-container" style="width: 100%;">
       <#else>
-        <main id="custom-container">
+        <div class="custom-container">
       </#if>
         <#include "${full_templates_path}/home_banner.ftl" />
         <#if !(isHome || isDistrict)>
