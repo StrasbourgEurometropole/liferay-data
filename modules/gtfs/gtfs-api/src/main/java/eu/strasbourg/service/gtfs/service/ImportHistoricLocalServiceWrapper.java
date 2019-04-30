@@ -85,6 +85,16 @@ public class ImportHistoricLocalServiceWrapper
 	}
 
 	/**
+	* Crée une entree d'import vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.ImportHistoric createImportHistoric(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _importHistoricLocalService.createImportHistoric(sc);
+	}
+
+	/**
 	* Creates a new import historic with the primary key. Does not add the import historic to the database.
 	*
 	* @param importHistoricId the primary key for the new import historic
@@ -173,6 +183,16 @@ public class ImportHistoricLocalServiceWrapper
 	}
 
 	/**
+	* Supprime l'entree d'import
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.ImportHistoric removeImportHistoric(
+		long importHistoricId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _importHistoricLocalService.removeImportHistoric(importHistoricId);
+	}
+
+	/**
 	* Updates the import historic in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param importHistoric the import historic
@@ -182,6 +202,33 @@ public class ImportHistoricLocalServiceWrapper
 	public eu.strasbourg.service.gtfs.model.ImportHistoric updateImportHistoric(
 		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
 		return _importHistoricLocalService.updateImportHistoric(importHistoric);
+	}
+
+	/**
+	* Met à jour une entree d'import et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.ImportHistoric updateImportHistoric(
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _importHistoricLocalService.updateImportHistoric(importHistoric,
+			sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entree d'import par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.ImportHistoric updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _importHistoricLocalService.updateStatus(userId, entryId,
+			status, sc, workflowContext);
 	}
 
 	/**
@@ -258,6 +305,24 @@ public class ImportHistoricLocalServiceWrapper
 	}
 
 	/**
+	* Renvoie la liste des vocabulaires rattachés à un projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _importHistoricLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne tous les projets d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.ImportHistoric> getByGroupId(
+		long groupId) {
+		return _importHistoricLocalService.getByGroupId(groupId);
+	}
+
+	/**
 	* Returns a range of all the import historics.
 	*
 	* <p>
@@ -331,6 +396,16 @@ public class ImportHistoricLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _importHistoricLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Met à jour le statut de l'entree d'import "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		_importHistoricLocalService.updateStatus(importHistoric, status);
 	}
 
 	@Override

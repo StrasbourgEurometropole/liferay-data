@@ -46,7 +46,7 @@ public class ImportHistoricSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setResult(model.getResult());
-		soapModel.setOpertations(model.getOpertations());
+		soapModel.setOperations(model.getOperations());
 		soapModel.setErrorDescription(model.getErrorDescription());
 		soapModel.setErrorStackTrace(model.getErrorStackTrace());
 
@@ -205,12 +205,12 @@ public class ImportHistoricSoap implements Serializable {
 		_result = result;
 	}
 
-	public String getOpertations() {
-		return _opertations;
+	public String getOperations() {
+		return _operations;
 	}
 
-	public void setOpertations(String opertations) {
-		_opertations = opertations;
+	public void setOperations(String operations) {
+		_operations = operations;
 	}
 
 	public String getErrorDescription() {
@@ -242,7 +242,7 @@ public class ImportHistoricSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private int _result;
-	private String _opertations;
+	private String _operations;
 	private String _errorDescription;
 	private String _errorStackTrace;
 }

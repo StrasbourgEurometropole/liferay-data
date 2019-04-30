@@ -14,7 +14,15 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+
+import java.util.List;
+
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The extended model implementation for the ImportHistoric service. Represents a row in the &quot;gtfs_ImportHistoric&quot; database table, with each column mapped to a property of this class.
@@ -27,6 +35,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class ImportHistoricImpl extends ImportHistoricBaseImpl {
+
+	private static final long serialVersionUID = 5893961641581179554L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -34,4 +45,32 @@ public class ImportHistoricImpl extends ImportHistoricBaseImpl {
 	 */
 	public ImportHistoricImpl() {
 	}
+	
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(ImportHistoric.class.getName(),
+			this.getImportHistoricId());
+	}
+	
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	/**
+	 * Renvoie le label affichable du resultat de l'import
+	 * @return
+	 */
+	@Override
+	public String getResultLabel() {
+		return this.getResult() == 1 ? "Succes" : "Echec";
+	}
+	
 }

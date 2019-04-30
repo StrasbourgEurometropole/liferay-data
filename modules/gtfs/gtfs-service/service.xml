@@ -29,7 +29,7 @@
 		
 		<!-- Other fields -->
 		<column name="result" type="int" />
-		<column name="opertations" type="String" />
+		<column name="operations" type="String" />
 		<column name="errorDescription" type="String" />
 		<column name="errorStackTrace" type="String" />
 		

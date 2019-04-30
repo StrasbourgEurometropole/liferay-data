@@ -94,8 +94,8 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		sb.append(statusDate);
 		sb.append(", result=");
 		sb.append(result);
-		sb.append(", opertations=");
-		sb.append(opertations);
+		sb.append(", operations=");
+		sb.append(operations);
 		sb.append(", errorDescription=");
 		sb.append(errorDescription);
 		sb.append(", errorStackTrace=");
@@ -161,11 +161,11 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 
 		importHistoricImpl.setResult(result);
 
-		if (opertations == null) {
-			importHistoricImpl.setOpertations(StringPool.BLANK);
+		if (operations == null) {
+			importHistoricImpl.setOperations(StringPool.BLANK);
 		}
 		else {
-			importHistoricImpl.setOpertations(opertations);
+			importHistoricImpl.setOperations(operations);
 		}
 
 		if (errorDescription == null) {
@@ -209,7 +209,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		statusDate = objectInput.readLong();
 
 		result = objectInput.readInt();
-		opertations = objectInput.readUTF();
+		operations = objectInput.readUTF();
 		errorDescription = objectInput.readUTF();
 		errorStackTrace = objectInput.readUTF();
 	}
@@ -257,11 +257,11 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 
 		objectOutput.writeInt(result);
 
-		if (opertations == null) {
+		if (operations == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(opertations);
+			objectOutput.writeUTF(operations);
 		}
 
 		if (errorDescription == null) {
@@ -292,7 +292,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 	public String statusByUserName;
 	public long statusDate;
 	public int result;
-	public String opertations;
+	public String operations;
 	public String errorDescription;
 	public String errorStackTrace;
 }

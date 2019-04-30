@@ -16,6 +16,8 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -30,6 +32,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -40,6 +43,7 @@ import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for ImportHistoric. Methods of this
@@ -95,6 +99,12 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public ImportHistoric addImportHistoric(ImportHistoric importHistoric);
+
+	/**
+	* Crée une entree d'import vide avec une PK, non ajouté à la base de donnée
+	*/
+	public ImportHistoric createImportHistoric(ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Creates a new import historic with the primary key. Does not add the import historic to the database.
@@ -162,6 +172,12 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 		java.lang.String uuid, long groupId) throws PortalException;
 
 	/**
+	* Supprime l'entree d'import
+	*/
+	public ImportHistoric removeImportHistoric(long importHistoricId)
+		throws PortalException;
+
+	/**
 	* Updates the import historic in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param importHistoric the import historic
@@ -169,6 +185,21 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public ImportHistoric updateImportHistoric(ImportHistoric importHistoric);
+
+	/**
+	* Met à jour une entree d'import et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public ImportHistoric updateImportHistoric(ImportHistoric importHistoric,
+		ServiceContext sc) throws PortalException;
+
+	/**
+	* Met à jour le statut de l'entree d'import par le framework workflow
+	*/
+	public ImportHistoric updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of import historics.
@@ -223,6 +254,18 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à un projet
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
+
+	/**
+	* Retourne tous les projets d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ImportHistoric> getByGroupId(long groupId);
 
 	/**
 	* Returns a range of all the import historics.
@@ -281,4 +324,10 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut de l'entree d'import "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(ImportHistoric importHistoric, int status)
+		throws PortalException;
 }

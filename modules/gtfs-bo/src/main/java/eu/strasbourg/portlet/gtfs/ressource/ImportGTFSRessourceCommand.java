@@ -25,8 +25,10 @@ public class ImportGTFSRessourceCommand implements MVCResourceCommand {
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws PortletException {
-		// TODO Auto-generated method stub
-		return false;
+		
+		_log.info("Import start");
+		
+		return true;
 	}
 	
 	/**

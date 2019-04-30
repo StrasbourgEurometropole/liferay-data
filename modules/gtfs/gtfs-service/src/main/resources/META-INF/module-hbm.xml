@@ -63,7 +63,7 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="result" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="opertations" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="operations" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="errorDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="errorStackTrace" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>

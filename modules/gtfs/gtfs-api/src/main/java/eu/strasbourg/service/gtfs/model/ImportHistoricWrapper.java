@@ -73,7 +73,7 @@ public class ImportHistoricWrapper implements ImportHistoric,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("result", getResult());
-		attributes.put("opertations", getOpertations());
+		attributes.put("operations", getOperations());
 		attributes.put("errorDescription", getErrorDescription());
 		attributes.put("errorStackTrace", getErrorStackTrace());
 
@@ -160,10 +160,10 @@ public class ImportHistoricWrapper implements ImportHistoric,
 			setResult(result);
 		}
 
-		String opertations = (String)attributes.get("opertations");
+		String operations = (String)attributes.get("operations");
 
-		if (opertations != null) {
-			setOpertations(opertations);
+		if (operations != null) {
+			setOperations(operations);
 		}
 
 		String errorDescription = (String)attributes.get("errorDescription");
@@ -274,6 +274,14 @@ public class ImportHistoricWrapper implements ImportHistoric,
 		return _importHistoric.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _importHistoric.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _importHistoric.getExpandoBridge();
@@ -356,13 +364,23 @@ public class ImportHistoricWrapper implements ImportHistoric,
 	}
 
 	/**
-	* Returns the opertations of this import historic.
+	* Returns the operations of this import historic.
 	*
-	* @return the opertations of this import historic
+	* @return the operations of this import historic
 	*/
 	@Override
-	public java.lang.String getOpertations() {
-		return _importHistoric.getOpertations();
+	public java.lang.String getOperations() {
+		return _importHistoric.getOperations();
+	}
+
+	/**
+	* Renvoie le label affichable du resultat de l'import
+	*
+	* @return
+	*/
+	@Override
+	public java.lang.String getResultLabel() {
+		return _importHistoric.getResultLabel();
 	}
 
 	/**
@@ -453,6 +471,15 @@ public class ImportHistoricWrapper implements ImportHistoric,
 	@Override
 	public Date getStatusDate() {
 		return _importHistoric.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _importHistoric.getCategories();
 	}
 
 	/**
@@ -617,13 +644,13 @@ public class ImportHistoricWrapper implements ImportHistoric,
 	}
 
 	/**
-	* Sets the opertations of this import historic.
+	* Sets the operations of this import historic.
 	*
-	* @param opertations the opertations of this import historic
+	* @param operations the operations of this import historic
 	*/
 	@Override
-	public void setOpertations(java.lang.String opertations) {
-		_importHistoric.setOpertations(opertations);
+	public void setOperations(java.lang.String operations) {
+		_importHistoric.setOperations(operations);
 	}
 
 	/**

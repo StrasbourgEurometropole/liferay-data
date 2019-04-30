@@ -12,5 +12,5 @@ dependencies {
 buildService {
 	apiDir = "../gtfs-api/src/main/java"
 	osgiModule = true
-	propsUtil = "eu.strasbourg.service.project.service.util.PropsUtil"
+	propsUtil = "eu.strasbourg.service.gtfs.service.util.PropsUtil"
 }

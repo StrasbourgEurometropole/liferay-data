@@ -307,19 +307,19 @@ public interface ImportHistoricModel extends BaseModel<ImportHistoric>,
 	public void setResult(int result);
 
 	/**
-	 * Returns the opertations of this import historic.
+	 * Returns the operations of this import historic.
 	 *
-	 * @return the opertations of this import historic
+	 * @return the operations of this import historic
 	 */
 	@AutoEscape
-	public String getOpertations();
+	public String getOperations();
 
 	/**
-	 * Sets the opertations of this import historic.
+	 * Sets the operations of this import historic.
 	 *
-	 * @param opertations the opertations of this import historic
+	 * @param operations the operations of this import historic
 	 */
-	public void setOpertations(String opertations);
+	public void setOperations(String operations);
 
 	/**
 	 * Returns the error description of this import historic.

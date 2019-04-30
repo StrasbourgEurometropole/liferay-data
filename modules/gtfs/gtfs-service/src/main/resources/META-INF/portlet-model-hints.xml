@@ -50,7 +50,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="result" type="int" />
-		<field name="opertations" type="String" />
+		<field name="operations" type="String" />
 		<field name="errorDescription" type="String" />
 		<field name="errorStackTrace" type="String" />
 	</model>

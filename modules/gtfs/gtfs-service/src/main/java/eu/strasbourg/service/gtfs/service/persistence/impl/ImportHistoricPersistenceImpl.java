@@ -2423,7 +2423,7 @@ public class ImportHistoricPersistenceImpl extends BasePersistenceImpl<ImportHis
 		importHistoricImpl.setStatusByUserName(importHistoric.getStatusByUserName());
 		importHistoricImpl.setStatusDate(importHistoric.getStatusDate());
 		importHistoricImpl.setResult(importHistoric.getResult());
-		importHistoricImpl.setOpertations(importHistoric.getOpertations());
+		importHistoricImpl.setOperations(importHistoric.getOperations());
 		importHistoricImpl.setErrorDescription(importHistoric.getErrorDescription());
 		importHistoricImpl.setErrorStackTrace(importHistoric.getErrorStackTrace());
 

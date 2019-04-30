@@ -82,7 +82,7 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "result", Types.INTEGER },
-			{ "opertations", Types.VARCHAR },
+			{ "operations", Types.VARCHAR },
 			{ "errorDescription", Types.VARCHAR },
 			{ "errorStackTrace", Types.VARCHAR }
 		};
@@ -102,32 +102,32 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("result", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("opertations", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("operations", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("errorDescription", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("errorStackTrace", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,opertations VARCHAR(75) null,errorDescription VARCHAR(75) null,errorStackTrace VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations VARCHAR(75) null,errorDescription VARCHAR(75) null,errorStackTrace VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_ImportHistoric";
 	public static final String ORDER_BY_JPQL = " ORDER BY importHistoric.importHistoricId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_ImportHistoric.importHistoricId DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
+	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.ImportHistoric"),
 			true);
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
+	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.ImportHistoric"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.ImportHistoric"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long UUID_COLUMN_BITMASK = 4L;
 	public static final long IMPORTHISTORICID_COLUMN_BITMASK = 8L;
-	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.project.service.util.PropsUtil.get(
+	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.ImportHistoric"));
 
 	public ImportHistoricModelImpl() {
@@ -180,7 +180,7 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("result", getResult());
-		attributes.put("opertations", getOpertations());
+		attributes.put("operations", getOperations());
 		attributes.put("errorDescription", getErrorDescription());
 		attributes.put("errorStackTrace", getErrorStackTrace());
 
@@ -270,10 +270,10 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 			setResult(result);
 		}
 
-		String opertations = (String)attributes.get("opertations");
+		String operations = (String)attributes.get("operations");
 
-		if (opertations != null) {
-			setOpertations(opertations);
+		if (operations != null) {
+			setOperations(operations);
 		}
 
 		String errorDescription = (String)attributes.get("errorDescription");
@@ -507,18 +507,18 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 	}
 
 	@Override
-	public String getOpertations() {
-		if (_opertations == null) {
+	public String getOperations() {
+		if (_operations == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _opertations;
+			return _operations;
 		}
 	}
 
 	@Override
-	public void setOpertations(String opertations) {
-		_opertations = opertations;
+	public void setOperations(String operations) {
+		_operations = operations;
 	}
 
 	@Override
@@ -681,7 +681,7 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		importHistoricImpl.setStatusByUserName(getStatusByUserName());
 		importHistoricImpl.setStatusDate(getStatusDate());
 		importHistoricImpl.setResult(getResult());
-		importHistoricImpl.setOpertations(getOpertations());
+		importHistoricImpl.setOperations(getOperations());
 		importHistoricImpl.setErrorDescription(getErrorDescription());
 		importHistoricImpl.setErrorStackTrace(getErrorStackTrace());
 
@@ -838,12 +838,12 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 
 		importHistoricCacheModel.result = getResult();
 
-		importHistoricCacheModel.opertations = getOpertations();
+		importHistoricCacheModel.operations = getOperations();
 
-		String opertations = importHistoricCacheModel.opertations;
+		String operations = importHistoricCacheModel.operations;
 
-		if ((opertations != null) && (opertations.length() == 0)) {
-			importHistoricCacheModel.opertations = null;
+		if ((operations != null) && (operations.length() == 0)) {
+			importHistoricCacheModel.operations = null;
 		}
 
 		importHistoricCacheModel.errorDescription = getErrorDescription();
@@ -895,8 +895,8 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		sb.append(getStatusDate());
 		sb.append(", result=");
 		sb.append(getResult());
-		sb.append(", opertations=");
-		sb.append(getOpertations());
+		sb.append(", operations=");
+		sb.append(getOperations());
 		sb.append(", errorDescription=");
 		sb.append(getErrorDescription());
 		sb.append(", errorStackTrace=");
@@ -967,8 +967,8 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		sb.append(getResult());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>opertations</column-name><column-value><![CDATA[");
-		sb.append(getOpertations());
+			"<column><column-name>operations</column-name><column-value><![CDATA[");
+		sb.append(getOperations());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>errorDescription</column-name><column-value><![CDATA[");
@@ -1007,7 +1007,7 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private int _result;
-	private String _opertations;
+	private String _operations;
 	private String _errorDescription;
 	private String _errorStackTrace;
 	private long _columnBitmask;
