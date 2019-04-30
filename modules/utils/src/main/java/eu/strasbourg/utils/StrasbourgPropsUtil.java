@@ -233,4 +233,8 @@ public class StrasbourgPropsUtil {
 	public static String getDashboardURL() {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
+	
+	public static String getGTFSPath() {
+		return PropsUtil.get("eu.strasbourg.gtfs.files.path");
+	}
 }
