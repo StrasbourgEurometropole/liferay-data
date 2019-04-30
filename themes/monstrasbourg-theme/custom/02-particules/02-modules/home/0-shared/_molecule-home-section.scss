@@ -4,6 +4,8 @@
     box-shadow: 0 0 10px rgba(#203146, 0.15);
     position: relative;
     background-color: #FFFFFF;
+    width: #{$container-width}px;
+    margin: 0 auto 40px;
 
     @include RWD(tablet){
         padding: 45px;

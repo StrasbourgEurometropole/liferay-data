@@ -110,8 +110,12 @@
     <#if !isWelcome>
       <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
     </#if>
-    <#if !isWelcome>
-      <div class="custom-container">
+    <#if !isWelcome>>
+      <#if isHome>
+        <main id="custom-container" style="width: 100%;">
+      <#else>
+        <main id="custom-container">
+      </#if>
         <#include "${full_templates_path}/home_banner.ftl" />
         <#if !(isHome || isDistrict)>
           <div class="card-box">  
@@ -131,9 +135,9 @@
         <@liferay_util["include"] page=content_include />
       </@>
     </#if>
-      <#if !(isHome || isDistrict || !isWelcome)>
-        </div>
-      </#if>
+    <#if !(isHome || isDistrict || isWelcome)>
+      </div>
+    </#if>
     </div> 
   </main>
   <#include "${full_templates_path}/footer.ftl" />

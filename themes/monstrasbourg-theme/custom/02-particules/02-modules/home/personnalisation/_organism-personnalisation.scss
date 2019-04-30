@@ -1,9 +1,9 @@
 %organism-personnalisation{    
     @extend %molecule-home-section;
-    margin-bottom: 40px;
     border-radius: 0;
     box-shadow: none;
     background-color: $third-color;
+    width: 100%;
 
     .delete-wi {
         background-image: url( svg-bg-uri($svg-filled-close, #ffffff) );

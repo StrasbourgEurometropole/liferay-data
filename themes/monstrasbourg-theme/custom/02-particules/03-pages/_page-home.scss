@@ -1,6 +1,10 @@
 .mseu .front{
     position: relative;
-
+    background-color: $core-color;
+    
+    .home-mon-strasbourg-layout{
+        background-color: #f6f6f6;
+    }
 
     .wi-wrapper{
         display: flex;
