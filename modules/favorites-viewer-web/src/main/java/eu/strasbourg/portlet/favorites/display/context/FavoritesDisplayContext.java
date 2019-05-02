@@ -44,7 +44,7 @@ public class FavoritesDisplayContext {
 	private FavoritesConfiguration configuration;
 
 	private List<FavoriteDisplay> favorites;
-	private List<FavoriteDisplay> lastFavorites;
+	private List<FavoriteDisplay> myFavorites;
 	private SearchContainer<FavoriteDisplay> searchContainer;
 
 	public FavoritesDisplayContext(PortletRequest request, RenderResponse response) {
@@ -89,7 +89,7 @@ public class FavoritesDisplayContext {
 		}
 		return favorites;
 	}
-	
+
 	public String getNoFavoriteText() {
 		String noFavorites = "";
 		Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.noFavoritesXML());
@@ -105,17 +105,42 @@ public class FavoritesDisplayContext {
 		return noFavorites;
 	}
 
-	public List<FavoriteDisplay> getLastFavorites() {
-		if (lastFavorites == null) {
-			List<FavoriteDisplay> favoritesDisplay = getFavorites();
+	public String getTexte() {
+		String texte = "";
+		Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.texteXML());
+		for (Map.Entry<Locale, String> map : mapText.entrySet()) {
+			if (themeDisplay.getLocale().toString().equals(map.getKey().toString())) {
+				texte = HtmlUtil.unescape(map.getValue());
+				break;
+			}
+		}
+		if (Validator.isNull(texte)) {
+			texte = "No configuration";
+		}
+		return texte;
+	}
 
-			if (favorites.size() > 4) {
-				favoritesDisplay = favorites.subList(0, 4);
+	public List<FavoriteDisplay> getMyFavorites() {
+		if (myFavorites == null) {
+			String publikUserId = "";
+			HttpServletRequest servletRequest = ServiceContextThreadLocal.getServiceContext().getRequest();
+			boolean isLoggedIn = SessionParamUtil.getBoolean(servletRequest, "publik_logged_in");
+			if (isLoggedIn) {
+				publikUserId = SessionParamUtil.getString(servletRequest, "publik_internal_id");
 			}
 
-			lastFavorites = favoritesDisplay;
+			List<Favorite> userFavorites = FavoriteLocalServiceUtil.getByPublikUser(publikUserId).stream()
+					.filter(f -> Validator.isNotNull(f.getOnDashboardDate()))
+					.sorted((f1, f2) -> f2.getOnDashboardDate().compareTo(f1.getOnDashboardDate()))
+					.collect(Collectors.toList());
+
+			myFavorites = new ArrayList<FavoriteDisplay>();
+			for (Favorite favorite : userFavorites) {
+				myFavorites.add(new FavoriteDisplay(favorite, publikUserId, themeDisplay));
+			}
+
 		}
-		return lastFavorites;
+		return myFavorites;
 	}
 
 	public GregorianCalendar getTodayCalendar() {
@@ -257,5 +282,13 @@ public class FavoritesDisplayContext {
 
 	public boolean showDeleteButton() {
 		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
+
+	public boolean isFavoriteOnDashboard(long favoriteId) {
+		Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(favoriteId);
+		if(Validator.isNotNull(favorite) && favorite.isOnDashboard()){
+			return true;
+		}
+		return false;
 	}
 }

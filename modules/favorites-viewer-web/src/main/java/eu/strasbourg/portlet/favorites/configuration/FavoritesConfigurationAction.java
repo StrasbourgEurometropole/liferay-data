@@ -57,16 +57,26 @@ public class FavoritesConfigurationAction extends DefaultConfigurationAction {
 			// Mode d'affichage
 			String template = ParamUtil.getString(request, "template");
 			setPreference(request, "template", template);
-			
+
 			// Text
-			Map<Locale, String> textMap = LocalizationUtil
-				.getLocalizationMap(request, "noFavoritesMap");
+			Map<Locale, String> noFavoritesMap = LocalizationUtil
+					.getLocalizationMap(request, "noFavoritesMap");
 			LocalizedValuesMap map = new LocalizedValuesMap();
-			for (Map.Entry<Locale, String> e : textMap.entrySet()) {
+			for (Map.Entry<Locale, String> e : noFavoritesMap.entrySet()) {
 				map.put(e.getKey(), e.getValue());
 			}
 			String noFavoritesXML = LocalizationUtil.getXml(map, "noFavorites");
 			setPreference(request, "noFavoritesXML", noFavoritesXML);
+
+			// Chapô
+			Map<Locale, String> textMap = LocalizationUtil
+					.getLocalizationMap(request, "texteMap");
+			LocalizedValuesMap textemap = new LocalizedValuesMap();
+			for (Map.Entry<Locale, String> e : textMap.entrySet()) {
+				map.put(e.getKey(), e.getValue());
+			}
+			String texteXML = LocalizationUtil.getXml(map, "texte");
+			setPreference(request, "texteXML", texteXML);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -92,9 +102,12 @@ public class FavoritesConfigurationAction extends DefaultConfigurationAction {
 			
 			// Template
 			request.setAttribute("template", configuration.template());
-			
+
 			// Texte si pas de favoris
 			request.setAttribute("noFavorites", configuration.noFavoritesXML());
+
+			// Chapô
+			request.setAttribute("texte", configuration.texteXML());
 			
 
 		} catch (ConfigurationException e) {

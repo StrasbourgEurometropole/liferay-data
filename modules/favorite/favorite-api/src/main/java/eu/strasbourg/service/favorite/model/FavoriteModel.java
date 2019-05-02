@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the Favorite service. Represents a row in the &quot;favorite_Favorite&quot; database table, with each column mapped to a property of this class.
  *
@@ -160,6 +162,20 @@ public interface FavoriteModel extends BaseModel<Favorite> {
 	 * @param entityGroupId the entity group ID of this favorite
 	 */
 	public void setEntityGroupId(long entityGroupId);
+
+	/**
+	 * Returns the on dashboard date of this favorite.
+	 *
+	 * @return the on dashboard date of this favorite
+	 */
+	public Date getOnDashboardDate();
+
+	/**
+	 * Sets the on dashboard date of this favorite.
+	 *
+	 * @param onDashboardDate the on dashboard date of this favorite
+	 */
+	public void setOnDashboardDate(Date onDashboardDate);
 
 	@Override
 	public boolean isNew();

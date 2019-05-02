@@ -140,7 +140,7 @@
             margin-left: 10px;
         }
     }
-    &__trash {
+    &__trash, &__add, &__remove {
         font-weight: 600;
         font-size: 1.4rem;
         color: $core-color;
@@ -153,17 +153,41 @@
         &:before {
             content: '';
             display: block;
-            width: 20px;
-            height: 20px;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            background-image: url(svg-bg-uri($svg-trash, $core-color));
             margin-right: 10px;
         }
         &:hover,
         &:focus {
             text-decoration: underline;
+        }
+    }
+    &__trash {
+
+        &:before {
+            width: 20px;
+            height: 20px;
+            background-image: url(svg-bg-uri($svg-trash, $core-color));
+        }
+    }
+    &__add, &__remove {
+
+        &:before {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 5px;
+        }
+    }
+    &__add {
+
+        &:before {
+            background-image: url(svg-bg-uri($svg-add-dashboard, $core-color));
+        }
+    }
+    &__remove {
+        &:before {
+            background-image: url(svg-bg-uri($svg-remove-dashboard, $core-color));
         }
     }
 

@@ -5,5 +5,6 @@ create table favorite_Favorite (
 	url VARCHAR(255) null,
 	typeId LONG,
 	entityId LONG,
-	entityGroupId LONG
+	entityGroupId LONG,
+	onDashboardDate DATE null
 );

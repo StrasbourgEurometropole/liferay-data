@@ -1887,6 +1887,7 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 		favoriteImpl.setTypeId(favorite.getTypeId());
 		favoriteImpl.setEntityId(favorite.getEntityId());
 		favoriteImpl.setEntityGroupId(favorite.getEntityGroupId());
+		favoriteImpl.setOnDashboardDate(favorite.getOnDashboardDate());
 
 		return favoriteImpl;
 	}

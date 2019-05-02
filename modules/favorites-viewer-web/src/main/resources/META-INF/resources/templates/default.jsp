@@ -8,15 +8,15 @@
 		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
 	</c:if>
 
-    <h2>${dc.getPortletTitle('my-last-favorites')}</h2>
+    <h2>${dc.getPortletTitle('my-favorites')}</h2>
     <div class="favoris-grid">
 		
-		<c:if test="${empty dc.lastFavorites}">
+		<c:if test="${empty dc.myFavorites}">
 			<p>
 				${dc.getNoFavoriteText()}
 			</p>
 		</c:if>
-		<c:forEach items="${dc.lastFavorites}" var="favorite">					
+		<c:forEach items="${dc.myFavorites}" var="favorite">
 			<div class="favoris-teaser type-${favorite.typeId}">
 				<a href="${favorite.url}" class="favoris-teaser__link">
 					<div class="favoris-teaser__type"><liferay-ui:message key="eu.${fn:toLowerCase(favorite.typeName) }" /></div>

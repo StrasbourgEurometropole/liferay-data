@@ -29,3 +29,22 @@ function createPopin(message, agree, deny){
         }
     });
 }
+function createPopin(message, agree){
+    var template = '<div id="favConfirm"> \
+        <div class="favMessage">##favMessage##</div> \
+        <div class="favActions"> \
+            <button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text">OK</span><span class="btn-arrow"></span></span></button> \
+        </div> \
+    </div>';
+
+    template = template.replace('##favMessage##', message);
+    $('body').append(template);
+    $('.mseu').addClass('overlayed');
+
+    $('#favConfirm .confirm').on('click.favConfirm', function(){
+        destroyPopin();
+        if(agree !== undefined){
+            agree();
+        }
+    });
+}

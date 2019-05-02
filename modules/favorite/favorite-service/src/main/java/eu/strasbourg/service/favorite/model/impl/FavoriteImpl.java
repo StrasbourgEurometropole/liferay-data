@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 
 /**
@@ -63,6 +64,13 @@ public class FavoriteImpl extends FavoriteBaseImpl {
 	@Override
 	public FavoriteType getFavoriteType() {
 		return FavoriteType.get(this.getTypeId());
+	}
+
+	@Override
+	public boolean isOnDashboard() {
+		if(Validator.isNotNull(this.getOnDashboardDate()))
+			return true;
+		return false;
 	}
 
 	/**

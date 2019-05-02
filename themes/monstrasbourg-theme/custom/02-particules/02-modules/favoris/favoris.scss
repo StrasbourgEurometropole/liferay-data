@@ -4,6 +4,11 @@
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
     }
+
+    .chapo{
+        margin-bottom: 40px;
+    }
+
     .favoris-grid{
 
         p{
@@ -67,6 +72,30 @@
                     &:before{
                         background-color: $core-color;
                         background-image: url( svg-bg-uri($svg-trash, #f6f6f6) );
+                    }
+                }
+            }
+            &__add{
+                position: static;
+                flex-shrink: 0;
+                // font-size: 0;
+                transition: all, 0.5s;
+                flex-direction: column;
+                &:hover, &:focus{
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
+                    }
+                }
+            }
+            &__remove{
+                position: static;
+                flex-shrink: 0;
+                // font-size: 0;
+                transition: all, 0.5s;
+                flex-direction: column;
+                &:hover, &:focus{
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
                     }
                 }
             }
