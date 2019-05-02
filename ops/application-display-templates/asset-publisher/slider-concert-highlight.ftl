@@ -29,7 +29,7 @@
                 <time><span>${entry.getEventScheduleDisplay(locale, false, true)}</span></time>
                 <div class="ops-next-date"></div>
                 <h3>${entry.getTitle(locale)}</h3>
-                <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
+                <span class="ops-typologie">${entry.getLabelTypologies(locale)}</span>
                 <div class="ops-content">
                     <span class="ops-songs"><strong>${entry.getComposer()}</strong></span>
                     <span class="ops-names">${entry.getDistribution()}</span>
