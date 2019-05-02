@@ -108,7 +108,7 @@
     instanceId="composer_${entry.eventId}"/>
 
     <#-- Recuperation des suggéstions de l'event -->
-    <#assign suggestions = entry.getSuggestions(request, 10, null) />
+    <#assign suggestions = entry.getSuggestions(request, 10, null, "typologie") />
 	
 	<#if suggestions?size gt 0 >
         <!-- BLOC - SLIDER CARDS - NOS PROCHAINS CONCERTS -->

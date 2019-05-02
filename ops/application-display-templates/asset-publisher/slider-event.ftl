@@ -39,7 +39,6 @@
                                 <span class="ops-songs"><strong>${entry.getComposer()}</strong></span>
                                 <span class="ops-names">${entry.getDistribution()}</span>
                             </div>
-                            <span class="ops-bottom-card">Acheter mon billet</span>
                         </div>
                     </a>
                 </div>

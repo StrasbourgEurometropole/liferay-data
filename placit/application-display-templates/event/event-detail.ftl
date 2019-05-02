@@ -187,7 +187,7 @@
     </div>
 	
 	<#-- Recuperation des suggéstions de l'event -->
-    <#assign suggestions = entry.getSuggestions(request, 10, "participer") />
+    <#assign suggestions = entry.getSuggestions(request, 10, "participer", "theme") />
 	
 	<#if suggestions?size gt 0 >
 		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
