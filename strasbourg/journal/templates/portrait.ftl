@@ -73,3 +73,7 @@
     display: none !important;
 }
 </style>
+
+<script>
+    $('.bg-banner .banner__title').text("${title.getData()}")
+</script>
