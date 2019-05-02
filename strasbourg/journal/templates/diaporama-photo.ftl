@@ -41,6 +41,7 @@
     <div>
 
         <h1>${title.getData()}</h1> 
+        <div class="seu-container">${content.getData()}</div>
         <#if photos.getSiblings()?has_content>
             <section class="slider-for slider">
                 <#list photos.getSiblings() as photo> 
@@ -63,10 +64,12 @@
                 </#list>
             </section>
         </#if>
-        <div class="seu-container">${content.getData()}</div>
     </div>
 
     <style>
+        .seu-container{
+            margin-bottom:40px;
+        }
         .slider {
             margin: 0 80px 40px 80px;
         }
