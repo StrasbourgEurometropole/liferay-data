@@ -76,4 +76,5 @@
 
 <script>
     $('.bg-banner .banner__title').text("${title.getData()}");
+    $('.bg-banner .banner__description').hide();
 </script>
