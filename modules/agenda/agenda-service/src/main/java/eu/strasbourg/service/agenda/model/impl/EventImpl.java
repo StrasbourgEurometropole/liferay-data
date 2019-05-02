@@ -560,6 +560,30 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EVENT_TYPE);
 	}
+	
+	/**
+	 * Retourne les typologie de l'événement (Catégorie du site de l'OPS)
+	 */
+	@Override
+	public List<AssetCategory> getTypologies() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.OPS_TYPOLOGIE);
+	}
+	
+	/**
+	 * Retourne le label des typologies de l'événement (Catégorie du site de l'OPS)
+	 */
+	@Override
+	public String getLabelTypologies(Locale locale) {
+		String typos = "";
+		for (AssetCategory typo : this.getTypologies()) {
+			if (typos.length() > 0) {
+				typos += " - ";
+			}
+			typos += typo.getTitle(locale);
+		}
+		return typos;
+	}
 
 	/**
 	 * Retourne le label des types de l'événement
