@@ -284,10 +284,12 @@
 	width: 100%;
 	height: auto;
 	overflow: hidden;
+	min-height: 500px;
 	@include mobile{
 		position: relative;
 		bottom: 0;
 		margin-top: -200px;
+		min-height: 200px;
 	}
 	.slick-carousel {
 		position: relative;
