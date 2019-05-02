@@ -205,6 +205,18 @@ public class InitiativeLocalServiceUtil {
 	}
 
 	/**
+	* Met à jour le statut de l'initiative par le framework workflow
+	*/
+	public static eu.strasbourg.service.project.model.Initiative updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
+	}
+
+	/**
 	* Returns the number of initiatives.
 	*
 	* @return the number of initiatives
@@ -455,6 +467,15 @@ public class InitiativeLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut de l'initiative "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.project.model.Initiative initiative, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(initiative, status);
 	}
 
 	public static InitiativeLocalService getService() {

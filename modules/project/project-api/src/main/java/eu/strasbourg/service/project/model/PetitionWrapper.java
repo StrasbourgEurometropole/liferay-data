@@ -1070,8 +1070,7 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
@@ -1112,8 +1111,10 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	/**
 	* Retourne X suggestions max pour une pétition
 	*
-	* @param request la requete
-	* @param nbSuggestions le nombre de suggestions.
+	* @param request
+	la requete
+	* @param nbSuggestions
+	le nombre de suggestions.
 	* @return la liste de pétition.
 	*/
 	@Override
