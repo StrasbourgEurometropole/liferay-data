@@ -111,6 +111,10 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			String expirationDateTimeStr = ParamUtil.getString(request, "expirationDateTime");
 			Date expirationDate = GetterUtil.getDate(expirationDateStr + " " + expirationDateTimeStr, dateFormat);
 			
+			String extensionDateStr = ParamUtil.getString(request, "extensionDate");
+			String extensionDateTimeStr = ParamUtil.getString(request, "extensionDateTime");
+			Date extensionDate = GetterUtil.getDate(extensionDateStr + " " + extensionDateTimeStr, dateFormat);
+			
 			String title = ParamUtil.getString(request, "title");
 			String prenomPetitionnaire = ParamUtil.getString(request, "petitionnaireFirstname");
 			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
@@ -243,6 +247,14 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 
             petition.setPublicationDate(publicationDate);
             petition.setExpirationDate(expirationDate);
+            
+            // La date d'extension doit toujours etre au moins superieur ou egale a celle d'expiration
+            if(extensionDate.compareTo(expirationDate) >= 0) {
+            	petition.setExtensionDate(extensionDate);
+            } else {
+            	petition.setExtensionDate(expirationDate);
+            }
+            
 
             _petitionLocalService.updatePetition(petition,sc);
 		} catch (PortalException e) {

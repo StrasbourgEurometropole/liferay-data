@@ -173,6 +173,7 @@ create table project_Petition (
 	filesDownload VARCHAR(75) null,
 	publicationDate DATE null,
 	expirationDate DATE null,
+	extensionDate DATE null,
 	quotaSignature LONG,
 	inTheNameOf VARCHAR(400) null,
 	petitionnaireLastname VARCHAR(75) null,

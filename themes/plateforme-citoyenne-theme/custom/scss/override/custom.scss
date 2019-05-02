@@ -623,13 +623,17 @@ aside .leaflet-map {
 //Correction de l'alignement du label des checkbox du portlet de signature du pacte
 .pacte label {
     display: table;
-    min-width: 420px; 
+    min-width: 420px;
 }
 
 .pro-bloc-card-budget .pro-encart-coeur {
 	top: 64px;
 }
 
-#content a:hover {
+.pro-menu-budget-participatif a:hover {
 	color: #FFED00;
+}
+
+#pro-link-projet {
+	overflow: inherit;
 }

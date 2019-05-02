@@ -92,6 +92,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			{ "filesDownload", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP },
+			{ "extensionDate", Types.TIMESTAMP },
 			{ "quotaSignature", Types.BIGINT },
 			{ "inTheNameOf", Types.VARCHAR },
 			{ "petitionnaireLastname", Types.VARCHAR },
@@ -133,6 +134,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("filesDownload", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("extensionDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("quotaSignature", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("inTheNameOf", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnaireLastname", Types.VARCHAR);
@@ -154,7 +156,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,quotaSignature LONG,inTheNameOf VARCHAR(400) null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,isSupported BOOLEAN,supportedBy VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Petition (uuid_ VARCHAR(75) null,petitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,extensionDate DATE null,quotaSignature LONG,inTheNameOf VARCHAR(400) null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,isSupported BOOLEAN,supportedBy VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Petition";
 	public static final String ORDER_BY_JPQL = " ORDER BY petition.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Petition.title ASC";
@@ -208,6 +210,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		model.setFilesDownload(soapModel.getFilesDownload());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
+		model.setExtensionDate(soapModel.getExtensionDate());
 		model.setQuotaSignature(soapModel.getQuotaSignature());
 		model.setInTheNameOf(soapModel.getInTheNameOf());
 		model.setPetitionnaireLastname(soapModel.getPetitionnaireLastname());
@@ -309,6 +312,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		attributes.put("filesDownload", getFilesDownload());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
+		attributes.put("extensionDate", getExtensionDate());
 		attributes.put("quotaSignature", getQuotaSignature());
 		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
@@ -443,6 +447,12 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 		if (expirationDate != null) {
 			setExpirationDate(expirationDate);
+		}
+
+		Date extensionDate = (Date)attributes.get("extensionDate");
+
+		if (extensionDate != null) {
+			setExtensionDate(extensionDate);
 		}
 
 		Long quotaSignature = (Long)attributes.get("quotaSignature");
@@ -885,6 +895,17 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@JSON
 	@Override
+	public Date getExtensionDate() {
+		return _extensionDate;
+	}
+
+	@Override
+	public void setExtensionDate(Date extensionDate) {
+		_extensionDate = extensionDate;
+	}
+
+	@JSON
+	@Override
 	public long getQuotaSignature() {
 		return _quotaSignature;
 	}
@@ -1314,6 +1335,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		petitionImpl.setFilesDownload(getFilesDownload());
 		petitionImpl.setPublicationDate(getPublicationDate());
 		petitionImpl.setExpirationDate(getExpirationDate());
+		petitionImpl.setExtensionDate(getExtensionDate());
 		petitionImpl.setQuotaSignature(getQuotaSignature());
 		petitionImpl.setInTheNameOf(getInTheNameOf());
 		petitionImpl.setPetitionnaireLastname(getPetitionnaireLastname());
@@ -1531,6 +1553,15 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 			petitionCacheModel.expirationDate = Long.MIN_VALUE;
 		}
 
+		Date extensionDate = getExtensionDate();
+
+		if (extensionDate != null) {
+			petitionCacheModel.extensionDate = extensionDate.getTime();
+		}
+		else {
+			petitionCacheModel.extensionDate = Long.MIN_VALUE;
+		}
+
 		petitionCacheModel.quotaSignature = getQuotaSignature();
 
 		petitionCacheModel.inTheNameOf = getInTheNameOf();
@@ -1663,7 +1694,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1701,6 +1732,8 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(getPublicationDate());
 		sb.append(", expirationDate=");
 		sb.append(getExpirationDate());
+		sb.append(", extensionDate=");
+		sb.append(getExtensionDate());
 		sb.append(", quotaSignature=");
 		sb.append(getQuotaSignature());
 		sb.append(", inTheNameOf=");
@@ -1746,7 +1779,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(115);
+		StringBundler sb = new StringBundler(118);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Petition");
@@ -1823,6 +1856,10 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 		sb.append(
 			"<column><column-name>expirationDate</column-name><column-value><![CDATA[");
 		sb.append(getExpirationDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>extensionDate</column-name><column-value><![CDATA[");
+		sb.append(getExtensionDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>quotaSignature</column-name><column-value><![CDATA[");
@@ -1936,6 +1973,7 @@ public class PetitionModelImpl extends BaseModelImpl<Petition>
 	private String _filesDownload;
 	private Date _publicationDate;
 	private Date _expirationDate;
+	private Date _extensionDate;
 	private long _quotaSignature;
 	private String _inTheNameOf;
 	private String _petitionnaireLastname;

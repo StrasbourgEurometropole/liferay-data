@@ -147,8 +147,10 @@ public interface Petition extends PetitionModel, PersistedModel {
 	/**
 	* Retourne X suggestions max pour une pétition
 	*
-	* @param request la requete
-	* @param nbSuggestions le nombre de suggestions.
+	* @param request
+	la requete
+	* @param nbSuggestions
+	le nombre de suggestions.
 	* @return la liste de pétition.
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.Petition> getSuggestions(
@@ -189,8 +191,7 @@ public interface Petition extends PetitionModel, PersistedModel {
 	public java.lang.String getAssetEntryTitle();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
