@@ -1,0 +1,125 @@
+%organism-placeit{    
+    @extend %molecule-home-section;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    }
+
+    .rte{
+	    font-size: 1.8rem;
+	    color: #5c5c5c;
+        text-align: center;
+    }
+
+    .pro-bloc-dashboard{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: center;
+        font-family: $montserrat;
+        color: $core-color;
+
+        h3{
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 10px;
+            padding-bottom: 20px;
+        }
+
+        .pro-number{
+            font-size: 2.6rem;
+            font-weight: 700;
+        }
+
+        .form-group{
+            margin: 0;
+            padding: 10px;
+            padding-top: 0;
+
+            .btn-square--bordered--core .btn-text{
+                font-size: 1.1rem;
+            }
+        }
+
+        .projects-events{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            width: calc(25% - 5px);
+
+            .btn-square--bordered--core{
+                &:before{
+                    background-color: #FFFFFF;
+                }
+                .btn-text{
+                    color: #FFFFFF;
+                }
+                .btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+                }
+                &:hover, &:focus{
+                    .btn-text{
+                        color: $core-color;
+                    }
+                    .btn-arrow{
+                        background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                    }
+                }
+            }
+
+            .projects{
+                background-color: $core-color;
+            }
+
+            .events{
+                background-color: $core-color;
+            }
+        }
+
+        .petitions-initiatives{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 50%;
+
+            .petitions{
+                width: calc(50% - 10px);;
+                background-color: white;
+            }
+
+            .initiatives{
+                width: calc(50% - 10px);;
+                background-color: white;
+            }
+
+            .acces-site .form-group{
+                padding: 0;
+                margin-top: 15px;
+            }
+        }
+
+        .budget{
+            display: flex;
+            flex-direction: column;
+            background-color: $second-color;
+            width: calc(25% - 5px);
+
+            .budget-reste{
+                background-color: $third-color;
+                padding: 15px;
+                font-size: 1.4em;
+                padding: 24px 10px;
+
+                span{
+                    line-height: 20px;
+                }
+            }
+        }
+    }
+}
