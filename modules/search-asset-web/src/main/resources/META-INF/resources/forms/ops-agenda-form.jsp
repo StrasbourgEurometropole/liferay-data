@@ -8,12 +8,16 @@
 		<div class="ops-facette-checkbox ops-dropdown">
 			<a href="#" class="selected"></a> <a href="#">Mois</a>
 			<ul>
-				<c:forEach begin="${dc.getMonth()}" end="11" varStatus="loop">
-					<li><label>${dc.getMonthTitle(loop.index, locale)}<input type="checkbox" 
-					id="ops_month_${loop.index}" name="<portlet:namespace />fromMonth" value="${loop.index}" /><span></span></label></li>
+				<c:forEach begin="0" end="14" varStatus="loop">
+					<li>
+						<label>${dc.getMonthYearTitle(loop.index, locale)}
+							<input type="checkbox" id="ops_index_${loop.index}" name="<portlet:namespace />fromMonthLoop" value="${loop.index}" />
+							<span></span>
+						</label>
+					</li>
 					
-					<c:if test="${(dc.getFromMonthValue() - 1) == loop.index}">
-						<c:set var="monthId" value="ops_month_${loop.index}" scope="page"/>
+					<c:if test="${dc.getFromMonthLoopValue() == loop.index}">
+						<c:set var="monthId" value="ops_index_${loop.index}" scope="page"/>
 					</c:if>
 				</c:forEach>
 				
