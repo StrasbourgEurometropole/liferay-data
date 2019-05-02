@@ -23,7 +23,7 @@
 						<img src='${entry.imageURL}' width="297" height="153" class="fit-cover" alt="${entry.getTitle(locale)}"/>
 				</#if>
 			</figure>
-			<span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
+			<span class="ops-typologie">${entry.getLabelTypologies(locale)}</span>
 		</div>
 		<div class="ops-content">
 			<span class="ops-songs"><strong>${entry.getComposer()}</strong></span>

@@ -20,7 +20,7 @@
         </figure>
 
         <div class="ops-content-wrapper ops-caption-concert">
-            <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
+            <span class="ops-typologie">${entry.getLabelTypologies(locale)}</span>
             <h1>${entry.getTitle(locale)}</h1>
 
             <div class="ops-cta-concert">
@@ -56,7 +56,7 @@
                         <time><span>${period.getDisplay(locale, false, true)}</span></time>
                         <div class="ops-horaires">${period.timeDetail}</div>
                         <h3>${entry.getTitle(locale)}</h3>
-                        <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
+                        <span class="ops-typologie">${entry.getLabelTypologies(locale)}</span>
                     </div>
                 </#list>
             </div>
@@ -133,7 +133,7 @@
                                                 <img src="${suggestion.imageURL}" width="330" height="170" alt="Nom du concert"/>
                                             </#if>
                                         </figure>
-                                        <span class="ops-typologie">${suggestion.getThemeLabel(locale)}</span>
+                                        <span class="ops-typologie">${suggestion.getLabelTypologies(locale)}</span>
                                     </div>
                                     <div class="ops-content">
                                         <span class="ops-songs"><strong>${suggestion.getComposer()}</strong></span>
