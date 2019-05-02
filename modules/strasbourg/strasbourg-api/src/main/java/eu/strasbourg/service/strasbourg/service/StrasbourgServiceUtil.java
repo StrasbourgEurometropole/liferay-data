@@ -41,6 +41,14 @@ public class StrasbourgServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean foldPortlet(java.lang.String portletId) {
+		return getService().foldPortlet(portletId);
+	}
+
+	public static boolean unfoldPortlet(java.lang.String portletId) {
+		return getService().unfoldPortlet(portletId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
 		java.lang.String address) {
 		return getService().getCoordinateForAddress(address);

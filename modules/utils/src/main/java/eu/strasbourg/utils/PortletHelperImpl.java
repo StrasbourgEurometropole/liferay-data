@@ -33,9 +33,21 @@ public class PortletHelperImpl implements PortletHelperService {
 		return PortletHelper.isPortletDisplayedOnDashboard(themeDisplay, cssClassNames);
 	}
 
-    public boolean showDeleteButtonOnDashboard(ThemeDisplay themeDisplay, String portletId) {
-	    return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, portletId);
-    }
+	public boolean showDeleteButtonOnDashboard(ThemeDisplay themeDisplay, String portletId) {
+		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, portletId);
+	}
+
+	/**
+	 * Retourne un boolean indiquant si le portlet doit être replié ou non en fonction des
+	 * préférences de l'utilisateur dans le portlet user display configuration
+	 */
+	public boolean isPortletFoldedOnDashboard(ThemeDisplay themeDisplay, String cssClassNames) {
+		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, cssClassNames);
+	}
+
+	public boolean showRetractableButtonOnDashboard(ThemeDisplay themeDisplay, String portletId) {
+		return PortletHelper.showRetractableButtonOnDashboard(themeDisplay, portletId);
+	}
 
 	public void showPortlet(String portletId) {
 		PortletHelper.showPortlet(portletId);

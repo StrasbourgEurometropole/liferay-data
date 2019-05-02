@@ -8,10 +8,7 @@
     .content{
         width: #{$container-width}px;
         margin: auto;
-
-        .delete-wi {
-            background-image: url( svg-bg-uri($svg-filled-close, #ffffff) );
-        }
+        padding: 0 75px;
 
         @include RWD(tablet){            
             border-bottom-left-radius: 0;

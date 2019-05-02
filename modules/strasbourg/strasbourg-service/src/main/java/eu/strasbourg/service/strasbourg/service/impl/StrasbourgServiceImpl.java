@@ -254,4 +254,14 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	public JSONObject getAlerts() {
 		return getAdictService().getAlerts();
 	}
+
+	@Override
+	public boolean unfoldPortlet(String portletId) {
+		return PortletHelper.unfoldPortlet(portletId);
+	}
+
+	@Override
+	public boolean foldPortlet(String portletId) {
+		return PortletHelper.foldPortlet(portletId);
+	}
 }

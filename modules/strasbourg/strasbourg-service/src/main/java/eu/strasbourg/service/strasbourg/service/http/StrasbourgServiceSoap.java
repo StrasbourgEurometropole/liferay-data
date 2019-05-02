@@ -347,5 +347,33 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static boolean unfoldPortlet(java.lang.String portletId)
+		throws RemoteException {
+		try {
+			boolean returnValue = StrasbourgServiceUtil.unfoldPortlet(portletId);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static boolean foldPortlet(java.lang.String portletId)
+		throws RemoteException {
+		try {
+			boolean returnValue = StrasbourgServiceUtil.foldPortlet(portletId);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }

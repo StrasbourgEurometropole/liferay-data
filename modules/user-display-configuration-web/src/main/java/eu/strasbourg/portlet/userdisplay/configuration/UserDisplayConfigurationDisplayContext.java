@@ -83,7 +83,7 @@ public class UserDisplayConfigurationDisplayContext {
                 JSONObject portletConfig = jsonConfig.getJSONObject(i);
                 String configPortletId = portletConfig.getString("portletId");
                 if (Validator.isNotNull(configPortletId) && configPortletId.equals(portletId)) {
-                    displayStatus = portletConfig.getString("status");
+                    displayStatus = portletConfig.getString("displayStatus");
                     break;
                 }
             }
@@ -91,6 +91,28 @@ public class UserDisplayConfigurationDisplayContext {
             ex.printStackTrace();
         }
         return displayStatus;
+    }
+
+    public String getPortletRetractableStatus(String portletId) {
+        String retractableStatus = "no-retractable";
+        String configurationString = this.configuration.adminConfig();
+        if (Validator.isNull(configurationString)) {
+            return retractableStatus;
+        }
+        try {
+            JSONArray jsonConfig = JSONFactoryUtil.createJSONArray(configurationString);
+            for (int i = 0; i < jsonConfig.length(); i++) {
+                JSONObject portletConfig = jsonConfig.getJSONObject(i);
+                String configPortletId = portletConfig.getString("portletId");
+                if (Validator.isNotNull(configPortletId) && configPortletId.equals(portletId)) {
+                    retractableStatus = portletConfig.getString("retractableStatus");
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return retractableStatus;
     }
     
     public String getPortletDisplayTitle(String portletId) {

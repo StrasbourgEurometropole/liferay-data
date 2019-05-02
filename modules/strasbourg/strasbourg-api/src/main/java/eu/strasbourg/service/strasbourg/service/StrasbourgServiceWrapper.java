@@ -33,6 +33,16 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public boolean foldPortlet(java.lang.String portletId) {
+		return _strasbourgService.foldPortlet(portletId);
+	}
+
+	@Override
+	public boolean unfoldPortlet(java.lang.String portletId) {
+		return _strasbourgService.unfoldPortlet(portletId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
 		java.lang.String address) {
 		return _strasbourgService.getCoordinateForAddress(address);
