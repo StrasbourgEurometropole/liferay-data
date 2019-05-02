@@ -20,7 +20,7 @@
 				<action-key>DELETE_PETITION</action-key>
 				<action-key>DELETE_BUDGET_PARTICIPATIF</action-key>
 				<action-key>DELETE_BUDGET_PHASE</action-key>
-				<action-key>DELETE_INITATIVE</action-key>
+				<action-key>DELETE_INITIATIVE</action-key>
 				<action-key>EDIT_PROJECT</action-key>
 				<action-key>EDIT_PARTICIPATION</action-key>
 				<action-key>EDIT_PETITION</action-key>

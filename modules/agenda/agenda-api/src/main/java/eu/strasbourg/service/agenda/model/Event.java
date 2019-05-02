@@ -229,6 +229,16 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
 
 	/**
+	* Retourne les typologie de l'événement (Catégorie du site de l'OPS)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypologies();
+
+	/**
+	* Retourne le label des typologies de l'événement (Catégorie du site de l'OPS)
+	*/
+	public java.lang.String getLabelTypologies(java.util.Locale locale);
+
+	/**
 	* Retourne le label des types de l'événement
 	*/
 	public java.lang.String getTypeLabel(java.util.Locale locale);

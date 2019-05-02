@@ -15,10 +15,12 @@
 package eu.strasbourg.service.project.service.impl;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -42,6 +44,7 @@ import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 
 /**
@@ -110,6 +113,48 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 		initiative = this.initiativeLocalService.updateInitiative(initiative);
 		
 		this.updateAssetEntry(initiative, sc);
+		this.reindex(initiative, false);
+
+		return initiative;
+	}
+	
+	/**
+     * Met à jour le statut de l'initiative "manuellement" (pas via le workflow)
+     */
+    @Override
+    public void updateStatus(Initiative initiative, int status) throws PortalException {
+        this.updateStatus(initiative.getUserId(), initiative.getInitiativeId(), status, null,
+                null);
+    }
+    
+    /**
+	 * Met à jour le statut de l'initiative par le framework workflow
+	 */
+	@Override
+	public Initiative updateStatus(long userId, long entryId, int status,
+								ServiceContext sc, Map<String, Serializable> workflowContext)
+			throws PortalException {
+		Date now = new Date();
+		// Statut de l'entité
+		Initiative initiative = this.getInitiative(entryId);
+		initiative.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			initiative.setStatusByUserId(user.getUserId());
+			initiative.setStatusByUserName(user.getFullName());
+		}
+		initiative.setStatusDate(new Date());
+		initiative = this.initiativeLocalService.updateInitiative(initiative);
+
+		// Statut de l'entry
+		AssetEntry entry = this.assetEntryLocalService
+				.getEntry(Initiative.class.getName(), initiative.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
+		this.assetEntryLocalService.updateAssetEntry(entry);
+
 		this.reindex(initiative, false);
 
 		return initiative;

@@ -141,4 +141,12 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
+	
+	public AssetVocabulary getEventTypologies(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.OPS_TYPOLOGIE, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
 }
