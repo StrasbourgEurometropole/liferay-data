@@ -3,7 +3,7 @@
 <c:set var="locale" value="${themeDisplay.getLocale() }" />
 
 <h1> ${dc.getPortletTitle('my-favorites')}</h1>
-<p class="chapo">${dc.getTexte()}</p>
+<p class="favoris__chapo">${dc.getTexte()}</p>
 <div class="generic-form">
 	<div class="widget favoris__filters">
 		<div class="title">
