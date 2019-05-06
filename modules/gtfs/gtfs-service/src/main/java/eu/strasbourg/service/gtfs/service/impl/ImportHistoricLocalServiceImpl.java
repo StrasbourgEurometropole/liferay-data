@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -289,6 +290,9 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 		String GTFSPath = StrasbourgPropsUtil.getGTFSPath();
 		
 		try {
+			Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
+			log.info("Starting import of GTFS files");
+			
 			// Recuperation des routes
 			Map<String, AgencyGTFS> mapAgencys;
 			mapAgencys = GTFSLoaderHelper.readAgencyData(GTFSPath);
@@ -316,6 +320,10 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 			// Recuperation des trips
 			Map<String, TripsGTFS> mapTrips;
 			mapTrips = GTFSLoaderHelper.readTripsData(GTFSPath);
+			
+			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
+			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
+			log.info("Finishing import of GTFS files in " + processTime + " seconds.");
 			
 		} catch (FileAccessException e) {
 			e.printStackTrace();
