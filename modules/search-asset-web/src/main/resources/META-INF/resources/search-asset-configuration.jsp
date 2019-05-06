@@ -310,6 +310,9 @@
                         <aui:option value="ops-agenda" selected="${searchForm eq 'ops-agenda'}">
                             <liferay-ui:message key="ops-agenda" />
                         </aui:option>
+                        <aui:option value="ops-general" selected="${searchForm eq 'ops-general'}">
+                            <liferay-ui:message key="ops-general" />
+                        </aui:option>
                     </aui:select>
 
                     <!-- Bouton exporter -->
