@@ -10,7 +10,9 @@
     <#else>
         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
         <#assign videoURL = currentURL?keep_before("strasbourg.eu") + "videos.strasbourg.eu/" />
-        <#if videoURL?split("://")?size == 2>
+        <#if videoURL?split("://www.")?size == 2>
+            <#assign videoURL = "http://" + videoURL?split("://www.")?last />
+        <#elseif videoURL?split("://")?size == 2>
             <#assign videoURL = "http://" + videoURL?split("://")?last />
         </#if>
     </#if>
