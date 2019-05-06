@@ -511,6 +511,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	/**
+	* Retourne l'adresse mail du depositaire s'il existe
+	*/
+	@Override
+	public java.lang.String getAuthorEmail() {
+		return _initiative.getAuthorEmail();
+	}
+
+	/**
 	* Retourne l'URL de l'image de l'utilisateur
 	*/
 	@Override
@@ -524,6 +532,14 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	@Override
 	public java.lang.String getAuthorLabel() {
 		return _initiative.getAuthorLabel();
+	}
+
+	/**
+	* Retourne le nom prenom du depositaire s'il existe
+	*/
+	@Override
+	public java.lang.String getAuthorNameLabel() {
+		return _initiative.getAuthorNameLabel();
 	}
 
 	/**

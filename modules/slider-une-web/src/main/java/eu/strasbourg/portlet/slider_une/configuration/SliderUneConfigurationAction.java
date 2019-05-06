@@ -26,6 +26,7 @@ import javax.portlet.PortletPreferences;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component(
@@ -51,11 +52,30 @@ public class SliderUneConfigurationAction
         if (cmd.equals("update")) {
 
             // Champs selectionnés
-            String classPKs = "";
+            String classPKsString = "";
             for (int i = 1; i < 25; i++) {
                 String classPK = ParamUtil.getString(request, "classPK_" + i);
                 if(Validator.isNotNull(classPK))
-                    classPKs += classPKs.length() > 0 ? "," + classPK : classPK;
+                    classPKsString += classPKsString.length() > 0 ? "," + classPK : classPK;
+            }
+            String classPKs = "";
+            if(!classPKsString.isEmpty()) {
+                for (String classPK : classPKsString.split(",")) {
+                    if(classPKs.isEmpty())
+                        classPKs = classPK;
+                    else {
+                        // Vérifie si le contenu web a le tag "focus"
+                        AssetEntry journalArticleEntry = null;
+                        journalArticleEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(),
+                                Long.parseLong(classPK));
+                        if (journalArticleEntry != null && Arrays.toString(journalArticleEntry.getTagNames()).contains("focus")){
+                            // on insert l'élément au début du String
+                            classPKs = classPK + "," + classPKs;
+                        }else{
+                            classPKs = classPKs + "," + classPK;
+                        }
+                    }
+                }
             }
             setPreference(request, "classPKs", classPKs);
 
@@ -101,14 +121,30 @@ public class SliderUneConfigurationAction
             int index = 0;
             if(!classPKsString.isEmpty()) {
                 for (String classPK : classPKsString.split(",")) {
-                    // Vérifie si l'évènement ou le contenu web n'est pas dépublié
+                    // Vérifie si le contenu web n'est pas dépublié
                     AssetEntry journalArticleEntry = null;
                     journalArticleEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(),
                             Long.parseLong(classPK));
                     if (journalArticleEntry != null && journalArticleEntry.isVisible()) {
-                        classPKs[index] = classPK;
+                        // Vérifie si le contenu web a le tag "focus"
+                        if(Arrays.toString(journalArticleEntry.getTagNames()).contains("focus")){
+                            // on déplace de 2 tous les éléments du tableau
+                            for (int i = classPKs.length - 1; i >= 0; i--){
+                                if(i >= 22)
+                                    i = 21;
+                                classPKs[i+2] = classPKs[i];
+                            }
+                            // on insert l'élément au début du tableau
+                            classPKs[0] = classPK;
+                            // on rend null le 2me élément
+                            classPKs[1] = null;
+                            index++;
+                        }else {
+                            classPKs[index] = classPK;
+                        }
                         index++;
                     }
+                    // Vérifie si l'évènement n'est pas dépublié
                     AssetEntry eventEntry = null;
                     eventEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
                             Long.parseLong(classPK));
@@ -116,7 +152,6 @@ public class SliderUneConfigurationAction
                         classPKs[index] = classPK;
                         index++;
                     }
-
                 }
             }
             request.setAttribute("classPKs", classPKs);

@@ -41,6 +41,7 @@ import eu.strasbourg.service.project.model.Initiative;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Initiative. Methods of this
@@ -189,6 +190,13 @@ public interface InitiativeLocalService extends BaseLocalService,
 	* @throws IOException
 	*/
 	public Initiative updateInitiative(Initiative initiative, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut de l'initiative par le framework workflow
+	*/
+	public Initiative updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
 		throws PortalException;
 
 	/**
@@ -390,4 +398,10 @@ public interface InitiativeLocalService extends BaseLocalService,
 	* Recherche par mot clés (compte)
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Met à jour le statut de l'initiative "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Initiative initiative, int status)
+		throws PortalException;
 }

@@ -408,6 +408,20 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		}
 		listPlaceSchedules = listPlaceSchedules.stream()
 				.sorted((s1, s2) -> s1.getStartDate().compareTo(s2.getStartDate())).collect(Collectors.toList());
+
+		// On retire les fermetures exceptionnelles si le lieu est fermé
+		for (int i = 0; i < listPlaceSchedules.size(); i++) {
+			PlaceSchedule exception = listPlaceSchedules.get(i);
+			if (exception.getStartDate().compareTo(exception.getEndDate()) == 0){
+				GregorianCalendar calendar = new GregorianCalendar();
+				calendar.setTime(exception.getStartDate());
+				if(this.getParentPlace().isClosed(calendar)) {
+					listPlaceSchedules.remove(i);
+					i--;
+				}
+			}
+		}
+
 		return listPlaceSchedules;
 	}
 
@@ -417,25 +431,19 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 */
 	@Override
 	public List<PlaceSchedule> getSubPlaceScheduleExceptionFreeMarker(Date dateDeb, Boolean surPeriode, Locale locale) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateDeb);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date newDateDeb = cal.getTime();
 		GregorianCalendar premierJour = new GregorianCalendar();
 		premierJour.setTime(dateDeb);
 		List<PlaceSchedule> exceptions = getSubPlaceScheduleException(premierJour, surPeriode, locale);
 
-		exceptions = exceptions.stream().filter(e -> e.getEndDate().compareTo(dateDeb) >= 0)
+		exceptions = exceptions.stream().filter(e -> e.getEndDate().compareTo(newDateDeb) >= 0)
 				.collect(Collectors.toList());
-
-		// On retire les fermetures exceptionnelles si le lieu est fermé
-		for (int i = 0; i < exceptions.size(); i++) {
-			PlaceSchedule exception = exceptions.get(i);
-			if (exception.getStartDate().compareTo(exception.getEndDate()) == 0){
-			    GregorianCalendar calendar = new GregorianCalendar();
-			    calendar.setTime(exception.getStartDate());
-				if(this.getParentPlace().isClosed(calendar)) {
-					exceptions.remove(i);
-					i--;
-				}
-			}
-		}
 
 		return exceptions;
 	}
