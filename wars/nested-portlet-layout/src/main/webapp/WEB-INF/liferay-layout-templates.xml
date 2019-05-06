@@ -3,9 +3,9 @@
 
 <layout-templates>
 	<custom>
-		<layout-template id="home-mon-strasbourg-layout" name="1 colonne">
-			<template-path>/home-mon-strasbourg-layout.ftl</template-path>
-			<thumbnail-path>/home-mon-strasbourg-layout.png</thumbnail-path>
+		<layout-template id="nested-portlet-layout" name="nested-portlet-layout">
+			<template-path>/nested-portlet-layout.ftl</template-path>
+			<thumbnail-path>/nested-portlet-layout.png</thumbnail-path>
 		</layout-template>
 	</custom>
 </layout-templates>
