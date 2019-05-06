@@ -87,6 +87,14 @@ public class DemarchesWebPortlet extends MVCPortlet {
 			renderRequest.setAttribute("showDeleteButton",
 					PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));
 
+			// Affichage ou non de l'accordéon
+			renderRequest.setAttribute("showRetractableButton",
+					PortletHelper.showRetractableButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));
+
+			// Affichage ou non de l'accordéon
+			renderRequest.setAttribute("isFolded",
+					PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));
+
 			super.render(renderRequest, renderResponse);
 		} catch (Exception e) {
 			_log.error(e);
