@@ -347,12 +347,10 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static boolean unfoldPortlet(java.lang.String portletId)
+	public static void unfoldPortlet(java.lang.String portletId)
 		throws RemoteException {
 		try {
-			boolean returnValue = StrasbourgServiceUtil.unfoldPortlet(portletId);
-
-			return returnValue;
+			StrasbourgServiceUtil.unfoldPortlet(portletId);
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -361,12 +359,10 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static boolean foldPortlet(java.lang.String portletId)
+	public static void foldPortlet(java.lang.String portletId)
 		throws RemoteException {
 		try {
-			boolean returnValue = StrasbourgServiceUtil.foldPortlet(portletId);
-
-			return returnValue;
+			StrasbourgServiceUtil.foldPortlet(portletId);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

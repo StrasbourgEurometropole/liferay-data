@@ -101,10 +101,9 @@ public class PortletHelper {
 	}
 
 	/**
-	 * Retourne un boolean indiquant si le portlet doit être affiché replié ou non en
-	 * fonction des préférences de l'utilisateur dans le portlet user display
-	 * configuration
-	 *
+	 * Retourne un boolean indiquant si le portlet doit être affiché plié ou non en
+	 * fonction des préférences de l'utilisateur dans le widget ou en fonction
+	 * de la configuration si ce dernier n'a pas effectué d'action sur le portlet
 	 */
 	public static boolean isPortletFoldedOnDashboard(ThemeDisplay themeDisplay, String portletId) {
 
@@ -117,23 +116,23 @@ public class PortletHelper {
 		boolean result = Validator.isNull(adminStatus) || adminStatus.equals("retractable-folded");
 		if (internalId != null && !internalId.equals("")) {
 			// Portlets à repliés et dépliés
-			List<String> foldedPortlets = new ArrayList<String>();
-			List<String> unfoldedPortlets = new ArrayList<String>();
+			List<String> foldenPortlets = new ArrayList<String>();
+			List<String> unfoldenPortlets = new ArrayList<String>();
 			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
 
 			try {
 				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
-				JSONArray foldedPortletsJsonArray = json.getJSONArray("foldedPortlets");
-				JSONArray unfoldedPortletsJsonArray = json.getJSONArray("unfoldedPortlets");
-				if (foldedPortletsJsonArray != null) {
-					foldedPortletsJsonArray.forEach(t -> foldedPortlets.add((String) t));
+				JSONArray foldenPortletsJsonArray = json.getJSONArray("foldenPortlets");
+				JSONArray unfoldenPortletsJsonArray = json.getJSONArray("unfoldenPortlets");
+				if (foldenPortletsJsonArray != null) {
+					foldenPortletsJsonArray.forEach(t -> foldenPortlets.add((String) t));
 				}
-				if (unfoldedPortletsJsonArray != null) {
-					unfoldedPortletsJsonArray.forEach(t -> unfoldedPortlets.add((String) t));
+				if (unfoldenPortletsJsonArray != null) {
+					unfoldenPortletsJsonArray.forEach(t -> unfoldenPortlets.add((String) t));
 				}
-				if (foldedPortlets.contains(portletId)) {
+				if (foldenPortlets.contains(portletId)) {
 					return true;
-				} else if (unfoldedPortlets.contains(portletId)) {
+				} else if (unfoldenPortlets.contains(portletId)) {
 					return false;
 				} else {
 					return result;
@@ -149,10 +148,10 @@ public class PortletHelper {
 
 	public static boolean showRetractableButtonOnDashboard(ThemeDisplay themeDisplay, String portletId) {
 		String adminConfig = getDashboardPortletStatusFromAdminConfig(themeDisplay, portletId)[1];
-		if (adminConfig.equals("retractable-unfolded") || adminConfig.equals("retractable-folded")) {
-			return true;
+		if (adminConfig.equals("no-retractable")) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	private static String[] getDashboardPortletStatusFromAdminConfig(ThemeDisplay themeDisplay, String portletId) {
@@ -185,7 +184,6 @@ public class PortletHelper {
     public static void showPortlet(String portletId) {
 	    togglePortlet(portletId, true);
     }
-
 
     public static void hidePortlet(String portletId) {
         togglePortlet(portletId, false);
@@ -260,79 +258,80 @@ public class PortletHelper {
 		}
 	}
 
-
-	public static boolean unfoldPortlet(String portletId) {
-		return toggleFoldPortlet(portletId, false);
+	public static void unfoldPortlet(String portletId) {
+		toggleFoldPortlet(portletId, false);
 	}
 
-
-	public static boolean foldPortlet(String portletId) {
-		return toggleFoldPortlet(portletId, true);
+	public static void foldPortlet(String portletId) {
+		toggleFoldPortlet(portletId, true);
 	}
 
-	public static boolean toggleFoldPortlet(String portletId, boolean fold) {
-		// Récupération de l'état des portlets dans la session
-		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-		String retractableStatus = SessionParamUtil.getString(request, "retractable_status");
+	public static void toggleFoldPortlet(String portletId, boolean fold) {
+        // Récupération du publik ID avec la session
+        HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+        String internalId = SessionParamUtil.getString(request, "publik_internal_id");
 
-		if (Validator.isNotNull(retractableStatus)) {
-			try {
-				JSONObject json = JSONFactoryUtil.createJSONObject(retractableStatus);
-				JSONArray foldenPortletsJsonArray;
-				if (json.has("foldenPortlets")) {
-					foldenPortletsJsonArray = json.getJSONArray("foldenPortlets");
-				}  else {
-					foldenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
-				}
+        if (internalId != null && !internalId.equals("")) {
+            PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+            try {
+                // JSON initialisation
+                String userConfigString = user.getDisplayConfig();
+                if (Validator.isNull(userConfigString)) {
+                    userConfigString = "{\"foldenPortlets\":[], \"unfoldenPortlets\":[]}";
+                }
 
-				JSONArray unfoldenPortletsJsonArray;
-				if (json.has("unfoldenPortlets")) {
-					unfoldenPortletsJsonArray = json.getJSONArray("unfoldenPortlets");
-				} else {
-					unfoldenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
-				}
+                JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+                JSONArray foldenPortletsJsonArray;
+                if (json.has("foldenPortlets")) {
+                    foldenPortletsJsonArray = json.getJSONArray("foldenPortlets");
+                }  else {
+                    foldenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
+                }
 
-				List<String> foldenPortletIds = new ArrayList<String>();
-				foldenPortletsJsonArray.forEach(a -> foldenPortletIds.add((String)a));
+                JSONArray unfoldenPortletsJsonArray;
+                if (json.has("unfoldenPortlets")) {
+                    unfoldenPortletsJsonArray = json.getJSONArray("unfoldenPortlets");
+                } else {
+                    unfoldenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
+                }
 
-				List<String> unfoldenPortletIds = new ArrayList<String>();
-				unfoldenPortletsJsonArray.forEach(a -> unfoldenPortletIds.add((String)a));
+                List<String> foldenPortletIds = new ArrayList<String>();
+                foldenPortletsJsonArray.forEach(a -> foldenPortletIds.add((String)a));
 
-				if (fold) {
-					if (foldenPortletIds.contains(portletId)) {
-						foldenPortletIds.remove(portletId);
-					}
-					if (!unfoldenPortletIds.contains(portletId)) {
-						unfoldenPortletIds.add(portletId);
-					}
-				} else {
+                List<String> unfoldenPortletIds = new ArrayList<String>();
+                unfoldenPortletsJsonArray.forEach(a -> unfoldenPortletIds.add((String)a));
+
+                if (fold) {
 					if (unfoldenPortletIds.contains(portletId)) {
 						unfoldenPortletIds.remove(portletId);
 					}
 					if (!foldenPortletIds.contains(portletId)) {
 						foldenPortletIds.add(portletId);
 					}
-				}
+                } else {
+					if (foldenPortletIds.contains(portletId)) {
+						foldenPortletIds.remove(portletId);
+					}
+					if (!unfoldenPortletIds.contains(portletId)) {
+						unfoldenPortletIds.add(portletId);
+					}
+                }
 
-				JSONArray newFoldenPortletJsonArray = JSONFactoryUtil.createJSONArray();
-				foldenPortletIds.forEach(a -> newFoldenPortletJsonArray.put(a));
+                JSONArray newFoldenPortletJsonArray = JSONFactoryUtil.createJSONArray();
+                foldenPortletIds.forEach(a -> newFoldenPortletJsonArray.put(a));
 
-				JSONArray newUnfoldenPortletJsonArray = JSONFactoryUtil.createJSONArray();
-				unfoldenPortletIds.forEach(a -> newUnfoldenPortletJsonArray.put(a));
+                JSONArray newUnfoldenPortletJsonArray = JSONFactoryUtil.createJSONArray();
+                unfoldenPortletIds.forEach(a -> newUnfoldenPortletJsonArray.put(a));
 
-				// Enregistrement des préférences utilisateur.
-				json.put("foldenPortlets", newFoldenPortletJsonArray);
-				json.put("unFoldenPortlets", newUnfoldenPortletJsonArray);
+                // Enregistrement des préférences utilisateur.
+                json.put("foldenPortlets", newFoldenPortletJsonArray);
+                json.put("unfoldenPortlets", newUnfoldenPortletJsonArray);
 
-				request.getSession().setAttribute("retractable_status", json.toJSONString());
-			} catch (JSONException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}else{
-			return false;
-		}
-
-		return true;
+                user.setDisplayConfig(json.toJSONString());
+                PublikUserLocalServiceUtil.updatePublikUser(user);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 }

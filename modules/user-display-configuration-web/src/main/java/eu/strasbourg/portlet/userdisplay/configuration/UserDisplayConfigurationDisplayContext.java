@@ -16,6 +16,7 @@ import eu.strasbourg.utils.PortletHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDisplayConfigurationDisplayContext {
 
@@ -42,6 +43,7 @@ public class UserDisplayConfigurationDisplayContext {
                                 "/accueil");
                 LayoutTypePortlet layoutTypePortlet = LayoutTypePortletFactoryUtil.create(layout);
                 portletIds = layoutTypePortlet.getPortletIds();
+
             } catch (PortalException e) {
                 e.printStackTrace();
                 portletIds = new ArrayList();

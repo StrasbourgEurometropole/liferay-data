@@ -574,7 +574,7 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
-	public static boolean unfoldPortlet(HttpPrincipal httpPrincipal,
+	public static void unfoldPortlet(HttpPrincipal httpPrincipal,
 		java.lang.String portletId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
@@ -582,16 +582,12 @@ public class StrasbourgServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
 
-			Object returnObj = null;
-
 			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
-
-			return ((Boolean)returnObj).booleanValue();
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -600,7 +596,7 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
-	public static boolean foldPortlet(HttpPrincipal httpPrincipal,
+	public static void foldPortlet(HttpPrincipal httpPrincipal,
 		java.lang.String portletId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
@@ -608,16 +604,12 @@ public class StrasbourgServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
 
-			Object returnObj = null;
-
 			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
-
-			return ((Boolean)returnObj).booleanValue();
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);

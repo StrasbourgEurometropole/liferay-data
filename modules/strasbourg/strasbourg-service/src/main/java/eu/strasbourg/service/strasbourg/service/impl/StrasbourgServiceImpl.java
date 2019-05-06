@@ -256,12 +256,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
-	public boolean unfoldPortlet(String portletId) {
-		return PortletHelper.unfoldPortlet(portletId);
+	public void unfoldPortlet(String portletId) {
+		PortletHelper.unfoldPortlet(portletId);
 	}
 
 	@Override
-	public boolean foldPortlet(String portletId) {
-		return PortletHelper.foldPortlet(portletId);
+	public void foldPortlet(String portletId) {
+		PortletHelper.foldPortlet(portletId);
 	}
 }

@@ -19,8 +19,9 @@
 				<c:forEach items="${dc.portletIds}" var="portletId" varStatus="loopStatus">
                     <div class="portlet-display-controls">
                         <div class="portlet-display-mode" data-portlet-id="${portletId}">
-                            <label>${dc.portletTitles.get(loopStatus.index)}<span style="font-weight: normal;"> - ${portletId}</span></label>
+                            <label>${dc.portletTitles.get(loopStatus.index)}<span style="font-weight: normal;"> - ${portletId}</span></label><br>
                             <c:set var="displayStatus" value="${dc.getPortletDisplayStatus(portletId)}" />
+                            <label><liferay-ui:message key="display-status" /></label>
                             <aui:input type="radio"
                                name="display_${portletId}"
                                value="on_hidden"
@@ -42,6 +43,7 @@
                                label="off"
                                checked="${displayStatus eq 'off'}"  />
                             <c:set var="retractableStatus" value="${dc.getPortletRetractableStatus(portletId)}" />
+                            <label><liferay-ui:message key="retractable-status" /></label>
                             <aui:input type="radio"
                                name="retractable_${portletId}"
                                value="no-retractable"
@@ -76,7 +78,7 @@
 </div>
 
 <script>
-	$('input[id=radio]input[name^=display_]').on('change', function() {
+	$('input[type=radio]input[name*=_display_]').on('change', function() {
         var portletId = $(this).closest('.portlet-display-mode').data('portletId');
         var divToToggle =  $('.portlet-metadata-inputs[data-portlet-id=' + portletId + ']');
 		if ($(this).val() === 'on_hidden') {

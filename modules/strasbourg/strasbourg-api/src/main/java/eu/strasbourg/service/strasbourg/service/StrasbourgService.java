@@ -52,10 +52,6 @@ public interface StrasbourgService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link StrasbourgServiceUtil} to access the strasbourg remote service. Add custom service methods to {@link eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public boolean foldPortlet(java.lang.String portletId);
-
-	public boolean unfoldPortlet(java.lang.String portletId);
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCoordinateForAddress(java.lang.String address);
 
@@ -130,5 +126,9 @@ public interface StrasbourgService extends BaseService {
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
 
+	public void foldPortlet(java.lang.String portletId);
+
 	public void hidePortlet(java.lang.String portletId);
+
+	public void unfoldPortlet(java.lang.String portletId);
 }
