@@ -1055,10 +1055,12 @@ public class EventImpl extends EventBaseImpl {
 	 *
 	 * @param request  la requete
 	 * @param nbSuggestions le nombre de suggestions.
+	 * @param tag le tag a appliquer
+	 * @param category la categorie a appliquer
 	 * @return la liste d'événements.
 	 */
 	@Override
-	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions, String tag) throws SearchException, PortalException {
+	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions, String tag, String category) throws SearchException, PortalException {
 		
 		List<Event> suggestions = new ArrayList<>();
 		
@@ -1087,10 +1089,17 @@ public class EventImpl extends EventBaseImpl {
 				query.add(tagQuery, BooleanClauseOccur.MUST);
 			}
 			
+			List<AssetCategory> categories = new ArrayList<AssetCategory>();
+			
+			if(category.equals("theme"))
+				categories = this.getThemes();
+			else if(category.equals("typologie"))
+				categories = this.getTypologies();
+			
 			//La suggestion se fait uniquement sur la même catégorie "thème"
-			for (AssetCategory category : this.getThemes()) {
+			for (AssetCategory cat : categories) {
 				BooleanQuery categoryQuery = new BooleanQueryImpl();
-				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(cat.getCategoryId()));
 				query.add(categoryQuery, BooleanClauseOccur.MUST);
 			}
 			
