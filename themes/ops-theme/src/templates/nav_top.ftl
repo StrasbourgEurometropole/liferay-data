@@ -82,7 +82,7 @@
             <!-- Header right (Réseaux sociaux + Calendrier + Recherche) -->
             <div class="ops-header-right">
                 <ul class="ops-social">
-                    <li><a href="https://www.instagram.com/strasbourg_eurometropole/?hl=fr" title="Lien externe vers le compte Instagram" target="_blank" aria-label="Compte Instagram"><span
+                    <li><a href="https://www.instagram.com/philharmonique_de_strasbourg" title="Lien externe vers le compte Instagram" target="_blank" aria-label="Compte Instagram"><span
                                 class="icon-ico-instagram"></span></a></li>
 
                     <li><a href="https://twitter.com/OPStrasbourg" title="Lien externe vers la page Twitter" target="_blank" aria-label="Compte Twitter"><span class="icon-ico-twitter"></span></a></li>
