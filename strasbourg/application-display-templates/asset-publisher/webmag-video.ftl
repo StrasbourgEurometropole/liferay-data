@@ -8,13 +8,7 @@
     <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign videoURL = "/web${videoFriendlyURL}/" />
     <#else>
-        <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
-        <#assign videoURL = currentURL?keep_before("strasbourg.eu") + "videos.strasbourg.eu/" />
-        <#if videoURL?split("://www.")?size == 2>
-            <#assign videoURL = "http://" + videoURL?split("://www.")?last />
-        <#elseif videoURL?split("://")?size == 2>
-            <#assign videoURL = "http://" + videoURL?split("://")?last />
-        </#if>
+        <#assign videoURL = "http://videos.strasbourg.eu/" />
     </#if>
 
     <#assign entry = curEntry.getAssetRenderer().getVideo() />
