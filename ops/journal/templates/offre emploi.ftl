@@ -65,7 +65,7 @@
                         </#if>
                     </#if>
                     
-                    <div class="ops-scrollto">
+                    <div class="ops-noscrollto">
                         <#list rightBlockTitle.getChild("rightBlockLinkTitle").getSiblings() as cur_linkTitle>
                              <#if cur_linkTitle.getData()?has_content>
                                 <a href="${cur_linkTitle.getChild("rightBlockLinkURL").getData()}" 
