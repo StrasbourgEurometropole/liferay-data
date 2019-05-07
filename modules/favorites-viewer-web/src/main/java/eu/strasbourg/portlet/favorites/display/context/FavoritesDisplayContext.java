@@ -284,6 +284,14 @@ public class FavoritesDisplayContext {
 		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
 
+	public boolean showRetractableButton() {
+		return PortletHelper.showRetractableButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
+
+	public boolean isFolded() {
+		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
+
 	public boolean isFavoriteOnDashboard(long favoriteId) {
 		Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(favoriteId);
 		if(Validator.isNotNull(favorite) && favorite.isOnDashboard()){
