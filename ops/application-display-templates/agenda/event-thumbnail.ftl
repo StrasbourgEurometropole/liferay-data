@@ -7,6 +7,7 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+
 <a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" class="ops-card ops-card-concert">
 	<div>
 		<time>
