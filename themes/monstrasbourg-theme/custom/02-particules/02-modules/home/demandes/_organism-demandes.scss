@@ -20,6 +20,10 @@
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #ffffff) );
     }
+    
+    .detail{
+        width: 100%;
+    }
 
     .bloc-demarches{
         display: flex;

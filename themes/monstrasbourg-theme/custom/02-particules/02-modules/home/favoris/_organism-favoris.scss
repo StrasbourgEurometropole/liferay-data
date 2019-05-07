@@ -1,0 +1,67 @@
+%organism-favoris{
+
+    @extend %molecule-home-section;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+
+    h2{
+        color: white; 
+
+        &:before{
+            background-image: url( svg-bg-uri($svg-wave, white) );
+        }
+    }
+
+    .detail{
+        text-align: center;
+    }
+
+    .favoris-grid{
+
+        p{
+            font-size: 1.8rem;
+            color: #5c5c5c;
+            margin-bottom: 20px;
+        }
+
+        .favoris-teaser{
+            margin-bottom: 30px;
+            text-align: left;
+            padding: 25px 25px 90px;
+            background-color: white;
+
+            &__trash{
+                bottom: 30px;
+                justify-content: center;
+                width: 100%;
+            }
+
+            &:after{
+                left: 25px;
+                right: 25px;
+                bottom: 70px;
+            }
+        }
+
+        @include RWD(desktop){
+           @include grid-distribution(4, 20, favoris-teaser);
+        }
+        @include RWD(tablet_only){
+           @include grid-distribution(2, 20, favoris-teaser);
+        }
+        @include RWD(mobile){
+           @include grid-distribution(1, 0, favoris-teaser);
+        }
+    }
+
+    .btn-square--filled--core{
+        background:$second-color;
+
+        .btn-text{
+            color:$core-color;
+        }
+    } 
+
+    margin-bottom: 40px;
+}

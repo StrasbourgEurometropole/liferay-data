@@ -128,6 +128,6 @@
             </c:forEach>
 
         </div>
-        <a href="${showAllURL}" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text"><liferay-ui:message key="all-favorites" /></span><span class="btn-arrow"></span></span></a>
+        <a href="${showAllURL}" class="btn-square--filled--core"><span class="flexbox"><span class="btn-text"><liferay-ui:message key="all-favorites" /></span><span class="btn-arrow"></span></span></a>
     </div>
 </section>

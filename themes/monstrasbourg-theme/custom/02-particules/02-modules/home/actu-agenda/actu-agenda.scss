@@ -1,5 +1,9 @@
 #actu-agenda{
     @extend %organism-actu-agenda;
+
+    div.buttons{
+        width: calc(100% - 75px);
+    }
 }
 
 #actu-agenda-no-interest {

@@ -1,11 +1,7 @@
 #wi-aroundme{
     @extend %molecule-home-section;
-    box-shadow: none;
-    padding: 0;
     z-index: 5;
-    h2:before{
-        display: none;
-    }
+    
     #aroundme{
         z-index: 10;
         overflow: hidden;

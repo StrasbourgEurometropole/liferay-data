@@ -29,7 +29,7 @@
 	    	${district.getTitle(locale)}
 	    </h2>
 	</c:if>
-	<section id="wi-aroundme">
+	<section id="wi-aroundme" class="no-widget">
 		<div id="aroundme">
 			<c:if test="${showConfig}">
 		    	<div id="aroundme__top">

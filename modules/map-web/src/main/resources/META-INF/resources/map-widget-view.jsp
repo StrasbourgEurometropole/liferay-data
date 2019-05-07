@@ -19,7 +19,27 @@
 </liferay-util:html-bottom>
 
 <section id="wi-aroundme">
+    <%-- Récupère le fait de plier ou déplier ce widget dans la config de la personnalisation --%>
+    <c:set value="${dc.isFolded()}" var="isFolded" />
+    <div class="buttons">
+        <%-- Vérifie si ce widget peut être plié dans la config de la personnalisation --%>
+        <c:if test="${dc.showRetractableButton()}">
+            <button class="${isFolded?'retractable-folded-wi':'retractable-unfolded-wi'}" data-portlet-id="${themeDisplay.portletDisplay.id}"style="top: 0;"></button>
+        </c:if>
+        <%-- Vérifie si ce widget peut être masqué dans la config de la personnalisation --%>
+        <c:if test="${dc.showDeleteButton()}">
+            <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"style="top: 0;"></button>
+        </c:if>
+    </div>
+
+    <h2>${title}</h2>
     <div class="detail" ${dc.isFolded()?'style="display: none;"':''}>
+        <div class="meta" style="position: relative;">
+            <p class="subtitle">${widgetIntro}</p>
+            <div class="btn-line">
+                <a href="${widgetLink}" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Modifier ma carte</span><span class="btn-arrow"></span></span></a>
+            </div>
+        </div>
         <div id="aroundme">
 
             <div id="aroundme__center">
@@ -51,23 +71,4 @@
             </div>
         </div>
     </div>
-    <div class="meta" style="position: relative;">
-        <%-- Récupère le fait de plier ou déplier ce widget dans la config de la personnalisation --%>
-        <c:set value="${dc.isFolded()}" var="isFolded" />
-        <div class="buttons">
-            <%-- Vérifie si ce widget peut être plié dans la config de la personnalisation --%>
-            <c:if test="${dc.showRetractableButton()}">
-                <button class="${isFolded?'retractable-folded-wi':'retractable-unfolded-wi'}" data-portlet-id="${themeDisplay.portletDisplay.id}"style="top: 0;"></button>
-            </c:if>
-            <%-- Vérifie si ce widget peut être masqué dans la config de la personnalisation --%>
-            <c:if test="${dc.showDeleteButton()}">
-                <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"style="top: 0;"></button>
-            </c:if>
-        </div>
-
-        <h2>${title}</h2>
-        <p class="subtitle">${widgetIntro}</p>
-        <div class="btn-line">
-            <a href="${widgetLink}" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Modifier ma carte</span><span class="btn-arrow"></span></span></a>
-        </div></div>
 </section>
