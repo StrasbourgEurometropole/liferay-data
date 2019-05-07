@@ -158,7 +158,14 @@ public class DashboardPortlet extends MVCPortlet {
             template = "widget";
             boolean showDeleteButton = PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
             request.setAttribute("showDeleteButton", showDeleteButton);
+
+            boolean showRetractableButton = PortletHelper.showRetractableButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+            request.setAttribute("showRetractableButton", showRetractableButton);
+
+            boolean isFolded = PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+            request.setAttribute("isFolded", isFolded);
         }
+
         include("/" + template + ".jsp", request, response);
     }
 
