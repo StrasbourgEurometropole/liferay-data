@@ -91,15 +91,17 @@
                                 class="icon-ico-facebook"></span></a></li>
                 </ul>
                 <a href="${themeDisplay.getPortalURL()}${homeURL}agenda" class="link-calendar" aria-label="Agenda des concerts"><span class="icon-ico-calendar"></span></a>
-                <#-- <a href="#SearchOnSite" class="link-search" aria-label="Ouvrir la barre de recherche"><span class="icon-ico-search"></span></a> -->
+                <a href="#SearchOnSite" class="link-search" aria-label="Ouvrir la barre de recherche"><span class="icon-ico-search"></span></a>
             </div>
 
 
             <!-- Formulaire de recherche -->
             <div class="ops-search-form">
-                <form method="get" action="../search.php">
+                <form method="get" action="${themeDisplay.getPortalURL()}${homeURL}recherche">
                     <label for="ops-search" style="display: none;">Rechercher</label>
-                    <input type="text" id="ops-search" name="ops-search-form" placeholder="Rechercher..."/>
+                    <input type="text" id="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords-search" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher..."/>
+                    <input type="hidden" id="p_p_id" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet"/>
+                    <input type="hidden" id="p_p_lifecycle" name="p_p_lifecycle" value="1"/>
                     <button type="submit" aria-label="Rechercher sur le site"><span class="icon-ico-search"></span></button>
                 </form>
                 <a href="#closeForm" aria-label="Fermer la recherche"><span class="icon-ico-cross"></span></a>
