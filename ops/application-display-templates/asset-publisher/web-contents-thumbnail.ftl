@@ -1,6 +1,6 @@
 <!-- VIGNETTE DE WEB CONTENTS POUR LA RECHERCHE GLOBALE -->
 
-<!-- Chargement de la variable de localisation -->
+<#-- Chargement de la variable de localisation -->
 <#setting locale = locale />
 
 <#-- Récupération de l'XML du contenu web -->
@@ -48,6 +48,7 @@
         </div>
     </a>
 
+<!-- VIGNETTE MEMBRE -->
 <#elseif name?has_content && post?has_content >
     <#-- Si pas de page de detail, alors vignette non cliquable-->
     <#if detailURL?has_content>
