@@ -12,7 +12,7 @@
         	<liferay-ui:message key="eu.search.asset.web.ops.general.your.research" />
         </h1>
         <span class="ops-numbers-results">
-        	<strong>${dc.pager.count}</strong> <liferay-ui:message key="eu.search.asset.web.ops.general.results" />
+        	<strong>0</strong> <liferay-ui:message key="eu.search.asset.web.ops.general.results" />
         </span>
     </div>
 </header>
@@ -224,6 +224,10 @@
 		</div>
 	</div>
 </div> --%>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetweb/js/ops-general.js"></script>
+</liferay-util:html-bottom>
 
 <style>
 .open>.dropdown-menu {
