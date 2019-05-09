@@ -3,6 +3,7 @@
     border-radius: 0;
     box-shadow: none;
     background-color: transparent;
+    padding: 45px 0;
 
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
@@ -17,7 +18,9 @@
     .pro-bloc-dashboard{
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-between;
+        align-items: flex-start;
         text-align: center;
         font-family: $montserrat;
         color: $core-color;
@@ -50,7 +53,14 @@
             flex-direction: column;
             justify-content: space-between;
             color: white;
-            width: calc(25% - 5px);
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
+                margin-bottom: 20px;
+            }
+            @include RWD(mobile){
+                width: 100%;
+            }
 
             .btn-square--bordered--core{
                 &:before{
@@ -74,6 +84,7 @@
 
             .projects{
                 background-color: $core-color;
+                margin-bottom: 20px;
             }
 
             .events{
@@ -81,26 +92,43 @@
             }
         }
 
-        .petitions-initiatives{
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            width: 50%;
+        .petitions{
+            background-color: white;
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
 
-            .petitions{
-                width: calc(50% - 10px);;
-                background-color: white;
+                .form-group:nth-of-type(1){
+                    margin-bottom: 66px;
+                }
             }
+            @include RWD(mobile){
+                width: 100%;
+                margin-bottom: 20px;
 
-            .initiatives{
-                width: calc(50% - 10px);;
-                background-color: white;
+                .form-group:nth-of-type(1){
+                    margin-bottom: 0;
+                }
             }
+        }
 
-            .acces-site .form-group{
-                padding: 0;
-                margin-top: 15px;
+        .initiatives{
+            background-color: white;
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
+
+                .form-group:nth-of-type(1){
+                    margin-bottom: 68px;
+                }
+            }
+            @include RWD(mobile){
+                width: 100%;
+                margin-bottom: 20px;
+
+                .form-group:nth-of-type(1){
+                    margin-bottom: 0;
+                }
             }
         }
 
@@ -108,7 +136,13 @@
             display: flex;
             flex-direction: column;
             background-color: $second-color;
-            width: calc(25% - 5px);
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
+            }
+            @include RWD(mobile){
+                width: 100%;
+            }
 
             .budget-reste{
                 background-color: $third-color;
@@ -119,6 +153,22 @@
                 span{
                     line-height: 20px;
                 }
+            }
+        }
+
+        .acces-site{
+            width: 50%;
+            margin: auto;
+            margin-top: -68px;
+
+            @include RWD(tablet){
+                width: 100%;
+                margin-top: 0;
+            }
+
+            .form-group{
+                padding: 0;
+                margin-top: 15px;
             }
         }
     }
