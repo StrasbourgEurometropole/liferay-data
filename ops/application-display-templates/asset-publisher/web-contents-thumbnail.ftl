@@ -82,7 +82,7 @@
     <a href="${detailURL}" class="ops-card ops-card-emploi">
         <div>
             <span class="ops-date-concours">
-                <@liferay_ui.message key="eu.ops.contest.date" /> : <time datetime="">${contestDate}</time>
+                <@liferay_ui.message key="eu.ops.contest.date" /> : <time datetime="${contestDate}">${contestDate?date.xs?string("dd.MM.yyyy")}</time>
             </span>
             <h3>${title}</h3>
             <span class="ops-link"><@liferay_ui.message key="eu.ops.learn.more" /></span>
