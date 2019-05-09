@@ -29,6 +29,9 @@
         display: flex;
         justify-content: space-between;
         width: 100%;
+        @include RWD(mobile){
+            flex-direction: column;
+        }
 
         .upper-title{
             text-transform: uppercase;
@@ -42,12 +45,14 @@
         }
 
         .demarches{
-            width: 50%;
-            margin-right: 40px;
+            width: calc(50% - 40px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: flex-start;
+            @include RWD(mobile){
+                width: 100%;
+            }
 
             .demandes-list{
                 margin-bottom: 65px;
@@ -71,11 +76,14 @@
         }
 
         .suivi{
-            width: 50%;
-            margin-left: 40px;
+            width: calc(50% - 40px);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            @include RWD(mobile){
+                width: 100%;
+                margin-top: 40px;
+            }
 
             form{
                 width: 100%;

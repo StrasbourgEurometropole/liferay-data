@@ -1,6 +1,9 @@
 .mseu .front{
     position: relative;
-    background-color: $core-color;
+
+    &.home{
+        background-color: $core-color;
+    }
     
     .nested-portlet-layout{
         background-color: #f6f6f6;
@@ -24,6 +27,14 @@
     }
     section.deleted{
         transform: translateX(100vw);
+    }
+    
+    &.home #main-content .custom-container{
+        width: 100%;
+
+        @include RWD(tablet){
+            padding: 0;
+        }
     }
     
 }

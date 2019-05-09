@@ -49,7 +49,7 @@
 <#assign isWelcome = layout.getFriendlyURL() == "/bienvenue" />
 
 <body class="${css_class} no-js
-     class_group_home <#if isHome || isDistrict>front<#else>not-front</#if> <#if isWelcome>welcome</#if>">
+     class_group_home <#if isHome || isDistrict>front<#else>not-front</#if> <#if isWelcome>welcome</#if> <#if isHome>home</#if>">
 
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
@@ -111,11 +111,7 @@
       <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
     </#if>
     <#if !isWelcome>
-      <#if isHome>
-        <div class="custom-container" style="width: 100%;">
-      <#else>
-        <div class="custom-container">
-      </#if>
+      <div class="custom-container" >
         <#include "${full_templates_path}/home_banner.ftl" />
         <#if !(isHome || isDistrict)>
           <div class="card-box">  

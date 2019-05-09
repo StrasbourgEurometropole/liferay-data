@@ -4,14 +4,16 @@
     box-shadow: 0 0 10px rgba(#203146, 0.15);
     position: relative;
     background-color: #FFFFFF;
-    width: #{$container-width}px;
+    max-width: #{$container-width}px;
     margin: 0 auto 40px;
 
     @include RWD(tablet){
         padding: 45px;
+        width: calc(100% - 80px);
     }
     @include RWD(mobile){
         padding: 45px 20px;
+        width: calc(100% - 40px);
     }
 
     div.buttons{

@@ -148,7 +148,6 @@
         align-items: center;
         position: absolute;
         bottom: 0;
-        left: 0;
 
         &:before {
             content: '';
@@ -156,7 +155,7 @@
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            margin-right: 10px;
+            margin-right: 5px;
         }
         &:hover,
         &:focus {
@@ -164,6 +163,7 @@
         }
     }
     &__trash {
+        left: 0;
 
         &:before {
             width: 20px;
@@ -172,22 +172,12 @@
         }
     }
     &__add, &__remove {
+        right: 0;
 
         &:before {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 5px;
-        }
-    }
-    &__add {
-
-        &:before {
-            background-image: url(svg-bg-uri($svg-add-dashboard, $core-color));
-        }
-    }
-    &__remove {
-        &:before {
-            background-image: url(svg-bg-uri($svg-remove-dashboard, $core-color));
+            width: 30px;
+            height: 30px;
+            background-image: url(svg-bg-uri($svg-add-dashboard-mini, $core-color));
         }
     }
 

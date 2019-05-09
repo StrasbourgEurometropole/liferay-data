@@ -61,6 +61,9 @@
         .btn-text{
             color:$core-color;
         }
+        @include RWD(mobile){
+           margin-top: 30px;
+        }
     } 
 
     margin-bottom: 40px;

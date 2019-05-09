@@ -20,12 +20,14 @@
                 flex: 1;
                 // border-right: solid 2px #f6f6f6;
             }
-            &__trash{
+            &__trash, &__add, &__remove{
                 position: static;
                 flex-shrink: 0;
                 // font-size: 0;
                 transition: all, 0.5s;
                 flex-direction: column;
+            }
+            &__trash{
                 &:before{
                     background-color: #f6f6f6;
                     border-radius: 50%;
@@ -36,6 +38,7 @@
                     transition: all, 0.5s;
                     margin-bottom: 5px;
                 }
+                
                 &:hover, &:focus{
                     &:before{
                         background-color: $core-color;
@@ -43,12 +46,17 @@
                     }
                 }
             }
+            &__add, &__remove{
+                &:before{
+                    width: 60px;
+                    height: 60px;
+                }
+            }
             &__add{
-                position: static;
-                flex-shrink: 0;
-                // font-size: 0;
-                transition: all, 0.5s;
-                flex-direction: column;
+                &:before{
+                    background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
+                }
+
                 &:hover, &:focus{
                     &:before{
                         background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
@@ -56,11 +64,10 @@
                 }
             }
             &__remove{
-                position: static;
-                flex-shrink: 0;
-                // font-size: 0;
-                transition: all, 0.5s;
-                flex-direction: column;
+                &:before{
+                    background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
+                }
+
                 &:hover, &:focus{
                     &:before{
                         background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
