@@ -9,16 +9,13 @@
     </figure>
     <div class="ops-content-wrapper ops-caption ops-aligncenter">
         <h1>
-        	<liferay-ui:message key="eu.search.asset.web.ops.general.your.research" />
+        	<liferay-ui:message key="eu.search.asset.web.ops.news.magazine" />
         </h1>
-        <span class="ops-numbers-results">
-        	<strong>0</strong> <liferay-ui:message key="eu.search.asset.web.ops.general.results" />
-        </span>
     </div>
 </header>
 
 <!-- Listing des resultats -->
-<div class="ops-col-wrapper ops-col-wrapper-large ops-bloc-masonry">
+<div class="ops-col-wrapper ops-listing-articles">
 
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="entriesSearchContainer" searchContainer="${dc.searchContainer}">
@@ -60,7 +57,7 @@
 </div>
 
 <!-- Pagination -->
-<%-- <div class="ops-content-wrapper ops-content-wrapper-large ops-pagination">
+<div class="ops-content-wrapper ops-content-wrapper-large ops-pagination">
 	<div class="taglib-page-iterator">
 		<div class="clearfix lfr-pagination">
 			<!-- Pagination : selecteur de page -->
@@ -201,11 +198,7 @@
 			
 		</div>
 	</div>
-</div> --%>
-
-<liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/ops-general.js"></script>
-</liferay-util:html-bottom>
+</div>
 
 <style>
 .open>.dropdown-menu {
