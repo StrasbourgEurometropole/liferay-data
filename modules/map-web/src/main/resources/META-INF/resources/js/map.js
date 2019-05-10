@@ -73,7 +73,8 @@
                 zoom: (window.zoom != "")?window.zoom:13,
                 minZoom: 11,
                 zoomControl: false,
-                attributionControl: false
+                attributionControl: false,
+                gestureHandling: true
             });
 
             // Fonction qui update la liste des markers affichés sur la carte
