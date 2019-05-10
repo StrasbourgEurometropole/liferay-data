@@ -3,6 +3,9 @@
 <#-- Chargement de la variable de localisation -->
 <#setting locale = locale />
 
+<#-- Récupération de DateHelper pour le format date -->
+<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+
 <#-- Récupération de l'XML du contenu web -->
 <#assign docXml = saxReaderUtil.read(entry.getContentByLocale(locale)) />
 
@@ -39,7 +42,7 @@
                         <span class="ops-cat"><@liferay_ui.message key="eu.ops.in.picture" /></span>
                     </div>
                     <span class="ops-date-article">
-                        <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${entry.getModifiedDate()?datetime?string('yyyy-MM-dd')}">${entry.getModifiedDate()?datetime?string("dd.MM.yyyy")}</time>
+                        <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${entry.getModifiedDate()?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</time>
                     </span>
                 </div>
                 <h3>${title}</h3>
@@ -82,7 +85,7 @@
     <a href="${detailURL}" class="ops-card ops-card-emploi">
         <div>
             <span class="ops-date-concours">
-                <@liferay_ui.message key="eu.ops.contest.date" /> : <time datetime="${contestDate}">${contestDate?date.xs?string("dd.MM.yyyy")}</time>
+                <@liferay_ui.message key="eu.ops.contest.date" /> : <time datetime="${contestDate}">${dateHelperService.displayShortDate(contestDate?date.xs, locale)}</time>
             </span>
             <h3>${title}</h3>
             <span class="ops-link"><@liferay_ui.message key="eu.ops.learn.more" /></span>
