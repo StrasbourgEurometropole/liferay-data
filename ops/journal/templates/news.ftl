@@ -25,7 +25,6 @@
         <!-- Header de l'article -->
         <header class="ops-content-wrapper ops-bloc ops-bloc-small">
             <div class="ops-cats">
-                <span class="ops-cat"><@liferay_ui.message key="eu.ops.in.picture" /></span>
                 <#list categoryList as categoryList>
                    <span class="ops-cat"> ${categoryList.getName()} <span>
                 </#list>
