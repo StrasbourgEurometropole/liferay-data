@@ -39,7 +39,7 @@
 		<%-- Composant : partie gestion (affichee apres une selection) --%>
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_PARTICIPATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<c:if test="${dc.hasPermission('EDIT_INITIATIVE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
@@ -48,7 +48,7 @@
 						icon="times" label="unpublish" />
 				</c:if>
 			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_PARTICIPATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${dc.hasPermission('DELETE_INITIATIVE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 			<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
@@ -103,7 +103,7 @@
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_PARTICIPATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('EDIT_INITIATIVE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editInitiativeURL}" />
 						</c:if>
 
@@ -112,7 +112,7 @@
 							<portlet:param name="tab" value="initiatives" />
 							<portlet:param name="initiativeId" value="${initiative.initiativeId}" />
 						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_PARTICIPATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('DELETE_INITIATIVE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteInitiativeURL}" />
 						</c:if>
 					</liferay-ui:icon-menu>
@@ -139,7 +139,7 @@
 
 <%-- Composant : bouton d'ajout d'entite --%>
 <liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_PARTICIPATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+	<c:if test="${dc.hasPermission('ADD_INITIATIVE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 		<liferay-frontend:add-menu-item title="Ajouter une initiative" url="${addInitiativeURL}" />
 	</c:if>
 </liferay-frontend:add-menu>
