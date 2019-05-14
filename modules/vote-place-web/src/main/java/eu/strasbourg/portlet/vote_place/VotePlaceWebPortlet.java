@@ -130,6 +130,14 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 		request.setAttribute("virtualHostName", virtualHostName);
 		request.setAttribute("showDeleteButton",
 				PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));
+
+		// Affichage ou non de l'accordéon
+		request.setAttribute("showRetractableButton",
+				PortletHelper.showRetractableButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));
+
+		// Affichage ou non de l'accordéon
+		request.setAttribute("isFolded",
+				PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));
 		
 		// titre personnalisable
 		request.setAttribute("title", PortletHelper.getPortletTitle("vote-place", request));

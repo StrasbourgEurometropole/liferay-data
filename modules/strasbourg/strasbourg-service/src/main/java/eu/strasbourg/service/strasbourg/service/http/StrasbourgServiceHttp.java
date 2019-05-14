@@ -574,6 +574,50 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static void unfoldPortlet(HttpPrincipal httpPrincipal,
+		java.lang.String portletId) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"unfoldPortlet", _unfoldPortletParameterTypes21);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static void foldPortlet(HttpPrincipal httpPrincipal,
+		java.lang.String portletId) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"foldPortlet", _foldPortletParameterTypes22);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceHttp.class);
 	private static final Class<?>[] _getCopyrightParameterTypes2 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
@@ -632,4 +676,10 @@ public class StrasbourgServiceHttp {
 		};
 	private static final Class<?>[] _getTrafficParameterTypes19 = new Class[] {  };
 	private static final Class<?>[] _getAlertsParameterTypes20 = new Class[] {  };
+	private static final Class<?>[] _unfoldPortletParameterTypes21 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _foldPortletParameterTypes22 = new Class[] {
+			java.lang.String.class
+		};
 }

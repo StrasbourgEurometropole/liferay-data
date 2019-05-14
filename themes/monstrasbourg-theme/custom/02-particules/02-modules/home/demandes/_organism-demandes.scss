@@ -1,13 +1,10 @@
 %organism-demandes{    
     @extend %molecule-home-section;
     background-color: $second-color;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    box-shadow: none;
 
     .delete-wi {
         background-image: url( svg-bg-uri($svg-filled-close, #ffffff) );
@@ -23,15 +20,87 @@
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #ffffff) );
     }
-    .demandes-list{
-        margin-bottom: 65px;
-        @include RWD(tablet){
-            margin-bottom: 45px;
-        }
+    
+    .detail{
+        width: 100%;
+    }
+
+    .bloc-demarches{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
         @include RWD(mobile){
-            .btn-text{
-                text-transform: none !important;
+            flex-direction: column;
+        }
+
+        .upper-title{
+            text-transform: uppercase;
+            padding-bottom: 20px;
+            font-family: $montserrat;
+            font-weight: 500;
+            font-size: 2.2rem;
+            color: #31455d;
+            margin-bottom: 5px;
+            line-height: 1.2em;
+        }
+
+        .demarches{
+            width: calc(50% - 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            @include RWD(mobile){
+                width: 100%;
             }
+
+            .demandes-list{
+                margin-bottom: 65px;
+                @include RWD(tablet){
+                    margin-bottom: 45px;
+                }
+                @include RWD(mobile){
+                    .btn-text{
+                        text-transform: none !important;
+                    }
+                }
+            }
+    
+            .text-noelt {
+                padding: 15px 20px;
+                color: #31455d;
+                font-family: "MontSerrat", arial;
+                font-size: 1.4rem;
+                text-transform: uppercase;
+            }
+        }
+
+        .suivi{
+            width: calc(50% - 40px);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            @include RWD(mobile){
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            form{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+
+                input{
+                    width: 100%;
+                    max-width: 350px;
+                    height: 50px;
+                    border-radius: 0;
+                    padding: 0 20px;
+                    line-height: 50px;
+                }
+            } 
         }
     }
 
