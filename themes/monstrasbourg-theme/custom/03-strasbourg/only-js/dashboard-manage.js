@@ -34,6 +34,9 @@
                 var $detail = $section.find('.detail');
                 // déplie le widget
                 $detail.show();
+                // Si c'est le portlet autour de moi, on recharge la carte
+                if($section.attr('id') == "wi-aroundme")
+                    mymap.invalidateSize();
                 // change le bouton
                 $(this).removeClass("retractable-folded-wi").addClass("retractable-unfolded-wi");
                 // stock en base le fait de déplier ce widget

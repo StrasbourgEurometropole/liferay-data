@@ -66,7 +66,7 @@
             // Carte
 
             //Création de la carte au centre de strasbourg
-            var mymap = L.map('mapid', {
+            mymap = L.map('mapid', {
                 // crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
                 center: [((window.cadrageX != "")?window.cadrageX:48.573) , ((window.cadrageY != "")?window.cadrageY:7.752)],
                 maxBounds: [[48.42, 7.52], [48.72, 7.94]],
@@ -548,7 +548,7 @@
             ame.$ui_fullscreen.on('click', function() {
                 $('body').toggleClass('aroundme--fullscreen');
                 $('html').toggleClass('no-scroll');
-                mymap.invalidateSize()
+                mymap.invalidateSize();
                 if (environment == 'desktop') {
                     ame.open_panel_side();
                 } else {
