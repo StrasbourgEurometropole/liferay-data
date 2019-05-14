@@ -152,10 +152,13 @@
         &:before {
             content: '';
             display: block;
+            width: 20px;
+            height: 20px;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             margin-right: 5px;
+            transition: all, 0.5s;
         }
         &:hover,
         &:focus {
@@ -164,20 +167,26 @@
     }
     &__trash {
         left: 0;
+        bottom: 25px;
+
+        &:before{
+            background-color: #f6f6f6;
+            border-radius: 50%;
+            background-size: 15px;
+        }
 
         &:before {
-            width: 20px;
-            height: 20px;
             background-image: url(svg-bg-uri($svg-trash, $core-color));
         }
     }
-    &__add, &__remove {
-        right: 0;
-
+    &__add {
         &:before {
-            width: 30px;
-            height: 30px;
-            background-image: url(svg-bg-uri($svg-add-dashboard-mini, $core-color));
+            background-image: url(svg-bg-uri($svg-add-dashboard, $core-color));
+        }
+    }
+    &__remove {
+        &:before {
+            background-image: url(svg-bg-uri($svg-remove-dashboard, $core-color));
         }
     }
 

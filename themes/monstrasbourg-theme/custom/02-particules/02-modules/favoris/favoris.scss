@@ -26,16 +26,16 @@
                 // font-size: 0;
                 transition: all, 0.5s;
                 flex-direction: column;
+
+                &:before{
+                    width: 60px;
+                    height: 60px;
+                }
             }
             &__trash{
                 &:before{
-                    background-color: #f6f6f6;
-                    border-radius: 50%;
-                    height: 60px;
-                    width: 60px;
                     margin: 0 40px;
                     background-size: 30px;
-                    transition: all, 0.5s;
                     margin-bottom: 5px;
                 }
                 
@@ -46,15 +46,10 @@
                     }
                 }
             }
-            &__add, &__remove{
-                &:before{
-                    width: 60px;
-                    height: 60px;
-                }
-            }
             &__add{
                 &:before{
                     background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
+                    margin-bottom: 5px;
                 }
 
                 &:hover, &:focus{
@@ -66,6 +61,7 @@
             &__remove{
                 &:before{
                     background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
+                    margin-bottom: 5px;
                 }
 
                 &:hover, &:focus{
