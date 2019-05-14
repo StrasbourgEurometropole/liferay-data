@@ -107,7 +107,7 @@
 </dynamic-content> </dynamic-element> </root> <script type="text/javascript">
 window.onload = function(){
 	var url = window.location.toString();
-    document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL)+"src=sdkpreparse");
+    document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
     document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
     document.getElementById("ShareMail").setAttribute("href","mailto:&body="+url);
 

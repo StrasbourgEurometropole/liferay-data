@@ -47,6 +47,20 @@
 <#assign participationJSON = entry.toJSON(themeDisplay) />
 <#assign eventsJSON = [] />
 
+<#-- Récupération des liens médias de l'entité -->
+<#assign imageURL = entry.getImageURL() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+
+<@liferay_util["html-top"]>
+    <meta property="og:url" content="${currentUrl}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${entry.title}" />
+    <meta property="og:description" content="${entry.descriptionChapeau?replace("<[^>]*>", "", "r")?html}" /> 
+    <meta property="og:image" content="${imageFullURL}"/>
+
+</@> 
+
 <div class="pro-page-detail pro-page-detail-participation">
 
 	<div class="container">

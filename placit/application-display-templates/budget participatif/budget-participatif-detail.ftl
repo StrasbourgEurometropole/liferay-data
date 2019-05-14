@@ -38,6 +38,21 @@
 <#-- L'entité est elle en période de vote -->
 <#assign isVotable = entry.isVotable() />
 
+<#-- Récupération des liens médias de l'entité -->
+<#assign videoURL = entry.videoUrl />
+<#assign imageURL = entry.getImageURL() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+
+<@liferay_util["html-top"]>
+    <meta property="og:url" content="${currentUrl}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${entry.title}" />
+    <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" /> 
+    <meta property="og:image" content="${imageFullURL}"/>
+
+</@> 
+
 <div class="pro-page-detail pro-page-detail-initiative">
 
     <#-- <div class="pro-timer"><p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p></div> -->

@@ -45,6 +45,20 @@
 <#-- Initialisation des conteneurs de vignettes -->
 <#assign petitionJSON = entry.toJSON(userID) />
 
+<#-- Récupération des liens médias de l'entité -->
+<#assign imageURL = entry.getImageURL() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+
+<@liferay_util["html-top"]>
+    <meta property="og:url" content="${currentUrl}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${entry.title}" />
+    <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" /> 
+    <meta property="og:image" content="${imageFullURL}"/>
+
+</@> 
+
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
     <div class="container">

@@ -35,6 +35,20 @@
 <#assign hasUserPactSign = request.session.getAttribute("has_pact_signed")!false />
 <#assign isUserBanned = request.session.getAttribute("is_banish")!false />
 
+
+<#-- Récupération des liens médias de l'entité -->
+<#assign imageURL = entry.getImageURL() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+
+<@liferay_util["html-top"]>
+    <meta property="og:url" content="${currentUrl}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${entry.title}" />
+    <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" /> 
+    <meta property="og:image" content="${imageFullURL}"/>
+</@> 
+
 <div class="pro-page-detail pro-page-detail-initiative">
 	<div class="container">
 		<div class="col-lg-11 col-lg-offset-1">
