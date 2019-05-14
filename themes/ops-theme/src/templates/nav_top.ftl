@@ -45,11 +45,10 @@
             </a>
             <div class="ops-top-header-btn">
                 <a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité"><span>Accessibilité</span></a>
-                <#-- 
                 <@liferay_portlet["runtime"]
 					portletProviderAction=portletProviderAction.VIEW
 					portletName="com_liferay_site_navigation_language_web_portlet_SiteNavigationLanguagePortlet"
-					instanceId="languageSelectorId"/>-->
+					instanceId="languageSelectorId"/>
             </div>
         </div>
 
