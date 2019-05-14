@@ -1,7 +1,7 @@
 <!-- BLOC AUDIO -->
 <div id="ops-audio" class="ops-col-wrapper ops-bloc ops-bloc-audio" data-egalize=".ops-col-25">
 	<div>
-		<h3 class="ops-title-line"><span>Audio</span></h3>
+		<h3 class="ops-title-line"><span><@liferay_ui.message key="eu.ops.audio" /></span></h3>
 	</div>
 	<#list title.getSiblings() as cur_title>
 		<div class="ops-col-25">

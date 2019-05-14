@@ -12,7 +12,7 @@
                 <div class="ops-cats">
                     <span class="ops-cat">${postName.getData()}</span>
                 </div>
-                <span class="ops-date-article">Date du concours : le ${date?string("dd.MM.yyyy")}</time></span>
+                <span class="ops-date-article"><@liferay_ui.message key="eu.ops.contest.date" /> : ${date?string("dd.MM.yyyy")}</time></span>
             </div>
             <h1>${title.getData()}</h1>
         </header>
@@ -50,17 +50,17 @@
                     <#-- Liens de contact -->
                     <#if rightBlockContactTelLabel.getData()?has_content || rightBlockContactMailLabel.getData()?has_content >
 
-                        <span class="ops-title-spacing">Contact</span>
+                        <span class="ops-title-spacing"><@liferay_ui.message key="eu.ops.contact" /></span>
 
                         <#if rightBlockContactTelLabel.getData()?has_content >
                             <a href="tel:${rightBlockContactTelLabel.getChild("rightBlockContactTelLink").getData()}">
-                                Tél : ${rightBlockContactTelLabel.getData()}
+                                <@liferay_ui.message key="eu.ops.phone" /> : ${rightBlockContactTelLabel.getData()}
                             </a>
                         </#if>
 
                         <#if rightBlockContactMailLabel.getData()?has_content >
                             <a href="mailto:${rightBlockContactMailLabel.getChild("rightBlockContactMailLink").getData()}">
-                                Mail : <u>${rightBlockContactMailLabel.getData()}</u>
+                                <@liferay_ui.message key="eu.ops.mail" /> : <u>${rightBlockContactMailLabel.getData()}</u>
                             </a>
                         </#if>
                     </#if>
