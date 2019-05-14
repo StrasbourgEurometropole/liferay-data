@@ -126,5 +126,9 @@ public interface StrasbourgService extends BaseService {
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
 
+	public void foldPortlet(java.lang.String portletId);
+
 	public void hidePortlet(java.lang.String portletId);
+
+	public void unfoldPortlet(java.lang.String portletId);
 }

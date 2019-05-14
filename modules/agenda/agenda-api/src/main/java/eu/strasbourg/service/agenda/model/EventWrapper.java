@@ -1182,6 +1182,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne le label des typologies de l'événement (Catégorie du site de l'OPS)
+	*/
+	@Override
+	public java.lang.String getLabelTypologies(java.util.Locale locale) {
+		return _event.getLabelTypologies(locale);
+	}
+
+	/**
 	* Retourne la liste des IDs des manifestations auxquelles cette édition
 	* appartient sous forme de String
 	*/
@@ -2034,15 +2042,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	*
 	* @param request  la requete
 	* @param nbSuggestions le nombre de suggestions.
+	* @param tag le tag a appliquer
+	* @param category la categorie a appliquer
 	* @return la liste d'événements.
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
 		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
-		java.lang.String tag)
+		java.lang.String tag, java.lang.String category)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException {
-		return _event.getSuggestions(request, nbSuggestions, tag);
+		return _event.getSuggestions(request, nbSuggestions, tag, category);
 	}
 
 	/**
@@ -2067,6 +2077,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
 		return _event.getTypes();
+	}
+
+	/**
+	* Retourne les typologie de l'événement (Catégorie du site de l'OPS)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypologies() {
+		return _event.getTypologies();
 	}
 
 	/**

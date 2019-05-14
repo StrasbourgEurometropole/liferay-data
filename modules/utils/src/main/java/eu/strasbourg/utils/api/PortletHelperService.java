@@ -18,7 +18,9 @@ import aQute.bnd.annotation.ProviderType;
 public interface PortletHelperService {
 	public String getPortletTitle(String key, PortletRequest request);
 	public boolean isPortletDisplayedOnDashboard(ThemeDisplay themeDisplay, String cssClassNames);
-    public boolean showDeleteButtonOnDashboard(ThemeDisplay themeDisplay, String portletId);
+	public boolean showDeleteButtonOnDashboard(ThemeDisplay themeDisplay, String portletId);
+	public boolean isPortletFoldedOnDashboard(ThemeDisplay themeDisplay, String cssClassNames);
+	public boolean showRetractableButtonOnDashboard(ThemeDisplay themeDisplay, String portletId);
 	public void showPortlet(String portletId);
 	public void hidePortlet(String portletId);
 	public void togglePortlet(String portletId, boolean show);

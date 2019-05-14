@@ -1,12 +1,7 @@
 #wi-aroundme{
     @extend %molecule-home-section;
-    box-shadow: none;
-    margin-bottom: 40px;
-    padding: 0;
     z-index: 5;
-    h2:before{
-        display: none;
-    }
+    
     #aroundme{
         z-index: 10;
         overflow: hidden;
@@ -14,6 +9,13 @@
     .meta {
         padding: 20px 75px 45px 75px;
         text-align: center;
+        @include RWD(mobile){
+            padding: 20px 20px 45px;
+        }
+
+        @include RWD(tablet){            
+            padding: 20px 0 45px;
+        }
     }
     .subtitle{
         font-size: 1.8rem;

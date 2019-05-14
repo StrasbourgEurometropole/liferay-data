@@ -95,6 +95,13 @@ main {
 				}
 			}
 
+			& + .ops-wrapper-listing-saison{
+				margin-top: -50px;
+				@include mobile{
+					margin-top: 0;
+				}
+			}
+
 		}
 
 		// HEADER - Page Standard
@@ -511,6 +518,9 @@ main {
 						margin-bottom: 0;
 					}
 				}
+			}
+			h1{
+				max-width: 100%;
 			}
 		}
 

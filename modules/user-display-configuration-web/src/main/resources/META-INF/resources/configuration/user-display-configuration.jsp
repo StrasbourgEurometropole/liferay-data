@@ -19,28 +19,46 @@
 				<c:forEach items="${dc.portletIds}" var="portletId" varStatus="loopStatus">
                     <div class="portlet-display-controls">
                         <div class="portlet-display-mode" data-portlet-id="${portletId}">
-                            <label>${dc.portletTitles.get(loopStatus.index)}<span style="font-weight: normal;"> - ${portletId}</span></label>
+                            <label>${dc.portletTitles.get(loopStatus.index)}<span style="font-weight: normal;"> - ${portletId}</span></label><br>
                             <c:set var="displayStatus" value="${dc.getPortletDisplayStatus(portletId)}" />
+                            <label><liferay-ui:message key="display-status" /></label>
                             <aui:input type="radio"
-                               name="${portletId}"
+                               name="display_${portletId}"
                                value="on_hidden"
                                label="on-hidden"
                                checked="${displayStatus eq 'on_hidden'}"  />
                             <aui:input type="radio"
-                               name="${portletId}"
+                               name="display_${portletId}"
                                value="on_disabled"
                                label="on-disabled"
                                checked="${displayStatus eq 'on_disabled'}"  />
                             <aui:input type="radio"
-                               name="${portletId}"
+                               name="display_${portletId}"
                                value="on"
                                label="on"
                                checked="${displayStatus eq 'on'}"  />
                             <aui:input type="radio"
-                               name="${portletId}"
+                               name="display_${portletId}"
                                value="off"
                                label="off"
                                checked="${displayStatus eq 'off'}"  />
+                            <c:set var="retractableStatus" value="${dc.getPortletRetractableStatus(portletId)}" />
+                            <label><liferay-ui:message key="retractable-status" /></label>
+                            <aui:input type="radio"
+                               name="retractable_${portletId}"
+                               value="no-retractable"
+                               label="no-retractable"
+                               checked="${retractableStatus eq 'no-retractable'}"  />
+                            <aui:input type="radio"
+                               name="retractable_${portletId}"
+                               value="retractable-unfolded"
+                               label="retractable-unfolded"
+                               checked="${retractableStatus eq 'retractable-unfolded'}"  />
+                            <aui:input type="radio"
+                               name="retractable_${portletId}"
+                               value="retractable-folded"
+                               label="retractable-folded"
+                               checked="${retractableStatus eq 'retractable-folded'}"  />
                         </div>
                         <div class="portlet-metadata-inputs" data-portlet-id="${portletId}"
                              <c:if test="${displayStatus eq 'on_hidden'}">style="display:none;"</c:if>
@@ -60,7 +78,7 @@
 </div>
 
 <script>
-	$('input[type=radio]').on('change', function() {
+	$('input[type=radio]input[name*=_display_]').on('change', function() {
         var portletId = $(this).closest('.portlet-display-mode').data('portletId');
         var divToToggle =  $('.portlet-metadata-inputs[data-portlet-id=' + portletId + ']');
 		if ($(this).val() === 'on_hidden') {

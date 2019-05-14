@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -63,6 +64,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		attributes.put("typeId", getTypeId());
 		attributes.put("entityId", getEntityId());
 		attributes.put("entityGroupId", getEntityGroupId());
+		attributes.put("onDashboardDate", getOnDashboardDate());
 
 		return attributes;
 	}
@@ -110,6 +112,12 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		if (entityGroupId != null) {
 			setEntityGroupId(entityGroupId);
 		}
+
+		Date onDashboardDate = (Date)attributes.get("onDashboardDate");
+
+		if (onDashboardDate != null) {
+			setOnDashboardDate(onDashboardDate);
+		}
 	}
 
 	@Override
@@ -130,6 +138,11 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public boolean isNew() {
 		return _favorite.isNew();
+	}
+
+	@Override
+	public boolean isOnDashboard() {
+		return _favorite.isOnDashboard();
 	}
 
 	@Override
@@ -228,6 +241,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _favorite.toXmlString();
+	}
+
+	/**
+	* Returns the on dashboard date of this favorite.
+	*
+	* @return the on dashboard date of this favorite
+	*/
+	@Override
+	public Date getOnDashboardDate() {
+		return _favorite.getOnDashboardDate();
 	}
 
 	/**
@@ -339,6 +362,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public void setNew(boolean n) {
 		_favorite.setNew(n);
+	}
+
+	/**
+	* Sets the on dashboard date of this favorite.
+	*
+	* @param onDashboardDate the on dashboard date of this favorite
+	*/
+	@Override
+	public void setOnDashboardDate(Date onDashboardDate) {
+		_favorite.setOnDashboardDate(onDashboardDate);
 	}
 
 	/**

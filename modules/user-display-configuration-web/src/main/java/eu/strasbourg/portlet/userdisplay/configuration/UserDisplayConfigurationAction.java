@@ -52,11 +52,13 @@ public class UserDisplayConfigurationAction extends DefaultConfigurationAction {
         JSONArray jsonConfig = JSONFactoryUtil.createJSONArray();
         for (String portletId : portletIds) {
             JSONObject jsonPortletConfig = JSONFactoryUtil.createJSONObject();
-            String portletStatus = ParamUtil.getString(actionRequest, portletId);
+			String portletDisplayStatus = ParamUtil.getString(actionRequest, "display_" + portletId);
+			String portletRetractableStatus = ParamUtil.getString(actionRequest, "retractable_" + portletId);
             String portletTitle = ParamUtil.getString(actionRequest, portletId + "Title");
             String portletDescription = ParamUtil.getString(actionRequest, portletId + "Description");
             jsonPortletConfig.put("portletId", portletId);
-            jsonPortletConfig.put("status", portletStatus);
+			jsonPortletConfig.put("displayStatus", portletDisplayStatus);
+			jsonPortletConfig.put("retractableStatus", portletRetractableStatus);
             jsonPortletConfig.put("title", portletTitle);
             jsonPortletConfig.put("description", portletDescription);
             jsonConfig.put(jsonPortletConfig);

@@ -29,6 +29,18 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 		        }
 		        createPopin(message, agree, deny);
 		    });
+		    $('body').on('click', '[data-favtodashboard]', function(e){
+		        if($(this).attr('class') == "favoris-teaser__add"){
+                    if($('.favoris-teaser__remove').length == 4){
+                        e.preventDefault();
+                        e.stopPropagation();
+                        message = Liferay.Language.get('you-can-not-add-this-favorite');
+                        var agree = function() {
+                        };
+                        createPopin(message, agree);
+                    }
+                }
+		    });
 		});
 	</aui:script>
 </liferay-util:html-bottom>

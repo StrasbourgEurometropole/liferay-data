@@ -1,31 +1,4 @@
-// Favoris HP
-#favoris{
-    @extend %molecule-home-section;
-    h2:before{
-        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
-    }
-    .favoris-grid{
-
-        p{
-            font-size: 1.8rem;
-            color: #5c5c5c;
-            margin-bottom: 20px;
-        }
-
-        .favoris-teaser{
-            margin-bottom: 30px;
-        }
-
-        @include RWD(desktop){
-           @include grid-distribution(4, 50, favoris-teaser);
-        }
-        @include RWD(tablet_only){
-           @include grid-distribution(2, 50, favoris-teaser);
-        }
-        @include RWD(mobile){
-           @include grid-distribution(1, 0, favoris-teaser);
-        }
-    }
+.favoris__chapo{
     margin-bottom: 40px;
 }
 
@@ -47,26 +20,53 @@
                 flex: 1;
                 // border-right: solid 2px #f6f6f6;
             }
-            &__trash{
+            &__trash, &__add, &__remove{
                 position: static;
                 flex-shrink: 0;
                 // font-size: 0;
                 transition: all, 0.5s;
                 flex-direction: column;
+
                 &:before{
-                    background-color: #f6f6f6;
-                    border-radius: 50%;
-                    height: 60px;
                     width: 60px;
+                    height: 60px;
+                }
+            }
+            &__trash{
+                &:before{
                     margin: 0 40px;
                     background-size: 30px;
-                    transition: all, 0.5s;
                     margin-bottom: 5px;
                 }
+                
                 &:hover, &:focus{
                     &:before{
                         background-color: $core-color;
                         background-image: url( svg-bg-uri($svg-trash, #f6f6f6) );
+                    }
+                }
+            }
+            &__add{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
+                    margin-bottom: 5px;
+                }
+
+                &:hover, &:focus{
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
+                    }
+                }
+            }
+            &__remove{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
+                    margin-bottom: 5px;
+                }
+
+                &:hover, &:focus{
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
                     }
                 }
             }
