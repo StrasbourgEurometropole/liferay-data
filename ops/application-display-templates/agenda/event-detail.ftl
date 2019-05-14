@@ -25,20 +25,20 @@
 
             <div class="ops-cta-concert">
             <#if entry.subscriptionURL?has_content>
-                <a href="${entry.subscriptionURL}">Acheter un abonnement</a>
+                <a href="${entry.subscriptionURL}"><@liferay_ui.message key="eu.ops.buy.a.subscription" /></a>
             </#if>
             <#if entry.bookingURL?has_content>
-                <a href="${entry.bookingURL}" class="ops-ticket">Acheter mon billet</a>
+                <a href="${entry.bookingURL}" class="ops-ticket"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>
             </#if>
             </div>
 
             <nav class="ops-scrollto">
                 <ul>
-                    <li><a href="#ops-representations" class="ops-active">Représentations</a></li>
-                    <li><a href="#ops-description">Description</a></li>
-                    <li id="distribution-link"><a href="#ops-distribution">Distribution</a></li>
-                    <li><a href="#ops-a-voir">À voir</a></li>
-                    <li id="audio-link"><a href="#ops-audio">Audio</a></li>
+                    <li><a href="#ops-representations" class="ops-active"><@liferay_ui.message key="eu.ops.representation" /></a></li>
+                    <li><a href="#ops-description"><@liferay_ui.message key="eu.ops.description" /></a></li>
+                    <li id="distribution-link"><a href="#ops-distribution"><@liferay_ui.message key="eu.ops.distribution" /></a></li>
+                    <li><a href="#ops-a-voir"><@liferay_ui.message key="eu.ops.to.see" /></a></li>
+                    <li id="audio-link"><a href="#ops-audio"><@liferay_ui.message key="eu.ops.audio" /></a></li>
                 </ul>
             </nav>
         </div>
@@ -71,7 +71,7 @@
             <!-- Programme -->
             <#if entry.program?has_content>
                 <div class="ops-col-33">
-                    <span class="ops-title-infos">Programme</span>
+                    <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.program" /></span>
                     <p>${entry.program}</p>
                 </div>
             </#if>
@@ -79,15 +79,15 @@
             <!-- Distribution -->
             <#if entry.distribution?has_content>
                 <div class="ops-col-33">
-                    <span class="ops-title-infos">Distribution</span>
+                    <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.distribution" /></span>
                     <p>${entry.distribution}</p>
                 </div>
             </#if>
 
             <!-- Adresse p-->
             <div class="ops-col-33">
-                <span class="ops-title-infos">Lieu</span>
-                <address><#if entry.getPlaceAlias(locale)?has_content>${entry.getPlaceAlias(locale)}<#else>Strasbourg<br>Opéra national du Rhin</#if></address>
+                <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.place" /></span>
+                <address><#if entry.getPlaceAlias(locale)?has_content>${entry.getPlaceAlias(locale)}<#else><@liferay_ui.message key="eu.ops.strasbourg.national.opera.of.rhine" /></#if></address>
             </div>
 
         </div>
@@ -115,7 +115,7 @@
         <div id="ops-a-voir" class="ops-bloc-slider-cards">
             <div class="ops-content-wrapper ops-content-wrapper-large">
                 <div>
-                    <h3 class="ops-title-line"><span>Cela peut vous intéresser</span></h3>
+                    <h3 class="ops-title-line"><span><@liferay_ui.message key="eu.ops.this.may.interest.you" /></span></h3>
                 </div>
 
                 <div class="slick-carousel slick-cards-slider">
@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="ops-link-bottom">
-                    <a href="${homeURL}agenda" class="ops-btn">Voir l'agenda complet</a>
+                    <a href="${homeURL}agenda" class="ops-btn"><@liferay_ui.message key="eu.ops.consult.full.agenda" /></a>
                 </div>
             </div>
         </div>

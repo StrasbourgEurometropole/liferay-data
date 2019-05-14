@@ -31,7 +31,7 @@
     <div>
         <div class="ops-cats">
             <#list typologiesList as typology>
-                <span class="ops-cat">${typology.getName()}</span>
+                <span class="ops-cat">${typology.getTitle(locale)}</span>
             </#list>
         </div>
         <h2>${title}</h2>

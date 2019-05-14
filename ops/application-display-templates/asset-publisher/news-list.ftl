@@ -43,8 +43,8 @@
                     <div>
                         <div class="ops-meta-card-article">
                             <div class="ops-cats">
-                                <#list categoryList as categoryList>
-                                    <span class="ops-cat">${categoryList.getName()}</span>
+                                <#list categoryList as category>
+                                    <span class="ops-cat">${category.getTitle(locale)}</span>
                                 </#list>
                             </div>
                             <span class="ops-date-article">

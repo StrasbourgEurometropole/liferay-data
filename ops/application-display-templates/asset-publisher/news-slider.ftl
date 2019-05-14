@@ -34,7 +34,7 @@
                     </figure>
                     <div class="ops-content-wrapper ops-content-wrapper-large ops-caption">
                         <span class="ops-typologie">
-                            <#list categoryList as categoryList>${categoryList.getName()}<#sep>, </#list>
+                            <#list categoryList as category>${category.getTitle(locale)}<#sep>, </#list>
                         </span>
                         <h1>${title}</h1>
                         <#if chapo?has_content>

@@ -31,9 +31,9 @@
             <div class="ops-col-50">
                 <a href="${detailURL}" class="ops-card ops-card-emploi">
                     <div>
-                        <span class="ops-date-concours">Date du concours : ${date?string("dd.MM.yyyy")}</span>
+                        <span class="ops-date-concours"><@liferay_ui.message key="eu.ops.contest.date" /> : ${date?string("dd.MM.yyyy")}</span>
                         <h3>${title}</h3>
-                        <span class="ops-link">En savoir plus</span>
+                        <span class="ops-link"><@liferay_ui.message key="eu.ops.learn.more" /></span>
                     </div>
                 </a>
             </div>
