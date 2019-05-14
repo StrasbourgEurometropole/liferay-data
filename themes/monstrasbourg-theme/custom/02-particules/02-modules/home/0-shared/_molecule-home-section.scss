@@ -21,6 +21,11 @@
         margin-bottom: -30px;
         width: 100%;
 
+        @include RWD(mobile){
+            margin-bottom: 0;
+            margin-top: -20px;
+        }
+
         button + button {
             margin-left: 15px;
         }
