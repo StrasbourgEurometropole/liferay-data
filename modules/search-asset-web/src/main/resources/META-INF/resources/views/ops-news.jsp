@@ -24,6 +24,9 @@
         	<liferay-ui:search-container-row
 				className="com.liferay.asset.kernel.model.AssetEntry"
 				modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
+				
+				<div class="ops-col-33">
+							
 					<c:set var="className" value="${entry.className}" />
 					<c:choose>
 						<c:when test="${fn:contains(className, 'JournalArticle')}">
@@ -49,6 +52,9 @@
 							/>
 						</liferay-ddm:template-renderer>
 					</c:if>
+					
+				</div>
+				
 			</liferay-ui:search-container-row>
 			
 		</liferay-ui:search-container>

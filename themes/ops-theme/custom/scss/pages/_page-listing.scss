@@ -1,5 +1,6 @@
 .ops-wrapper-listing-saison{
 	position: relative;
+	z-index: 100;
 	padding-top: 110px;
 	padding-bottom: 40px;
 	min-height: 500px;
@@ -12,7 +13,7 @@
 .ops-listing-wrapper{
 	position: relative;
 	@include clearfix();
-	> * {
+	.ops-card {
 		float: left;
 		width: calc(33.33% - 20px);
 		margin: 15px 0;

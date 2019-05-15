@@ -136,7 +136,7 @@
 			&:last-child {
 				margin-bottom: 0;
 			}
-			> * {
+			figure, .ops-no-photo, div:not(.ops-no-photo){
 				display: inline-block;
 				vertical-align: top;
 			}
