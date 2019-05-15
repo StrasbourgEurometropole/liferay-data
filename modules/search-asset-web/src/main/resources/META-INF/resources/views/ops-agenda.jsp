@@ -11,7 +11,6 @@
 		<liferay-util:include page="/forms/ops-agenda-form.jsp" servletContext="<%=application%>" />
 	</aui:form>
 
-
 	<!-- Resultats -->
 	<aui:form method="post" name="fm">
 		<div class="ops-listing-wrapper">
@@ -42,10 +41,14 @@
 				<div class="lfr-pagination-config">
 					<div class="lfr-pagination-page-selector">
 						<div class="btn-group lfr-icon-menu current-page-menu dropdown">
-							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" title="Page 1 de 6" data-toggle="dropdown"> <span
-								class="lfr-icon-menu-text">Page ${dc.pager.currentPage} de ${dc.pager.lastPage}</span> <i class="lfr-icon-menu-arrow caret"></i>
+							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" title="Page 1 de 6" data-toggle="dropdown"> 
+								<span class="lfr-icon-menu-text">
+									<liferay-ui:message key="eu.search.asset.web.ops.general.page" /> ${dc.pager.currentPage} <liferay-ui:message key="eu.search.asset.web.ops.general.on" /> ${dc.pager.lastPage}
+								</span> 
+								<i class="lfr-icon-menu-arrow caret"></i>
 							</a>
 							<ul class="dropdown-menu lfr-menu-list direction-down" id="change-page" name="change-page" onchange="location = this.value;">
+								
 								<c:forEach var="pageIndex" begin="1" end="${dc.pager.lastPage}">
 									<c:choose>
 										<c:when test="${pageIndex != dc.pager.lastPage}">
@@ -60,94 +63,115 @@
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
+								
 							</ul>
 						</div>
 					</div>
 				</div>
 			</c:if>
-			<small <c:if test="${dc.pager.lastPage <= 1}">class="search-results"</c:if>> <liferay-ui:message key="eu.show-results" /> 
-			<c:choose>
+			<small <c:if test="${dc.pager.lastPage <= 1}">class="search-results"</c:if>> 
+				<liferay-ui:message key="eu.search.asset.web.ops.general.show.results" /> 
+				<c:choose>
 					<c:when test="${dc.pager.count > 0}">
-	                		${dc.pager.currentPage * dc.pager.delta - (dc.pager.delta - 1)}
-	                	</c:when>
+		                ${dc.pager.currentPage * dc.pager.delta - (dc.pager.delta - 1)}
+		            </c:when>
 					<c:otherwise>
-	                		0
-	                	</c:otherwise>
+		               	0
+		            </c:otherwise>
 				</c:choose> - <c:choose>
 					<c:when test="${dc.pager.count < 1}">
-	                		0
-	                	</c:when>
+		                0
+		            </c:when>
 					<c:when test="${not dc.pager.onLastPage}">
-	                		${dc.pager.currentPage * dc.pager.delta}
-	                	</c:when>
+		                ${dc.pager.currentPage * dc.pager.delta}
+		            </c:when>
 					<c:when test="${dc.pager.onLastPage}">
-	                		${dc.pager.currentPage * dc.pager.delta - (dc.pager.currentPage * dc.pager.delta - dc.pager.count)}
-	                	</c:when>
-				</c:choose> <liferay-ui:message key="eu.among" /> ${dc.pager.count} <liferay-ui:message key="eu.event-minus-global" />
+		               	${dc.pager.currentPage * dc.pager.delta - (dc.pager.currentPage * dc.pager.delta - dc.pager.count)}
+		            </c:when>
+				</c:choose> 
+				<liferay-ui:message key="eu.search.asset.web.ops.general.among" /> ${dc.pager.count} <liferay-ui:message key="eu.search.asset.web.ops.general.elements" />
 			</small>
+			
+			<!-- Boutons de navigation -->
 			<c:if test="${dc.pager.lastPage > 1}">
 				<ul class="lfr-pagination-buttons pager">
 
 					<!-- Lien vers la premiere page -->
 					<c:choose>
 						<c:when test="${not dc.pager.onFirstPage}">
-							<li><a href="${dc.getURLForPage(1)}" tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-first-page" />"> <liferay-ui:message
-										key="eu.first" />
-							</a></li>
+							<li>
+								<a href="${dc.getURLForPage(1)}" tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-first-page" />"> 
+									<liferay-ui:message key="eu.search.asset.web.ops.general.first" />
+								</a>
+							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="first"><a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-first-page" />"> <liferay-ui:message
-										key="eu.first" />
-							</a></li>
+							<li class="first">
+								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-first-page" />"> 
+									<liferay-ui:message key="eu.search.asset.web.ops.general.first" />
+								</a>
+							</li>
 						</c:otherwise>
 					</c:choose>
-
 
 					<!-- Lien vers la page precedente page -->
 					<c:choose>
 						<c:when test="${not dc.pager.onFirstPage}">
-							<li class=""><a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" tabindex="-1"
-								title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />"> <liferay-ui:message key="eu.previous" />
-							</a></li>
+							<li class="">
+								<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" tabindex="-1"
+								title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />"> 
+									<liferay-ui:message key="eu.search.asset.web.ops.general.previous" />
+								</a>
+							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="disabled"><a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />"> <liferay-ui:message
-										key="eu.previous" />
-							</a></li>
+							<li class="disabled">
+								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />"> 
+									<liferay-ui:message key="eu.search.asset.web.ops.general.previous" />
+								</a>
+							</li>
 						</c:otherwise>
 					</c:choose>
-
 
 					<!-- Lien vers la page suivante -->
 					<c:choose>
 						<c:when test="${not dc.pager.onLastPage}">
-							<li><a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-next-page" />">
-									<liferay-ui:message key="eu.next" />
-							</a></li>
+							<li>
+								<a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-next-page" />">
+									<liferay-ui:message key="eu.search.asset.web.ops.general.next" />
+								</a>
+							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="disabled"><a tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-next-page" />"> <liferay-ui:message
-										key="eu.next" />
-							</a></li>
+							<li class="disabled">
+								<a tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-next-page" />"> 
+									<liferay-ui:message key="eu.search.asset.web.ops.general.next" />
+								</a>
+							</li>
 						</c:otherwise>
 					</c:choose>
-
-
 
 					<!-- Lien vers la derniere page -->
 					<c:choose>
 						<c:when test="${not dc.pager.onLastPage}">
-							<li><a href="${dc.getURLForPage(dc.pager.lastPage)}" tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-last-page" />"> <liferay-ui:message
-										key="eu.last" />
-							</a></li>
+							<li>
+								<a href="${dc.getURLForPage(dc.pager.lastPage)}" tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-last-page" />"> 
+									<liferay-ui:message key="eu.search.asset.web.ops.general.last" />
+								</a>
+							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="last"><a tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-last-page" />"> <liferay-ui:message key="eu.last" />
-							</a></li>
+							<li class="last">
+								<a tabindex="0" title="<liferay-ui:message key="eu.listing-link-to-last-page" />"> 
+									<liferay-ui:message key="eu.search.asset.web.ops.general.last" />
+								</a>
+							</li>
 						</c:otherwise>
 					</c:choose>
+					
 				</ul>
 			</c:if>
+			
 		</div>
 	</div>
 </div>
