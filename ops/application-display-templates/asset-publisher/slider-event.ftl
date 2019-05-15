@@ -13,7 +13,7 @@
 <div class="ops-bloc-slider-cards">
 
     <div class="ops-content-wrapper ops-content-wrapper-large">
-        <h2>Prochains concerts</h2>
+        <h2><@liferay_ui.message key="eu.ops.next.concerts" /></h2>
 
         <div class="slick-carousel slick-cards-slider">
             <#-- Parcours des entites de l'asset publisher -->
@@ -45,7 +45,7 @@
             </#list>
         </div>
         <div class="ops-link-bottom">
-            <a href="${homeURL}agenda" class="ops-btn">Voir l'agenda complet</a>
+            <a href="${homeURL}agenda" class="ops-btn"><@liferay_ui.message key="eu.ops.consult.full.agenda" /></a>
         </div>
     </div>
 </div>

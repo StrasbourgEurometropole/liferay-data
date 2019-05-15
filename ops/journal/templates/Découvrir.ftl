@@ -15,7 +15,7 @@
             <div class="ops-caption">
                 <h3>${title1.getData()}</h3>
                 <#if linkURL1.getData()?has_content>
-                    <span class="ops-basic-link">Découvrir</span>
+                    <span class="ops-basic-link"><@liferay_ui.message key="eu.ops.discover" /></span>
                 </#if>
             </div>
         <#if linkURL1.getData()?has_content>
@@ -35,7 +35,7 @@
             <div class="ops-caption">
                 <h3>${title2.getData()}</h3>
                 <#if linkURL2.getData()?has_content>
-                    <span class="ops-basic-link">Découvrir</span>
+                    <span class="ops-basic-link"><@liferay_ui.message key="eu.ops.discover" /></span>
                 </#if>
             </div>
         <#if linkURL2.getData()?has_content>
@@ -57,7 +57,7 @@
             <div class="ops-caption">
                 <h3>${title3.getData()}</h3>
                 <#if linkURL3.getData()?has_content>
-                    <span class="ops-basic-link">Découvrir</span>
+                    <span class="ops-basic-link"><@liferay_ui.message key="eu.ops.discover" /></span>
                  </#if>
             </div>
         <#if linkURL3.getData()?has_content>

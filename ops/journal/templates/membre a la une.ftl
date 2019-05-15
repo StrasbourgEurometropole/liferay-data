@@ -16,6 +16,6 @@
     <div class="ops-info-people">
         <span class="ops-function">${post.getData()}</span>
         <span class="ops-name">${Name.getData()}</span>
-        <span class="ops-link">En savoir plus</span>
+        <span class="ops-link"><@liferay_ui.message key="eu.ops.learn.more" /></span>
     </div>
 </a>

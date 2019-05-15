@@ -41,7 +41,7 @@
     <#if description.getData()?has_content>
         <div class="ops-content-wrapper ops-bloc ops-bloc-presentation">
         
-            <h2 class="ops-title-line"><span>Présentation</span></h2>
+            <h2 class="ops-title-line"><span><@liferay_ui.message key="eu.ops.presentation" /></span></h2>
 
             <div class="ops-bloc-texte">
                 <p class="ops-accroche">${description.getData()}</p>

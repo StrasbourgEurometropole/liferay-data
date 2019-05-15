@@ -47,7 +47,7 @@
                     <div class="ops-info-people">
                         <span class="ops-function">${post}</span>
                         <span class="ops-name">${name}</span>
-                        <#if detailURL?has_content><span class="ops-link">En savoir plus</span></#if>
+                        <#if detailURL?has_content><span class="ops-link"><@liferay_ui.message key="eu.ops.learn.more" /></span></#if>
                     </div>
             <#if detailURL?has_content>
                 </a>

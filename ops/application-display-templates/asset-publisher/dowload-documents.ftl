@@ -12,7 +12,7 @@
 
 <div class="ops-bloc-download ops-bloc-texte ops-bloc-large">
 	<div class="ops-col-wrapper ops-bloc-small">
-		<h2 class="ops-big-title"><span>Documents<br>à télécharger</span></h2>
+		<h2 class="ops-big-title"><span><@liferay_ui.message key="eu.ops.documents.to.download" /></span></h2>
 		<div class="ops-col-50 ops-aligncenter">
 		<p>
 			<@liferay_portlet["runtime"]

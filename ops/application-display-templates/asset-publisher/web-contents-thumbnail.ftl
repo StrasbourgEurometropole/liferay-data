@@ -29,6 +29,13 @@
 
 <!-- VIGNETTE ACTUALITE -->
 <#if title?has_content && thumbnail?has_content && !contestDate?has_content>
+
+    <#-- Récupération de la Typologie -->
+    <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
+    <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+    <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', entry.resourcePrimKey) >
+    <#assign typologiesList = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "typologie") />
+
     <a href="${detailURL}" class="ops-card ops-card-article">
         <div>
             <#if thumbnail?has_content>
@@ -39,7 +46,9 @@
             <div class="ops-content-card-actu">
                 <div class="ops-meta-card-article">
                     <div class="ops-cats">
-                        <span class="ops-cat"><@liferay_ui.message key="eu.ops.in.picture" /></span>
+                        <#list typologiesList as typology>
+                            <span class="ops-cat">${typology.getName()}</span>
+                        </#list>
                     </div>
                     <span class="ops-date-article">
                         <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${entry.getModifiedDate()?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</time>

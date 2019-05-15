@@ -25,9 +25,8 @@
         <!-- Header de l'article -->
         <header class="ops-content-wrapper ops-bloc ops-bloc-small">
             <div class="ops-cats">
-                <span class="ops-cat"><@liferay_ui.message key="eu.ops.in.picture" /></span>
-                <#list categoryList as categoryList>
-                   <span class="ops-cat"> ${categoryList.getName()} <span>
+                <#list categoryList as category>
+                   <span class="ops-cat"> ${category.getTitle(locale)} </span>
                 </#list>
             </div>
             <h1>${title.getData()}</h1>

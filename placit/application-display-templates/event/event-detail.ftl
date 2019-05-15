@@ -41,6 +41,20 @@
 <#-- Recuperation de la version JSON de l'événement -->
 <#assign eventJSON = entry.toJSON(userID) />
 
+
+<#-- Récupération des liens médias de l'entité -->
+<#assign imageURL = entry.imageURL />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+
+<@liferay_util["html-top"]>
+    <meta property="og:url" content="${currentUrl}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${entry.getTitle(locale)}" />
+    <meta property="og:description" content="${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}" /> 
+    <meta property="og:image" content="${imageURL}"/>
+
+</@>
+
 <div class="pro-page-detail">
 
     <div class="container">
