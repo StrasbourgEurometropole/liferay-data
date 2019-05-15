@@ -64,9 +64,9 @@
 <#elseif name?has_content && post?has_content >
     <#-- Si pas de page de detail, alors vignette non cliquable-->
     <#if detailURL?has_content>
-        <a href="${detailURL}" class="ops-card ops-card-std">
+        <a href="${detailURL}" class="ops-card ops-card-member">
     <#else>
-        <div class="ops-card ops-card-std">
+        <div class="ops-card ops-card-member">
     </#if>
             <div>
                 <#if bigImage?has_content>
@@ -76,11 +76,10 @@
                 <#else>
                     <div class="ops-no-photo"></div>
                 </#if>
-                <h3>
-                    <strong>${post}</strong>
-                    <br>
-                    ${name}
-                </h3>
+                <div class="ops-caption">
+                    <h3>${name}</h3>
+                    <span class="ops-function">${post}</span>
+                </div>
             </div>
         </a>
     <#if detailURL?has_content>
