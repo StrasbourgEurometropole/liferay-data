@@ -44,7 +44,7 @@
                 </svg>
             </a>
             <div class="ops-top-header-btn">
-                <a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité"><span>Accessibilité</span></a>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité"><span><@liferay_ui.message key="eu.ops.accessibility" /></span></a>
                 <@liferay_portlet["runtime"]
 					portletProviderAction=portletProviderAction.VIEW
 					portletName="com_liferay_site_navigation_language_web_portlet_SiteNavigationLanguagePortlet"
@@ -62,10 +62,10 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <span class="ops-burger-txt">Menu</span>
+                    <span class="ops-burger-txt"><@liferay_ui.message key="eu.ops.menu" /></span>
                 </div>
                 <div class="ops-wrapper-btn">
-                    <a href="https://billets-ops.strasbourg.eu/0466/fListeManifs.aspx?idstructure=0466" class="ops-btn">Billetterie</a>
+                    <a href="https://billets-ops.strasbourg.eu/0466/fListeManifs.aspx?idstructure=0466" class="ops-btn"><@liferay_ui.message key="eu.ops.ticketing" /></a>
                 </div>
             </div>
 
@@ -81,12 +81,12 @@
             <!-- Header right (Réseaux sociaux + Calendrier + Recherche) -->
             <div class="ops-header-right">
                 <ul class="ops-social">
-                    <li><a href="https://www.instagram.com/philharmonique_de_strasbourg" title="Lien externe vers le compte Instagram" target="_blank" aria-label="Compte Instagram"><span
+                    <li><a href="https://www.instagram.com/philharmonique_de_strasbourg" title="<@liferay_ui.message key='eu.ops.link.to.instagram' />" target="_blank" aria-label="Compte Instagram"><span
                                 class="icon-ico-instagram"></span></a></li>
 
-                    <li><a href="https://twitter.com/OPStrasbourg" title="Lien externe vers la page Twitter" target="_blank" aria-label="Compte Twitter"><span class="icon-ico-twitter"></span></a></li>
+                    <li><a href="https://twitter.com/OPStrasbourg" title="<@liferay_ui.message key='eu.ops.link.to.twitter' />" target="_blank" aria-label="Compte Twitter"><span class="icon-ico-twitter"></span></a></li>
 
-                    <li><a href="https://www.facebook.com/orchestre.philharmonique.strasbourg/?ref=ts" title="Lien externe vers la page Facebook" target="_blank" aria-label="Page Facebook"><span
+                    <li><a href="https://www.facebook.com/orchestre.philharmonique.strasbourg/?ref=ts" title="<@liferay_ui.message key='eu.ops.link.to.facebook' />" target="_blank" aria-label="Page Facebook"><span
                                 class="icon-ico-facebook"></span></a></li>
                 </ul>
                 <a href="${themeDisplay.getPortalURL()}${homeURL}agenda" class="link-calendar" aria-label="Agenda des concerts"><span class="icon-ico-calendar"></span></a>
@@ -97,8 +97,8 @@
             <!-- Formulaire de recherche -->
             <div class="ops-search-form">
                 <form method="get" action="${themeDisplay.getPortalURL()}${homeURL}recherche">
-                    <label for="ops-search" style="display: none;">Rechercher</label>
-                    <input type="text" id="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords-search" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher..."/>
+                    <label for="ops-search" style="display: none;"><@liferay_ui.message key="eu.ops.search" /></label>
+                    <input type="text" id="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords-search" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key='eu.ops.search.three.dots' />"/>
                     <input type="hidden" id="p_p_id" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet"/>
                     <input type="hidden" id="p_p_lifecycle" name="p_p_lifecycle" value="1"/>
                     <button type="submit" aria-label="Rechercher sur le site"><span class="icon-ico-search"></span></button>

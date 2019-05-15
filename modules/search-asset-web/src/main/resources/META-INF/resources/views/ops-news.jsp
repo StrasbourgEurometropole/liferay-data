@@ -150,7 +150,7 @@
 						</c:when>
 						<c:otherwise>
 							<li class="disabled">
-								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />"> 
+								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />">
 									<liferay-ui:message key="eu.search.asset.web.ops.general.previous" />
 								</a>
 							</li>
