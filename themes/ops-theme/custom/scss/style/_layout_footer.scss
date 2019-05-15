@@ -479,7 +479,7 @@
 		display: block;
 		clear: both;
 	}
-	> * {
+	.ops-menu-footer, .ops-footer-contact{
 		float: left;
 		@include mobile{
 			float: none;
