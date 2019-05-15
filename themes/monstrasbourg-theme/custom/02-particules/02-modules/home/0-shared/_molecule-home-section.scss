@@ -41,10 +41,10 @@
         }
     
         .delete-wi{
-            background-image: url( svg-bg-uri($svg-filled-close, red) );
+            background-image: url( svg-bg-uri($svg-filled-close-white, red) );
             
             &:hover, &:focus{
-                background-image: url( svg-bg-uri($svg-filled-close, $core-color) );
+                background-image: url( svg-bg-uri($svg-filled-close-white, $core-color) );
             }
         }
     

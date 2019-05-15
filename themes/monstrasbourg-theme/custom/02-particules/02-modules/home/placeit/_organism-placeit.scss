@@ -5,6 +5,10 @@
     background-color: transparent;
     padding: 45px 0;
 
+    .buttons{
+        padding-right: 75px;
+    }
+
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
     }

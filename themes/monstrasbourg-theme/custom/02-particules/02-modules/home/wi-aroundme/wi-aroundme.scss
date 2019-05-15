@@ -1,6 +1,19 @@
 #wi-aroundme{
     @extend %molecule-home-section;
+    padding: 45px 0 0;
     z-index: 5;
+
+    .buttons{
+        padding-right: 75px;
+    }
+
+    h2{
+        padding-bottom: 45px;
+    }
+    
+    .detail{
+        margin-top: -45px;
+    }
     
     #aroundme{
         z-index: 10;
