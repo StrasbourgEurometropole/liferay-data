@@ -2,9 +2,11 @@
 <#assign video = entry.getAssetRenderer().getVideo() />
 
 <section class="bloc-video" id="video">
-    <div class="video-container" style="background-image:url('${video.imageURL}');" id="player"></div>
-    <div class="video-info">
-        <p>Vidéo de présentation</p>
+    <div class="video-content">
+        <div class="video-container" style="background-image:url('${video.imageURL}');" id="player"></div>
+        <div class="video-info">
+            <p>Vidéo de présentation</p>
+        </div>
     </div>
 </section>
 
