@@ -12,7 +12,15 @@
         padding: 0 75px;
         
         @include RWD(mobile){
-            padding: 0 20px;
+            padding-right: 20px;
+        }
+
+        @include RWD(tablet){
+            padding-right: 45px;
+        }
+
+        @include RWD(mobile){
+            padding-right: 20px;
         }
 
         @include RWD(tablet){            

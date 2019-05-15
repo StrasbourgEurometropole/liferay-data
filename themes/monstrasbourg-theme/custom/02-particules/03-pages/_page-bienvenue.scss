@@ -10,6 +10,9 @@
         .nav-contact{
             margin-right: 0 ;
             padding: 0;
+            @include RWD(tablet){
+                margin-right: 40px;
+            }
             @include RWD(mobile){
                 margin-right: 20px;
             }
