@@ -52,7 +52,8 @@
     <meta property="og:title" content="${entry.getTitle(locale)}" />
     <meta property="og:description" content="${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}" /> 
     <meta property="og:image" content="${imageURL}"/>
-
+    <meta property="og:image:width" content="450"/>
+    <meta property="og:image:height" content="298"/>
 </@>
 
 <div class="pro-page-detail">
