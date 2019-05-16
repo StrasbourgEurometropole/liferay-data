@@ -33,6 +33,14 @@
 		<aui:fieldset>
 			<aui:input name="noFavoritesMap" value="${noFavorites}" localized="true" type="editor" label="no-favorites-text" />
 		</aui:fieldset>
+
+		<aui:fieldset>
+			<aui:input name="noFavoritesSelectedMap" value="${noFavoritesSelected}" localized="true" type="editor" label="no-favorites-selected-text" />
+		</aui:fieldset>
+
+		<aui:fieldset>
+			<aui:input name="texteMap" value="${texte}" localized="true" type="editor" label="chapo" />
+		</aui:fieldset>
 		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>

@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +41,7 @@ public class FavoriteSoap implements Serializable {
 		soapModel.setTypeId(model.getTypeId());
 		soapModel.setEntityId(model.getEntityId());
 		soapModel.setEntityGroupId(model.getEntityGroupId());
+		soapModel.setOnDashboardDate(model.getOnDashboardDate());
 
 		return soapModel;
 	}
@@ -148,6 +150,14 @@ public class FavoriteSoap implements Serializable {
 		_entityGroupId = entityGroupId;
 	}
 
+	public Date getOnDashboardDate() {
+		return _onDashboardDate;
+	}
+
+	public void setOnDashboardDate(Date onDashboardDate) {
+		_onDashboardDate = onDashboardDate;
+	}
+
 	private long _favoriteId;
 	private String _publikUserId;
 	private String _title;
@@ -155,4 +165,5 @@ public class FavoriteSoap implements Serializable {
 	private long _typeId;
 	private long _entityId;
 	private long _entityGroupId;
+	private Date _onDashboardDate;
 }

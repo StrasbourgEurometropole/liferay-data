@@ -15,5 +15,11 @@ public interface FavoritesConfiguration {
 
 	@Meta.AD(name = "noFavoritesXML", deflt = "", required = false)
 	public String noFavoritesXML();
+
+	@Meta.AD(name = "noFavoritesSelectedXML", deflt = "", required = false)
+	public String noFavoritesSelectedXML();
+
+	@Meta.AD(name="texteXML", deflt = "", required = false)
+	public String texteXML();
 	
 }

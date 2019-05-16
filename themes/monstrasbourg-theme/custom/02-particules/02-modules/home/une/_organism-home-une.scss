@@ -2,9 +2,11 @@
     position: relative;
     overflow: hidden;
     background-color: #f6f6f6;
+
     .top-line{
         // transform: translateY(-75px);
     }
+
     .une-top-background{
         background: #F6F6F6;
         position: absolute;
@@ -16,6 +18,7 @@
         z-index: 2;
 
     }
+
     .une-background{
         background-position: center;
         background-size: cover;
@@ -33,10 +36,12 @@
             height: 450px;
         }
     }
+
     .section-title{
         z-index: 2;
         position: relative;
     }
+    
     .btn-line{
         position: relative;
         z-index: 2;

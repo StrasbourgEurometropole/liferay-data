@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Favorite in entity cache.
  *
@@ -63,7 +65,7 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{favoriteId=");
 		sb.append(favoriteId);
@@ -79,6 +81,8 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		sb.append(entityId);
 		sb.append(", entityGroupId=");
 		sb.append(entityGroupId);
+		sb.append(", onDashboardDate=");
+		sb.append(onDashboardDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -115,6 +119,13 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		favoriteImpl.setEntityId(entityId);
 		favoriteImpl.setEntityGroupId(entityGroupId);
 
+		if (onDashboardDate == Long.MIN_VALUE) {
+			favoriteImpl.setOnDashboardDate(null);
+		}
+		else {
+			favoriteImpl.setOnDashboardDate(new Date(onDashboardDate));
+		}
+
 		favoriteImpl.resetOriginalValues();
 
 		return favoriteImpl;
@@ -132,6 +143,7 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		entityId = objectInput.readLong();
 
 		entityGroupId = objectInput.readLong();
+		onDashboardDate = objectInput.readLong();
 	}
 
 	@Override
@@ -165,6 +177,7 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		objectOutput.writeLong(entityId);
 
 		objectOutput.writeLong(entityGroupId);
+		objectOutput.writeLong(onDashboardDate);
 	}
 
 	public long favoriteId;
@@ -174,4 +187,5 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 	public long typeId;
 	public long entityId;
 	public long entityGroupId;
+	public long onDashboardDate;
 }

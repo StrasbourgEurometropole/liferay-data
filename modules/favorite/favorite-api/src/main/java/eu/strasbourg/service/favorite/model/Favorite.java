@@ -60,6 +60,8 @@ public interface Favorite extends FavoriteModel, PersistedModel {
 
 	public eu.strasbourg.service.favorite.model.FavoriteType getFavoriteType();
 
+	public boolean isOnDashboard();
+
 	/**
 	* Retourne la version JSON d'un favoris
 	*/

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE layout-templates PUBLIC "-//Liferay//DTD Layout Templates 7.1.0//EN" "http://www.liferay.com/dtd/liferay-layout-templates_7_1_0.dtd">
+
+<layout-templates>
+	<custom>
+		<layout-template id="nested-portlet-layout" name="nested-portlet-layout">
+			<template-path>/nested-portlet-layout.ftl</template-path>
+			<thumbnail-path>/nested-portlet-layout.png</thumbnail-path>
+		</layout-template>
+	</custom>
+</layout-templates>
