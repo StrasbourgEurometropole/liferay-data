@@ -2,18 +2,6 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<!-- Entete de la recherche globale -->
-<header class="ops-small-header">
-    <figure class="fit-cover">
-        <img src="/o/searchassetweb/images/ops-general-bandeau.jpg" width="1600" height="450" alt="Photo de couverture"/>
-    </figure>
-    <div class="ops-content-wrapper ops-caption ops-aligncenter">
-        <h1>
-        	<liferay-ui:message key="eu.search.asset.web.ops.news.magazine" />
-        </h1>
-    </div>
-</header>
-
 <!-- Listing des resultats -->
 <div class="ops-col-wrapper ops-listing-articles">
 
