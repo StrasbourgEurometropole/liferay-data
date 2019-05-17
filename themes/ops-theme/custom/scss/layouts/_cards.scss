@@ -72,6 +72,10 @@
 	.ops-cats, .ops-date-article {
 		display: inline-block;
 		vertical-align: top;
+		@include tablet_portrait{
+			display: block;
+			clear: left;
+		}
 	}
 }
 
@@ -353,6 +357,63 @@
 	}
 }
 
+
+// CARD PAGE MEMBRE
+// ==========================================================================
+.ops-card-member {
+	> div{
+		position: relative;
+		&:after {
+			content: "\e915";
+			@include font();
+			position: absolute;
+			right: 20px;
+			bottom: 20px;
+			font-size: 28px;
+			color: $c_white;
+			z-index: 100;
+			@include addTransition();
+		}
+	}
+	figure {
+		@include aspect-ratio(390, 560);
+		&:after {
+			content: '';
+			@extend %ops-center;
+			z-index: 10;
+			background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 36%, rgba(0, 0, 0, 0.8) 100%);
+			background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 36%, rgba(0, 0, 0, 0.8) 100%);
+			background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 36%, rgba(0, 0, 0, 0.8) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#cc000000', GradientType=0);
+		}
+		img {
+			@extend %ops-center;
+			width: 100%;
+			height: 100%;
+		}
+	}
+	.ops-no-photo {
+		@include aspect-ratio(390, 560);
+	}
+	.ops-caption {
+		position: absolute;
+		left: 20px;
+		right: 60px;
+		bottom: 25px;
+		width: calc(100% - 80px);
+		z-index: 100;
+		h3{
+			color: $c_white;
+			min-height: auto;
+			max-width: 100%;
+		}
+		.ops-function{
+			@include ft($f_txt, 16px, 400, $c_white, 20px);
+		}
+	}
+}
+
+
 // CARD EMPLOI
 // ==========================================================================
 .ops-card-emploi {
@@ -383,10 +444,12 @@
 	h3 {
 		font-size: 28px;
 		line-height: 34px;
+		@include tablet_landscape{
+			max-width: 100%;
+		}
 		@include tablet_portrait {
 			font-size: 22px;
 			line-height: 28px;
-			max-width: 100%;
 		}
 		@include mobile {
 			font-size: 20px;

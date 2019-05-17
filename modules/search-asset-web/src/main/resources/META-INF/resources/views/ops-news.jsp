@@ -2,35 +2,56 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<!-- LISTING DES CONCERTS DE LA SAISON -->
-<section class="ops-content-wrapper ops-content-wrapper-large ops-wrapper-listing-saison">
+<!-- Entete de la recherche globale -->
+<header class="ops-small-header">
+    <figure class="fit-cover">
+        <img src="/o/searchassetweb/images/ops-general-bandeau.jpg" width="1600" height="450" alt="Photo de couverture"/>
+    </figure>
+    <div class="ops-content-wrapper ops-caption ops-aligncenter">
+        <h1>
+        	<liferay-ui:message key="eu.search.asset.web.ops.news.magazine" />
+        </h1>
+    </div>
+</header>
 
-	<!-- Formulaire -->
-	<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="ops-bloc-facettes">
-		<liferay-portlet:renderURLParams varImpl="searchActionURL" />
-		<liferay-util:include page="/forms/ops-agenda-form.jsp" servletContext="<%=application%>" />
-	</aui:form>
-
-	<!-- Resultats -->
-	<aui:form method="post" name="fm">
-		<div class="ops-listing-wrapper">
-			<!-- resultats -->
-			<liferay-ui:search-container id="entriesSearchContainer" searchContainer="${dc.searchContainer}">
-				<liferay-ui:search-container-results results="${dc.entries}" />
-				<liferay-ui:search-container-row className="com.liferay.asset.kernel.model.AssetEntry" modelVar="entry" keyProperty="entryId"
-					rowIdProperty="entryId">
-					<c:set var="className" value="${entry.className}" />
-					<liferay-ddm:template-renderer className="${className}" contextObjects="${dc.getTemplateContextObjects(entry)}"
-						displayStyle="${dc.templatesMap[entry.className]}" displayStyleGroupId="${themeDisplay.scopeGroupId}" entries="${dc.templateEntries }">
-						<liferay-ui:asset-display assetEntry="${entry}" assetRenderer="${entry.assetRenderer}" assetRendererFactory="${entry.assetRendererFactory}"
-							template="abstract" />
+<!-- Listing des resultats -->
+<aui:form method="post" name="fm" cssClass="ops-col-wrapper ops-listing-articles">
+	<liferay-ui:search-container id="entriesSearchContainer" searchContainer="${dc.searchContainer}">
+	
+		<liferay-ui:search-container-results results="${dc.entries}" />
+       	<liferay-ui:search-container-row
+			className="com.liferay.asset.kernel.model.AssetEntry"
+			modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
+				<c:set var="className" value="${entry.className}" />
+				<c:choose>
+					<c:when test="${fn:contains(className, 'JournalArticle')}">
+						<c:set var="className" value="com.liferay.asset.kernel.model.AssetEntry" />
+					</c:when>
+					<c:when test="${fn:contains(className, 'DLFileEntry')}">
+						<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
+					</c:when>
+				</c:choose>
+				<c:if test="${!entry.className.equals('Procedure')}">
+					<liferay-ddm:template-renderer
+						className="${className}"
+						contextObjects="${dc.getTemplateContextObjects(entry)}"
+						displayStyle="${dc.templatesMap[entry.className]}"
+						displayStyleGroupId="${themeDisplay.scopeGroupId}"
+						entries="${dc.templateEntries }"
+					>
+						<liferay-ui:asset-display
+							assetEntry="${entry}"
+							assetRenderer="${entry.assetRenderer}"
+							assetRendererFactory="${entry.assetRendererFactory}"
+							template="abstract"
+						/>
 					</liferay-ddm:template-renderer>
-				</liferay-ui:search-container-row>
-			</liferay-ui:search-container>
-		</div>
-	</aui:form>
+				</c:if>
+		</liferay-ui:search-container-row>
+		
+	</liferay-ui:search-container>
+</aui:form>
 
-</section>
 
 <!-- Pagination -->
 <div class="ops-content-wrapper ops-content-wrapper-large ops-pagination">
@@ -126,7 +147,7 @@
 						</c:when>
 						<c:otherwise>
 							<li class="disabled">
-								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />"> 
+								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />">
 									<liferay-ui:message key="eu.search.asset.web.ops.general.previous" />
 								</a>
 							</li>

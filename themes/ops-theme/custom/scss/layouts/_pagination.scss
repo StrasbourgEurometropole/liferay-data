@@ -7,6 +7,7 @@
 
 .ops-pagination {
 	position: relative;
+	z-index: 50;
 	margin-bottom: 80px;
 	@include clearfix();
 	&:after {
