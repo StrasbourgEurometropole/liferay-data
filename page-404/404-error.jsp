@@ -16,7 +16,6 @@
 %>
 
 <%
-	String currentURL = (String) request.getAttribute(WebKeys.CURRENT_URL);
 	boolean page404Exists = true;
 
 	// Recuperation directe du layoutSet (toutes les pages) du group (site) de la requete
@@ -42,6 +41,6 @@
     </c:when>
     <%-- Sinon, on va vers l'index --%>
     <c:otherwise>
-        <c:import url='<%= PortalUtil.getPortalURL(request) + ";jsessionid=" + session.getId() %>'/>
+        <c:import url='<%= PortalUtil.getPortalURL(request) + "/;jsessionid=" + session.getId() %>'/>
     </c:otherwise>
 </c:choose>
