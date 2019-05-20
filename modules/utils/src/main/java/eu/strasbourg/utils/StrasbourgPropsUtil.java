@@ -233,4 +233,12 @@ public class StrasbourgPropsUtil {
 	public static String getDashboardURL() {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
+	
+	public static String getRodrigueOPSStructureID() {
+		return PropsUtil.get("eu.strasbourg.ops.rodrigue.structure.id");
+	}
+	
+	public static String getOPSTicketingURL() {
+		return PropsUtil.get("eu.strasbourg.ops.ticketing.url");
+	}
 }
