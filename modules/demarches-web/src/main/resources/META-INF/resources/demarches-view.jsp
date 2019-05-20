@@ -49,7 +49,7 @@
                     </div>
 
                     <form id="formSuivi">
-                        <input id="codeSuivi" type="text" placeholder="EX: CNPHNTFB " required aria-required="true"><br>
+                        <input id="codeSuivi" type="text" placeholder="EX: CNPHNTFB " required aria-required="true">
                         <button data-url-suivi="${urlSuivi}" type="submit" class="btn-square--filled--core">
                             <span class="flexbox">
                                 <span class="btn-text"><liferay-ui:message key="submit" /></span>
