@@ -1,4 +1,4 @@
-<!-- VIGNETTE EVENEMENT -->
+<!-- VIGNETTE EVENEMENT GLOBAL SEARCH -->
 
 <#setting locale = locale />
 
@@ -16,7 +16,7 @@
 <#assign showEntry = false />
 
 <#list managerList as manager>
-    <#if manager.getName() == "Orchestre Philarmonique" >
+    <#if manager.getName() == "Orchestre Philharmonique" >
         <#assign showEntry = true />
     </#if>
 </#list>
