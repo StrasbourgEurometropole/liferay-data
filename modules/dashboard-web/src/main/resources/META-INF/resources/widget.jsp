@@ -1,4 +1,11 @@
 <%@ include file="/init.jsp"%>
+<c:set var="virtualParticiperHostName" value="${dc.getVirtualParticiperHostName()}"/>
+<c:if test="${empty virtualParticiperHostName}">
+	<c:set var="homeParticiperURL" value="/web/participer/"/>
+</c:if>
+<c:if test="${not empty virtualParticiperHostName}">
+	<c:set var="homeParticiperURL" value="https://${virtualParticiperHostName}/"/>
+</c:if>
 
 <portlet:actionURL var="saveProfilURL" name="saveProfil">
 	<portlet:param name="redirectURL" value="${redirectURL}" />
@@ -30,7 +37,7 @@
 
             <div class="form-group">
                 <div class="content" align="center">
-                    <a href="https://participer.strasbourg.eu" target="_blank" class="btn-square--bordered--core" title="Consultez la plateforme (<liferay-ui:message key="eu.new-window" />)">
+                    <a href="${homeParticiperURL}" target="_blank" class="btn-square--bordered--core" title="Consultez la plateforme (<liferay-ui:message key="eu.new-window" />)">
                         <span class="flexbox">
                             <span class="btn-text"><liferay-ui:message key="dashboard.widget.goto" /></span>
                             <span class="btn-arrow"></span>
@@ -50,7 +57,7 @@
                         <span class="pro-number">${projectFollowedsCount}</span>
                         <div class="form-group">
                             <div class="content" align="center">
-                                <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-projet" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.project.goto" />(<liferay-ui:message key="eu.new-window" />)" >
+                                <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-projet" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.project.goto" />(<liferay-ui:message key="eu.new-window" />)" >
                                     <span class="flexbox">
                                         <span class="btn-text">
                                             <liferay-ui:message key="dashboard.widget.project.goto" />
@@ -66,7 +73,7 @@
                         <span class="pro-number">${eventCount}</span>
                         <div class="form-group">
                             <div class="content" align="center">
-                                <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-event" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.event.goto" />(<liferay-ui:message key="eu.new-window" />)" >
+                                <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-event" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.event.goto" />(<liferay-ui:message key="eu.new-window" />)" >
                                     <span class="flexbox">
                                         <span class="btn-text">
                                             <liferay-ui:message key="dashboard.widget.event.goto" />
@@ -84,7 +91,7 @@
                     <span class="pro-number">${petitionSignedCount}</span>
                     <div class="form-group">
                         <div class="content" align="center">
-                            <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-petition-signe" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.petition.signed" />(<liferay-ui:message key="eu.new-window" />)" >
+                            <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-petition-signe" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.petition.signed" />(<liferay-ui:message key="eu.new-window" />)" >
                                 <span class="flexbox">
                                     <span class="btn-text">
                                         <liferay-ui:message key="dashboard.widget.petition.signed" />
@@ -97,7 +104,7 @@
                     <span class="pro-number">${petitionsFiledCount}</span>
                     <div class="form-group">
                         <div class="content" align="center">
-                            <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-petition-depose" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.petition.filed" />(<liferay-ui:message key="eu.new-window" />)" >
+                            <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-petition-depose" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.petition.filed" />(<liferay-ui:message key="eu.new-window" />)" >
                                 <span class="flexbox">
                                     <span class="btn-text">
                                         <liferay-ui:message key="dashboard.widget.petition.filed" />
@@ -114,7 +121,7 @@
                     <span class="pro-number">${initiativeFiledsCount}</span>
                     <div class="form-group">
                         <div class="content" align="center">
-                            <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-initiative-signe" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.initiative.signed" />(<liferay-ui:message key="eu.new-window" />)" >
+                            <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-initiative-signe" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.initiative.signed" />(<liferay-ui:message key="eu.new-window" />)" >
                                 <span class="flexbox">
                                     <span class="btn-text">
                                         <liferay-ui:message key="dashboard.widget.initiative.signed" />
@@ -127,7 +134,7 @@
                     <span class="pro-number">${initiativeAidesCount}</span>
                     <div class="form-group">
                         <div class="content" align="center">
-                            <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-initiative-aide" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.initiative.aidees" />(<liferay-ui:message key="eu.new-window" />)" >
+                            <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-initiative-aide" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.initiative.aidees" />(<liferay-ui:message key="eu.new-window" />)" >
                                 <span class="flexbox">
                                     <span class="btn-text">
                                         <liferay-ui:message key="dashboard.widget.initiative.aidees" />
@@ -144,7 +151,7 @@
                     <span class="pro-number">${budgetFiled.size()}</span>
                     <div class="form-group">
                         <div class="content" align="center">
-                            <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-projet-soumis" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.budget.filed" />(<liferay-ui:message key="eu.new-window" />)" >
+                            <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-projet-soumis" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.budget.filed" />(<liferay-ui:message key="eu.new-window" />)" >
                                 <span class="flexbox">
                                     <span class="btn-text">
                                         <liferay-ui:message key="dashboard.widget.budget.filed" />
@@ -157,7 +164,7 @@
                     <span class="pro-number">${budgetVoted.size()}</span>
                     <div class="form-group">
                         <div class="content" align="center">
-                            <a href="https://participer.strasbourg.eu/mon-activite-citoyenne#pro-link-listing-projet-vote" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.budget.voted" />(<liferay-ui:message key="eu.new-window" />)" >
+                            <a href="${homeParticiperURL}mon-activite-citoyenne#pro-link-listing-projet-vote" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="dashboard.widget.budget.voted" />(<liferay-ui:message key="eu.new-window" />)" >
                                 <span class="flexbox">
                                     <span class="btn-text">
                                         <liferay-ui:message key="dashboard.widget.budget.voted" />
@@ -176,7 +183,7 @@
                 <div class="acces-site">
                     <div class="form-group">
                         <div class="content" align="center">
-                            <a href="https://participer.strasbourg.eu" target="_blank" class="btn-square--bordered--core" title="Consultez la plateforme (<liferay-ui:message key="eu.new-window" />)">
+                            <a href="${homeParticiperURL}" target="_blank" class="btn-square--bordered--core" title="Consultez la plateforme (<liferay-ui:message key="eu.new-window" />)">
                                 <span class="flexbox">
                                     <span class="btn-text"><liferay-ui:message key="dashboard.widget.goto" /></span>
                                     <span class="btn-arrow"></span>
