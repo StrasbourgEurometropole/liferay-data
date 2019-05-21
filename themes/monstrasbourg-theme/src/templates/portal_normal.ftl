@@ -108,7 +108,13 @@
  
   <main id="main-content">
     <#if !isWelcome>
-      <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
+      <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
+      <#if !layoutImage?has_content>
+        <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
+      </#if>
+      <#if layoutImage?has_content>
+        <div class="bg-banner" style="background-image: url(${layoutImage});"></div>
+      </#if>
     </#if>
     <#if !isWelcome>
       <div class="custom-container" >

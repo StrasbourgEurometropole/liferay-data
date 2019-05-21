@@ -17,6 +17,8 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -190,12 +192,12 @@ public class FavoritesDisplayContext {
 	 */
 	public List<FavoriteDisplay> getMyFavorites() {
 		if (myFavorites == null) {
-
 			myFavorites = getFavoritesSelected();
 			if (myFavorites.isEmpty()){
-				myFavorites = getFavorites().subList(0, getFavorites().size() > 4 ? 4 : myFavorites.size());
+				myFavorites = getFavorites().subList(0, getFavorites().size() > 4 ? 4 : getFavorites().size());
 			}
 		}
+
 		return myFavorites;
 	}
 

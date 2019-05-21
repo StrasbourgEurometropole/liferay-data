@@ -68,25 +68,33 @@ public class FavoritesConfigurationAction extends DefaultConfigurationAction {
 			String noFavoritesXML = LocalizationUtil.getXml(map, "noFavorites");
 			setPreference(request, "noFavoritesXML", noFavoritesXML);
 
-			// No favorites selected
-			Map<Locale, String> noFavoritesSelectedMap = LocalizationUtil
-					.getLocalizationMap(request, "noFavoritesSelectedMap");
-			LocalizedValuesMap noFavMap = new LocalizedValuesMap();
-			for (Map.Entry<Locale, String> e : noFavoritesSelectedMap.entrySet()) {
-				noFavMap.put(e.getKey(), e.getValue());
-			}
-			String noFavoritesSelectedXML = LocalizationUtil.getXml(noFavMap, "noFavoritesSelected");
-			setPreference(request, "noFavoritesSelectedXML", noFavoritesSelectedXML);
+			if(template.equals("list")) {
+				// Chapô
+				Map<Locale, String> textMap = LocalizationUtil
+						.getLocalizationMap(request, "texteMap");
+				LocalizedValuesMap textemap = new LocalizedValuesMap();
+				for (Map.Entry<Locale, String> e : textMap.entrySet()) {
+					textemap.put(e.getKey(), e.getValue());
+				}
+				String texteXML = LocalizationUtil.getXml(textemap, "texte");
+				setPreference(request, "texteXML", texteXML);
 
-			// Chapô
-			Map<Locale, String> textMap = LocalizationUtil
-					.getLocalizationMap(request, "texteMap");
-			LocalizedValuesMap textemap = new LocalizedValuesMap();
-			for (Map.Entry<Locale, String> e : textMap.entrySet()) {
-				textemap.put(e.getKey(), e.getValue());
+				setPreference(request, "noFavoritesSelectedXML", "");
+			}else {
+				// No favorites selected
+				Map<Locale, String> noFavoritesSelectedMap = LocalizationUtil
+						.getLocalizationMap(request, "noFavoritesSelectedMap");
+				LocalizedValuesMap noFavMap = new LocalizedValuesMap();
+				for (Map.Entry<Locale, String> e : noFavoritesSelectedMap.entrySet()) {
+					noFavMap.put(e.getKey(), e.getValue());
+				}
+				String noFavoritesSelectedXML = LocalizationUtil.getXml(noFavMap, "noFavoritesSelected");
+				setPreference(request, "noFavoritesSelectedXML", noFavoritesSelectedXML);
+
+				// Pas utilisé en mode widget
+				setPreference(request, "texteXML", "");
 			}
-			String texteXML = LocalizationUtil.getXml(textemap, "texte");
-			setPreference(request, "texteXML", texteXML);
+
 		}
 		super.processAction(portletConfig, request, response);
 	}
