@@ -17,6 +17,11 @@
 
     .smag-quicklink{
         margin: 0 5px 10px 5px;
+
+        &.btn-square.filled.second{
+            border-color: white;
+            background-color: white;
+        }
         @include RWD(mobile){
             padding: 5px 10px;
             .btn-text{
