@@ -48,7 +48,8 @@
     <meta property="og:title" content="${entry.title}" />
     <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" /> 
     <meta property="og:image" content="${imageFullURL}"/>
-
+    <meta property="og:image:width" content="450"/>
+    <meta property="og:image:height" content="298"/>
 </@> 
 
 

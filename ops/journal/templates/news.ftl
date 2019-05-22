@@ -42,7 +42,9 @@
         <div class="ops-content-wrapper ops-bloc-texte ops-image-une">
             <figure class="fit-cover">
                 <img src="${image.getData()}" width="1200" height="550" alt="Image article"/>
-                <figcaption>${image.getAttribute("alt")}</figcaption>
+                <#if image.getChild("copyright").getData()?has_content>
+                    <figcaption>${image.getChild("copyright").getData()}</figcaption>
+                </#if>
             </figure>
         </div>
 
