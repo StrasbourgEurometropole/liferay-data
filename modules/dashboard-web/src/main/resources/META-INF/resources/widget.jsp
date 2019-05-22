@@ -1,5 +1,4 @@
 <%@ include file="/init.jsp"%>
-<c:set var="virtualParticiperHostName" value="${dc.getVirtualParticiperHostName()}"/>
 <c:if test="${empty virtualParticiperHostName}">
 	<c:set var="homeParticiperURL" value="/web/participer/"/>
 </c:if>
