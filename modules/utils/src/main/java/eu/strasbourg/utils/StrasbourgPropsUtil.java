@@ -241,4 +241,9 @@ public class StrasbourgPropsUtil {
 	public static String getOPSTicketingURL() {
 		return PropsUtil.get("eu.strasbourg.ops.ticketing.url");
 	}
+	
+	public static String getRodrigueAPIURL() {
+		return PropsUtil.get("eu.strasbourg.ops.rodrigue.api.url");
+	}
+	
 }
