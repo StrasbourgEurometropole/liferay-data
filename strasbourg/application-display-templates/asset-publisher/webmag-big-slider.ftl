@@ -99,19 +99,7 @@
     <script type="text/javascript">
         document.addEventListener("mouseup", function(event){
             var targetElement = event.target;
-            var items = $('.slider-une .slider-une-thumbnail__slider .owl-stage-outer .owl-stage .owl-item');
-            var trouve = false;
-            var link;
-            items.each(function(){  
-                if($(this).prop("class").indexOf("center") > 0 ){
-                    trouve = true;
-                    link = $(targetElement).closest('div.owl-item.center > li[class^="slider-une-"] > div').attr('data-link');
-                }
-            });
-            // si on ne trouve pas de center, c'est que l'on est en mode smartphone
-            if(!trouve){
-                link = $(targetElement).closest('div.owl-item.active > li[class^="slider-une-"] > div').attr('data-link');
-            }
+            var link = $(targetElement).closest('li.slider-une-thumbnail__slider-item > div').attr('data-link');
             if (link != undefined) {
                 window.location.href = link;
             }

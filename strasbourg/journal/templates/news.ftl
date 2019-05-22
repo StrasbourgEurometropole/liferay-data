@@ -15,33 +15,12 @@
     <meta property="og:title" content="${title.getData()?html}" />
     <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${currentUrl}" />
-    <#if thumbnail.getData()?has_content>
-        <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
-    </#if>
-    <#if !thumbnail.getData()?has_content>
-        <#if image.getData()?has_content>
-            <#assign imageUrl = themeDisplay.getPortalURL() + image.getData() />
-        </#if>
-        <#if !image.getData()?has_content>
-            <#assign layout = themeDisplay.getLayout() />
-            <#if layout.expandoBridge.getAttribute('image')?has_content>
-                <#assign imageUrl = themeDisplay.getPortalURL() + layout.expandoBridge.getAttribute('image') />
-            </#if>
-        </#if>
-    </#if>
+    <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
     <#if imageUrl?has_content>
-        <!-- <#assign imageUrl = imageUrl?replace('https:','http:') />
-        <#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
-        <#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(imageUrl) /> -->
         <meta property="og:image" content="${imageUrl}"/>
-        <!-- <meta property="og:image:width" content="${taille?keep_before(',')}"/>
-        <meta property="og:image:height" content="${taille?keep_after(',')}"/> -->
-        <meta property="og:image:width" content="450"/> 
-        <meta property="og:image:height" content="298"/>
+        <meta property="og:image:width" content="620"/> 
+        <meta property="og:image:height" content="400"/>
     </#if>
-    <!-- <#assign imageUrl = 'http://www.touch-as-strasbourg.com/media/uploaded/sites/10468/partenaire/57a9e032cf93f_eurometropole.png' />
-    <meta property="og:image:width" content="500"/>
-    <meta property="og:image:height" content="300"/> -->
 </@>
 
 <main class="seu-container" style="margin-bottom: 50px">
