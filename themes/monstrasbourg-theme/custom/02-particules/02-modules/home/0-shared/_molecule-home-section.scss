@@ -29,7 +29,7 @@
         button + button {
             margin-left: 15px;
         }
-
+        
         .delete-wi, .retractable-folded-wi, .retractable-unfolded-wi{
             content: '';
             display: inline-block;
@@ -38,6 +38,10 @@
             background-size: 30px;
             background-position: center right;
             background-repeat: no-repeat;
+            
+            &:focus{
+                outline: none;
+            }
         }
     
         .delete-wi{
