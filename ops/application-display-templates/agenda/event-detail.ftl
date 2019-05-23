@@ -49,16 +49,7 @@
         <div class="ops-content-wrapper">
 
             <div class="slick-carousel slick-cards-slider">
-
-                <#-- Parcours des dates de l'event -->
-                <#list entry.getCurrentAndFuturePeriods() as period>
-                    <div class="ops-item">
-                        <time><span>${period.getDisplay(locale, false, true)}</span></time>
-                        <div class="ops-horaires">${period.timeDetail}</div>
-                        <h3>${entry.getTitle(locale)}</h3>
-                        <span class="ops-typologie">${entry.getLabelTypologies(locale)}</span>
-                    </div>
-                </#list>
+                
             </div>
 
         </div>
@@ -167,5 +158,49 @@
 
         if($('*').find("#ops-audio").length == 0)
             $("#audio-link").hide();
+
+        var eventID = ${entry.eventId};
+
+        // Recherche des sessions futures
+        Liferay.Service(
+            '/agenda.event/get-sessions',
+            {
+                eventID: eventID
+            },
+            function(json) {
+
+                for(var i = 0; i < json.length; i++) {
+                    var session = json[i];
+
+                    // Date de concert
+                    var concertDate = new Date(Date.parse(session.sessionDate));
+
+                    // Elements
+                    var cssClass = "ops-item-concert-complet";
+                    var nbSeatElement = "<@liferay_ui.message key='eu.ops.complete' />";
+                    var ticketingElement = "<span><@liferay_ui.message key='eu.ops.buy.my.ticket' /></span>";
+
+                    if (session.nbSeat > 0) {
+                        cssClass = "";
+                        nbSeatElement = '<strong>' + session.nbSeat + '</strong> <@liferay_ui.message key="eu.ops.seats.available" />';
+                        ticketingElement = '<a href="' + session.link + '" target="_blank"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>';
+                    }
+ 
+                    $(".slick-track").append(
+                        '<div class="ops-item ' + session.cssClass + '">' +
+                            '<time datetime="' + concertDate.getFullYear() + '-' + concertDate.getMonth() + '-' + concertDate.getDate() + '">' + 
+                                '<span>' + concertDate.getDate() + '</span> ' + concertDate.getMonth() + '/' + concertDate.getFullYear() +
+                            '</time>' +
+                            '<div class="ops-horaires">' + concertDate.getHours() + 'h' + concertDate.getMinutes() + '</div>' +
+                            '<h3>' + session.eventName + '</h3>' +
+                            '<div class="ops-bottom-card">' + 
+                                ticketingElement +
+                                '<div class="ops-places-dispo">' + nbSeatElement + '</div>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                }
+            }
+        );
     });
 </script>
