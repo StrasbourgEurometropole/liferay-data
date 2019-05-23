@@ -7,18 +7,20 @@
 <div class="smag-quicklinks">
     <#if linkLabel.getSiblings()?has_content>
         <#list linkLabel.getSiblings() as cur_linkLabel>
-            <#if cur_linkLabel.getChildren()[0].getFriendlyUrl()?has_content>
-                <a href="${cur_linkLabel.getChildren()[0].getFriendlyUrl()}" class="smag-quicklink btn-square filled second" title="${cur_linkLabel.getData()}">        
-            <#else>
-                <a href="${cur_linkLabel.getChildren()[1].getData()}" class="smag-quicklink btn-square filled second" title="${cur_linkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+            <#if cur_linkLabel.getData()?has_content>
+                <#if cur_linkLabel.getChildren()[0].getFriendlyUrl()?has_content>
+                    <a href="${cur_linkLabel.getChildren()[0].getFriendlyUrl()}" class="smag-quicklink btn-square filled second" title="${cur_linkLabel.getData()}">        
+                <#else>
+                    <a href="${cur_linkLabel.getChildren()[1].getData()}" class="smag-quicklink btn-square filled second" title="${cur_linkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                </#if>
+                
+                <span class="flexbox">
+                    <span class="btn-text">${cur_linkLabel.getData()}</span>
+                    <span class="btn-arrow"></span>
+                </span>
+                </a> 
             </#if>
-            
-            <span class="flexbox">
-                <span class="btn-text">${cur_linkLabel.getData()}</span>
-                <span class="btn-arrow"></span>
-            </span>
-            </a> 
-        </#list>
+        </#list>   
     </#if>
 </div>
 
