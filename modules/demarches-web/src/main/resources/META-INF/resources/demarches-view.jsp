@@ -1,4 +1,8 @@
 <%@ include file="/demarches-init.jsp" %>
+
+<liferay-portlet:actionURL name="verifCode" var="verifCodeURL">
+</liferay-portlet:actionURL>
+
 <section id="demandes">
     <%-- Récupère le fait de plier ou déplier ce widget dans la config de la personnalisation --%>
     <c:set value="${isFolded}" var="isFolded" />
@@ -48,15 +52,18 @@
                         <label><liferay-ui:message key="tracking-code" /></label>
                     </div>
 
-                    <form id="formSuivi">
-                        <input id="codeSuivi" type="text" placeholder="EX: CNPHNTFB " required aria-required="true">
-                        <button data-url-suivi="${urlSuivi}" type="submit" class="btn-square--filled--core">
+                    <form id="formSuivi" action="${verifCodeURL}" method="post" >
+                        <input name="<portlet:namespace />codeSuivi" id="codeSuivi" type="text" placeholder="EX: CNPHNTFB " required aria-required="true" value="${codeSuivi}">
+                        <button type="submit" class="btn-square--filled--core">
                             <span class="flexbox">
                                 <span class="btn-text"><liferay-ui:message key="submit" /></span>
                                 <span class="btn-arrow"></span>
                             </span>
                         </button>
                     </form>
+                    <c:if test="${not empty errorCodeSuivi}">
+                        <div class="error" style="margin-top:15px; width: 100%; max-width: 350px;">${errorCodeSuivi}</div>
+                    </c:if>
                 </div>
             </div>
 
