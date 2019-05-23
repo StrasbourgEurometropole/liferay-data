@@ -7,7 +7,7 @@ import java.util.Date;
  * @author cedric.henry
  */
 public class RodrigueEventSession {
-	
+
 	private int eventID;
 	private String eventName;
 	private String eventCode;
@@ -22,6 +22,47 @@ public class RodrigueEventSession {
 	private int nbSeat;
 	private int nbSeatMin;
 	private int nbSeatMax;
+	
+	/**
+	 * Constructeur vide par defaut
+	 */
+	public RodrigueEventSession() {
+		
+	}
+	
+	/**
+	 * Constructeur bien complet
+	 */
+	public RodrigueEventSession(int eventID, String eventName, String eventCode, String eventDescription1,
+			String eventDescription2, String eventDescription3, long sessionID, Date sessionDate, int placeID,
+			String placeName, String placeCode, int nbSeat, int nbSeatMin, int nbSeatMax) {
+		super();
+		this.eventID = eventID;
+		this.eventName = eventName;
+		this.eventCode = eventCode;
+		this.eventDescription1 = eventDescription1;
+		this.eventDescription2 = eventDescription2;
+		this.eventDescription3 = eventDescription3;
+		this.sessionID = sessionID;
+		this.sessionDate = sessionDate;
+		this.placeID = placeID;
+		this.placeName = placeName;
+		this.placeCode = placeCode;
+		this.nbSeat = nbSeat;
+		this.nbSeatMin = nbSeatMin;
+		this.nbSeatMax = nbSeatMax;
+	}
+	
+	/**
+	 * Verifie le strict minima sur les champs obligatoire d'une session
+	 * @return true if true, false if false ...
+	 */
+	public boolean isComplete() {
+		if (this.eventID > 0 && this.sessionID > 0) {
+			return true;
+		}
+		return false;
+	}
 	
 	public int getEventID() {
 		return eventID;

@@ -1149,9 +1149,25 @@ public class EventImpl extends EventBaseImpl {
 	public JSONArray getSessionsFromRodrigueInJSON() {
 		JSONArray sessionsJSON = JSONFactoryUtil.createJSONArray();
 		
+		// Recuperation des properties
+		String ticketingURL = StrasbourgPropsUtil.getOPSTicketingURL();
+		String structureID = StrasbourgPropsUtil.getRodrigueOPSStructureID();
+		
 		for(RodrigueEventSession session : this.getSessionsFromRodrigue()) {
 			JSONObject sessionJSON = JSONFactoryUtil.createJSONObject();
 			
+			// Creation du lien vers la billeterie
+			String link = ticketingURL.replaceAll("\\[structureID\\]", structureID);
+			link = link.replaceAll("\\[eventID\\]", Integer.toString(session.getEventID()));
+			
+			// Mise a jour du format de date pour simplifier la passation en javascript
+			String date = "";
+			if (session.getSessionDate() != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+				date = sdf.format(session.getSessionDate());
+			}
+			
+			sessionJSON.put("link", link);
 			sessionJSON.put("eventID", session.getEventID());
 			sessionJSON.put("eventName", session.getEventName());
 			sessionJSON.put("eventCode", session.getEventCode());
@@ -1159,7 +1175,7 @@ public class EventImpl extends EventBaseImpl {
 			sessionJSON.put("eventDescription2", session.getEventDescription2());
 			sessionJSON.put("eventDescription3", session.getEventDescription3());
 			sessionJSON.put("sessionID", session.getSessionID());
-			sessionJSON.put("sessionDate", session.getSessionDate());
+			sessionJSON.put("sessionDate", date);
 			sessionJSON.put("placeID", session.getPlaceID());
 			sessionJSON.put("placeName", session.getPlaceName());
 			sessionJSON.put("placeCode", session.getPlaceCode());

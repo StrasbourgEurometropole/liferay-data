@@ -8,11 +8,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
@@ -55,20 +56,14 @@ public class RodigueSOAPClient {
 			
 			// Parametres
 			String structureID = StrasbourgPropsUtil.getRodrigueOPSStructureID();
-			SOAPElement paramElement = methodElement.addChildElement("StructureID", NAMESPACE);
-			SOAPElement paramValueElement = paramElement.addChildElement("string", NAMESPACE);
-			paramValueElement.addTextNode(structureID);
+			SOAPElement paramElement1 = methodElement.addChildElement("StructureID", NAMESPACE);
+			paramElement1.addTextNode(structureID);
 			
-			paramElement = methodElement.addChildElement("LanguageID", NAMESPACE);
-			paramValueElement = paramElement.addChildElement("string", NAMESPACE);
-			paramValueElement.addTextNode("1");
+			SOAPElement paramElement2 = methodElement.addChildElement("LanguageID", NAMESPACE);
+			paramElement2.addTextNode("1");
 			
-			paramElement = methodElement.addChildElement("EventID", NAMESPACE);
-			paramValueElement = paramElement.addChildElement("string", NAMESPACE);
-			paramValueElement.addTextNode(eventID);
-			
-			// Ajout de la requete
-			soapRequest.getSOAPBody().addChildElement(methodElement);
+			SOAPElement paramElement3 = methodElement.addChildElement("EventID", NAMESPACE);
+			paramElement3.addTextNode(eventID);
 			
 			/**
 			 * 2# Envoie de la requete
@@ -81,19 +76,91 @@ public class RodigueSOAPClient {
 			List<RodrigueEventSession> sessionsList = new ArrayList<RodrigueEventSession>();
 			
 			soapBody = response.getSOAPBody();
+			// --> Body
 			NodeList bodyNodes = soapBody.getChildNodes();
+			// --> GetSessionListOfEventResponse || Fault
 			Node responseNode = bodyNodes.item(0);
-			Node resultNode = responseNode.getChildNodes().item(0);
-			NodeList dataNodes = resultNode.getChildNodes().item(0).getChildNodes();
 			
-			for (int i = 0; i < dataNodes.getLength(); i++) {
-				Node dataNode = dataNodes.item(i);
-				String dataName = dataNode.getLocalName();
-				switch (dataName) {
-					case "test":
-						String data = dataNode.getTextContent();
+			if (!responseNode.getLocalName().equals("Fault")) {
+				
+				// --> GetSessionListOfEventResult
+				Node resultNode = responseNode.getChildNodes().item(0);
+				
+				// --> diffgr:diffgram --> NewDataSet
+				NodeList dataNodes = resultNode.getChildNodes().item(1).getChildNodes().item(0).getChildNodes();
+				
+				if (true) {
+					// Parcour des reponses du webservce
+					for (int i = 0; i < dataNodes.getLength(); i++) {
+						// Instantiation d'une session vide
+						RodrigueEventSession session = new RodrigueEventSession();
+						
+						Node dataNode = dataNodes.item(i);
+						
+						NodeList varNodes = dataNode.getChildNodes();
+						
+						// Parcours des variables d'une session
+						for (int j = 0; j < varNodes.getLength(); j++) {
+							
+							Node varNode = varNodes.item(j);
+							String varName = varNode.getLocalName();
+							
+							// Mapage des donnees
+							switch (varName) {
+								case "EventID":
+									session.setEventID(Integer.parseInt(varNode.getTextContent()));
+									break;
+								case "EventName":
+									session.setEventName(varNode.getTextContent());
+									break;
+								case "EventCode":
+									session.setEventCode(varNode.getTextContent());
+									break;
+								case "EventDescription1":
+									session.setEventDescription1(varNode.getTextContent());
+									break;
+								case "EventDescription2":
+									session.setEventDescription2(varNode.getTextContent());
+									break;
+								case "EventDescription3":
+									session.setEventDescription3(varNode.getTextContent());
+									break;
+								case "SessionID":
+									session.setSessionID(Integer.parseInt(varNode.getTextContent()));
+									break;
+								case "SessionDate":
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+									Date date = sdf.parse(varNode.getTextContent());
+									session.setSessionDate(date);
+									break;
+								case "PlaceID":
+									session.setPlaceID(Integer.parseInt(varNode.getTextContent()));
+									break;
+								case "PlaceName":
+									session.setPlaceName(varNode.getTextContent());
+									break;
+								case "PlaceCode":
+									session.setPlaceCode(varNode.getTextContent());
+									break;
+								case "NbSeat":
+									session.setNbSeat(Integer.parseInt(varNode.getTextContent()));
+									break;
+								case "NbSeatMin":
+									session.setNbSeatMax(Integer.parseInt(varNode.getTextContent()));
+									break;
+								case "NbSeatMax":
+									session.setNbSeatMax(Integer.parseInt(varNode.getTextContent()));
+									break;
+							}
+						} // Fin de parcours des variables
+						
+						if (session.isComplete()) {
+							sessionsList.add(session);
+						}
+						
+					} // Fin de parcours des sessions
 				}
-	
+			
 			}
 			
 			return sessionsList;
@@ -117,11 +184,6 @@ public class RodigueSOAPClient {
 		// SOAP Envelope
 		SOAPEnvelope envelope = soapPart.getEnvelope();
 		envelope.addNamespaceDeclaration(NAMESPACE, NAMESPACE_URI);
-		
-		// Headers
-		MimeHeaders headers = soapRequest.getMimeHeaders();
-		headers.addHeader("Content-type", "text/xml");
-		headers.addHeader("SOAPAction", "");
 		
 		return soapRequest;
 	}
@@ -152,7 +214,7 @@ public class RodigueSOAPClient {
 
 		// Send SOAP Message
 		SOAPMessage soapResponse = soapConnection.call(soapRequest, endpoint);
-
+		
 		return soapResponse;
 	}
 	
