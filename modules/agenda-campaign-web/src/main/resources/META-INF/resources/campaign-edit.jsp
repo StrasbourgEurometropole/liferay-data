@@ -484,6 +484,9 @@
 		var themeLabels = ${dc.themeLabels};
 		var campaignThemes = ${dc.campaignThemes};
 		var eventThemes = '${dc.campaignEvent.themesIds}';
+		var typeLabels = ${dc.typeLabels};
+		var campaignTypes = ${dc.campaignTypes};
+		var eventTypes = '${dc.campaignEvent.typesIds}';
 		
 		
 		$('button[name=' + namespace + 'use-same-picture]').on('click', function(){
