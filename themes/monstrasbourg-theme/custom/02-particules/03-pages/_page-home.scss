@@ -1,6 +1,10 @@
 .mseu .front{
     position: relative;
 
+    .portlet{
+        margin-bottom: 0;
+    }
+
     &.home{
         background-color: $core-color;
     }
