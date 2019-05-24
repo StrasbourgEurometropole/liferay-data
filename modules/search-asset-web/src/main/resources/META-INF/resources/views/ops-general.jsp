@@ -26,35 +26,31 @@
 			className="com.liferay.asset.kernel.model.AssetEntry"
 			modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
 			
-			<div class="ops-col-33">
-			
-				<c:set var="className" value="${entry.className}" />
-				<c:choose>
-					<c:when test="${fn:contains(className, 'JournalArticle')}">
-						<c:set var="className" value="com.liferay.asset.kernel.model.AssetEntry" />
-					</c:when>
-					<c:when test="${fn:contains(className, 'DLFileEntry')}">
-						<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
-					</c:when>
-				</c:choose>
-				<c:if test="${!entry.className.equals('Procedure')}">
-					<liferay-ddm:template-renderer
-						className="${className}"
-						contextObjects="${dc.getTemplateContextObjects(entry)}"
-						displayStyle="${dc.templatesMap[entry.className]}"
-						displayStyleGroupId="${themeDisplay.scopeGroupId}"
-						entries="${dc.templateEntries }"
-					>
-						<liferay-ui:asset-display
-							assetEntry="${entry}"
-							assetRenderer="${entry.assetRenderer}"
-							assetRendererFactory="${entry.assetRendererFactory}"
-							template="abstract"
-						/>
-					</liferay-ddm:template-renderer>
-				</c:if>
-			
-			</div>
+			<c:set var="className" value="${entry.className}" />
+			<c:choose>
+				<c:when test="${fn:contains(className, 'JournalArticle')}">
+					<c:set var="className" value="com.liferay.asset.kernel.model.AssetEntry" />
+				</c:when>
+				<c:when test="${fn:contains(className, 'DLFileEntry')}">
+					<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
+				</c:when>
+			</c:choose>
+			<c:if test="${!entry.className.equals('Procedure')}">
+				<liferay-ddm:template-renderer
+					className="${className}"
+					contextObjects="${dc.getTemplateContextObjects(entry)}"
+					displayStyle="${dc.templatesMap[entry.className]}"
+					displayStyleGroupId="${themeDisplay.scopeGroupId}"
+					entries="${dc.templateEntries }"
+				>
+					<liferay-ui:asset-display
+						assetEntry="${entry}"
+						assetRenderer="${entry.assetRenderer}"
+						assetRendererFactory="${entry.assetRendererFactory}"
+						template="abstract"
+					/>
+				</liferay-ddm:template-renderer>
+			</c:if>
 			
 		</liferay-ui:search-container-row>
 		

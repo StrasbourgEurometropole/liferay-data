@@ -10,11 +10,6 @@
 
 	<@liferay_util["include"] page=top_head_include />
 
-	<meta property="og:type"               content="website" />
-	<meta property="og:locale"               content="fr_FR" />
-	<meta property="og:title"              content="Participation citoyenne Ville de Strasbourg" />
-	<meta property="og:description"        content="Plateforme numérique de la participation citoyenne de la Ville de Strasbourg" />
-	<meta property="og:image"              content="https://www.strasbourg.eu/documents/976405/1013671/Home-visuel-haut-de-page_europe.jpg/73d6f660-4800-c32d-741a-1a3834d0b468" />
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/strasbourg.css">
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.css">
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.fullscreen.css">
