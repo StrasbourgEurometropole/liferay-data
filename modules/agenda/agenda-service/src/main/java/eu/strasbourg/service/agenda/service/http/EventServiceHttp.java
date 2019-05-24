@@ -460,6 +460,32 @@ public class EventServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getSessions(
+		HttpPrincipal httpPrincipal, long eventID) {
+		try {
+			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
+					"getSessions", _getSessionsParameterTypes14);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, eventID);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(EventServiceHttp.class);
 	private static final Class<?>[] _getCategoriesParameterTypes0 = new Class[] {  };
 	private static final Class<?>[] _getPublicsParameterTypes1 = new Class[] {  };
@@ -487,5 +513,8 @@ public class EventServiceHttp {
 		};
 	private static final Class<?>[] _getEventsByLanguageParameterTypes12 = new Class[] {
 			java.lang.String.class
+		};
+	private static final Class<?>[] _getSessionsParameterTypes14 = new Class[] {
+			long.class
 		};
 }
