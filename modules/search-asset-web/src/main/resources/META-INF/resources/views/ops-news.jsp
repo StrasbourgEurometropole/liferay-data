@@ -62,7 +62,10 @@
 				<div class="lfr-pagination-config">
 					<div class="lfr-pagination-page-selector">
 						<div class="btn-group lfr-icon-menu current-page-menu dropdown">
-							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" title="Page 1 de 6" data-toggle="dropdown"> 
+							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" 
+								title="<liferay-ui:message key='eu.search.asset.web.ops.general.page' /> ${dc.pager.currentPage} <liferay-ui:message key='eu.search.asset.web.ops.general.on' /> ${dc.pager.lastPage}" 
+								data-toggle="dropdown"
+							> 
 								<span class="lfr-icon-menu-text">
 									<liferay-ui:message key="eu.search.asset.web.ops.general.page" /> ${dc.pager.currentPage} <liferay-ui:message key="eu.search.asset.web.ops.general.on" /> ${dc.pager.lastPage}
 								</span> 
@@ -140,14 +143,14 @@
 						<c:when test="${not dc.pager.onFirstPage}">
 							<li class="">
 								<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" tabindex="-1"
-								title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />"> 
+								title="<liferay-ui:message key="eu.listing-link-to-previous-page" />"> 
 									<liferay-ui:message key="eu.search.asset.web.ops.general.previous" />
 								</a>
 							</li>
 						</c:when>
 						<c:otherwise>
 							<li class="disabled">
-								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />">
+								<a tabindex="-1" title="<liferay-ui:message key="eu.listing-link-to-previous-page" />">
 									<liferay-ui:message key="eu.search.asset.web.ops.general.previous" />
 								</a>
 							</li>
