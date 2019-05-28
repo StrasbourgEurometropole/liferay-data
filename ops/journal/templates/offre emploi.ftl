@@ -68,8 +68,8 @@
                     <div class="ops-noscrollto">
                         <#list rightBlockTitle.getChild("rightBlockLinkTitle").getSiblings() as cur_linkTitle>
                              <#if cur_linkTitle.getData()?has_content>
-                                <a href="${cur_linkTitle.getChild("rightBlockLinkURL").getData()}" 
-                                    <#if cur_linkTitle.getChild("rightBlockLinkSwitchColor").getData() == "true"> 
+                                <a href="${cur_linkTitle.getChild('rightBlockLinkURL').getData()}" 
+                                    <#if cur_linkTitle.getChild('rightBlockLinkSwitchColor').getData() == "true"> 
                                         class="ops-btn-inversed"
                                     <#else>
                                         class="ops-btn"
