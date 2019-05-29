@@ -186,10 +186,10 @@
                         ticketingElement = '<a href="' + session.link + '" target="_blank"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>';
                     }
  
-                    $(".slick-track").append(
+                    $('#ops-representations .slick-cards-slider').slick('slickAdd',
                         '<div class="ops-item ' + session.cssClass + '">' +
-                            '<time datetime="' + concertDate.getFullYear() + '-' + concertDate.getMonth() + '-' + concertDate.getDate() + '">' + 
-                                '<span>' + concertDate.getDate() + '</span> ' + concertDate.getMonth() + '/' + concertDate.getFullYear() +
+                            '<time datetime="' + concertDate.getFullYear() + '-' + (concertDate.getMonth() + 1) + '-' + concertDate.getDate() + '">' + 
+                                '<span>' + concertDate.getDate() + '</span> ' + (concertDate.getMonth() + 1) + '/' + concertDate.getFullYear() +
                             '</time>' +
                             '<div class="ops-horaires">' + concertDate.getHours() + 'h' + concertDate.getMinutes() + '</div>' +
                             '<h3>' + session.eventName + '</h3>' +
@@ -199,6 +199,7 @@
                             '</div>' +
                         '</div>'
                     );
+                    
                 }
             }
         );
