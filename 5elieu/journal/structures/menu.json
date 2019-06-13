@@ -1,0 +1,176 @@
+{
+    "availableLanguageIds": [
+        "fr_FR",
+        "en_US"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Logo",
+                "en_US": "Logo"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Logo Retina",
+                "en_US": "Retina Logo"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "retinaImage",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Label",
+                "en_US": "Label"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "label",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Ancre",
+                        "en_US": "Anchor"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "style": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "tip": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "anchorId",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "label": {
+                "fr_FR": "Programme",
+                "en_US": "Schedule"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "document-library",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "file",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-documentlibrary"
+        },
+        {
+            "label": {
+                "fr_FR": "Label lien de téléchargement",
+                "en_US": "Download link label"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "downloadLabel",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        }
+    ]
+}
