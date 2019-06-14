@@ -109,6 +109,10 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		place.setSubjectToPublicHoliday(false);
 		place.setRTEnabled(false);
 
+		
+		place.setImageHeight(0);
+		place.setImageWidth(0);
+		
 		place.setStatus(WorkflowConstants.STATUS_DRAFT);
 
 		return place;
