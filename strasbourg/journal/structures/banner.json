@@ -72,7 +72,32 @@
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "text"
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "fr_FR": "Ouverture onglet actif"
+                            },
+                            "predefinedValue": {
+                                "fr_FR": false
+                            },
+                            "style": {
+                                "fr_FR": ""
+                            },
+                            "tip": {
+                                "fr_FR": ""
+                            },
+                            "dataType": "boolean",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "activeTab",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "checkbox"
+                        }
+                    ]
                 }
             ]
         },
