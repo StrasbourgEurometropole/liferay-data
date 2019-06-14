@@ -36,7 +36,10 @@
                 <#assign assetCategoryLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil"]>
                 <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",firstEntry.classPK) >
 
-                <a href="${homeURL}-/${firstEntry.getAssetRenderer().getArticle().urlTitle}" class="ops-actu ops-first-actu">
+                <#-- Récupération de l'article -->
+                <#assign firstJournal = firstEntry.getAssetRenderer().getArticle()>
+
+                <a href="${homeURL}-/${firstJournal.urlTitle}" class="ops-actu ops-first-actu">
                     <figure class="fit-cover">
                         <img src="${thumbnail}" width="530" height="353" alt="Image article"/>
                     </figure>
@@ -48,7 +51,7 @@
                                 </#list>
                             </div>
                             <span class="ops-date-article">
-                                <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${firstEntry.getModifiedDate()?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(firstEntry.getModifiedDate()?date, locale)}</time>
+                                <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${firstJournal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(firstJournal.displayDate?date, locale)}</time>
                             </span>
                         </div>
                         <h3>${title}</h3>
@@ -72,7 +75,10 @@
                             <#assign assetCategoryLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil"]>
                             <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",curEntry.classPK)>
 
-                            <a href="${homeURL}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="ops-actu">
+                            <#-- Récupération de l'article -->
+                            <#assign journal = curEntry.getAssetRenderer().getArticle()>
+
+                            <a href="${homeURL}-/${journal.urlTitle}" class="ops-actu">
                                 <figure class="fit-cover">
                                     <img src="${thumbnail}" width="200" height="130" alt="Image article"/>
                                 </figure>
@@ -84,7 +90,7 @@
                                             </#list>
                                         </div>
                                         <span class="ops-date-article">
-                                            <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${curEntry.getModifiedDate()?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(curEntry.getModifiedDate()?date, locale)}</time>
+                                            <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${journal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(journal.displayDate?date, locale)}</time>
                                         </span>
                                     </div>
                                     <h3>${title}</h3>
