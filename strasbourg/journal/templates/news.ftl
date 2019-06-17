@@ -11,11 +11,12 @@
 <#-- Récupération de DateHelper pour le format date -->
 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 
- <@liferay_util["html-top"]>
+<#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
+<@liferay_util["html-top"]>
+    <meta name="twitter:card" content="summary" />
     <meta property="og:title" content="${title.getData()?html}" />
     <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
     <meta property="og:url" content="${currentUrl}" />
-    <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
     <#if imageUrl?has_content>
         <meta property="og:image" content="${imageUrl}"/>
         <meta property="og:image:width" content="620"/> 
