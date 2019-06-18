@@ -23,7 +23,7 @@
 			font-size: 14px;
 			line-height: 22px;
 			padding-bottom: 15px;
-			border-bottom: 1px solid #f1d184;
+			border-bottom: 1px solid #fff6;
 			margin-bottom: 40px;
 		}
 
@@ -66,15 +66,7 @@
 		}
 
 		h3.mns-title-info{
-			@include ft($f_ms, 21.5px, 600, $c_txt, 24px);
-			&:after{
-				content: '';
-				background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
-				position: relative;
-				display: block;
-				height: 40px;
-				width: 80px;
-			}
+			@include ft($f_ms, 21.5px, 600, $c_white, 24px);
 		}
 
 		.mns-submit {
@@ -100,7 +92,7 @@
 			span{
 				width: 100%;
 				height: 10px;
-				background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
+				background: url(/o/summer-2018-theme/images/vague.png) repeat center center /contain;
 				position: absolute;
 				top: 50%;
 				transform: translateY(-50%);
@@ -115,7 +107,7 @@
 		position: relative;
 		.mns-sec-info{
 			padding: 30px 20px;
-			border-bottom: 1px solid #f1d184;
+			border-bottom: 1px solid #fff6;
 			strong, p{
 				@include ft($f_ms, 14px, 400, $c_white, 22px);
 				margin-bottom: 0;
@@ -135,7 +127,7 @@
 			li{
 				padding: 0;margin: 0;
 				a{
-					border-bottom: 1px solid #f1d184;
+					border-bottom: 1px solid #fff6;
 					@include ft($f_ms, 14px, 400, $c_white, 22px);
 					padding: 10px 0;
 					display: block;
