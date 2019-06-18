@@ -194,14 +194,13 @@
 			display: flex !important;
 			height: 76px;
 			margin-top: -5px;
-			background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat center center /contain; ;
 			width: 116px;
 
 			@include tablet_portrait{
 				font-size: 24px;
-				height: 88px !important;
+				height: 78px !important;
 				margin-left: 25px;
-			    margin-top: 0;
+			    margin-top: 5px;
 			    margin-bottom: 5px;
 				padding: 15px 25px;
 				background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat left center /contain !important;
@@ -210,7 +209,7 @@
 				font-size: 24px;
 				height: 78px !important;
 				margin-left: 25px;
-			    margin-top: 0;
+			    margin-top: 5px;
 			    margin-bottom: 5px;
 				padding: 15px 25px;
 				background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat left center /contain !important;
@@ -610,6 +609,7 @@
 			}
 			@include mobile {
 				top: 0;
+				margin-top: 0;
 			}
 		}		
 	}
@@ -617,6 +617,8 @@
 	@include tablet_portrait{
 		.navbar-header {
 			float: none;
+			background: white;
+			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
 		}
 		.navbar-left,.navbar-right {
 			float: none !important;
@@ -648,6 +650,16 @@
 			border-width: 0 0 1px;
 		}
 
+		.navbar-brand.navbar-brand {
+			color: black;
+			span {
+				color: black;
+			}
+		}
+		.mns-nav .navbar-toggle .icon-bar {
+			background: black;
+		}
+
 		.navbar-collapse.collapse {
 			display: none!important;
 		}
@@ -668,21 +680,6 @@
 	}
 
 	@include mobile {
-		.navbar-header {
-			background: white;
-			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
-		}
-		.navbar-brand.navbar-brand {
-			color: black;
-			span {
-				color: black;
-			}
-		}
-		.mns-nav .navbar-toggle .icon-bar {
-			background: black;
-		}
-	}
-	@include tablet_portrait {
 		.navbar-header {
 			background: white;
 			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
