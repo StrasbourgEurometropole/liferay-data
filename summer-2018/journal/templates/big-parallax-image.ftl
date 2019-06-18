@@ -1,6 +1,6 @@
 <#setting locale = locale />
 <!-- Zone recherche séjour -->
-<div class="mns-sejour" style="background: linear-gradient( rgba(239,183,43, 0.8), rgba(239,183,43, 0.8) ), url(${image.data}) no-repeat center center /cover; background-attachment: fixed;">
+<div class="mns-sejour" style="background: linear-gradient( rgba(14,142,65, 0.8), rgba(14,142,65, 0.8) ), url(${image.data}) no-repeat center center /cover; background-attachment: fixed;">
     <div class="container">
         <div class="row">
             <div class="container caption">
