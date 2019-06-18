@@ -63,9 +63,9 @@
       <button id="${prefix}-search-trigger"></button>
       <button class="${prefix}-search-trigger"></button>
       <div class="${prefix}-lang-list">
-        <div class="${prefix}-lang ${prefix}-fr actif">fr</div>
-        <a href="http://de.strasbourg.eu" title="Deutsch" class="${prefix}-lang ${prefix}-de" target="_blank">de</a>
-        <a href="http://en.strasbourg.eu" title="English" class="${prefix}-lang ${prefix}-en" target="_blank">en</a>
+        <a href="https://www.strasbourg.eu" title="Français" class="${prefix}-lang ${prefix}-fr ${(locale.language == "fr")?then('actif','')}">fr</a>
+        <a href="https://int.strasbourg.eu/de/" title="Deutsch" class="${prefix}-lang ${prefix}-de ${(locale.language == "de")?then('actif','')}" >de</a>
+        <a href="https://int.strasbourg.eu/en/" title="English" class="${prefix}-lang ${prefix}-en ${(locale.language == "en")?then('actif','')}" >en</a>
       </div>
     </div>
   </nav>

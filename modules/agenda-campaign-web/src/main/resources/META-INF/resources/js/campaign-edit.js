@@ -205,7 +205,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	});
 })(jQuery);
 
-// Choices.js et dropdown des thèmes en fonction de la dropdown des campagnes
+// Choices.js et dropdown des thèmes et des types en fonction de la dropdown des campagnes
 (function($) {
 	// Champs select multiples
 	var choicesOptions = {
@@ -247,12 +247,46 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 			themeChoices.enable();
 		}	
 	}
+
+	// Met à jour la dropdown des types selon le paramètre "campaignId"
+	// La réinitialise si campaignId est vide
+	function updateTypeOptions(campaignId) {
+		if (!campaignId || campaignTypes[campaignId] == '') {
+			typeChoices.clearInput();
+			typeChoices.clearStore();
+			var choices = [];
+			for (var type in typeLabels) {
+				choices.push({
+					label: typeLabels[type],
+					value: type,
+					selected: eventTypes.indexOf(type) > -1
+				});
+			}
+			typeChoices.setChoices(choices, 'value', 'label', true);
+		} else {
+			var typesIdsString = campaignTypes[campaignId];
+			var typesIds = typesIdsString.split(',');
+			var choices = [];
+			for (var i = 0; i < typesIds.length; i++) {
+				choices.push({
+					label: typeLabels[typesIds[i]],
+					value: typesIds[i],
+					selected: eventTypes.indexOf(typesIds[i]) > -1
+				});
+			}
+			typeChoices.clearInput();
+			typeChoices.clearStore();
+			typeChoices.setChoices(choices, 'value', 'label', true);
+		}
+	}
 	
 	var campaignDropdown = $('[name=' + namespace + 'campaignId]');
 	campaignDropdown.on('change', function(event) {
 		updateThemeOptions(campaignDropdown.val());
+	    updateTypeOptions(campaignDropdown.val());
 	});
 	updateThemeOptions(campaignDropdown.val());
+	updateTypeOptions(campaignDropdown.val());
 	
 })(jQuery);
 

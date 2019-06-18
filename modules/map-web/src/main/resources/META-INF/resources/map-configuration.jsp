@@ -81,7 +81,7 @@
 
                     <!-- Choix de l'affichage des pictos dans la configuration -->
                     <div>
-                        <aui:input type="checkbox" name="showPictos" value="${showPictos || hasConfig}" label="show-pictos" />
+                        <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
                     </div>
                 </aui:fieldset>
 

@@ -115,29 +115,18 @@
 	}
 
 	.mns-nav{
-		position: absolute;
+		position: fixed;
+		background: $c_white;
+		height: 151px;
+		border-bottom: 1px solid #d8dae4;
+		box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);		
 		width: 100%;
-		height: 93px;
 		z-index: 800;
 		border-radius: 0;
 		border: none;
-		background: rgba(0,0,0,0.67);
-		background: -moz-linear-gradient(top, rgba(0,0,0,0.67) 26%, rgba(0,0,0,0.65) 28%, rgba(255,255,255,0) 100%);
-		background: -webkit-gradient(left top, left bottom, color-stop(26%, rgba(0,0,0,0.67)), color-stop(28%, rgba(0,0,0,0.65)), color-stop(100%, rgba(255,255,255,0)));
-		background: -webkit-linear-gradient(top, rgba(0,0,0,0.67) 26%, rgba(0,0,0,0.65) 28%, rgba(255,255,255,0) 100%);
-		background: -o-linear-gradient(top, rgba(0,0,0,0.67) 26%, rgba(0,0,0,0.65) 28%, rgba(255,255,255,0) 100%);
-		background: -ms-linear-gradient(top, rgba(0,0,0,0.67) 26%, rgba(0,0,0,0.65) 28%, rgba(255,255,255,0) 100%);
-		background: linear-gradient(to bottom, rgba(0,0,0,0.67) 26%, rgba(0,0,0,0.65) 28%, rgba(255,255,255,0) 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6FFFFFF', endColorstr='#FFFFFF',GradientType=0 ); /* IE6-9 */
-
 		transform: translateY(-76px);
-
 		@include an(all,0.3);
-
-		&.mns-bigger{
-			height: 171px;
-			transform: translateY(0px);
-		}
 
 		@include desktop{
 			background: none;
@@ -145,150 +134,71 @@
 
 		@include tablet_portrait {
 			transform: none;
+			height: auto;
 		}
 
 		@include mobile {
 			position: fixed;
 		}
 
+		&.mns-bigger{
+			height: 171px;
+			transform: translateY(0px);
+		}
+
 		&.mns-nav-ipad{
-			@include tablet_portrait{
+			transform: translate3d(0,0,0);
+			position: fixed;
+			@include an(all,0.3);
+
+			@include desktop{
+				top: -35px;
+			}
+			@include tablet_portrait {
 				top: 40px;
 			}
-		}
-
-		.mns-navbar-wrapper{
-			top: 0;
-			@include an(all,0.3);
-		}
-
-		&.mns-nav-no-header{
-			background: $c_white;
-			.container{
-				border-bottom: 1px solid $c_filet;
-			}
-			.navbar-brand{
-				color: $c_txt;
-				span{
-					color: $c_txt;
-				}
-				&.hidden{
-					display: none;
-				}
-			}
-
-			li.dropdown{
-				&.open{
-					a{
-						position: relative;
-						&:before{
-							content: '';
-							background: url(/o/noel-theme/images/ico/ico-submenu-c.png) no-repeat center center /contain;
-							position: absolute;
-							bottom: 11px;
-							left: 50%;
-							display: block;
-							width: 23px;
-							height: 23px;
-							z-index: 9999;
-							transform: translateX(-50%);
-							@include tablet_portrait{
-								content: none;
-							}
-						}
-					}
-				}
-			}
-
-			ul{
-				li{
-					a{
-						color: $c_txt;
-					}
-				}
-			}
-
-			.navbar-toggle.collapsed .icon-bar, .navbar-toggle .icon-bar {
-				background: $c_txt;
-			}
-
-			&.mns-nav-scroll{
-				.container{
-					border-bottom: none;
-				}
-			}
-		}
-
-		@include an(all,0.3);
-		@include tablet_portrait{
-			height: auto;
-		}
-
-		.navbar-collapse{
-			@include tablet_portrait{
-				box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
-				width: calc(100% + 4px);
-				left: -2px;
-				position: fixed;
-				top: 126px;
-				bottom: 0; 
-				height: auto;
-				padding: 0;
-				@include mobile{
-					margin: 0;
-					top: 72px;
-					margin-top: 15px;
-				}
-				ul{
-					background: $c_white;
-					margin: 0;
-					@include mobile{
-						display: block;
-					}
-					@include tablet_portrait {
-						display: block;
-					}
-					li{
-						@include mobile {
-							max-width: none;
-						}
-						@include tablet_portrait {
-							max-width: none;
-						}
-						a{
-							line-height: 50px;
-							color: $c_txt;
-							height: auto;
-						}
-					}
-				}
+			&.mns-top{
+				transform: translate3d(0,0,0);
 			}
 		}
 
 		> div{
-			border-bottom: 1px solid rgba($c_white,0.3);
+			border-bottom: none;
 			padding: 0;
 			@include tablet_portrait{
 				margin: 0;
 				width: 100%;
 			}
 		}
+
 		.navbar-header {
-			float: none;
+			float: left;
+			margin-top: 15px;
+			@include mobile {
+				float: none;
+				margin-top: 0;
+			}
+			@include tablet_portrait {
+				float: none;
+				margin-top: 0;
+			}
 		}
+
 		.navbar-brand{
 			float: none !important;
 			align-items: center;
 			margin-bottom: 40px;
 			display: flex;
 			justify-content: center;
-			background: url(/o/summer-2018-theme/images/logo-home.png) no-repeat center center /contain;
-			height: 190px;
-			margin-top: 50px;
-			@include ft($f_ms, 26px, 400, $c_white, 18px);	
+			@include ft($f_ms, 24px, 400, $c_txt, 18px);			
+			display: flex !important;
+			height: 76px;
+			margin-top: -5px;
+			width: 116px;
+
 			@include tablet_portrait{
 				font-size: 24px;
-				height: 88px !important;
+				height: 78px !important;
 				margin-left: 25px;
 			    margin-top: 5px;
 			    margin-bottom: 5px;
@@ -306,7 +216,7 @@
 			}
 			span{
 				display: block;
-				@include ft($f_ms, 30px, 700, $c_white, normal);	
+				@include ft($f_ms, 24px, 700, $c_txt, normal);	
 				position: relative;
 				left: 40px;
 				@include mobile{
@@ -319,7 +229,7 @@
 			right: 15px;
 			top: 18px;
 			.icon-bar{
-				background: $c_white;
+				background: $c_txt;
 				width: 35px;
 				@include an(all,0.2);
 				&:nth-child(2), &:nth-child(5){
@@ -355,70 +265,49 @@
 			}
 		}
 
-		ul{
-			height: 70px;
-			display: flex;
-			float: none !important;
-    		justify-content: space-between;
-			@include tablet_portrait {
-				height: auto;
-				padding: 0 20px;
-			}
-			li{
-				max-width: 160px;
-				height: 70px;
-				padding: 0;
-				@include tablet_portrait {
-					height: auto;
-					width: calc(100% - 20px);
-				}
-				&.menu-accueil, &.menu-search{
-					a{
-						&:hover:after, &.active{
-							content: none;
-						}
-					}
-				}
+		.navbar-collapse{
+			margin-top: 19px;
 
-				a{
-					@include ft($f_ms, 17.5px, 700, $c_white, normal);
-					word-break: normal !important;	
-					text-transform: uppercase;
-					padding: 0 15px;
-					height: 70px;
-					text-align: center;
-					@include an(all,0.3);
-					background: none !important;
-					@include desktop{
-						padding: 0 10px;
+			@include mobile {
+				margin-top: 9px !important;
+			}
+
+			@include tablet_portrait{
+				box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
+				margin-top: -40px;
+				width: calc(100% + 4px);
+				left: -2px;
+				position: fixed;
+				top: 126px;
+				bottom: 0; 
+				height: auto;
+				padding: 0;
+				@include mobile{
+					margin: 0;
+					top: 72px;
+					margin-top: 15px;
+				}
+				ul{
+					background: $c_white;
+					margin: 0;
+					@include mobile{
+						display: block;
 					}
 					@include tablet_portrait {
-						height: 50px;
+						display: block;
 					}
-
-					&:hover, &:focus{
-						background: none;
-						color: $c_txt;
-					}
-					&:hover:after, &.active{
-						content: '';
-						width: 100%;
-						height: 4px; 
-						background: $c_txt;
-						position: absolute;
-						bottom: 0;
-						left: 0;
-					}
-
-					img{
-						top: 50%;
-						transform: translateY(-50%);
-					}
-				}
-
-				&:last-child{
-					a{
-						padding-right: 0;
+					li{
+						@include mobile {
+							max-width: none;
+						}
+						@include tablet_portrait {
+							max-width: none;
+						}
+						a{
+							line-height: 50px;
+							color: $c_txt;
+							height: auto;
+						}
 					}
 				}
 			}
@@ -520,9 +409,9 @@
 					position: relative;
 					&:before{
 						content: '';
-						background: url(/o/noel-theme/images/ico/ico-submenu-w.png) no-repeat center center /contain;
+						background: url(/o/noel-theme/images/ico/ico-submenu-c.png) no-repeat center center /contain;
 						position: absolute;
-						bottom: 7px;
+						bottom: -11px;
 						left: 50%;
 						display: block;
 						width: 23px;
@@ -531,6 +420,20 @@
 						transform: translateX(-50%);
 						@include tablet_portrait{
 							content: none;
+						}
+					}
+					&:hover{
+						color: $c_txt;
+						@include desktop{
+							color: $c_txt;
+						}
+					}
+				}
+				a.dropdown-toggle {
+					&:hover{
+						color: $c_main;
+						@include desktop{
+							color: $c_main;
 						}
 					}
 				}
@@ -559,97 +462,23 @@
 			}
 		}
 
-
-		&.mns-nav-scroll{
-			position: fixed;
+		.mns-navbar-wrapper{
 			top: 0;
-			background: $c_white;
-			height: 171px;
-			border-bottom: 1px solid #d8dae4;
-			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
 			@include an(all,0.3);
+		}
 
-			@include desktop{
-				top: 0;
-			}
-			@include tablet_portrait {
-				height: 76px;
-				top: 0;
-			}
-			@include mobile {
-				top: 0;
-			}
-
-			&.mns-bigger{
-				height: 171px;
-			}
-
-			&.mns-nav-ipad{
-				transform: translate3d(0,0,0);
-				position: fixed;
-				@include an(all,0.3);
-
-				@include desktop{
-					top: -35px;
-				}
-				@include tablet_portrait {
-					top: 40px;
-				}
-				&.mns-top{
-					transform: translate3d(0,0,0);
-				}
-			}
-
-
-			> div{
-				border-bottom: none;
-			}
-			.navbar-header {
-				float: left;
-				margin-top: 15px;
-				@include mobile {
-					float: none;
-					margin-top: 0;
-				}
-				@include tablet_portrait {
-					float: none;
-					margin-top: 0;
-				}
+		&.mns-nav-no-header{
+			background: $c_white;
+			.container{
+				border-bottom: 1px solid $c_filet;
 			}
 			.navbar-brand{
-				display: flex !important;
 				color: $c_txt;
-				height: 76px;
-				font-size: 24px;
-				margin-top: -5px;
-				background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat center center /contain; ;
-				width: 116px;
-				@include mobile {
-					height: 78px;
-					margin-top: 0;
-				}
-				@include tablet_portrait {
-					height: 88px;
-					margin-top: 0;
-				}
 				span{
 					color: $c_txt;
-					font-size: 24px;
 				}
-			}
-			.navbar-toggle{
-				.icon-bar{
-					background: $c_txt;
-				}
-			}
-
-			.navbar-collapse{
-				margin-top: 35px;
-				@include mobile {
-					margin-top: 9px !important;
-				}
-				@include tablet_portrait {
-					margin-top: -40px;
+				&.hidden{
+					display: none;
 				}
 			}
 
@@ -657,17 +486,11 @@
 				&.open{
 					a{
 						position: relative;
-						&:hover{
-							color: $c_txt;
-							@include desktop{
-								color: $c_txt;
-							}
-						}
 						&:before{
 							content: '';
 							background: url(/o/noel-theme/images/ico/ico-submenu-c.png) no-repeat center center /contain;
 							position: absolute;
-							bottom: -11px;
+							bottom: 11px;
 							left: 50%;
 							display: block;
 							width: 23px;
@@ -679,52 +502,114 @@
 							}
 						}
 					}
-					a.dropdown-toggle {
-						&:hover{
-							color: $c_main;
-							@include desktop{
-								color: $c_main;
-							}
-						}
+				}
+			}
+
+			ul{
+				li{
+					a{
+						color: $c_txt;
 					}
 				}
 			}
 
+			.navbar-toggle.collapsed .icon-bar, .navbar-toggle .icon-bar {
+				background: $c_txt;
+			}
 
-			ul{
+			&.mns-nav-scroll{
+				.container{
+					border-bottom: none;
+				}
+			}
+		}
+
+		ul{
+			height: 80px;
+			display: flex;
+			float: none !important;
+    		justify-content: space-between;
+			@include tablet_portrait {
+				height: auto;
+				padding: 0 20px;
+				border-bottom: 1px solid $c_filet;
+				box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
+			}
+			li{
+				max-width: 160px;
 				height: 80px;
-				@include tablet_portrait{
+				padding: 0;
+				@include tablet_portrait {
 					height: auto;
-					border-bottom: 1px solid $c_filet;
-					box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
+					width: calc(100% - 20px);
 				}
-				li{
-					height: 80px;
-					@include tablet_portrait{
-						height: auto;
-					}
+				&.menu-accueil, &.menu-search{
 					a{
-						height: 60px;
-						color: $c_txt;
-						@include an(all,0.3);
-						&:hover{
-							color: $c_main;
-						}
-						@include tablet_portrait{
-							height: auto;
-							line-height: 50px;
-						}
 						&:hover:after, &.active{
-							content: '';
-							width: 100%;
-							height: 4px; 
-							background: $c_main;
-							position: absolute;
-							bottom: 0;
-							left: 0;
+							content: none;
 						}
 					}
 				}
+
+				a{
+					@include ft($f_ms, 17.5px, 700, $c_txt, normal);
+					word-break: normal !important;	
+					text-transform: uppercase;
+					padding: 0 15px;
+					height: 60px;
+					text-align: center;
+					@include an(all,0.3);
+					background: none !important;
+					@include desktop{
+						padding: 0 10px;
+					}
+					@include tablet_portrait {
+						height: 50px;
+						height: auto;
+						line-height: 50px;
+					}
+
+					&:hover, &:focus{
+						background: none;
+						color: $c_main;
+					}
+					&:hover:after, &.active{
+						content: '';
+						width: 100%;
+						height: 4px; 
+						background: $c_main;
+						position: absolute;
+						bottom: 0;
+						left: 0;
+					}
+
+					img{
+						top: 50%;
+						transform: translateY(-50%);
+					}
+				}
+
+				&:last-child{
+					a{
+						padding-right: 0;
+					}
+				}
+			}
+		}
+
+		&.mns-nav-scroll{
+			top: 0;
+
+			@include desktop{
+				top: 0;
+			}
+			@include tablet_portrait {
+				height: 76px;
+				top: 0;
+			}
+			@include mobile {
+				top: 0;
+				margin-top: 0;
 			}
 		}		
 	}
@@ -732,6 +617,8 @@
 	@include tablet_portrait{
 		.navbar-header {
 			float: none;
+			background: white;
+			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
 		}
 		.navbar-left,.navbar-right {
 			float: none !important;
@@ -763,6 +650,16 @@
 			border-width: 0 0 1px;
 		}
 
+		.navbar-brand.navbar-brand {
+			color: black;
+			span {
+				color: black;
+			}
+		}
+		.mns-nav .navbar-toggle .icon-bar {
+			background: black;
+		}
+
 		.navbar-collapse.collapse {
 			display: none!important;
 		}
@@ -783,21 +680,6 @@
 	}
 
 	@include mobile {
-		.navbar-header {
-			background: white;
-			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
-		}
-		.navbar-brand.navbar-brand {
-			color: black;
-			span {
-				color: black;
-			}
-		}
-		.mns-nav .navbar-toggle .icon-bar {
-			background: black;
-		}
-	}
-	@include tablet_portrait {
 		.navbar-header {
 			background: white;
 			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);

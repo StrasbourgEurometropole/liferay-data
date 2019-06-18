@@ -14,7 +14,7 @@
 #mns-global{
 
 	.mns-agenda-detail{
-		margin-top: 30px;
+		margin: 30px auto;
 		@include tablet_portrait {
 				margin-top: 50px !important;
 			}
@@ -68,18 +68,8 @@
 				border-bottom: 0px;
 				.mns-title-info{
 					text-transform: uppercase;
-					color: $c_txt;
+					color: $c_white;
 					font-family: $f_ms;
-					&:after{
-						content: '';
-						background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
-						position: relative;
-						display: block;
-						top: -5px;
-						height: 40px;
-						width: 80px;
-						z-index: 9999;
-					}
 				}
 				p{
 					width: 90%;
