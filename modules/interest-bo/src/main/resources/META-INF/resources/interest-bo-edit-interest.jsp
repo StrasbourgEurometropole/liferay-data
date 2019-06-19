@@ -1,4 +1,11 @@
 <%@ include file="/interest-bo-init.jsp"%>
+
+<liferay-util:html-bottom>
+	<script
+		src="/o/interestbo/js/interest-bo-edit-interest.js"
+		type="text/javascript"></script>
+</liferay-util:html-bottom>
+
 <%@page import="eu.strasbourg.service.interest.model.Interest"%>
 
 <liferay-portlet:renderURL varImpl="interestsURL">
@@ -52,7 +59,11 @@
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
-				
+
+                <div class="has-error" style="margin-bottom:10px;">
+				    <span class="condition">Veuillez choisir au moins une cat&eacute;gorie</span>
+				</div>
+
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
 				
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
