@@ -16,7 +16,8 @@
 
                 <!-- Mode -->
                 <div class="modeSelection" style="margin-left: 20px;">
-                    <aui:input type="radio" name="mode" value="normal" label="no-mode" checked="${not widgetMod and not defaultConfig or empty widgetMod and empty defaultConfig}"/>
+                    <aui:input type="radio" name="mode" value="normal" label="no-mode" checked="${(not widgetMod and not defaultConfig and not districtMod) or (empty widgetMod and empty defaultConfig and empty districtMod)}"/>
+                    <aui:input type="radio" name="mode" value="district" label="district-mode" checked="${districtMod}"/>
                     <aui:input type="radio" name="mode" value="widget" label="widget-mode" checked="${widgetMod}"/>
                     <aui:input type="radio" name="mode" value="aroundme" label="aroundme-mode" checked="${defaultConfig}"/>
                 </div>
@@ -125,7 +126,7 @@
                     </div>
 
                     <!-- Filtre sur le quartier de l'utilisateur -->
-                    <div>
+                    <div class="districtMode">
                         <aui:input type="checkbox" name="districtUser" value="${districtUser}" label="district-user" />
                     </div>
                 </aui:fieldset>
@@ -268,6 +269,11 @@
                                $('.widgetMode').hide();
                                $('.aroundMeMode').hide();
                                $('.normalMode').show();
+                               if(mode == 'district'){
+                                    $('.districtMode').show();
+                               }else{
+                                    $('.districtMode').hide();
+                               }
                                $('.noWidgetMode').show();
                            }
                            if ($('.typeEvent').is(":checked")) {
