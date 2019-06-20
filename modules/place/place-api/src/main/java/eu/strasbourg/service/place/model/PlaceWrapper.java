@@ -712,6 +712,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne la version GeoJSON du lieu
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toGeoJSON() {
+		return _place.toGeoJSON();
+	}
+
+	/**
 	* Retourne la version JSON du lieu
 	*/
 	@Override

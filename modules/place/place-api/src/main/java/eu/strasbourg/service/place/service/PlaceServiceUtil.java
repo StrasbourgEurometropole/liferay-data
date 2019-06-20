@@ -115,6 +115,14 @@ public class PlaceServiceUtil {
 		return getService().getPlaceByIdSIG(sigId);
 	}
 
+	/**
+	* Retourne le géoJSON des lieux
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlacesGeoJSON();
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getRealtime()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getRealtime();

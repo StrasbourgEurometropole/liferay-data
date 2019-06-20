@@ -353,6 +353,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
 	/**
+	* Retourne la version GeoJSON du lieu
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toGeoJSON();
+
+	/**
 	* Reprise de l'horriblissime webservice des lieux de LR6
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toLegacyJSON();

@@ -1297,6 +1297,207 @@ public class PlaceImpl extends PlaceBaseImpl {
     }
 
     /**
+     * Retourne la version GeoJSON du lieu
+     */
+    @Override
+    public JSONObject toGeoJSON() {
+        JSONObject feature = JSONFactoryUtil.createJSONObject();
+        feature.put("type", "Feature");
+
+        JSONObject properties = JSONFactoryUtil.createJSONObject();
+        properties.put("idSurfs", this.getSIGid());
+        properties.put("name", JSONHelper.getJSONFromI18nMap(this.getAliasMap()));
+        properties.put("address", this.getAddressStreet() + " " + this.getAddressZipCode() + " "
+                + this.getCity(Locale.getDefault()) + " " + this.getAddressCountry());
+        if (Validator.isNotNull(this.getAddressDistribution())) {
+            properties.put("distribution", this.getAddressDistribution());
+        }
+        properties.put("street", this.getAddressStreet());
+        if (Validator.isNotNull(this.getAddressComplement())) {
+            properties.put("complement", this.getAddressComplement());
+        }
+
+        // Code postal
+        properties.put("zipCode", this.getAddressZipCode());
+
+        // Quartier
+        AssetCategory districtCategory = this.getDistrictCategory();
+        if (districtCategory != null) {
+            String SIGId = AssetVocabularyHelper.getCategoryProperty(districtCategory.getCategoryId(), "SIG");
+            properties.put("districtCode", SIGId);
+        }
+
+        // Ville
+        AssetCategory cityCategory = this.getCityCategory();
+        if (cityCategory != null) {
+            String SIGId = AssetVocabularyHelper.getCategoryProperty(cityCategory.getCategoryId(), "SIG");
+            properties.put("cityCode", SIGId);
+        }
+
+        properties.put("city", this.getCity(Locale.getDefault()));
+
+        // Pays
+        properties.put("country", this.getAddressCountry());
+
+        // Coordonnées
+        properties.put("RGF93Y", this.getRGF93Y());
+        properties.put("RGF93X", this.getRGF93X());
+        properties.put("mercatorY", this.getMercatorY());
+        properties.put("mercatorX", this.getMercatorX());
+
+        // Types
+        JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
+        for (AssetCategory assetCategory : this.getTypes()) {
+            jsonTypes.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "SIG"));
+        }
+        if (jsonTypes.length() > 0) {
+            properties.put("types", jsonTypes);
+        }
+
+        // Description
+        properties.put("description", JSONHelper.getJSONFromI18nMap(this.getPresentationMap()));
+
+        // Services et activités
+        if (Validator.isNotNull(this.getServiceAndActivities())) {
+            properties.put("serviceAndActivities", JSONHelper.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
+        }
+
+        // Caractéristiques
+        if (Validator.isNotNull(this.getCharacteristics())) {
+            properties.put("characteristics", JSONHelper.getJSONFromI18nMap(this.getCharacteristicsMap()));
+        }
+
+        // Tarifs
+        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPrice())) {
+            properties.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceMap()));
+        }
+
+        // Mail
+        if (Validator.isNotNull(this.getMail())) {
+            properties.put("mail", this.getMail());
+        }
+
+        // Téléphone
+        if (Validator.isNotNull(this.getPhone())) {
+            properties.put("phone", this.getPhone());
+        }
+
+        // Facebook
+        if (Validator.isNotNull(this.getFacebookLabel())) {
+            properties.put("facebookName", JSONHelper.getJSONFromI18nMap(this.getFacebookLabelMap()));
+            properties.put("facebookURL", JSONHelper.getJSONFromI18nMap(this.getFacebookURLMap()));
+        }
+
+        // Site
+        if (Validator.isNotNull(this.getSiteLabel())) {
+            properties.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getSiteLabelMap()));
+            properties.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getSiteURLMap()));
+        }
+
+        // Accès
+        if (Validator.isNotNull(this.getAccess())) {
+            properties.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
+        }
+        if (Validator.isNotNull(this.getAccessForDisabled())) {
+            properties.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+        }
+        properties.put("accessForBlind", this.getAccessForBlind());
+        properties.put("accessForWheelchair", this.getAccessForWheelchair());
+        properties.put("accessForDeaf", this.getAccessForDeaf());
+        properties.put("accessForElder", this.getAccessForElder());
+        properties.put("accessForDeficient", this.getAccessForDeficient());
+
+        // Horaires et périodes
+        JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+        for (Period period : this.getPeriods()) {
+            periodsJSON.put(period.toJSON());
+        }
+        if (periodsJSON.length() > 0) {
+            properties.put("periods", periodsJSON);
+        }
+
+        JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
+        for (ScheduleException scheduleException : this.getScheduleExceptions()) {
+            scheduleExceptionsJSON.put(scheduleException.toJSON());
+        }
+        if (scheduleExceptionsJSON.length() > 0) {
+            properties.put("exceptions", scheduleExceptionsJSON);
+        }
+
+        if (Validator.isNotNull(this.getExceptionalSchedule())) {
+            properties.put("exceptionalSchedule", JSONHelper.getJSONFromI18nMap(this.getExceptionalScheduleMap()));
+        }
+
+        // Information complémentaire
+        if (Validator.isNotNull(this.getAdditionalInformation())) {
+            properties.put("additionalInformation", JSONHelper.getJSONFromI18nMap(this.getAdditionalInformationMap()));
+        }
+
+        // URL du lieu
+        properties.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
+
+        // Image principale
+        if (Validator.isNotNull(this.getImageURL())) {
+            String imageURL = this.getImageURL();
+            imageURL = StrasbourgPropsUtil.getURL() + imageURL;
+            properties.put("imageURL", imageURL);
+            properties.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
+        }
+
+        // Images secondaires
+        JSONArray imagesJSON = JSONFactoryUtil.createJSONArray();
+        for (String imageIdString : this.getImageIds().split(",")) {
+            JSONObject imageJSON = JSONFactoryUtil.createJSONObject();
+            Long imageId = GetterUtil.getLong(imageIdString);
+            if (imageId > 0) {
+                String imageURL = FileEntryHelper.getFileEntryURL(imageId);
+                imageURL = StrasbourgPropsUtil.getURL() + imageURL;
+                String imageCopyright = FileEntryHelper.getImageCopyright(imageId, LocaleUtil.FRENCH);
+                imageJSON.put("imageURL", imageURL);
+                imageJSON.put("imageCopyright", imageCopyright);
+                imagesJSON.put(imageJSON);
+            }
+        }
+        if (imagesJSON.length() > 0) {
+            properties.put("images", imagesJSON);
+        }
+
+        // Vidéos
+        JSONArray videosJSON = JSONFactoryUtil.createJSONArray();
+        for (String videoIdString : this.getVideosIds().split(",")) {
+            Long videoId = GetterUtil.getLong(videoIdString);
+            Video video = VideoLocalServiceUtil.fetchVideo(videoId);
+            if (Validator.isNotNull(video)) {
+                videosJSON.put(video.getSource(Locale.FRANCE));
+            }
+        }
+        if (videosJSON.length() > 0) {
+            properties.put("videos", videosJSON);
+        }
+
+        // Documents
+        JSONArray documentsJSON = JSONFactoryUtil.createJSONArray();
+        for (String documentURL : this.getDocumentURLs()) {
+            documentURL = StrasbourgPropsUtil.getURL() + documentURL;
+            documentsJSON.put(documentURL);
+        }
+        if (documentsJSON.length() > 0) {
+            properties.put("documents", documentsJSON);
+        }
+        feature.put("properties", properties);
+
+        JSONObject geometry = JSONFactoryUtil.createJSONObject();
+        geometry.put("type", "Point");
+        JSONArray coordinates = JSONFactoryUtil.createJSONArray();
+        coordinates.put(Float.valueOf(this.getMercatorX()));
+        coordinates.put(Float.valueOf(this.getMercatorY()));
+        geometry.put("coordinates", coordinates);
+        feature.put("geometry", geometry);
+
+        return feature;
+    }
+
+    /**
      * Reprise de l'horriblissime webservice des lieux de LR6
      */
     @Override
