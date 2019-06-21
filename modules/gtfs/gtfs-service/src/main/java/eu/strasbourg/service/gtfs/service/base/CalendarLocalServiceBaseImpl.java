@@ -44,9 +44,12 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.gtfs.model.Calendar;
 import eu.strasbourg.service.gtfs.service.CalendarLocalService;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.DirectionPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.LignePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
@@ -354,6 +357,43 @@ public abstract class CalendarLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the arret local service.
+	 *
+	 * @return the arret local service
+	 */
+	public eu.strasbourg.service.gtfs.service.ArretLocalService getArretLocalService() {
+		return arretLocalService;
+	}
+
+	/**
+	 * Sets the arret local service.
+	 *
+	 * @param arretLocalService the arret local service
+	 */
+	public void setArretLocalService(
+		eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService) {
+		this.arretLocalService = arretLocalService;
+	}
+
+	/**
+	 * Returns the arret persistence.
+	 *
+	 * @return the arret persistence
+	 */
+	public ArretPersistence getArretPersistence() {
+		return arretPersistence;
+	}
+
+	/**
+	 * Sets the arret persistence.
+	 *
+	 * @param arretPersistence the arret persistence
+	 */
+	public void setArretPersistence(ArretPersistence arretPersistence) {
+		this.arretPersistence = arretPersistence;
+	}
+
+	/**
 	 * Returns the calendar local service.
 	 *
 	 * @return the calendar local service
@@ -429,6 +469,44 @@ public abstract class CalendarLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the direction local service.
+	 *
+	 * @return the direction local service
+	 */
+	public eu.strasbourg.service.gtfs.service.DirectionLocalService getDirectionLocalService() {
+		return directionLocalService;
+	}
+
+	/**
+	 * Sets the direction local service.
+	 *
+	 * @param directionLocalService the direction local service
+	 */
+	public void setDirectionLocalService(
+		eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService) {
+		this.directionLocalService = directionLocalService;
+	}
+
+	/**
+	 * Returns the direction persistence.
+	 *
+	 * @return the direction persistence
+	 */
+	public DirectionPersistence getDirectionPersistence() {
+		return directionPersistence;
+	}
+
+	/**
+	 * Sets the direction persistence.
+	 *
+	 * @param directionPersistence the direction persistence
+	 */
+	public void setDirectionPersistence(
+		DirectionPersistence directionPersistence) {
+		this.directionPersistence = directionPersistence;
+	}
+
+	/**
 	 * Returns the import historic local service.
 	 *
 	 * @return the import historic local service
@@ -464,6 +542,43 @@ public abstract class CalendarLocalServiceBaseImpl extends BaseLocalServiceImpl
 	public void setImportHistoricPersistence(
 		ImportHistoricPersistence importHistoricPersistence) {
 		this.importHistoricPersistence = importHistoricPersistence;
+	}
+
+	/**
+	 * Returns the ligne local service.
+	 *
+	 * @return the ligne local service
+	 */
+	public eu.strasbourg.service.gtfs.service.LigneLocalService getLigneLocalService() {
+		return ligneLocalService;
+	}
+
+	/**
+	 * Sets the ligne local service.
+	 *
+	 * @param ligneLocalService the ligne local service
+	 */
+	public void setLigneLocalService(
+		eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService) {
+		this.ligneLocalService = ligneLocalService;
+	}
+
+	/**
+	 * Returns the ligne persistence.
+	 *
+	 * @return the ligne persistence
+	 */
+	public LignePersistence getLignePersistence() {
+		return lignePersistence;
+	}
+
+	/**
+	 * Sets the ligne persistence.
+	 *
+	 * @param lignePersistence the ligne persistence
+	 */
+	public void setLignePersistence(LignePersistence lignePersistence) {
+		this.lignePersistence = lignePersistence;
 	}
 
 	/**
@@ -783,6 +898,10 @@ public abstract class CalendarLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService;
 	@BeanReference(type = AgencyPersistence.class)
 	protected AgencyPersistence agencyPersistence;
+	@BeanReference(type = eu.strasbourg.service.gtfs.service.ArretLocalService.class)
+	protected eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService;
+	@BeanReference(type = ArretPersistence.class)
+	protected ArretPersistence arretPersistence;
 	@BeanReference(type = CalendarLocalService.class)
 	protected CalendarLocalService calendarLocalService;
 	@BeanReference(type = CalendarPersistence.class)
@@ -791,10 +910,18 @@ public abstract class CalendarLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected eu.strasbourg.service.gtfs.service.CalendarDateLocalService calendarDateLocalService;
 	@BeanReference(type = CalendarDatePersistence.class)
 	protected CalendarDatePersistence calendarDatePersistence;
+	@BeanReference(type = eu.strasbourg.service.gtfs.service.DirectionLocalService.class)
+	protected eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService;
+	@BeanReference(type = DirectionPersistence.class)
+	protected DirectionPersistence directionPersistence;
 	@BeanReference(type = eu.strasbourg.service.gtfs.service.ImportHistoricLocalService.class)
 	protected eu.strasbourg.service.gtfs.service.ImportHistoricLocalService importHistoricLocalService;
 	@BeanReference(type = ImportHistoricPersistence.class)
 	protected ImportHistoricPersistence importHistoricPersistence;
+	@BeanReference(type = eu.strasbourg.service.gtfs.service.LigneLocalService.class)
+	protected eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService;
+	@BeanReference(type = LignePersistence.class)
+	protected LignePersistence lignePersistence;
 	@BeanReference(type = eu.strasbourg.service.gtfs.service.RouteLocalService.class)
 	protected eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService;
 	@BeanReference(type = RoutePersistence.class)

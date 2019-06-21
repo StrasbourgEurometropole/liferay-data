@@ -108,8 +108,8 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Calendar"),
 			true);
-	public static final long UUID_COLUMN_BITMASK = 1L;
-	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
+	public static final long SERVICE_ID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Calendar"));
 
@@ -291,7 +291,15 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 	public void setService_id(String service_id) {
 		_columnBitmask = -1L;
 
+		if (_originalService_id == null) {
+			_originalService_id = _service_id;
+		}
+
 		_service_id = service_id;
+	}
+
+	public String getOriginalService_id() {
+		return GetterUtil.getString(_originalService_id);
 	}
 
 	@Override
@@ -524,6 +532,8 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 
 		calendarModelImpl._originalUuid = calendarModelImpl._uuid;
 
+		calendarModelImpl._originalService_id = calendarModelImpl._service_id;
+
 		calendarModelImpl._columnBitmask = 0;
 	}
 
@@ -687,6 +697,7 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 	private String _originalUuid;
 	private long _id;
 	private String _service_id;
+	private String _originalService_id;
 	private boolean _monday;
 	private boolean _tuesday;
 	private boolean _wednesday;

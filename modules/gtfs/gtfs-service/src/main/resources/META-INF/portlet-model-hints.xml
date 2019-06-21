@@ -15,6 +15,26 @@
 		</field>
 		<field name="agency_lang" type="String" />
 	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Arret">
+		<field name="uuid" type="String" />
+		<field name="arretId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="stopId" type="String" />
+		<field name="title" type="String" />
+		<field name="code" type="String" />
+		<field name="latitude" type="String" />
+		<field name="longitude" type="String" />
+		<field name="type" type="String" />
+	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Calendar">
 		<field name="uuid" type="String" />
 		<field name="id" type="long" />
@@ -36,6 +56,23 @@
 		<field name="date" type="Date" />
 		<field name="exception_type" type="int" />
 	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Direction">
+		<field name="uuid" type="String" />
+		<field name="directionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="stopId" type="String" />
+		<field name="routeId" type="String" />
+		<field name="destinationName" type="String" />
+	</model>
 	<model name="eu.strasbourg.service.gtfs.model.ImportHistoric">
 		<field name="uuid" type="String" />
 		<field name="importHistoricId" type="long" />
@@ -53,6 +90,25 @@
 		<field name="operations" type="String" />
 		<field name="errorDescription" type="String" />
 		<field name="errorStackTrace" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Ligne">
+		<field name="uuid" type="String" />
+		<field name="ligneId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="routeId" type="String" />
+		<field name="shortName" type="String" />
+		<field name="title" type="String" />
+		<field name="type" type="String" />
+		<field name="textColor" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Route">
 		<field name="uuid" type="String" />

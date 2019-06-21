@@ -102,8 +102,9 @@ public class StopTimeModelImpl extends BaseModelImpl<StopTime>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.StopTime"),
 			true);
-	public static final long UUID_COLUMN_BITMASK = 1L;
+	public static final long STOP_ID_COLUMN_BITMASK = 1L;
 	public static final long TRIP_ID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.StopTime"));
 
@@ -264,7 +265,15 @@ public class StopTimeModelImpl extends BaseModelImpl<StopTime>
 	public void setTrip_id(String trip_id) {
 		_columnBitmask = -1L;
 
+		if (_originalTrip_id == null) {
+			_originalTrip_id = _trip_id;
+		}
+
 		_trip_id = trip_id;
+	}
+
+	public String getOriginalTrip_id() {
+		return GetterUtil.getString(_originalTrip_id);
 	}
 
 	@Override
@@ -299,7 +308,17 @@ public class StopTimeModelImpl extends BaseModelImpl<StopTime>
 
 	@Override
 	public void setStop_id(String stop_id) {
+		_columnBitmask |= STOP_ID_COLUMN_BITMASK;
+
+		if (_originalStop_id == null) {
+			_originalStop_id = _stop_id;
+		}
+
 		_stop_id = stop_id;
+	}
+
+	public String getOriginalStop_id() {
+		return GetterUtil.getString(_originalStop_id);
 	}
 
 	@Override
@@ -443,6 +462,10 @@ public class StopTimeModelImpl extends BaseModelImpl<StopTime>
 		StopTimeModelImpl stopTimeModelImpl = this;
 
 		stopTimeModelImpl._originalUuid = stopTimeModelImpl._uuid;
+
+		stopTimeModelImpl._originalTrip_id = stopTimeModelImpl._trip_id;
+
+		stopTimeModelImpl._originalStop_id = stopTimeModelImpl._stop_id;
 
 		stopTimeModelImpl._columnBitmask = 0;
 	}
@@ -601,9 +624,11 @@ public class StopTimeModelImpl extends BaseModelImpl<StopTime>
 	private String _originalUuid;
 	private long _id;
 	private String _trip_id;
+	private String _originalTrip_id;
 	private Date _arrival_time;
 	private Date _departure_time;
 	private String _stop_id;
+	private String _originalStop_id;
 	private int _stop_sequence;
 	private String _pickup_type;
 	private String _drop_off_type;

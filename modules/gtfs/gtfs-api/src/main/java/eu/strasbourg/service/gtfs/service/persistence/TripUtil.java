@@ -263,6 +263,476 @@ public class TripUtil {
 	}
 
 	/**
+	* Returns all the trips where route_id = &#63;.
+	*
+	* @param route_id the route_id
+	* @return the matching trips
+	*/
+	public static List<Trip> findByRouteId(java.lang.String route_id) {
+		return getPersistence().findByRouteId(route_id);
+	}
+
+	/**
+	* Returns a range of all the trips where route_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param route_id the route_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @return the range of matching trips
+	*/
+	public static List<Trip> findByRouteId(java.lang.String route_id,
+		int start, int end) {
+		return getPersistence().findByRouteId(route_id, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the trips where route_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param route_id the route_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching trips
+	*/
+	public static List<Trip> findByRouteId(java.lang.String route_id,
+		int start, int end, OrderByComparator<Trip> orderByComparator) {
+		return getPersistence()
+				   .findByRouteId(route_id, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the trips where route_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param route_id the route_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching trips
+	*/
+	public static List<Trip> findByRouteId(java.lang.String route_id,
+		int start, int end, OrderByComparator<Trip> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByRouteId(route_id, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first trip in the ordered set where route_id = &#63;.
+	*
+	* @param route_id the route_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching trip
+	* @throws NoSuchTripException if a matching trip could not be found
+	*/
+	public static Trip findByRouteId_First(java.lang.String route_id,
+		OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence().findByRouteId_First(route_id, orderByComparator);
+	}
+
+	/**
+	* Returns the first trip in the ordered set where route_id = &#63;.
+	*
+	* @param route_id the route_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching trip, or <code>null</code> if a matching trip could not be found
+	*/
+	public static Trip fetchByRouteId_First(java.lang.String route_id,
+		OrderByComparator<Trip> orderByComparator) {
+		return getPersistence().fetchByRouteId_First(route_id, orderByComparator);
+	}
+
+	/**
+	* Returns the last trip in the ordered set where route_id = &#63;.
+	*
+	* @param route_id the route_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching trip
+	* @throws NoSuchTripException if a matching trip could not be found
+	*/
+	public static Trip findByRouteId_Last(java.lang.String route_id,
+		OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence().findByRouteId_Last(route_id, orderByComparator);
+	}
+
+	/**
+	* Returns the last trip in the ordered set where route_id = &#63;.
+	*
+	* @param route_id the route_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching trip, or <code>null</code> if a matching trip could not be found
+	*/
+	public static Trip fetchByRouteId_Last(java.lang.String route_id,
+		OrderByComparator<Trip> orderByComparator) {
+		return getPersistence().fetchByRouteId_Last(route_id, orderByComparator);
+	}
+
+	/**
+	* Returns the trips before and after the current trip in the ordered set where route_id = &#63;.
+	*
+	* @param id the primary key of the current trip
+	* @param route_id the route_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next trip
+	* @throws NoSuchTripException if a trip with the primary key could not be found
+	*/
+	public static Trip[] findByRouteId_PrevAndNext(long id,
+		java.lang.String route_id, OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence()
+				   .findByRouteId_PrevAndNext(id, route_id, orderByComparator);
+	}
+
+	/**
+	* Removes all the trips where route_id = &#63; from the database.
+	*
+	* @param route_id the route_id
+	*/
+	public static void removeByRouteId(java.lang.String route_id) {
+		getPersistence().removeByRouteId(route_id);
+	}
+
+	/**
+	* Returns the number of trips where route_id = &#63;.
+	*
+	* @param route_id the route_id
+	* @return the number of matching trips
+	*/
+	public static int countByRouteId(java.lang.String route_id) {
+		return getPersistence().countByRouteId(route_id);
+	}
+
+	/**
+	* Returns all the trips where service_id = &#63;.
+	*
+	* @param service_id the service_id
+	* @return the matching trips
+	*/
+	public static List<Trip> findByServiceId(java.lang.String service_id) {
+		return getPersistence().findByServiceId(service_id);
+	}
+
+	/**
+	* Returns a range of all the trips where service_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param service_id the service_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @return the range of matching trips
+	*/
+	public static List<Trip> findByServiceId(java.lang.String service_id,
+		int start, int end) {
+		return getPersistence().findByServiceId(service_id, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the trips where service_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param service_id the service_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching trips
+	*/
+	public static List<Trip> findByServiceId(java.lang.String service_id,
+		int start, int end, OrderByComparator<Trip> orderByComparator) {
+		return getPersistence()
+				   .findByServiceId(service_id, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the trips where service_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param service_id the service_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching trips
+	*/
+	public static List<Trip> findByServiceId(java.lang.String service_id,
+		int start, int end, OrderByComparator<Trip> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByServiceId(service_id, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first trip in the ordered set where service_id = &#63;.
+	*
+	* @param service_id the service_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching trip
+	* @throws NoSuchTripException if a matching trip could not be found
+	*/
+	public static Trip findByServiceId_First(java.lang.String service_id,
+		OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence()
+				   .findByServiceId_First(service_id, orderByComparator);
+	}
+
+	/**
+	* Returns the first trip in the ordered set where service_id = &#63;.
+	*
+	* @param service_id the service_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching trip, or <code>null</code> if a matching trip could not be found
+	*/
+	public static Trip fetchByServiceId_First(java.lang.String service_id,
+		OrderByComparator<Trip> orderByComparator) {
+		return getPersistence()
+				   .fetchByServiceId_First(service_id, orderByComparator);
+	}
+
+	/**
+	* Returns the last trip in the ordered set where service_id = &#63;.
+	*
+	* @param service_id the service_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching trip
+	* @throws NoSuchTripException if a matching trip could not be found
+	*/
+	public static Trip findByServiceId_Last(java.lang.String service_id,
+		OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence()
+				   .findByServiceId_Last(service_id, orderByComparator);
+	}
+
+	/**
+	* Returns the last trip in the ordered set where service_id = &#63;.
+	*
+	* @param service_id the service_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching trip, or <code>null</code> if a matching trip could not be found
+	*/
+	public static Trip fetchByServiceId_Last(java.lang.String service_id,
+		OrderByComparator<Trip> orderByComparator) {
+		return getPersistence()
+				   .fetchByServiceId_Last(service_id, orderByComparator);
+	}
+
+	/**
+	* Returns the trips before and after the current trip in the ordered set where service_id = &#63;.
+	*
+	* @param id the primary key of the current trip
+	* @param service_id the service_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next trip
+	* @throws NoSuchTripException if a trip with the primary key could not be found
+	*/
+	public static Trip[] findByServiceId_PrevAndNext(long id,
+		java.lang.String service_id, OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence()
+				   .findByServiceId_PrevAndNext(id, service_id,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the trips where service_id = &#63; from the database.
+	*
+	* @param service_id the service_id
+	*/
+	public static void removeByServiceId(java.lang.String service_id) {
+		getPersistence().removeByServiceId(service_id);
+	}
+
+	/**
+	* Returns the number of trips where service_id = &#63;.
+	*
+	* @param service_id the service_id
+	* @return the number of matching trips
+	*/
+	public static int countByServiceId(java.lang.String service_id) {
+		return getPersistence().countByServiceId(service_id);
+	}
+
+	/**
+	* Returns all the trips where trip_id = &#63;.
+	*
+	* @param trip_id the trip_id
+	* @return the matching trips
+	*/
+	public static List<Trip> findByTripId(java.lang.String trip_id) {
+		return getPersistence().findByTripId(trip_id);
+	}
+
+	/**
+	* Returns a range of all the trips where trip_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param trip_id the trip_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @return the range of matching trips
+	*/
+	public static List<Trip> findByTripId(java.lang.String trip_id, int start,
+		int end) {
+		return getPersistence().findByTripId(trip_id, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the trips where trip_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param trip_id the trip_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching trips
+	*/
+	public static List<Trip> findByTripId(java.lang.String trip_id, int start,
+		int end, OrderByComparator<Trip> orderByComparator) {
+		return getPersistence()
+				   .findByTripId(trip_id, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the trips where trip_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param trip_id the trip_id
+	* @param start the lower bound of the range of trips
+	* @param end the upper bound of the range of trips (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching trips
+	*/
+	public static List<Trip> findByTripId(java.lang.String trip_id, int start,
+		int end, OrderByComparator<Trip> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByTripId(trip_id, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first trip in the ordered set where trip_id = &#63;.
+	*
+	* @param trip_id the trip_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching trip
+	* @throws NoSuchTripException if a matching trip could not be found
+	*/
+	public static Trip findByTripId_First(java.lang.String trip_id,
+		OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence().findByTripId_First(trip_id, orderByComparator);
+	}
+
+	/**
+	* Returns the first trip in the ordered set where trip_id = &#63;.
+	*
+	* @param trip_id the trip_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching trip, or <code>null</code> if a matching trip could not be found
+	*/
+	public static Trip fetchByTripId_First(java.lang.String trip_id,
+		OrderByComparator<Trip> orderByComparator) {
+		return getPersistence().fetchByTripId_First(trip_id, orderByComparator);
+	}
+
+	/**
+	* Returns the last trip in the ordered set where trip_id = &#63;.
+	*
+	* @param trip_id the trip_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching trip
+	* @throws NoSuchTripException if a matching trip could not be found
+	*/
+	public static Trip findByTripId_Last(java.lang.String trip_id,
+		OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence().findByTripId_Last(trip_id, orderByComparator);
+	}
+
+	/**
+	* Returns the last trip in the ordered set where trip_id = &#63;.
+	*
+	* @param trip_id the trip_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching trip, or <code>null</code> if a matching trip could not be found
+	*/
+	public static Trip fetchByTripId_Last(java.lang.String trip_id,
+		OrderByComparator<Trip> orderByComparator) {
+		return getPersistence().fetchByTripId_Last(trip_id, orderByComparator);
+	}
+
+	/**
+	* Returns the trips before and after the current trip in the ordered set where trip_id = &#63;.
+	*
+	* @param id the primary key of the current trip
+	* @param trip_id the trip_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next trip
+	* @throws NoSuchTripException if a trip with the primary key could not be found
+	*/
+	public static Trip[] findByTripId_PrevAndNext(long id,
+		java.lang.String trip_id, OrderByComparator<Trip> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
+		return getPersistence()
+				   .findByTripId_PrevAndNext(id, trip_id, orderByComparator);
+	}
+
+	/**
+	* Removes all the trips where trip_id = &#63; from the database.
+	*
+	* @param trip_id the trip_id
+	*/
+	public static void removeByTripId(java.lang.String trip_id) {
+		getPersistence().removeByTripId(trip_id);
+	}
+
+	/**
+	* Returns the number of trips where trip_id = &#63;.
+	*
+	* @param trip_id the trip_id
+	* @return the number of matching trips
+	*/
+	public static int countByTripId(java.lang.String trip_id) {
+		return getPersistence().countByTripId(trip_id);
+	}
+
+	/**
 	* Caches the trip in the entity cache if it is enabled.
 	*
 	* @param trip the trip

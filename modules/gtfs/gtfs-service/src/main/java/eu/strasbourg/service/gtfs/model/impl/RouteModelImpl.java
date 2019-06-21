@@ -100,8 +100,8 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Route"),
 			true);
-	public static final long UUID_COLUMN_BITMASK = 1L;
-	public static final long ROUTE_ID_COLUMN_BITMASK = 2L;
+	public static final long ROUTE_ID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Route"));
 
@@ -262,7 +262,15 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public void setRoute_id(String route_id) {
 		_columnBitmask = -1L;
 
+		if (_originalRoute_id == null) {
+			_originalRoute_id = _route_id;
+		}
+
 		_route_id = route_id;
+	}
+
+	public String getOriginalRoute_id() {
+		return GetterUtil.getString(_originalRoute_id);
 	}
 
 	@Override
@@ -452,6 +460,8 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 		routeModelImpl._originalUuid = routeModelImpl._uuid;
 
+		routeModelImpl._originalRoute_id = routeModelImpl._route_id;
+
 		routeModelImpl._columnBitmask = 0;
 	}
 
@@ -607,6 +617,7 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	private String _originalUuid;
 	private long _id;
 	private String _route_id;
+	private String _originalRoute_id;
 	private String _route_short_name;
 	private String _route_long_name;
 	private String _route_desc;

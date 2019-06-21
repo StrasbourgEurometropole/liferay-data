@@ -9,6 +9,27 @@ create table gtfs_Agency (
 	agency_lang VARCHAR(75) null
 );
 
+create table gtfs_Arret (
+	uuid_ VARCHAR(75) null,
+	arretId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	stopId VARCHAR(75) null,
+	title VARCHAR(75) null,
+	code_ VARCHAR(75) null,
+	latitude VARCHAR(75) null,
+	longitude VARCHAR(75) null,
+	type_ VARCHAR(75) null
+);
+
 create table gtfs_Calendar (
 	uuid_ VARCHAR(75) null,
 	id_ LONG not null primary key,
@@ -32,6 +53,24 @@ create table gtfs_CalendarDate (
 	exception_type INTEGER
 );
 
+create table gtfs_Direction (
+	uuid_ VARCHAR(75) null,
+	directionId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	stopId VARCHAR(75) null,
+	routeId VARCHAR(75) null,
+	destinationName VARCHAR(75) null
+);
+
 create table gtfs_ImportHistoric (
 	uuid_ VARCHAR(75) null,
 	importHistoricId LONG not null primary key,
@@ -49,6 +88,26 @@ create table gtfs_ImportHistoric (
 	operations VARCHAR(75) null,
 	errorDescription VARCHAR(75) null,
 	errorStackTrace VARCHAR(75) null
+);
+
+create table gtfs_Ligne (
+	uuid_ VARCHAR(75) null,
+	ligneId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	routeId VARCHAR(75) null,
+	shortName VARCHAR(75) null,
+	title VARCHAR(75) null,
+	type_ VARCHAR(75) null,
+	textColor VARCHAR(75) null
 );
 
 create table gtfs_Route (

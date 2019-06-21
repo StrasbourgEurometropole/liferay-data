@@ -98,8 +98,10 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Trip"),
 			true);
-	public static final long UUID_COLUMN_BITMASK = 1L;
-	public static final long TRIP_ID_COLUMN_BITMASK = 2L;
+	public static final long ROUTE_ID_COLUMN_BITMASK = 1L;
+	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
+	public static final long TRIP_ID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Trip"));
 
@@ -251,7 +253,17 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setRoute_id(String route_id) {
+		_columnBitmask |= ROUTE_ID_COLUMN_BITMASK;
+
+		if (_originalRoute_id == null) {
+			_originalRoute_id = _route_id;
+		}
+
 		_route_id = route_id;
+	}
+
+	public String getOriginalRoute_id() {
+		return GetterUtil.getString(_originalRoute_id);
 	}
 
 	@Override
@@ -266,7 +278,17 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setService_id(String service_id) {
+		_columnBitmask |= SERVICE_ID_COLUMN_BITMASK;
+
+		if (_originalService_id == null) {
+			_originalService_id = _service_id;
+		}
+
 		_service_id = service_id;
+	}
+
+	public String getOriginalService_id() {
+		return GetterUtil.getString(_originalService_id);
 	}
 
 	@Override
@@ -283,7 +305,15 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public void setTrip_id(String trip_id) {
 		_columnBitmask = -1L;
 
+		if (_originalTrip_id == null) {
+			_originalTrip_id = _trip_id;
+		}
+
 		_trip_id = trip_id;
+	}
+
+	public String getOriginalTrip_id() {
+		return GetterUtil.getString(_originalTrip_id);
 	}
 
 	@Override
@@ -432,6 +462,12 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 		tripModelImpl._originalUuid = tripModelImpl._uuid;
 
+		tripModelImpl._originalRoute_id = tripModelImpl._route_id;
+
+		tripModelImpl._originalService_id = tripModelImpl._service_id;
+
+		tripModelImpl._originalTrip_id = tripModelImpl._trip_id;
+
 		tripModelImpl._columnBitmask = 0;
 	}
 
@@ -573,8 +609,11 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	private String _originalUuid;
 	private long _id;
 	private String _route_id;
+	private String _originalRoute_id;
 	private String _service_id;
+	private String _originalService_id;
 	private String _trip_id;
+	private String _originalTrip_id;
 	private String _trip_headsign;
 	private boolean _direction_id;
 	private String _block_id;

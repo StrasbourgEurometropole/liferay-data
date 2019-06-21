@@ -631,6 +631,553 @@ public class CalendarPersistenceImpl extends BasePersistenceImpl<Calendar>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "calendar.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "calendar.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(calendar.uuid IS NULL OR calendar.uuid = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SERVICEID =
+		new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, CalendarImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID =
+		new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, CalendarImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
+			new String[] { String.class.getName() },
+			CalendarModelImpl.SERVICE_ID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SERVICEID = new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the calendars where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @return the matching calendars
+	 */
+	@Override
+	public List<Calendar> findByServiceId(String service_id) {
+		return findByServiceId(service_id, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the calendars where service_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param service_id the service_id
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @return the range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByServiceId(String service_id, int start, int end) {
+		return findByServiceId(service_id, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the calendars where service_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param service_id the service_id
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByServiceId(String service_id, int start,
+		int end, OrderByComparator<Calendar> orderByComparator) {
+		return findByServiceId(service_id, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the calendars where service_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param service_id the service_id
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByServiceId(String service_id, int start,
+		int end, OrderByComparator<Calendar> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID;
+			finderArgs = new Object[] { service_id };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SERVICEID;
+			finderArgs = new Object[] { service_id, start, end, orderByComparator };
+		}
+
+		List<Calendar> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Calendar>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Calendar calendar : list) {
+					if (!Objects.equals(service_id, calendar.getService_id())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_CALENDAR_WHERE);
+
+			boolean bindService_id = false;
+
+			if (service_id == null) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
+			}
+			else if (service_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
+			}
+			else {
+				bindService_id = true;
+
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(CalendarModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindService_id) {
+					qPos.add(service_id);
+				}
+
+				if (!pagination) {
+					list = (List<Calendar>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Calendar>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first calendar in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching calendar
+	 * @throws NoSuchCalendarException if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar findByServiceId_First(String service_id,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = fetchByServiceId_First(service_id, orderByComparator);
+
+		if (calendar != null) {
+			return calendar;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("service_id=");
+		msg.append(service_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCalendarException(msg.toString());
+	}
+
+	/**
+	 * Returns the first calendar in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching calendar, or <code>null</code> if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar fetchByServiceId_First(String service_id,
+		OrderByComparator<Calendar> orderByComparator) {
+		List<Calendar> list = findByServiceId(service_id, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last calendar in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching calendar
+	 * @throws NoSuchCalendarException if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar findByServiceId_Last(String service_id,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = fetchByServiceId_Last(service_id, orderByComparator);
+
+		if (calendar != null) {
+			return calendar;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("service_id=");
+		msg.append(service_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCalendarException(msg.toString());
+	}
+
+	/**
+	 * Returns the last calendar in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching calendar, or <code>null</code> if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar fetchByServiceId_Last(String service_id,
+		OrderByComparator<Calendar> orderByComparator) {
+		int count = countByServiceId(service_id);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Calendar> list = findByServiceId(service_id, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the calendars before and after the current calendar in the ordered set where service_id = &#63;.
+	 *
+	 * @param id the primary key of the current calendar
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next calendar
+	 * @throws NoSuchCalendarException if a calendar with the primary key could not be found
+	 */
+	@Override
+	public Calendar[] findByServiceId_PrevAndNext(long id, String service_id,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = findByPrimaryKey(id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Calendar[] array = new CalendarImpl[3];
+
+			array[0] = getByServiceId_PrevAndNext(session, calendar,
+					service_id, orderByComparator, true);
+
+			array[1] = calendar;
+
+			array[2] = getByServiceId_PrevAndNext(session, calendar,
+					service_id, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Calendar getByServiceId_PrevAndNext(Session session,
+		Calendar calendar, String service_id,
+		OrderByComparator<Calendar> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CALENDAR_WHERE);
+
+		boolean bindService_id = false;
+
+		if (service_id == null) {
+			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
+		}
+		else if (service_id.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
+		}
+		else {
+			bindService_id = true;
+
+			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(CalendarModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindService_id) {
+			qPos.add(service_id);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(calendar);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Calendar> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the calendars where service_id = &#63; from the database.
+	 *
+	 * @param service_id the service_id
+	 */
+	@Override
+	public void removeByServiceId(String service_id) {
+		for (Calendar calendar : findByServiceId(service_id, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(calendar);
+		}
+	}
+
+	/**
+	 * Returns the number of calendars where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @return the number of matching calendars
+	 */
+	@Override
+	public int countByServiceId(String service_id) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SERVICEID;
+
+		Object[] finderArgs = new Object[] { service_id };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CALENDAR_WHERE);
+
+			boolean bindService_id = false;
+
+			if (service_id == null) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
+			}
+			else if (service_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
+			}
+			else {
+				bindService_id = true;
+
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindService_id) {
+					qPos.add(service_id);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_1 = "calendar.service_id IS NULL";
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_2 = "calendar.service_id = ?";
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_3 = "(calendar.service_id IS NULL OR calendar.service_id = '')";
 
 	public CalendarPersistenceImpl() {
 		setModelClass(Calendar.class);
@@ -879,6 +1426,12 @@ public class CalendarPersistenceImpl extends BasePersistenceImpl<Calendar>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 				args);
 
+			args = new Object[] { calendarModelImpl.getService_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -897,6 +1450,23 @@ public class CalendarPersistenceImpl extends BasePersistenceImpl<Calendar>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+					args);
+			}
+
+			if ((calendarModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						calendarModelImpl.getOriginalService_id()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
+					args);
+
+				args = new Object[] { calendarModelImpl.getService_id() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
 					args);
 			}
 		}

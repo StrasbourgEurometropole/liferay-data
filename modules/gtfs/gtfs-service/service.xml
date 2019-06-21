@@ -221,6 +221,11 @@
 		<order by="asc">
 			<order-column name="service_id" />
 		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ServiceId" return-type="Collection">
+			<finder-column name="service_id" />
+		</finder>
 
 	</entity>
 	
@@ -238,6 +243,11 @@
 		<order by="asc">
 			<order-column name="service_id" />
 		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ServiceId" return-type="Collection">
+			<finder-column name="service_id" />
+		</finder>
 
 	</entity>
 	
@@ -259,6 +269,11 @@
 		<order by="asc">
 			<order-column name="route_id" />
 		</order>
+		
+		<!-- Finder methods -->
+		<finder name="RouteId" return-type="Collection">
+			<finder-column name="route_id" />
+		</finder>
 
 	</entity>
 	
@@ -280,6 +295,14 @@
 		<order by="asc">
 			<order-column name="trip_id" />
 		</order>
+		
+		<!-- Finder methods -->
+		<finder name="TripId" return-type="Collection">
+			<finder-column name="trip_id" />
+		</finder>
+		<finder name="StopId" return-type="Collection">
+			<finder-column name="stop_id" />
+		</finder>
 
 	</entity>
 	
@@ -301,6 +324,11 @@
 		<order by="asc">
 			<order-column name="stop_id" />
 		</order>
+		
+		<!-- Finder methods -->
+		<finder name="StopId" return-type="Collection">
+			<finder-column name="stop_id" />
+		</finder>
 
 	</entity>
 	
@@ -316,14 +344,23 @@
 		<column name="trip_headsign" type="String" />
 		<column name="direction_id" type="boolean" />
 		<column name="block_id" type="String" />
-
+		
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="trip_id" />
 		</order>
+		
+		<!-- Finder methods -->
+		<finder name="RouteId" return-type="Collection">
+			<finder-column name="route_id" />
+		</finder>
+		<finder name="ServiceId" return-type="Collection">
+			<finder-column name="service_id" />
+		</finder>
+		<finder name="TripId" return-type="Collection">
+			<finder-column name="trip_id" />
+		</finder>
 
 	</entity>
-	
-	
 	
 </service-builder>

@@ -626,6 +626,1631 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "trip.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "trip.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(trip.uuid IS NULL OR trip.uuid = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRouteId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID =
+		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
+			new String[] { String.class.getName() },
+			TripModelImpl.ROUTE_ID_COLUMN_BITMASK |
+			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ROUTEID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the trips where route_id = &#63;.
+	 *
+	 * @param route_id the route_id
+	 * @return the matching trips
+	 */
+	@Override
+	public List<Trip> findByRouteId(String route_id) {
+		return findByRouteId(route_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the trips where route_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param route_id the route_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @return the range of matching trips
+	 */
+	@Override
+	public List<Trip> findByRouteId(String route_id, int start, int end) {
+		return findByRouteId(route_id, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the trips where route_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param route_id the route_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching trips
+	 */
+	@Override
+	public List<Trip> findByRouteId(String route_id, int start, int end,
+		OrderByComparator<Trip> orderByComparator) {
+		return findByRouteId(route_id, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the trips where route_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param route_id the route_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching trips
+	 */
+	@Override
+	public List<Trip> findByRouteId(String route_id, int start, int end,
+		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID;
+			finderArgs = new Object[] { route_id };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID;
+			finderArgs = new Object[] { route_id, start, end, orderByComparator };
+		}
+
+		List<Trip> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Trip trip : list) {
+					if (!Objects.equals(route_id, trip.getRoute_id())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_TRIP_WHERE);
+
+			boolean bindRoute_id = false;
+
+			if (route_id == null) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_1);
+			}
+			else if (route_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_3);
+			}
+			else {
+				bindRoute_id = true;
+
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(TripModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRoute_id) {
+					qPos.add(route_id);
+				}
+
+				if (!pagination) {
+					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
+							end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
+							end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first trip in the ordered set where route_id = &#63;.
+	 *
+	 * @param route_id the route_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching trip
+	 * @throws NoSuchTripException if a matching trip could not be found
+	 */
+	@Override
+	public Trip findByRouteId_First(String route_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = fetchByRouteId_First(route_id, orderByComparator);
+
+		if (trip != null) {
+			return trip;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("route_id=");
+		msg.append(route_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTripException(msg.toString());
+	}
+
+	/**
+	 * Returns the first trip in the ordered set where route_id = &#63;.
+	 *
+	 * @param route_id the route_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching trip, or <code>null</code> if a matching trip could not be found
+	 */
+	@Override
+	public Trip fetchByRouteId_First(String route_id,
+		OrderByComparator<Trip> orderByComparator) {
+		List<Trip> list = findByRouteId(route_id, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last trip in the ordered set where route_id = &#63;.
+	 *
+	 * @param route_id the route_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching trip
+	 * @throws NoSuchTripException if a matching trip could not be found
+	 */
+	@Override
+	public Trip findByRouteId_Last(String route_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = fetchByRouteId_Last(route_id, orderByComparator);
+
+		if (trip != null) {
+			return trip;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("route_id=");
+		msg.append(route_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTripException(msg.toString());
+	}
+
+	/**
+	 * Returns the last trip in the ordered set where route_id = &#63;.
+	 *
+	 * @param route_id the route_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching trip, or <code>null</code> if a matching trip could not be found
+	 */
+	@Override
+	public Trip fetchByRouteId_Last(String route_id,
+		OrderByComparator<Trip> orderByComparator) {
+		int count = countByRouteId(route_id);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Trip> list = findByRouteId(route_id, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the trips before and after the current trip in the ordered set where route_id = &#63;.
+	 *
+	 * @param id the primary key of the current trip
+	 * @param route_id the route_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next trip
+	 * @throws NoSuchTripException if a trip with the primary key could not be found
+	 */
+	@Override
+	public Trip[] findByRouteId_PrevAndNext(long id, String route_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = findByPrimaryKey(id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Trip[] array = new TripImpl[3];
+
+			array[0] = getByRouteId_PrevAndNext(session, trip, route_id,
+					orderByComparator, true);
+
+			array[1] = trip;
+
+			array[2] = getByRouteId_PrevAndNext(session, trip, route_id,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Trip getByRouteId_PrevAndNext(Session session, Trip trip,
+		String route_id, OrderByComparator<Trip> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_TRIP_WHERE);
+
+		boolean bindRoute_id = false;
+
+		if (route_id == null) {
+			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_1);
+		}
+		else if (route_id.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_3);
+		}
+		else {
+			bindRoute_id = true;
+
+			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(TripModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindRoute_id) {
+			qPos.add(route_id);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(trip);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Trip> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the trips where route_id = &#63; from the database.
+	 *
+	 * @param route_id the route_id
+	 */
+	@Override
+	public void removeByRouteId(String route_id) {
+		for (Trip trip : findByRouteId(route_id, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(trip);
+		}
+	}
+
+	/**
+	 * Returns the number of trips where route_id = &#63;.
+	 *
+	 * @param route_id the route_id
+	 * @return the number of matching trips
+	 */
+	@Override
+	public int countByRouteId(String route_id) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ROUTEID;
+
+		Object[] finderArgs = new Object[] { route_id };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_TRIP_WHERE);
+
+			boolean bindRoute_id = false;
+
+			if (route_id == null) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_1);
+			}
+			else if (route_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_3);
+			}
+			else {
+				bindRoute_id = true;
+
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRoute_id) {
+					qPos.add(route_id);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_1 = "trip.route_id IS NULL";
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_2 = "trip.route_id = ?";
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTE_ID_3 = "(trip.route_id IS NULL OR trip.route_id = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SERVICEID =
+		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID =
+		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
+			new String[] { String.class.getName() },
+			TripModelImpl.SERVICE_ID_COLUMN_BITMASK |
+			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SERVICEID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the trips where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @return the matching trips
+	 */
+	@Override
+	public List<Trip> findByServiceId(String service_id) {
+		return findByServiceId(service_id, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the trips where service_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param service_id the service_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @return the range of matching trips
+	 */
+	@Override
+	public List<Trip> findByServiceId(String service_id, int start, int end) {
+		return findByServiceId(service_id, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the trips where service_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param service_id the service_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching trips
+	 */
+	@Override
+	public List<Trip> findByServiceId(String service_id, int start, int end,
+		OrderByComparator<Trip> orderByComparator) {
+		return findByServiceId(service_id, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the trips where service_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param service_id the service_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching trips
+	 */
+	@Override
+	public List<Trip> findByServiceId(String service_id, int start, int end,
+		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID;
+			finderArgs = new Object[] { service_id };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SERVICEID;
+			finderArgs = new Object[] { service_id, start, end, orderByComparator };
+		}
+
+		List<Trip> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Trip trip : list) {
+					if (!Objects.equals(service_id, trip.getService_id())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_TRIP_WHERE);
+
+			boolean bindService_id = false;
+
+			if (service_id == null) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
+			}
+			else if (service_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
+			}
+			else {
+				bindService_id = true;
+
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(TripModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindService_id) {
+					qPos.add(service_id);
+				}
+
+				if (!pagination) {
+					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
+							end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
+							end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first trip in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching trip
+	 * @throws NoSuchTripException if a matching trip could not be found
+	 */
+	@Override
+	public Trip findByServiceId_First(String service_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = fetchByServiceId_First(service_id, orderByComparator);
+
+		if (trip != null) {
+			return trip;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("service_id=");
+		msg.append(service_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTripException(msg.toString());
+	}
+
+	/**
+	 * Returns the first trip in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching trip, or <code>null</code> if a matching trip could not be found
+	 */
+	@Override
+	public Trip fetchByServiceId_First(String service_id,
+		OrderByComparator<Trip> orderByComparator) {
+		List<Trip> list = findByServiceId(service_id, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last trip in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching trip
+	 * @throws NoSuchTripException if a matching trip could not be found
+	 */
+	@Override
+	public Trip findByServiceId_Last(String service_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = fetchByServiceId_Last(service_id, orderByComparator);
+
+		if (trip != null) {
+			return trip;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("service_id=");
+		msg.append(service_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTripException(msg.toString());
+	}
+
+	/**
+	 * Returns the last trip in the ordered set where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching trip, or <code>null</code> if a matching trip could not be found
+	 */
+	@Override
+	public Trip fetchByServiceId_Last(String service_id,
+		OrderByComparator<Trip> orderByComparator) {
+		int count = countByServiceId(service_id);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Trip> list = findByServiceId(service_id, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the trips before and after the current trip in the ordered set where service_id = &#63;.
+	 *
+	 * @param id the primary key of the current trip
+	 * @param service_id the service_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next trip
+	 * @throws NoSuchTripException if a trip with the primary key could not be found
+	 */
+	@Override
+	public Trip[] findByServiceId_PrevAndNext(long id, String service_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = findByPrimaryKey(id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Trip[] array = new TripImpl[3];
+
+			array[0] = getByServiceId_PrevAndNext(session, trip, service_id,
+					orderByComparator, true);
+
+			array[1] = trip;
+
+			array[2] = getByServiceId_PrevAndNext(session, trip, service_id,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Trip getByServiceId_PrevAndNext(Session session, Trip trip,
+		String service_id, OrderByComparator<Trip> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_TRIP_WHERE);
+
+		boolean bindService_id = false;
+
+		if (service_id == null) {
+			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
+		}
+		else if (service_id.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
+		}
+		else {
+			bindService_id = true;
+
+			query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(TripModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindService_id) {
+			qPos.add(service_id);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(trip);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Trip> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the trips where service_id = &#63; from the database.
+	 *
+	 * @param service_id the service_id
+	 */
+	@Override
+	public void removeByServiceId(String service_id) {
+		for (Trip trip : findByServiceId(service_id, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(trip);
+		}
+	}
+
+	/**
+	 * Returns the number of trips where service_id = &#63;.
+	 *
+	 * @param service_id the service_id
+	 * @return the number of matching trips
+	 */
+	@Override
+	public int countByServiceId(String service_id) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SERVICEID;
+
+		Object[] finderArgs = new Object[] { service_id };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_TRIP_WHERE);
+
+			boolean bindService_id = false;
+
+			if (service_id == null) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_1);
+			}
+			else if (service_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_3);
+			}
+			else {
+				bindService_id = true;
+
+				query.append(_FINDER_COLUMN_SERVICEID_SERVICE_ID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindService_id) {
+					qPos.add(service_id);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_1 = "trip.service_id IS NULL";
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_2 = "trip.service_id = ?";
+	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_3 = "(trip.service_id IS NULL OR trip.service_id = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TRIPID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTripId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID =
+		new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTripId",
+			new String[] { String.class.getName() },
+			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_TRIPID = new FinderPath(TripModelImpl.ENTITY_CACHE_ENABLED,
+			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTripId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the trips where trip_id = &#63;.
+	 *
+	 * @param trip_id the trip_id
+	 * @return the matching trips
+	 */
+	@Override
+	public List<Trip> findByTripId(String trip_id) {
+		return findByTripId(trip_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the trips where trip_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param trip_id the trip_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @return the range of matching trips
+	 */
+	@Override
+	public List<Trip> findByTripId(String trip_id, int start, int end) {
+		return findByTripId(trip_id, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the trips where trip_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param trip_id the trip_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching trips
+	 */
+	@Override
+	public List<Trip> findByTripId(String trip_id, int start, int end,
+		OrderByComparator<Trip> orderByComparator) {
+		return findByTripId(trip_id, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the trips where trip_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TripModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param trip_id the trip_id
+	 * @param start the lower bound of the range of trips
+	 * @param end the upper bound of the range of trips (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching trips
+	 */
+	@Override
+	public List<Trip> findByTripId(String trip_id, int start, int end,
+		OrderByComparator<Trip> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID;
+			finderArgs = new Object[] { trip_id };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TRIPID;
+			finderArgs = new Object[] { trip_id, start, end, orderByComparator };
+		}
+
+		List<Trip> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Trip>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Trip trip : list) {
+					if (!Objects.equals(trip_id, trip.getTrip_id())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_TRIP_WHERE);
+
+			boolean bindTrip_id = false;
+
+			if (trip_id == null) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_1);
+			}
+			else if (trip_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_3);
+			}
+			else {
+				bindTrip_id = true;
+
+				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(TripModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindTrip_id) {
+					qPos.add(trip_id);
+				}
+
+				if (!pagination) {
+					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
+							end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Trip>)QueryUtil.list(q, getDialect(), start,
+							end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first trip in the ordered set where trip_id = &#63;.
+	 *
+	 * @param trip_id the trip_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching trip
+	 * @throws NoSuchTripException if a matching trip could not be found
+	 */
+	@Override
+	public Trip findByTripId_First(String trip_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = fetchByTripId_First(trip_id, orderByComparator);
+
+		if (trip != null) {
+			return trip;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("trip_id=");
+		msg.append(trip_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTripException(msg.toString());
+	}
+
+	/**
+	 * Returns the first trip in the ordered set where trip_id = &#63;.
+	 *
+	 * @param trip_id the trip_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching trip, or <code>null</code> if a matching trip could not be found
+	 */
+	@Override
+	public Trip fetchByTripId_First(String trip_id,
+		OrderByComparator<Trip> orderByComparator) {
+		List<Trip> list = findByTripId(trip_id, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last trip in the ordered set where trip_id = &#63;.
+	 *
+	 * @param trip_id the trip_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching trip
+	 * @throws NoSuchTripException if a matching trip could not be found
+	 */
+	@Override
+	public Trip findByTripId_Last(String trip_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = fetchByTripId_Last(trip_id, orderByComparator);
+
+		if (trip != null) {
+			return trip;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("trip_id=");
+		msg.append(trip_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTripException(msg.toString());
+	}
+
+	/**
+	 * Returns the last trip in the ordered set where trip_id = &#63;.
+	 *
+	 * @param trip_id the trip_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching trip, or <code>null</code> if a matching trip could not be found
+	 */
+	@Override
+	public Trip fetchByTripId_Last(String trip_id,
+		OrderByComparator<Trip> orderByComparator) {
+		int count = countByTripId(trip_id);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Trip> list = findByTripId(trip_id, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the trips before and after the current trip in the ordered set where trip_id = &#63;.
+	 *
+	 * @param id the primary key of the current trip
+	 * @param trip_id the trip_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next trip
+	 * @throws NoSuchTripException if a trip with the primary key could not be found
+	 */
+	@Override
+	public Trip[] findByTripId_PrevAndNext(long id, String trip_id,
+		OrderByComparator<Trip> orderByComparator) throws NoSuchTripException {
+		Trip trip = findByPrimaryKey(id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Trip[] array = new TripImpl[3];
+
+			array[0] = getByTripId_PrevAndNext(session, trip, trip_id,
+					orderByComparator, true);
+
+			array[1] = trip;
+
+			array[2] = getByTripId_PrevAndNext(session, trip, trip_id,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Trip getByTripId_PrevAndNext(Session session, Trip trip,
+		String trip_id, OrderByComparator<Trip> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_TRIP_WHERE);
+
+		boolean bindTrip_id = false;
+
+		if (trip_id == null) {
+			query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_1);
+		}
+		else if (trip_id.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_3);
+		}
+		else {
+			bindTrip_id = true;
+
+			query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(TripModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindTrip_id) {
+			qPos.add(trip_id);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(trip);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Trip> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the trips where trip_id = &#63; from the database.
+	 *
+	 * @param trip_id the trip_id
+	 */
+	@Override
+	public void removeByTripId(String trip_id) {
+		for (Trip trip : findByTripId(trip_id, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(trip);
+		}
+	}
+
+	/**
+	 * Returns the number of trips where trip_id = &#63;.
+	 *
+	 * @param trip_id the trip_id
+	 * @return the number of matching trips
+	 */
+	@Override
+	public int countByTripId(String trip_id) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_TRIPID;
+
+		Object[] finderArgs = new Object[] { trip_id };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_TRIP_WHERE);
+
+			boolean bindTrip_id = false;
+
+			if (trip_id == null) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_1);
+			}
+			else if (trip_id.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_3);
+			}
+			else {
+				bindTrip_id = true;
+
+				query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindTrip_id) {
+					qPos.add(trip_id);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_1 = "trip.trip_id IS NULL";
+	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_2 = "trip.trip_id = ?";
+	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_3 = "(trip.trip_id IS NULL OR trip.trip_id = '')";
 
 	public TripPersistenceImpl() {
 		setModelClass(Trip.class);
@@ -871,6 +2496,24 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 				args);
 
+			args = new Object[] { tripModelImpl.getRoute_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
+				args);
+
+			args = new Object[] { tripModelImpl.getService_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
+				args);
+
+			args = new Object[] { tripModelImpl.getTrip_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -889,6 +2532,53 @@ public class TripPersistenceImpl extends BasePersistenceImpl<Trip>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+					args);
+			}
+
+			if ((tripModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { tripModelImpl.getOriginalRoute_id() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
+					args);
+
+				args = new Object[] { tripModelImpl.getRoute_id() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
+					args);
+			}
+
+			if ((tripModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						tripModelImpl.getOriginalService_id()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
+					args);
+
+				args = new Object[] { tripModelImpl.getService_id() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
+					args);
+			}
+
+			if ((tripModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { tripModelImpl.getOriginalTrip_id() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID,
+					args);
+
+				args = new Object[] { tripModelImpl.getTrip_id() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TRIPID,
 					args);
 			}
 		}
