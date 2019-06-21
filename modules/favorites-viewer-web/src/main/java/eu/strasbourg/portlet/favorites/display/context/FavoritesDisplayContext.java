@@ -194,11 +194,12 @@ public class FavoritesDisplayContext {
 		if (myFavorites == null) {
 			myFavorites = getFavoritesSelected();
 			if (myFavorites.isEmpty()){
-				myFavorites = getFavorites().subList(0, getFavorites().size() > 4 ? 4 : getFavorites().size());
+				myFavorites = getFavorites();
 			}
+			Collections.reverse(myFavorites);
 		}
 
-		return myFavorites;
+		return myFavorites.subList(0, myFavorites.size() > 4 ? 4 : myFavorites.size());
 	}
 
 	public GregorianCalendar getTodayCalendar() {
