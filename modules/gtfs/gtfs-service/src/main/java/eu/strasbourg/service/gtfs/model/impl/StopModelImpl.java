@@ -64,8 +64,8 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 			{ "id_", Types.BIGINT },
 			{ "stop_id", Types.VARCHAR },
 			{ "stop_code", Types.VARCHAR },
-			{ "stop_lat", Types.BIGINT },
-			{ "stop_lon", Types.BIGINT },
+			{ "stop_lat", Types.VARCHAR },
+			{ "stop_lon", Types.VARCHAR },
 			{ "stop_name", Types.VARCHAR },
 			{ "stop_url", Types.VARCHAR },
 			{ "stop_desc", Types.VARCHAR }
@@ -77,14 +77,14 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("stop_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_code", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("stop_lat", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("stop_lon", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("stop_lat", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("stop_lon", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_url", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_desc", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Stop (uuid_ VARCHAR(75) null,id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat LONG,stop_lon LONG,stop_name VARCHAR(75) null,stop_url VARCHAR(400) null,stop_desc VARCHAR(400) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Stop (uuid_ VARCHAR(75) null,id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat VARCHAR(75) null,stop_lon VARCHAR(75) null,stop_name VARCHAR(75) null,stop_url VARCHAR(400) null,stop_desc VARCHAR(400) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Stop";
 	public static final String ORDER_BY_JPQL = " ORDER BY stop.stop_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Stop.stop_id ASC";
@@ -184,13 +184,13 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 			setStop_code(stop_code);
 		}
 
-		Long stop_lat = (Long)attributes.get("stop_lat");
+		String stop_lat = (String)attributes.get("stop_lat");
 
 		if (stop_lat != null) {
 			setStop_lat(stop_lat);
 		}
 
-		Long stop_lon = (Long)attributes.get("stop_lon");
+		String stop_lon = (String)attributes.get("stop_lon");
 
 		if (stop_lon != null) {
 			setStop_lon(stop_lon);
@@ -281,22 +281,32 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	@Override
-	public long getStop_lat() {
-		return _stop_lat;
+	public String getStop_lat() {
+		if (_stop_lat == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _stop_lat;
+		}
 	}
 
 	@Override
-	public void setStop_lat(long stop_lat) {
+	public void setStop_lat(String stop_lat) {
 		_stop_lat = stop_lat;
 	}
 
 	@Override
-	public long getStop_lon() {
-		return _stop_lon;
+	public String getStop_lon() {
+		if (_stop_lon == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _stop_lon;
+		}
 	}
 
 	@Override
-	public void setStop_lon(long stop_lon) {
+	public void setStop_lon(String stop_lon) {
 		_stop_lon = stop_lon;
 	}
 
@@ -482,7 +492,19 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 		stopCacheModel.stop_lat = getStop_lat();
 
+		String stop_lat = stopCacheModel.stop_lat;
+
+		if ((stop_lat != null) && (stop_lat.length() == 0)) {
+			stopCacheModel.stop_lat = null;
+		}
+
 		stopCacheModel.stop_lon = getStop_lon();
+
+		String stop_lon = stopCacheModel.stop_lon;
+
+		if ((stop_lon != null) && (stop_lon.length() == 0)) {
+			stopCacheModel.stop_lon = null;
+		}
 
 		stopCacheModel.stop_name = getStop_name();
 
@@ -597,8 +619,8 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	private long _id;
 	private String _stop_id;
 	private String _stop_code;
-	private long _stop_lat;
-	private long _stop_lon;
+	private String _stop_lat;
+	private String _stop_lon;
 	private String _stop_name;
 	private String _stop_url;
 	private String _stop_desc;

@@ -98,6 +98,16 @@ public class AgencyLocalServiceWrapper implements AgencyLocalService,
 	}
 
 	/**
+	* Crée une agence à partir d'une entrée GTFS
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Agency createAgencyFromGTFS(
+		eu.strasbourg.utils.models.AgencyGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _agencyLocalService.createAgencyFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the agency from the database. Also notifies the appropriate model listeners.
 	*
 	* @param agency the agency
@@ -291,12 +301,22 @@ public class AgencyLocalServiceWrapper implements AgencyLocalService,
 	}
 
 	/**
+	* Import des agences sous le format de données GTFS
+	*/
+	@Override
+	public void importFromGTFS(
+		java.util.Map<java.lang.String, eu.strasbourg.utils.models.AgencyGTFS> data)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_agencyLocalService.importFromGTFS(data);
+	}
+
+	/**
 	* Supprime toutes les agences
 	*/
 	@Override
-	public void removeAllAgency()
+	public void removeAllAgencies()
 		throws com.liferay.portal.kernel.exception.PortalException {
-		_agencyLocalService.removeAllAgency();
+		_agencyLocalService.removeAllAgencies();
 	}
 
 	@Override

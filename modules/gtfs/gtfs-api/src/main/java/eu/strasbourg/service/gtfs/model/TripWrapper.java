@@ -112,7 +112,7 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 			setDirection_id(direction_id);
 		}
 
-		Integer block_id = (Integer)attributes.get("block_id");
+		String block_id = (String)attributes.get("block_id");
 
 		if (block_id != null) {
 			setBlock_id(block_id);
@@ -179,16 +179,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 		return _trip.compareTo(trip);
 	}
 
-	/**
-	* Returns the block_id of this trip.
-	*
-	* @return the block_id of this trip
-	*/
-	@Override
-	public int getBlock_id() {
-		return _trip.getBlock_id();
-	}
-
 	@Override
 	public int hashCode() {
 		return _trip.hashCode();
@@ -202,6 +192,16 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	@Override
 	public java.lang.Object clone() {
 		return new TripWrapper((Trip)_trip.clone());
+	}
+
+	/**
+	* Returns the block_id of this trip.
+	*
+	* @return the block_id of this trip
+	*/
+	@Override
+	public java.lang.String getBlock_id() {
+		return _trip.getBlock_id();
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	* @param block_id the block_id of this trip
 	*/
 	@Override
-	public void setBlock_id(int block_id) {
+	public void setBlock_id(java.lang.String block_id) {
 		_trip.setBlock_id(block_id);
 	}
 

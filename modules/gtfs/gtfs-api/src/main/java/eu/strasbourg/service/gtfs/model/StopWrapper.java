@@ -95,13 +95,13 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 			setStop_code(stop_code);
 		}
 
-		Long stop_lat = (Long)attributes.get("stop_lat");
+		String stop_lat = (String)attributes.get("stop_lat");
 
 		if (stop_lat != null) {
 			setStop_lat(stop_lat);
 		}
 
-		Long stop_lon = (Long)attributes.get("stop_lon");
+		String stop_lon = (String)attributes.get("stop_lon");
 
 		if (stop_lon != null) {
 			setStop_lon(stop_lon);
@@ -212,6 +212,26 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
+	* Returns the stop_lat of this stop.
+	*
+	* @return the stop_lat of this stop
+	*/
+	@Override
+	public java.lang.String getStop_lat() {
+		return _stop.getStop_lat();
+	}
+
+	/**
+	* Returns the stop_lon of this stop.
+	*
+	* @return the stop_lon of this stop
+	*/
+	@Override
+	public java.lang.String getStop_lon() {
+		return _stop.getStop_lon();
+	}
+
+	/**
 	* Returns the stop_name of this stop.
 	*
 	* @return the stop_name of this stop
@@ -269,26 +289,6 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	@Override
 	public long getPrimaryKey() {
 		return _stop.getPrimaryKey();
-	}
-
-	/**
-	* Returns the stop_lat of this stop.
-	*
-	* @return the stop_lat of this stop
-	*/
-	@Override
-	public long getStop_lat() {
-		return _stop.getStop_lat();
-	}
-
-	/**
-	* Returns the stop_lon of this stop.
-	*
-	* @return the stop_lon of this stop
-	*/
-	@Override
-	public long getStop_lon() {
-		return _stop.getStop_lon();
 	}
 
 	@Override
@@ -383,7 +383,7 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	* @param stop_lat the stop_lat of this stop
 	*/
 	@Override
-	public void setStop_lat(long stop_lat) {
+	public void setStop_lat(java.lang.String stop_lat) {
 		_stop.setStop_lat(stop_lat);
 	}
 
@@ -393,7 +393,7 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	* @param stop_lon the stop_lon of this stop
 	*/
 	@Override
-	public void setStop_lon(long stop_lon) {
+	public void setStop_lon(java.lang.String stop_lon) {
 		_stop.setStop_lon(stop_lon);
 	}
 

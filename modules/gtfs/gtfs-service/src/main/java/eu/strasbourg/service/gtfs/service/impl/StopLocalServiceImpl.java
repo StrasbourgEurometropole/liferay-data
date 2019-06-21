@@ -18,9 +18,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Stop;
 import eu.strasbourg.service.gtfs.service.base.StopLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.StopsGTFS;
 
 /**
  * The implementation of the stop local service.
@@ -55,6 +57,28 @@ public class StopLocalServiceImpl extends StopLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Crée un arret à partir d'une entrée GTFS
+	 */
+	@Override
+	public Stop createStopFromGTFS(StopsGTFS entry) throws PortalException {
+		long pk = counterLocalService.increment();
+		Stop stop = this.stopLocalService.createStop(pk);
+		
+		stop.setStop_id(entry.getStop_id());
+		stop.setStop_code(entry.getStop_code());
+		stop.setStop_lat(Double.toString(entry.getStop_lat()));
+		stop.setStop_lon(Double.toString(entry.getStop_lon()));
+		stop.setStop_name(entry.getStop_name());
+		stop.setStop_url(entry.getStop_url());
+		stop.setStop_desc(entry.getStop_desc());
+		
+		
+		stop = this.stopLocalService.updateStop(stop);
+
+		return stop;
+	}
+	
+	/**
 	 * Met à jour un Stop et l'enregistre en base de données
 	 * @throws IOException
 	 */
@@ -76,11 +100,24 @@ public class StopLocalServiceImpl extends StopLocalServiceBaseImpl {
 	}
 	
 	/**
-	 * Supprime toutes les Stops
+	 * Supprime toutes les arrets
 	 */
 	@Override
-	public void removeAllStop() throws PortalException {
+	public void removeAllStops() throws PortalException {
 		this.stopPersistence.removeAll();
+	}
+	
+	/**
+	 * Import des arrets sous le format de données GTFS
+	 */
+	@Override
+	public void importFromGTFS(Map<String, StopsGTFS> data) throws PortalException {
+		// Flush de la table avant incorporation des nouvelles données
+		this.removeAllStops();
+		
+		for (Map.Entry<String, StopsGTFS> mapEntry : data.entrySet()) {
+			this.createStopFromGTFS(mapEntry.getValue());
+		}
 	}
 	
 }

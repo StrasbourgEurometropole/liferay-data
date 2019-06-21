@@ -125,19 +125,19 @@ public class StopSoap implements Serializable {
 		_stop_code = stop_code;
 	}
 
-	public long getStop_lat() {
+	public String getStop_lat() {
 		return _stop_lat;
 	}
 
-	public void setStop_lat(long stop_lat) {
+	public void setStop_lat(String stop_lat) {
 		_stop_lat = stop_lat;
 	}
 
-	public long getStop_lon() {
+	public String getStop_lon() {
 		return _stop_lon;
 	}
 
-	public void setStop_lon(long stop_lon) {
+	public void setStop_lon(String stop_lon) {
 		_stop_lon = stop_lon;
 	}
 
@@ -169,8 +169,8 @@ public class StopSoap implements Serializable {
 	private long _id;
 	private String _stop_id;
 	private String _stop_code;
-	private long _stop_lat;
-	private long _stop_lon;
+	private String _stop_lat;
+	private String _stop_lon;
 	private String _stop_name;
 	private String _stop_url;
 	private String _stop_desc;

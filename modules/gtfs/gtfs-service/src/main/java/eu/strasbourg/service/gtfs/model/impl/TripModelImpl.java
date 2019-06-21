@@ -67,7 +67,7 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 			{ "trip_id", Types.VARCHAR },
 			{ "trip_headsign", Types.VARCHAR },
 			{ "direction_id", Types.BOOLEAN },
-			{ "block_id", Types.INTEGER }
+			{ "block_id", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -79,10 +79,10 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 		TABLE_COLUMNS_MAP.put("trip_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("trip_headsign", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("direction_id", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("block_id", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("block_id", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Trip (uuid_ VARCHAR(75) null,id_ LONG not null primary key,route_id VARCHAR(75) null,service_id VARCHAR(75) null,trip_id VARCHAR(75) null,trip_headsign VARCHAR(75) null,direction_id BOOLEAN,block_id INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Trip (uuid_ VARCHAR(75) null,id_ LONG not null primary key,route_id VARCHAR(75) null,service_id VARCHAR(75) null,trip_id VARCHAR(75) null,trip_headsign VARCHAR(75) null,direction_id BOOLEAN,block_id VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Trip";
 	public static final String ORDER_BY_JPQL = " ORDER BY trip.trip_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Trip.trip_id ASC";
@@ -199,7 +199,7 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 			setDirection_id(direction_id);
 		}
 
-		Integer block_id = (Integer)attributes.get("block_id");
+		String block_id = (String)attributes.get("block_id");
 
 		if (block_id != null) {
 			setBlock_id(block_id);
@@ -317,12 +317,17 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	}
 
 	@Override
-	public int getBlock_id() {
-		return _block_id;
+	public String getBlock_id() {
+		if (_block_id == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _block_id;
+		}
 	}
 
 	@Override
-	public void setBlock_id(int block_id) {
+	public void setBlock_id(String block_id) {
 		_block_id = block_id;
 	}
 
@@ -480,6 +485,12 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 		tripCacheModel.block_id = getBlock_id();
 
+		String block_id = tripCacheModel.block_id;
+
+		if ((block_id != null) && (block_id.length() == 0)) {
+			tripCacheModel.block_id = null;
+		}
+
 		return tripCacheModel;
 	}
 
@@ -566,7 +577,7 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	private String _trip_id;
 	private String _trip_headsign;
 	private boolean _direction_id;
-	private int _block_id;
+	private String _block_id;
 	private long _columnBitmask;
 	private Trip _escapedModel;
 }

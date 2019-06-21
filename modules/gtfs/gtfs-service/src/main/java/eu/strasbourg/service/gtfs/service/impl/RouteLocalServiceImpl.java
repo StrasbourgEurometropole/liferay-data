@@ -18,9 +18,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Route;
 import eu.strasbourg.service.gtfs.service.base.RouteLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.RoutesGTFS;
 
 /**
  * The implementation of the route local service.
@@ -55,6 +57,27 @@ public class RouteLocalServiceImpl extends RouteLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Crée un Route à partir d'une entrée GTFS
+	 */
+	@Override
+	public Route createRouteFromGTFS(RoutesGTFS entry) throws PortalException {
+		long pk = counterLocalService.increment();
+		Route route = this.routeLocalService.createRoute(pk);
+		
+		route.setRoute_id(entry.getRoute_id());
+		route.setRoute_short_name(entry.getRoute_short_name());
+		route.setRoute_long_name(entry.getRoute_long_name());
+		route.setRoute_desc(entry.getRoute_desc());
+		route.setRoute_type(entry.getRoute_type());
+		route.setRoute_color(entry.getRoute_color());
+		route.setRoute_text_color(entry.getRoute_text_color());
+		
+		route = this.routeLocalService.updateRoute(route);
+
+		return route;
+	}
+	
+	/**
 	 * Met à jour une Route et l'enregistre en base de données
 	 * @throws IOException
 	 */
@@ -79,8 +102,21 @@ public class RouteLocalServiceImpl extends RouteLocalServiceBaseImpl {
 	 * Supprime toutes les Routes
 	 */
 	@Override
-	public void removeAllRoute() throws PortalException {
+	public void removeAllRoutes() throws PortalException {
 		this.routePersistence.removeAll();
+	}
+	
+	/**
+	 * Import des lignes sous le format de données GTFS
+	 */
+	@Override
+	public void importFromGTFS(Map<String, RoutesGTFS> data) throws PortalException {
+		// Flush de la table avant incorporation des nouvelles données
+		this.removeAllRoutes();
+		
+		for (Map.Entry<String, RoutesGTFS> mapEntry : data.entrySet()) {
+			this.createRouteFromGTFS(mapEntry.getValue());
+		}
 	}
 	
 }

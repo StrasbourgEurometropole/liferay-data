@@ -8,14 +8,14 @@ import eu.strasbourg.utils.exception.FileFormatException;
 
 public class CalendarDatesGTFS implements GTFSModel {
 
-	private int service_id;
+	private String service_id;
 	private Date date;
 	private int exception_type;
 
 	@Override
 	public void fromStringArray(String[] value) throws FileFormatException {
 		try {
-			this.service_id = Integer.parseInt(value[0]);
+			this.service_id = value[0];
 			this.date = DateHelper.getDateFromGTFSCalendar(value[1]);
 			this.exception_type = Integer.parseInt(value[2]);
 		} catch (ParseException e) {
@@ -30,14 +30,14 @@ public class CalendarDatesGTFS implements GTFSModel {
 	/**
 	 * @return the service_id
 	 */
-	public int getService_id() {
+	public String getService_id() {
 		return service_id;
 	}
 
 	/**
 	 * @param service_id  the service_id to set
 	 */
-	public void setService_id(int service_id) {
+	public void setService_id(String service_id) {
 		this.service_id = service_id;
 	}
 

@@ -152,11 +152,11 @@ public class TripSoap implements Serializable {
 		_direction_id = direction_id;
 	}
 
-	public int getBlock_id() {
+	public String getBlock_id() {
 		return _block_id;
 	}
 
-	public void setBlock_id(int block_id) {
+	public void setBlock_id(String block_id) {
 		_block_id = block_id;
 	}
 
@@ -167,5 +167,5 @@ public class TripSoap implements Serializable {
 	private String _trip_id;
 	private String _trip_headsign;
 	private boolean _direction_id;
-	private int _block_id;
+	private String _block_id;
 }

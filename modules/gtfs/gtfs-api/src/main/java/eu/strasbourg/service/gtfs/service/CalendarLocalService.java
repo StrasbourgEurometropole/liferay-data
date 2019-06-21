@@ -35,9 +35,12 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Calendar;
 
+import eu.strasbourg.utils.models.CalendarGTFS;
+
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Calendar. Methods of this
@@ -102,6 +105,12 @@ public interface CalendarLocalService extends BaseLocalService,
 	* @return the new calendar
 	*/
 	public Calendar createCalendar(long id);
+
+	/**
+	* Crée un Calendar à partir d'une entrée GTFS
+	*/
+	public Calendar createCalendarFromGTFS(CalendarGTFS entry)
+		throws PortalException;
 
 	/**
 	* Deletes the calendar from the database. Also notifies the appropriate model listeners.
@@ -244,7 +253,13 @@ public interface CalendarLocalService extends BaseLocalService,
 		Projection projection);
 
 	/**
+	* Import des calendrier sous le format de données GTFS
+	*/
+	public void importFromGTFS(Map<java.lang.String, CalendarGTFS> data)
+		throws PortalException;
+
+	/**
 	* Supprime toutes les Calendar
 	*/
-	public void removeAllCalendar() throws PortalException;
+	public void removeAllCalendars() throws PortalException;
 }

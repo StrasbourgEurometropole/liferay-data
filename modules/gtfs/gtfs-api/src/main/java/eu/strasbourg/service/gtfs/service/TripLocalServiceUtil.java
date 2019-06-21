@@ -99,6 +99,15 @@ public class TripLocalServiceUtil {
 	}
 
 	/**
+	* Crée un voyage à partir d'une entrée GTFS
+	*/
+	public static eu.strasbourg.service.gtfs.model.Trip createTripFromGTFS(
+		eu.strasbourg.utils.models.TripsGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createTripFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the trip from the database. Also notifies the appropriate model listeners.
 	*
 	* @param trip the trip
@@ -277,11 +286,20 @@ public class TripLocalServiceUtil {
 	}
 
 	/**
+	* Import des voyage sous le format de données GTFS
+	*/
+	public static void importFromGTFS(
+		java.util.Map<java.lang.String, eu.strasbourg.utils.models.TripsGTFS> data)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().importFromGTFS(data);
+	}
+
+	/**
 	* Supprime toutes les Trips
 	*/
-	public static void removeAllTrip()
+	public static void removeAllTrips()
 		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().removeAllTrip();
+		getService().removeAllTrips();
 	}
 
 	public static TripLocalService getService() {

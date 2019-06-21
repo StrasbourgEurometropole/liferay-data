@@ -18,9 +18,12 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
 import eu.strasbourg.service.gtfs.service.base.StopTimeLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.StopTimesGTFS;
 
 /**
  * The implementation of the stop time local service.
@@ -55,6 +58,27 @@ public class StopTimeLocalServiceImpl extends StopTimeLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Crée un temps d'arret à partir d'une entrée GTFS
+	 */
+	@Override
+	public StopTime createStopTimeFromGTFS(StopTimesGTFS entry) throws PortalException {
+		long pk = counterLocalService.increment();
+		StopTime stopTime = this.stopTimeLocalService.createStopTime(pk);
+		
+		stopTime.setTrip_id(entry.getTrip_id());
+		stopTime.setArrival_time(entry.getArrival_time().getTime());
+		stopTime.setDeparture_time(entry.getDeparture_time().getTime());
+		stopTime.setStop_id(entry.getStop_id());
+		stopTime.setStop_sequence(entry.getStop_sequence());
+		stopTime.setPickup_type(Integer.toString(entry.getPickup_type()));
+		stopTime.setDrop_off_type(Integer.toString(entry.getDrop_off_type()));
+		
+		stopTime = this.stopTimeLocalService.updateStopTime(stopTime);
+
+		return stopTime;
+	}
+	
+	/**
 	 * Met à jour un StopTime et l'enregistre en base de données
 	 * @throws IOException
 	 */
@@ -79,8 +103,23 @@ public class StopTimeLocalServiceImpl extends StopTimeLocalServiceBaseImpl {
 	 * Supprime toutes le StopTime
 	 */
 	@Override
-	public void removeAllStopTime() throws PortalException {
+	public void removeAllStopTimes() throws PortalException {
 		this.stopTimePersistence.removeAll();
+	}
+	
+	/**
+	 * Import des temps d'arret de calendrier sous le format de données GTFS
+	 */
+	@Override
+	public void importFromGTFS(Map<String, List<StopTimesGTFS>> data) throws PortalException {
+		// Flush de la table avant incorporation des nouvelles données
+		this.removeAllStopTimes();
+		
+		for (Map.Entry<String, List<StopTimesGTFS>> mapEntry : data.entrySet()) {
+			for (StopTimesGTFS listEntry : mapEntry.getValue()) {
+				this.createStopTimeFromGTFS(listEntry);
+			}
+		}
 	}
 	
 }

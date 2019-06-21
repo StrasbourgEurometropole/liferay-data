@@ -18,9 +18,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Calendar;
 import eu.strasbourg.service.gtfs.service.base.CalendarLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.CalendarGTFS;
 
 /**
  * The implementation of the calendar local service.
@@ -55,6 +57,30 @@ public class CalendarLocalServiceImpl extends CalendarLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Crée un Calendar à partir d'une entrée GTFS
+	 */
+	@Override
+	public Calendar createCalendarFromGTFS(CalendarGTFS entry) throws PortalException {
+		long pk = counterLocalService.increment();
+		Calendar calendar = this.calendarLocalService.createCalendar(pk);
+		
+		calendar.setService_id(entry.getService_id());
+		calendar.setMonday(entry.isMonday());
+		calendar.setTuesday(entry.isTuesday());
+		calendar.setWednesday(entry.isWednesday());
+		calendar.setThursday(entry.isThursday());
+		calendar.setFriday(entry.isFriday());
+		calendar.setSaturday(entry.isSaturday());
+		calendar.setSunday(entry.isSunday());
+		calendar.setStart_date(entry.getStart_date());
+		calendar.setEnd_date(entry.getEnd_date());
+		
+		calendar = this.calendarLocalService.updateCalendar(calendar);
+
+		return calendar;
+	}
+	
+	/**
 	 * Met à jour un Calendar et l'enregistre en base de données
 	 * @throws IOException
 	 */
@@ -79,8 +105,21 @@ public class CalendarLocalServiceImpl extends CalendarLocalServiceBaseImpl {
 	 * Supprime toutes les Calendar
 	 */
 	@Override
-	public void removeAllCalendar() throws PortalException {
+	public void removeAllCalendars() throws PortalException {
 		this.calendarPersistence.removeAll();
+	}
+	
+	/**
+	 * Import des calendrier sous le format de données GTFS
+	 */
+	@Override
+	public void importFromGTFS(Map<String, CalendarGTFS> data) throws PortalException {
+		// Flush de la table avant incorporation des nouvelles données
+		this.removeAllCalendars();
+		
+		for (Map.Entry<String, CalendarGTFS> mapEntry : data.entrySet()) {
+			this.createCalendarFromGTFS(mapEntry.getValue());
+		}
 	}
 	
 }

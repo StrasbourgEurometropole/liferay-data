@@ -35,9 +35,12 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Stop;
 
+import eu.strasbourg.utils.models.StopsGTFS;
+
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Stop. Methods of this
@@ -102,6 +105,11 @@ public interface StopLocalService extends BaseLocalService,
 	* @return the new stop
 	*/
 	public Stop createStop(long id);
+
+	/**
+	* Crée un arret à partir d'une entrée GTFS
+	*/
+	public Stop createStopFromGTFS(StopsGTFS entry) throws PortalException;
 
 	/**
 	* Deletes the stop from the database. Also notifies the appropriate model listeners.
@@ -244,7 +252,13 @@ public interface StopLocalService extends BaseLocalService,
 		Projection projection);
 
 	/**
-	* Supprime toutes les Stops
+	* Import des arrets sous le format de données GTFS
 	*/
-	public void removeAllStop() throws PortalException;
+	public void importFromGTFS(Map<java.lang.String, StopsGTFS> data)
+		throws PortalException;
+
+	/**
+	* Supprime toutes les arrets
+	*/
+	public void removeAllStops() throws PortalException;
 }

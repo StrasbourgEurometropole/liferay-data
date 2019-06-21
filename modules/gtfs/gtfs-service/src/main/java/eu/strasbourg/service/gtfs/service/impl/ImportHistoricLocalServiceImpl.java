@@ -43,6 +43,13 @@ import java.util.Map;
 import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.CalendarLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ImportHistoricLocalServiceBaseImpl;
 import eu.strasbourg.utils.GTFSLoaderHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -293,39 +300,53 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 			Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
 			log.info("Starting import of GTFS files");
 			
-			// Recuperation des routes
+			// Recuperation des lignes
 			Map<String, AgencyGTFS> mapAgencys;
 			mapAgencys = GTFSLoaderHelper.readAgencyData(GTFSPath);
+			AgencyLocalServiceUtil.importFromGTFS(mapAgencys);
+			log.info("GTFS Files : get " + mapAgencys.size() + " Agency entries");
 			
-			// Recuperation des stops
-			Map<Integer, CalendarGTFS> mapCalendars;
+			// Recuperation des calendrier
+			Map<String, CalendarGTFS> mapCalendars;
 			mapCalendars = GTFSLoaderHelper.readCalendarData(GTFSPath);
+			CalendarLocalServiceUtil.importFromGTFS(mapCalendars);
+			log.info("GTFS Files : get " + mapCalendars.size() + " Calendar entries");
 			
-			// Recuperation des routes
-			Map<Integer, List<CalendarDatesGTFS>> mapCalendarDates;
+			// Recuperation des dates de calendrier
+			Map<String, List<CalendarDatesGTFS>> mapCalendarDates;
 			mapCalendarDates = GTFSLoaderHelper.readCalendarDatesData(GTFSPath);
+			CalendarDateLocalServiceUtil.importFromGTFS(mapCalendarDates);
+			log.info("GTFS Files : get " + mapCalendarDates.size() + " CalendarDate keys");
 			
-			// Recuperation des routes
+			// Recuperation des lignes
 			Map<String, RoutesGTFS> mapRoutes;
 			mapRoutes = GTFSLoaderHelper.readRoutesData(GTFSPath);
+			RouteLocalServiceUtil.importFromGTFS(mapRoutes);
+			log.info("GTFS Files : get " + mapRoutes.size() + " Route entries");
 			
-			// Recuperation des routes
+			// Recuperation des temps d'arrêt
 			Map<String, List<StopTimesGTFS>> mapStopTimes;
 			mapStopTimes = GTFSLoaderHelper.readStopTimesData(GTFSPath);
+			StopTimeLocalServiceUtil.importFromGTFS(mapStopTimes);
+			log.info("GTFS Files : get " + mapStopTimes.size() + " StopTime keys");
 			
 			// Recuperation des routes
 			Map<String, StopsGTFS> mapStops;
 			mapStops = GTFSLoaderHelper.readStopsData(GTFSPath);
+			StopLocalServiceUtil.importFromGTFS(mapStops);
+			log.info("GTFS Files : get " + mapStops.size() + " Stops entries");
 			
-			// Recuperation des trips
+			// Recuperation des voyages
 			Map<String, TripsGTFS> mapTrips;
 			mapTrips = GTFSLoaderHelper.readTripsData(GTFSPath);
+			TripLocalServiceUtil.importFromGTFS(mapTrips);
+			log.info("GTFS Files : get " + mapTrips.size() + " Trips keys");
 			
 			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
 			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
 			log.info("Finishing import of GTFS files in " + processTime + " seconds.");
 			
-		} catch (FileAccessException e) {
+		} catch (FileAccessException | PortalException e) {
 			e.printStackTrace();
 		}
 		

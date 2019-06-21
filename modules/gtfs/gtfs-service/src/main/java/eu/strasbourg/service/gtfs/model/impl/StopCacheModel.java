@@ -115,8 +115,19 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 			stopImpl.setStop_code(stop_code);
 		}
 
-		stopImpl.setStop_lat(stop_lat);
-		stopImpl.setStop_lon(stop_lon);
+		if (stop_lat == null) {
+			stopImpl.setStop_lat(StringPool.BLANK);
+		}
+		else {
+			stopImpl.setStop_lat(stop_lat);
+		}
+
+		if (stop_lon == null) {
+			stopImpl.setStop_lon(StringPool.BLANK);
+		}
+		else {
+			stopImpl.setStop_lon(stop_lon);
+		}
 
 		if (stop_name == null) {
 			stopImpl.setStop_name(StringPool.BLANK);
@@ -151,10 +162,8 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		id = objectInput.readLong();
 		stop_id = objectInput.readUTF();
 		stop_code = objectInput.readUTF();
-
-		stop_lat = objectInput.readLong();
-
-		stop_lon = objectInput.readLong();
+		stop_lat = objectInput.readUTF();
+		stop_lon = objectInput.readUTF();
 		stop_name = objectInput.readUTF();
 		stop_url = objectInput.readUTF();
 		stop_desc = objectInput.readUTF();
@@ -186,9 +195,19 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 			objectOutput.writeUTF(stop_code);
 		}
 
-		objectOutput.writeLong(stop_lat);
+		if (stop_lat == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(stop_lat);
+		}
 
-		objectOutput.writeLong(stop_lon);
+		if (stop_lon == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(stop_lon);
+		}
 
 		if (stop_name == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -216,8 +235,8 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 	public long id;
 	public String stop_id;
 	public String stop_code;
-	public long stop_lat;
-	public long stop_lon;
+	public String stop_lat;
+	public String stop_lon;
 	public String stop_name;
 	public String stop_url;
 	public String stop_desc;

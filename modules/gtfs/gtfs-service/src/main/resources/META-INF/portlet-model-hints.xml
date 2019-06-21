@@ -74,8 +74,8 @@
 		<field name="id" type="long" />
 		<field name="stop_id" type="String" />
 		<field name="stop_code" type="String" />
-		<field name="stop_lat" type="long" />
-		<field name="stop_lon" type="long" />
+		<field name="stop_lat" type="String" />
+		<field name="stop_lon" type="String" />
 		<field name="stop_name" type="String" />
 		<field name="stop_url" type="String">
 			<hint name="max-length">400</hint>
@@ -103,6 +103,6 @@
 		<field name="trip_id" type="String" />
 		<field name="trip_headsign" type="String" />
 		<field name="direction_id" type="boolean" />
-		<field name="block_id" type="int" />
+		<field name="block_id" type="String" />
 	</model>
 </model-hints>

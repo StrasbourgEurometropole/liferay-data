@@ -175,14 +175,15 @@ public interface TripModel extends BaseModel<Trip> {
 	 *
 	 * @return the block_id of this trip
 	 */
-	public int getBlock_id();
+	@AutoEscape
+	public String getBlock_id();
 
 	/**
 	 * Sets the block_id of this trip.
 	 *
 	 * @param block_id the block_id of this trip
 	 */
-	public void setBlock_id(int block_id);
+	public void setBlock_id(String block_id);
 
 	@Override
 	public boolean isNew();

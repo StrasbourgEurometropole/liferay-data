@@ -99,6 +99,16 @@ public class StopTimeLocalServiceWrapper implements StopTimeLocalService,
 	}
 
 	/**
+	* Crée un temps d'arret à partir d'une entrée GTFS
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.StopTime createStopTimeFromGTFS(
+		eu.strasbourg.utils.models.StopTimesGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _stopTimeLocalService.createStopTimeFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the stop time from the database. Also notifies the appropriate model listeners.
 	*
 	* @param stopTime the stop time
@@ -293,12 +303,22 @@ public class StopTimeLocalServiceWrapper implements StopTimeLocalService,
 	}
 
 	/**
+	* Import des temps d'arret de calendrier sous le format de données GTFS
+	*/
+	@Override
+	public void importFromGTFS(
+		java.util.Map<java.lang.String, java.util.List<eu.strasbourg.utils.models.StopTimesGTFS>> data)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_stopTimeLocalService.importFromGTFS(data);
+	}
+
+	/**
 	* Supprime toutes le StopTime
 	*/
 	@Override
-	public void removeAllStopTime()
+	public void removeAllStopTimes()
 		throws com.liferay.portal.kernel.exception.PortalException {
-		_stopTimeLocalService.removeAllStopTime();
+		_stopTimeLocalService.removeAllStopTimes();
 	}
 
 	@Override

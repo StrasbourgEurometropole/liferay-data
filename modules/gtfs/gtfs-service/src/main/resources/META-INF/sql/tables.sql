@@ -68,8 +68,8 @@ create table gtfs_Stop (
 	id_ LONG not null primary key,
 	stop_id VARCHAR(75) null,
 	stop_code VARCHAR(75) null,
-	stop_lat LONG,
-	stop_lon LONG,
+	stop_lat VARCHAR(75) null,
+	stop_lon VARCHAR(75) null,
 	stop_name VARCHAR(75) null,
 	stop_url VARCHAR(400) null,
 	stop_desc VARCHAR(400) null
@@ -95,5 +95,5 @@ create table gtfs_Trip (
 	trip_id VARCHAR(75) null,
 	trip_headsign VARCHAR(75) null,
 	direction_id BOOLEAN,
-	block_id INTEGER
+	block_id VARCHAR(75) null
 );

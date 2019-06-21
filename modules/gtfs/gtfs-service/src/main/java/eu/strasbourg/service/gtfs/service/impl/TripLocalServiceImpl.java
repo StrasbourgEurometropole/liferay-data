@@ -18,9 +18,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.base.TripLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.TripsGTFS;
 
 /**
  * The implementation of the trip local service.
@@ -55,6 +57,26 @@ public class TripLocalServiceImpl extends TripLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Crée un voyage à partir d'une entrée GTFS
+	 */
+	@Override
+	public Trip createTripFromGTFS(TripsGTFS entry) throws PortalException {
+		long pk = counterLocalService.increment();
+		Trip trip = this.tripLocalService.createTrip(pk);
+		
+		trip.setRoute_id(entry.getRoute_id());
+		trip.setService_id(entry.getService_id());
+		trip.setTrip_id(entry.getTrip_id());
+		trip.setTrip_headsign(entry.getTrip_headsign());
+		trip.setDirection_id(entry.getDirection_id() == 1);
+		trip.setBlock_id(entry.getBlock_id());
+		
+		trip = this.tripLocalService.updateTrip(trip);
+
+		return trip;
+	}
+	
+	/**
 	 * Met à jour un Trip et l'enregistre en base de données
 	 * @throws IOException
 	 */
@@ -79,8 +101,21 @@ public class TripLocalServiceImpl extends TripLocalServiceBaseImpl {
 	 * Supprime toutes les Trips
 	 */
 	@Override
-	public void removeAllTrip() throws PortalException {
+	public void removeAllTrips() throws PortalException {
 		this.tripPersistence.removeAll();
+	}
+	
+	/**
+	 * Import des voyage sous le format de données GTFS
+	 */
+	@Override
+	public void importFromGTFS(Map<String, TripsGTFS> data) throws PortalException {
+		// Flush de la table avant incorporation des nouvelles données
+		this.removeAllTrips();
+		
+		for (Map.Entry<String, TripsGTFS> mapEntry : data.entrySet()) {
+			this.createTripFromGTFS(mapEntry.getValue());
+		}
 	}
 	
 }

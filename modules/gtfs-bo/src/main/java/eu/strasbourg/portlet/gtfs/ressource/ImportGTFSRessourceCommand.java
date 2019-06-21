@@ -23,7 +23,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	service = MVCResourceCommand.class
 )
 public class ImportGTFSRessourceCommand implements MVCResourceCommand {
-
+	
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws PortletException {

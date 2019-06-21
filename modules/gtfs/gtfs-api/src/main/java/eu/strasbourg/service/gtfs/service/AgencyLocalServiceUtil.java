@@ -99,6 +99,15 @@ public class AgencyLocalServiceUtil {
 	}
 
 	/**
+	* Crée une agence à partir d'une entrée GTFS
+	*/
+	public static eu.strasbourg.service.gtfs.model.Agency createAgencyFromGTFS(
+		eu.strasbourg.utils.models.AgencyGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createAgencyFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the agency from the database. Also notifies the appropriate model listeners.
 	*
 	* @param agency the agency
@@ -278,11 +287,20 @@ public class AgencyLocalServiceUtil {
 	}
 
 	/**
+	* Import des agences sous le format de données GTFS
+	*/
+	public static void importFromGTFS(
+		java.util.Map<java.lang.String, eu.strasbourg.utils.models.AgencyGTFS> data)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().importFromGTFS(data);
+	}
+
+	/**
 	* Supprime toutes les agences
 	*/
-	public static void removeAllAgency()
+	public static void removeAllAgencies()
 		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().removeAllAgency();
+		getService().removeAllAgencies();
 	}
 
 	public static AgencyLocalService getService() {

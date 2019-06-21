@@ -10,7 +10,7 @@
 		
 		<!-- PK fields -->
 		<column name="importHistoricId" primary="true" type="long" />
-
+		
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
 		
@@ -47,7 +47,137 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
+	</entity>
+	
+	<entity local-service="true" cache-enabled="true" name="Arret" remote-service="false" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="arretId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
 
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="stopId" type="String" />
+		<column name="title" type="String" />
+		<column name="code" type="String" />
+		<column name="latitude" type="String" />
+		<column name="longitude" type="String" />
+		<column name="type" type="String" />
+		
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="arretId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
+	</entity>
+	
+	<entity local-service="true" cache-enabled="true" name="Direction" remote-service="false" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="directionId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="stopId" type="String" />
+		<column name="routeId" type="String" />
+		<column name="destinationName" type="String" />
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="directionId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		
+	</entity>
+	
+	<entity local-service="true" cache-enabled="true" name="Ligne" remote-service="false" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="ligneId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="routeId" type="String" />
+		<column name="shortName" type="String" />
+		<column name="title" type="String" />
+		<column name="type" type="String" />
+		<column name="textColor" type="String" />
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="ligneId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
 	</entity>
 	
 	<entity local-service="true" name="Agency" remote-service="false" uuid="true">
@@ -161,8 +291,8 @@
 		<!-- Other fields -->
 		<column name="stop_id" type="String" />
 		<column name="stop_code" type="String" />
-		<column name="stop_lat" type="long" />
-		<column name="stop_lon" type="long" />
+		<column name="stop_lat" type="String" />
+		<column name="stop_lon" type="String" />
 		<column name="stop_name" type="String" />
 		<column name="stop_url" type="String" />
 		<column name="stop_desc" type="String" />
@@ -178,14 +308,14 @@
 
 		<!-- PK fields -->
 		<column name="id" primary="true" type="long" />
-
+		
 		<!-- Other fields -->
 		<column name="route_id" type="String" />
 		<column name="service_id" type="String" />
 		<column name="trip_id" type="String" />
 		<column name="trip_headsign" type="String" />
 		<column name="direction_id" type="boolean" />
-		<column name="block_id" type="int" />
+		<column name="block_id" type="String" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -193,5 +323,7 @@
 		</order>
 
 	</entity>
+	
+	
 	
 </service-builder>

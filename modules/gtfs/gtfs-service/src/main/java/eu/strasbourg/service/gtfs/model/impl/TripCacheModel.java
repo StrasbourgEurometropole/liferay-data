@@ -128,7 +128,13 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		}
 
 		tripImpl.setDirection_id(direction_id);
-		tripImpl.setBlock_id(block_id);
+
+		if (block_id == null) {
+			tripImpl.setBlock_id(StringPool.BLANK);
+		}
+		else {
+			tripImpl.setBlock_id(block_id);
+		}
 
 		tripImpl.resetOriginalValues();
 
@@ -146,8 +152,7 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		trip_headsign = objectInput.readUTF();
 
 		direction_id = objectInput.readBoolean();
-
-		block_id = objectInput.readInt();
+		block_id = objectInput.readUTF();
 	}
 
 	@Override
@@ -192,7 +197,12 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 
 		objectOutput.writeBoolean(direction_id);
 
-		objectOutput.writeInt(block_id);
+		if (block_id == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(block_id);
+		}
 	}
 
 	public String uuid;
@@ -202,5 +212,5 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 	public String trip_id;
 	public String trip_headsign;
 	public boolean direction_id;
-	public int block_id;
+	public String block_id;
 }

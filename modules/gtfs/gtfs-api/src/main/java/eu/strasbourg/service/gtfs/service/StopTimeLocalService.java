@@ -35,9 +35,12 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
 
+import eu.strasbourg.utils.models.StopTimesGTFS;
+
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for StopTime. Methods of this
@@ -102,6 +105,12 @@ public interface StopTimeLocalService extends BaseLocalService,
 	* @return the new stop time
 	*/
 	public StopTime createStopTime(long id);
+
+	/**
+	* Crée un temps d'arret à partir d'une entrée GTFS
+	*/
+	public StopTime createStopTimeFromGTFS(StopTimesGTFS entry)
+		throws PortalException;
 
 	/**
 	* Deletes the stop time from the database. Also notifies the appropriate model listeners.
@@ -244,7 +253,13 @@ public interface StopTimeLocalService extends BaseLocalService,
 		Projection projection);
 
 	/**
+	* Import des temps d'arret de calendrier sous le format de données GTFS
+	*/
+	public void importFromGTFS(Map<java.lang.String, List<StopTimesGTFS>> data)
+		throws PortalException;
+
+	/**
 	* Supprime toutes le StopTime
 	*/
-	public void removeAllStopTime() throws PortalException;
+	public void removeAllStopTimes() throws PortalException;
 }

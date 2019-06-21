@@ -54,10 +54,10 @@ public class GTFSLoaderHelper {
 	 * @param directory ex "D:\\MONDOSSIER\\"
 	 * @return mapCalendars Une map des donnees Calendar avec comme clef le service_id
 	 */
-	public static Map<Integer, CalendarGTFS> readCalendarData(String directory) throws FileAccessException {
+	public static Map<String, CalendarGTFS> readCalendarData(String directory) throws FileAccessException {
 		CalendarParser calParser = new CalendarParser(CalendarGTFS.class);
 		List<CalendarGTFS> calendars = calParser.getAll(directory + CALENDAR_FILENAME, COMMA_SEP);
-		Map<Integer, CalendarGTFS> mapCalendars = new HashMap<Integer, CalendarGTFS>();
+		Map<String, CalendarGTFS> mapCalendars = new HashMap<String, CalendarGTFS>();
 		for (CalendarGTFS c : calendars) {
 			mapCalendars.put(c.getService_id(), c);
 		}
@@ -70,10 +70,10 @@ public class GTFSLoaderHelper {
 	 * @param directory ex "D:\\MONDOSSIER\\"
 	 * @return mapCalendarDates Une map des donnees CalendarDates avec comme clef le service_id
 	 */
-	public static Map<Integer, List<CalendarDatesGTFS>> readCalendarDatesData(String directory) throws FileAccessException {
+	public static Map<String, List<CalendarDatesGTFS>> readCalendarDatesData(String directory) throws FileAccessException {
 		CalendarDatesParser calDatesParser = new CalendarDatesParser(CalendarDatesGTFS.class);
 		List<CalendarDatesGTFS> calDates = calDatesParser.getAll(directory + CALENDAR_DATES_FILENAME, COMMA_SEP);
-		Map<Integer, List<CalendarDatesGTFS>> mapCalendarDates = new HashMap<Integer, List<CalendarDatesGTFS>>();
+		Map<String, List<CalendarDatesGTFS>> mapCalendarDates = new HashMap<String, List<CalendarDatesGTFS>>();
 		for (CalendarDatesGTFS cal : calDates) {
 			if (mapCalendarDates.containsKey(cal.getService_id())) {
 				mapCalendarDates.get(cal.getService_id()).add(cal);

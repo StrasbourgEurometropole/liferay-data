@@ -98,6 +98,16 @@ public class TripLocalServiceWrapper implements TripLocalService,
 	}
 
 	/**
+	* Crée un voyage à partir d'une entrée GTFS
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Trip createTripFromGTFS(
+		eu.strasbourg.utils.models.TripsGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _tripLocalService.createTripFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the trip from the database. Also notifies the appropriate model listeners.
 	*
 	* @param trip the trip
@@ -291,12 +301,22 @@ public class TripLocalServiceWrapper implements TripLocalService,
 	}
 
 	/**
+	* Import des voyage sous le format de données GTFS
+	*/
+	@Override
+	public void importFromGTFS(
+		java.util.Map<java.lang.String, eu.strasbourg.utils.models.TripsGTFS> data)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_tripLocalService.importFromGTFS(data);
+	}
+
+	/**
 	* Supprime toutes les Trips
 	*/
 	@Override
-	public void removeAllTrip()
+	public void removeAllTrips()
 		throws com.liferay.portal.kernel.exception.PortalException {
-		_tripLocalService.removeAllTrip();
+		_tripLocalService.removeAllTrips();
 	}
 
 	@Override

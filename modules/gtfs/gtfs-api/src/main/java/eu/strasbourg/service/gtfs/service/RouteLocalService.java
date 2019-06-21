@@ -35,9 +35,12 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Route;
 
+import eu.strasbourg.utils.models.RoutesGTFS;
+
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Route. Methods of this
@@ -102,6 +105,12 @@ public interface RouteLocalService extends BaseLocalService,
 	* @return the new route
 	*/
 	public Route createRoute(long id);
+
+	/**
+	* Crée un Route à partir d'une entrée GTFS
+	*/
+	public Route createRouteFromGTFS(RoutesGTFS entry)
+		throws PortalException;
 
 	/**
 	* Deletes the route from the database. Also notifies the appropriate model listeners.
@@ -244,7 +253,13 @@ public interface RouteLocalService extends BaseLocalService,
 		Projection projection);
 
 	/**
+	* Import des lignes sous le format de données GTFS
+	*/
+	public void importFromGTFS(Map<java.lang.String, RoutesGTFS> data)
+		throws PortalException;
+
+	/**
 	* Supprime toutes les Routes
 	*/
-	public void removeAllRoute() throws PortalException;
+	public void removeAllRoutes() throws PortalException;
 }

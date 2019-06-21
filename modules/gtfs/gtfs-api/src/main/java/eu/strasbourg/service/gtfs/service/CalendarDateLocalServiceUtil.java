@@ -100,6 +100,15 @@ public class CalendarDateLocalServiceUtil {
 	}
 
 	/**
+	* Crée un Calendar à partir d'une entrée GTFS
+	*/
+	public static eu.strasbourg.service.gtfs.model.CalendarDate createCalendarDateFromGTFS(
+		eu.strasbourg.utils.models.CalendarDatesGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createCalendarDateFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the calendar date from the database. Also notifies the appropriate model listeners.
 	*
 	* @param calendarDate the calendar date
@@ -280,11 +289,20 @@ public class CalendarDateLocalServiceUtil {
 	}
 
 	/**
-	* Supprime toutes les CalendarDates
+	* Import des dates de calendrier sous le format de données GTFS
 	*/
-	public static void removeAllCalendarDate()
+	public static void importFromGTFS(
+		java.util.Map<java.lang.String, java.util.List<eu.strasbourg.utils.models.CalendarDatesGTFS>> data)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().removeAllCalendarDate();
+		getService().importFromGTFS(data);
+	}
+
+	/**
+	* Supprime toutes les dates de calendrier
+	*/
+	public static void removeAllCalendarDates()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllCalendarDates();
 	}
 
 	public static CalendarDateLocalService getService() {

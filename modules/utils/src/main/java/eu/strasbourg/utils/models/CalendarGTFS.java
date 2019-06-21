@@ -8,7 +8,7 @@ import eu.strasbourg.utils.exception.FileFormatException;
 
 public class CalendarGTFS implements GTFSModel {
 	
-	private int service_id;
+	private String service_id;
 	private boolean monday;
 	private boolean tuesday;
 	private boolean wednesday;
@@ -22,7 +22,7 @@ public class CalendarGTFS implements GTFSModel {
 	@Override
 	public void fromStringArray(String[] value) throws FileFormatException {
 		try {
-			this.service_id = Integer.parseInt(value[0]);
+			this.service_id = value[0];
 			this.monday = value[1].equals("1");
 			this.tuesday = value[2].equals("1");
 			this.wednesday = value[3].equals("1");
@@ -45,7 +45,7 @@ public class CalendarGTFS implements GTFSModel {
 	/**
 	 * @return the service_id
 	 */
-	public int getService_id() {
+	public String getService_id() {
 		return service_id;
 	}
 
@@ -53,7 +53,7 @@ public class CalendarGTFS implements GTFSModel {
 	 * @param service_id
 	 *            the service_id to set
 	 */
-	public void setService_id(int service_id) {
+	public void setService_id(String service_id) {
 		this.service_id = service_id;
 	}
 

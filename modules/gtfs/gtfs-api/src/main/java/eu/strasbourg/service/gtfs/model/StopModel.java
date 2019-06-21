@@ -124,28 +124,30 @@ public interface StopModel extends BaseModel<Stop> {
 	 *
 	 * @return the stop_lat of this stop
 	 */
-	public long getStop_lat();
+	@AutoEscape
+	public String getStop_lat();
 
 	/**
 	 * Sets the stop_lat of this stop.
 	 *
 	 * @param stop_lat the stop_lat of this stop
 	 */
-	public void setStop_lat(long stop_lat);
+	public void setStop_lat(String stop_lat);
 
 	/**
 	 * Returns the stop_lon of this stop.
 	 *
 	 * @return the stop_lon of this stop
 	 */
-	public long getStop_lon();
+	@AutoEscape
+	public String getStop_lon();
 
 	/**
 	 * Sets the stop_lon of this stop.
 	 *
 	 * @param stop_lon the stop_lon of this stop
 	 */
-	public void setStop_lon(long stop_lon);
+	public void setStop_lon(String stop_lon);
 
 	/**
 	 * Returns the stop_name of this stop.

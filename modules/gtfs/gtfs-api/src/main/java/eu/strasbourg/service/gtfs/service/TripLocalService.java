@@ -35,9 +35,12 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Trip;
 
+import eu.strasbourg.utils.models.TripsGTFS;
+
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Trip. Methods of this
@@ -102,6 +105,11 @@ public interface TripLocalService extends BaseLocalService,
 	* @return the new trip
 	*/
 	public Trip createTrip(long id);
+
+	/**
+	* Crée un voyage à partir d'une entrée GTFS
+	*/
+	public Trip createTripFromGTFS(TripsGTFS entry) throws PortalException;
 
 	/**
 	* Deletes the trip from the database. Also notifies the appropriate model listeners.
@@ -244,7 +252,13 @@ public interface TripLocalService extends BaseLocalService,
 		Projection projection);
 
 	/**
+	* Import des voyage sous le format de données GTFS
+	*/
+	public void importFromGTFS(Map<java.lang.String, TripsGTFS> data)
+		throws PortalException;
+
+	/**
 	* Supprime toutes les Trips
 	*/
-	public void removeAllTrip() throws PortalException;
+	public void removeAllTrips() throws PortalException;
 }

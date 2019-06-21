@@ -99,6 +99,15 @@ public class StopLocalServiceUtil {
 	}
 
 	/**
+	* Crée un arret à partir d'une entrée GTFS
+	*/
+	public static eu.strasbourg.service.gtfs.model.Stop createStopFromGTFS(
+		eu.strasbourg.utils.models.StopsGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createStopFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the stop from the database. Also notifies the appropriate model listeners.
 	*
 	* @param stop the stop
@@ -277,11 +286,20 @@ public class StopLocalServiceUtil {
 	}
 
 	/**
-	* Supprime toutes les Stops
+	* Import des arrets sous le format de données GTFS
 	*/
-	public static void removeAllStop()
+	public static void importFromGTFS(
+		java.util.Map<java.lang.String, eu.strasbourg.utils.models.StopsGTFS> data)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().removeAllStop();
+		getService().importFromGTFS(data);
+	}
+
+	/**
+	* Supprime toutes les arrets
+	*/
+	public static void removeAllStops()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeAllStops();
 	}
 
 	public static StopLocalService getService() {

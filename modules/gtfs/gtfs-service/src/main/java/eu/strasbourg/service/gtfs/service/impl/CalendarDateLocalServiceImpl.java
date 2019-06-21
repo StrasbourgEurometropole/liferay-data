@@ -18,9 +18,12 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.CalendarDate;
 import eu.strasbourg.service.gtfs.service.base.CalendarDateLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.CalendarDatesGTFS;
 
 /**
  * The implementation of the calendar date local service.
@@ -55,6 +58,23 @@ public class CalendarDateLocalServiceImpl extends CalendarDateLocalServiceBaseIm
 	}
 	
 	/**
+	 * Crée un Calendar à partir d'une entrée GTFS
+	 */
+	@Override
+	public CalendarDate createCalendarDateFromGTFS(CalendarDatesGTFS entry) throws PortalException {
+		long pk = counterLocalService.increment();
+		CalendarDate calendarDate = this.calendarDateLocalService.createCalendarDate(pk);
+		
+		calendarDate.setService_id(entry.getService_id());
+		calendarDate.setDate(entry.getDate());
+		calendarDate.setException_type(entry.getException_type());
+		
+		calendarDate = this.calendarDateLocalService.updateCalendarDate(calendarDate);
+
+		return calendarDate;
+	}
+	
+	/**
 	 * Met à jour un CalendarDate et l'enregistre en base de données
 	 * @throws IOException
 	 */
@@ -76,11 +96,26 @@ public class CalendarDateLocalServiceImpl extends CalendarDateLocalServiceBaseIm
 	}
 	
 	/**
-	 * Supprime toutes les CalendarDates
+	 * Supprime toutes les dates de calendrier
 	 */
 	@Override
-	public void removeAllCalendarDate() throws PortalException {
+	public void removeAllCalendarDates() throws PortalException {
 		this.calendarDatePersistence.removeAll();
+	}
+	
+	/**
+	 * Import des dates de calendrier sous le format de données GTFS
+	 */
+	@Override
+	public void importFromGTFS(Map<String, List<CalendarDatesGTFS>> data) throws PortalException {
+		// Flush de la table avant incorporation des nouvelles données
+		this.removeAllCalendarDates();
+		
+		for (Map.Entry<String, List<CalendarDatesGTFS>> mapEntry : data.entrySet()) {
+			for (CalendarDatesGTFS listEntry : mapEntry.getValue()) {
+				this.createCalendarDateFromGTFS(listEntry);
+			}
+		}
 	}
 	
 }

@@ -35,9 +35,12 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Agency;
 
+import eu.strasbourg.utils.models.AgencyGTFS;
+
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Agency. Methods of this
@@ -102,6 +105,12 @@ public interface AgencyLocalService extends BaseLocalService,
 	* @return the new agency
 	*/
 	public Agency createAgency(long id);
+
+	/**
+	* Crée une agence à partir d'une entrée GTFS
+	*/
+	public Agency createAgencyFromGTFS(AgencyGTFS entry)
+		throws PortalException;
 
 	/**
 	* Deletes the agency from the database. Also notifies the appropriate model listeners.
@@ -244,7 +253,13 @@ public interface AgencyLocalService extends BaseLocalService,
 		Projection projection);
 
 	/**
+	* Import des agences sous le format de données GTFS
+	*/
+	public void importFromGTFS(Map<java.lang.String, AgencyGTFS> data)
+		throws PortalException;
+
+	/**
 	* Supprime toutes les agences
 	*/
-	public void removeAllAgency() throws PortalException;
+	public void removeAllAgencies() throws PortalException;
 }

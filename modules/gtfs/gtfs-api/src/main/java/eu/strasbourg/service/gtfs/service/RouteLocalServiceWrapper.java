@@ -98,6 +98,16 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 	}
 
 	/**
+	* Crée un Route à partir d'une entrée GTFS
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route createRouteFromGTFS(
+		eu.strasbourg.utils.models.RoutesGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _routeLocalService.createRouteFromGTFS(entry);
+	}
+
+	/**
 	* Deletes the route from the database. Also notifies the appropriate model listeners.
 	*
 	* @param route the route
@@ -291,12 +301,22 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 	}
 
 	/**
+	* Import des lignes sous le format de données GTFS
+	*/
+	@Override
+	public void importFromGTFS(
+		java.util.Map<java.lang.String, eu.strasbourg.utils.models.RoutesGTFS> data)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_routeLocalService.importFromGTFS(data);
+	}
+
+	/**
 	* Supprime toutes les Routes
 	*/
 	@Override
-	public void removeAllRoute()
+	public void removeAllRoutes()
 		throws com.liferay.portal.kernel.exception.PortalException {
-		_routeLocalService.removeAllRoute();
+		_routeLocalService.removeAllRoutes();
 	}
 
 	@Override

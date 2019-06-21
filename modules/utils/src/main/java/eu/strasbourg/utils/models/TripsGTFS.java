@@ -5,7 +5,7 @@ import eu.strasbourg.utils.exception.FileFormatException;
 public class TripsGTFS implements GTFSModel {
 
 	private String route_id;
-	private int service_id;
+	private String service_id;
 	private String trip_id;
 	private String trip_headsign;
 	private int direction_id;
@@ -15,7 +15,7 @@ public class TripsGTFS implements GTFSModel {
 	public void fromStringArray(String[] value) throws FileFormatException {
 		try {
 			this.route_id = value[0];
-			this.service_id = Integer.parseInt(value[1]);
+			this.service_id = value[1];
 			this.trip_id = value[2];
 			this.trip_headsign = value[3].replace("\"", "");
 			this.direction_id = Integer.parseInt(value[4]);
@@ -44,14 +44,14 @@ public class TripsGTFS implements GTFSModel {
 	/**
 	 * @return the service_id
 	 */
-	public int getService_id() {
+	public String getService_id() {
 		return service_id;
 	}
 
 	/**
 	 * @param service_id the service_id to set
 	 */
-	public void setService_id(int service_id) {
+	public void setService_id(String service_id) {
 		this.service_id = service_id;
 	}
 
