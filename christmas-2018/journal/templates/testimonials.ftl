@@ -15,7 +15,9 @@
                             <h4 class="title">${cur_picture.getChildren()[0].getData()}</h4>
                             <p>${cur_picture.getChildren()[1].getData()}</p>
                             <p class="info-testi">${cur_picture.getChildren()[2].getData()}</p>
-                            <a href="${cur_picture.getChildren()[4].getData()}" class="link" target="_blank">${cur_picture.getChildren()[3].getData()}</a>
+                            <#if cur_picture.getChildren()[3].data?has_content && cur_picture.getChildren()[4].data?has_content>
+                                <a href="${cur_picture.getChildren()[4].getData()}" class="link" target="_blank">${cur_picture.getChildren()[3].getData()}</a>
+                            </#if>
                         </div>
                     </blockquote>
                 </div>
