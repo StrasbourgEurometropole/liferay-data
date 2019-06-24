@@ -106,7 +106,7 @@
                 </#list>
                 <#if themeDisplay.getLocale() == "fr_FR">
                     <li>
-                        <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
+                        <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='prepare-your-program' /></a>
                     </li>
                 </#if>
             </ul>
