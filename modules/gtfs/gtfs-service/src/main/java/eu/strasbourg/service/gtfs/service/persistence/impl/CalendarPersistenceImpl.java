@@ -45,7 +45,10 @@ import java.io.Serializable;
 
 import java.lang.reflect.Field;
 
+import java.sql.Timestamp;
+
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1178,6 +1181,1078 @@ public class CalendarPersistenceImpl extends BasePersistenceImpl<Calendar>
 	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_1 = "calendar.service_id IS NULL";
 	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_2 = "calendar.service_id = ?";
 	private static final String _FINDER_COLUMN_SERVICEID_SERVICE_ID_3 = "(calendar.service_id IS NULL OR calendar.service_id = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STARTDATE =
+		new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, CalendarImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStartDate",
+			new String[] {
+				Date.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STARTDATE =
+		new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, CalendarImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStartDate",
+			new String[] { Date.class.getName() },
+			CalendarModelImpl.START_DATE_COLUMN_BITMASK |
+			CalendarModelImpl.SERVICE_ID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_STARTDATE = new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStartDate",
+			new String[] { Date.class.getName() });
+
+	/**
+	 * Returns all the calendars where start_date = &#63;.
+	 *
+	 * @param start_date the start_date
+	 * @return the matching calendars
+	 */
+	@Override
+	public List<Calendar> findByStartDate(Date start_date) {
+		return findByStartDate(start_date, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the calendars where start_date = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start_date the start_date
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @return the range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByStartDate(Date start_date, int start, int end) {
+		return findByStartDate(start_date, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the calendars where start_date = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start_date the start_date
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByStartDate(Date start_date, int start, int end,
+		OrderByComparator<Calendar> orderByComparator) {
+		return findByStartDate(start_date, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the calendars where start_date = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start_date the start_date
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByStartDate(Date start_date, int start, int end,
+		OrderByComparator<Calendar> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STARTDATE;
+			finderArgs = new Object[] { start_date };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STARTDATE;
+			finderArgs = new Object[] { start_date, start, end, orderByComparator };
+		}
+
+		List<Calendar> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Calendar>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Calendar calendar : list) {
+					if (!Objects.equals(start_date, calendar.getStart_date())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_CALENDAR_WHERE);
+
+			boolean bindStart_date = false;
+
+			if (start_date == null) {
+				query.append(_FINDER_COLUMN_STARTDATE_START_DATE_1);
+			}
+			else {
+				bindStart_date = true;
+
+				query.append(_FINDER_COLUMN_STARTDATE_START_DATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(CalendarModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStart_date) {
+					qPos.add(new Timestamp(start_date.getTime()));
+				}
+
+				if (!pagination) {
+					list = (List<Calendar>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Calendar>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first calendar in the ordered set where start_date = &#63;.
+	 *
+	 * @param start_date the start_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching calendar
+	 * @throws NoSuchCalendarException if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar findByStartDate_First(Date start_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = fetchByStartDate_First(start_date, orderByComparator);
+
+		if (calendar != null) {
+			return calendar;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("start_date=");
+		msg.append(start_date);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCalendarException(msg.toString());
+	}
+
+	/**
+	 * Returns the first calendar in the ordered set where start_date = &#63;.
+	 *
+	 * @param start_date the start_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching calendar, or <code>null</code> if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar fetchByStartDate_First(Date start_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		List<Calendar> list = findByStartDate(start_date, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last calendar in the ordered set where start_date = &#63;.
+	 *
+	 * @param start_date the start_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching calendar
+	 * @throws NoSuchCalendarException if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar findByStartDate_Last(Date start_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = fetchByStartDate_Last(start_date, orderByComparator);
+
+		if (calendar != null) {
+			return calendar;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("start_date=");
+		msg.append(start_date);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCalendarException(msg.toString());
+	}
+
+	/**
+	 * Returns the last calendar in the ordered set where start_date = &#63;.
+	 *
+	 * @param start_date the start_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching calendar, or <code>null</code> if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar fetchByStartDate_Last(Date start_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		int count = countByStartDate(start_date);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Calendar> list = findByStartDate(start_date, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the calendars before and after the current calendar in the ordered set where start_date = &#63;.
+	 *
+	 * @param id the primary key of the current calendar
+	 * @param start_date the start_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next calendar
+	 * @throws NoSuchCalendarException if a calendar with the primary key could not be found
+	 */
+	@Override
+	public Calendar[] findByStartDate_PrevAndNext(long id, Date start_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = findByPrimaryKey(id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Calendar[] array = new CalendarImpl[3];
+
+			array[0] = getByStartDate_PrevAndNext(session, calendar,
+					start_date, orderByComparator, true);
+
+			array[1] = calendar;
+
+			array[2] = getByStartDate_PrevAndNext(session, calendar,
+					start_date, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Calendar getByStartDate_PrevAndNext(Session session,
+		Calendar calendar, Date start_date,
+		OrderByComparator<Calendar> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CALENDAR_WHERE);
+
+		boolean bindStart_date = false;
+
+		if (start_date == null) {
+			query.append(_FINDER_COLUMN_STARTDATE_START_DATE_1);
+		}
+		else {
+			bindStart_date = true;
+
+			query.append(_FINDER_COLUMN_STARTDATE_START_DATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(CalendarModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindStart_date) {
+			qPos.add(new Timestamp(start_date.getTime()));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(calendar);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Calendar> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the calendars where start_date = &#63; from the database.
+	 *
+	 * @param start_date the start_date
+	 */
+	@Override
+	public void removeByStartDate(Date start_date) {
+		for (Calendar calendar : findByStartDate(start_date, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(calendar);
+		}
+	}
+
+	/**
+	 * Returns the number of calendars where start_date = &#63;.
+	 *
+	 * @param start_date the start_date
+	 * @return the number of matching calendars
+	 */
+	@Override
+	public int countByStartDate(Date start_date) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_STARTDATE;
+
+		Object[] finderArgs = new Object[] { start_date };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CALENDAR_WHERE);
+
+			boolean bindStart_date = false;
+
+			if (start_date == null) {
+				query.append(_FINDER_COLUMN_STARTDATE_START_DATE_1);
+			}
+			else {
+				bindStart_date = true;
+
+				query.append(_FINDER_COLUMN_STARTDATE_START_DATE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStart_date) {
+					qPos.add(new Timestamp(start_date.getTime()));
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_STARTDATE_START_DATE_1 = "calendar.start_date IS NULL";
+	private static final String _FINDER_COLUMN_STARTDATE_START_DATE_2 = "calendar.start_date = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ENDDATE = new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, CalendarImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEndDate",
+			new String[] {
+				Date.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENDDATE =
+		new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, CalendarImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEndDate",
+			new String[] { Date.class.getName() },
+			CalendarModelImpl.END_DATE_COLUMN_BITMASK |
+			CalendarModelImpl.SERVICE_ID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ENDDATE = new FinderPath(CalendarModelImpl.ENTITY_CACHE_ENABLED,
+			CalendarModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEndDate",
+			new String[] { Date.class.getName() });
+
+	/**
+	 * Returns all the calendars where end_date = &#63;.
+	 *
+	 * @param end_date the end_date
+	 * @return the matching calendars
+	 */
+	@Override
+	public List<Calendar> findByEndDate(Date end_date) {
+		return findByEndDate(end_date, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the calendars where end_date = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param end_date the end_date
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @return the range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByEndDate(Date end_date, int start, int end) {
+		return findByEndDate(end_date, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the calendars where end_date = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param end_date the end_date
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByEndDate(Date end_date, int start, int end,
+		OrderByComparator<Calendar> orderByComparator) {
+		return findByEndDate(end_date, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the calendars where end_date = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param end_date the end_date
+	 * @param start the lower bound of the range of calendars
+	 * @param end the upper bound of the range of calendars (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching calendars
+	 */
+	@Override
+	public List<Calendar> findByEndDate(Date end_date, int start, int end,
+		OrderByComparator<Calendar> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENDDATE;
+			finderArgs = new Object[] { end_date };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ENDDATE;
+			finderArgs = new Object[] { end_date, start, end, orderByComparator };
+		}
+
+		List<Calendar> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Calendar>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Calendar calendar : list) {
+					if (!Objects.equals(end_date, calendar.getEnd_date())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_CALENDAR_WHERE);
+
+			boolean bindEnd_date = false;
+
+			if (end_date == null) {
+				query.append(_FINDER_COLUMN_ENDDATE_END_DATE_1);
+			}
+			else {
+				bindEnd_date = true;
+
+				query.append(_FINDER_COLUMN_ENDDATE_END_DATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(CalendarModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindEnd_date) {
+					qPos.add(new Timestamp(end_date.getTime()));
+				}
+
+				if (!pagination) {
+					list = (List<Calendar>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Calendar>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first calendar in the ordered set where end_date = &#63;.
+	 *
+	 * @param end_date the end_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching calendar
+	 * @throws NoSuchCalendarException if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar findByEndDate_First(Date end_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = fetchByEndDate_First(end_date, orderByComparator);
+
+		if (calendar != null) {
+			return calendar;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("end_date=");
+		msg.append(end_date);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCalendarException(msg.toString());
+	}
+
+	/**
+	 * Returns the first calendar in the ordered set where end_date = &#63;.
+	 *
+	 * @param end_date the end_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching calendar, or <code>null</code> if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar fetchByEndDate_First(Date end_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		List<Calendar> list = findByEndDate(end_date, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last calendar in the ordered set where end_date = &#63;.
+	 *
+	 * @param end_date the end_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching calendar
+	 * @throws NoSuchCalendarException if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar findByEndDate_Last(Date end_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = fetchByEndDate_Last(end_date, orderByComparator);
+
+		if (calendar != null) {
+			return calendar;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("end_date=");
+		msg.append(end_date);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCalendarException(msg.toString());
+	}
+
+	/**
+	 * Returns the last calendar in the ordered set where end_date = &#63;.
+	 *
+	 * @param end_date the end_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching calendar, or <code>null</code> if a matching calendar could not be found
+	 */
+	@Override
+	public Calendar fetchByEndDate_Last(Date end_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		int count = countByEndDate(end_date);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Calendar> list = findByEndDate(end_date, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the calendars before and after the current calendar in the ordered set where end_date = &#63;.
+	 *
+	 * @param id the primary key of the current calendar
+	 * @param end_date the end_date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next calendar
+	 * @throws NoSuchCalendarException if a calendar with the primary key could not be found
+	 */
+	@Override
+	public Calendar[] findByEndDate_PrevAndNext(long id, Date end_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException {
+		Calendar calendar = findByPrimaryKey(id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Calendar[] array = new CalendarImpl[3];
+
+			array[0] = getByEndDate_PrevAndNext(session, calendar, end_date,
+					orderByComparator, true);
+
+			array[1] = calendar;
+
+			array[2] = getByEndDate_PrevAndNext(session, calendar, end_date,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Calendar getByEndDate_PrevAndNext(Session session,
+		Calendar calendar, Date end_date,
+		OrderByComparator<Calendar> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CALENDAR_WHERE);
+
+		boolean bindEnd_date = false;
+
+		if (end_date == null) {
+			query.append(_FINDER_COLUMN_ENDDATE_END_DATE_1);
+		}
+		else {
+			bindEnd_date = true;
+
+			query.append(_FINDER_COLUMN_ENDDATE_END_DATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(CalendarModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindEnd_date) {
+			qPos.add(new Timestamp(end_date.getTime()));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(calendar);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Calendar> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the calendars where end_date = &#63; from the database.
+	 *
+	 * @param end_date the end_date
+	 */
+	@Override
+	public void removeByEndDate(Date end_date) {
+		for (Calendar calendar : findByEndDate(end_date, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(calendar);
+		}
+	}
+
+	/**
+	 * Returns the number of calendars where end_date = &#63;.
+	 *
+	 * @param end_date the end_date
+	 * @return the number of matching calendars
+	 */
+	@Override
+	public int countByEndDate(Date end_date) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ENDDATE;
+
+		Object[] finderArgs = new Object[] { end_date };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CALENDAR_WHERE);
+
+			boolean bindEnd_date = false;
+
+			if (end_date == null) {
+				query.append(_FINDER_COLUMN_ENDDATE_END_DATE_1);
+			}
+			else {
+				bindEnd_date = true;
+
+				query.append(_FINDER_COLUMN_ENDDATE_END_DATE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindEnd_date) {
+					qPos.add(new Timestamp(end_date.getTime()));
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ENDDATE_END_DATE_1 = "calendar.end_date IS NULL";
+	private static final String _FINDER_COLUMN_ENDDATE_END_DATE_2 = "calendar.end_date = ?";
 
 	public CalendarPersistenceImpl() {
 		setModelClass(Calendar.class);
@@ -1432,6 +2507,18 @@ public class CalendarPersistenceImpl extends BasePersistenceImpl<Calendar>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
 				args);
 
+			args = new Object[] { calendarModelImpl.getStart_date() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_STARTDATE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STARTDATE,
+				args);
+
+			args = new Object[] { calendarModelImpl.getEnd_date() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ENDDATE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENDDATE,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -1467,6 +2554,40 @@ public class CalendarPersistenceImpl extends BasePersistenceImpl<Calendar>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_SERVICEID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SERVICEID,
+					args);
+			}
+
+			if ((calendarModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STARTDATE.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						calendarModelImpl.getOriginalStart_date()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_STARTDATE, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STARTDATE,
+					args);
+
+				args = new Object[] { calendarModelImpl.getStart_date() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_STARTDATE, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STARTDATE,
+					args);
+			}
+
+			if ((calendarModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENDDATE.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						calendarModelImpl.getOriginalEnd_date()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ENDDATE, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENDDATE,
+					args);
+
+				args = new Object[] { calendarModelImpl.getEnd_date() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ENDDATE, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENDDATE,
 					args);
 			}
 		}

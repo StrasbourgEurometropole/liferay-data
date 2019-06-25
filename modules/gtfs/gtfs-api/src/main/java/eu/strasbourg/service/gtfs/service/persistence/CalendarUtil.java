@@ -26,6 +26,7 @@ import eu.strasbourg.service.gtfs.model.Calendar;
 
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -423,6 +424,320 @@ public class CalendarUtil {
 	*/
 	public static int countByServiceId(java.lang.String service_id) {
 		return getPersistence().countByServiceId(service_id);
+	}
+
+	/**
+	* Returns all the calendars where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @return the matching calendars
+	*/
+	public static List<Calendar> findByStartDate(Date start_date) {
+		return getPersistence().findByStartDate(start_date);
+	}
+
+	/**
+	* Returns a range of all the calendars where start_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start_date the start_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @return the range of matching calendars
+	*/
+	public static List<Calendar> findByStartDate(Date start_date, int start,
+		int end) {
+		return getPersistence().findByStartDate(start_date, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the calendars where start_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start_date the start_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching calendars
+	*/
+	public static List<Calendar> findByStartDate(Date start_date, int start,
+		int end, OrderByComparator<Calendar> orderByComparator) {
+		return getPersistence()
+				   .findByStartDate(start_date, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the calendars where start_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start_date the start_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching calendars
+	*/
+	public static List<Calendar> findByStartDate(Date start_date, int start,
+		int end, OrderByComparator<Calendar> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByStartDate(start_date, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public static Calendar findByStartDate_First(Date start_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarException {
+		return getPersistence()
+				   .findByStartDate_First(start_date, orderByComparator);
+	}
+
+	/**
+	* Returns the first calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public static Calendar fetchByStartDate_First(Date start_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		return getPersistence()
+				   .fetchByStartDate_First(start_date, orderByComparator);
+	}
+
+	/**
+	* Returns the last calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public static Calendar findByStartDate_Last(Date start_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarException {
+		return getPersistence()
+				   .findByStartDate_Last(start_date, orderByComparator);
+	}
+
+	/**
+	* Returns the last calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public static Calendar fetchByStartDate_Last(Date start_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		return getPersistence()
+				   .fetchByStartDate_Last(start_date, orderByComparator);
+	}
+
+	/**
+	* Returns the calendars before and after the current calendar in the ordered set where start_date = &#63;.
+	*
+	* @param id the primary key of the current calendar
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next calendar
+	* @throws NoSuchCalendarException if a calendar with the primary key could not be found
+	*/
+	public static Calendar[] findByStartDate_PrevAndNext(long id,
+		Date start_date, OrderByComparator<Calendar> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarException {
+		return getPersistence()
+				   .findByStartDate_PrevAndNext(id, start_date,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the calendars where start_date = &#63; from the database.
+	*
+	* @param start_date the start_date
+	*/
+	public static void removeByStartDate(Date start_date) {
+		getPersistence().removeByStartDate(start_date);
+	}
+
+	/**
+	* Returns the number of calendars where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @return the number of matching calendars
+	*/
+	public static int countByStartDate(Date start_date) {
+		return getPersistence().countByStartDate(start_date);
+	}
+
+	/**
+	* Returns all the calendars where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @return the matching calendars
+	*/
+	public static List<Calendar> findByEndDate(Date end_date) {
+		return getPersistence().findByEndDate(end_date);
+	}
+
+	/**
+	* Returns a range of all the calendars where end_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param end_date the end_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @return the range of matching calendars
+	*/
+	public static List<Calendar> findByEndDate(Date end_date, int start, int end) {
+		return getPersistence().findByEndDate(end_date, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the calendars where end_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param end_date the end_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching calendars
+	*/
+	public static List<Calendar> findByEndDate(Date end_date, int start,
+		int end, OrderByComparator<Calendar> orderByComparator) {
+		return getPersistence()
+				   .findByEndDate(end_date, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the calendars where end_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param end_date the end_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching calendars
+	*/
+	public static List<Calendar> findByEndDate(Date end_date, int start,
+		int end, OrderByComparator<Calendar> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByEndDate(end_date, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public static Calendar findByEndDate_First(Date end_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarException {
+		return getPersistence().findByEndDate_First(end_date, orderByComparator);
+	}
+
+	/**
+	* Returns the first calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public static Calendar fetchByEndDate_First(Date end_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		return getPersistence().fetchByEndDate_First(end_date, orderByComparator);
+	}
+
+	/**
+	* Returns the last calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public static Calendar findByEndDate_Last(Date end_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarException {
+		return getPersistence().findByEndDate_Last(end_date, orderByComparator);
+	}
+
+	/**
+	* Returns the last calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public static Calendar fetchByEndDate_Last(Date end_date,
+		OrderByComparator<Calendar> orderByComparator) {
+		return getPersistence().fetchByEndDate_Last(end_date, orderByComparator);
+	}
+
+	/**
+	* Returns the calendars before and after the current calendar in the ordered set where end_date = &#63;.
+	*
+	* @param id the primary key of the current calendar
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next calendar
+	* @throws NoSuchCalendarException if a calendar with the primary key could not be found
+	*/
+	public static Calendar[] findByEndDate_PrevAndNext(long id, Date end_date,
+		OrderByComparator<Calendar> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarException {
+		return getPersistence()
+				   .findByEndDate_PrevAndNext(id, end_date, orderByComparator);
+	}
+
+	/**
+	* Removes all the calendars where end_date = &#63; from the database.
+	*
+	* @param end_date the end_date
+	*/
+	public static void removeByEndDate(Date end_date) {
+		getPersistence().removeByEndDate(end_date);
+	}
+
+	/**
+	* Returns the number of calendars where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @return the number of matching calendars
+	*/
+	public static int countByEndDate(Date end_date) {
+		return getPersistence().countByEndDate(end_date);
 	}
 
 	/**

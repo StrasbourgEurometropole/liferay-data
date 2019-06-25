@@ -26,6 +26,7 @@ import eu.strasbourg.service.gtfs.model.CalendarDate;
 
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -431,6 +432,159 @@ public class CalendarDateUtil {
 	*/
 	public static int countByServiceId(java.lang.String service_id) {
 		return getPersistence().countByServiceId(service_id);
+	}
+
+	/**
+	* Returns all the calendar dates where date = &#63;.
+	*
+	* @param date the date
+	* @return the matching calendar dates
+	*/
+	public static List<CalendarDate> findByDate(Date date) {
+		return getPersistence().findByDate(date);
+	}
+
+	/**
+	* Returns a range of all the calendar dates where date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarDateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param date the date
+	* @param start the lower bound of the range of calendar dates
+	* @param end the upper bound of the range of calendar dates (not inclusive)
+	* @return the range of matching calendar dates
+	*/
+	public static List<CalendarDate> findByDate(Date date, int start, int end) {
+		return getPersistence().findByDate(date, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the calendar dates where date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarDateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param date the date
+	* @param start the lower bound of the range of calendar dates
+	* @param end the upper bound of the range of calendar dates (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching calendar dates
+	*/
+	public static List<CalendarDate> findByDate(Date date, int start, int end,
+		OrderByComparator<CalendarDate> orderByComparator) {
+		return getPersistence().findByDate(date, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the calendar dates where date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarDateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param date the date
+	* @param start the lower bound of the range of calendar dates
+	* @param end the upper bound of the range of calendar dates (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching calendar dates
+	*/
+	public static List<CalendarDate> findByDate(Date date, int start, int end,
+		OrderByComparator<CalendarDate> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByDate(date, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first calendar date in the ordered set where date = &#63;.
+	*
+	* @param date the date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar date
+	* @throws NoSuchCalendarDateException if a matching calendar date could not be found
+	*/
+	public static CalendarDate findByDate_First(Date date,
+		OrderByComparator<CalendarDate> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarDateException {
+		return getPersistence().findByDate_First(date, orderByComparator);
+	}
+
+	/**
+	* Returns the first calendar date in the ordered set where date = &#63;.
+	*
+	* @param date the date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar date, or <code>null</code> if a matching calendar date could not be found
+	*/
+	public static CalendarDate fetchByDate_First(Date date,
+		OrderByComparator<CalendarDate> orderByComparator) {
+		return getPersistence().fetchByDate_First(date, orderByComparator);
+	}
+
+	/**
+	* Returns the last calendar date in the ordered set where date = &#63;.
+	*
+	* @param date the date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar date
+	* @throws NoSuchCalendarDateException if a matching calendar date could not be found
+	*/
+	public static CalendarDate findByDate_Last(Date date,
+		OrderByComparator<CalendarDate> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarDateException {
+		return getPersistence().findByDate_Last(date, orderByComparator);
+	}
+
+	/**
+	* Returns the last calendar date in the ordered set where date = &#63;.
+	*
+	* @param date the date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar date, or <code>null</code> if a matching calendar date could not be found
+	*/
+	public static CalendarDate fetchByDate_Last(Date date,
+		OrderByComparator<CalendarDate> orderByComparator) {
+		return getPersistence().fetchByDate_Last(date, orderByComparator);
+	}
+
+	/**
+	* Returns the calendar dates before and after the current calendar date in the ordered set where date = &#63;.
+	*
+	* @param id the primary key of the current calendar date
+	* @param date the date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next calendar date
+	* @throws NoSuchCalendarDateException if a calendar date with the primary key could not be found
+	*/
+	public static CalendarDate[] findByDate_PrevAndNext(long id, Date date,
+		OrderByComparator<CalendarDate> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchCalendarDateException {
+		return getPersistence()
+				   .findByDate_PrevAndNext(id, date, orderByComparator);
+	}
+
+	/**
+	* Removes all the calendar dates where date = &#63; from the database.
+	*
+	* @param date the date
+	*/
+	public static void removeByDate(Date date) {
+		getPersistence().removeByDate(date);
+	}
+
+	/**
+	* Returns the number of calendar dates where date = &#63;.
+	*
+	* @param date the date
+	* @return the number of matching calendar dates
+	*/
+	public static int countByDate(Date date) {
+		return getPersistence().countByDate(date);
 	}
 
 	/**

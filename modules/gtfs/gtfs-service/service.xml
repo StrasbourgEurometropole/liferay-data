@@ -226,6 +226,12 @@
 		<finder name="ServiceId" return-type="Collection">
 			<finder-column name="service_id" />
 		</finder>
+		<finder name="StartDate" return-type="Collection">
+			<finder-column name="start_date" />
+		</finder>
+		<finder name="EndDate" return-type="Collection">
+			<finder-column name="end_date" />
+		</finder>
 
 	</entity>
 	
@@ -247,6 +253,9 @@
 		<!-- Finder methods -->
 		<finder name="ServiceId" return-type="Collection">
 			<finder-column name="service_id" />
+		</finder>
+		<finder name="Date" return-type="Collection">
+			<finder-column name="date" />
 		</finder>
 
 	</entity>
@@ -328,6 +337,9 @@
 		<!-- Finder methods -->
 		<finder name="StopId" return-type="Collection">
 			<finder-column name="stop_id" />
+		</finder>
+		<finder name="StopCode" return-type="Collection">
+			<finder-column name="stop_code" />
 		</finder>
 
 	</entity>

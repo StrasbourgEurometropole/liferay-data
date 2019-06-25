@@ -418,6 +418,164 @@ public class StopUtil {
 	}
 
 	/**
+	* Returns all the stops where stop_code = &#63;.
+	*
+	* @param stop_code the stop_code
+	* @return the matching stops
+	*/
+	public static List<Stop> findByStopCode(java.lang.String stop_code) {
+		return getPersistence().findByStopCode(stop_code);
+	}
+
+	/**
+	* Returns a range of all the stops where stop_code = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StopModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param stop_code the stop_code
+	* @param start the lower bound of the range of stops
+	* @param end the upper bound of the range of stops (not inclusive)
+	* @return the range of matching stops
+	*/
+	public static List<Stop> findByStopCode(java.lang.String stop_code,
+		int start, int end) {
+		return getPersistence().findByStopCode(stop_code, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the stops where stop_code = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StopModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param stop_code the stop_code
+	* @param start the lower bound of the range of stops
+	* @param end the upper bound of the range of stops (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching stops
+	*/
+	public static List<Stop> findByStopCode(java.lang.String stop_code,
+		int start, int end, OrderByComparator<Stop> orderByComparator) {
+		return getPersistence()
+				   .findByStopCode(stop_code, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the stops where stop_code = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StopModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param stop_code the stop_code
+	* @param start the lower bound of the range of stops
+	* @param end the upper bound of the range of stops (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching stops
+	*/
+	public static List<Stop> findByStopCode(java.lang.String stop_code,
+		int start, int end, OrderByComparator<Stop> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByStopCode(stop_code, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first stop in the ordered set where stop_code = &#63;.
+	*
+	* @param stop_code the stop_code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching stop
+	* @throws NoSuchStopException if a matching stop could not be found
+	*/
+	public static Stop findByStopCode_First(java.lang.String stop_code,
+		OrderByComparator<Stop> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchStopException {
+		return getPersistence()
+				   .findByStopCode_First(stop_code, orderByComparator);
+	}
+
+	/**
+	* Returns the first stop in the ordered set where stop_code = &#63;.
+	*
+	* @param stop_code the stop_code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching stop, or <code>null</code> if a matching stop could not be found
+	*/
+	public static Stop fetchByStopCode_First(java.lang.String stop_code,
+		OrderByComparator<Stop> orderByComparator) {
+		return getPersistence()
+				   .fetchByStopCode_First(stop_code, orderByComparator);
+	}
+
+	/**
+	* Returns the last stop in the ordered set where stop_code = &#63;.
+	*
+	* @param stop_code the stop_code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching stop
+	* @throws NoSuchStopException if a matching stop could not be found
+	*/
+	public static Stop findByStopCode_Last(java.lang.String stop_code,
+		OrderByComparator<Stop> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchStopException {
+		return getPersistence().findByStopCode_Last(stop_code, orderByComparator);
+	}
+
+	/**
+	* Returns the last stop in the ordered set where stop_code = &#63;.
+	*
+	* @param stop_code the stop_code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching stop, or <code>null</code> if a matching stop could not be found
+	*/
+	public static Stop fetchByStopCode_Last(java.lang.String stop_code,
+		OrderByComparator<Stop> orderByComparator) {
+		return getPersistence()
+				   .fetchByStopCode_Last(stop_code, orderByComparator);
+	}
+
+	/**
+	* Returns the stops before and after the current stop in the ordered set where stop_code = &#63;.
+	*
+	* @param id the primary key of the current stop
+	* @param stop_code the stop_code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next stop
+	* @throws NoSuchStopException if a stop with the primary key could not be found
+	*/
+	public static Stop[] findByStopCode_PrevAndNext(long id,
+		java.lang.String stop_code, OrderByComparator<Stop> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchStopException {
+		return getPersistence()
+				   .findByStopCode_PrevAndNext(id, stop_code, orderByComparator);
+	}
+
+	/**
+	* Removes all the stops where stop_code = &#63; from the database.
+	*
+	* @param stop_code the stop_code
+	*/
+	public static void removeByStopCode(java.lang.String stop_code) {
+		getPersistence().removeByStopCode(stop_code);
+	}
+
+	/**
+	* Returns the number of stops where stop_code = &#63;.
+	*
+	* @param stop_code the stop_code
+	* @return the number of matching stops
+	*/
+	public static int countByStopCode(java.lang.String stop_code) {
+		return getPersistence().countByStopCode(stop_code);
+	}
+
+	/**
 	* Caches the stop in the entity cache if it is enabled.
 	*
 	* @param stop the stop

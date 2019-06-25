@@ -100,8 +100,9 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Stop"),
 			true);
-	public static final long STOP_ID_COLUMN_BITMASK = 1L;
-	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long STOP_CODE_COLUMN_BITMASK = 1L;
+	public static final long STOP_ID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Stop"));
 
@@ -285,7 +286,17 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_code(String stop_code) {
+		_columnBitmask |= STOP_CODE_COLUMN_BITMASK;
+
+		if (_originalStop_code == null) {
+			_originalStop_code = _stop_code;
+		}
+
 		_stop_code = stop_code;
+	}
+
+	public String getOriginalStop_code() {
+		return GetterUtil.getString(_originalStop_code);
 	}
 
 	@Override
@@ -467,6 +478,8 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 		stopModelImpl._originalStop_id = stopModelImpl._stop_id;
 
+		stopModelImpl._originalStop_code = stopModelImpl._stop_code;
+
 		stopModelImpl._columnBitmask = 0;
 	}
 
@@ -630,6 +643,7 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	private String _stop_id;
 	private String _originalStop_id;
 	private String _stop_code;
+	private String _originalStop_code;
 	private String _stop_lat;
 	private String _stop_lon;
 	private String _stop_name;

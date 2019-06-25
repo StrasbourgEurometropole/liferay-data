@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import eu.strasbourg.service.gtfs.exception.NoSuchCalendarException;
 import eu.strasbourg.service.gtfs.model.Calendar;
 
+import java.util.Date;
+
 /**
  * The persistence interface for the calendar service.
  *
@@ -303,6 +305,268 @@ public interface CalendarPersistence extends BasePersistence<Calendar> {
 	* @return the number of matching calendars
 	*/
 	public int countByServiceId(java.lang.String service_id);
+
+	/**
+	* Returns all the calendars where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @return the matching calendars
+	*/
+	public java.util.List<Calendar> findByStartDate(Date start_date);
+
+	/**
+	* Returns a range of all the calendars where start_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start_date the start_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @return the range of matching calendars
+	*/
+	public java.util.List<Calendar> findByStartDate(Date start_date, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the calendars where start_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start_date the start_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching calendars
+	*/
+	public java.util.List<Calendar> findByStartDate(Date start_date, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the calendars where start_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start_date the start_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching calendars
+	*/
+	public java.util.List<Calendar> findByStartDate(Date start_date, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public Calendar findByStartDate_First(Date start_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException;
+
+	/**
+	* Returns the first calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public Calendar fetchByStartDate_First(Date start_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator);
+
+	/**
+	* Returns the last calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public Calendar findByStartDate_Last(Date start_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException;
+
+	/**
+	* Returns the last calendar in the ordered set where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public Calendar fetchByStartDate_Last(Date start_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator);
+
+	/**
+	* Returns the calendars before and after the current calendar in the ordered set where start_date = &#63;.
+	*
+	* @param id the primary key of the current calendar
+	* @param start_date the start_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next calendar
+	* @throws NoSuchCalendarException if a calendar with the primary key could not be found
+	*/
+	public Calendar[] findByStartDate_PrevAndNext(long id, Date start_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException;
+
+	/**
+	* Removes all the calendars where start_date = &#63; from the database.
+	*
+	* @param start_date the start_date
+	*/
+	public void removeByStartDate(Date start_date);
+
+	/**
+	* Returns the number of calendars where start_date = &#63;.
+	*
+	* @param start_date the start_date
+	* @return the number of matching calendars
+	*/
+	public int countByStartDate(Date start_date);
+
+	/**
+	* Returns all the calendars where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @return the matching calendars
+	*/
+	public java.util.List<Calendar> findByEndDate(Date end_date);
+
+	/**
+	* Returns a range of all the calendars where end_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param end_date the end_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @return the range of matching calendars
+	*/
+	public java.util.List<Calendar> findByEndDate(Date end_date, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the calendars where end_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param end_date the end_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching calendars
+	*/
+	public java.util.List<Calendar> findByEndDate(Date end_date, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the calendars where end_date = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CalendarModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param end_date the end_date
+	* @param start the lower bound of the range of calendars
+	* @param end the upper bound of the range of calendars (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching calendars
+	*/
+	public java.util.List<Calendar> findByEndDate(Date end_date, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public Calendar findByEndDate_First(Date end_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException;
+
+	/**
+	* Returns the first calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public Calendar fetchByEndDate_First(Date end_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator);
+
+	/**
+	* Returns the last calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar
+	* @throws NoSuchCalendarException if a matching calendar could not be found
+	*/
+	public Calendar findByEndDate_Last(Date end_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException;
+
+	/**
+	* Returns the last calendar in the ordered set where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching calendar, or <code>null</code> if a matching calendar could not be found
+	*/
+	public Calendar fetchByEndDate_Last(Date end_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator);
+
+	/**
+	* Returns the calendars before and after the current calendar in the ordered set where end_date = &#63;.
+	*
+	* @param id the primary key of the current calendar
+	* @param end_date the end_date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next calendar
+	* @throws NoSuchCalendarException if a calendar with the primary key could not be found
+	*/
+	public Calendar[] findByEndDate_PrevAndNext(long id, Date end_date,
+		com.liferay.portal.kernel.util.OrderByComparator<Calendar> orderByComparator)
+		throws NoSuchCalendarException;
+
+	/**
+	* Removes all the calendars where end_date = &#63; from the database.
+	*
+	* @param end_date the end_date
+	*/
+	public void removeByEndDate(Date end_date);
+
+	/**
+	* Returns the number of calendars where end_date = &#63;.
+	*
+	* @param end_date the end_date
+	* @return the number of matching calendars
+	*/
+	public int countByEndDate(Date end_date);
 
 	/**
 	* Caches the calendar in the entity cache if it is enabled.

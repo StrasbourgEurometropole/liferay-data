@@ -108,8 +108,10 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Calendar"),
 			true);
-	public static final long SERVICE_ID_COLUMN_BITMASK = 1L;
-	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long END_DATE_COLUMN_BITMASK = 1L;
+	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
+	public static final long START_DATE_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Calendar"));
 
@@ -414,7 +416,17 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 
 	@Override
 	public void setStart_date(Date start_date) {
+		_columnBitmask |= START_DATE_COLUMN_BITMASK;
+
+		if (_originalStart_date == null) {
+			_originalStart_date = _start_date;
+		}
+
 		_start_date = start_date;
+	}
+
+	public Date getOriginalStart_date() {
+		return _originalStart_date;
 	}
 
 	@Override
@@ -424,7 +436,17 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 
 	@Override
 	public void setEnd_date(Date end_date) {
+		_columnBitmask |= END_DATE_COLUMN_BITMASK;
+
+		if (_originalEnd_date == null) {
+			_originalEnd_date = _end_date;
+		}
+
 		_end_date = end_date;
+	}
+
+	public Date getOriginalEnd_date() {
+		return _originalEnd_date;
 	}
 
 	public long getColumnBitmask() {
@@ -533,6 +555,10 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 		calendarModelImpl._originalUuid = calendarModelImpl._uuid;
 
 		calendarModelImpl._originalService_id = calendarModelImpl._service_id;
+
+		calendarModelImpl._originalStart_date = calendarModelImpl._start_date;
+
+		calendarModelImpl._originalEnd_date = calendarModelImpl._end_date;
 
 		calendarModelImpl._columnBitmask = 0;
 	}
@@ -706,7 +732,9 @@ public class CalendarModelImpl extends BaseModelImpl<Calendar>
 	private boolean _saturday;
 	private boolean _sunday;
 	private Date _start_date;
+	private Date _originalStart_date;
 	private Date _end_date;
+	private Date _originalEnd_date;
 	private long _columnBitmask;
 	private Calendar _escapedModel;
 }
