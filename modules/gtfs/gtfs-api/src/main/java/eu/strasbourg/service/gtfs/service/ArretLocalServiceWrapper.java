@@ -175,6 +175,15 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 	}
 
 	/**
+	* Retourne un arret via son stopId CTS
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Arret getByStopId(
+		java.lang.String stopId) {
+		return _arretLocalService.getByStopId(stopId);
+	}
+
+	/**
 	* Supprime l'entree
 	*/
 	@Override

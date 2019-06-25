@@ -53,4 +53,25 @@ public interface Arret extends ArretModel, PersistedModel {
 				return Arret.class;
 			}
 		};
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Renvoie la liste des Directions de cet arret
+	*/
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getDirections();
+
+	/**
+	* Renvoie la liste des Directions de cet arret
+	*/
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getLignes();
 }

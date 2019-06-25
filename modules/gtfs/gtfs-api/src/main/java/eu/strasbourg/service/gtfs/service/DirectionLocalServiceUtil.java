@@ -277,6 +277,22 @@ public class DirectionLocalServiceUtil {
 	}
 
 	/**
+	* Retourne toutes direction d'une ligne
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction> getByRouteId(
+		java.lang.String routeId) {
+		return getService().getByRouteId(routeId);
+	}
+
+	/**
+	* Retourne toutes direction d'un arret
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction> getByStopId(
+		java.lang.String stopId) {
+		return getService().getByStopId(stopId);
+	}
+
+	/**
 	* Returns a range of all the directions.
 	*
 	* <p>

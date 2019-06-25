@@ -146,6 +146,14 @@ public class LigneLocalServiceUtil {
 	}
 
 	/**
+	* Retourne une ligne via son routeId CTS
+	*/
+	public static eu.strasbourg.service.gtfs.model.Ligne getByRouteId(
+		java.lang.String routeId) {
+		return getService().getByRouteId(routeId);
+	}
+
+	/**
 	* Returns the ligne with the primary key.
 	*
 	* @param ligneId the primary key of the ligne

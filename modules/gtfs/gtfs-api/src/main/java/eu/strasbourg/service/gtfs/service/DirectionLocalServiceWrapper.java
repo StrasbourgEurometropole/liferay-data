@@ -293,6 +293,24 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	}
 
 	/**
+	* Retourne toutes direction d'une ligne
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getByRouteId(
+		java.lang.String routeId) {
+		return _directionLocalService.getByRouteId(routeId);
+	}
+
+	/**
+	* Retourne toutes direction d'un arret
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getByStopId(
+		java.lang.String stopId) {
+		return _directionLocalService.getByStopId(stopId);
+	}
+
+	/**
 	* Returns a range of all the directions.
 	*
 	* <p>

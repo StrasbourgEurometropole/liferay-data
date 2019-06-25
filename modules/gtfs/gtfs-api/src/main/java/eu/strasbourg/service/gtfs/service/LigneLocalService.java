@@ -146,6 +146,12 @@ public interface LigneLocalService extends BaseLocalService,
 	public Ligne fetchLigneByUuidAndGroupId(java.lang.String uuid, long groupId);
 
 	/**
+	* Retourne une ligne via son routeId CTS
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Ligne getByRouteId(java.lang.String routeId);
+
+	/**
 	* Returns the ligne with the primary key.
 	*
 	* @param ligneId the primary key of the ligne

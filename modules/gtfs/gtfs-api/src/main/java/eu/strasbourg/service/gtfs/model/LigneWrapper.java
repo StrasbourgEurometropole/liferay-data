@@ -280,6 +280,14 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 		return _ligne.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _ligne.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _ligne.getExpandoBridge();
@@ -468,6 +476,23 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	@Override
 	public Date getStatusDate() {
 		return _ligne.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _ligne.getCategories();
+	}
+
+	/**
+	* Renvoie la liste des Directions de cette ligne
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getDirections() {
+		return _ligne.getDirections();
 	}
 
 	/**

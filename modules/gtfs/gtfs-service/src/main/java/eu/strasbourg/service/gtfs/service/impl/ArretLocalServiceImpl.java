@@ -263,4 +263,12 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		return this.arretPersistence.findByGroupId(groupId);
 	}
 	
+	/**
+	 * Retourne un arret via son stopId CTS
+	 */
+	@Override
+	public Arret getByStopId(String stopId) {
+		return this.arretPersistence.fetchByStopId(stopId);
+	}
+	
 }

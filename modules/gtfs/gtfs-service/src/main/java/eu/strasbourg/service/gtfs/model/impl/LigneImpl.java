@@ -14,7 +14,17 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+
+import java.util.List;
+
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The extended model implementation for the Ligne service. Represents a row in the &quot;gtfs_Ligne&quot; database table, with each column mapped to a property of this class.
@@ -27,6 +37,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class LigneImpl extends LigneBaseImpl {
+
+	private static final long serialVersionUID = -4984282213511478569L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -34,4 +47,30 @@ public class LigneImpl extends LigneBaseImpl {
 	 */
 	public LigneImpl() {
 	}
+	
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(Arret.class.getName(), this.getLigneId());
+	}
+	
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	/**
+	 * Renvoie la liste des Directions de cette ligne
+	 */
+	@Override
+	public List<Direction> getDirections() {
+		return DirectionLocalServiceUtil.getByRouteId(this.getRouteId());
+	}
+	
 }

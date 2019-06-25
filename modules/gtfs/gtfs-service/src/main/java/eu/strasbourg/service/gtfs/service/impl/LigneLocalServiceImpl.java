@@ -266,4 +266,12 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 		return this.lignePersistence.findByGroupId(groupId);
 	}
 	
+	/**
+	 * Retourne une ligne via son routeId CTS
+	 */
+	@Override
+	public Ligne getByRouteId(String routeId) {
+		return this.lignePersistence.fetchByRouteId(routeId);
+	}
+	
 }

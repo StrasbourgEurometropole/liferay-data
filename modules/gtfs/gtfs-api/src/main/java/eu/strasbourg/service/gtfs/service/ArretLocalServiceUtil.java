@@ -172,6 +172,14 @@ public class ArretLocalServiceUtil {
 	}
 
 	/**
+	* Retourne un arret via son stopId CTS
+	*/
+	public static eu.strasbourg.service.gtfs.model.Arret getByStopId(
+		java.lang.String stopId) {
+		return getService().getByStopId(stopId);
+	}
+
+	/**
 	* Supprime l'entree
 	*/
 	public static eu.strasbourg.service.gtfs.model.Arret removeArret(

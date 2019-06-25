@@ -168,6 +168,12 @@ public interface ArretLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Retourne un arret via son stopId CTS
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Arret getByStopId(java.lang.String stopId);
+
+	/**
 	* Supprime l'entree
 	*/
 	public Arret removeArret(long arretId) throws PortalException;

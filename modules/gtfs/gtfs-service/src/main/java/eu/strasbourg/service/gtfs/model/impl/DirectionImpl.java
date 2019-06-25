@@ -27,6 +27,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class DirectionImpl extends DirectionBaseImpl {
+
+	private static final long serialVersionUID = 7661063929068068674L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

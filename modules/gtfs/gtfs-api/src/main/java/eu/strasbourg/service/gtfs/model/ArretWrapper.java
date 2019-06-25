@@ -287,6 +287,14 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 		return _arret.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _arret.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _arret.getExpandoBridge();
@@ -485,6 +493,31 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	@Override
 	public Date getStatusDate() {
 		return _arret.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _arret.getCategories();
+	}
+
+	/**
+	* Renvoie la liste des Directions de cet arret
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getDirections() {
+		return _arret.getDirections();
+	}
+
+	/**
+	* Renvoie la liste des Directions de cet arret
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getLignes() {
+		return _arret.getLignes();
 	}
 
 	/**

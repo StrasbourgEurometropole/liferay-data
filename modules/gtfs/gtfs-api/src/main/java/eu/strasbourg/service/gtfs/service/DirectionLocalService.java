@@ -245,6 +245,18 @@ public interface DirectionLocalService extends BaseLocalService,
 	public List<Direction> getByGroupId(long groupId);
 
 	/**
+	* Retourne toutes direction d'une ligne
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Direction> getByRouteId(java.lang.String routeId);
+
+	/**
+	* Retourne toutes direction d'un arret
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Direction> getByStopId(java.lang.String stopId);
+
+	/**
 	* Returns a range of all the directions.
 	*
 	* <p>

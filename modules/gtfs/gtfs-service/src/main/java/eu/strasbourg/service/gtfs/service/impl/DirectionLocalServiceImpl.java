@@ -14,23 +14,13 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
-import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Direction;
 import eu.strasbourg.service.gtfs.service.base.DirectionLocalServiceBaseImpl;
@@ -101,6 +91,22 @@ public class DirectionLocalServiceImpl extends DirectionLocalServiceBaseImpl {
 	@Override
 	public List<Direction> getByGroupId(long groupId) {
 		return this.directionPersistence.findByGroupId(groupId);
+	}
+	
+	/**
+	 * Retourne toutes direction d'un arret
+	 */
+	@Override
+	public List<Direction> getByStopId(String stopId) {
+		return this.directionPersistence.findByStopId(stopId);
+	}
+	
+	/**
+	 * Retourne toutes direction d'une ligne
+	 */
+	@Override
+	public List<Direction> getByRouteId(String routeId) {
+		return this.directionPersistence.findByRouteId(routeId);
 	}
 	
 }
