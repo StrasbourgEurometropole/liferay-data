@@ -21,15 +21,10 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedAuditedModel;
-import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
-
-import java.util.Date;
 
 /**
  * The base model interface for the Direction service. Represents a row in the &quot;gtfs_Direction&quot; database table, with each column mapped to a property of this class.
@@ -45,8 +40,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface DirectionModel extends BaseModel<Direction>, GroupedModel,
-	ShardedModel, StagedAuditedModel, WorkflowedModel {
+public interface DirectionModel extends BaseModel<Direction>, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -73,7 +67,6 @@ public interface DirectionModel extends BaseModel<Direction>, GroupedModel,
 	 * @return the uuid of this direction
 	 */
 	@AutoEscape
-	@Override
 	public String getUuid();
 
 	/**
@@ -81,7 +74,6 @@ public interface DirectionModel extends BaseModel<Direction>, GroupedModel,
 	 *
 	 * @param uuid the uuid of this direction
 	 */
-	@Override
 	public void setUuid(String uuid);
 
 	/**
@@ -103,7 +95,6 @@ public interface DirectionModel extends BaseModel<Direction>, GroupedModel,
 	 *
 	 * @return the group ID of this direction
 	 */
-	@Override
 	public long getGroupId();
 
 	/**
@@ -111,7 +102,6 @@ public interface DirectionModel extends BaseModel<Direction>, GroupedModel,
 	 *
 	 * @param groupId the group ID of this direction
 	 */
-	@Override
 	public void setGroupId(long groupId);
 
 	/**
@@ -129,168 +119,6 @@ public interface DirectionModel extends BaseModel<Direction>, GroupedModel,
 	 */
 	@Override
 	public void setCompanyId(long companyId);
-
-	/**
-	 * Returns the user ID of this direction.
-	 *
-	 * @return the user ID of this direction
-	 */
-	@Override
-	public long getUserId();
-
-	/**
-	 * Sets the user ID of this direction.
-	 *
-	 * @param userId the user ID of this direction
-	 */
-	@Override
-	public void setUserId(long userId);
-
-	/**
-	 * Returns the user uuid of this direction.
-	 *
-	 * @return the user uuid of this direction
-	 */
-	@Override
-	public String getUserUuid();
-
-	/**
-	 * Sets the user uuid of this direction.
-	 *
-	 * @param userUuid the user uuid of this direction
-	 */
-	@Override
-	public void setUserUuid(String userUuid);
-
-	/**
-	 * Returns the user name of this direction.
-	 *
-	 * @return the user name of this direction
-	 */
-	@AutoEscape
-	@Override
-	public String getUserName();
-
-	/**
-	 * Sets the user name of this direction.
-	 *
-	 * @param userName the user name of this direction
-	 */
-	@Override
-	public void setUserName(String userName);
-
-	/**
-	 * Returns the create date of this direction.
-	 *
-	 * @return the create date of this direction
-	 */
-	@Override
-	public Date getCreateDate();
-
-	/**
-	 * Sets the create date of this direction.
-	 *
-	 * @param createDate the create date of this direction
-	 */
-	@Override
-	public void setCreateDate(Date createDate);
-
-	/**
-	 * Returns the modified date of this direction.
-	 *
-	 * @return the modified date of this direction
-	 */
-	@Override
-	public Date getModifiedDate();
-
-	/**
-	 * Sets the modified date of this direction.
-	 *
-	 * @param modifiedDate the modified date of this direction
-	 */
-	@Override
-	public void setModifiedDate(Date modifiedDate);
-
-	/**
-	 * Returns the status of this direction.
-	 *
-	 * @return the status of this direction
-	 */
-	@Override
-	public int getStatus();
-
-	/**
-	 * Sets the status of this direction.
-	 *
-	 * @param status the status of this direction
-	 */
-	@Override
-	public void setStatus(int status);
-
-	/**
-	 * Returns the status by user ID of this direction.
-	 *
-	 * @return the status by user ID of this direction
-	 */
-	@Override
-	public long getStatusByUserId();
-
-	/**
-	 * Sets the status by user ID of this direction.
-	 *
-	 * @param statusByUserId the status by user ID of this direction
-	 */
-	@Override
-	public void setStatusByUserId(long statusByUserId);
-
-	/**
-	 * Returns the status by user uuid of this direction.
-	 *
-	 * @return the status by user uuid of this direction
-	 */
-	@Override
-	public String getStatusByUserUuid();
-
-	/**
-	 * Sets the status by user uuid of this direction.
-	 *
-	 * @param statusByUserUuid the status by user uuid of this direction
-	 */
-	@Override
-	public void setStatusByUserUuid(String statusByUserUuid);
-
-	/**
-	 * Returns the status by user name of this direction.
-	 *
-	 * @return the status by user name of this direction
-	 */
-	@AutoEscape
-	@Override
-	public String getStatusByUserName();
-
-	/**
-	 * Sets the status by user name of this direction.
-	 *
-	 * @param statusByUserName the status by user name of this direction
-	 */
-	@Override
-	public void setStatusByUserName(String statusByUserName);
-
-	/**
-	 * Returns the status date of this direction.
-	 *
-	 * @return the status date of this direction
-	 */
-	@Override
-	public Date getStatusDate();
-
-	/**
-	 * Sets the status date of this direction.
-	 *
-	 * @param statusDate the status date of this direction
-	 */
-	@Override
-	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the stop ID of this direction.
@@ -336,70 +164,6 @@ public interface DirectionModel extends BaseModel<Direction>, GroupedModel,
 	 * @param destinationName the destination name of this direction
 	 */
 	public void setDestinationName(String destinationName);
-
-	/**
-	 * Returns <code>true</code> if this direction is approved.
-	 *
-	 * @return <code>true</code> if this direction is approved; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isApproved();
-
-	/**
-	 * Returns <code>true</code> if this direction is denied.
-	 *
-	 * @return <code>true</code> if this direction is denied; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isDenied();
-
-	/**
-	 * Returns <code>true</code> if this direction is a draft.
-	 *
-	 * @return <code>true</code> if this direction is a draft; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isDraft();
-
-	/**
-	 * Returns <code>true</code> if this direction is expired.
-	 *
-	 * @return <code>true</code> if this direction is expired; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isExpired();
-
-	/**
-	 * Returns <code>true</code> if this direction is inactive.
-	 *
-	 * @return <code>true</code> if this direction is inactive; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isInactive();
-
-	/**
-	 * Returns <code>true</code> if this direction is incomplete.
-	 *
-	 * @return <code>true</code> if this direction is incomplete; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIncomplete();
-
-	/**
-	 * Returns <code>true</code> if this direction is pending.
-	 *
-	 * @return <code>true</code> if this direction is pending; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isPending();
-
-	/**
-	 * Returns <code>true</code> if this direction is scheduled.
-	 *
-	 * @return <code>true</code> if this direction is scheduled; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

@@ -14,6 +14,34 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
+
+import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.base.LigneLocalServiceBaseImpl;
 
 /**
@@ -36,4 +64,206 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil} to access the ligne local service.
 	 */
+	
+	public final static Log log = LogFactoryUtil.getLog(LigneLocalServiceImpl.class);
+	
+	/**
+	 * Crée une entree avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Ligne createLigne(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		
+		long pk = counterLocalService.increment();
+		
+		Ligne ligne = this.ligneLocalService.createLigne(pk);
+		
+		ligne.setGroupId(sc.getScopeGroupId());
+		ligne.setUserId(sc.getUserId());
+		
+		if (user != null)
+			ligne.setUserName(user.getFullName());
+
+		ligne.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return ligne;
+	}
+	
+	/**
+	 * Met à jour une entree et l'enregistre en base de données
+	 * @throws IOException
+	 */
+	@Override
+	public Ligne updateLigne(Ligne ligne, ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+		
+		ligne.setStatusByUserId(sc.getUserId());
+		ligne.setStatusDate(sc.getModifiedDate());
+		
+		if (user != null)
+			ligne.setStatusByUserName(user.getFullName());
+
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			ligne.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			ligne.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
+		
+		ligne = this.ligneLocalService.updateLigne(ligne);
+		
+		this.updateAssetEntry(ligne, sc);
+		this.reindex(ligne, false);
+
+		return ligne;
+	}
+	
+	/**
+	 * Met à jour l'AssetEntry rattachee à l'entite
+	 */
+	private void updateAssetEntry(Ligne ligne, ServiceContext sc) throws PortalException {
+		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
+				sc.getScopeGroupId(), // Group ID
+				ligne.getCreateDate(), // Date of creation
+				ligne.getModifiedDate(), // Date of modification
+				Ligne.class.getName(), // Class name
+				ligne.getPrimaryKey(), // Class PK
+				ligne.getUuid(), // UUID
+				0, // Class type ID
+				sc.getAssetCategoryIds(), // Categories IDs
+				sc.getAssetTagNames(), // Tags IDs
+				true, // Listable
+				ligne.isApproved(), // Visible
+				ligne.getCreateDate(), // Start date
+				null, // End date
+				ligne.getCreateDate(), // Publication date
+				null, // Date of expiration
+				ContentTypes.TEXT_HTML, // Content type
+				ligne.getTitle(), // Title
+				ligne.getShortName(), // Description
+				ligne.getShortName(), // Summary
+				null, // URL
+				null, // Layout uuid
+				0, // Width
+				0, // Height
+				null); // Priority
+
+		// Réindexe l'entite
+		this.reindex(ligne, false);
+	}
+	
+	/**
+	 * Met à jour le statut de l'entree par le framework workflow
+	 */
+	@Override
+	public Ligne updateStatus(long userId, long entryId, int status,
+								ServiceContext sc, Map<String, Serializable> workflowContext)
+			throws PortalException {
+		Date now = new Date();
+		// Statut de l'entité
+		Ligne ligne = this.getLigne(entryId);
+		ligne.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			ligne.setStatusByUserId(user.getUserId());
+			ligne.setStatusByUserName(user.getFullName());
+		}
+		ligne.setStatusDate(new Date());
+		ligne = this.ligneLocalService.updateLigne(ligne);
+		
+		// Statut de l'entry
+		AssetEntry entry = this.assetEntryLocalService
+				.getEntry(Ligne.class.getName(), ligne.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
+		this.assetEntryLocalService.updateAssetEntry(entry);
+
+		this.reindex(ligne, false);
+
+		return ligne;
+	}
+	
+	/**
+	 * Supprime l'entree
+	 */
+	@Override
+	public Ligne removeLigne(long ligneId) throws PortalException {
+		AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(Ligne.class.getName(), ligneId);
+
+		if (entry != null) {
+			// Supprime le lien avec les categories
+			for (long categoryId : entry.getCategoryIds()) {
+				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
+			}
+
+			// Supprime le lien avec les etiquettes
+			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (int i = 0; i < tagIds.length; i++) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],entry.getEntryId());
+			}
+
+			// Supprime le lien avec les autres entries
+			List<AssetLink> links = this.assetLinkLocalService.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Delete the AssetEntry
+			AssetEntryLocalServiceUtil.deleteEntry(Ligne.class.getName(), ligneId);
+
+		}
+		
+		// Supprime l'entree
+		Ligne ligne = lignePersistence.remove(ligneId);
+
+		// Supprime l'index
+		this.reindex(ligne, true);
+
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+				ligne.getCompanyId(), ligne.getGroupId(), Ligne.class.getName(),
+				ligne.getLigneId());
+
+		return ligne;
+	}
+	
+	/**
+	 * Reindex l'entree dans le moteur de recherche
+	 */
+	private void reindex(Ligne ligne, boolean delete) throws SearchException {
+		Indexer<Ligne> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Ligne.class);
+		if (delete) {
+			indexer.delete(ligne);
+		} else {
+			indexer.reindex(ligne);
+		}
+	}
+	
+	/**
+	 * Renvoie la liste des vocabulaires rattachés à l'entree
+	 */
+	@Override
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1);
+		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
+		long classNameId = ClassNameLocalServiceUtil.getClassNameId(Ligne.class);
+		for (AssetVocabulary vocabulary : vocabularies) {
+			if (vocabulary.getGroupId() == groupId
+					&& LongStream.of(vocabulary.getSelectedClassNameIds())
+					.anyMatch(c -> c == classNameId)) {
+				attachedVocabularies.add(vocabulary);
+			}
+		}
+		return attachedVocabularies;
+	}
+	
+	/**
+	 * Retourne toutes les entrees d'un groupe
+	 */
+	@Override
+	public List<Ligne> getByGroupId(long groupId) {
+		return this.lignePersistence.findByGroupId(groupId);
+	}
+	
 }

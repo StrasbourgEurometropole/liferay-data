@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import java.util.Date;
-
 /**
  * The cache model class for representing Direction in entity cache.
  *
@@ -66,7 +64,7 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -76,22 +74,6 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", userId=");
-		sb.append(userId);
-		sb.append(", userName=");
-		sb.append(userName);
-		sb.append(", createDate=");
-		sb.append(createDate);
-		sb.append(", modifiedDate=");
-		sb.append(modifiedDate);
-		sb.append(", status=");
-		sb.append(status);
-		sb.append(", statusByUserId=");
-		sb.append(statusByUserId);
-		sb.append(", statusByUserName=");
-		sb.append(statusByUserName);
-		sb.append(", statusDate=");
-		sb.append(statusDate);
 		sb.append(", stopId=");
 		sb.append(stopId);
 		sb.append(", routeId=");
@@ -117,45 +99,6 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		directionImpl.setDirectionId(directionId);
 		directionImpl.setGroupId(groupId);
 		directionImpl.setCompanyId(companyId);
-		directionImpl.setUserId(userId);
-
-		if (userName == null) {
-			directionImpl.setUserName(StringPool.BLANK);
-		}
-		else {
-			directionImpl.setUserName(userName);
-		}
-
-		if (createDate == Long.MIN_VALUE) {
-			directionImpl.setCreateDate(null);
-		}
-		else {
-			directionImpl.setCreateDate(new Date(createDate));
-		}
-
-		if (modifiedDate == Long.MIN_VALUE) {
-			directionImpl.setModifiedDate(null);
-		}
-		else {
-			directionImpl.setModifiedDate(new Date(modifiedDate));
-		}
-
-		directionImpl.setStatus(status);
-		directionImpl.setStatusByUserId(statusByUserId);
-
-		if (statusByUserName == null) {
-			directionImpl.setStatusByUserName(StringPool.BLANK);
-		}
-		else {
-			directionImpl.setStatusByUserName(statusByUserName);
-		}
-
-		if (statusDate == Long.MIN_VALUE) {
-			directionImpl.setStatusDate(null);
-		}
-		else {
-			directionImpl.setStatusDate(new Date(statusDate));
-		}
 
 		if (stopId == null) {
 			directionImpl.setStopId(StringPool.BLANK);
@@ -192,17 +135,6 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		groupId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
-
-		userId = objectInput.readLong();
-		userName = objectInput.readUTF();
-		createDate = objectInput.readLong();
-		modifiedDate = objectInput.readLong();
-
-		status = objectInput.readInt();
-
-		statusByUserId = objectInput.readLong();
-		statusByUserName = objectInput.readUTF();
-		statusDate = objectInput.readLong();
 		stopId = objectInput.readUTF();
 		routeId = objectInput.readUTF();
 		destinationName = objectInput.readUTF();
@@ -223,31 +155,6 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(companyId);
-
-		objectOutput.writeLong(userId);
-
-		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(userName);
-		}
-
-		objectOutput.writeLong(createDate);
-		objectOutput.writeLong(modifiedDate);
-
-		objectOutput.writeInt(status);
-
-		objectOutput.writeLong(statusByUserId);
-
-		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(statusByUserName);
-		}
-
-		objectOutput.writeLong(statusDate);
 
 		if (stopId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -275,14 +182,6 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 	public long directionId;
 	public long groupId;
 	public long companyId;
-	public long userId;
-	public String userName;
-	public long createDate;
-	public long modifiedDate;
-	public int status;
-	public long statusByUserId;
-	public String statusByUserName;
-	public long statusDate;
 	public String stopId;
 	public String routeId;
 	public String destinationName;

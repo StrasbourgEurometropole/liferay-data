@@ -19,21 +19,14 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
-import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.gtfs.model.Direction;
 import eu.strasbourg.service.gtfs.model.DirectionModel;
@@ -42,7 +35,6 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,14 +65,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 			{ "directionId", Types.BIGINT },
 			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
-			{ "userId", Types.BIGINT },
-			{ "userName", Types.VARCHAR },
-			{ "createDate", Types.TIMESTAMP },
-			{ "modifiedDate", Types.TIMESTAMP },
-			{ "status", Types.INTEGER },
-			{ "statusByUserId", Types.BIGINT },
-			{ "statusByUserName", Types.VARCHAR },
-			{ "statusDate", Types.TIMESTAMP },
 			{ "stopId", Types.VARCHAR },
 			{ "routeId", Types.VARCHAR },
 			{ "destinationName", Types.VARCHAR }
@@ -92,20 +76,12 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		TABLE_COLUMNS_MAP.put("directionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("stopId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("routeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("destinationName", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Direction (uuid_ VARCHAR(75) null,directionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,stopId VARCHAR(75) null,routeId VARCHAR(75) null,destinationName VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Direction (uuid_ VARCHAR(75) null,directionId LONG not null primary key,groupId LONG,companyId LONG,stopId VARCHAR(75) null,routeId VARCHAR(75) null,destinationName VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Direction";
 	public static final String ORDER_BY_JPQL = " ORDER BY direction.directionId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Direction.directionId DESC";
@@ -169,14 +145,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		attributes.put("directionId", getDirectionId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("userId", getUserId());
-		attributes.put("userName", getUserName());
-		attributes.put("createDate", getCreateDate());
-		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("status", getStatus());
-		attributes.put("statusByUserId", getStatusByUserId());
-		attributes.put("statusByUserName", getStatusByUserName());
-		attributes.put("statusDate", getStatusDate());
 		attributes.put("stopId", getStopId());
 		attributes.put("routeId", getRouteId());
 		attributes.put("destinationName", getDestinationName());
@@ -211,54 +179,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 		if (companyId != null) {
 			setCompanyId(companyId);
-		}
-
-		Long userId = (Long)attributes.get("userId");
-
-		if (userId != null) {
-			setUserId(userId);
-		}
-
-		String userName = (String)attributes.get("userName");
-
-		if (userName != null) {
-			setUserName(userName);
-		}
-
-		Date createDate = (Date)attributes.get("createDate");
-
-		if (createDate != null) {
-			setCreateDate(createDate);
-		}
-
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
-
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
-		}
-
-		Integer status = (Integer)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
-
-		Long statusByUserId = (Long)attributes.get("statusByUserId");
-
-		if (statusByUserId != null) {
-			setStatusByUserId(statusByUserId);
-		}
-
-		String statusByUserName = (String)attributes.get("statusByUserName");
-
-		if (statusByUserName != null) {
-			setStatusByUserName(statusByUserName);
-		}
-
-		Date statusDate = (Date)attributes.get("statusDate");
-
-		if (statusDate != null) {
-			setStatusDate(statusDate);
 		}
 
 		String stopId = (String)attributes.get("stopId");
@@ -360,134 +280,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 	}
 
 	@Override
-	public long getUserId() {
-		return _userId;
-	}
-
-	@Override
-	public void setUserId(long userId) {
-		_userId = userId;
-	}
-
-	@Override
-	public String getUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
-			return StringPool.BLANK;
-		}
-	}
-
-	@Override
-	public void setUserUuid(String userUuid) {
-	}
-
-	@Override
-	public String getUserName() {
-		if (_userName == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _userName;
-		}
-	}
-
-	@Override
-	public void setUserName(String userName) {
-		_userName = userName;
-	}
-
-	@Override
-	public Date getCreateDate() {
-		return _createDate;
-	}
-
-	@Override
-	public void setCreateDate(Date createDate) {
-		_createDate = createDate;
-	}
-
-	@Override
-	public Date getModifiedDate() {
-		return _modifiedDate;
-	}
-
-	public boolean hasSetModifiedDate() {
-		return _setModifiedDate;
-	}
-
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_setModifiedDate = true;
-
-		_modifiedDate = modifiedDate;
-	}
-
-	@Override
-	public int getStatus() {
-		return _status;
-	}
-
-	@Override
-	public void setStatus(int status) {
-		_status = status;
-	}
-
-	@Override
-	public long getStatusByUserId() {
-		return _statusByUserId;
-	}
-
-	@Override
-	public void setStatusByUserId(long statusByUserId) {
-		_statusByUserId = statusByUserId;
-	}
-
-	@Override
-	public String getStatusByUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
-			return StringPool.BLANK;
-		}
-	}
-
-	@Override
-	public void setStatusByUserUuid(String statusByUserUuid) {
-	}
-
-	@Override
-	public String getStatusByUserName() {
-		if (_statusByUserName == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _statusByUserName;
-		}
-	}
-
-	@Override
-	public void setStatusByUserName(String statusByUserName) {
-		_statusByUserName = statusByUserName;
-	}
-
-	@Override
-	public Date getStatusDate() {
-		return _statusDate;
-	}
-
-	@Override
-	public void setStatusDate(Date statusDate) {
-		_statusDate = statusDate;
-	}
-
-	@Override
 	public String getStopId() {
 		if (_stopId == null) {
 			return StringPool.BLANK;
@@ -532,92 +324,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		_destinationName = destinationName;
 	}
 
-	@Override
-	public StagedModelType getStagedModelType() {
-		return new StagedModelType(PortalUtil.getClassNameId(
-				Direction.class.getName()));
-	}
-
-	@Override
-	public boolean isApproved() {
-		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isDenied() {
-		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isDraft() {
-		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isExpired() {
-		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isInactive() {
-		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isIncomplete() {
-		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isPending() {
-		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isScheduled() {
-		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -653,14 +359,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		directionImpl.setDirectionId(getDirectionId());
 		directionImpl.setGroupId(getGroupId());
 		directionImpl.setCompanyId(getCompanyId());
-		directionImpl.setUserId(getUserId());
-		directionImpl.setUserName(getUserName());
-		directionImpl.setCreateDate(getCreateDate());
-		directionImpl.setModifiedDate(getModifiedDate());
-		directionImpl.setStatus(getStatus());
-		directionImpl.setStatusByUserId(getStatusByUserId());
-		directionImpl.setStatusByUserName(getStatusByUserName());
-		directionImpl.setStatusDate(getStatusDate());
 		directionImpl.setStopId(getStopId());
 		directionImpl.setRouteId(getRouteId());
 		directionImpl.setDestinationName(getDestinationName());
@@ -744,8 +442,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 		directionModelImpl._setOriginalCompanyId = false;
 
-		directionModelImpl._setModifiedDate = false;
-
 		directionModelImpl._columnBitmask = 0;
 	}
 
@@ -766,55 +462,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		directionCacheModel.groupId = getGroupId();
 
 		directionCacheModel.companyId = getCompanyId();
-
-		directionCacheModel.userId = getUserId();
-
-		directionCacheModel.userName = getUserName();
-
-		String userName = directionCacheModel.userName;
-
-		if ((userName != null) && (userName.length() == 0)) {
-			directionCacheModel.userName = null;
-		}
-
-		Date createDate = getCreateDate();
-
-		if (createDate != null) {
-			directionCacheModel.createDate = createDate.getTime();
-		}
-		else {
-			directionCacheModel.createDate = Long.MIN_VALUE;
-		}
-
-		Date modifiedDate = getModifiedDate();
-
-		if (modifiedDate != null) {
-			directionCacheModel.modifiedDate = modifiedDate.getTime();
-		}
-		else {
-			directionCacheModel.modifiedDate = Long.MIN_VALUE;
-		}
-
-		directionCacheModel.status = getStatus();
-
-		directionCacheModel.statusByUserId = getStatusByUserId();
-
-		directionCacheModel.statusByUserName = getStatusByUserName();
-
-		String statusByUserName = directionCacheModel.statusByUserName;
-
-		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
-			directionCacheModel.statusByUserName = null;
-		}
-
-		Date statusDate = getStatusDate();
-
-		if (statusDate != null) {
-			directionCacheModel.statusDate = statusDate.getTime();
-		}
-		else {
-			directionCacheModel.statusDate = Long.MIN_VALUE;
-		}
 
 		directionCacheModel.stopId = getStopId();
 
@@ -845,7 +492,7 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -855,22 +502,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		sb.append(getGroupId());
 		sb.append(", companyId=");
 		sb.append(getCompanyId());
-		sb.append(", userId=");
-		sb.append(getUserId());
-		sb.append(", userName=");
-		sb.append(getUserName());
-		sb.append(", createDate=");
-		sb.append(getCreateDate());
-		sb.append(", modifiedDate=");
-		sb.append(getModifiedDate());
-		sb.append(", status=");
-		sb.append(getStatus());
-		sb.append(", statusByUserId=");
-		sb.append(getStatusByUserId());
-		sb.append(", statusByUserName=");
-		sb.append(getStatusByUserName());
-		sb.append(", statusDate=");
-		sb.append(getStatusDate());
 		sb.append(", stopId=");
 		sb.append(getStopId());
 		sb.append(", routeId=");
@@ -884,7 +515,7 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.gtfs.model.Direction");
@@ -905,38 +536,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		sb.append(
 			"<column><column-name>companyId</column-name><column-value><![CDATA[");
 		sb.append(getCompanyId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userId</column-name><column-value><![CDATA[");
-		sb.append(getUserId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userName</column-name><column-value><![CDATA[");
-		sb.append(getUserName());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>createDate</column-name><column-value><![CDATA[");
-		sb.append(getCreateDate());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
-		sb.append(getModifiedDate());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>status</column-name><column-value><![CDATA[");
-		sb.append(getStatus());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>statusByUserId</column-name><column-value><![CDATA[");
-		sb.append(getStatusByUserId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>statusByUserName</column-name><column-value><![CDATA[");
-		sb.append(getStatusByUserName());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>statusDate</column-name><column-value><![CDATA[");
-		sb.append(getStatusDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>stopId</column-name><column-value><![CDATA[");
@@ -969,15 +568,6 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
-	private long _userId;
-	private String _userName;
-	private Date _createDate;
-	private Date _modifiedDate;
-	private boolean _setModifiedDate;
-	private int _status;
-	private long _statusByUserId;
-	private String _statusByUserName;
-	private Date _statusDate;
 	private String _stopId;
 	private String _routeId;
 	private String _destinationName;

@@ -159,7 +159,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 				0, // Height
 				null); // Priority
 
-		// Réindexe le projet
+		// Réindexe l'entite
 		this.reindex(importHistoric, false);
 	}
 	

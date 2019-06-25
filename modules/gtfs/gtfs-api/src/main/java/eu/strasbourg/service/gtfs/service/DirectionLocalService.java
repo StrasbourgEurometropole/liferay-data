@@ -16,11 +16,8 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -69,10 +67,6 @@ public interface DirectionLocalService extends BaseLocalService,
 	public DynamicQuery dynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		PortletDataContext portletDataContext);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
@@ -95,6 +89,12 @@ public interface DirectionLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Direction addDirection(Direction direction);
+
+	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	public Direction createDirection(ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Creates a new direction with the primary key. Does not add the direction to the database.
@@ -161,6 +161,12 @@ public interface DirectionLocalService extends BaseLocalService,
 		long groupId) throws PortalException;
 
 	/**
+	* Supprime l'entree
+	*/
+	public Direction removeDirection(long directionId)
+		throws PortalException;
+
+	/**
 	* Updates the direction in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param direction the direction
@@ -168,6 +174,15 @@ public interface DirectionLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Direction updateDirection(Direction direction);
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws PortalException
+	* @throws IOException
+	*/
+	public Direction updateDirection(Direction direction, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of directions.
@@ -222,6 +237,12 @@ public interface DirectionLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Direction> getByGroupId(long groupId);
 
 	/**
 	* Returns a range of all the directions.

@@ -16,6 +16,8 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -30,6 +32,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -40,6 +43,7 @@ import eu.strasbourg.service.gtfs.model.Arret;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Arret. Methods of this
@@ -95,6 +99,11 @@ public interface ArretLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Arret addArret(Arret arret);
+
+	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	public Arret createArret(ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new arret with the primary key. Does not add the arret to the database.
@@ -159,6 +168,11 @@ public interface ArretLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Supprime l'entree
+	*/
+	public Arret removeArret(long arretId) throws PortalException;
+
+	/**
 	* Updates the arret in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param arret the arret
@@ -166,6 +180,21 @@ public interface ArretLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Arret updateArret(Arret arret);
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Arret updateArret(Arret arret, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut de l'entree par le framework workflow
+	*/
+	public Arret updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of arrets.
@@ -260,6 +289,18 @@ public interface ArretLocalService extends BaseLocalService,
 	public List<Arret> getArretsByUuidAndCompanyId(java.lang.String uuid,
 		long companyId, int start, int end,
 		OrderByComparator<Arret> orderByComparator);
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à l'entree
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Arret> getByGroupId(long groupId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

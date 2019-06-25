@@ -18,14 +18,11 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
-import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -63,14 +60,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		attributes.put("directionId", getDirectionId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("userId", getUserId());
-		attributes.put("userName", getUserName());
-		attributes.put("createDate", getCreateDate());
-		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("status", getStatus());
-		attributes.put("statusByUserId", getStatusByUserId());
-		attributes.put("statusByUserName", getStatusByUserName());
-		attributes.put("statusDate", getStatusDate());
 		attributes.put("stopId", getStopId());
 		attributes.put("routeId", getRouteId());
 		attributes.put("destinationName", getDestinationName());
@@ -104,54 +93,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 			setCompanyId(companyId);
 		}
 
-		Long userId = (Long)attributes.get("userId");
-
-		if (userId != null) {
-			setUserId(userId);
-		}
-
-		String userName = (String)attributes.get("userName");
-
-		if (userName != null) {
-			setUserName(userName);
-		}
-
-		Date createDate = (Date)attributes.get("createDate");
-
-		if (createDate != null) {
-			setCreateDate(createDate);
-		}
-
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
-
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
-		}
-
-		Integer status = (Integer)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
-
-		Long statusByUserId = (Long)attributes.get("statusByUserId");
-
-		if (statusByUserId != null) {
-			setStatusByUserId(statusByUserId);
-		}
-
-		String statusByUserName = (String)attributes.get("statusByUserName");
-
-		if (statusByUserName != null) {
-			setStatusByUserName(statusByUserName);
-		}
-
-		Date statusDate = (Date)attributes.get("statusDate");
-
-		if (statusDate != null) {
-			setStatusDate(statusDate);
-		}
-
 		String stopId = (String)attributes.get("stopId");
 
 		if (stopId != null) {
@@ -171,39 +112,9 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		}
 	}
 
-	/**
-	* Returns <code>true</code> if this direction is approved.
-	*
-	* @return <code>true</code> if this direction is approved; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isApproved() {
-		return _direction.isApproved();
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _direction.isCachedModel();
-	}
-
-	/**
-	* Returns <code>true</code> if this direction is denied.
-	*
-	* @return <code>true</code> if this direction is denied; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isDenied() {
-		return _direction.isDenied();
-	}
-
-	/**
-	* Returns <code>true</code> if this direction is a draft.
-	*
-	* @return <code>true</code> if this direction is a draft; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isDraft() {
-		return _direction.isDraft();
 	}
 
 	@Override
@@ -211,59 +122,9 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		return _direction.isEscapedModel();
 	}
 
-	/**
-	* Returns <code>true</code> if this direction is expired.
-	*
-	* @return <code>true</code> if this direction is expired; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isExpired() {
-		return _direction.isExpired();
-	}
-
-	/**
-	* Returns <code>true</code> if this direction is inactive.
-	*
-	* @return <code>true</code> if this direction is inactive; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isInactive() {
-		return _direction.isInactive();
-	}
-
-	/**
-	* Returns <code>true</code> if this direction is incomplete.
-	*
-	* @return <code>true</code> if this direction is incomplete; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isIncomplete() {
-		return _direction.isIncomplete();
-	}
-
 	@Override
 	public boolean isNew() {
 		return _direction.isNew();
-	}
-
-	/**
-	* Returns <code>true</code> if this direction is pending.
-	*
-	* @return <code>true</code> if this direction is pending; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isPending() {
-		return _direction.isPending();
-	}
-
-	/**
-	* Returns <code>true</code> if this direction is scheduled.
-	*
-	* @return <code>true</code> if this direction is scheduled; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isScheduled() {
-		return _direction.isScheduled();
 	}
 
 	@Override
@@ -289,16 +150,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	@Override
 	public int compareTo(eu.strasbourg.service.gtfs.model.Direction direction) {
 		return _direction.compareTo(direction);
-	}
-
-	/**
-	* Returns the status of this direction.
-	*
-	* @return the status of this direction
-	*/
-	@Override
-	public int getStatus() {
-		return _direction.getStatus();
 	}
 
 	@Override
@@ -337,26 +188,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	}
 
 	/**
-	* Returns the status by user name of this direction.
-	*
-	* @return the status by user name of this direction
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _direction.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this direction.
-	*
-	* @return the status by user uuid of this direction
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _direction.getStatusByUserUuid();
-	}
-
-	/**
 	* Returns the stop ID of this direction.
 	*
 	* @return the stop ID of this direction
@@ -364,26 +195,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	@Override
 	public java.lang.String getStopId() {
 		return _direction.getStopId();
-	}
-
-	/**
-	* Returns the user name of this direction.
-	*
-	* @return the user name of this direction
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _direction.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this direction.
-	*
-	* @return the user uuid of this direction
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _direction.getUserUuid();
 	}
 
 	/**
@@ -404,36 +215,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _direction.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this direction.
-	*
-	* @return the create date of this direction
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _direction.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this direction.
-	*
-	* @return the modified date of this direction
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _direction.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this direction.
-	*
-	* @return the status date of this direction
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _direction.getStatusDate();
 	}
 
 	/**
@@ -476,26 +257,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		return _direction.getPrimaryKey();
 	}
 
-	/**
-	* Returns the status by user ID of this direction.
-	*
-	* @return the status by user ID of this direction
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _direction.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this direction.
-	*
-	* @return the user ID of this direction
-	*/
-	@Override
-	public long getUserId() {
-		return _direction.getUserId();
-	}
-
 	@Override
 	public void persist() {
 		_direction.persist();
@@ -514,16 +275,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_direction.setCompanyId(companyId);
-	}
-
-	/**
-	* Sets the create date of this direction.
-	*
-	* @param createDate the create date of this direction
-	*/
-	@Override
-	public void setCreateDate(Date createDate) {
-		_direction.setCreateDate(createDate);
 	}
 
 	/**
@@ -572,16 +323,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		_direction.setGroupId(groupId);
 	}
 
-	/**
-	* Sets the modified date of this direction.
-	*
-	* @param modifiedDate the modified date of this direction
-	*/
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_direction.setModifiedDate(modifiedDate);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_direction.setNew(n);
@@ -613,56 +354,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	}
 
 	/**
-	* Sets the status of this direction.
-	*
-	* @param status the status of this direction
-	*/
-	@Override
-	public void setStatus(int status) {
-		_direction.setStatus(status);
-	}
-
-	/**
-	* Sets the status by user ID of this direction.
-	*
-	* @param statusByUserId the status by user ID of this direction
-	*/
-	@Override
-	public void setStatusByUserId(long statusByUserId) {
-		_direction.setStatusByUserId(statusByUserId);
-	}
-
-	/**
-	* Sets the status by user name of this direction.
-	*
-	* @param statusByUserName the status by user name of this direction
-	*/
-	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
-		_direction.setStatusByUserName(statusByUserName);
-	}
-
-	/**
-	* Sets the status by user uuid of this direction.
-	*
-	* @param statusByUserUuid the status by user uuid of this direction
-	*/
-	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
-		_direction.setStatusByUserUuid(statusByUserUuid);
-	}
-
-	/**
-	* Sets the status date of this direction.
-	*
-	* @param statusDate the status date of this direction
-	*/
-	@Override
-	public void setStatusDate(Date statusDate) {
-		_direction.setStatusDate(statusDate);
-	}
-
-	/**
 	* Sets the stop ID of this direction.
 	*
 	* @param stopId the stop ID of this direction
@@ -670,36 +361,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	@Override
 	public void setStopId(java.lang.String stopId) {
 		_direction.setStopId(stopId);
-	}
-
-	/**
-	* Sets the user ID of this direction.
-	*
-	* @param userId the user ID of this direction
-	*/
-	@Override
-	public void setUserId(long userId) {
-		_direction.setUserId(userId);
-	}
-
-	/**
-	* Sets the user name of this direction.
-	*
-	* @param userName the user name of this direction
-	*/
-	@Override
-	public void setUserName(java.lang.String userName) {
-		_direction.setUserName(userName);
-	}
-
-	/**
-	* Sets the user uuid of this direction.
-	*
-	* @param userUuid the user uuid of this direction
-	*/
-	@Override
-	public void setUserUuid(java.lang.String userUuid) {
-		_direction.setUserUuid(userUuid);
 	}
 
 	/**
@@ -729,11 +390,6 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		}
 
 		return false;
-	}
-
-	@Override
-	public StagedModelType getStagedModelType() {
-		return _direction.getStagedModelType();
 	}
 
 	@Override

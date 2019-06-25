@@ -25,8 +25,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
@@ -50,7 +48,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2234,28 +2231,6 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 			direction.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
-
-		Date now = new Date();
-
-		if (isNew && (direction.getCreateDate() == null)) {
-			if (serviceContext == null) {
-				direction.setCreateDate(now);
-			}
-			else {
-				direction.setCreateDate(serviceContext.getCreateDate(now));
-			}
-		}
-
-		if (!directionModelImpl.hasSetModifiedDate()) {
-			if (serviceContext == null) {
-				direction.setModifiedDate(now);
-			}
-			else {
-				direction.setModifiedDate(serviceContext.getModifiedDate(now));
-			}
-		}
-
 		Session session = null;
 
 		try {
@@ -2392,14 +2367,6 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 		directionImpl.setDirectionId(direction.getDirectionId());
 		directionImpl.setGroupId(direction.getGroupId());
 		directionImpl.setCompanyId(direction.getCompanyId());
-		directionImpl.setUserId(direction.getUserId());
-		directionImpl.setUserName(direction.getUserName());
-		directionImpl.setCreateDate(direction.getCreateDate());
-		directionImpl.setModifiedDate(direction.getModifiedDate());
-		directionImpl.setStatus(direction.getStatus());
-		directionImpl.setStatusByUserId(direction.getStatusByUserId());
-		directionImpl.setStatusByUserName(direction.getStatusByUserName());
-		directionImpl.setStatusDate(direction.getStatusDate());
 		directionImpl.setStopId(direction.getStopId());
 		directionImpl.setRouteId(direction.getRouteId());
 		directionImpl.setDestinationName(direction.getDestinationName());

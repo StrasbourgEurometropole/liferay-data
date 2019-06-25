@@ -44,12 +44,6 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
-		return _directionLocalService.getExportActionableDynamicQuery(portletDataContext);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
 		return _directionLocalService.getIndexableActionableDynamicQuery();
 	}
@@ -81,6 +75,16 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	public eu.strasbourg.service.gtfs.model.Direction addDirection(
 		eu.strasbourg.service.gtfs.model.Direction direction) {
 		return _directionLocalService.addDirection(direction);
+	}
+
+	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Direction createDirection(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _directionLocalService.createDirection(sc);
 	}
 
 	/**
@@ -171,6 +175,16 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	}
 
 	/**
+	* Supprime l'entree
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Direction removeDirection(
+		long directionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _directionLocalService.removeDirection(directionId);
+	}
+
+	/**
 	* Updates the direction in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param direction the direction
@@ -180,6 +194,20 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	public eu.strasbourg.service.gtfs.model.Direction updateDirection(
 		eu.strasbourg.service.gtfs.model.Direction direction) {
 		return _directionLocalService.updateDirection(direction);
+	}
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws PortalException
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Direction updateDirection(
+		eu.strasbourg.service.gtfs.model.Direction direction,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _directionLocalService.updateDirection(direction, sc);
 	}
 
 	/**
@@ -253,6 +281,15 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _directionLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getByGroupId(
+		long groupId) {
+		return _directionLocalService.getByGroupId(groupId);
 	}
 
 	/**

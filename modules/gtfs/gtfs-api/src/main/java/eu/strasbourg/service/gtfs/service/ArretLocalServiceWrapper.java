@@ -83,6 +83,16 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 	}
 
 	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Arret createArret(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _arretLocalService.createArret(sc);
+	}
+
+	/**
 	* Creates a new arret with the primary key. Does not add the arret to the database.
 	*
 	* @param arretId the primary key for the new arret
@@ -165,6 +175,15 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 	}
 
 	/**
+	* Supprime l'entree
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Arret removeArret(long arretId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _arretLocalService.removeArret(arretId);
+	}
+
+	/**
 	* Updates the arret in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param arret the arret
@@ -174,6 +193,32 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 	public eu.strasbourg.service.gtfs.model.Arret updateArret(
 		eu.strasbourg.service.gtfs.model.Arret arret) {
 		return _arretLocalService.updateArret(arret);
+	}
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Arret updateArret(
+		eu.strasbourg.service.gtfs.model.Arret arret,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _arretLocalService.updateArret(arret, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entree par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Arret updateStatus(long userId,
+		long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _arretLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
 	}
 
 	/**
@@ -295,6 +340,24 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.gtfs.model.Arret> orderByComparator) {
 		return _arretLocalService.getArretsByUuidAndCompanyId(uuid, companyId,
 			start, end, orderByComparator);
+	}
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à l'entree
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _arretLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Arret> getByGroupId(
+		long groupId) {
+		return _arretLocalService.getByGroupId(groupId);
 	}
 
 	/**

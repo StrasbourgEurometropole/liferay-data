@@ -16,6 +16,8 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -30,6 +32,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -40,6 +43,7 @@ import eu.strasbourg.service.gtfs.model.Ligne;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Ligne. Methods of this
@@ -95,6 +99,11 @@ public interface LigneLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Ligne addLigne(Ligne ligne);
+
+	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	public Ligne createLigne(ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new ligne with the primary key. Does not add the ligne to the database.
@@ -159,6 +168,11 @@ public interface LigneLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Supprime l'entree
+	*/
+	public Ligne removeLigne(long ligneId) throws PortalException;
+
+	/**
 	* Updates the ligne in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param ligne the ligne
@@ -166,6 +180,21 @@ public interface LigneLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Ligne updateLigne(Ligne ligne);
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Ligne updateLigne(Ligne ligne, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut de l'entree par le framework workflow
+	*/
+	public Ligne updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of lignes.
@@ -220,6 +249,18 @@ public interface LigneLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à l'entree
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Ligne> getByGroupId(long groupId);
 
 	/**
 	* Returns a range of all the lignes.

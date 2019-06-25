@@ -107,16 +107,6 @@
 		
 		<!-- Audit fields -->
 		<column name="companyId" type="long" />
-		<column name="userId" type="long" />
-		<column name="userName" type="String" />
-		<column name="createDate" type="Date" />
-		<column name="modifiedDate" type="Date" />
-
-		<!-- Workflow fields -->
-		<column name="status" type="int" />
-		<column name="statusByUserId" type="long" />
-		<column name="statusByUserName" type="String" />
-		<column name="statusDate" type="Date" />
 		
 		<!-- Other fields -->
 		<column name="stopId" type="String" />

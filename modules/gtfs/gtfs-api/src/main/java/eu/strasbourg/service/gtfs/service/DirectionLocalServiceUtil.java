@@ -49,11 +49,6 @@ public class DirectionLocalServiceUtil {
 		return getService().dynamicQuery();
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
-		return getService().getExportActionableDynamicQuery(portletDataContext);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
 		return getService().getIndexableActionableDynamicQuery();
 	}
@@ -82,6 +77,15 @@ public class DirectionLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.Direction addDirection(
 		eu.strasbourg.service.gtfs.model.Direction direction) {
 		return getService().addDirection(direction);
+	}
+
+	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.Direction createDirection(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createDirection(sc);
 	}
 
 	/**
@@ -164,6 +168,15 @@ public class DirectionLocalServiceUtil {
 	}
 
 	/**
+	* Supprime l'entree
+	*/
+	public static eu.strasbourg.service.gtfs.model.Direction removeDirection(
+		long directionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeDirection(directionId);
+	}
+
+	/**
 	* Updates the direction in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param direction the direction
@@ -172,6 +185,19 @@ public class DirectionLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.Direction updateDirection(
 		eu.strasbourg.service.gtfs.model.Direction direction) {
 		return getService().updateDirection(direction);
+	}
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws PortalException
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.Direction updateDirection(
+		eu.strasbourg.service.gtfs.model.Direction direction,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateDirection(direction, sc);
 	}
 
 	/**
@@ -240,6 +266,14 @@ public class DirectionLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction> getByGroupId(
+		long groupId) {
+		return getService().getByGroupId(groupId);
 	}
 
 	/**

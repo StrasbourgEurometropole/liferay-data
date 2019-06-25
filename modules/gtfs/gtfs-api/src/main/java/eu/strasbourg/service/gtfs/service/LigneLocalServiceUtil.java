@@ -85,6 +85,15 @@ public class LigneLocalServiceUtil {
 	}
 
 	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.gtfs.model.Ligne createLigne(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createLigne(sc);
+	}
+
+	/**
 	* Creates a new ligne with the primary key. Does not add the ligne to the database.
 	*
 	* @param ligneId the primary key for the new ligne
@@ -163,6 +172,15 @@ public class LigneLocalServiceUtil {
 	}
 
 	/**
+	* Supprime l'entree
+	*/
+	public static eu.strasbourg.service.gtfs.model.Ligne removeLigne(
+		long ligneId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeLigne(ligneId);
+	}
+
+	/**
 	* Updates the ligne in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param ligne the ligne
@@ -171,6 +189,30 @@ public class LigneLocalServiceUtil {
 	public static eu.strasbourg.service.gtfs.model.Ligne updateLigne(
 		eu.strasbourg.service.gtfs.model.Ligne ligne) {
 		return getService().updateLigne(ligne);
+	}
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public static eu.strasbourg.service.gtfs.model.Ligne updateLigne(
+		eu.strasbourg.service.gtfs.model.Ligne ligne,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateLigne(ligne, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entree par le framework workflow
+	*/
+	public static eu.strasbourg.service.gtfs.model.Ligne updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
 	}
 
 	/**
@@ -239,6 +281,22 @@ public class LigneLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à l'entree
+	*/
+	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return getService().getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Ligne> getByGroupId(
+		long groupId) {
+		return getService().getByGroupId(groupId);
 	}
 
 	/**

@@ -83,6 +83,16 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	}
 
 	/**
+	* Crée une entree avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Ligne createLigne(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _ligneLocalService.createLigne(sc);
+	}
+
+	/**
 	* Creates a new ligne with the primary key. Does not add the ligne to the database.
 	*
 	* @param ligneId the primary key for the new ligne
@@ -165,6 +175,15 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	}
 
 	/**
+	* Supprime l'entree
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Ligne removeLigne(long ligneId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _ligneLocalService.removeLigne(ligneId);
+	}
+
+	/**
 	* Updates the ligne in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param ligne the ligne
@@ -174,6 +193,32 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	public eu.strasbourg.service.gtfs.model.Ligne updateLigne(
 		eu.strasbourg.service.gtfs.model.Ligne ligne) {
 		return _ligneLocalService.updateLigne(ligne);
+	}
+
+	/**
+	* Met à jour une entree et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Ligne updateLigne(
+		eu.strasbourg.service.gtfs.model.Ligne ligne,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _ligneLocalService.updateLigne(ligne, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entree par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Ligne updateStatus(long userId,
+		long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _ligneLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
 	}
 
 	/**
@@ -247,6 +292,24 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _ligneLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à l'entree
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _ligneLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne toutes les entrees d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Ligne> getByGroupId(
+		long groupId) {
+		return _ligneLocalService.getByGroupId(groupId);
 	}
 
 	/**
