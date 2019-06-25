@@ -99,8 +99,10 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long DIRECTIONID_COLUMN_BITMASK = 8L;
+	public static final long ROUTEID_COLUMN_BITMASK = 4L;
+	public static final long STOPID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long DIRECTIONID_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Direction"));
 
@@ -291,7 +293,17 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 	@Override
 	public void setStopId(String stopId) {
+		_columnBitmask |= STOPID_COLUMN_BITMASK;
+
+		if (_originalStopId == null) {
+			_originalStopId = _stopId;
+		}
+
 		_stopId = stopId;
+	}
+
+	public String getOriginalStopId() {
+		return GetterUtil.getString(_originalStopId);
 	}
 
 	@Override
@@ -306,7 +318,17 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 	@Override
 	public void setRouteId(String routeId) {
+		_columnBitmask |= ROUTEID_COLUMN_BITMASK;
+
+		if (_originalRouteId == null) {
+			_originalRouteId = _routeId;
+		}
+
 		_routeId = routeId;
+	}
+
+	public String getOriginalRouteId() {
+		return GetterUtil.getString(_originalRouteId);
 	}
 
 	@Override
@@ -442,6 +464,10 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 		directionModelImpl._setOriginalCompanyId = false;
 
+		directionModelImpl._originalStopId = directionModelImpl._stopId;
+
+		directionModelImpl._originalRouteId = directionModelImpl._routeId;
+
 		directionModelImpl._columnBitmask = 0;
 	}
 
@@ -569,7 +595,9 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
 	private String _stopId;
+	private String _originalStopId;
 	private String _routeId;
+	private String _originalRouteId;
 	private String _destinationName;
 	private long _columnBitmask;
 	private Direction _escapedModel;

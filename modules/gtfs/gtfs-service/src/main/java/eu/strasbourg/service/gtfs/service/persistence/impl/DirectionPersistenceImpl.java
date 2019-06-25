@@ -1972,6 +1972,1094 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "direction.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STOPID = new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStopId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID =
+		new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStopId",
+			new String[] { String.class.getName() },
+			DirectionModelImpl.STOPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_STOPID = new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the directions where stopId = &#63;.
+	 *
+	 * @param stopId the stop ID
+	 * @return the matching directions
+	 */
+	@Override
+	public List<Direction> findByStopId(String stopId) {
+		return findByStopId(stopId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the directions where stopId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DirectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param stopId the stop ID
+	 * @param start the lower bound of the range of directions
+	 * @param end the upper bound of the range of directions (not inclusive)
+	 * @return the range of matching directions
+	 */
+	@Override
+	public List<Direction> findByStopId(String stopId, int start, int end) {
+		return findByStopId(stopId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the directions where stopId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DirectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param stopId the stop ID
+	 * @param start the lower bound of the range of directions
+	 * @param end the upper bound of the range of directions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching directions
+	 */
+	@Override
+	public List<Direction> findByStopId(String stopId, int start, int end,
+		OrderByComparator<Direction> orderByComparator) {
+		return findByStopId(stopId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the directions where stopId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DirectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param stopId the stop ID
+	 * @param start the lower bound of the range of directions
+	 * @param end the upper bound of the range of directions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching directions
+	 */
+	@Override
+	public List<Direction> findByStopId(String stopId, int start, int end,
+		OrderByComparator<Direction> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID;
+			finderArgs = new Object[] { stopId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STOPID;
+			finderArgs = new Object[] { stopId, start, end, orderByComparator };
+		}
+
+		List<Direction> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Direction>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Direction direction : list) {
+					if (!Objects.equals(stopId, direction.getStopId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_DIRECTION_WHERE);
+
+			boolean bindStopId = false;
+
+			if (stopId == null) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_1);
+			}
+			else if (stopId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_3);
+			}
+			else {
+				bindStopId = true;
+
+				query.append(_FINDER_COLUMN_STOPID_STOPID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(DirectionModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStopId) {
+					qPos.add(stopId);
+				}
+
+				if (!pagination) {
+					list = (List<Direction>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Direction>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first direction in the ordered set where stopId = &#63;.
+	 *
+	 * @param stopId the stop ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching direction
+	 * @throws NoSuchDirectionException if a matching direction could not be found
+	 */
+	@Override
+	public Direction findByStopId_First(String stopId,
+		OrderByComparator<Direction> orderByComparator)
+		throws NoSuchDirectionException {
+		Direction direction = fetchByStopId_First(stopId, orderByComparator);
+
+		if (direction != null) {
+			return direction;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("stopId=");
+		msg.append(stopId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchDirectionException(msg.toString());
+	}
+
+	/**
+	 * Returns the first direction in the ordered set where stopId = &#63;.
+	 *
+	 * @param stopId the stop ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching direction, or <code>null</code> if a matching direction could not be found
+	 */
+	@Override
+	public Direction fetchByStopId_First(String stopId,
+		OrderByComparator<Direction> orderByComparator) {
+		List<Direction> list = findByStopId(stopId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last direction in the ordered set where stopId = &#63;.
+	 *
+	 * @param stopId the stop ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching direction
+	 * @throws NoSuchDirectionException if a matching direction could not be found
+	 */
+	@Override
+	public Direction findByStopId_Last(String stopId,
+		OrderByComparator<Direction> orderByComparator)
+		throws NoSuchDirectionException {
+		Direction direction = fetchByStopId_Last(stopId, orderByComparator);
+
+		if (direction != null) {
+			return direction;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("stopId=");
+		msg.append(stopId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchDirectionException(msg.toString());
+	}
+
+	/**
+	 * Returns the last direction in the ordered set where stopId = &#63;.
+	 *
+	 * @param stopId the stop ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching direction, or <code>null</code> if a matching direction could not be found
+	 */
+	@Override
+	public Direction fetchByStopId_Last(String stopId,
+		OrderByComparator<Direction> orderByComparator) {
+		int count = countByStopId(stopId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Direction> list = findByStopId(stopId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the directions before and after the current direction in the ordered set where stopId = &#63;.
+	 *
+	 * @param directionId the primary key of the current direction
+	 * @param stopId the stop ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next direction
+	 * @throws NoSuchDirectionException if a direction with the primary key could not be found
+	 */
+	@Override
+	public Direction[] findByStopId_PrevAndNext(long directionId,
+		String stopId, OrderByComparator<Direction> orderByComparator)
+		throws NoSuchDirectionException {
+		Direction direction = findByPrimaryKey(directionId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Direction[] array = new DirectionImpl[3];
+
+			array[0] = getByStopId_PrevAndNext(session, direction, stopId,
+					orderByComparator, true);
+
+			array[1] = direction;
+
+			array[2] = getByStopId_PrevAndNext(session, direction, stopId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Direction getByStopId_PrevAndNext(Session session,
+		Direction direction, String stopId,
+		OrderByComparator<Direction> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_DIRECTION_WHERE);
+
+		boolean bindStopId = false;
+
+		if (stopId == null) {
+			query.append(_FINDER_COLUMN_STOPID_STOPID_1);
+		}
+		else if (stopId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_STOPID_STOPID_3);
+		}
+		else {
+			bindStopId = true;
+
+			query.append(_FINDER_COLUMN_STOPID_STOPID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(DirectionModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindStopId) {
+			qPos.add(stopId);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(direction);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Direction> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the directions where stopId = &#63; from the database.
+	 *
+	 * @param stopId the stop ID
+	 */
+	@Override
+	public void removeByStopId(String stopId) {
+		for (Direction direction : findByStopId(stopId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(direction);
+		}
+	}
+
+	/**
+	 * Returns the number of directions where stopId = &#63;.
+	 *
+	 * @param stopId the stop ID
+	 * @return the number of matching directions
+	 */
+	@Override
+	public int countByStopId(String stopId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_STOPID;
+
+		Object[] finderArgs = new Object[] { stopId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_DIRECTION_WHERE);
+
+			boolean bindStopId = false;
+
+			if (stopId == null) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_1);
+			}
+			else if (stopId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_3);
+			}
+			else {
+				bindStopId = true;
+
+				query.append(_FINDER_COLUMN_STOPID_STOPID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStopId) {
+					qPos.add(stopId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_STOPID_STOPID_1 = "direction.stopId IS NULL";
+	private static final String _FINDER_COLUMN_STOPID_STOPID_2 = "direction.stopId = ?";
+	private static final String _FINDER_COLUMN_STOPID_STOPID_3 = "(direction.stopId IS NULL OR direction.stopId = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID = new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRouteId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID =
+		new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
+			new String[] { String.class.getName() },
+			DirectionModelImpl.ROUTEID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ROUTEID = new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the directions where routeId = &#63;.
+	 *
+	 * @param routeId the route ID
+	 * @return the matching directions
+	 */
+	@Override
+	public List<Direction> findByRouteId(String routeId) {
+		return findByRouteId(routeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the directions where routeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DirectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param routeId the route ID
+	 * @param start the lower bound of the range of directions
+	 * @param end the upper bound of the range of directions (not inclusive)
+	 * @return the range of matching directions
+	 */
+	@Override
+	public List<Direction> findByRouteId(String routeId, int start, int end) {
+		return findByRouteId(routeId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the directions where routeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DirectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param routeId the route ID
+	 * @param start the lower bound of the range of directions
+	 * @param end the upper bound of the range of directions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching directions
+	 */
+	@Override
+	public List<Direction> findByRouteId(String routeId, int start, int end,
+		OrderByComparator<Direction> orderByComparator) {
+		return findByRouteId(routeId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the directions where routeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DirectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param routeId the route ID
+	 * @param start the lower bound of the range of directions
+	 * @param end the upper bound of the range of directions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching directions
+	 */
+	@Override
+	public List<Direction> findByRouteId(String routeId, int start, int end,
+		OrderByComparator<Direction> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID;
+			finderArgs = new Object[] { routeId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID;
+			finderArgs = new Object[] { routeId, start, end, orderByComparator };
+		}
+
+		List<Direction> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Direction>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Direction direction : list) {
+					if (!Objects.equals(routeId, direction.getRouteId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_DIRECTION_WHERE);
+
+			boolean bindRouteId = false;
+
+			if (routeId == null) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_1);
+			}
+			else if (routeId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_3);
+			}
+			else {
+				bindRouteId = true;
+
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(DirectionModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRouteId) {
+					qPos.add(routeId);
+				}
+
+				if (!pagination) {
+					list = (List<Direction>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Direction>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first direction in the ordered set where routeId = &#63;.
+	 *
+	 * @param routeId the route ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching direction
+	 * @throws NoSuchDirectionException if a matching direction could not be found
+	 */
+	@Override
+	public Direction findByRouteId_First(String routeId,
+		OrderByComparator<Direction> orderByComparator)
+		throws NoSuchDirectionException {
+		Direction direction = fetchByRouteId_First(routeId, orderByComparator);
+
+		if (direction != null) {
+			return direction;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("routeId=");
+		msg.append(routeId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchDirectionException(msg.toString());
+	}
+
+	/**
+	 * Returns the first direction in the ordered set where routeId = &#63;.
+	 *
+	 * @param routeId the route ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching direction, or <code>null</code> if a matching direction could not be found
+	 */
+	@Override
+	public Direction fetchByRouteId_First(String routeId,
+		OrderByComparator<Direction> orderByComparator) {
+		List<Direction> list = findByRouteId(routeId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last direction in the ordered set where routeId = &#63;.
+	 *
+	 * @param routeId the route ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching direction
+	 * @throws NoSuchDirectionException if a matching direction could not be found
+	 */
+	@Override
+	public Direction findByRouteId_Last(String routeId,
+		OrderByComparator<Direction> orderByComparator)
+		throws NoSuchDirectionException {
+		Direction direction = fetchByRouteId_Last(routeId, orderByComparator);
+
+		if (direction != null) {
+			return direction;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("routeId=");
+		msg.append(routeId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchDirectionException(msg.toString());
+	}
+
+	/**
+	 * Returns the last direction in the ordered set where routeId = &#63;.
+	 *
+	 * @param routeId the route ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching direction, or <code>null</code> if a matching direction could not be found
+	 */
+	@Override
+	public Direction fetchByRouteId_Last(String routeId,
+		OrderByComparator<Direction> orderByComparator) {
+		int count = countByRouteId(routeId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Direction> list = findByRouteId(routeId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the directions before and after the current direction in the ordered set where routeId = &#63;.
+	 *
+	 * @param directionId the primary key of the current direction
+	 * @param routeId the route ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next direction
+	 * @throws NoSuchDirectionException if a direction with the primary key could not be found
+	 */
+	@Override
+	public Direction[] findByRouteId_PrevAndNext(long directionId,
+		String routeId, OrderByComparator<Direction> orderByComparator)
+		throws NoSuchDirectionException {
+		Direction direction = findByPrimaryKey(directionId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Direction[] array = new DirectionImpl[3];
+
+			array[0] = getByRouteId_PrevAndNext(session, direction, routeId,
+					orderByComparator, true);
+
+			array[1] = direction;
+
+			array[2] = getByRouteId_PrevAndNext(session, direction, routeId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Direction getByRouteId_PrevAndNext(Session session,
+		Direction direction, String routeId,
+		OrderByComparator<Direction> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_DIRECTION_WHERE);
+
+		boolean bindRouteId = false;
+
+		if (routeId == null) {
+			query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_1);
+		}
+		else if (routeId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_3);
+		}
+		else {
+			bindRouteId = true;
+
+			query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(DirectionModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindRouteId) {
+			qPos.add(routeId);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(direction);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Direction> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the directions where routeId = &#63; from the database.
+	 *
+	 * @param routeId the route ID
+	 */
+	@Override
+	public void removeByRouteId(String routeId) {
+		for (Direction direction : findByRouteId(routeId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(direction);
+		}
+	}
+
+	/**
+	 * Returns the number of directions where routeId = &#63;.
+	 *
+	 * @param routeId the route ID
+	 * @return the number of matching directions
+	 */
+	@Override
+	public int countByRouteId(String routeId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ROUTEID;
+
+		Object[] finderArgs = new Object[] { routeId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_DIRECTION_WHERE);
+
+			boolean bindRouteId = false;
+
+			if (routeId == null) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_1);
+			}
+			else if (routeId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_3);
+			}
+			else {
+				bindRouteId = true;
+
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRouteId) {
+					qPos.add(routeId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTEID_1 = "direction.routeId IS NULL";
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTEID_2 = "direction.routeId = ?";
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTEID_3 = "(direction.routeId IS NULL OR direction.routeId = '')";
 
 	public DirectionPersistenceImpl() {
 		setModelClass(Direction.class);
@@ -2280,6 +3368,18 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
 				args);
 
+			args = new Object[] { directionModelImpl.getStopId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID,
+				args);
+
+			args = new Object[] { directionModelImpl.getRouteId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -2338,6 +3438,40 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
+			}
+
+			if ((directionModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						directionModelImpl.getOriginalStopId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID,
+					args);
+
+				args = new Object[] { directionModelImpl.getStopId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID,
+					args);
+			}
+
+			if ((directionModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						directionModelImpl.getOriginalRouteId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
+					args);
+
+				args = new Object[] { directionModelImpl.getRouteId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
 					args);
 			}
 		}

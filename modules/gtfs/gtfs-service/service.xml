@@ -79,7 +79,6 @@
 		<column name="longitude" type="String" />
 		<column name="type" type="String" />
 		
-		
 		<!-- Order -->
 		<order by="desc">
 			<order-column name="arretId" />
@@ -88,6 +87,9 @@
 		<!-- Finder methods -->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="StopId" return-type="Arret">
+			<finder-column name="stopId" />
 		</finder>
 
 		<!-- References -->
@@ -117,10 +119,16 @@
 		<order by="desc">
 			<order-column name="directionId" />
 		</order>
-
+		
 		<!-- Finder methods -->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="StopId" return-type="Collection">
+			<finder-column name="stopId" />
+		</finder>
+		<finder name="RouteId" return-type="Collection">
+			<finder-column name="routeId" />
 		</finder>
 		
 	</entity>
@@ -161,6 +169,9 @@
 		<!-- Finder methods -->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="RouteId" return-type="Ligne">
+			<finder-column name="routeId" />
 		</finder>
 
 		<!-- References -->

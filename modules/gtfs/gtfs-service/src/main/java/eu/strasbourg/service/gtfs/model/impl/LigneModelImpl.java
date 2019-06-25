@@ -126,8 +126,9 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long LIGNEID_COLUMN_BITMASK = 8L;
+	public static final long ROUTEID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long LIGNEID_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Ligne"));
 
@@ -516,7 +517,17 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 	@Override
 	public void setRouteId(String routeId) {
+		_columnBitmask |= ROUTEID_COLUMN_BITMASK;
+
+		if (_originalRouteId == null) {
+			_originalRouteId = _routeId;
+		}
+
 		_routeId = routeId;
+	}
+
+	public String getOriginalRouteId() {
+		return GetterUtil.getString(_originalRouteId);
 	}
 
 	@Override
@@ -795,6 +806,8 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 		ligneModelImpl._setModifiedDate = false;
 
+		ligneModelImpl._originalRouteId = ligneModelImpl._routeId;
+
 		ligneModelImpl._columnBitmask = 0;
 	}
 
@@ -1056,6 +1069,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _routeId;
+	private String _originalRouteId;
 	private String _shortName;
 	private String _title;
 	private String _type;

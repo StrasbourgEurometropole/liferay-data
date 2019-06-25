@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1961,6 +1962,248 @@ public class ArretPersistenceImpl extends BasePersistenceImpl<Arret>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "arret.groupId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_STOPID = new FinderPath(ArretModelImpl.ENTITY_CACHE_ENABLED,
+			ArretModelImpl.FINDER_CACHE_ENABLED, ArretImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByStopId",
+			new String[] { String.class.getName() },
+			ArretModelImpl.STOPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_STOPID = new FinderPath(ArretModelImpl.ENTITY_CACHE_ENABLED,
+			ArretModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the arret where stopId = &#63; or throws a {@link NoSuchArretException} if it could not be found.
+	 *
+	 * @param stopId the stop ID
+	 * @return the matching arret
+	 * @throws NoSuchArretException if a matching arret could not be found
+	 */
+	@Override
+	public Arret findByStopId(String stopId) throws NoSuchArretException {
+		Arret arret = fetchByStopId(stopId);
+
+		if (arret == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("stopId=");
+			msg.append(stopId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchArretException(msg.toString());
+		}
+
+		return arret;
+	}
+
+	/**
+	 * Returns the arret where stopId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param stopId the stop ID
+	 * @return the matching arret, or <code>null</code> if a matching arret could not be found
+	 */
+	@Override
+	public Arret fetchByStopId(String stopId) {
+		return fetchByStopId(stopId, true);
+	}
+
+	/**
+	 * Returns the arret where stopId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param stopId the stop ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching arret, or <code>null</code> if a matching arret could not be found
+	 */
+	@Override
+	public Arret fetchByStopId(String stopId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { stopId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_STOPID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Arret) {
+			Arret arret = (Arret)result;
+
+			if (!Objects.equals(stopId, arret.getStopId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_ARRET_WHERE);
+
+			boolean bindStopId = false;
+
+			if (stopId == null) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_1);
+			}
+			else if (stopId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_3);
+			}
+			else {
+				bindStopId = true;
+
+				query.append(_FINDER_COLUMN_STOPID_STOPID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStopId) {
+					qPos.add(stopId);
+				}
+
+				List<Arret> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"ArretPersistenceImpl.fetchByStopId(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Arret arret = list.get(0);
+
+					result = arret;
+
+					cacheResult(arret);
+
+					if ((arret.getStopId() == null) ||
+							!arret.getStopId().equals(stopId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID,
+							finderArgs, arret);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_STOPID, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Arret)result;
+		}
+	}
+
+	/**
+	 * Removes the arret where stopId = &#63; from the database.
+	 *
+	 * @param stopId the stop ID
+	 * @return the arret that was removed
+	 */
+	@Override
+	public Arret removeByStopId(String stopId) throws NoSuchArretException {
+		Arret arret = findByStopId(stopId);
+
+		return remove(arret);
+	}
+
+	/**
+	 * Returns the number of arrets where stopId = &#63;.
+	 *
+	 * @param stopId the stop ID
+	 * @return the number of matching arrets
+	 */
+	@Override
+	public int countByStopId(String stopId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_STOPID;
+
+		Object[] finderArgs = new Object[] { stopId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_ARRET_WHERE);
+
+			boolean bindStopId = false;
+
+			if (stopId == null) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_1);
+			}
+			else if (stopId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_STOPID_STOPID_3);
+			}
+			else {
+				bindStopId = true;
+
+				query.append(_FINDER_COLUMN_STOPID_STOPID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStopId) {
+					qPos.add(stopId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_STOPID_STOPID_1 = "arret.stopId IS NULL";
+	private static final String _FINDER_COLUMN_STOPID_STOPID_2 = "arret.stopId = ?";
+	private static final String _FINDER_COLUMN_STOPID_STOPID_3 = "(arret.stopId IS NULL OR arret.stopId = '')";
 
 	public ArretPersistenceImpl() {
 		setModelClass(Arret.class);
@@ -1996,6 +2239,9 @@ public class ArretPersistenceImpl extends BasePersistenceImpl<Arret>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { arret.getUuid(), arret.getGroupId() }, arret);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID,
+			new Object[] { arret.getStopId() }, arret);
 
 		arret.resetOriginalValues();
 	}
@@ -2074,6 +2320,13 @@ public class ArretPersistenceImpl extends BasePersistenceImpl<Arret>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			arretModelImpl, false);
+
+		args = new Object[] { arretModelImpl.getStopId() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_STOPID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID, args,
+			arretModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(ArretModelImpl arretModelImpl,
@@ -2096,6 +2349,21 @@ public class ArretPersistenceImpl extends BasePersistenceImpl<Arret>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] { arretModelImpl.getStopId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_STOPID, args);
+		}
+
+		if ((arretModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_STOPID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { arretModelImpl.getOriginalStopId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_STOPID, args);
 		}
 	}
 

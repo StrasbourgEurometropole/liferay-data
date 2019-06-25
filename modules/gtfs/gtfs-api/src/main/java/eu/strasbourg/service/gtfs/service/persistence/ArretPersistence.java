@@ -497,6 +497,51 @@ public interface ArretPersistence extends BasePersistence<Arret> {
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns the arret where stopId = &#63; or throws a {@link NoSuchArretException} if it could not be found.
+	*
+	* @param stopId the stop ID
+	* @return the matching arret
+	* @throws NoSuchArretException if a matching arret could not be found
+	*/
+	public Arret findByStopId(java.lang.String stopId)
+		throws NoSuchArretException;
+
+	/**
+	* Returns the arret where stopId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param stopId the stop ID
+	* @return the matching arret, or <code>null</code> if a matching arret could not be found
+	*/
+	public Arret fetchByStopId(java.lang.String stopId);
+
+	/**
+	* Returns the arret where stopId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param stopId the stop ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching arret, or <code>null</code> if a matching arret could not be found
+	*/
+	public Arret fetchByStopId(java.lang.String stopId,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the arret where stopId = &#63; from the database.
+	*
+	* @param stopId the stop ID
+	* @return the arret that was removed
+	*/
+	public Arret removeByStopId(java.lang.String stopId)
+		throws NoSuchArretException;
+
+	/**
+	* Returns the number of arrets where stopId = &#63;.
+	*
+	* @param stopId the stop ID
+	* @return the number of matching arrets
+	*/
+	public int countByStopId(java.lang.String stopId);
+
+	/**
 	* Caches the arret in the entity cache if it is enabled.
 	*
 	* @param arret the arret

@@ -128,8 +128,9 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long ARRETID_COLUMN_BITMASK = 8L;
+	public static final long STOPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long ARRETID_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Arret"));
 
@@ -525,7 +526,17 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setStopId(String stopId) {
+		_columnBitmask |= STOPID_COLUMN_BITMASK;
+
+		if (_originalStopId == null) {
+			_originalStopId = _stopId;
+		}
+
 		_stopId = stopId;
+	}
+
+	public String getOriginalStopId() {
+		return GetterUtil.getString(_originalStopId);
 	}
 
 	@Override
@@ -820,6 +831,8 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 		arretModelImpl._setModifiedDate = false;
 
+		arretModelImpl._originalStopId = arretModelImpl._stopId;
+
 		arretModelImpl._columnBitmask = 0;
 	}
 
@@ -1095,6 +1108,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _stopId;
+	private String _originalStopId;
 	private String _title;
 	private String _code;
 	private String _latitude;

@@ -650,6 +650,61 @@ public class LigneUtil {
 	}
 
 	/**
+	* Returns the ligne where routeId = &#63; or throws a {@link NoSuchLigneException} if it could not be found.
+	*
+	* @param routeId the route ID
+	* @return the matching ligne
+	* @throws NoSuchLigneException if a matching ligne could not be found
+	*/
+	public static Ligne findByRouteId(java.lang.String routeId)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchLigneException {
+		return getPersistence().findByRouteId(routeId);
+	}
+
+	/**
+	* Returns the ligne where routeId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param routeId the route ID
+	* @return the matching ligne, or <code>null</code> if a matching ligne could not be found
+	*/
+	public static Ligne fetchByRouteId(java.lang.String routeId) {
+		return getPersistence().fetchByRouteId(routeId);
+	}
+
+	/**
+	* Returns the ligne where routeId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param routeId the route ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching ligne, or <code>null</code> if a matching ligne could not be found
+	*/
+	public static Ligne fetchByRouteId(java.lang.String routeId,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByRouteId(routeId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the ligne where routeId = &#63; from the database.
+	*
+	* @param routeId the route ID
+	* @return the ligne that was removed
+	*/
+	public static Ligne removeByRouteId(java.lang.String routeId)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchLigneException {
+		return getPersistence().removeByRouteId(routeId);
+	}
+
+	/**
+	* Returns the number of lignes where routeId = &#63;.
+	*
+	* @param routeId the route ID
+	* @return the number of matching lignes
+	*/
+	public static int countByRouteId(java.lang.String routeId) {
+		return getPersistence().countByRouteId(routeId);
+	}
+
+	/**
 	* Caches the ligne in the entity cache if it is enabled.
 	*
 	* @param ligne the ligne

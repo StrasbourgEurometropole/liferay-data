@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1961,6 +1962,249 @@ public class LignePersistenceImpl extends BasePersistenceImpl<Ligne>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "ligne.groupId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_ROUTEID = new FinderPath(LigneModelImpl.ENTITY_CACHE_ENABLED,
+			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByRouteId",
+			new String[] { String.class.getName() },
+			LigneModelImpl.ROUTEID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ROUTEID = new FinderPath(LigneModelImpl.ENTITY_CACHE_ENABLED,
+			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the ligne where routeId = &#63; or throws a {@link NoSuchLigneException} if it could not be found.
+	 *
+	 * @param routeId the route ID
+	 * @return the matching ligne
+	 * @throws NoSuchLigneException if a matching ligne could not be found
+	 */
+	@Override
+	public Ligne findByRouteId(String routeId) throws NoSuchLigneException {
+		Ligne ligne = fetchByRouteId(routeId);
+
+		if (ligne == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("routeId=");
+			msg.append(routeId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchLigneException(msg.toString());
+		}
+
+		return ligne;
+	}
+
+	/**
+	 * Returns the ligne where routeId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param routeId the route ID
+	 * @return the matching ligne, or <code>null</code> if a matching ligne could not be found
+	 */
+	@Override
+	public Ligne fetchByRouteId(String routeId) {
+		return fetchByRouteId(routeId, true);
+	}
+
+	/**
+	 * Returns the ligne where routeId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param routeId the route ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching ligne, or <code>null</code> if a matching ligne could not be found
+	 */
+	@Override
+	public Ligne fetchByRouteId(String routeId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { routeId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_ROUTEID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Ligne) {
+			Ligne ligne = (Ligne)result;
+
+			if (!Objects.equals(routeId, ligne.getRouteId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_LIGNE_WHERE);
+
+			boolean bindRouteId = false;
+
+			if (routeId == null) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_1);
+			}
+			else if (routeId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_3);
+			}
+			else {
+				bindRouteId = true;
+
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRouteId) {
+					qPos.add(routeId);
+				}
+
+				List<Ligne> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"LignePersistenceImpl.fetchByRouteId(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Ligne ligne = list.get(0);
+
+					result = ligne;
+
+					cacheResult(ligne);
+
+					if ((ligne.getRouteId() == null) ||
+							!ligne.getRouteId().equals(routeId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID,
+							finderArgs, ligne);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_ROUTEID,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Ligne)result;
+		}
+	}
+
+	/**
+	 * Removes the ligne where routeId = &#63; from the database.
+	 *
+	 * @param routeId the route ID
+	 * @return the ligne that was removed
+	 */
+	@Override
+	public Ligne removeByRouteId(String routeId) throws NoSuchLigneException {
+		Ligne ligne = findByRouteId(routeId);
+
+		return remove(ligne);
+	}
+
+	/**
+	 * Returns the number of lignes where routeId = &#63;.
+	 *
+	 * @param routeId the route ID
+	 * @return the number of matching lignes
+	 */
+	@Override
+	public int countByRouteId(String routeId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ROUTEID;
+
+		Object[] finderArgs = new Object[] { routeId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_LIGNE_WHERE);
+
+			boolean bindRouteId = false;
+
+			if (routeId == null) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_1);
+			}
+			else if (routeId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_3);
+			}
+			else {
+				bindRouteId = true;
+
+				query.append(_FINDER_COLUMN_ROUTEID_ROUTEID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindRouteId) {
+					qPos.add(routeId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTEID_1 = "ligne.routeId IS NULL";
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTEID_2 = "ligne.routeId = ?";
+	private static final String _FINDER_COLUMN_ROUTEID_ROUTEID_3 = "(ligne.routeId IS NULL OR ligne.routeId = '')";
 
 	public LignePersistenceImpl() {
 		setModelClass(Ligne.class);
@@ -1995,6 +2239,9 @@ public class LignePersistenceImpl extends BasePersistenceImpl<Ligne>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { ligne.getUuid(), ligne.getGroupId() }, ligne);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID,
+			new Object[] { ligne.getRouteId() }, ligne);
 
 		ligne.resetOriginalValues();
 	}
@@ -2073,6 +2320,13 @@ public class LignePersistenceImpl extends BasePersistenceImpl<Ligne>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			ligneModelImpl, false);
+
+		args = new Object[] { ligneModelImpl.getRouteId() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_ROUTEID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID, args,
+			ligneModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(LigneModelImpl ligneModelImpl,
@@ -2095,6 +2349,21 @@ public class LignePersistenceImpl extends BasePersistenceImpl<Ligne>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] { ligneModelImpl.getRouteId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ROUTEID, args);
+		}
+
+		if ((ligneModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_ROUTEID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { ligneModelImpl.getOriginalRouteId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ROUTEID, args);
 		}
 	}
 

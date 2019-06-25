@@ -650,6 +650,61 @@ public class ArretUtil {
 	}
 
 	/**
+	* Returns the arret where stopId = &#63; or throws a {@link NoSuchArretException} if it could not be found.
+	*
+	* @param stopId the stop ID
+	* @return the matching arret
+	* @throws NoSuchArretException if a matching arret could not be found
+	*/
+	public static Arret findByStopId(java.lang.String stopId)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchArretException {
+		return getPersistence().findByStopId(stopId);
+	}
+
+	/**
+	* Returns the arret where stopId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param stopId the stop ID
+	* @return the matching arret, or <code>null</code> if a matching arret could not be found
+	*/
+	public static Arret fetchByStopId(java.lang.String stopId) {
+		return getPersistence().fetchByStopId(stopId);
+	}
+
+	/**
+	* Returns the arret where stopId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param stopId the stop ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching arret, or <code>null</code> if a matching arret could not be found
+	*/
+	public static Arret fetchByStopId(java.lang.String stopId,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByStopId(stopId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the arret where stopId = &#63; from the database.
+	*
+	* @param stopId the stop ID
+	* @return the arret that was removed
+	*/
+	public static Arret removeByStopId(java.lang.String stopId)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchArretException {
+		return getPersistence().removeByStopId(stopId);
+	}
+
+	/**
+	* Returns the number of arrets where stopId = &#63;.
+	*
+	* @param stopId the stop ID
+	* @return the number of matching arrets
+	*/
+	public static int countByStopId(java.lang.String stopId) {
+		return getPersistence().countByStopId(stopId);
+	}
+
+	/**
 	* Caches the arret in the entity cache if it is enabled.
 	*
 	* @param arret the arret

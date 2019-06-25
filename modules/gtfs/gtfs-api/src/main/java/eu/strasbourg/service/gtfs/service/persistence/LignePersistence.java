@@ -497,6 +497,51 @@ public interface LignePersistence extends BasePersistence<Ligne> {
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns the ligne where routeId = &#63; or throws a {@link NoSuchLigneException} if it could not be found.
+	*
+	* @param routeId the route ID
+	* @return the matching ligne
+	* @throws NoSuchLigneException if a matching ligne could not be found
+	*/
+	public Ligne findByRouteId(java.lang.String routeId)
+		throws NoSuchLigneException;
+
+	/**
+	* Returns the ligne where routeId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param routeId the route ID
+	* @return the matching ligne, or <code>null</code> if a matching ligne could not be found
+	*/
+	public Ligne fetchByRouteId(java.lang.String routeId);
+
+	/**
+	* Returns the ligne where routeId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param routeId the route ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching ligne, or <code>null</code> if a matching ligne could not be found
+	*/
+	public Ligne fetchByRouteId(java.lang.String routeId,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the ligne where routeId = &#63; from the database.
+	*
+	* @param routeId the route ID
+	* @return the ligne that was removed
+	*/
+	public Ligne removeByRouteId(java.lang.String routeId)
+		throws NoSuchLigneException;
+
+	/**
+	* Returns the number of lignes where routeId = &#63;.
+	*
+	* @param routeId the route ID
+	* @return the number of matching lignes
+	*/
+	public int countByRouteId(java.lang.String routeId);
+
+	/**
 	* Caches the ligne in the entity cache if it is enabled.
 	*
 	* @param ligne the ligne
