@@ -210,11 +210,6 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	public int getImportHistoricsCount();
 
 	/**
-	* Effectue l'import des donnees issues des fichiers GTFS
-	*/
-	public java.lang.String doImportGTFS();
-
-	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier
@@ -340,6 +335,11 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	* Recherche par mot clés (compte)
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Effectue l'import des donnees issues des fichiers GTFS
+	*/
+	public void doImportGTFS();
 
 	/**
 	* Met à jour le statut de l'entree d'import "manuellement" (pas via le workflow)

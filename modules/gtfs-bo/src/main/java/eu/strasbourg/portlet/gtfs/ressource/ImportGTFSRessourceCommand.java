@@ -28,9 +28,11 @@ public class ImportGTFSRessourceCommand implements MVCResourceCommand {
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws PortletException {
 		
-		_log.info("Import start");
+		_log.info("GTFS BO : Import start");
 		
-		_log.info(this._importHistoricLocalService.doImportGTFS());
+		this._importHistoricLocalService.doImportGTFS();
+		
+		_log.info("GTFS BO : Import finish");
 		
 		return true;
 	}

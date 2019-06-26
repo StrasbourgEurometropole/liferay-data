@@ -295,7 +295,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 	 * Effectue l'import des donnees issues des fichiers GTFS
 	 */
 	@Override
-	public String doImportGTFS() {
+	public void doImportGTFS() {
 		// Recuperation du chemin absolu vers les fichiers du GTFS
 		String GTFSPath = StrasbourgPropsUtil.getGTFSPath();
 		
@@ -349,11 +349,11 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
 			log.info("Finishing import of GTFS files in " + processTime + " seconds.");
 			
+			throw new PortalException();
+			
 		} catch (FileAccessException | PortalException e) {
 			e.printStackTrace();
 		}
-		
-		return GTFSPath;
 	}
 	
 	/**

@@ -226,13 +226,6 @@ public class ImportHistoricLocalServiceUtil {
 	}
 
 	/**
-	* Effectue l'import des donnees issues des fichiers GTFS
-	*/
-	public static java.lang.String doImportGTFS() {
-		return getService().doImportGTFS();
-	}
-
-	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier
@@ -390,6 +383,13 @@ public class ImportHistoricLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Effectue l'import des donnees issues des fichiers GTFS
+	*/
+	public static void doImportGTFS() {
+		getService().doImportGTFS();
 	}
 
 	/**
