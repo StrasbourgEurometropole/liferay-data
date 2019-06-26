@@ -261,6 +261,12 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par mot clés
+	*/
+	public List<ImportHistoric> findByKeyword(java.lang.String keyword,
+		long groupId, int start, int end);
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à un projet
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -329,6 +335,11 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
 	/**
 	* Met à jour le statut de l'entree d'import "manuellement" (pas via le workflow)

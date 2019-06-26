@@ -313,6 +313,16 @@ public class ImportHistoricLocalServiceWrapper
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.ImportHistoric> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _importHistoricLocalService.findByKeyword(keyword, groupId,
+			start, end);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à un projet
 	*/
 	@Override
@@ -404,6 +414,14 @@ public class ImportHistoricLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _importHistoricLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _importHistoricLocalService.findByKeywordCount(keyword, groupId);
 	}
 
 	/**

@@ -19,6 +19,9 @@ import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -359,6 +362,40 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 	@Override
 	public List<ImportHistoric> getByGroupId(long groupId) {
 		return this.importHistoricPersistence.findByGroupId(groupId);
+	}
+	
+	/**
+	 * Recherche par mot clés
+	 */
+	@Override
+	public List<ImportHistoric> findByKeyword(String keyword, long groupId, int start, int end) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		if (keyword.length() > 0) {
+			dynamicQuery.add(
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (groupId > 0) {
+			dynamicQuery
+					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+
+		return this.importHistoricPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+	}
+	
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	@Override
+	public long findByKeywordCount(String keyword, long groupId) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+		if (keyword.length() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (groupId > 0) {
+			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+		return this.importHistoricPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 	
 }

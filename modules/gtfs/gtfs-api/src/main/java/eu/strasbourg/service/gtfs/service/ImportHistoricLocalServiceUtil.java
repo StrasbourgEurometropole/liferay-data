@@ -292,6 +292,14 @@ public class ImportHistoricLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.ImportHistoric> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à un projet
 	*/
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
@@ -375,6 +383,13 @@ public class ImportHistoricLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
 	}
 
 	/**

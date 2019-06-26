@@ -257,6 +257,12 @@ public interface ArretLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par mot clés
+	*/
+	public List<Arret> findByKeyword(java.lang.String keyword, long groupId,
+		int start, int end);
+
+	/**
 	* Returns a range of all the arrets.
 	*
 	* <p>
@@ -325,4 +331,9 @@ public interface ArretLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
 }

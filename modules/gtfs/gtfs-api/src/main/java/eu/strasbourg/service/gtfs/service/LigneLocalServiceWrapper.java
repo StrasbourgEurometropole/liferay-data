@@ -304,6 +304,15 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Ligne> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _ligneLocalService.findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entree
 	*/
 	@Override
@@ -393,6 +402,14 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _ligneLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _ligneLocalService.findByKeywordCount(keyword, groupId);
 	}
 
 	@Override

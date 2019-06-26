@@ -292,6 +292,14 @@ public class ArretLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
 	* Returns a range of all the arrets.
 	*
 	* <p>
@@ -375,6 +383,13 @@ public class ArretLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
 	}
 
 	public static ArretLocalService getService() {

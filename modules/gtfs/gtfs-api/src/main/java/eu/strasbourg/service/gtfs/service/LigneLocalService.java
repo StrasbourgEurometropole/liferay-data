@@ -257,6 +257,12 @@ public interface LigneLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par mot clés
+	*/
+	public List<Ligne> findByKeyword(java.lang.String keyword, long groupId,
+		int start, int end);
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entree
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -325,4 +331,9 @@ public interface LigneLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
 }
