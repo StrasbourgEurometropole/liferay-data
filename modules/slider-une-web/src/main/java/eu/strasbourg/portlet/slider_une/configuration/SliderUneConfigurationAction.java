@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component(
@@ -127,7 +128,8 @@ public class SliderUneConfigurationAction
                     journalArticleEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(),
                             Long.parseLong(classPK));
                     if (journalArticleEntry != null) {
-                        JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(classPK), 0);
+                        int[] statuses = {0,7};
+                        JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(classPK), statuses);
                         if(journalArticle != null) {
                             // Vérifie si le contenu web a le tag "focus"
                             if (Arrays.toString(journalArticleEntry.getTagNames()).contains("focus")) {
@@ -152,7 +154,7 @@ public class SliderUneConfigurationAction
                     AssetEntry eventEntry = null;
                     eventEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
                             Long.parseLong(classPK));
-                    if (eventEntry != null && eventEntry.isVisible()) {
+                    if (eventEntry != null && (eventEntry.isVisible() || eventEntry.getStartDate().after(new Date()))) {
                         classPKs[index] = classPK;
                         index++;
                     }
