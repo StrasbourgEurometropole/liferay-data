@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Trip;
@@ -116,6 +117,14 @@ public class TripLocalServiceImpl extends TripLocalServiceBaseImpl {
 		for (Map.Entry<String, TripsGTFS> mapEntry : data.entrySet()) {
 			this.createTripFromGTFS(mapEntry.getValue());
 		}
+	}
+	
+	/**
+	 * Rechercher les voyages disponibles aujourd'hui pour id d'arret donne
+	 */
+	@Override
+	public List<Trip> getTripAvailableForStop(String stopId) {
+		return tripFinder.getTripAvailable(stopId);
 	}
 	
 }

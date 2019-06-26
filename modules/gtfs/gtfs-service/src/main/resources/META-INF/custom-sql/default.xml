@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+    <sql file="custom-sql/trip-available.xml" />
+</custom-sql>

@@ -23,4 +23,5 @@
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopTimePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.TripLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.TripLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.TripPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripFinderImpl" id="eu.strasbourg.service.gtfs.service.persistence.TripFinder" parent="basePersistence" />
 </beans>

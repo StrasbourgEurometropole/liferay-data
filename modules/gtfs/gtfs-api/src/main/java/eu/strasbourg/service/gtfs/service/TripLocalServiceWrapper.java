@@ -258,6 +258,15 @@ public class TripLocalServiceWrapper implements TripLocalService,
 	}
 
 	/**
+	* Rechercher les voyages disponibles aujourd'hui pour id d'arret donne
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Trip> getTripAvailableForStop(
+		java.lang.String stopId) {
+		return _tripLocalService.getTripAvailableForStop(stopId);
+	}
+
+	/**
 	* Returns a range of all the trips.
 	*
 	* <p>

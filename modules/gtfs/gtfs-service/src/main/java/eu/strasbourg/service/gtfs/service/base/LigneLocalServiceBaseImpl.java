@@ -72,6 +72,7 @@ import eu.strasbourg.service.gtfs.service.persistence.LignePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
+import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
 import java.io.Serializable;
@@ -880,6 +881,24 @@ public abstract class LigneLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the trip finder.
+	 *
+	 * @return the trip finder
+	 */
+	public TripFinder getTripFinder() {
+		return tripFinder;
+	}
+
+	/**
+	 * Sets the trip finder.
+	 *
+	 * @param tripFinder the trip finder
+	 */
+	public void setTripFinder(TripFinder tripFinder) {
+		this.tripFinder = tripFinder;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -1201,6 +1220,8 @@ public abstract class LigneLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected eu.strasbourg.service.gtfs.service.TripLocalService tripLocalService;
 	@BeanReference(type = TripPersistence.class)
 	protected TripPersistence tripPersistence;
+	@BeanReference(type = TripFinder.class)
+	protected TripFinder tripFinder;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

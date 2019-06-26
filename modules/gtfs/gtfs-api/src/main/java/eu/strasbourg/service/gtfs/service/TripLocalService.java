@@ -220,6 +220,12 @@ public interface TripLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Rechercher les voyages disponibles aujourd'hui pour id d'arret donne
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Trip> getTripAvailableForStop(java.lang.String stopId);
+
+	/**
 	* Returns a range of all the trips.
 	*
 	* <p>

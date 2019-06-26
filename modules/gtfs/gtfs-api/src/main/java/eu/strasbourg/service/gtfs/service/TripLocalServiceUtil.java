@@ -246,6 +246,14 @@ public class TripLocalServiceUtil {
 	}
 
 	/**
+	* Rechercher les voyages disponibles aujourd'hui pour id d'arret donne
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Trip> getTripAvailableForStop(
+		java.lang.String stopId) {
+		return getService().getTripAvailableForStop(stopId);
+	}
+
+	/**
 	* Returns a range of all the trips.
 	*
 	* <p>
