@@ -25,19 +25,19 @@ import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
 
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 @Component(
 	immediate = true, 
 	service = Indexer.class
 )
-public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
-
-	public static final String CLASS_NAME = ImportHistoric.class.getName();
+public class ArretIndexer extends BaseIndexer<Arret> {
 	
-	public ImportHistoricIndexer() {
+	public static final String CLASS_NAME = Arret.class.getName();
+	
+	public ArretIndexer() {
 		setFilterSearch(true);
 		setPermissionAware(true);
 	}
@@ -48,8 +48,8 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 	}
 
 	@Override
-	protected void doDelete(ImportHistoric importHistoric) throws Exception {
-		deleteDocument(importHistoric.getCompanyId(), importHistoric.getImportHistoricId());
+	protected void doDelete(Arret arret) throws Exception {
+		deleteDocument(arret.getCompanyId(), arret.getArretId());
 	}
 
 	/**
@@ -57,28 +57,27 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 	 * C'est ici qu'on choisi les champs à indexer
 	 */
 	@Override
-	protected Document doGetDocument(ImportHistoric importHistoric) throws Exception {
-		Document document = getBaseModelDocument(CLASS_NAME, importHistoric);
+	protected Document doGetDocument(Arret arret) throws Exception {
+		Document document = getBaseModelDocument(CLASS_NAME, arret);
 
 		// On indexe toute la hiérarchie de catégories (parents et enfants des
 		// catégories de l'entité)
 		long[] assetCategoryIds = AssetVocabularyHelper
-			.getFullHierarchyCategoriesIds(importHistoric.getCategories());
+			.getFullHierarchyCategoriesIds(arret.getCategories());
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
-			.getFullHierarchyCategories(importHistoric.getCategories());
+			.getFullHierarchyCategories(arret.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
-		titleFieldMap.put(Locale.FRANCE, Integer.toString(importHistoric.getResult()));
+		titleFieldMap.put(Locale.FRANCE, arret.getTitle());
 		
 		Map<Locale, String> descriptionFieldMap = new HashMap<Locale, String>();
-		descriptionFieldMap.put(Locale.FRANCE, importHistoric.getOperations());
+		descriptionFieldMap.put(Locale.FRANCE, arret.getCode());
 		
 		document.addLocalizedText(Field.TITLE, titleFieldMap);
 		document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
-		document.addNumber(Field.STATUS, importHistoric.getStatus());
+		document.addNumber(Field.STATUS, arret.getStatus());
 		return document;
 	}
 
@@ -92,7 +91,7 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 
 	@Override
 	protected void doReindex(String className, long classPK) throws Exception {
-		ImportHistoric entry = ImportHistoricLocalServiceUtil.getImportHistoric(classPK);
+		Arret entry = ArretLocalServiceUtil.getArret(classPK);
 		doReindex(entry);
 	}
 
@@ -103,16 +102,16 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 	}
 
 	@Override
-	protected void doReindex(ImportHistoric importHistoric) throws Exception {
-		Document document = getDocument(importHistoric);
+	protected void doReindex(Arret arret) throws Exception {
+		Document document = getDocument(arret);
 
 		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			importHistoric.getCompanyId(), document, isCommitImmediately());
+				arret.getCompanyId(), document, isCommitImmediately());
 		
 	}
 	
 	protected void reindexEntries(long companyId) throws PortalException {
-		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = ImportHistoricLocalServiceUtil
+		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = ArretLocalServiceUtil
 			.getIndexableActionableDynamicQuery();
 
 		indexableActionableDynamicQuery.setAddCriteriaMethod(
@@ -124,17 +123,17 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 			});
 		indexableActionableDynamicQuery.setCompanyId(companyId);
 		indexableActionableDynamicQuery.setPerformActionMethod(
-			new ActionableDynamicQuery.PerformActionMethod<ImportHistoric>() {
+			new ActionableDynamicQuery.PerformActionMethod<Arret>() {
 
 				@Override
-				public void performAction(ImportHistoric entry) {
+				public void performAction(Arret entry) {
 					try {
 						Document document = getDocument(entry);
 
 						indexableActionableDynamicQuery.addDocuments(document);
 					} catch (PortalException pe) {
-						_log.error("Unable to index ImportHistoric entry "
-							+ entry.getImportHistoricId());
+						_log.error("Unable to index Arret entry "
+							+ entry.getArretId());
 					}
 				}
 
