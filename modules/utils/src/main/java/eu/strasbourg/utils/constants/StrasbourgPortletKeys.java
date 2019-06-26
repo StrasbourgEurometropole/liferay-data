@@ -118,4 +118,5 @@ public class StrasbourgPortletKeys {
 	public static final String SLIDER_UNE_WEB = "eu_strasbourg_portlet_slider_une_SliderUnePortlet";
 	
 	public static final String GTFS_BO = "eu_strasbourg_portlet_gtfs_GTFSBOPortlet";
+	public static final String GTFS_WEB = "eu_strasbourg_portlet_gtfs_GTFSPortlet";
 }
