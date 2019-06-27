@@ -339,6 +339,24 @@ public class DirectionLocalServiceUtil {
 	}
 
 	/**
+	* Supprime les entree correspondants au routeId donnee
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction> removeByRouteId(
+		java.lang.String routeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeByRouteId(routeId);
+	}
+
+	/**
+	* Supprime les entree correspondants au stopId donnee
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction> removeByStopId(
+		java.lang.String stopId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeByStopId(stopId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

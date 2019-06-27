@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ArretLocalServiceBaseImpl;
 
 /**
@@ -86,9 +87,9 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		
 		if (user != null)
 			arret.setUserName(user.getFullName());
-
+		
 		arret.setStatus(WorkflowConstants.STATUS_DRAFT);
-
+		
 		return arret;
 	}
 	
@@ -104,10 +105,15 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		arret.setStatusDate(sc.getModifiedDate());
 		if (user != null)
 			arret.setStatusByUserName(user.getFullName());
-		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH)
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			arret.setStatus(WorkflowConstants.STATUS_APPROVED);
-		else
+		} else {
+			// Supprime les Direction associées
+			// Le GTFS ne devrait plus posseder d'indentifiant relatif a cet arret 
+			// mais c'est une securite
+			DirectionLocalServiceUtil.removeByStopId(arret.getStopId());
 			arret.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
 		
 		arret = this.arretLocalService.updateArret(arret);
 		
@@ -212,10 +218,15 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 			// Delete the AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Arret.class.getName(), arretId);
 
-		}
+		}		
 		
 		// Supprime l'entree
 		Arret arret = arretPersistence.remove(arretId);
+		
+		// Supprime les Direction associées
+		// Le GTFS ne devrait plus posseder d'indentifiant relatif a cet arret 
+		// mais c'est une securite
+		DirectionLocalServiceUtil.removeByStopId(arret.getStopId());
 
 		// Supprime l'index
 		this.reindex(arret, true);

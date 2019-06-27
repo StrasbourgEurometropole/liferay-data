@@ -360,6 +360,26 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	}
 
 	/**
+	* Supprime les entree correspondants au routeId donnee
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> removeByRouteId(
+		java.lang.String routeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _directionLocalService.removeByRouteId(routeId);
+	}
+
+	/**
+	* Supprime les entree correspondants au stopId donnee
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> removeByStopId(
+		java.lang.String stopId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _directionLocalService.removeByStopId(stopId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

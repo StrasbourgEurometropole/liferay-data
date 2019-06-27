@@ -297,6 +297,18 @@ public interface DirectionLocalService extends BaseLocalService,
 		OrderByComparator<Direction> orderByComparator);
 
 	/**
+	* Supprime les entree correspondants au routeId donnee
+	*/
+	public List<Direction> removeByRouteId(java.lang.String routeId)
+		throws PortalException;
+
+	/**
+	* Supprime les entree correspondants au stopId donnee
+	*/
+	public List<Direction> removeByStopId(java.lang.String stopId)
+		throws PortalException;
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

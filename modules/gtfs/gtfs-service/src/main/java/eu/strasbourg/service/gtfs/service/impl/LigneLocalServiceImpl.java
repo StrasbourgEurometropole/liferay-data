@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.Ligne;
+import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.LigneLocalServiceBaseImpl;
 
 /**
@@ -110,6 +111,10 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 			ligne.setStatus(WorkflowConstants.STATUS_APPROVED);
 		} else {
 			ligne.setStatus(WorkflowConstants.STATUS_DRAFT);
+			// Supprime les Direction associées
+			// Le GTFS ne devrait plus posseder d'indentifiant relatif a cette ligne 
+			// mais c'est une securite
+			DirectionLocalServiceUtil.removeByRouteId(ligne.getRouteId());
 		}
 		
 		ligne = this.ligneLocalService.updateLigne(ligne);
@@ -219,6 +224,11 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 		
 		// Supprime l'entree
 		Ligne ligne = lignePersistence.remove(ligneId);
+		
+		// Supprime les Direction associées
+		// Le GTFS ne devrait plus posseder d'indentifiant relatif a cette ligne 
+		// mais c'est une securite
+		DirectionLocalServiceUtil.removeByRouteId(ligne.getRouteId());
 
 		// Supprime l'index
 		this.reindex(ligne, true);

@@ -102,11 +102,35 @@ public class DirectionLocalServiceImpl extends DirectionLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Supprime les entree correspondants au stopId donnee
+	 */
+	@Override
+	public List<Direction> removeByStopId(String stopId) throws PortalException {
+		List<Direction> removedDirections = this.getByStopId(stopId);
+		
+		this.directionPersistence.removeByStopId(stopId);
+
+		return removedDirections;
+	}
+	
+	/**
 	 * Retourne toutes direction d'une ligne
 	 */
 	@Override
 	public List<Direction> getByRouteId(String routeId) {
 		return this.directionPersistence.findByRouteId(routeId);
+	}
+	
+	/**
+	 * Supprime les entree correspondants au routeId donnee
+	 */
+	@Override
+	public List<Direction> removeByRouteId(String routeId) throws PortalException {
+		List<Direction> removedDirections = this.getByRouteId(routeId);
+		
+		this.directionPersistence.removeByRouteId(routeId);
+
+		return removedDirections;
 	}
 	
 }
