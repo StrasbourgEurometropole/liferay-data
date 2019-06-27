@@ -25,7 +25,7 @@ public class TripFinderImpl extends TripFinderBaseImpl implements TripFinder {
 	        
 	        SQLQuery q = session.createSQLQuery(sql);
 	        q.setCacheable(false);
-	        q.addEntity("Trip", TripImpl.class);
+	        q.addEntity("gtfs_trip", TripImpl.class);
 
 	        QueryPos qPos = QueryPos.getInstance(q);  
 	        qPos.add(stopId);

@@ -4,6 +4,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 
+import java.util.List;
+
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -11,7 +13,9 @@ import javax.portlet.ResourceResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.ImportHistoricLocalService;
+import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -30,7 +34,8 @@ public class ImportGTFSRessourceCommand implements MVCResourceCommand {
 		
 		_log.info("GTFS BO : Import start");
 		
-		this._importHistoricLocalService.doImportGTFS();
+//		this._importHistoricLocalService.doImportGTFS();
+		List<Trip> trips = TripLocalServiceUtil.getTripAvailableForStop("HOFER_04");
 		
 		_log.info("GTFS BO : Import finish");
 		
