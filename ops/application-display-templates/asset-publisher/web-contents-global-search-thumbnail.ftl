@@ -63,33 +63,23 @@
     </div>
 
 <!-- VIGNETTE MEMBRE -->
-<#elseif name?has_content && post?has_content >
+<#elseif name?has_content && post?has_content && detailURL?has_content>
     <div class="ops-col-33">
-        <#-- Si pas de page de detail, alors vignette non cliquable-->
-        <#if detailURL?has_content>
-            <a href="${detailURL}" class="ops-card ops-card-member">
-        <#else>
-            <div class="ops-card ops-card-member">
-        </#if>
-                <div>
-                    <#if bigImage?has_content>
-                        <figure class="fit-cover">
-                            <img src="${bigImage}" width="390" height="560" alt="Image membre"/>
-                        </figure>
-                    <#else>
-                        <div class="ops-no-photo"></div>
-                    </#if>
-                    <div class="ops-caption">
-                        <h3>${name}</h3>
-                        <span class="ops-function">${post}</span>
-                    </div>
+        <a href="${detailURL}" class="ops-card ops-card-member">
+            <div>
+                <#if bigImage?has_content>
+                    <figure class="fit-cover">
+                        <img src="${bigImage}" width="390" height="560" alt="Image membre"/>
+                    </figure>
+                <#else>
+                    <div class="ops-no-photo"></div>
+                </#if>
+                <div class="ops-caption">
+                    <h3>${name}</h3>
+                    <span class="ops-function">${post}</span>
                 </div>
-            </a>
-        <#if detailURL?has_content>
-            </a>
-        <#else>
             </div>
-        </#if>
+        </a>
     </div>
 
 <#-- VIGNETTE OFFRE -->

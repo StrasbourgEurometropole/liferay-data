@@ -279,7 +279,7 @@
                     </label>
                 </div>
                 <div style="margin: 20px 0;" class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
-                <div style="padding-top: 20px">
+                <div style="padding-top: 20px; padding-bottom: 20px;">
                     <@liferay_ui.message key="contact.default-privacy" />
                 </div>
                 <div class="buttons submit">

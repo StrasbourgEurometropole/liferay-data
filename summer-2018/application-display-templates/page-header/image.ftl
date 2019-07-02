@@ -23,10 +23,6 @@
 </div>
 
 <style>
-#mns-global .mns-nav .navbar-brand{
-    background: url(/o/summer-2018-theme/images/logo-menu-big.png) no-repeat center center /contain;
-    height: 186px;
-}
 #mns-global .mns-breadcrumbs {
     margin-top: 0;
 }
