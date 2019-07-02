@@ -99,7 +99,7 @@
         </div>
 
         <div class="ops-content-wrapper ops-aligncenter">
-            <a href="${homeURL}actualite" class="ops-btn"><@liferay_ui.message key="eu.ops.see.all.news" /></a>
+            <a href="${homeURL}magazine" class="ops-btn"><@liferay_ui.message key="eu.ops.see.all.news" /></a>
         </div>
 
     </section>
