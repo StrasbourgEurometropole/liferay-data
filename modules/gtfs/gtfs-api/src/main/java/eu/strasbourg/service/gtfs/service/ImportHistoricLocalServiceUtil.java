@@ -389,8 +389,9 @@ public class ImportHistoricLocalServiceUtil {
 	* Effectue l'import des donnees issues des fichiers GTFS
 	*/
 	public static void doImportGTFS(
-		com.liferay.portal.kernel.service.ServiceContext sc) {
-		getService().doImportGTFS(sc);
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
+		getService().doImportGTFS(sc, importHistoric);
 	}
 
 	/**

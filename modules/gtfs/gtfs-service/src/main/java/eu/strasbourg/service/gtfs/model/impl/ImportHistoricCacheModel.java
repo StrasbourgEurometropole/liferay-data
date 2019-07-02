@@ -66,7 +66,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,6 +100,10 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		sb.append(errorDescription);
 		sb.append(", errorStackTrace=");
 		sb.append(errorStackTrace);
+		sb.append(", startDate=");
+		sb.append(startDate);
+		sb.append(", finishDate=");
+		sb.append(finishDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -182,6 +186,20 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 			importHistoricImpl.setErrorStackTrace(errorStackTrace);
 		}
 
+		if (startDate == Long.MIN_VALUE) {
+			importHistoricImpl.setStartDate(null);
+		}
+		else {
+			importHistoricImpl.setStartDate(new Date(startDate));
+		}
+
+		if (finishDate == Long.MIN_VALUE) {
+			importHistoricImpl.setFinishDate(null);
+		}
+		else {
+			importHistoricImpl.setFinishDate(new Date(finishDate));
+		}
+
 		importHistoricImpl.resetOriginalValues();
 
 		return importHistoricImpl;
@@ -212,6 +230,8 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		operations = objectInput.readUTF();
 		errorDescription = objectInput.readUTF();
 		errorStackTrace = objectInput.readUTF();
+		startDate = objectInput.readLong();
+		finishDate = objectInput.readLong();
 	}
 
 	@Override
@@ -277,6 +297,9 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		else {
 			objectOutput.writeUTF(errorStackTrace);
 		}
+
+		objectOutput.writeLong(startDate);
+		objectOutput.writeLong(finishDate);
 	}
 
 	public String uuid;
@@ -295,4 +318,6 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 	public String operations;
 	public String errorDescription;
 	public String errorStackTrace;
+	public long startDate;
+	public long finishDate;
 }

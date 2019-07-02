@@ -76,6 +76,8 @@ public class ImportHistoricWrapper implements ImportHistoric,
 		attributes.put("operations", getOperations());
 		attributes.put("errorDescription", getErrorDescription());
 		attributes.put("errorStackTrace", getErrorStackTrace());
+		attributes.put("startDate", getStartDate());
+		attributes.put("finishDate", getFinishDate());
 
 		return attributes;
 	}
@@ -176,6 +178,18 @@ public class ImportHistoricWrapper implements ImportHistoric,
 
 		if (errorStackTrace != null) {
 			setErrorStackTrace(errorStackTrace);
+		}
+
+		Date startDate = (Date)attributes.get("startDate");
+
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date finishDate = (Date)attributes.get("finishDate");
+
+		if (finishDate != null) {
+			setFinishDate(finishDate);
 		}
 	}
 
@@ -454,6 +468,16 @@ public class ImportHistoricWrapper implements ImportHistoric,
 	}
 
 	/**
+	* Returns the finish date of this import historic.
+	*
+	* @return the finish date of this import historic
+	*/
+	@Override
+	public Date getFinishDate() {
+		return _importHistoric.getFinishDate();
+	}
+
+	/**
 	* Returns the modified date of this import historic.
 	*
 	* @return the modified date of this import historic
@@ -461,6 +485,16 @@ public class ImportHistoricWrapper implements ImportHistoric,
 	@Override
 	public Date getModifiedDate() {
 		return _importHistoric.getModifiedDate();
+	}
+
+	/**
+	* Returns the start date of this import historic.
+	*
+	* @return the start date of this import historic
+	*/
+	@Override
+	public Date getStartDate() {
+		return _importHistoric.getStartDate();
 	}
 
 	/**
@@ -619,6 +653,16 @@ public class ImportHistoricWrapper implements ImportHistoric,
 	}
 
 	/**
+	* Sets the finish date of this import historic.
+	*
+	* @param finishDate the finish date of this import historic
+	*/
+	@Override
+	public void setFinishDate(Date finishDate) {
+		_importHistoric.setFinishDate(finishDate);
+	}
+
+	/**
 	* Sets the group ID of this import historic.
 	*
 	* @param groupId the group ID of this import historic
@@ -686,6 +730,16 @@ public class ImportHistoricWrapper implements ImportHistoric,
 	@Override
 	public void setResult(int result) {
 		_importHistoric.setResult(result);
+	}
+
+	/**
+	* Sets the start date of this import historic.
+	*
+	* @param startDate the start date of this import historic
+	*/
+	@Override
+	public void setStartDate(Date startDate) {
+		_importHistoric.setStartDate(startDate);
 	}
 
 	/**

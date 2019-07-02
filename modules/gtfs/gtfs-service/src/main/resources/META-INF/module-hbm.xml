@@ -103,6 +103,8 @@
 		<property name="operations" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="errorDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="errorStackTrace" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="finishDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.LigneImpl" table="gtfs_Ligne">
 		<id name="ligneId" type="long">

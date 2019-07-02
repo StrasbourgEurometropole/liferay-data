@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,6 @@ import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.CalendarLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
@@ -39,6 +39,12 @@ import eu.strasbourg.utils.models.StopTimesGTFS;
 import eu.strasbourg.utils.models.StopsGTFS;
 import eu.strasbourg.utils.models.TripsGTFS;
 
+/**
+ * Classe permettant d'effectuer l'import des donnees issues du flux GTFS
+ * pour les incoporer aux entitees liferay definitives utilisees en front
+ * 
+ * @author cedric.henry
+ */
 public class GTFSImporter {
 	
 	public final static Log log = LogFactoryUtil.getLog(GTFSImporter.class);
@@ -46,30 +52,29 @@ public class GTFSImporter {
 	private ServiceContext sc;
 	private ImportHistoric importHistoric;
 
-	public GTFSImporter (ServiceContext sc) {
-		try {
-			this.sc = sc;
-			// Creation d'une entree d'historique d'import permettant de sauvegarder tous les elements
-			// important relatif a l'import effectue (operations, resultat, erreur, etc)
-			this.importHistoric = ImportHistoricLocalServiceUtil.createImportHistoric(this.sc);
-			
-		} catch (PortalException e) {
-			log.error(e);
-		}
+	/**
+	 * Constructeur de base
+	 * @param sc Contexte de la requete
+	 * @param importHistoric Entite de suivi de l'import
+	 */
+	public GTFSImporter (ServiceContext sc, ImportHistoric importHistoric) {
+		this.sc = sc;
+		this.importHistoric = importHistoric;
 	}
 	
 	/**
 	 * Opere l'import
 	 */
 	public void doImport() {
+		this.importHistoric.setStartDate(new Date());
+		
 		// Import des donnees du flux
 		importGTFSData();
 		
 		// Convertion des donnees du flux vers des entitees liferay affichables
 		convertGTFSData();
 		
-		// Sauvegarde de l'entree d'historique d'import
-		ImportHistoricLocalServiceUtil.updateImportHistoric(this.importHistoric);
+		this.importHistoric.setFinishDate(new Date());
 	}
 	
 	/**
@@ -83,7 +88,7 @@ public class GTFSImporter {
 			Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
 			this.importHistoric.addNewOperation(
 					"################### GTFS Files ################### \n" +
-					"#1/1# Starting import of GTFS"
+					"\n #1/1# Starting import of GTFS \n"
 			);
 			
 			// Recuperation des lignes
@@ -102,7 +107,7 @@ public class GTFSImporter {
 			Map<String, List<CalendarDatesGTFS>> mapCalendarDates;
 			mapCalendarDates = GTFSLoaderHelper.readCalendarDatesData(GTFSPath);
 			CalendarDateLocalServiceUtil.importFromGTFS(mapCalendarDates);
-			this.importHistoric.addNewOperation("Get " + mapCalendarDates.size() + " CalendarDate keys");
+			this.importHistoric.addNewOperation("Get " + mapCalendarDates.size() + " CalendarDate entries");
 			
 			// Recuperation des lignes
 			Map<String, RoutesGTFS> mapRoutes;
@@ -114,7 +119,7 @@ public class GTFSImporter {
 			Map<String, List<StopTimesGTFS>> mapStopTimes;
 			mapStopTimes = GTFSLoaderHelper.readStopTimesData(GTFSPath);
 			StopTimeLocalServiceUtil.importFromGTFS(mapStopTimes);
-			this.importHistoric.addNewOperation("Get " + mapStopTimes.size() + " StopTime keys");
+			this.importHistoric.addNewOperation("Get " + mapStopTimes.size() + " StopTime entries");
 			
 			// Recuperation des routes
 			Map<String, StopsGTFS> mapStops;
@@ -130,9 +135,15 @@ public class GTFSImporter {
 			
 			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
 			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
-			this.importHistoric.addNewOperation("Finishing files data import in " + processTime + " seconds.");
+			this.importHistoric.addNewOperation("Finishing files data import in " + processTime + " seconds. \n");
 			
-		} catch (FileAccessException | PortalException e) {
+		} catch (PortalException e) {
+			this.importHistoric.setErrorDescription("Probleme survenu lors de la lecture des donnees du flux GTFS");
+			this.importHistoric.setErrorDescription(e.toString());
+			this.importHistoric.setResult(0);
+			log.error(e);
+		} catch (FileAccessException e) {
+			this.importHistoric.setErrorDescription("Probleme survenu lors de l'acces aux fichiers du flux GTFS");
 			this.importHistoric.setErrorDescription(e.toString());
 			this.importHistoric.setResult(0);
 			log.error(e);
@@ -143,25 +154,34 @@ public class GTFSImporter {
 		
 		Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
 		this.importHistoric.addNewOperation(
-				"################### Convert GTFS data ###################"
+				"################### Convert GTFS data ################### \n"
 		);
 		
 		try {
+			// Initialisation des compteurs
+			int nbNewStops = 0;
+			int nbUpdatedStops = 0;
+			int nbRepublishedStops = 0;
+			int nbNewLines = 0;
+			int nbUpdatedLines = 0;
+			int nbRepublishedLines = 0;
+			int nbNewDirections = 0;
+			
 			/**
 			 * Import des arrêts
 			 */
-			this.importHistoric.addNewOperation("#1/6# Starting stops conversion");
+			this.importHistoric.addNewOperation("\n #1/6# Starting stops conversion \n");
 			
 			// Liste des arrets à mettre à jour et nouvelles entrées
 			List<Arret> arretsToUpdate = new ArrayList<Arret>();
-			// Liste des arrets à potentiellement supprimer
-			Map<String, Arret> arretsToRemove = ArretLocalServiceUtil.getAll();
+			// Liste des arrets à potentiellement depublier
+			Map<String, Arret> arretsToUnpublish = ArretLocalServiceUtil.getAll();
 			
 			for (Stop stop : StopLocalServiceUtil.getAllStops()) {
 				
 				// Si il existe deja en base et qu'il est toujours d'actualite dans le GTFS, 
 				// on le retire de ceux a supprimer et on recupere en meme temps l'element voulu
-				Arret arret = arretsToRemove.remove(stop.getStop_id());
+				Arret arret = arretsToUnpublish.remove(stop.getStop_id());
 				
 				// Si l'arret existe, on verifie les informations et on les met à jour si differentes
 				if (arret != null) {
@@ -194,9 +214,20 @@ public class GTFSImporter {
 							"Stop n°" + stop.getStop_id() + " : change longitude for '" + stop.getStop_lon() + "'"
 						);
 					}
+					// Verification du statut et changement si reaparition
+					if (arret.isDraft()) {
+						// L'action par defaut d'un ServiceContext est la publication, mettre a jour l'entree suffit donc
+						edition = true;
+						nbRepublishedStops++;
+						this.importHistoric.addNewOperation(
+							"Stop n°" + stop.getStop_id() + " : going to be republished"
+						);
+					}
+					
 					// Si l'arret a subit une modification, on l'ajoute dans la liste des arrets a sauvegarder
 					if (edition) {
 						arretsToUpdate.add(arret);
+						nbUpdatedStops++;
 					}
 						
 				}
@@ -221,6 +252,7 @@ public class GTFSImporter {
 					);
 					
 					arretsToUpdate.add(arret);
+					nbNewStops++;
 				}
 				
 			}
@@ -228,18 +260,18 @@ public class GTFSImporter {
 			/**
 			 * Import des lignes
 			 */
-			this.importHistoric.addNewOperation("#1/6# Starting routes conversion");
+			this.importHistoric.addNewOperation("\n #2/6# Starting routes conversion \n");
 						
 			// Liste des lignes à mettre à jour et nouvelles entrées
 			List<Ligne> lignesToUpdate = new ArrayList<Ligne>();
 			// Liste des lignes à potentiellement supprimer
-			Map<String, Ligne> lignesToRemove = LigneLocalServiceUtil.getAll();
+			Map<String, Ligne> lignesToUnpublish = LigneLocalServiceUtil.getAll();
 			
 			for (Route route : RouteLocalServiceUtil.getAllRoutes()) {
 				
 				// Si elle existe deja en base et qu'elle est toujours d'actualite dans le GTFS, 
 				// on la retire de ceux a supprimer et on recupere en meme temps l'element voulu
-				Ligne ligne = lignesToRemove.remove(route.getRoute_id());
+				Ligne ligne = lignesToUnpublish.remove(route.getRoute_id());
 				
 				// Si la ligne existe, on verifie les informations et on les met à jour si differentes
 				if (ligne != null) {
@@ -279,9 +311,20 @@ public class GTFSImporter {
 							"Route n°" + route.getRoute_id() + " : change text color for '" + route.getRoute_text_color() + "'"
 						);
 					}
+					// Verification du statut et changement si reaparition
+					if (ligne.isDraft()) {
+						// L'action par defaut d'un ServiceContext est la publication, mettre a jour l'entree suffit donc
+						edition = true;
+						nbRepublishedLines++;
+						this.importHistoric.addNewOperation(
+							"Route n°" + route.getRoute_id() + " : going to be republished"
+						);
+					}
+					
 					// Si la ligne a subit une modification, on l'ajoute dans la liste des lignes a sauvegarder
 					if (edition) {
 						lignesToUpdate.add(ligne);
+						nbUpdatedLines++;
 					}
 						
 				}
@@ -308,6 +351,7 @@ public class GTFSImporter {
 					);
 					
 					lignesToUpdate.add(ligne);
+					nbNewLines++;
 				}
 				
 			}
@@ -315,7 +359,7 @@ public class GTFSImporter {
 			/**
 			 * Import des directions
 			 */
-			this.importHistoric.addNewOperation("#3/6# Starting routes conversion");
+			this.importHistoric.addNewOperation("\n #2/6# Starting routes conversion \n");
 			
 			// Liste des directions à mettre à jour et nouvelles entrées
 			List <Direction> directionsToSave = new ArrayList<Direction>();
@@ -352,6 +396,7 @@ public class GTFSImporter {
 						);
 						
 						directionsToSave.add(direction);
+						nbNewDirections++;
 					}
 				}
 			}
@@ -362,23 +407,55 @@ public class GTFSImporter {
 			// Mettre à jour les arrets existants et sauvegarder les nouveaux
 			ArretLocalServiceUtil.updateArrets(arretsToUpdate, this.sc);
 			// Supprimer les arrets non parcourus
-			this.importHistoric.addNewOperation("#4/6# Unpublish removed stop");
-			ArretLocalServiceUtil.unpublishArrets(new ArrayList<Arret>(arretsToRemove.values()), this.importHistoric, this.sc);
+			this.importHistoric.addNewOperation("\n #4/6# Unpublish removed stop \n");
+			ArretLocalServiceUtil.unpublishArrets(
+					new ArrayList<Arret>(arretsToUnpublish.values()),
+					this.importHistoric, 
+					this.sc
+			);
 			
 			// Mettre à jour les lignes existantes et sauvegarder les nouvelles
 			LigneLocalServiceUtil.updateLignes(lignesToUpdate, this.sc);
 			// Supprimer les lignes non parcourues
-			this.importHistoric.addNewOperation("#5/6# Unpublish removed route");
-			LigneLocalServiceUtil.unpublishLignes(new ArrayList<Ligne>(lignesToRemove.values()), this.importHistoric, this.sc);
+			this.importHistoric.addNewOperation("\n #5/6# Unpublish removed route \n");
+			LigneLocalServiceUtil.unpublishLignes(
+					new ArrayList<Ligne>(lignesToUnpublish.values()), 
+					this.importHistoric, 
+					this.sc
+			);
 			
 			// Sauvegarder les nouvelles directions
 			DirectionLocalServiceUtil.updateDirections(directionsToSave, this.sc);
 			// Supprimer les directions non parcourues
-			this.importHistoric.addNewOperation("#6/6# Remove obsolet direction link");
-			DirectionLocalServiceUtil.removeDirections(new ArrayList<Direction>(directionsToRemove.values()),this.importHistoric, this.sc);
+			this.importHistoric.addNewOperation("\n #6/6# Remove obsolet direction link \n");
+			DirectionLocalServiceUtil.removeDirections(
+					new ArrayList<Direction>(directionsToRemove.values()),
+					this.importHistoric, 
+					this.sc
+			);
+			
+			/**
+			 * Data conversion debrief
+			 */
+			this.importHistoric.addNewOperation(
+					"################### Final data debrief ################### \n"
+			);
+			this.importHistoric.addNewOperation("Nb. new stops : " + nbNewStops);
+			this.importHistoric.addNewOperation("Nb. updated stops : " + nbUpdatedStops);
+			this.importHistoric.addNewOperation("Nb. unpublished stops : " + arretsToUnpublish.size());
+			this.importHistoric.addNewOperation("Nb. republished stops : " + nbRepublishedStops);
+			this.importHistoric.addNewOperation("Nb. new lines : " + nbNewLines);
+			this.importHistoric.addNewOperation("Nb. updated lines : " + nbUpdatedLines);
+			this.importHistoric.addNewOperation("Nb. unpublished lines : " + lignesToUnpublish.size());
+			this.importHistoric.addNewOperation("Nb. republished lines : " + nbRepublishedLines);
+			this.importHistoric.addNewOperation("Nb. new direction links : " + nbNewDirections);
+			this.importHistoric.addNewOperation("Nb. removed direction links : " + directionsToRemove.size());
+			
+			this.importHistoric.setResult(1);
 			
 		} catch (PortalException e) {
-			this.importHistoric.setErrorDescription(e.toString());
+			this.importHistoric.setErrorDescription("Probleme survenu lors de la convertion des donnees GTFS");
+			this.importHistoric.setErrorStackTrace(e.toString());
 			this.importHistoric.setResult(0);
 			log.error(e);
 		}

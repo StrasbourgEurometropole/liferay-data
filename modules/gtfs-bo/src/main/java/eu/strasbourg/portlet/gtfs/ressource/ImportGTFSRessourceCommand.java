@@ -16,7 +16,9 @@ import javax.portlet.ResourceResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.ImportHistoricLocalService;
+import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -36,16 +38,17 @@ public class ImportGTFSRessourceCommand implements MVCResourceCommand {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
 			
-			_log.info("GTFS BO : Import start");
+			// Creation de l'entree d'historique d'import
+			ImportHistoric importHistoric = ImportHistoricLocalServiceUtil.createImportHistoric(sc);
 			
-			this._importHistoricLocalService.doImportGTFS(sc);
-			//List<Trip> trips = TripLocalServiceUtil.getTripAvailableForStop("HOFER_04");
+			// Effectue l'import
+			this._importHistoricLocalService.doImportGTFS(sc, importHistoric);
 			
-			_log.info("GTFS BO : Import finish");
+			// Sauvegarde de l'entree d'historique d'import
+			ImportHistoricLocalServiceUtil.updateImportHistoric(importHistoric);
 		
 		} catch (PortalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.info(e);
 		}
 		
 		return true;

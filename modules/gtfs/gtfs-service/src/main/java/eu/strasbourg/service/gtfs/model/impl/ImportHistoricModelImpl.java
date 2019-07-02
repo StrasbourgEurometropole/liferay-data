@@ -84,7 +84,9 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 			{ "result", Types.INTEGER },
 			{ "operations", Types.CLOB },
 			{ "errorDescription", Types.CLOB },
-			{ "errorStackTrace", Types.CLOB }
+			{ "errorStackTrace", Types.CLOB },
+			{ "startDate", Types.TIMESTAMP },
+			{ "finishDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -105,9 +107,11 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		TABLE_COLUMNS_MAP.put("operations", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("errorDescription", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("errorStackTrace", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("finishDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations TEXT null,errorDescription TEXT null,errorStackTrace TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations TEXT null,errorDescription TEXT null,errorStackTrace TEXT null,startDate DATE null,finishDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_ImportHistoric";
 	public static final String ORDER_BY_JPQL = " ORDER BY importHistoric.importHistoricId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_ImportHistoric.importHistoricId DESC";
@@ -183,6 +187,8 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		attributes.put("operations", getOperations());
 		attributes.put("errorDescription", getErrorDescription());
 		attributes.put("errorStackTrace", getErrorStackTrace());
+		attributes.put("startDate", getStartDate());
+		attributes.put("finishDate", getFinishDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -286,6 +292,18 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 
 		if (errorStackTrace != null) {
 			setErrorStackTrace(errorStackTrace);
+		}
+
+		Date startDate = (Date)attributes.get("startDate");
+
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date finishDate = (Date)attributes.get("finishDate");
+
+		if (finishDate != null) {
+			setFinishDate(finishDate);
 		}
 	}
 
@@ -552,6 +570,26 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 	}
 
 	@Override
+	public Date getStartDate() {
+		return _startDate;
+	}
+
+	@Override
+	public void setStartDate(Date startDate) {
+		_startDate = startDate;
+	}
+
+	@Override
+	public Date getFinishDate() {
+		return _finishDate;
+	}
+
+	@Override
+	public void setFinishDate(Date finishDate) {
+		_finishDate = finishDate;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
 				ImportHistoric.class.getName()));
@@ -684,6 +722,8 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		importHistoricImpl.setOperations(getOperations());
 		importHistoricImpl.setErrorDescription(getErrorDescription());
 		importHistoricImpl.setErrorStackTrace(getErrorStackTrace());
+		importHistoricImpl.setStartDate(getStartDate());
+		importHistoricImpl.setFinishDate(getFinishDate());
 
 		importHistoricImpl.resetOriginalValues();
 
@@ -862,12 +902,30 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 			importHistoricCacheModel.errorStackTrace = null;
 		}
 
+		Date startDate = getStartDate();
+
+		if (startDate != null) {
+			importHistoricCacheModel.startDate = startDate.getTime();
+		}
+		else {
+			importHistoricCacheModel.startDate = Long.MIN_VALUE;
+		}
+
+		Date finishDate = getFinishDate();
+
+		if (finishDate != null) {
+			importHistoricCacheModel.finishDate = finishDate.getTime();
+		}
+		else {
+			importHistoricCacheModel.finishDate = Long.MIN_VALUE;
+		}
+
 		return importHistoricCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -901,6 +959,10 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		sb.append(getErrorDescription());
 		sb.append(", errorStackTrace=");
 		sb.append(getErrorStackTrace());
+		sb.append(", startDate=");
+		sb.append(getStartDate());
+		sb.append(", finishDate=");
+		sb.append(getFinishDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -908,7 +970,7 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.gtfs.model.ImportHistoric");
@@ -978,6 +1040,14 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 			"<column><column-name>errorStackTrace</column-name><column-value><![CDATA[");
 		sb.append(getErrorStackTrace());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>startDate</column-name><column-value><![CDATA[");
+		sb.append(getStartDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>finishDate</column-name><column-value><![CDATA[");
+		sb.append(getFinishDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1010,6 +1080,8 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 	private String _operations;
 	private String _errorDescription;
 	private String _errorStackTrace;
+	private Date _startDate;
+	private Date _finishDate;
 	private long _columnBitmask;
 	private ImportHistoric _escapedModel;
 }

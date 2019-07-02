@@ -352,6 +352,34 @@ public interface ImportHistoricModel extends BaseModel<ImportHistoric>,
 	public void setErrorStackTrace(String errorStackTrace);
 
 	/**
+	 * Returns the start date of this import historic.
+	 *
+	 * @return the start date of this import historic
+	 */
+	public Date getStartDate();
+
+	/**
+	 * Sets the start date of this import historic.
+	 *
+	 * @param startDate the start date of this import historic
+	 */
+	public void setStartDate(Date startDate);
+
+	/**
+	 * Returns the finish date of this import historic.
+	 *
+	 * @return the finish date of this import historic
+	 */
+	public Date getFinishDate();
+
+	/**
+	 * Sets the finish date of this import historic.
+	 *
+	 * @param finishDate the finish date of this import historic
+	 */
+	public void setFinishDate(Date finishDate);
+
+	/**
 	 * Returns <code>true</code> if this import historic is approved.
 	 *
 	 * @return <code>true</code> if this import historic is approved; <code>false</code> otherwise

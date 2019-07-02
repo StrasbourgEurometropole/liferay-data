@@ -49,6 +49,8 @@ public class ImportHistoricSoap implements Serializable {
 		soapModel.setOperations(model.getOperations());
 		soapModel.setErrorDescription(model.getErrorDescription());
 		soapModel.setErrorStackTrace(model.getErrorStackTrace());
+		soapModel.setStartDate(model.getStartDate());
+		soapModel.setFinishDate(model.getFinishDate());
 
 		return soapModel;
 	}
@@ -229,6 +231,22 @@ public class ImportHistoricSoap implements Serializable {
 		_errorStackTrace = errorStackTrace;
 	}
 
+	public Date getStartDate() {
+		return _startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		_startDate = startDate;
+	}
+
+	public Date getFinishDate() {
+		return _finishDate;
+	}
+
+	public void setFinishDate(Date finishDate) {
+		_finishDate = finishDate;
+	}
+
 	private String _uuid;
 	private long _importHistoricId;
 	private long _groupId;
@@ -245,4 +263,6 @@ public class ImportHistoricSoap implements Serializable {
 	private String _operations;
 	private String _errorDescription;
 	private String _errorStackTrace;
+	private Date _startDate;
+	private Date _finishDate;
 }

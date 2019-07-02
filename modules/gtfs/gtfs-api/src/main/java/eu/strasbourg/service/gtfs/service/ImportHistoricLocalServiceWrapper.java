@@ -421,8 +421,9 @@ public class ImportHistoricLocalServiceWrapper
 	*/
 	@Override
 	public void doImportGTFS(
-		com.liferay.portal.kernel.service.ServiceContext sc) {
-		_importHistoricLocalService.doImportGTFS(sc);
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
+		_importHistoricLocalService.doImportGTFS(sc, importHistoric);
 	}
 
 	/**

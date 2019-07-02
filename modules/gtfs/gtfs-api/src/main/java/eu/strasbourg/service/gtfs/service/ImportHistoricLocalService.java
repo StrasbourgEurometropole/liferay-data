@@ -339,7 +339,7 @@ public interface ImportHistoricLocalService extends BaseLocalService,
 	/**
 	* Effectue l'import des donnees issues des fichiers GTFS
 	*/
-	public void doImportGTFS(ServiceContext sc);
+	public void doImportGTFS(ServiceContext sc, ImportHistoric importHistoric);
 
 	/**
 	* Met à jour le statut de l'entree d'import "manuellement" (pas via le workflow)

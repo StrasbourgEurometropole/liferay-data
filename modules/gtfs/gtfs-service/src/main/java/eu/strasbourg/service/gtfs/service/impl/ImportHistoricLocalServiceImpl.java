@@ -278,8 +278,8 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 	 * Effectue l'import des donnees issues des fichiers GTFS
 	 */
 	@Override
-	public void doImportGTFS(ServiceContext sc) {
-		GTFSImporter importer = new GTFSImporter(sc);
+	public void doImportGTFS(ServiceContext sc, ImportHistoric importHistoric) {
+		GTFSImporter importer = new GTFSImporter(sc, importHistoric);
 		importer.doImport();
 	}
 	

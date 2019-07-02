@@ -80,7 +80,9 @@ create table gtfs_ImportHistoric (
 	result INTEGER,
 	operations TEXT null,
 	errorDescription TEXT null,
-	errorStackTrace TEXT null
+	errorStackTrace TEXT null,
+	startDate DATE null,
+	finishDate DATE null
 );
 
 create table gtfs_Ligne (

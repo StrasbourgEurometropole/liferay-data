@@ -2426,6 +2426,8 @@ public class ImportHistoricPersistenceImpl extends BasePersistenceImpl<ImportHis
 		importHistoricImpl.setOperations(importHistoric.getOperations());
 		importHistoricImpl.setErrorDescription(importHistoric.getErrorDescription());
 		importHistoricImpl.setErrorStackTrace(importHistoric.getErrorStackTrace());
+		importHistoricImpl.setStartDate(importHistoric.getStartDate());
+		importHistoricImpl.setFinishDate(importHistoric.getFinishDate());
 
 		return importHistoricImpl;
 	}

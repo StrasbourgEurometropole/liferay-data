@@ -32,6 +32,8 @@
 		<column name="operations" type="String" />
 		<column name="errorDescription" type="String" />
 		<column name="errorStackTrace" type="String" />
+		<column name="startDate" type="Date" />
+		<column name="finishDate" type="Date" />
 		
 		<!-- Order -->
 		<order by="desc">

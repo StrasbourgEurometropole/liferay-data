@@ -89,6 +89,8 @@
 		<field name="errorStackTrace" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="startDate" type="Date" />
+		<field name="finishDate" type="Date" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Ligne">
 		<field name="uuid" type="String" />
