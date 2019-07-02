@@ -65,8 +65,8 @@
       <!-- pre-header -->
       <nav class="nav-lang"> 
         <div class="center"> 
-          <a href="//www.europtimist.eu/" title="Europtimist.eu (<@liferay.language key="new-window" />)" class="logo-strasbourg" target="_blank">
-            <img src="${images_folder}/pre-header/logo_strasbourg.png" alt="Europtimist.eu" />
+          <a href="//www.strasbourg.eu" title="Strasbourg.eu (<@liferay.language key="new-window" />)" class="logo-strasbourg" target="_blank">
+            <img src="${images_folder}/pre-header/logo.png" alt="Strasbourg.eu" />
           </a>
           <ul>
 	      	<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>

@@ -17,6 +17,8 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -43,7 +45,10 @@ public class FavoritesDisplayContext {
 	private ThemeDisplay themeDisplay;
 	private FavoritesConfiguration configuration;
 
-	private List<FavoriteDisplay> favorites;
+	private String publikUserId;
+	private List<Favorite> favorites;
+	private List<FavoriteDisplay> favoritesDisplay;
+	private List<FavoriteDisplay> favoritesSelected;
 	private List<FavoriteDisplay> myFavorites;
 	private SearchContainer<FavoriteDisplay> searchContainer;
 
@@ -59,35 +64,8 @@ public class FavoritesDisplayContext {
 		}
 	}
 
-	/**
-	 * Récupère tous les favoris de l'utilisateur à afficher selon le filtre sélectionné
-	 */
-	public List<FavoriteDisplay> getFavorites() {
-		if (favorites == null) {
-			String publikUserId = "";
-			HttpServletRequest servletRequest = ServiceContextThreadLocal.getServiceContext().getRequest();
-			boolean isLoggedIn = SessionParamUtil.getBoolean(servletRequest, "publik_logged_in");
-			if (isLoggedIn) {
-				publikUserId = SessionParamUtil.getString(servletRequest, "publik_internal_id");
-			}
-
-			List<Favorite> userFavorites = FavoriteLocalServiceUtil.getByPublikUser(publikUserId);
-			long favoriteTypeId = ParamUtil.getLong(request, "favoriteTypeId");
-			if (favoriteTypeId > 0) {
-				userFavorites = userFavorites.stream().filter(f -> f.getFavoriteType().getId() == favoriteTypeId)
-						.collect(Collectors.toList());
-			}
-
-			List<FavoriteDisplay> favoritesDisplay = new ArrayList<FavoriteDisplay>();
-
-			for (Favorite favorite : userFavorites) {
-				favoritesDisplay.add(new FavoriteDisplay(favorite, publikUserId, themeDisplay));
-			}
-			favoritesDisplay.sort(Comparator.comparing(FavoriteDisplay::getFavoriteId));
-			Collections.reverse(favoritesDisplay);
-			favorites = favoritesDisplay;
-		}
-		return favorites;
+	public String getPortletTitle(String defaultValue) {
+		return PortletHelper.getPortletTitle(defaultValue, request);
 	}
 
 	public String getNoFavoriteText() {
@@ -105,6 +83,21 @@ public class FavoritesDisplayContext {
 		return noFavorites;
 	}
 
+	public String getNoFavoriteSelectedText() {
+		String noFavoritesSelected = "";
+		Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.noFavoritesSelectedXML());
+		for (Map.Entry<Locale, String> map : mapText.entrySet()) {
+			if (themeDisplay.getLocale().toString().equals(map.getKey().toString())) {
+				noFavoritesSelected = HtmlUtil.unescape(map.getValue());
+				break;
+			}
+		}
+		if (Validator.isNull(noFavoritesSelected)) {
+			noFavoritesSelected = "No configuration";
+		}
+		return noFavoritesSelected;
+	}
+
 	public String getTexte() {
 		String texte = "";
 		Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.texteXML());
@@ -120,26 +113,91 @@ public class FavoritesDisplayContext {
 		return texte;
 	}
 
-	public List<FavoriteDisplay> getMyFavorites() {
-		if (myFavorites == null) {
-			String publikUserId = "";
+	/**
+	 * Récupère le publikUserId
+	 */
+	public String getPublikUserId() {
+		if(publikUserId == null){
+			publikUserId = "";
+
 			HttpServletRequest servletRequest = ServiceContextThreadLocal.getServiceContext().getRequest();
 			boolean isLoggedIn = SessionParamUtil.getBoolean(servletRequest, "publik_logged_in");
 			if (isLoggedIn) {
 				publikUserId = SessionParamUtil.getString(servletRequest, "publik_internal_id");
 			}
+		}
 
-			List<Favorite> userFavorites = FavoriteLocalServiceUtil.getByPublikUser(publikUserId).stream()
-					.filter(f -> Validator.isNotNull(f.getOnDashboardDate()))
-					.sorted((f1, f2) -> f2.getOnDashboardDate().compareTo(f1.getOnDashboardDate()))
-					.collect(Collectors.toList());
+		return publikUserId;
+	}
 
-			myFavorites = new ArrayList<FavoriteDisplay>();
-			for (Favorite favorite : userFavorites) {
-				myFavorites.add(new FavoriteDisplay(favorite, publikUserId, themeDisplay));
+	/**
+	 * Transforme une liste de Favorite en liste de FavoriteDisplay
+	 */
+	private List<FavoriteDisplay> transformeFavoriteToFavoriteDisplay(List<Favorite> listFavorites) {
+		List<FavoriteDisplay> listFavoritesDisplay = new ArrayList<FavoriteDisplay>();
+		for (Favorite favorite : listFavorites) {
+			listFavoritesDisplay.add(new FavoriteDisplay(favorite, getPublikUserId(), themeDisplay));
+		}
+		return listFavoritesDisplay;
+	}
+
+	/**
+	 * Récupère tous les favoris de l'utilisateur
+	 */
+	public List<Favorite> getAllFavorites() {
+		if(favorites == null) {
+			String publikUserId = getPublikUserId();
+			favorites = FavoriteLocalServiceUtil.getByPublikUser(publikUserId);
+		}
+		return favorites;
+	}
+
+	/**
+	 * Récupère tous les favoris de l'utilisateur à afficher selon le filtre sélectionné
+	 */
+	public List<FavoriteDisplay> getFavorites() {
+		if (favoritesDisplay == null) {
+			long favoriteTypeId = ParamUtil.getLong(request, "favoriteTypeId");
+			if (favoriteTypeId > 0) {
+				favoritesDisplay = transformeFavoriteToFavoriteDisplay(getAllFavorites().stream()
+						.filter(f -> f.getFavoriteType().getId() == favoriteTypeId).collect(Collectors.toList()));
+			}else{
+				favoritesDisplay = transformeFavoriteToFavoriteDisplay(getAllFavorites());
 			}
 
+			favoritesDisplay.sort(Comparator.comparing(FavoriteDisplay::getFavoriteId));
+			Collections.reverse(favoritesDisplay);
 		}
+		return favoritesDisplay;
+	}
+
+	/**
+	 * Récupère les favoris sélectionnés de l'utilisateur
+	 */
+	public List<FavoriteDisplay> getFavoritesSelected() {
+		if (favoritesSelected == null) {
+			String publikUserId = getPublikUserId();
+
+			favoritesSelected = transformeFavoriteToFavoriteDisplay(getAllFavorites().stream()
+					.filter(f -> Validator.isNotNull(f.getOnDashboardDate()))
+					.sorted((f1, f2) -> f2.getOnDashboardDate().compareTo(f1.getOnDashboardDate()))
+					.collect(Collectors.toList()));
+
+		}
+		return favoritesSelected;
+	}
+
+	/**
+	 * Récupère les favoris de l'utilisateur à afficher dans la page d'accueil (soit les séletionnés, soit les 4 derniers
+	 */
+	public List<FavoriteDisplay> getMyFavorites() {
+		if (myFavorites == null) {
+			myFavorites = getFavoritesSelected();
+			if (myFavorites.isEmpty()){
+				myFavorites = getFavorites().subList(0, getFavorites().size() > 4 ? 4 : getFavorites().size());
+			}
+		}
+
 		return myFavorites;
 	}
 
@@ -155,10 +213,6 @@ public class FavoritesDisplayContext {
 		selectedCalendar.setTime(jourChoisi.getTime());
 
 		return selectedCalendar;
-	}
-	
-	public String getPortletTitle(String defaultValue) {
-		return PortletHelper.getPortletTitle(defaultValue, request);
 	}
 
 	/**
@@ -233,35 +287,6 @@ public class FavoritesDisplayContext {
 		return valueToReturn;
 	}
 
-	public List<FavoriteType> getFavoritesType() {
-		List<FavoriteType> favoritesType = FavoriteType.getAll();
-		favoritesType.sort(Comparator.comparing(FavoriteType::getName));
-		return favoritesType;
-	}
-	
-	/**
-	 * Récupère tous les favoris de l'utilisateur sans tenir compte du filtre
-	 */
-	public List<FavoriteDisplay> getAllFavorites() {
-		String publikUserId = "";
-		HttpServletRequest servletRequest = ServiceContextThreadLocal.getServiceContext().getRequest();
-		boolean isLoggedIn = SessionParamUtil.getBoolean(servletRequest, "publik_logged_in");
-		if (isLoggedIn) {
-			publikUserId = SessionParamUtil.getString(servletRequest, "publik_internal_id");
-		}
-
-		List<Favorite> userFavorites = FavoriteLocalServiceUtil.getByPublikUser(publikUserId);
-		List<FavoriteDisplay> favoritesDisplay = new ArrayList<FavoriteDisplay>();
-
-		for (Favorite favorite : userFavorites) {
-			favoritesDisplay.add(new FavoriteDisplay(favorite, publikUserId, themeDisplay));
-		}
-		favoritesDisplay.sort(Comparator.comparing(FavoriteDisplay::getFavoriteId));
-		Collections.reverse(favoritesDisplay);
-
-		return favoritesDisplay;
-	}
-	
 	/**
 	 * Retourne la liste des types de favoris présent dans la liste de favoris de l'utilisateur
 	 */

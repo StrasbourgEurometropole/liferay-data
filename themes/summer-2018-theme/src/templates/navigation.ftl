@@ -24,7 +24,6 @@
             <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="${homeURL}">
-               <!--<img id="logo-menu" src="/o/summer-2018-theme/images/logo-home.png" height="284" width="421" />-->
             </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">

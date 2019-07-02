@@ -1,12 +1,34 @@
+/*
+* * Leaflet Gesture Handling **
+* * Version 1.1.8
+*/
+LanguageContent = {
+    //German
+    de_DE: {
+        touch: "Verschieben der Karte mit zwei Fingern",
+        scroll: "Verwende Strg+Scrollen zum Zoomen der Karte",
+        scrollMac: "\u2318"
+    },
+    //English
+    en_US: {
+        touch: "Use two fingers to move the map",
+        scroll: "Use ctrl + scroll to zoom the map",
+        scrollMac: "Use \u2318 + scroll to zoom the map"
+    },
+    //French
+    fr_FR: {
+        touch: "Utilisez deux\u00a0doigts pour d\u00e9placer la carte",
+        scroll:
+            "Vous pouvez zoomer sur la carte \u00e0 l'aide de CTRL+Molette de d\u00e9filement",
+        scrollMac:
+            "Vous pouvez zoomer sur la carte \u00e0 l'aide de \u2318+Molette de d\u00e9filement"
+    }
+};
+
+
 L.Map.mergeOptions({
     gestureHandlingOptions: {
-        text: {
-		touch: "Utilisez deux\u00a0doigts pour d\u00e9placer la carte",
-	        scroll:
-        	    "Vous pouvez zoomer sur la carte \u00e0 l'aide de CTRL+Molette de d\u00e9filement",
-	        scrollMac:
-        	    "Vous pouvez zoomer sur la carte \u00e0 l'aide de \u2318+Molette de d\u00e9filement"
-	},
+        text: {},
         duration: 1000
     }
 });
@@ -32,7 +54,7 @@ var GestureHandling = L.Handler.extend({
         L.DomEvent.on(
             this._map._container,
             "mousewheel",
-            this._handleScroll,
+//            this._handleScroll,
             this
         );
         L.DomEvent.on(this._map, "mouseover", this._handleMouseOver, this);
@@ -65,7 +87,7 @@ var GestureHandling = L.Handler.extend({
         L.DomEvent.off(
             this._map._container,
             "mousewheel",
-            this._handleScroll,
+//            this._handleScroll,
             this
         );
         L.DomEvent.off(this._map, "mouseover", this._handleMouseOver, this);
@@ -86,7 +108,7 @@ var GestureHandling = L.Handler.extend({
 
     _disableInteractions: function() {
         this._map.dragging.disable();
-        this._map.scrollWheelZoom.disable();
+//        this._map.scrollWheelZoom.disable();
         if (this._map.tap) {
             this._map.tap.disable();
         }
@@ -94,7 +116,7 @@ var GestureHandling = L.Handler.extend({
 
     _enableInteractions: function() {
         this._map.dragging.enable();
-        this._map.scrollWheelZoom.enable();
+//        this._map.scrollWheelZoom.enable();
         if (this._map.tap) {
             this._map.tap.enable();
         }
@@ -118,9 +140,37 @@ var GestureHandling = L.Handler.extend({
             this._map.options.gestureHandlingOptions.text.scrollMac
         ) {
             languageContent = this._map.options.gestureHandlingOptions.text;
-        } 
+        } else {
+            //Otherwise auto set it from the language files
 
+            //Determine their language e.g fr or en-US of system
+            var lang = this._getUserLanguage();
 
+            //Determine liferay language
+            lang = Liferay.ThemeDisplay.getLanguageId();
+
+            //If we couldn't find it default to en
+            if (!lang) {
+                lang = "en_US";
+            }
+
+            //Lookup the appropriate language content
+            if (LanguageContent[lang]) {
+                languageContent = LanguageContent[lang];
+            }
+
+            //If no result, try searching by the first part only. e.g en-US just use en.
+            if (!languageContent && lang.indexOf("-") !== -1) {
+                lang = lang.split("-")[0];
+                languageContent = LanguageContent[lang];
+            }
+
+            if (!languageContent) {
+                // If still nothing, default to English
+                lang = "en";
+                languageContent = LanguageContent[lang];
+            }
+        }
 
         //Check if they're on a mac for display of command instead of ctrl
         var mac = false;
@@ -143,6 +193,12 @@ var GestureHandling = L.Handler.extend({
         );
     },
 
+    _getUserLanguage: function() {
+        var lang = navigator.languages
+            ? navigator.languages[0]
+            : navigator.language || navigator.userLanguage;
+        return lang;
+    },
 
     _handleTouch: function(e) {
         //Disregard touch events on the minimap if present
@@ -174,7 +230,7 @@ var GestureHandling = L.Handler.extend({
                 );
                 this._disableInteractions();
             } else {
-                L.DomUtil.removeClass(this._map._container, 
+                L.DomUtil.removeClass(this._map._container,
                     "leaflet-gesture-handling-touch-warning"
                 );
             }
@@ -188,13 +244,13 @@ var GestureHandling = L.Handler.extend({
             return;
         }
         if (e.touches.length === 1) {
-            L.DomUtil.addClass(this._map._container, 
+            L.DomUtil.addClass(this._map._container,
                 "leaflet-gesture-handling-touch-warning"
             );
             this._disableInteractions();
         } else {
             this._enableInteractions();
-            L.DomUtil.removeClass(this._map._container, 
+            L.DomUtil.removeClass(this._map._container,
                 "leaflet-gesture-handling-touch-warning"
             );
         }
@@ -247,4 +303,3 @@ var GestureHandling = L.Handler.extend({
 L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
 
 GestureHandling;
-

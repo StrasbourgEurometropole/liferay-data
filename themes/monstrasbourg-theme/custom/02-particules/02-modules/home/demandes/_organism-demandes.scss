@@ -93,12 +93,14 @@
 
 
                 input{
+                    @extend %atom-form-input;
                     width: 100%;
                     max-width: 350px;
                     height: 50px;
                     border-radius: 0;
                     padding: 0 20px;
                     line-height: 50px;
+                    margin-bottom: 15px;
                 }
             } 
         }

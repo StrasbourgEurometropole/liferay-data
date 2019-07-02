@@ -620,6 +620,7 @@
             font-size: 11px;
             text-align: center;
             line-height: 8px;
+            white-space: nowrap;
 
             &.red{
                 background-color: $crowded-red;
@@ -813,6 +814,7 @@
                 flex-shrink: 0;
                 margin: 5px auto;
                 line-height: 16px;
+                white-space: nowrap;
 
                 &.orange{
                     background-color: $crowded-orange;
@@ -967,10 +969,6 @@
     /* ------------------------------ Etat full screen */
 
     .aroundme--fullscreen{
-        main{
-
-        
-        }
         header{
             display: none !important;
         }
@@ -996,9 +994,6 @@
             #aroundme__center{
                 height: 100%;
                 z-index: 15;
-            }
-            #aroundme__side{
-
             }
             #aroundme__top{
                 display: none !important;

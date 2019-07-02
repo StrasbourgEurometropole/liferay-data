@@ -166,6 +166,9 @@ public class DashboardPortlet extends MVCPortlet {
             request.setAttribute("isFolded", isFolded);
         }
 
+        group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/participer");
+        request.setAttribute("virtualParticiperHostName", group.getPublicLayoutSet().getVirtualHostname());
+
         include("/" + template + ".jsp", request, response);
     }
 

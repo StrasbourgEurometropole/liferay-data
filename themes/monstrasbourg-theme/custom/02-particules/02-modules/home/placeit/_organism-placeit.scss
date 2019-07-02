@@ -5,6 +5,22 @@
     background-color: transparent;
     padding: 45px 0;
 
+    b{
+        font-weight: 700;
+    }
+
+    .buttons{
+        padding-right: 75px;
+
+        @include RWD(tablet){
+            padding-right: 45px;
+        }
+
+        @include RWD(mobile){
+            padding-right: 20px;
+        }
+    }
+
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
     }

@@ -446,12 +446,9 @@
 		<aui:button-row>
 			<aui:button cssClass="btn-lg" type="submit" name="save-as-draft" value="save-as-draft" />
 			<aui:button cssClass="btn-lg" type="submit" name="save-and-submit" value="save-and-submit" />
-            <c:if test="${dc.isAdministrator()}">
-				<aui:button cssClass="btn-lg" type="submit" name="save-and-approve" value="save-and-approve" />
-            </c:if>
-			<c:if test="${not empty dc.campaignEvent 
+			<c:if test="${(not empty dc.campaignEvent
 						&& dc.campaignEvent.status eq 1 
-						&& dc.campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)}">
+						&& dc.campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)) || dc.isAdministrator()}">
 				<aui:button cssClass="btn-lg" type="submit" name="save-and-approve" value="save-and-approve" />
 			</c:if>
 			<c:if test="${not empty dc.campaignEvent 
@@ -487,6 +484,9 @@
 		var themeLabels = ${dc.themeLabels};
 		var campaignThemes = ${dc.campaignThemes};
 		var eventThemes = '${dc.campaignEvent.themesIds}';
+		var typeLabels = ${dc.typeLabels};
+		var campaignTypes = ${dc.campaignTypes};
+		var eventTypes = '${dc.campaignEvent.typesIds}';
 		
 		
 		$('button[name=' + namespace + 'use-same-picture]').on('click', function(){

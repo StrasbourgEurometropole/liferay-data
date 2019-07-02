@@ -165,7 +165,12 @@
                             <portlet:param name="favoriteId" value="${favorite.favoriteId}" />
                             <portlet:param name="favoriteTypeId" value="${param.favoriteTypeId}" />
                         </liferay-portlet:actionURL>
-                        <a href="${linkFavoriteToDashboardURL}" class="favoris-teaser__${dc.isFavoriteOnDashboard(favorite.favoriteId)?'remove':'add'}" data-favtodashboard="add"><liferay-ui:message key="add-favorite" /></a>
+						<c:if test="${dc.isFavoriteOnDashboard(favorite.favoriteId)}">
+                            <a href="${linkFavoriteToDashboardURL}" class="favoris-teaser__remove" data-favtodashboard="remove"><liferay-ui:message key="remove-favorite" /></a>
+                        </c:if>
+						<c:if test="${!dc.isFavoriteOnDashboard(favorite.favoriteId)}">
+                            <a href="${linkFavoriteToDashboardURL}" class="favoris-teaser__add" data-favtodashboard="add"><liferay-ui:message key="add-favorite" /></a>
+                        </c:if>
 					</li>
 				</c:forEach>
 			</ul>

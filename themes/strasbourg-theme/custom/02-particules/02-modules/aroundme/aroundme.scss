@@ -620,6 +620,7 @@
             font-size: 11px;
             text-align: center;
             line-height: 8px;
+            white-space: nowrap;
 
             &.red{
                 background-color: $crowded-red;
@@ -813,6 +814,7 @@
                 flex-shrink: 0;
                 margin: 5px auto;
                 line-height: 16px;
+                white-space: nowrap;
 
                 &.orange{
                     background-color: $crowded-orange;
