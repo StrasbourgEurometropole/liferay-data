@@ -64,7 +64,7 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -74,6 +74,8 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
+		sb.append(", tripId=");
+		sb.append(tripId);
 		sb.append(", stopId=");
 		sb.append(stopId);
 		sb.append(", routeId=");
@@ -99,6 +101,13 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		directionImpl.setDirectionId(directionId);
 		directionImpl.setGroupId(groupId);
 		directionImpl.setCompanyId(companyId);
+
+		if (tripId == null) {
+			directionImpl.setTripId(StringPool.BLANK);
+		}
+		else {
+			directionImpl.setTripId(tripId);
+		}
 
 		if (stopId == null) {
 			directionImpl.setStopId(StringPool.BLANK);
@@ -135,6 +144,7 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		groupId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
+		tripId = objectInput.readUTF();
 		stopId = objectInput.readUTF();
 		routeId = objectInput.readUTF();
 		destinationName = objectInput.readUTF();
@@ -155,6 +165,13 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(companyId);
+
+		if (tripId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(tripId);
+		}
 
 		if (stopId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -182,6 +199,7 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 	public long directionId;
 	public long groupId;
 	public long companyId;
+	public String tripId;
 	public String stopId;
 	public String routeId;
 	public String destinationName;

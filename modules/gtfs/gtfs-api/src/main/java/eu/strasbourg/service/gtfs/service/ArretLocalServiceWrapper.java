@@ -379,6 +379,14 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 	}
 
 	/**
+	* Retourne la liste de tous les arrets
+	*/
+	@Override
+	public java.util.Map<java.lang.String, eu.strasbourg.service.gtfs.model.Arret> getAll() {
+		return _arretLocalService.getAll();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -410,6 +418,51 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 	@Override
 	public long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return _arretLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Supprime les entrees
+	*/
+	@Override
+	public void removeArrets(
+		java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_arretLocalService.removeArrets(arrets, sc);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	*/
+	@Override
+	public void unpublishArrets(
+		java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_arretLocalService.unpublishArrets(arrets, importHistoric, sc);
+	}
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	@Override
+	public void updateArrets(
+		java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_arretLocalService.updateArrets(arrets, sc);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(eu.strasbourg.service.gtfs.model.Arret arret,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		_arretLocalService.updateStatus(arret, status);
 	}
 
 	@Override

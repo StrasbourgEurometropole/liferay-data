@@ -135,6 +135,12 @@ public interface RouteLocalService extends BaseLocalService,
 	public Route fetchRoute(long id);
 
 	/**
+	* Recuperer une ligne via son routeId
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Route getByRouteId(java.lang.String routeId);
+
+	/**
 	* Returns the route with the primary key.
 	*
 	* @param id the primary key of the route
@@ -219,6 +225,12 @@ public interface RouteLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Recuperer toutes les lignes
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Route> getAllRoutes();
 
 	/**
 	* Returns a range of all the routes.

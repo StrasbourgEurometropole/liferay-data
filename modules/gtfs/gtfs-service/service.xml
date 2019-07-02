@@ -111,6 +111,7 @@
 		<column name="companyId" type="long" />
 		
 		<!-- Other fields -->
+		<column name="tripId" type="String" />
 		<column name="stopId" type="String" />
 		<column name="routeId" type="String" />
 		<column name="destinationName" type="String" />
@@ -123,6 +124,9 @@
 		<!-- Finder methods -->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="TripId" return-type="Direction">
+			<finder-column name="tripId" />
 		</finder>
 		<finder name="StopId" return-type="Collection">
 			<finder-column name="stopId" />
@@ -158,7 +162,8 @@
 		<column name="routeId" type="String" />
 		<column name="shortName" type="String" />
 		<column name="title" type="String" />
-		<column name="type" type="String" />
+		<column name="type" type="int" />
+		<column name="backgroundColor" type="String" />
 		<column name="textColor" type="String" />
 		
 		<!-- Order -->
@@ -281,7 +286,7 @@
 		</order>
 		
 		<!-- Finder methods -->
-		<finder name="RouteId" return-type="Collection">
+		<finder name="RouteId" return-type="Route">
 			<finder-column name="route_id" />
 		</finder>
 
@@ -336,7 +341,7 @@
 		</order>
 		
 		<!-- Finder methods -->
-		<finder name="StopId" return-type="Collection">
+		<finder name="StopId" return-type="Stop">
 			<finder-column name="stop_id" />
 		</finder>
 		<finder name="StopCode" return-type="Collection">

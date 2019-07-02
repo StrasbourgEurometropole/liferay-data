@@ -65,7 +65,7 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,6 +99,8 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		sb.append(title);
 		sb.append(", type=");
 		sb.append(type);
+		sb.append(", backgroundColor=");
+		sb.append(backgroundColor);
 		sb.append(", textColor=");
 		sb.append(textColor);
 		sb.append("}");
@@ -181,11 +183,13 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 			ligneImpl.setTitle(title);
 		}
 
-		if (type == null) {
-			ligneImpl.setType(StringPool.BLANK);
+		ligneImpl.setType(type);
+
+		if (backgroundColor == null) {
+			ligneImpl.setBackgroundColor(StringPool.BLANK);
 		}
 		else {
-			ligneImpl.setType(type);
+			ligneImpl.setBackgroundColor(backgroundColor);
 		}
 
 		if (textColor == null) {
@@ -223,7 +227,9 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 		routeId = objectInput.readUTF();
 		shortName = objectInput.readUTF();
 		title = objectInput.readUTF();
-		type = objectInput.readUTF();
+
+		type = objectInput.readInt();
+		backgroundColor = objectInput.readUTF();
 		textColor = objectInput.readUTF();
 	}
 
@@ -289,11 +295,13 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 			objectOutput.writeUTF(title);
 		}
 
-		if (type == null) {
+		objectOutput.writeInt(type);
+
+		if (backgroundColor == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(type);
+			objectOutput.writeUTF(backgroundColor);
 		}
 
 		if (textColor == null) {
@@ -319,6 +327,7 @@ public class LigneCacheModel implements CacheModel<Ligne>, Externalizable {
 	public String routeId;
 	public String shortName;
 	public String title;
-	public String type;
+	public int type;
+	public String backgroundColor;
 	public String textColor;
 }

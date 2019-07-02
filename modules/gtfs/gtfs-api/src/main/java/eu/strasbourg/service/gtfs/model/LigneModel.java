@@ -342,15 +342,29 @@ public interface LigneModel extends BaseModel<Ligne>, GroupedModel, ShardedModel
 	 *
 	 * @return the type of this ligne
 	 */
-	@AutoEscape
-	public String getType();
+	public int getType();
 
 	/**
 	 * Sets the type of this ligne.
 	 *
 	 * @param type the type of this ligne
 	 */
-	public void setType(String type);
+	public void setType(int type);
+
+	/**
+	 * Returns the background color of this ligne.
+	 *
+	 * @return the background color of this ligne
+	 */
+	@AutoEscape
+	public String getBackgroundColor();
+
+	/**
+	 * Sets the background color of this ligne.
+	 *
+	 * @param backgroundColor the background color of this ligne
+	 */
+	public void setBackgroundColor(String backgroundColor);
 
 	/**
 	 * Returns the text color of this ligne.

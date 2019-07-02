@@ -49,6 +49,7 @@ public class LigneSoap implements Serializable {
 		soapModel.setShortName(model.getShortName());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setType(model.getType());
+		soapModel.setBackgroundColor(model.getBackgroundColor());
 		soapModel.setTextColor(model.getTextColor());
 
 		return soapModel;
@@ -222,12 +223,20 @@ public class LigneSoap implements Serializable {
 		_title = title;
 	}
 
-	public String getType() {
+	public int getType() {
 		return _type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		_type = type;
+	}
+
+	public String getBackgroundColor() {
+		return _backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		_backgroundColor = backgroundColor;
 	}
 
 	public String getTextColor() {
@@ -253,6 +262,7 @@ public class LigneSoap implements Serializable {
 	private String _routeId;
 	private String _shortName;
 	private String _title;
-	private String _type;
+	private int _type;
+	private String _backgroundColor;
 	private String _textColor;
 }

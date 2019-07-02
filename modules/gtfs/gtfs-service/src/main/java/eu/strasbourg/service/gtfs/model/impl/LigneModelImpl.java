@@ -83,7 +83,8 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 			{ "routeId", Types.VARCHAR },
 			{ "shortName", Types.VARCHAR },
 			{ "title", Types.VARCHAR },
-			{ "type_", Types.VARCHAR },
+			{ "type_", Types.INTEGER },
+			{ "backgroundColor", Types.VARCHAR },
 			{ "textColor", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -104,11 +105,12 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		TABLE_COLUMNS_MAP.put("routeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("shortName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("type_", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("backgroundColor", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("textColor", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Ligne (uuid_ VARCHAR(75) null,ligneId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,routeId VARCHAR(75) null,shortName VARCHAR(75) null,title VARCHAR(75) null,type_ VARCHAR(75) null,textColor VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Ligne (uuid_ VARCHAR(75) null,ligneId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,routeId VARCHAR(75) null,shortName VARCHAR(75) null,title VARCHAR(75) null,type_ INTEGER,backgroundColor VARCHAR(75) null,textColor VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Ligne";
 	public static final String ORDER_BY_JPQL = " ORDER BY ligne.ligneId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Ligne.ligneId DESC";
@@ -185,6 +187,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		attributes.put("shortName", getShortName());
 		attributes.put("title", getTitle());
 		attributes.put("type", getType());
+		attributes.put("backgroundColor", getBackgroundColor());
 		attributes.put("textColor", getTextColor());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -285,10 +288,16 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 			setTitle(title);
 		}
 
-		String type = (String)attributes.get("type");
+		Integer type = (Integer)attributes.get("type");
 
 		if (type != null) {
 			setType(type);
+		}
+
+		String backgroundColor = (String)attributes.get("backgroundColor");
+
+		if (backgroundColor != null) {
+			setBackgroundColor(backgroundColor);
 		}
 
 		String textColor = (String)attributes.get("textColor");
@@ -561,18 +570,28 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	}
 
 	@Override
-	public String getType() {
-		if (_type == null) {
+	public int getType() {
+		return _type;
+	}
+
+	@Override
+	public void setType(int type) {
+		_type = type;
+	}
+
+	@Override
+	public String getBackgroundColor() {
+		if (_backgroundColor == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _type;
+			return _backgroundColor;
 		}
 	}
 
 	@Override
-	public void setType(String type) {
-		_type = type;
+	public void setBackgroundColor(String backgroundColor) {
+		_backgroundColor = backgroundColor;
 	}
 
 	@Override
@@ -723,6 +742,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		ligneImpl.setShortName(getShortName());
 		ligneImpl.setTitle(getTitle());
 		ligneImpl.setType(getType());
+		ligneImpl.setBackgroundColor(getBackgroundColor());
 		ligneImpl.setTextColor(getTextColor());
 
 		ligneImpl.resetOriginalValues();
@@ -904,10 +924,12 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 		ligneCacheModel.type = getType();
 
-		String type = ligneCacheModel.type;
+		ligneCacheModel.backgroundColor = getBackgroundColor();
 
-		if ((type != null) && (type.length() == 0)) {
-			ligneCacheModel.type = null;
+		String backgroundColor = ligneCacheModel.backgroundColor;
+
+		if ((backgroundColor != null) && (backgroundColor.length() == 0)) {
+			ligneCacheModel.backgroundColor = null;
 		}
 
 		ligneCacheModel.textColor = getTextColor();
@@ -923,7 +945,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -957,6 +979,8 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		sb.append(getTitle());
 		sb.append(", type=");
 		sb.append(getType());
+		sb.append(", backgroundColor=");
+		sb.append(getBackgroundColor());
 		sb.append(", textColor=");
 		sb.append(getTextColor());
 		sb.append("}");
@@ -966,7 +990,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.gtfs.model.Ligne");
@@ -1037,6 +1061,10 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		sb.append(getType());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>backgroundColor</column-name><column-value><![CDATA[");
+		sb.append(getBackgroundColor());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>textColor</column-name><column-value><![CDATA[");
 		sb.append(getTextColor());
 		sb.append("]]></column-value></column>");
@@ -1072,7 +1100,8 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	private String _originalRouteId;
 	private String _shortName;
 	private String _title;
-	private String _type;
+	private int _type;
+	private String _backgroundColor;
 	private String _textColor;
 	private long _columnBitmask;
 	private Ligne _escapedModel;

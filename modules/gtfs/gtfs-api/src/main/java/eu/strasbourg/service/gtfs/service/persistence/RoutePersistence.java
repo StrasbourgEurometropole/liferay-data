@@ -173,128 +173,41 @@ public interface RoutePersistence extends BasePersistence<Route> {
 	public int countByUuid(java.lang.String uuid);
 
 	/**
-	* Returns all the routes where route_id = &#63;.
+	* Returns the route where route_id = &#63; or throws a {@link NoSuchRouteException} if it could not be found.
 	*
 	* @param route_id the route_id
-	* @return the matching routes
+	* @return the matching route
+	* @throws NoSuchRouteException if a matching route could not be found
 	*/
-	public java.util.List<Route> findByRouteId(java.lang.String route_id);
+	public Route findByRouteId(java.lang.String route_id)
+		throws NoSuchRouteException;
 
 	/**
-	* Returns a range of all the routes where route_id = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
+	* Returns the route where route_id = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
 	* @param route_id the route_id
-	* @param start the lower bound of the range of routes
-	* @param end the upper bound of the range of routes (not inclusive)
-	* @return the range of matching routes
+	* @return the matching route, or <code>null</code> if a matching route could not be found
 	*/
-	public java.util.List<Route> findByRouteId(java.lang.String route_id,
-		int start, int end);
+	public Route fetchByRouteId(java.lang.String route_id);
 
 	/**
-	* Returns an ordered range of all the routes where route_id = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
+	* Returns the route where route_id = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
 	* @param route_id the route_id
-	* @param start the lower bound of the range of routes
-	* @param end the upper bound of the range of routes (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching routes
-	*/
-	public java.util.List<Route> findByRouteId(java.lang.String route_id,
-		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Route> orderByComparator);
-
-	/**
-	* Returns an ordered range of all the routes where route_id = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param route_id the route_id
-	* @param start the lower bound of the range of routes
-	* @param end the upper bound of the range of routes (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching routes
+	* @return the matching route, or <code>null</code> if a matching route could not be found
 	*/
-	public java.util.List<Route> findByRouteId(java.lang.String route_id,
-		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Route> orderByComparator,
+	public Route fetchByRouteId(java.lang.String route_id,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first route in the ordered set where route_id = &#63;.
+	* Removes the route where route_id = &#63; from the database.
 	*
 	* @param route_id the route_id
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching route
-	* @throws NoSuchRouteException if a matching route could not be found
+	* @return the route that was removed
 	*/
-	public Route findByRouteId_First(java.lang.String route_id,
-		com.liferay.portal.kernel.util.OrderByComparator<Route> orderByComparator)
+	public Route removeByRouteId(java.lang.String route_id)
 		throws NoSuchRouteException;
-
-	/**
-	* Returns the first route in the ordered set where route_id = &#63;.
-	*
-	* @param route_id the route_id
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching route, or <code>null</code> if a matching route could not be found
-	*/
-	public Route fetchByRouteId_First(java.lang.String route_id,
-		com.liferay.portal.kernel.util.OrderByComparator<Route> orderByComparator);
-
-	/**
-	* Returns the last route in the ordered set where route_id = &#63;.
-	*
-	* @param route_id the route_id
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching route
-	* @throws NoSuchRouteException if a matching route could not be found
-	*/
-	public Route findByRouteId_Last(java.lang.String route_id,
-		com.liferay.portal.kernel.util.OrderByComparator<Route> orderByComparator)
-		throws NoSuchRouteException;
-
-	/**
-	* Returns the last route in the ordered set where route_id = &#63;.
-	*
-	* @param route_id the route_id
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching route, or <code>null</code> if a matching route could not be found
-	*/
-	public Route fetchByRouteId_Last(java.lang.String route_id,
-		com.liferay.portal.kernel.util.OrderByComparator<Route> orderByComparator);
-
-	/**
-	* Returns the routes before and after the current route in the ordered set where route_id = &#63;.
-	*
-	* @param id the primary key of the current route
-	* @param route_id the route_id
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next route
-	* @throws NoSuchRouteException if a route with the primary key could not be found
-	*/
-	public Route[] findByRouteId_PrevAndNext(long id,
-		java.lang.String route_id,
-		com.liferay.portal.kernel.util.OrderByComparator<Route> orderByComparator)
-		throws NoSuchRouteException;
-
-	/**
-	* Removes all the routes where route_id = &#63; from the database.
-	*
-	* @param route_id the route_id
-	*/
-	public void removeByRouteId(java.lang.String route_id);
 
 	/**
 	* Returns the number of routes where route_id = &#63;.

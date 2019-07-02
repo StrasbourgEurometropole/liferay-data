@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.model.Ligne;
 
 import java.io.Serializable;
@@ -315,6 +316,12 @@ public interface LigneLocalService extends BaseLocalService,
 		OrderByComparator<Ligne> orderByComparator);
 
 	/**
+	* Retourne la liste de toutes les lignes
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<java.lang.String, Ligne> getAll();
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -336,4 +343,24 @@ public interface LigneLocalService extends BaseLocalService,
 	* Recherche par mot clés (compte)
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	*/
+	public void unpublishLignes(List<Ligne> lignes,
+		ImportHistoric importHistoric, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	public void updateLignes(List<Ligne> lignes, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Ligne ligne, int status) throws PortalException;
 }

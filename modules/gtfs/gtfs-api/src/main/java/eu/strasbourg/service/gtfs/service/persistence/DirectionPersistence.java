@@ -500,6 +500,51 @@ public interface DirectionPersistence extends BasePersistence<Direction> {
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns the direction where tripId = &#63; or throws a {@link NoSuchDirectionException} if it could not be found.
+	*
+	* @param tripId the trip ID
+	* @return the matching direction
+	* @throws NoSuchDirectionException if a matching direction could not be found
+	*/
+	public Direction findByTripId(java.lang.String tripId)
+		throws NoSuchDirectionException;
+
+	/**
+	* Returns the direction where tripId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param tripId the trip ID
+	* @return the matching direction, or <code>null</code> if a matching direction could not be found
+	*/
+	public Direction fetchByTripId(java.lang.String tripId);
+
+	/**
+	* Returns the direction where tripId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param tripId the trip ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching direction, or <code>null</code> if a matching direction could not be found
+	*/
+	public Direction fetchByTripId(java.lang.String tripId,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the direction where tripId = &#63; from the database.
+	*
+	* @param tripId the trip ID
+	* @return the direction that was removed
+	*/
+	public Direction removeByTripId(java.lang.String tripId)
+		throws NoSuchDirectionException;
+
+	/**
+	* Returns the number of directions where tripId = &#63;.
+	*
+	* @param tripId the trip ID
+	* @return the number of matching directions
+	*/
+	public int countByTripId(java.lang.String tripId);
+
+	/**
 	* Returns all the directions where stopId = &#63;.
 	*
 	* @param stopId the stop ID

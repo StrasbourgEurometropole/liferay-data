@@ -61,6 +61,7 @@
 		<field name="directionId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
+		<field name="tripId" type="String" />
 		<field name="stopId" type="String" />
 		<field name="routeId" type="String" />
 		<field name="destinationName" type="String" />
@@ -79,9 +80,15 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="result" type="int" />
-		<field name="operations" type="String" />
-		<field name="errorDescription" type="String" />
-		<field name="errorStackTrace" type="String" />
+		<field name="operations" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorStackTrace" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Ligne">
 		<field name="uuid" type="String" />
@@ -99,7 +106,8 @@
 		<field name="routeId" type="String" />
 		<field name="shortName" type="String" />
 		<field name="title" type="String" />
-		<field name="type" type="String" />
+		<field name="type" type="int" />
+		<field name="backgroundColor" type="String" />
 		<field name="textColor" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Route">

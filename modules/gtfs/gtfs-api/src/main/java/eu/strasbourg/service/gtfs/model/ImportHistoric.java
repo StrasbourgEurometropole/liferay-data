@@ -72,4 +72,11 @@ public interface ImportHistoric extends ImportHistoricModel, PersistedModel {
 	* @return
 	*/
 	public java.lang.String getResultLabel();
+
+	/**
+	* Ajout d'une ligne dans le resultat de l'import
+	*
+	* @return
+	*/
+	public void addNewOperation(java.lang.String operation);
 }

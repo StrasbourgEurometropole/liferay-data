@@ -362,6 +362,13 @@ public class ArretLocalServiceUtil {
 	}
 
 	/**
+	* Retourne la liste de tous les arrets
+	*/
+	public static java.util.Map<java.lang.String, eu.strasbourg.service.gtfs.model.Arret> getAll() {
+		return getService().getAll();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -390,6 +397,48 @@ public class ArretLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Supprime les entrees
+	*/
+	public static void removeArrets(
+		java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().removeArrets(arrets, sc);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	*/
+	public static void unpublishArrets(
+		java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().unpublishArrets(arrets, importHistoric, sc);
+	}
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	public static void updateArrets(
+		java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateArrets(arrets, sc);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.gtfs.model.Arret arret, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(arret, status);
 	}
 
 	public static ArretLocalService getService() {

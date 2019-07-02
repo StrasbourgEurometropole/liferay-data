@@ -75,6 +75,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 		attributes.put("shortName", getShortName());
 		attributes.put("title", getTitle());
 		attributes.put("type", getType());
+		attributes.put("backgroundColor", getBackgroundColor());
 		attributes.put("textColor", getTextColor());
 
 		return attributes;
@@ -172,10 +173,16 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 			setTitle(title);
 		}
 
-		String type = (String)attributes.get("type");
+		Integer type = (Integer)attributes.get("type");
 
 		if (type != null) {
 			setType(type);
+		}
+
+		String backgroundColor = (String)attributes.get("backgroundColor");
+
+		if (backgroundColor != null) {
+			setBackgroundColor(backgroundColor);
 		}
 
 		String textColor = (String)attributes.get("textColor");
@@ -323,6 +330,16 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 		return _ligne.getStatus();
 	}
 
+	/**
+	* Returns the type of this ligne.
+	*
+	* @return the type of this ligne
+	*/
+	@Override
+	public int getType() {
+		return _ligne.getType();
+	}
+
 	@Override
 	public int hashCode() {
 		return _ligne.hashCode();
@@ -336,6 +353,16 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	@Override
 	public java.lang.Object clone() {
 		return new LigneWrapper((Ligne)_ligne.clone());
+	}
+
+	/**
+	* Returns the background color of this ligne.
+	*
+	* @return the background color of this ligne
+	*/
+	@Override
+	public java.lang.String getBackgroundColor() {
+		return _ligne.getBackgroundColor();
 	}
 
 	/**
@@ -396,16 +423,6 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	@Override
 	public java.lang.String getTitle() {
 		return _ligne.getTitle();
-	}
-
-	/**
-	* Returns the type of this ligne.
-	*
-	* @return the type of this ligne
-	*/
-	@Override
-	public java.lang.String getType() {
-		return _ligne.getType();
 	}
 
 	/**
@@ -558,6 +575,16 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	@Override
 	public void persist() {
 		_ligne.persist();
+	}
+
+	/**
+	* Sets the background color of this ligne.
+	*
+	* @param backgroundColor the background color of this ligne
+	*/
+	@Override
+	public void setBackgroundColor(java.lang.String backgroundColor) {
+		_ligne.setBackgroundColor(backgroundColor);
 	}
 
 	@Override
@@ -747,7 +774,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	* @param type the type of this ligne
 	*/
 	@Override
-	public void setType(java.lang.String type) {
+	public void setType(int type) {
 		_ligne.setType(type);
 	}
 

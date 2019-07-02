@@ -134,6 +134,12 @@ public interface StopLocalService extends BaseLocalService,
 	public Stop fetchStop(long id);
 
 	/**
+	* Recuperer un arret via son stopId
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Stop getByStopId(java.lang.String stopId);
+
+	/**
 	* Returns the stop with the primary key.
 	*
 	* @param id the primary key of the stop
@@ -218,6 +224,12 @@ public interface StopLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Recuperer tous les arrets
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Stop> getAllStops();
 
 	/**
 	* Returns a range of all the stops.

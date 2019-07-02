@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -626,19 +627,9 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "stop.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "stop.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(stop.uuid IS NULL OR stop.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STOPID = new FinderPath(StopModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_STOPID = new FinderPath(StopModelImpl.ENTITY_CACHE_ENABLED,
 			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStopId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID =
-		new FinderPath(StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStopId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByStopId",
 			new String[] { String.class.getName() },
 			StopModelImpl.STOP_ID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_STOPID = new FinderPath(StopModelImpl.ENTITY_CACHE_ENABLED,
@@ -647,111 +638,75 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 			new String[] { String.class.getName() });
 
 	/**
-	 * Returns all the stops where stop_id = &#63;.
+	 * Returns the stop where stop_id = &#63; or throws a {@link NoSuchStopException} if it could not be found.
 	 *
 	 * @param stop_id the stop_id
-	 * @return the matching stops
+	 * @return the matching stop
+	 * @throws NoSuchStopException if a matching stop could not be found
 	 */
 	@Override
-	public List<Stop> findByStopId(String stop_id) {
-		return findByStopId(stop_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public Stop findByStopId(String stop_id) throws NoSuchStopException {
+		Stop stop = fetchByStopId(stop_id);
+
+		if (stop == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("stop_id=");
+			msg.append(stop_id);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchStopException(msg.toString());
+		}
+
+		return stop;
 	}
 
 	/**
-	 * Returns a range of all the stops where stop_id = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StopModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the stop where stop_id = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param stop_id the stop_id
-	 * @param start the lower bound of the range of stops
-	 * @param end the upper bound of the range of stops (not inclusive)
-	 * @return the range of matching stops
+	 * @return the matching stop, or <code>null</code> if a matching stop could not be found
 	 */
 	@Override
-	public List<Stop> findByStopId(String stop_id, int start, int end) {
-		return findByStopId(stop_id, start, end, null);
+	public Stop fetchByStopId(String stop_id) {
+		return fetchByStopId(stop_id, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the stops where stop_id = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StopModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the stop where stop_id = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param stop_id the stop_id
-	 * @param start the lower bound of the range of stops
-	 * @param end the upper bound of the range of stops (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching stops
-	 */
-	@Override
-	public List<Stop> findByStopId(String stop_id, int start, int end,
-		OrderByComparator<Stop> orderByComparator) {
-		return findByStopId(stop_id, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the stops where stop_id = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StopModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param stop_id the stop_id
-	 * @param start the lower bound of the range of stops
-	 * @param end the upper bound of the range of stops (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching stops
+	 * @return the matching stop, or <code>null</code> if a matching stop could not be found
 	 */
 	@Override
-	public List<Stop> findByStopId(String stop_id, int start, int end,
-		OrderByComparator<Stop> orderByComparator, boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+	public Stop fetchByStopId(String stop_id, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { stop_id };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID;
-			finderArgs = new Object[] { stop_id };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STOPID;
-			finderArgs = new Object[] { stop_id, start, end, orderByComparator };
-		}
-
-		List<Stop> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<Stop>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_STOPID,
+					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (Stop stop : list) {
-					if (!Objects.equals(stop_id, stop.getStop_id())) {
-						list = null;
+		if (result instanceof Stop) {
+			Stop stop = (Stop)result;
 
-						break;
-					}
-				}
+			if (!Objects.equals(stop_id, stop.getStop_id())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(3);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_SELECT_STOP_WHERE);
 
@@ -769,15 +724,6 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 				query.append(_FINDER_COLUMN_STOPID_STOP_ID_2);
 			}
 
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(StopModelImpl.ORDER_BY_JPQL);
-			}
-
 			String sql = query.toString();
 
 			Session session = null;
@@ -793,25 +739,39 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 					qPos.add(stop_id);
 				}
 
-				if (!pagination) {
-					list = (List<Stop>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+				List<Stop> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID,
+						finderArgs, list);
 				}
 				else {
-					list = (List<Stop>)QueryUtil.list(q, getDialect(), start,
-							end);
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"StopPersistenceImpl.fetchByStopId(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Stop stop = list.get(0);
+
+					result = stop;
+
+					cacheResult(stop);
+
+					if ((stop.getStop_id() == null) ||
+							!stop.getStop_id().equals(stop_id)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID,
+							finderArgs, stop);
+					}
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_STOPID, finderArgs);
 
 				throw processException(e);
 			}
@@ -820,282 +780,25 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first stop in the ordered set where stop_id = &#63;.
-	 *
-	 * @param stop_id the stop_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching stop
-	 * @throws NoSuchStopException if a matching stop could not be found
-	 */
-	@Override
-	public Stop findByStopId_First(String stop_id,
-		OrderByComparator<Stop> orderByComparator) throws NoSuchStopException {
-		Stop stop = fetchByStopId_First(stop_id, orderByComparator);
-
-		if (stop != null) {
-			return stop;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("stop_id=");
-		msg.append(stop_id);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchStopException(msg.toString());
-	}
-
-	/**
-	 * Returns the first stop in the ordered set where stop_id = &#63;.
-	 *
-	 * @param stop_id the stop_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching stop, or <code>null</code> if a matching stop could not be found
-	 */
-	@Override
-	public Stop fetchByStopId_First(String stop_id,
-		OrderByComparator<Stop> orderByComparator) {
-		List<Stop> list = findByStopId(stop_id, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last stop in the ordered set where stop_id = &#63;.
-	 *
-	 * @param stop_id the stop_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching stop
-	 * @throws NoSuchStopException if a matching stop could not be found
-	 */
-	@Override
-	public Stop findByStopId_Last(String stop_id,
-		OrderByComparator<Stop> orderByComparator) throws NoSuchStopException {
-		Stop stop = fetchByStopId_Last(stop_id, orderByComparator);
-
-		if (stop != null) {
-			return stop;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("stop_id=");
-		msg.append(stop_id);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchStopException(msg.toString());
-	}
-
-	/**
-	 * Returns the last stop in the ordered set where stop_id = &#63;.
-	 *
-	 * @param stop_id the stop_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching stop, or <code>null</code> if a matching stop could not be found
-	 */
-	@Override
-	public Stop fetchByStopId_Last(String stop_id,
-		OrderByComparator<Stop> orderByComparator) {
-		int count = countByStopId(stop_id);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<Stop> list = findByStopId(stop_id, count - 1, count,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the stops before and after the current stop in the ordered set where stop_id = &#63;.
-	 *
-	 * @param id the primary key of the current stop
-	 * @param stop_id the stop_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next stop
-	 * @throws NoSuchStopException if a stop with the primary key could not be found
-	 */
-	@Override
-	public Stop[] findByStopId_PrevAndNext(long id, String stop_id,
-		OrderByComparator<Stop> orderByComparator) throws NoSuchStopException {
-		Stop stop = findByPrimaryKey(id);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Stop[] array = new StopImpl[3];
-
-			array[0] = getByStopId_PrevAndNext(session, stop, stop_id,
-					orderByComparator, true);
-
-			array[1] = stop;
-
-			array[2] = getByStopId_PrevAndNext(session, stop, stop_id,
-					orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Stop getByStopId_PrevAndNext(Session session, Stop stop,
-		String stop_id, OrderByComparator<Stop> orderByComparator,
-		boolean previous) {
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
 		else {
-			query = new StringBundler(3);
-		}
-
-		query.append(_SQL_SELECT_STOP_WHERE);
-
-		boolean bindStop_id = false;
-
-		if (stop_id == null) {
-			query.append(_FINDER_COLUMN_STOPID_STOP_ID_1);
-		}
-		else if (stop_id.equals(StringPool.BLANK)) {
-			query.append(_FINDER_COLUMN_STOPID_STOP_ID_3);
-		}
-		else {
-			bindStop_id = true;
-
-			query.append(_FINDER_COLUMN_STOPID_STOP_ID_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(StopModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindStop_id) {
-			qPos.add(stop_id);
-		}
-
-		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(stop);
-
-			for (Object value : values) {
-				qPos.add(value);
-			}
-		}
-
-		List<Stop> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
+			return (Stop)result;
 		}
 	}
 
 	/**
-	 * Removes all the stops where stop_id = &#63; from the database.
+	 * Removes the stop where stop_id = &#63; from the database.
 	 *
 	 * @param stop_id the stop_id
+	 * @return the stop that was removed
 	 */
 	@Override
-	public void removeByStopId(String stop_id) {
-		for (Stop stop : findByStopId(stop_id, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
-			remove(stop);
-		}
+	public Stop removeByStopId(String stop_id) throws NoSuchStopException {
+		Stop stop = findByStopId(stop_id);
+
+		return remove(stop);
 	}
 
 	/**
@@ -1740,6 +1443,9 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 		entityCache.putResult(StopModelImpl.ENTITY_CACHE_ENABLED,
 			StopImpl.class, stop.getPrimaryKey(), stop);
 
+		finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID,
+			new Object[] { stop.getStop_id() }, stop);
+
 		stop.resetOriginalValues();
 	}
 
@@ -1791,6 +1497,8 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((StopModelImpl)stop, true);
 	}
 
 	@Override
@@ -1801,6 +1509,35 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 		for (Stop stop : stops) {
 			entityCache.removeResult(StopModelImpl.ENTITY_CACHE_ENABLED,
 				StopImpl.class, stop.getPrimaryKey());
+
+			clearUniqueFindersCache((StopModelImpl)stop, true);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(StopModelImpl stopModelImpl) {
+		Object[] args = new Object[] { stopModelImpl.getStop_id() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_STOPID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_STOPID, args, stopModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(StopModelImpl stopModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] { stopModelImpl.getStop_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_STOPID, args);
+		}
+
+		if ((stopModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_STOPID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { stopModelImpl.getOriginalStop_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_STOPID, args);
 		}
 	}
 
@@ -1953,12 +1690,6 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 				args);
 
-			args = new Object[] { stopModelImpl.getStop_id() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID,
-				args);
-
 			args = new Object[] { stopModelImpl.getStop_code() };
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPCODE, args);
@@ -1987,21 +1718,6 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 			}
 
 			if ((stopModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { stopModelImpl.getOriginalStop_id() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID,
-					args);
-
-				args = new Object[] { stopModelImpl.getStop_id() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STOPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPID,
-					args);
-			}
-
-			if ((stopModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STOPCODE.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
 						stopModelImpl.getOriginalStop_code()
@@ -2021,6 +1737,9 @@ public class StopPersistenceImpl extends BasePersistenceImpl<Stop>
 
 		entityCache.putResult(StopModelImpl.ENTITY_CACHE_ENABLED,
 			StopImpl.class, stop.getPrimaryKey(), stop, false);
+
+		clearUniqueFindersCache(stopModelImpl, false);
+		cacheUniqueFindersCache(stopModelImpl);
 
 		stop.resetOriginalValues();
 

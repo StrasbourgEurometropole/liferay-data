@@ -1,10 +1,13 @@
 package eu.strasbourg.portlet.gtfs.ressource;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
-
-import java.util.List;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
@@ -13,9 +16,7 @@ import javax.portlet.ResourceResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.ImportHistoricLocalService;
-import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -29,15 +30,23 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class ImportGTFSRessourceCommand implements MVCResourceCommand {
 	
 	@Override
-	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-			throws PortletException {
+	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+		try {
+			// Changement du groupId du contexte de la requête pour effectuer les actions dans Global
+			ServiceContext sc = ServiceContextFactory.getInstance(request);
+			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
+			
+			_log.info("GTFS BO : Import start");
+			
+			this._importHistoricLocalService.doImportGTFS(sc);
+			//List<Trip> trips = TripLocalServiceUtil.getTripAvailableForStop("HOFER_04");
+			
+			_log.info("GTFS BO : Import finish");
 		
-		_log.info("GTFS BO : Import start");
-		
-//		this._importHistoricLocalService.doImportGTFS();
-		List<Trip> trips = TripLocalServiceUtil.getTripAvailableForStop("HOFER_04");
-		
-		_log.info("GTFS BO : Import finish");
+		} catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return true;
 	}

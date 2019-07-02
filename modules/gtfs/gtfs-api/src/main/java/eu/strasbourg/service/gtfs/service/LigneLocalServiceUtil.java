@@ -362,6 +362,13 @@ public class LigneLocalServiceUtil {
 	}
 
 	/**
+	* Retourne la liste de toutes les lignes
+	*/
+	public static java.util.Map<java.lang.String, eu.strasbourg.service.gtfs.model.Ligne> getAll() {
+		return getService().getAll();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -390,6 +397,38 @@ public class LigneLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	*/
+	public static void unpublishLignes(
+		java.util.List<eu.strasbourg.service.gtfs.model.Ligne> lignes,
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().unpublishLignes(lignes, importHistoric, sc);
+	}
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	public static void updateLignes(
+		java.util.List<eu.strasbourg.service.gtfs.model.Ligne> lignes,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateLignes(lignes, sc);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.gtfs.model.Ligne ligne, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(ligne, status);
 	}
 
 	public static LigneLocalService getService() {

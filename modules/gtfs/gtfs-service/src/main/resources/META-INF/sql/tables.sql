@@ -58,6 +58,7 @@ create table gtfs_Direction (
 	directionId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
+	tripId VARCHAR(75) null,
 	stopId VARCHAR(75) null,
 	routeId VARCHAR(75) null,
 	destinationName VARCHAR(75) null
@@ -77,9 +78,9 @@ create table gtfs_ImportHistoric (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	result INTEGER,
-	operations VARCHAR(75) null,
-	errorDescription VARCHAR(75) null,
-	errorStackTrace VARCHAR(75) null
+	operations TEXT null,
+	errorDescription TEXT null,
+	errorStackTrace TEXT null
 );
 
 create table gtfs_Ligne (
@@ -98,7 +99,8 @@ create table gtfs_Ligne (
 	routeId VARCHAR(75) null,
 	shortName VARCHAR(75) null,
 	title VARCHAR(75) null,
-	type_ VARCHAR(75) null,
+	type_ INTEGER,
+	backgroundColor VARCHAR(75) null,
 	textColor VARCHAR(75) null
 );
 

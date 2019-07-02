@@ -656,6 +656,61 @@ public class DirectionUtil {
 	}
 
 	/**
+	* Returns the direction where tripId = &#63; or throws a {@link NoSuchDirectionException} if it could not be found.
+	*
+	* @param tripId the trip ID
+	* @return the matching direction
+	* @throws NoSuchDirectionException if a matching direction could not be found
+	*/
+	public static Direction findByTripId(java.lang.String tripId)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchDirectionException {
+		return getPersistence().findByTripId(tripId);
+	}
+
+	/**
+	* Returns the direction where tripId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param tripId the trip ID
+	* @return the matching direction, or <code>null</code> if a matching direction could not be found
+	*/
+	public static Direction fetchByTripId(java.lang.String tripId) {
+		return getPersistence().fetchByTripId(tripId);
+	}
+
+	/**
+	* Returns the direction where tripId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param tripId the trip ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching direction, or <code>null</code> if a matching direction could not be found
+	*/
+	public static Direction fetchByTripId(java.lang.String tripId,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByTripId(tripId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the direction where tripId = &#63; from the database.
+	*
+	* @param tripId the trip ID
+	* @return the direction that was removed
+	*/
+	public static Direction removeByTripId(java.lang.String tripId)
+		throws eu.strasbourg.service.gtfs.exception.NoSuchDirectionException {
+		return getPersistence().removeByTripId(tripId);
+	}
+
+	/**
+	* Returns the number of directions where tripId = &#63;.
+	*
+	* @param tripId the trip ID
+	* @return the number of matching directions
+	*/
+	public static int countByTripId(java.lang.String tripId) {
+		return getPersistence().countByTripId(tripId);
+	}
+
+	/**
 	* Returns all the directions where stopId = &#63;.
 	*
 	* @param stopId the stop ID

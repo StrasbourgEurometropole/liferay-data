@@ -138,6 +138,15 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 	}
 
 	/**
+	* Recuperer une ligne via son routeId
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route getByRouteId(
+		java.lang.String routeId) {
+		return _routeLocalService.getByRouteId(routeId);
+	}
+
+	/**
 	* Returns the route with the primary key.
 	*
 	* @param id the primary key of the route
@@ -255,6 +264,14 @@ public class RouteLocalServiceWrapper implements RouteLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _routeLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	/**
+	* Recuperer toutes les lignes
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Route> getAllRoutes() {
+		return _routeLocalService.getAllRoutes();
 	}
 
 	/**

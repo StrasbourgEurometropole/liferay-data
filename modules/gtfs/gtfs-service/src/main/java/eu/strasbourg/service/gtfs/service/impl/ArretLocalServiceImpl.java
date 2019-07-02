@@ -40,11 +40,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ArretLocalServiceBaseImpl;
 
@@ -124,6 +126,17 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Met à jour les entree donnees
+	 * @throws IOException
+	 */
+	@Override
+	public void updateArrets(List<Arret> arrets, ServiceContext sc) throws PortalException {
+		for (Arret arret : arrets) {
+			this.updateArret(arret, sc);
+		}
+	}
+	
+	/**
 	 * Met à jour l'AssetEntry rattachee à l'entite
 	 */
 	private void updateAssetEntry(Arret arret, ServiceContext sc) throws PortalException {
@@ -191,6 +204,25 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Met à jour le statut "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(Arret arret, int status) throws PortalException {
+		this.updateStatus(arret.getUserId(), arret.getArretId(), status, null, null);
+	}
+	
+	/**
+	 * Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	 */
+	@Override
+	public void unpublishArrets(List<Arret> arrets, ImportHistoric importHistoric, ServiceContext sc) throws PortalException {
+		for (Arret arret : arrets) {
+			importHistoric.addNewOperation("Unpublished arret : " + arret.getCode());
+			this.updateStatus(arret, WorkflowConstants.STATUS_DRAFT);
+		}
+	}
+	
+	/**
 	 * Supprime l'entree
 	 */
 	@Override
@@ -240,6 +272,16 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Supprime les entrees
+	 */
+	@Override
+	public void removeArrets(List<Arret> arrets, ServiceContext sc) throws PortalException {
+		for (Arret arret : arrets) {
+			this.removeArret(arret.getArretId());
+		}
+	}
+	
+	/**
 	 * Reindex l'entree dans le moteur de recherche
 	 */
 	private void reindex(Arret arret, boolean delete) throws SearchException {
@@ -283,6 +325,18 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	@Override
 	public Arret getByStopId(String stopId) {
 		return this.arretPersistence.fetchByStopId(stopId);
+	}
+	
+	/**
+	 * Retourne la liste de tous les arrets
+	 */
+	@Override
+	public Map<String, Arret> getAll() {
+		Map<String, Arret> arrets = new HashMap<>();
+		for (Arret arret : this.arretPersistence.findAll()) {
+			arrets.put(arret.getStopId(), arret);
+		}
+		return arrets;
 	}
 	
 	/**

@@ -121,6 +121,21 @@ public interface DirectionModel extends BaseModel<Direction>, ShardedModel {
 	public void setCompanyId(long companyId);
 
 	/**
+	 * Returns the trip ID of this direction.
+	 *
+	 * @return the trip ID of this direction
+	 */
+	@AutoEscape
+	public String getTripId();
+
+	/**
+	 * Sets the trip ID of this direction.
+	 *
+	 * @param tripId the trip ID of this direction
+	 */
+	public void setTripId(String tripId);
+
+	/**
 	 * Returns the stop ID of this direction.
 	 *
 	 * @return the stop ID of this direction

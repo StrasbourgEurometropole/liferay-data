@@ -65,6 +65,7 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 			{ "directionId", Types.BIGINT },
 			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
+			{ "tripId", Types.VARCHAR },
 			{ "stopId", Types.VARCHAR },
 			{ "routeId", Types.VARCHAR },
 			{ "destinationName", Types.VARCHAR }
@@ -76,12 +77,13 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		TABLE_COLUMNS_MAP.put("directionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("tripId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stopId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("routeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("destinationName", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Direction (uuid_ VARCHAR(75) null,directionId LONG not null primary key,groupId LONG,companyId LONG,stopId VARCHAR(75) null,routeId VARCHAR(75) null,destinationName VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Direction (uuid_ VARCHAR(75) null,directionId LONG not null primary key,groupId LONG,companyId LONG,tripId VARCHAR(75) null,stopId VARCHAR(75) null,routeId VARCHAR(75) null,destinationName VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Direction";
 	public static final String ORDER_BY_JPQL = " ORDER BY direction.directionId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Direction.directionId DESC";
@@ -101,8 +103,9 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long ROUTEID_COLUMN_BITMASK = 4L;
 	public static final long STOPID_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long DIRECTIONID_COLUMN_BITMASK = 32L;
+	public static final long TRIPID_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long DIRECTIONID_COLUMN_BITMASK = 64L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Direction"));
 
@@ -147,6 +150,7 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		attributes.put("directionId", getDirectionId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
+		attributes.put("tripId", getTripId());
 		attributes.put("stopId", getStopId());
 		attributes.put("routeId", getRouteId());
 		attributes.put("destinationName", getDestinationName());
@@ -181,6 +185,12 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 		if (companyId != null) {
 			setCompanyId(companyId);
+		}
+
+		String tripId = (String)attributes.get("tripId");
+
+		if (tripId != null) {
+			setTripId(tripId);
 		}
 
 		String stopId = (String)attributes.get("stopId");
@@ -279,6 +289,31 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 	public long getOriginalCompanyId() {
 		return _originalCompanyId;
+	}
+
+	@Override
+	public String getTripId() {
+		if (_tripId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _tripId;
+		}
+	}
+
+	@Override
+	public void setTripId(String tripId) {
+		_columnBitmask |= TRIPID_COLUMN_BITMASK;
+
+		if (_originalTripId == null) {
+			_originalTripId = _tripId;
+		}
+
+		_tripId = tripId;
+	}
+
+	public String getOriginalTripId() {
+		return GetterUtil.getString(_originalTripId);
 	}
 
 	@Override
@@ -381,6 +416,7 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		directionImpl.setDirectionId(getDirectionId());
 		directionImpl.setGroupId(getGroupId());
 		directionImpl.setCompanyId(getCompanyId());
+		directionImpl.setTripId(getTripId());
 		directionImpl.setStopId(getStopId());
 		directionImpl.setRouteId(getRouteId());
 		directionImpl.setDestinationName(getDestinationName());
@@ -464,6 +500,8 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 		directionModelImpl._setOriginalCompanyId = false;
 
+		directionModelImpl._originalTripId = directionModelImpl._tripId;
+
 		directionModelImpl._originalStopId = directionModelImpl._stopId;
 
 		directionModelImpl._originalRouteId = directionModelImpl._routeId;
@@ -488,6 +526,14 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		directionCacheModel.groupId = getGroupId();
 
 		directionCacheModel.companyId = getCompanyId();
+
+		directionCacheModel.tripId = getTripId();
+
+		String tripId = directionCacheModel.tripId;
+
+		if ((tripId != null) && (tripId.length() == 0)) {
+			directionCacheModel.tripId = null;
+		}
 
 		directionCacheModel.stopId = getStopId();
 
@@ -518,7 +564,7 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -528,6 +574,8 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		sb.append(getGroupId());
 		sb.append(", companyId=");
 		sb.append(getCompanyId());
+		sb.append(", tripId=");
+		sb.append(getTripId());
 		sb.append(", stopId=");
 		sb.append(getStopId());
 		sb.append(", routeId=");
@@ -541,7 +589,7 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.gtfs.model.Direction");
@@ -562,6 +610,10 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 		sb.append(
 			"<column><column-name>companyId</column-name><column-value><![CDATA[");
 		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tripId</column-name><column-value><![CDATA[");
+		sb.append(getTripId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>stopId</column-name><column-value><![CDATA[");
@@ -594,6 +646,8 @@ public class DirectionModelImpl extends BaseModelImpl<Direction>
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
+	private String _tripId;
+	private String _originalTripId;
 	private String _stopId;
 	private String _originalStopId;
 	private String _routeId;

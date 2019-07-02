@@ -82,9 +82,9 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "result", Types.INTEGER },
-			{ "operations", Types.VARCHAR },
-			{ "errorDescription", Types.VARCHAR },
-			{ "errorStackTrace", Types.VARCHAR }
+			{ "operations", Types.CLOB },
+			{ "errorDescription", Types.CLOB },
+			{ "errorStackTrace", Types.CLOB }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -102,12 +102,12 @@ public class ImportHistoricModelImpl extends BaseModelImpl<ImportHistoric>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("result", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("operations", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("errorDescription", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("errorStackTrace", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("operations", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("errorDescription", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("errorStackTrace", Types.CLOB);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations VARCHAR(75) null,errorDescription VARCHAR(75) null,errorStackTrace VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations TEXT null,errorDescription TEXT null,errorStackTrace TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_ImportHistoric";
 	public static final String ORDER_BY_JPQL = " ORDER BY importHistoric.importHistoricId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_ImportHistoric.importHistoricId DESC";

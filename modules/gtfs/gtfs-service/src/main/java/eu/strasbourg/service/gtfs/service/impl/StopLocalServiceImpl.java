@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Stop;
@@ -118,6 +119,22 @@ public class StopLocalServiceImpl extends StopLocalServiceBaseImpl {
 		for (Map.Entry<String, StopsGTFS> mapEntry : data.entrySet()) {
 			this.createStopFromGTFS(mapEntry.getValue());
 		}
+	}
+	
+	/**
+	 * Recuperer tous les arrets
+	 */
+	@Override
+	public List<Stop> getAllStops() {
+		return this.stopPersistence.findAll();
+	}
+	
+	/**
+	 * Recuperer un arret via son stopId
+	 */
+	@Override
+	public Stop getByStopId(String stopId) {
+		return this.stopPersistence.fetchByStopId(stopId);
 	}
 	
 }

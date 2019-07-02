@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1972,6 +1973,250 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "direction.groupId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_TRIPID = new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByTripId",
+			new String[] { String.class.getName() },
+			DirectionModelImpl.TRIPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_TRIPID = new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
+			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTripId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the direction where tripId = &#63; or throws a {@link NoSuchDirectionException} if it could not be found.
+	 *
+	 * @param tripId the trip ID
+	 * @return the matching direction
+	 * @throws NoSuchDirectionException if a matching direction could not be found
+	 */
+	@Override
+	public Direction findByTripId(String tripId)
+		throws NoSuchDirectionException {
+		Direction direction = fetchByTripId(tripId);
+
+		if (direction == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("tripId=");
+			msg.append(tripId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchDirectionException(msg.toString());
+		}
+
+		return direction;
+	}
+
+	/**
+	 * Returns the direction where tripId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param tripId the trip ID
+	 * @return the matching direction, or <code>null</code> if a matching direction could not be found
+	 */
+	@Override
+	public Direction fetchByTripId(String tripId) {
+		return fetchByTripId(tripId, true);
+	}
+
+	/**
+	 * Returns the direction where tripId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param tripId the trip ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching direction, or <code>null</code> if a matching direction could not be found
+	 */
+	@Override
+	public Direction fetchByTripId(String tripId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { tripId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_TRIPID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Direction) {
+			Direction direction = (Direction)result;
+
+			if (!Objects.equals(tripId, direction.getTripId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_DIRECTION_WHERE);
+
+			boolean bindTripId = false;
+
+			if (tripId == null) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIPID_1);
+			}
+			else if (tripId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIPID_3);
+			}
+			else {
+				bindTripId = true;
+
+				query.append(_FINDER_COLUMN_TRIPID_TRIPID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindTripId) {
+					qPos.add(tripId);
+				}
+
+				List<Direction> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_TRIPID,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"DirectionPersistenceImpl.fetchByTripId(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Direction direction = list.get(0);
+
+					result = direction;
+
+					cacheResult(direction);
+
+					if ((direction.getTripId() == null) ||
+							!direction.getTripId().equals(tripId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_TRIPID,
+							finderArgs, direction);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_TRIPID, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Direction)result;
+		}
+	}
+
+	/**
+	 * Removes the direction where tripId = &#63; from the database.
+	 *
+	 * @param tripId the trip ID
+	 * @return the direction that was removed
+	 */
+	@Override
+	public Direction removeByTripId(String tripId)
+		throws NoSuchDirectionException {
+		Direction direction = findByTripId(tripId);
+
+		return remove(direction);
+	}
+
+	/**
+	 * Returns the number of directions where tripId = &#63;.
+	 *
+	 * @param tripId the trip ID
+	 * @return the number of matching directions
+	 */
+	@Override
+	public int countByTripId(String tripId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_TRIPID;
+
+		Object[] finderArgs = new Object[] { tripId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_DIRECTION_WHERE);
+
+			boolean bindTripId = false;
+
+			if (tripId == null) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIPID_1);
+			}
+			else if (tripId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_TRIPID_TRIPID_3);
+			}
+			else {
+				bindTripId = true;
+
+				query.append(_FINDER_COLUMN_TRIPID_TRIPID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindTripId) {
+					qPos.add(tripId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_TRIPID_TRIPID_1 = "direction.tripId IS NULL";
+	private static final String _FINDER_COLUMN_TRIPID_TRIPID_2 = "direction.tripId = ?";
+	private static final String _FINDER_COLUMN_TRIPID_TRIPID_3 = "(direction.tripId IS NULL OR direction.tripId = '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STOPID = new FinderPath(DirectionModelImpl.ENTITY_CACHE_ENABLED,
 			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStopId",
@@ -3095,6 +3340,9 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 			new Object[] { direction.getUuid(), direction.getGroupId() },
 			direction);
 
+		finderCache.putResult(FINDER_PATH_FETCH_BY_TRIPID,
+			new Object[] { direction.getTripId() }, direction);
+
 		direction.resetOriginalValues();
 	}
 
@@ -3173,6 +3421,13 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			directionModelImpl, false);
+
+		args = new Object[] { directionModelImpl.getTripId() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_TRIPID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_TRIPID, args,
+			directionModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -3196,6 +3451,21 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] { directionModelImpl.getTripId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_TRIPID, args);
+		}
+
+		if ((directionModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_TRIPID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { directionModelImpl.getOriginalTripId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TRIPID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_TRIPID, args);
 		}
 	}
 
@@ -3501,6 +3771,7 @@ public class DirectionPersistenceImpl extends BasePersistenceImpl<Direction>
 		directionImpl.setDirectionId(direction.getDirectionId());
 		directionImpl.setGroupId(direction.getGroupId());
 		directionImpl.setCompanyId(direction.getCompanyId());
+		directionImpl.setTripId(direction.getTripId());
 		directionImpl.setStopId(direction.getStopId());
 		directionImpl.setRouteId(direction.getRouteId());
 		directionImpl.setDestinationName(direction.getDestinationName());

@@ -420,8 +420,9 @@ public class ImportHistoricLocalServiceWrapper
 	* Effectue l'import des donnees issues des fichiers GTFS
 	*/
 	@Override
-	public void doImportGTFS() {
-		_importHistoricLocalService.doImportGTFS();
+	public void doImportGTFS(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+		_importHistoricLocalService.doImportGTFS(sc);
 	}
 
 	/**

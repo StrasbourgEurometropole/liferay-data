@@ -38,7 +38,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,24 +45,8 @@ import java.util.Map;
 import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.CalendarLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ImportHistoricLocalServiceBaseImpl;
-import eu.strasbourg.utils.GTFSLoaderHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.exception.FileAccessException;
-import eu.strasbourg.utils.models.AgencyGTFS;
-import eu.strasbourg.utils.models.CalendarDatesGTFS;
-import eu.strasbourg.utils.models.CalendarGTFS;
-import eu.strasbourg.utils.models.RoutesGTFS;
-import eu.strasbourg.utils.models.StopTimesGTFS;
-import eu.strasbourg.utils.models.StopsGTFS;
-import eu.strasbourg.utils.models.TripsGTFS;
+import eu.strasbourg.service.gtfs.utils.GTFSImporter;
 
 /**
  * The implementation of the import historic local service.
@@ -295,65 +278,9 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 	 * Effectue l'import des donnees issues des fichiers GTFS
 	 */
 	@Override
-	public void doImportGTFS() {
-		// Recuperation du chemin absolu vers les fichiers du GTFS
-		String GTFSPath = StrasbourgPropsUtil.getGTFSPath();
-		
-		try {
-			Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
-			log.info("Starting import of GTFS files");
-			
-			// Recuperation des lignes
-			Map<String, AgencyGTFS> mapAgencys;
-			mapAgencys = GTFSLoaderHelper.readAgencyData(GTFSPath);
-			AgencyLocalServiceUtil.importFromGTFS(mapAgencys);
-			log.info("GTFS Files : get " + mapAgencys.size() + " Agency entries");
-			
-			// Recuperation des calendrier
-			Map<String, CalendarGTFS> mapCalendars;
-			mapCalendars = GTFSLoaderHelper.readCalendarData(GTFSPath);
-			CalendarLocalServiceUtil.importFromGTFS(mapCalendars);
-			log.info("GTFS Files : get " + mapCalendars.size() + " Calendar entries");
-			
-			// Recuperation des dates de calendrier
-			Map<String, List<CalendarDatesGTFS>> mapCalendarDates;
-			mapCalendarDates = GTFSLoaderHelper.readCalendarDatesData(GTFSPath);
-			CalendarDateLocalServiceUtil.importFromGTFS(mapCalendarDates);
-			log.info("GTFS Files : get " + mapCalendarDates.size() + " CalendarDate keys");
-			
-			// Recuperation des lignes
-			Map<String, RoutesGTFS> mapRoutes;
-			mapRoutes = GTFSLoaderHelper.readRoutesData(GTFSPath);
-			RouteLocalServiceUtil.importFromGTFS(mapRoutes);
-			log.info("GTFS Files : get " + mapRoutes.size() + " Route entries");
-			
-			// Recuperation des temps d'arrêt
-			Map<String, List<StopTimesGTFS>> mapStopTimes;
-			mapStopTimes = GTFSLoaderHelper.readStopTimesData(GTFSPath);
-			StopTimeLocalServiceUtil.importFromGTFS(mapStopTimes);
-			log.info("GTFS Files : get " + mapStopTimes.size() + " StopTime keys");
-			
-			// Recuperation des routes
-			Map<String, StopsGTFS> mapStops;
-			mapStops = GTFSLoaderHelper.readStopsData(GTFSPath);
-			StopLocalServiceUtil.importFromGTFS(mapStops);
-			log.info("GTFS Files : get " + mapStops.size() + " Stops entries");
-			
-			// Recuperation des voyages
-			Map<String, TripsGTFS> mapTrips;
-			mapTrips = GTFSLoaderHelper.readTripsData(GTFSPath);
-			TripLocalServiceUtil.importFromGTFS(mapTrips);
-			log.info("GTFS Files : get " + mapTrips.size() + " Trips keys");
-			
-			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
-			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
-			log.info("Finishing import of GTFS files in " + processTime + " seconds.");
-			
-			throw new PortalException();
-			
-		} catch (FileAccessException | PortalException e) {
-			e.printStackTrace();
-		}
+	public void doImportGTFS(ServiceContext sc) {
+		GTFSImporter importer = new GTFSImporter(sc);
+		importer.doImport();
 	}
 	
 	/**

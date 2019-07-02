@@ -20,9 +20,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.base.DirectionLocalServiceBaseImpl;
 
 /**
@@ -75,14 +78,42 @@ public class DirectionLocalServiceImpl extends DirectionLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Met à jour les entree donnees
+	 * @throws IOException
+	 */
+	@Override
+	public void updateDirections(List<Direction> directions, ServiceContext sc) throws PortalException {
+		for (Direction direction : directions) {
+			this.updateDirection(direction, sc);
+		}
+	}
+	
+	/**
 	 * Supprime l'entree
 	 */
 	@Override
-	public Direction removeDirection(long directionId) throws PortalException {		
+	public Direction removeDirection(long directionId) throws PortalException {
 		// Supprime l'entree
 		Direction direction = this.directionPersistence.remove(directionId);
 
 		return direction;
+	}
+	
+	/**
+	 * Supprime les entrees
+	 */
+	@Override
+	public void removeDirections(List<Direction> directions, ImportHistoric importHistoric, ServiceContext sc) throws PortalException {
+		for (Direction direction : directions) {
+			importHistoric.addNewOperation(
+					"Remove direction link --> [ " +
+							"id : " + direction.getRouteId() + 
+							", stop id : " + direction.getStopId() + 
+							", ligne id : " + direction.getRouteId() + 
+							", destination headsign : " + direction.getDestinationName() + "]"
+				);
+			this.removeDirection(direction.getDirectionId());
+		}
 	}
 	
 	/**
@@ -119,6 +150,26 @@ public class DirectionLocalServiceImpl extends DirectionLocalServiceBaseImpl {
 	@Override
 	public List<Direction> getByRouteId(String routeId) {
 		return this.directionPersistence.findByRouteId(routeId);
+	}
+	
+	/**
+	 * Retourne une direction via son tripId
+	 */
+	@Override
+	public Direction getByTripId(String tripId) {
+		return this.directionPersistence.fetchByTripId(tripId);
+	}
+	
+	/**
+	 * Retourne la liste de toutes les directions
+	 */
+	@Override
+	public Map<String, Direction> getAll() {
+		Map<String, Direction> directions = new HashMap<>();
+		for (Direction direction : this.directionPersistence.findAll()) {
+			directions.put(direction.getTripId(), direction);
+		}
+		return directions;
 	}
 	
 	/**

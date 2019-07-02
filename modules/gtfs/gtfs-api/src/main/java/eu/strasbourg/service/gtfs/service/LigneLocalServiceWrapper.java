@@ -379,6 +379,14 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	}
 
 	/**
+	* Retourne la liste de toutes les lignes
+	*/
+	@Override
+	public java.util.Map<java.lang.String, eu.strasbourg.service.gtfs.model.Ligne> getAll() {
+		return _ligneLocalService.getAll();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -410,6 +418,40 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	@Override
 	public long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return _ligneLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	*/
+	@Override
+	public void unpublishLignes(
+		java.util.List<eu.strasbourg.service.gtfs.model.Ligne> lignes,
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_ligneLocalService.unpublishLignes(lignes, importHistoric, sc);
+	}
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	@Override
+	public void updateLignes(
+		java.util.List<eu.strasbourg.service.gtfs.model.Ligne> lignes,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_ligneLocalService.updateLignes(lignes, sc);
+	}
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(eu.strasbourg.service.gtfs.model.Ligne ligne,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		_ligneLocalService.updateStatus(ligne, status);
 	}
 
 	@Override

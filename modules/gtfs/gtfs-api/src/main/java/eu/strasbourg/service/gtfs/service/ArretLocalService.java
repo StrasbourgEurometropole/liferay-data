@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
 
 import java.io.Serializable;
 
@@ -315,6 +316,12 @@ public interface ArretLocalService extends BaseLocalService,
 	public List<Arret> getByGroupId(long groupId);
 
 	/**
+	* Retourne la liste de tous les arrets
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<java.lang.String, Arret> getAll();
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -336,4 +343,30 @@ public interface ArretLocalService extends BaseLocalService,
 	* Recherche par mot clés (compte)
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Supprime les entrees
+	*/
+	public void removeArrets(List<Arret> arrets, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	*/
+	public void unpublishArrets(List<Arret> arrets,
+		ImportHistoric importHistoric, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	public void updateArrets(List<Arret> arrets, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Arret arret, int status) throws PortalException;
 }

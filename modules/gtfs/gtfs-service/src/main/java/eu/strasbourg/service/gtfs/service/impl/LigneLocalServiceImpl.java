@@ -40,10 +40,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.LigneLocalServiceBaseImpl;
@@ -126,6 +129,17 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	}
 	
 	/**
+	 * Met à jour les entree donnees
+	 * @throws IOException
+	 */
+	@Override
+	public void updateLignes(List<Ligne> lignes, ServiceContext sc) throws PortalException {
+		for (Ligne ligne : lignes) {
+			this.updateLigne(ligne, sc);
+		}
+	}
+	
+	/**
 	 * Met à jour l'AssetEntry rattachee à l'entite
 	 */
 	private void updateAssetEntry(Ligne ligne, ServiceContext sc) throws PortalException {
@@ -190,6 +204,25 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 		this.reindex(ligne, false);
 
 		return ligne;
+	}
+	
+	/**
+	 * Met à jour le statut "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(Ligne ligne, int status) throws PortalException {
+		this.updateStatus(ligne.getUserId(), ligne.getLigneId(), status, null, null);
+	}
+	
+	/**
+	 * Met à jour le statut "manuellement" (pas via le workflow) des entrees
+	 */
+	@Override
+	public void unpublishLignes(List<Ligne> lignes, ImportHistoric importHistoric, ServiceContext sc) throws PortalException {
+		for (Ligne ligne : lignes) {
+			importHistoric.addNewOperation("Unpublished ligne : " + ligne.getShortName());
+			this.updateStatus(ligne, WorkflowConstants.STATUS_DRAFT);
+		}
 	}
 	
 	/**
@@ -285,6 +318,18 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	@Override
 	public Ligne getByRouteId(String routeId) {
 		return this.lignePersistence.fetchByRouteId(routeId);
+	}
+	
+	/**
+	 * Retourne la liste de toutes les lignes
+	 */
+	@Override
+	public Map<String, Ligne> getAll() {
+		Map<String, Ligne> lignes = new HashMap<>();
+		for (Ligne ligne : this.lignePersistence.findAll()) {
+			lignes.put(ligne.getRouteId(), ligne);
+		}
+		return lignes;
 	}
 	
 	/**

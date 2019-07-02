@@ -34,10 +34,12 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
 
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Direction. Methods of this
@@ -137,6 +139,12 @@ public interface DirectionLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Direction fetchDirectionByUuidAndGroupId(java.lang.String uuid,
 		long groupId);
+
+	/**
+	* Retourne une direction via son tripId
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Direction getByTripId(java.lang.String tripId);
 
 	/**
 	* Returns the direction with the primary key.
@@ -309,6 +317,12 @@ public interface DirectionLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Retourne la liste de toutes les directions
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<java.lang.String, Direction> getAll();
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -325,4 +339,19 @@ public interface DirectionLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime les entrees
+	*/
+	public void removeDirections(List<Direction> directions,
+		ImportHistoric importHistoric, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	public void updateDirections(List<Direction> directions, ServiceContext sc)
+		throws PortalException;
 }

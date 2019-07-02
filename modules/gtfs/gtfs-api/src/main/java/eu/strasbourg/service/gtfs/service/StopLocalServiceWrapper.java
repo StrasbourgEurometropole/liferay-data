@@ -138,6 +138,15 @@ public class StopLocalServiceWrapper implements StopLocalService,
 	}
 
 	/**
+	* Recuperer un arret via son stopId
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Stop getByStopId(
+		java.lang.String stopId) {
+		return _stopLocalService.getByStopId(stopId);
+	}
+
+	/**
 	* Returns the stop with the primary key.
 	*
 	* @param id the primary key of the stop
@@ -255,6 +264,14 @@ public class StopLocalServiceWrapper implements StopLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _stopLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	/**
+	* Recuperer tous les arrets
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Stop> getAllStops() {
+		return _stopLocalService.getAllStops();
 	}
 
 	/**

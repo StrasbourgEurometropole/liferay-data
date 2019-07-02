@@ -60,6 +60,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		attributes.put("directionId", getDirectionId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
+		attributes.put("tripId", getTripId());
 		attributes.put("stopId", getStopId());
 		attributes.put("routeId", getRouteId());
 		attributes.put("destinationName", getDestinationName());
@@ -91,6 +92,12 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 
 		if (companyId != null) {
 			setCompanyId(companyId);
+		}
+
+		String tripId = (String)attributes.get("tripId");
+
+		if (tripId != null) {
+			setTripId(tripId);
 		}
 
 		String stopId = (String)attributes.get("stopId");
@@ -195,6 +202,16 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	@Override
 	public java.lang.String getStopId() {
 		return _direction.getStopId();
+	}
+
+	/**
+	* Returns the trip ID of this direction.
+	*
+	* @return the trip ID of this direction
+	*/
+	@Override
+	public java.lang.String getTripId() {
+		return _direction.getTripId();
 	}
 
 	/**
@@ -361,6 +378,16 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	@Override
 	public void setStopId(java.lang.String stopId) {
 		_direction.setStopId(stopId);
+	}
+
+	/**
+	* Sets the trip ID of this direction.
+	*
+	* @param tripId the trip ID of this direction
+	*/
+	@Override
+	public void setTripId(java.lang.String tripId) {
+		_direction.setTripId(tripId);
 	}
 
 	/**

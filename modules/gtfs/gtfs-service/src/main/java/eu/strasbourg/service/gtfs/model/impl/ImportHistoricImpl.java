@@ -17,6 +17,8 @@ package eu.strasbourg.service.gtfs.model.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.List;
 
@@ -35,6 +37,8 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
  */
 @ProviderType
 public class ImportHistoricImpl extends ImportHistoricBaseImpl {
+	
+	public final static Log log = LogFactoryUtil.getLog(ImportHistoricImpl.class);
 
 	private static final long serialVersionUID = 5893961641581179554L;
 
@@ -71,6 +75,20 @@ public class ImportHistoricImpl extends ImportHistoricBaseImpl {
 	@Override
 	public String getResultLabel() {
 		return this.getResult() == 1 ? "Succes" : "Echec";
+	}
+	
+	/**
+	 * Ajout d'une ligne dans le resultat de l'import
+	 * @return
+	 */
+	@Override
+	public void addNewOperation(String operation) {
+		this.setOperations(
+				this.getOperations() +
+				"\n" +
+				operation
+		);
+		log.info(operation);
 	}
 	
 }

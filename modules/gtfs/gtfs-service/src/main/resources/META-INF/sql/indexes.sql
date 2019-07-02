@@ -17,6 +17,7 @@ create index IX_F1CEE47D on gtfs_CalendarDate (uuid_[$COLUMN_LENGTH:75$]);
 create index IX_82EDF8A on gtfs_Direction (groupId);
 create index IX_6A91A654 on gtfs_Direction (routeId[$COLUMN_LENGTH:75$]);
 create index IX_BBE33A11 on gtfs_Direction (stopId[$COLUMN_LENGTH:75$]);
+create index IX_AFBADCB4 on gtfs_Direction (tripId[$COLUMN_LENGTH:75$]);
 create index IX_120B5314 on gtfs_Direction (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_22B58E96 on gtfs_Direction (uuid_[$COLUMN_LENGTH:75$], groupId);
 

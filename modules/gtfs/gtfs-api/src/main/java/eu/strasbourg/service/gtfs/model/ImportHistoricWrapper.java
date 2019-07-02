@@ -542,6 +542,16 @@ public class ImportHistoricWrapper implements ImportHistoric,
 		return _importHistoric.getUserId();
 	}
 
+	/**
+	* Ajout d'une ligne dans le resultat de l'import
+	*
+	* @return
+	*/
+	@Override
+	public void addNewOperation(java.lang.String operation) {
+		_importHistoric.addNewOperation(operation);
+	}
+
 	@Override
 	public void persist() {
 		_importHistoric.persist();

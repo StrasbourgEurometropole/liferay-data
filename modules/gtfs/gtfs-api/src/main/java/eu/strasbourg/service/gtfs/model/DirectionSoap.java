@@ -36,6 +36,7 @@ public class DirectionSoap implements Serializable {
 		soapModel.setDirectionId(model.getDirectionId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setTripId(model.getTripId());
 		soapModel.setStopId(model.getStopId());
 		soapModel.setRouteId(model.getRouteId());
 		soapModel.setDestinationName(model.getDestinationName());
@@ -123,6 +124,14 @@ public class DirectionSoap implements Serializable {
 		_companyId = companyId;
 	}
 
+	public String getTripId() {
+		return _tripId;
+	}
+
+	public void setTripId(String tripId) {
+		_tripId = tripId;
+	}
+
 	public String getStopId() {
 		return _stopId;
 	}
@@ -151,6 +160,7 @@ public class DirectionSoap implements Serializable {
 	private long _directionId;
 	private long _groupId;
 	private long _companyId;
+	private String _tripId;
 	private String _stopId;
 	private String _routeId;
 	private String _destinationName;

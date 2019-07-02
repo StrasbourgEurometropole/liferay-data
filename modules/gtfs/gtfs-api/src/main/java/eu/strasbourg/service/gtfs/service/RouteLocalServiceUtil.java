@@ -135,6 +135,14 @@ public class RouteLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer une ligne via son routeId
+	*/
+	public static eu.strasbourg.service.gtfs.model.Route getByRouteId(
+		java.lang.String routeId) {
+		return getService().getByRouteId(routeId);
+	}
+
+	/**
 	* Returns the route with the primary key.
 	*
 	* @param id the primary key of the route
@@ -244,6 +252,13 @@ public class RouteLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Recuperer toutes les lignes
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Route> getAllRoutes() {
+		return getService().getAllRoutes();
 	}
 
 	/**

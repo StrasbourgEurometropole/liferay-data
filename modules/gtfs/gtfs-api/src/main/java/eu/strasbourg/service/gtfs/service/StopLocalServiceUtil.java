@@ -135,6 +135,14 @@ public class StopLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer un arret via son stopId
+	*/
+	public static eu.strasbourg.service.gtfs.model.Stop getByStopId(
+		java.lang.String stopId) {
+		return getService().getByStopId(stopId);
+	}
+
+	/**
 	* Returns the stop with the primary key.
 	*
 	* @param id the primary key of the stop
@@ -243,6 +251,13 @@ public class StopLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Recuperer tous les arrets
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Stop> getAllStops() {
+		return getService().getAllStops();
 	}
 
 	/**

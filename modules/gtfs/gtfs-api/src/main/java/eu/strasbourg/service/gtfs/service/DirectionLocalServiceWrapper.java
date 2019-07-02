@@ -146,6 +146,15 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	}
 
 	/**
+	* Retourne une direction via son tripId
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Direction getByTripId(
+		java.lang.String tripId) {
+		return _directionLocalService.getByTripId(tripId);
+	}
+
+	/**
 	* Returns the direction with the primary key.
 	*
 	* @param directionId the primary key of the direction
@@ -380,6 +389,14 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 	}
 
 	/**
+	* Retourne la liste de toutes les directions
+	*/
+	@Override
+	public java.util.Map<java.lang.String, eu.strasbourg.service.gtfs.model.Direction> getAll() {
+		return _directionLocalService.getAll();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -403,6 +420,31 @@ public class DirectionLocalServiceWrapper implements DirectionLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _directionLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime les entrees
+	*/
+	@Override
+	public void removeDirections(
+		java.util.List<eu.strasbourg.service.gtfs.model.Direction> directions,
+		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_directionLocalService.removeDirections(directions, importHistoric, sc);
+	}
+
+	/**
+	* Met à jour les entree donnees
+	*
+	* @throws IOException
+	*/
+	@Override
+	public void updateDirections(
+		java.util.List<eu.strasbourg.service.gtfs.model.Direction> directions,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_directionLocalService.updateDirections(directions, sc);
 	}
 
 	@Override

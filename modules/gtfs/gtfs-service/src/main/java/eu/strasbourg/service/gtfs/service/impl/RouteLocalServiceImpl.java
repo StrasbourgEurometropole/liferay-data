@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Route;
@@ -117,6 +118,22 @@ public class RouteLocalServiceImpl extends RouteLocalServiceBaseImpl {
 		for (Map.Entry<String, RoutesGTFS> mapEntry : data.entrySet()) {
 			this.createRouteFromGTFS(mapEntry.getValue());
 		}
+	}
+	
+	/**
+	 * Recuperer toutes les lignes
+	 */
+	@Override
+	public List<Route> getAllRoutes() {
+		return this.routePersistence.findAll();
+	}
+	
+	/**
+	 * Recuperer une ligne via son routeId
+	 */
+	@Override
+	public Route getByRouteId(String routeId) {
+		return this.routePersistence.fetchByRouteId(routeId);
 	}
 	
 }

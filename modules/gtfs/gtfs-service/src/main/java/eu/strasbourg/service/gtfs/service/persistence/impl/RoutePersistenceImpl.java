@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -627,19 +628,9 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "route.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "route.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(route.uuid IS NULL OR route.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID = new FinderPath(RouteModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_ROUTEID = new FinderPath(RouteModelImpl.ENTITY_CACHE_ENABLED,
 			RouteModelImpl.FINDER_CACHE_ENABLED, RouteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRouteId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID =
-		new FinderPath(RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, RouteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByRouteId",
 			new String[] { String.class.getName() },
 			RouteModelImpl.ROUTE_ID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_ROUTEID = new FinderPath(RouteModelImpl.ENTITY_CACHE_ENABLED,
@@ -648,112 +639,75 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 			new String[] { String.class.getName() });
 
 	/**
-	 * Returns all the routes where route_id = &#63;.
+	 * Returns the route where route_id = &#63; or throws a {@link NoSuchRouteException} if it could not be found.
 	 *
 	 * @param route_id the route_id
-	 * @return the matching routes
+	 * @return the matching route
+	 * @throws NoSuchRouteException if a matching route could not be found
 	 */
 	@Override
-	public List<Route> findByRouteId(String route_id) {
-		return findByRouteId(route_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+	public Route findByRouteId(String route_id) throws NoSuchRouteException {
+		Route route = fetchByRouteId(route_id);
+
+		if (route == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("route_id=");
+			msg.append(route_id);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchRouteException(msg.toString());
+		}
+
+		return route;
 	}
 
 	/**
-	 * Returns a range of all the routes where route_id = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the route where route_id = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param route_id the route_id
-	 * @param start the lower bound of the range of routes
-	 * @param end the upper bound of the range of routes (not inclusive)
-	 * @return the range of matching routes
+	 * @return the matching route, or <code>null</code> if a matching route could not be found
 	 */
 	@Override
-	public List<Route> findByRouteId(String route_id, int start, int end) {
-		return findByRouteId(route_id, start, end, null);
+	public Route fetchByRouteId(String route_id) {
+		return fetchByRouteId(route_id, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the routes where route_id = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the route where route_id = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param route_id the route_id
-	 * @param start the lower bound of the range of routes
-	 * @param end the upper bound of the range of routes (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching routes
-	 */
-	@Override
-	public List<Route> findByRouteId(String route_id, int start, int end,
-		OrderByComparator<Route> orderByComparator) {
-		return findByRouteId(route_id, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the routes where route_id = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param route_id the route_id
-	 * @param start the lower bound of the range of routes
-	 * @param end the upper bound of the range of routes (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching routes
+	 * @return the matching route, or <code>null</code> if a matching route could not be found
 	 */
 	@Override
-	public List<Route> findByRouteId(String route_id, int start, int end,
-		OrderByComparator<Route> orderByComparator, boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+	public Route fetchByRouteId(String route_id, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { route_id };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID;
-			finderArgs = new Object[] { route_id };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ROUTEID;
-			finderArgs = new Object[] { route_id, start, end, orderByComparator };
-		}
-
-		List<Route> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<Route>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_ROUTEID,
+					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (Route route : list) {
-					if (!Objects.equals(route_id, route.getRoute_id())) {
-						list = null;
+		if (result instanceof Route) {
+			Route route = (Route)result;
 
-						break;
-					}
-				}
+			if (!Objects.equals(route_id, route.getRoute_id())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(3);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_SELECT_ROUTE_WHERE);
 
@@ -771,15 +725,6 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 				query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_2);
 			}
 
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(RouteModelImpl.ORDER_BY_JPQL);
-			}
-
 			String sql = query.toString();
 
 			Session session = null;
@@ -795,25 +740,40 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 					qPos.add(route_id);
 				}
 
-				if (!pagination) {
-					list = (List<Route>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+				List<Route> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID,
+						finderArgs, list);
 				}
 				else {
-					list = (List<Route>)QueryUtil.list(q, getDialect(), start,
-							end);
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"RoutePersistenceImpl.fetchByRouteId(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Route route = list.get(0);
+
+					result = route;
+
+					cacheResult(route);
+
+					if ((route.getRoute_id() == null) ||
+							!route.getRoute_id().equals(route_id)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID,
+							finderArgs, route);
+					}
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_ROUTEID,
+					finderArgs);
 
 				throw processException(e);
 			}
@@ -822,282 +782,25 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first route in the ordered set where route_id = &#63;.
-	 *
-	 * @param route_id the route_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching route
-	 * @throws NoSuchRouteException if a matching route could not be found
-	 */
-	@Override
-	public Route findByRouteId_First(String route_id,
-		OrderByComparator<Route> orderByComparator) throws NoSuchRouteException {
-		Route route = fetchByRouteId_First(route_id, orderByComparator);
-
-		if (route != null) {
-			return route;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("route_id=");
-		msg.append(route_id);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchRouteException(msg.toString());
-	}
-
-	/**
-	 * Returns the first route in the ordered set where route_id = &#63;.
-	 *
-	 * @param route_id the route_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching route, or <code>null</code> if a matching route could not be found
-	 */
-	@Override
-	public Route fetchByRouteId_First(String route_id,
-		OrderByComparator<Route> orderByComparator) {
-		List<Route> list = findByRouteId(route_id, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last route in the ordered set where route_id = &#63;.
-	 *
-	 * @param route_id the route_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching route
-	 * @throws NoSuchRouteException if a matching route could not be found
-	 */
-	@Override
-	public Route findByRouteId_Last(String route_id,
-		OrderByComparator<Route> orderByComparator) throws NoSuchRouteException {
-		Route route = fetchByRouteId_Last(route_id, orderByComparator);
-
-		if (route != null) {
-			return route;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("route_id=");
-		msg.append(route_id);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchRouteException(msg.toString());
-	}
-
-	/**
-	 * Returns the last route in the ordered set where route_id = &#63;.
-	 *
-	 * @param route_id the route_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching route, or <code>null</code> if a matching route could not be found
-	 */
-	@Override
-	public Route fetchByRouteId_Last(String route_id,
-		OrderByComparator<Route> orderByComparator) {
-		int count = countByRouteId(route_id);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<Route> list = findByRouteId(route_id, count - 1, count,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the routes before and after the current route in the ordered set where route_id = &#63;.
-	 *
-	 * @param id the primary key of the current route
-	 * @param route_id the route_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next route
-	 * @throws NoSuchRouteException if a route with the primary key could not be found
-	 */
-	@Override
-	public Route[] findByRouteId_PrevAndNext(long id, String route_id,
-		OrderByComparator<Route> orderByComparator) throws NoSuchRouteException {
-		Route route = findByPrimaryKey(id);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Route[] array = new RouteImpl[3];
-
-			array[0] = getByRouteId_PrevAndNext(session, route, route_id,
-					orderByComparator, true);
-
-			array[1] = route;
-
-			array[2] = getByRouteId_PrevAndNext(session, route, route_id,
-					orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Route getByRouteId_PrevAndNext(Session session, Route route,
-		String route_id, OrderByComparator<Route> orderByComparator,
-		boolean previous) {
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
 		else {
-			query = new StringBundler(3);
-		}
-
-		query.append(_SQL_SELECT_ROUTE_WHERE);
-
-		boolean bindRoute_id = false;
-
-		if (route_id == null) {
-			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_1);
-		}
-		else if (route_id.equals(StringPool.BLANK)) {
-			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_3);
-		}
-		else {
-			bindRoute_id = true;
-
-			query.append(_FINDER_COLUMN_ROUTEID_ROUTE_ID_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(RouteModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindRoute_id) {
-			qPos.add(route_id);
-		}
-
-		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(route);
-
-			for (Object value : values) {
-				qPos.add(value);
-			}
-		}
-
-		List<Route> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
+			return (Route)result;
 		}
 	}
 
 	/**
-	 * Removes all the routes where route_id = &#63; from the database.
+	 * Removes the route where route_id = &#63; from the database.
 	 *
 	 * @param route_id the route_id
+	 * @return the route that was removed
 	 */
 	@Override
-	public void removeByRouteId(String route_id) {
-		for (Route route : findByRouteId(route_id, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
-			remove(route);
-		}
+	public Route removeByRouteId(String route_id) throws NoSuchRouteException {
+		Route route = findByRouteId(route_id);
+
+		return remove(route);
 	}
 
 	/**
@@ -1200,6 +903,9 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 		entityCache.putResult(RouteModelImpl.ENTITY_CACHE_ENABLED,
 			RouteImpl.class, route.getPrimaryKey(), route);
 
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID,
+			new Object[] { route.getRoute_id() }, route);
+
 		route.resetOriginalValues();
 	}
 
@@ -1251,6 +957,8 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((RouteModelImpl)route, true);
 	}
 
 	@Override
@@ -1261,6 +969,35 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 		for (Route route : routes) {
 			entityCache.removeResult(RouteModelImpl.ENTITY_CACHE_ENABLED,
 				RouteImpl.class, route.getPrimaryKey());
+
+			clearUniqueFindersCache((RouteModelImpl)route, true);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(RouteModelImpl routeModelImpl) {
+		Object[] args = new Object[] { routeModelImpl.getRoute_id() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_ROUTEID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ROUTEID, args,
+			routeModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(RouteModelImpl routeModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] { routeModelImpl.getRoute_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ROUTEID, args);
+		}
+
+		if ((routeModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_ROUTEID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { routeModelImpl.getOriginalRoute_id() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ROUTEID, args);
 		}
 	}
 
@@ -1414,12 +1151,6 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 				args);
 
-			args = new Object[] { routeModelImpl.getRoute_id() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
-				args);
-
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -1440,27 +1171,13 @@ public class RoutePersistenceImpl extends BasePersistenceImpl<Route>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
 					args);
 			}
-
-			if ((routeModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						routeModelImpl.getOriginalRoute_id()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
-					args);
-
-				args = new Object[] { routeModelImpl.getRoute_id() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_ROUTEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROUTEID,
-					args);
-			}
 		}
 
 		entityCache.putResult(RouteModelImpl.ENTITY_CACHE_ENABLED,
 			RouteImpl.class, route.getPrimaryKey(), route, false);
+
+		clearUniqueFindersCache(routeModelImpl, false);
+		cacheUniqueFindersCache(routeModelImpl);
 
 		route.resetOriginalValues();
 

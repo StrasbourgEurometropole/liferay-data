@@ -2649,6 +2649,7 @@ public class LignePersistenceImpl extends BasePersistenceImpl<Ligne>
 		ligneImpl.setShortName(ligne.getShortName());
 		ligneImpl.setTitle(ligne.getTitle());
 		ligneImpl.setType(ligne.getType());
+		ligneImpl.setBackgroundColor(ligne.getBackgroundColor());
 		ligneImpl.setTextColor(ligne.getTextColor());
 
 		return ligneImpl;
