@@ -23,6 +23,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -37,13 +38,16 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ArretModel;
+import eu.strasbourg.service.gtfs.model.ArretSoap;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,6 +63,7 @@ import java.util.Map;
  * @see ArretModel
  * @generated
  */
+@JSON(strict = true)
 @ProviderType
 public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	/*
@@ -131,6 +136,62 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	public static final long STOPID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long ARRETID_COLUMN_BITMASK = 16L;
+
+	/**
+	 * Converts the soap model instance into a normal model instance.
+	 *
+	 * @param soapModel the soap model instance to convert
+	 * @return the normal model instance
+	 */
+	public static Arret toModel(ArretSoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
+		Arret model = new ArretImpl();
+
+		model.setUuid(soapModel.getUuid());
+		model.setArretId(soapModel.getArretId());
+		model.setGroupId(soapModel.getGroupId());
+		model.setCompanyId(soapModel.getCompanyId());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setStatus(soapModel.getStatus());
+		model.setStatusByUserId(soapModel.getStatusByUserId());
+		model.setStatusByUserName(soapModel.getStatusByUserName());
+		model.setStatusDate(soapModel.getStatusDate());
+		model.setStopId(soapModel.getStopId());
+		model.setTitle(soapModel.getTitle());
+		model.setCode(soapModel.getCode());
+		model.setLatitude(soapModel.getLatitude());
+		model.setLongitude(soapModel.getLongitude());
+		model.setType(soapModel.getType());
+
+		return model;
+	}
+
+	/**
+	 * Converts the soap model instances into normal model instances.
+	 *
+	 * @param soapModels the soap model instances to convert
+	 * @return the normal model instances
+	 */
+	public static List<Arret> toModels(ArretSoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
+		List<Arret> models = new ArrayList<Arret>(soapModels.length);
+
+		for (ArretSoap soapModel : soapModels) {
+			models.add(toModel(soapModel));
+		}
+
+		return models;
+	}
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Arret"));
 
@@ -307,6 +368,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		}
 	}
 
+	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -330,6 +392,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		return GetterUtil.getString(_originalUuid);
 	}
 
+	@JSON
 	@Override
 	public long getArretId() {
 		return _arretId;
@@ -342,6 +405,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_arretId = arretId;
 	}
 
+	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -364,6 +428,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		return _originalGroupId;
 	}
 
+	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -386,6 +451,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		return _originalCompanyId;
 	}
 
+	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -412,6 +478,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	public void setUserUuid(String userUuid) {
 	}
 
+	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -427,6 +494,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_userName = userName;
 	}
 
+	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -437,6 +505,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_createDate = createDate;
 	}
 
+	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -453,6 +522,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_modifiedDate = modifiedDate;
 	}
 
+	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -463,6 +533,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_status = status;
 	}
 
+	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -489,6 +560,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
+	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -504,6 +576,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_statusByUserName = statusByUserName;
 	}
 
+	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -514,6 +587,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_statusDate = statusDate;
 	}
 
+	@JSON
 	@Override
 	public String getStopId() {
 		if (_stopId == null) {
@@ -539,6 +613,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		return GetterUtil.getString(_originalStopId);
 	}
 
+	@JSON
 	@Override
 	public String getTitle() {
 		if (_title == null) {
@@ -554,6 +629,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_title = title;
 	}
 
+	@JSON
 	@Override
 	public String getCode() {
 		if (_code == null) {
@@ -569,6 +645,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_code = code;
 	}
 
+	@JSON
 	@Override
 	public String getLatitude() {
 		if (_latitude == null) {
@@ -584,6 +661,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_latitude = latitude;
 	}
 
+	@JSON
 	@Override
 	public String getLongitude() {
 		if (_longitude == null) {
@@ -599,6 +677,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		_longitude = longitude;
 	}
 
+	@JSON
 	@Override
 	public String getType() {
 		if (_type == null) {

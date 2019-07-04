@@ -23,9 +23,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services.
+ * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.gtfs.service.http.ArretServiceSoap}.
  *
  * @author Cedric Henry
+ * @see eu.strasbourg.service.gtfs.service.http.ArretServiceSoap
  * @generated
  */
 @ProviderType

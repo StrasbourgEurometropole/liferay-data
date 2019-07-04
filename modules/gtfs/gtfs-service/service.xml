@@ -52,7 +52,7 @@
 		
 	</entity>
 	
-	<entity local-service="true" cache-enabled="true" name="Arret" remote-service="false" uuid="true">
+	<entity local-service="true" cache-enabled="true" name="Arret" remote-service="true" uuid="true">
 		
 		<!-- PK fields -->
 		<column name="arretId" primary="true" type="long" />

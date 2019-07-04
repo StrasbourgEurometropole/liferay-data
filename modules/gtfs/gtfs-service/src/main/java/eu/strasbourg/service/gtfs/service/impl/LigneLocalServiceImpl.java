@@ -45,7 +45,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
-import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
