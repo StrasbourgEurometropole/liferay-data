@@ -64,6 +64,7 @@ jQuery(function() {
 						suggestion.data);
 				jQuery('.selected-place span').text(suggestion.value);
 				jQuery('.place-autocomplete-input-wrapper input').hide();
+				jQuery('.show-link-manual-place').hide();
 				jQuery('.selected-place').show();
 			},
 			appendTo : '.place-autocomplete-input-wrapper'
@@ -78,6 +79,7 @@ $('.remove_place').on('click',function(e){
     jQuery('#place-autocomplete-hidden-value input').val('');
     jQuery('.place-autocomplete-input-wrapper input').val('');
     jQuery('.place-autocomplete-input-wrapper input').show();
+    jQuery('.show-link-manual-place').show();
     jQuery('.selected-place').hide();
 });
 

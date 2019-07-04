@@ -196,16 +196,21 @@
 							</span>
 						</div>
 					</div>
-					<aui:button id="showManualPlace" cssClass="show-manual-place" name="changeTimes" value="show-manual-place" />
+					<p class="show-link-manual-place" style="${not empty dc.campaignEvent.placeSIGId ? 'display:none;' : ''}">
+					    <liferay-ui:message key="message-manual-place" />
+					    <a class="show-manual-place" style="cursor: pointer;" /><liferay-ui:message key="show-manual-place" /></a>.
+					</p>
 				</div>
 				
 				<!-- Saisie manuelle -->
 				<div class="place-manual" <c:if test="${not empty dc.campaignEvent.placeSIGId or empty dc.campaignEvent.placeName }">style="display: none;"</c:if>>
 					<div class="row">
-					    <div class="importante">
-                            <span><liferay-ui:message key="message-manual-place" /></span>
+                        <div class="importante">
+                            <p>
+                                <liferay-ui:message key="message-autocomplete-place" />
+                            </p>
                             <aui:button id="showAutocompletePlace" cssClass="show-autocomplete-place" name="showAutocompletePlace" value="show-autocomplete-place" />
-                        </div>
+						</div>
 						<div class="col-md-4">
 							<aui:input name="placeName" helpMessage="place-name-help" required="true" >
 								<aui:validator name="required"
