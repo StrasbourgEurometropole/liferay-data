@@ -29,7 +29,7 @@
                     <aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
 
-                    <!-- Evénements -->
+                    <!-- Evenements -->
                     <aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" cssClass="typeEvent"></aui:input>
 
@@ -248,61 +248,128 @@
                         </div>
                     </div>
 
-                    <script>
-                        var refreshConfigDisplay = function() {
-                           var mode = $('.modeSelection input[type=radio]:checked').val();
-                           if (mode === 'widget') {
-                               $('.monStrasbourgMode').show();
-                               $('.widgetMode').show();
-                               $('.aroundMeMode').hide();
-                               $('.normalMode').hide();
-                               $('.noWidgetMode').hide();
-                           } else if (mode == 'aroundme') {
-                               $('.monStrasbourgMode').show();
-                               $('.widgetMode').hide();
-                               $('.aroundMeMode').show();
-                               $('.normalMode').hide();
-                               $('.noWidgetMode').show();
-                           } else {
-                               $('.monStrasbourgMode').hide();
-                               $('.widgetMode').hide();
-                               $('.aroundMeMode').hide();
-                               $('.normalMode').show();
-                               $('.noWidgetMode').show();
-                           }
-                           if ($('.typeEvent').is(":checked")) {
-                               $('.eventExplanation').show();
-                           } else {
-                               $('.eventExplanation').hide();
-                           }
-                        }
-
-                        var refreshConfigTrafficDisplay = function() {
-                               if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
-                                   $('.infoTrafficChecked').show();
-                               } else {
-                                   $('.infoTrafficChecked').hide();
-                               }
-                        }
-                        $('.modeSelection input[type=radio]').on('change', function() {
-                            refreshConfigDisplay();
-                        })
-                        $('.typeEvent').on('change', function() {
-                               if ($(this).is(":checked")) {
-                                   $('.eventExplanation').show();
-                               } else {
-                                   $('.eventExplanation').hide();
-                               }
-                        })
-                        $('.infoTraffic input[type=checkbox]').on('change', function() {
-                            refreshConfigTrafficDisplay();
-                        })
-                        $(function() {
-                            refreshConfigDisplay();
-                            refreshConfigTrafficDisplay();
-                        })
-                    </script>
                 </aui:fieldset>
+                
+                <!-- Transports -->
+                <aui:fieldset collapsed="true" collapsible="true"
+                        label="transports" cssClass="noWidgetMode transports">
+
+                    <p>
+                        <!-- Affichage de l'info trafic -->
+                        <div>
+                            <aui:input type="checkbox" name="showTransports" value="${showTransports || !hasConfig}" label="show-transports" />
+                        </div>
+
+                    </p>
+
+                    <div class="transportsChecked">
+                        <!-- Mode widget -->
+                        <div class="normalMode">
+							
+                            <!-- Choix de la categorie qui affichera les transports -->
+                            <label><liferay-ui:message key="transports-category-link" /></label>
+                            <p>
+                                <div id="transportsCategorySelectorLabel"></div>
+                                <div id="transportsCategorySelector"></div>
+                                <aui:input type="hidden" name="transportsLinkCategoryId" />
+                            </p>
+
+                        </div>
+
+                        <!-- Mode autour de moi -->
+                        <div class="aroundMeMode">
+
+                            <!-- Choix du CI qui affichera l'info trafic -->
+                            <label><liferay-ui:message key="transports-interest-link" /></label>
+
+                            <select class="toCustomSelect" id="transportsLinkInterestId" name="<portlet:namespace />transportsLinkInterestId">
+                                <aui:option value=""></aui:option>
+                                <c:forEach var="interest" items="${interests}" varStatus="intStatus">
+                                    <c:choose>
+                                        <c:when test="${interest.interestId == transportsLinkInterestId}">
+                                            <aui:option value="${interest.interestId}" selected="true" >
+                                                ${interest.getTitle(locale)}
+                                            </aui:option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <aui:option value="${interest.interestId}" >
+                                                ${interest.getTitle(locale)}
+                                            </aui:option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+
+                        </div>
+                    </div>
+                    
+                </aui:fieldset>
+                
+                <script>
+                    var refreshConfigDisplay = function() {
+                       var mode = $('.modeSelection input[type=radio]:checked').val();
+                       if (mode === 'widget') {
+                           $('.monStrasbourgMode').show();
+                           $('.widgetMode').show();
+                           $('.aroundMeMode').hide();
+                           $('.normalMode').hide();
+                           $('.noWidgetMode').hide();
+                       } else if (mode == 'aroundme') {
+                           $('.monStrasbourgMode').show();
+                           $('.widgetMode').hide();
+                           $('.aroundMeMode').show();
+                           $('.normalMode').hide();
+                           $('.noWidgetMode').show();
+                       } else {
+                           $('.monStrasbourgMode').hide();
+                           $('.widgetMode').hide();
+                           $('.aroundMeMode').hide();
+                           $('.normalMode').show();
+                           $('.noWidgetMode').show();
+                       }
+                       if ($('.typeEvent').is(":checked")) {
+                           $('.eventExplanation').show();
+                       } else {
+                           $('.eventExplanation').hide();
+                       }
+                    }
+
+                    var refreshConfigTrafficDisplay = function() {
+                       if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
+                           $('.infoTrafficChecked').show();
+                       } else {
+                           $('.infoTrafficChecked').hide();
+                       }
+                    }
+                    var refreshConfigTransportsDisplay = function() {
+                        if ($('.transports input[type=checkbox]').is(":checked")) {
+                            $('.transportsChecked').show();
+                        } else {
+                            $('.transportsChecked').hide();
+                        }
+                     }
+                    $('.modeSelection input[type=radio]').on('change', function() {
+                        refreshConfigDisplay();
+                    })
+                    $('.typeEvent').on('change', function() {
+                       if ($(this).is(":checked")) {
+                           $('.eventExplanation').show();
+                       } else {
+                           $('.eventExplanation').hide();
+                       }
+                    })
+                    $('.infoTraffic input[type=checkbox]').on('change', function() {
+                        refreshConfigTrafficDisplay();
+                    })
+                    $('.transports input[type=checkbox]').on('change', function() {
+                        refreshConfigTransportsDisplay();
+                    })
+                    $(function() {
+                        refreshConfigDisplay();
+                        refreshConfigTrafficDisplay();
+                        refreshConfigTransportsDisplay();
+                    })
+                </script>
 
             </aui:fieldset-group>
         </div>
@@ -322,6 +389,20 @@
 			contentBox: "#categorySelector",
 			label: "<liferay-ui:message key='category' />",
 			labelNode: "#categorySelectorLabel",
+			singleSelect: true,
+			vocabularyGroupIds: ${themeDisplay.companyGroupId},
+			vocabularyIds: "${vocabularies}"
+		}
+	).render();
+	
+	new Liferay.AssetCategoriesSelector(
+		{
+			curEntryIds: "${transportsLinkCategoryId}",
+			curEntries: "${tranportsCategoryTitle}",
+			hiddenInput: "#<portlet:namespace />transportsLinkCategoryId",
+			contentBox: "#transportsCategorySelector",
+			label: "<liferay-ui:message key='category' />",
+			labelNode: "#transportsCategorySelectorLabel",
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
 			vocabularyIds: "${vocabularies}"

@@ -127,7 +127,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				setPreference(request, "showTransports", "");
 				setPreference(request, "tranportsLinkCategoryId", "");
 				setPreference(request, "tranportsCategoryTitle", "");
-				setPreference(request, "transportLinkInterestId", "");
+				setPreference(request, "transportsLinkInterestId", "");
 			}else {
 				setPreference(request, "widgetIntro", "");
 				setPreference(request, "widgetLink", "");
@@ -210,10 +210,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					}
 					setPreference(request, "tranportsCategoryTitle", tranportsCategoryTitle);
 				}else {
-					// Liaison des trasnports à un CI
-					String transportLinkInterestId = ParamUtil.getString(request, "transportLinkInterestId");
-					setPreference(request, "transportLinkInterestId", transportLinkInterestId);
-					json.put("transportLinkInterestId", transportLinkInterestId);
+					// Liaison des transports à un CI
+					String transportsLinkInterestId = ParamUtil.getString(request, "transportsLinkInterestId");
+					setPreference(request, "transportsLinkInterestId", transportsLinkInterestId);
+					json.put("transportsLinkInterestId", transportsLinkInterestId);
 				}
 			}
 
@@ -508,11 +508,11 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				transportsVocabulariesStr += assetVocabulary.getVocabularyId();
 			}
 			request.setAttribute("transportsVocabulariesStr", transportsVocabulariesStr);
-			request.setAttribute("tranportsLinkCategoryId", configuration.tranportsLinkCategoryId());
+			request.setAttribute("transportsLinkCategoryId", configuration.tranportsLinkCategoryId());
 			request.setAttribute("tranportsCategoryTitle", configuration.tranportsCategoryTitle());
 
 			// Liaison des transports à un CI
-			request.setAttribute("transportLinkInterestId", configuration.transportLinkInterestId());
+			request.setAttribute("transportsLinkInterestId", configuration.transportsLinkInterestId());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);
