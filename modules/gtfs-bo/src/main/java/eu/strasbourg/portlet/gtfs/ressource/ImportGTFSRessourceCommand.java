@@ -46,6 +46,9 @@ public class ImportGTFSRessourceCommand implements MVCResourceCommand {
 			
 			// Sauvegarde de l'entree d'historique d'import
 			ImportHistoricLocalServiceUtil.updateImportHistoric(importHistoric);
+			
+			// Envoie du mail de rapport
+			importHistoric.sendMail();
 		
 		} catch (PortalException e) {
 			_log.info(e);

@@ -19,12 +19,22 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PrefsPropsUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
 
+import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**
  * The extended model implementation for the ImportHistoric service. Represents a row in the &quot;gtfs_ImportHistoric&quot; database table, with each column mapped to a property of this class.
@@ -89,6 +99,51 @@ public class ImportHistoricImpl extends ImportHistoricBaseImpl {
 				operation
 		);
 		log.info(operation);
+	}
+	
+	/**
+	 * Envoi du mail d'import
+	 */
+	@Override
+	public void sendMail() {
+		// Properties de l'environnement courrant 
+		String environment = StrasbourgPropsUtil.getEnvironment();
+		// Properties de l'adresse de reception
+		String mailAddresses = StrasbourgPropsUtil.getGTFSImportReportMail();
+		
+		Map<String, Object> context = new HashMap<>();
+		context.put("importHistoric", this);
+		context.put("environment", environment);
+
+		Configuration configuration = new Configuration(Configuration.getVersion());
+		configuration.setClassForTemplateLoading(this.getClass(),"/templates/");
+		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+		
+		try {
+			// Recuperation des patrons
+			Template subjectTemplate = configuration.getTemplate("import-notification-mail-subject.ftl");
+			Template bodyTemplate = configuration.getTemplate("import-notification-mail-body.ftl");
+			
+			StringWriter subjectWriter = new StringWriter();
+			StringWriter bodyWriter = new StringWriter();
+			
+			subjectTemplate.process(context, subjectWriter);
+			bodyTemplate.process(context, bodyWriter);
+			
+			// Properties de l'adresse d'envoie
+			String adminEmailFromAddress = PrefsPropsUtil.getString(
+					PortalUtil.getDefaultCompanyId(),
+					PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
+			
+			// Envoie
+			MailHelper.sendMailWithPlainText(
+					adminEmailFromAddress,
+					mailAddresses,
+					subjectWriter.toString(), 
+					bodyWriter.toString());
+		} catch (Exception e) {
+			log.error(e);
+		}
 	}
 	
 }

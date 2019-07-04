@@ -591,6 +591,14 @@ public class ImportHistoricWrapper implements ImportHistoric,
 		_importHistoric.persist();
 	}
 
+	/**
+	* Envoi du mail d'import
+	*/
+	@Override
+	public void sendMail() {
+		_importHistoric.sendMail();
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_importHistoric.setCachedModel(cachedModel);

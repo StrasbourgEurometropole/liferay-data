@@ -79,4 +79,9 @@ public interface ImportHistoric extends ImportHistoricModel, PersistedModel {
 	* @return
 	*/
 	public void addNewOperation(java.lang.String operation);
+
+	/**
+	* Envoi du mail d'import
+	*/
+	public void sendMail();
 }

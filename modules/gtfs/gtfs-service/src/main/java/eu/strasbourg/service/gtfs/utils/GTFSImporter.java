@@ -87,7 +87,7 @@ public class GTFSImporter {
 		try {
 			Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
 			this.importHistoric.addNewOperation(
-					"################### GTFS Files ################### \n" +
+					"################### GTFS Files ###################" +
 					"\n #1/1# Starting import of GTFS \n"
 			);
 			
@@ -190,28 +190,28 @@ public class GTFSImporter {
 						arret.setTitle(stop.getStop_name());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Stop n°" + stop.getStop_id() + " : change name for '" + stop.getStop_name() + "'"
+							"Stop n. " + stop.getStop_id() + " : change name for '" + stop.getStop_name() + "'"
 						);
 					}
 					if (!arret.getCode().equals(stop.getStop_code())) {
 						arret.setCode(stop.getStop_code());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Stop n°" + stop.getStop_id() + " : change code for '" + stop.getStop_code() + "'"
+							"Stop n. " + stop.getStop_id() + " : change code for '" + stop.getStop_code() + "'"
 						);
 					}
 					if (!arret.getLatitude().equals(stop.getStop_lat())) {
 						arret.setLatitude(stop.getStop_lat());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Stop n°" + stop.getStop_id() + " : change latitude for '" + stop.getStop_lat() + "'"
+							"Stop n. " + stop.getStop_id() + " : change latitude for '" + stop.getStop_lat() + "'"
 						);
 					}
 					if (!arret.getLongitude().equals(stop.getStop_lon())) {
 						arret.setLongitude(stop.getStop_lon());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Stop n°" + stop.getStop_id() + " : change longitude for '" + stop.getStop_lon() + "'"
+							"Stop n. " + stop.getStop_id() + " : change longitude for '" + stop.getStop_lon() + "'"
 						);
 					}
 					// Verification du statut et changement si reaparition
@@ -220,7 +220,7 @@ public class GTFSImporter {
 						edition = true;
 						nbRepublishedStops++;
 						this.importHistoric.addNewOperation(
-							"Stop n°" + stop.getStop_id() + " : going to be republished"
+							"Stop n. " + stop.getStop_id() + " : going to be republished"
 						);
 					}
 					
@@ -280,35 +280,35 @@ public class GTFSImporter {
 						ligne.setShortName(route.getRoute_short_name());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Route n°" + route.getRoute_id() + " : change short name for '" + route.getRoute_short_name() + "'"
+							"Route n. " + route.getRoute_id() + " : change short name for '" + route.getRoute_short_name() + "'"
 						);
 					}
 					if (!ligne.getTitle().equals(route.getRoute_long_name())) {
 						ligne.setTitle(route.getRoute_long_name());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Route n°" + route.getRoute_id() + " : change long name for '" + route.getRoute_long_name() + "'"
+							"Route n. " + route.getRoute_id() + " : change long name for '" + route.getRoute_long_name() + "'"
 						);
 					}
 					if (ligne.getType() != route.getRoute_type()) {
 						ligne.setType(route.getRoute_type());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Route n°" + route.getRoute_id() + " : change type for '" + route.getRoute_type() + "'"
+							"Route n. " + route.getRoute_id() + " : change type for '" + route.getRoute_type() + "'"
 						);
 					}
 					if (!ligne.getBackgroundColor().equals(route.getRoute_color())) {
 						ligne.setBackgroundColor(route.getRoute_color());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Route n°" + route.getRoute_id() + " : change background color for '" + route.getRoute_color() + "'"
+							"Route n. " + route.getRoute_id() + " : change background color for '" + route.getRoute_color() + "'"
 						);
 					}
 					if (!ligne.getTextColor().equals(route.getRoute_text_color())) {
 						ligne.setTextColor(route.getRoute_text_color());
 						edition = true;
 						this.importHistoric.addNewOperation(
-							"Route n°" + route.getRoute_id() + " : change text color for '" + route.getRoute_text_color() + "'"
+							"Route n. " + route.getRoute_id() + " : change text color for '" + route.getRoute_text_color() + "'"
 						);
 					}
 					// Verification du statut et changement si reaparition
@@ -317,7 +317,7 @@ public class GTFSImporter {
 						edition = true;
 						nbRepublishedLines++;
 						this.importHistoric.addNewOperation(
-							"Route n°" + route.getRoute_id() + " : going to be republished"
+							"Route n. " + route.getRoute_id() + " : going to be republished"
 						);
 					}
 					
@@ -359,7 +359,7 @@ public class GTFSImporter {
 			/**
 			 * Import des directions
 			 */
-			this.importHistoric.addNewOperation("\n #2/6# Starting routes conversion \n");
+			this.importHistoric.addNewOperation("\n #3/6# Starting direction conversion \n");
 			
 			// Liste des directions à mettre à jour et nouvelles entrées
 			List <Direction> directionsToSave = new ArrayList<Direction>();
@@ -438,7 +438,7 @@ public class GTFSImporter {
 			 * Data conversion debrief
 			 */
 			this.importHistoric.addNewOperation(
-					"################### Final data debrief ################### \n"
+					"\n################### Final data debrief ################### \n"
 			);
 			this.importHistoric.addNewOperation("Nb. new stops : " + nbNewStops);
 			this.importHistoric.addNewOperation("Nb. updated stops : " + nbUpdatedStops);
