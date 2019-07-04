@@ -41,7 +41,7 @@
     
                 <!-- Slider Arrows -->
                 <div class="slider-une-main__nav">
-                    <h2 class="smag-hp-une__title slider-une-main__nav-title">à la une</h2>
+                    <h2 class="smag-hp-une__title slider-une-main__nav-title">Le mag'</h2>
                     <div class="slider-une-main__pager slider-une-main__pager--current"></div>
                     <div class="slider-une-main__pager slider-une-main__pager--total slider-une-main__pager--total--slideNpop"></div>
                     <button class="slider-une-main__arrow slider-une-main__arrow--prev">
@@ -74,7 +74,7 @@
     
                 <!-- Slider Text -->
                 <a class="slider-une-main__text slider-une-main__link unstyled" href="#" >
-                    <div class="waved-title waved-title--small waved-title--after waved-title--t-white waved-title--w-transparent slider-une-main__suptitle">Le Mag'</div>
+                    <div class="waved-title waved-title--small waved-title--after waved-title--t-white waved-title--w-transparent slider-une-main__suptitle">A la une</div>
                     <h2 class="slider-une-main__title unstyled"></h2>
                     <div class="slider-une-main__description" data-dot="2"></div>
                 </a>
