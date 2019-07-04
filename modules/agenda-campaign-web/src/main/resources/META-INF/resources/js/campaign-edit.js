@@ -62,13 +62,23 @@ jQuery(function() {
 			onSelect : function(suggestion) {
 				jQuery('#place-autocomplete-hidden-value input').val(
 						suggestion.data);
-				jQuery('input.selected-place').val(suggestion.value);
+				jQuery('.selected-place span').text(suggestion.value);
+				jQuery('.place-autocomplete-input-wrapper input').hide();
+				jQuery('.selected-place').show();
 			},
 			appendTo : '.place-autocomplete-input-wrapper'
 		};
 		jQuery('.place-autocomplete-input-wrapper input').autocomplete(
 				options);
 	}
+});
+
+//Réinitialisation du lieu
+$('.remove_place').on('click',function(e){
+    jQuery('#place-autocomplete-hidden-value input').val('');
+    jQuery('.place-autocomplete-input-wrapper input').val('');
+    jQuery('.place-autocomplete-input-wrapper input').show();
+    jQuery('.selected-place').hide();
 });
 
 // Switch entre les sélections de lieux

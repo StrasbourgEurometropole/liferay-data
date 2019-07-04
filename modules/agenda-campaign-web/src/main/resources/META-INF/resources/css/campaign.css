@@ -192,3 +192,8 @@ img {
     resize: vertical;
     height: 20em;
 }
+
+.importante{
+    color: red;
+    padding: 0 15px 15px 15px;
+}
