@@ -124,6 +124,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				setPreference(request, "linkCategoryId", "");
 				setPreference(request, "categoryTitle", "");
 				setPreference(request, "linkInterestId", "");
+				setPreference(request, "showTransports", "");
+				setPreference(request, "tranportsLinkCategoryId", "");
+				setPreference(request, "tranportsCategoryTitle", "");
+				setPreference(request, "transportLinkInterestId", "");
 			}else {
 				setPreference(request, "widgetIntro", "");
 				setPreference(request, "widgetLink", "");
@@ -186,6 +190,30 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					String linkInterestId = ParamUtil.getString(request, "linkInterestId");
 					setPreference(request, "linkInterestId", linkInterestId);
 					json.put("trafficInterestId", linkInterestId);
+				}
+				
+				// Choix afficher les transports
+				String showTransports = ParamUtil.getString(request, "showTransports");
+				setPreference(request, "showTransports", showTransports);
+				if(mode.equals("normal")) {
+					// Liaison des transports à une catégorie
+					String tranportsLinkCategoryId = ParamUtil.getString(request, "tranportsLinkCategoryId");
+					setPreference(request, "tranportsLinkCategoryId", tranportsLinkCategoryId);
+					// Recuperer le nom de la categorie
+					String tranportsCategoryTitle = "";
+					if (Validator.isNotNull(tranportsLinkCategoryId)) {
+						AssetCategory category = AssetCategoryLocalServiceUtil
+								.fetchAssetCategory(Long.parseLong(tranportsLinkCategoryId));
+						if (Validator.isNotNull(category)) {
+							tranportsCategoryTitle = category.getTitle(Locale.FRANCE);
+						}
+					}
+					setPreference(request, "tranportsCategoryTitle", tranportsCategoryTitle);
+				}else {
+					// Liaison des trasnports à un CI
+					String transportLinkInterestId = ParamUtil.getString(request, "transportLinkInterestId");
+					setPreference(request, "transportLinkInterestId", transportLinkInterestId);
+					json.put("transportLinkInterestId", transportLinkInterestId);
 				}
 			}
 
@@ -464,6 +492,27 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Liaison de l'info trafic à un CI
 			request.setAttribute("linkInterestId", configuration.linkInterestId());
+			
+			// Choix afficher les transports
+			request.setAttribute("showTransports", configuration.showTransports());
+
+			// Liaison de la catégorie aux transports
+			List<AssetVocabulary> transportsVocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1);
+			vocabularies = vocabularies.stream().filter(v -> v.getGroupId() == themeDisplay.getCompanyGroupId())
+					.collect(Collectors.toList());
+			String transportsVocabulariesStr = "";
+			for (AssetVocabulary assetVocabulary : transportsVocabularies) {
+				if(!transportsVocabulariesStr.equals("")) {
+					transportsVocabulariesStr += ",";
+				}
+				transportsVocabulariesStr += assetVocabulary.getVocabularyId();
+			}
+			request.setAttribute("transportsVocabulariesStr", transportsVocabulariesStr);
+			request.setAttribute("tranportsLinkCategoryId", configuration.tranportsLinkCategoryId());
+			request.setAttribute("tranportsCategoryTitle", configuration.tranportsCategoryTitle());
+
+			// Liaison des transports à un CI
+			request.setAttribute("transportLinkInterestId", configuration.transportLinkInterestId());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

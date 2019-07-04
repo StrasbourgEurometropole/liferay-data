@@ -85,5 +85,17 @@ public interface MapConfiguration {
 
 	@Meta.AD(name = "linkInterestId", deflt = "", required = false)
 	public String linkInterestId();
+	
+	@Meta.AD(name = "showTransports", required = false)
+	public boolean showTransports();
+	
+	@Meta.AD(name = "tranportsLinkCategoryId", required = false)
+	public String tranportsLinkCategoryId();
+
+	@Meta.AD(name = "tranportsCategoryTitle", deflt = "", required = false)
+	public String tranportsCategoryTitle();
+
+	@Meta.AD(name = "transportLinkInterestId", deflt = "", required = false)
+	public String transportLinkInterestId();
 
 }
