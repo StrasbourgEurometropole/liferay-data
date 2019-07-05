@@ -174,28 +174,41 @@
 				<div class="place-autocomplete" <c:if test="${empty dc.campaignEvent.placeSIGId and not empty dc.campaignEvent.placeName }">style="display: none;"</c:if>>
 					<div class="row">
 						<div class="col-md-6">
-							<div class="place-autocomplete-input-wrapper">
-								<aui:input label="Choisir un lieu" type="text" name="place" value="" />
+							<div class="place-autocomplete-input-wrapper choices" data-type="select-text">
+								<aui:input label="Rechercher le lieu" type="text" name="place" value="" placeholder="Exemple : piscine du Wacken" style="${not empty dc.campaignEvent.placeSIGId ? 'display:none;' : ''}">
+                                    <aui:validator name="required"
+                                        errorMessage="this-field-is-required">
+                                        function() {
+                                            return jQuery('.place-autocomplete').css('display') !== 'none';
+                                        }
+                                    </aui:validator>
+							    </aui:input>
+
+                                <div class="choices__list choices__list--multiple selected-place" style="${empty dc.campaignEvent.placeSIGId ? 'display:none;' : ''}">
+                                    <div class="choices__item  choices__item--selectable">
+                                        <span>${empty dc.campaignEvent ? param.selectedPlace : dc.campaignEvent.getPlaceAlias(locale)}</span>
+                                        <button type='button' class='choices__button remove_place' data-button=''>Remove item</button>
+                                    </div>
+                                </div>
 							</div>
 							<span id="place-autocomplete-hidden-value">
 								<aui:input type="hidden" name="placeSIGId" value="${empty dc.campaignEvent ? param.placeSIGId : dc.campaignEvent.placeSIGId}" />
 							</span>
-							<aui:input label="Lieu choisi" type="text" value="${empty dc.campaignEvent ? param.selectedPlace : dc.campaignEvent.getPlaceAlias(locale)}" name="selectedPlace" disabled="true" cssClass="selected-place" >
-								<aui:validator name="required"
-									errorMessage="this-field-is-required">
-									function() {
-										return jQuery('.place-autocomplete').css('display') !== 'none';
-									}	
-								</aui:validator>
-							</aui:input>
 						</div>
 					</div>
-					<aui:button id="showManualPlace" cssClass="show-manual-place" name="changeTimes" value="show-manual-place" />
+					<p class="show-link-manual-place" style="${not empty dc.campaignEvent.placeSIGId ? 'display:none;' : ''}">
+					    <a class="show-manual-place" style="cursor: pointer;" /><liferay-ui:message key="show-manual-place" /></a>
+					</p>
 				</div>
 				
 				<!-- Saisie manuelle -->
 				<div class="place-manual" <c:if test="${not empty dc.campaignEvent.placeSIGId or empty dc.campaignEvent.placeName }">style="display: none;"</c:if>>
 					<div class="row">
+                        <div class="importante">
+                            <p>
+                                <liferay-ui:message key="message-autocomplete-place" />
+                            </p>
+						</div>
 						<div class="col-md-4">
 							<aui:input name="placeName" helpMessage="place-name-help" required="true" >
 								<aui:validator name="required"
@@ -239,7 +252,6 @@
 							<aui:input name="placeCountry" value="${empty dc.campaignEvent.placeCountry ? 'France' : dc.campaignEvent.placeCountry}" />
 						</div>
 					</div>
-					<aui:button id="showAutocompletePlace" cssClass="show-autocomplete-place" name="showAutocompletePlace" value="show-autocomplete-place" />
 				</div>
 				
 			</aui:fieldset>

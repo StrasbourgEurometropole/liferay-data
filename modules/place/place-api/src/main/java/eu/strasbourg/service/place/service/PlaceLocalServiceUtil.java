@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.util.tracker.ServiceTracker;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchException;
-import com.liferay.portal.kernel.service.ServiceContext;
 
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.place.exception.NoSuchPlaceException;
+import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.service.ServiceContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the local service utility for Place. This utility wraps

@@ -118,6 +118,15 @@ public class PlaceServiceWrapper implements PlaceService,
 		return _placeService.getPlaceByIdSIG(sigId);
 	}
 
+	/**
+	* Retourne le géoJSON des lieux
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlacesGeoJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getRealtime()
 		throws com.liferay.portal.kernel.exception.PortalException {

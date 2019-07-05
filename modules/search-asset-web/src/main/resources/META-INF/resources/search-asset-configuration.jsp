@@ -253,36 +253,27 @@
                         <aui:option value="museum" selected="${searchForm eq 'museum'}">
                             <liferay-ui:message key="museum" />
                         </aui:option>
-                        <aui:option value="summer" selected="${searchForm eq 'summer'}">
-                            <liferay-ui:message key="summer" />
-                        </aui:option>
                         <aui:option value="official" selected="${searchForm eq 'official'}">
                             <liferay-ui:message key="official" />
                         </aui:option>
                         <aui:option value="videos" selected="${searchForm eq 'videos'}">
                             <liferay-ui:message key="videos" />
                         </aui:option>
-                        <aui:option value="christmas-agenda" selected="${searchForm eq 'christmas-agenda'}">
-                            <liferay-ui:message key="christmas-agenda" />
+                        <aui:option value="summer-christmas-general" selected="${searchForm eq 'summer-christmas-general'}">
+                            <liferay-ui:message key="summer-christmas-general" />
                         </aui:option>
-                        <aui:option value="christmas-general" selected="${searchForm eq 'christmas-general'}">
-                            <liferay-ui:message key="christmas-general" />
+                        <aui:option value="summer-christmas-agenda" selected="${searchForm eq 'summer-christmas-agenda'}">
+                            <liferay-ui:message key="summer-christmas-agenda" />
                         </aui:option>
-                        <aui:option value="christmas-2018" selected="${searchForm eq 'christmas-2018'}">
-                            <liferay-ui:message key="christmas-2018" />
-                        </aui:option>
-                        <aui:option value="christmas-2018-experience" selected="${searchForm eq 'christmas-2018-experience'}">
-                            <liferay-ui:message key="christmas-2018-experience" />
+                        <aui:option value="christmas-experience" selected="${searchForm eq 'christmas-experience'}">
+                            <liferay-ui:message key="christmas-experience" />
                         </aui:option>
                         <aui:option value="strasbourg-agenda" selected="${searchForm eq 'strasbourg-agenda'}">
                             <liferay-ui:message key="strasbourg-agenda" />
                         </aui:option>
                         <aui:option value="strasbourg-generic" selected="${searchForm eq 'strasbourg-generic'}">
                             <liferay-ui:message key="strasbourg-generic" />
-                        </aui:option>
-                        <aui:option value="summer-2018-agenda" selected="${searchForm eq 'summer-2018-agenda'}">
-                            <liferay-ui:message key="summer-2018-agenda" />
-                        </aui:option>
+                        </aui:option>                        
                         <aui:option value="placit-projects" selected="${searchForm eq 'placit-projects'}">
                             <liferay-ui:message key="placit-projects" />
                         </aui:option>

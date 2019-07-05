@@ -178,3 +178,19 @@ if ($(window).width() >= 1025) {
         $(this).find('.caption').removeClass('open');
     });
 }
+
+    $('.mns-expand-collapse').click(function(){
+        var checkboxesId = $(this).data("checkboxes-id");
+        var checkboxes = $('#checkbox-'+checkboxesId);
+        if($(this).hasClass('expanded')){
+           $(this).find('.mns-filter-expand').show();
+           $(this).find('.mns-filter-collapse').hide();
+           $(this).removeClass('expanded');
+           checkboxes.height("0px");
+        } else {
+           $(this).find('.mns-filter-expand').hide();
+           $(this).find('.mns-filter-collapse').show();
+           $(this).addClass('expanded');
+           checkboxes.height("100%");
+        }
+    });

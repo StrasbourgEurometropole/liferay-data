@@ -2090,6 +2090,8 @@ a.a-teaser-morph--picto:hover .a-teaser-morph--picto__background, a.a-teaser-mor
 
 @media only screen and (max-width: 767px) { .hp-rencontres__card:first-child .hp-rencontres__card-text { padding: 20px; } }
 
+.hp-rencontres__card-text a:first-child { text-decoration: none; }
+
 .hp-rencontres__card-title { margin-bottom: 15px; font-family: "MontSerrat", arial; font-size: 3.4rem; font-weight: bold; line-height: 1.2em; text-align: center; color: #2da192; }
 
 @media only screen and (max-width: 767px) { .hp-rencontres__card-title { font-size: 2.4rem; } }

@@ -28,7 +28,7 @@
 
 			&:hover{
 				.basic-link{
-					opacity: 1;
+					color: $c_txt;
 				}
 			}
 		}
@@ -74,7 +74,6 @@
 		}
 		.basic-link{
 			text-align: center;
-			opacity: 0;
 		}
 		.ico-map-marker{
 			display: flex;

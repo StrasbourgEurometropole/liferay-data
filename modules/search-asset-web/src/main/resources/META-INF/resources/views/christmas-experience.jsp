@@ -8,7 +8,7 @@
 	<div>
 		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />
-			<liferay-util:include page="/forms/christmas-2018-experience-form.jsp" servletContext="<%=application %>" />
+			<liferay-util:include page="/forms/${dc.searchForm}-form.jsp" servletContext="<%=application %>" />
 		</aui:form>
 	</div>
 </div>

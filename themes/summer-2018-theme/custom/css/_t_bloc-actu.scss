@@ -20,6 +20,12 @@
 			display: block;
 			transform: translateY(0px);
 			@include an(all,0.3);
+
+			&:hover{
+				.basic-link{
+					color: $c_txt;
+				}
+			}
 		}
 		.mns-bloc-top-img{
 			img{

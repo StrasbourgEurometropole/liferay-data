@@ -5,6 +5,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component(
@@ -125,30 +127,34 @@ public class SliderUneConfigurationAction
                     AssetEntry journalArticleEntry = null;
                     journalArticleEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(),
                             Long.parseLong(classPK));
-                    if (journalArticleEntry != null && journalArticleEntry.isVisible()) {
-                        // Vérifie si le contenu web a le tag "focus"
-                        if(Arrays.toString(journalArticleEntry.getTagNames()).contains("focus")){
-                            // on déplace de 2 tous les éléments du tableau
-                            for (int i = classPKs.length - 1; i >= 0; i--){
-                                if(i >= 22)
-                                    i = 21;
-                                classPKs[i+2] = classPKs[i];
+                    if (journalArticleEntry != null) {
+                        int[] statuses = {0,7};
+                        JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(classPK), statuses);
+                        if(journalArticle != null) {
+                            // Vérifie si le contenu web a le tag "focus"
+                            if (Arrays.toString(journalArticleEntry.getTagNames()).contains("focus")) {
+                                // on déplace de 2 tous les éléments du tableau
+                                for (int i = classPKs.length - 1; i >= 0; i--) {
+                                    if (i >= 22)
+                                        i = 21;
+                                    classPKs[i + 2] = classPKs[i];
+                                }
+                                // on insert l'élément au début du tableau
+                                classPKs[0] = classPK;
+                                // on rend null le 2me élément
+                                classPKs[1] = null;
+                                index++;
+                            } else {
+                                classPKs[index] = classPK;
                             }
-                            // on insert l'élément au début du tableau
-                            classPKs[0] = classPK;
-                            // on rend null le 2me élément
-                            classPKs[1] = null;
                             index++;
-                        }else {
-                            classPKs[index] = classPK;
                         }
-                        index++;
                     }
                     // Vérifie si l'évènement n'est pas dépublié
                     AssetEntry eventEntry = null;
                     eventEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
                             Long.parseLong(classPK));
-                    if (eventEntry != null && eventEntry.isVisible()) {
+                    if (eventEntry != null && (eventEntry.isVisible() || eventEntry.getStartDate().after(new Date()))) {
                         classPKs[index] = classPK;
                         index++;
                     }
