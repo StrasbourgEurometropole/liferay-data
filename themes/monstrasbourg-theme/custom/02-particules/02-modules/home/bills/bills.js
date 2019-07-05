@@ -132,10 +132,8 @@ function calculatePrice() {
   	decimalPrice = decimalPrice.substr(0,2);
   }
   else{
-	  while (decimalPrice.length < 2) {
-	    decimalPrice = '0' + decimalPrice;
-	  }
-	}
+	decimalPrice = decimalPrice + '0';
+  }
 
   return integerPrice + decimalPrice;
 }

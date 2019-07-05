@@ -420,5 +420,30 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		jsonRealtime.put("results", jsonResults);
 		return jsonRealtime;
 	}
-	
+
+	/**
+	 * Retourne le géoJSON des lieux
+	 */
+	@Override
+	public JSONObject getPlacesGeoJSON() throws PortalException {
+		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
+		return this.getApprovedGeoJSONPlaces(places);
+	}
+
+	private JSONObject getApprovedGeoJSONPlaces(List<Place> places) {
+		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
+		geoJSON.put("type", "FeatureCollection");
+		JSONArray features = JSONFactoryUtil.createJSONArray();
+		for (Place place : places) {
+			try {
+				if (place.isApproved()) {
+					features.put(place.toGeoJSON());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		geoJSON.put("features", features);
+		return geoJSON;
+	}
 }

@@ -105,6 +105,12 @@ public interface PlaceService extends BaseService {
 	public JSONObject getPlaceByIdSIG(java.lang.String sigId)
 		throws PortalException;
 
+	/**
+	* Retourne le géoJSON des lieux
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getPlacesGeoJSON() throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getRealtime() throws PortalException;
 
