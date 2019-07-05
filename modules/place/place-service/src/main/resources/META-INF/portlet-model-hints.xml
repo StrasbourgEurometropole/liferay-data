@@ -81,7 +81,9 @@
 		</field>
 		<field name="phone" type="String" />
 		<field name="mail" type="String" />
-		<field localized="true" name="siteURL" type="String" />
+		<field localized="true" name="siteURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field localized="true" name="siteLabel" type="String" />
 		<field localized="true" name="facebookURL" type="String" />
 		<field localized="true" name="facebookLabel" type="String" />
