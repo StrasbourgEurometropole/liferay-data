@@ -36,11 +36,11 @@
 	<%-- Si la page 404 existe, on l'importe pour eviter une double redirection--%>
     <c:when test="<%= page404Exists  %>">
         <%-- If server have internet access, you may remove jsessionID as per requirement --%>
-    	<c:import url='<%= PortalUtil.getPortalURL(request) + PAGE_404_URL + ";jsessionid=" + session.getId() %>'/>
+    	<c:redirect url='<%= PortalUtil.getPortalURL(request) + PAGE_404_URL + ";jsessionid=" + session.getId() %>'/>
     	<%-- If server have not internet access, you may use JS redirect by passing this url from window.location.href --%>
     </c:when>
     <%-- Sinon, on va vers l'index --%>
     <c:otherwise>
-        <c:import url='<%= PortalUtil.getPortalURL(request) + "/;jsessionid=" + session.getId() %>'/>
+        <c:redirect url='<%= PortalUtil.getPortalURL(request) + "/;jsessionid=" + session.getId() %>'/>
     </c:otherwise>
 </c:choose>

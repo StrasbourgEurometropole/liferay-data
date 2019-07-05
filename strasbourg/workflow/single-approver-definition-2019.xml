@@ -40,10 +40,13 @@
 
 				Role siteAdministrator = RoleLocalServiceUtil.getRole(companyId, "Site Administrator");
 				Role administrator = RoleLocalServiceUtil.getRole(companyId, "Administrator");
+				Role validateur = RoleLocalServiceUtil.getRole(companyId, "Validateur Webmag");
 
 				returnValue = "review";
 
-				if(UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, siteAdministrator.getRoleId()) 
+				if(UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, validateur.getRoleId()) 
+				|| 
+				UserGroupRoleLocalServiceUtil.hasUserGroupRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , groupId, siteAdministrator.getRoleId()) 
 				|| 
 				RoleLocalServiceUtil.hasUserRole( GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID)) , administrator.getRoleId())) {
 					returnValue = "approve";
@@ -138,36 +141,12 @@
 			</notification>
 		</actions>
 		<assignments>
-			<scripted-assignment>
-				 <script>
-				  <![CDATA[
-						 import com.liferay.portal.kernel.model.Group;
-						 import com.liferay.portal.kernel.model.Role;
-						 import com.liferay.portal.kernel.model.User;
-						 import com.liferay.portal.kernel.model.UserGroupRole;
-						 import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
-						 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-						 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
-						 import com.liferay.portal.kernel.util.GetterUtil;
-						 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-						 long companyId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_COMPANY_ID));
-
-						 long groupId = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_GROUP_ID));
-
-						 Group group = GroupLocalServiceUtil.getGroup(groupId);
-							
-						 roles = new ArrayList<Role>();
-
-						 Role validateur = RoleLocalServiceUtil.getRole(companyId, "Validateur webmag");
-
-						List<UserGroupRole> usersGroupRole = UserGroupRoleLocalServiceUtil.getUserGroupRolesByGroupAndRole(groupId, validateur.getRoleId());
-						
-						 user = usersGroupRole.get(0).getUser();
-					  ]]>
-				  </script>
-				 <script-language>groovy</script-language>
-			   </scripted-assignment>
+			<roles>
+				<role>
+					<role-type>site</role-type>
+					<name>Validateur webmag</name>
+				</role>
+			</roles>
 		</assignments>
 		<transitions>
 			<transition>
