@@ -16,14 +16,13 @@
         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
         <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
         <li class="hp-rencontres__card">
-            <div class="hp-rencontres__card-picture" style="background-image: url(${image});"></div>
+            <a href="${viewURL}">
+                <div class="hp-rencontres__card-picture" style="background-image: url(${image});"></div>
+            </a>
             <div class="hp-rencontres__card-text">
-                <h3 class="hp-rencontres__card-title" data-dot="3">${title}</h3>
-                <div class="hp-rencontres__card-lead" data-dot="3">${chapo}</div>
-                <a href="${viewURL}" class="a-btn-main h-inverted icon-right transparent-dark unstyled hp-rencontres__card-link">
-                    <span class="flexbox"><i class="mag mag-arrow-right"></i>
-                        <span class="btn-text">En savoir plus</span>
-                    </span>
+                <a href="${viewURL}">
+                    <h3 class="hp-rencontres__card-title" data-dot="3">${title}</h3>
+                    <div class="hp-rencontres__card-lead" data-dot="3">${chapo}</div>
                 </a>
                 <a href="${homeURL}lactu-portraits" class="a-btn-main h-inverted icon-right transparent-dark unstyled hp-rencontres__card-more">
                     <span class="flexbox"><i class="mag mag-arrow-right"></i>
