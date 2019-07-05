@@ -197,8 +197,7 @@
 						</div>
 					</div>
 					<p class="show-link-manual-place" style="${not empty dc.campaignEvent.placeSIGId ? 'display:none;' : ''}">
-					    <liferay-ui:message key="message-manual-place" />
-					    <a class="show-manual-place" style="cursor: pointer;" /><liferay-ui:message key="show-manual-place" /></a>.
+					    <a class="show-manual-place" style="cursor: pointer;" /><liferay-ui:message key="show-manual-place" /></a>
 					</p>
 				</div>
 				
@@ -209,7 +208,6 @@
                             <p>
                                 <liferay-ui:message key="message-autocomplete-place" />
                             </p>
-                            <aui:button id="showAutocompletePlace" cssClass="show-autocomplete-place" name="showAutocompletePlace" value="show-autocomplete-place" />
 						</div>
 						<div class="col-md-4">
 							<aui:input name="placeName" helpMessage="place-name-help" required="true" >
