@@ -33,7 +33,7 @@
 		<field name="code" type="String" />
 		<field name="latitude" type="String" />
 		<field name="longitude" type="String" />
-		<field name="type" type="String" />
+		<field name="type" type="int" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Calendar">
 		<field name="uuid" type="String" />

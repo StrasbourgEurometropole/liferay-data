@@ -372,15 +372,14 @@ public interface ArretModel extends BaseModel<Arret>, GroupedModel, ShardedModel
 	 *
 	 * @return the type of this arret
 	 */
-	@AutoEscape
-	public String getType();
+	public int getType();
 
 	/**
 	 * Sets the type of this arret.
 	 *
 	 * @param type the type of this arret
 	 */
-	public void setType(String type);
+	public void setType(int type);
 
 	/**
 	 * Returns <code>true</code> if this arret is approved.

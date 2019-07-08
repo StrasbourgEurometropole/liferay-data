@@ -15,7 +15,9 @@
 package eu.strasbourg.service.gtfs.service.impl;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ArretServiceBaseImpl;
 import eu.strasbourg.service.gtfs.utils.CTSService;
 
@@ -47,6 +49,14 @@ public class ArretServiceImpl extends ArretServiceBaseImpl {
 	@Override
 	public JSONArray getArretRealTime(String stopCode) {
 		return CTSService.stopMonitoring(stopCode);
+	}
+	
+	/**
+	 * Recuperer tous les arrêts en format GeoJSON
+	 */
+	@Override
+	public JSONObject getAllArrets() {
+		return ArretLocalServiceUtil.getAllGeoJSON();
 	}
 	
 }

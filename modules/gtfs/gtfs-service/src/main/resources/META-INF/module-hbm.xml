@@ -45,7 +45,7 @@
 		<property column="code_" name="code" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="latitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="longitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.CalendarImpl" table="gtfs_Calendar">
 		<id column="id_" name="id" type="long">

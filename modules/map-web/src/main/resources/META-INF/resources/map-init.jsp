@@ -33,6 +33,9 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.mode = '${mode}';
         window.linkCategoryId = '${trafficCategoryId}';
         window.linkInterestId = '${trafficInterestId}';
+        window.showTransports = ${showTransports};
+        window.transportsLinkCategoryId = '${transportsLinkCategoryId}';
+        window.transportsLinkInterestId = '${transportsLinkInterestId}';
         window.coordinateZone = ${coordinateZone};
         window.zoom = '${zoom}';
         window.cadrageX = '${cadrageX}';

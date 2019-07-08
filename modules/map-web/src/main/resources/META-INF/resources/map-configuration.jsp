@@ -269,8 +269,8 @@
                             <!-- Choix de la categorie qui affichera les transports -->
                             <label><liferay-ui:message key="transports-category-link" /></label>
                             <p>
-                                <div id="transportsCategorySelectorLabel"></div>
-                                <div id="transportsCategorySelector"></div>
+                                <div id="transportsLinkCategorySelectorLabel"></div>
+                                <div id="transportsLinkCategorySelector"></div>
                                 <aui:input type="hidden" name="transportsLinkCategoryId" />
                             </p>
 
@@ -398,11 +398,11 @@
 	new Liferay.AssetCategoriesSelector(
 		{
 			curEntryIds: "${transportsLinkCategoryId}",
-			curEntries: "${tranportsCategoryTitle}",
+			curEntries: "${transportsLinkCategoryTitle}",
 			hiddenInput: "#<portlet:namespace />transportsLinkCategoryId",
-			contentBox: "#transportsCategorySelector",
+			contentBox: "#transportsLinkCategorySelector",
 			label: "<liferay-ui:message key='category' />",
-			labelNode: "#transportsCategorySelectorLabel",
+			labelNode: "#transportsLinkCategorySelectorLabel",
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
 			vocabularyIds: "${vocabularies}"

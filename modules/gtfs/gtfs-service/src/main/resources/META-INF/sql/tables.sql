@@ -27,7 +27,7 @@ create table gtfs_Arret (
 	code_ VARCHAR(75) null,
 	latitude VARCHAR(75) null,
 	longitude VARCHAR(75) null,
-	type_ VARCHAR(75) null
+	type_ INTEGER
 );
 
 create table gtfs_Calendar (

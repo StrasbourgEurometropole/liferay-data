@@ -42,13 +42,19 @@ import java.util.stream.Collectors;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = {"com.liferay.portlet.display-category=Strasbourg",
+@Component(
+	immediate = true, 
+	property = {
+		"com.liferay.portlet.display-category=Strasbourg",
         "com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Autour de moi",
         "javax.portlet.init-param.add-process-action-success-action=false", "javax.portlet.init-param.template-path=/",
         "javax.portlet.init-param.view-template=/map-view.jsp",
         "javax.portlet.init-param.config-template=/map-configuration.jsp",
         "javax.portlet.name=" + StrasbourgPortletKeys.MAP_WEB, "javax.portlet.resource-bundle=content.Language",
-        "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
+        "javax.portlet.security-role-ref=power-user,user"
+	}, 
+	service = Portlet.class
+)
 public class MapPortlet extends MVCPortlet {
 
     private ThemeDisplay themeDisplay;
@@ -102,6 +108,9 @@ public class MapPortlet extends MVCPortlet {
             boolean showTraffic = false; // Affichage de l'info trafic
             String trafficCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
             String trafficInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
+            boolean showTransports = false; // Affichage des transports
+            String transportsLinkCategoryId = ""; // Liaison de l'affichage des transports a une categorie
+            String transportsLinkInterestId = ""; // Liaison de l'affichage des trasnports a un CI
 
             List<AssetCategory> categories = null; // Les catégories actives
             List<Interest> interests = null; // Les intérêts actifs
@@ -131,6 +140,7 @@ public class MapPortlet extends MVCPortlet {
                         interestsIdsString = jsonArrayInterests.join(",");
                         showFavorites = json.getBoolean("showFavorites");
                         trafficInterestId = json.getString("trafficInterestId");
+                        transportsLinkInterestId = json.getString("transportsLinkInterestId");
                     } catch (Exception ex) {
                         _log.error("Missing expando field : map_global_config");
                     }
@@ -186,8 +196,11 @@ public class MapPortlet extends MVCPortlet {
                     interestsIdsString = configuration.interestsIds();
                     showFavorites = configuration.showFavorites();
                     showTraffic = configuration.showTraffic();
+                    showTransports = configuration.showTransports();
                     trafficCategoryId = configuration.linkCategoryId();
                     trafficInterestId = configuration.linkInterestId();
+                    transportsLinkCategoryId = configuration.tranportsLinkCategoryId();
+                    transportsLinkInterestId = configuration.transportsLinkInterestId();
                 }
 
                 List<Long> categoriesIds;
@@ -385,6 +398,9 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("showTraffic", showTraffic);
             request.setAttribute("trafficCategoryId", trafficCategoryId);
             request.setAttribute("trafficInterestId", trafficInterestId);
+            request.setAttribute("showTransports", showTransports);
+            request.setAttribute("transportsLinkCategoryId", transportsLinkCategoryId);
+            request.setAttribute("transportsLinkInterestId", transportsLinkInterestId);
             request.setAttribute("address", address);
             request.setAttribute("internalId", internalId);
 

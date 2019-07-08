@@ -4,8 +4,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil;
 import eu.strasbourg.utils.PortletHelper;
 
-import javax.portlet.PortletRequest;
-
 public class MapDisplayContext {
 
 	private ThemeDisplay themeDisplay;

@@ -200,15 +200,15 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					String tranportsLinkCategoryId = ParamUtil.getString(request, "tranportsLinkCategoryId");
 					setPreference(request, "tranportsLinkCategoryId", tranportsLinkCategoryId);
 					// Recuperer le nom de la categorie
-					String tranportsCategoryTitle = "";
+					String tranportsLinkCategoryTitle = "";
 					if (Validator.isNotNull(tranportsLinkCategoryId)) {
 						AssetCategory category = AssetCategoryLocalServiceUtil
 								.fetchAssetCategory(Long.parseLong(tranportsLinkCategoryId));
 						if (Validator.isNotNull(category)) {
-							tranportsCategoryTitle = category.getTitle(Locale.FRANCE);
+							tranportsLinkCategoryTitle = category.getTitle(Locale.FRANCE);
 						}
 					}
-					setPreference(request, "tranportsCategoryTitle", tranportsCategoryTitle);
+					setPreference(request, "tranportsLinkCategoryTitle", tranportsLinkCategoryTitle);
 				}else {
 					// Liaison des transports à un CI
 					String transportsLinkInterestId = ParamUtil.getString(request, "transportsLinkInterestId");
@@ -509,11 +509,11 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 			request.setAttribute("transportsVocabulariesStr", transportsVocabulariesStr);
 			request.setAttribute("transportsLinkCategoryId", configuration.tranportsLinkCategoryId());
-			request.setAttribute("tranportsCategoryTitle", configuration.tranportsCategoryTitle());
+			request.setAttribute("transportsLinkCategoryTitle", configuration.transportsLinkCategoryTitle());
 
 			// Liaison des transports à un CI
 			request.setAttribute("transportsLinkInterestId", configuration.transportsLinkInterestId());
-
+			
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}

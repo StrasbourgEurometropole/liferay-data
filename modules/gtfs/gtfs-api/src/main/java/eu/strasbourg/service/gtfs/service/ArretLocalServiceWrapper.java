@@ -54,6 +54,15 @@ public class ArretLocalServiceWrapper implements ArretLocalService,
 	}
 
 	/**
+	* Recuperer tous les arrêts en format GeoJSON
+	* Notes : ne prend que les arrets publies
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getAllGeoJSON() {
+		return _arretLocalService.getAllGeoJSON();
+	}
+
+	/**
 	* @throws PortalException
 	*/
 	@Override

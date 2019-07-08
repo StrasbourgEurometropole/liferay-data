@@ -423,10 +423,10 @@ public class PoiServiceImpl implements PoiService {
 	static private JSONObject getGeoJSON(List<Place> places, List<Event> events, long groupId, Locale locale) throws JSONException {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
 		geoJSON.put("type", "FeatureCollection");
-
+		
 		JSONArray features = JSONFactoryUtil.createJSONArray();
 		for (Place place : places) {
-
+			
 			JSONObject feature = JSONFactoryUtil.createJSONObject();
 			feature.put("type", "Feature");
 

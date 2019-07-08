@@ -197,12 +197,7 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 			arretImpl.setLongitude(longitude);
 		}
 
-		if (type == null) {
-			arretImpl.setType(StringPool.BLANK);
-		}
-		else {
-			arretImpl.setType(type);
-		}
+		arretImpl.setType(type);
 
 		arretImpl.resetOriginalValues();
 
@@ -234,7 +229,8 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 		code = objectInput.readUTF();
 		latitude = objectInput.readUTF();
 		longitude = objectInput.readUTF();
-		type = objectInput.readUTF();
+
+		type = objectInput.readInt();
 	}
 
 	@Override
@@ -313,12 +309,7 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 			objectOutput.writeUTF(longitude);
 		}
 
-		if (type == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(type);
-		}
+		objectOutput.writeInt(type);
 	}
 
 	public String uuid;
@@ -338,5 +329,5 @@ public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 	public String code;
 	public String latitude;
 	public String longitude;
-	public String type;
+	public int type;
 }

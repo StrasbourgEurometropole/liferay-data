@@ -90,7 +90,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 			{ "code_", Types.VARCHAR },
 			{ "latitude", Types.VARCHAR },
 			{ "longitude", Types.VARCHAR },
-			{ "type_", Types.VARCHAR }
+			{ "type_", Types.INTEGER }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -112,10 +112,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		TABLE_COLUMNS_MAP.put("code_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("latitude", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("longitude", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("type_", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table gtfs_Arret (uuid_ VARCHAR(75) null,arretId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,stopId VARCHAR(75) null,title VARCHAR(75) null,code_ VARCHAR(75) null,latitude VARCHAR(75) null,longitude VARCHAR(75) null,type_ VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table gtfs_Arret (uuid_ VARCHAR(75) null,arretId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,stopId VARCHAR(75) null,title VARCHAR(75) null,code_ VARCHAR(75) null,latitude VARCHAR(75) null,longitude VARCHAR(75) null,type_ INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Arret";
 	public static final String ORDER_BY_JPQL = " ORDER BY arret.arretId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY gtfs_Arret.arretId DESC";
@@ -133,9 +133,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long STOPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long ARRETID_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 4L;
+	public static final long STOPID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long ARRETID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -361,7 +362,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 			setLongitude(longitude);
 		}
 
-		String type = (String)attributes.get("type");
+		Integer type = (Integer)attributes.get("type");
 
 		if (type != null) {
 			setType(type);
@@ -530,7 +531,19 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -679,17 +692,12 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@JSON
 	@Override
-	public String getType() {
-		if (_type == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _type;
-		}
+	public int getType() {
+		return _type;
 	}
 
 	@Override
-	public void setType(String type) {
+	public void setType(int type) {
 		_type = type;
 	}
 
@@ -910,6 +918,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 		arretModelImpl._setModifiedDate = false;
 
+		arretModelImpl._originalStatus = arretModelImpl._status;
+
+		arretModelImpl._setOriginalStatus = false;
+
 		arretModelImpl._originalStopId = arretModelImpl._stopId;
 
 		arretModelImpl._columnBitmask = 0;
@@ -1023,12 +1035,6 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		}
 
 		arretCacheModel.type = getType();
-
-		String type = arretCacheModel.type;
-
-		if ((type != null) && (type.length() == 0)) {
-			arretCacheModel.type = null;
-		}
 
 		return arretCacheModel;
 	}
@@ -1183,6 +1189,8 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1192,7 +1200,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	private String _code;
 	private String _latitude;
 	private String _longitude;
-	private String _type;
+	private int _type;
 	private long _columnBitmask;
 	private Arret _escapedModel;
 }

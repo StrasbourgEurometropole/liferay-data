@@ -240,11 +240,11 @@ public class ArretSoap implements Serializable {
 		_longitude = longitude;
 	}
 
-	public String getType() {
+	public int getType() {
 		return _type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		_type = type;
 	}
 
@@ -265,5 +265,5 @@ public class ArretSoap implements Serializable {
 	private String _code;
 	private String _latitude;
 	private String _longitude;
-	private String _type;
+	private int _type;
 }

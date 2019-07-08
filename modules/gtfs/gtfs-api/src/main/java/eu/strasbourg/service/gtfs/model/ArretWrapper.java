@@ -185,7 +185,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 			setLongitude(longitude);
 		}
 
-		String type = (String)attributes.get("type");
+		Integer type = (Integer)attributes.get("type");
 
 		if (type != null) {
 			setType(type);
@@ -300,6 +300,14 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 		return _arret.getExpandoBridge();
 	}
 
+	/**
+	* Renvoie le JSON de l'entite au format GeoJSON
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON() {
+		return _arret.getGeoJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.Arret> toCacheModel() {
 		return _arret.toCacheModel();
@@ -328,6 +336,16 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	@Override
 	public int getStatus() {
 		return _arret.getStatus();
+	}
+
+	/**
+	* Returns the type of this arret.
+	*
+	* @return the type of this arret
+	*/
+	@Override
+	public int getType() {
+		return _arret.getType();
 	}
 
 	@Override
@@ -416,13 +434,11 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Returns the type of this arret.
-	*
-	* @return the type of this arret
+	* Renvoie la correspondance du type d'arret en format texte
 	*/
 	@Override
-	public java.lang.String getType() {
-		return _arret.getType();
+	public java.lang.String getTypeText() {
+		return _arret.getTypeText();
 	}
 
 	/**
@@ -782,7 +798,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	* @param type the type of this arret
 	*/
 	@Override
-	public void setType(java.lang.String type) {
+	public void setType(int type) {
 		_arret.setType(type);
 	}
 

@@ -17,6 +17,9 @@ package eu.strasbourg.service.gtfs.model.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 
 import java.util.List;
 
@@ -39,6 +42,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 public class ArretImpl extends ArretBaseImpl {
 
 	private static final long serialVersionUID = 3843907860876078856L;
+	
+	public static final String TYPE_BUS = "bus";
+	public static final String TYPE_TRAM = "tram";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -79,6 +85,47 @@ public class ArretImpl extends ArretBaseImpl {
 	@Override
 	public List<Direction> getLignes() {
 		return DirectionLocalServiceUtil.getByStopId(this.getStopId());
+	}
+	
+	/**
+	 * Renvoie la correspondance du type d'arret en format texte
+	 */
+	@Override
+	public String getTypeText() {
+		return this.getType() == 0 ? TYPE_TRAM : TYPE_BUS;
+	}
+	
+	/**
+	 * Renvoie le JSON de l'entite au format GeoJSON
+	 */
+	@Override
+	public JSONObject getGeoJSON() {
+		JSONObject feature = JSONFactoryUtil.createJSONObject();
+		
+			feature.put("type", "Feature");
+			
+			JSONObject geometry = JSONFactoryUtil.createJSONObject();
+			
+				geometry.put("type", "Point");
+				
+				JSONArray coordinates = JSONFactoryUtil.createJSONArray();
+				
+					coordinates.put(Float.valueOf(this.getLongitude()));
+					coordinates.put(Float.valueOf(this.getLatitude()));
+					
+				geometry.put("coordinates", coordinates);
+				
+			feature.put("geometry", geometry);
+			
+			JSONObject properties = JSONFactoryUtil.createJSONObject();
+			
+				properties.put("name", this.getTitle());
+				properties.put("type", this.getTypeText());
+				properties.put("code", this.getCode());
+			
+			feature.put("properties", properties);
+		
+		return feature;
 	}
 	
 }

@@ -1,6 +1,7 @@
 create index IX_899580E4 on gtfs_Agency (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_19AE1219 on gtfs_Arret (groupId);
+create index IX_C5E4B797 on gtfs_Arret (status);
 create index IX_DD7BF9A2 on gtfs_Arret (stopId[$COLUMN_LENGTH:75$]);
 create index IX_C8A9165 on gtfs_Arret (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_35E22D27 on gtfs_Arret (uuid_[$COLUMN_LENGTH:75$], groupId);

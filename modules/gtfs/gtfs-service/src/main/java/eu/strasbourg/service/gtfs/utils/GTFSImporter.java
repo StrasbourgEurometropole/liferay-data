@@ -367,17 +367,22 @@ public class GTFSImporter {
 			Map<String, Direction> directionsToRemove = DirectionLocalServiceUtil.getAll();
 			
 			// Parcours des arrets pour trouver les lignes correspondantes
-			for (Stop stop : StopLocalServiceUtil.getAllStops()) {
+			for (Stop stop : StopLocalServiceUtil.getAllStops()) {	
 				
 				List <Trip> trips = TripLocalServiceUtil.getTripAvailableForStop(stop.getStop_id());
 				
+				
+				int tripIndex = 0;
+				
 				for (Trip trip: trips) {
+					
+					tripIndex++;
 					
 					// Si il existe deja en base et qu'il est toujours d'actualite dans le GTFS, 
 					// on le retire de ceux a supprimer et on recupere en meme temps l'element voulu
 					Direction direction = directionsToRemove.remove(trip.getTrip_id());
 					
-					// Si la direction existe, rien a faire sinon on la creer
+					// Si la direction existe, rien a faire sinon on la cree
 					if (direction == null) {
 						// Creation du stop vide
 						direction = DirectionLocalServiceUtil.createDirection(this.sc);
@@ -397,8 +402,25 @@ public class GTFSImporter {
 						
 						directionsToSave.add(direction);
 						nbNewDirections++;
+						
+						// On en profite pour mettre à jour le type de l'arret si il est dans la liste d'edition
+						// Operation a ne faire q'une fois
+						if (tripIndex == 1) {
+							Arret correspondingArret = arretsToUpdate.stream()
+									.filter(arret -> stop.getStop_id().equals(arret.getStopId()))
+									.findAny()
+									.orElse(null);
+							if (correspondingArret != null) {
+								// On recupere la ligne de la direction pour obtenir le type de ligne
+								Ligne ligne = LigneLocalServiceUtil.getByRouteId(direction.getRouteId());
+								
+								if (ligne != null)
+									correspondingArret.setType(ligne.getType());
+							}
+						}
 					}
 				}
+				
 			}
 			
 			/**
