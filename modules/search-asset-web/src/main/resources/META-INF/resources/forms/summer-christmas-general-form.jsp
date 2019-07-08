@@ -36,7 +36,7 @@
             </label>
         </div>
         <div class="content">
-            <input type="text" id="name" name="<portlet:namespace />keywords" 
+            <input type="text" id="name" class="mns-general-keywords" name="<portlet:namespace />keywords" 
                 placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}">
         </div>
     </div>
@@ -63,18 +63,18 @@
     </c:forEach>
 </div>
 <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />
-<div class="seu-btn-line">
+<div class="mns-btn-line">
     <liferay-portlet:renderURL var="formURL" />
-    <button type="button" onclick="window.location.href = '${formURL}'" class="seu-btn-square seu-bordered seu-core">
-        <span class="seu-flexbox">
-            <span class="seu-btn-text" style="margin-right: 0">
+    <button type="button" onclick="window.location.href = '${formURL}'" class="mns-btn-square mns-bordered mns-core">
+        <span class="mns-flexbox">
+            <span class="mns-btn-text" style="margin-right: 0">
                 <liferay-ui:message key="cancel" />
             </span>
         </span>
     </button>
-    <button type="submit" class="seu-btn-square seu-filled seu-core">
-        <span class="seu-flexbox">
-            <span class="seu-btn-text">
+    <button type="submit" class="mns-btn-square mns-filled mns-core">
+        <span class="mns-flexbox">
+            <span class="mns-btn-text">
                 <liferay-ui:message key="search" />
             </span>
             <span class="seu-btn-arrow"></span>

@@ -642,6 +642,10 @@
 					flex-wrap: wrap;
 				}
 			}
+
+			a{
+				cursor: default;
+			}
 		}
 
 		&.mns-nav-scroll {
