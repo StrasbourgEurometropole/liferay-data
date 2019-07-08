@@ -204,6 +204,12 @@ img {
     background-size: 12px !important;
 }
 
+a.show-manual-place, a.show-autocomplete-place{
+    cursor: pointer;
+    text-decoration: underline;
+    color: #65B6F0;
+}
+
 .importante{
     color: red;
     padding: 0 15px 15px 15px;
