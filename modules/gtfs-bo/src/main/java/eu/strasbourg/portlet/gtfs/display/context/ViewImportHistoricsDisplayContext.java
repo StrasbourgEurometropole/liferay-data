@@ -27,7 +27,7 @@ public class ViewImportHistoricsDisplayContext extends ViewListBaseDisplayContex
 	
 	public List<ImportHistoric> getImportHistorics() throws PortalException {
 		if (this._importHistorics == null) {
-			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
+			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
 
 			// Création de la liste d'objet
 			List<ImportHistoric> results = new ArrayList<ImportHistoric>();
@@ -85,10 +85,8 @@ public class ViewImportHistoricsDisplayContext extends ViewListBaseDisplayContex
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(
-			this._themeDisplay.getScopeGroupId(),
-			StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO,
-			actionId);
+		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+				StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO, actionId);
 	}
 	
 }

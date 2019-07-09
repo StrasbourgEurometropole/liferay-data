@@ -21,9 +21,9 @@
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
 				<action-key>CONFIGURATION</action-key>
 				<action-key>VIEW</action-key>				
-				<action-key>ADD_INTEREST</action-key>		
-				<action-key>DELETE_INTEREST</action-key>
-				<action-key>EDIT_INTEREST</action-key>
+				<action-key>ADD_IMPORT_HISTORIC</action-key>
+				<action-key>DELETE_IMPORT_HISTORIC</action-key>
+				<action-key>EDIT_IMPORT_HISTORIC</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>

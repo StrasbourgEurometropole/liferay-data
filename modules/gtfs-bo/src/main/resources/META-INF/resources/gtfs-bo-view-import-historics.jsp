@@ -10,6 +10,43 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
+<liferay-frontend:management-bar includeCheckBox="true"
+	searchContainerId="importHistoricsSearchContainer">
+		<liferay-frontend:management-bar-filters>
+			<c:if test="${fn:length(dc.globalVocabularies) > 0}">
+				<li><a>Filtrer par :</a></li>
+			</c:if>
+			<c:forEach var="vocabulary" items="${dc.globalVocabularies}">
+				<liferay-frontend:management-bar-filter 
+					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
+					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
+			</c:forEach>
+
+			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
+				orderByType="${dc.orderByType}"
+				orderColumns='<%= new String[] {"title", "modified-date", "publication-date", "status"} %>'
+				portletURL="${importHistoricsURL}" />
+		</liferay-frontend:management-bar-filters>
+
+		<liferay-frontend:management-bar-action-buttons>
+			<c:if test="${not dc.workflowEnabled}">
+				<c:if test="${dc.hasPermission('EDIT_IMPORT_HISTORIC') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
+						icon="check" label="publish" />
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
+						icon="times" label="unpublish" />
+				</c:if>
+			</c:if>
+			<c:if test="${dc.hasPermission('DELETE_IMPORT_HISTORIC') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
+					icon="trash" label="delete" />
+			</c:if>
+		</liferay-frontend:management-bar-action-buttons>
+</liferay-frontend:management-bar>
+
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">

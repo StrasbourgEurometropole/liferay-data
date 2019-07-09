@@ -45,7 +45,7 @@
 						icon="times" label="unpublish" />
 				</c:if>
 			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${dc.hasPermission('DELETE_IMPORT_HISTORIC') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<liferay-frontend:management-bar-button
 					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 					icon="trash" label="delete" />
