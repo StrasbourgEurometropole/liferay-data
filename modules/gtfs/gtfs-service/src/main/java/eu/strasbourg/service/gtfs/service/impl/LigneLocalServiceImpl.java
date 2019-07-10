@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -361,6 +363,18 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 		return this.lignePersistence.countWithDynamicQuery(dynamicQuery);
+	}
+	
+	/**
+	 * Recuperer toutes les couleurs de ligne au format JSON
+	 */
+	@Override
+	public JSONArray getLigneColors() {
+		JSONArray ligneColors = JSONFactoryUtil.createJSONArray();
+		for (Ligne ligne : this.lignePersistence.findAll()) {
+			ligneColors.put(ligne.getColors());
+		}
+		return ligneColors;
 	}
 	
 }

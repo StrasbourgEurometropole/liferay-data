@@ -17,6 +17,11 @@ package eu.strasbourg.service.gtfs.model.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.List;
 
@@ -39,6 +44,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 public class LigneImpl extends LigneBaseImpl {
 
 	private static final long serialVersionUID = -4984282213511478569L;
+	public final static Log log = LogFactoryUtil.getLog(LigneImpl.class);
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -71,6 +77,25 @@ public class LigneImpl extends LigneBaseImpl {
 	@Override
 	public List<Direction> getDirections() {
 		return DirectionLocalServiceUtil.getByRouteId(this.getRouteId());
+	}
+	
+	/**
+	 * Retourne les couleurs de la ligne au format JSON
+	 */
+	@Override
+	public JSONObject getColors() {
+		try {
+			JSONObject ligneColors;
+			ligneColors = JSONFactoryUtil.createJSONObject(this.getShortName());
+		
+			ligneColors.put("backgroundColor", this.getBackgroundColor());
+			ligneColors.put("textColor", this.getTextColor());
+		
+			return ligneColors;
+		} catch (JSONException e) {
+			log.error(e);
+			return JSONFactoryUtil.createJSONObject();
+		}
 	}
 	
 }

@@ -59,6 +59,13 @@ public class LigneLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer toutes les couleurs de ligne au format JSON
+	*/
+	public static com.liferay.portal.kernel.json.JSONArray getLigneColors() {
+		return getService().getLigneColors();
+	}
+
+	/**
 	* @throws PortalException
 	*/
 	public static com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(

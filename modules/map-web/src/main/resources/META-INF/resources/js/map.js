@@ -273,55 +273,16 @@
                 		'	<button class="infowindow__close"></button>' +     
 			    		'	<div class="infowindow__content">' +         
 						'		<div class="infowindow__visual"></div>' +         
-						'		<div class="infowindow__top">' +             
-						'			<div class="infowindow__categ"></div>' +             
+						'		<div class="infowindow__top">' +
 						'			<div class="infowindow__title-block">' +
 						'				<div class="infowindow__name">' +
-						'					' + feature.properties.name +
+											feature.properties.name +
 						'				</div>' +
-						'				<div class="infowindow__like"></div>' +
 						'			</div>' +                 
 						'		</div>' +         
-						'		<div class="infowindow__middle">' +                                       
+						'		<div class="infowindow__middle">' +
 						'			<div class="infowindow__contenu">' +
-						'				<div class="popup-content-tram-list">' +
-						'					<div class="row">' +
-						'						<div class="col-md-2">' +
-						'							<p class="tram-destination-letter">' +
-						'								<span class="transport-letters-icon" style="background:#009ee0; color:#ffffff;">B</span>' +
-						'							</p>' +
-						'						</div>' +
-						'						<div class="col-md-7">' +
-						'							<p class="tram-destination-name">' +
-						'								Lingolsheim' +
-						'							</p>' +
-						'						</div>' +
-						'						<div class="col-md-2">' +
-						'							<p class="tram-destination-schedule"><strong>10:20</strong></p>' +
-						'						</div>' +
-						'					</div>' +
-//						'					<div class="row">' +
-//						'						<div class="col-md-10">' +
-//						'							<p class="tram-destination">' +
-//						'								<span class="transport-letters-icon" style="background:#f29400; color:#ffffff;">C</span>' +
-//						'								Gare Centrale' +
-//						'							</p>' +
-//						'						</div>' +
-//						'						<div class="col-md-2">' +
-//						'							<p class="tram-schedule"><strong>10:23</strong></p>' +
-//						'						</div>' +
-//						'					</div>' +
-//						'					<div class="row">' +
-//						'						<div class="col-md-10">' +
-//						'							<p class="tram-destination">' +
-//						'								<span class="transport-letters-icon" style="background:#97bf0d; color:#ffffff;">F</span>' +
-//						'								Elsau' +
-//						'							</p>' +
-//						'						</div>' +
-//						'						<div class="col-md-2">' +
-//						'							<p class="tram-schedule"><strong>10:27</strong></p>' +
-//						'						</div>' +
-//						'					</div>' +
+						'				<div class="popup-content-tram-list" data-code="' + feature.properties.code + '">' +
 						'				</div>' +						
 						'			</div>' +
 						'		</div>' +  
@@ -344,9 +305,58 @@
 	                    '    <div class="infowindow__url"></div>' +
 	                    '</div>';
                 	
+                	// Ajout du contenu de la popup dans le marqueur
                 	var popup = $.parseHTML(transportPopup);
-                	
                     layer.bindPopup($(popup).html(), {closeButton: false});
+                    
+                    // Chargement des prochains passages lors de l'ouverture de la popup
+                    layer.on('popupopen', function(e) {
+                    	var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
+                    	var code = destinationList.data('code');
+                    	console.log(" StopCode : " +code);
+                    	Liferay.Service(
+                            '/gtfs.arret/get-arret-real-time', {
+                            	stopCode: feature.properties.code
+                            },
+                            function(json) {
+                                // On efface la liste
+                                $(destinationList).empty();
+                                
+                                // Parcours des horraires
+                                json.forEach(function(visit) { 
+                                	// Formatage de l'heure
+                                	var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
+                                	var timestr = datestr.toLocaleTimeString(navigator.language, {
+                                	    hour: '2-digit',
+                                	    minute:'2-digit'
+                                	});
+                                	
+                                	// Ajout des horraires dans la liste
+                                	$(destinationList).append( 
+                            			'<div class="row">' +
+                							'<div class="col-md-2">' +
+                								'<p class="tram-destination-letter">' +
+                									'<span class="transport-letters-icon" style="background:#009ee0; color:#ffffff;">' +
+                										visit.MonitoredVehicleJourney.PublishedLineName +
+                									'</span>' +
+                								'</p>' +
+                							'</div>' +
+                							'<div class="col-md-7">' +
+                								'<p class="tram-destination-name">' +
+                									visit.MonitoredVehicleJourney.DestinationName +
+                								'</p>' +
+                							'</div>' +
+                							'<div class="col-md-2">' +
+                								'<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
+                							'</div>' +
+                						'</div>'
+                                	);
+                                });
+                                
+                            }
+                        );
+                    });
+                    
                     // Titre dans la liste des markers
                     layer.options['title'] = feature.properties.name;
                 }
@@ -860,3 +870,12 @@
         }
     });
 }(jQuery));
+
+/**
+ * 
+ * @returns
+ */
+function getNextPassages() {
+	
+}
+

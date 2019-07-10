@@ -27,25 +27,23 @@ public class CTSService {
      */
     public static JSONArray stopMonitoring(String stopCode) { 
     	try {
-	    	// Recuperation des constantes de requetage de l'API
+	    	// Recuperation des constantes de requetage de l'API19f7805f-0b98-4451-aa1b-96939a844dfe
 	        String urlSearch = StrasbourgPropsUtil.getCTSServiceRealTimeURL();
 	        String basicAuthUser = StrasbourgPropsUtil.getCTSServiceRealTimeToken();
 	        String basicAuthPwd = "";
 	        
 	        // Construction de l'URL
-	        String url = urlSearch + STOP_MONITORING_FUNCTION + "?" +
-	        		HtmlUtil.escapeURL(STOP_MONITORING_PARAM_REF + "=" + stopCode);
+	        String url = urlSearch + STOP_MONITORING_FUNCTION + "?" + STOP_MONITORING_PARAM_REF + "=" +
+	        		HtmlUtil.escapeURL(stopCode);
 	        
 	        // Envoie de la requete
-	        JSONObject serviceDelivery;
-			
-			serviceDelivery = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd);
+	        JSONObject response = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd);
 	        
 	        // Traitement de la reponse
+	        JSONObject serviceDelivery = response.getJSONObject("ServiceDelivery");
 	        JSONArray stopMonitoringDelivery = serviceDelivery.getJSONArray("StopMonitoringDelivery");
-	        if (stopMonitoringDelivery.length() > 1) {
-	        	JSONArray monitoredStopVisit = stopMonitoringDelivery.getJSONArray(0);
-	        	return monitoredStopVisit;
+	        if (stopMonitoringDelivery.length() > 0) {
+	        	return stopMonitoringDelivery.getJSONObject(0).getJSONArray("MonitoredStopVisit");
 	        } else {
 	        	return JSONFactoryUtil.createJSONArray();
 	        }

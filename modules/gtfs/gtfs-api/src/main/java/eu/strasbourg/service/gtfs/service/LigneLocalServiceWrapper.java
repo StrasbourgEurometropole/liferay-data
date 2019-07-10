@@ -54,6 +54,14 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	}
 
 	/**
+	* Recuperer toutes les couleurs de ligne au format JSON
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getLigneColors() {
+		return _ligneLocalService.getLigneColors();
+	}
+
+	/**
 	* @throws PortalException
 	*/
 	@Override

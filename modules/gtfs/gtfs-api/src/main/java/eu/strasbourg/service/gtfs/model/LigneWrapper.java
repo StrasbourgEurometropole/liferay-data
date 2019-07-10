@@ -300,6 +300,14 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 		return _ligne.getExpandoBridge();
 	}
 
+	/**
+	* Retourne les couleurs de la ligne au format JSON
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getColors() {
+		return _ligne.getColors();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.Ligne> toCacheModel() {
 		return _ligne.toCacheModel();
