@@ -293,10 +293,9 @@
 	}
 
 	.mns-item-results{
-		text-align: center;
 		padding: 2px 0;
 		> a{
-			padding: 35px 0;
+			padding: 35px 10px;
 			display: block;
 			border-top: 1px solid $c_filet;
 			@include an(all,0.3);
@@ -322,15 +321,8 @@
 
 		p{
 			clear: both;
-			width: 75%;
 			margin: auto;
 			margin-bottom: 10px;
-			@include tablet_portrait{
-				width: 90%;
-			}
-		}
-		.basic-link{
-			text-align: center;
 		}
 	}
 
