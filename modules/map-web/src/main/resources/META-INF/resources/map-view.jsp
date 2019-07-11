@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="/o/mapweb/css/mapweb.css" />
+<link rel="stylesheet" href="/o/mapweb/css/map.css" />
 
 <liferay-util:html-bottom>
     <script>

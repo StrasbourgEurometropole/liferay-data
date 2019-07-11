@@ -1,0 +1,67 @@
+.transport-letters-icon {
+	display:inline-block;
+	font-size:1em;
+	font-weight: bold;
+	width:2.5em;
+	height:2.5em;
+	line-height:2.5em;
+	text-align:center;
+	border-radius:20%;
+	background:plum;
+	vertical-align:middle;
+	margin-right:1em;
+}
+
+.popup-content-tram-list .row{
+	height: 30px;
+	display: table; 
+	margin-bottom: 5px;
+}
+
+.popup-content-tram-list .tram-destination-letter {
+	display: table-cell;
+}
+
+.popup-content-tram-list .tram-destination-name {
+	margin: 0;
+	width: 110px;
+	height: 30px;
+	padding-left: 5px;
+	vertical-align: middle;
+	display: table-cell;
+	overflow: hidden;
+}
+
+.popup-content-tram-list .tram-destination-schedule {
+	margin: 0;
+	vertical-align: middle;
+	display: table-cell; 
+	font-weight: bold;
+}
+
+.no-visit-found {
+	text-align: center;
+}
+
+.loading {
+	height: 180px
+}
+
+.loading-circle, .loading-circle:after{
+	position: absolute;
+	width: 95px;
+	height: 95px;
+	border: 15px solid #00B1EB;
+	border-top-color: transparent;
+	border-radius: 50%;
+}
+
+.loading-circle {
+	top: 50%;
+	left: 50%;
+	animation: chargement 1s linear infinite;
+}
+
+.loading-circle:after {
+	transform: rotate(90deg);
+}

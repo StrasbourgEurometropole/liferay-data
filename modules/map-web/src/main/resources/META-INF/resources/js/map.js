@@ -270,8 +270,8 @@
                 if (feature.properties) {
                 	var transportPopup =
                 		'<div class="aroundme__infowindow infowindow">' +
-                		'	<button class="infowindow__close"></button>' +     
-			    		'	<div class="infowindow__content">' +         
+                		'	<button class="infowindow__close"></button>' +
+			    		'	<div class="infowindow__content">' +
 						'		<div class="infowindow__visual"></div>' +         
 						'		<div class="infowindow__top">' +
 						'			<div class="infowindow__title-block">' +
@@ -283,6 +283,9 @@
 						'		<div class="infowindow__middle">' +
 						'			<div class="infowindow__contenu">' +
 						'				<div class="popup-content-tram-list" data-code="' + feature.properties.code + '">' +
+						'					<div class="loading">' +
+						'						<div class="loading-circle"></div>' +
+						'					</div>' +
 						'				</div>' +						
 						'			</div>' +
 						'		</div>' +  
@@ -322,43 +325,57 @@
                                 // On efface la liste
                                 $(destinationList).empty();
                                 
-                                // Parcours des horraires
-                                json.forEach(function(visit) { 
-                                	// Formatage de l'heure
-                                	var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
-                                	var timestr = datestr.toLocaleTimeString(navigator.language, {
-                                	    hour: '2-digit',
-                                	    minute:'2-digit'
-                                	});
-                                	
-                                	// Couleur de la ligne
-                                	var colors = findColors(visit.MonitoredVehicleJourney.PublishedLineName);
-                                	var backgroundColor = colors.backgroundColor != null ? colors.backgroundColor : "000000";
-                                	var textColor = colors.textColor != null ? colors.textColor : "FFFFFF";
-                                	
-                                	// Ajout des horraires dans la liste
-                                	$(destinationList).append( 
-                            			'<div class="row">' +
-                							'<div class="col-md-2">' +
-                								'<p class="tram-destination-letter">' +
-                									'<span class="transport-letters-icon"' +
-                										'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
-                										visit.MonitoredVehicleJourney.PublishedLineName +
-                									'</span>' +
-                								'</p>' +
-                							'</div>' +
-                							'<div class="col-md-7">' +
-                								'<p class="tram-destination-name">' +
-                									visit.MonitoredVehicleJourney.DestinationName +
-                								'</p>' +
-                							'</div>' +
-                							'<div class="col-md-2">' +
-                								'<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
-                							'</div>' +
-                						'</div>'
+                                if (Object.keys(json).length != 0) {
+	                                // Parcours des horraires
+	                                json.forEach(function(visit, i) {
+	                                	// On affiche que les 5 premiers resultats
+	                                	if (i > 4) return false;
+	                                	
+	                                	// Formatage de l'heure
+	                                	var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
+	                                	var timestr = datestr.toLocaleTimeString(navigator.language, {
+	                                	    hour: '2-digit',
+	                                	    minute:'2-digit'
+	                                	});
+	                                	
+	                                	// Couleur de la ligne
+	                                	var colors = findColors(visit.MonitoredVehicleJourney.PublishedLineName);
+	                                	var backgroundColor = colors.backgroundColor != null ? colors.backgroundColor : "000000";
+	                                	var textColor = colors.textColor != null ? colors.textColor : "FFFFFF";
+	                                	
+	                                	// Formatage du nom de la destination
+	                                	var destinationName = visit.MonitoredVehicleJourney.DestinationName
+	                                	if (destinationName.length > 30) {
+	                                		destinationName = destinationName.substring(0, 30) + '...';
+	                                	}
+	                                	
+	                                	// Ajout des horraires dans la liste
+	                                	$(destinationList).append( 
+	                            			'<div class="row">' +
+	                							'<div class="col-md-2">' +
+	                								'<p class="tram-destination-letter">' +
+	                									'<span class="transport-letters-icon"' +
+	                										'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
+	                										visit.MonitoredVehicleJourney.PublishedLineName +
+	                									'</span>' +
+	                								'</p>' +
+	                							'</div>' +
+	                							'<div class="col-md-7">' +
+	                								'<p class="tram-destination-name">' +
+	                									destinationName +
+	                								'</p>' +
+	                							'</div>' +
+	                							'<div class="col-md-2">' +
+	                								'<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
+	                							'</div>' +
+	                						'</div>'
+	                                	);
+	                                });
+                                } else {
+                                	$(destinationList).append(
+                                		'<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
                                 	);
-                                });
-                                
+                                }
                             }
                         );
                     });
