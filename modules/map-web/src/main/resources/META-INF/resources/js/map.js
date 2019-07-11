@@ -84,7 +84,9 @@
             // Couche gui gère le clustering des points
             var markers = L.markerClusterGroup({
                 showCoverageOnHover: false,
-                chunkProgress: updateList
+                chunkProgress: updateList,
+                maxClusterRadius: 55,
+                disableClusteringAtZoom: 18 
             });
 
             // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte

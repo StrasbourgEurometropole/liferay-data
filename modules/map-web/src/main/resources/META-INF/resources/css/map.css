@@ -34,6 +34,7 @@
 
 .popup-content-tram-list .tram-destination-schedule {
 	margin: 0;
+	height: 30px;
 	vertical-align: middle;
 	display: table-cell; 
 	font-weight: bold;
