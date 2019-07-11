@@ -143,7 +143,7 @@
 		
 	</entity>
 	
-	<entity local-service="true" cache-enabled="true" name="Ligne" remote-service="false" uuid="true">
+	<entity local-service="true" cache-enabled="true" name="Ligne" remote-service="true" uuid="true">
 		
 		<!-- PK fields -->
 		<column name="ligneId" primary="true" type="long" />

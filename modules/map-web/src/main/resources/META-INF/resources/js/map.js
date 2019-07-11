@@ -313,7 +313,7 @@
                     layer.on('popupopen', function(e) {
                     	var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
                     	var code = destinationList.data('code');
-                    	console.log(" StopCode : " +code);
+                    	
                     	Liferay.Service(
                             '/gtfs.arret/get-arret-real-time', {
                             	stopCode: feature.properties.code
@@ -331,12 +331,18 @@
                                 	    minute:'2-digit'
                                 	});
                                 	
+                                	// Couleur de la ligne
+                                	var colors = findColors(visit.MonitoredVehicleJourney.PublishedLineName);
+                                	var backgroundColor = colors.backgroundColor != null ? colors.backgroundColor : "000000";
+                                	var textColor = colors.textColor != null ? colors.textColor : "FFFFFF";
+                                	
                                 	// Ajout des horraires dans la liste
                                 	$(destinationList).append( 
                             			'<div class="row">' +
                 							'<div class="col-md-2">' +
                 								'<p class="tram-destination-letter">' +
-                									'<span class="transport-letters-icon" style="background:#009ee0; color:#ffffff;">' +
+                									'<span class="transport-letters-icon"' +
+                										'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
                 										visit.MonitoredVehicleJourney.PublishedLineName +
                 									'</span>' +
                 								'</p>' +
@@ -869,13 +875,29 @@
             }
         }
     });
+    
+    /**
+     * Recuperatiobn des couleurs de lignes
+     */
+    var ligneColors;
+    Liferay.Service(
+            '/gtfs.ligne/get-ligne-colors',
+            {},
+            function(json) {
+            	ligneColors = json;
+            }
+    );
+    
+    /**
+     * Cherche la ligne dans la liste des couleurs de lignes
+     */
+    function findColors(stopShortName) {
+    	for (var i = 0; i < ligneColors.length; i++) {
+    	    var ligne = ligneColors[i];
+    	    if (ligne.shortName === stopShortName) {
+    	    	return ligne;
+    	    }
+    	}
+    }
+    
 }(jQuery));
-
-/**
- * 
- * @returns
- */
-function getNextPassages() {
-	
-}
-

@@ -15,6 +15,7 @@
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ImportHistoricLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.ImportHistoricLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ImportHistoricPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.LigneLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.LigneLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl" id="eu.strasbourg.service.gtfs.service.LigneService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.LignePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.LignePersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.RouteLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.RoutePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.RoutePersistence" parent="basePersistence" />

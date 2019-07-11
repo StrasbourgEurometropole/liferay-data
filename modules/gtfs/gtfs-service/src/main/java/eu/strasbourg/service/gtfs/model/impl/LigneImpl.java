@@ -84,18 +84,14 @@ public class LigneImpl extends LigneBaseImpl {
 	 */
 	@Override
 	public JSONObject getColors() {
-		try {
-			JSONObject ligneColors;
-			ligneColors = JSONFactoryUtil.createJSONObject(this.getShortName());
-		
-			ligneColors.put("backgroundColor", this.getBackgroundColor());
-			ligneColors.put("textColor", this.getTextColor());
-		
-			return ligneColors;
-		} catch (JSONException e) {
-			log.error(e);
-			return JSONFactoryUtil.createJSONObject();
-		}
+		JSONObject ligneColors;
+		ligneColors = JSONFactoryUtil.createJSONObject();
+
+		ligneColors.put("shortName", this.getShortName());
+		ligneColors.put("backgroundColor", this.getBackgroundColor());
+		ligneColors.put("textColor", this.getTextColor());
+
+		return ligneColors;
 	}
 	
 }

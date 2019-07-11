@@ -23,6 +23,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -37,13 +38,16 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.model.LigneModel;
+import eu.strasbourg.service.gtfs.model.LigneSoap;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,6 +63,7 @@ import java.util.Map;
  * @see LigneModel
  * @generated
  */
+@JSON(strict = true)
 @ProviderType
 public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	/*
@@ -131,6 +136,62 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	public static final long ROUTEID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long LIGNEID_COLUMN_BITMASK = 16L;
+
+	/**
+	 * Converts the soap model instance into a normal model instance.
+	 *
+	 * @param soapModel the soap model instance to convert
+	 * @return the normal model instance
+	 */
+	public static Ligne toModel(LigneSoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
+		Ligne model = new LigneImpl();
+
+		model.setUuid(soapModel.getUuid());
+		model.setLigneId(soapModel.getLigneId());
+		model.setGroupId(soapModel.getGroupId());
+		model.setCompanyId(soapModel.getCompanyId());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setStatus(soapModel.getStatus());
+		model.setStatusByUserId(soapModel.getStatusByUserId());
+		model.setStatusByUserName(soapModel.getStatusByUserName());
+		model.setStatusDate(soapModel.getStatusDate());
+		model.setRouteId(soapModel.getRouteId());
+		model.setShortName(soapModel.getShortName());
+		model.setTitle(soapModel.getTitle());
+		model.setType(soapModel.getType());
+		model.setBackgroundColor(soapModel.getBackgroundColor());
+		model.setTextColor(soapModel.getTextColor());
+
+		return model;
+	}
+
+	/**
+	 * Converts the soap model instances into normal model instances.
+	 *
+	 * @param soapModels the soap model instances to convert
+	 * @return the normal model instances
+	 */
+	public static List<Ligne> toModels(LigneSoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
+		List<Ligne> models = new ArrayList<Ligne>(soapModels.length);
+
+		for (LigneSoap soapModel : soapModels) {
+			models.add(toModel(soapModel));
+		}
+
+		return models;
+	}
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.gtfs.model.Ligne"));
 
@@ -307,6 +368,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		}
 	}
 
+	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -330,6 +392,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		return GetterUtil.getString(_originalUuid);
 	}
 
+	@JSON
 	@Override
 	public long getLigneId() {
 		return _ligneId;
@@ -342,6 +405,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_ligneId = ligneId;
 	}
 
+	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -364,6 +428,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		return _originalGroupId;
 	}
 
+	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -386,6 +451,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		return _originalCompanyId;
 	}
 
+	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -412,6 +478,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	public void setUserUuid(String userUuid) {
 	}
 
+	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -427,6 +494,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_userName = userName;
 	}
 
+	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -437,6 +505,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_createDate = createDate;
 	}
 
+	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -453,6 +522,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_modifiedDate = modifiedDate;
 	}
 
+	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -463,6 +533,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_status = status;
 	}
 
+	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -489,6 +560,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
+	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -504,6 +576,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_statusByUserName = statusByUserName;
 	}
 
+	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -514,6 +587,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_statusDate = statusDate;
 	}
 
+	@JSON
 	@Override
 	public String getRouteId() {
 		if (_routeId == null) {
@@ -539,6 +613,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		return GetterUtil.getString(_originalRouteId);
 	}
 
+	@JSON
 	@Override
 	public String getShortName() {
 		if (_shortName == null) {
@@ -554,6 +629,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_shortName = shortName;
 	}
 
+	@JSON
 	@Override
 	public String getTitle() {
 		if (_title == null) {
@@ -569,6 +645,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_title = title;
 	}
 
+	@JSON
 	@Override
 	public int getType() {
 		return _type;
@@ -579,6 +656,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_type = type;
 	}
 
+	@JSON
 	@Override
 	public String getBackgroundColor() {
 		if (_backgroundColor == null) {
@@ -594,6 +672,7 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 		_backgroundColor = backgroundColor;
 	}
 
+	@JSON
 	@Override
 	public String getTextColor() {
 		if (_textColor == null) {
