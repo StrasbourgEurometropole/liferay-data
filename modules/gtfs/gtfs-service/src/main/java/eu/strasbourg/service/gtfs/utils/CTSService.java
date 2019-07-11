@@ -18,6 +18,7 @@ public class CTSService {
 	
 	public static final String STOP_MONITORING_FUNCTION = "stop-monitoring";
 	public static final String STOP_MONITORING_PARAM_REF = "MonitoringRef";
+	public static final String STOP_MONITORING_PARAM_NB_VISIT = "MaximumStopVisits";
 	
 	public final static Log log = LogFactoryUtil.getLog(LigneLocalServiceImpl.class);
 	
@@ -33,8 +34,9 @@ public class CTSService {
 	        String basicAuthPwd = "";
 	        
 	        // Construction de l'URL
-	        String url = urlSearch + STOP_MONITORING_FUNCTION + "?" + STOP_MONITORING_PARAM_REF + "=" +
-	        		HtmlUtil.escapeURL(stopCode);
+	        String url = urlSearch + STOP_MONITORING_FUNCTION 
+	        		+ "?" + STOP_MONITORING_PARAM_REF + "=" + HtmlUtil.escapeURL(stopCode)
+	        		+ "&" + STOP_MONITORING_PARAM_NB_VISIT + "=" + 5;
 	        
 	        // Envoie de la requete
 	        JSONObject response = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd);
