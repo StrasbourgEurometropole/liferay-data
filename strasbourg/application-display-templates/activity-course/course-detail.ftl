@@ -7,6 +7,10 @@
   <#assign homeURL = "/" />
 </#if>
 
+<script>
+    description = '${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+</script>
+
 <div class="seu-container">
     <a href="#" class="add-favorites"
         data-type="11" 

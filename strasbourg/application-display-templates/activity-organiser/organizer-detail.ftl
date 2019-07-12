@@ -7,6 +7,10 @@
   <#assign homeURL = "/" />
 </#if>
 
+<script>
+    description = '${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+</script>
+
 <div class="seu-container rte">
     <h1>${entry.getName(locale)}</h1>
     <#if entry.imageURL?has_content>

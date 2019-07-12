@@ -7,6 +7,10 @@
 </#if>
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
+<script>
+    description = '${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+</script>
+
 <div class="seu-container">
     <a href="#" class="add-favorites" 
         data-type="10" 

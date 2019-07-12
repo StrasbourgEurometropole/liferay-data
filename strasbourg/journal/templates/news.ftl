@@ -1,7 +1,4 @@
 <#setting locale = locale />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -11,18 +8,18 @@
 <#-- Récupération de DateHelper pour le format date -->
 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 
-<#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
-<@liferay_util["html-top"]>
-    <meta name="twitter:card" content="summary" />
-    <meta property="og:title" content="${title.getData()?html}" />
-    <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
-    <meta property="og:url" content="${currentUrl}" />
-    <#if imageUrl?has_content>
-        <meta property="og:image" content="${imageUrl}"/>
-        <meta property="og:image:width" content="620"/> 
-        <meta property="og:image:height" content="400"/>
-    </#if>
-</@>
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+
+<#assign imageUrl = ""/>
+<!-- image -->
+<#if thumbnail.getData()?has_content>
+    <#assign imageUrl = thumbnail.getData() />
+</#if>
+<script>
+    title = '${title.getData()?html?js_string}';
+    description = '${chapo.getData()?replace("<[^>]*>", "", "r")?html?js_string}';
+    imageUrl = '${imageUrl}';
+</script>
 
 <main class="seu-container" style="margin-bottom: 50px">
     <div class="detail-line">

@@ -1,6 +1,28 @@
 <!-- Détail lieu -->
-
 <#setting locale = locale />
+
+<#assign imageUrl = ""/>
+<!-- 1ère image au dessus de l'adresse -->
+<#if entry.imagesURLs?first?has_content>
+    <#assign imageUrl = entry.imagesURLs?first />
+</#if>
+<!-- bannière -->
+<#if !imageUrl?has_content>
+    <#assign imageUrl = entry.imageURL />
+</#if>
+<!-- bannière par défaut -->
+<#if !imageUrl?has_content>
+    <#assign imageUrl = themeDisplay.getLayout().expandoBridge.getAttribute('image') />
+</#if>
+<!-- image par défaut -->
+<#if !imageUrl?has_content>
+    <#assign imageUrl = themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image') />
+</#if>
+<script>
+    title = '${entry.getAlias(locale)?html?js_string}';
+    description = '${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+    imageUrl = '${imageUrl}';
+</script>
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -8,46 +30,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-
-<#-- <@liferay_util["html-top"]>
-    <meta property="og:title" content="${entry.getAlias(locale)?html}" />
-    <meta property="og:description" content="${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}" />
-    <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}"  />
-    <#if entry.imageURL?has_content>
-        <#if entry.imageURL?contains('http')>
-            <#assign imageUrl = entry.imageURL />
-        <#else>
-            <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL />
-        </#if>
-    </#if>
-    <#if !entry.imageURL?has_content>
-        <#assign layout = themeDisplay.getLayout() />
-        <#if layout.expandoBridge.getAttribute('image')?has_content>
-            <#if layout.expandoBridge.getAttribute('image')?contains('http')>
-                <#assign imageUrl = layout.expandoBridge.getAttribute('image') />
-            <#else>
-                <#assign imageUrl = themeDisplay.getPortalURL() + layout.expandoBridge.getAttribute('image') />
-            </#if>
-        </#if>
-    </#if>
-    <#if imageUrl?has_content>
-        <#assign imageUrl = imageUrl?replace('https:','http:') />
-        <#assign AssetPublisherTemplateHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService") />
-        <#assign taille = AssetPublisherTemplateHelper.getImageWidthHeight(imageUrl) />
-        <meta property="og:image" content="${imageUrl}"/>
-        <meta property="og:image:width" content="${taille?keep_before(',')}"/>
-        <meta property="og:image:height" content="${taille?keep_after(',')}"/>
-    </#if>
-
-    <meta property="og:title" content="${entry.getAlias(locale)?html}" />
-    <meta property="og:description" content="${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}" />
-    <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}"  />
-    <#assign imageUrl = 'http://www.touch-as-strasbourg.com/media/uploaded/sites/10468/partenaire/57a9e032cf93f_eurometropole.png' />
-    <meta property="og:image:width" content="500"/>
-    <meta property="og:image:height" content="300"/>
-</@>
--->
+<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") /> 
 
 <@liferay_util["body-top"]>
     <script>

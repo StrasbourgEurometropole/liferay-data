@@ -5,6 +5,17 @@
     <#assign homeURL = "/" />
 </#if>
 
+<#assign imageUrl = ""/>
+<!-- vignette -->
+<#if entry.imageURL?has_content>
+    <#assign imageUrl = entry.imageURL />
+</#if>
+<script>
+    title = '${entry.getManifestationScheduleDisplay(locale)?js_string} - ${entry.getTitle(locale)?html?js_string}';
+    description = '${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+    imageUrl = '${imageUrl}';
+</script>
+
 <!-- Détail manifestation -->
 <div class="seu-container">
     <a href="#" class="add-favorites"
