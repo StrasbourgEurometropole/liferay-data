@@ -1,3 +1,7 @@
+<script>
+    description = '${content.getData()?replace("<[^>]*>", "", "r")?html?js_string}';
+</script>
+
 <div class="container">
 <h1>${title.getData()}</h1>
   ${content.getData()}
