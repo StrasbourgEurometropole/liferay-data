@@ -10,14 +10,6 @@
 <#if !imageUrl?has_content>
     <#assign imageUrl = entry.imageURL />
 </#if>
-<!-- bannière par défaut -->
-<#if !imageUrl?has_content>
-    <#assign imageUrl = themeDisplay.getLayout().expandoBridge.getAttribute('image') />
-</#if>
-<!-- image par défaut -->
-<#if !imageUrl?has_content>
-    <#assign imageUrl = themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image') />
-</#if>
 <script>
     title = '${entry.getAlias(locale)?html?js_string}';
     description = '${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
