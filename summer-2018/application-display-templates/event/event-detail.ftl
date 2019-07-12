@@ -2,6 +2,7 @@
 <#setting locale = locale />
 
 <!-- image -->
+<#assign imageUrl = ""/>
 <#if !imageUrl?has_content>
     <#assign imageUrl = entry.imageURL />
 </#if>
