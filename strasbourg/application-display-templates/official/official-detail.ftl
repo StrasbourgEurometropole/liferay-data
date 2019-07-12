@@ -14,10 +14,16 @@
         <#assign fonction = fonction + ", " + entry.getName(entry.fonctionTown, locale) + " " + languageUtil.get(locale, "eu.official.of-the-city-of") + " " + entry.getTown().getTitle(locale)/>
     </#if>
 </#if>
+
+<#assign imageUrl = ""/>
+<!-- image -->
+<#if entry.imageURL?has_content>
+    <#assign imageUrl = entry.imageURL />
+</#if>
 <script>
     title = '${entry.lastName?js_string} ${entry.firstName?js_string}';
     description = '${fonction?js_string}';
-    imageUrl = '${entry.imageURL}';
+    imageUrl = '${imageURL}';
 </script> 
 
 <div class="seu-container official-detail">
