@@ -1,5 +1,9 @@
 <#setting locale = locale />
 
+<script>
+    description = '${catcher.data?replace("<[^>]*>", "", "r")?html?js_string}';
+</script>
+
 <!-- Détail article -->
 <div class="mns-fck mns-bloc-article container mns-p50">
     <div>

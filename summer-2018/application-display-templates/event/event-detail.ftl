@@ -1,5 +1,17 @@
 <!-- Détail événement -->
 <#setting locale = locale />
+
+<!-- image -->
+<#if !imageUrl?has_content>
+    <#assign imageUrl = entry.imageURL />
+</#if>
+<script>
+    title = '${entry.getEventScheduleDisplay(locale)?js_string} - ${entry.getTitle(locale)?html?js_string}';
+    description = '${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+    imageUrl = '${imageUrl}';
+</script>
+
+
 <div class="container mns-agenda-detail mns-fck">
     <div class="row">
         <div class="col-sm-3 hidden-xs">
