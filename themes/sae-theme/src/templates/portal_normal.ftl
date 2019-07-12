@@ -43,6 +43,11 @@
     <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+      title = '';
+      description = '';
+      imageUrl = '';
+    </script> 
     <@liferay_util["include"] page=top_head_include />
 
   </head>
@@ -209,4 +214,42 @@
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />
  </body>
+    
+  <script> 
+    baliseOG = '<meta name="twitter:card" content="summary" />'
+        + '<meta property="og:type" content="website" />';
+
+    if(title == ''){
+      title = '${the_title?replace('-', '|')?replace(' | Strasbourg aime ses étudiants', '')}';
+    }
+    if(title != ''){
+      baliseOG += '<meta property="og:title" content="' + title + '" />';
+    }
+
+    if(description == ''){
+      description = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+    }
+    if(description != ''){
+      baliseOG += '<meta property="og:description" content="' + description.substring(0,300) + (description.length > 300?"...":"") + '" />';
+    } 
+
+    baliseOG += '<meta property="og:url" content="' + window.location.href + '" />';
+
+    if(imageUrl == ''){
+      imageUrl = '${layout.expandoBridge.getAttribute('image')}';
+      if(imageUrl == ''){ 
+        imageUrl = '${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image')}'; 
+      }
+    }
+    if(imageUrl != ''){  
+      if(!imageUrl.includes('http')){
+          imageUrl = '${themeDisplay.getPortalURL()}' + imageUrl;
+      }
+      baliseOG += '<meta property="og:image" content="' + imageUrl + '"/>'
+        + '<meta property="og:image:width" content="620"/>'
+        + '<meta property="og:image:height" content="400"/>';
+    }
+
+    $('head').append(baliseOG);
+  </script>
 </html>
