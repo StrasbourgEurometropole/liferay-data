@@ -6,6 +6,17 @@
     <#assign homeURL = "/" />
 </#if>
 
+<#assign imageUrl = ""/>
+<!-- image -->
+<#if !entry.imageURL?has_content>
+    <#assign imageUrl = entry.imageURL />
+</#if>
+<script>
+    title = '${entry.getEventScheduleDisplay(locale)?js_string} - ${entry.getTitle(locale)?html?js_string}';
+    description = '${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
+    imageUrl = '${imageUrl}';
+</script>
+
 <div class="small-container mns-wrapper-agenda-detail mns-fck">
     <div class="row">
         <div class="mns-aside-info col-sm-4">

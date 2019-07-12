@@ -12,6 +12,17 @@
 <#assign articleResourcePK = journalArticleResourceLocalServiceUtil.getArticleResourcePrimKey(groupId, journalArticleId)/>
 <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",articleResourcePK) >
 
+<#assign imageUrl = ""/>
+<!-- image -->
+<#if !image.data?has_content>
+    <#assign imageUrl = image.data />
+</#if>
+<script>
+    title = '${title.data?html?js_string}';
+    description = '${text.data?replace("<[^>]*>", "", "r")?html?js_string}';
+    imageUrl = '${imageUrl}';
+</script>
+
 <div class="mns-page-experience">
     <header class="container mns-top-experience">
         <div class="small-container">

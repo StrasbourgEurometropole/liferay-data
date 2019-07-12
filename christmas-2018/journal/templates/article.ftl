@@ -3,6 +3,10 @@
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
+<script>
+    description = '${catcher.data?replace("<[^>]*>", "", "r")?html?js_string}';
+</script>
+
 <!-- Détail article -->
 <div class="mns-fck container mns-p50">
     <a href="#" class="add-favorites"

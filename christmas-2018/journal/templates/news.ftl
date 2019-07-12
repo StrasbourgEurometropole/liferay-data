@@ -5,6 +5,17 @@
 <#setting date_format = "d MMMM yyyy">
 <#setting locale = locale />
 
+<#assign imageUrl = ""/>
+<!-- image -->
+<#if !image.data?has_content>
+    <#assign imageUrl = image.data />
+</#if>
+<script>
+    title = '${title.data?html?js_string}';
+    description = '${text.data?replace("<[^>]*>", "", "r")?html?js_string}';
+    imageUrl = '${imageUrl}';
+</script>
+
 <!-- Détail actualité -->
 <div class="small-container mns-actu-detail mns-fck">
     <div class="mns-top-detail-img">
