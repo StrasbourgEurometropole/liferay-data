@@ -246,4 +246,12 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.ops.rodrigue.api.url");
 	}
 	
+	public static String getParticperName() {
+		return PropsUtil.get("eu.strasbourg.participer.name");
+	}
+
+	public static String getDemarcheSuiviURL(){
+		return PropsUtil.get("eu.strasbourg.demarches.suivi.url");
+	}
+	
 }
