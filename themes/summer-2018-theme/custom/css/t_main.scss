@@ -3,7 +3,9 @@
 @import "libs/owl.carousel.min";
 @import "libs/owl.theme.default.min";
 @import "libs/pikaday";
-@import "libs/selectric";
+
+@import "libs/customSelect";
+
 
 @import "_svg-factory";
 
@@ -34,7 +36,7 @@
 
 @import "_liferay-agenda";
 @import "_liferay-hacks";
-
+@import "libs/atom-form-customSelect";
 
 .fit-cover {
 	object-fit:cover;

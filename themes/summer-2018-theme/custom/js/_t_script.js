@@ -40,7 +40,7 @@
 	flexibility(document.documentElement);
 
 	// Script Homepage - Filtres de recherche
-	$('select').selectric();
+//	$('select').selectric();
 
 	// FastClick 
 	$(function() {
@@ -355,3 +355,8 @@ if($('iframe[src^="https://www.youtube.com"]')) {
 	$parent.css('height','0');
 
 }
+
+
+$(document).ready(function(){
+   $('.toCustomSelect, .form-select').customSelect();
+}); 
