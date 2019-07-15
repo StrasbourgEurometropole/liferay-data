@@ -148,8 +148,16 @@ public class StrasbourgServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static void foldPortlet(java.lang.String portletId) {
+		getService().foldPortlet(portletId);
+	}
+
 	public static void hidePortlet(java.lang.String portletId) {
 		getService().hidePortlet(portletId);
+	}
+
+	public static void unfoldPortlet(java.lang.String portletId) {
+		getService().unfoldPortlet(portletId);
 	}
 
 	public static StrasbourgService getService() {

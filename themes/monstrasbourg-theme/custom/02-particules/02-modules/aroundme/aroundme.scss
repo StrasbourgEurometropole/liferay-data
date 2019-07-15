@@ -1,3 +1,9 @@
+#wi-aroundme.no-widget{
+    width: auto;
+    box-shadow: none;
+    padding: 0;
+}
+
 #aroundme{
     overflow: hidden;
     position: relative;
@@ -961,10 +967,6 @@
     /* ------------------------------ Etat full screen */
 
     .aroundme--fullscreen{
-        main{
-
-        
-        }
         header{
             display: none !important;
         }
@@ -990,9 +992,6 @@
             #aroundme__center{
                 height: 100%;
                 z-index: 15;
-            }
-            #aroundme__side{
-
             }
             #aroundme__top{
                 display: none !important;

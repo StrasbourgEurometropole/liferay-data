@@ -580,6 +580,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
+	*
+	* @return
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getSessionsFromRodrigueInJSON() {
+		return _event.getSessionsFromRodrigueInJSON();
+	}
+
+	/**
 	* Retourne la version JSON de l'événenement
 	*/
 	@Override
@@ -2035,6 +2045,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices() {
 		return _event.getServices();
+	}
+
+	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
+	*
+	* @return
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.utils.models.RodrigueEventSession> getSessionsFromRodrigue() {
+		return _event.getSessionsFromRodrigue();
 	}
 
 	/**

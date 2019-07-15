@@ -3,13 +3,14 @@
 <h1>
 	<liferay-ui:message key="title-message" />
 </h1>
+<p class="chapo-customize"><liferay-ui:message key="chapo-message" /></p>
 
 <aui:form method="POST" action="#" name="portletForm" id="portletForm">
 	<ul class="customize-list">
 
 		<c:forEach var="portletId" items="${dc.portletIds}" varStatus="loopStatus">
-			<c:set var="displayStatus" value="${dc.getPortletDisplayStatus(portletId)}" />
 
+			<c:set var="displayStatus" value="${dc.getPortletDisplayStatus(portletId)}" />
 			<c:if test="${displayStatus ne 'on_hidden'}">
 				<c:set var="displayDescription" value="${dc.getPortletDisplayDescription(portletId)}" />
 				<c:set var="displayTitle" value="${dc.getPortletDisplayTitle(portletId)}" />

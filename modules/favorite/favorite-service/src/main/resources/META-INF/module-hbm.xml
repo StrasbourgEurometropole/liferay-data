@@ -13,5 +13,6 @@
 		<property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="entityId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="entityGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="onDashboardDate" type="org.hibernate.type.TimestampType" />
 	</class>
 </hibernate-mapping>

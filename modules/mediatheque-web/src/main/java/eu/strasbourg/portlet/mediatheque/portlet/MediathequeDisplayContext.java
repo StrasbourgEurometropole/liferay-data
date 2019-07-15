@@ -223,6 +223,14 @@ public class MediathequeDisplayContext {
 		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
 
+	public boolean showRetractableButton() {
+		return PortletHelper.showRetractableButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
+
+	public boolean isFolded() {
+		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
+
 	// récupère le type de document
 	public String getType(String type) {
 		MediathequeMapping typeDoc;

@@ -39,6 +39,7 @@
             @include RWD(tablet){
                 padding: 0;
                 padding-right: 0;
+                width: 100%;
             }
             @include RWD(mobile){
                 flex-wrap: wrap;

@@ -56,6 +56,11 @@ public class EventServiceUtil {
 		return getService().getServices();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getSessions(
+		long eventID) {
+		return getService().getSessions(eventID);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getTerritories()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getTerritories();
