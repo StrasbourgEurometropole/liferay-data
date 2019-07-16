@@ -52,6 +52,6 @@
 </style>
 
 <script>
-    $('.bg-banner .banner__title').text("${title.getData()}");
+    $('.bg-banner .banner__title').text("${title.getData()?js_string}");
     $('.bg-banner .banner__description').hide();
 </script>
