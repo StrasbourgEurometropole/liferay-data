@@ -13,5 +13,5 @@
 	
 	Voici les opérations qui ont été éffectuées :
 </#if>
-	
+
 "<i>${importHistoric.operations}"</i>

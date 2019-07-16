@@ -18,6 +18,7 @@ import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import eu.strasbourg.portlet.gtfs.display.context.EditImportHistoricDisplayContext;
 import eu.strasbourg.portlet.gtfs.display.context.ViewImportHistoricsDisplayContext;
 
 /**
@@ -47,9 +48,8 @@ public class GTFSBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		
 		// Recuperation des données de la requete de page
-//		String cmd = ParamUtil.getString(renderRequest, "cmd");
-//		String tab = ParamUtil.getString(renderRequest, "tab");
-//		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		String cmd = ParamUtil.getString(renderRequest, "cmd");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
@@ -60,9 +60,16 @@ public class GTFSBOPortlet extends MVCPortlet {
 			portletDisplay.setURLBack(returnURL.toString());
 		}
 		
-		ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
-		renderRequest.setAttribute("dc", dc);
-		title = "import-historics";
+		// On set le displayContext selon la page sur laquelle on est
+		if (cmd.equals("editImportHistoric") || mvcPath.equals("/gtfs-bo-edit-import-historic.jsp")) {
+			EditImportHistoricDisplayContext dc = new EditImportHistoricDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "import-historics";
+		} else { // Else, we are on the import project list page
+			ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "import-historics";
+		}
 
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());

@@ -22,9 +22,17 @@
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.gtfs.model.ImportHistoric" modelVar="importHistoric"
 				keyProperty="importHistoricId" rowIdProperty="importHistoricId">
+				
+				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
+				<liferay-portlet:renderURL varImpl="editImportHistoricURL">
+					<portlet:param name="cmd" value="editImportHistoric" />
+					<portlet:param name="importHistoricId" value="${importHistoric.importHistoricId}" />
+					<portlet:param name="returnURL" value="${importHistoricsURL}" />
+					<portlet:param name="mvcPath" value="/gtfs-bo-edit-import-historic.jsp" />
+				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Resultat --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
+				<liferay-ui:search-container-column-text cssClass="content-column" href="${editImportHistoricURL}"
 					name="result" truncate="true" orderable="true" value="${importHistoric.getResultLabel()}" />
 				
 				<%-- Colonne : Date de creation --%>

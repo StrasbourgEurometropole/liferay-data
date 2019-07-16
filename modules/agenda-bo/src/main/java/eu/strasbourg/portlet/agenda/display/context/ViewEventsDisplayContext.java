@@ -26,7 +26,7 @@ public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> 
 	public List<Event> getEvents() throws PortalException {
 		if (this._events == null) {
 			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
+			
 			// Création de la liste d'objet
 			List<Event> results = new ArrayList<Event>();
 			if (hits != null) {
@@ -48,7 +48,7 @@ public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> 
 	 */
 	private List<Event> getAllEvents() throws PortalException {
 		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-
+		
 		// Création de la liste d'objet
 		List<Event> results = new ArrayList<Event>();
 		if (hits != null) {
@@ -80,7 +80,7 @@ public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> 
 		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
 				StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, actionId);
 	}
-
+	
 	private List<Event> _events;
 
 }
