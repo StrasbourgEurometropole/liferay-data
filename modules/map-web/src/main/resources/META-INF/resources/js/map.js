@@ -85,8 +85,7 @@
             var markers = L.markerClusterGroup({
                 showCoverageOnHover: false,
                 chunkProgress: updateList,
-                maxClusterRadius: 55,
-                disableClusteringAtZoom: 18 
+                maxClusterRadius: 55
             });
 
             // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
