@@ -39,7 +39,7 @@
 		</aui:fieldset>
 		
 		<%-- Groupe de champs : En bref --%>
-		<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="errors">
+		<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="error">
 			
 			<%-- Champ : Description d'erreur --%>
 			<aui:input name="errorDescription" required="false" disabled="true" />
