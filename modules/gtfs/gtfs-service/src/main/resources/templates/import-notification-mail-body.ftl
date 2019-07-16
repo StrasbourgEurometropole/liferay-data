@@ -1,4 +1,4 @@
-<#if report.result == 0>
+<#if importHistoric.result == 0>
 	L'import du flux GTFS lancé à ${importHistoric.startDate?time} n'a pas pu être fait pour la raison suivante :
 	
 	"<i>${importHistoric.errorDescription}"</i>

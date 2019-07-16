@@ -2,8 +2,11 @@ package eu.strasbourg.portlet.gtfs;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.IOException;
@@ -14,6 +17,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+
+import eu.strasbourg.portlet.gtfs.display.context.ViewImportHistoricsDisplayContext;
 
 /**
  * @author cedric.henry
@@ -39,9 +44,25 @@ public class GTFSBOPortlet extends MVCPortlet {
 		RenderResponse renderResponse) throws IOException, PortletException {
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		
 		// Recuperation des données de la requete de page
-		String title = "manage-gtfs";
+//		String cmd = ParamUtil.getString(renderRequest, "cmd");
+//		String tab = ParamUtil.getString(renderRequest, "tab");
+//		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		String title = PortalUtil.getPortletTitle(renderRequest);
+		
+		// Si on est sur la page d'ajout, on affiche un lien de retour
+		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
+		boolean showBackButton = Validator.isNotNull(returnURL);
+		if (showBackButton) {
+			portletDisplay.setShowBackIcon(true);
+			portletDisplay.setURLBack(returnURL.toString());
+		}
+		
+		ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
+		renderRequest.setAttribute("dc", dc);
+		title = "import-historics";
 
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());

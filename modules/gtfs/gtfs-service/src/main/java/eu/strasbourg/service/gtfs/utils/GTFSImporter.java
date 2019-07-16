@@ -165,12 +165,11 @@ public class GTFSImporter {
 			int nbNewLines = 0;
 			int nbUpdatedLines = 0;
 			int nbRepublishedLines = 0;
-			int nbNewDirections = 0;
 			
 			/**
 			 * Import des arrêts
 			 */
-			this.importHistoric.addNewOperation("\n #1/6# Starting stops conversion \n");
+			this.importHistoric.addNewOperation("\n #1/7# Starting stops conversion \n");
 			
 			// Liste des arrets à mettre à jour et nouvelles entrées
 			List<Arret> arretsToUpdate = new ArrayList<Arret>();
@@ -260,7 +259,7 @@ public class GTFSImporter {
 			/**
 			 * Import des lignes
 			 */
-			this.importHistoric.addNewOperation("\n #2/6# Starting routes conversion \n");
+			this.importHistoric.addNewOperation("\n #2/7# Starting routes conversion \n");
 						
 			// Liste des lignes à mettre à jour et nouvelles entrées
 			List<Ligne> lignesToUpdate = new ArrayList<Ligne>();
@@ -359,18 +358,17 @@ public class GTFSImporter {
 			/**
 			 * Import des directions
 			 */
-			this.importHistoric.addNewOperation("\n #3/6# Starting direction conversion \n");
+			this.importHistoric.addNewOperation("\n #3/7# Starting direction conversion \n");
 			
 			// Liste des directions à mettre à jour et nouvelles entrées
 			List <Direction> directionsToSave = new ArrayList<Direction>();
-			// Liste des lignes à potentiellement supprimer
+			// Liste des lignes à supprimer
 			Map<String, Direction> directionsToRemove = DirectionLocalServiceUtil.getAll();
 			
 			// Parcours des arrets pour trouver les lignes correspondantes
-			for (Stop stop : StopLocalServiceUtil.getAllStops()) {	
+			for (Stop stop : StopLocalServiceUtil.getAllStops()) {
 				
 				List <Trip> trips = TripLocalServiceUtil.getTripAvailableForStop(stop.getStop_id());
-				
 				
 				int tripIndex = 0;
 				
@@ -378,45 +376,37 @@ public class GTFSImporter {
 					
 					tripIndex++;
 					
-					// Si il existe deja en base et qu'il est toujours d'actualite dans le GTFS, 
-					// on le retire de ceux a supprimer et on recupere en meme temps l'element voulu
-					Direction direction = directionsToRemove.remove(trip.getTrip_id());
+					// Creation du stop vide
+					Direction direction = DirectionLocalServiceUtil.createDirection(this.sc);
+					// Completion des informations
+					direction.setTripId(trip.getTrip_id());
+					direction.setStopId(stop.getStop_id());
+					direction.setRouteId(trip.getRoute_id());
+					direction.setDestinationName(trip.getTrip_headsign());
 					
-					// Si la direction existe, rien a faire sinon on la cree
-					if (direction == null) {
-						// Creation du stop vide
-						direction = DirectionLocalServiceUtil.createDirection(this.sc);
-						// Completion des informations
-						direction.setTripId(trip.getTrip_id());
-						direction.setStopId(stop.getStop_id());
-						direction.setRouteId(trip.getRoute_id());
-						direction.setDestinationName(trip.getTrip_headsign());
-						
-						this.importHistoric.addNewOperation(
-							"New link with direction detected  --> [ " +
-									"id : " + trip.getTrip_id() + 
-									", stop id : " + stop.getStop_id() + 
-									", ligne id : " + trip.getRoute_id() + 
-									", destination headsign : " + trip.getTrip_headsign() + "]"
-						);
-						
-						directionsToSave.add(direction);
-						nbNewDirections++;
-						
-						// On en profite pour mettre à jour le type de l'arret si il est dans la liste d'edition
-						// Operation a ne faire q'une fois
-						if (tripIndex == 1) {
-							Arret correspondingArret = arretsToUpdate.stream()
-									.filter(arret -> stop.getStop_id().equals(arret.getStopId()))
-									.findAny()
-									.orElse(null);
-							if (correspondingArret != null) {
-								// On recupere la ligne de la direction pour obtenir le type de ligne
-								Ligne ligne = LigneLocalServiceUtil.getByRouteId(direction.getRouteId());
-								
-								if (ligne != null)
-									correspondingArret.setType(ligne.getType());
-							}
+					this.importHistoric.addNewOperation(
+						"New link with direction detected  --> [ " +
+								"id : " + trip.getTrip_id() + 
+								", stop id : " + stop.getStop_id() + 
+								", ligne id : " + trip.getRoute_id() + 
+								", destination headsign : " + trip.getTrip_headsign() + "]"
+					);
+					
+					directionsToSave.add(direction);
+					
+					// On en profite pour mettre à jour le type de l'arret si il est dans la liste d'edition
+					// Operation a ne faire q'une fois
+					if (tripIndex == 1) {
+						Arret correspondingArret = arretsToUpdate.stream()
+								.filter(arret -> stop.getStop_id().equals(arret.getStopId()))
+								.findAny()
+								.orElse(null);
+						if (correspondingArret != null) {
+							// On recupere la ligne de la direction pour obtenir le type de ligne
+							Ligne ligne = LigneLocalServiceUtil.getByRouteId(direction.getRouteId());
+							
+							if (ligne != null)
+								correspondingArret.setType(ligne.getType());
 						}
 					}
 				}
@@ -429,7 +419,7 @@ public class GTFSImporter {
 			// Mettre à jour les arrets existants et sauvegarder les nouveaux
 			ArretLocalServiceUtil.updateArrets(arretsToUpdate, this.sc);
 			// Supprimer les arrets non parcourus
-			this.importHistoric.addNewOperation("\n #4/6# Unpublish removed stop \n");
+			this.importHistoric.addNewOperation("\n #4/7# Unpublish removed stop \n");
 			ArretLocalServiceUtil.unpublishArrets(
 					new ArrayList<Arret>(arretsToUnpublish.values()),
 					this.importHistoric, 
@@ -439,7 +429,7 @@ public class GTFSImporter {
 			// Mettre à jour les lignes existantes et sauvegarder les nouvelles
 			LigneLocalServiceUtil.updateLignes(lignesToUpdate, this.sc);
 			// Supprimer les lignes non parcourues
-			this.importHistoric.addNewOperation("\n #5/6# Unpublish removed route \n");
+			this.importHistoric.addNewOperation("\n #5/7# Unpublish removed route \n");
 			LigneLocalServiceUtil.unpublishLignes(
 					new ArrayList<Ligne>(lignesToUnpublish.values()), 
 					this.importHistoric, 
@@ -447,14 +437,16 @@ public class GTFSImporter {
 			);
 			
 			// Sauvegarder les nouvelles directions
-			DirectionLocalServiceUtil.updateDirections(directionsToSave, this.sc);
-			// Supprimer les directions non parcourues
-			this.importHistoric.addNewOperation("\n #6/6# Remove obsolet direction link \n");
+			this.importHistoric.addNewOperation("\n #6/7# Remove old direction links \n");
 			DirectionLocalServiceUtil.removeDirections(
 					new ArrayList<Direction>(directionsToRemove.values()),
 					this.importHistoric, 
 					this.sc
 			);
+			
+			// Supprimer les directions non parcourues
+			this.importHistoric.addNewOperation("\n #7/7# Add new direction links \n");
+			DirectionLocalServiceUtil.updateDirections(directionsToSave, this.sc);
 			
 			/**
 			 * Data conversion debrief
@@ -470,7 +462,7 @@ public class GTFSImporter {
 			this.importHistoric.addNewOperation("Nb. updated lines : " + nbUpdatedLines);
 			this.importHistoric.addNewOperation("Nb. unpublished lines : " + lignesToUnpublish.size());
 			this.importHistoric.addNewOperation("Nb. republished lines : " + nbRepublishedLines);
-			this.importHistoric.addNewOperation("Nb. new direction links : " + nbNewDirections);
+			this.importHistoric.addNewOperation("Nb. new direction links : " + directionsToSave.size());
 			this.importHistoric.addNewOperation("Nb. removed direction links : " + directionsToRemove.size());
 			
 			this.importHistoric.setResult(1);

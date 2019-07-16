@@ -83,6 +83,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 		ImportHistoric importHistoric = this.importHistoricLocalService.createImportHistoric(pk);
 
 		importHistoric.setGroupId(sc.getScopeGroupId());
+		importHistoric.setCompanyId(sc.getCompanyId());
 		importHistoric.setUserName(user.getFullName());
 		importHistoric.setUserId(sc.getUserId());
 
@@ -102,6 +103,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 		importHistoric.setStatusByUserId(sc.getUserId());
 		importHistoric.setStatusByUserName(user.getFullName());
 		importHistoric.setStatusDate(sc.getModifiedDate());
+		importHistoric.setCompanyId(sc.getCompanyId());
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			importHistoric.setStatus(WorkflowConstants.STATUS_APPROVED);
@@ -109,6 +111,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 			importHistoric.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
 		importHistoric = this.importHistoricLocalService.updateImportHistoric(importHistoric);
+		
 		this.updateAssetEntry(importHistoric, sc);
 		this.reindex(importHistoric, false);
 
@@ -137,8 +140,8 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 				null, // Date of expiration
 				ContentTypes.TEXT_HTML, // Content type
 				Integer.toString(importHistoric.getResult()), // Title
-				importHistoric.getOperations(), // Description
-				importHistoric.getOperations(), // Summary
+				importHistoric.getErrorDescription(), // Description
+				importHistoric.getErrorDescription(), // Summary
 				null, // URL
 				null, // Layout uuid
 				0, // Width
