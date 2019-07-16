@@ -179,7 +179,7 @@
                                     <aui:validator name="required"
                                         errorMessage="this-field-is-required">
                                         function() {
-                                            return jQuery('.place-autocomplete').css('display') !== 'none';
+                                            return (jQuery('.place-autocomplete').css('display') !== 'none' && jQuery('.selected-place').css('display') == 'none');
                                         }
                                     </aui:validator>
 							    </aui:input>
