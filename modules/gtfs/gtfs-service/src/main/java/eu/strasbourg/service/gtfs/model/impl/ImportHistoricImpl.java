@@ -135,7 +135,7 @@ public class ImportHistoricImpl extends ImportHistoricBaseImpl {
 					PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
 			
 			// Envoie
-			MailHelper.sendMailWithPlainText(
+			MailHelper.sendMailWithHTML(
 					adminEmailFromAddress,
 					mailAddresses,
 					subjectWriter.toString(), 

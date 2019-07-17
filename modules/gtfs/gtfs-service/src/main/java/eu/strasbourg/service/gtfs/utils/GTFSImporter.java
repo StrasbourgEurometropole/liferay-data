@@ -460,6 +460,11 @@ public class GTFSImporter {
 			this.importHistoric.addNewOperation("Nb. new direction links : " + directionsToSave.size());
 			this.importHistoric.addNewOperation("Nb. removed direction links : " + directionsToRemove.size());
 			
+			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
+			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
+			this.importHistoric.addNewOperation("Finishing files data conversion in " + processTime + " seconds.");
+			
+			// Succes de l'import
 			this.importHistoric.setResult(1);
 			
 		} catch (PortalException e) {
@@ -469,9 +474,6 @@ public class GTFSImporter {
 			log.error(e);
 		}
 		
-		Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
-		long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
-		this.importHistoric.addNewOperation("Finishing files data conversion in " + processTime + " seconds.");
 	}
 	
 	public ImportHistoric getImportHistoric() {
