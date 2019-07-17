@@ -95,8 +95,7 @@ public class ImportHistoricImpl extends ImportHistoricBaseImpl {
 	public void addNewOperation(String operation) {
 		this.setOperations(
 				this.getOperations() +
-				"\n" +
-				operation
+				"<p>" + operation + "</p>"
 		);
 		log.info(operation);
 	}

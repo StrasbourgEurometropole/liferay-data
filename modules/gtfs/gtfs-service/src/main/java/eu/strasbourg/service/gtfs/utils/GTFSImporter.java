@@ -86,10 +86,8 @@ public class GTFSImporter {
 		
 		try {
 			Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
-			this.importHistoric.addNewOperation(
-					"################### GTFS Files ###################" +
-					"\n #1/1# Starting import of GTFS \n"
-			);
+			this.importHistoric.addNewOperation("################### GTFS Files ###################");
+			this.importHistoric.addNewOperation("#1/1# Starting import of GTFS");
 			
 			// Recuperation des lignes
 			Map<String, AgencyGTFS> mapAgencys;
@@ -135,7 +133,7 @@ public class GTFSImporter {
 			
 			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
 			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
-			this.importHistoric.addNewOperation("Finishing files data import in " + processTime + " seconds. \n");
+			this.importHistoric.addNewOperation("Finishing files data import in " + processTime + " seconds.");
 			
 		} catch (PortalException e) {
 			this.importHistoric.setErrorDescription("Probleme survenu lors de la lecture des donnees du flux GTFS");
@@ -153,9 +151,7 @@ public class GTFSImporter {
 	private void convertGTFSData() {
 		
 		Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
-		this.importHistoric.addNewOperation(
-				"################### Convert GTFS data ################### \n"
-		);
+		this.importHistoric.addNewOperation("################### Convert GTFS data ###################");
 		
 		try {
 			// Initialisation des compteurs
@@ -169,7 +165,7 @@ public class GTFSImporter {
 			/**
 			 * Import des arrêts
 			 */
-			this.importHistoric.addNewOperation("\n #1/7# Starting stops conversion \n");
+			this.importHistoric.addNewOperation("#1/7# Starting stops conversion");
 			
 			// Liste des arrets à mettre à jour et nouvelles entrées
 			List<Arret> arretsToUpdate = new ArrayList<Arret>();
@@ -259,7 +255,7 @@ public class GTFSImporter {
 			/**
 			 * Import des lignes
 			 */
-			this.importHistoric.addNewOperation("\n #2/7# Starting routes conversion \n");
+			this.importHistoric.addNewOperation("#2/7# Starting routes conversion");
 						
 			// Liste des lignes à mettre à jour et nouvelles entrées
 			List<Ligne> lignesToUpdate = new ArrayList<Ligne>();
@@ -358,7 +354,7 @@ public class GTFSImporter {
 			/**
 			 * Import des directions
 			 */
-			this.importHistoric.addNewOperation("\n #3/7# Starting direction conversion \n");
+			this.importHistoric.addNewOperation("#3/7# Starting direction conversion");
 			
 			// Liste des directions à mettre à jour et nouvelles entrées
 			List <Direction> directionsToSave = new ArrayList<Direction>();
@@ -419,7 +415,7 @@ public class GTFSImporter {
 			// Mettre à jour les arrets existants et sauvegarder les nouveaux
 			ArretLocalServiceUtil.updateArrets(arretsToUpdate, this.sc);
 			// Supprimer les arrets non parcourus
-			this.importHistoric.addNewOperation("\n #4/7# Unpublish removed stop \n");
+			this.importHistoric.addNewOperation("#4/7# Unpublish removed stop");
 			ArretLocalServiceUtil.unpublishArrets(
 					new ArrayList<Arret>(arretsToUnpublish.values()),
 					this.importHistoric, 
@@ -429,7 +425,7 @@ public class GTFSImporter {
 			// Mettre à jour les lignes existantes et sauvegarder les nouvelles
 			LigneLocalServiceUtil.updateLignes(lignesToUpdate, this.sc);
 			// Supprimer les lignes non parcourues
-			this.importHistoric.addNewOperation("\n #5/7# Unpublish removed route \n");
+			this.importHistoric.addNewOperation("#5/7# Unpublish removed route");
 			LigneLocalServiceUtil.unpublishLignes(
 					new ArrayList<Ligne>(lignesToUnpublish.values()), 
 					this.importHistoric, 
@@ -437,7 +433,7 @@ public class GTFSImporter {
 			);
 			
 			// Sauvegarder les nouvelles directions
-			this.importHistoric.addNewOperation("\n #6/7# Remove old direction links \n");
+			this.importHistoric.addNewOperation("#6/7# Remove old direction links");
 			DirectionLocalServiceUtil.removeDirections(
 					new ArrayList<Direction>(directionsToRemove.values()),
 					this.importHistoric, 
@@ -445,15 +441,14 @@ public class GTFSImporter {
 			);
 			
 			// Supprimer les directions non parcourues
-			this.importHistoric.addNewOperation("\n #7/7# Add new direction links \n");
+			this.importHistoric.addNewOperation("#7/7# Add new direction links");
 			DirectionLocalServiceUtil.updateDirections(directionsToSave, this.sc);
 			
 			/**
 			 * Data conversion debrief
 			 */
-			this.importHistoric.addNewOperation(
-					"\n################### Final data debrief ################### \n"
-			);
+			this.importHistoric.addNewOperation("################### Final data debrief ###################");
+			
 			this.importHistoric.addNewOperation("Nb. new stops : " + nbNewStops);
 			this.importHistoric.addNewOperation("Nb. updated stops : " + nbUpdatedStops);
 			this.importHistoric.addNewOperation("Nb. unpublished stops : " + arretsToUnpublish.size());
