@@ -72,7 +72,8 @@ public class GTFSImporter {
 		importGTFSData();
 		
 		// Convertion des donnees du flux vers des entitees liferay affichables
-		convertGTFSData();
+		if (this.importHistoric.getErrorStackTrace().equals(""))
+			convertGTFSData();
 		
 		this.importHistoric.setFinishDate(new Date());
 	}
@@ -137,12 +138,12 @@ public class GTFSImporter {
 			
 		} catch (PortalException e) {
 			this.importHistoric.setErrorDescription("Probleme survenu lors de la lecture des donnees du flux GTFS");
-			this.importHistoric.setErrorDescription(e.toString());
+			this.importHistoric.setErrorStackTrace(e.toString());
 			this.importHistoric.setResult(0);
 			log.error(e);
 		} catch (FileAccessException e) {
 			this.importHistoric.setErrorDescription("Probleme survenu lors de l'acces aux fichiers du flux GTFS");
-			this.importHistoric.setErrorDescription(e.toString());
+			this.importHistoric.setErrorStackTrace(e.toString());
 			this.importHistoric.setResult(0);
 			log.error(e);
 		}
