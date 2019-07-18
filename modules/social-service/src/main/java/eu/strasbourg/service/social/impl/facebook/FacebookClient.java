@@ -41,7 +41,7 @@ public class FacebookClient {
 		}
 		
 		Object[] stringData = { accessToken, count };
-		String apiURL = "https://graph.facebook.com/v2.10/me/posts?access_token=%s&fields=id,message,created_time,full_picture,permalink_url&limit=%s";
+		String apiURL = "https://graph.facebook.com/v3.3/me/posts?access_token=%s&fields=id,message,created_time,full_picture,permalink_url&limit=%s";
 		apiURL = String.format(apiURL, stringData);
 
 		List<SocialPost> posts = new ArrayList<SocialPost>();
