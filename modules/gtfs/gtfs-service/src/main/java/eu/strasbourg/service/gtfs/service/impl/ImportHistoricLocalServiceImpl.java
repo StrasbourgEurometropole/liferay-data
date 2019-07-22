@@ -77,18 +77,18 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 	@Override
 	public ImportHistoric createImportHistoric(ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
-
+		
 		long pk = counterLocalService.increment();
-
+		
 		ImportHistoric importHistoric = this.importHistoricLocalService.createImportHistoric(pk);
-
+		
 		importHistoric.setGroupId(sc.getScopeGroupId());
 		importHistoric.setCompanyId(sc.getCompanyId());
-		importHistoric.setUserName(user.getFullName());
+		importHistoric.setUserName(user.getFullName().equals("") ? "Serveur" : user.getFullName());
 		importHistoric.setUserId(sc.getUserId());
-
+		
 		importHistoric.setStatus(WorkflowConstants.STATUS_DRAFT);
-
+		
 		return importHistoric;
 	}
 	

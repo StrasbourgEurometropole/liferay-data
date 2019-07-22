@@ -360,7 +360,7 @@ public class GTFSImporter {
 			// Liste des directions à mettre à jour et nouvelles entrées
 			List <Direction> directionsToSave = new ArrayList<Direction>();
 			// Liste des lignes à supprimer
-			Map<String, Direction> directionsToRemove = DirectionLocalServiceUtil.getAll();
+			List <Direction> directionsToRemove = DirectionLocalServiceUtil.getAll();
 			
 			// Parcours des arrets pour trouver les lignes correspondantes
 			for (Stop stop : StopLocalServiceUtil.getAllStops()) {
@@ -435,11 +435,7 @@ public class GTFSImporter {
 			
 			// Sauvegarder les nouvelles directions
 			this.importHistoric.addNewOperation("#6/7# Remove old direction links");
-			DirectionLocalServiceUtil.removeDirections(
-					new ArrayList<Direction>(directionsToRemove.values()),
-					this.importHistoric, 
-					this.sc
-			);
+			DirectionLocalServiceUtil.removeDirections(directionsToRemove);
 			
 			// Supprimer les directions non parcourues
 			this.importHistoric.addNewOperation("#7/7# Add new direction links");

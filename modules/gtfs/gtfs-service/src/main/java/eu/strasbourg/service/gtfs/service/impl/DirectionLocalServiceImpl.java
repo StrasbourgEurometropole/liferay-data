@@ -20,12 +20,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.Direction;
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.base.DirectionLocalServiceBaseImpl;
 
 /**
@@ -103,15 +100,8 @@ public class DirectionLocalServiceImpl extends DirectionLocalServiceBaseImpl {
 	 * Supprime les entrees
 	 */
 	@Override
-	public void removeDirections(List<Direction> directions, ImportHistoric importHistoric, ServiceContext sc) throws PortalException {
+	public void removeDirections(List<Direction> directions) throws PortalException {
 		for (Direction direction : directions) {
-			importHistoric.addNewOperation(
-					"Remove direction link --> [ " +
-							"id : " + direction.getRouteId() + 
-							", stop id : " + direction.getStopId() + 
-							", ligne id : " + direction.getRouteId() + 
-							", destination headsign : " + direction.getDestinationName() + "]"
-				);
 			this.removeDirection(direction.getDirectionId());
 		}
 	}
@@ -164,12 +154,8 @@ public class DirectionLocalServiceImpl extends DirectionLocalServiceBaseImpl {
 	 * Retourne la liste de toutes les directions
 	 */
 	@Override
-	public Map<String, Direction> getAll() {
-		Map<String, Direction> directions = new HashMap<>();
-		for (Direction direction : this.directionPersistence.findAll()) {
-			directions.put(direction.getTripId(), direction);
-		}
-		return directions;
+	public List<Direction> getAll() {
+		return this.directionPersistence.findAll();
 	}
 	
 	/**

@@ -34,12 +34,10 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.Direction;
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
 
 import java.io.Serializable;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides the local service interface for Direction. Methods of this
@@ -247,6 +245,12 @@ public interface DirectionLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne la liste de toutes les directions
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Direction> getAll();
+
+	/**
 	* Retourne toutes les entrees d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -317,12 +321,6 @@ public interface DirectionLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
-	* Retourne la liste de toutes les directions
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Map<java.lang.String, Direction> getAll();
-
-	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -343,8 +341,7 @@ public interface DirectionLocalService extends BaseLocalService,
 	/**
 	* Supprime les entrees
 	*/
-	public void removeDirections(List<Direction> directions,
-		ImportHistoric importHistoric, ServiceContext sc)
+	public void removeDirections(List<Direction> directions)
 		throws PortalException;
 
 	/**

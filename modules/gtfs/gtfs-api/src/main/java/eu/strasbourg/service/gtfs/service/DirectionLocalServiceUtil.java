@@ -277,6 +277,13 @@ public class DirectionLocalServiceUtil {
 	}
 
 	/**
+	* Retourne la liste de toutes les directions
+	*/
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction> getAll() {
+		return getService().getAll();
+	}
+
+	/**
 	* Retourne toutes les entrees d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction> getByGroupId(
@@ -365,13 +372,6 @@ public class DirectionLocalServiceUtil {
 	}
 
 	/**
-	* Retourne la liste de toutes les directions
-	*/
-	public static java.util.Map<java.lang.String, eu.strasbourg.service.gtfs.model.Direction> getAll() {
-		return getService().getAll();
-	}
-
-	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -399,11 +399,9 @@ public class DirectionLocalServiceUtil {
 	* Supprime les entrees
 	*/
 	public static void removeDirections(
-		java.util.List<eu.strasbourg.service.gtfs.model.Direction> directions,
-		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
-		com.liferay.portal.kernel.service.ServiceContext sc)
+		java.util.List<eu.strasbourg.service.gtfs.model.Direction> directions)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().removeDirections(directions, importHistoric, sc);
+		getService().removeDirections(directions);
 	}
 
 	/**
