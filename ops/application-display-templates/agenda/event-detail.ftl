@@ -188,10 +188,10 @@
  
                     $('#ops-representations .slick-cards-slider').slick('slickAdd',
                         '<div class="ops-item ' + session.cssClass + '">' +
-                            '<time datetime="' + concertDate.getFullYear() + '-' + (concertDate.getMonth() + 1) + '-' + concertDate.getDate() + '">' + 
-                                '<span>' + concertDate.getDate() + '</span> ' + (concertDate.getMonth() + 1) + '/' + concertDate.getFullYear() +
+                            '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' + 
+                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '</span> ' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() +
                             '</time>' +
-                            '<div class="ops-horaires">' + concertDate.getHours() + 'h' + concertDate.getMinutes() + '</div>' +
+                            '<div class="ops-horaires">' + ('0' + concertDate.getHours()).slice(-2) + 'h' +  ('0' + concertDate.getMinutes()).slice(-2) + '</div>' +
                             '<h3>' + session.eventName + '</h3>' +
                             '<div class="ops-bottom-card">' + 
                                 ticketingElement +
