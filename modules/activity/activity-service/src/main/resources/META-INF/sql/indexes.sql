@@ -21,3 +21,12 @@ create unique index IX_BD4F070D on activity_ActivityCourseSchedule (uuid_[$COLUM
 create index IX_79BFE14 on activity_ActivityOrganizer (groupId);
 create index IX_6816EFCA on activity_ActivityOrganizer (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_C14CE0CC on activity_ActivityOrganizer (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_873ADFD3 on activity_Association (groupId);
+create index IX_697094EB on activity_Association (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_7D5F5A2D on activity_Association (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_B819E946 on activity_AssociationActivity (associationId);
+create index IX_7E25E644 on activity_AssociationActivity (groupId);
+create index IX_97F73D9A on activity_AssociationActivity (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_1986629C on activity_AssociationActivity (uuid_[$COLUMN_LENGTH:75$], groupId);

@@ -11,9 +11,7 @@ import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
 import eu.strasbourg.picker.taglib.file.internal.servlet.ServletContextUtil;
-import eu.strasbourg.portlet.activity.itemselector.ActivityCourseItemSelectorCriterion;
-import eu.strasbourg.portlet.activity.itemselector.ActivityItemSelectorCriterion;
-import eu.strasbourg.portlet.activity.itemselector.ActivityOrganizerItemSelectorCriterion;
+import eu.strasbourg.portlet.activity.itemselector.*;
 import eu.strasbourg.portlet.agenda.itemselector.EventItemSelectorCriterion;
 import eu.strasbourg.portlet.agenda.itemselector.ManifestationItemSelectorCriterion;
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorCriterion;
@@ -249,6 +247,26 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, activityOrganizerItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.activity.model.Association":
+			AssociationItemSelectorCriterion associationItemSelectorCriterion = new AssociationItemSelectorCriterion();
+			associationItemSelectorCriterion
+					.setDesiredItemSelectorReturnTypes(
+							desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+					.getItemSelectorURL(
+							RequestBackedPortletURLFactoryUtil.create(request),
+							"itemSelected" + _name, associationItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.activity.model.AssociationActivity":
+			AssociationActivityItemSelectorCriterion associationActivityItemSelectorCriterion = new AssociationActivityItemSelectorCriterion();
+			associationActivityItemSelectorCriterion
+					.setDesiredItemSelectorReturnTypes(
+							desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+					.getItemSelectorURL(
+							RequestBackedPortletURLFactoryUtil.create(request),
+							"itemSelected" + _name, associationActivityItemSelectorCriterion);
 			break;
 		case "eu.strasbourg.service.official.model.Official":
 			OfficialItemSelectorCriterion officialItemSelectorCriterion = new OfficialItemSelectorCriterion();

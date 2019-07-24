@@ -116,3 +116,9 @@
     display: block;
     margin-bottom: 30px;
 }
+
+.info-error {
+   	margin-top: -10px;
+    margin-bottom: 10px;
+    color: #CC6677;
+}

@@ -37,6 +37,7 @@ public class VocabularyNames {
 	public static final String OPS_EVENT_SUBSCRIPTION_TYPE = "Abonnement";
 	public static final String OPS_TYPOLOGIE = "Typologie";
 	public static final String PROJECT = "projet";
+	public static final String ACTIVITY = "activite";
 	
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";

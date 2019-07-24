@@ -4,6 +4,8 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
+import eu.strasbourg.service.activity.model.Association;
+import eu.strasbourg.service.activity.service.AssociationLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -38,6 +40,8 @@ public class SelectionActionCommand implements MVCActionCommand {
 
 	private ActivityOrganizerLocalService activityOrganizerLocalService;
 
+	private AssociationLocalService associationLocalService;
+
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	@Reference(unbind = "-")
@@ -56,9 +60,16 @@ public class SelectionActionCommand implements MVCActionCommand {
 
 	@Reference(unbind = "-")
 	protected void setActivityOrganizerLocalService(
-		ActivityOrganizerLocalService activityOrganizerLocalService) {
+			ActivityOrganizerLocalService activityOrganizerLocalService) {
 
 		this.activityOrganizerLocalService = activityOrganizerLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setAssociationLocalService(
+			AssociationLocalService associationLocalService) {
+
+		this.associationLocalService = associationLocalService;
 	}
 
 	@Override
@@ -83,6 +94,9 @@ public class SelectionActionCommand implements MVCActionCommand {
 					} else if (tab.equals("activityOrganizers")) {
 						activityOrganizerLocalService
 							.removeActivityOrganizer(entryId);
+					}else if (tab.equals("associations")) {
+						associationLocalService
+								.removeAssociation(entryId);
 					}
 					break;
 				case "publish":
@@ -106,6 +120,13 @@ public class SelectionActionCommand implements MVCActionCommand {
 							themeDisplay.getUserId(),
 							activityOrganizer.getPrimaryKey(),
 							WorkflowConstants.STATUS_APPROVED);
+					}else if (tab.equals("associations")) {
+						Association association = associationLocalService
+								.getAssociation(entryId);
+						associationLocalService.updateStatus(
+								themeDisplay.getUserId(),
+								association.getPrimaryKey(),
+								WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				case "unpublish":
@@ -129,6 +150,13 @@ public class SelectionActionCommand implements MVCActionCommand {
 							themeDisplay.getUserId(),
 							activityOrganizer.getPrimaryKey(),
 							WorkflowConstants.STATUS_DRAFT);
+					} else if (tab.equals("associations")) {
+						Association association = associationLocalService
+								.getAssociation(entryId);
+						associationLocalService.updateStatus(
+								themeDisplay.getUserId(),
+								association.getPrimaryKey(),
+								WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}

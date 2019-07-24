@@ -38,6 +38,8 @@ import eu.strasbourg.service.activity.service.persistence.ActivityCoursePlacePer
 import eu.strasbourg.service.activity.service.persistence.ActivityCourseSchedulePersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityOrganizerPersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
+import eu.strasbourg.service.activity.service.persistence.AssociationActivityPersistence;
+import eu.strasbourg.service.activity.service.persistence.AssociationPersistence;
 
 import javax.sql.DataSource;
 
@@ -343,6 +345,120 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	public void setActivityOrganizerPersistence(
 		ActivityOrganizerPersistence activityOrganizerPersistence) {
 		this.activityOrganizerPersistence = activityOrganizerPersistence;
+	}
+
+	/**
+	 * Returns the association local service.
+	 *
+	 * @return the association local service
+	 */
+	public eu.strasbourg.service.activity.service.AssociationLocalService getAssociationLocalService() {
+		return associationLocalService;
+	}
+
+	/**
+	 * Sets the association local service.
+	 *
+	 * @param associationLocalService the association local service
+	 */
+	public void setAssociationLocalService(
+		eu.strasbourg.service.activity.service.AssociationLocalService associationLocalService) {
+		this.associationLocalService = associationLocalService;
+	}
+
+	/**
+	 * Returns the association remote service.
+	 *
+	 * @return the association remote service
+	 */
+	public eu.strasbourg.service.activity.service.AssociationService getAssociationService() {
+		return associationService;
+	}
+
+	/**
+	 * Sets the association remote service.
+	 *
+	 * @param associationService the association remote service
+	 */
+	public void setAssociationService(
+		eu.strasbourg.service.activity.service.AssociationService associationService) {
+		this.associationService = associationService;
+	}
+
+	/**
+	 * Returns the association persistence.
+	 *
+	 * @return the association persistence
+	 */
+	public AssociationPersistence getAssociationPersistence() {
+		return associationPersistence;
+	}
+
+	/**
+	 * Sets the association persistence.
+	 *
+	 * @param associationPersistence the association persistence
+	 */
+	public void setAssociationPersistence(
+		AssociationPersistence associationPersistence) {
+		this.associationPersistence = associationPersistence;
+	}
+
+	/**
+	 * Returns the association activity local service.
+	 *
+	 * @return the association activity local service
+	 */
+	public eu.strasbourg.service.activity.service.AssociationActivityLocalService getAssociationActivityLocalService() {
+		return associationActivityLocalService;
+	}
+
+	/**
+	 * Sets the association activity local service.
+	 *
+	 * @param associationActivityLocalService the association activity local service
+	 */
+	public void setAssociationActivityLocalService(
+		eu.strasbourg.service.activity.service.AssociationActivityLocalService associationActivityLocalService) {
+		this.associationActivityLocalService = associationActivityLocalService;
+	}
+
+	/**
+	 * Returns the association activity remote service.
+	 *
+	 * @return the association activity remote service
+	 */
+	public eu.strasbourg.service.activity.service.AssociationActivityService getAssociationActivityService() {
+		return associationActivityService;
+	}
+
+	/**
+	 * Sets the association activity remote service.
+	 *
+	 * @param associationActivityService the association activity remote service
+	 */
+	public void setAssociationActivityService(
+		eu.strasbourg.service.activity.service.AssociationActivityService associationActivityService) {
+		this.associationActivityService = associationActivityService;
+	}
+
+	/**
+	 * Returns the association activity persistence.
+	 *
+	 * @return the association activity persistence
+	 */
+	public AssociationActivityPersistence getAssociationActivityPersistence() {
+		return associationActivityPersistence;
+	}
+
+	/**
+	 * Sets the association activity persistence.
+	 *
+	 * @param associationActivityPersistence the association activity persistence
+	 */
+	public void setAssociationActivityPersistence(
+		AssociationActivityPersistence associationActivityPersistence) {
+		this.associationActivityPersistence = associationActivityPersistence;
 	}
 
 	/**
@@ -725,6 +841,18 @@ public abstract class ActivityOrganizerServiceBaseImpl extends BaseServiceImpl
 	protected ActivityOrganizerService activityOrganizerService;
 	@BeanReference(type = ActivityOrganizerPersistence.class)
 	protected ActivityOrganizerPersistence activityOrganizerPersistence;
+	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationLocalService.class)
+	protected eu.strasbourg.service.activity.service.AssociationLocalService associationLocalService;
+	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationService.class)
+	protected eu.strasbourg.service.activity.service.AssociationService associationService;
+	@BeanReference(type = AssociationPersistence.class)
+	protected AssociationPersistence associationPersistence;
+	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationActivityLocalService.class)
+	protected eu.strasbourg.service.activity.service.AssociationActivityLocalService associationActivityLocalService;
+	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationActivityService.class)
+	protected eu.strasbourg.service.activity.service.AssociationActivityService associationActivityService;
+	@BeanReference(type = AssociationActivityPersistence.class)
+	protected AssociationActivityPersistence associationActivityPersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
