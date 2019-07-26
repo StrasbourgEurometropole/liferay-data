@@ -1,6 +1,7 @@
-// Script Homepage - Filtres de recherche
-$('select').selectric();
-
+// Select de la page de recherche général (pour le nobre d'articles par page)
+$(document).ready(function(){
+   $('.toCustomSelect, .form-select').customSelect();
+}); 
 
 // Gestion des input à l'intérieur de la modal expérience
 $('.mns-modal .form-group input').focusin(function () {

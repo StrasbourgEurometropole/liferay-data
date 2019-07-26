@@ -15537,7 +15537,7 @@ function calculatePrice() {
   while (integerPrice.length < 2) {
     integerPrice = '0' + integerPrice;
   }
-  if(decimalPrice.length > 2){
+  if(decimalPrice.length > 1){
   	decimalPrice = decimalPrice.substr(0,2);
   }
   else{
