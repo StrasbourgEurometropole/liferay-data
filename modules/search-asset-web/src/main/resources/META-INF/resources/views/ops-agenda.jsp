@@ -41,7 +41,10 @@
 				<div class="lfr-pagination-config">
 					<div class="lfr-pagination-page-selector">
 						<div class="btn-group lfr-icon-menu current-page-menu dropdown">
-							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" title="Page 1 de 6" data-toggle="dropdown"> 
+							<a href="#" class="dropdown-toggle direction-down max-display-items-15 btn btn-default" 
+								title="<liferay-ui:message key='eu.search.asset.web.ops.general.page' /> ${dc.pager.currentPage} <liferay-ui:message key='eu.search.asset.web.ops.general.on' /> ${dc.pager.lastPage}" 
+								data-toggle="dropdown"
+							> 
 								<span class="lfr-icon-menu-text">
 									<liferay-ui:message key="eu.search.asset.web.ops.general.page" /> ${dc.pager.currentPage} <liferay-ui:message key="eu.search.asset.web.ops.general.on" /> ${dc.pager.lastPage}
 								</span> 
