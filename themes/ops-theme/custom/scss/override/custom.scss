@@ -114,3 +114,8 @@ main {
 .ops-wrapper-content-rh aside .ops-noscrollto a.ops-btn-inversed {
   color: #000
 }
+
+//Ajustement du positionnement de l'icone de billeterie vers la doite.
+.ops-bloc-slider-concerts .ops-item .ops-bottom-card .ops-places-dispo:after {
+  right: 7px;
+}
