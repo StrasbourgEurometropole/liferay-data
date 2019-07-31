@@ -189,7 +189,7 @@
                     $('#ops-representations .slick-cards-slider').slick('slickAdd',
                         '<div class="ops-item ' + session.cssClass + '">' +
                             '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' + 
-                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '</span> ' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() +
+                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '/' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() + '</span> ' + 
                             '</time>' +
                             '<div class="ops-horaires">' + ('0' + concertDate.getHours()).slice(-2) + 'h' +  ('0' + concertDate.getMinutes()).slice(-2) + '</div>' +
                             '<h3>' + session.eventName + '</h3>' +
